@@ -1,0 +1,41 @@
+.agila-cda-titulo{
+    font-size: 30px;
+    font-weight: bold;   
+}
+table {
+    width: 100%;
+}
+tr:nth-child(even){
+    background: #F6F6F6;
+} 
+th{
+    background:rgba(213,233,246,1.00);
+}
+tr:first-child{
+    /*background:rgba(213,233,246,1.00);*/
+}
+td{
+    border-right: rgba(223,223,223,1.00) solid 1px;
+    text-align: center;
+}
+td:last-child{
+    border-right: none;
+}
+td:first-child{
+    border-right: 2px solid #e0e0e0;
+}
+.tabla-responsi {
+    /*height: 400px;*/
+    width: auto;
+    overflow: auto;
+}
+.col-md-auto{
+    margin-bottom: 15px ;
+}
+.col-md-auto > label{
+    margin-bottom: 0;
+}
+.col-md-auto > input{
+    margin-right: 5px;
+}
+

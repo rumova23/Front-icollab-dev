@@ -1,0 +1,15 @@
+.container-fluid{
+	background: white;
+	padding-top: 15px;
+	display: flex;
+    flex-direction: column;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+	margin-left: 16px;
+	margin-right: 16px;
+}
+
+.mat-form-field{
+	  width: 100%;
+}

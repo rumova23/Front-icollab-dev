@@ -1,0 +1,27 @@
+.container-fluid{
+	background: white;
+	padding-top: 15px;
+	display: flex;
+    flex-direction: column;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+	margin-left: 16px;
+}
+
+.mat-form-field{
+	  width: 100%;
+}
+
+.mat-card{
+	padding: 50px;
+	height: 100%;
+}
+
+@media (min-width: 1200px){
+	.mat-card {
+	margin-left: 7% !important;
+	margin-right: 0% !important;
+	max-width: 65%;
+	}
+}

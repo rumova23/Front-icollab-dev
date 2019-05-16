@@ -1,0 +1,92 @@
+header, section, footer, aside, nav, article, figure, figcaption,
+hgroup{
+    display: block;
+} 
+body{
+    text-align: center;
+}
+#agrupar {
+    width: 100%;
+    text-align: left;
+}
+#body{
+    display: flex;
+}
+#columna {
+    float: left;
+    overflow-x: hidden;
+    transition: 0.5s;
+    background: #2ea9fc;
+}
+.blue{
+    background: #2ea9fc;
+}
+.orange{
+    background: #ff9d00;
+}
+#seccion {
+    float: left;
+    transition: 0.5s;
+}
+#pie {
+    clear: both; 
+    text-align: center;
+    padding: 20px;
+    border-top: 2px solid #999999;
+}
+.txt-center{
+    text-align: center;
+}
+.marauto{
+    margin: auto;
+}
+
+/*mENU LATERA IZQUIERDO */
+.menu-lateral{
+    list-style-type:none;
+    margin: 0;
+    padding: 0;
+}
+.menu-lateral ul{
+
+}
+
+.menu-lateral span{
+    color: #F6F6F6;
+    font-weight: bold;
+}
+
+.menu-lateral .right{
+    color: #F6F6F6;
+    font-weight: bold;
+    float: right;
+}
+.label-icon{
+    margin-left: 5px;
+}
+.item-icono{
+    margin-bottom: 5px;
+}
+/* Estilos para las tablas en catalogos */
+    .agila-cda-titulo{
+        font-size: 30px;
+        font-weight: bold;   
+    }
+    .table_catalogo {
+        width: 100%;
+    }
+    .table_catalogo tr:nth-child(even){
+        background: #F6F6F6;
+    } 
+    .table_catalogo th{
+        background:rgba(213,233,246,1.00);
+    }
+    .table_catalogo td{
+        border-right: rgba(223,223,223,1.00) solid 1px;
+        text-align: center;
+    }
+    .tabla-responsi {
+        width: auto;
+        overflow: auto;
+    }
+/* Estilos para las tablas en catalogos */

@@ -1,0 +1,98 @@
+<div id="agrupar">
+    <!-- Header -->
+    <app-complianceHeader></app-complianceHeader>
+    <!-- /Header -->
+    <div id="body">
+        <!-- Aside -->
+        <aside id="columna" [ngStyle]="{'width':aside_open ? '250px' : '60px' }"  [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col mt-2 mr-1 mb-3" style="text-align: right;">
+                        <span (click)="aside_open=!aside_open" >
+                            <mdb-icon fas icon="bars" style="font-size: 30px;"></mdb-icon>
+                        </span>
+                    </div>
+                </div>
+                <app-complianceSidebar [aside_open]='aside_open'></app-complianceSidebar>
+            </div>
+        </aside>
+        <!-- /Aside -->
+  
+        <section id="seccion" [ngStyle]="{'width':aside_open ? 'calc(100% - 250px)' : 'calc(100% - 60px)' }">
+            <div class="container-fluid">
+            <!--  CUERPO DEL COMPONENTE -->
+  
+                    
+
+
+              <!-- Titulo -->
+              <div class="row pb-5">
+                <div class="col">
+                    <span class="agila-cda-titulo">{{titulo}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <form [formGroup]="perfilForm" (ngSubmit)="onSubmit()">
+
+                      <mat-form-field class="w-100" style="display:none;">
+                          <input matInput formControlName="maestroOpcionId">
+                          <div *ngIf="false" style="color:red">
+                              <div *ngIf="false">Requerido</div>
+                          </div>
+                      </mat-form-field>
+
+                      <mat-form-field class="w-100" style="display: none">
+                          <input matInput formControlName="orden" placeholder="Numero de Orden">
+                          <div *ngIf="false" style="color:red">
+                              <div *ngIf="false">Requerido</div>
+                          </div>
+                      </mat-form-field>
+
+                      <mat-form-field class="w-100">
+                          <input matInput formControlName="nombreOpcion" placeholder="Nombre">
+                          <div *ngIf="false" style="color:red">
+                              <div *ngIf="false">Requerido</div>
+                          </div>
+                      </mat-form-field>
+
+                      <mat-form-field class="w-100">
+                          <input matInput formControlName="opcionDescripcion"  placeholder="Descripción">
+                          <div *ngIf="false" style="color:red">
+                              <div *ngIf="false">Requerido</div>
+                          </div>
+                      </mat-form-field>
+                      <mat-form-field class="w-100">
+                          <mat-label>Estatus</mat-label>
+                          <mat-select [compareWith]="compareFn"
+                                      formControlName="fComboEstatus"
+                                      [ngClass]="{ 'is-invalid': submitted && f.fComboEstatus.errors }">
+                              <mat-option *ngFor="let operator of comboEstatus;" [value]="operator.value">{{operator.label}}</mat-option>
+                          </mat-select>
+                          <div *ngIf="submitted && f.fComboEstatus.errors" style="color:red">
+                              <div *ngIf="f.fComboEstatus.errors.required">Requerido</div>
+                          </div>
+                      </mat-form-field>
+
+                    <!-- /inputs -->
+                    <div class="d-flex justify-content-end" *ngIf="accion != 'ver'">
+                      <button type="submit" class="btn" [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">Guardar</button>
+                    </div>
+                    <!-- /btn guardar -->
+                  </form>
+                </div>
+              </div>
+
+
+                      
+            <!--  /CUERPO DEL COMPONENTE -->
+            </div>
+        </section>
+    </div>
+    <footer id="pie">
+        Derechos Reservados &copy;   
+    </footer>
+  </div>
+      
+  
+

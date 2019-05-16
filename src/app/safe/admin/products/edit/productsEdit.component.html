@@ -1,0 +1,145 @@
+<div class="row pb-5">
+  <div class="col">
+    <span class="agila-cda-titulo">{{getTitle()}}</span>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <form [formGroup]="productForm" (ngSubmit)="save(productForm.value)">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Id de Producto" formControlName="code">
+              <mat-error *ngIf="!productForm.controls['code'].valid 
+                  && productForm.controls['code'].touched">
+                Requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Nombre" formControlName="name">
+              <mat-error *ngIf="!productForm.controls['name'].valid 
+                    && productForm.controls['name'].touched">
+                Requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Descripción en factura" 
+              formControlName="description">
+              <mat-error *ngIf="!productForm.controls['description'].valid 
+                      && productForm.controls['description'].touched">
+                Requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field>
+            <mat-label>Tipo de Producto</mat-label>
+            <mat-select formControlName="typeProduct" [compareWith]="compareObjects"> 
+              <mat-option *ngFor="let typeProduct of typeProducts" [value]="typeProduct">
+                {{ typeProduct.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-error *ngIf="!productForm.controls['typeProduct'].valid 
+                        && productForm.controls['typeProduct'].touched">
+            Requerido
+          </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field>
+            <mat-label>Unidad de Producto</mat-label>
+            <mat-select formControlName="unityProductSat" [compareWith]="compareObjects"> 
+              <mat-option *ngFor="let unityProductSat of unityProductsSat" [value]="unityProductSat">
+                {{ unityProductSat.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-error *ngIf="!productForm.controls['unityProductSat'].valid 
+                        && productForm.controls['unityProductSat'].touched">
+            Requerido
+          </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field>
+            <mat-label>Clave SAT</mat-label>
+            <mat-select formControlName="productSat" [compareWith]="compareObjects">
+              <mat-option *ngFor="let productSat of productsSat" [value]="productSat">
+                {{ productSat.code }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-error *ngIf="!productForm.controls['productSat'].valid 
+                        && productForm.controls['productSat'].touched">
+            Requerido
+          </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field>
+            <mat-label>Precio Público</mat-label>
+            <input matInput placeholder="Precio Público" formControlName="price" mdInput type="number" />
+          </mat-form-field>
+          <mat-error *ngIf="!productForm.controls['price'].valid 
+                              && productForm.controls['price'].touched">
+            Requerido
+          </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field>
+            <mat-label>Tasa Iva trasladado</mat-label>
+            <input matInput placeholder="Tasa Iva trasladado" formControlName="rateIvaTransfer" 
+            mdInput type="number" />
+          </mat-form-field>
+          <mat-error *ngIf="!productForm.controls['rateIvaTransfer'].valid 
+                                && productForm.controls['rateIvaTransfer'].touched">
+            Requerido
+          </mat-error>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col-md-4">
+            <mat-checkbox id="active" class="active" color="primary" formControlName="active">Activo
+            </mat-checkbox>
+            <mat-error *ngIf="!productForm.controls['active'].valid 
+                        && productForm.controls['active'].touched">
+              Requerido
+            </mat-error>
+          </div>
+       </div>
+      <div class="row">
+        <div class="col-md-4"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="d-flex justify-content-end" *ngIf="!entity.readOnly">
+            <button type="submit" class="btn" [disabled]="!productForm.valid"
+              [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

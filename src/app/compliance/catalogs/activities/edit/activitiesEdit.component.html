@@ -1,0 +1,116 @@
+<div id="agrupar">
+  <!-- Header -->
+  <app-complianceHeader></app-complianceHeader>
+  <!-- /Header -->
+  <div id="body">
+      <!-- Aside -->
+      <aside id="columna" [ngStyle]="{'width':aside_open ? '250px' : '60px' }" [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col mt-2 mr-1 mb-3" style="text-align: right;">
+                      <span (click)="aside_open=!aside_open" >
+                          <mdb-icon fas icon="bars" style="font-size: 30px;"></mdb-icon>
+                      </span>
+                  </div>
+              </div>
+              <app-complianceSidebar [aside_open]='aside_open'></app-complianceSidebar>
+          </div>
+      </aside>
+      <!-- /Aside -->
+
+      <section id="seccion" [ngStyle]="{'width':aside_open ? 'calc(100% - 250px)' : 'calc(100% - 60px)' }">
+          <div class="container-fluid">
+          <!--  CUERPO DEL COMPONENTE -->
+
+              
+
+              <!-- Titulo -->
+              <div class="row pb-5">
+                <div class="col">
+                    <span class="agila-cda-titulo">{{titulo}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <form [formGroup]="actividadesForm" (ngSubmit)="onSubmit()" >
+
+                      <div class="row" style="display:none;">
+                        <!-- Grid column -->
+                        <div class="col-md-4">
+                          <!-- Material input -->
+                          <div class="md-form">
+                              <mat-form-field class="w-100">
+                                <input matInput placeholder="ID Actividad" formControlName="fActividadId" readonly="true" >
+                              </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <!-- Grid column -->
+                        <div class="col-md-4">
+                          <!-- Material input -->
+                          <div class="md-form">
+                              <mat-form-field class="w-100">
+                                <input matInput placeholder="Categoría" formControlName="fActividad" [readonly]="soloLectura" >
+                                <div *ngIf="submitted && f.fActividad.errors" style="color:red">
+                                    <div *ngIf="f.fActividad.errors.required">Requerido</div>
+                                </div>
+                              </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <!-- Grid column -->
+                        <div class="col-md-4">
+                          <!-- Material input -->
+                          <div class="md-form">
+                              <mat-form-field class="w-100">
+                                <input matInput placeholder="Prefijo" formControlName="fPrefijo" [readonly]="soloLectura" >
+                                <div *ngIf="submitted && f.fPrefijo.errors" style="color:red">
+                                    <div *ngIf="f.fPrefijo.errors.required">Requerido</div>
+                                </div>
+                              </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          
+                          <mat-form-field class="w-100">
+                            <mat-label>Estatus</mat-label>
+                            <mat-select [compareWith]="compareFn" 
+                                        formControlName="fComboEstatus" 
+                                        [disabled]="deshabiliarEstatus"
+                                        [ngClass]="{ 'is-invalid': submitted && f.fComboEstatus.errors }">
+                                <mat-option *ngFor="let operator of comboEstatus;" [value]="operator.value">{{operator.label}}</mat-option>
+                            </mat-select>
+                            <div *ngIf="submitted && f.fComboEstatus.errors" style="color:red">
+                              <div *ngIf="f.fComboEstatus.errors.required">Requerido</div>
+                            </div>
+                          </mat-form-field>
+
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4"></div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="d-flex justify-content-end" *ngIf="!soloLectura">
+                            <button type="submit" class="btn" [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">Guardar</button>
+                          </div>
+                        </div>
+                      </div>
+                  </form>
+                </div>
+              </div>
+                    
+          <!--  /CUERPO DEL COMPONENTE -->
+          </div>
+      </section>
+  </div>
+  <footer id="pie">
+      Derechos Reservados &copy;   
+  </footer>
+</div>
+        
