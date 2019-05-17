@@ -9,6 +9,8 @@ import { RolesEditComponent } from '../admin/roles/edit/rolesEdit.component';
 import { GrantsComponent } from '../admin/grants/grants.component';
 import { GrantsEditComponent } from '../admin/grants/edit/grantsEdit.component';
 import { RolesGrantsComponent } from '../admin/roles/grants/rolesGrants.component';
+import { GlobalService } from 'src/app/core/globals/global.service';
+import { ChangePasswordComponent } from 'src/app/comun/changePassword/changePassword.component';
 
 
 @Component({
@@ -17,7 +19,7 @@ import { RolesGrantsComponent } from '../admin/roles/grants/rolesGrants.componen
   styleUrls: ['./securityHome.component.scss'],
   entryComponents: [
     UsersComponent, UsersEditComponent, RolesComponent, RolesEditComponent, 
-    GrantsComponent,GrantsEditComponent,RolesGrantsComponent,
+    GrantsComponent,GrantsEditComponent,RolesGrantsComponent,ChangePasswordComponent
   ]
 })
 export class SecurityHomeComponent implements OnInit {
@@ -26,6 +28,7 @@ export class SecurityHomeComponent implements OnInit {
   @ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
 
   constructor(private route: ActivatedRoute,
+    private globalService: GlobalService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private eventService: EventService) {
     this.serviceSubscription = this.eventService.onChangeMainSecurity.subscribe({
@@ -44,7 +47,8 @@ export class SecurityHomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.clickMenu({ id: 3, data: null });
+/*     this.clickMenu(new EventMessage(100, {role:{id: 1, name: 'ROLE_ADMIN',
+        idApp:7}})); */
     /*
     this.clickMenu(new EventMessage(2 ,  {
       readOnly: false,
@@ -100,7 +104,7 @@ export class SecurityHomeComponent implements OnInit {
         refGrantsEdit.instance.grant = event.data.grant;
         refGrantsEdit.changeDetectorRef.detectChanges();
         break;
-      case 100:
+      case 9:
         const factoryRolesGrants =
           this.componentFactoryResolver.resolveComponentFactory(RolesGrantsComponent);
         const refRolesGrants =
@@ -108,6 +112,14 @@ export class SecurityHomeComponent implements OnInit {
           refRolesGrants.instance.role = event.data.role;
           refRolesGrants.changeDetectorRef.detectChanges();
         break;  
+       
+      case 100:
+        const factoryChangePasword =
+          this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent);
+        const refChangePasword =
+          this.viewContainerRef.createComponent(factoryChangePasword);
+          refChangePasword.changeDetectorRef.detectChanges();
+        break;   
 
     }
   }

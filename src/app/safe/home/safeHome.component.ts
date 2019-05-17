@@ -4,13 +4,15 @@ import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { ProductsComponent } from '../admin/products/products.component';
 import { ProductsEditComponent } from '../admin/products/edit/productsEdit.component';
+import { GlobalService } from 'src/app/core/globals/global.service';
+import { ChangePasswordComponent } from 'src/app/comun/changePassword/changePassword.component';
 
 @Component({
   selector: 'app-safeHome',
   templateUrl: './safeHome.component.html',
   styleUrls: ['./safeHome.component.scss'],
   entryComponents: [
-    ProductsComponent, ProductsEditComponent
+    ProductsComponent, ProductsEditComponent,ChangePasswordComponent
   ]
 })
 export class SafeHomeComponent implements OnInit {
@@ -19,6 +21,7 @@ export class SafeHomeComponent implements OnInit {
   @ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
 
   constructor(private route: ActivatedRoute,
+    private globalService: GlobalService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private eventService: EventService) {
     this.serviceSubscription = this.eventService.onChangeMainSafe.subscribe({
@@ -57,6 +60,16 @@ export class SafeHomeComponent implements OnInit {
         refProductsEdit.instance.productSelected = event.data.product;
         refProductsEdit.changeDetectorRef.detectChanges();
         break;
+        case 100:
+        const factoryChangePasword =
+          this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent);
+        const refChangePasword =
+          this.viewContainerRef.createComponent(factoryChangePasword);
+          refChangePasword.changeDetectorRef.detectChanges();
+        break;   
+
     }
   }
+
+  
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
+import { SecurityService } from 'src/app/core/services/security.service';
 
 @Component({
   selector: 'app-securitySidebar',
@@ -10,6 +11,7 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 })
 export class SecuritySidebarComponent implements OnInit {
   @Input() aside_open;
+  /*
   menu = [
     {
       id: 1,
@@ -21,11 +23,13 @@ export class SecuritySidebarComponent implements OnInit {
         { id: 3,  label: 'Permisos' }
       ]
     }
-  ];
-  
+  ]; */
+  menu = [];
   serviceSubscription: any;
   constructor(private globalService: GlobalService,
-    private eventService: EventService) {
+    private eventService: EventService,
+    private securityService: SecurityService) {
+    this.menu = securityService.getMenu('Security');
     this.serviceSubscription = this.eventService.onChangeMainSecurity.subscribe({
       next: (event: EventMessage) => {
         switch (event.id) {

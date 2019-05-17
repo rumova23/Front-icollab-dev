@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MDBBootstrapModule, DropdownModule } from 'angular-bootstrap-md';
+import { BlockUIModule } from 'ng-block-ui';
+
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,7 +26,7 @@ import { ConfirmationDialogComponent } from './comun/confirmationDialog/confirma
 import { ComplianceModule } from './compliance/complianceModule.module';
 import { BreadcrumbsComponent } from './comun/breadcrumbs/breadcrumbs.component';
 import { CalendarComponent } from './comun/calendar/calendar.component';
-import { CatalogsComponent } from './comun/catalogs/catalogs.component';
+import { CatalogsComponent } from './compliance//catalogs/catalogs.component';
 import { ConfirmationModalComponent } from './comun/confirmationModal/confirmationModal.component';
 import { HomeComponent } from './comun/home/home.component';
 import { PerfilComponent } from './compliance/business/perfil/perfil.component';
@@ -32,7 +34,7 @@ import { BehaviorComponent } from './compliance/business/perfil/behavior/behavio
 import { SkillsComponent } from './compliance/business/perfil/skills/skills.component';
 import { ComplianceHomeComponent } from './compliance/home/complianceHome.component';
 import { AcquisitionsComponent } from './compliance/business/acquisitions/acquisitions.component';
-import { ConfigActivitiesComponent } from './compliance/business/configActivities/configActivities.component';
+import { ConfigActivitiesComponent } from './compliance/catalogs/compliance/configuration/configActivities/configActivities.component';
 import { LegalAgreementComponent } from './compliance/business/legalAgreement/legalAgreement.component';
 import { TablesLegalAgreementComponent } from './compliance/business/legalAgreement/content/tablesLegalAgreement.component';
 import { EmployeesComponent } from './compliance/business/employees/employees.component';
@@ -57,7 +59,7 @@ import { ApplicationsTypesEditComponent } from './compliance/catalogs/applicatio
 import { UploadComponent } from './compliance/business/perfil/upload/upload.component';
 import { ComplianceConfigurationComponent } from './compliance/catalogs/compliance/configuration/complianceConfiguration.component';
 import { EventService } from './core/services/event.service';
-import { LoginComponent } from './security/login/login.component';
+import { LoginComponent } from './comun/login/login.component';
 import { SecurityHomeComponent } from './security/home/securityHome.component';
 import { ComplianceHeaderComponent } from './compliance/comun/header/complianceHeader.component';
 import { ComplianceSidebarComponent } from './compliance/comun/sidebar/complianceSidebar.component';
@@ -78,6 +80,8 @@ import { GrantsEditComponent } from './security/admin/grants/edit/grantsEdit.com
 import { RolesGrantsComponent } from './security/admin/roles/grants/rolesGrants.component';
 
 import { TreeviewModule } from 'ngx-treeview';
+import { Constants } from './core/globals/Constants';
+import { ComplianceTypesEditComponent } from './compliance/catalogs/compliance/types/edit/complianceTypesEdit.component';
 
 
 
@@ -101,6 +105,7 @@ import { TreeviewModule } from 'ngx-treeview';
     ActivitiesComponent,
     ActivitiesTypesComponent,
     ComplianceTypesComponent,
+    ComplianceTypesEditComponent,
     DashboardAComponent,
     DashboardBComponent,
     DashboardsComponent,
@@ -160,7 +165,11 @@ import { TreeviewModule } from 'ngx-treeview';
     }),
     NgbModule,
     ToastrModule.forRoot(),
-    TreeviewModule.forRoot()
+    TreeviewModule.forRoot(),
+    BlockUIModule.forRoot({
+      message: Constants.LOADING_MEESSAGE
+    })
+
   ],
   exports:[ BrowserAnimationsModule, MatDatepickerModule, MatNativeDateModule],
   providers: [

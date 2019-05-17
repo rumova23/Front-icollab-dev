@@ -5,12 +5,12 @@ import { Router } from "@angular/router";
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { Role } from 'src/app/security/models/Role';
 import { SecurityService } from 'src/app/core/services/security.service';
-import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventService } from 'src/app/core/services/event.service';
 import { App } from 'src/app/security/models/App';
 import { TreeviewItem, TreeviewConfig } from 'ngx-treeview';
 import { Constants } from 'src/app/core/globals/Constants';
-
+import { EventMessage } from 'src/app/core/models/EventMessage';
+import { Validate } from 'src/app/core/helpers/util.validator.';
 
 
 @Component({
@@ -21,6 +21,8 @@ import { Constants } from 'src/app/core/globals/Constants';
 export class RolesGrantsComponent implements OnInit {
   role: Role;
   items: TreeviewItem[] = [];
+  grants: any [] = [];
+  fathers: number[] = [];
   values: number[] = [];
   config = TreeviewConfig.create({
     hasAllCheckBox: true,
@@ -29,6 +31,7 @@ export class RolesGrantsComponent implements OnInit {
     decoupleChildFromParent: false,
     maxHeight: 400
   });
+  
   buttonClasses = [
     'btn-outline-primary',
     'btn-outline-secondary',
@@ -49,37 +52,9 @@ export class RolesGrantsComponent implements OnInit {
     private securityService: SecurityService
   ) { }
   ngOnInit() {
-    this.loadApps();
+    console.log(this.role);
     this.loadGrantsRole();
     //this.items = this.securityService.getTreeSample();
-  }
-
-  loadApps() {
-    this.apps = this.securityService.loadApps();
-  }
-
-  selectedChange(event) {
-    console.log(event);
-  }
-
-  private loadGrantsTree() {
-    this.securityService.loadGrantsTree(this.role.idApp)
-      .subscribe(
-        data => {
-          const fathers = data.resultado;
-          for (var i = 0; i < fathers.length; i++) {
-            for(var a = 0; a < fathers[i].children.length; a++) {
-              console.log(fathers[i].children[a]);
-              fathers[i].children[a].checked = this.values.includes(fathers[i].children[a].value);
-            }
-          }
-          for (var i = 0; i < fathers.length; i++) {
-            this.items.push(new TreeviewItem(fathers[i], false));
-          }
-        },
-        errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Roles');
-        });
   }
 
   private loadGrantsRole() {
@@ -90,7 +65,34 @@ export class RolesGrantsComponent implements OnInit {
           this.loadGrantsTree();
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Roles');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Grants Roles');
+        });
+  }
+
+  private loadGrantsTree() {
+    this.securityService.loadGrantsTree(this.role.idApp)
+      .subscribe(
+        data => {
+          this.grants = data.resultado;
+          const grants = data.resultado;
+          console.log(grants);
+          for (var i = 0; i < grants.length; i++) {
+            this.fathers.push(grants[i].value);
+            if(Validate(grants[i].children)) {
+              for(var a = 0; a < grants[i].children.length; a++) {
+                grants[i].children[a].checked =
+                 this.values.includes(grants[i].children[a].value);
+              }
+            }
+          }
+          for (var i = 0; i < grants.length; i++) {
+            this.items.push(new TreeviewItem(grants[i], false));
+          }
+          console.log(this.grants);
+          console.log(this.fathers);
+        },
+        errorData => {
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Grants Arbol');
         });
   }
 
@@ -98,6 +100,34 @@ export class RolesGrantsComponent implements OnInit {
     return o1.name === o2.name && o1.id === o2.id;
   }
 
+  getTitle() {
+    return "Permiso para " + this.role.name;
+  }
 
+  selectedChange(event) {
+    console.log(event);
+    this.values = event;
+    console.log(this.values);
+    for (var i = 0; i < event.length; i++) {
+      
+    }
+  }
+
+  save() {
+    console.log(this.values);
+    this.securityService.saveRoleGrants({
+      idApp: this.role.idApp,
+      idRole: this.role.id,
+      grants: this.values
+    })
+    .subscribe(
+      data => {
+         console.log(data);
+         this.eventService.sendMainSecurity(new EventMessage(5, null));
+      },
+      errorData => {
+        this.toastr.errorToastr(Constants.ERROR_LOAD, 'Grants Roles');
+      });
+  }
 
 }

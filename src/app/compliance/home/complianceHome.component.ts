@@ -4,6 +4,14 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventService } from 'src/app/core/services/event.service';
 import { AuthoritiesComponent } from '../catalogs/authorities/authorities.component';
 import { ChangePasswordComponent } from 'src/app/comun/changePassword/changePassword.component';
+import { GlobalService } from 'src/app/core/globals/global.service';
+import { CatalogsComponent } from '../catalogs/catalogs.component';
+import { ComplianceTypesComponent } from '../catalogs/compliance/types/complianceTypes.component';
+import { ComplianceTypesEditComponent } from '../catalogs/compliance/types/edit/complianceTypesEdit.component';
+import { ActivitiesComponent } from '../catalogs/activities/activities.component';
+import { ActivitiesEditComponent } from '../catalogs/activities/edit/activitiesEdit.component';
+import { ComplianceConfigurationComponent } from '../catalogs/compliance/configuration/complianceConfiguration.component';
+import { ConfigActivitiesComponent } from '../catalogs/compliance/configuration/configActivities/configActivities.component';
 
 
 @Component({
@@ -11,7 +19,10 @@ import { ChangePasswordComponent } from 'src/app/comun/changePassword/changePass
   templateUrl: './complianceHome.component.html',
   styleUrls: ['./complianceHome.component.scss'],
   entryComponents: [
-    AuthoritiesComponent, ChangePasswordComponent
+    AuthoritiesComponent, ChangePasswordComponent, CatalogsComponent,
+    ComplianceTypesComponent, ComplianceTypesEditComponent, ActivitiesComponent,
+    ActivitiesEditComponent, ComplianceConfigurationComponent,
+    ConfigActivitiesComponent
   ]
 })
 export class ComplianceHomeComponent implements OnInit {
@@ -21,6 +32,7 @@ export class ComplianceHomeComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private componentFactoryResolver: ComponentFactoryResolver,
+    private globalService: GlobalService,
     private eventService: EventService) {
     this.serviceSubscription = this.eventService.onChangeMainCompliance.subscribe({
       next: (event: EventMessage) => {
@@ -42,15 +54,75 @@ export class ComplianceHomeComponent implements OnInit {
 
   private clickMenu(event: EventMessage): void {
     this.viewContainerRef.clear();
+    let factoryComplianceTypes;
+    let refComplianceTypes;
+    let factoryComplianceTypesEdit;
+    let refComplianceTypesEdit;
     switch (event.id) {
       case 3:
-        const factoryChangePassword = this.componentFactoryResolver
-          .resolveComponentFactory(ChangePasswordComponent);
-        const refChangePassword =
-          this.viewContainerRef.createComponent(factoryChangePassword);
-        refChangePassword.changeDetectorRef.detectChanges();
+        const factoryCatalogs =
+          this.componentFactoryResolver.resolveComponentFactory(CatalogsComponent);
+        const refCatalogs =
+          this.viewContainerRef.createComponent(factoryCatalogs);
+        refCatalogs.changeDetectorRef.detectChanges();
         break;
       case 4:
+        factoryComplianceTypes =
+          this.componentFactoryResolver.resolveComponentFactory(ComplianceTypesComponent);
+        refComplianceTypes =
+          this.viewContainerRef.createComponent(factoryComplianceTypes);
+        refComplianceTypes.instance.nombreCatalogo = 'AUTORIDAD';
+        refComplianceTypes.changeDetectorRef.detectChanges();
+        break;
+      case 5:
+        factoryComplianceTypesEdit =
+          this.componentFactoryResolver.resolveComponentFactory(ComplianceTypesEditComponent);
+        refComplianceTypesEdit =
+          this.viewContainerRef.createComponent(factoryComplianceTypesEdit);
+        refComplianceTypesEdit.instance.catalogType = event.data;
+        refComplianceTypesEdit.changeDetectorRef.detectChanges();
+        break;
+
+      case 6:
+        const factoryActivities =
+          this.componentFactoryResolver.resolveComponentFactory(ActivitiesComponent);
+        const refActivities =
+          this.viewContainerRef.createComponent(factoryActivities);
+        refActivities.changeDetectorRef.detectChanges();
+        break;
+
+      case 7:
+        const factoryActivitiesEdit =
+          this.componentFactoryResolver.resolveComponentFactory(ActivitiesEditComponent);
+        const refActivitiesEdit =
+          this.viewContainerRef.createComponent(factoryActivitiesEdit);
+        refActivitiesEdit.instance.catalogType = event.data;
+        refActivitiesEdit.changeDetectorRef.detectChanges();
+        break;
+      case 8:
+        const factoryComplianceConf= 
+          this.componentFactoryResolver
+          .resolveComponentFactory(ComplianceConfigurationComponent);
+        const refComplianceConf =
+          this.viewContainerRef.createComponent(factoryComplianceConf);
+          refComplianceConf.changeDetectorRef.detectChanges();
+        break;  
+      
+      case 9:
+        const factoryConfigActivities =
+          this.componentFactoryResolver.resolveComponentFactory(ConfigActivitiesComponent);
+        const refConfigActivities =
+          this.viewContainerRef.createComponent(factoryConfigActivities);
+          refConfigActivities.instance.catalogType = event.data;
+          refConfigActivities.changeDetectorRef.detectChanges();
+        break;
+
+      case 100:
+        const factoryChangePasword =
+          this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent);
+        const refChangePasword =
+          this.viewContainerRef.createComponent(factoryChangePasword);
+        refChangePasword.changeDetectorRef.detectChanges();
         break;
     }
   }

@@ -1,74 +1,51 @@
-<mdb-navbar SideClass="navbar navbar-expand-lg navbar-light blue-grey lighten-4 row" [containerInside]="false"
-    *ngIf="globalService.aguila">
-    <mat-toolbar-row>
-        <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleMenu()" color="primary">
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-light blue-grey lighten-4 row" [containerInside]="false">
+        <mat-toolbar-row>
+          <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleMenu()" color="primary">
             <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-        </button>
-        <span> <img src="../../../assets/img/logo_safe.png" height="40" alt=""></span>
-    </mat-toolbar-row>
-    <links>
-
-
-        <ul class="navbar-nav ml-auto nav-flex-icons blue">
-            <li><span style="padding-left:20px"></span></li>
-
-            <li><span style="padding-left:50px"></span></li>
+          </button>
+          <span> <img src="../../../assets/img/logo_safe.png" height="40" alt=""></span>
+        </mat-toolbar-row>
+        <links>
+      
+      
+          <ul class="navbar-nav ml-auto nav-flex-icons "
+            [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+      
             <li class="nav-item">
-                <a class="nav-link waves-effect waves-light">
-
+                <a class="nav-link waves-effect waves-light" style="color:white;">
+                  {{getNameUser()}}
                 </a>
             </li>
-            <li class="nav-item dropdown" dropdown>
-                <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"
-                    mdbWavesEffect>
-                    <img src="../../../assets/images/skins/shape_1.png" height="35" alt="">
-                </a>
-
-                <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
-                    <a class="dropdown-item waves-light" mdbWavesEffect (click)="cambioPlantaSol()">Sol</a>
-                </div>
+            
+            <li class="nav-item dropdown" dropdown *ngIf="globalService.aguila">
+              <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+                <img src="../../../assets/images/skins/shape_1.png" height="35" alt="">
+              </a>
+      
+              <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown-primary" role="menu">
+                <a class="dropdown-item waves-light" mdbWavesEffect (click)="cambioPlantaSol()">Sol</a>
+                <a class="dropdown-item waves-light" mdbWavesEffect (click)="changePassword()">Cambiar Contraseña</a>
+                <a class="dropdown-item waves-light" mdbWavesEffect (click)="logout()">Salir</a>
+      
+              </div>
+      
             </li>
-            <li><span style="padding-left:20px"></span></li>
-        </ul>
-
-
-    </links>
-
-</mdb-navbar>
-
-<mdb-navbar SideClass="navbar navbar-expand-lg navbar-light blue-grey lighten-4 row" [containerInside]="false"
-    *ngIf="!globalService.aguila">
-    <mat-toolbar-row>
-        <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleMenu()" color="primary">
-            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-        </button>
-        <span> <img src="../../../assets/img/logo_compliance.png" height="40" alt=""></span>
-    </mat-toolbar-row>
-    <links>
-
-        <ul class="navbar-nav ml-auto nav-flex-icons orange">
-            <li><span style="padding-left:20px"></span></li>
-
-            <li><span style="padding-left:50px"></span></li>
-            <li class="nav-item">
-                <a class="nav-link waves-effect waves-light">
-
-                </a>
-            </li>
-            <li class="nav-item dropdown" dropdown>
-                <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"
-                    mdbWavesEffect>
-                    <img src="../../../assets/images/skins/logobotonsol.png" height="35" alt="">
-                </a>
-
-                <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
-                    <a class="dropdown-item waves-light" mdbWavesEffect (click)="cambioPlantaAguila()">Aguila</a>
-                </div>
+      
+            <li class="nav-item dropdown" dropdown *ngIf="!globalService.aguila">
+              <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+                <img src="../../../assets/images/skins/logobotonsol.png" height="35" alt="">
+              </a>
+      
+              <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown-primary" role="menu">
+                <a class="dropdown-item waves-light" mdbWavesEffect (click)="cambioPlantaAguila()">Aguila</a>
+                <a class="dropdown-item waves-light" mdbWavesEffect (click)="changePassword()">Cambiar Contraseña</a>
+                <a class="dropdown-item waves-light" mdbWavesEffect (click)="logout()">Salir</a>
+              </div>
             </li>
             <li><span style="padding-left:20px"></span></li>
-        </ul>
-
-
-    </links>
-
-</mdb-navbar>
+          </ul>
+      
+      
+        </links>
+      
+      </mdb-navbar>

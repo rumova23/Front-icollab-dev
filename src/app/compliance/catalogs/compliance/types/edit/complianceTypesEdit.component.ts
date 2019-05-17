@@ -7,6 +7,7 @@ import { CatalogoMaestroService } from 'src/app/core/services/catalogo-maestro.s
 import { EstatusMaestroService } from 'src/app/core/services/estatus-maestro.service';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { Combo } from 'src/app/compliance/models/Combo';
+import { CatalogType } from 'src/app/compliance/models/CatalogType';
 
 export interface Inputs {
   label: string;
@@ -22,6 +23,7 @@ export interface Inputs {
 })
 export class ComplianceTypesEditComponent implements OnInit {
 
+
   constructor(
     private catalogoMaestroService: CatalogoMaestroService,
     private estatusMaestroService: EstatusMaestroService,
@@ -32,7 +34,7 @@ export class ComplianceTypesEditComponent implements OnInit {
     private globalService: GlobalService) {
     this.perfilForm = this.formBuilder.group({});
   }
-  titulo: string = 'Editar Catálogos / ' + this.route.snapshot.params.nombreCatalogo;
+  titulo: string;
   @Input() maestroOpcionId: string;
   @Input() accion: string;
   @Input() nombreCatalogo: string;
@@ -42,7 +44,7 @@ export class ComplianceTypesEditComponent implements OnInit {
   orden: string;
   isReadOnly = false;
   editarEstatusActivo = true;
-
+  catalogType: CatalogType;
   comboEstatus = new Array<Combo>();
 
   submitted = false;
@@ -75,10 +77,17 @@ export class ComplianceTypesEditComponent implements OnInit {
       this.entidadEstatusId = data.entidadEstatusId;
     });
 
+    this.titulo = ((this.catalogType.action === 'nuevo') ? "Nuevo" 
+    : (this.catalogType.action === 'edit') ? "Edit" : "Ver")
+     + " Catálogo / " + this.catalogType.name;
 
-    this.maestroOpcionId = this.route.snapshot.params.maestroOpcionId;
-    this.accion = this.route.snapshot.params.accion;
-    this.nombreCatalogo = this.route.snapshot.params.nombreCatalogo;
+    //this.maestroOpcionId = this.route.snapshot.params.maestroOpcionId;
+    this.maestroOpcionId =  this.catalogType.id;
+    //this.accion = this.route.snapshot.params.accion;
+    this.accion =  this.catalogType.action;
+    //this.nombreCatalogo = this.route.snapshot.params.nombreCatalogo;
+    this.nombreCatalogo =  this.catalogType.name;
+
     if (this.accion === 'edit') {
       this.catalogoMaestroService.getOpcion(this.maestroOpcionId).subscribe(data => {
         this.perfilForm.controls.maestroOpcionId.setValue(data.maestroOpcionId);

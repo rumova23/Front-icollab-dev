@@ -30,25 +30,44 @@
                     </div>
                     <div class="container ">
                         <div class="row flex-center">
-                            <div class="col-md-4">&nbsp;&nbsp;<a (click)="goSafe()"><img src="../../assets/img/logo_safe.png"></a></div>
-                            <div class="col-md-4">&nbsp;&nbsp;<a (click)="goCompliance()"><img
-                                        src="../../assets/img/logo_compliance.png"></a></div>
-                            <div class="col-md-4">&nbsp;&nbsp;<img src="../../assets/img/logo_efh.png"></div>
+                            <div class="col-md-4"  *ngIf="existApp('Safe')">&nbsp;&nbsp;
+                                <a (click)="goSafe()">
+                                     <img src="../../assets/img/logo_safe.png">
+                                </a>
+                            </div>
+                            <div class="col-md-4" *ngIf="existApp('Compliance')">&nbsp;&nbsp;
+                                <a (click)="goCompliance()"><img
+                                        src="../../assets/img/logo_compliance.png">
+                                </a>
+                            </div>
+                            <div class="col-md-4"  *ngIf="existApp('Efh')">&nbsp;&nbsp;
+                                <img src="../../assets/img/logo_efh.png">
+                            </div>
                             <div class="w-100">&nbsp;</div>
                         </div>
                     </div>
                     <div class="container">
                         <div class="row flex-center">
                             <div class="w-100">&nbsp;</div>
-                            <div class="col-md-4">&nbsp;&nbsp;<img src="../../assets/img/logo_mnitoreo.png"></div>
-                            <div class="col-md-4">&nbsp;&nbsp;<img src="../../assets/img/logo_gate.png"></div>
-                            <div class="col-md-4">&nbsp;&nbsp;<img src="../../assets/img/logo_lotto.png"></div>
+                            <div class="col-md-4"  *ngIf="existApp('Monitoreo')">&nbsp;&nbsp;
+                                <img src="../../assets/img/logo_mnitoreo.png">
+                            </div>
+                            <div class="col-md-4" *ngIf="existApp('Gate')">&nbsp;&nbsp;
+                                <img src="../../assets/img/logo_gate.png">
+                            </div>
+                            <div class="col-md-4" *ngIf="existApp('Lotto')">&nbsp;&nbsp;
+                                <img src="../../assets/img/logo_lotto.png">
+                            </div>
                         </div>
                     </div>
                     <div class="container">
                         <div class="row flex-center">
                             <div class="w-100">&nbsp;</div>
-                            <div class="col-md-4">&nbsp;&nbsp;<a (click)="goSecurity()"><img src="../../assets/img/logo_compliance.png"></a></div>
+                            <div class="col-md-4" *ngIf="existApp('Security')">&nbsp;&nbsp;
+                                <a (click)="goSecurity()">
+                                    <img src="../../assets/img/logo_compliance.png">
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

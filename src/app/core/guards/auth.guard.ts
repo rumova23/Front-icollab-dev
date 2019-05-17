@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { SecurityService } from '../services/security.service';
+import { Validate } from '../helpers/util.validator.';
 
 
 @Injectable({ providedIn: 'root' })
@@ -11,19 +12,28 @@ export class AuthGuard implements CanActivate {
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const currentUser = this.securityService.currentUserValue;
-        /*if (currentUser) {
-            // authorised so return true
-            return true;
-        }*/
-
-        if (true) {
-            // authorised so return true
-            return true;
+        const currentUser = this.securityService.getCurrentUser();
+        console.log('canActivate');
+        console.log(route.data.app);
+        if(!Validate(currentUser)) {
+            return false;
         }
+        if(!Validate(route.data.app)) {
+            return false;
+        }
+        let permit = false;
+        if(route.data.app === 'Home') {
+            permit = !permit;
+        } else {
+            permit = 
+            Validate(currentUser.apps.filter(app => app.name 
+                === route.data.app)[0]);
+        }
+        console.log(permit);
+        if(!permit) {
+            this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
 
-        // not logged in so redirect to login page with the return url
-        this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-        return false;
+        } 
+        return permit;
     }
 }

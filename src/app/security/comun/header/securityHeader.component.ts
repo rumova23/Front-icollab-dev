@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
+import { SecurityService } from 'src/app/core/services/security.service';
 
 @Component({
   selector: 'app-securityHeader',
@@ -13,6 +14,7 @@ export class SecurityHeaderComponent implements OnInit {
   color: string = 'warn'
   constructor(private globalService: GlobalService,
     private eventService: EventService,
+    private securityService: SecurityService,
     private router: Router) {
   }
 
@@ -32,8 +34,20 @@ export class SecurityHeaderComponent implements OnInit {
     }
   }
 
+  getNameUser() {
+    return this.securityService.getNameUser();
+  }
+
   toggleMenu() {
     this.eventService.sendMainSecurity(new EventMessage(1, null))
+  }
+
+  changePassword() {
+    this.eventService.sendMainSecurity(new EventMessage(100, null))
+  }
+
+  logout() {
+    this.securityService.logout();
   }
 
   cambioPlantaAguila() {

@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Role } from 'src/app/security/models/Role';
-import { Plant } from 'src/app/security/models/Plant';
 import { Parameter } from 'src/app/security/models/Parameter';
 import { Grant } from 'src/app/security/models/Grant';
 import { User } from 'src/app/security/models/User';
 import { TreeviewItem } from 'ngx-treeview';
+import { RoleGrant } from 'src/app/security/models/RoleGrant';
+import { Validate } from '../helpers/util.validator.';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 /*
@@ -22,12 +24,11 @@ const httpOptions = {
 
 @Injectable({ providedIn: 'root' })
 export class SecurityService {
-  private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
+  private currentUser;
 
-  constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
-    this.currentUser = this.currentUserSubject.asObservable();
+  constructor(private http: HttpClient, 
+    private router: Router) {
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
   getTreeSample(): TreeviewItem[] {
@@ -76,8 +77,14 @@ export class SecurityService {
     };
   } */
 
-  public get currentUserValue(): User {
-    return this.currentUserSubject.value;
+  public getCurrentUser(): User {
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
+    return this.currentUser;
+  }
+
+  public getNameUser(): string {
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
+    return this.currentUser.name;
   }
 
   /*
@@ -99,14 +106,27 @@ export class SecurityService {
       }));
   } */
 
+  getMenu(name: string): any[] {
+    const user = this.getCurrentUser();
+    console.log(user);
+    if(!Validate(user)) {
+      return [];
+    }
+    const app = user.apps.filter(app => app.name === name)[0];
+    if(!Validate(app)) {
+      return [];
+    }
+    return app.children;
+  }
+
   login(login: any): Observable<any> {
     return this.http.post(environment.securityUrl + 'user/login', login);
   }
 
   logout(): void {
     localStorage.removeItem('user');
-    this.currentUserSubject.next(null);
     localStorage.clear();
+    this.router.navigate(['/login']);
   }
 
   saveUser(usuario: User): Observable<any> {
@@ -167,10 +187,9 @@ export class SecurityService {
     return this.http.post(environment.securityUrl + 'user/password/change', changePassword);
   }
 
-  /*
   saveRoleGrants(roleGrant: RoleGrant): Observable<any> {
     console.log(roleGrant);
     return this.http.post(environment.securityUrl + 'grant/role/save', roleGrant);
-  } */
+  }
 
 }

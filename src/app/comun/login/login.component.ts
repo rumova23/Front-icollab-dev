@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { SecurityService } from 'src/app/core/services/security.service';
+import { EventService } from 'src/app/core/services/event.service';
+import { EventMessage } from 'src/app/core/models/EventMessage';
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 
 
@@ -24,8 +27,9 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private securityService: SecurityService,
+    private eventService: EventService,
     private alertService: AlertService) {
-    if (this.securityService.currentUserValue) {
+    if (this.securityService.getCurrentUser()) {
       this.router.navigate(['/']);
     }
   }
@@ -57,9 +61,11 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     console.log(this.loginForm.value);
+    this.addBlock(1, null);
     this.submitted = true;
     // stop here if form is invalid
     if (this.loginForm.invalid) {
+      this.addBlock(2, null);
       return;
     }
 
@@ -103,15 +109,21 @@ export class LoginComponent implements OnInit {
       )
       .subscribe(
         data => {
-          console.log(data);
+          console.log(data.resultado);
           localStorage.setItem("user", JSON.stringify(data.resultado));
-          localStorage.getItem("user");
+          JSON.parse(localStorage.getItem("user"));
           this.loading = true;
+          this.addBlock(2, null);
           this.router.navigate([this.returnUrl]);
         },
         errorData => {
+          this.addBlock(2, null);
           console.log(errorData);
         });
 
+  }
+
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 }

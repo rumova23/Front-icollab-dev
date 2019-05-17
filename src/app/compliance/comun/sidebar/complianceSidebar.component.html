@@ -1,25 +1,25 @@
 <div class="row">
-    <div class="col">
-        <ul class="menu-lateral">
-            <li class='item-icono' *ngFor="let item of menu">
-                <a (click)="clickMenu(item)">
-                    <img src="{{item.icon}}"/> 
-                    <span [ngStyle]="{'display':aside_open ? '' : 'none' }">
-                        {{item.label}}
-                    </span>
-                </a>
-                <ng-container *ngIf="item.children.length > 0">
-                    <a  [ngStyle]="{'display':aside_open ? '' : 'none' }">
-                        <div class='fa fa-caret-down right' (click)="catalogos.toggle()"></div>
+        <div class="col">
+            <ul class="menu-lateral">
+                <li class='item-icono' *ngFor="let item of menu">
+                    <a (click)="clickMenu(item)">
+                        <img src="{{item.icon}}" />
+                        <span [ngStyle]="{'display':aside_open ? '' : 'none' }">
+                            {{item.label}}
+                        </span>
                     </a>
-                    <ul mdbCollapse [isCollapsed]="true" #catalogos="bs-collapse"
-                        [ngStyle]="{'display':aside_open ? '' : 'none' }" >
-                        <li *ngFor="let subItem of item.children">
-                            <a (click)="clickMenu(subItem)"><span>{{subItem.label}}</span></a>
-                        </li>
-                    </ul>
-                </ng-container>
-            </li>
-        </ul>
+                    <ng-container *ngIf="item.children && item.children.length > 0">
+                        <a [ngStyle]="{'display':aside_open ? '' : 'none' }">
+                            <div class='fa fa-caret-down right' (click)="catalogos.toggle()"></div>
+                        </a>
+                        <ul mdbCollapse [isCollapsed]="true" #catalogos="bs-collapse"
+                            [ngStyle]="{'display':aside_open ? '' : 'none' }">
+                            <li *ngFor="let subItem of item.children">
+                                <a (click)="clickMenu(subItem)"><span>{{subItem.label}}</span></a>
+                            </li>
+                        </ul>
+                    </ng-container>
+                </li>
+            </ul>
+        </div>
     </div>
-</div>

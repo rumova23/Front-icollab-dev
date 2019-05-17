@@ -5,11 +5,9 @@ import { TagPrecedente } from '../models/TagPrecedente';
 import { Tag } from '../models/Tag';
 import { TagActividadInDTO } from '../models/TagActividadInDTO';
 
-// Modelos
-
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/json',
+    'Content-Type':  'application/json',
     'Accept-Language': 'es-419,es;q=0.9',
     Accept: 'application/json',
     'Access-Control-Allow-Origin': '*',
@@ -19,7 +17,7 @@ const httpOptions = {
 };
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class TagService {
 
@@ -31,20 +29,20 @@ export class TagService {
   constructor(private http: HttpClient) { }
 
   getCatalogo(nameCat: Array<any>) {
-    return this.http.get(`${this.baseCatalagoUrl}listCatalogos/${nameCat}`, httpOptions);
+    return this.http.get(`${ this.baseCatalagoUrl }listCatalogos/${nameCat}`, httpOptions);
   }
 
   save(tag: Tag) {
     console.dir(tag);
-    return this.http.post(`${this.baseMicroTagUrl}guardar`, tag, httpOptions);
+    return this.http.post( `${ this.baseMicroTagUrl }guardar`, tag, httpOptions);
   }
 
   getActividadPorTag(actividad: string) {
-    return this.http.get(`${this.baseMicroTagUrl}${actividad}`, httpOptions);
+    return this.http.get( `${ this.baseMicroTagUrl }${actividad}`, httpOptions);
   }
 
   getActividadesPrecedentes(padre: string, tags: string[]) {
-    return this.http.get(`${this.baseMicroTagUrl}getActividadesPrecedentes/${padre}/${tags}`, httpOptions);
+    return this.http.get( `${ this.baseMicroTagUrl }getActividadesPrecedentes/${padre}/${tags}`, httpOptions);
   }
 
   /*
@@ -54,50 +52,50 @@ export class TagService {
   */
 
   agregarPrecedentes(tag: string, tags: string[]) {
-    return this.http.get(`${this.baseMicroTagUrl}agregarPrecedentes/${tag}/${tags}`, httpOptions);
+    return this.http.get( `${ this.baseMicroTagUrl }agregarPrecedentes/${tag}/${tags}`, httpOptions);
   }
 
   eliminarPrecedente(tagPrecedente: TagPrecedente) {
     console.log(tagPrecedente);
-    return this.http.post(`${this.baseMicroTagUrl}eliminarPrecedente`, tagPrecedente, httpOptions);
+    return this.http.post( `${ this.baseMicroTagUrl }eliminarPrecedente`, tagPrecedente, httpOptions);
   }
 
-  obtenTagPorFiltros() {
-    return this.http.get(`${this.baseMicroTagUrl}obtenTagPorFiltros`, httpOptions);
+  obtenTagPorFiltros(plantaId: string) {
+    return this.http.get( `${ this.baseMicroTagUrl }obtenTagPorFiltros/${plantaId}`, httpOptions);
   }
 
   eliminarTag(tagId: number) {
-    return this.http.get(`${this.baseMicroTagUrl}tag/eliminar/${tagId}`, httpOptions);
+    return this.http.get( `${ this.baseMicroTagUrl }tag/eliminar/${tagId}`, httpOptions);
   }
 
   // Actividades
   getCatalogoActividades() {
-    return this.http.get(`${this.baseMicroTagUrl}actividad/all`, httpOptions);
+    return this.http.get( `${ this.baseMicroTagUrl }actividad/all`, httpOptions);
   }
 
   getPrefijoConsecutivo(actividadId: number) {
-    return this.http.get(`${this.baseMicroTagUrl}actividad/obtenerConsecutivo/${actividadId}`, httpOptions);
+    return this.http.get( `${ this.baseMicroTagUrl }actividad/obtenerConsecutivo/${actividadId}`, httpOptions);
   }
 
   getActividad(actividadId: number) {
-    return this.http.get(`${this.baseMicroTagUrl}actividad/obtenerActividad/${actividadId}`, httpOptions);
+    return this.http.get( `${ this.baseMicroTagUrl }actividad/obtenerActividad/${actividadId}`, httpOptions);
   }
 
   crearActividad(actividad: TagActividadInDTO) {
     console.dir(actividad);
-    return this.http.post(`${this.baseMicroTagUrl}actividad/crear`, actividad, httpOptions);
+    return this.http.post( `${ this.baseMicroTagUrl }actividad/crear`, actividad, httpOptions);
   }
 
   editarActividad(actividad: TagActividadInDTO) {
     console.dir(actividad);
-    return this.http.post(`${this.baseMicroTagUrl}actividad/editar`, actividad, httpOptions);
+    return this.http.post( `${ this.baseMicroTagUrl }actividad/editar`, actividad, httpOptions);
   }
 
   eliminarActividad(actividadId: number) {
-    return this.http.get(`${this.baseMicroTagUrl}actividad/eliminar/${actividadId}`, httpOptions);
+    return this.http.get( `${ this.baseMicroTagUrl }actividad/eliminar/${actividadId}`, httpOptions);
   }
 
   getEstatusMaestroOpcion() {
-    return this.http.get(`${this.baseCatalagoUrl}getEstatusMaestroOpcion`, httpOptions);
+    return this.http.get( `${ this.baseCatalagoUrl }getEstatusMaestroOpcion`, httpOptions);
   }
 }

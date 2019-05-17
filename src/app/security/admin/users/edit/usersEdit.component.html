@@ -73,6 +73,19 @@
       </div>
       <div class="row">
         <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Email" formControlName="email">
+              <mat-error *ngIf="!userForm.controls['email'].valid 
+                    && userForm.controls['email'].touched">
+                Requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
           <mat-checkbox id="active" class="active" color="primary" formControlName="active">Activo
           </mat-checkbox>
           <mat-error *ngIf="!userForm.controls['active'].valid 

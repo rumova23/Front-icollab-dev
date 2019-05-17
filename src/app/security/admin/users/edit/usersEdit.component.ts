@@ -48,6 +48,7 @@ export class UsersEditComponent implements OnInit {
       'name': new FormControl('', Validators.required),
       'lastName': new FormControl('', Validators.required),
       'maidenName': new FormControl('', Validators.required),
+      'email':  new FormControl('', [Validators.required, Validators.email]),
       'user': new FormControl('', [Validators.required, Validators.minLength(6)]),
       'password': new FormControl('', [Validators.required, Validators.minLength(8)]),
       'active':  new FormControl(false),
@@ -91,7 +92,8 @@ export class UsersEditComponent implements OnInit {
   }
 
   loadApps() {
-    this.apps = this.securityService.loadApps()
+    this.apps = this.securityService.loadApps();
+    console.log(this.apps);
   }
 
   getTitle() {
@@ -117,7 +119,7 @@ export class UsersEditComponent implements OnInit {
           this.eventService.sendMainSecurity(new EventMessage(3, null));
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_SAVE, '');
+          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Guardar Usuario');
         });
   }
 

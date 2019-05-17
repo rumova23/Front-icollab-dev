@@ -78,7 +78,7 @@ export class RolesEditComponent implements OnInit {
           this.eventService.sendMainSecurity(new EventMessage(5, null));
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_SAVE, '');
+          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Guardar Role');
         });
   }
 

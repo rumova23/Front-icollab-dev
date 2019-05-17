@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { CatalogType } from '../../models/CatalogType';
+import { EventMessage } from 'src/app/core/models/EventMessage';
+import { EventService } from 'src/app/core/services/event.service';
 
 export interface catalogo {
   orden: string;
@@ -33,11 +36,32 @@ export class AuthoritiesComponent implements OnInit {
   filtrobtn = { label: "buscar" };
   registros_x_pagina = [2, 5, 10, 20, 30];
 
-  constructor() { }
+  constructor(private eventService: EventService) { }
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {
     this.registros.paginator = this.paginator;
   }
+
+  action(option: number, id: any) {
+    let type: CatalogType = {};
+    switch(option) {
+       case 1:
+       type = {id: id, action: 'nuevo',
+        name: null}
+       break;
+       case 2:
+       type = {id: id, action: 'ver',
+       name: null}
+       break;
+       case 3:
+       type = {id: id, action: 'edit',
+        name: null}
+       break;
+    }
+    console.log(type);
+    //this.eventService.sendMainCompliance(new EventMessage(5, type));
+ }
+
   alert = function (arg) {
     alert(arg);
   }

@@ -4,7 +4,8 @@
     <!-- /Header -->
     <div id="body">
         <!-- Aside -->
-        <aside id="columna" [ngStyle]="{'width':aside_open ? '250px' : '60px' }">
+        <aside id="columna" [ngStyle]="{'width':aside_open ? '250px' : '60px' }"
+        [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col mt-2 mr-1 mb-3" style="text-align: right;">

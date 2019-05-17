@@ -7,6 +7,10 @@ import { MaestroOpcion } from 'src/app/core/models/maestro-opcion';
 import { CatalogoMaestroService } from 'src/app/core/services/catalogo-maestro.service';
 import { EstatusMaestroService } from 'src/app/core/services/estatus-maestro.service';
 import { ConfirmationDialogService } from 'src/app/core/services/confirmation-dialog.service';
+import { GlobalService } from 'src/app/core/globals/global.service';
+import { EventService } from 'src/app/core/services/event.service';
+import { CatalogType } from 'src/app/compliance/models/CatalogType';
+import { EventMessage } from 'src/app/core/models/EventMessage';
 
 
 
@@ -21,7 +25,7 @@ export class ComplianceTypesComponent implements OnInit {
   entidadEstatusId: string;
 
   // tslint:disable-next-line:ban-types
-  titulo: String = 'Catálogos / ' + this.route.snapshot.params.nombreCatalogo;
+  titulo: String;
   registros: MatTableDataSource<MaestroOpcion>;
   columnas: string[] = ['Orden', 'Opcion', 'Descripcion', 'Estatus', 'Ver', 'Modificar','Eliminar' ];
   filtros = [
@@ -36,18 +40,40 @@ export class ComplianceTypesComponent implements OnInit {
   constructor(
                 private catalogoMaestroService: CatalogoMaestroService,
                 private estatusMaestroService: EstatusMaestroService,
-                private route: ActivatedRoute,
+                private route: ActivatedRoute, private globalService: GlobalService,
                 private confirmationDialogService: ConfirmationDialogService,
-                public toastr: ToastrManager) { }
+                public toastr: ToastrManager,
+                private eventService: EventService) { }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   ngOnInit() {
-    this.nombreCatalogo = this.route.snapshot.params.nombreCatalogo;
+    //this.nombreCatalogo = this.route.snapshot.params.nombreCatalogo;
+    this.titulo = 'Catálogos / ' + this.nombreCatalogo;
     this.cargaDatos();
     this.estatusMaestroService.getEntidadEstatus( 'CAT_MAESTRO_OPCION', 'Activo').subscribe(data => {
       this.entidadEstatusId = data.entidadEstatusId;
     });
+  }
+
+  action(option: number, id: any) {
+     let type: CatalogType = {};
+     switch(option) {
+        case 1:
+        type = {id: id, action: 'nuevo',
+         name: this.nombreCatalogo}
+        break;
+        case 2:
+        type = {id: id, action: 'ver',
+        name: this.nombreCatalogo}
+        break;
+        case 3:
+        type = {id: id, action: 'edit',
+         name: this.nombreCatalogo}
+        break;
+     }
+     console.log(type);
+     this.eventService.sendMainCompliance(new EventMessage(5, type));
   }
 
   cargaDatos() {

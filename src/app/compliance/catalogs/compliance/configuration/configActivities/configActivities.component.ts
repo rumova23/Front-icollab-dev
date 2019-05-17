@@ -4,13 +4,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrManager } from 'ng6-toastr-notifications';
 
 import { Router } from "@angular/router";
-import { Combo } from '../../models/Combo';
-import { TagPlanta } from '../../models/TagPlanta';
-import { Tag } from '../../models/Tag';
-import { TagPrecedente } from '../../models/TagPrecedente';
-import { TagActividadDTO } from '../../models/TagActividadDTO';
-import { TagService } from '../../services/tag.service';
 import { GlobalService } from 'src/app/core/globals/global.service';
+import { Combo } from 'src/app/compliance/models/Combo';
+import { TagPlanta } from 'src/app/compliance/models/TagPlanta';
+import { TagService } from 'src/app/compliance/services/tag.service';
+import { Tag } from 'src/app/compliance/models/Tag';
+import { TagPrecedente } from 'src/app/compliance/models/TagPrecedente';
+import { TagActividadDTO } from 'src/app/compliance/models/TagActividadDTO';
+import { CatalogType } from 'src/app/compliance/models/CatalogType';
 
 
 @Component({
@@ -19,7 +20,6 @@ import { GlobalService } from 'src/app/core/globals/global.service';
   styleUrls: ['./configActivities.component.scss']
 })
 export class ConfigActivitiesComponent implements OnInit {
-
   //Simulación tuxpan
   plantaDefault = this.globalService.plantaDefaultId; // "70"; //"Planta Tuxpan II";
 
@@ -56,6 +56,7 @@ export class ConfigActivitiesComponent implements OnInit {
   soloLectura: boolean;
   deshabiliarEstatus: boolean = true;
   idActivo: String;
+  catalogType: CatalogType;
 
   constructor(private cdRef: ChangeDetectorRef,
     private tagService: TagService,
@@ -86,7 +87,9 @@ export class ConfigActivitiesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.accion = this.route.snapshot.params.accion;
+   //this.accion = this.route.snapshot.params.accion;
+   this.accion = this.catalogType.action;
+
 
     this.existeTagId = false;
     this.tablaAgregarPrecedentes = false;
@@ -318,7 +321,8 @@ export class ConfigActivitiesComponent implements OnInit {
 
   //Obtiene la información de un TAG
   obtenerActividadurl() {
-    this.tagId = this.route.snapshot.params.tagId;
+    //this.tagId = this.route.snapshot.params.tagId;
+    this.tagId = this.catalogType.id;
     this.tagService.getActividadPorTag(this.tagId).subscribe(
       respuesta => {
         let tagActividad: Tag

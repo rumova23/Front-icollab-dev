@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalService } from 'src/app/core/globals/global.service';
+import { EventService } from 'src/app/core/services/event.service';
+import { EventMessage } from 'src/app/core/models/EventMessage';
 
 @Component({
   selector: 'app-catalogs',
@@ -11,7 +13,7 @@ export class CatalogsComponent implements OnInit {
 
   catalogos = [
     { label: "Catálogo de Autoridades", routerLink: "/catalogo/AUTORIDAD" },
-    { label: "Catálogo de Categorías (Pagos, Reportes, ...)", routerLink: "/catalogo-actividades" },
+    { label: "Catálogo de Categorías", routerLink: "/catalogo-actividades" },
     { label: "Configuración de Cumplimientos", routerLink: "/configuracion-cumplimiento" },
     /*
     {label:"Catálogo de Tipos de Cumplimiento" ,  routerLink:"/catalogo/TIPO_CUMPLIMIENTO"},
@@ -29,9 +31,28 @@ export class CatalogsComponent implements OnInit {
     */
 
   ];
-  constructor(private globalService: GlobalService) { }
+  constructor(private globalService: GlobalService,
+    private eventService: EventService) { }
 
   ngOnInit() {
+  }
+
+  selectCatalog(catalog) {
+    console.log(catalog);
+    let option = 0;
+    switch(catalog.label) {
+        case 'Catálogo de Autoridades':
+        option = 4;
+        break;
+        case 'Catálogo de Categorías':
+        option = 6;
+        break;
+        case 'Catálogo de Cumplimientos':
+        option = 8;
+        break;
+        
+    }
+    this.eventService.sendMainCompliance(new EventMessage(option, catalog));
   }
 
 }

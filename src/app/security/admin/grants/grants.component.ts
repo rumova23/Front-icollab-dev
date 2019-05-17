@@ -6,6 +6,8 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { Grant } from '../../models/Grant';
+import { Constants } from 'src/app/core/globals/Constants';
+import { ToastrManager } from 'ng6-toastr-notifications';
 
 @Component({
   selector: 'app-grants',
@@ -20,6 +22,7 @@ export class GrantsComponent implements OnInit {
   rowsPorPage = [50, 100, 250, 500];
 
   constructor(private securityService: SecurityService,
+    public toastr: ToastrManager,
     private globalService: GlobalService,
     private eventService: EventService) { }
 
@@ -42,6 +45,8 @@ export class GrantsComponent implements OnInit {
         },
         errorData => {
           console.log(errorData);
+          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Permisos');
+
         });
   }
 

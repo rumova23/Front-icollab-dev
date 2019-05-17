@@ -2,6 +2,7 @@ import { Component, OnInit,Input } from '@angular/core';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
+import { SecurityService } from 'src/app/core/services/security.service';
 
 @Component({
   selector: 'app-complianceSidebar',
@@ -10,6 +11,7 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 })
 export class ComplianceSidebarComponent implements OnInit {
   @Input() aside_open;
+  /*
   menu = [
     {
       id:'catalogos',
@@ -48,10 +50,13 @@ export class ComplianceSidebarComponent implements OnInit {
       children:[
       ]
     }
-  ];
+  ]; */
+  menu = [];
   serviceSubscription: any;
   constructor(private globalService: GlobalService,  
-    private eventService: EventService) {
+    private eventService: EventService,
+    private securityService: SecurityService) {
+      this.menu = securityService.getMenu('Compliance');
       this.serviceSubscription = this.eventService.onChangeMainCompliance.subscribe({
         next: (event: EventMessage) => {
           switch (event.id) {
@@ -68,11 +73,24 @@ export class ComplianceSidebarComponent implements OnInit {
   clickMenu(item) {
     console.log(item);
     let option = 0;
+    let data = {};
     switch (item.label) {
-      case 'Cambio de Password':
+      case 'Catálogos':
         option = 3;
+        data = item;
         break;
+      case 'Catálogo de Autoridades':
+        option = 4;
+        break;  
+      case 'Catálogo de Categorías':
+        option = 6;
+        data = item;
+        break;  
+      case 'Catálogo de Cumplimientos':
+        option = 8;
+        data = item;
+        break;    
     }
-    this.eventService.sendMainCompliance(new EventMessage(option, item));
+    this.eventService.sendMainCompliance(new EventMessage(option, data));
   }
 }

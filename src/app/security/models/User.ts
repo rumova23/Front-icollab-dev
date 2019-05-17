@@ -9,5 +9,6 @@ export interface User {
     save?;
     roles?;
     plants?;
+    apps?;
     token?;
 }

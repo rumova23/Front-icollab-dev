@@ -9,6 +9,8 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventService } from 'src/app/core/services/event.service';
 import { Constants } from 'src/app/core/globals/Constants';
 import { Grant } from 'src/app/security/models/Grant';
+import { App } from 'src/app/security/models/App';
+import { Validate } from 'src/app/core/helpers/util.validator.';
 
 
 
@@ -18,10 +20,14 @@ import { Grant } from 'src/app/security/models/Grant';
   styleUrls: ['./grantsEdit.component.scss']
 })
 export class GrantsEditComponent implements OnInit {
-  roleForm: FormGroup;
+  grantForm: FormGroup;
   entity: Entity;
   grant: Grant;
   grantSelected: Grant;
+  apps: Array<App>;
+  fathersAll: Array<Grant>;
+  fathers: Array<Grant>;
+  isFather: boolean = false;
   constructor(
     public toastr: ToastrManager,
     private router: Router,
@@ -31,14 +37,30 @@ export class GrantsEditComponent implements OnInit {
     private securityService: SecurityService
   ) { }
   ngOnInit() {
-    this.roleForm = this.fb.group({
-      'name': new FormControl('', Validators.required)
+    this.loadApps();
+    this.loadFathers();
+    this.grantForm = this.fb.group({
+      'name': new FormControl('', Validators.required),
+      'label': new FormControl('', Validators.required),
+      'isFather':  new FormControl(false),
+      'icon': new FormControl(''),
+      'url': new FormControl(''),
+      'app': new FormControl('', Validators.required),
+      'father': new FormControl('')
     });
     if (this.entity.readOnly) {
-      this.roleForm.patchValue(this.grantSelected);
-      this.roleForm.disable()
+      this.grantSelected.app = this.apps.filter(app => app.id === 
+        this.grantSelected.idApp)[0];
+        this.grantSelected.father = this.fathersAll.filter(father => father.id === 
+          this.grantSelected.idFather)[0];
+      this.grantForm.patchValue(this.grantSelected);
+      this.grantForm.disable()
     } else if (this.entity.edit) {
-      this.roleForm.patchValue(this.grantSelected);
+      this.grantSelected.app = this.apps.filter(app => app.id === 
+        this.grantSelected.idApp)[0];
+        this.grantSelected.father = this.fathersAll.filter(father => father.id === 
+          this.grantSelected.idFather)[0];
+      this.grantForm.patchValue(this.grantSelected);
     } else {
       this.grant = {} as Grant;
     }
@@ -46,21 +68,73 @@ export class GrantsEditComponent implements OnInit {
 
   getTitle() {
     return ((this.entity.readOnly) ?
-      "Consultar " : (this.entity.edit) ? "Editar " : "Agregar ") + "Rol";
+      "Consultar " : (this.entity.edit) ? "Editar " : "Agregar ") + "Permiso";
   }
 
+  loadApps() {
+    this.apps = this.securityService.loadApps();
+  }
+
+  loadFathers() {
+    this.securityService.loadFathers()
+    .subscribe(
+      data => {
+        this.fathersAll = data.resultado;
+        this.fathers = this.fathersAll;
+        console.log(this.fathers);
+      },
+      errorData => {
+        this.toastr.errorToastr(Constants.ERROR_SAVE, '');
+      });
+  }
 
   compareObjects(o1: any, o2: any): boolean {
-    return o1.name === o2.name && o1.id === o2.id;
+    return Validate(o1) && Validate(o1.id) && Validate(o1.name)
+    && Validate(o2) && Validate(o2.id) && Validate(o2.name)
+        o1.name === o2.name && o1.id === o2.id;
+  }
+
+  changeFather(event) {
+    console.log(event);
+    this.isFather = event.checked;
+    console.log(this.grantForm.value.app);
+    if(this.isFather) {
+      this.fathers = this.fathersAll;
+      console.log(this.fathers);
+      return;
+    } else if(Validate(this.grantForm.value.app)) {
+      this.fathers = this.fathersAll.filter(father => father.idApp === 
+        this.grantForm.value.app.id);
+      console.log(this.fathers);
+    }
+    console.log(this.isFather);
+  }
+
+  selectApp(event) {
+    console.log(event);
+    if(this.isFather) {
+      return;
+    }
+    this.grantForm.patchValue( {'father':null} )
+    this.fathers = this.fathersAll.filter(father => father.idApp === event.id);
+    console.log(this.fathers);
   }
 
   save(value) {
-    console.log(value);
     this.grant = value;
+    if(!this.grant.isFather 
+      && !Validate(this.grant.father)) {
+        this.toastr.errorToastr('Seleccione un padre', '');
+        return;
+    }
     this.grant.id = (this.grantSelected !== null && this.grantSelected !== undefined &&
       this.grantSelected.id !== null && this.grantSelected.id !== undefined
     ) ? this.grantSelected.id : 0;
     this.grant.save = this.entity.new;
+    if(!this.grant.isFather) {
+      this.grant.idFather = this.grant.father.id;
+    }
+    this.grant.idApp = this.grant.app.id;
     this.securityService.saveGrant(this.grant)
       .subscribe(
         data => {

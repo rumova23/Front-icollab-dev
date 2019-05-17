@@ -8,6 +8,7 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 import { TagActividadDTO } from 'src/app/compliance/models/TagActividadDTO';
 import { TagActividadInDTO } from 'src/app/compliance/models/TagActividadInDTO';
 import { TagService } from 'src/app/compliance/services/tag.service';
+import { CatalogType } from 'src/app/compliance/models/CatalogType';
 
 
 export interface Inputs {
@@ -33,6 +34,8 @@ export class ActivitiesEditComponent implements OnInit {
   deshabiliarEstatus: boolean = true;
   comboEstatus = new Array<Combo>();
   titulo: String;
+  catalogType: CatalogType;
+
 
   inputs: Inputs[] = [
     { label: "ID Actividad", inputtype: "text", value: "223696585", disabled: true },
@@ -60,7 +63,8 @@ export class ActivitiesEditComponent implements OnInit {
       fComboEstatus: ['', '']
     });
 
-    this.accion = this.route.snapshot.params.accion;
+    //this.accion = this.route.snapshot.params.accion;
+    this.accion = this.catalogType.action;
 
     this.comboEstatus = new Array<Combo>();
 
@@ -105,7 +109,8 @@ export class ActivitiesEditComponent implements OnInit {
   }
 
   obtenerDatosActividad() {
-    this.actividadId = this.route.snapshot.params.actividadId;
+    //this.actividadId = this.route.snapshot.params.actividadId;
+    this.actividadId = this.catalogType.id;
     console.log("Accion: " + this.accion);
     if (this.actividadId > 0) {
       this.tagService.getActividad(this.actividadId).subscribe(

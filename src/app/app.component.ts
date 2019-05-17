@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { SecurityService } from './core/services/security.service';
-import { User } from './security/models/User';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { EventMessage } from './core/models/EventMessage';
+import { EventService } from './core/services/event.service';
+import { EventBlocked } from './core/models/EventBlocked';
+import { Validate } from './core/helpers/util.validator.';
 
 
 @Component({
@@ -10,19 +12,38 @@ import { User } from './security/models/User';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'compliace-perfil';
-  currentUser: User;
-
+  title = 'bla-bla';
+  serviceSubscription: any;
+  @BlockUI() blockUI: NgBlockUI;
   constructor(
-    private router: Router,
-    private securityService: SecurityService
+    private eventService: EventService
   ) {
-    this.securityService.currentUser.subscribe(x => this.currentUser = x);
+    this.serviceSubscription = this.eventService.onChangeApp.subscribe({
+      next: (event: EventMessage) => {
+        switch (event.id) {
+          case 1:
+            this.blocked(event.data as EventBlocked);
+            break;
+        }
+      }
+    });
   }
 
-  logout() {
-    this.securityService.logout();
-    this.router.navigate(['/login']);
+  private blocked(event: EventBlocked): void {
+    switch (event.id) {
+      case 1:
+        if (Validate(event.msg)) {
+          this.blockUI.stop();
+          this.blockUI.start(event.msg);
+        } else {
+          this.blockUI.stop();
+          this.blockUI.start();
+        }
+        break;
+      case 2:
+        this.blockUI.stop();
+        break;
+    }
   }
 
 }

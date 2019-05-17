@@ -1,33 +1,34 @@
 <div id="agrupar">
-        <!-- Header -->
-        <app-complianceHeader></app-complianceHeader>
-        <!-- /Header -->
-        <div id="body">
-            <!-- Aside -->
-            <aside id="columna" [ngStyle]="{'width':aside_open ? '250px' : '60px' }">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col mt-2 mr-1 mb-3" style="text-align: right;">
-                            <span (click)="aside_open=!aside_open" >
-                            </span>
-                        </div>
+    <!-- Header -->
+    <app-complianceHeader></app-complianceHeader>
+    <!-- /Header -->
+    <div id="body">
+        <!-- Aside -->
+        <aside id="columna" [ngStyle]="{'width':aside_open ? '250px' : '60px' }"
+            [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col mt-2 mr-1 mb-3" style="text-align: right;">
+                        <span (click)="aside_open=!aside_open">
+                        </span>
                     </div>
-                    <app-complianceSidebar [aside_open]='aside_open'></app-complianceSidebar>
                 </div>
-            </aside>
-            <!-- /Aside -->
-    
-            <section id="seccion" [ngStyle]="{'width':aside_open ? 'calc(100% - 250px)' : 'calc(100% - 60px)' }">
-                <div class="container-fluid">
+                <app-complianceSidebar [aside_open]='aside_open'></app-complianceSidebar>
+            </div>
+        </aside>
+        <!-- /Aside -->
+
+        <section id="seccion" [ngStyle]="{'width':aside_open ? 'calc(100% - 250px)' : 'calc(100% - 60px)' }">
+            <div class="container-fluid">
                 <!--  CUERPO DEL COMPONENTE -->
-    
-                    <ng-template #container></ng-template>
-                    
+
+                <ng-template #container></ng-template>
+
                 <!--  /CUERPO DEL COMPONENTE -->
-                </div>
-            </section>
-        </div>
-        <footer id="pie">
-            Derechos Reservados &copy;   
-        </footer>
+            </div>
+        </section>
     </div>
+    <footer id="pie">
+        Derechos Reservados &copy;
+    </footer>
+</div>

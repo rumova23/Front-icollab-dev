@@ -53,13 +53,12 @@ export class RolesComponent implements OnInit {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Roles');
         });
   }
+
   loadApps() {
     this.apps = this.securityService.loadApps();
     let data =  this.roles;
-    console.log(data);
     for(var i = 0; i< data.length; i++) {
-        data[i].app = this.apps.filter(app => app.id !== data[i].idApp)[0];
-        console.log(data[i]);
+        data[i].app = this.apps.filter(app => app.id === data[i].idApp)[0];
     }
   }
 
@@ -80,7 +79,7 @@ export class RolesComponent implements OnInit {
         break;
       case 4:
         this.eventService.sendMainSecurity(new
-          EventMessage(100, {role: role }));
+          EventMessage(9, {role: role }));
         break;  
     }
   }
