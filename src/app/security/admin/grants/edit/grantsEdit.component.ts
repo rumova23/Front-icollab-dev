@@ -37,6 +37,7 @@ export class GrantsEditComponent implements OnInit {
     private securityService: SecurityService
   ) { }
   ngOnInit() {
+    console.log(this.grantSelected);
     this.loadApps();
     this.loadFathers();
     this.grantForm = this.fb.group({
@@ -48,22 +49,7 @@ export class GrantsEditComponent implements OnInit {
       'app': new FormControl('', Validators.required),
       'father': new FormControl('')
     });
-    if (this.entity.readOnly) {
-      this.grantSelected.app = this.apps.filter(app => app.id === 
-        this.grantSelected.idApp)[0];
-        this.grantSelected.father = this.fathersAll.filter(father => father.id === 
-          this.grantSelected.idFather)[0];
-      this.grantForm.patchValue(this.grantSelected);
-      this.grantForm.disable()
-    } else if (this.entity.edit) {
-      this.grantSelected.app = this.apps.filter(app => app.id === 
-        this.grantSelected.idApp)[0];
-        this.grantSelected.father = this.fathersAll.filter(father => father.id === 
-          this.grantSelected.idFather)[0];
-      this.grantForm.patchValue(this.grantSelected);
-    } else {
-      this.grant = {} as Grant;
-    }
+
   }
 
   getTitle() {
@@ -81,7 +67,22 @@ export class GrantsEditComponent implements OnInit {
       data => {
         this.fathersAll = data.resultado;
         this.fathers = this.fathersAll;
-        console.log(this.fathers);
+        if (this.entity.readOnly) {
+          this.grantSelected.app = this.apps.filter(app => app.id === 
+            this.grantSelected.idApp)[0];
+            this.grantSelected.father = this.fathersAll.filter(father => father.id === 
+              this.grantSelected.idFather)[0];
+          this.grantForm.patchValue(this.grantSelected);
+          this.grantForm.disable()
+        } else if (this.entity.edit) {
+          this.grantSelected.app = this.apps.filter(app => app.id === 
+            this.grantSelected.idApp)[0];
+            this.grantSelected.father = this.fathersAll.filter(father => father.id === 
+              this.grantSelected.idFather)[0];
+          this.grantForm.patchValue(this.grantSelected);
+        } else {
+          this.grant = {} as Grant;
+        }
       },
       errorData => {
         this.toastr.errorToastr(Constants.ERROR_SAVE, '');

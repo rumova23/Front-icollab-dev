@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { Role } from '../../models/Role';
-import { User } from '../../models/User';
-import { MatTableDataSource } from '@angular/material';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';

@@ -47,7 +47,7 @@ export class CatalogsComponent implements OnInit {
         case 'Catálogo de Categorías':
         option = 6;
         break;
-        case 'Catálogo de Cumplimientos':
+        case 'Configuración de Cumplimientos':
         option = 8;
         break;
         

@@ -5,6 +5,7 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 import { Router } from '@angular/router';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { Constants } from 'src/app/core/globals/Constants';
+import { Validate } from 'src/app/core/helpers/util.validator.';
 
 @Component({
   selector: 'app-changePassword',
@@ -31,6 +32,14 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   save(value) {
+    if(!Validate(value.password)) {
+      this.toastr.errorToastr('El password es incorrecto', '');
+      return;
+    }
+    if(!Validate(value.confirmPassword)) {
+      this.toastr.errorToastr('La confirmación del incorrecto', '');
+      return;
+    }
     if(value.password !== value.confirmPassword) {
       this.toastr.errorToastr('Las contraseñas no coinciden', '');
       return;
