@@ -55,7 +55,7 @@ export class RolesEditComponent implements OnInit {
   }
 
   loadApps() {
-    this.apps = this.securityService.loadApps()
+    this.apps = this.securityService.loadApps();
   }
 
 
