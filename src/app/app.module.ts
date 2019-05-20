@@ -13,7 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-
+import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -85,6 +85,7 @@ import { ComplianceTypesEditComponent } from './compliance/catalogs/compliance/t
 import { PlannedPowersPPAComponent } from './safe/mda-planning-process/planned-powers-ppa/planned-powers-ppa.component';
 import { SafeLinkMockUp } from './safe/links-mock-up/safeLinkMockUp';
 import { HeatRateRecordComponent } from './safe/mda-planning-process/heat-rate-record/heat-rate-record.component';
+import { SalesOffersComponent } from './safe/mda-planning-process/sales-offers/sales-offers.component';
 
 
 
@@ -155,6 +156,7 @@ import { HeatRateRecordComponent } from './safe/mda-planning-process/heat-rate-r
     SafeLinkMockUp,
     PlannedPowersPPAComponent,
     HeatRateRecordComponent,
+    SalesOffersComponent,
   ],
   imports: [
     BrowserModule,
@@ -167,6 +169,7 @@ import { HeatRateRecordComponent } from './safe/mda-planning-process/heat-rate-r
     MatDatepickerModule,
     FormsModule,
     MatNativeDateModule, ReactiveFormsModule,
+    FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
