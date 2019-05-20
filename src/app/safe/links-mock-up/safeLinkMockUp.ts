@@ -7,13 +7,14 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 import { PlannedPowersPPAComponent } from '../mda-planning-process/planned-powers-ppa/planned-powers-ppa.component';
 import { HeatRateRecordComponent } from '../mda-planning-process/heat-rate-record/heat-rate-record.component';
 import { SalesOffersComponent } from '../mda-planning-process/sales-offers/sales-offers.component';
+import { ClientsComponent } from '../admin/clients/clients.component';
 
 @Component({
   selector: 'app-safeLinkMockUp',
   templateUrl: './safeLinkMockUp.component.html',
   styleUrls: ['./safeLinkMockUp.component.scss'],
   entryComponents: [
-    PlannedPowersPPAComponent, HeatRateRecordComponent, SalesOffersComponent
+    PlannedPowersPPAComponent, HeatRateRecordComponent, SalesOffersComponent, ClientsComponent
   ]
 })
 export class SafeLinkMockUp implements OnInit {
@@ -25,7 +26,8 @@ export class SafeLinkMockUp implements OnInit {
           children:[
             {label:'planned-powers-ppa'},
             {label:'heat-rate-record'},
-            {label:'sales-offers'}
+            {label:'sales-offers'},
+            {label:'registration-customer'}
           ]
         },
       ];
@@ -78,6 +80,10 @@ export class SafeLinkMockUp implements OnInit {
             option = 5;
             data = item;
             break;  
+        case 'registration-customer':
+            option = 6;
+            data = item;
+            break;  
 
 
     }
@@ -103,6 +109,12 @@ export class SafeLinkMockUp implements OnInit {
             const refSalesOffers =
             this.viewContainerRef.createComponent(factorySalesOffers);
             refSalesOffers.changeDetectorRef.detectChanges();
+            break;
+        case 6:
+            const factoryRegistrationCustomer = this.componentFactoryResolver.resolveComponentFactory(ClientsComponent);
+            const refRegistrationCustomer =
+            this.viewContainerRef.createComponent(factoryRegistrationCustomer);
+            refRegistrationCustomer.changeDetectorRef.detectChanges();
             break;
  
 

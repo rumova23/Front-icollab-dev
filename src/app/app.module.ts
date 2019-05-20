@@ -86,6 +86,7 @@ import { PlannedPowersPPAComponent } from './safe/mda-planning-process/planned-p
 import { SafeLinkMockUp } from './safe/links-mock-up/safeLinkMockUp';
 import { HeatRateRecordComponent } from './safe/mda-planning-process/heat-rate-record/heat-rate-record.component';
 import { SalesOffersComponent } from './safe/mda-planning-process/sales-offers/sales-offers.component';
+import { ClientsComponent } from './safe/admin/clients/clients.component';
 
 
 
@@ -157,6 +158,7 @@ import { SalesOffersComponent } from './safe/mda-planning-process/sales-offers/s
     PlannedPowersPPAComponent,
     HeatRateRecordComponent,
     SalesOffersComponent,
+    ClientsComponent,
   ],
   imports: [
     BrowserModule,
