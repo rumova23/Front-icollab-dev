@@ -84,6 +84,7 @@ import { Constants } from './core/globals/Constants';
 import { ComplianceTypesEditComponent } from './compliance/catalogs/compliance/types/edit/complianceTypesEdit.component';
 import { PlannedPowersPPAComponent } from './safe/mda-planning-process/planned-powers-ppa/planned-powers-ppa.component';
 import { SafeLinkMockUp } from './safe/links-mock-up/safeLinkMockUp';
+import { HeatRateRecordComponent } from './safe/mda-planning-process/heat-rate-record/heat-rate-record.component';
 
 
 
@@ -153,6 +154,7 @@ import { SafeLinkMockUp } from './safe/links-mock-up/safeLinkMockUp';
     
     SafeLinkMockUp,
     PlannedPowersPPAComponent,
+    HeatRateRecordComponent,
   ],
   imports: [
     BrowserModule,
