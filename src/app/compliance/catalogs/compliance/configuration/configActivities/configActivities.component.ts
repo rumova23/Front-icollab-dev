@@ -12,6 +12,8 @@ import { Tag } from 'src/app/compliance/models/Tag';
 import { TagPrecedente } from 'src/app/compliance/models/TagPrecedente';
 import { TagActividadDTO } from 'src/app/compliance/models/TagActividadDTO';
 import { CatalogType } from 'src/app/compliance/models/CatalogType';
+import { EventMessage } from 'src/app/core/models/EventMessage';
+import { EventService } from 'src/app/core/services/event.service';
 
 
 @Component({
@@ -64,7 +66,8 @@ export class ConfigActivitiesComponent implements OnInit {
     private route: ActivatedRoute,
     public toastr: ToastrManager,
     private router: Router,
-    private globalService: GlobalService) { }
+    private globalService: GlobalService,
+    private eventService: EventService) { }
 
   resuelveDS(poRespuesta: Object, data: Array<any>, comp: string) {
     if (!poRespuesta) {
@@ -261,7 +264,8 @@ export class ConfigActivitiesComponent implements OnInit {
         this.existeTagId = true;
 
         this.toastr.successToastr('Configuración de actividad guardada con éxito.', 'Success!');
-        this.router.navigateByUrl('/configuracion-cumplimiento');
+        //this.router.navigateByUrl('/configuracion-cumplimiento');
+        this.eventService.sendMainCompliance(new EventMessage(8, {}));
         //alert ("Configuración de actividad guardada con éxito ");
       },
       error => {

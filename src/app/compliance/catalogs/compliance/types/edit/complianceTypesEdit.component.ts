@@ -8,6 +8,8 @@ import { EstatusMaestroService } from 'src/app/core/services/estatus-maestro.ser
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { Combo } from 'src/app/compliance/models/Combo';
 import { CatalogType } from 'src/app/compliance/models/CatalogType';
+import { EventService } from 'src/app/core/services/event.service';
+import { EventMessage } from 'src/app/core/models/EventMessage';
 
 export interface Inputs {
   label: string;
@@ -31,7 +33,8 @@ export class ComplianceTypesEditComponent implements OnInit {
     private route: ActivatedRoute,
     public toastr: ToastrManager,
     private router: Router,
-    private globalService: GlobalService) {
+    private globalService: GlobalService,
+    private eventService: EventService) {
     this.perfilForm = this.formBuilder.group({});
   }
   titulo: string;
@@ -148,7 +151,9 @@ export class ComplianceTypesEditComponent implements OnInit {
         this.maestroOpcionId
       ).subscribe(data => {
         this.toastr.successToastr('El Catálogo fue actualizada con exito.', 'Success!');
-        this.router.navigateByUrl('/catalogo/' + this.nombreCatalogo);
+        //this.router.navigateByUrl('/catalogo/' + this.nombreCatalogo);
+        this.eventService.sendMainCompliance(new 
+          EventMessage(this.getOptionCatalog(), {}));
       });
     }
     if (this.accion === 'nuevo') {
@@ -165,7 +170,9 @@ export class ComplianceTypesEditComponent implements OnInit {
           this.toastr.errorToastr(data.mensajeGenerico, 'Oops!');
         } else {
           this.toastr.successToastr(data.mensajeGenerico, 'Success!');
-          this.router.navigateByUrl('/catalogo/' + this.nombreCatalogo);
+          //this.router.navigateByUrl('/catalogo/' + this.nombreCatalogo);
+          this.eventService.sendMainCompliance(new 
+            EventMessage(this.getOptionCatalog(), {}));
         }
       });
     }
@@ -183,5 +190,15 @@ export class ComplianceTypesEditComponent implements OnInit {
   compareFn(combo1: number, combo2: number) {
     console.log(combo1 && combo2 && combo1 === combo2);
     return combo1 && combo2 && combo1 === combo2;
+  }
+
+  getOptionCatalog() {
+    let option : number = 0;
+    switch(this.nombreCatalogo) {
+      case 'AUTORIDAD':
+        option = 4;
+        break;
+    }
+    return option;
   }
 }
