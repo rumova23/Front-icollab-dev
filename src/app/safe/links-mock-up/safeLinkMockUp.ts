@@ -1,0 +1,87 @@
+
+import { Component, OnInit, ComponentFactoryResolver, ViewChild, ViewContainerRef, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { EventService } from 'src/app/core/services/event.service';
+import { EventMessage } from 'src/app/core/models/EventMessage';
+import { GlobalService } from 'src/app/core/globals/global.service';
+import { PlannedPowersPPAComponent } from '../mda-planning-process/planned-powers-ppa/planned-powers-ppa.component';
+
+@Component({
+  selector: 'app-safeLinkMockUp',
+  templateUrl: './safeLinkMockUp.component.html',
+  styleUrls: ['./safeLinkMockUp.component.scss'],
+  entryComponents: [
+    PlannedPowersPPAComponent
+  ]
+})
+export class SafeLinkMockUp implements OnInit {
+    menu = [
+        {
+          id:'Safe-Link-MockUp',
+          label:'Safe-Link-MockUp',
+          icon:'/assets/images/skins/layer_7_ek1.png',
+          children:[
+            {label:'planned-powers-ppa'},
+          ]
+        },
+      ];
+      
+  @Input() aside_open;
+  public serviceSubscription: any;
+  @ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
+
+  constructor(private route: ActivatedRoute,
+    private globalService: GlobalService,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private eventService: EventService) {
+    this.serviceSubscription = this.eventService.onChangeMainSafe.subscribe({
+      next: (event: EventMessage) => {
+        console.log(event);
+        switch (event.id) {
+          case 1:
+            this.aside_open = !this.aside_open;
+            break;
+          default:
+            this.clickMenu(event);
+            break;
+        }
+      }
+    });
+  }
+
+  ngOnInit() {
+
+  }
+  
+  clickMenu0(item) {
+    console.log(item);
+    let option = 0;
+    let data = {};
+    switch (item.label) {
+      case 'Safe-Link-MockUp':
+        option = 3;
+        data = item;
+        break;
+      case 'planned-powers-ppa':
+        option = 3;
+        break;  
+    }
+    debugger;
+    this.clickMenu(new EventMessage(option, data));
+  }
+  private clickMenu(event: EventMessage): void {
+    this.viewContainerRef.clear();
+    switch (event.id) {
+        case 3:
+            const factoryProducts = this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAComponent);
+            const refProducts =
+            this.viewContainerRef.createComponent(factoryProducts);
+            refProducts.changeDetectorRef.detectChanges();
+            break;
+ 
+
+    }
+  }
+
+  
+}

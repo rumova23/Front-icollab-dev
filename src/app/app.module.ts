@@ -82,6 +82,8 @@ import { RolesGrantsComponent } from './security/admin/roles/grants/rolesGrants.
 import { TreeviewModule } from 'ngx-treeview';
 import { Constants } from './core/globals/Constants';
 import { ComplianceTypesEditComponent } from './compliance/catalogs/compliance/types/edit/complianceTypesEdit.component';
+import { PlannedPowersPPAComponent } from './safe/mda-planning-process/planned-powers-ppa/planned-powers-ppa.component';
+import { SafeLinkMockUp } from './safe/links-mock-up/safeLinkMockUp';
 
 
 
@@ -146,7 +148,11 @@ import { ComplianceTypesEditComponent } from './compliance/catalogs/compliance/t
     SafeSidebarComponent,
     ProductsComponent,
     ProductsEditComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+
+    
+    SafeLinkMockUp,
+    PlannedPowersPPAComponent,
   ],
   imports: [
     BrowserModule,
