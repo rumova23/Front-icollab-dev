@@ -8,8 +8,8 @@ export interface Product {
     rateIvaTransfer?,
     idProductSat?,
     productSat?,
-    idUnityProductSat?
-    unityProductSat?
+    idUnityProduct?
+    unityProduct?
     idTypeProduct?,
     typeProduct?,
     save?

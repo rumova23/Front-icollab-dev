@@ -101,7 +101,7 @@ export class SecurityHomeComponent implements OnInit {
         const refGrantsEdit =
           this.viewContainerRef.createComponent(factoryGrantsEdit);
         refGrantsEdit.instance.entity = event.data;
-        refGrantsEdit.instance.grant = event.data.grant;
+        refGrantsEdit.instance.grantSelected = event.data.grant;
         refGrantsEdit.changeDetectorRef.detectChanges();
         break;
       case 9:

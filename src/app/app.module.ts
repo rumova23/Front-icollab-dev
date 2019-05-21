@@ -13,7 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-
+import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -82,6 +82,13 @@ import { RolesGrantsComponent } from './security/admin/roles/grants/rolesGrants.
 import { TreeviewModule } from 'ngx-treeview';
 import { Constants } from './core/globals/Constants';
 import { ComplianceTypesEditComponent } from './compliance/catalogs/compliance/types/edit/complianceTypesEdit.component';
+import { PlannedPowersPPAComponent } from './safe/mda-planning-process/planned-powers-ppa/planned-powers-ppa.component';
+import { SafeLinkMockUp } from './safe/links-mock-up/safeLinkMockUp';
+import { HeatRateRecordComponent } from './safe/mda-planning-process/heat-rate-record/heat-rate-record.component';
+import { SalesOffersComponent } from './safe/mda-planning-process/sales-offers/sales-offers.component';
+import { ClientsComponent } from './safe/admin/clients/clients.component';
+import { UnityProductsComponent } from './safe/catalogs/unityProducts/unityProducts.component';
+import { UnityProductsEditComponent } from './safe/catalogs/unityProducts/edit/unityProductsEdit.component';
 
 
 
@@ -146,7 +153,17 @@ import { ComplianceTypesEditComponent } from './compliance/catalogs/compliance/t
     SafeSidebarComponent,
     ProductsComponent,
     ProductsEditComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    UnityProductsComponent,
+    UnityProductsEditComponent,
+
+
+    
+    SafeLinkMockUp,
+    PlannedPowersPPAComponent,
+    HeatRateRecordComponent,
+    SalesOffersComponent,
+    ClientsComponent,
   ],
   imports: [
     BrowserModule,
@@ -159,6 +176,7 @@ import { ComplianceTypesEditComponent } from './compliance/catalogs/compliance/t
     MatDatepickerModule,
     FormsModule,
     MatNativeDateModule, ReactiveFormsModule,
+    FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory

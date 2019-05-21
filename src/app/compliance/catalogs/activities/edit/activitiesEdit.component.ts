@@ -9,6 +9,8 @@ import { TagActividadDTO } from 'src/app/compliance/models/TagActividadDTO';
 import { TagActividadInDTO } from 'src/app/compliance/models/TagActividadInDTO';
 import { TagService } from 'src/app/compliance/services/tag.service';
 import { CatalogType } from 'src/app/compliance/models/CatalogType';
+import { EventService } from 'src/app/core/services/event.service';
+import { EventMessage } from 'src/app/core/models/EventMessage';
 
 
 export interface Inputs {
@@ -49,7 +51,8 @@ export class ActivitiesEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     public toastr: ToastrManager,
     private router: Router,
-    private globalService: GlobalService
+    private globalService: GlobalService,
+    private eventService: EventService
   ) { }
 
   get f() { return this.actividadesForm.controls; }
@@ -174,7 +177,8 @@ export class ActivitiesEditComponent implements OnInit {
       result => {
         console.log(result);
         this.toastr.successToastr('La actividad fue Creada con éxito.', 'Success');
-        this.router.navigateByUrl('/catalogo-actividades');
+        //this.router.navigateByUrl('/catalogo-actividades');
+        this.eventService.sendMainCompliance(new EventMessage(6, {}));
       },
       error => {
         console.log(<any>error);
@@ -194,7 +198,8 @@ export class ActivitiesEditComponent implements OnInit {
         console.log(result);
         this.toastr.successToastr('La actividad fue actualizada con éxito.', 'Success');
         //this.router.navigateByUrl('/catalogo-actividades/editar/'+this.actividadId);
-        this.router.navigateByUrl('/catalogo-actividades');
+        //this.router.navigateByUrl('/catalogo-actividades');
+        this.eventService.sendMainCompliance(new EventMessage(6, {}));
       },
       error => {
         console.log(<any>error);

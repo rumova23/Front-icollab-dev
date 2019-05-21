@@ -6,6 +6,8 @@ import { LoginComponent } from './comun/login/login.component';
 import { SecurityHomeComponent } from './security/home/securityHome.component';
 import { SafeHomeComponent } from './safe/home/safeHome.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { PlannedPowersPPAComponent } from './safe/mda-planning-process/planned-powers-ppa/planned-powers-ppa.component';
+import { SafeLinkMockUp } from './safe/links-mock-up/safeLinkMockUp';
 
 
 const routes: Routes = [
@@ -42,7 +44,16 @@ const routes: Routes = [
       app: 'Home'
     }
   },
+  {
+    path: 'Safe-Link-MockUp', component: SafeLinkMockUp, pathMatch: 'full',
+    data: {
+      app: 'Mock Up'
+    }
+  },
   /* MG */
+
+
+
   { path: '**', redirectTo: '' }
 ];
 

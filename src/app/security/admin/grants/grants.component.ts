@@ -8,6 +8,7 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { Grant } from '../../models/Grant';
 import { Constants } from 'src/app/core/globals/Constants';
 import { ToastrManager } from 'ng6-toastr-notifications';
+import { App } from '../../models/App';
 
 @Component({
   selector: 'app-grants',
@@ -20,28 +21,42 @@ export class GrantsComponent implements OnInit {
   cols: any[];
   grants: MatTableDataSource<Grant>;
   rowsPorPage = [50, 100, 250, 500];
-
+  apps: Array<App>;
   constructor(private securityService: SecurityService,
     public toastr: ToastrManager,
     private globalService: GlobalService,
     private eventService: EventService) { }
 
   ngOnInit() {
+    this.loadApps();
     this.loadGrants();
     this.cols = [
       'id',
       'name',
+      'app',
       'ver',
       'modificar'
     ];
     this.loading = false;
   }
 
+  loadApps() {
+    this.apps = this.securityService.loadApps();
+  }
+
+
   private loadGrants() {
     this.securityService.loadGrants()
       .subscribe(
         data => {
-          this.grants = data.resultado;
+          //this.grants = data.resultado;
+          const grants = data.resultado;
+          console.log(data.resultado);
+          for(var i = 0;i < grants.length; i++) {
+            console.log(grants[i].idApp);
+            grants[i].app =  this.apps.filter(app => app.id === grants[i].idApp)[0];
+          }
+          this.grants = grants;
         },
         errorData => {
           console.log(errorData);

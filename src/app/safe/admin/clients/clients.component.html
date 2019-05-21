@@ -1,61 +1,266 @@
 <div class="p-5">
-  <!-- Titulo -->
-  <div class=" row">
-    <div class="col">
-      <span class="agila-cda-titulo">{{titulo}}</span>
-    </div>
-  </div>
-  <!--Boton nuevo tag-->
-  <div class="row mb-3 mt-5">
-    <div class="col">
-      <button type="button" class="btn" [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
-        routerLink="/catalogo-actividades-editar"><i class="fas fa-user-plus"></i>&nbsp;Agregar</button>
-    </div>
-  </div>
-  <!-- Filtros de busqueda  -->
-  <!--div class="row">
-                  <div class="col">
-                    
-                      <div class="filtros mt-2 row">
-                        <div class="col-12 col-sm-12 col-md-12 col-lg-10">
-                          <div class="row">
-                              <div class="col-md-auto" *ngFor="let filtro of filtros">
-                                <label>{{filtro.label}}</label><br>
-                                <input type="{{filtro.inputtype}}">
-                              </div> 
-                          </div>
-                        </div>
-                        <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end" >
-                            <div>
-                              <button type="button" class="btn btn-primary"  (click)="alert('Filtro de empleados')">{{filtrobtn.label}}</button>
-                            </div>
-                          </div>
-                      </div>
-                  </div>
-                </div-->
-  <!-- Tabla de actividades -->
-
-  <div class="row mt-4">
-    <div class="col">
-      <div class="tabla-responsi mat-elevation-z8">
-        <table mat-table [dataSource]="registros" class="table_catalogo">
-          <!-- orden Column -->
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef class="txt-center"> # </th>
-            <td mat-cell *matCellDef="let element; let i = index;">{{element.id}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef class="txt-center"> # </th>
-            <td mat-cell *matCellDef="let element; let i = index;">{{element.id}} </td>
-          </ng-container>
-
-          <!-- header -->
-          <tr mat-header-row *matHeaderRowDef="columnas"></tr>
-          <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
-        </table>
-        <mat-paginator [pageSizeOptions]="registros_x_pagina" showFirstLastButtons></mat-paginator>
+    <!-- Titulo -->
+    <div class=" row">
+      <div class="col">
+          <span class="agila-cda-titulo">{{title}}</span>
       </div>
     </div>
-  </div>
+    <!--Botones-->
+    <div class="row mt-5 mb-5">
+      <div class="col">
+          <button type="button" class="btn right" 
+            [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"  
+            >
+              Guardar Cliente
+          </button>
+        
+      </div>
+    </div>
+    <!-- Inputs -->
+    <ng-container  *ngFor="let formControl of formControls">
+        <div class="row">
+          <div class="col dividerSection"  [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+            <b>{{formControl.section}}</b>
+          </div>
+        </div>
+        <div class="row">
+            <ng-container *ngFor="let in of formControl.inputs">
+                <ng-container [ngSwitch]="in.inputtype">
+                  <input *ngSwitchCase="'hidden'" type="hidden" value="{{in.label}}" name="{{in.label}}">
+                  <ng-container *ngSwitchCase="'text'">
+                      <div class="col-md-auto col-md-6 col-lg-4">
+                        <div class="row">
+                          <div class="col-md-{{in.col || 12}}">
+                              <mat-form-field  class="full-width">
+                                <input matInput 
+                                  [disabled]="in.disabled"
+                                  placeholder="{{in.label}}"
+                                  [value]="in.value || ''"
+                                  [required]="required || false"
+                                  >
+                              </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'select'">
+                      <div class="col-md-auto col-md-6 col-lg-4">
+                        <div class="row">
+                          <div class="col-md-{{in.col || 12}}">
+                              <mat-form-field class="full-width">
+                                <mat-label>{{in.label}}</mat-label>
+                                <mat-select 
+                                  [required]="required || false"
+                                  [(value)]="in.selected"
+                                  [disabled]="in.disabled">
+                                  <mat-option 
+                                    *ngFor="let option of in.options" 
+                                    [value]="option.value" 
+                                    >
+                                    {{option.viewValue}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'textarea'">
+                      <div class="col-md-auto col-md-6 col-lg-4">
+                        <div class="row">
+                          <div class="col-md-{{in.col || 12}}">
+                              <mat-form-field class="full-width">
+                                  <textarea matInput 
+                                  cdkTextareaAutosize
+                                  #autosize="cdkTextareaAutosize"
+                                  [disabled]="in.disabled"
+                                  placeholder="{{in.label}}"
+                                  [value]="in.value || ''"
+                                  [required]="required || false"></textarea>
+                              </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                  </ng-container>
+                </ng-container>
+            </ng-container>
+        </div>
+    </ng-container>
+
+    <!-- CUENTAS DEL CLIENTE -->
+    <div class="row mt-5 mb-4">
+        <div class="col">
+          <h2>Cuentas del Cliente</h2>
+        </div>
+      <div class="col">
+          <button type="button" class="btn right" 
+            [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"  
+            (click)="addCustomerAccounts()"
+            >
+              Agregar
+          </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+          <div class="table-container mat-elevation-z8">
+            <table matSort  mat-table [dataSource]="customerAccounts_dataSource">
+
+              <ng-container [matColumnDef]="column.key" *ngFor="let column of customerAccounts_displayedColumns">
+                <th mat-header-cell *matHeaderCellDef> {{column.label}} </th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none"> 
+
+                    <mat-form-field  class="full-width">
+                      <input matInput 
+                        [value]="element[column.key] || ''"
+                        >
+                    </mat-form-field>
+
+                </td>
+              </ng-container>
+              <!-- Eliminar Column -->
+              <ng-container matColumnDef="rm">
+                <th mat-header-cell *matHeaderCellDef> Eliminar </th>
+                <td mat-cell *matCellDef="let element; let i = index;" class="p-2 border-none">
+                  <i class="fas fa-trash-alt" (click)="rmCustomerAccount(i)"></i>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="customerAccounts_columnsToDisplay"></tr>
+              <tr mat-row *matRowDef="let row; columns: customerAccounts_columnsToDisplay;"></tr>
+            </table>
+          
+            <mat-paginator [pageSizeOptions]="[50,100,250,500]" showFirstLastButtons></mat-paginator>
+          </div>
+      </div>
+    </div>
+
+    <!-- CONTACTOS DEL CLIENTE -->
+    <div class="row mt-5 mb-4">
+        <div class="col">
+          <h2>Contactos del Cliente</h2>
+        </div>
+        <div class="col">
+            <button type="button" class="btn right" 
+              [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"  
+              (click)="addCustomerContact()"
+              >
+                Agregar
+            </button>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col">
+          <div class="table-container mat-elevation-z8">
+            <table matSort  mat-table [dataSource]="customerContact_dataSource">
+
+                  <ng-container [matColumnDef]="column.key" *ngFor="let column of customerContact_displayedColumns">
+                    <th mat-header-cell *matHeaderCellDef> {{column.label}} </th>
+                    <td mat-cell *matCellDef="let element" class="p-2 border-none"> 
+
+                        <mat-form-field  class="full-width">
+                          <input matInput 
+                            [value]="element[column.key] || ''"
+                            >
+                        </mat-form-field>
+
+                    </td>
+                  </ng-container>
+              
+                  <!-- Eliminar Column -->
+                  <ng-container matColumnDef="rm">
+                    <th mat-header-cell *matHeaderCellDef> Eliminar </th>
+                    <td mat-cell *matCellDef="let element; let i = index;" class="p-2 border-none">
+                      <i class="fas fa-trash-alt" (click)="rmCustomerContact(i)"></i>
+                    </td>
+                  </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="customerContact_columnsToDisplay"></tr>
+              <tr mat-row *matRowDef="let row; columns: customerContact_columnsToDisplay;"></tr>
+            </table>
+          
+            <mat-paginator [pageSizeOptions]="[50,100,250,500]" showFirstLastButtons></mat-paginator>
+          </div>
+      </div>
+    </div>
+
+    <!-- CÓDIGOS PARA ADDENDA PRODUCTOS DEL CLIENTE -->
+
+    <div class="row mt-5 mb-4">
+        <div class="col">
+          <h2>Códigos Para Addenda Productos Del Cliente</h2>
+        </div>
+        <div class="col">
+            <button type="button" class="btn right" 
+              [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"  
+              (click)="addCodesAddendaProductsOfClient()"
+              >
+                Agregar
+            </button>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col">
+          <div class="table-container mat-elevation-z8">
+            <table matSort  mat-table [dataSource]="codesAddendaProductsOfClient_dataSource">
+
+                    
+                  <!-- Position Column -->
+                  <ng-container matColumnDef="service">
+                    <th mat-header-cell *matHeaderCellDef> Servicio </th>
+                    <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                        <mat-form-field class="full-width">
+                          <mat-select [(value)]="codesAddendaProductsOfClient_selected">
+                            <mat-option *ngFor="let service of codesAddendaProductsOfClient_service" [value]="service.value">
+                              {{service.viewValue}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                    </td>
+                  </ng-container>
+                
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="codeClient">
+                    <th mat-header-cell *matHeaderCellDef> Codigo del cliente </th>
+                    <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                      
+                        <mat-form-field  class="full-width">
+                          <input matInput 
+                            [value]="element.codeClient || ''"
+                            [required]="true"
+                            >
+                        </mat-form-field>
+                    </td>
+                  </ng-container>
+                
+                  <!-- Weight Column -->
+                  <ng-container matColumnDef="active">
+                    <th mat-header-cell *matHeaderCellDef> Activo </th>
+                    <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                      
+                        <mat-form-field  class="full-width">
+                          <input matInput 
+                            [value]="element.active || ''"
+                            [required]="true"
+                            >
+                        </mat-form-field>
+                    </td>
+                  </ng-container>
+
+                  <!-- Eliminar Column -->
+                  <ng-container matColumnDef="rm">
+                    <th mat-header-cell *matHeaderCellDef> Eliminar </th>
+                    <td mat-cell *matCellDef="let element; let i = index;" class="p-2 border-none">
+                      <i class="fas fa-trash-alt" (click)="rmCodesAddendaProductsOfClient(i)"></i>
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="codesAddendaProductsOfClient_columnsToDisplay"></tr>
+                  <tr mat-row *matRowDef="let row; columns: codesAddendaProductsOfClient_columnsToDisplay;"></tr>
+              </table>
+          
+            <mat-paginator [pageSizeOptions]="[50,100,250,500]" showFirstLastButtons></mat-paginator>
+          </div>
+      </div>
+    </div>
+
 </div>

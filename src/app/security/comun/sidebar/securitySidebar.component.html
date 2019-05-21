@@ -2,7 +2,8 @@
     <div class="col">
         <ul class="menu-lateral">
             <li class='item-icono' *ngFor="let item of menu">
-                <a (click)="clickMenu(item)">
+                <a (click)="clickMenu(item)" 
+                *ngIf="item.children && item.children.length > 0">
                     <img src="{{item.icon}}" />
                     <span [ngStyle]="{'display':aside_open ? '' : 'none' }">
                         {{item.label}}
