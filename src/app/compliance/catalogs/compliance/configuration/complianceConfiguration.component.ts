@@ -38,6 +38,8 @@ export class ComplianceConfigurationComponent implements OnInit {
 
   filtrosForm: FormGroup;
 
+  serviceSubscription: any;
+
   constructor(
     private tagService: TagService,
     private formBuilder: FormBuilder,
@@ -47,7 +49,18 @@ export class ComplianceConfigurationComponent implements OnInit {
     private confirmationDialogService: ConfirmationDialogService,
     private globalService: GlobalService,
     private eventService: EventService
-  ) { }
+  ) {
+    this.serviceSubscription = this.eventService.onChangePlant.subscribe({
+      next: (event: EventMessage) => {
+        switch (event.id) {
+          case 100:
+            this.obtenerListaTags();
+            break;
+        }
+      }
+    });
+
+   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {

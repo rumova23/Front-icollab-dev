@@ -86,7 +86,7 @@ export class ComplianceSidebarComponent implements OnInit {
         option = 6;
         data = item;
         break;  
-      case 'Catálogo de Cumplimientos':
+      case 'Configuración de Cumplimientos':
         option = 8;
         data = item;
         break;    

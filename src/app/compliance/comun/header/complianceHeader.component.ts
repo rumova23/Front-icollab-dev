@@ -20,18 +20,6 @@ export class ComplianceHeaderComponent implements OnInit {
 
   ngOnInit() {
   }
-  cambioPlantaSol() {
-    this.globalService.aguila = !this.globalService.aguila
-    this.globalService.plantaDefaultId = "83";
-
-    if (this.router.isActive("/config-act", true)) {
-      this.router.routeReuseStrategy.shouldReuseRoute = function () {
-        return false;
-      }
-      this.router.navigated = false;
-      this.router.navigate(['/config-act']);
-    }
-  }
 
   getNameUser() {
     return this.securityService.getNameUser();
@@ -50,16 +38,14 @@ export class ComplianceHeaderComponent implements OnInit {
   }
 
   cambioPlantaAguila() {
-
     this.globalService.aguila = !this.globalService.aguila
     this.globalService.plantaDefaultId = "82";
+    this.eventService.sendPlant(new EventMessage(100, {}));
+  }
 
-    if (this.router.isActive("/config-act", true)) {
-      this.router.routeReuseStrategy.shouldReuseRoute = function () {
-        return false;
-      }
-      this.router.navigated = false;
-      this.router.navigateByUrl('/config-act');
-    }
+  cambioPlantaSol() {
+    this.globalService.aguila = !this.globalService.aguila
+    this.globalService.plantaDefaultId = "83";
+    this.eventService.sendPlant(new EventMessage(100, {}));
   }
 }

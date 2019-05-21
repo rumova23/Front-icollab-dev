@@ -14,6 +14,9 @@ export class EventService {
 
     public onChangeApp: EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
 
+    public onChangePlant: EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
+
+
 
     public sendMainCompliance(message: EventMessage) {
         this.onChangeMainCompliance.emit(message);
@@ -29,5 +32,9 @@ export class EventService {
 
     public sendApp(message: EventMessage) {
         this.onChangeApp.emit(message);
+    }
+
+    public sendPlant(message: EventMessage) {
+        this.onChangePlant.emit(message);
     }
 }

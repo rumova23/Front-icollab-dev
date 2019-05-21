@@ -81,6 +81,9 @@ export class SafeSidebarComponent implements OnInit {
       case 'Unidad de Productos':
           option = 5;
           break;  
+      case 'Clientes':
+              option = 7;
+              break;      
     }
     this.eventService.sendMainSafe(new EventMessage(option, item));
   }

@@ -8,6 +8,7 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 import { ChangePasswordComponent } from 'src/app/comun/changePassword/changePassword.component';
 import { UnityProductsComponent } from '../catalogs/unityProducts/unityProducts.component';
 import { UnityProductsEditComponent } from '../catalogs/unityProducts/edit/unityProductsEdit.component';
+import { ClientsComponent } from '../admin/clients/clients.component';
 
 @Component({
   selector: 'app-safeHome',
@@ -15,7 +16,7 @@ import { UnityProductsEditComponent } from '../catalogs/unityProducts/edit/unity
   styleUrls: ['./safeHome.component.scss'],
   entryComponents: [
     ProductsComponent, ProductsEditComponent, ChangePasswordComponent,
-    UnityProductsComponent,UnityProductsEditComponent
+    UnityProductsComponent,UnityProductsEditComponent, ClientsComponent
   ]
 })
 export class SafeHomeComponent implements OnInit {
@@ -77,6 +78,12 @@ export class SafeHomeComponent implements OnInit {
           refUnityProductsEdit.instance.unityProductSelect = event.data.unityProduct;
           refUnityProductsEdit.changeDetectorRef.detectChanges();
         break;
+      case 7:
+            const factoryClients = this.componentFactoryResolver.resolveComponentFactory(ClientsComponent);
+            const refClients =
+              this.viewContainerRef.createComponent(factoryClients);
+              refClients.changeDetectorRef.detectChanges();
+            break;  
       case 100:
         const factoryChangePasword =
           this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent);

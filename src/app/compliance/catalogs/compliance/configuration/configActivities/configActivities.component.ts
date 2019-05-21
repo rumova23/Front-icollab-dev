@@ -59,6 +59,7 @@ export class ConfigActivitiesComponent implements OnInit {
   deshabiliarEstatus: boolean = true;
   idActivo: String;
   catalogType: CatalogType;
+  serviceSubscription: any;
 
   constructor(private cdRef: ChangeDetectorRef,
     private tagService: TagService,
@@ -67,7 +68,22 @@ export class ConfigActivitiesComponent implements OnInit {
     public toastr: ToastrManager,
     private router: Router,
     private globalService: GlobalService,
-    private eventService: EventService) { }
+    private eventService: EventService) { 
+    this.serviceSubscription = this.eventService.onChangePlant.subscribe({
+      next: (event: EventMessage) => {
+        switch (event.id) {
+          case 100:
+            this.changePlant();
+            this.onClickPlanta();
+            break;
+        }
+      }
+    });
+    }
+
+  changePlant() {
+    this.plantaDefault = this.globalService.plantaDefaultId;
+  }
 
   resuelveDS(poRespuesta: Object, data: Array<any>, comp: string) {
     if (!poRespuesta) {
