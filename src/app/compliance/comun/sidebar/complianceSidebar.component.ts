@@ -70,6 +70,9 @@ export class ComplianceSidebarComponent implements OnInit {
      }
   ngOnInit() {}
   
+  toggleMenu() {
+    this.eventService.sendMainCompliance(new EventMessage(1, null))
+  }
   clickMenu(item) {
     console.log(item);
     let option = 0;
