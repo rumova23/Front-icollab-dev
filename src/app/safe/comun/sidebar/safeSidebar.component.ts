@@ -72,9 +72,15 @@ export class SafeSidebarComponent implements OnInit {
   clickMenu(item) {
     let option = 0;
     switch (item.label) {
+      case 'Servicios':
+        option = 3;
+        break;
       case 'Productos':
         option = 3;
         break;
+      case 'Unidad de Productos':
+          option = 5;
+          break;  
     }
     this.eventService.sendMainSafe(new EventMessage(option, item));
   }

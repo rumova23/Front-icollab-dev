@@ -6,13 +6,16 @@ import { ProductsComponent } from '../admin/products/products.component';
 import { ProductsEditComponent } from '../admin/products/edit/productsEdit.component';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { ChangePasswordComponent } from 'src/app/comun/changePassword/changePassword.component';
+import { UnityProductsComponent } from '../catalogs/unityProducts/unityProducts.component';
+import { UnityProductsEditComponent } from '../catalogs/unityProducts/edit/unityProductsEdit.component';
 
 @Component({
   selector: 'app-safeHome',
   templateUrl: './safeHome.component.html',
   styleUrls: ['./safeHome.component.scss'],
   entryComponents: [
-    ProductsComponent, ProductsEditComponent,ChangePasswordComponent
+    ProductsComponent, ProductsEditComponent, ChangePasswordComponent,
+    UnityProductsComponent,UnityProductsEditComponent
   ]
 })
 export class SafeHomeComponent implements OnInit {
@@ -60,16 +63,30 @@ export class SafeHomeComponent implements OnInit {
         refProductsEdit.instance.productSelected = event.data.product;
         refProductsEdit.changeDetectorRef.detectChanges();
         break;
-        case 100:
+      case 5:
+        const factoryUnityProducts = this.componentFactoryResolver.resolveComponentFactory(UnityProductsComponent);
+        const refUnityProducts =
+          this.viewContainerRef.createComponent(factoryUnityProducts);
+        refUnityProducts.changeDetectorRef.detectChanges();
+        break;
+      case 6:
+        const factoryUnityProductsEdit = this.componentFactoryResolver.resolveComponentFactory(UnityProductsEditComponent);
+        const refUnityProductsEdit =
+          this.viewContainerRef.createComponent(factoryUnityProductsEdit);
+          refUnityProductsEdit.instance.entity = event.data;
+          refUnityProductsEdit.instance.unityProductSelect = event.data.unityProduct;
+          refUnityProductsEdit.changeDetectorRef.detectChanges();
+        break;
+      case 100:
         const factoryChangePasword =
           this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent);
         const refChangePasword =
           this.viewContainerRef.createComponent(factoryChangePasword);
-          refChangePasword.changeDetectorRef.detectChanges();
-        break;   
+        refChangePasword.changeDetectorRef.detectChanges();
+        break;
 
     }
   }
 
-  
+
 }

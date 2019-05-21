@@ -87,6 +87,8 @@ import { SafeLinkMockUp } from './safe/links-mock-up/safeLinkMockUp';
 import { HeatRateRecordComponent } from './safe/mda-planning-process/heat-rate-record/heat-rate-record.component';
 import { SalesOffersComponent } from './safe/mda-planning-process/sales-offers/sales-offers.component';
 import { ClientsComponent } from './safe/admin/clients/clients.component';
+import { UnityProductsComponent } from './safe/catalogs/unityProducts/unityProducts.component';
+import { UnityProductsEditComponent } from './safe/catalogs/unityProducts/edit/unityProductsEdit.component';
 
 
 
@@ -152,6 +154,9 @@ import { ClientsComponent } from './safe/admin/clients/clients.component';
     ProductsComponent,
     ProductsEditComponent,
     ChangePasswordComponent,
+    UnityProductsComponent,
+    UnityProductsEditComponent,
+
 
     
     SafeLinkMockUp,

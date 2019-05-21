@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../models/Product';
+import { UnityProduct } from '../models/UnityProduct';
 
 
 
@@ -30,6 +31,14 @@ export class ProductService {
 
   loadUnityProductsSat(): Observable<any> {
     return this.http.get(environment.mercadoUrl + 'unityProductSat/list');
+  }
+
+  loadUnityProducts(): Observable<any> {
+    return this.http.get(environment.mercadoUrl + 'unityProduct/list');
+  }
+
+  saveUnityProduct(unityProduct: UnityProduct) : Observable<any> {
+    return this.http.post(environment.mercadoUrl + 'unityProduct/save', unityProduct);
   }
 
 }

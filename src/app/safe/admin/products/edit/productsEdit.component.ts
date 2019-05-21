@@ -9,10 +9,10 @@ import { Product } from 'src/app/safe/models/Product';
 import { ProductService } from 'src/app/safe/services/product.service';
 import { TypeProduct } from 'src/app/safe/models/TypeProduct.';
 import { ProductSat } from 'src/app/safe/models/ProductSat';
-import { UnityProductSat } from 'src/app/safe/models/UnityProductSat';
 import { Constants } from 'src/app/core/globals/Constants';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
+import { UnityProduct } from 'src/app/safe/models/UnityProduct';
 
 
 
@@ -27,7 +27,7 @@ export class ProductsEditComponent implements OnInit {
   product: Product;
   typeProducts: Array<TypeProduct>;
   productsSat: Array<ProductSat>
-  unityProductsSat: Array<UnityProductSat>
+  unityProducts: Array<UnityProduct>
   productSelected: User;
   count: number;
   constructor(
@@ -49,7 +49,7 @@ export class ProductsEditComponent implements OnInit {
       'description': new FormControl('', Validators.required),
       'active': new FormControl(false),
       'typeProduct': new FormControl('', Validators.required),
-      'unityProductSat': new FormControl('', Validators.required),
+      'unityProduct': new FormControl('', Validators.required),
       'productSat': new FormControl('', Validators.required),
       'price': new FormControl('', [
         Validators.required,
@@ -106,11 +106,10 @@ export class ProductsEditComponent implements OnInit {
   }
 
   loadUnityProductsSat() {
-    this.productService.loadUnityProductsSat()
+    this.productService.loadUnityProducts()
       .subscribe(
         data => {
-          this.unityProductsSat = data.resultado;
-          console.log(this.unityProductsSat);
+          this.unityProducts = data.resultado;
         },
         errorData => {
           console.log(errorData);
@@ -136,7 +135,7 @@ export class ProductsEditComponent implements OnInit {
     ) ? this.productSelected.id : 0;
     this.product.save = this.entity.new;
     this.product.idProductSat = this.product.productSat.id;
-    this.product.idUnityProductSat = this.product.unityProductSat.id;
+    this.product.idUnityProduct = this.product.unityProduct.id;
     this.product.idTypeProduct = this.product.typeProduct.id;
     this.productService.saveProduct(this.product)
       .subscribe(
