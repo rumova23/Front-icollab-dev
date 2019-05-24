@@ -5,9 +5,9 @@ import { DatePipe } from '@angular/common';
 import {formatDate} from '@angular/common';
 import * as moment from 'moment';
 
-import { Compliance } from '../models/compliance';
-import { DiagramaGant } from '../models/diagramaGant';
-import { SemanasPorMes } from '../models/semanasPorMes';
+import { Compliance } from '../models/Compliance';
+import { DiagramaGant } from '../models/DiagramaGant';
+import { SemanasPorMes } from '../models/SemanasPorMes';
 import { ComplianceService } from '../services/compliance.service';
 import { TablasCumplimientoLegalComponent } from './contenido/tablas-cumplimiento-legal.component'
 
