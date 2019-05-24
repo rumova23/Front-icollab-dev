@@ -89,6 +89,8 @@ import { SalesOffersComponent } from './safe/mda-planning-process/sales-offers/s
 import { ClientsComponent } from './safe/admin/clients/clients.component';
 import { UnityProductsComponent } from './safe/catalogs/unityProducts/unityProducts.component';
 import { UnityProductsEditComponent } from './safe/catalogs/unityProducts/edit/unityProductsEdit.component';
+import { LegalComplianceComponent } from './compliance/legal-compliance/legal-compliance.component';
+import { TablasCumplimientoLegalComponent } from './compliance/legal-compliance/contenido/tablas-cumplimiento-legal.component';
 
 
 
@@ -164,6 +166,9 @@ import { UnityProductsEditComponent } from './safe/catalogs/unityProducts/edit/u
     HeatRateRecordComponent,
     SalesOffersComponent,
     ClientsComponent,
+
+    LegalComplianceComponent,
+    TablasCumplimientoLegalComponent
   ],
   imports: [
     BrowserModule,
