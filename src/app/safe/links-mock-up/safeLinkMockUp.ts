@@ -8,7 +8,7 @@ import { PlannedPowersPPAComponent } from '../mda-planning-process/planned-power
 import { HeatRateRecordComponent } from '../mda-planning-process/heat-rate-record/heat-rate-record.component';
 import { SalesOffersComponent } from '../mda-planning-process/sales-offers/sales-offers.component';
 import { ClientsComponent } from '../admin/clients/clients.component';
-import { LegalComplianceComponent } from 'src/app/compliance/legal-compliance/legal-compliance.component';
+import { LegalAgreementComponent } from 'src/app/compliance/business/legalAgreement/legalAgreement.component';
 
 @Component({
   selector: 'app-safeLinkMockUp',
@@ -16,7 +16,7 @@ import { LegalComplianceComponent } from 'src/app/compliance/legal-compliance/le
   styleUrls: ['./safeLinkMockUp.component.scss'],
   entryComponents: [
     PlannedPowersPPAComponent, HeatRateRecordComponent, SalesOffersComponent, ClientsComponent,
-    LegalComplianceComponent
+    LegalAgreementComponent
   ]
 })
 export class SafeLinkMockUp implements OnInit {
@@ -125,7 +125,7 @@ export class SafeLinkMockUp implements OnInit {
             break;
  
         case 7:
-          const factoryLegalCompliance = this.componentFactoryResolver.resolveComponentFactory(LegalComplianceComponent);
+          const factoryLegalCompliance = this.componentFactoryResolver.resolveComponentFactory(LegalAgreementComponent);
           const refLegalCompliance =
           this.viewContainerRef.createComponent(factoryLegalCompliance);
           refLegalCompliance.changeDetectorRef.detectChanges();
