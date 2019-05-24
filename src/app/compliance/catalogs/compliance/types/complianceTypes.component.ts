@@ -22,9 +22,10 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 export class ComplianceTypesComponent implements OnInit {
   dataSource;
   data: any[] = [];
-  displayedColumns : any[]    = [];
+  displayedColumnsOrder : any[]    = [];
+  displayedColumnsActions : any[]    = [];
   columnsToDisplay : string[] = [];
-
+  row_x_page = [50, 100, 250, 500];
   
 
   // tslint:disable-next-line:variable-name
@@ -33,15 +34,12 @@ export class ComplianceTypesComponent implements OnInit {
 
   // tslint:disable-next-line:ban-types
   titulo: String;
-  registros: MatTableDataSource<MaestroOpcion>;
-  columnas: string[] = ['Orden', 'Opcion', 'Descripcion', 'Estatus', 'Ver', 'Modificar','Eliminar' ];
   filtros = [
     {label: 'Tipo de cumplimiento', inputtype: 'text'},
     {label: 'Activo', inputtype: 'text'},
   ];
   filtrobtn = {label: 'buscar'};
   // tslint:disable-next-line:variable-name
-  registros_x_pagina = [50, 100, 250, 500];
 
 
   constructor(
@@ -55,11 +53,6 @@ export class ComplianceTypesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   ngOnInit() {
-    
-    this.dataSource = new MatTableDataSource<any>(this.data);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-
     //this.nombreCatalogo = this.route.snapshot.params.nombreCatalogo;
     this.titulo = 'Catálogos / ' + this.nombreCatalogo;
     this.cargaDatos();
@@ -87,9 +80,6 @@ export class ComplianceTypesComponent implements OnInit {
      console.log(type);
      this.eventService.sendMainCompliance(new EventMessage(5, type));
   }
-  testing(a){
-debugger;
-  }
   cargaDatos() {
     this.data = [];
     this.catalogoMaestroService.getCatalogo( this.nombreCatalogo ).subscribe(data => {
@@ -105,17 +95,18 @@ debugger;
         obj['see']          =  'sys_see';
         obj['edit']         =  'sys_edit';
         obj['delete']       =  'sys_delete';
-        obj['delete']       =  'sys_delete';
         obj['element']      =  element;
         
         this.data.push(obj);
       }
-      this.displayedColumns = [
+      this.displayedColumnsOrder = [
         {key:'order',label:'#'},
         {key:'id',label:'ID'},
         {key:'name',label:'Nombre'},
         {key:'description',label:'Descripción'},
-        {key:'status',label:'Estatus'},
+        {key:'status',label:'Estatus'}
+      ];
+      this.displayedColumnsActions = [
         {key:'see',label:'Ver'},
         {key:'edit',label:'Editar'},
         {key:'delete',label:'Eliminar'}
@@ -125,11 +116,6 @@ debugger;
       this.dataSource = new MatTableDataSource<any>(this.data);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-
-      this.registros =  new MatTableDataSource<MaestroOpcion>(data);
-      this.registros.paginator = this.paginator;
-      this.registros.sort = this.sort;
-      //debugger;
     });
   }
 
