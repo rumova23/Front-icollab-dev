@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Input  } from '@angular/core';
 //import { MdbTableService } from 'node_modules/angular-bootstrap-md';
 import { MatTableDataSource, MatSort} from '@angular/material';
 import { Compliance } from '../../models/compliance';
-import { DiagramaGant } from '../../models/diagramaGant';
+import { DatosGraficaGant } from '../../models/datosGraficaGant';
 import { TagPlanta } from '../../models/tagPlanta';
 import { SemanasPorMes } from '../../models/semanasPorMes';
 import { DatosPie } from '../../models/datosPie';
@@ -22,7 +22,7 @@ export class TablasCumplimientoLegalComponent implements OnInit {
   
   @Input() columnasGant : String[];
   @Input() semanasPorMes : Array<SemanasPorMes>;
-  @Input() registrosGant: MatTableDataSource<DiagramaGant>;
+  @Input() registrosGant: MatTableDataSource<DatosGraficaGant>;
   @Input() datosPie: DatosPie;
   @Input() datosCumplimiento: DatosCumplimiento;
 

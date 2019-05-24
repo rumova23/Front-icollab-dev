@@ -96,7 +96,11 @@ export class ComplianceSidebarComponent implements OnInit {
       case 'Configuración de Cumplimientos':
         option = 8;
         data = item;
-        break;    
+        break;   
+      case 'Configuración de Cumplimientos':
+        option = 9;
+        data = item;
+        break;  
     }
     this.eventService.sendMainCompliance(new EventMessage(option, data));
   }

@@ -1,15 +1,14 @@
 import { Component, OnInit, ViewChild, Input  } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource, MatSort} from '@angular/material';
-import { DatePipe } from '@angular/common';
-import {formatDate} from '@angular/common';
-import * as moment from 'moment';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Compliance } from '../models/Compliance';
-import { DiagramaGant } from '../models/DiagramaGant';
-import { SemanasPorMes } from '../models/SemanasPorMes';
+import { Compliance } from '../models/compliance';
+import { DatosGraficaGant } from '../models/datosGraficaGant';
 import { ComplianceService } from '../services/compliance.service';
+import { GlobalService } from 'src/app/core/globals/global.service';
 import { TablasCumplimientoLegalComponent } from './contenido/tablas-cumplimiento-legal.component'
+import { MatAccordion } from '@angular/material';
 
 @Component({
   selector: 'app-legal-compliance',
@@ -27,19 +26,29 @@ export class LegalComplianceComponent implements OnInit {
   @ViewChild('certificados') childCertificados : TablasCumplimientoLegalComponent;
   @ViewChild('actualizaciones') childActualizaciones : TablasCumplimientoLegalComponent;
   @ViewChild('otros') childOtros : TablasCumplimientoLegalComponent;
-
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  @ViewChild(MatSort) sort: MatSort;
+  
+  displayMode: string = 'default';
+  multi = true;
+  expandCloseAll = false;
+  
   titulo: String = "Cumplimiento Legal";
   maxDate = new Date();
-  date = new FormControl(new Date());
-  serializedDate = new FormControl((new Date()).toISOString());
+  fFechaInicio = new FormControl(new Date());
+  fFechaFin = new FormControl((new Date()).toISOString());
+  filtrosForm: FormGroup;
 
-  columnas : string[] = ['tag','actividad','planta','elaboradoPor','responsable','supervisor','autoridad','tipo','periodo1','tipoDias','precedentes','documentos','doc1','registros','doc2','requisitoLegal','observaciones','fechaInicioEventoProgramada',
-                        'fechaFinEventoProgramada', 'fechaInicioEventoReal', 'fechaFinProgramada', 'estatus', 'herramientas'];
-  columnasGant : string[] = ['tag', 'actividad', 'planta', 'datosGant']
-  semanasPorMes: Array<SemanasPorMes>;
+  columnas : string[] = ['tag','actividad','planta','elaboradoPor','responsable','supervisor',
+                        'autoridad','tipo','periodo','tipoDias','precedentes','documentos',
+                        'registros','requisitoLegal','observaciones',
+                        'fechaInicioEventoProgramada','fechaFinEventoProgramada', 'periodoProgramado',
+                        'fechaInicioEventoReal', 'fechaFinEventoReal', 'periodoReal', 
+                        'estatus', 'estatusInterno', 'ver', 'modificar', 'eliminar'];
+  columnasGant : string[] = ['datosGant']
 
   registros = new MatTableDataSource<Compliance>();
-  registrosGant = new MatTableDataSource<DiagramaGant>();
+  registrosGant = new MatTableDataSource<DatosGraficaGant>();
   element_data: any;
   element_data_gant: any;
 
@@ -54,59 +63,30 @@ export class LegalComplianceComponent implements OnInit {
   indiceOtros:number=0;
 
   constructor(
-    private complianceService: ComplianceService
+    private complianceService: ComplianceService,
+    private globalService: GlobalService,
+    private formBuilder: FormBuilder
   ) { }
 
-  obtenerActividad(
-  ){
-
-  }
-
-
   ngOnInit() {
-    this.filtrarCompliance();
-  }
-
-    
-  obtenerColumnasGant(){
-
-    let anioActual= new Date().getFullYear();
-    let firstOfMonth : Date;
-    let lastOfMonth : Date;
-    let numSemanaInicial: number;
-    let numSemanaFinal: number;
-    let numSemanasMes: number;
-  
-    this.semanasPorMes = new Array<SemanasPorMes>();
-    for (let month_number=1; month_number<13; month_number++){
-      firstOfMonth = new Date(anioActual, month_number-1, 1);
-      lastOfMonth = new Date(anioActual, month_number, 0);
-      numSemanaInicial = moment(firstOfMonth).week();
-      numSemanaFinal = moment(lastOfMonth).week();
-      numSemanasMes = numSemanaFinal-(numSemanaInicial-1); 
-      if ( month_number == 12){
-        numSemanasMes = 53-(numSemanaInicial-1);    
-      }
-      /*
-      console.log("Fecha: " + new Date(anioActual, month_number-1, 1) + " - " + new Date(anioActual, month_number, 0) );
-      console.log("Mes: " + month_number + 
-      " Numero de semana inicio: " + numSemanaInicial + 
-      " Numero de semana fin: " + numSemanaFinal +
-      " Numero de semanas del mes: " + numSemanasMes);
-      */
-      this.semanasPorMes.push(new SemanasPorMes(month_number, numSemanasMes));
-    }
-
+    this.filtrosForm = this.formBuilder.group({
+      fFechaInicio: ['', Validators.required],
+      fFechaFin: ['', Validators.required]
+    });
   }
 
   filtrarCompliance(){
-    this.complianceService.getAllCompliance().subscribe(
+    this.limpiarTablas();
+
+    this.complianceService.getCompliancePorPlantaYFechas( this.globalService.plantaDefaultId, new Date(this.fFechaInicio.value), new Date(this.fFechaFin.value)).subscribe(
       result => {
+        console.log("PRIMERA TABLA");
         console.log(result);
         this.element_data = result;
         this.asignarRegistros();
-        this.complianceService.getComplianceGant().subscribe(
+        this.complianceService.getDiagramas(this.globalService.plantaDefaultId, new Date(this.fFechaInicio.value), new Date(this.fFechaFin.value)).subscribe(
           resultGant => {
+            console.log("DATOS DIAGRAMAS");
             console.log(resultGant);
             this.element_data_gant = resultGant;
             this.asignarRegistrosGant();
@@ -121,6 +101,21 @@ export class LegalComplianceComponent implements OnInit {
       }
     );
     
+  }
+
+  limpiarTablas(){
+    this.accordion.closeAll();
+    this.expandCloseAll = false;
+
+    this.indicePagos = 0;
+    this.indiceNotificaciones = 0;
+    this.indiceAnalisis = 0;
+    this.indiceReportes = 0;
+    this.indiceActividades = 0;
+    this.indiceCompromisos = 0;
+    this.indiceCertificados = 0;
+    this.indiceActualizaciones = 0;
+    this.indiceOtros = 0;
   }
 
   asignarRegistros(){
@@ -138,22 +133,31 @@ export class LegalComplianceComponent implements OnInit {
     for (let indice=0; indice < this.element_data.length; indice++ ){
       if ( this.element_data[indice].length > 0 && this.element_data[indice][0].actividad == 'PAGOS'){
         this.indicePagos = indice;
+        this.expandCloseAll = true;
       }else if ( this.element_data[indice].length > 0 && this.element_data[indice][0].actividad == 'NOTIFICACIONES'){
         this.indiceNotificaciones = indice;
+        this.expandCloseAll = true;
       }else if ( this.element_data[indice].length > 0 && this.element_data[indice][0].actividad == 'ANALISIS'){
         this.indiceAnalisis = indice;
+        this.expandCloseAll = true;
       }else if ( this.element_data[indice].length > 0 && this.element_data[indice][0].actividad == 'REPORTES'){
         this.indiceReportes = indice;
+        this.expandCloseAll = true;
       }else if ( this.element_data[indice].length > 0 && this.element_data[indice][0].actividad == 'ACTIVIDADES'){
         this.indiceActividades = indice;
+        this.expandCloseAll = true;
       }else if ( this.element_data[indice].length > 0 && this.element_data[indice][0].actividad == 'COMPROMISOS CONTRACTUALES'){
         this.indiceCompromisos = indice;
+        this.expandCloseAll = true;
       }else if ( this.element_data[indice].length > 0 && this.element_data[indice][0].actividad == 'CERTIFICADOS'){
         this.indiceCertificados = indice;
+        this.expandCloseAll = true;
       }else if ( this.element_data[indice].length > 0 && this.element_data[indice][0].actividad == 'ACTUALIZACIONES'){
         this.indiceActualizaciones = indice;
+        this.expandCloseAll = true;
       }else if ( this.element_data[indice].length > 0 && this.element_data[indice][0].actividad == 'OTROS'){
         this.indiceOtros = indice;
+        this.expandCloseAll = true;
       }
     }
     
@@ -161,6 +165,7 @@ export class LegalComplianceComponent implements OnInit {
       this.childPagos.columnas = this.columnas;
       this.registros = new MatTableDataSource<Compliance>(this.element_data[this.indicePagos]);
       this.childPagos.registros = this.registros;
+      this.childPagos.registros.sort = this.sort;
     }
     if ( this.indiceNotificaciones > 0 ){
       this.childNotificaciones.columnas = this.columnas;
@@ -218,92 +223,90 @@ export class LegalComplianceComponent implements OnInit {
     let indiceOtros=-1;
 
     for (let indice=0; indice < this.element_data_gant.length; indice++ ){
-      if ( this.element_data_gant[indice].diagramaGant.length > 0 && this.element_data_gant[indice].actividad == 'PAGOS'){
+      if ( this.element_data_gant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 && this.element_data_gant[indice].actividad == 'PAGOS'){
         indicePagos = indice;
-      }else if ( this.element_data_gant[indice].diagramaGant.length > 0 && this.element_data_gant[indice].actividad == 'NOTIFICACIONES'){
+      }else if ( this.element_data_gant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 && this.element_data_gant[indice].actividad == 'NOTIFICACIONES'){
         indiceNotificaciones = indice;
-      }else if ( this.element_data_gant[indice].diagramaGant.length > 0 && this.element_data_gant[indice].actividad == 'ANALISIS'){
+      }else if ( this.element_data_gant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 && this.element_data_gant[indice].actividad == 'ANALISIS'){
         indiceAnalisis = indice;
-      }else if ( this.element_data_gant[indice].diagramaGant.length > 0 && this.element_data_gant[indice].actividad == 'REPORTES'){
+      }else if ( this.element_data_gant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 && this.element_data_gant[indice].actividad == 'REPORTES'){
         indiceReportes = indice;
-      }else if ( this.element_data_gant[indice].diagramaGant.length > 0 && this.element_data_gant[indice].actividad == 'ACTIVIDADES'){
+      }else if ( this.element_data_gant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 && this.element_data_gant[indice].actividad == 'ACTIVIDADES'){
         indiceActividades = indice;
-      }else if ( this.element_data_gant[indice].diagramaGant.length > 0 && this.element_data_gant[indice].actividad == 'COMPROMISOS CONTRACTUALES'){
+      }else if ( this.element_data_gant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 && this.element_data_gant[indice].actividad == 'COMPROMISOS CONTRACTUALES'){
         indiceCompromisos = indice;
-      }else if ( this.element_data_gant[indice].diagramaGant.length > 0 && this.element_data_gant[indice].actividad == 'CERTIFICADOS'){
+      }else if ( this.element_data_gant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 && this.element_data_gant[indice].actividad == 'CERTIFICADOS'){
         indiceCertificados = indice;
-      }else if ( this.element_data_gant[indice].diagramaGant.length > 0 && this.element_data_gant[indice].actividad == 'ACTUALIZACIONES'){
+      }else if ( this.element_data_gant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 && this.element_data_gant[indice].actividad == 'ACTUALIZACIONES'){
         indiceActualizaciones = indice;
-      }else if ( this.element_data_gant[indice].diagramaGant.length > 0 && this.element_data_gant[indice].actividad == 'OTROS'){
+      }else if ( this.element_data_gant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 && this.element_data_gant[indice].actividad == 'OTROS'){
         indiceOtros = indice;
       }
     }
     
     if ( indicePagos >= 0 ){
       this.childPagos.columnasGant = this.columnasGant;
-      this.childPagos.semanasPorMes = this.semanasPorMes;
-      this.registrosGant = new MatTableDataSource<DiagramaGant>(this.element_data_gant[indicePagos].diagramaGant);
+      this.registrosGant = this.element_data_gant[indicePagos].datosGraficaGantDTO;
       this.childPagos.registrosGant = this.registrosGant;
       this.childPagos.datosPie = this.element_data_gant[indicePagos].datosPie;
       this.childPagos.datosCumplimiento = this.element_data_gant[indicePagos].datosCumplimiento;
     }
     if ( indiceNotificaciones >= 0 ){
       this.childNotificaciones.columnasGant = this.columnasGant;
-      this.registrosGant = new MatTableDataSource<DiagramaGant>(this.element_data_gant[indiceNotificaciones].diagramaGant);
+      this.registrosGant = this.element_data_gant[indiceNotificaciones].datosGraficaGantDTO;
       this.childNotificaciones.registrosGant = this.registrosGant;
       this.childNotificaciones.datosPie = this.element_data_gant[indiceNotificaciones].datosPie;
       this.childNotificaciones.datosCumplimiento = this.element_data_gant[indiceNotificaciones].datosCumplimiento;
     }
     if ( indiceReportes >= 0 ){
       this.childReportes.columnasGant = this.columnasGant;
-      this.registrosGant = new MatTableDataSource<DiagramaGant>(this.element_data_gant[indiceReportes].diagramaGant);
+      this.registrosGant = this.element_data_gant[indiceReportes].datosGraficaGantDTO;
       this.childReportes.registrosGant = this.registrosGant;
       this.childReportes.datosPie = this.element_data_gant[indiceReportes].datosPie;
       this.childReportes.datosCumplimiento = this.element_data_gant[indiceReportes].datosCumplimiento;
     }
     if ( indiceAnalisis >= 0 ){
       this.childAnalisis.columnasGant = this.columnasGant;
-      this.registrosGant = new MatTableDataSource<DiagramaGant>(this.element_data_gant[indiceAnalisis].diagramaGant);
+      this.registrosGant = this.element_data_gant[indiceAnalisis].datosGraficaGantDTO;
       this.childAnalisis.registrosGant = this.registrosGant;
       this.childAnalisis.datosPie = this.element_data_gant[indiceAnalisis].datosPie;
       this.childAnalisis.datosCumplimiento = this.element_data_gant[indiceAnalisis].datosCumplimiento;
     }
     if ( indiceActividades >= 0 ){
       this.childActividades.columnasGant = this.columnasGant;
-      this.registrosGant = new MatTableDataSource<DiagramaGant>(this.element_data_gant[indiceActividades].diagramaGant);
+      this.registrosGant = this.element_data_gant[indiceActividades].datosGraficaGantDTO;
       this.childActividades.registrosGant = this.registrosGant;
       this.childActividades.datosPie = this.element_data_gant[indiceActividades].datosPie;
       this.childActividades.datosCumplimiento = this.element_data_gant[indiceActividades].datosCumplimiento;
     }
     if ( indiceCompromisos >= 0 ){
       this.childCompromisos.columnasGant = this.columnasGant;
-      this.registrosGant = new MatTableDataSource<DiagramaGant>(this.element_data_gant[indiceCompromisos].diagramaGant);
+      this.registrosGant = this.element_data_gant[indiceCompromisos].datosGraficaGantDTO;
       this.childCompromisos.registrosGant = this.registrosGant;
       this.childCompromisos.datosPie = this.element_data_gant[indiceCompromisos].datosPie;
       this.childCompromisos.datosCumplimiento = this.element_data_gant[indiceCompromisos].datosCumplimiento;
     }
     if ( indiceCertificados >= 0 ){
       this.childCertificados.columnasGant = this.columnasGant;
-      this.registrosGant = new MatTableDataSource<DiagramaGant>(this.element_data_gant[indiceCertificados].diagramaGant);
+      this.registrosGant = this.element_data_gant[indiceCertificados].datosGraficaGantDTO;
       this.childCertificados.registrosGant = this.registrosGant;
       this.childCertificados.datosPie = this.element_data_gant[indiceCertificados].datosPie;
       this.childCertificados.datosCumplimiento = this.element_data_gant[indiceCertificados].datosCumplimiento;
     }
     if ( indiceActualizaciones >= 0 ){
       this.childActualizaciones.columnasGant = this.columnasGant;
-      this.registrosGant = new MatTableDataSource<DiagramaGant>(this.element_data_gant[indiceActualizaciones].diagramaGant);
+      this.registrosGant = this.element_data_gant[indiceActualizaciones].datosGraficaGantDTO;
       this.childActualizaciones.registrosGant = this.registrosGant;
       this.childActualizaciones.datosPie = this.element_data_gant[indiceActualizaciones].datosPie;
       this.childActualizaciones.datosCumplimiento = this.element_data_gant[indiceActualizaciones].datosCumplimiento;
     }
     if ( indiceOtros >= 0 ){
       this.childOtros.columnasGant = this.columnasGant;
-      this.registrosGant = new MatTableDataSource<DiagramaGant>(this.element_data_gant[indiceOtros].diagramaGant);
+      this.registrosGant = this.element_data_gant[indiceOtros].datosGraficaGantDTO;
       this.childOtros.registrosGant = this.registrosGant;
       this.childOtros.datosPie = this.element_data_gant[indiceOtros].datosPie;
       this.childOtros.datosCumplimiento = this.element_data_gant[indiceOtros].datosCumplimiento;
     }
-
   }
 
 }

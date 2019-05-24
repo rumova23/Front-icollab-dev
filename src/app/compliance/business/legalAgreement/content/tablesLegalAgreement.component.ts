@@ -7,6 +7,7 @@ import { SemanasPorMes } from 'src/app/compliance/models/SemanasPorMes';
 import { DiagramaGant } from 'src/app/compliance/models/DiagramaGant';
 import { TagPlanta } from 'src/app/compliance/models/TagPlanta';
 import { Compliance } from 'src/app/compliance/models/Compliance';
+import { DatosGraficaGant } from 'src/app/compliance/models/datosGraficaGant';
 
 @Component({
   selector: 'app-tablesLegalAgreement',
@@ -18,7 +19,7 @@ export class TablesLegalAgreementComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   @Input() columnas: String[]
-  @Input() registros: MatTableDataSource<Compliance>;
+  @Input() registros: MatTableDataSource<DatosGraficaGant>;
 
   @Input() columnasGant: String[];
   @Input() semanasPorMes: Array<SemanasPorMes>;
