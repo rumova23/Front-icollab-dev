@@ -8,13 +8,15 @@ import { PlannedPowersPPAComponent } from '../mda-planning-process/planned-power
 import { HeatRateRecordComponent } from '../mda-planning-process/heat-rate-record/heat-rate-record.component';
 import { SalesOffersComponent } from '../mda-planning-process/sales-offers/sales-offers.component';
 import { ClientsComponent } from '../admin/clients/clients.component';
+import { LegalComplianceComponent } from 'src/app/compliance/legal-compliance/legal-compliance.component';
 
 @Component({
   selector: 'app-safeLinkMockUp',
   templateUrl: './safeLinkMockUp.component.html',
   styleUrls: ['./safeLinkMockUp.component.scss'],
   entryComponents: [
-    PlannedPowersPPAComponent, HeatRateRecordComponent, SalesOffersComponent, ClientsComponent
+    PlannedPowersPPAComponent, HeatRateRecordComponent, SalesOffersComponent, ClientsComponent,
+    LegalComplianceComponent
   ]
 })
 export class SafeLinkMockUp implements OnInit {
@@ -27,7 +29,8 @@ export class SafeLinkMockUp implements OnInit {
             {label:'planned-powers-ppa'},
             {label:'heat-rate-record'},
             {label:'sales-offers'},
-            {label:'registration-customer'}
+            {label:'registration-customer'},
+            {label: 'Legal-Compliance'}
           ]
         },
       ];
@@ -84,6 +87,10 @@ export class SafeLinkMockUp implements OnInit {
             option = 6;
             data = item;
             break;  
+        case 'Legal-Compliance':
+            option = 7;
+            data = item;
+            break;  
 
 
     }
@@ -117,7 +124,14 @@ export class SafeLinkMockUp implements OnInit {
             refRegistrationCustomer.changeDetectorRef.detectChanges();
             break;
  
+        case 7:
+          const factoryLegalCompliance = this.componentFactoryResolver.resolveComponentFactory(LegalComplianceComponent);
+          const refLegalCompliance =
+          this.viewContainerRef.createComponent(factoryLegalCompliance);
+          refLegalCompliance.changeDetectorRef.detectChanges();
+          break;
 
+            
     }
   }
 
