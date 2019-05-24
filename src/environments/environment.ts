@@ -1,7 +1,7 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-
+/*
 export const environment = {
   production: false
   ,appVersion : 'Desarrollo V 1.0'
@@ -16,6 +16,23 @@ export const environment = {
   ,estatus_maestro      : 'http://201.149.85.14:8383/estatus-maestro/'  // estatus maestr
   ,securityUrl     : 'http://201.149.85.14:11122/security/'  // estatus maestro,
   ,mercadoUrl     : 'http://201.149.85.14:11120/'  // estatus maestro
+};
+*/
+
+export const environment = {
+  production: false
+  ,appVersion : 'Desarrollo V 1.0'
+  , mnUrl      : 'http://localhost:1155/'  // micro catalago maestro
+  , micro_catalago_maestro      : 'http://localhost:1155/'  // micro catalago maestro
+  , sgUrl      : 'http://localhost:8400/'  // seguridad
+  , pgUrl      : 'http://localhost:1144/'  // micro examen
+  , cnUrl      : 'http://localhost:1122/'  // evaluacion
+  , fdUrl      : 'http://localhost:1211/'  // filedb
+  , mtUrl      : 'http://localhost:1188/'  // micro tag
+  , coUrl      : 'http://localhost:1199/'  // micro compliance seguimiento
+  , estatus_maestro      : 'http://localhost:1177/'  // micro estatus maestro
+  ,securityUrl     : 'http://localhost:11122/security/'  // estatus maestro,
+  ,mercadoUrl     : 'http://localhost:11120/'  // estatus maestro
 };
 
 

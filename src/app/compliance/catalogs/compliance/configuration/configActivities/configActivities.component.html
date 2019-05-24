@@ -313,5 +313,15 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-10"></div>
+      <div class="col-2">
+        <button type="button" class="btn"
+          [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
+          (click)="regresar()">Regresar</button>
+      </div>
+    </div>
+
+
   </div>
 </div>
