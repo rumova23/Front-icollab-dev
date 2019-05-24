@@ -20,6 +20,13 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
   styleUrls: ['./complianceTypes.component.scss']
 })
 export class ComplianceTypesComponent implements OnInit {
+  dataSource;
+  data: any[] = [];
+  displayedColumns : any[]    = [];
+  columnsToDisplay : string[] = [];
+
+  
+
   // tslint:disable-next-line:variable-name
   @Input() nombreCatalogo: string;
   entidadEstatusId: string;
@@ -48,6 +55,11 @@ export class ComplianceTypesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   ngOnInit() {
+    
+    this.dataSource = new MatTableDataSource<any>(this.data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
     //this.nombreCatalogo = this.route.snapshot.params.nombreCatalogo;
     this.titulo = 'Catálogos / ' + this.nombreCatalogo;
     this.cargaDatos();
@@ -75,15 +87,59 @@ export class ComplianceTypesComponent implements OnInit {
      console.log(type);
      this.eventService.sendMainCompliance(new EventMessage(5, type));
   }
-
+  testing(a){
+debugger;
+  }
   cargaDatos() {
+    this.data = [];
+    this.catalogoMaestroService.getCatalogo( this.nombreCatalogo ).subscribe(data => {
+      let i = 0;
+      for (let element of data) {
+        i += 1;
+        let obj             = {};
+        obj['order']        = i;
+        obj['id']           = element.maestroOpcionId;
+        obj['name']         = element.opcion.codigo;
+        obj['description']  = element.opcion.descripcion;
+        obj['status']       = (element.entidadEstatusId == this.entidadEstatusId) ? 'Activo' : 'Inactivo';
+        obj['see']          =  'sys_see';
+        obj['edit']         =  'sys_edit';
+        obj['delete']       =  'sys_delete';
+        obj['delete']       =  'sys_delete';
+        obj['element']      =  element;
+        
+        this.data.push(obj);
+      }
+      this.displayedColumns = [
+        {key:'order',label:'#'},
+        {key:'id',label:'ID'},
+        {key:'name',label:'Nombre'},
+        {key:'description',label:'Descripción'},
+        {key:'status',label:'Estatus'},
+        {key:'see',label:'Ver'},
+        {key:'edit',label:'Editar'},
+        {key:'delete',label:'Eliminar'}
+      ];
+      this.columnsToDisplay= ['order','name','description','status','see','edit','delete'];
+      
+      this.dataSource = new MatTableDataSource<any>(this.data);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+
+      this.registros =  new MatTableDataSource<MaestroOpcion>(data);
+      this.registros.paginator = this.paginator;
+      this.registros.sort = this.sort;
+      //debugger;
+    });
+  }
+
+  /*cargaDatos() {
     this.catalogoMaestroService.getCatalogo( this.nombreCatalogo ).subscribe(data => {
       this.registros =  new MatTableDataSource<MaestroOpcion>(data);
       this.registros.paginator = this.paginator;
       this.registros.sort = this.sort;
-
     });
-  }
+  }*/
 
   eliminarRegistro(maestroOpcion: any) {
       this.confirmationDialogService.confirm('Por favor, confirme..',
