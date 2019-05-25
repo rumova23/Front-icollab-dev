@@ -83,7 +83,8 @@ export class ComplianceTypesComponent implements OnInit {
   cargaDatos() {
     this.data = [];
     this.catalogoMaestroService.getCatalogo( this.nombreCatalogo ).subscribe(data => {
-      debugger;
+      //console.dir(data);
+      //debugger;
       let i = 0;
       for (let element of data) {
         i += 1;
