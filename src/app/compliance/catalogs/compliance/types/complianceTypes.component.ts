@@ -90,8 +90,8 @@ export class ComplianceTypesComponent implements OnInit {
         obj['id']           = element.maestroOpcionId;
         obj['name']         = element.opcion.codigo;
         obj['description']  = element.opcion.descripcion;
-        obj['user']         = "---";
-        obj['dateup']       = "---";
+        obj['user']         = element.opcion.userUpdated || element.opcion.userCreated;
+        obj['dateup']       = element.opcion.dateUpdated || element.opcion.dateCreated;
         obj['status']       = (element.entidadEstatusId == this.entidadEstatusId) ? 'Activo' : 'Inactivo';
         obj['see']          = 'sys_see';
         obj['edit']         = 'sys_edit';
