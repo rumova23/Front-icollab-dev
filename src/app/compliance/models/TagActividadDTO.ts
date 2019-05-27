@@ -6,8 +6,10 @@ export class TagActividadDTO {
     public nombre: string;
     public prefijo: string;
     public consecutivo: number;
+    public tareaPorVencer: number;
+    public tareaProximaVencer: number;
+    public tareaTiempo: number;
     public estatus: EntidadEstatus;
-
     public siguienteCodigoTag: string;
     
     constructor(
@@ -15,6 +17,9 @@ export class TagActividadDTO {
         nombre: string,
         prefijo: string,
         consecutivo: number,
+        tareaPorVencer: number,
+        tareaProximaVencer: number,
+        tareaTiempo: number, 
         estatus: EntidadEstatus,
         siguienteCodigoTag: string
     ) {
@@ -22,6 +27,9 @@ export class TagActividadDTO {
         this.nombre = nombre;
         this.prefijo = prefijo;
         this.consecutivo = consecutivo;
+        this.tareaPorVencer = tareaPorVencer;
+        this.tareaProximaVencer = tareaProximaVencer;
+        this.tareaTiempo = tareaTiempo;
         this.estatus = estatus;
         this.siguienteCodigoTag = siguienteCodigoTag;
     }
