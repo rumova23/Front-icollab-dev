@@ -35,6 +35,9 @@ export class ComplianceHeaderComponent implements OnInit {
   goToHome(){
     this.eventService.sendMainCompliance(new EventMessage(101, null))
   }
+  changeModule(){
+    this.router.navigate(['/home']);
+  }
   logout() {
     this.securityService.logout();
   }
