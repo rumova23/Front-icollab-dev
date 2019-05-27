@@ -32,7 +32,9 @@ export class ComplianceHeaderComponent implements OnInit {
   changePassword() {
     this.eventService.sendMainCompliance(new EventMessage(100, null))
   }
-
+  goToHome(){
+    this.eventService.sendMainCompliance(new EventMessage(101, null))
+  }
   logout() {
     this.securityService.logout();
   }

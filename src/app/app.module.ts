@@ -89,6 +89,7 @@ import { SalesOffersComponent } from './safe/mda-planning-process/sales-offers/s
 import { ClientsComponent } from './safe/admin/clients/clients.component';
 import { UnityProductsComponent } from './safe/catalogs/unityProducts/unityProducts.component';
 import { UnityProductsEditComponent } from './safe/catalogs/unityProducts/edit/unityProductsEdit.component';
+import { ComplianceWelcomeComponent } from './compliance/home/welcome/complianceWelcome.component';
 
 
 
@@ -102,6 +103,7 @@ import { UnityProductsEditComponent } from './safe/catalogs/unityProducts/edit/u
     LoginComponent,
     HomeComponent,
     ComplianceHomeComponent,
+    ComplianceWelcomeComponent,
     AcquisitionsComponent,
     ConfigActivitiesComponent,
     LegalAgreementComponent,
