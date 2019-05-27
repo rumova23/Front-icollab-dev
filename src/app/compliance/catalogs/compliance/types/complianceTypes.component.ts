@@ -20,6 +20,12 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
   styleUrls: ['./complianceTypes.component.scss']
 })
 export class ComplianceTypesComponent implements OnInit {
+  // tslint:disable-next-line:variable-name
+  @Input() nombreCatalogo: string;
+  entidadEstatusId: string;
+  titulo: String;
+
+
   dataSource;
   data: any[] = [];
   displayedColumnsOrder : any[]    = [];
@@ -28,17 +34,8 @@ export class ComplianceTypesComponent implements OnInit {
   row_x_page = [50, 100, 250, 500];
   
 
-  // tslint:disable-next-line:variable-name
-  @Input() nombreCatalogo: string;
-  entidadEstatusId: string;
-
   // tslint:disable-next-line:ban-types
-  titulo: String;
-  filtros = [
-    {label: 'Tipo de cumplimiento', inputtype: 'text'},
-    {label: 'Activo', inputtype: 'text'},
-  ];
-  filtrobtn = {label: 'buscar'};
+
   // tslint:disable-next-line:variable-name
 
 
