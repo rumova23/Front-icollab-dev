@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatTableDataSource, MatSort} from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Compliance } from '../../models/compliance';
+import { Compliance } from '../../models/Compliance';
 import { DatosGraficaGant } from '../../models/datosGraficaGant';
 import { ComplianceService } from '../../services/compliance.service';
 import { GlobalService } from 'src/app/core/globals/global.service';

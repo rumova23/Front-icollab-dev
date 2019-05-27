@@ -12,14 +12,6 @@ import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 
-
-export interface Inputs {
-  label: String;
-  inputtype: String;
-  value?: String;
-  checked?: boolean;
-  disabled?: boolean;
-}
 @Component({
   selector: 'app-activitiesEdit',
   templateUrl: './activitiesEdit.component.html',
@@ -37,14 +29,10 @@ export class ActivitiesEditComponent implements OnInit {
   comboEstatus = new Array<Combo>();
   titulo: String;
   catalogType: CatalogType;
+  tareaPorVencer = 40 ;
+  tareaProximaVencer = 30 ;
+  tareaTiempo = 30;
 
-
-  inputs: Inputs[] = [
-    { label: "ID Actividad", inputtype: "text", value: "223696585", disabled: true },
-    { label: "Actividad", inputtype: "text" },
-    { label: "Prefijo", inputtype: "text" },
-    { label: "Activo", inputtype: "checkbox", checked: true },
-  ];
   constructor(
     private route: ActivatedRoute,
     private tagService: TagService,
@@ -63,7 +51,10 @@ export class ActivitiesEditComponent implements OnInit {
       fActividadId: ['', ''],
       fActividad: ['', Validators.required],
       fPrefijo: ['', Validators.required],
-      fComboEstatus: ['', '']
+      fComboEstatus: ['', ''],
+      fTareaPorVencer: ['40', [Validators.min(1), Validators.max(100)] ],
+      fTareaProximaVencer: ['30', [Validators.min(1), Validators.max(100)] ],
+      fTareaTiempo: ['30', [Validators.min(1), Validators.max(100)] ]
     });
 
     //this.accion = this.route.snapshot.params.accion;
@@ -125,7 +116,13 @@ export class ActivitiesEditComponent implements OnInit {
             this.actividadesForm.controls['fActividadId'].setValue(tagActividad.actividadId);
             this.actividadesForm.controls['fActividad'].setValue(tagActividad.nombre);
             this.actividadesForm.controls['fPrefijo'].setValue(tagActividad.prefijo);
+            this.actividadesForm.controls['fTareaPorVencer'].setValue(tagActividad.tareaPorVencer);
+            this.actividadesForm.controls['fTareaProximaVencer'].setValue(tagActividad.tareaProximaVencer);
+            this.actividadesForm.controls['fTareaTiempo'].setValue(tagActividad.tareaTiempo);
+
             this.actividadesForm.controls['fComboEstatus'].patchValue(`${tagActividad.estatus.estatus.estatusId}`);
+            
+            
 
             if (this.accion === 'ver') {
               this.soloLectura = true;
@@ -150,7 +147,14 @@ export class ActivitiesEditComponent implements OnInit {
   submitted = false;
   onSubmit() {
     this.submitted = true;
-    // stop here if form is invalid
+
+    if ( (this.actividadesForm.controls['fTareaPorVencer'].value 
+          + this.actividadesForm.controls['fTareaProximaVencer'].value 
+          + this.actividadesForm.controls['fTareaTiempo'].value) != 100 ){
+            this.toastr.errorToastr('La suma de todos los porcentajes, debe ser igual a 100.', 'Oops!');
+            return;      
+          }
+
     if (this.actividadesForm.invalid) {
       console.log('Error!! :-)\n\n' + JSON.stringify(this.actividadesForm.value));
       this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Oops!');

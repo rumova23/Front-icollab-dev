@@ -3,9 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
 
-//Modelos
-import { Tag } from '../models/tag'
-
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
