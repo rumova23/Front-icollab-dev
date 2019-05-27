@@ -15,80 +15,96 @@
             </button>
         </div>
     </div>
-
-    <!-- Filtros de busqueda 
-                        <div class="row">
-                        <div class="col">
-                            
-                            <div class="filtros mt-2 row">
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-10">
-                                <div class="row">
-                                    <div class="col-md-auto" *ngFor="let filtro of filtros">
-                                        <label>{{filtro.label}}</label><br>
-                                        <input type="{{filtro.inputtype}}">
-                                    </div> 
-                                </div>
-                                </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end" >
-                                    <div>
-                                    <button type="button" class="btn btn-primary"  (click)="alert('Filtro de empleados')">{{filtrobtn.label}}</button>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end" >
-                                    <div>
-                                        <a routerLink="/catalogo-editar/0/nuevo/{{nombreCatalogo}}" >
-                                            <button type="button" class="btn btn-primary">Agregar</button>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>
-                        </div>
-                    -->
-    <!-- Tabla de actividades -->
-
-    <div class="row mt-4 mb-4">
+    <hr>
+    <!-- Filtros de busqueda -->
+    <div class="row">
         <div class="col">
-                
-    <div class="mat-elevation-z8">
-            <table matSort  mat-table [dataSource]="dataSource">
-              
-      
-              <ng-container [matColumnDef]="column.key" *ngFor="let column of displayedColumns">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column.label}} </th>
-                <td mat-cell *matCellDef="let element"> 
-                        <ng-container  [ngSwitch]="element[column.key]">
-                            <ng-container *ngSwitchCase="'sys_see'">
-                                <a (click)="action(2, element.id)" >
-                                    <img src="assets/images/skins/ico_Ver.png" alt="Visualizar">
-                                </a> 
-                            </ng-container>
-                            <ng-container *ngSwitchCase="'sys_edit'">
-                                <a (click)="action(3, element.id)">
-                                    <img src="assets/images/skins/ico_Editar.png" alt="Visualizar">
-                                </a> 
-                            </ng-container>
-                            <ng-container *ngSwitchCase="'sys_delete'">
-                                <a (click)="eliminarRegistro(element.element)">
-                                    <img src="assets/images/skins/ico_Borrar.png" alt="eliminar">
-                                </a>
-                            </ng-container>
-                            <ng-container *ngSwitchDefault>
-                                {{element[column.key]}} 
-                            </ng-container>
-                        </ng-container>
-                    
-                </td>
-              </ng-container>
-              
-              <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-              <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
-            </table>
-          
-            <mat-paginator [pageSizeOptions]="[50,100,250,500]" showFirstLastButtons></mat-paginator>
-          </div>
-
-          
+            <div class="row">
+                <!--<div class="col">
+                    <mat-form-field >
+                        <input matInput placeholder="Nombre" [formControl]="formControl">
+                        <mat-error *ngIf="formControl.hasError('required')">
+                            Nombre is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>-->
+                <div class="col">
+                    <mat-form-field >
+                        <input matInput placeholder="Nombre">
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field >
+                        <input matInput placeholder="Descripción">
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label>Estatus</mat-label>
+                        <mat-select >
+                          <mat-option value="Activo">Activo</mat-option>
+                          <mat-option value="Inactivo">Inactivo</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label> Usuario Modificó</mat-label>
+                        <mat-select >
+                          <mat-option value="Activo">combo con los usuarios que hayan realizado la última modificado a algún registro</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="datemodification" placeholder="Fecha de última Modificación">
+                        <mat-datepicker-toggle matSuffix [for]="datemodification"></mat-datepicker-toggle>
+                        <mat-datepicker #datemodification></mat-datepicker>
+                    </mat-form-field>
+                </div>
+        
+        
+            </div>
+        </div>
+        <div class="col col-sm-auto">
+            <button type="button" class="btn btn-primary"  (click)="alert('Filtro de empleados')">Buscar</button>
         </div>
     </div>
+    <!-- Tabla de Catalogos -->
+    <div class="row mt-4 mb-4">
+        <div class="col">
+            <div class="mat-elevation-z8">
+                <table matSort  mat-table [dataSource]="dataSource" class="table_catalogo">
+                
+        
+                    <ng-container [matColumnDef]="column.key" *ngFor="let column of displayedColumnsOrder">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header > {{column.label}} </th>
+                        <td mat-cell *matCellDef="let element">{{element[column.key]}}</td>
+                    </ng-container>
+                    
+                    <ng-container [matColumnDef]="column.key" *ngFor="let column of displayedColumnsActions">
+                        <th mat-header-cell *matHeaderCellDef> {{column.label}} </th>
+                        <td mat-cell *matCellDef="let element" [ngSwitch]="element[column.key]"> 
+
+                            <a (click)="action(2, element.id)" *ngSwitchCase="'sys_see'">
+                                <img src="assets/images/skins/ico_Ver.png" alt="Visualizar">
+                            </a> 
+                            <a (click)="action(3, element.id)" *ngSwitchCase="'sys_edit'">
+                                <img src="assets/images/skins/ico_Editar.png" alt="Visualizar">
+                            </a> 
+                            <a (click)="eliminarRegistro(element.element)" *ngSwitchCase="'sys_delete'">
+                                <img src="assets/images/skins/ico_Borrar.png" alt="eliminar">
+                            </a>
+                            
+                        </td>
+                    </ng-container>
+                
+                    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="row_x_page" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+    <!-- ./Tabla de Catalogos -->
 </div>
