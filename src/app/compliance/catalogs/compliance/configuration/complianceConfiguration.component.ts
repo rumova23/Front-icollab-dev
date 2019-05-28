@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -63,6 +63,8 @@ export class ComplianceConfigurationComponent implements OnInit {
    }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  
   ngOnInit() {
     this.filtrosForm = this.formBuilder.group({
       fTag: ['', ''],
@@ -82,6 +84,7 @@ export class ComplianceConfigurationComponent implements OnInit {
         datos = respuesta;
         this.registros =  new MatTableDataSource<Tag>(datos);
         this.registros.paginator = this.paginator;
+        this.registros.sort = this.sort;
       },
       error => {
         console.log(<any> error);

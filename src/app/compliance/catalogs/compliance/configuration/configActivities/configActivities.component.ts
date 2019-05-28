@@ -1,7 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrManager } from 'ng6-toastr-notifications';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 
 import { Router } from "@angular/router";
 import { GlobalService } from 'src/app/core/globals/global.service';
@@ -38,12 +39,14 @@ export class ConfigActivitiesComponent implements OnInit {
   comboPlanta: Array<Combo>;
   comboEstatus: Array<Combo>;
   listaCombos: Array<any>;
-  cabeceraTagPrecedentesAux: Array<String>;
+  //cabeceraTagPrecedentesAux: Array<String>;
+  cabeceraTagPrecedentesAux = ['ID_ACTIVIDAD', 'ACTIVIDAD', 'DESCRIPCION', 'ASIGNAR_PRECEDENTE'];
   cabeceraTagPrecedentes: Array<String>;
   titulo: String;
 
   tagPrecedentes: any
-  tagPrecedentesParaAsiganar: any;
+  tagPrecedentesParaAsiganar: MatTableDataSource<Tag>;
+  registros_x_pagina = [1,2, 5, 50, 100, 250, 500];
 
   configActividadesForm: FormGroup;
   plantas: Array<TagPlanta>
@@ -106,6 +109,8 @@ export class ConfigActivitiesComponent implements OnInit {
     }
   }
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   ngOnInit() {
    //this.accion = this.route.snapshot.params.accion;
    this.accion = this.catalogType.action;
@@ -146,7 +151,6 @@ export class ConfigActivitiesComponent implements OnInit {
         this.resuelveDS(poRespuesta, this.comboPlanta, 'PLANTA');
       }
     );
-
 
     this.tagService.getEstatusMaestroOpcion().subscribe(
       catalogoResult => {
@@ -203,7 +207,7 @@ export class ConfigActivitiesComponent implements OnInit {
       fComboEstatus: ['', Validators.required]
     });
 
-    this.cabeceraTagPrecedentesAux = ['ID ACTIVIDAD', 'ACTIVIDAD', 'DESCRIPCIÓN', 'ASIGNAR PRECEDENTE'];
+    //this.cabeceraTagPrecedentesAux = ['ID ACTIVIDAD', 'ACTIVIDAD', 'DESCRIPCIÓN', 'ASIGNAR PRECEDENTE'];
     this.cabeceraTagPrecedentes = ['ACTIVIDAD', 'ACTIVIDAD PADRE', 'ACTIVIDAD HIJO', 'OPCIONES'];
     this.idsTagPrecedentes = [];
 
@@ -451,8 +455,11 @@ export class ConfigActivitiesComponent implements OnInit {
     this.tagService.getActividadesPrecedentes(tag, tags).subscribe(
       respuesta => {
         //console.dir( respuesta  );
-        this.tagPrecedentesParaAsiganar = respuesta;
-        if (this.tagPrecedentesParaAsiganar.length > 0) {
+        let datos: any;
+        datos = respuesta;
+        this.tagPrecedentesParaAsiganar = new MatTableDataSource<Tag>(datos);
+        this.tagPrecedentesParaAsiganar.paginator = this.paginator;
+        if (this.tagPrecedentesParaAsiganar.data.length > 0) {
           this.isPrecedentes = true;
           this.tablaAgregarPrecedentes = true;
           this.idsTagPrecedentes = []

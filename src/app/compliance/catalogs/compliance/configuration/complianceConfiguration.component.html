@@ -89,50 +89,50 @@
   <div class="row mt-4">
     <div class="col">
       <div class="tabla-responsi mat-elevation-z8">
-        <table mat-table [dataSource]="registros" class="table_catalogo">
+        <table mat-table [dataSource]="registros" matSort class="table_catalogo">
           <!-- orden Column -->
           <ng-container matColumnDef="orden">
-            <th mat-header-cell *matHeaderCellDef class="txt-center"> # </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> # </th>
             <td mat-cell *matCellDef="let element; let i = index;">{{i+1}} </td>
           </ng-container>
           <!-- orden Column -->
           <ng-container matColumnDef="tag" sticky>
-            <th mat-header-cell *matHeaderCellDef class="txt-center"> TAG </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> TAG </th>
             <td mat-cell *matCellDef="let element"> {{element.tag}} </td>
           </ng-container>
           <!-- nombre Column -->
           <ng-container matColumnDef="nombre">
-            <th mat-header-cell *matHeaderCellDef class="txt-center"> Nombre del Cumplimiento </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Nombre del Cumplimiento </th>
             <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
           </ng-container>
           <!-- prefijo Column -->
           <ng-container matColumnDef="clasificacion">
-            <th mat-header-cell *matHeaderCellDef class="txt-center"> Categoría </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Categoría </th>
             <td mat-cell *matCellDef="let element"> {{element.clasificacionActividad}} </td>
           </ng-container>
           <!-- prefijo Column -->
           <ng-container matColumnDef="cumplimiento_legal">
-            <th mat-header-cell *matHeaderCellDef class="txt-center"> Tipo de Cumplimiento </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Tipo de Cumplimiento </th>
             <td mat-cell *matCellDef="let element"> {{element.tipoCumplimiento.opcion.descripcion}} </td>
           </ng-container>
           <!-- prefijo Column -->
           <ng-container matColumnDef="autoridad">
-            <th mat-header-cell *matHeaderCellDef class="txt-center"> Autoridad </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Autoridad </th>
             <td mat-cell *matCellDef="let element"> {{element.autoridad.opcion.descripcion}} </td>
           </ng-container>
           <!-- prefijo Column -->
           <ng-container matColumnDef="tipo_aplicacion">
-            <th mat-header-cell *matHeaderCellDef class="txt-center"> Tipo de Aplicación </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Tipo de Aplicación </th>
             <td mat-cell *matCellDef="let element"> {{element.tipoAplicacion.opcion.descripcion}} </td>
           </ng-container>
           <!-- prefijo Column -->
           <ng-container matColumnDef="periodo_entrega">
-            <th mat-header-cell *matHeaderCellDef class="txt-center"> Período de Entrega </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Período de Entrega </th>
             <td mat-cell *matCellDef="let element"> {{element.periodoEntrega.opcion.descripcion}} </td>
           </ng-container>
           <!-- prefijo Column -->
           <ng-container matColumnDef="estatus">
-            <th mat-header-cell *matHeaderCellDef class="txt-center"> Estatus </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Estatus </th>
             <td mat-cell *matCellDef="let element"> {{element.estatus.estatus.nombre}} </td>
           </ng-container>
 

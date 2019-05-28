@@ -26,7 +26,7 @@ export class ActivitiesComponent implements OnInit {
     {label:"Activo",inputtype:"text"},
   ];
   filtrobtn = {label:"buscar"};
-  registros_x_pagina = [50,100,250,500];
+  registros_x_pagina = [1, 2, 50,100,250,500];
 
   constructor(
       private tagService: TagService,
