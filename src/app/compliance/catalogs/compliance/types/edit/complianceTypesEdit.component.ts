@@ -166,7 +166,7 @@ export class ComplianceTypesEditComponent implements OnInit {
         '1',
         this.nombreCatalogo
       ).subscribe(data => {
-        if (data.mensajeGenerico === 'La opción ya existe') {
+        if (data.mensajeGenerico === 'El catálogo ya existe') {
           this.toastr.errorToastr(data.mensajeGenerico, 'Oops!');
         } else {
           this.toastr.successToastr(data.mensajeGenerico, 'Success!');
