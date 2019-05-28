@@ -4,12 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { GlobalService } from 'src/app/core/globals/global.service';
-import { PlannedPowersPPAComponent } from '../mda-planning-process/planned-powers-ppa/planned-powers-ppa.component';
-import { HeatRateRecordComponent } from '../mda-planning-process/heat-rate-record/heat-rate-record.component';
-import { SalesOffersComponent } from '../mda-planning-process/sales-offers/sales-offers.component';
 import { ClientsComponent } from '../admin/clients/clients.component';
 import { LegalAgreementComponent } from 'src/app/compliance/business/legalAgreement/legalAgreement.component';
 import { SafeNewEventComponent } from '../business/logBook/newEvent/safeNewEvent.component';
+import { PlannedPowersPPAComponent } from '../business/mdaPlanningProcess/plannedPowersPpa/plannedPowersPpa.component';
+import { HeatRateRecordComponent } from '../business/mdaPlanningProcess/heatRateRecord/heatRateRecord.component';
+import { SalesOffersComponent } from '../business/mdaPlanningProcess/salesOffers/salesOffers.component';
 
 @Component({
   selector: 'app-safeLinkMockUp',

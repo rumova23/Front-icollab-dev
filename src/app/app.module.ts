@@ -82,10 +82,7 @@ import { RolesGrantsComponent } from './security/admin/roles/grants/rolesGrants.
 import { TreeviewModule } from 'ngx-treeview';
 import { Constants } from './core/globals/Constants';
 import { ComplianceTypesEditComponent } from './compliance/catalogs/compliance/types/edit/complianceTypesEdit.component';
-import { PlannedPowersPPAComponent } from './safe/mda-planning-process/planned-powers-ppa/planned-powers-ppa.component';
 import { SafeLinkMockUp } from './safe/links-mock-up/safeLinkMockUp';
-import { HeatRateRecordComponent } from './safe/mda-planning-process/heat-rate-record/heat-rate-record.component';
-import { SalesOffersComponent } from './safe/mda-planning-process/sales-offers/sales-offers.component';
 import { ClientsComponent } from './safe/admin/clients/clients.component';
 import { UnityProductsComponent } from './safe/catalogs/unityProducts/unityProducts.component';
 import { UnityProductsEditComponent } from './safe/catalogs/unityProducts/edit/unityProductsEdit.component';
@@ -95,6 +92,9 @@ import { CatalogGenericEditComponent } from './safe/catalogs/generic/edit/catalo
 import { PmlComponent } from './safe/admin/pml/pml.component';
 import { ComplianceWelcomeComponent } from './compliance/home/welcome/complianceWelcome.component';
 import { SafeNewEventComponent } from './safe/business/logBook/newEvent/safeNewEvent.component';
+import { PlannedPowersPPAComponent } from './safe/business/mdaPlanningProcess/plannedPowersPpa/plannedPowersPpa.component';
+import { HeatRateRecordComponent } from './safe/business/mdaPlanningProcess/heatRateRecord/heatRateRecord.component';
+import { SalesOffersComponent } from './safe/business/mdaPlanningProcess/salesOffers/salesOffers.component';
 
 
 

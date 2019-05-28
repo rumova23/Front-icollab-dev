@@ -93,7 +93,7 @@ export class ComplianceTypesComponent implements OnInit {
         obj['name']         = element.opcion.codigo;
         obj['description']  = element.opcion.descripcion;
         obj['user']         = element.opcion.userUpdated || element.opcion.userCreated;
-        obj['dateup']       = this.datePipe.transform(new Date(element.opcion.dateUpdated || element.opcion.dateCreated),'dd-MM-yyyy h:mm a');
+        obj['dateup']       = (element.opcion.dateUpdated || element.opcion.dateCreated) ? this.datePipe.transform(new Date(element.opcion.dateUpdated || element.opcion.dateCreated),'dd-MM-yyyy h:mm a') : "";
         obj['status']       = (element.entidadEstatusId == this.entidadEstatusId) ? 'Activo' : 'Inactivo';
         obj['see']          = 'sys_see';
         obj['edit']         = 'sys_edit';
