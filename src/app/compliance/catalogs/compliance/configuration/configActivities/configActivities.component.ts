@@ -7,6 +7,7 @@ import { Router } from "@angular/router";
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { Combo } from 'src/app/compliance/models/Combo';
 import { TagPlanta } from 'src/app/compliance/models/TagPlanta';
+import { OrderCatalogDTO } from 'src/app/compliance/models/OrderCatalogDTO';
 import { TagService } from 'src/app/compliance/services/tag.service';
 import { Tag } from 'src/app/compliance/models/Tag';
 import { TagPrecedente } from 'src/app/compliance/models/TagPrecedente';
@@ -127,10 +128,15 @@ export class ConfigActivitiesComponent implements OnInit {
     this.plantas = new Array<TagPlanta>();
     this.comboEstatus = new Array<Combo>();
 
-    this.listaCombos = ['TIPO_CUMPLIMIENTO', 'AUTORIDAD', 'TIPO_APLICACION',
-      'PERIODO_ENTREGA', 'TIPO_DIAS', 'PLANTA'];
-
-    this.tagService.getCatalogo(this.listaCombos).subscribe(
+    this.listaCombos = Array<OrderCatalogDTO>();
+    this.listaCombos.push( new OrderCatalogDTO('TIPO_CUMPLIMIENTO','ORDEN'));
+    this.listaCombos.push( new OrderCatalogDTO('AUTORIDAD', null));
+    this.listaCombos.push( new OrderCatalogDTO('TIPO_APLICACION','ORDEN'));
+    this.listaCombos.push( new OrderCatalogDTO('PERIODO_ENTREGA','ORDEN'));
+    this.listaCombos.push( new OrderCatalogDTO('TIPO_DIAS', null));
+    this.listaCombos.push( new OrderCatalogDTO('PLANTA', null));
+    
+    this.tagService.getlistCatalogoOrdenados(this.listaCombos).subscribe(
       poRespuesta => {
         this.resuelveDS(poRespuesta, this.comboTipoCumplimiento, 'TIPO_CUMPLIMIENTO');
         this.resuelveDS(poRespuesta, this.comboAutoridad, 'AUTORIDAD');

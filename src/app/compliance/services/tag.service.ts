@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { TagPrecedente } from '../models/TagPrecedente';
 import { Tag } from '../models/Tag';
 import { TagActividadInDTO } from '../models/TagActividadInDTO';
+import { OrderCatalogDTO } from '../models/OrderCatalogDTO';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -28,8 +29,17 @@ export class TagService {
 
   constructor(private http: HttpClient) { }
 
+  getlistCatalogoOrdenados(catalogos: Array<OrderCatalogDTO>) {
+    console.dir(catalogos);
+    return this.http.post( `${ this.baseCatalagoUrl }listCatalogosOrdenados`, catalogos, httpOptions);
+  }
+
   getCatalogo(nameCat: Array<any>) {
     return this.http.get(`${ this.baseCatalagoUrl }listCatalogos/${nameCat}`, httpOptions);
+  }
+
+  getEstatusMaestroOpcion() {
+    return this.http.get( `${ this.baseCatalagoUrl }getEstatusMaestroOpcion`, httpOptions);
   }
 
   save(tag: Tag) {
@@ -95,7 +105,4 @@ export class TagService {
     return this.http.get( `${ this.baseMicroTagUrl }actividad/eliminar/${actividadId}`, httpOptions);
   }
 
-  getEstatusMaestroOpcion() {
-    return this.http.get( `${ this.baseCatalagoUrl }getEstatusMaestroOpcion`, httpOptions);
-  }
 }
