@@ -2,7 +2,7 @@
   <!-- Titulo -->
   <div class=" row">
     <div class="col">
-      <span class="agila-cda-titulo">Productos / Servicios</span>
+      <span class="agila-cda-titulo">{{getTitle()}}</span>
     </div>
   </div>
   <div class="row mb-3 mt-5">
@@ -14,7 +14,7 @@
   <div class="row mt-4">
     <div class="col">
       <div class="tabla-responsi mat-elevation-z8">
-        <table mat-table [dataSource]="products" class="table_catalogo">
+        <table mat-table [dataSource]="generics" class="table_catalogo">
           <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef class="txt-center"> # </th>
             <td mat-cell *matCellDef="let element"> {{element.id}} </td>
@@ -23,24 +23,11 @@
             <th mat-header-cell *matHeaderCellDef class="txt-center">Nombre </th>
             <td mat-cell *matCellDef="let element"> {{element.name}} </td>
           </ng-container>
-          <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef class="txt-center">Descripción de Factura </th>
-            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="price">
-            <th mat-header-cell *matHeaderCellDef class="txt-center">Precio Público</th>
-            <td mat-cell *matCellDef="let element"> {{element.price}} </td>
-          </ng-container>
-
           <ng-container matColumnDef="active">
-            <th mat-header-cell *matHeaderCellDef class="txt-center">Estatus</th>
-            <td mat-cell *matCellDef="let element"> {{getStatus(element)}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="rateIvaTransfer">
-            <th mat-header-cell *matHeaderCellDef class="txt-center">Iva Trasladado</th>
-            <td mat-cell *matCellDef="let element"> {{element.rateIvaSat.percentageIva}} </td>
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Estatus </th>
+            <td mat-cell *matCellDef="let element"> {{
+              (element.active) ? 'Activo': 'Inactivo'
+              }} </td>
           </ng-container>
 
           <ng-container matColumnDef="ver">

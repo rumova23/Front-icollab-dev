@@ -71,6 +71,7 @@ export class SafeSidebarComponent implements OnInit {
 
   clickMenu(item) {
     let option = 0;
+    let catalog: string = "";
     switch (item.label) {
       case 'Servicios':
         option = 3;
@@ -79,13 +80,44 @@ export class SafeSidebarComponent implements OnInit {
         option = 3;
         break;
       case 'Unidad de Productos':
-          option = 5;
-          break;  
+        option = 5;
+        break;
       case 'Clientes':
-              option = 7;
-              break;      
+        option = 7;
+        break;
+      case 'Catálogo de Sistemas':
+        option = 9;
+        catalog = "sys";
+        break;
+      case 'Catálogo de Tipos de Cliente':
+        option = 9;
+        catalog = "typeClient";
+        break;
+      case 'Catálogo de Tipos de Producto':
+        option = 9;
+        catalog = "typeProduct";
+        break;
+      case 'Catálogo de Condiciones de Pago':
+        option = 9;
+        catalog = "paymentCondition";
+        break;
+      case 'Catálogo de Países':
+        option = 9;
+        catalog = "country";
+        break;
+      case 'Catálogo de Bancos':
+        option = 9;
+        catalog = "bank";
+        break;
+      case 'Pml':
+        option = 11;
+        break;  
     }
-    this.eventService.sendMainSafe(new EventMessage(option, item));
+    if (option == 9) {
+      this.eventService.sendMainSafe(new EventMessage(option, catalog));
+    } else {
+      this.eventService.sendMainSafe(new EventMessage(option, item));
+    }
   }
 
 

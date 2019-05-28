@@ -1,15 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator } from '@angular/material';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { ToastrManager } from 'ng6-toastr-notifications';
-import { ProductService } from '../../services/product.service';
+import { MarketService } from '../../services/market.service';
 import { Product } from '../../models/Product';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
-import { TypeProduct } from '../../models/TypeProduct.';
-import { ProductSat } from '../../models/ProductSat';
 import { Constants } from 'src/app/core/globals/Constants';
-import { UnityProduct } from '../../models/UnityProduct';
+import { RateIvaSat } from '../../models/RateIvaSat';
 
 
 @Component({
@@ -29,12 +27,10 @@ export class ProductsComponent implements OnInit {
   filterBtn = { label: "buscar" };
   rowsPorPage = [50, 100, 250, 500];
   products: Array<Product>;
-  typeProducts: Array<TypeProduct>;
-  productsSat: Array<ProductSat>
-  unityProducts: Array<UnityProduct>
+  ratesIvaSat: Array<RateIvaSat>;
   count: number;
   constructor(
-    private productService: ProductService,
+    private marketService: MarketService,
     public toastr: ToastrManager,
     private eventService: EventService,
     private globalService: GlobalService,
@@ -42,7 +38,7 @@ export class ProductsComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {
-    this.loadProductsSat();
+    this.loadProducts();
     this.cols = [
       'id',
       'name',
@@ -57,63 +53,29 @@ export class ProductsComponent implements OnInit {
   }
 
   private loadProducts() {
-    this.productService.loadProducts()
+    this.marketService.loadProducts(2)
       .subscribe(
         data => {
           this.products = data.resultado;
-          for(var i = 0; i < this.products.length; i++) {
-            console.log(this.products[i]);
-           this.products[i].typeProduct = this.typeProducts.filter(entity =>
-            entity.id === this.products[i].idTypeProduct)[0];
-            this.products[i].productSat = this.productsSat.filter(entity =>
-              entity.id === this.products[i].idProductSat)[0];
-            this.products[i].unityProduct = this.unityProducts.filter(entity =>
-                entity.id === this.products[i].idUnityProduct)[0];
-          }
+          this.loadRatesIvaSat();
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Productos');
         });
   }
 
-  loadProductsSat() {
-    this.productService.loadProductsSat()
+  private loadRatesIvaSat() {
+    this.marketService.loadRatesIvaSat(2)
       .subscribe(
         data => {
-          this.productsSat = data.resultado;
-          this.loadUnityProducts();
+          this.ratesIvaSat = data.resultado;
+          for (var i = 0; i < this.products.length; i++) {
+            this.products[i].rateIvaSat = this.ratesIvaSat.filter(entity =>
+              entity.id === this.products[i].idRateIvaSat)[0];
+          }
         },
         errorData => {
-          console.log(errorData);
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Productos Sat');
-
-        });
-  }
-
-  loadUnityProducts() {
-    this.productService.loadUnityProducts()
-      .subscribe(
-        data => {
-          this.unityProducts = data.resultado;
-          this.loadTypeProducts();
-        },
-        errorData => {
-          console.log(errorData);
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Unidas de Producto');
-
-        });
-  }
-
-  loadTypeProducts() {
-    this.productService.loadTypeProducts()
-      .subscribe(
-        data => {
-          this.typeProducts = data.resultado;
-          this.loadProducts();
-        },
-        errorData => {
-          console.log(errorData);
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Tipos Productos ');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Ivas Sat');
         });
   }
 
@@ -126,12 +88,16 @@ export class ProductsComponent implements OnInit {
       EventMessage(4, { readOnly: false, edit: false, new: true, user: {} }));
   }
 
+  getStatus(entity: Product) {
+    return (entity.active) ? "Activo " : "Inactivo";
+  }
+
   action(product: Product, option: number) {
     switch (option) {
       case 2:
         this.eventService.sendMainSafe(new
           EventMessage(4, { readOnly: true, edit: false, new: false, product: product }));
-        break; 
+        break;
       case 3:
         this.eventService.sendMainSafe(new
           EventMessage(4, { readOnly: false, edit: true, new: false, product: product }));

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { ToastrManager } from 'ng6-toastr-notifications';
-import { ProductService } from '../../services/product.service';
+import { MarketService } from '../../services/market.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { UnityProductSat } from '../../models/UnityProductSat';
@@ -30,7 +30,7 @@ export class UnityProductsComponent implements OnInit {
   unityProducts: Array<UnityProduct>
   count: number;
   constructor(
-    private productService: ProductService,
+    private marketService: MarketService,
     public toastr: ToastrManager,
     private eventService: EventService,
     private globalService: GlobalService,
@@ -50,7 +50,7 @@ export class UnityProductsComponent implements OnInit {
   }
 
   loadUnityProductsSat() {
-    this.productService.loadUnityProductsSat()
+    this.marketService.loadUnityProductsSat(2)
       .subscribe(
         data => {
           this.unityProductsSat = data.resultado;
@@ -65,7 +65,7 @@ export class UnityProductsComponent implements OnInit {
   }
 
   loadUnityProducts() {
-    this.productService.loadUnityProducts()
+    this.marketService.loadUnityProducts(2)
       .subscribe(
         data => {
           this.unityProducts = data.resultado;

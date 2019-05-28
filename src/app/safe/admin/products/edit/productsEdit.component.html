@@ -50,7 +50,7 @@
           <mat-form-field>
             <mat-label>Tipo de Producto</mat-label>
             <mat-select formControlName="typeProduct" [compareWith]="compareObjects">
-              <mat-option *ngFor="let typeProduct of typeProducts" [value]="typeProduct">
+              <mat-option *ngFor="let typeProduct of typesProduct" [value]="typeProduct">
                 {{ typeProduct.name }}
               </mat-option>
             </mat-select>
@@ -96,6 +96,34 @@
       <div class="row">
         <div class="col-md-4">
           <mat-form-field>
+            <mat-label>Tasa Iva Trasladado</mat-label>
+            <mat-select formControlName="rateIvaSat" [compareWith]="compareObjects">
+              <mat-option *ngFor="let rateIvaSat of ratesIvaSat" [value]="rateIvaSat">
+                {{ rateIvaSat.percentageIva }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-error *ngIf="!productForm.controls['rateIvaSat'].valid 
+                        && productForm.controls['rateIvaSat'].touched">
+            Requerido
+          </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <mat-label>Sistemas</mat-label>
+              <mat-select formControlName="systems" [compareWith]="compareObjects" multiple>
+                <mat-option *ngFor="let system of systems" [value]="system">{{system.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field>
             <mat-label>Precio Público</mat-label>
             <input matInput placeholder="Precio Público" formControlName="price" mdInput type="number" />
           </mat-form-field>
@@ -105,18 +133,7 @@
           </mat-error>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-4">
-          <mat-form-field>
-            <mat-label>Tasa Iva trasladado</mat-label>
-            <input matInput placeholder="Tasa Iva trasladado" formControlName="rateIvaTransfer" mdInput type="number" />
-          </mat-form-field>
-          <mat-error *ngIf="!productForm.controls['rateIvaTransfer'].valid 
-                                && productForm.controls['rateIvaTransfer'].touched">
-            Requerido
-          </mat-error>
-        </div>
-      </div>
+  
       <div class="row">
         <div class="col-md-4">
           <mat-checkbox id="active" class="active" color="primary" formControlName="active">Activo
