@@ -90,6 +90,7 @@ import { ClientsComponent } from './safe/admin/clients/clients.component';
 import { UnityProductsComponent } from './safe/catalogs/unityProducts/unityProducts.component';
 import { UnityProductsEditComponent } from './safe/catalogs/unityProducts/edit/unityProductsEdit.component';
 import { ComplianceWelcomeComponent } from './compliance/home/welcome/complianceWelcome.component';
+import { SafeNewEventComponent } from './safe/business/logBook/newEvent/safeNewEvent.component';
 
 
 
@@ -166,6 +167,7 @@ import { ComplianceWelcomeComponent } from './compliance/home/welcome/compliance
     HeatRateRecordComponent,
     SalesOffersComponent,
     ClientsComponent,
+    SafeNewEventComponent,
 
   ],
   imports: [
