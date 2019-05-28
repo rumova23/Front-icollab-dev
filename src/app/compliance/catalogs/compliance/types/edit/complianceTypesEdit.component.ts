@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { Router } from '@angular/router';
 import { CatalogoMaestroService } from 'src/app/core/services/catalogo-maestro.service';
@@ -126,15 +126,22 @@ export class ComplianceTypesEditComponent implements OnInit {
 
     this.perfilForm = this.formBuilder.group({
       maestroOpcionId: [{ value: '', disabled: true }],
-      nombreOpcion: [{ value: '', disabled: this.isReadOnly }],
-      opcionDescripcion: [{ value: '', disabled: this.isReadOnly }],
+      nombreOpcion: [ '', Validators.required, { disabled: this.isReadOnly }],
+      opcionDescripcion: ['', Validators.required, { disabled: this.isReadOnly }],
       orden: [{ value: '', disabled: this.isReadOnly }],
       estatus: [{ value: '', disabled: this.isReadOnly }],
       fComboEstatus: ['', '']
     });
   }
   onSubmit() {
+    
+    if (this.perfilForm.invalid) {
+      this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Oops!');
+      return;
+    }
+    
     this.submitted = true;
+
     console.log(this.perfilForm.controls);
     if (this.accion === 'edit') {
       this.perfilForm.controls.orden.setValue('1');
