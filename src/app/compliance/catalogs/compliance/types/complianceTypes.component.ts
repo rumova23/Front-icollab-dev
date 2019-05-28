@@ -11,13 +11,14 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import { EventMessage } from 'src/app/core/models/EventMessage';
-
+import { DatePipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-complianceTypes',
   templateUrl: './complianceTypes.component.html',
-  styleUrls: ['./complianceTypes.component.scss']
+  styleUrls: ['./complianceTypes.component.scss'],
+  providers: [DatePipe]
 })
 export class ComplianceTypesComponent implements OnInit {
   // tslint:disable-next-line:variable-name
@@ -45,7 +46,8 @@ export class ComplianceTypesComponent implements OnInit {
                 private route: ActivatedRoute, private globalService: GlobalService,
                 private confirmationDialogService: ConfirmationDialogService,
                 public toastr: ToastrManager,
-                private eventService: EventService) { }
+                private eventService: EventService,
+                private datePipe: DatePipe) { }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -90,8 +92,8 @@ export class ComplianceTypesComponent implements OnInit {
         obj['id']           = element.maestroOpcionId;
         obj['name']         = element.opcion.codigo;
         obj['description']  = element.opcion.descripcion;
-        obj['user']         = "---";
-        obj['dateup']       = "---";
+        obj['user']         = element.opcion.userUpdated || element.opcion.userCreated;
+        obj['dateup']       = this.datePipe.transform(new Date(element.opcion.dateUpdated || element.opcion.dateCreated),'dd-MM-yyyy h:mm a');
         obj['status']       = (element.entidadEstatusId == this.entidadEstatusId) ? 'Activo' : 'Inactivo';
         obj['see']          = 'sys_see';
         obj['edit']         = 'sys_edit';

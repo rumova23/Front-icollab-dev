@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { Entity } from 'src/app/core/models/Entity';
 import { Product } from 'src/app/safe/models/Product';
-import { ProductService } from 'src/app/safe/services/product.service';
+import { MarketService } from 'src/app/safe/services/market.service';
 import { UnityProductSat } from 'src/app/safe/models/UnityProductSat';
 import { Constants } from 'src/app/core/globals/Constants';
 import { EventService } from 'src/app/core/services/event.service';
@@ -31,7 +31,7 @@ export class UnityProductsEditComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private globalService: GlobalService,
-    private productService: ProductService,
+    private marketService: MarketService,
     private eventService: EventService
   ) { }
 
@@ -54,7 +54,7 @@ export class UnityProductsEditComponent implements OnInit {
   }
 
   loadUnityProductsSat() {
-    this.productService.loadUnityProductsSat()
+    this.marketService.loadUnityProductsSat(1)
       .subscribe(
         data => {
           this.unityProductsSat = data.resultado;
@@ -96,7 +96,7 @@ export class UnityProductsEditComponent implements OnInit {
     ) ? this.unityProductSelect.id : 0;
     this.unityProduct.save = this.entity.new;
     this.unityProduct.idUnityProductSat = this.unityProduct.unityProductSat.id;
-    this.productService.saveUnityProduct(this.unityProduct)
+    this.marketService.saveUnityProduct(this.unityProduct)
       .subscribe(
         data => {
           this.eventService.sendMainSafe(new EventMessage(5, null));

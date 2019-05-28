@@ -5,12 +5,15 @@ export interface Product {
     description?,
     active?,
     price?,
-    rateIvaTransfer?,
+    idRateIvaSat?,
+    rateIvaSat?,
     idProductSat?,
     productSat?,
     idUnityProduct?
     unityProduct?
     idTypeProduct?,
     typeProduct?,
-    save?
+    save?,
+    sys?,
+    system?
 }

@@ -89,6 +89,12 @@ import { SalesOffersComponent } from './safe/mda-planning-process/sales-offers/s
 import { ClientsComponent } from './safe/admin/clients/clients.component';
 import { UnityProductsComponent } from './safe/catalogs/unityProducts/unityProducts.component';
 import { UnityProductsEditComponent } from './safe/catalogs/unityProducts/edit/unityProductsEdit.component';
+import { EditClientsComponent } from './safe/admin/clients/edit/editClients.component';
+import { CatalogGenericComponent } from './safe/catalogs/generic/catalogGeneric.component';
+import { CatalogGenericEditComponent } from './safe/catalogs/generic/edit/catalogGenericEdit.component';
+import { PmlComponent } from './safe/admin/pml/pml.component';
+import { ComplianceWelcomeComponent } from './compliance/home/welcome/complianceWelcome.component';
+import { SafeNewEventComponent } from './safe/business/logBook/newEvent/safeNewEvent.component';
 
 
 
@@ -102,6 +108,7 @@ import { UnityProductsEditComponent } from './safe/catalogs/unityProducts/edit/u
     LoginComponent,
     HomeComponent,
     ComplianceHomeComponent,
+    ComplianceWelcomeComponent,
     AcquisitionsComponent,
     ConfigActivitiesComponent,
     LegalAgreementComponent,
@@ -156,14 +163,17 @@ import { UnityProductsEditComponent } from './safe/catalogs/unityProducts/edit/u
     ChangePasswordComponent,
     UnityProductsComponent,
     UnityProductsEditComponent,
+    ClientsComponent,
+    EditClientsComponent,
+    CatalogGenericComponent,
+    CatalogGenericEditComponent,
+    PmlComponent,
 
-
-    
     SafeLinkMockUp,
     PlannedPowersPPAComponent,
     HeatRateRecordComponent,
     SalesOffersComponent,
-    ClientsComponent,
+    SafeNewEventComponent,
 
   ],
   imports: [

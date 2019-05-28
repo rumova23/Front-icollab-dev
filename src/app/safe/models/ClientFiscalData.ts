@@ -1,0 +1,23 @@
+export interface ClientFiscalData {
+    id?,
+    save?,
+    useCfdi?,
+    idUseCfdi?,
+    paymentMethod?,
+    idPaymentMethod?,
+    typePerson?,
+    idTypePerson?,
+    businessName?,
+    rfc?,
+    street?,
+    outdoorNumber?,
+    interiorNumber?,
+    country?,
+    idCountry?,
+    state?,
+    idState?,
+    location?,
+    cp?,
+    email?,
+    phone?
+}

@@ -9,6 +9,7 @@ import { HeatRateRecordComponent } from '../mda-planning-process/heat-rate-recor
 import { SalesOffersComponent } from '../mda-planning-process/sales-offers/sales-offers.component';
 import { ClientsComponent } from '../admin/clients/clients.component';
 import { LegalAgreementComponent } from 'src/app/compliance/business/legalAgreement/legalAgreement.component';
+import { SafeNewEventComponent } from '../business/logBook/newEvent/safeNewEvent.component';
 
 @Component({
   selector: 'app-safeLinkMockUp',
@@ -16,7 +17,7 @@ import { LegalAgreementComponent } from 'src/app/compliance/business/legalAgreem
   styleUrls: ['./safeLinkMockUp.component.scss'],
   entryComponents: [
     PlannedPowersPPAComponent, HeatRateRecordComponent, SalesOffersComponent, ClientsComponent,
-    LegalAgreementComponent
+    LegalAgreementComponent, SafeNewEventComponent
   ]
 })
 export class SafeLinkMockUp implements OnInit {
@@ -30,7 +31,8 @@ export class SafeLinkMockUp implements OnInit {
             {label:'heat-rate-record'},
             {label:'sales-offers'},
             {label:'registration-customer'},
-            {label: 'Legal-Compliance'}
+            {label: 'Legal-Compliance'},
+            {label: 'New Event'}
           ]
         },
       ];
@@ -91,6 +93,10 @@ export class SafeLinkMockUp implements OnInit {
             option = 7;
             data = item;
             break;  
+        case 'New Event':
+            option = 8;
+            data = item;
+            break;  
 
 
     }
@@ -129,6 +135,12 @@ export class SafeLinkMockUp implements OnInit {
           const refLegalCompliance =
           this.viewContainerRef.createComponent(factoryLegalCompliance);
           refLegalCompliance.changeDetectorRef.detectChanges();
+          break;
+        case 8:
+          const factoryNewEvent = this.componentFactoryResolver.resolveComponentFactory(SafeNewEventComponent);
+          const refNewEvent =
+          this.viewContainerRef.createComponent(factoryNewEvent);
+          refNewEvent.changeDetectorRef.detectChanges();
           break;
 
             

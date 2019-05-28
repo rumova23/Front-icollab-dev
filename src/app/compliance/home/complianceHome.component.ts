@@ -12,6 +12,7 @@ import { ActivitiesComponent } from '../catalogs/activities/activities.component
 import { ActivitiesEditComponent } from '../catalogs/activities/edit/activitiesEdit.component';
 import { ComplianceConfigurationComponent } from '../catalogs/compliance/configuration/complianceConfiguration.component';
 import { ConfigActivitiesComponent } from '../catalogs/compliance/configuration/configActivities/configActivities.component';
+import { ComplianceWelcomeComponent } from './welcome/complianceWelcome.component';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { ConfigActivitiesComponent } from '../catalogs/compliance/configuration/
   templateUrl: './complianceHome.component.html',
   styleUrls: ['./complianceHome.component.scss'],
   entryComponents: [
-    AuthoritiesComponent, ChangePasswordComponent, CatalogsComponent,
+    AuthoritiesComponent, ChangePasswordComponent, ComplianceWelcomeComponent, CatalogsComponent,
     ComplianceTypesComponent, ComplianceTypesEditComponent, ActivitiesComponent,
     ActivitiesEditComponent, ComplianceConfigurationComponent,
     ConfigActivitiesComponent
@@ -124,6 +125,13 @@ export class ComplianceHomeComponent implements OnInit {
           this.viewContainerRef.createComponent(factoryChangePasword);
         refChangePasword.changeDetectorRef.detectChanges();
         break;
+        case 101:
+          const factoryHome =
+            this.componentFactoryResolver.resolveComponentFactory(ComplianceWelcomeComponent);
+          const refHome =
+            this.viewContainerRef.createComponent(factoryHome);
+          refHome.changeDetectorRef.detectChanges();
+          break;
     }
   }
 }

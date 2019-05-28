@@ -9,6 +9,11 @@ import { ChangePasswordComponent } from 'src/app/comun/changePassword/changePass
 import { UnityProductsComponent } from '../catalogs/unityProducts/unityProducts.component';
 import { UnityProductsEditComponent } from '../catalogs/unityProducts/edit/unityProductsEdit.component';
 import { ClientsComponent } from '../admin/clients/clients.component';
+import { EditClientsComponent } from '../admin/clients/edit/editClients.component';
+import { CatalogGenericComponent } from '../catalogs/generic/catalogGeneric.component';
+import { CatalogGenericEditComponent } from '../catalogs/generic/edit/catalogGenericEdit.component';
+import { Validate } from 'src/app/core/helpers/util.validator.';
+import { PmlComponent } from '../admin/pml/pml.component';
 
 @Component({
   selector: 'app-safeHome',
@@ -16,7 +21,9 @@ import { ClientsComponent } from '../admin/clients/clients.component';
   styleUrls: ['./safeHome.component.scss'],
   entryComponents: [
     ProductsComponent, ProductsEditComponent, ChangePasswordComponent,
-    UnityProductsComponent,UnityProductsEditComponent, ClientsComponent
+    UnityProductsComponent, UnityProductsEditComponent, ClientsComponent,
+    EditClientsComponent, CatalogGenericComponent, CatalogGenericEditComponent,
+    PmlComponent
   ]
 })
 export class SafeHomeComponent implements OnInit {
@@ -44,7 +51,7 @@ export class SafeHomeComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    //this.eventService.sendMainSafe(new EventMessage(11, {}));
   }
 
   private clickMenu(event: EventMessage): void {
@@ -74,16 +81,48 @@ export class SafeHomeComponent implements OnInit {
         const factoryUnityProductsEdit = this.componentFactoryResolver.resolveComponentFactory(UnityProductsEditComponent);
         const refUnityProductsEdit =
           this.viewContainerRef.createComponent(factoryUnityProductsEdit);
-          refUnityProductsEdit.instance.entity = event.data;
-          refUnityProductsEdit.instance.unityProductSelect = event.data.unityProduct;
-          refUnityProductsEdit.changeDetectorRef.detectChanges();
+        refUnityProductsEdit.instance.entity = event.data;
+        refUnityProductsEdit.instance.unityProductSelect = event.data.unityProduct;
+        refUnityProductsEdit.changeDetectorRef.detectChanges();
         break;
       case 7:
-            const factoryClients = this.componentFactoryResolver.resolveComponentFactory(ClientsComponent);
-            const refClients =
-              this.viewContainerRef.createComponent(factoryClients);
-              refClients.changeDetectorRef.detectChanges();
-            break;  
+        const factoryClients = this.componentFactoryResolver.resolveComponentFactory(ClientsComponent);
+        const refClients =
+          this.viewContainerRef.createComponent(factoryClients);
+        refClients.changeDetectorRef.detectChanges();
+        break;
+      case 8:
+        const factoryEditClients = this.componentFactoryResolver.resolveComponentFactory(EditClientsComponent);
+        const refEditClients =
+          this.viewContainerRef.createComponent(factoryEditClients);
+        refEditClients.instance.entity = event.data;
+        if(Validate(event.data.client)) {
+          refEditClients.instance.idClient = event.data.client.id;
+        }
+        refEditClients.changeDetectorRef.detectChanges();
+        break;
+      case 9:
+        const factoryCatalogGeneric = this.componentFactoryResolver.resolveComponentFactory(CatalogGenericComponent);
+        const refCatalogGeneric =
+          this.viewContainerRef.createComponent(factoryCatalogGeneric);
+        refCatalogGeneric.instance.catalog = event.data;
+        refCatalogGeneric.changeDetectorRef.detectChanges();
+        break;
+      case 10:
+        const factoryCatalogGenericEdit = this.componentFactoryResolver.resolveComponentFactory(CatalogGenericEditComponent);
+        const refCatalogGenericEdit =
+          this.viewContainerRef.createComponent(factoryCatalogGenericEdit);
+        refCatalogGenericEdit.instance.entity = event.data;
+        refCatalogGenericEdit.instance.catalog = event.data.catalog;
+        refCatalogGenericEdit.instance.catalogGenericSelected = event.data.generic;
+        refCatalogGenericEdit.changeDetectorRef.detectChanges();
+        break;
+      case 11:
+          const factoryPml= this.componentFactoryResolver.resolveComponentFactory(PmlComponent);
+          const refPml =
+            this.viewContainerRef.createComponent(factoryPml);
+            refPml.changeDetectorRef.detectChanges();
+          break;  
       case 100:
         const factoryChangePasword =
           this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent);
