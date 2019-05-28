@@ -134,7 +134,14 @@ export class ComplianceTypesEditComponent implements OnInit {
     });
   }
   onSubmit() {
+    
+    if (this.perfilForm.invalid) {
+      this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Oops!');
+      return;
+    }
+    
     this.submitted = true;
+
     console.log(this.perfilForm.controls);
     if (this.accion === 'edit') {
       this.perfilForm.controls.orden.setValue('1');
