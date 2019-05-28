@@ -17,6 +17,7 @@ body{
     overflow-x: hidden;
     transition: 0.5s;
     background: #2ea9fc;
+    min-height: 600px;
 }
 .blue{
     background: #2ea9fc;
@@ -80,7 +81,13 @@ body{
     } 
     .table_catalogo th{
         background:rgba(213,233,246,1.00);
+        text-align: center !important;
     }
+     
+    .table_catalogo th button{
+        margin: auto;
+    }
+
     .table_catalogo td{
         border-right: rgba(223,223,223,1.00) solid 1px;
         text-align: center;
@@ -88,5 +95,8 @@ body{
     .tabla-responsi {
         width: auto;
         overflow: auto;
+    }
+    td{
+        font-size: 0.7em !important;
     }
 /* Estilos para las tablas en catalogos */

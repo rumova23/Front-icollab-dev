@@ -93,6 +93,8 @@ import { EditClientsComponent } from './safe/admin/clients/edit/editClients.comp
 import { CatalogGenericComponent } from './safe/catalogs/generic/catalogGeneric.component';
 import { CatalogGenericEditComponent } from './safe/catalogs/generic/edit/catalogGenericEdit.component';
 import { PmlComponent } from './safe/admin/pml/pml.component';
+import { ComplianceWelcomeComponent } from './compliance/home/welcome/complianceWelcome.component';
+import { SafeNewEventComponent } from './safe/business/logBook/newEvent/safeNewEvent.component';
 
 
 
@@ -106,6 +108,7 @@ import { PmlComponent } from './safe/admin/pml/pml.component';
     LoginComponent,
     HomeComponent,
     ComplianceHomeComponent,
+    ComplianceWelcomeComponent,
     AcquisitionsComponent,
     ConfigActivitiesComponent,
     LegalAgreementComponent,
@@ -166,11 +169,12 @@ import { PmlComponent } from './safe/admin/pml/pml.component';
     CatalogGenericEditComponent,
     PmlComponent,
 
-    
     SafeLinkMockUp,
     PlannedPowersPPAComponent,
     HeatRateRecordComponent,
     SalesOffersComponent,
+    SafeNewEventComponent,
+
   ],
   imports: [
     BrowserModule,

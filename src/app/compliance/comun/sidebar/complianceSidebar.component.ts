@@ -1,8 +1,9 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit,Input, ViewChildren } from '@angular/core';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { SecurityService } from 'src/app/core/services/security.service';
+import { CollapseComponent } from 'angular-bootstrap-md';
 
 @Component({
   selector: 'app-complianceSidebar',
@@ -69,7 +70,13 @@ export class ComplianceSidebarComponent implements OnInit {
 
      }
   ngOnInit() {}
-  
+  @ViewChildren(CollapseComponent) collapses: CollapseComponent[];
+  toggleMenu(i) {
+    this.eventService.sendMainCompliance(new EventMessage(1, null));
+    this.collapses.forEach((collapse: CollapseComponent, index) => {
+      (index == i) ? collapse.show() : collapse.hide();
+    });
+  }
   clickMenu(item) {
     console.log(item);
     let option = 0;
@@ -89,7 +96,11 @@ export class ComplianceSidebarComponent implements OnInit {
       case 'Configuración de Cumplimientos':
         option = 8;
         data = item;
-        break;    
+        break;   
+      case 'Configuración de Cumplimientos':
+        option = 9;
+        data = item;
+        break;  
     }
     this.eventService.sendMainCompliance(new EventMessage(option, data));
   }

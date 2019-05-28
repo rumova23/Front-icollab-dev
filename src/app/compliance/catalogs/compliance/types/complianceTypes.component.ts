@@ -11,30 +11,33 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import { EventMessage } from 'src/app/core/models/EventMessage';
-
+import { DatePipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-complianceTypes',
   templateUrl: './complianceTypes.component.html',
-  styleUrls: ['./complianceTypes.component.scss']
+  styleUrls: ['./complianceTypes.component.scss'],
+  providers: [DatePipe]
 })
 export class ComplianceTypesComponent implements OnInit {
   // tslint:disable-next-line:variable-name
   @Input() nombreCatalogo: string;
   entidadEstatusId: string;
+  titulo: String;
+
+
+  dataSource;
+  data: any[] = [];
+  displayedColumnsOrder : any[]    = [];
+  displayedColumnsActions : any[]    = [];
+  columnsToDisplay : string[] = [];
+  row_x_page = [50, 100, 250, 500];
+  
 
   // tslint:disable-next-line:ban-types
-  titulo: String;
-  registros: MatTableDataSource<MaestroOpcion>;
-  columnas: string[] = ['Orden', 'Opcion', 'Descripcion', 'Estatus', 'Ver', 'Modificar','Eliminar' ];
-  filtros = [
-    {label: 'Tipo de cumplimiento', inputtype: 'text'},
-    {label: 'Activo', inputtype: 'text'},
-  ];
-  filtrobtn = {label: 'buscar'};
+
   // tslint:disable-next-line:variable-name
-  registros_x_pagina = [50, 100, 250, 500];
 
 
   constructor(
@@ -43,7 +46,8 @@ export class ComplianceTypesComponent implements OnInit {
                 private route: ActivatedRoute, private globalService: GlobalService,
                 private confirmationDialogService: ConfirmationDialogService,
                 public toastr: ToastrManager,
-                private eventService: EventService) { }
+                private eventService: EventService,
+                private datePipe: DatePipe) { }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -75,15 +79,58 @@ export class ComplianceTypesComponent implements OnInit {
      console.log(type);
      this.eventService.sendMainCompliance(new EventMessage(5, type));
   }
-
   cargaDatos() {
+    this.data = [];
+    this.catalogoMaestroService.getCatalogo( this.nombreCatalogo ).subscribe(data => {
+      //console.dir(data);
+      //debugger;
+      let i = 0;
+      for (let element of data) {
+        i += 1;
+        let obj             = {};
+        obj['order']        = i;
+        obj['id']           = element.maestroOpcionId;
+        obj['name']         = element.opcion.codigo;
+        obj['description']  = element.opcion.descripcion;
+        obj['user']         = element.opcion.userUpdated || element.opcion.userCreated;
+        obj['dateup']       = this.datePipe.transform(new Date(element.opcion.dateUpdated || element.opcion.dateCreated),'dd-MM-yyyy h:mm a');
+        obj['status']       = (element.entidadEstatusId == this.entidadEstatusId) ? 'Activo' : 'Inactivo';
+        obj['see']          = 'sys_see';
+        obj['edit']         = 'sys_edit';
+        obj['delete']       = 'sys_delete';
+        obj['element']      = element;
+        
+        this.data.push(obj);
+      }
+      this.displayedColumnsOrder = [
+        {key:'order',label:'#'},
+        {key:'id',label:'ID'},
+        {key:'name',label:'Nombre'},
+        {key:'description',label:'Descripción'},
+        {key:'status',label:'Estatus'},
+        {key:'user',label:'Usuario Modifico'},
+        {key:'dateup',label:'Fecha y hora Última Modificación'}
+      ];
+      this.displayedColumnsActions = [
+        {key:'see',label:'Ver'},
+        {key:'edit',label:'Editar'},
+        {key:'delete',label:'Eliminar'}
+      ];
+      this.columnsToDisplay= ['order','name','description','user','dateup','status','see','edit','delete'];
+      
+      this.dataSource = new MatTableDataSource<any>(this.data);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
+
+  /*cargaDatos() {
     this.catalogoMaestroService.getCatalogo( this.nombreCatalogo ).subscribe(data => {
       this.registros =  new MatTableDataSource<MaestroOpcion>(data);
       this.registros.paginator = this.paginator;
       this.registros.sort = this.sort;
-
     });
-  }
+  }*/
 
   eliminarRegistro(maestroOpcion: any) {
       this.confirmationDialogService.confirm('Por favor, confirme..',

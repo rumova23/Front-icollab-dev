@@ -281,7 +281,7 @@ export class ConfigActivitiesComponent implements OnInit {
 
         this.toastr.successToastr('Configuración de actividad guardada con éxito.', 'Success!');
         //this.router.navigateByUrl('/configuracion-cumplimiento');
-        this.eventService.sendMainCompliance(new EventMessage(8, {}));
+        //this.eventService.sendMainCompliance(new EventMessage(8, {}));
         //alert ("Configuración de actividad guardada con éxito ");
       },
       error => {
@@ -291,6 +291,10 @@ export class ConfigActivitiesComponent implements OnInit {
         //alert ("Error al guardar la configuración de actividad");
       }
     );
+  }
+
+  regresar(){
+    this.eventService.sendMainCompliance(new EventMessage(8, {}));
   }
 
   //Obtiene la información de un TAG
