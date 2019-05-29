@@ -46,7 +46,7 @@ export class ConfigActivitiesComponent implements OnInit {
 
   tagPrecedentes: any
   tagPrecedentesParaAsiganar: MatTableDataSource<Tag>;
-  registros_x_pagina = [1,2, 5, 50, 100, 250, 500];
+  registros_x_pagina = [50, 100, 250, 500];
 
   configActividadesForm: FormGroup;
   plantas: Array<TagPlanta>
@@ -290,15 +290,13 @@ export class ConfigActivitiesComponent implements OnInit {
         this.existeTagId = true;
 
         this.toastr.successToastr('Configuración de actividad guardada con éxito.', 'Success!');
-        //this.router.navigateByUrl('/configuracion-cumplimiento');
-        //this.eventService.sendMainCompliance(new EventMessage(8, {}));
-        //alert ("Configuración de actividad guardada con éxito ");
+       
       },
       error => {
         console.log(<any>error);
         this.existeTagId = false;
         this.toastr.errorToastr('Error al guardar la configuración de actividad.', 'Oops!');
-        //alert ("Error al guardar la configuración de actividad");
+        
       }
     );
   }

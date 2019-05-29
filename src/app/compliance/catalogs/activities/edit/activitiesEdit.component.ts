@@ -28,6 +28,7 @@ export class ActivitiesEditComponent implements OnInit {
   isChecked: boolean;
   deshabiliarEstatus: boolean = true;
   comboEstatus = new Array<Combo>();
+  idEstatusActivo;
   titulo: String;
   catalogType: CatalogType;
   tareaPorVencer = 40 ;
@@ -73,6 +74,7 @@ export class ActivitiesEditComponent implements OnInit {
           combo = new Combo(element.estatus.estatusId.toString(), element.estatus.nombre);
           this.comboEstatus.push(combo);
           if (element.estatus.nombre == "Activo" && this.accion == null) {
+            this.idEstatusActivo = element.estatus.estatusId.toString();
             this.actividadesForm.controls['fComboEstatus'].patchValue(`${element.estatus.estatusId.toString()}`);
           }
         });
@@ -146,14 +148,14 @@ export class ActivitiesEditComponent implements OnInit {
   submitted = false;
   onSubmit() {
     this.submitted = true;
-
+/*
     if ( (this.actividadesForm.controls['fTareaPorVencer'].value 
           + this.actividadesForm.controls['fTareaProximaVencer'].value 
           + this.actividadesForm.controls['fTareaTiempo'].value) != 100 ){
             this.toastr.errorToastr('La suma de todos los porcentajes, debe ser igual a 100.', 'Oops!');
             return;
           }
-
+*/
     if (this.actividadesForm.invalid) {
       this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Oops!');
       return;
@@ -174,7 +176,11 @@ export class ActivitiesEditComponent implements OnInit {
     let actividad = new TagActividadInDTO(0,
       this.actividadesForm.controls['fActividad'].value,
       this.actividadesForm.controls['fPrefijo'].value,
-      this.actividadesForm.controls['fComboEstatus'].value);
+      this.actividadesForm.controls['fComboEstatus'].value,
+      this.actividadesForm.controls['fTareaPorVencer'].value,
+      this.actividadesForm.controls['fTareaProximaVencer'].value,
+      this.actividadesForm.controls['fTareaTiempo'].value);
+      
     this.tagService.crearActividad(actividad).subscribe(
       result => {
         console.log(result);
@@ -201,10 +207,15 @@ export class ActivitiesEditComponent implements OnInit {
 
   actualizarActividad() {
 
-    let actividad = new TagActividadInDTO(this.actividadesForm.controls['fActividadId'].value,
+    let actividad = new TagActividadInDTO(
+      this.actividadesForm.controls['fActividadId'].value,
       this.actividadesForm.controls['fActividad'].value,
       this.actividadesForm.controls['fPrefijo'].value,
-      this.actividadesForm.controls['fComboEstatus'].value);
+      this.actividadesForm.controls['fComboEstatus'].value,
+      40,//this.actividadesForm.controls['fTareaPorVencer'].value,
+      30,//this.actividadesForm.controls['fTareaProximaVencer'].value,
+      30);//this.actividadesForm.controls['fTareaTiempo'].value);
+      console.log(actividad);
     this.tagService.editarActividad(actividad).subscribe(
       result => {
         console.log(result);
