@@ -44,7 +44,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'Safe-Link-MockUp', component: SafeLinkMockUp, pathMatch: 'full',
+    path: 'Link-MockUp', component: SafeLinkMockUp, pathMatch: 'full',
     data: {
       app: 'Mock Up'
     }

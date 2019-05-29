@@ -14,12 +14,12 @@ export const environment = {
   ,mtUrl      : 'http://201.149.85.14:8383/tags/'  //micro tag port:1188
   ,coUrl      : 'http://201.149.85.14:8383/micro-seguimiento/'  //micro compliance seguimiento
   ,estatus_maestro      : 'http://201.149.85.14:8383/estatus-maestro/'  // estatus maestr
-  ,securityUrl     : 'http://localhost:11122/security/'  // micro - security,
-  ,mercadoUrl     : 'http://localhost:11120/'  // back-mercado-api
-  ,pmlUrl     : 'http://localhost:1114/pml/rest/'  // Pml url
+  ,securityUrl     : 'http://201.149.85.14:11122/security/'  // estatus maestro,
+  ,mercadoUrl     : 'http://201.149.85.14:11120/'  // estatus maestro
+  ,pmlUrl     : 'http://localhost:1114/pml/rest/'
 };
-*/
-
+//*/
+///*
 export const environment = {
   production: false
   ,appVersion : 'Desarrollo V 1.0'
@@ -36,7 +36,7 @@ export const environment = {
   ,mercadoUrl     : 'http://localhost:11120/'  // estatus maestro
   ,pmlUrl     : 'http://localhost:1114/pml/rest/'
 };
-
+//*/
 
 /*
  * For easier debugging in development mode, you can import the following file
