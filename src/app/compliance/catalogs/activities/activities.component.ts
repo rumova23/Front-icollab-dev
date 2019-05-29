@@ -20,7 +20,8 @@ export class ActivitiesComponent implements OnInit {
   titulo: String = "Catálogos / Categorías";
   registros;
   data: any[] = [];
-  columnas: string[] = ['order','category','prefix','status','see','update','delete'];
+  columnas: string[] = ['order','category','prefix','status','userUpdated','dateUpdated','see','update','delete'];          
+
   filtros = [
     {label:"Actividad",inputtype:"text"},
     {label:"Prefijo",inputtype:"text"},
@@ -55,11 +56,13 @@ export class ActivitiesComponent implements OnInit {
         let i = 0;
         for (let element of data) {
           i += 1;
-          let obj         = {};
-          obj['order']    = i;
-          obj['category'] = element.nombre;
-          obj['prefix']   = element.prefijo;
-          obj['status']   = element.estatus.estatus.nombre;
+          let obj             = {};
+          obj['order']        = i;
+          obj['category']     = element.nombre;
+          obj['prefix']       = element.prefijo;
+          obj['status']       = element.estatus.estatus.nombre;
+          obj['userUpdated']  = element.userUpdated;
+          obj['dateUpdated']  = element.dateUpdated;
           obj['see']      = 'sys_see';
           obj['edit']     = 'sys_edit';
           obj['delete']   = 'sys_delete';

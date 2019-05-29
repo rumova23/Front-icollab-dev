@@ -23,7 +23,7 @@ export class ComplianceConfigurationComponent implements OnInit {
   registros;
   data: any[] = [];
 
-  columnas: string[] = ['order','tag','nombre','cumplimiento_legal','autoridad','tipo_aplicacion','estatus','ver','modificar','eliminar'];
+  columnas: string[] = ['order','tag','nombre','clasificacion','cumplimiento_legal','autoridad','tipo_aplicacion','estatus','userUpdated','dateUpdated','ver','modificar','eliminar'];
   filtros = [
     {label:"TAG",inputtype:"text"},
     {label:"Nombre",inputtype:"text"},
@@ -94,10 +94,12 @@ export class ComplianceConfigurationComponent implements OnInit {
           obj['tipo_aplicacion']    = element.tipoAplicacion.opcion.descripcion;
           obj['periodo_entrega']    = element.periodoEntrega.opcion.descripcion;
           obj['estatus']            = element.estatus.estatus.nombre;
-          obj['see']          = 'sys_see';
-          obj['edit']         = 'sys_edit';
-          obj['delete']       = 'sys_delete';
-          obj['element']      = element;
+          obj['userUpdated']        = element.userUpdated;
+          obj['dateUpdated']        = element.dateUpdated;
+          obj['see']                = 'sys_see';
+          obj['edit']               = 'sys_edit';
+          obj['delete']             = 'sys_delete';
+          obj['element']            = element;
           listObj.push(obj);
         }
 
