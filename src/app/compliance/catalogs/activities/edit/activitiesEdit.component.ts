@@ -53,7 +53,7 @@ export class ActivitiesEditComponent implements OnInit {
       fActividadId: ['', ''],
       fActividad: ['', Validators.required],
       fPrefijo: ['', Validators.required],
-      fComboEstatus: ['', ''],
+      fComboEstatus: ['', Validators.required],
       fTareaPorVencer: ['40', [Validators.min(1), Validators.max(100)] ],
       fTareaProximaVencer: ['30', [Validators.min(1), Validators.max(100)] ],
       fTareaTiempo: ['30', [Validators.min(1), Validators.max(100)] ]
