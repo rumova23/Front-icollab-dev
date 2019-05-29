@@ -9,16 +9,10 @@
         <form [formGroup]="perfilForm" (ngSubmit)="onSubmit()">
             <mat-form-field class="w-100" style="display:none;">
                 <input matInput formControlName="maestroOpcionId">
-                <div *ngIf="false" style="color:red">
-                    <div *ngIf="false">Requerido</div>
-                </div>
             </mat-form-field>
 
             <mat-form-field class="w-100" style="display: none">
                 <input matInput formControlName="orden" placeholder="Numero de Orden">
-                <div *ngIf="false" style="color:red">
-                    <div *ngIf="false">Requerido</div>
-                </div>
             </mat-form-field>
 
             <mat-form-field class="w-100">

@@ -55,7 +55,7 @@ export class ComplianceTypesEditComponent implements OnInit {
   get f() { return this.perfilForm.controls; }
 
   ngOnInit() {
-
+    this.submitted = false;
     this.estatusMaestroService.getEstatusMaestroOpcion().subscribe(
       catalogoResult => {
         console.log(catalogoResult)
@@ -125,22 +125,21 @@ export class ComplianceTypesEditComponent implements OnInit {
     }
 
     this.perfilForm = this.formBuilder.group({
-      maestroOpcionId: [{ value: '', disabled: true }],
-      nombreOpcion: [ '', Validators.required, { disabled: this.isReadOnly }],
-      opcionDescripcion: ['', Validators.required, { disabled: this.isReadOnly }],
-      orden: [{ value: '', disabled: this.isReadOnly }],
-      estatus: [{ value: '', disabled: this.isReadOnly }],
+      maestroOpcionId: ['',''],
+      nombreOpcion: [ '', Validators.required],
+      opcionDescripcion: ['', Validators.required],
+      orden: ['',''],
+      estatus: ['',''],
       fComboEstatus: ['', '']
     });
   }
   onSubmit() {
     
+    this.submitted = true;
     if (this.perfilForm.invalid) {
       this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Oops!');
       return;
     }
-    
-    this.submitted = true;
 
     console.log(this.perfilForm.controls);
     if (this.accion === 'edit') {
