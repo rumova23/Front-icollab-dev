@@ -7,6 +7,7 @@ import { Combo } from 'src/app/compliance/models/Combo';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { TagActividadDTO } from 'src/app/compliance/models/TagActividadDTO';
 import { TagActividadInDTO } from 'src/app/compliance/models/TagActividadInDTO';
+import { GenerigResponseDTO } from 'src/app/compliance/models/GenerigResponseDTO';
 import { TagService } from 'src/app/compliance/services/tag.service';
 import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import { EventService } from 'src/app/core/services/event.service';
@@ -122,8 +123,6 @@ export class ActivitiesEditComponent implements OnInit {
 
             this.actividadesForm.controls['fComboEstatus'].patchValue(`${tagActividad.estatus.estatus.estatusId}`);
             
-            
-
             if (this.accion === 'ver') {
               this.soloLectura = true;
             } else {
@@ -152,11 +151,10 @@ export class ActivitiesEditComponent implements OnInit {
           + this.actividadesForm.controls['fTareaProximaVencer'].value 
           + this.actividadesForm.controls['fTareaTiempo'].value) != 100 ){
             this.toastr.errorToastr('La suma de todos los porcentajes, debe ser igual a 100.', 'Oops!');
-            return;      
+            return;
           }
 
     if (this.actividadesForm.invalid) {
-      console.log('Error!! :-)\n\n' + JSON.stringify(this.actividadesForm.value));
       this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Oops!');
       return;
     }
@@ -180,15 +178,25 @@ export class ActivitiesEditComponent implements OnInit {
     this.tagService.crearActividad(actividad).subscribe(
       result => {
         console.log(result);
-        this.toastr.successToastr('La actividad fue Creada con éxito.', 'Success');
-        //this.router.navigateByUrl('/catalogo-actividades');
-        this.eventService.sendMainCompliance(new EventMessage(6, {}));
+        let generigResponseDTO : any;
+        generigResponseDTO = result;
+        if ( generigResponseDTO.clave == 99 ){
+          this.toastr.errorToastr('El nombre del CATÁLOGO o del PREFIJO ya existe, favor de modificar.', 'Oops!');
+        }else{
+          this.toastr.successToastr('La actividad fue Creada con éxito.', 'Success');
+          //this.router.navigateByUrl('/catalogo-actividades');
+          this.eventService.sendMainCompliance(new EventMessage(6, {}));
+        }
       },
       error => {
         console.log(<any>error);
         this.toastr.errorToastr('Error al guardar la actividad.', 'Oops!');
       });
 
+  }
+
+  regresar(){
+    this.eventService.sendMainCompliance(new EventMessage(6, {}));
   }
 
   actualizarActividad() {

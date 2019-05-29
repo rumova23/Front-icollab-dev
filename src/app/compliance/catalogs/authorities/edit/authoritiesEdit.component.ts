@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { EventService } from 'src/app/core/services/event.service';
+import { EventMessage } from 'src/app/core/models/EventMessage';
+
 export interface Inputs {
   label:String;
   inputtype:String;
@@ -18,9 +21,14 @@ export class AuthoritiesEditComponent implements OnInit {
     {label:"Autoridad",inputtype:"text"},
     {label:"Activo",inputtype:"checkbox",checked:true},
   ];
-  constructor() { }
+  constructor(private eventService: EventService) { }
 
   ngOnInit() {
+  }
+
+
+  regresar(){
+    this.eventService.sendMainCompliance(new EventMessage(6, {}));
   }
 
 }

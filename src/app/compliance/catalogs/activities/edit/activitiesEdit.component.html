@@ -21,7 +21,7 @@
       </div>
       <div class="row">
         <!-- Grid column -->
-        <div class="col-md-4">
+        <div class="col">
           <!-- Material input -->
           <div class="md-form">
             <mat-form-field class="w-100">
@@ -35,7 +35,7 @@
       </div>
       <div class="row">
         <!-- Grid column -->
-        <div class="col-md-4">
+        <div class="col">
           <!-- Material input -->
           <div class="md-form">
             <mat-form-field class="w-100">
@@ -49,68 +49,64 @@
       </div>
       <div class="row">
         <!-- Grid column -->
-        <div class="col-md-4">
-          <mat-form-field>
-            <input matInput formControlName="fTareaPorVencer"
-                            [readonly]="soloLectura"
-                            [(ngModel)]="tareaPorVencer" 
-                            type="number" 
-                            step="1"
-                            min="1"
-                            max= maxTareaPorVencer
-                            pattern="^[0-9]+"
-                            placeholder="% Tarea a vencer">
-            <div *ngIf="submitted && f.fTareaPorVencer.errors" style="color:red">
-              <mat-error *ngIf="f.fTareaPorVencer.hasError('required')">
-                Amount is required.
-              </mat-error>  
-              <mat-error *ngIf="f.fTareaPorVencer.hasError('min')">
-                Minimum Amount is 100.
-              </mat-error>  
-              <mat-error *ngIf="f.fTareaPorVencer.hasError('max')">
-                Maximum Amount is 200.
-              </mat-error>        
-            </div>         
-          </mat-form-field>
+        <div class="col">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field>
+                <input matInput formControlName="fTareaPorVencer"
+                                [readonly]="soloLectura"
+                                [(ngModel)]="tareaPorVencer" 
+                                type="number" 
+                                step="1"
+                                min="1"
+                                max= maxTareaPorVencer
+                                pattern="^[0-9]+"
+                                placeholder="% Tarea a vencer">
+                <div *ngIf="submitted && f.fTareaPorVencer.errors" style="color:red">
+                  <mat-error *ngIf="f.fTareaPorVencer.hasError('required')">
+                    Amount is required.
+                  </mat-error>  
+                  <mat-error *ngIf="f.fTareaPorVencer.hasError('min')">
+                    Minimum Amount is 100.
+                  </mat-error>  
+                  <mat-error *ngIf="f.fTareaPorVencer.hasError('max')">
+                    Maximum Amount is 200.
+                  </mat-error>        
+                </div>         
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field>
+                <input matInput formControlName="fTareaProximaVencer"
+                                [readonly]="soloLectura" 
+                                [(ngModel)]="tareaProximaVencer" 
+                                type="number"
+                                step="1" 
+                                min="1"
+                                max= maxTareaProximaVencer
+                                pattern="^[0-9]+"
+                                placeholder="% Próxima a vencer">
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field> 
+                <input matInput formControlName="fTareaTiempo"
+                                [readonly]="soloLectura" 
+                                [(ngModel)]="tareaTiempo" 
+                                type="number"
+                                step="1" 
+                                min="1"
+                                max= maxTareaTiempo
+                                pattern="^[0-9]+"
+                                placeholder="% Tarea en tiempo">
+              </mat-form-field>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="row">
-        <!-- Grid column -->
-        <div class="col-md-4">
-          <mat-form-field>
-            <input matInput formControlName="fTareaProximaVencer"
-                            [readonly]="soloLectura" 
-                            [(ngModel)]="tareaProximaVencer" 
-                            type="number"
-                            step="1" 
-                            min="1"
-                            max= maxTareaProximaVencer
-                            pattern="^[0-9]+"
-                            placeholder="% Próxima a vencer">
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div class="row">
-        <!-- Grid column -->
-        <div class="col-md-4">
-          <!-- Material input -->
-          <mat-form-field>
-            <input matInput formControlName="fTareaTiempo"
-                            [readonly]="soloLectura" 
-                            [(ngModel)]="tareaTiempo" 
-                            type="number"
-                            step="1" 
-                            min="1"
-                            max= maxTareaTiempo
-                            pattern="^[0-9]+"
-                            placeholder="% Tarea en tiempo">
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
+        <div class="col">
           <mat-form-field class="w-100">
             <mat-label>Estatus</mat-label>
             <mat-select [compareWith]="compareFn" formControlName="fComboEstatus" [disabled]="deshabiliarEstatus"
@@ -129,7 +125,7 @@
         <div class="col-md-4"></div>
       </div>
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-12">
           <div class="d-flex justify-content-end" *ngIf="!soloLectura">
             <button type="submit" class="btn"
               [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">Guardar</button>
@@ -137,5 +133,15 @@
         </div>
       </div>
     </form>
+
+    <div class="row">
+      <div class="col-10"></div>
+      <div class="col-2">
+        <button type="button" class="btn"
+          [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
+          (click)="regresar()">Regresar</button>
+      </div>
+    </div>
+
   </div>
 </div>

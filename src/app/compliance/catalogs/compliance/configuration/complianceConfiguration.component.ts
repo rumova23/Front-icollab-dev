@@ -20,9 +20,10 @@ import { EventService } from 'src/app/core/services/event.service';
 })
 export class ComplianceConfigurationComponent implements OnInit {
   titulo: String = "Configuración de cumplimientos";
-  registros: MatTableDataSource<Tag>;
+  registros;
+  data: any[] = [];
 
-  columnas: string[] = ['orden','tag','nombre','clasificacion','cumplimiento_legal','autoridad','tipo_aplicacion','periodo_entrega','estatus','ver','modificar','eliminar'];
+  columnas: string[] = ['order','tag','nombre','clasificacion','cumplimiento_legal','autoridad','tipo_aplicacion','periodo_entrega','estatus','ver','modificar','eliminar'];
   filtros = [
     {label:"TAG",inputtype:"text"},
     {label:"Nombre",inputtype:"text"},
@@ -61,10 +62,9 @@ export class ComplianceConfigurationComponent implements OnInit {
     });
 
    }
+   @ViewChild(MatPaginator) paginator: MatPaginator;
+   @ViewChild(MatSort) sort: MatSort;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  
   ngOnInit() {
     this.filtrosForm = this.formBuilder.group({
       fTag: ['', ''],
@@ -77,12 +77,31 @@ export class ComplianceConfigurationComponent implements OnInit {
 
   obtenerListaTags() {
     console.log( 'la planta id: ' + this.globalService.plantaDefaultId)
-    this.tagService.obtenTagPorFiltros(this.globalService.plantaDefaultId).subscribe(
-      respuesta => {
-        console.dir( respuesta );
-        let datos: any;
-        datos = respuesta;
-        this.registros =  new MatTableDataSource<Tag>(datos);
+    this.data = [];
+    this.tagService.obtenTagPorFiltros(this.globalService.plantaDefaultId).subscribe( data => {
+        console.dir( data );
+        let listObj = [];
+        let i = 0;
+        for (let element of data) {
+          i += 1;
+          let obj                   = {};
+          obj['order']              = i;
+          obj['tag']                = element.tag;
+          obj['nombre']             = element.descripcion;
+          obj['clasificacion']      = element.clasificacionActividad;
+          obj['cumplimiento_legal'] = element.tipoCumplimiento.opcion.descripcion;
+          obj['autoridad']          = element.autoridad.opcion.descripcion;
+          obj['tipo_aplicacion']    = element.tipoAplicacion.opcion.descripcion;
+          obj['periodo_entrega']    = element.periodoEntrega.opcion.descripcion;
+          obj['estatus']            = element.estatus.estatus.nombre;
+          obj['see']          = 'sys_see';
+          obj['edit']         = 'sys_edit';
+          obj['delete']       = 'sys_delete';
+          obj['element']      = element;
+          listObj.push(obj);
+        }
+
+        this.registros =  new MatTableDataSource<any>(listObj);
         this.registros.paginator = this.paginator;
         this.registros.sort = this.sort;
       },

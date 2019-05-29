@@ -5,6 +5,7 @@ import { TagPrecedente } from '../models/TagPrecedente';
 import { Tag } from '../models/Tag';
 import { TagActividadInDTO } from '../models/TagActividadInDTO';
 import { OrderCatalogDTO } from '../models/OrderCatalogDTO';
+import { Observable } from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -70,7 +71,7 @@ export class TagService {
     return this.http.post( `${ this.baseMicroTagUrl }eliminarPrecedente`, tagPrecedente, httpOptions);
   }
 
-  obtenTagPorFiltros(plantaId: string) {
+  obtenTagPorFiltros(plantaId) : Observable<any> {
     return this.http.get( `${ this.baseMicroTagUrl }obtenTagPorFiltros/${plantaId}`, httpOptions);
   }
 
@@ -79,7 +80,7 @@ export class TagService {
   }
 
   // Actividades
-  getCatalogoActividades() {
+  getCatalogoActividades() : Observable<any> {
     return this.http.get( `${ this.baseMicroTagUrl }actividad/all`, httpOptions);
   }
 
