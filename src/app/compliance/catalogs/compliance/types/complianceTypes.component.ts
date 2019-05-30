@@ -149,7 +149,7 @@ export class ComplianceTypesComponent implements OnInit {
                   maestroOpcion.maestroOpcionId
               ).subscribe(data => {
                 this.cargaDatos();
-                this.toastr.successToastr('El registro fue correctamente eliminado', 'Success!');
+                this.toastr.successToastr('El registro fue correctamente eliminado', '¡Se ha logrado!');
               });
             }
           })

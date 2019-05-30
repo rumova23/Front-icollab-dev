@@ -95,12 +95,12 @@ export class SkillsComponent implements OnInit {
       }
     }
     if (tOpc > 0) {
-      this.toastr.errorToastr('Error, Debe de seleccionar todo las opciones si o no.', 'Oops!');
+      this.toastr.errorToastr('Error, Debe de seleccionar todo las opciones si o no.', 'Lo siento,');
       //alert('ERROR!! :-)\n\n' + "debe de seleccionar todo las opciones si o no");
       return;
     }
     if (tRes) {
-      this.toastr.errorToastr('Error, Debe de escribir en todas las respuestas abiertas.', 'Oops!');
+      this.toastr.errorToastr('Error, Debe de escribir en todas las respuestas abiertas.', 'Lo siento,');
       //alert('ERROR!! :-)\n\n' + "debe de escribir en todas las respuestas abiertas");
       return;
     }

@@ -255,7 +255,7 @@ export class ConfigActivitiesComponent implements OnInit {
     if (this.configActividadesForm.invalid) {
       console.log('Error!! :-)\n\n' + JSON.stringify(this.configActividadesForm.value));
 
-      this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Oops!');
+      this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Lo siento,');
       //alert("Todos los campos son obligatorios, verifique");
       return;
     }
@@ -320,13 +320,13 @@ export class ConfigActivitiesComponent implements OnInit {
         this.configActividadesForm.controls['fIdTag'].setValue(respuesta['tagId']);
         this.existeTagId = true;
 
-        this.toastr.successToastr('Configuración de actividad guardada con éxito.', 'Success!');
+        this.toastr.successToastr('Configuración de actividad guardada con éxito.', '¡Se ha logrado!');
        
       },
       error => {
         console.log(<any>error);
         this.existeTagId = false;
-        this.toastr.errorToastr('Error al guardar la configuración de actividad.', 'Oops!');
+        this.toastr.errorToastr('Error al guardar la configuración de actividad.', 'Lo siento,');
         
       }
     );
@@ -372,7 +372,7 @@ export class ConfigActivitiesComponent implements OnInit {
         } else {
           this.limpiarFormulario();
           this.existeTagId = false;
-          this.toastr.infoToastr('No se encontró información del Tag buscado.', 'Info');
+          this.toastr.infoToastr('No se encontró información del Tag buscado.', 'Lo siento,');
           //alert("No se encontró información del Tag buscado")
         }
       },
@@ -433,7 +433,7 @@ export class ConfigActivitiesComponent implements OnInit {
         } else {
           this.limpiarFormulario();
           this.existeTagId = false;
-          this.toastr.infoToastr('No se encontró información del Tag buscado.', 'Info');
+          this.toastr.infoToastr('No se encontró información del Tag buscado.', 'Lo siento,');
           //alert("No se encontró información del Tag buscado")
         }
       },
@@ -501,7 +501,7 @@ export class ConfigActivitiesComponent implements OnInit {
           this.idsTagPrecedentes = []
         } else {
           this.tablaAgregarPrecedentes = false;
-          this.toastr.errorToastr('No hay actividades que puedan ser asignadas como precedentes.', 'Oops!');
+          this.toastr.errorToastr('No hay actividades que puedan ser asignadas como precedentes.', 'Lo siento,');
           //alert("No hay actividades que puedan ser asignadas como precedentes");
         }
       },

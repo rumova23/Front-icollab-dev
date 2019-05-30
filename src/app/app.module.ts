@@ -47,7 +47,6 @@ import { DashboardsComponent } from './compliance/business/perfil/dashboards/das
 import { ResponsibilitiesComponent } from './compliance/business/perfil/responsibilities/responsibilities.component';
 import { ObsyCommentsComponent } from './compliance/business/perfil/obsyComments/obsyComments.component';
 import { AuthoritiesComponent } from './compliance/catalogs/authorities/authorities.component';
-import { ApplicationsTypesComponent } from './compliance/catalogs/applications/types/applicationsTypes.component';
 import { DepartmentsComponent } from './compliance/catalogs/departments/departments.component';
 import { PeriodsComponent } from './compliance/catalogs/periods/periods.component';
 import { DaysTypesComponent } from './compliance/catalogs/days/types/daysTypes.component';
@@ -55,7 +54,6 @@ import { ActivitiesEditComponent } from './compliance/catalogs/activities/edit/a
 import { CompetentStaffComponent } from './compliance/business/acquisitions/competentStaff/competentStaff.component';
 import { ActivitiesTypesEditComponent } from './compliance/catalogs/activities/types/edit/activitiesTypesEdit.component';
 import { AuthoritiesEditComponent } from './compliance/catalogs/authorities/edit/authoritiesEdit.component';
-import { ApplicationsTypesEditComponent } from './compliance/catalogs/applications/types/edit/applicationsTypesEdit.component';
 import { UploadComponent } from './compliance/business/perfil/upload/upload.component';
 import { ComplianceConfigurationComponent } from './compliance/catalogs/compliance/configuration/complianceConfiguration.component';
 import { EventService } from './core/services/event.service';
@@ -127,7 +125,6 @@ import { SalesOffersComponent } from './safe/business/mdaPlanningProcess/salesOf
     ObsyCommentsComponent,
     CatalogsComponent,
     AuthoritiesComponent,
-    ApplicationsTypesComponent,
     DepartmentsComponent,
     PeriodsComponent,
     DaysTypesComponent,
@@ -136,7 +133,6 @@ import { SalesOffersComponent } from './safe/business/mdaPlanningProcess/salesOf
     ActivitiesTypesEditComponent,
     ComplianceTypesComponent,
     AuthoritiesEditComponent,
-    ApplicationsTypesEditComponent,
     UploadComponent,
     CalendarComponent,
     ConfirmationModalComponent,

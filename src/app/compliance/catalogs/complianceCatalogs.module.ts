@@ -7,14 +7,12 @@ import { ActivitiesTypesEditComponent } from './activities/types/edit/activities
 import { DepartmentsComponent } from './departments/departments.component';
 import { ComplianceConfigurationComponent } from './compliance/configuration/complianceConfiguration.component';
 import { PeriodsComponent } from './periods/periods.component';
-import { ApplicationsTypesComponent } from './applications/types/applicationsTypes.component';
-import { ApplicationsTypesEditComponent } from './applications/types/edit/applicationsTypesEdit.component';
 import { DaysTypesComponent } from './days/types/daysTypes.component';
 import { ComplianceTypesComponent } from './compliance/types/complianceTypes.component';
 import { ComplianceTypesEditComponent } from './compliance/types/edit/complianceTypesEdit.component';
 import { AuthoritiesComponent } from './authorities/authorities.component';
 import { AuthoritiesEditComponent } from './authorities/edit/authoritiesEdit.component';
-
+ 
 
 @NgModule({
   imports: [
@@ -30,8 +28,6 @@ import { AuthoritiesEditComponent } from './authorities/edit/authoritiesEdit.com
     ComplianceTypesComponent,
     ComplianceTypesEditComponent,
     PeriodsComponent,
-    ApplicationsTypesComponent,
-    ApplicationsTypesEditComponent,
     DaysTypesComponent,
     AuthoritiesComponent,
     AuthoritiesEditComponent,
@@ -49,8 +45,6 @@ import { AuthoritiesEditComponent } from './authorities/edit/authoritiesEdit.com
     ComplianceTypesComponent,
     ComplianceTypesEditComponent,
     PeriodsComponent,
-    ApplicationsTypesComponent,
-    ApplicationsTypesEditComponent,
     DaysTypesComponent,
     AuthoritiesComponent,
     AuthoritiesEditComponent,
