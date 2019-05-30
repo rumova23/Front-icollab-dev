@@ -23,7 +23,7 @@ export class ComplianceConfigurationComponent implements OnInit {
   registros;
   data: any[] = [];
 
-  columnas: string[] = ['order','tag','nombre','clasificacion','cumplimiento_legal','autoridad','tipo_aplicacion','estatus','userUpdated','dateUpdated','ver','modificar','eliminar'];
+  columnas: string[] = ['order','tag','nombre','clasificacion','cumplimiento_legal','autoridad','tipo_aplicacion','userUpdated','dateUpdated','estatus','ver','modificar','eliminar'];
   filtros = [
     {label:"TAG",inputtype:"text"},
     {label:"Nombre",inputtype:"text"},

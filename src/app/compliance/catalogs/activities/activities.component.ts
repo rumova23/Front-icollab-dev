@@ -20,7 +20,7 @@ export class ActivitiesComponent implements OnInit {
   titulo: String = "Catálogos / Categorías";
   registros;
   data: any[] = [];
-  columnas: string[] = ['order','category','prefix','status','userUpdated','dateUpdated','see','update','delete'];          
+  columnas: string[] = ['order','category','prefix','userUpdated','dateUpdated','status','see','update','delete'];          
 
   filtros = [
     {label:"Actividad",inputtype:"text"},
