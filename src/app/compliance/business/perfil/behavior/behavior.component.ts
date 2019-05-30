@@ -99,7 +99,7 @@ export class BehaviorComponent implements OnInit {
     }
 
     if (totalResp > 0) {
-      this.toastr.errorToastr('Error, Debe de seleccionar todo los options.', 'Oops!');
+      this.toastr.errorToastr('Error, Debe de seleccionar todo los options.', 'Lo siento,');
       //alert('ERROR!! :-)\n\n' + "debe de seleccionar todo los options");
       return;
     }

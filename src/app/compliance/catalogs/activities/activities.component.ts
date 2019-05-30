@@ -100,14 +100,14 @@ export class ActivitiesComponent implements OnInit {
         res = respuesta;
         if ( res.clave == 0 ){
           this.obtenerListaActividades();
-          this.toastr.successToastr(res.mensaje, 'Success!');
+          this.toastr.successToastr(res.mensaje, '¡Se ha logrado!');
         }else{
           this.toastr.errorToastr(res.mensaje, 'Success!');
         }
       },
       error => {
         console.log(<any> error);
-        this.toastr.errorToastr('Error al eliminar la actividad.', 'Oops!');
+        this.toastr.errorToastr('Error al eliminar la actividad.', 'Lo siento,');
       }
     )
   }

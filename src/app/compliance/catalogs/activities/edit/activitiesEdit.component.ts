@@ -132,7 +132,7 @@ export class ActivitiesEditComponent implements OnInit {
             }
 
           } else {
-            this.toastr.infoToastr('No se encontró información del Tag buscado.', 'Info');
+            this.toastr.infoToastr('No se encontró información del Tag buscado.', 'Lo siento,');
           }
 
         },
@@ -152,12 +152,12 @@ export class ActivitiesEditComponent implements OnInit {
     if ( (this.actividadesForm.controls['fTareaPorVencer'].value 
           + this.actividadesForm.controls['fTareaProximaVencer'].value 
           + this.actividadesForm.controls['fTareaTiempo'].value) != 100 ){
-            this.toastr.errorToastr('La suma de todos los porcentajes, debe ser igual a 100.', 'Oops!');
+            this.toastr.errorToastr('La suma de todos los porcentajes, debe ser igual a 100.', 'Lo siento,');
             return;
           }
 */
     if (this.actividadesForm.invalid) {
-      this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Oops!');
+      this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Lo siento,');
       return;
     }
 
@@ -187,16 +187,16 @@ export class ActivitiesEditComponent implements OnInit {
         let generigResponseDTO : any;
         generigResponseDTO = result;
         if ( generigResponseDTO.clave == 99 ){
-          this.toastr.errorToastr('El nombre del CATÁLOGO o del PREFIJO ya existe, favor de modificar.', 'Oops!');
+          this.toastr.errorToastr('El nombre del CATÁLOGO o del PREFIJO ya existe, favor de modificar.', 'Lo siento,');
         }else{
-          this.toastr.successToastr('La actividad fue Creada con éxito.', 'Success');
+          this.toastr.successToastr('La actividad fue Creada con éxito.', '¡Se ha logrado!');
           //this.router.navigateByUrl('/catalogo-actividades');
           this.eventService.sendMainCompliance(new EventMessage(6, {}));
         }
       },
       error => {
         console.log(<any>error);
-        this.toastr.errorToastr('Error al guardar la actividad.', 'Oops!');
+        this.toastr.errorToastr('Error al guardar la actividad.', 'Lo siento,');
       });
 
   }
@@ -219,14 +219,14 @@ export class ActivitiesEditComponent implements OnInit {
     this.tagService.editarActividad(actividad).subscribe(
       result => {
         console.log(result);
-        this.toastr.successToastr('La actividad fue actualizada con éxito.', 'Success');
+        this.toastr.successToastr('La actividad fue actualizada con éxito.', '¡Se ha logrado!');
         //this.router.navigateByUrl('/catalogo-actividades/editar/'+this.actividadId);
         //this.router.navigateByUrl('/catalogo-actividades');
         this.eventService.sendMainCompliance(new EventMessage(6, {}));
       },
       error => {
         console.log(<any>error);
-        this.toastr.errorToastr('Error al Editar la actividad.', 'Oops!');
+        this.toastr.errorToastr('Error al Editar la actividad.', 'Lo siento,');
       });
 
   }
