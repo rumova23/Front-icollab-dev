@@ -65,6 +65,16 @@ export class ConfigActivitiesComponent implements OnInit {
   catalogType: CatalogType;
   serviceSubscription: any;
 
+  checkedCheckBox = false;
+  indeterminateCheckBox = false;
+  labelPositionCheckBox = 'after';
+  disabledCheckBox = false;
+  checkedEstatus = "unchecked";
+
+  myModel = false;
+  checkedActivoId;
+  checkedInactivoId;
+
   constructor(private cdRef: ChangeDetectorRef,
     private tagService: TagService,
     private formBuilder: FormBuilder,
@@ -111,6 +121,8 @@ export class ConfigActivitiesComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  entidadEstatus: any;
+
   ngOnInit() {
    //this.accion = this.route.snapshot.params.accion;
    this.accion = this.catalogType.action;
@@ -151,19 +163,22 @@ export class ConfigActivitiesComponent implements OnInit {
         this.resuelveDS(poRespuesta, this.comboPlanta, 'PLANTA');
       }
     );
+    
+    
 
     this.tagService.getEstatusMaestroOpcion().subscribe(
       catalogoResult => {
         console.log(catalogoResult)
-        let entidadEstatus: any;
-        entidadEstatus = catalogoResult;
-        entidadEstatus.forEach(element => {
-          let combo: Combo;
-          combo = new Combo(element.estatus.estatusId.toString(), element.estatus.nombre);
-          this.comboEstatus.push(combo);
-          if (element.estatus.nombre == "Activo" && this.accion == null) {
-            this.configActividadesForm.controls['fComboEstatus'].patchValue(`${element.estatus.estatusId.toString()}`);
+        this.entidadEstatus = catalogoResult;
+        this.entidadEstatus.forEach(element => {
+          if ( element.estatus.nombre === 'Activo' ){
+            this.checkedActivoId = element.estatus.estatusId;
           }
+
+          if ( element.estatus.nombre === 'Inactivo' ){
+            this.checkedInactivoId = element.estatus.estatusId;
+          }
+          
         });
       },
       error => {
@@ -204,7 +219,7 @@ export class ConfigActivitiesComponent implements OnInit {
       fPeriodoEntrega: ['', Validators.required],
       fTipoDias: ['', Validators.required],
       fPlanta: ['', Validators.required],
-      fComboEstatus: ['', Validators.required]
+      
     });
 
     //this.cabeceraTagPrecedentesAux = ['ID ACTIVIDAD', 'ACTIVIDAD', 'DESCRIPCIÓN', 'ASIGNAR PRECEDENTE'];
@@ -249,6 +264,15 @@ export class ConfigActivitiesComponent implements OnInit {
 
   }
 
+  chanceCheck(){
+    if (this.myModel)
+      this.myModel = false;
+    else{
+      this.myModel = true;
+    }
+  }
+
+
   //Guarda o Actualiza un TAG
   guardarConfiguracionActividad() {
 
@@ -265,6 +289,13 @@ export class ConfigActivitiesComponent implements OnInit {
       this.plantas.push(planta)
     });
 
+    let idStatus;
+    if (this.myModel){
+      idStatus = this.checkedActivoId;
+    }else{
+      idStatus = this.checkedInactivoId;
+    }
+
     let actividad = new Tag(
       tagId,
       this.configActividadesForm.controls['fTag'].value,
@@ -277,7 +308,7 @@ export class ConfigActivitiesComponent implements OnInit {
       this.configActividadesForm.controls['fTipoAplicacion'].value,
       this.configActividadesForm.controls['fPeriodoEntrega'].value,
       this.configActividadesForm.controls['fTipoDias'].value,
-      this.configActividadesForm.controls['fComboEstatus'].value,
+      idStatus,
       this.plantas,
       this.tagPrecedentes,
     );
@@ -324,7 +355,7 @@ export class ConfigActivitiesComponent implements OnInit {
           this.configActividadesForm.controls['fTipoAplicacion'].patchValue(`${tagActividad.tipoAplicacionId}`);
           this.configActividadesForm.controls['fPeriodoEntrega'].patchValue(`${tagActividad.periodoEntregaId}`);
           this.configActividadesForm.controls['fTipoDias'].patchValue(`${tagActividad.tipoDiasId}`);
-          this.configActividadesForm.controls['fComboEstatus'].patchValue(`${tagActividad.entidadEstatusId}`);
+          
 
           let arreglo: Array<String>;
           arreglo = new Array<String>();
@@ -371,8 +402,14 @@ export class ConfigActivitiesComponent implements OnInit {
           this.configActividadesForm.controls['fTipoAplicacion'].patchValue(`${tagActividad.tipoAplicacionId}`);
           this.configActividadesForm.controls['fPeriodoEntrega'].patchValue(`${tagActividad.periodoEntregaId}`);
           this.configActividadesForm.controls['fTipoDias'].patchValue(`${tagActividad.tipoDiasId}`);
-          this.configActividadesForm.controls['fComboEstatus'].patchValue(`${tagActividad.entidadEstatusId}`);
+          
 
+          if (this.checkedActivoId === tagActividad.entidadEstatusId  ){
+            this.myModel = true;
+          }else{
+            this.myModel = false;
+          }
+          
           let arreglo: Array<String>;
           arreglo = new Array<String>();
           tagActividad.plantas.forEach(element => {
@@ -429,7 +466,8 @@ export class ConfigActivitiesComponent implements OnInit {
       fTipoAplicacion: { value: '', disabled: false },
       fPeriodoEntrega: { value: '', disabled: false },
       fTipoDias: { value: '', disabled: false },
-      fPlanta: { value: arreglo, disabled: false }
+      fPlanta: { value: arreglo, disabled: false },
+      //fCheckStatus: { checked:true }
     });
     this.tagPrecedentes = null;
     this.idsTagPrecedentes = [];
@@ -527,6 +565,8 @@ export class ConfigActivitiesComponent implements OnInit {
         });
     }
   }
+
+  
 
   //Asigna el nombre del tag con base en el catalogo de actividades y un consecutivo
   asignarNombreTag(actividadId: any) {
