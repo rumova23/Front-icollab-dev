@@ -133,7 +133,7 @@ export class ComplianceHomeComponent implements OnInit {
             const refPerfilHome =
               this.viewContainerRef.createComponent(factoryPerfilHome);
               refPerfilHome.instance.idEmpleado = event.data.idEmpleado;
-              refPerfilHome.instance.isViewable = event.data.isViewable;
+              refPerfilHome.instance.isViewable = true;
               refPerfilHome.instance.isdisabled = event.data.isdisabled;
               refPerfilHome.instance.tipo = event.data.tipo;
               refPerfilHome.changeDetectorRef.detectChanges();

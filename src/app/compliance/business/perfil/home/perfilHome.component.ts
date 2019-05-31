@@ -14,7 +14,7 @@ import { ObsyCommentsComponent } from '../obsyComments/obsyComments.component';
   styleUrls: ['./perfilHome.component.scss'],
   entryComponents: [
     PerfilComponent, ResponsibilitiesComponent,
-    BehaviorComponent, SkillsComponent, DashboardsComponent, DashboardsComponent
+    BehaviorComponent, SkillsComponent, DashboardsComponent, ObsyCommentsComponent
   ]
 })
 export class PerfilHomeComponent implements OnInit {
@@ -47,7 +47,7 @@ export class PerfilHomeComponent implements OnInit {
       this.isViewable = false;
     }
     console.log(  this.isViewable);
-    this.isViewable = true;
+    //this.isViewable = true;
     this.addFactoryPerfil();
     this.addFactoryResponsabilities();
     this.addFactoryBehavior();
