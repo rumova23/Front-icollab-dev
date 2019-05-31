@@ -82,18 +82,17 @@ export class ComplianceConfigurationComponent implements OnInit {
         console.dir( data );
         let listObj = [];
         let i = 0;
-        debugger;
         for (let element of data) {
           i += 1;
           let obj                   = {};
           obj['order']              = i;
           obj['tag']                = element.tag;
-          obj['nombre']             = element.descripcion;
+          obj['nombre']             = element.clasificacionActividad;
           obj['clasificacion']      = element.actividad.nombre;
-          obj['cumplimiento_legal'] = element.tipoCumplimiento.opcion.descripcion;
+          obj['cumplimiento_legal'] = element.tipoCumplimiento.opcion.codigo;
           obj['autoridad']          = element.autoridad.opcion.codigo;
-          obj['tipo_aplicacion']    = element.tipoAplicacion.opcion.descripcion;
-          obj['periodo_entrega']    = element.periodoEntrega.opcion.descripcion;
+          obj['tipo_aplicacion']    = element.tipoAplicacion.opcion.codigo;
+          obj['periodo_entrega']    = element.periodoEntrega.opcion.codigo;
           obj['estatus']            = element.estatus.estatus.nombre;
           obj['userUpdated']        = element.userUpdated;
           obj['dateUpdated']        = element.dateUpdated;
@@ -134,7 +133,7 @@ export class ComplianceConfigurationComponent implements OnInit {
           this.obtenerListaTags();
           this.toastr.successToastr(res.mensaje, '¡Se ha logrado!');
         }else{
-          this.toastr.errorToastr(res.mensaje, 'Success!');
+          this.toastr.errorToastr(res.mensaje, 'Lo siento,');
         }
       },
       error => {
