@@ -69,9 +69,7 @@ export class ConfigActivitiesComponent implements OnInit {
   indeterminateCheckBox = false;
   labelPositionCheckBox = 'after';
   disabledCheckBox = false;
-  checkedEstatus = "unchecked";
-
-  myModel = false;
+  checkedEstatus = false;
   checkedActivoId;
   checkedInactivoId;
 
@@ -265,10 +263,10 @@ export class ConfigActivitiesComponent implements OnInit {
   }
 
   chanceCheck(){
-    if (this.myModel)
-      this.myModel = false;
+    if (this.checkedEstatus)
+      this.checkedEstatus = false;
     else{
-      this.myModel = true;
+      this.checkedEstatus = true;
     }
   }
 
@@ -290,7 +288,7 @@ export class ConfigActivitiesComponent implements OnInit {
     });
 
     let idStatus;
-    if (this.myModel){
+    if (this.checkedEstatus){
       idStatus = this.checkedActivoId;
     }else{
       idStatus = this.checkedInactivoId;
@@ -405,9 +403,9 @@ export class ConfigActivitiesComponent implements OnInit {
           
 
           if (this.checkedActivoId === tagActividad.entidadEstatusId  ){
-            this.myModel = true;
+            this.checkedEstatus = true;
           }else{
-            this.myModel = false;
+            this.checkedEstatus = false;
           }
           
           let arreglo: Array<String>;
@@ -417,7 +415,6 @@ export class ConfigActivitiesComponent implements OnInit {
           });
 
           this.configActividadesForm.controls['fPlanta'].patchValue(arreglo);
-
           this.tagPrecedentes = tagActividad.precedentes;
           this.idsTagPrecedentes = [];
           this.habilitarActividad = true;
