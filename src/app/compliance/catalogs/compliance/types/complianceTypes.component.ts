@@ -84,12 +84,12 @@ export class ComplianceTypesComponent implements OnInit {
     this.catalogoMaestroService.getCatalogo( this.nombreCatalogo ).subscribe(data => {
       //console.dir(data);
       //debugger;
-      
+      /*
       data.sort(function (a, b) {
         if (a.opcion.codigo > b.opcion.codigo) {return 1;}
         if (a.opcion.codigo < b.opcion.codigo) {return -1;}
         return 0;// a must be equal to b
-      });
+      });*/
 
       let i = 0;
       for (let element of data) {
