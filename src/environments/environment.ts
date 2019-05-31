@@ -32,8 +32,8 @@ export const environment = {
   , mtUrl      : 'http://localhost:1188/'  // micro tag
   , coUrl      : 'http://localhost:1199/'  // micro compliance seguimiento
   , estatus_maestro      : 'http://localhost:1177/'  // micro estatus maestro
-  ,securityUrl     : 'http://localhost:11122/security/'  // estatus maestro,
-  ,mercadoUrl     : 'http://localhost:11120/'  // estatus maestro
+  ,securityUrl     : 'http://201.149.85.14:11122/security/'  // estatus maestro,
+  , mercadoUrl     : 'http://localhost:11120/'  // estatus maestro
   ,pmlUrl     : 'http://localhost:1114/pml/rest/'
 };
 //*/

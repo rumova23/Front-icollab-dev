@@ -53,7 +53,7 @@ export class ComplianceHomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    this.eventService.sendMainCompliance(new EventMessage(10, null));
   }
 
   private clickMenu(event: EventMessage): void {

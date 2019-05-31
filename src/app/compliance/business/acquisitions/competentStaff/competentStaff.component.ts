@@ -198,7 +198,7 @@ export class CompetentStaffComponent implements OnInit {
     );
   }
 
-  action(idEmpleado, tipo) {
+  action(idEmpleado, tipo) {alert('olas del mar' + idEmpleado);
     this.eventService.sendMainCompliance(new
       EventMessage(11, {
         idEmpleado: idEmpleado,

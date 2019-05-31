@@ -21,9 +21,6 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
 .DS_Store
 node_modules/
 dist/
@@ -33,5 +30,7 @@ dist/
 .idea/modules.xml
 .idea/vcs.xml
 .idea/workspace.xml
-
+.idea/codeStyles/codeStyleConfig.xml
+.idea/codeStyles/Project.xml
+.idea/front-icollabs.iml
 package-lock.json
