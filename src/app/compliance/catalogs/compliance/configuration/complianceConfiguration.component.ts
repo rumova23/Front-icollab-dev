@@ -88,7 +88,7 @@ export class ComplianceConfigurationComponent implements OnInit {
           obj['order']              = i;
           obj['tag']                = element.tag;
           obj['nombre']             = element.descripcion;
-          obj['clasificacion']      = element.clasificacionActividad;
+          obj['clasificacion']      = element.actividad.nombre;
           obj['cumplimiento_legal'] = element.tipoCumplimiento.opcion.descripcion;
           obj['autoridad']          = element.autoridad.opcion.descripcion;
           obj['tipo_aplicacion']    = element.tipoAplicacion.opcion.descripcion;
