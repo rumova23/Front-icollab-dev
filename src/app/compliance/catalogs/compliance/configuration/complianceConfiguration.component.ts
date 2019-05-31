@@ -90,10 +90,10 @@ export class ComplianceConfigurationComponent implements OnInit {
           obj['tag']                = element.tag;
           obj['nombre']             = element.descripcion;
           obj['clasificacion']      = element.actividad.nombre;
-          obj['cumplimiento_legal'] = element.tipoCumplimiento.opcion.descripcion;
+          obj['cumplimiento_legal'] = element.tipoCumplimiento.opcion.codigo;
           obj['autoridad']          = element.autoridad.opcion.codigo;
-          obj['tipo_aplicacion']    = element.tipoAplicacion.opcion.descripcion;
-          obj['periodo_entrega']    = element.periodoEntrega.opcion.descripcion;
+          obj['tipo_aplicacion']    = element.tipoAplicacion.opcion.codigo;
+          obj['periodo_entrega']    = element.periodoEntrega.opcion.codigo;
           obj['estatus']            = element.estatus.estatus.nombre;
           obj['userUpdated']        = element.userUpdated;
           obj['dateUpdated']        = element.dateUpdated;
