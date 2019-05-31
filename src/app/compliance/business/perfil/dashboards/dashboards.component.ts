@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Scala } from 'src/app/compliance/models/Scala';
 import { Rango } from 'src/app/compliance/models/Rango';
-import { PerfilComboService } from 'src/app/compliance/services/perfil-combo.service';
 import { Grafica } from 'src/app/compliance/models/Grafica';
+import { ExamenReservacion } from 'src/app/compliance/models/examen-reservacion';
+import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
 
 
 @Component({
@@ -18,11 +19,37 @@ export class DashboardsComponent implements OnInit {
   cd_1: Array<any>;
   cl_1: Array<any>;
   cc_1: Array<any>;
-
-  public chartType: string = 'pie';
+  values: Array<ExamenReservacion>;
+  public chartType = 'pie';
 
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
+
+  constructor(private scalaServ: PerfilComboService) { }
+
+  ngOnInit() {
+    this.charResul = [];
+    this.cl_1 = ['Aciertos', 'Desacierto'];
+
+    this.scalaServ.obtenCalificacion(this.inIdEmpleado).subscribe(
+      calificacion => {
+        this.scalaServ.getReservacionesEmpleado(calificacion.calificacionId).subscribe(data => {
+          for (const examenreservacion of data) {
+            this.scalaServ.getGraficas(examenreservacion.examenReservacionId).subscribe(
+              resultado => {
+                this.resuelveGrafica(resultado, 'pie', 1, true);
+              });
+          }
+        });
+      });
+
+    this.scalas = [];
+    this.scalaServ.getScalas('DEFAULT').subscribe(
+      resultado => {
+        this.resuelveScalas(resultado, 'scalasArry');
+      }
+    );
+  }
 
   resuelveScalas(poRespuesta: Object, camp: string) {
     if (!poRespuesta) {
@@ -44,7 +71,7 @@ export class DashboardsComponent implements OnInit {
     }
   }
 
-  resuelveGrafica(poRespuesta: Object, chartType: string, border: number, respon: boolean) {
+  resuelveGrafica(poRespuesta: object, chartType: string, border: number, respon: boolean) {
     if (!poRespuesta) {
       console.log("El back no responde");
     } else {
@@ -68,32 +95,6 @@ export class DashboardsComponent implements OnInit {
         console.log('El sistema indica diferente a exito');
       }
     }
-  }
-
-
-  constructor(private scalaServ: PerfilComboService) { }
-
-  ngOnInit() {
-    this.charResul = [];
-    this.cl_1 = ['Aciertos', 'Desacierto'];
-    this.scalaServ.getGraficas(1).subscribe(
-      resultado => {
-        this.resuelveGrafica(resultado, "pie", 1, true);
-      }
-    );
-
-    this.scalaServ.getGraficas(2).subscribe(
-      resultado => {
-        this.resuelveGrafica(resultado, "pie", 1, true);
-      }
-    );
-
-    this.scalas = [];
-    this.scalaServ.getScalas('DEFAULT').subscribe(
-      resultado => {
-        this.resuelveScalas(resultado, 'scalasArry');
-      }
-    );
   }
 
 }

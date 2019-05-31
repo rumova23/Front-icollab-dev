@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { Router } from '@angular/router';
 import { CatalogoMaestroService } from 'src/app/core/services/catalogo-maestro.service';
@@ -55,7 +55,7 @@ export class ComplianceTypesEditComponent implements OnInit {
   get f() { return this.perfilForm.controls; }
 
   ngOnInit() {
-
+    this.submitted = false;
     this.estatusMaestroService.getEstatusMaestroOpcion().subscribe(
       catalogoResult => {
         console.log(catalogoResult)
@@ -125,16 +125,22 @@ export class ComplianceTypesEditComponent implements OnInit {
     }
 
     this.perfilForm = this.formBuilder.group({
-      maestroOpcionId: [{ value: '', disabled: true }],
-      nombreOpcion: [{ value: '', disabled: this.isReadOnly }],
-      opcionDescripcion: [{ value: '', disabled: this.isReadOnly }],
-      orden: [{ value: '', disabled: this.isReadOnly }],
-      estatus: [{ value: '', disabled: this.isReadOnly }],
+      maestroOpcionId: ['',''],
+      nombreOpcion: [ '', Validators.required],
+      opcionDescripcion: ['', Validators.required],
+      orden: ['',''],
+      estatus: ['',''],
       fComboEstatus: ['', '']
     });
   }
   onSubmit() {
+    
     this.submitted = true;
+    if (this.perfilForm.invalid) {
+      this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Lo siento,');
+      return;
+    }
+
     console.log(this.perfilForm.controls);
     if (this.accion === 'edit') {
       this.perfilForm.controls.orden.setValue('1');
@@ -150,7 +156,7 @@ export class ComplianceTypesEditComponent implements OnInit {
         this.perfilForm.controls.orden.value,
         this.maestroOpcionId
       ).subscribe(data => {
-        this.toastr.successToastr('El Catálogo fue actualizada con exito.', 'Success!');
+        this.toastr.successToastr('El Catálogo fue actualizada con exito.', '¡Se ha logrado!');
         //this.router.navigateByUrl('/catalogo/' + this.nombreCatalogo);
         this.eventService.sendMainCompliance(new 
           EventMessage(this.getOptionCatalog(), {}));
@@ -166,10 +172,10 @@ export class ComplianceTypesEditComponent implements OnInit {
         '1',
         this.nombreCatalogo
       ).subscribe(data => {
-        if (data.mensajeGenerico === 'La opción ya existe') {
-          this.toastr.errorToastr(data.mensajeGenerico, 'Oops!');
+        if (data.mensajeGenerico === 'El catálogo ya existe') {
+          this.toastr.errorToastr(data.mensajeGenerico, 'Lo siento,');
         } else {
-          this.toastr.successToastr(data.mensajeGenerico, 'Success!');
+          this.toastr.successToastr(data.mensajeGenerico, '¡Se ha logrado!');
           //this.router.navigateByUrl('/catalogo/' + this.nombreCatalogo);
           this.eventService.sendMainCompliance(new 
             EventMessage(this.getOptionCatalog(), {}));

@@ -91,6 +91,11 @@ export class SecurityService {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
     return this.currentUser.name;
   }
+  
+  public getLastNameUser(): string {
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
+    return this.currentUser.lastName;
+  }
 
   /*
   login(username: string, password: string) {

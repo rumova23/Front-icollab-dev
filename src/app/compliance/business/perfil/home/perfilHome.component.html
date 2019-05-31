@@ -1,0 +1,25 @@
+<div class="m-5">
+    <!-- Titulo -->
+    <div class=" row">
+        <div class="col">
+            <span class="agila-cda-titulo">Perfil de Puesto</span>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-12">
+            <app-perfil [inIdEmpleado]='idEmpleado' [inTipo]='tipo' [isViewable]='isViewable'></app-perfil>
+            <app-responsibilities [inIdEmpleado]='idEmpleado' [inTipo]='tipo' *ngIf="isViewable">
+            </app-responsibilities>
+            <app-behavior *ngIf="isViewable" [inIdEmpleado]='idEmpleado' [inTipo]='tipo'>
+            </app-behavior>
+            <app-skills *ngIf="isViewable" [inIdEmpleado]='idEmpleado' [inTipo]='tipo'>
+            </app-skills>
+            <app-dashboards *ngIf="isViewable" [inIdEmpleado]='idEmpleado' [inTipo]='tipo'>
+
+            </app-dashboards>
+            <app-obsyComments *ngIf="isViewable" [inIdEmpleado]='idEmpleado' [inTipo]='tipo'>
+
+            </app-obsyComments>
+        </div>
+    </div>
+</div>

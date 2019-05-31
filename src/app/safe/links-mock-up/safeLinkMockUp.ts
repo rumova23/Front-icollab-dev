@@ -4,12 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { GlobalService } from 'src/app/core/globals/global.service';
-import { PlannedPowersPPAComponent } from '../mda-planning-process/planned-powers-ppa/planned-powers-ppa.component';
-import { HeatRateRecordComponent } from '../mda-planning-process/heat-rate-record/heat-rate-record.component';
-import { SalesOffersComponent } from '../mda-planning-process/sales-offers/sales-offers.component';
 import { ClientsComponent } from '../admin/clients/clients.component';
 import { LegalAgreementComponent } from 'src/app/compliance/business/legalAgreement/legalAgreement.component';
 import { SafeNewEventComponent } from '../business/logBook/newEvent/safeNewEvent.component';
+import { PlannedPowersPPAComponent } from '../business/mdaPlanningProcess/plannedPowersPpa/plannedPowersPpa.component';
+import { HeatRateRecordComponent } from '../business/mdaPlanningProcess/heatRateRecord/heatRateRecord.component';
+import { SalesOffersComponent } from '../business/mdaPlanningProcess/salesOffers/salesOffers.component';
+import { DashboardAComponent } from 'src/app/compliance/dashboards/dashboard-a/dashboard-a.component';
 
 @Component({
   selector: 'app-safeLinkMockUp',
@@ -17,22 +18,24 @@ import { SafeNewEventComponent } from '../business/logBook/newEvent/safeNewEvent
   styleUrls: ['./safeLinkMockUp.component.scss'],
   entryComponents: [
     PlannedPowersPPAComponent, HeatRateRecordComponent, SalesOffersComponent, ClientsComponent,
-    LegalAgreementComponent, SafeNewEventComponent
+    LegalAgreementComponent, SafeNewEventComponent,DashboardAComponent
   ]
 })
 export class SafeLinkMockUp implements OnInit {
     menu = [
         {
-          id:'Safe-Link-MockUp',
-          label:'Safe-Link-MockUp',
+          id:'Link-MockUp',
+          label:'Link-MockUp',
           icon:'/assets/images/skins/layer_7_ek1.png',
           children:[
-            {label:'planned-powers-ppa'},
+            /*{label:'planned-powers-ppa'},
             {label:'heat-rate-record'},
             {label:'sales-offers'},
             {label:'registration-customer'},
             {label: 'Legal-Compliance'},
-            {label: 'New Event'}
+            {label: 'New Event'},*/
+            {label: 'Monitoreo nivel 2'}
+
           ]
         },
       ];
@@ -97,8 +100,12 @@ export class SafeLinkMockUp implements OnInit {
             option = 8;
             data = item;
             break;  
+        case 'Monitoreo nivel 2':
+            option = 9;
+            data = item;
+            break;  
 
-
+            
     }
     this.clickMenu(new EventMessage(option, data));
   }
@@ -141,6 +148,12 @@ export class SafeLinkMockUp implements OnInit {
           const refNewEvent =
           this.viewContainerRef.createComponent(factoryNewEvent);
           refNewEvent.changeDetectorRef.detectChanges();
+          break;
+        case 9:
+          const factoryDashboard = this.componentFactoryResolver.resolveComponentFactory(DashboardAComponent);
+          const refDashboard =
+          this.viewContainerRef.createComponent(factoryDashboard);
+          refDashboard.changeDetectorRef.detectChanges();
           break;
 
             

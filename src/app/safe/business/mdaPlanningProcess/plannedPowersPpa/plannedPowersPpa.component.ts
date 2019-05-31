@@ -42,9 +42,9 @@ const ELEMENT_DATA: any[] = [
 ];
 
 @Component({
-  selector: 'app-planned-powers-ppa',
-  templateUrl: './planned-powers-ppa.component.html',
-  styleUrls: ['./planned-powers-ppa.component.scss']
+  selector: 'app-plannedPowersPpa',
+  templateUrl: './plannedPowersPpa.component.html',
+  styleUrls: ['./plannedPowersPpa.component.scss']
 })
 export class PlannedPowersPPAComponent implements OnInit {
   //displayedColumns: string[] = ['Potencia Planeada PPA', 'Potencia Planeada Máxima Real Demostrada'];

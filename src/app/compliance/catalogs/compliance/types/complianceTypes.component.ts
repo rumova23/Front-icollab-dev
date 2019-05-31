@@ -84,6 +84,13 @@ export class ComplianceTypesComponent implements OnInit {
     this.catalogoMaestroService.getCatalogo( this.nombreCatalogo ).subscribe(data => {
       //console.dir(data);
       //debugger;
+      
+      data.sort(function (a, b) {
+        if (a.opcion.codigo > b.opcion.codigo) {return 1;}
+        if (a.opcion.codigo < b.opcion.codigo) {return -1;}
+        return 0;// a must be equal to b
+      });
+
       let i = 0;
       for (let element of data) {
         i += 1;
@@ -93,7 +100,7 @@ export class ComplianceTypesComponent implements OnInit {
         obj['name']         = element.opcion.codigo;
         obj['description']  = element.opcion.descripcion;
         obj['user']         = element.opcion.userUpdated || element.opcion.userCreated;
-        obj['dateup']       = this.datePipe.transform(new Date(element.opcion.dateUpdated || element.opcion.dateCreated),'dd-MM-yyyy h:mm a');
+        obj['dateup']       = (element.opcion.dateUpdated || element.opcion.dateCreated) ? this.datePipe.transform(new Date(element.opcion.dateUpdated || element.opcion.dateCreated),'dd-MM-yyyy h:mm a') : "";
         obj['status']       = (element.entidadEstatusId == this.entidadEstatusId) ? 'Activo' : 'Inactivo';
         obj['see']          = 'sys_see';
         obj['edit']         = 'sys_edit';
@@ -102,6 +109,7 @@ export class ComplianceTypesComponent implements OnInit {
         
         this.data.push(obj);
       }
+  
       this.displayedColumnsOrder = [
         {key:'order',label:'#'},
         {key:'id',label:'ID'},
@@ -141,7 +149,7 @@ export class ComplianceTypesComponent implements OnInit {
                   maestroOpcion.maestroOpcionId
               ).subscribe(data => {
                 this.cargaDatos();
-                this.toastr.successToastr('El registro fue correctamente eliminado', 'Success!');
+                this.toastr.successToastr('El registro fue correctamente eliminado', '¡Se ha logrado!');
               });
             }
           })

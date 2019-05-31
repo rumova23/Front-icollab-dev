@@ -7,6 +7,7 @@ import { Combo } from 'src/app/compliance/models/Combo';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { TagActividadDTO } from 'src/app/compliance/models/TagActividadDTO';
 import { TagActividadInDTO } from 'src/app/compliance/models/TagActividadInDTO';
+import { GenerigResponseDTO } from 'src/app/compliance/models/GenerigResponseDTO';
 import { TagService } from 'src/app/compliance/services/tag.service';
 import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import { EventService } from 'src/app/core/services/event.service';
@@ -26,12 +27,15 @@ export class ActivitiesEditComponent implements OnInit {
   soloLectura: boolean;
   isChecked: boolean;
   deshabiliarEstatus: boolean = true;
-  comboEstatus = new Array<Combo>();
+  idEstatusActivo;
   titulo: String;
   catalogType: CatalogType;
   tareaPorVencer = 40 ;
   tareaProximaVencer = 30 ;
   tareaTiempo = 30;
+  checkedEstatus = false;
+  checkedActivoId;
+  checkedInactivoId;
 
   constructor(
     private route: ActivatedRoute,
@@ -51,7 +55,6 @@ export class ActivitiesEditComponent implements OnInit {
       fActividadId: ['', ''],
       fActividad: ['', Validators.required],
       fPrefijo: ['', Validators.required],
-      fComboEstatus: ['', ''],
       fTareaPorVencer: ['40', [Validators.min(1), Validators.max(100)] ],
       fTareaProximaVencer: ['30', [Validators.min(1), Validators.max(100)] ],
       fTareaTiempo: ['30', [Validators.min(1), Validators.max(100)] ]
@@ -60,19 +63,19 @@ export class ActivitiesEditComponent implements OnInit {
     //this.accion = this.route.snapshot.params.accion;
     this.accion = this.catalogType.action;
 
-    this.comboEstatus = new Array<Combo>();
-
     this.tagService.getEstatusMaestroOpcion().subscribe(
       catalogoResult => {
         console.log(catalogoResult)
         let entidadEstatus: any;
         entidadEstatus = catalogoResult;
         entidadEstatus.forEach(element => {
-          let combo: Combo;
-          combo = new Combo(element.estatus.estatusId.toString(), element.estatus.nombre);
-          this.comboEstatus.push(combo);
-          if (element.estatus.nombre == "Activo" && this.accion == null) {
-            this.actividadesForm.controls['fComboEstatus'].patchValue(`${element.estatus.estatusId.toString()}`);
+
+          if ( element.estatus.nombre === 'Activo' ){
+            this.checkedActivoId = element.estatus.estatusId;
+          }
+
+          if ( element.estatus.nombre === 'Inactivo' ){
+            this.checkedInactivoId = element.estatus.estatusId;
           }
         });
       },
@@ -91,6 +94,7 @@ export class ActivitiesEditComponent implements OnInit {
       this.deshabiliarEstatus = true;
       this.titulo = "Consultar / Catálogo de Categorías";
     } else {
+      this.checkedEstatus = true;
       this.deshabiliarEstatus = false;
       this.titulo = "Agregar / Catálogo de Categorías";
     }
@@ -120,10 +124,12 @@ export class ActivitiesEditComponent implements OnInit {
             this.actividadesForm.controls['fTareaProximaVencer'].setValue(tagActividad.tareaProximaVencer);
             this.actividadesForm.controls['fTareaTiempo'].setValue(tagActividad.tareaTiempo);
 
-            this.actividadesForm.controls['fComboEstatus'].patchValue(`${tagActividad.estatus.estatus.estatusId}`);
+            if (this.checkedActivoId === tagActividad.estatus.estatus.estatusId  ){
+              this.checkedEstatus = true;
+            }else{
+              this.checkedEstatus = false;
+            }
             
-            
-
             if (this.accion === 'ver') {
               this.soloLectura = true;
             } else {
@@ -131,7 +137,7 @@ export class ActivitiesEditComponent implements OnInit {
             }
 
           } else {
-            this.toastr.infoToastr('No se encontró información del Tag buscado.', 'Info');
+            this.toastr.infoToastr('No se encontró información del Tag buscado.', 'Lo siento,');
           }
 
         },
@@ -147,17 +153,16 @@ export class ActivitiesEditComponent implements OnInit {
   submitted = false;
   onSubmit() {
     this.submitted = true;
-
+/*
     if ( (this.actividadesForm.controls['fTareaPorVencer'].value 
           + this.actividadesForm.controls['fTareaProximaVencer'].value 
           + this.actividadesForm.controls['fTareaTiempo'].value) != 100 ){
-            this.toastr.errorToastr('La suma de todos los porcentajes, debe ser igual a 100.', 'Oops!');
-            return;      
+            this.toastr.errorToastr('La suma de todos los porcentajes, debe ser igual a 100.', 'Lo siento,');
+            return;
           }
-
+*/
     if (this.actividadesForm.invalid) {
-      console.log('Error!! :-)\n\n' + JSON.stringify(this.actividadesForm.value));
-      this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Oops!');
+      this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Lo siento,');
       return;
     }
 
@@ -173,41 +178,74 @@ export class ActivitiesEditComponent implements OnInit {
 
   crearActividad() {
 
+    let idStatus;
+    if (this.checkedEstatus){
+      idStatus = this.checkedActivoId;
+    }else{
+      idStatus = this.checkedInactivoId;
+    }
+
     let actividad = new TagActividadInDTO(0,
       this.actividadesForm.controls['fActividad'].value,
       this.actividadesForm.controls['fPrefijo'].value,
-      this.actividadesForm.controls['fComboEstatus'].value);
+      idStatus,
+      this.actividadesForm.controls['fTareaPorVencer'].value,
+      this.actividadesForm.controls['fTareaProximaVencer'].value,
+      this.actividadesForm.controls['fTareaTiempo'].value);
+      
     this.tagService.crearActividad(actividad).subscribe(
       result => {
         console.log(result);
-        this.toastr.successToastr('La actividad fue Creada con éxito.', 'Success');
-        //this.router.navigateByUrl('/catalogo-actividades');
-        this.eventService.sendMainCompliance(new EventMessage(6, {}));
+        let generigResponseDTO : any;
+        generigResponseDTO = result;
+        if ( generigResponseDTO.clave == 99 ){
+          this.toastr.errorToastr('El nombre del CATÁLOGO o del PREFIJO ya existe, favor de modificar.', 'Lo siento,');
+        }else{
+          this.toastr.successToastr('La actividad fue Creada con éxito.', '¡Se ha logrado!');
+          //this.router.navigateByUrl('/catalogo-actividades');
+          this.eventService.sendMainCompliance(new EventMessage(6, {}));
+        }
       },
       error => {
         console.log(<any>error);
-        this.toastr.errorToastr('Error al guardar la actividad.', 'Oops!');
+        this.toastr.errorToastr('Error al guardar la actividad.', 'Lo siento,');
       });
 
   }
 
+  regresar(){
+    this.eventService.sendMainCompliance(new EventMessage(6, {}));
+  }
+
   actualizarActividad() {
 
-    let actividad = new TagActividadInDTO(this.actividadesForm.controls['fActividadId'].value,
+    let idStatus;
+    if (this.checkedEstatus){
+      idStatus = this.checkedActivoId;
+    }else{
+      idStatus = this.checkedInactivoId;
+    }
+
+    let actividad = new TagActividadInDTO(
+      this.actividadesForm.controls['fActividadId'].value,
       this.actividadesForm.controls['fActividad'].value,
       this.actividadesForm.controls['fPrefijo'].value,
-      this.actividadesForm.controls['fComboEstatus'].value);
+      idStatus,
+      40,//this.actividadesForm.controls['fTareaPorVencer'].value,
+      30,//this.actividadesForm.controls['fTareaProximaVencer'].value,
+      30);//this.actividadesForm.controls['fTareaTiempo'].value);
+      console.log(actividad);
     this.tagService.editarActividad(actividad).subscribe(
       result => {
         console.log(result);
-        this.toastr.successToastr('La actividad fue actualizada con éxito.', 'Success');
+        this.toastr.successToastr('La actividad fue actualizada con éxito.', '¡Se ha logrado!');
         //this.router.navigateByUrl('/catalogo-actividades/editar/'+this.actividadId);
         //this.router.navigateByUrl('/catalogo-actividades');
         this.eventService.sendMainCompliance(new EventMessage(6, {}));
       },
       error => {
         console.log(<any>error);
-        this.toastr.errorToastr('Error al Editar la actividad.', 'Oops!');
+        this.toastr.errorToastr('Error al Editar la actividad.', 'Lo siento,');
       });
 
   }
@@ -216,6 +254,14 @@ export class ActivitiesEditComponent implements OnInit {
   compareFn(combo1: number, combo2: number) {
     console.log(combo1 && combo2 && combo1 === combo2);
     return combo1 && combo2 && combo1 === combo2;
+  }
+
+  chanceCheck(){
+    if (this.checkedEstatus)
+      this.checkedEstatus = false;
+    else{
+      this.checkedEstatus = true;
+    }
   }
 
 }

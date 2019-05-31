@@ -13,6 +13,8 @@ import { ActivitiesEditComponent } from '../catalogs/activities/edit/activitiesE
 import { ComplianceConfigurationComponent } from '../catalogs/compliance/configuration/complianceConfiguration.component';
 import { ConfigActivitiesComponent } from '../catalogs/compliance/configuration/configActivities/configActivities.component';
 import { ComplianceWelcomeComponent } from './welcome/complianceWelcome.component';
+import { AcquisitionsComponent } from '../business/acquisitions/acquisitions.component';
+import { PerfilHomeComponent } from '../business/perfil/home/perfilHome.component';
 
 
 @Component({
@@ -23,7 +25,7 @@ import { ComplianceWelcomeComponent } from './welcome/complianceWelcome.componen
     AuthoritiesComponent, ChangePasswordComponent, ComplianceWelcomeComponent, CatalogsComponent,
     ComplianceTypesComponent, ComplianceTypesEditComponent, ActivitiesComponent,
     ActivitiesEditComponent, ComplianceConfigurationComponent,
-    ConfigActivitiesComponent
+    ConfigActivitiesComponent, AcquisitionsComponent, PerfilHomeComponent
   ]
 })
 export class ComplianceHomeComponent implements OnInit {
@@ -51,6 +53,10 @@ export class ComplianceHomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.eventService.sendMainCompliance(new EventMessage(11, {
+      idEmpleado: 1,
+      tipo:'Editar'
+    }))
   }
 
   private clickMenu(event: EventMessage): void {
@@ -116,7 +122,25 @@ export class ComplianceHomeComponent implements OnInit {
           this.viewContainerRef.createComponent(factoryConfigActivities);
           refConfigActivities.instance.catalogType = event.data;
           refConfigActivities.changeDetectorRef.detectChanges();
-        break;
+        break;   
+        case 10:
+          const factoryAdquisitions =
+            this.componentFactoryResolver.resolveComponentFactory(AcquisitionsComponent);
+          const refAdquisitions =
+            this.viewContainerRef.createComponent(factoryAdquisitions);
+            refAdquisitions.changeDetectorRef.detectChanges();
+          break; 
+        case 11:
+            const factoryPerfilHome =
+              this.componentFactoryResolver.resolveComponentFactory(PerfilHomeComponent);
+            const refPerfilHome =
+              this.viewContainerRef.createComponent(factoryPerfilHome);
+              refPerfilHome.instance.idEmpleado = event.data.idEmpleado;
+              refPerfilHome.instance.isViewable = event.data.isViewable;
+              refPerfilHome.instance.isdisabled = event.data.isdisabled;
+              refPerfilHome.instance.tipo = event.data.tipo;
+              refPerfilHome.changeDetectorRef.detectChanges();
+            break;    
 
       case 100:
         const factoryChangePasword =

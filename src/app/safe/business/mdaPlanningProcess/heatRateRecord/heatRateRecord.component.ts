@@ -5,9 +5,9 @@ const ELEMENT_DATA: any[] = [
   {'#': 1,'fecha de registro': '14/05/2019', 'usuario que registro': 'usuario 1', 'HEATE RATE kj/MWv Punto 1': 6700, 'HEATE RATE kj/MWv Punto 2':6700},
 ];
 @Component({
-  selector: 'app-heat-rate-record',
-  templateUrl: './heat-rate-record.component.html',
-  styleUrls: ['./heat-rate-record.component.scss']
+  selector: 'app-heatRateRecord',
+  templateUrl: './heatRateRecord.component.html',
+  styleUrls: ['./heatRateRecord.component.scss']
 })
 export class HeatRateRecordComponent implements OnInit {
   title  ="Registro del Heat Rate";

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -30,19 +31,19 @@ export class PersonalCompetenteService {
     return this.http.delete(`${this.baseUrl2}personalCompetente/empleados?idEmpleado=` + idEmpleado, httpOptions);
   }
 
-  getTagsAsignacion(idEmpleado: number) {
-    return this.http.get(`${this.baseUrl2}/personalCompetente/tags/asignacion/` + idEmpleado, httpOptions);
+  getTagsAsignacion(idEmpleado: number): Observable<any> {
+    return this.http.get(`${this.baseUrl2}personalCompetente/tags/asignacion/${idEmpleado}`, httpOptions);
   }
 
-  getTagsAsignado(idEmpleado: number) {
-    return this.http.get(`${this.baseUrl2}/personalCompetente/tags/asignado/` + idEmpleado, httpOptions);
+  getTagsAsignado(idEmpleado: number): Observable<any> {
+    return this.http.get(`${this.baseUrl2}personalCompetente/tags/asignado/${idEmpleado}`, httpOptions);
   }
 
   salvarTags(listtags: Array<string>, empleadoId: number) {
     return this.http.post(`${this.baseUrl}tags/empleados?empleadoId=` + empleadoId, listtags, httpOptions);
   }
 
-  getPlantaPerfil() {
+  getPlantaPerfil(): Observable<any> {
     return this.http.get(`${this.baseUrl}tags/planta/perfilActor`, httpOptions);
   }
 

@@ -3,7 +3,7 @@
       <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleMenu()" color="primary">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <a (click)="goToHome()">
+      <a (click)="changeModule()">
         <span> <img src="../../../assets/img/logo_compliance.png" height="40" alt=""></span>
       </a>
     </mat-toolbar-row>
@@ -27,7 +27,6 @@
           <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown-primary" role="menu">
             <a class="dropdown-item waves-light" mdbWavesEffect (click)="cambioPlantaSol()">Sol</a>
             <a class="dropdown-item waves-light" mdbWavesEffect (click)="changePassword()">Cambiar Contraseña</a>
-            <a class="dropdown-item waves-light" mdbWavesEffect (click)="changeModule()">Cambiar de Módulo</a>
             <a class="dropdown-item waves-light" mdbWavesEffect (click)="logout()">Salir</a>
   
           </div>
@@ -42,7 +41,6 @@
           <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown-primary" role="menu">
             <a class="dropdown-item waves-light" mdbWavesEffect (click)="cambioPlantaAguila()">Aguila</a>
             <a class="dropdown-item waves-light" mdbWavesEffect (click)="changePassword()">Cambiar Contraseña</a>
-            <a class="dropdown-item waves-light" mdbWavesEffect (click)="changeModule()">Cambiar de Módulo</a>
             <a class="dropdown-item waves-light" mdbWavesEffect (click)="logout()">Salir</a>
           </div>
         </li>

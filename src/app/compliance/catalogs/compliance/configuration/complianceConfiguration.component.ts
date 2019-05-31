@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -20,9 +20,10 @@ import { EventService } from 'src/app/core/services/event.service';
 })
 export class ComplianceConfigurationComponent implements OnInit {
   titulo: String = "Configuración de cumplimientos";
-  registros: MatTableDataSource<Tag>;
+  registros;
+  data: any[] = [];
 
-  columnas: string[] = ['orden','tag','nombre','clasificacion','cumplimiento_legal','autoridad','tipo_aplicacion','periodo_entrega','estatus','ver','modificar','eliminar'];
+  columnas: string[] = ['order','tag','nombre','clasificacion','cumplimiento_legal','autoridad','tipo_aplicacion','userUpdated','dateUpdated','estatus','ver','modificar','eliminar'];
   filtros = [
     {label:"TAG",inputtype:"text"},
     {label:"Nombre",inputtype:"text"},
@@ -61,8 +62,9 @@ export class ComplianceConfigurationComponent implements OnInit {
     });
 
    }
+   @ViewChild(MatPaginator) paginator: MatPaginator;
+   @ViewChild(MatSort) sort: MatSort;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {
     this.filtrosForm = this.formBuilder.group({
       fTag: ['', ''],
@@ -75,13 +77,35 @@ export class ComplianceConfigurationComponent implements OnInit {
 
   obtenerListaTags() {
     console.log( 'la planta id: ' + this.globalService.plantaDefaultId)
-    this.tagService.obtenTagPorFiltros(this.globalService.plantaDefaultId).subscribe(
-      respuesta => {
-        console.dir( respuesta );
-        let datos: any;
-        datos = respuesta;
-        this.registros =  new MatTableDataSource<Tag>(datos);
+    this.data = [];
+    this.tagService.obtenTagPorFiltros(this.globalService.plantaDefaultId).subscribe( data => {
+        console.dir( data );
+        let listObj = [];
+        let i = 0;
+        for (let element of data) {
+          i += 1;
+          let obj                   = {};
+          obj['order']              = i;
+          obj['tag']                = element.tag;
+          obj['nombre']             = element.clasificacionActividad;
+          obj['clasificacion']      = element.actividad.nombre;
+          obj['cumplimiento_legal'] = element.tipoCumplimiento.opcion.codigo;
+          obj['autoridad']          = element.autoridad.opcion.codigo;
+          obj['tipo_aplicacion']    = element.tipoAplicacion.opcion.codigo;
+          obj['periodo_entrega']    = element.periodoEntrega.opcion.codigo;
+          obj['estatus']            = element.estatus.estatus.nombre;
+          obj['userUpdated']        = element.userUpdated;
+          obj['dateUpdated']        = element.dateUpdated;
+          obj['see']                = 'sys_see';
+          obj['edit']               = 'sys_edit';
+          obj['delete']             = 'sys_delete';
+          obj['element']            = element;
+          listObj.push(obj);
+        }
+
+        this.registros =  new MatTableDataSource<any>(listObj);
         this.registros.paginator = this.paginator;
+        this.registros.sort = this.sort;
       },
       error => {
         console.log(<any> error);
@@ -101,20 +125,20 @@ export class ComplianceConfigurationComponent implements OnInit {
   }
   eliminarTagConfirm(tag: any){
     console.log(tag);
-    this.tagService.eliminarTag(tag.tagId).subscribe(
+    this.tagService.eliminarTag(tag.element.tagId).subscribe(
       respuesta => {
         let res: any;
         res = respuesta;
         if ( res.clave == 0 ){
           this.obtenerListaTags();
-          this.toastr.successToastr(res.mensaje, 'Success!');
+          this.toastr.successToastr(res.mensaje, '¡Se ha logrado!');
         }else{
-          this.toastr.errorToastr(res.mensaje, 'Success!');
+          this.toastr.errorToastr(res.mensaje, 'Lo siento,');
         }
       },
       error => {
         console.log(<any> error);
-        this.toastr.errorToastr('Error al eliminar el tag.', 'Oops!');
+        this.toastr.errorToastr('Error al eliminar el tag.', 'Lo siento,');
       }
     )
     

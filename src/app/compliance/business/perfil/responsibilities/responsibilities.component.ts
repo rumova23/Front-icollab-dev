@@ -58,6 +58,10 @@ export class ResponsibilitiesComponent implements OnInit {
   actividades: Array<any>;
   cumplimientos: Array<any>;
   tags: Array<any>;
+
+  actividadesAsignados: Array<any>;
+  cumplimientosAsignados: Array<any>;
+  tagsAsignados: Array<any>;
   SaveRespuestas: Array<string>;
   plantas: Array<any>;
   perfiles: Array<any>;
@@ -66,85 +70,67 @@ export class ResponsibilitiesComponent implements OnInit {
   plantaOpcTag = []
   salvarPP: Array<any>;
 
-  tagsId= [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
-  tagsValor= [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
+  tagsId = [[], [], [], [], [],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
+  tagsValor = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
 
-  tags_asignados=[];
-  constructor( public tagsServ: PersonalCompetenteService ) { 
-    
+  constructor( public tagsServ: PersonalCompetenteService ) {
+    this.actividades = [];
+    this.tags = [];
+    this.cumplimientos = [];
+
+    this.actividadesAsignados = [];
+    this.tagsAsignados = [];
+    this.cumplimientosAsignados = [];
   }
- 
-  alert = function(arg){
-    console.log(arg);
+
+  resuelveDS(respTagDTO) {
+    respTagDTO.actvs.forEach( actividad => {
+      actividad.cumplimi.forEach( cumplimiento => {
+        cumplimiento.tagsRes.forEach( tg => {
+          this.tags.push(new ActiHijo( tg.id, tg.desc));
+        });
+        this.cumplimientos.push( new Acti( cumplimiento.id, cumplimiento.desc, this.tags) );
+      } );
+      this.actividades.push( new Acti( actividad.id, actividad.desc, this.cumplimientos) );
+    });
   }
 
-  resuelveDS(poRespuesta: Object ){
-    if ( !poRespuesta ){
-      console.log("El back no responde");
-    } else {
-      let estatus = poRespuesta[ 'status' ];
-      if ( estatus === 'exito'){
-        this.actividades = [];
-        Object.keys(poRespuesta[ 'actvs' ]).forEach( key => {
-          let id = [poRespuesta[ 'actvs' ][key].id];
-          let desc = [poRespuesta[ 'actvs' ][key].desc];
-          let cumpli = [poRespuesta[ 'actvs' ][key].cumplimi][0];
-         // this.pregs = [];
-         cumpli.forEach( cumpli =>{ 
-          this.cumplimientos  = [];
-          let idC = cumpli.id;
-          let descC = cumpli.desc;
-          let tags = cumpli.tagsRes;
-          this.tags = [];
-          tags.forEach( tg =>{
-            let idT = tg.id;
-            let descT = tg.desc;
-            this.tags.push(new ActiHijo( idT, descT));
-          });
-          this.cumplimientos.push( new Acti( idC, descC, this.tags) ); 
-        } );
-        this.actividades.push( new Acti( id[0], desc[0], this.cumplimientos) );
+  resuelveDSAsignados(respTagDTO) {
+    respTagDTO.actvs.forEach( actividad => {
+      actividad.cumplimi.forEach( cumplimiento => {
+        cumplimiento.tagsRes.forEach( tg => {
+          this.tagsAsignados.push(new ActiHijo( tg.id, tg.desc));
         });
-      } else {
-        console.log(poRespuesta[ 'mensaje' ]);
-      }
-    }
-  }  
-
-  resueveDSPlanta(poRespuesta: Object, obcj: Array<any>, comp: string ){
-    if ( !poRespuesta ){
-      console.log("El back no responde");
-    } else {
-      let estatus = poRespuesta[ 'status' ];
-      if ( estatus === 'exito'){
-        Object.keys(poRespuesta[ comp ]).forEach( key => {
-          let id = [poRespuesta[ comp ][key].id];
-          let desc = [poRespuesta[ comp ][key].desc];
-          obcj.push(new ActiHijo(id[0],desc[0]));
-        });
-      } else {
-        console.log(poRespuesta[ 'mensaje' ]);
-      }
-    }
-  } 
-
+        this.cumplimientosAsignados.push( new Acti( cumplimiento.id, cumplimiento.desc, this.tags) );
+      } );
+      this.actividadesAsignados.push( new Acti( actividad.id, actividad.desc, this.cumplimientos) );
+    });
+  }
   ngOnInit() {
     this.plantas = [];
     this.perfiles = [];
     this.tagsServ.getTagsAsignacion(this.inIdEmpleado).subscribe(
-      poRespuesta => {
-      this.resuelveDS(poRespuesta);
+    respTagDTO => {
+      this.resuelveDS(respTagDTO);
     });
-    this.tagsServ.getPlantaPerfil().subscribe(
+    this.tagsServ.getTagsAsignado(this.inIdEmpleado).subscribe(
+    respTagDTO => {
+      this.resuelveDSAsignados(respTagDTO);
+    });
+    this.tagsServ.getPlantaPerfil().subscribe (
       poRespuesta => {
-        this.resueveDSPlanta(poRespuesta, this.plantas, 'planta');
-        this.resueveDSPlanta(poRespuesta, this.perfiles, 'perfil');
+        poRespuesta.planta.forEach(planta => {
+          this.plantas.push(new ActiHijo(planta.id, planta.desc));
+        });
+
+        poRespuesta.perfil.forEach(perfil => {
+          this.perfiles.push(new ActiHijo(perfil.id, perfil.desc));
+        });
       }
     );
-
   }
 
-  salvarTarea( ){
+  salvarTarea( ) {
     this.SaveRespuestas = [];
     for (var _i = 0; _i < this.tagsId.length; _i++) {
       for (var _j = 0; _j < this.tagsId[_i].length; _j++) {
@@ -161,7 +147,6 @@ export class ResponsibilitiesComponent implements OnInit {
         } else {
           let estatus = respuesta[ 'status' ];
           if ( estatus === 'exito'){
-            debugger;
           } else {
             console.log(respuesta[ 'mensaje' ]);
           }
@@ -178,7 +163,6 @@ export class ResponsibilitiesComponent implements OnInit {
     this.valorModal = $event;
     /*si modal regresa 1 es que aceptado la operacion */
     if(this.valorModal == 1){
-      debugger;
     } 
   }
   
@@ -200,7 +184,6 @@ export class ResponsibilitiesComponent implements OnInit {
 
     this.tagsServ.salvarPlantaPerfilEmpleado(this.salvarPP).subscribe(
       resultado =>{
-        debugger;
     });
   }
 

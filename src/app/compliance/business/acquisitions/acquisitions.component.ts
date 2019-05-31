@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MdbTableService } from 'angular-bootstrap-md';
 
 @Component({
   selector: 'app-acquisitions',
@@ -6,11 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./acquisitions.component.scss']
 })
 export class AcquisitionsComponent implements OnInit {
-  titulo: String = "Cumplimiento de Adquisiciones";
-  constructor() { }
-  alert = function(arg){
-      alert(arg);
-  }
+  titulo = 'Cumplimiento de Adquisiciones';
+  constructor(private tableService: MdbTableService) { }
 
   ngOnInit() {
   }

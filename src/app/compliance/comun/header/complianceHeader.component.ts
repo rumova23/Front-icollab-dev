@@ -22,7 +22,8 @@ export class ComplianceHeaderComponent implements OnInit {
   }
 
   getNameUser() {
-    return this.securityService.getNameUser();
+    let name = this.securityService.getNameUser() +" "+ this.securityService.getLastNameUser();
+    return name;
   }
 
   toggleMenu() {

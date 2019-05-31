@@ -40,61 +40,64 @@
 
 
       <div class="tabla-responsi mat-elevation-z8">
-        <table mat-table [dataSource]="registros" class="table_catalogo">
+        <table mat-table [dataSource]="registros" matSort class="table_catalogo">
           <!-- orden Column -->
-          <ng-container matColumnDef="orden">
-            <th mat-header-cell *matHeaderCellDef class="txt-center"> # </th>
-            <td mat-cell *matCellDef="let element; let i = index;">{{i+1}} </td>
+          <ng-container matColumnDef="order">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> # </th>
+            <td mat-cell *matCellDef="let element">{{element.order}} </td>
           </ng-container>
           <!-- orden Column -->
-          <ng-container matColumnDef="id" sticky>
-            <th mat-header-cell *matHeaderCellDef class="txt-center"> ID </th>
-            <td mat-cell *matCellDef="let element"> {{element.actividadId}} </td>
+          <ng-container matColumnDef="category" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Categoría </th>
+            <td mat-cell *matCellDef="let element"> {{element.category}} </td>
           </ng-container>
           <!-- actividad Column -->
-          <ng-container matColumnDef="actividad">
-            <th mat-header-cell *matHeaderCellDef class="txt-center"> Categoría </th>
-            <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+          <ng-container matColumnDef="prefix">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Prefijo </th>
+            <td mat-cell *matCellDef="let element"> {{element.prefix}} </td>
           </ng-container>
           <!-- prefijo Column -->
-          <ng-container matColumnDef="prefijo">
-            <th mat-header-cell *matHeaderCellDef class="txt-center"> Prefijo </th>
-            <td mat-cell *matCellDef="let element"> {{element.prefijo}} </td>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Estatus </th>
+            <td mat-cell *matCellDef="let element"> {{element.status}} </td>
           </ng-container>
-          <!-- activo Column -->
-          <ng-container matColumnDef="activo">
-            <th mat-header-cell *matHeaderCellDef class="txt-center"> Estatus </th>
-            <td mat-cell *matCellDef="let element"> {{element.estatus.estatus.nombre}} </td>
+          <ng-container matColumnDef="userUpdated">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Usuario Modificó </th>
+            <td mat-cell *matCellDef="let element"> {{element.userUpdated}} </td>
+          </ng-container>
+          <ng-container matColumnDef="dateUpdated">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Fecha y Hora última modificación </th>
+            <td mat-cell *matCellDef="let element"> {{element.dateUpdated | date:'dd-MM-yyyy HH:mm a'}} </td>
           </ng-container>
           <!-- ver Column -->
-          <ng-container matColumnDef="ver">
+          <ng-container matColumnDef="see">
             <th mat-header-cell *matHeaderCellDef class="txt-center"> Ver </th>
             <td mat-cell *matCellDef="let element">
               <!-- <a routerLink="/catalogo-actividades/ver/{{element.actividadId}}">
                 <img src="assets/images/skins/ico_Ver.png" alt="Visualizar">
               </a> -->
-              <a  (click)="action(2, element.actividadId)">
+              <a  (click)="action(2, element.element.actividadId)">
                 <img src="assets/images/skins/ico_Ver.png" alt="Visualizar">
               </a>
             </td>
           </ng-container>
           <!-- modificar Column -->
-          <ng-container matColumnDef="modificar">
+          <ng-container matColumnDef="update">
             <th mat-header-cell *matHeaderCellDef class="txt-center"> Modificar </th>
             <td mat-cell *matCellDef="let element">
               <!-- <a routerLink="/catalogo-actividades/editar/{{element.actividadId}}">
                 <img src="assets/images/skins/ico_Editar.png" alt="Visualizar">
               </a> -->
-              <a  (click)="action(3, element.actividadId)">
+              <a  (click)="action(3, element.element.actividadId)">
                 <img src="assets/images/skins/ico_Editar.png" alt="Visualizar">
               </a>
             </td>
           </ng-container>
           <!-- eliminar Column -->
-          <ng-container matColumnDef="eliminar">
+          <ng-container matColumnDef="delete">
             <th mat-header-cell *matHeaderCellDef class="txt-center"> Eliminar </th>
             <td mat-cell *matCellDef="let element">
-              <a (click)="eliminarActividad(element)">
+              <a (click)="eliminarActividad(element.element)">
                 <img src="assets/images/skins/ico_Borrar.png" alt="eliminar">
               </a>
             </td>

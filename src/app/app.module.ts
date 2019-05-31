@@ -47,7 +47,6 @@ import { DashboardsComponent } from './compliance/business/perfil/dashboards/das
 import { ResponsibilitiesComponent } from './compliance/business/perfil/responsibilities/responsibilities.component';
 import { ObsyCommentsComponent } from './compliance/business/perfil/obsyComments/obsyComments.component';
 import { AuthoritiesComponent } from './compliance/catalogs/authorities/authorities.component';
-import { ApplicationsTypesComponent } from './compliance/catalogs/applications/types/applicationsTypes.component';
 import { DepartmentsComponent } from './compliance/catalogs/departments/departments.component';
 import { PeriodsComponent } from './compliance/catalogs/periods/periods.component';
 import { DaysTypesComponent } from './compliance/catalogs/days/types/daysTypes.component';
@@ -55,7 +54,6 @@ import { ActivitiesEditComponent } from './compliance/catalogs/activities/edit/a
 import { CompetentStaffComponent } from './compliance/business/acquisitions/competentStaff/competentStaff.component';
 import { ActivitiesTypesEditComponent } from './compliance/catalogs/activities/types/edit/activitiesTypesEdit.component';
 import { AuthoritiesEditComponent } from './compliance/catalogs/authorities/edit/authoritiesEdit.component';
-import { ApplicationsTypesEditComponent } from './compliance/catalogs/applications/types/edit/applicationsTypesEdit.component';
 import { UploadComponent } from './compliance/business/perfil/upload/upload.component';
 import { ComplianceConfigurationComponent } from './compliance/catalogs/compliance/configuration/complianceConfiguration.component';
 import { EventService } from './core/services/event.service';
@@ -82,10 +80,7 @@ import { RolesGrantsComponent } from './security/admin/roles/grants/rolesGrants.
 import { TreeviewModule } from 'ngx-treeview';
 import { Constants } from './core/globals/Constants';
 import { ComplianceTypesEditComponent } from './compliance/catalogs/compliance/types/edit/complianceTypesEdit.component';
-import { PlannedPowersPPAComponent } from './safe/mda-planning-process/planned-powers-ppa/planned-powers-ppa.component';
 import { SafeLinkMockUp } from './safe/links-mock-up/safeLinkMockUp';
-import { HeatRateRecordComponent } from './safe/mda-planning-process/heat-rate-record/heat-rate-record.component';
-import { SalesOffersComponent } from './safe/mda-planning-process/sales-offers/sales-offers.component';
 import { ClientsComponent } from './safe/admin/clients/clients.component';
 import { UnityProductsComponent } from './safe/catalogs/unityProducts/unityProducts.component';
 import { UnityProductsEditComponent } from './safe/catalogs/unityProducts/edit/unityProductsEdit.component';
@@ -96,6 +91,10 @@ import { PmlComponent } from './safe/admin/pml/pml.component';
 import { ComplianceWelcomeComponent } from './compliance/home/welcome/complianceWelcome.component';
 import { SafeNewEventComponent } from './safe/business/logBook/newEvent/safeNewEvent.component';
 import { WeatherComponent } from './safe/admin/weather/weather.component';
+import { PlannedPowersPPAComponent } from './safe/business/mdaPlanningProcess/plannedPowersPpa/plannedPowersPpa.component';
+import { HeatRateRecordComponent } from './safe/business/mdaPlanningProcess/heatRateRecord/heatRateRecord.component';
+import { SalesOffersComponent } from './safe/business/mdaPlanningProcess/salesOffers/salesOffers.component';
+import { PerfilHomeComponent } from './compliance/business/perfil/home/perfilHome.component';
 
 
 
@@ -128,7 +127,6 @@ import { WeatherComponent } from './safe/admin/weather/weather.component';
     ObsyCommentsComponent,
     CatalogsComponent,
     AuthoritiesComponent,
-    ApplicationsTypesComponent,
     DepartmentsComponent,
     PeriodsComponent,
     DaysTypesComponent,
@@ -137,7 +135,6 @@ import { WeatherComponent } from './safe/admin/weather/weather.component';
     ActivitiesTypesEditComponent,
     ComplianceTypesComponent,
     AuthoritiesEditComponent,
-    ApplicationsTypesEditComponent,
     UploadComponent,
     CalendarComponent,
     ConfirmationModalComponent,
@@ -170,6 +167,7 @@ import { WeatherComponent } from './safe/admin/weather/weather.component';
     CatalogGenericEditComponent,
     PmlComponent,
     WeatherComponent,
+    PerfilHomeComponent,
 
     SafeLinkMockUp,
     PlannedPowersPPAComponent,

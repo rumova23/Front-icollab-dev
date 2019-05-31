@@ -192,7 +192,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <!--div class="row">
         <div class="col-md-6">
           <div class="md-form form-group">
             <mat-form-field class="w-100">
@@ -208,6 +208,27 @@
             </mat-form-field>
           </div>
         </div>
+      </div-->
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="md-form form-group">
+            <ng-container>
+              <div class="col-md-auto col-md-6 col-lg-4">
+                <div class="row">
+                  <div class="col-md-8">
+                    <mat-checkbox class="active" color="primary" 
+                      (change)="chanceCheck();"
+                      [checked]="checkedEstatus"
+                      [disabled]="deshabiliarEstatus">
+                      <mat-label>Activo</mat-label>
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
       </div>
 
       <div class="row" *ngIf="!soloLectura">
@@ -218,6 +239,77 @@
         </div>
       </div>
     </form>
+
+    <div class="row" *ngIf="existeTagId">
+      <div class="col-md-12">
+        <div class="row" *ngIf="isPrecedentes">
+            <div class="col-md-6">
+              <div class="md-form">
+                <mat-label>Actividades Procedentes</mat-label>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="!soloLectura">
+            <div class="col-md-6">
+              <div class="md-form">
+                <button type="button" class="btn"
+                  [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
+                  (click)="mostrarPrecedentes()">Mostrar Precedente</button>
+              </div>
+            </div>
+          </div>
+
+        <!-- LISTA DE PRECEDENTES PARA ASIGNAR -->
+        <div class="row" >
+          <div class="col-md-12" *ngIf="tablaAgregarPrecedentes">
+            <div class="tabla-responsi mat-elevation-z8">      
+              <table mat-table matSort class="table_catalogo" [dataSource]="tagPrecedentesParaAsiganar">
+                <ng-container matColumnDef="ID_ACTIVIDAD">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center">ID ACTIVIDAD </th>
+                  <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{element.tagId}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="ACTIVIDAD">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center">ACTIVIDAD</th>
+                  <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{element.tag}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="DESCRIPCION">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center">DESCRIPCIÓN</th>
+                  <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{element.descripcion}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="ASIGNAR_PRECEDENTE">
+                  <th mat-header-cell *matHeaderCellDef class="txt-center">ASIGNAR PRECEDENTE </th>
+                  <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    <u><i>
+                      <mdb-checkbox (change)="agregarQuitarId( element.tag )"></mdb-checkbox>
+                    </i></u>
+                  </td>
+                </ng-container>
+                
+                <tr mat-header-row *matHeaderRowDef="cabeceraTagPrecedentesAux"></tr>
+                <tr mat-row *matRowDef="let row; columns: cabeceraTagPrecedentesAux;"></tr>
+              </table>
+              <mat-paginator [pageSizeOptions]="registros_x_pagina" showFirstLastButtons></mat-paginator>
+            </div>
+            <p></p>
+            <div class="row" *ngIf="tablaAgregarPrecedentes && !soloLectura">
+              <div class="col-8"></div>
+              <div class="col-4">
+                <button type="button" class="btn"
+                  [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
+                  (click)="agregarPrecedentes()">Agregar Precedentes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
 
     <!-- SECCIÓN DE LOS PRECEDENTES -->
     <div class="row" *ngIf="existeTagId">
@@ -257,58 +349,6 @@
           </div>
         </div>
         <!-- LISTA DE PRECEDENTES ASIGNADOS -->
-
-        <!-- LISTA DE PRECEDENTES PARA ASIGNAR -->
-
-        <div class="row" *ngIf="isPrecedentes">
-          <div class="col-md-6">
-            <div class="md-form">
-              <mat-label>Actividades Procedentes</mat-label>
-            </div>
-          </div>
-        </div>
-        <div class="row" *ngIf="!soloLectura">
-          <div class="col-md-6">
-            <div class="md-form">
-              <button type="button" class="btn"
-                [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
-                (click)="mostrarPrecedentes()">Mostrar Precedente</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Agregar precedentes -->
-        <div class="row">
-          <div class="col-md-12" *ngIf="tablaAgregarPrecedentes">
-            <div class="md-form">
-              <table mdbTable>
-                <thead>
-                  <tr>
-                    <th *ngFor="let head of cabeceraTagPrecedentesAux" scope="col">{{head}} </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr mdbTableCol *ngFor="let actividadPrecedente of tagPrecedentesParaAsiganar">
-                    <th scope="row"> {{actividadPrecedente.tagId}} </th>
-                    <td>{{actividadPrecedente.tag}}</td>
-                    <td>{{actividadPrecedente.descripcion}}</td>
-                    <td>
-                      <mdb-checkbox (change)="agregarQuitarId( actividadPrecedente.tag )"></mdb-checkbox>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="row" *ngIf="tablaAgregarPrecedentes && !soloLectura">
-              <div class="col-10"></div>
-              <div class="col-2">
-                <button type="button" class="btn"
-                  [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
-                  (click)="agregarPrecedentes()">Agregar Precedentes</button>
-              </div>
-            </div>
-          </div>
-        </div>
 
       </div>
     </div>

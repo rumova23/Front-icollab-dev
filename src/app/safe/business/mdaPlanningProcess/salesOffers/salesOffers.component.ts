@@ -47,10 +47,10 @@ const colors: any = {
 };
 
 @Component({
-  selector: 'app-sales-offers',
+  selector: 'app-salesOffers',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './sales-offers.component.html',
-  styleUrls: ['./sales-offers.component.scss']
+  templateUrl: './salesOffers.component.html',
+  styleUrls: ['./salesOffers.component.scss']
 })
 export class SalesOffersComponent {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { TagActividadDTO } from '../../models/TagActividadDTO';
@@ -18,8 +18,10 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 
 export class ActivitiesComponent implements OnInit {
   titulo: String = "Catálogos / Categorías";
-  registros: MatTableDataSource<TagActividadDTO>;
-  columnas: string[] = ['orden','actividad','prefijo','activo','ver','modificar','eliminar'];
+  registros;
+  data: any[] = [];
+  columnas: string[] = ['order','category','prefix','userUpdated','dateUpdated','status','see','update','delete'];          
+
   filtros = [
     {label:"Actividad",inputtype:"text"},
     {label:"Prefijo",inputtype:"text"},
@@ -36,7 +38,9 @@ export class ActivitiesComponent implements OnInit {
       private confirmationDialogService: ConfirmationDialogService,
   ) { }
 
+  @ViewChild(MatSort) matSort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
   ngOnInit() {
   
     this.obtenerListaActividades();
@@ -45,14 +49,30 @@ export class ActivitiesComponent implements OnInit {
 
   
   obtenerListaActividades(){
-    this.tagService.getCatalogoActividades().subscribe(
-      respuesta => {
-        console.log(respuesta)
-        let datos: any;
-        datos = respuesta;
-        this.registros =  new MatTableDataSource<TagActividadDTO>(datos);
+    this.data = [];
+    this.tagService.getCatalogoActividades().subscribe( data => {
+        console.log(data)
+        let listObj = [];
+        let i = 0;
+        for (let element of data) {
+          i += 1;
+          let obj             = {};
+          obj['order']        = i;
+          obj['category']     = element.nombre;
+          obj['prefix']       = element.prefijo;
+          obj['status']       = element.estatus.estatus.nombre;
+          obj['userUpdated']  = element.userUpdated;
+          obj['dateUpdated']  = element.dateUpdated;
+          obj['see']      = 'sys_see';
+          obj['edit']     = 'sys_edit';
+          obj['delete']   = 'sys_delete';
+          obj['element']  = element;
+          listObj.push(obj);
+        }
+
+        this.registros =  new MatTableDataSource<any>(listObj);
         this.registros.paginator = this.paginator;
-        
+        this.registros.sort = this.matSort;
       },
       error => {
         console.log("Error al obtener catalgo de actividades.");
@@ -80,14 +100,14 @@ export class ActivitiesComponent implements OnInit {
         res = respuesta;
         if ( res.clave == 0 ){
           this.obtenerListaActividades();
-          this.toastr.successToastr(res.mensaje, 'Success!');
+          this.toastr.successToastr(res.mensaje, '¡Se ha logrado!');
         }else{
           this.toastr.errorToastr(res.mensaje, 'Success!');
         }
       },
       error => {
         console.log(<any> error);
-        this.toastr.errorToastr('Error al eliminar la actividad.', 'Oops!');
+        this.toastr.errorToastr('Error al eliminar la actividad.', 'Lo siento,');
       }
     )
   }

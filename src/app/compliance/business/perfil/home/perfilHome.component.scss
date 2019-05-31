@@ -1,0 +1,15 @@
+.container{
+	background: white;
+	padding-top: 5px;
+	display: flow-root;
+  flex-direction: column;
+}
+
+@media (min-width: 1200px){
+	.container {
+	margin-left: 7% !important;
+	margin-right: 0% !important;
+	max-width: 75%;
+	}
+}
+
