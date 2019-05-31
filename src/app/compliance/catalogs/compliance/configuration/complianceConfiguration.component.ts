@@ -82,6 +82,7 @@ export class ComplianceConfigurationComponent implements OnInit {
         console.dir( data );
         let listObj = [];
         let i = 0;
+        debugger;
         for (let element of data) {
           i += 1;
           let obj                   = {};
@@ -90,7 +91,7 @@ export class ComplianceConfigurationComponent implements OnInit {
           obj['nombre']             = element.descripcion;
           obj['clasificacion']      = element.actividad.nombre;
           obj['cumplimiento_legal'] = element.tipoCumplimiento.opcion.descripcion;
-          obj['autoridad']          = element.autoridad.opcion.descripcion;
+          obj['autoridad']          = element.autoridad.opcion.codigo;
           obj['tipo_aplicacion']    = element.tipoAplicacion.opcion.descripcion;
           obj['periodo_entrega']    = element.periodoEntrega.opcion.descripcion;
           obj['estatus']            = element.estatus.estatus.nombre;
