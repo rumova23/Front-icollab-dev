@@ -50,6 +50,11 @@ export class ComplianceTypesEditComponent implements OnInit {
   catalogType: CatalogType;
   comboEstatus = new Array<Combo>();
 
+  checkedEstatus = false;
+  checkedActivoId;
+  checkedInactivoId;
+  deshabiliarEstatus: boolean = true;
+
   submitted = false;
 
   get f() { return this.perfilForm.controls; }
@@ -62,12 +67,21 @@ export class ComplianceTypesEditComponent implements OnInit {
         let entidadEstatus: any;
         entidadEstatus = catalogoResult;
         entidadEstatus.forEach(element => {
+
+          if ( element.estatus.nombre === 'Activo' ){
+            this.checkedActivoId = element.estatus.estatusId;
+          }
+
+          if ( element.estatus.nombre === 'Inactivo' ){
+            this.checkedInactivoId = element.estatus.estatusId;
+          }
+/*
           let combo: Combo;
           combo = new Combo(element.estatus.estatusId.toString(), element.estatus.nombre);
           this.comboEstatus.push(combo);
           if (element.estatus.nombre === 'Activo' && this.accion == null) {
             this.perfilForm.controls.fComboEstatus.patchValue(`${element.estatus.estatusId.toString()}`);
-          }
+          }*/
         });
       },
       error => {
@@ -97,8 +111,16 @@ export class ComplianceTypesEditComponent implements OnInit {
         this.perfilForm.controls.nombreOpcion.setValue(data.opcion.codigo);
         this.perfilForm.controls.opcionDescripcion.setValue(data.opcion.descripcion);
         this.perfilForm.controls.orden.setValue(data.orden);
-        this.perfilForm.controls.fComboEstatus.patchValue(`${data.entidadEstatusId}`);
-        this.isReadOnly = true;
+        //this.perfilForm.controls.fComboEstatus.patchValue(`${data.entidadEstatusId}`);
+        this.deshabiliarEstatus = false;
+
+        if (this.checkedActivoId === data.entidadEstatusId ){
+          this.checkedEstatus = true;
+        }else{
+          this.checkedEstatus = false;
+        }
+
+        this.isReadOnly = false;
       });
     }
     if (this.accion === 'nuevo') {
@@ -108,7 +130,10 @@ export class ComplianceTypesEditComponent implements OnInit {
         this.perfilForm.controls.nombreOpcion.setValue('');
         this.perfilForm.controls.opcionDescripcion.setValue('');
         this.perfilForm.controls.orden.setValue('');
-        this.perfilForm.controls.fComboEstatus.patchValue(`${this.entidadEstatusId}`);
+        //this.perfilForm.controls.fComboEstatus.patchValue(`${this.entidadEstatusId}`);
+        this.deshabiliarEstatus = false;
+        this.checkedEstatus = true;
+
       });
     }
     if (this.accion === 'ver') {
@@ -117,9 +142,16 @@ export class ComplianceTypesEditComponent implements OnInit {
         this.perfilForm.controls.nombreOpcion.setValue(data.opcion.codigo);
         this.perfilForm.controls.opcionDescripcion.setValue(data.opcion.descripcion);
         this.perfilForm.controls.orden.setValue(data.orden);
-        this.perfilForm.controls.fComboEstatus.patchValue(`${data.entidadEstatusId}`);
+        //this.perfilForm.controls.fComboEstatus.patchValue(`${data.entidadEstatusId}`);
+        
+        if (this.checkedActivoId === data.entidadEstatusId ){
+          this.checkedEstatus = true;
+        }else{
+          this.checkedEstatus = false;
+        }
+        this.deshabiliarEstatus = true;
         // @ts-ignore
-        this.perfilForm.controls.fComboEstatus.disable(true);
+        //this.perfilForm.controls.fComboEstatus.disable(true);
       });
       this.isReadOnly = true;
     }
@@ -130,7 +162,7 @@ export class ComplianceTypesEditComponent implements OnInit {
       opcionDescripcion: ['', Validators.required],
       orden: ['',''],
       estatus: ['',''],
-      fComboEstatus: ['', '']
+      //fComboEstatus: ['', '']
     });
   }
   onSubmit() {
@@ -142,17 +174,29 @@ export class ComplianceTypesEditComponent implements OnInit {
     }
 
     console.log(this.perfilForm.controls);
+
+    let estatusid;
+      let estatusNombre;
+      if ( this.checkedEstatus){
+        estatusid = this.checkedActivoId
+        estatusNombre = "Activo"
+      }else{
+        estatusid = this.checkedInactivoId;
+        estatusNombre = "Inactivo"
+      }
+
     if (this.accion === 'edit') {
       this.perfilForm.controls.orden.setValue('1');
-      if (this.perfilForm.controls.fComboEstatus.value === '' + this.entidadEstatusId) {
+      /*if (this.perfilForm.controls.fComboEstatus.value === '' + this.entidadEstatusId) {
         this.perfilForm.controls.estatus.setValue('Activo');
       } else {
         this.perfilForm.controls.estatus.setValue('Inactivo');
-      }
+      }*/
+      
       this.catalogoMaestroService.updateOpcion(
         this.perfilForm.controls.nombreOpcion.value,
         this.perfilForm.controls.opcionDescripcion.value,
-        this.perfilForm.controls.estatus.value,
+        estatusNombre, //this.perfilForm.controls.estatus.value,
         this.perfilForm.controls.orden.value,
         this.maestroOpcionId
       ).subscribe(data => {
@@ -168,7 +212,7 @@ export class ComplianceTypesEditComponent implements OnInit {
       this.catalogoMaestroService.salvarOpcion(
         this.perfilForm.controls.nombreOpcion.value,
         this.perfilForm.controls.opcionDescripcion.value,
-        'Activo',
+        estatusNombre, //'Activo',
         '1',
         this.nombreCatalogo
       ).subscribe(data => {
@@ -207,4 +251,17 @@ export class ComplianceTypesEditComponent implements OnInit {
     }
     return option;
   }
+
+  regresar(){
+    this.eventService.sendMainCompliance(new EventMessage(4, {}));
+  }
+
+  chanceCheck(){
+    if (this.checkedEstatus)
+      this.checkedEstatus = false;
+    else{
+      this.checkedEstatus = true;
+    }
+  }
+
 }

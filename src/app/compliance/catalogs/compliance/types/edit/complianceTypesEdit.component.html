@@ -16,16 +16,27 @@
             </mat-form-field>
 
             <mat-form-field class="w-100">
-                <input matInput formControlName="nombreOpcion" placeholder="Nombre">
+                <input matInput formControlName="nombreOpcion" placeholder="Nombre" [readonly]="isReadOnly">
                 <div *ngIf="submitted && f.nombreOpcion.errors" style="color:red">
                     <div *ngIf="f.nombreOpcion.errors.required">Requerido</div>
                 </div>
             </mat-form-field>
 
             <mat-form-field class="w-100">
-                <input matInput formControlName="opcionDescripcion" placeholder="Descripción">
+                <input matInput formControlName="opcionDescripcion" [readonly]="isReadOnly" placeholder="Descripción">
                 <div *ngIf="submitted && f.opcionDescripcion.errors" style="color:red">
                     <div *ngIf="f.opcionDescripcion.errors.required">Requerido</div>
+                </div>
+            </mat-form-field>
+            <!--mat-form-field class="w-100">
+                <mat-label>Estatus</mat-label>
+                <mat-select [compareWith]="compareFn" formControlName="fComboEstatus"
+                    [ngClass]="{ 'is-invalid': submitted && f.fComboEstatus.errors }">
+                    <mat-option *ngFor="let operator of comboEstatus;" [value]="operator.value">{{operator.label}}
+                    </mat-option>
+                </mat-select>
+                <div *ngIf="submitted && f.fComboEstatus.errors" style="color:red">
+                    <div *ngIf="f.fComboEstatus.errors.required">Requerido</div>
                 </div>
             </mat-form-field>
             <mat-form-field class="w-100">
@@ -38,7 +49,26 @@
                 <div *ngIf="submitted && f.fComboEstatus.errors" style="color:red">
                     <div *ngIf="f.fComboEstatus.errors.required">Requerido</div>
                 </div>
-            </mat-form-field>
+            </mat-form-field-->
+
+            <div class="row">
+                <div class="col">
+                    <ng-container>
+                        <div class="col-md-auto col-md-6 col-lg-4">
+                            <div class="row">
+                            <div class="col-md-8">
+                                <mat-checkbox class="active" color="primary" 
+                                (change)="chanceCheck();"
+                                [checked]="checkedEstatus"
+                                [disabled]="deshabiliarEstatus">
+                                <mat-label>Activo</mat-label>
+                                </mat-checkbox>
+                            </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
 
             <!-- /inputs -->
             <div class="d-flex justify-content-end" *ngIf="accion != 'ver'">
@@ -47,5 +77,13 @@
             </div>
             <!-- /btn guardar -->
         </form>
+        <div class="row">
+            <div class="col-10"></div>
+            <div class="col-2">
+                <button type="button" class="btn"
+                [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
+                (click)="regresar()">Regresar</button>
+            </div>
+        </div>
     </div>
 </div>
