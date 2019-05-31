@@ -134,7 +134,7 @@ export class ComplianceConfigurationComponent implements OnInit {
           this.obtenerListaTags();
           this.toastr.successToastr(res.mensaje, '¡Se ha logrado!');
         }else{
-          this.toastr.errorToastr(res.mensaje, 'Success!');
+          this.toastr.errorToastr(res.mensaje, 'Lo siento,');
         }
       },
       error => {
