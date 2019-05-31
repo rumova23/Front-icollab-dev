@@ -90,9 +90,11 @@ import { CatalogGenericEditComponent } from './safe/catalogs/generic/edit/catalo
 import { PmlComponent } from './safe/admin/pml/pml.component';
 import { ComplianceWelcomeComponent } from './compliance/home/welcome/complianceWelcome.component';
 import { SafeNewEventComponent } from './safe/business/logBook/newEvent/safeNewEvent.component';
+import { WeatherComponent } from './safe/admin/weather/weather.component';
 import { PlannedPowersPPAComponent } from './safe/business/mdaPlanningProcess/plannedPowersPpa/plannedPowersPpa.component';
 import { HeatRateRecordComponent } from './safe/business/mdaPlanningProcess/heatRateRecord/heatRateRecord.component';
 import { SalesOffersComponent } from './safe/business/mdaPlanningProcess/salesOffers/salesOffers.component';
+import { PerfilHomeComponent } from './compliance/business/perfil/home/perfilHome.component';
 
 
 
@@ -164,6 +166,8 @@ import { SalesOffersComponent } from './safe/business/mdaPlanningProcess/salesOf
     CatalogGenericComponent,
     CatalogGenericEditComponent,
     PmlComponent,
+    WeatherComponent,
+    PerfilHomeComponent,
 
     SafeLinkMockUp,
     PlannedPowersPPAComponent,

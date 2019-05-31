@@ -235,10 +235,8 @@ export class EditClientsComponent implements OnInit {
     this.marketService.getClient(this.idClient)
       .subscribe(
         data => {
-          console.log(data);
           this.clientSelected = data.resultado;
           this.states = data.resultado.states;
-          console.log(this.states);
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -435,15 +433,12 @@ export class EditClientsComponent implements OnInit {
     fiscalData.idCountry = value.country.id;
     fiscalData.idState = value.state.id;
     this.client.fiscalData = fiscalData;
-    console.log(this.client);
     this.marketService.saveClient(this.client)
       .subscribe(
         data => {
-          console.log(data);
           this.eventService.sendMainSafe(new EventMessage(7, {}));
         },
         errorData => {
-          console.log(errorData);
           this.toastr.errorToastr(Constants.ERROR_SAVE, 'Clientes');
         });
   }

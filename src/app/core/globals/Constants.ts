@@ -7,5 +7,22 @@ export class Constants {
     
     public static LOADING_MEESSAGE: string = "Por favor espere...";
 
+    public static OPTIONS = {
+        path: '/socketcluster/',
+        hostname: 'localhost',
+        port:8001,
+        autoConnect: true,
+        autoReconnect: false,
+        secure: false,
+        rejectUnauthorized: false,
+        connectTimeout: 10000,
+        ackTimeout: 10000,
+        channelPrefix: null,
+        disconnectOnUnload: true,
+        multiplex: true,
+        authEngine: null,
+        codecEngine: null,
+        subscriptionRetryOptions: {}
+    };
    
 }

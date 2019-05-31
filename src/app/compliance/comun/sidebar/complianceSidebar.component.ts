@@ -101,6 +101,10 @@ export class ComplianceSidebarComponent implements OnInit {
         option = 101;
         data = item;
         break;  
+      case 'Cumplimiento de Adquisiciones':
+        option = 10;
+        data = item;
+        break;     
     }
     this.eventService.sendMainCompliance(new EventMessage(option, data));
   }

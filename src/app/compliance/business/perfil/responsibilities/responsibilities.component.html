@@ -3,7 +3,7 @@
     <mdb-card-header>
       <div class="row">
         <div class="col">
-          <h3>Funcionse y Responsabilidades de Cumplimiento</h3>
+          <h3>Funciones y Responsabilidades de Cumplimiento</h3>
         </div>
       </div>
     </mdb-card-header>
@@ -97,7 +97,7 @@
                   </div>
                 </div>
               </div>
-              <ng-container *ngFor="let level_1 of actividades; let j = index">
+              <ng-container *ngFor="let level_1 of actividadesAsignados; let j = index">
                 <div class="row " [ngClass]="{'background-pares': j%2 == 0}">
                   <div class="col col-tag"></div>
                   <div class="col col-actividad" (click)="toggle_leve_1_.toggle()" mdbWavesEffect>

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PerfilComboService } from 'src/app/compliance/services/perfil-combo.service';
+import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
 
 @Component({
   selector: 'app-upload',

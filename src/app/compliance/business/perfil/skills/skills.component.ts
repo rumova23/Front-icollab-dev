@@ -2,8 +2,8 @@ import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { Respuesta } from 'src/app/compliance/models/Respuesta';
-import { PerfilComboService } from 'src/app/compliance/services/perfil-combo.service';
 import { Tema } from 'src/app/compliance/models/Tema';
+import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
 
 
 @Component({
@@ -18,98 +18,110 @@ export class SkillsComponent implements OnInit {
   idTemas: Array<any>;
   pregs: Array<any>;
   resp: Array<any>;
-  grupOpc = [[], [], [], [], [], [], [], [], [], [], []];
   grupRes = [[], [], [], [], [], [], [], [], [], [], []];
+  grupOpc = [[], [], [], [], [], [], [], [], [], [], []];
   grupPreg = [[], [], [], [], [], [], [], [], [], [], []];
   SaveRespuestas: Array<Respuesta>;
-  reserExamen: number;
-  isdisabled: boolean = false;
+  examenReservacionId: number;
+  entidadEstatusId: number;
+  terminadoId: number;
+  isdisabled = false;
 
 
   constructor(private cdRef: ChangeDetectorRef,
-    private ruteo: ActivatedRoute,
-    private preguntas: PerfilComboService, public toastr: ToastrManager) { }
-
-  resuelveDS(poRespuesta: Object, comp: string) {
-    if (!poRespuesta) {
-      console.log("El back no responde");
-    } else {
-      let estatus = poRespuesta['estatusGenerico'];
-      if (estatus === 'exito') {
-        Object.keys(poRespuesta[comp]).forEach(key => {
-
-          let value = [poRespuesta[comp][key].temaId];
-          let label = [poRespuesta[comp][key].tema];
-          let color = [poRespuesta[comp][key].color];
-          let pregu = [poRespuesta[comp][key].preguntas][0];
-
-          this.pregs = [];
-          pregu.forEach(pg => {
-            let value = pg.preguntaId;
-            let label = pg.pregunta;
-            let optRes = pg.respuestas;
-            this.resp = [];
-            optRes.forEach(or => {
-              let value = or.respuestaId;
-              let label = or.respuesta;
-              this.resp.push(new Tema(value, label, null, null));
-            });
-            this.pregs.push(new Tema(value, label, null, this.resp));
-          });
-          this.temas.push(new Tema(value[0], label[0], color[0], this.pregs));
-        });
-      } else {
-        console.log('El sistema indica diferente a exito');
-      }
-    }
-  }
-
-
+              private ruteo: ActivatedRoute,
+              private preguntas: PerfilComboService,
+              public toastr: ToastrManager) { }
   ngOnInit() {
-    if (this.inTipo == "ver") {
+    this.preguntas.obtenEstatusTerminado('TX_EXAMEN_RESERVACION', 'Terminado').subscribe(
+        data => {
+          this.terminadoId = data.entidadEstatusId;
+        }
+    );
+    if (this.inTipo === 'ver') {
       this.isdisabled = true;
     }
     this.temas = [];
-    this.idTemas = ['DEFAULT'];
-    this.preguntas.getPreguntas(this.idTemas, 1).subscribe(
-      poRespuesta => {
-        this.reserExamen = poRespuesta[0]['examenReservacionId'];
-        this.resuelveDS(poRespuesta[0], 'preguntasExamen');
-      }
+    this.idTemas = [ 'DEFAULT' ];
+    this.preguntas.obtenPreguntasExamen('DEFAULT', this.inIdEmpleado).subscribe(
+        reservacion => {
+          if ( reservacion.estatusGenerico === 'exito') {
+            this.examenReservacionId = reservacion.examenReservacionId;
+            this.entidadEstatusId = reservacion.entidadEstatusId;
+            let i = -1;
+            reservacion.preguntasExamen.forEach( tema => {
+              i += 1;
+              this.pregs = [];
+              let j = -1;
+              tema.preguntas.forEach( pregunta => {
+                j += 1;
+                const optRes = pregunta.respuestas;
+                this.resp = [];
+                optRes.forEach( or => {
+                  this.resp.push(new Tema( or.respuestaId, or.respuesta, null, null, null, null));
+                });
+                this.pregs.push( new Tema( pregunta.preguntaId, pregunta.pregunta, null,
+                    pregunta.respuestaPresentacionId, null, this.resp) );
+                this.grupPreg[i][j] = pregunta.preguntaId;
+                this.grupOpc[i][j] = pregunta.respuestaPresentacionId;
+                this.grupRes[i][j] = pregunta.justificacion;
+              });
+              this.temas.push( new Tema(
+                  tema.value,
+                  tema.label,
+                  tema.color,
+                  null,
+                  null,
+                  this.pregs) );
+            });
+          }
+        }
     );
   }
 
   onSubmit() {
-    let tOpc: number = 0;
-    let tRes: number = 0;
     this.SaveRespuestas = [];
-    for (var _i = 0; _i < this.grupPreg.length; _i++) {
-      for (var _j = 0; _j < this.grupPreg[_i].length; _j++) {
-        if (this.grupOpc[_i][_j] == null) {
-          tOpc++;
+    for (let i = 0; i < this.grupPreg.length; i++) {
+      for (let j = 0; j < this.grupPreg[i].length; j++) {
+        if ( this.grupOpc[i][j] != null) {
+          this.SaveRespuestas.push( new Respuesta( this.grupPreg[i][j], this.grupOpc[i][j], this.grupRes[i][j] ) );
         }
-        if (this.grupRes[_i][_j] == null) {
-          tRes++;
-        }
-        this.SaveRespuestas.push(new Respuesta(this.grupPreg[_i][_j], this.grupOpc[_i][_j], this.grupRes[_i][_j]));
       }
     }
-    if (tOpc > 0) {
-      this.toastr.errorToastr('Error, Debe de seleccionar todo las opciones si o no.', 'Lo siento,');
-      //alert('ERROR!! :-)\n\n' + "debe de seleccionar todo las opciones si o no");
-      return;
-    }
-    if (tRes) {
-      this.toastr.errorToastr('Error, Debe de escribir en todas las respuestas abiertas.', 'Lo siento,');
-      //alert('ERROR!! :-)\n\n' + "debe de escribir en todas las respuestas abiertas");
-      return;
-    }
-    this.preguntas.postRespuetaExamen(this.reserExamen, this.SaveRespuestas).subscribe(
+    this.preguntas.postRespuetaExamen(this.examenReservacionId, this.SaveRespuestas).subscribe(
       respuesta => {
-        console.dir(respuesta);
+        console.dir( respuesta  );
       }
     );
+  }
+  terminaExamen() {
+    let mensaje = '';
+    let sonTodas = true;
+    for (let i = 0; i < this.grupPreg.length; i++) {
+      for (let j = 0; j < this.grupPreg[i].length; j++) {
+        if ( this.grupOpc[i][j] == null) {
+          sonTodas = false;
+          mensaje += 'Para terminar el examen, Todas las preguntas deben contestarse.'
+          break;
+        }
 
+        if ( this.grupRes[i][j] == null) {
+          sonTodas = false;
+          mensaje += 'Para terminar el examen, Todas las justificaciones deben contestarse.'
+          break;
+        }
+      }
+    }
+    if (sonTodas) {
+      this.onSubmit();
+      this.preguntas.terminaExamen(this.examenReservacionId).subscribe(
+          respuesta => {
+            this.toastr.successToastr('Se Actualizo a examen Finalizado. Para examen de habilidades', 'Exito!');
+          }
+      );
+    } else {
+      this.toastr.errorToastr(mensaje, '!Oops.');
+    }
   }
 
 }

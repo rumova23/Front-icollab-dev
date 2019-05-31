@@ -5,146 +5,166 @@
     </mat-panel-title>
     <mat-panel-description></mat-panel-description>
   </mat-expansion-panel-header>
-      <!--Boton nuevo emoleado-->
-      <div class="row mb-3">
-        <div class="col">
-            <button type="button" class="btn btn-primary"  routerLink="home-compliance/0/guardar"><i class="fas fa-user-plus"></i>&nbsp;Agregar</button>
-        </div>
-      </div>
-      <!-- Filtros de busqueda  -->
-      <div class="row">
-        <div class="col">
-            <div class="filtros mt-2 row">
-              <div class="col-md-auto" *ngFor="let filtro of filtros">
-                <mat-form-field>
-                  <input matInput  placeholder="{{filtro.label}}" type="{{filtro.inputtype}}" >
-                </mat-form-field>
-              </div>
-            </div> <!-- /.filtros -->
-        </div>
-      </div>
+  <!--Boton nuevo emoleado-->
+  <div class="row mb-3">
+    <div class="col">
+      <button type="button" class="btn btn-primary" routerLink="home-compliance/0/guardar"><i
+          class="fas fa-user-plus"></i>&nbsp;Agregar</button>
+    </div>
+  </div>
+  <!-- Filtros de busqueda  -->
+  <div class="row">
+    <div class="col">
+      <div class="filtros mt-2 row">
+        <div class="col-md-auto" *ngFor="let filter of filters">
+          <ng-container [ngSwitch]="filter.inputtype">
+            <mat-form-field *ngSwitchCase="'text'">
+              <input matInput placeholder="{{filter.label}}" type="{{filter.inputtype}}">
+            </mat-form-field>
 
-      <div class="row  justify-content-end">
-          <div class="col-md-auto">
-              <button type="button" class="btn btn-primary"  (click)="alert('Vaciar los campos de busqueda')"><i class="fas fa-broom"></i>&nbsp;Limpiar</button> 
-          </div>
-          <div class="col-md-auto">
-              <button type="button" class="btn btn-primary"  (click)="alert('Filtro de empleados')"><i class="fas fa-search"></i>&nbsp;Buscar</button> 
-          </div>
-      </div>
-      
-      <hr>
-    
-      <div class="tabla-responsive text-nowrap mat-elevation-z0">
-          <table mat-table [dataSource]="registros" matSort >
-            <!-- Position Column -->
-            <ng-container matColumnDef="orden" sticky>
-              <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> No. </th>
-              <td mat-cell *matCellDef="let element"> {{element.orden}} </td>
-            </ng-container>
-            <!-- Name Column -->
-            <ng-container matColumnDef="n_empleado" >
-              <th mat-header-cell *matHeaderCellDef  mat-sort-header ><a>No. Empleado</a></th>
-              <td mat-cell *matCellDef="let element"> {{element.n_empleado}} </td>
-            </ng-container>
-            <!-- Name Column -->
-            <ng-container matColumnDef="nombre" >
-              <th mat-header-cell *matHeaderCellDef  mat-sort-header ><a>Nombre</a></th>
-              <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
-            </ng-container>
-            <!-- Weight Column -->
-            <ng-container matColumnDef="appaterno" >
-              <th mat-header-cell *matHeaderCellDef  mat-sort-header ><a>Apellido Paterno</a></th>
-              <td mat-cell *matCellDef="let element"> {{element.appaterno}} </td>
-            </ng-container>
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="apmaterno" >
-              <th mat-header-cell *matHeaderCellDef  mat-sort-header ><a>Apellido Materno</a></th>
-              <td mat-cell *matCellDef="let element"> {{element.apmaterno}} </td>
-            </ng-container>
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="genero" >
-              <th mat-header-cell *matHeaderCellDef  mat-sort-header ><a>Género</a></th>
-              <td mat-cell *matCellDef="let element"> {{element.genero}} </td>
-            </ng-container>
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="posicion" >
-              <th mat-header-cell *matHeaderCellDef  mat-sort-header ><a>Posición</a></th>
-              <td mat-cell *matCellDef="let element"> {{element.posicion}} </td>
-            </ng-container>
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="departamento" >
-              <th mat-header-cell *matHeaderCellDef  mat-sort-header ><a>Departamento</a></th>
-              <td mat-cell *matCellDef="let element"> {{element.departamento}} </td>
-            </ng-container>
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="puesto" >
-              <th mat-header-cell *matHeaderCellDef  mat-sort-header ><a>Puesto</a></th>
-              <td mat-cell *matCellDef="let element"> {{element.puesto}} </td>
-            </ng-container>
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="lugartrabajo" >
-              <th mat-header-cell *matHeaderCellDef  mat-sort-header ><a>Lugar de trabajo</a></th>
-              <td mat-cell *matCellDef="let element"> {{element.lugartrabajo}} </td>
-            </ng-container>
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="fechevaluacion" >
-              <th mat-header-cell *matHeaderCellDef  mat-sort-header ><a>Fecha última evaluación</a></th>
-              <td mat-cell *matCellDef="let element"> {{element.fechevaluacion}} </td>
-            </ng-container>
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="status" >
-              <th mat-header-cell *matHeaderCellDef  mat-sort-header ><a>Status</a></th>
-              <td mat-cell *matCellDef="let element"> {{element.status}} </td>
-            </ng-container>
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="ver" >
-              <th mat-header-cell *matHeaderCellDef class="text-center"> Ver </th>
-              <td mat-cell *matCellDef="let element">
-                  <a routerLink="{{element.editar}}/{{element.empleadoId}}/ver">
-                  <img src="assets/images/skins/ico_Ver.png" alt="Visualizar">
-                </a>
-              </td>
-            </ng-container>
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="editar">
-              <th mat-header-cell *matHeaderCellDef class="text-center"> Editar </th>
-              <td mat-cell *matCellDef="let element"> 
-                  <a routerLink="{{element.editar}}/{{element.empleadoId}}/editar">
-                  <img src="assets/images/skins/ico_Editar.png" alt="Visualizar">
-                </a>
-              </td>
-            </ng-container>
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="pdf" >
-              <th mat-header-cell *matHeaderCellDef class="text-center"> PDF </th>
-              <td mat-cell *matCellDef="let element"> 
-                <a (click)="alert('Imprimira el exámen con las gráficas')">
-                  <img src="assets/images/skins/ico_PDF.png" alt="PDF">  
-                </a>
-              </td>
-            </ng-container>
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="eliminar" >
-              <th mat-header-cell *matHeaderCellDef class="text-center"> Eliminar </th>
-              <td mat-cell *matCellDef="let element"> 
-                <app-confirmationModal [strMensaje]='element.mensajeEliminar' [inTitulo]='inTitulo' (salida)="eliminar($event,element.empleadoId)" ></app-confirmationModal>
-              </td>
-            </ng-container>
-            
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="nuevoexamen" >
-                <th mat-header-cell *matHeaderCellDef class="text-center"> Nuevo Examen </th>
-                <td mat-cell *matCellDef="let element"> 
-                    <a routerLink="{{element.editar}}/{{element.empleadoId}}/nuevoE">
-                      <i class="fas fa-file-alt" style="color: #a3a3a3;font-size: 19px;"></i>  
+            <mat-form-field *ngSwitchCase="'select'">
+              <mat-label>{{filter.label}}</mat-label>
+              <mat-select>
+                <mat-option *ngFor="let option of filter.options" [value]="option.value">
+                  {{option.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+          </ng-container>
+        </div>
+      </div> <!-- /.filtros -->
+    </div>
+  </div>
+
+  <div class="row  justify-content-end">
+    <div class="col-md-auto">
+      <button type="button" class="btn btn-primary" (click)="alert('Vaciar los campos de busqueda')"><i
+          class="fas fa-broom"></i>&nbsp;Limpiar</button>
+    </div>
+    <div class="col-md-auto">
+      <button type="button" class="btn btn-primary" (click)="alert('Filtro de empleados')"><i
+          class="fas fa-search"></i>&nbsp;Buscar</button>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="tabla-responsive text-nowrap mat-elevation-z0">
+    <table mat-table [dataSource]="registros" matSort>
+      <!-- Position Column -->
+      <ng-container matColumnDef="orden" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.orden}} </td>
+      </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="nEmpleado">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><a>No. Empleado</a></th>
+        <td mat-cell *matCellDef="let element"> {{element.nEmpleado}} </td>
+      </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Nombre</a></th>
+        <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+      </ng-container>
+      <!-- Weight Column -->
+      <ng-container matColumnDef="appaterno">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Apellido Paterno</a></th>
+        <td mat-cell *matCellDef="let element"> {{element.appaterno}} </td>
+      </ng-container>
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="apmaterno">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Apellido Materno</a></th>
+        <td mat-cell *matCellDef="let element"> {{element.apmaterno}} </td>
+      </ng-container>
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="genero">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Género</a></th>
+        <td mat-cell *matCellDef="let element"> {{element.genero}} </td>
+      </ng-container>
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="posicion">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Posición</a></th>
+        <td mat-cell *matCellDef="let element"> {{element.posicion}} </td>
+      </ng-container>
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="departamento">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Departamento</a></th>
+        <td mat-cell *matCellDef="let element"> {{element.departamento}} </td>
+      </ng-container>
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="puesto">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Puesto</a></th>
+        <td mat-cell *matCellDef="let element"> {{element.puesto}} </td>
+      </ng-container>
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="lugartrabajo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Lugar de trabajo</a></th>
+        <td mat-cell *matCellDef="let element"> {{element.lugartrabajo}} </td>
+      </ng-container>
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="fechevaluacion">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Fecha última evaluación</a></th>
+        <td mat-cell *matCellDef="let element"> {{element.fechevaluacion}} </td>
+      </ng-container>
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Status</a></th>
+        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+      </ng-container>
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="ver">
+        <th mat-header-cell *matHeaderCellDef class="text-center"> Ver </th>
+        <td mat-cell *matCellDef="let element">
+          <!--              <a routerLink="{{element.editar}}/{{element.empleadoId}}/ver">
                   </a>
-                </td>
-            </ng-container>            
-            <tr mat-header-row *matHeaderRowDef="columnas"></tr>
-            <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
-          </table>
-          <mat-paginator [pageSizeOptions]="registros_x_pagina" showFirstLastButtons></mat-paginator>
-      </div>
-      <!-- version solo tabla -->
+ -->
+        <a (click)="action(element.empleadoId, 'ver')"></a>
+          <img src="assets/images/skins/ico_Ver.png" alt="Visualizar">
+        </td>
+      </ng-container>
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="editar">
+        <th mat-header-cell *matHeaderCellDef class="text-center"> Editar </th>
+        <td mat-cell *matCellDef="let element">
+          <!--                   <a routerLink="{{element.editar}}/{{element.empleadoId}}/editar"> 
+                  </a>
+-->
+          <a (click)="action(element.empleadoId, 'editar')"> </a>
+            <img src="assets/images/skins/ico_Editar.png" alt="Visualizar">
+        </td>
+      </ng-container>
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="pdf">
+        <th mat-header-cell *matHeaderCellDef class="text-center"> PDF </th>
+        <td mat-cell *matCellDef="let element">
+          <a (click)="alert('Imprimira el exámen con las gráficas')">
+            <img src="assets/images/skins/ico_PDF.png" alt="PDF">
+          </a>
+        </td>
+      </ng-container>
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="eliminar">
+        <th mat-header-cell *matHeaderCellDef class="text-center"> Eliminar </th>
+        <td mat-cell *matCellDef="let element">
+          <app-confirmationModal [strMensaje]='element.mensajeEliminar' [inTitulo]='inTitulo'
+            (salida)="eliminar($event,element.empleadoId)"></app-confirmationModal>
+        </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="nuevoexamen">
+        <th mat-header-cell *matHeaderCellDef class="text-center"> Nuevo Examen </th>
+        <td mat-cell *matCellDef="let element">
+          <a (click)="generarExamen(element.empleadoId)">
+            <i class="fas fa-file-alt" style="color: #a3a3a3;font-size: 19px;"></i>
+          </a>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="registros_x_pagina" showFirstLastButtons></mat-paginator>
+  </div>
+  <!-- version solo tabla -->
 </mat-expansion-panel>

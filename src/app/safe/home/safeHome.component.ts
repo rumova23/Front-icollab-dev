@@ -14,6 +14,7 @@ import { CatalogGenericComponent } from '../catalogs/generic/catalogGeneric.comp
 import { CatalogGenericEditComponent } from '../catalogs/generic/edit/catalogGenericEdit.component';
 import { Validate } from 'src/app/core/helpers/util.validator.';
 import { PmlComponent } from '../admin/pml/pml.component';
+import { WeatherComponent } from '../admin/weather/weather.component';
 
 @Component({
   selector: 'app-safeHome',
@@ -23,7 +24,7 @@ import { PmlComponent } from '../admin/pml/pml.component';
     ProductsComponent, ProductsEditComponent, ChangePasswordComponent,
     UnityProductsComponent, UnityProductsEditComponent, ClientsComponent,
     EditClientsComponent, CatalogGenericComponent, CatalogGenericEditComponent,
-    PmlComponent
+    PmlComponent,WeatherComponent
   ]
 })
 export class SafeHomeComponent implements OnInit {
@@ -51,7 +52,7 @@ export class SafeHomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.eventService.sendMainSafe(new EventMessage(11, {}));
+    this.eventService.sendMainSafe(new EventMessage(101, {}));
   }
 
   private clickMenu(event: EventMessage): void {
@@ -130,6 +131,15 @@ export class SafeHomeComponent implements OnInit {
           this.viewContainerRef.createComponent(factoryChangePasword);
         refChangePasword.changeDetectorRef.detectChanges();
         break;
+
+        case 101:
+          const factoryWeather =
+            this.componentFactoryResolver.resolveComponentFactory(WeatherComponent);
+          const refWeather =
+            this.viewContainerRef.createComponent(factoryWeather);
+            refWeather.changeDetectorRef.detectChanges();
+          break;
+  
 
     }
   }
