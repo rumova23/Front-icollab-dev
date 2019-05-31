@@ -126,7 +126,7 @@ export class ComplianceConfigurationComponent implements OnInit {
   }
   eliminarTagConfirm(tag: any){
     console.log(tag);
-    this.tagService.eliminarTag(tag.tagId).subscribe(
+    this.tagService.eliminarTag(tag.element.tagId).subscribe(
       respuesta => {
         let res: any;
         res = respuesta;

@@ -231,6 +231,7 @@ export class ConfigActivitiesComponent implements OnInit {
       this.deshabiliarEstatus = true;
       this.titulo = "Consultar / Configuración de Cumplimiento";
     } else {
+      this.checkedEstatus = true;
       this.deshabiliarEstatus = false;
       this.titulo = "Agregar / Configuración de Cumplimiento";
     }
