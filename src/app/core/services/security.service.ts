@@ -82,6 +82,11 @@ export class SecurityService {
     return this.currentUser;
   }
 
+  public getToken(): User {
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
+    return this.currentUser.token;
+  }
+
   public getNameUser(): string {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
     return this.currentUser.name;
