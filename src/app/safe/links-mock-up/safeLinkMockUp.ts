@@ -28,12 +28,12 @@ export class SafeLinkMockUp implements OnInit {
           label:'Link-MockUp',
           icon:'/assets/images/skins/layer_7_ek1.png',
           children:[
-            /*{label:'planned-powers-ppa'},
+            {label:'planned-powers-ppa'},
             {label:'heat-rate-record'},
             {label:'sales-offers'},
             {label:'registration-customer'},
             {label: 'Legal-Compliance'},
-            {label: 'New Event'},*/
+            {label: 'New Event'},
             {label: 'Monitoreo nivel 2'}
 
           ]

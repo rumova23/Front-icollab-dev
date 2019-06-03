@@ -44,6 +44,9 @@ export class SafeHeaderComponent implements OnInit {
     this.eventService.sendMainSafe(new EventMessage(100, null));
   }
 
+  changeModule(){
+    this.router.navigate(['/home']);
+  }
   logout() {
     this.securityService.logout();
   }
