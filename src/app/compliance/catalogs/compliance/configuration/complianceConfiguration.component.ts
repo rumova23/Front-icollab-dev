@@ -94,7 +94,8 @@ export class ComplianceConfigurationComponent implements OnInit {
           obj['tipo_aplicacion']    = element.tipoAplicacion.opcion.codigo;
           obj['periodo_entrega']    = element.periodoEntrega.opcion.codigo;
           obj['estatus']            = element.estatus.estatus.nombre;
-          obj['userUpdated']        = element.userUpdated;
+          //obj['userUpdated']        = element.userUpdated;
+          obj['userUpdated']        = element.fullNameUpdated;
           obj['dateUpdated']        = element.dateUpdated;
           obj['see']                = 'sys_see';
           obj['edit']               = 'sys_edit';

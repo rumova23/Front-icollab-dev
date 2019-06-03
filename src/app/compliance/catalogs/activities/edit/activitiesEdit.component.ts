@@ -132,7 +132,11 @@ export class ActivitiesEditComponent implements OnInit {
             
             if (this.accion === 'ver') {
               this.soloLectura = true;
+              this.actividadesForm.controls['fPrefijo'].disable();
+              this.actividadesForm.controls['fActividad'].disable();
             } else {
+              this.actividadesForm.controls['fPrefijo'].enable();
+              this.actividadesForm.controls['fActividad'].enable();
               this.soloLectura = false;
             }
 
