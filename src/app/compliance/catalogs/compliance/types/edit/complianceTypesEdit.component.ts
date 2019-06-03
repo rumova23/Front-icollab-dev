@@ -111,6 +111,8 @@ export class ComplianceTypesEditComponent implements OnInit {
         this.perfilForm.controls.nombreOpcion.setValue(data.opcion.codigo);
         this.perfilForm.controls.opcionDescripcion.setValue(data.opcion.descripcion);
         this.perfilForm.controls.orden.setValue(data.orden);
+        this.perfilForm.controls.nombreOpcion.enable();
+        this.perfilForm.controls.opcionDescripcion.enable();
         //this.perfilForm.controls.fComboEstatus.patchValue(`${data.entidadEstatusId}`);
         this.deshabiliarEstatus = false;
 
@@ -130,6 +132,8 @@ export class ComplianceTypesEditComponent implements OnInit {
         this.perfilForm.controls.nombreOpcion.setValue('');
         this.perfilForm.controls.opcionDescripcion.setValue('');
         this.perfilForm.controls.orden.setValue('');
+        this.perfilForm.controls.nombreOpcion.enable();
+        this.perfilForm.controls.opcionDescripcion.enable();
         //this.perfilForm.controls.fComboEstatus.patchValue(`${this.entidadEstatusId}`);
         this.deshabiliarEstatus = false;
         this.checkedEstatus = true;
@@ -142,6 +146,8 @@ export class ComplianceTypesEditComponent implements OnInit {
         this.perfilForm.controls.nombreOpcion.setValue(data.opcion.codigo);
         this.perfilForm.controls.opcionDescripcion.setValue(data.opcion.descripcion);
         this.perfilForm.controls.orden.setValue(data.orden);
+        this.perfilForm.controls.nombreOpcion.disable();
+        this.perfilForm.controls.opcionDescripcion.disable();
         //this.perfilForm.controls.fComboEstatus.patchValue(`${data.entidadEstatusId}`);
         
         if (this.checkedActivoId === data.entidadEstatusId ){

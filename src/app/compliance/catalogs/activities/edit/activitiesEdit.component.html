@@ -25,7 +25,9 @@
           <!-- Material input -->
           <div class="md-form">
             <mat-form-field class="w-100">
-              <input matInput placeholder="Categoría" formControlName="fActividad" [readonly]="soloLectura">
+              <input matInput 
+                    placeholder="Categoría" 
+                    formControlName="fActividad">
               <div *ngIf="submitted && f.fActividad.errors" style="color:red">
                 <div *ngIf="f.fActividad.errors.required">Requerido</div>
               </div>
@@ -39,7 +41,7 @@
           <!-- Material input -->
           <div class="md-form">
             <mat-form-field class="w-100">
-              <input matInput placeholder="Prefijo" formControlName="fPrefijo" [readonly]="soloLectura">
+              <input matInput placeholder="Prefijo" formControlName="fPrefijo">
               <div *ngIf="submitted && f.fPrefijo.errors" style="color:red">
                 <div *ngIf="f.fPrefijo.errors.required">Requerido</div>
               </div>

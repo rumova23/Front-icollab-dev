@@ -423,8 +423,28 @@ export class ConfigActivitiesComponent implements OnInit {
 
           if (this.accion === 'ver') {
             this.soloLectura = true;
+            this.configActividadesForm.controls['fTag'].disable();
+            this.configActividadesForm.controls['fDescripcion'].disable();
+            this.configActividadesForm.controls['fActividad'].disable();
+            this.configActividadesForm.controls['fClasificacionActividad'].disable();
+            this.configActividadesForm.controls['fTipoCumplimiento'].disable();
+            this.configActividadesForm.controls['fRequisitoLegal'].disable();
+            this.configActividadesForm.controls['fAutoridad'].disable();
+            this.configActividadesForm.controls['fTipoAplicacion'].disable();
+            this.configActividadesForm.controls['fPeriodoEntrega'].disable();
+            this.configActividadesForm.controls['fTipoDias'].disable();
           } else {
             this.soloLectura = false;
+            this.configActividadesForm.controls['fTag'].enable();
+            this.configActividadesForm.controls['fDescripcion'].enable();
+            this.configActividadesForm.controls['fActividad'].enable();
+            this.configActividadesForm.controls['fClasificacionActividad'].enable();
+            this.configActividadesForm.controls['fTipoCumplimiento'].enable();
+            this.configActividadesForm.controls['fRequisitoLegal'].enable();
+            this.configActividadesForm.controls['fAutoridad'].enable();
+            this.configActividadesForm.controls['fTipoAplicacion'].enable();
+            this.configActividadesForm.controls['fPeriodoEntrega'].enable();
+            this.configActividadesForm.controls['fTipoDias'].enable();
           }
 
 

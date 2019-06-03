@@ -8,7 +8,7 @@
           <!-- Material input -->
           <div class="md-form">
             <mat-form-field class="w-100">
-              <input matInput placeholder="Id Tag" formControlName="fIdTag" readonly="true">
+              <input matInput placeholder="Id Tag" formControlName="fIdTag">
             </mat-form-field>
           </div>
         </div>
@@ -17,7 +17,7 @@
           <!-- Material input -->
           <div class="md-form">
             <mat-form-field class="w-100">
-              <input matInput placeholder="Tag" formControlName="fTag" readonly="true"
+              <input matInput placeholder="Tag" formControlName="fTag" disabled=true
                 [ngClass]="{ 'is-invalid': submitted && f.fTag.errors }">
               <div *ngIf="submitted && f.fTag.errors" style="color:red">
                 <div *ngIf="f.fTag.errors.required">Requerido</div>

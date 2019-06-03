@@ -16,14 +16,14 @@
             </mat-form-field>
 
             <mat-form-field class="w-100">
-                <input matInput formControlName="nombreOpcion" placeholder="Nombre" [readonly]="isReadOnly">
+                <input matInput formControlName="nombreOpcion" placeholder="Nombre">
                 <div *ngIf="submitted && f.nombreOpcion.errors" style="color:red">
                     <div *ngIf="f.nombreOpcion.errors.required">Requerido</div>
                 </div>
             </mat-form-field>
 
             <mat-form-field class="w-100">
-                <input matInput formControlName="opcionDescripcion" [readonly]="isReadOnly" placeholder="Descripción">
+                <input matInput formControlName="opcionDescripcion" placeholder="Descripción">
                 <div *ngIf="submitted && f.opcionDescripcion.errors" style="color:red">
                     <div *ngIf="f.opcionDescripcion.errors.required">Requerido</div>
                 </div>

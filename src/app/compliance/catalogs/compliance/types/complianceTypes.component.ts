@@ -12,7 +12,8 @@ import { EventService } from 'src/app/core/services/event.service';
 import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { DatePipe } from '@angular/common';
-
+import { SecurityService } from 'src/app/core/services/security.service';
+import { Constants } from 'src/app/core/globals/Constants';
 
 @Component({
   selector: 'app-complianceTypes',
@@ -25,7 +26,7 @@ export class ComplianceTypesComponent implements OnInit {
   @Input() nombreCatalogo: string;
   entidadEstatusId: string;
   titulo: String;
-
+  listUsers: Array<any>;
 
   dataSource;
   data: any[] = [];
@@ -47,10 +48,12 @@ export class ComplianceTypesComponent implements OnInit {
                 private confirmationDialogService: ConfirmationDialogService,
                 public toastr: ToastrManager,
                 private eventService: EventService,
-                private datePipe: DatePipe) { }
+                private datePipe: DatePipe,
+                private securityService: SecurityService) { }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  
   ngOnInit() {
     //this.nombreCatalogo = this.route.snapshot.params.nombreCatalogo;
     this.titulo = 'Catálogos / ' + this.nombreCatalogo;
@@ -58,6 +61,7 @@ export class ComplianceTypesComponent implements OnInit {
     this.estatusMaestroService.getEntidadEstatus( 'CAT_MAESTRO_OPCION', 'Activo').subscribe(data => {
       this.entidadEstatusId = data.entidadEstatusId;
     });
+    this.loadUsers();
   }
 
   action(option: number, id: any) {
@@ -79,6 +83,19 @@ export class ComplianceTypesComponent implements OnInit {
      console.log(type);
      this.eventService.sendMainCompliance(new EventMessage(5, type));
   }
+
+  private loadUsers() {
+    this.securityService.loadUsers()
+      .subscribe(
+        data => {
+          this.listUsers = data.resultado;
+        },
+        errorData => {
+          console.log(errorData);
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Usuarios');
+        });
+  }
+
   cargaDatos() {
     this.data = [];
     this.catalogoMaestroService.getCatalogo( this.nombreCatalogo ).subscribe(data => {
@@ -91,6 +108,8 @@ export class ComplianceTypesComponent implements OnInit {
         return 0;// a must be equal to b
       });*/
 
+      
+
       let i = 0;
       for (let element of data) {
         i += 1;
@@ -99,7 +118,8 @@ export class ComplianceTypesComponent implements OnInit {
         obj['id']           = element.maestroOpcionId;
         obj['name']         = element.opcion.codigo;
         obj['description']  = element.opcion.descripcion;
-        obj['user']         = element.opcion.userUpdated || element.opcion.userCreated;
+        //obj['user']         = element.opcion.userUpdated || element.opcion.userCreated;
+        obj['user']         = element.opcion.fullNameUpdated;
         obj['dateup']       = (element.opcion.dateUpdated || element.opcion.dateCreated) ? this.datePipe.transform(new Date(element.opcion.dateUpdated || element.opcion.dateCreated),'dd-MM-yyyy h:mm a') : "";
         obj['status']       = (element.entidadEstatusId == this.entidadEstatusId) ? 'Activo' : 'Inactivo';
         obj['see']          = 'sys_see';

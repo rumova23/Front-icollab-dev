@@ -61,7 +61,8 @@ export class ActivitiesComponent implements OnInit {
           obj['category']     = element.nombre;
           obj['prefix']       = element.prefijo;
           obj['status']       = element.estatus.estatus.nombre;
-          obj['userUpdated']  = element.userUpdated;
+          //obj['userUpdated']  = element.userUpdated;
+          obj['userUpdated']  = element.fullNameUpdated;
           obj['dateUpdated']  = element.dateUpdated;
           obj['see']      = 'sys_see';
           obj['edit']     = 'sys_edit';
