@@ -17,8 +17,8 @@
           <!-- Material input -->
           <div class="md-form">
             <mat-form-field class="w-100">
-              <input matInput placeholder="Tag" formControlName="fTag" disabled=true
-                [ngClass]="{ 'is-invalid': submitted && f.fTag.errors }">
+              <input  matInput placeholder="Tag" formControlName="fTag" disabled="true"
+                      [ngClass]="{ 'is-invalid': submitted && f.fTag.errors }">
               <div *ngIf="submitted && f.fTag.errors" style="color:red">
                 <div *ngIf="f.fTag.errors.required">Requerido</div>
               </div>
@@ -192,23 +192,6 @@
           </div>
         </div>
       </div>
-      <!--div class="row">
-        <div class="col-md-6">
-          <div class="md-form form-group">
-            <mat-form-field class="w-100">
-              <mat-label>Estatus</mat-label>
-              <mat-select [compareWith]="compareFn" formControlName="fComboEstatus" [disabled]="deshabiliarEstatus"
-                [ngClass]="{ 'is-invalid': submitted && f.fComboEstatus.errors }">
-                <mat-option *ngFor="let operator of comboEstatus;" [value]="operator.value">{{operator.label}}
-                </mat-option>
-              </mat-select>
-              <div *ngIf="submitted && f.fComboEstatus.errors" style="color:red">
-                <div *ngIf="f.fComboEstatus.errors.required">Requerido</div>
-              </div>
-            </mat-form-field>
-          </div>
-        </div>
-      </div-->
 
       <div class="row">
         <div class="col-md-6">
@@ -239,7 +222,11 @@
         </div>
       </div>
     </form>
+  </div>
+</div>
 
+<div class="row">
+  <div class="col">
     <div class="row" *ngIf="existeTagId">
       <div class="col-md-12">
         <div class="row" *ngIf="isPrecedentes">
@@ -260,29 +247,66 @@
           </div>
 
         <!-- LISTA DE PRECEDENTES PARA ASIGNAR -->
-        <div class="row" >
+
+        <!-- nueva implementacion -->
+        <div class="row mt-4">
+          <div class="col" *ngIf="tablaAgregarPrecedentes">
+            <div class="tabla-responsi mat-elevation-z8">
+              <table matSort mat-table [dataSource]="registros" class="table_catalogo">
+                <!-- orden Column -->
+                <ng-container matColumnDef="idActividad">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> TAG ID </th>
+                  <td mat-cell *matCellDef="let element">{{element.tagId}} </td>
+                </ng-container>
+                <!-- orden Column -->
+                <ng-container matColumnDef="actividad" sticky>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class class="txt-center"> TAG </th>
+                  <td mat-cell *matCellDef="let element"> {{element.tag}} </td>
+                </ng-container>
+                <!-- nombre Column -->
+                <ng-container matColumnDef="descripcion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> ACTIVIDAD </th>
+                  <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+                </ng-container>
+                <ng-container matColumnDef="asignarPrecedente">
+                  <th mat-header-cell *matHeaderCellDef class="txt-center">ASIGNAR PRECEDENTE </th>
+                  <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    <u><i>
+                      <mdb-checkbox (change)="agregarQuitarId( element.tag )"></mdb-checkbox>
+                    </i></u>
+                  </td>
+                </ng-container>
+                <!-- header -->
+                <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+              </table>
+              <mat-paginator [pageSizeOptions]="registros_x_pagina" showFirstLastButtons></mat-paginator>
+            </div>
+          </div>
+        </div>
+        <!-- termina nueva implementacion-->
+
+
+
+
+
+        <!--div class="row" >
           <div class="col-md-12" *ngIf="tablaAgregarPrecedentes">
             <div class="tabla-responsi mat-elevation-z8">      
-              <table mat-table matSort class="table_catalogo" [dataSource]="tagPrecedentesParaAsiganar">
-                <ng-container matColumnDef="ID_ACTIVIDAD">
+              <table matSort mat-table [dataSource]="tagPrecedentesParaAsiganar" class="table_catalogo">
+                <ng-container matColumnDef="idActividad">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center">ID ACTIVIDAD </th>
-                  <td mat-cell *matCellDef="let element" class="p-2 border-none">
-                    {{element.tagId}}
-                  </td>
+                  <td mat-cell *matCellDef="let element" class="p-2 border-none">{{element.tagId}}</td>
                 </ng-container>
-                <ng-container matColumnDef="ACTIVIDAD">
+                <ng-container matColumnDef="descripcion1">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center">ACTIVIDAD</th>
-                  <td mat-cell *matCellDef="let element" class="p-2 border-none">
-                    {{element.tag}}
-                  </td>
+                  <td mat-cell *matCellDef="let element" class="p-2 border-none">{{element.descripcion}}</td>
                 </ng-container>
-                <ng-container matColumnDef="DESCRIPCION">
+                <ng-container matColumnDef="descripcion">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center">DESCRIPCIÓN</th>
-                  <td mat-cell *matCellDef="let element" class="p-2 border-none">
-                    {{element.descripcion}}
-                  </td>
+                  <td mat-cell *matCellDef="let element" class="p-2 border-none">{{element.descripcion}}</td>
                 </ng-container>
-                <ng-container matColumnDef="ASIGNAR_PRECEDENTE">
+                <ng-container matColumnDef="asignarPrecedente">
                   <th mat-header-cell *matHeaderCellDef class="txt-center">ASIGNAR PRECEDENTE </th>
                   <td mat-cell *matCellDef="let element" class="p-2 border-none">
                     <u><i>
@@ -295,6 +319,7 @@
                 <tr mat-row *matRowDef="let row; columns: cabeceraTagPrecedentesAux;"></tr>
               </table>
               <mat-paginator [pageSizeOptions]="registros_x_pagina" showFirstLastButtons></mat-paginator>
+
             </div>
             <p></p>
             <div class="row" *ngIf="tablaAgregarPrecedentes && !soloLectura">
@@ -308,7 +333,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div-->
     
 
     <!-- SECCIÓN DE LOS PRECEDENTES -->

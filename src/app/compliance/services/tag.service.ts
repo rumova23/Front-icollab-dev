@@ -52,7 +52,7 @@ export class TagService {
     return this.http.get( `${ this.baseMicroTagUrl }${actividad}`, httpOptions);
   }
 
-  getActividadesPrecedentes(padre: string, tags: string[]) {
+  getActividadesPrecedentes(padre, tags) : Observable<any> {
     return this.http.get( `${ this.baseMicroTagUrl }getActividadesPrecedentes/${padre}/${tags}`, httpOptions);
   }
 

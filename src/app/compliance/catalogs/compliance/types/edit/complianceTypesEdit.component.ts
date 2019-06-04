@@ -75,13 +75,87 @@ export class ComplianceTypesEditComponent implements OnInit {
           if ( element.estatus.nombre === 'Inactivo' ){
             this.checkedInactivoId = element.estatus.estatusId;
           }
-/*
-          let combo: Combo;
-          combo = new Combo(element.estatus.estatusId.toString(), element.estatus.nombre);
-          this.comboEstatus.push(combo);
-          if (element.estatus.nombre === 'Activo' && this.accion == null) {
-            this.perfilForm.controls.fComboEstatus.patchValue(`${element.estatus.estatusId.toString()}`);
-          }*/
+
+
+          this.estatusMaestroService.getEntidadEstatus('CAT_MAESTRO_OPCION', 'Activo').subscribe(data => {
+            this.entidadEstatusId = data.entidadEstatusId;
+
+            // LLENA DATOS
+            this.titulo = ((this.catalogType.action === 'nuevo') ? "Nuevo" 
+            : (this.catalogType.action === 'edit') ? "Edit" : "Ver")
+             + " Catálogo / " + this.catalogType.name;
+        
+            //this.maestroOpcionId = this.route.snapshot.params.maestroOpcionId;
+            this.maestroOpcionId =  this.catalogType.id;
+            //this.accion = this.route.snapshot.params.accion;
+            this.accion =  this.catalogType.action;
+            //this.nombreCatalogo = this.route.snapshot.params.nombreCatalogo;
+            this.nombreCatalogo =  this.catalogType.name;
+        
+            if (this.accion === 'edit') {
+              this.catalogoMaestroService.getOpcion(this.maestroOpcionId).subscribe(
+                data => {
+                this.perfilForm.controls.maestroOpcionId.setValue(data.maestroOpcionId);
+                this.perfilForm.controls.nombreOpcion.setValue(data.opcion.codigo);
+                this.perfilForm.controls.opcionDescripcion.setValue(data.opcion.descripcion);
+                this.perfilForm.controls.orden.setValue(data.orden);
+                this.perfilForm.controls.nombreOpcion.enable();
+                this.perfilForm.controls.opcionDescripcion.enable();
+                //this.perfilForm.controls.fComboEstatus.patchValue(`${data.entidadEstatusId}`);
+                if (this.checkedActivoId === data.entidadEstatusId ){
+                  this.checkedEstatus = true;
+                }else{
+                  this.checkedEstatus = false;
+                }
+        
+                /*console.log("Estatus deb ser: " + this.checkedEstatus);
+                console.log("Condición: " + this.checkedActivoId + " === " + data.entidadEstatusId + " = " + (this.checkedActivoId === data.entidadEstatusId) )*/
+        
+                this.deshabiliarEstatus = false;
+                this.isReadOnly = false;
+              });
+            }
+            if (this.accion === 'nuevo') {
+              // @ts-ignore
+              this.catalogoMaestroService.getOpcion('1').subscribe(data => {
+                this.perfilForm.controls.maestroOpcionId.setValue(data.maestroOpcionId);
+                this.perfilForm.controls.nombreOpcion.setValue('');
+                this.perfilForm.controls.opcionDescripcion.setValue('');
+                this.perfilForm.controls.orden.setValue('');
+                this.perfilForm.controls.nombreOpcion.enable();
+                this.perfilForm.controls.opcionDescripcion.enable();
+                //this.perfilForm.controls.fComboEstatus.patchValue(`${this.entidadEstatusId}`);
+                this.deshabiliarEstatus = false;
+                this.checkedEstatus = true;
+        
+              });
+            }
+            if (this.accion === 'ver') {
+              this.catalogoMaestroService.getOpcion(this.maestroOpcionId).subscribe(data => {
+                this.perfilForm.controls.maestroOpcionId.setValue(data.maestroOpcionId);
+                this.perfilForm.controls.nombreOpcion.setValue(data.opcion.codigo);
+                this.perfilForm.controls.opcionDescripcion.setValue(data.opcion.descripcion);
+                this.perfilForm.controls.orden.setValue(data.orden);
+                this.perfilForm.controls.nombreOpcion.disable();
+                this.perfilForm.controls.opcionDescripcion.disable();
+                //this.perfilForm.controls.fComboEstatus.patchValue(`${data.entidadEstatusId}`);
+                
+                if (this.checkedActivoId === data.entidadEstatusId ){
+                  this.checkedEstatus = true;
+                }else{
+                  this.checkedEstatus = false;
+                }
+                this.deshabiliarEstatus = true;
+                // @ts-ignore
+                //this.perfilForm.controls.fComboEstatus.disable(true);
+              });
+              this.isReadOnly = true;
+            }
+            // TERMINA LLENAR DATOS
+
+          });
+
+
         });
       },
       error => {
@@ -90,77 +164,7 @@ export class ComplianceTypesEditComponent implements OnInit {
       }
     );
 
-    this.estatusMaestroService.getEntidadEstatus('CAT_MAESTRO_OPCION', 'Activo').subscribe(data => {
-      this.entidadEstatusId = data.entidadEstatusId;
-    });
-
-    this.titulo = ((this.catalogType.action === 'nuevo') ? "Nuevo" 
-    : (this.catalogType.action === 'edit') ? "Edit" : "Ver")
-     + " Catálogo / " + this.catalogType.name;
-
-    //this.maestroOpcionId = this.route.snapshot.params.maestroOpcionId;
-    this.maestroOpcionId =  this.catalogType.id;
-    //this.accion = this.route.snapshot.params.accion;
-    this.accion =  this.catalogType.action;
-    //this.nombreCatalogo = this.route.snapshot.params.nombreCatalogo;
-    this.nombreCatalogo =  this.catalogType.name;
-
-    if (this.accion === 'edit') {
-      this.catalogoMaestroService.getOpcion(this.maestroOpcionId).subscribe(data => {
-        this.perfilForm.controls.maestroOpcionId.setValue(data.maestroOpcionId);
-        this.perfilForm.controls.nombreOpcion.setValue(data.opcion.codigo);
-        this.perfilForm.controls.opcionDescripcion.setValue(data.opcion.descripcion);
-        this.perfilForm.controls.orden.setValue(data.orden);
-        this.perfilForm.controls.nombreOpcion.enable();
-        this.perfilForm.controls.opcionDescripcion.enable();
-        //this.perfilForm.controls.fComboEstatus.patchValue(`${data.entidadEstatusId}`);
-        this.deshabiliarEstatus = false;
-
-        if (this.checkedActivoId === data.entidadEstatusId ){
-          this.checkedEstatus = true;
-        }else{
-          this.checkedEstatus = false;
-        }
-
-        this.isReadOnly = false;
-      });
-    }
-    if (this.accion === 'nuevo') {
-      // @ts-ignore
-      this.catalogoMaestroService.getOpcion('1').subscribe(data => {
-        this.perfilForm.controls.maestroOpcionId.setValue(data.maestroOpcionId);
-        this.perfilForm.controls.nombreOpcion.setValue('');
-        this.perfilForm.controls.opcionDescripcion.setValue('');
-        this.perfilForm.controls.orden.setValue('');
-        this.perfilForm.controls.nombreOpcion.enable();
-        this.perfilForm.controls.opcionDescripcion.enable();
-        //this.perfilForm.controls.fComboEstatus.patchValue(`${this.entidadEstatusId}`);
-        this.deshabiliarEstatus = false;
-        this.checkedEstatus = true;
-
-      });
-    }
-    if (this.accion === 'ver') {
-      this.catalogoMaestroService.getOpcion(this.maestroOpcionId).subscribe(data => {
-        this.perfilForm.controls.maestroOpcionId.setValue(data.maestroOpcionId);
-        this.perfilForm.controls.nombreOpcion.setValue(data.opcion.codigo);
-        this.perfilForm.controls.opcionDescripcion.setValue(data.opcion.descripcion);
-        this.perfilForm.controls.orden.setValue(data.orden);
-        this.perfilForm.controls.nombreOpcion.disable();
-        this.perfilForm.controls.opcionDescripcion.disable();
-        //this.perfilForm.controls.fComboEstatus.patchValue(`${data.entidadEstatusId}`);
-        
-        if (this.checkedActivoId === data.entidadEstatusId ){
-          this.checkedEstatus = true;
-        }else{
-          this.checkedEstatus = false;
-        }
-        this.deshabiliarEstatus = true;
-        // @ts-ignore
-        //this.perfilForm.controls.fComboEstatus.disable(true);
-      });
-      this.isReadOnly = true;
-    }
+    
 
     this.perfilForm = this.formBuilder.group({
       maestroOpcionId: ['',''],
@@ -233,15 +237,7 @@ export class ComplianceTypesEditComponent implements OnInit {
       });
     }
   }
-  clickStatus() {
-    this.editarEstatusActivo = !this.editarEstatusActivo
-    // tslint:disable-next-line:triple-equals
-    if (this.editarEstatusActivo === false) {
-      this.perfilForm.controls.estatus.setValue('Inactivo');
-    } else {
-      this.perfilForm.controls.estatus.setValue('Activo');
-    }
-  }
+  
   // Compara valores del combo para seleccionar la opción correspondiente
   compareFn(combo1: number, combo2: number) {
     console.log(combo1 && combo2 && combo1 === combo2);
@@ -262,7 +258,7 @@ export class ComplianceTypesEditComponent implements OnInit {
     this.eventService.sendMainCompliance(new EventMessage(4, {}));
   }
 
-  chanceCheck(){
+  changeCheck(){
     if (this.checkedEstatus)
       this.checkedEstatus = false;
     else{
