@@ -20,7 +20,8 @@ const httpOptions = {
 export class PersonalCompetenteService {
 
   private baseUrl2 = environment.pgUrl;
-  private micro_seguimiento = environment.micro_seguimiento;
+  private baseUrl = environment.mtUrl;
+  private microSeguimiento = environment.micro_seguimiento;
   constructor(private http: HttpClient) { }
 
   getEmpleados() {
@@ -40,15 +41,15 @@ export class PersonalCompetenteService {
   }
 
   salvarTags(listtags: Array<string>, empleadoId: number) {
-    return this.http.post(`${this.micro_seguimiento}tags/empleados?empleadoId=` + empleadoId, listtags, httpOptions);
+    return this.http.post(`${this.microSeguimiento}tags/empleados?empleadoId=` + empleadoId, listtags, httpOptions);
   }
 
   getPlantaPerfil(): Observable<any> {
-    return this.http.get(`${this.micro_seguimiento}tags/planta/perfilActor`, httpOptions);
+    return this.http.get(`${this.baseUrl}tags/planta/perfilActor`, httpOptions);
   }
 
   salvarPlantaPerfilEmpleado(lista: Array<any>) {
-    return this.http.post(`${this.micro_seguimiento}tags/planta/perfilActor`, lista, httpOptions);
+    return this.http.post(`${this.baseUrl}tags/planta/perfilActor`, lista, httpOptions);
   }
 
 }
