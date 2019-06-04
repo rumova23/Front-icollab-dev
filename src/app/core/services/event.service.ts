@@ -16,6 +16,8 @@ export class EventService {
 
     public onChangePlant: EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
 
+    public onChangeMainLinkMockUp: EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
+
 
 
     public sendMainCompliance(message: EventMessage) {
@@ -36,5 +38,9 @@ export class EventService {
 
     public sendPlant(message: EventMessage) {
         this.onChangePlant.emit(message);
+    }
+
+    public sendLinkMockUp(message: EventMessage) {
+        this.onChangeMainLinkMockUp.emit(message);
     }
 }

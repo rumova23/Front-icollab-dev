@@ -6,7 +6,7 @@ import { LoginComponent } from './comun/login/login.component';
 import { SecurityHomeComponent } from './security/home/securityHome.component';
 import { SafeHomeComponent } from './safe/home/safeHome.component';
 import { AuthGuard } from './core/guards/auth.guard';
-import { SafeLinkMockUp } from './safe/links-mock-up/safeLinkMockUp';
+import { MockUpHomeComponent } from './mockUp/home/mockUpHome.component';
 
 
 const routes: Routes = [
@@ -44,7 +44,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'Link-MockUp', component: SafeLinkMockUp, pathMatch: 'full',
+    path: 'Link-MockUp', component: MockUpHomeComponent, pathMatch: 'full',
     data: {
       app: 'Mock Up'
     }
