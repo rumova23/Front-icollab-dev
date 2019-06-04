@@ -12,6 +12,7 @@ import { TagService } from 'src/app/compliance/services/tag.service';
 import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 @Component({
   selector: 'app-activitiesEdit',
@@ -51,6 +52,8 @@ export class ActivitiesEditComponent implements OnInit {
 
   ngOnInit() {
 
+    this.addBlock(1, "Cargando...")
+
     this.actividadesForm = this.formBuilder.group({
       fActividadId: ['', ''],
       fActividad: ['', Validators.required],
@@ -78,14 +81,15 @@ export class ActivitiesEditComponent implements OnInit {
             this.checkedInactivoId = element.estatus.estatusId;
           }
         });
+        this.addBlock(2, null);
       },
       error => {
         console.log("Error al obtener catalgo de estatus.");
         console.log(<any>error)
+        this.addBlock(2, null);
+        this.toastr.errorToastr('Error al cargar estatus maestro.', 'Lo siento,');
       }
     );
-
-
 
     if (this.accion === 'editar') {
       this.deshabiliarEstatus = false;
@@ -107,7 +111,9 @@ export class ActivitiesEditComponent implements OnInit {
   }
 
   obtenerDatosActividad() {
-    //this.actividadId = this.route.snapshot.params.actividadId;
+    
+    this.addBlock(1, "Cargando...");
+
     this.actividadId = this.catalogType.id;
     console.log("Accion: " + this.accion);
     if (this.actividadId > 0) {
@@ -143,11 +149,14 @@ export class ActivitiesEditComponent implements OnInit {
           } else {
             this.toastr.infoToastr('No se encontró información del Tag buscado.', 'Lo siento,');
           }
+          this.addBlock(2, null);
 
         },
         error => {
           console.log("Error al obtener catalgo de actividades.");
           console.log(<any>error)
+          this.addBlock(2, null);
+          this.toastr.errorToastr('Error al obtener detalles de la actividad.', 'Lo siento,'); 
         }
       )
     }
@@ -222,7 +231,8 @@ export class ActivitiesEditComponent implements OnInit {
   }
 
   actualizarActividad() {
-
+    this.addBlock(1, "Cargando...")
+    
     let idStatus;
     if (this.checkedEstatus){
       idStatus = this.checkedActivoId;
@@ -231,14 +241,14 @@ export class ActivitiesEditComponent implements OnInit {
     }
 
     let actividad = new TagActividadInDTO(
-      this.actividadesForm.controls['fActividadId'].value,
-      this.actividadesForm.controls['fActividad'].value,
-      this.actividadesForm.controls['fPrefijo'].value,
-      idStatus,
-      40,//this.actividadesForm.controls['fTareaPorVencer'].value,
-      30,//this.actividadesForm.controls['fTareaProximaVencer'].value,
-      30);//this.actividadesForm.controls['fTareaTiempo'].value);
-      console.log(actividad);
+    this.actividadesForm.controls['fActividadId'].value,
+    this.actividadesForm.controls['fActividad'].value,
+    this.actividadesForm.controls['fPrefijo'].value,
+    idStatus,
+    40,//this.actividadesForm.controls['fTareaPorVencer'].value,
+    30,//this.actividadesForm.controls['fTareaProximaVencer'].value,
+    30);//this.actividadesForm.controls['fTareaTiempo'].value);
+    console.log(actividad);
     this.tagService.editarActividad(actividad).subscribe(
       result => {
         console.log(result);
@@ -246,9 +256,11 @@ export class ActivitiesEditComponent implements OnInit {
         //this.router.navigateByUrl('/catalogo-actividades/editar/'+this.actividadId);
         //this.router.navigateByUrl('/catalogo-actividades');
         this.eventService.sendMainCompliance(new EventMessage(6, {}));
+        this.addBlock(2, null)
       },
       error => {
         console.log(<any>error);
+        this.addBlock(2, null)
         this.toastr.errorToastr('Error al Editar la actividad.', 'Lo siento,');
       });
 
@@ -268,4 +280,9 @@ export class ActivitiesEditComponent implements OnInit {
     }
   }
 
+  //Loadin
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
+  
 }

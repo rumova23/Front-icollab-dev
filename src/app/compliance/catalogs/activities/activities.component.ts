@@ -8,7 +8,7 @@ import { ConfirmationDialogService } from 'src/app/core/services/confirmation-di
 import { CatalogType } from '../../models/CatalogType';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
-
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 @Component({
   selector: 'app-activities',
@@ -44,16 +44,23 @@ export class ActivitiesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
-  
+    this.addBlock(1, "Cargando...")
     this.securityService.loadUsers().subscribe( userResult => {
       this.userResult = userResult;
       this.obtenerListaActividades();
+      this.addBlock(2, null);
+    },
+    error =>{
+      console.log(<any>error);
+      this.addBlock(2, null);
+      this.toastr.errorToastr('Error al cargar lista de usuarios.', 'Lo siento,');
     });
 
   }
 
   
   obtenerListaActividades(){
+    this.addBlock(1, "Cargando...");
     this.data = [];
     this.tagService.getCatalogoActividades().subscribe( data => {
         console.log(data)
@@ -80,18 +87,21 @@ export class ActivitiesComponent implements OnInit {
         this.registros =  new MatTableDataSource<any>(listObj);
         this.registros.paginator = this.paginator;
         this.registros.sort = this.matSort;
+
+        this.addBlock(2, null);
       },
       error => {
         console.log("Error al obtener catalgo de actividades.");
         console.log(<any> error)
+        this.addBlock(2, null);
+        this.toastr.errorToastr('Error al obtener catalgo de actividades.', 'Lo siento,');
       }
     )
   }
 
   public eliminarActividad(actividad: any) {
     this.confirmationDialogService.confirm('Por favor, confirme..', 
-          'Está seguro de eliminar la actividad? ' + actividad.nombre)
-    .then((confirmed) => {
+          'Está seguro de eliminar la actividad? ' + actividad.nombre).then((confirmed) => {
         if (confirmed){
           this.eliminarActividadConfirm(actividad)
         }
@@ -138,5 +148,10 @@ export class ActivitiesComponent implements OnInit {
     console.log(type);
     this.eventService.sendMainCompliance(new EventMessage(7, type));
  }
+
+  //Loadin
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
 
 }

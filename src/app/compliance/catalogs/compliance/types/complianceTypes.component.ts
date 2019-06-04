@@ -14,6 +14,7 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { DatePipe } from '@angular/common';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { Constants } from 'src/app/core/globals/Constants';
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 @Component({
   selector: 'app-complianceTypes',
@@ -55,10 +56,17 @@ export class ComplianceTypesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   
   ngOnInit() {
-    //this.nombreCatalogo = this.route.snapshot.params.nombreCatalogo;
+    
+    this.addBlock(1, "Cargando...")
+    
     this.titulo = 'Catálogos / ' + this.nombreCatalogo;
     this.estatusMaestroService.getEntidadEstatus( 'CAT_MAESTRO_OPCION', 'Activo').subscribe(data => {
       this.entidadEstatusId = data.entidadEstatusId;
+    },
+    error =>{
+      console.log(<any>error)
+      this.addBlock(2,null)
+      this.toastr.errorToastr('Error al cargar estatus maestro.', 'Lo siento,');
     });
     this.loadUsers();
   }
@@ -84,6 +92,7 @@ export class ComplianceTypesComponent implements OnInit {
   }
 
   private loadUsers() {
+    this.addBlock(1, "Cargando...")
     this.securityService.loadUsers()
       .subscribe(
         data => {
@@ -93,10 +102,12 @@ export class ComplianceTypesComponent implements OnInit {
         errorData => {
           console.log(errorData);
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Usuarios');
+          this.addBlock(2,null)
         });
   }
 
   cargaDatos() {
+    this.addBlock(1, "Cargando...")
     this.data = [];
     this.catalogoMaestroService.getCatalogo( this.nombreCatalogo ).subscribe(data => {
       let i = 0;
@@ -142,6 +153,12 @@ export class ComplianceTypesComponent implements OnInit {
       this.dataSource = new MatTableDataSource<any>(this.data);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.addBlock(2,null)
+    },
+    error =>{
+      console.log(<any> error)
+      this.addBlock(2,null)
+      this.toastr.errorToastr('Error al cargar catalogo.', 'Lo siento,');
     });
   }
 
@@ -168,4 +185,10 @@ export class ComplianceTypesComponent implements OnInit {
           })
           .catch(() => console.log('Cancelo'));
   }
+
+  //Loadin
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
+
 }

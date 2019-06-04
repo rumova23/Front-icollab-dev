@@ -12,6 +12,7 @@ import { ConfirmationDialogService } from 'src/app/core/services/confirmation-di
 import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventService } from 'src/app/core/services/event.service';
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 
 @Component({
@@ -69,14 +70,23 @@ export class ComplianceConfigurationComponent implements OnInit {
    @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
+
+    this.addBlock(1,"Cargando...");
+
     this.filtrosForm = this.formBuilder.group({
       fTag: ['', ''],
       fNombre: ['', '']
     })
 
     this.securityService.loadUsers().subscribe( userResult => {
+      this.addBlock(2, null);
       this.userResult = userResult;
       this.obtenerListaTags();
+    },
+    error =>{
+      console.log(<any>error);
+      this.addBlock(2, null);
+      this.toastr.errorToastr('Error al cargar lista de usuarios.', 'Lo siento,');
     });
 
     
@@ -85,6 +95,7 @@ export class ComplianceConfigurationComponent implements OnInit {
   get f() { return this.filtrosForm.controls; }
 
   obtenerListaTags() {
+    this.addBlock(1, "Cargando...");
     console.log( 'la planta id: ' + this.globalService.plantaDefaultId)
     this.data = [];
     this.tagService.obtenTagPorFiltros(this.globalService.plantaDefaultId).subscribe( data => {
@@ -118,8 +129,12 @@ export class ComplianceConfigurationComponent implements OnInit {
         this.registros =  new MatTableDataSource<any>(listObj);
         this.registros.paginator = this.paginator;
         this.registros.sort = this.sort;
+
+        this.addBlock(2, null);
       },
       error => {
+        this.addBlock(2, null);
+        this.toastr.errorToastr('Error al cargar lista de tags.', 'Lo siento,');
         console.log(<any> error);
       }
     );
@@ -135,10 +150,12 @@ export class ComplianceConfigurationComponent implements OnInit {
       })
     .catch(() => console.log('Cancelo'));
   }
+  
   eliminarTagConfirm(tag: any){
     console.log(tag);
     this.tagService.eliminarTag(tag.element.tagId).subscribe(
       respuesta => {
+        this.addBlock(2, null);
         let res: any;
         res = respuesta;
         if ( res.clave == 0 ){
@@ -150,6 +167,7 @@ export class ComplianceConfigurationComponent implements OnInit {
       },
       error => {
         console.log(<any> error);
+        this.addBlock(2, null);
         this.toastr.errorToastr('Error al eliminar el tag.', 'Lo siento,');
       }
     )
@@ -175,5 +193,10 @@ export class ComplianceConfigurationComponent implements OnInit {
     console.log(type);
     this.eventService.sendMainCompliance(new EventMessage(9, type));
  }
+
+  //Loadin
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
 
 }
