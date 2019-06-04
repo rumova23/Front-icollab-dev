@@ -33,11 +33,11 @@ export class ChangePasswordComponent implements OnInit {
 
   save(value) {
     if(!Validate(value.password)) {
-      this.toastr.errorToastr('El password es incorrecto', '');
+      this.toastr.errorToastr('La contraseña es incorrecta', '');
       return;
     }
     if(!Validate(value.confirmPassword)) {
-      this.toastr.errorToastr('La confirmación del incorrecto', '');
+      this.toastr.errorToastr('La confirmación de la contraseña es incorrecta', '');
       return;
     }
     if(value.password !== value.confirmPassword) {
@@ -51,7 +51,7 @@ export class ChangePasswordComponent implements OnInit {
           this.router.navigate(['/login']);
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Cambiar Password');
+          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Cambiar Contraseña');
         });
   }
 }

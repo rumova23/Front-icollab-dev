@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, ViewChild, Input } from '@angular
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrManager } from 'ng6-toastr-notifications';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 
 import { Router } from "@angular/router";
 import { GlobalService } from 'src/app/core/globals/global.service';
@@ -16,7 +16,7 @@ import { TagActividadDTO } from 'src/app/compliance/models/TagActividadDTO';
 import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventService } from 'src/app/core/services/event.service';
-
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-configActivities',
@@ -39,14 +39,16 @@ export class ConfigActivitiesComponent implements OnInit {
   comboPlanta: Array<Combo>;
   comboEstatus: Array<Combo>;
   listaCombos: Array<any>;
-  //cabeceraTagPrecedentesAux: Array<String>;
-  cabeceraTagPrecedentesAux = ['ID_ACTIVIDAD', 'ACTIVIDAD', 'DESCRIPCION', 'ASIGNAR_PRECEDENTE'];
-  cabeceraTagPrecedentes: Array<String>;
+  
+  cabeceraTagPrecedentes: string[] = ['actividad', 'actividadPadre', 'actividadHijo', 'opcion'];
+  columnas: string[] = ['idActividad', 'actividad', 'descripcion', 'asignarPrecedente'];
   titulo: String;
 
-  tagPrecedentes: any
-  tagPrecedentesParaAsiganar: MatTableDataSource<Tag>;
+  tagPrecedentes;
+  registros;
   registros_x_pagina = [50, 100, 250, 500];
+  registros_x_pagina1 = [50, 100, 250, 500];
+  data: any[] = [];
 
   configActividadesForm: FormGroup;
   plantas: Array<TagPlanta>
@@ -80,7 +82,7 @@ export class ConfigActivitiesComponent implements OnInit {
     public toastr: ToastrManager,
     private router: Router,
     private globalService: GlobalService,
-    private eventService: EventService) { 
+    private eventService: EventService) {
     this.serviceSubscription = this.eventService.onChangePlant.subscribe({
       next: (event: EventMessage) => {
         switch (event.id) {
@@ -88,10 +90,19 @@ export class ConfigActivitiesComponent implements OnInit {
             this.changePlant();
             this.onClickPlanta();
             break;
+          }
         }
-      }
-    });
+      });
     }
+
+  applyFilter(filterValue: string) {
+    this.registros.filter = filterValue.trim().toLowerCase();
+  }
+
+
+  applyFilter1(filterValue1: string) {
+    this.tagPrecedentes.filter = filterValue1.trim().toLowerCase();
+  }
 
   changePlant() {
     this.plantaDefault = this.globalService.plantaDefaultId;
@@ -117,9 +128,13 @@ export class ConfigActivitiesComponent implements OnInit {
     }
   }
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   entidadEstatus: any;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator1: MatPaginator;
+  @ViewChild(MatSort) sort1: MatSort;
 
   ngOnInit() {
    //this.accion = this.route.snapshot.params.accion;
@@ -162,8 +177,6 @@ export class ConfigActivitiesComponent implements OnInit {
       }
     );
     
-    
-
     this.tagService.getEstatusMaestroOpcion().subscribe(
       catalogoResult => {
         console.log(catalogoResult)
@@ -200,9 +213,7 @@ export class ConfigActivitiesComponent implements OnInit {
         console.log("Error al obtener catalgo de actividades.");
         console.log(<any>error)
       }
-
     )
-
 
     this.configActividadesForm = this.formBuilder.group({
       fIdTag: ['', ''],
@@ -220,8 +231,7 @@ export class ConfigActivitiesComponent implements OnInit {
       
     });
 
-    //this.cabeceraTagPrecedentesAux = ['ID ACTIVIDAD', 'ACTIVIDAD', 'DESCRIPCIÓN', 'ASIGNAR PRECEDENTE'];
-    this.cabeceraTagPrecedentes = ['ACTIVIDAD', 'ACTIVIDAD PADRE', 'ACTIVIDAD HIJO', 'OPCIONES'];
+    
     this.idsTagPrecedentes = [];
 
     if (this.accion === 'edit') {
@@ -234,6 +244,7 @@ export class ConfigActivitiesComponent implements OnInit {
       this.checkedEstatus = true;
       this.deshabiliarEstatus = false;
       this.titulo = "Agregar / Configuración de Cumplimiento";
+      this.configActividadesForm.controls['fTag'].disable();
     }
 
     if (this.accion === 'edit' || this.accion === 'ver') {
@@ -270,7 +281,6 @@ export class ConfigActivitiesComponent implements OnInit {
       this.checkedEstatus = true;
     }
   }
-
 
   //Guarda o Actualiza un TAG
   guardarConfiguracionActividad() {
@@ -364,7 +374,23 @@ export class ConfigActivitiesComponent implements OnInit {
 
           this.configActividadesForm.controls['fPlanta'].patchValue(arreglo);
 
-          this.tagPrecedentes = tagActividad.precedentes;
+          let listObj = [];
+          let i = 0;
+          let element: TagPrecedente;
+          for (element of tagActividad.precedentes) {
+            i += 1;
+            let obj               = {};
+            obj['tagId']          = element.tagPrecedenteId;
+            obj['tagPadre']       = element.tagPadre.tag;
+            obj['tagHijo']        = element.tagHijo.tag;
+            obj['elementTag']     = element;
+            listObj.push(obj);
+          }
+
+          this.tagPrecedentes = new MatTableDataSource<any>(listObj);
+          this.tagPrecedentes.paginator = this.paginator1;
+          this.tagPrecedentes.sort = this.sort1;
+
           this.idsTagPrecedentes = [];
           this.habilitarActividad = true;
           this.existeTagId = true;
@@ -414,13 +440,31 @@ export class ConfigActivitiesComponent implements OnInit {
           tagActividad.plantas.forEach(element => {
             arreglo.push(element.plantaId.toString())
           });
-
           this.configActividadesForm.controls['fPlanta'].patchValue(arreglo);
-          this.tagPrecedentes = tagActividad.precedentes;
-          this.idsTagPrecedentes = [];
-          this.habilitarActividad = true;
-          this.existeTagId = true;
 
+          if ( tagActividad.precedentes != null ){
+            let listObj = [];
+            let i = 0;
+            let element: TagPrecedente;
+            for (element of tagActividad.precedentes) {
+              i += 1;
+              let obj               = {};
+              obj['tagId']          = element.tagPrecedenteId;
+              obj['tagPadre']       = element.tagPadre.tag;
+              obj['tagHijo']        = element.tagHijo.tag;
+              obj['elementTag']     = element;
+              listObj.push(obj);
+            }
+  
+            this.tagPrecedentes = new MatTableDataSource<any>(listObj);
+            this.tagPrecedentes.paginator = this.paginator1;
+            this.tagPrecedentes.sort = this.sort1;
+            this.existeTagId = true;
+          }else{
+            this.existeTagId = false;
+          }
+          this.idsTagPrecedentes = [];
+          
           if (this.accion === 'ver') {
             this.soloLectura = true;
             this.configActividadesForm.controls['fTag'].disable();
@@ -433,11 +477,12 @@ export class ConfigActivitiesComponent implements OnInit {
             this.configActividadesForm.controls['fTipoAplicacion'].disable();
             this.configActividadesForm.controls['fPeriodoEntrega'].disable();
             this.configActividadesForm.controls['fTipoDias'].disable();
+            this.habilitarActividad = false;
           } else {
             this.soloLectura = false;
-            this.configActividadesForm.controls['fTag'].enable();
-            this.configActividadesForm.controls['fDescripcion'].enable();
-            this.configActividadesForm.controls['fActividad'].enable();
+            this.configActividadesForm.controls['fTag'].disable();
+            this.configActividadesForm.controls['fActividad'].disable();
+            this.configActividadesForm.controls['fDescripcion'].enable();            
             this.configActividadesForm.controls['fClasificacionActividad'].enable();
             this.configActividadesForm.controls['fTipoCumplimiento'].enable();
             this.configActividadesForm.controls['fRequisitoLegal'].enable();
@@ -445,6 +490,9 @@ export class ConfigActivitiesComponent implements OnInit {
             this.configActividadesForm.controls['fTipoAplicacion'].enable();
             this.configActividadesForm.controls['fPeriodoEntrega'].enable();
             this.configActividadesForm.controls['fTipoDias'].enable();
+            this.tablaAgregarPrecedentes=false;
+            //this.habilitarActividad = false;
+            
           }
 
 
@@ -471,11 +519,10 @@ export class ConfigActivitiesComponent implements OnInit {
     this.habilitarActividad = false;
     let arreglo: Array<number>;
     arreglo = new Array<number>();
-    arreglo.push(62);
-    arreglo.push(63);
 
     this.configActividadesForm.reset({
       fIdTag: '', fDescripcion: '',
+      //fTag: { value: '' },
       fClasificacionActividad: '',
       fRequisitoLegal: '',
       fActividad: { value: '', disabled: false },
@@ -487,7 +534,8 @@ export class ConfigActivitiesComponent implements OnInit {
       fPlanta: { value: arreglo, disabled: false },
       //fCheckStatus: { checked:true }
     });
-    this.tagPrecedentes = null;
+    
+    //this.tagPrecedentes = null;
     this.idsTagPrecedentes = [];
     this.existeTagId = false;
   }
@@ -498,22 +546,23 @@ export class ConfigActivitiesComponent implements OnInit {
     let tags: string[] = new Array<string>();
     tags.push(tag);
 
-    if (this.tagPrecedentes == null) {
+    if (this.tagPrecedentes != null ) {
+      if ( this.tagPrecedentes.data != null){
+        this.tagPrecedentes.data.forEach(tagPrecedente => {
+          tags.push(tagPrecedente.tagHijo);
+        });
+      }
+    }else{
       this.tagPrecedentes = []
     }
 
-    this.tagPrecedentes.forEach(tagPrecedente => {
-      tags.push(tagPrecedente.tagHijo.tag);
-    });
-
     this.tagService.getActividadesPrecedentes(tag, tags).subscribe(
-      respuesta => {
-        //console.dir( respuesta  );
-        let datos: any;
-        datos = respuesta;
-        this.tagPrecedentesParaAsiganar = new MatTableDataSource<Tag>(datos);
-        this.tagPrecedentesParaAsiganar.paginator = this.paginator;
-        if (this.tagPrecedentesParaAsiganar.data.length > 0) {
+      data => {  
+        this.registros = new MatTableDataSource<any>(data);
+        this.registros.paginator = this.paginator;
+        this.registros.sort = this.sort;
+
+        if (this.registros.data.length > 0) {
           this.isPrecedentes = true;
           this.tablaAgregarPrecedentes = true;
           this.idsTagPrecedentes = []
@@ -522,14 +571,12 @@ export class ConfigActivitiesComponent implements OnInit {
           this.toastr.errorToastr('No hay actividades que puedan ser asignadas como precedentes.', 'Lo siento,');
           //alert("No hay actividades que puedan ser asignadas como precedentes");
         }
+
       },
       error => {
         console.log(<any>error);
       }
     );
-
-    console.log("moststrarPrecedentes tagPrecedentesParaAsiganar");
-    console.log(this.tagPrecedentesParaAsiganar);
 
   }
 
@@ -537,11 +584,26 @@ export class ConfigActivitiesComponent implements OnInit {
   agregarPrecedentes() {
     let tag = this.configActividadesForm.controls['fTag'].value;
     if (this.idsTagPrecedentes.length > 0) {
-
       this.tagService.agregarPrecedentes(tag, this.idsTagPrecedentes).subscribe(
         respuesta => {
-          this.tagPrecedentes = respuesta;
-          this.isPrecedentes = true;
+
+          let listObj = [];
+          let i = 0;
+          for (let element of respuesta) {
+            i += 1;
+            let obj               = {};
+            obj['tagId']          = element.tagPrecedenteId;
+            obj['tagPadre']       = element.tagPadre.tag;
+            obj['tagHijo']        = element.tagHijo.tag;
+            obj['elementTag']     = element;
+            listObj.push(obj);
+          }
+
+          this.tagPrecedentes = new MatTableDataSource<any>(listObj);
+          this.tagPrecedentes.paginator = this.paginator1;
+          this.tagPrecedentes.sort = this.sort1;
+
+          this.isPrecedentes = false;
           this.tablaAgregarPrecedentes = false;
         },
         error => {
@@ -549,6 +611,8 @@ export class ConfigActivitiesComponent implements OnInit {
         }
       );
 
+    }else{
+      this.toastr.errorToastr('Debe seleccionar por lo menos 1 tag a asignar.', 'Lo siento,');
     }
 
     console.log("agregarPrecedente: tagPrecedentes");
@@ -569,14 +633,36 @@ export class ConfigActivitiesComponent implements OnInit {
 
   }
 
-  eliminarPrecedente(tagPrecedente: TagPrecedente) {
+  eliminarPrecedente(tagPrecedente: any) {
     if (!this.soloLectura) {
       this.tagService.eliminarPrecedente(tagPrecedente).subscribe(
         result => {
           console.log(result);
-          this.tagPrecedentes = result;
+
+          if (result != null){
+            let listObj = [];
+            let i = 0;
+            for (let element of result) {
+              i += 1;
+              let obj               = {};
+              obj['tagId']          = element.tagPrecedenteId;
+              obj['tagPadre']       = element.tagPadre.tag;
+              obj['tagHijo']        = element.tagHijo.tag;
+              obj['elementTag']     = element;
+              listObj.push(obj);
+            }
+
+            this.tagPrecedentes = new MatTableDataSource<any>(listObj);
+            this.tagPrecedentes.paginator = this.paginator1;
+            this.tagPrecedentes.sort = this.sort1;
+            
+          }else{
+            this.tagPrecedentes=null;
+          }
+
           this.isPrecedentes = false;
           this.tablaAgregarPrecedentes = false;
+
         },
         error => {
           console.log(<any>error);
