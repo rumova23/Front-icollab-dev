@@ -52,7 +52,7 @@ export class TagService {
     return this.http.get( `${ this.baseMicroTagUrl }${actividad}`, httpOptions);
   }
 
-  getActividadesPrecedentes(padre: string, tags: string[]) {
+  getActividadesPrecedentes(padre, tags) : Observable<any> {
     return this.http.get( `${ this.baseMicroTagUrl }getActividadesPrecedentes/${padre}/${tags}`, httpOptions);
   }
 
@@ -62,12 +62,11 @@ export class TagService {
   }
   */
 
-  agregarPrecedentes(tag: string, tags: string[]) {
+  agregarPrecedentes(tag, tags) : Observable<any> {
     return this.http.get( `${ this.baseMicroTagUrl }agregarPrecedentes/${tag}/${tags}`, httpOptions);
   }
 
-  eliminarPrecedente(tagPrecedente: TagPrecedente) {
-    console.log(tagPrecedente);
+  eliminarPrecedente(tagPrecedente): Observable<any> {
     return this.http.post( `${ this.baseMicroTagUrl }eliminarPrecedente`, tagPrecedente, httpOptions);
   }
 

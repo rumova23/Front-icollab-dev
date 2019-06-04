@@ -80,7 +80,6 @@ import { RolesGrantsComponent } from './security/admin/roles/grants/rolesGrants.
 import { TreeviewModule } from 'ngx-treeview';
 import { Constants } from './core/globals/Constants';
 import { ComplianceTypesEditComponent } from './compliance/catalogs/compliance/types/edit/complianceTypesEdit.component';
-import { SafeLinkMockUp } from './safe/links-mock-up/safeLinkMockUp';
 import { ClientsComponent } from './safe/admin/clients/clients.component';
 import { UnityProductsComponent } from './safe/catalogs/unityProducts/unityProducts.component';
 import { UnityProductsEditComponent } from './safe/catalogs/unityProducts/edit/unityProductsEdit.component';
@@ -95,6 +94,8 @@ import { PlannedPowersPPAComponent } from './safe/business/mdaPlanningProcess/pl
 import { HeatRateRecordComponent } from './safe/business/mdaPlanningProcess/heatRateRecord/heatRateRecord.component';
 import { SalesOffersComponent } from './safe/business/mdaPlanningProcess/salesOffers/salesOffers.component';
 import { PerfilHomeComponent } from './compliance/business/perfil/home/perfilHome.component';
+import { MockUpHomeComponent } from './mockUp/home/mockUpHome.component';
+import { MockUpHeaderComponent } from './mockUp/comun/header/mockUpHeader.component';
 
 
 
@@ -169,7 +170,9 @@ import { PerfilHomeComponent } from './compliance/business/perfil/home/perfilHom
     WeatherComponent,
     PerfilHomeComponent,
 
-    SafeLinkMockUp,
+    MockUpHomeComponent,
+    MockUpHeaderComponent,
+
     PlannedPowersPPAComponent,
     HeatRateRecordComponent,
     SalesOffersComponent,
