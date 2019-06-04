@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { GlobalService } from 'src/app/core/globals/global.service';
-import { ToastrManager } from 'ng6-toastr-notifications';
-import { TagActividadDTO } from '../../models/TagActividadDTO';
+import { ToastrManager } from 'ng6-toastr-notifications'
+import { SecurityService } from 'src/app/core/services/security.service';
 import { TagService } from '../../services/tag.service';
 import { ConfirmationDialogService } from 'src/app/core/services/confirmation-dialog.service';
 import { CatalogType } from '../../models/CatalogType';
@@ -19,6 +19,7 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 export class ActivitiesComponent implements OnInit {
   titulo: String = "Catálogos / Categorías";
   registros;
+  userResult;
   data: any[] = [];
   columnas: string[] = ['order','category','prefix','userUpdated','dateUpdated','status','see','update','delete'];          
 
@@ -32,6 +33,7 @@ export class ActivitiesComponent implements OnInit {
 
   constructor(
       private tagService: TagService,
+      private securityService: SecurityService,
       public toastr: ToastrManager,
       private globalService: GlobalService,
       private eventService: EventService,
@@ -43,7 +45,10 @@ export class ActivitiesComponent implements OnInit {
 
   ngOnInit() {
   
-    this.obtenerListaActividades();
+    this.securityService.loadUsers().subscribe( userResult => {
+      this.userResult = userResult;
+      this.obtenerListaActividades();
+    });
 
   }
 
@@ -54,6 +59,7 @@ export class ActivitiesComponent implements OnInit {
         console.log(data)
         let listObj = [];
         let i = 0;
+        let userDetail;
         for (let element of data) {
           i += 1;
           let obj             = {};
@@ -61,8 +67,8 @@ export class ActivitiesComponent implements OnInit {
           obj['category']     = element.nombre;
           obj['prefix']       = element.prefijo;
           obj['status']       = element.estatus.estatus.nombre;
-          //obj['userUpdated']  = element.userUpdated;
-          obj['userUpdated']  = element.fullNameUpdated;
+          userDetail = this.userResult.resultado.find( user => user.user === element.userUpdated );
+          obj['userUpdated']        = userDetail == undefined ? 'system' : userDetail.name + " " + userDetail.lastName;
           obj['dateUpdated']  = element.dateUpdated;
           obj['see']      = 'sys_see';
           obj['edit']     = 'sys_edit';

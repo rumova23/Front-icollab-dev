@@ -7,6 +7,7 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { Tag } from 'src/app/compliance/models/Tag';
 import { TagService } from 'src/app/compliance/services/tag.service';
+import { SecurityService } from 'src/app/core/services/security.service';
 import { ConfirmationDialogService } from 'src/app/core/services/confirmation-dialog.service';
 import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import { EventMessage } from 'src/app/core/models/EventMessage';
@@ -22,7 +23,8 @@ export class ComplianceConfigurationComponent implements OnInit {
   titulo: String = "Configuración de cumplimientos";
   registros;
   data: any[] = [];
-
+  userResult;
+  
   columnas: string[] = ['order','tag','nombre','clasificacion','cumplimiento_legal','autoridad','tipo_aplicacion','userUpdated','dateUpdated','estatus','ver','modificar','eliminar'];
   filtros = [
     {label:"TAG",inputtype:"text"},
@@ -43,6 +45,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 
   constructor(
     private tagService: TagService,
+    private securityService: SecurityService,
     private formBuilder: FormBuilder,
     public toastr: ToastrManager,
     private route: ActivatedRoute,
@@ -70,7 +73,13 @@ export class ComplianceConfigurationComponent implements OnInit {
       fTag: ['', ''],
       fNombre: ['', '']
     })
-    this.obtenerListaTags();
+
+    this.securityService.loadUsers().subscribe( userResult => {
+      this.userResult = userResult;
+      this.obtenerListaTags();
+    });
+
+    
   }
 
   get f() { return this.filtrosForm.controls; }
@@ -82,6 +91,7 @@ export class ComplianceConfigurationComponent implements OnInit {
         console.dir( data );
         let listObj = [];
         let i = 0;
+        let userDetail;
         for (let element of data) {
           i += 1;
           let obj                   = {};
@@ -95,7 +105,8 @@ export class ComplianceConfigurationComponent implements OnInit {
           obj['periodo_entrega']    = element.periodoEntrega.opcion.codigo;
           obj['estatus']            = element.estatus.estatus.nombre;
           //obj['userUpdated']        = element.userUpdated;
-          obj['userUpdated']        = element.fullNameUpdated;
+          userDetail = this.userResult.resultado.find( user => user.user === element.userUpdated );
+          obj['userUpdated']        = userDetail == undefined ? 'system' : userDetail.name + " " + userDetail.lastName;
           obj['dateUpdated']        = element.dateUpdated;
           obj['see']                = 'sys_see';
           obj['edit']               = 'sys_edit';

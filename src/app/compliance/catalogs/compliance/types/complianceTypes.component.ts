@@ -57,7 +57,6 @@ export class ComplianceTypesComponent implements OnInit {
   ngOnInit() {
     //this.nombreCatalogo = this.route.snapshot.params.nombreCatalogo;
     this.titulo = 'Catálogos / ' + this.nombreCatalogo;
-    this.cargaDatos();
     this.estatusMaestroService.getEntidadEstatus( 'CAT_MAESTRO_OPCION', 'Activo').subscribe(data => {
       this.entidadEstatusId = data.entidadEstatusId;
     });
@@ -89,6 +88,7 @@ export class ComplianceTypesComponent implements OnInit {
       .subscribe(
         data => {
           this.listUsers = data.resultado;
+          this.cargaDatos();
         },
         errorData => {
           console.log(errorData);
@@ -99,18 +99,8 @@ export class ComplianceTypesComponent implements OnInit {
   cargaDatos() {
     this.data = [];
     this.catalogoMaestroService.getCatalogo( this.nombreCatalogo ).subscribe(data => {
-      //console.dir(data);
-      //debugger;
-      /*
-      data.sort(function (a, b) {
-        if (a.opcion.codigo > b.opcion.codigo) {return 1;}
-        if (a.opcion.codigo < b.opcion.codigo) {return -1;}
-        return 0;// a must be equal to b
-      });*/
-
-      
-
       let i = 0;
+      let userDetail;
       for (let element of data) {
         i += 1;
         let obj             = {};
@@ -119,7 +109,10 @@ export class ComplianceTypesComponent implements OnInit {
         obj['name']         = element.opcion.codigo;
         obj['description']  = element.opcion.descripcion;
         //obj['user']         = element.opcion.userUpdated || element.opcion.userCreated;
-        obj['user']         = element.opcion.fullNameUpdated;
+        //obj['user']         = element.opcion.fullNameUpdated;
+        
+        userDetail = this.listUsers.find( user => user.user === element.userUpdated );
+        obj['user']        = userDetail == undefined ? 'system' : userDetail.name + " " + userDetail.lastName;
         obj['dateup']       = (element.opcion.dateUpdated || element.opcion.dateCreated) ? this.datePipe.transform(new Date(element.opcion.dateUpdated || element.opcion.dateCreated),'dd-MM-yyyy h:mm a') : "";
         obj['status']       = (element.entidadEstatusId == this.entidadEstatusId) ? 'Activo' : 'Inactivo';
         obj['see']          = 'sys_see';
