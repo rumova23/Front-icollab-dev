@@ -51,6 +51,16 @@ export interface actividades {
   styleUrls: ['./responsibilities.component.scss']
 })
 export class ResponsibilitiesComponent implements OnInit {
+
+  constructor( public tagsServ: PersonalCompetenteService ) {
+    this.actividades = [];
+    this.tags = [];
+    this.cumplimientos = [];
+
+    this.actividadesAsignados = [];
+    this.tagsAsignados = [];
+    this.cumplimientosAsignados = [];
+  }
   @Input() inIdEmpleado: number;
   @Input() inTipo: string;
   @Input() isViewable: string;
@@ -72,16 +82,7 @@ export class ResponsibilitiesComponent implements OnInit {
 
   tagsId = [[], [], [], [], [],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
   tagsValor = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
-
-  constructor( public tagsServ: PersonalCompetenteService ) {
-    this.actividades = [];
-    this.tags = [];
-    this.cumplimientos = [];
-
-    this.actividadesAsignados = [];
-    this.tagsAsignados = [];
-    this.cumplimientosAsignados = [];
-  }
+  valorModal: number;
 
   resuelveDS(respTagDTO) {
     respTagDTO.actvs.forEach( actividad => {
@@ -157,33 +158,32 @@ export class ResponsibilitiesComponent implements OnInit {
   onChange(event, item) {
     console.log( event, item);
   }
-  valorModal: number;
-  
-  eliminar($event, empleadoId: number ){
+  eliminar($event, empleadoId: number ) {
     this.valorModal = $event;
     /*si modal regresa 1 es que aceptado la operacion */
-    if(this.valorModal == 1){
-    } 
+    if (this.valorModal === 1) {
+    }
   }
-  
-  salvarPlantaPerfil(){
+  salvarPlantaPerfil() {
     this.salvarPP  = [];
-    let index: number = 0;
-    let indexT: number = 0;
-    this.plantaOpcTag.forEach( tag=>{
+    let index = 0;
+    let indexT = 0;
+    this.plantaOpcTag.forEach( tag => {
       this.plantaOpc.forEach(
-        perf =>{
-          /*let campos: string = "{ 'empleado': " + this.inIdEmpleado + ", 'planta':" + this.plantaOpc[index] + ", 'perfil':" + this.plantaPerfilOpc[index]+" }";*/
-          let campos: string = this.inIdEmpleado + ":" + this.plantaOpc[index] + ":" + this.plantaPerfilOpc[index]+ ":" + this.plantaOpcTag[indexT];
+        perf => {
+          const campos = this.inIdEmpleado + ':'
+              + this.plantaOpc[index] + ':'
+              + this.plantaPerfilOpc[index] + ':'
+              + this.plantaOpcTag[indexT];
           this.salvarPP.push(campos);
           index++;
         }
       );
       indexT++;
-    }); 
+    });
 
     this.tagsServ.salvarPlantaPerfilEmpleado(this.salvarPP).subscribe(
-      resultado =>{
+      resultado => {
     });
   }
 
