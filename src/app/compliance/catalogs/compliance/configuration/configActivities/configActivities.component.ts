@@ -310,6 +310,17 @@ export class ConfigActivitiesComponent implements OnInit {
       idStatus = this.checkedInactivoId;
     }
 
+    let listTagPrecedentes = [];
+    if (this.tagPrecedentes != null){
+      if (this.tagPrecedentes.data != null){
+        listTagPrecedentes = new Array<TagPrecedente>();
+        this.tagPrecedentes.data.forEach(element => {
+          listTagPrecedentes.push(element.elementTag)
+        })
+      }
+    }
+    
+
     let actividad = new Tag(
       tagId,
       this.configActividadesForm.controls['fTag'].value,
@@ -324,7 +335,7 @@ export class ConfigActivitiesComponent implements OnInit {
       this.configActividadesForm.controls['fTipoDias'].value,
       idStatus,
       this.plantas,
-      this.tagPrecedentes,
+      listTagPrecedentes,
     );
 
     this.tagService.save(actividad).subscribe(
@@ -465,9 +476,8 @@ export class ConfigActivitiesComponent implements OnInit {
             this.tagPrecedentes.paginator = this.paginator1;
             this.tagPrecedentes.sort = this.sort1;
             this.existeTagId = true;
-          }else{
-            this.existeTagId = false;
           }
+
           this.idsTagPrecedentes = [];
           
           if (this.accion === 'ver') {
@@ -483,6 +493,7 @@ export class ConfigActivitiesComponent implements OnInit {
             this.configActividadesForm.controls['fPeriodoEntrega'].disable();
             this.configActividadesForm.controls['fTipoDias'].disable();
             this.habilitarActividad = false;
+            this.existeTagId = false;
           } else {
             this.soloLectura = false;
             this.configActividadesForm.controls['fTag'].disable();
@@ -496,6 +507,7 @@ export class ConfigActivitiesComponent implements OnInit {
             this.configActividadesForm.controls['fPeriodoEntrega'].enable();
             this.configActividadesForm.controls['fTipoDias'].enable();
             this.tablaAgregarPrecedentes=false;
+            this.existeTagId = true;
             //this.habilitarActividad = false;
             
           }
