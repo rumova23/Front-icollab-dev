@@ -255,23 +255,23 @@
                   </mat-form-field>
                 </div>
               </div>
-              <table matSort mat-table [dataSource]="registros" class="table_catalogo">
+              <table matSort mat-table [dataSource]="registrosParaAsignar" class="table_catalogo">
                 <!-- orden Column -->
-                <ng-container matColumnDef="idActividad">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> TAG ID </th>
+                <ng-container matColumnDef="tagId">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center" > TAG ID </th>
                   <td mat-cell *matCellDef="let element">{{element.tagId}} </td>
                 </ng-container>
                 <!-- orden Column -->
-                <ng-container matColumnDef="actividad" sticky>
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header class class="txt-center"> TAG </th>
+                <ng-container matColumnDef="tag">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> ACTIVIDAD </th>
                   <td mat-cell *matCellDef="let element"> {{element.tag}} </td>
                 </ng-container>
                 <!-- nombre Column -->
                 <ng-container matColumnDef="descripcion">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> ACTIVIDAD </th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> DESCRIPCION </th>
                   <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
                 </ng-container>
-                <ng-container matColumnDef="asignarPrecedente">
+                <ng-container matColumnDef="assignPrecedent">
                   <th mat-header-cell *matHeaderCellDef class="txt-center">ASIGNAR PRECEDENTE </th>
                   <td mat-cell *matCellDef="let element" class="p-2 border-none">
                     <u><i>
@@ -319,17 +319,17 @@
                   </mat-form-field>
                   <table matSort mat-table [dataSource]="tagPrecedentes" class="table_catalogo">
                     <!-- orden Column -->
-                    <ng-container matColumnDef="actividad">
+                    <ng-container matColumnDef="tagId">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> TAG ID </th>
                       <td mat-cell *matCellDef="let element">{{element.tagId}} </td>
                     </ng-container>
                     <!-- orden Column -->
-                    <ng-container matColumnDef="actividadPadre" sticky>
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header class class="txt-center"> TAG PADRE </th>
+                    <ng-container matColumnDef="tagPadre">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> TAG PADRE </th>
                       <td mat-cell *matCellDef="let element"> {{element.tagPadre}} </td>
                     </ng-container>
                     <!-- nombre Column -->
-                    <ng-container matColumnDef="actividadHijo">
+                    <ng-container matColumnDef="tagHijo">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> TAG HIJO </th>
                       <td mat-cell *matCellDef="let element"> {{element.tagHijo}} </td>
                     </ng-container>
