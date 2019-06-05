@@ -52,7 +52,7 @@ export class SafeHomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.eventService.sendMainSafe(new EventMessage(101, {}));
+    //this.eventService.sendMainSafe(new EventMessage(101, {}));
   }
 
   private clickMenu(event: EventMessage): void {
