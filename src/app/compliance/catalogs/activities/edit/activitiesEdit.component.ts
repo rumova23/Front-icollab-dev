@@ -37,6 +37,7 @@ export class ActivitiesEditComponent implements OnInit {
   checkedEstatus = false;
   checkedActivoId;
   checkedInactivoId;
+  valueActiveStatus;
 
   constructor(
     private route: ActivatedRoute,
@@ -129,7 +130,9 @@ export class ActivitiesEditComponent implements OnInit {
             this.actividadesForm.controls['fTareaPorVencer'].setValue(tagActividad.tareaPorVencer);
             this.actividadesForm.controls['fTareaProximaVencer'].setValue(tagActividad.tareaProximaVencer);
             this.actividadesForm.controls['fTareaTiempo'].setValue(tagActividad.tareaTiempo);
-
+            
+            this.valueActiveStatus = tagActividad.estatus.estatus.estatusId;
+            
             if (this.checkedActivoId === tagActividad.estatus.estatus.estatusId  ){
               this.checkedEstatus = true;
             }else{
@@ -141,8 +144,8 @@ export class ActivitiesEditComponent implements OnInit {
               this.actividadesForm.controls['fPrefijo'].disable();
               this.actividadesForm.controls['fActividad'].disable();
             } else {
-              this.actividadesForm.controls['fPrefijo'].enable();
-              this.actividadesForm.controls['fActividad'].enable();
+              this.actividadesForm.controls['fPrefijo'].disable();
+              this.actividadesForm.controls['fActividad'].disable();
               this.soloLectura = false;
             }
 
@@ -158,10 +161,25 @@ export class ActivitiesEditComponent implements OnInit {
           this.addBlock(2, null);
           this.toastr.errorToastr('Error al obtener detalles de la actividad.', 'Lo siento,'); 
         }
-      )
+      ).add(() => {
+        this.delay(500);
+      });
     }
   }
 
+  async delay(ms: number) {
+    await new Promise(
+      resolve => setTimeout(() => resolve(), ms)).then(() => { this.validStatus(); });
+  }
+
+  validStatus(){
+    if (this.checkedActivoId === this.valueActiveStatus  ){
+      this.checkedEstatus = true;
+    }else{
+      this.checkedEstatus = false;
+    }
+    console.log(" Pone check en: " + this.checkedEstatus )
+  }
 
   submitted = false;
   onSubmit() {

@@ -71,7 +71,7 @@
           <div class="md-form form-group">
             <mat-form-field class="w-100">
               <input matInput placeholder="Nombre del Cumplimiento" formControlName="fClasificacionActividad"
-                [readonly]="soloLectura" [ngClass]="{ 'is-invalid': submitted && f.fClasificacionActividad.errors }">
+                    [ngClass]="{ 'is-invalid': submitted && f.fClasificacionActividad.errors }">
               <div *ngIf="submitted && f.fClasificacionActividad.errors" style="color:red">
                 <div *ngIf="f.fClasificacionActividad.errors.required">Requerido</div>
               </div>
@@ -85,7 +85,7 @@
           <div class="md-form form-group">
             <mat-form-field class="w-100">
               <mat-label>Tipo de Cumplimiento</mat-label>
-              <mat-select formControlName="fTipoCumplimiento" [disabled]="soloLectura" [compareWith]="compareFn"
+              <mat-select formControlName="fTipoCumplimiento" [compareWith]="compareFn"
                 [ngClass]="{ 'is-invalid': submitted && f.fTipoCumplimiento.errors }">
                 <mat-option *ngFor="let operator of comboTipoCumplimiento;" [value]="operator.value">{{operator.label}}
                 </mat-option>
@@ -99,7 +99,7 @@
         <div class="col-md-6">
           <div class="md-form">
             <mat-form-field class="w-100">
-              <input matInput placeholder="Requisito Legal" formControlName="fRequisitoLegal" [readonly]="soloLectura"
+              <input matInput placeholder="Requisito Legal" formControlName="fRequisitoLegal"
                 [ngClass]="{ 'is-invalid': submitted && f.fRequisitoLegal.errors }">
               <div *ngIf="submitted && f.fRequisitoLegal.errors" style="color:red">
                 <div *ngIf="f.fRequisitoLegal.errors.required">Requerido</div>
@@ -114,7 +114,7 @@
           <div class="md-form form-group">
             <mat-form-field class="w-100">
               <mat-label>Autoridad</mat-label>
-              <mat-select [compareWith]="compareFn" formControlName="fAutoridad" [disabled]="soloLectura"
+              <mat-select [compareWith]="compareFn" formControlName="fAutoridad"
                 [ngClass]="{ 'is-invalid': submitted && f.fAutoridad.errors }">
                 <mat-option *ngFor="let operator of comboAutoridad;" [value]="operator.value">{{operator.label}}
                 </mat-option>
@@ -129,7 +129,7 @@
           <div class="md-form form-group">
             <mat-form-field class="w-100">
               <mat-label>Tipo de Aplicación</mat-label>
-              <mat-select [compareWith]="compareFn" formControlName="fTipoAplicacion" [disabled]="soloLectura"
+              <mat-select [compareWith]="compareFn" formControlName="fTipoAplicacion"
                 [ngClass]="{ 'is-invalid': submitted && f.fTipoAplicacion.errors }">
                 <mat-option *ngFor="let operator of comboTipoAplicacion;" [value]="operator.value">{{operator.label}}
                 </mat-option>
@@ -147,7 +147,7 @@
           <div class="md-form form-group">
             <mat-form-field class="w-100">
               <mat-label>Período de entrega</mat-label>
-              <mat-select [compareWith]="compareFn" formControlName="fPeriodoEntrega" [disabled]="soloLectura"
+              <mat-select [compareWith]="compareFn" formControlName="fPeriodoEntrega"
                 [ngClass]="{ 'is-invalid': submitted && f.fPeriodoEntrega.errors }">
                 <mat-option *ngFor="let operator of comboPeriodoEntrega;" [value]="operator.value">{{operator.label}}
                 </mat-option>
@@ -162,7 +162,7 @@
           <div class="md-form form-group">
             <mat-form-field class="w-100">
               <mat-label>Tipo de días</mat-label>
-              <mat-select [compareWith]="compareFn" formControlName="fTipoDias" [disabled]="soloLectura"
+              <mat-select [compareWith]="compareFn" formControlName="fTipoDias"
                 [ngClass]="{ 'is-invalid': submitted && f.fTipoDias.errors }">
                 <mat-option *ngFor="let operator of comboTipoDias;" [value]="operator.value">{{operator.label}}
                 </mat-option>
@@ -356,15 +356,14 @@
         </div>
   </div>
 </div>
+
 <div class="row">
   <div class="col">
-    <div class="row">
-      <div class="col-10"></div>
-      <div class="col-2">
-        <button type="button" class="btn btn-md"
-          [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
-          (click)="regresar()">Regresar</button>
-      </div>
+    <div class="float-right">
+      <button type="button" class="btn btn-md" 
+              [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
+              (click)="regresar()">Regresar
+      </button>
     </div>
   </div>
 </div>

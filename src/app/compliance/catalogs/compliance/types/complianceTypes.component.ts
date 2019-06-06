@@ -124,7 +124,7 @@ export class ComplianceTypesComponent implements OnInit {
         
         userDetail = this.listUsers.find( user => user.user === element.userUpdated );
         obj['user']        = userDetail == undefined ? 'system' : userDetail.name + " " + userDetail.lastName;
-        obj['dateup']       = (element.opcion.dateUpdated || element.opcion.dateCreated) ? this.datePipe.transform(new Date(element.opcion.dateUpdated || element.opcion.dateCreated),'dd-MM-yyyy h:mm a') : "";
+        obj['dateup']       = (element.dateUpdated) ? this.datePipe.transform(new Date(element.dateUpdated ),'dd-MM-yyyy h:mm a') : "";
         obj['status']       = (element.entidadEstatusId == this.entidadEstatusId) ? 'Activo' : 'Inactivo';
         obj['see']          = 'sys_see';
         obj['edit']         = 'sys_edit';
@@ -140,8 +140,8 @@ export class ComplianceTypesComponent implements OnInit {
         {key:'name',label:'Nombre'},
         {key:'description',label:'Descripción'},
         {key:'status',label:'Estatus'},
-        {key:'user',label:'Usuario Modifico'},
-        {key:'dateup',label:'Fecha y hora Última Modificación'}
+        {key:'user',label:'Usuario Última Modificación'},
+        {key:'dateup',label:'Fecha y Hora de Última Modificación'}
       ];
       this.displayedColumnsActions = [
         {key:'see',label:'Ver'},

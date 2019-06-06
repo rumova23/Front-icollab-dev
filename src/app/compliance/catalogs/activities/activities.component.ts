@@ -62,7 +62,7 @@ export class ActivitiesComponent implements OnInit {
   obtenerListaActividades(){
     this.addBlock(1, "Cargando...");
     this.data = [];
-    this.tagService.getCatalogoActividades().subscribe( data => {
+    this.tagService.getCatalogoActividades("TODOS").subscribe( data => {
         console.log(data)
         let listObj = [];
         let i = 0;

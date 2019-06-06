@@ -17,7 +17,6 @@ import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
-import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-configActivities',
@@ -31,7 +30,7 @@ export class ConfigActivitiesComponent implements OnInit {
   @Input() accion: string;
   @Input() tagId: string;
   comboActividades: Array<Combo>;
-  comboClasificacionActividades: Array<Combo>;
+  
   comboTipoCumplimiento: Array<Combo>;
   comboAutoridad: Array<Combo>;
   comboTipoAplicacion: Array<Combo>;
@@ -73,6 +72,7 @@ export class ConfigActivitiesComponent implements OnInit {
   labelPositionCheckBox = 'after';
   disabledCheckBox = false;
   checkedEstatus = false;
+  valueActiveStatus;
   checkedActivoId;
   checkedInactivoId;
 
@@ -149,7 +149,7 @@ export class ConfigActivitiesComponent implements OnInit {
     this.habilitarActividad = false;
 
     this.comboActividades = new Array<Combo>();
-    this.comboClasificacionActividades = new Array<Combo>();
+    
     this.comboTipoCumplimiento = new Array<Combo>();
     this.comboAutoridad = new Array<Combo>();
     this.comboTipoAplicacion = new Array<Combo>();
@@ -158,14 +158,19 @@ export class ConfigActivitiesComponent implements OnInit {
     this.comboPlanta = new Array<Combo>();
     this.plantas = new Array<TagPlanta>();
     this.comboEstatus = new Array<Combo>();
+    
+    let statusConsult: string = null;
+    if ( this.accion === 'edit' || 'ver' ){
+      statusConsult = 'TODOS'
+    }
 
     this.listaCombos = Array<OrderCatalogDTO>();
-    this.listaCombos.push( new OrderCatalogDTO('TIPO_CUMPLIMIENTO','ORDEN'));
-    this.listaCombos.push( new OrderCatalogDTO('AUTORIDAD', null));
-    this.listaCombos.push( new OrderCatalogDTO('TIPO_APLICACION','ORDEN'));
-    this.listaCombos.push( new OrderCatalogDTO('PERIODO_ENTREGA','ORDEN'));
-    this.listaCombos.push( new OrderCatalogDTO('TIPO_DIAS', null));
-    this.listaCombos.push( new OrderCatalogDTO('PLANTA', null));
+    this.listaCombos.push( new OrderCatalogDTO('TIPO_CUMPLIMIENTO','ORDEN', statusConsult));
+    this.listaCombos.push( new OrderCatalogDTO('AUTORIDAD', null, statusConsult));
+    this.listaCombos.push( new OrderCatalogDTO('TIPO_APLICACION','ORDEN', statusConsult));
+    this.listaCombos.push( new OrderCatalogDTO('PERIODO_ENTREGA','ORDEN', statusConsult));
+    this.listaCombos.push( new OrderCatalogDTO('TIPO_DIAS', null, statusConsult));
+    this.listaCombos.push( new OrderCatalogDTO('PLANTA', null, statusConsult));
     
     this.addBlock(1, "Cargando...");
     this.tagService.getlistCatalogoOrdenados(this.listaCombos).subscribe(
@@ -179,7 +184,7 @@ export class ConfigActivitiesComponent implements OnInit {
       }
     ).add(() => {
       this.addBlock(2, null);
-    });;
+    });
     
     this.addBlock(1, "Cargando...");
     this.tagService.getEstatusMaestroOpcion().subscribe(
@@ -208,7 +213,13 @@ export class ConfigActivitiesComponent implements OnInit {
     });
 
     this.addBlock(1, "Cargando...");
-    this.tagService.getCatalogoActividades().subscribe(
+    let statusConsultActivity = 'ACTIVOS';
+    if ( this.accion === 'edit' || this.accion === 'ver' ){
+      statusConsultActivity = 'TODOS'
+    }else if ( this.accion === 'nuevo'){
+      statusConsultActivity = 'ACTIVOS'
+    }
+    this.tagService.getCatalogoActividades(statusConsultActivity).subscribe(
       catalogoResult => {
         console.log(catalogoResult)
         let actividad: any;
@@ -391,7 +402,7 @@ export class ConfigActivitiesComponent implements OnInit {
           this.configActividadesForm.controls['fPeriodoEntrega'].patchValue(`${tagActividad.periodoEntregaId}`);
           this.configActividadesForm.controls['fTipoDias'].patchValue(`${tagActividad.tipoDiasId}`);
           
-
+          this.valueActiveStatus = tagActividad.entidadEstatusId
           if (this.checkedActivoId === tagActividad.entidadEstatusId  ){
             this.checkedEstatus = true;
           }else{
@@ -440,19 +451,20 @@ export class ConfigActivitiesComponent implements OnInit {
             this.configActividadesForm.controls['fPeriodoEntrega'].disable();
             this.configActividadesForm.controls['fTipoDias'].disable();
             this.habilitarActividad = false;
-            this.existeTagId = false;
+            this.existeTagId = true;
           } else {
             this.soloLectura = false;
             this.configActividadesForm.controls['fTag'].disable();
             this.configActividadesForm.controls['fActividad'].disable();
+            this.configActividadesForm.controls['fAutoridad'].disable();
+            this.configActividadesForm.controls['fTipoAplicacion'].disable();
+            this.configActividadesForm.controls['fPeriodoEntrega'].disable();
+            this.configActividadesForm.controls['fTipoDias'].disable();
+            this.configActividadesForm.controls['fTipoCumplimiento'].disable();
+
             this.configActividadesForm.controls['fDescripcion'].enable();            
             this.configActividadesForm.controls['fClasificacionActividad'].enable();
-            this.configActividadesForm.controls['fTipoCumplimiento'].enable();
             this.configActividadesForm.controls['fRequisitoLegal'].enable();
-            this.configActividadesForm.controls['fAutoridad'].enable();
-            this.configActividadesForm.controls['fTipoAplicacion'].enable();
-            this.configActividadesForm.controls['fPeriodoEntrega'].enable();
-            this.configActividadesForm.controls['fTipoDias'].enable();
             this.tablaAgregarPrecedentes=false;
             this.existeTagId = true;
             //this.habilitarActividad = false;
@@ -476,7 +488,7 @@ export class ConfigActivitiesComponent implements OnInit {
       }
     ).add(() => {
       this.delay(1000, 2);
-      //this.addBlock(2, null);
+      this.delayStatus(500);
     });
   }
 
@@ -526,18 +538,6 @@ export class ConfigActivitiesComponent implements OnInit {
     }
     this.addBlock(2, null);
   }
-
-  async delay(ms: number, numberTable: number) {
-    await new Promise(
-      resolve => 
-        setTimeout(()=>
-          resolve(), ms)).then(() => {
-            this.ordenar(numberTable);
-          });
-  }
-
-  /*prueba*/
-
 
   //Muestra las actividades que pueden ser agregadas como precedentes
   mostrarPrecedentes() {
@@ -734,7 +734,27 @@ export class ConfigActivitiesComponent implements OnInit {
     this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 
-  cliquea(event){
-    console.log(event);
+  async delay(ms: number, numberTable: number) {
+    await new Promise(
+      resolve => 
+        setTimeout(()=>
+          resolve(), ms)).then(() => {
+            this.ordenar(numberTable);
+          });
   }
+
+  async delayStatus(ms: number) {
+    await new Promise(
+      resolve => setTimeout(() => resolve(), ms)).then(() => { this.validStatus(); });
+  }
+
+  validStatus(){
+    if (this.checkedActivoId === this.valueActiveStatus  ){
+      this.checkedEstatus = true;
+    }else{
+      this.checkedEstatus = false;
+    }
+    console.log(" Pone check en: " + this.checkedEstatus )
+  }
+
 }

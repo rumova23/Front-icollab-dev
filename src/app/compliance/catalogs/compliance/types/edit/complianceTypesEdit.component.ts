@@ -54,6 +54,7 @@ export class ComplianceTypesEditComponent implements OnInit {
   checkedActivoId;
   checkedInactivoId;
   deshabiliarEstatus: boolean = true;
+  valueActiveStatus;
 
   submitted = false;
 
@@ -102,6 +103,7 @@ export class ComplianceTypesEditComponent implements OnInit {
                 this.perfilForm.controls.nombreOpcion.enable();
                 this.perfilForm.controls.opcionDescripcion.enable();
                 //this.perfilForm.controls.fComboEstatus.patchValue(`${data.entidadEstatusId}`);
+                this.valueActiveStatus = data.entidadEstatusId;
                 if (this.checkedActivoId === data.entidadEstatusId ){
                   this.checkedEstatus = true;
                 }else{
@@ -127,6 +129,7 @@ export class ComplianceTypesEditComponent implements OnInit {
                 //this.perfilForm.controls.fComboEstatus.patchValue(`${this.entidadEstatusId}`);
                 this.deshabiliarEstatus = false;
                 this.checkedEstatus = true;
+                this.valueActiveStatus = this.checkedActivoId;
         
               });
             }
@@ -139,7 +142,7 @@ export class ComplianceTypesEditComponent implements OnInit {
                 this.perfilForm.controls.nombreOpcion.disable();
                 this.perfilForm.controls.opcionDescripcion.disable();
                 //this.perfilForm.controls.fComboEstatus.patchValue(`${data.entidadEstatusId}`);
-                
+                this.valueActiveStatus = data.entidadEstatusId;
                 if (this.checkedActivoId === data.entidadEstatusId ){
                   this.checkedEstatus = true;
                 }else{
@@ -152,10 +155,9 @@ export class ComplianceTypesEditComponent implements OnInit {
               this.isReadOnly = true;
             }
             // TERMINA LLENAR DATOS
-
+          }).add(() => {
+            this.delay(500);
           });
-
-
         });
       },
       error => {
@@ -163,8 +165,6 @@ export class ComplianceTypesEditComponent implements OnInit {
         console.log(error as any);
       }
     );
-
-    
 
     this.perfilForm = this.formBuilder.group({
       maestroOpcionId: ['',''],
@@ -175,6 +175,21 @@ export class ComplianceTypesEditComponent implements OnInit {
       //fComboEstatus: ['', '']
     });
   }
+
+  async delay(ms: number) {
+    await new Promise(
+      resolve => setTimeout(() => resolve(), ms)).then(() => { this.validStatus(); });
+  }
+
+  validStatus(){
+    if (this.checkedActivoId === this.valueActiveStatus  ){
+      this.checkedEstatus = true;
+    }else{
+      this.checkedEstatus = false;
+    }
+    console.log(" Pone check en: " + this.checkedEstatus )
+  }
+
   onSubmit() {
     
     this.submitted = true;

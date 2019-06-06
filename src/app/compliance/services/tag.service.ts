@@ -79,8 +79,8 @@ export class TagService {
   }
 
   // Actividades
-  getCatalogoActividades() : Observable<any> {
-    return this.http.get( `${ this.baseMicroTagUrl }actividad/all`, httpOptions);
+  getCatalogoActividades(status) : Observable<any> {
+    return this.http.get( `${ this.baseMicroTagUrl }actividad/all/${status}`, httpOptions);
   }
 
   getPrefijoConsecutivo(actividadId: number) {
