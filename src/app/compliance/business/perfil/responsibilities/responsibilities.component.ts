@@ -96,27 +96,30 @@ export class ResponsibilitiesComponent implements OnInit {
     });
   }
 
-  resuelveDSAsignados(respTagDTO) {
-    respTagDTO.actvs.forEach( actividad => {
+  resuelveDSAsignados(data) {
+    data.actvs.forEach( actividad => {
       actividad.cumplimi.forEach( cumplimiento => {
         cumplimiento.tagsRes.forEach( tg => {
           this.tagsAsignados.push(new ActiHijo( tg.id, tg.desc));
         });
-        this.cumplimientosAsignados.push( new Acti( cumplimiento.id, cumplimiento.desc, this.tags) );
+        this.cumplimientosAsignados.push( new Acti( cumplimiento.id, cumplimiento.desc, this.tagsAsignados) );
       } );
-      this.actividadesAsignados.push( new Acti( actividad.id, actividad.desc, this.cumplimientos) );
+      this.actividadesAsignados.push( new Acti( actividad.id, actividad.desc, this.cumplimientosAsignados) );
     });
+    console.dir(this.actividadesAsignados);
   }
   ngOnInit() {
     this.plantas = [];
     this.perfiles = [];
     this.tagsServ.getTagsAsignacion(this.inIdEmpleado).subscribe(
-    respTagDTO => {
-      this.resuelveDS(respTagDTO);
+    data1 => {
+      console.dir(data1)
+      this.resuelveDS(data1);
     });
     this.tagsServ.getTagsAsignado(this.inIdEmpleado).subscribe(
-    respTagDTO => {
-      this.resuelveDSAsignados(respTagDTO);
+    data => {
+      console.dir(data);
+      this.resuelveDSAsignados(data);
     });
     this.tagsServ.getPlantaPerfil().subscribe (
       poRespuesta => {
@@ -141,17 +144,12 @@ export class ResponsibilitiesComponent implements OnInit {
       }
     }
 
-    this.tagsServ.salvarTags( this.SaveRespuestas, this.inIdEmpleado ).subscribe(
-      respuesta => {
-        if ( !respuesta ){
-          console.log("El back no responde");
-        } else {
-          let estatus = respuesta[ 'status' ];
-          if ( estatus === 'exito'){
+    this.tagsServ.salvarTags( this.SaveRespuestas, this.inIdEmpleado ).subscribe(respuesta => {
+          if ( respuesta.status === 'exito') {
+            console.log(respuesta.mensaje);
           } else {
-            console.log(respuesta[ 'mensaje' ]);
+            console.log(respuesta.mensaje);
           }
-        }
     });
   }
 

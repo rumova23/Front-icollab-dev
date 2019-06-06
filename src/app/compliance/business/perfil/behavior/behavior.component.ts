@@ -49,8 +49,8 @@ export class BehaviorComponent implements OnInit {
     }
     this.temas = [];
     this.totalPreg = [];
-    this.idTemas = [ 'SICOMETRICO DEFAULT'];
-    this.preguntas.obtenPreguntasExamen('SICOMETRICO DEFAULT', this.inIdEmpleado).subscribe(
+    this.idTemas = [ 'PSICOMETRICO DEFAULT'];
+    this.preguntas.obtenPreguntasExamen('PSICOMETRICO DEFAULT', this.inIdEmpleado).subscribe(
       reservacion => {
         if ( reservacion.estatusGenerico === 'exito') {
           this.examenReservacionId = reservacion.examenReservacionId;
