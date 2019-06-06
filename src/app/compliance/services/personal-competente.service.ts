@@ -18,7 +18,6 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class PersonalCompetenteService {
-
   private baseUrl2 = environment.pgUrl;
   private baseUrl = environment.mtUrl;
   private microSeguimiento = environment.micro_seguimiento;
@@ -32,15 +31,16 @@ export class PersonalCompetenteService {
     return this.http.delete(`${this.baseUrl2}personalCompetente/empleados?idEmpleado=` + idEmpleado, httpOptions);
   }
 
+
   getTagsAsignacion(idEmpleado: number): Observable<any> {
-    return this.http.get(`${this.baseUrl2}personalCompetente/tags/asignacion/${idEmpleado}`, httpOptions);
+    return this.http.get(`${this.microSeguimiento}personalCompetente/tags/ASIGNACION/${idEmpleado}`, httpOptions);
   }
 
   getTagsAsignado(idEmpleado: number): Observable<any> {
-    return this.http.get(`${this.baseUrl2}personalCompetente/tags/asignado/${idEmpleado}`, httpOptions);
+    return this.http.get(`${this.microSeguimiento}personalCompetente/tags/ASIGNADO/${idEmpleado}`, httpOptions);
   }
 
-  salvarTags(listtags: Array<string>, empleadoId: number) {
+  salvarTags(listtags: Array<string>, empleadoId: number): Observable<any> {
     return this.http.post(`${this.microSeguimiento}tags/empleados?empleadoId=` + empleadoId, listtags, httpOptions);
   }
 
