@@ -119,6 +119,9 @@ export class PerfilComponent implements OnInit {
     });
     this.cmbos.getEmpleado(this.inIdEmpleado).subscribe(
       respuesta => {
+        console.log(respuesta);
+        console.log(respuesta[ 'fechanacimiento' ]);
+        const currentDate = new Date().toISOString().substring(0, 10);
         this.perfilForm.controls['fNumEmpo'].setValue(respuesta[ 'empleadoId' ]);
         this.perfilForm.controls['fAMaterno'].setValue(respuesta[ 'materno' ]);
         this.perfilForm.controls['fNombres'].setValue(respuesta[ 'nombres' ]);
@@ -126,7 +129,9 @@ export class PerfilComponent implements OnInit {
         this.perfilForm.controls['fCarrera'].setValue(respuesta[ 'carrera' ]);
         this.perfilForm.controls['fGenero'].patchValue(respuesta[ 'generoId' ]+'');
         this.perfilForm.controls['fGrado'].setValue(respuesta[ 'gradoEstudioId' ]+'');
-        this.perfilForm.controls['fNaci'].setValue(respuesta[ 'fechanacimiento' ]);
+        //this.perfilForm.controls['fNaci'].setValue(respuesta[ 'fechanacimiento' ]);
+        //this.perfilForm.patchValue({fNaci: respuesta[ 'fechanacimiento' ]});
+        this.perfilForm.controls['fNaci'].setValue(currentDate);
       }
     );
 

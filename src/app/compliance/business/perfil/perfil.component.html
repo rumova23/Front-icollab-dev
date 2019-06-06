@@ -82,9 +82,11 @@
             <!-- Material input -->
             <div class="md-form">
                 <mat-form-field>
-                    <input matInput [matDatepicker]="picker" placeholder="Fecha de Nacimiento" formControlName="fNaci" [ngClass]="{ 'is-invalid': submitted && f.fNaci.errors }">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
+                    <input matInput [matDatepicker]="fNaci"  formControlName="fNaci"
+                           ngDefaultControl placeholder="Fecha de nacimiento">
+                    <mat-datepicker-toggle matSuffix [for]="fNaci"></mat-datepicker-toggle>
+                    <mat-datepicker #fNaci></mat-datepicker>
+
                     <div *ngIf="submitted && f.fNaci.errors" style="color:red">
                         <div *ngIf="f.fNaci.errors.required">Requerido</div>
                     </div>
