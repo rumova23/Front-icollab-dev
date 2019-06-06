@@ -116,8 +116,7 @@ export class PerfilComponent implements OnInit {
       fStartJob: [{ value:'', disabled: this.isdisabled }, Validators.required],
       fPerCarg: [{ value:'', disabled: this.isdisabled }, Validators.required],
       fDescGralPust: [{ value:'', disabled: this.isdisabled }, Validators.required]
-    }, {validator: this.dateLessThan('fNaci', 'fStartJob')});
- 
+    });
     this.cmbos.getEmpleado(this.inIdEmpleado).subscribe(
       respuesta => {
         this.perfilForm.controls['fNumEmpo'].setValue(respuesta[ 'empleadoId' ]);
