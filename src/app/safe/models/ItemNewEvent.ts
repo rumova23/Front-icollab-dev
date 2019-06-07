@@ -6,7 +6,7 @@ export class ItemNewEvent {
                 { inputtype: "date", label: "Fecha inicio", formControlName: "Fecha inicio" },
                 { inputtype: "time", label: "Hora inicio", formControlName: "Hora inicio" },
                 { inputtype: "date", label: "Fecha Final", formControlName: "Fecha Final" },
-                { inputtype: "time", label: "Hora Fianl", formControlName: "Hora Fianl" },
+                { inputtype: "time", label: "Hora Final", formControlName: "Hora Final" },
                 { inputtype: "select", label: "Combustible", formControlName: "Combustible",options: [{name:'Gas'}] },
                 { inputtype: "number", label: "Potencia MW", formControlName: "Potencia MW" },
                 { inputtype: "number", label: "(-) Pérdida en MW", formControlName: "Perdida en MW" },
@@ -24,7 +24,7 @@ export class ItemNewEvent {
             inputs: [
                 { inputtype: "select", label: "MEM", formControlName: "MEM", options: [{name:'MTR'}] },
                 { inputtype: "number", label: "MW Ofertados", formControlName: "MW Ofertados" },
-                { inputtype: "select", label: "Servicios Conexo", formControlName: "Servicios Conexo", options: [{name:'N/A'}] },
+                { inputtype: "select", label: "Servicios Conexos", formControlName: "Servicios Conexos", options: [{name:'N/A'}] },
             ]
         }
     ];
