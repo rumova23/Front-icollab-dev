@@ -68,12 +68,13 @@ export class SkillsComponent implements OnInit {
               });
               this.temas.push( new Tema(
                   tema.value,
-                  tema.label,
+                  tema.tema,
                   tema.color,
                   null,
                   null,
                   this.pregs) );
             });
+            
           }
         }
     );

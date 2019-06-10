@@ -7,7 +7,7 @@ import { BlockUIModule } from 'ng-block-ui';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material';
+import { MatNativeDateModule, MatPaginatorIntl } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -96,6 +96,7 @@ import { SalesOffersComponent } from './safe/business/mdaPlanningProcess/salesOf
 import { PerfilHomeComponent } from './compliance/business/perfil/home/perfilHome.component';
 import { MockUpHomeComponent } from './mockUp/home/mockUpHome.component';
 import { MockUpHeaderComponent } from './mockUp/comun/header/mockUpHeader.component';
+import { MatPaginatorIntlSpanish } from './core/helpers/apanishPaginatorIntl';
 
 
 
@@ -208,7 +209,8 @@ import { MockUpHeaderComponent } from './mockUp/comun/header/mockUpHeader.compon
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     ConfirmationDialogService,
-    EventService
+    EventService,
+    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlSpanish }
   ],
   entryComponents: [ ConfirmationDialogComponent ],
   bootstrap: [AppComponent]

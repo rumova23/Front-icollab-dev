@@ -53,7 +53,7 @@ export class SafeNewEventComponent implements OnInit {
         'Fecha inicio': new FormControl('', Validators.required),
         'Hora inicio': new FormControl('', Validators.required),
         'Fecha Final': new FormControl('', Validators.required),
-        'Hora Fianl': new FormControl('', Validators.required),
+        'Hora Final': new FormControl('', Validators.required),
         'Combustible': new FormControl('', Validators.required),
         'Potencia MW': new FormControl('', Validators.required),
         'Perdida en MW': new FormControl('', Validators.required),
@@ -65,7 +65,7 @@ export class SafeNewEventComponent implements OnInit {
         'BT': new FormControl('', Validators.required),
         'MEM': new FormControl('', Validators.required),
         'MW Ofertados': new FormControl('', Validators.required),
-        'Servicios Conexo': new FormControl('', Validators.required),
+        'Servicios Conexos': new FormControl('', Validators.required),
       });
 
       this.observationsForm = this.fb.group({
