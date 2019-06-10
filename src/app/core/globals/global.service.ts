@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class GlobalService {
   aguila:boolean = true;
 
-  plantaDefaultId = "82";
+  plantaDefaultId = "65";
 
   constructor() { }
 }
