@@ -69,6 +69,9 @@ export class MockUpHomeComponent implements OnInit {
 
   }
   
+  toggleMenu() {
+    this.eventService.sendLinkMockUp(new EventMessage(1, null));
+  }
   clickMenu0(item) {
     console.log(item);
     let option = 0;
