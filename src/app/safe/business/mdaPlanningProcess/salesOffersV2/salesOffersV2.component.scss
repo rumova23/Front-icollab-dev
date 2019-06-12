@@ -1,0 +1,60 @@
+@font-face {
+    font-family: "Font Awesome 5 Free";
+    src:url("node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff");
+  }
+
+.click{
+    cursor: pointer;
+}
+.week{
+    transition: 0.5s;
+}
+.titleweek{
+    font-size: 25px;
+    margin: 10px;
+}
+.titleweek p{
+    margin: auto;
+}
+.titleday{
+    text-align: center;
+}
+.offer{
+    margin-top: 3px;
+    margin-bottom: 3px;
+    cursor: pointer;
+    padding: 5px;
+}
+.offer.realized{
+    background: #85ce36;
+    border-radius: 5px;
+
+}
+.offer.unrealized{
+    background: #FC4649;
+    border-radius: 5px;
+
+}
+.offer.toDo{
+    background: #42c2e2;
+    border-radius: 5px;
+
+}
+
+.offer.realized .icon::before {
+    font-family: 'Font Awesome 5 Free';
+    content: "\f00c";
+    color: white;
+}
+
+.offer.unrealized .icon::before {
+    font-family: 'Font Awesome 5 Free';
+    content: "\f00d";
+    color: white;
+}
+
+.offer.toDo .icon::before {
+    font-family: 'Font Awesome 5 Free';
+    content: "\f141";
+    color: white;
+}

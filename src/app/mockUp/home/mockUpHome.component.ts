@@ -11,6 +11,7 @@ import { HeatRateRecordComponent } from 'src/app/safe/business/mdaPlanningProces
 import { SalesOffersComponent } from 'src/app/safe/business/mdaPlanningProcess/salesOffers/salesOffers.component';
 import { ClientsComponent } from 'src/app/safe/admin/clients/clients.component';
 import { SafeNewEventComponent } from 'src/app/safe/business/logBook/newEvent/safeNewEvent.component';
+import { SalesOffersV2Component } from 'src/app/safe/business/mdaPlanningProcess/salesOffersV2/salesOffersV2.component';
 
 @Component({
   selector: 'app-mockUpHome',
@@ -18,7 +19,7 @@ import { SafeNewEventComponent } from 'src/app/safe/business/logBook/newEvent/sa
   styleUrls: ['./mockUpHome.component.scss'],
   entryComponents: [
     PlannedPowersPPAComponent, HeatRateRecordComponent, SalesOffersComponent, ClientsComponent,
-    LegalAgreementComponent, SafeNewEventComponent,DashboardAComponent
+    LegalAgreementComponent, SafeNewEventComponent,DashboardAComponent,SalesOffersV2Component
   ]
 })
 export class MockUpHomeComponent implements OnInit {
@@ -31,10 +32,11 @@ export class MockUpHomeComponent implements OnInit {
             {label:'planned-powers-ppa'},
             {label:'heat-rate-record'},
             {label:'sales-offers'},
+            {label:'sales-offers-V2'},
             {label:'registration-customer'},
-            {label: 'Legal-Compliance'},
-            {label: 'New Event'},
-            {label: 'Monitoreo nivel 2'}
+            {label:'Legal-Compliance'},
+            {label:'New Event'},
+            {label:'Monitoreo nivel 2'}
 
           ]
         },
@@ -104,6 +106,10 @@ export class MockUpHomeComponent implements OnInit {
             option = 9;
             data = item;
             break;  
+        case 'sales-offers-V2':
+            option = 10;
+            data = item;
+            break;  
 
             
     }
@@ -156,6 +162,13 @@ export class MockUpHomeComponent implements OnInit {
           const refDashboard =
           this.viewContainerRef.createComponent(factoryDashboard);
           refDashboard.changeDetectorRef.detectChanges();
+          break;
+          
+        case 10:
+          const factorySalesOffersV2 = this.componentFactoryResolver.resolveComponentFactory(SalesOffersV2Component);
+          const refSalesOffersV2 =
+          this.viewContainerRef.createComponent(factorySalesOffersV2);
+          refSalesOffersV2.changeDetectorRef.detectChanges();
           break;
 
             

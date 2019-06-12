@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { MDBBootstrapModule, DropdownModule } from 'angular-bootstrap-md';
 import { BlockUIModule } from 'ng-block-ui';
 
@@ -97,9 +97,14 @@ import { PerfilHomeComponent } from './compliance/business/perfil/home/perfilHom
 import { MockUpHomeComponent } from './mockUp/home/mockUpHome.component';
 import { MockUpHeaderComponent } from './mockUp/comun/header/mockUpHeader.component';
 import { MatPaginatorIntlSpanish } from './core/helpers/apanishPaginatorIntl';
+import { SalesOffersV2Component } from './safe/business/mdaPlanningProcess/salesOffersV2/salesOffersV2.component';
+import { registerLocaleData } from '@angular/common';
 
 
+import localePy from '@angular/common/locales/es-PY';
 
+
+registerLocaleData(localePy, 'es');
 
 @NgModule({
   declarations: [
@@ -177,6 +182,7 @@ import { MatPaginatorIntlSpanish } from './core/helpers/apanishPaginatorIntl';
     PlannedPowersPPAComponent,
     HeatRateRecordComponent,
     SalesOffersComponent,
+    SalesOffersV2Component,
     SafeNewEventComponent,
 
   ],
@@ -210,7 +216,8 @@ import { MatPaginatorIntlSpanish } from './core/helpers/apanishPaginatorIntl';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     ConfirmationDialogService,
     EventService,
-    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlSpanish }
+    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlSpanish },
+    { provide: LOCALE_ID, useValue: 'es' } 
   ],
   entryComponents: [ ConfirmationDialogComponent ],
   bootstrap: [AppComponent]
