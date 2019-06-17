@@ -97,7 +97,7 @@ export class CatalogGenericEditComponent implements OnInit {
               this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
             },
             errorData => {
-              this.toastr.errorToastr(Constants.ERROR_SAVE, '');
+              this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
             });
         break;
       case 'typeProduct':
@@ -107,7 +107,7 @@ export class CatalogGenericEditComponent implements OnInit {
               this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
             },
             errorData => {
-              this.toastr.errorToastr(Constants.ERROR_SAVE, '');
+              this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
             });
         break;
       case 'paymentCondition':
@@ -117,7 +117,7 @@ export class CatalogGenericEditComponent implements OnInit {
               this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
             },
             errorData => {
-              this.toastr.errorToastr(Constants.ERROR_SAVE, '');
+              this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
             });
         break;
       case 'typePerson':
@@ -127,7 +127,7 @@ export class CatalogGenericEditComponent implements OnInit {
               this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
             },
             errorData => {
-              this.toastr.errorToastr(Constants.ERROR_SAVE, '');
+              this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
             });
         break;
       case 'typeClient':
@@ -137,7 +137,7 @@ export class CatalogGenericEditComponent implements OnInit {
               this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
             },
             errorData => {
-              this.toastr.errorToastr(Constants.ERROR_SAVE, '');
+              this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
             });
         break;
       case 'country':
@@ -147,7 +147,7 @@ export class CatalogGenericEditComponent implements OnInit {
               this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
             },
             errorData => {
-              this.toastr.errorToastr(Constants.ERROR_SAVE, '');
+              this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
             });
         break;
       case 'bank':
@@ -157,7 +157,7 @@ export class CatalogGenericEditComponent implements OnInit {
               this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
             },
             errorData => {
-              this.toastr.errorToastr(Constants.ERROR_SAVE, '');
+              this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
             });
         break;
     }

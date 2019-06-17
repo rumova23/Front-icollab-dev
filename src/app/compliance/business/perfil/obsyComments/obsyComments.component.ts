@@ -47,11 +47,11 @@ export class ObsyCommentsComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.obsForm.invalid) {
-      this.toastr.errorToastr('Error, Debe de escribir un comentario.', 'Oops!');
+      this.toastr.errorToastr('Error, Debe de escribir un comentario.', 'Lo siento,');
       return;
     }
     this.guardarObserv();
-    this.toastr.successToastr('Observacion enviada satisfactoriamente.', 'Success!');
+    this.toastr.successToastr('Observacion enviada satisfactoriamente.', '¡Se ha logrado!');
   }
 
   resuelveDS(comenta) {

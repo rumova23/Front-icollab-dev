@@ -55,7 +55,7 @@ export class CatalogGenericComponent implements OnInit {
               this.generics = data.resultado;
             },
             errorData => {
-              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Sistemas');
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
             });
         break;
       case 'typeProduct':
@@ -65,7 +65,7 @@ export class CatalogGenericComponent implements OnInit {
               this.generics = data.resultado;
             },
             errorData => {
-              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Tipos de Producto');
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
             });
         break;
       case 'paymentCondition':
@@ -75,7 +75,7 @@ export class CatalogGenericComponent implements OnInit {
               this.generics = data.resultado;
             },
             errorData => {
-              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Condiciones de Pago');
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
             });
         break;
       case 'typePerson':
@@ -85,7 +85,7 @@ export class CatalogGenericComponent implements OnInit {
               this.generics = data.resultado;
             },
             errorData => {
-              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Tipos de Persona');
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
             });
         break;
       case 'typeClient':
@@ -95,7 +95,7 @@ export class CatalogGenericComponent implements OnInit {
               this.generics = data.resultado;
             },
             errorData => {
-              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Tipos de Client');
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
             });
         break;
         case 'country':
@@ -105,7 +105,7 @@ export class CatalogGenericComponent implements OnInit {
                   this.generics = data.resultado;
                 },
                 errorData => {
-                  this.toastr.errorToastr(Constants.ERROR_LOAD, 'Países');
+                  this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
                 });
             break;
           case 'bank':
@@ -115,7 +115,7 @@ export class CatalogGenericComponent implements OnInit {
                     this.generics = data.resultado;
                   },
                   errorData => {
-                    this.toastr.errorToastr(Constants.ERROR_LOAD, 'Bancos');
+                    this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
                   });
               break;    
     }

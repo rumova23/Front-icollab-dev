@@ -59,7 +59,7 @@ export class UnityProductsComponent implements OnInit {
         },
         errorData => {
           console.log(errorData);
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Unidas de Producto Sat');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
 
         });
   }
@@ -71,7 +71,7 @@ export class UnityProductsComponent implements OnInit {
           this.unityProducts = data.resultado;
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Unidas de Producto');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
         });
   }
 

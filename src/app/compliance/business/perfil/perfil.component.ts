@@ -151,7 +151,7 @@ export class PerfilComponent implements OnInit {
       let f = group.controls[fNaci];
       let t = group.controls[fStartJob];
       if (f.value > t.value) {
-        this.toastr.errorToastr('Fecha de nacimiento no puede ser superior a fecha de Inicio Laboral.', 'Oops!');
+        this.toastr.errorToastr('Fecha de nacimiento no puede ser superior a fecha de Inicio Laboral.', 'Lo siento,');
         return {
           dates: 'Date from should be less than Date to'
         };
@@ -182,7 +182,7 @@ export class PerfilComponent implements OnInit {
       respuesta => {
           console.dir(respuesta);
           if ( respuesta.exito === 1) {
-              this.toastr.successToastr('Perfil de empleado creado satisfactoriamente.', 'Success!');
+              this.toastr.successToastr('Perfil de empleado creado satisfactoriamente.', '¡Se ha logrado!');
           }
       });
   }

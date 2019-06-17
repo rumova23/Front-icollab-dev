@@ -83,7 +83,7 @@ export class UsersEditComponent implements OnInit {
         console.log(this.roles);
       },
       errorData => {
-        this.toastr.errorToastr(Constants.ERROR_LOAD, 'Roles');
+        this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
       });
   }
 
@@ -119,7 +119,7 @@ export class UsersEditComponent implements OnInit {
           this.eventService.sendMainSecurity(new EventMessage(3, null));
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Guardar Usuario');
+          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
         });
   }
 

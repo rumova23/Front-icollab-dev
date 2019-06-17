@@ -119,7 +119,7 @@ export class ActivitiesComponent implements OnInit {
           this.obtenerListaActividades();
           this.toastr.successToastr(res.mensaje, '¡Se ha logrado!');
         }else{
-          this.toastr.errorToastr(res.mensaje, 'Success!');
+          this.toastr.errorToastr(res.mensaje, 'Lo siento,');
         }
       },
       error => {

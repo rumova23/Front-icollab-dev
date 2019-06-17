@@ -85,7 +85,7 @@ export class GrantsEditComponent implements OnInit {
         }
       },
       errorData => {
-        this.toastr.errorToastr(Constants.ERROR_SAVE, '');
+        this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
       });
   }
 
@@ -125,7 +125,7 @@ export class GrantsEditComponent implements OnInit {
     this.grant = value;
     if(!this.grant.isFather 
       && !Validate(this.grant.father)) {
-        this.toastr.errorToastr('Seleccione un padre', '');
+        this.toastr.errorToastr('Seleccione un padre', 'Lo siento,');
         return;
     }
     this.grant.id = (this.grantSelected !== null && this.grantSelected !== undefined &&
@@ -142,7 +142,7 @@ export class GrantsEditComponent implements OnInit {
           this.eventService.sendMainSecurity(new EventMessage(7, null));
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_SAVE, '');
+          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
         });
   }
 

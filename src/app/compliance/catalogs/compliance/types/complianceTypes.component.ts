@@ -101,7 +101,7 @@ export class ComplianceTypesComponent implements OnInit {
         },
         errorData => {
           console.log(errorData);
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Usuarios');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
           this.addBlock(2,null)
         });
   }

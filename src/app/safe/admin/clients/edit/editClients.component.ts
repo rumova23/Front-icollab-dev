@@ -226,7 +226,7 @@ export class EditClientsComponent implements OnInit {
           }
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Datos de Clientes');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
         });
   }
 
@@ -294,7 +294,7 @@ export class EditClientsComponent implements OnInit {
         },
         errorData => {
           console.log(errorData);
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Client');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
         });
   }
 
@@ -324,7 +324,7 @@ export class EditClientsComponent implements OnInit {
           }
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Estados');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
         });
   }
 
@@ -368,15 +368,15 @@ export class EditClientsComponent implements OnInit {
 
   save(value) {
     if (!Validate(this.clientAccounts) || this.clientAccounts.length === 0) {
-      this.toastr.errorToastr("Las cuentas del cliente no pueden ser vacías", 'Cuentas del cliente');
+      this.toastr.errorToastr("Las cuentas del cliente no pueden ser vacías", 'Lo siento,');
       return;
     }
     if (!Validate(this.clientContacts) || this.clientContacts.length === 0) {
-      this.toastr.errorToastr("Los contactos del cliente no pueden ser vaciós", 'Contactos del cliente');
+      this.toastr.errorToastr("Los contactos del cliente no pueden ser vaciós", 'Lo siento,');
       return;
     }
     if (!Validate(this.clientProducts) || this.clientProducts.length === 0) {
-      this.toastr.errorToastr("Los productos del cliente no pueden ser vaciós", 'Prouctos del cliente');
+      this.toastr.errorToastr("Los productos del cliente no pueden ser vaciós", 'Lo siento,');
       return;
     }
     this.client = {};
@@ -439,7 +439,7 @@ export class EditClientsComponent implements OnInit {
           this.eventService.sendMainSafe(new EventMessage(7, {}));
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Clientes');
+          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
         });
   }
 }

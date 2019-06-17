@@ -114,11 +114,11 @@ export class BehaviorComponent implements OnInit {
       this.onSubmit();
       this.preguntas.terminaExamen(this.examenReservacionId).subscribe(
           respuesta => {
-            this.toastr.successToastr('Se Actualizo a examen Finalizado. Para examen sicometrico', 'Exito!');
+            this.toastr.successToastr('Se Actualizo a examen Finalizado. Para examen sicometrico', '¡Se ha logrado!');
           }
       );
     } else {
-      this.toastr.errorToastr('Para terminar el examen, Todas las preguntas deben contestarse.', '!Oops.');
+      this.toastr.errorToastr('Para terminar el examen, Todas las preguntas deben contestarse.', 'Lo siento,');
     }
   }
 }

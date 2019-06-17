@@ -81,7 +81,7 @@ export class ProductsEditComponent implements OnInit {
           }
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Datos de Productos');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
         });
   }
 
@@ -124,7 +124,7 @@ export class ProductsEditComponent implements OnInit {
           this.eventService.sendMainSafe(new EventMessage(3, null));
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_SAVE, '');
+          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
         });
   }
 

@@ -48,7 +48,7 @@ export class RolesComponent implements OnInit {
           this.loadApps();
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Roles');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
         });
   }
 

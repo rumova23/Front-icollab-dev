@@ -58,7 +58,7 @@ export class ClientsComponent implements OnInit {
           this.clients = data.resultado;
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clients');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
         });
   }
 

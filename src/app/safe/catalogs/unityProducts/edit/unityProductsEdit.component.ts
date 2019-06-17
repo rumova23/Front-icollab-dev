@@ -75,7 +75,7 @@ export class UnityProductsEditComponent implements OnInit {
         },
         errorData => {
           console.log(errorData);
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Unidas de Producto');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
 
         });
   }
@@ -102,7 +102,7 @@ export class UnityProductsEditComponent implements OnInit {
           this.eventService.sendMainSafe(new EventMessage(5, null));
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_SAVE, '');
+          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
         });
   }
 
