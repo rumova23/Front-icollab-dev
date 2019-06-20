@@ -110,11 +110,7 @@ export class ProductsEditComponent implements OnInit {
               });
         },
         errorData => {
-<<<<<<< HEAD
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Catálogos');
-=======
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
->>>>>>> 01a98dbff4d99c015129d1dd3e2bcc21d0dfa92e
         });
   }
 

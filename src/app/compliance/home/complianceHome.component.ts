@@ -53,16 +53,12 @@ export class ComplianceHomeComponent implements OnInit {
   }
 
   ngOnInit() {
-<<<<<<< HEAD
     this.eventService.sendMainCompliance(new EventMessage(
       11, {
         idEmpleado: 1,
         tipo:'Editar'
       }
     ));
-=======
-    setTimeout(() => this.periodo(), 5000);
->>>>>>> 01a98dbff4d99c015129d1dd3e2bcc21d0dfa92e
   }
 
   private periodo(){

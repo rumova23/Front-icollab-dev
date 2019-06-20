@@ -76,7 +76,6 @@ export class SafeHomeComponent implements OnInit {
   }
 
   ngOnInit() {
-<<<<<<< HEAD
 
     /*
     this.eventService.sendMainSafe(new EventMessage(18, {
@@ -103,9 +102,6 @@ export class SafeHomeComponent implements OnInit {
     this.eventService.sendMainSafe(new EventMessage(12, {
     })); */
 
-=======
-    //this.eventService.sendMainSafe(new EventMessage(101, {}));
->>>>>>> 01a98dbff4d99c015129d1dd3e2bcc21d0dfa92e
   }
 
   private clickMenu(event: EventMessage): void {
