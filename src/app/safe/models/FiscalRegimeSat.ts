@@ -1,8 +1,8 @@
-export interface UseCfdi {
+export interface FiscalRegimeSat {
     id?,
     name?,
+    code?,
     active?,
-    save?,
     forPhysicalPerson?,
     forMoralPerson?,
 }

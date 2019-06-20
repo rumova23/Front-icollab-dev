@@ -52,19 +52,24 @@
                                 The actual rendered columns are set as a property on the row definition" -->
 
                 <!-- Position Column -->
-                <ng-container matColumnDef="nodo">
-                    <th mat-header-cell *matHeaderCellDef> Nodo. </th>
-                    <td mat-cell *matCellDef="let element"> {{element.nodo}} </td>
+                <ng-container matColumnDef="node">
+                    <th mat-header-cell *matHeaderCellDef> Nodo </th>
+                    <td mat-cell *matCellDef="let element"> {{element.node}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="fecha">
-                    <th mat-header-cell *matHeaderCellDef> Fecha. </th>
-                    <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+                <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef> Fecha </th>
+                    <td mat-cell *matCellDef="let element"> {{element.date}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="hora">
-                    <th mat-header-cell *matHeaderCellDef> Hora. </th>
-                    <td mat-cell *matCellDef="let element"> {{element.hora}} </td>
+                <ng-container matColumnDef="process">
+                    <th mat-header-cell *matHeaderCellDef> Proceso </th>
+                    <td mat-cell *matCellDef="let element"> {{element.process}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="hour">
+                    <th mat-header-cell *matHeaderCellDef> Hora </th>
+                    <td mat-cell *matCellDef="let element"> {{element.hour}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="pml">
@@ -72,19 +77,19 @@
                     <td mat-cell *matCellDef="let element"> {{element.pml}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="pml_ene">
+                <ng-container matColumnDef="pmlEne">
                     <th mat-header-cell *matHeaderCellDef> Componente de Energía. </th>
-                    <td mat-cell *matCellDef="let element"> {{element.pml_ene}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.pmlEne}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="pml_per">
-                    <th mat-header-cell *matHeaderCellDef> Componente de Pédidas. </th>
-                    <td mat-cell *matCellDef="let element"> {{element.pml_per}} </td>
+                <ng-container matColumnDef="pmlPer">
+                    <th mat-header-cell *matHeaderCellDef> Componente de Pérdidas. </th>
+                    <td mat-cell *matCellDef="let element"> {{element.pmlPer}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="pml_cng">
+                <ng-container matColumnDef="pmlCng">
                     <th mat-header-cell *matHeaderCellDef> Componente de Congestión. </th>
-                    <td mat-cell *matCellDef="let element"> {{element.pml_cng}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.pmlCng}} </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -7,6 +7,8 @@ export class Constants {
     
     public static LOADING_MEESSAGE: string = "Por favor espere...";
 
+    public static DATE_FORMAT_PLANT = "YYYY-MM-DD";
+
     public static OPTIONS = {
         path: '/socketcluster/',
         hostname: 'localhost',

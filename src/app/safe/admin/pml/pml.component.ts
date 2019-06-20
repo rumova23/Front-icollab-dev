@@ -17,8 +17,8 @@ import { Constants } from 'src/app/core/globals/Constants';
   styleUrls: ['./pml.component.scss']
 })
 export class PmlComponent implements OnInit {
-  displayedColumns: string[] = ['nodo', 
-  'fecha', 'hora', 'pml', 'pml_ene', 'pml_per', 'pml_cng'];
+  displayedColumns: string[] = ['node', 
+  'date', 'process','hour', 'pml', 'pmlEne', 'pmlPer', 'pmlCng'];
   dataSource = new MatTableDataSource<Pml>();
   process: any[] = [
     {key: 'MDA', value: 'Mercado del Día en Adelanto'},
@@ -49,25 +49,9 @@ export class PmlComponent implements OnInit {
     this.addBlock(1, null);
     this.marketService.getPmls(data).subscribe(
         dataP => {
-          const data = [];
-          for(let i = 0; i < dataP.resultado.length; i++) {
-            const valores = dataP.resultado[i].valores;
-            for(let a = 0; a< valores.length; a++) {
-              data.push(new Pml(
-                dataP.resultado[i].nodo,
-                dataP.resultado[i].fecha,
-                valores[a].hora,
-                valores[a].pml,
-                valores[a].pml_ene,
-                valores[a].pml_per,
-                valores[a].pml_cng,
-              ));
-            }
-          }
-          console.log(data.length);
-          this.dataSource.data = data;
+          this.dataSource.data = dataP.result;
           if(data.length === 0) {
-            this.toastr.warningToastr('No hay datos para mostrart')
+            this.toastr.warningToastr('No hay datos para mostrar')
           }
           this.addBlock(2, null);
         },

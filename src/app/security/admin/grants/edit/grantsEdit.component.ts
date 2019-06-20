@@ -65,7 +65,7 @@ export class GrantsEditComponent implements OnInit {
     this.securityService.loadFathers()
     .subscribe(
       data => {
-        this.fathersAll = data.resultado;
+        this.fathersAll = data.result;
         this.fathers = this.fathersAll;
         if (this.entity.readOnly) {
           this.grantSelected.app = this.apps.filter(app => app.id === 

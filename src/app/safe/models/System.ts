@@ -1,6 +1,8 @@
 export interface System {
     id?,
-    name?,
+    code?,
+    description?,
     active?,
+    order?,
     save?,
 }

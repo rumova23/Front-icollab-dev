@@ -147,6 +147,10 @@ export class SecurityService {
     return this.http.get(environment.securityUrl + 'user/list');
   }
 
+  getUser(idUser): Observable<any> {
+    return this.http.get(environment.securityUrl + 'user/get/' + idUser);
+  }
+
   loadRoles(): Observable<any> {
     return this.http.get(environment.securityUrl + 'role/list');
   }
@@ -158,6 +162,10 @@ export class SecurityService {
   loadPlants() {
     return JSON.parse(localStorage.getItem('user')).plants;
     //return this.http.get(environment.securityUrl + 'plant/list');
+  }
+
+  getPlant(idPlant):Observable<any> {
+    return this.http.get(environment.securityUrl + 'plant/get/' + idPlant);
   }
 
   loadApps() {

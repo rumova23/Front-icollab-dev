@@ -1,0 +1,23 @@
+export interface InvoiceProduct {
+    id?,
+    save?,
+    quantity?;
+    unitValue?,
+    discount?,
+    amount?
+    mw?,
+    percentageIva?,
+    amountIva?,
+    taxiKey?,
+    typeFactor?,
+    base?,
+    rateQuota?,
+    idTypeDocument?,
+    idDocumentControl?,
+    idDocumentControlDetail?,
+    unityText?,
+    unityKey?,
+    codeClient?,
+    folioUnique?,
+    concept?
+}

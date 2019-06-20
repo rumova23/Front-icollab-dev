@@ -1,0 +1,45 @@
+<div class="p-5">
+  <!-- Titulo -->
+  <div class=" row">
+    <div class="col">
+      <span class="agila-cda-titulo">Monedas</span>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col">
+      <div class="tabla-responsi mat-elevation-z8">
+        <table mat-table [dataSource]="moneysSat" class="table_catalogo">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef class="txt-center"> # </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+          </ng-container>
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Código </th>
+            <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Nombre </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="active">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Estatus</th>
+            <td mat-cell *matCellDef="let element"> {{getStatus(element)}} </td>
+          </ng-container>
+          <ng-container matColumnDef="decimals">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Decimales: </th>
+            <td mat-cell *matCellDef="let element"> {{element.decimals}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="percentageVariation">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Porcentaje de Variación: </th>
+            <td mat-cell *matCellDef="let element"> {{element.percentageVariation}} </td>
+          </ng-container>
+          <!-- header -->
+          <tr mat-header-row *matHeaderRowDef="cols"></tr>
+          <tr mat-row *matRowDef="let row; columns: cols;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

@@ -84,7 +84,6 @@ import { SafeLinkMockUp } from './safe/links-mock-up/safeLinkMockUp';
 import { ClientsComponent } from './safe/admin/clients/clients.component';
 import { UnityProductsComponent } from './safe/catalogs/unityProducts/unityProducts.component';
 import { UnityProductsEditComponent } from './safe/catalogs/unityProducts/edit/unityProductsEdit.component';
-import { EditClientsComponent } from './safe/admin/clients/edit/editClients.component';
 import { CatalogGenericComponent } from './safe/catalogs/generic/catalogGeneric.component';
 import { CatalogGenericEditComponent } from './safe/catalogs/generic/edit/catalogGenericEdit.component';
 import { PmlComponent } from './safe/admin/pml/pml.component';
@@ -95,6 +94,25 @@ import { PlannedPowersPPAComponent } from './safe/business/mdaPlanningProcess/pl
 import { HeatRateRecordComponent } from './safe/business/mdaPlanningProcess/heatRateRecord/heatRateRecord.component';
 import { SalesOffersComponent } from './safe/business/mdaPlanningProcess/salesOffers/salesOffers.component';
 import { PerfilHomeComponent } from './compliance/business/perfil/home/perfilHome.component';
+import { PlantsComponent } from './safe/admin/plants/plants.component';
+import { FiscalRegimensSatComponent } from './safe/catalogsSat/fiscalRegimeSat/fiscalRegimensSat.component';
+import { MoneysSatComponent } from './safe/catalogsSat/moneysSat/moneysSat.component';
+import { PaymentMethodsSatComponent } from './safe/catalogsSat/paymentMethodsSat/paymentMethodsSat.component';
+import { PaymentWaysSatComponent } from './safe/catalogsSat/paymentWaysSat/paymentWaysSat.component';
+import { ProductsSatComponent } from './safe/catalogsSat/productsSat/productsSat.component';
+import { RatesIvaSatComponent } from './safe/catalogsSat/ratesIvaSat/ratesIvaSat.component';
+import { UnityProductsSatComponent } from './safe/catalogsSat/unityProductsSat/unityProductsSat.component';
+import { UsesCfdiSatComponent } from './safe/catalogsSat/usesCfdiSat/usesCfdiSat.component';
+import { TypesRelationSatComponent } from './safe/catalogsSat/typesRelationSat/typesRelationSat.component';
+import { StatesComponent } from './safe/catalogs/states/states.component';
+import { StatesEditComponent } from './safe/catalogs/states/edit/statesEdit.component';
+import { MoneysComponent } from './safe/catalogs/moneys/moneys.component';
+import { MoneysEditComponent } from './safe/catalogs/moneys/edit/moneysEdit.component';
+import { BranchInvoiceSeriesComponent } from './safe/admin/branchInvoiceSeries/branchInvoiceSeries.component';
+import { BranchInvoiceSeriesEditComponent } from './safe/admin/branchInvoiceSeries/edit/branchInvoiceSeriesEdit.component';
+import { EditClientsComponent } from './safe/admin/clients/edit/clientsEdit.component';
+import { EditPlantsComponent } from './safe/admin/plants/edit/plantsEdit.component';
+import { InvoicesEditComponent } from './safe/admin/invoices/edit/invoicesEdit.component';
 
 
 
@@ -168,6 +186,25 @@ import { PerfilHomeComponent } from './compliance/business/perfil/home/perfilHom
     PmlComponent,
     WeatherComponent,
     PerfilHomeComponent,
+    PlantsComponent,
+    EditPlantsComponent,
+    FiscalRegimensSatComponent,
+    MoneysSatComponent,
+    PaymentMethodsSatComponent,
+    PaymentWaysSatComponent,
+    ProductsSatComponent,
+    RatesIvaSatComponent,
+    UnityProductsSatComponent,
+    UsesCfdiSatComponent,
+    TypesRelationSatComponent,
+    StatesComponent,
+    StatesEditComponent,
+    MoneysComponent,
+    MoneysEditComponent,
+    BranchInvoiceSeriesComponent,
+    BranchInvoiceSeriesEditComponent,
+    InvoicesEditComponent,
+
 
     SafeLinkMockUp,
     PlannedPowersPPAComponent,

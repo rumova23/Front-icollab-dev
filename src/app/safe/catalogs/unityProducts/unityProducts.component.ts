@@ -2,12 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { ToastrManager } from 'ng6-toastr-notifications';
-import { MarketService } from '../../services/market.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { UnityProductSat } from '../../models/UnityProductSat';
 import { Constants } from 'src/app/core/globals/Constants';
 import { UnityProduct } from '../../models/UnityProduct';
+import { CatalogService } from 'src/app/core/services/catalog.service';
 
 
 @Component({
@@ -26,22 +26,21 @@ export class UnityProductsComponent implements OnInit {
   ];
   filterBtn = { label: "buscar" };
   rowsPorPage = [50, 100, 250, 500];
-  unityProductsSat: Array<UnityProductSat>
-  unityProducts: Array<UnityProduct>
+  unityProducts: Array<UnityProduct>;
   count: number;
   constructor(
-    private marketService: MarketService,
     public toastr: ToastrManager,
     private eventService: EventService,
     private globalService: GlobalService,
+    private catalogService: CatalogService
   ) { }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {
-    this.loadUnityProductsSat();
+    this.loadUnityProducts();
     this.cols = [
       'id',
-      'name',
+      'code',
       'description',
       "ver",
       "modificar"
@@ -49,26 +48,12 @@ export class UnityProductsComponent implements OnInit {
     this.loading = false;
   }
 
-  loadUnityProductsSat() {
-    this.marketService.loadUnityProductsSat(2)
-      .subscribe(
-        data => {
-          this.unityProductsSat = data.resultado;
-          console.log(this.unityProductsSat);
-          this.loadUnityProducts();
-        },
-        errorData => {
-          console.log(errorData);
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Unidas de Producto Sat');
-
-        });
-  }
-
   loadUnityProducts() {
-    this.marketService.loadUnityProducts(2)
+    this.catalogService.listUnityProduct(3)
       .subscribe(
         data => {
-          this.unityProducts = data.resultado;
+          this.unityProducts = data.result;
+          console.log(this.unityProducts);
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Unidas de Producto');

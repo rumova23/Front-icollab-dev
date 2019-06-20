@@ -16,6 +16,8 @@ export interface ClientFiscalData {
     idCountry?,
     state?,
     idState?,
+    colony?,
+    city?,
     location?,
     cp?,
     email?,

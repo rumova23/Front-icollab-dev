@@ -9,12 +9,30 @@ import { ChangePasswordComponent } from 'src/app/comun/changePassword/changePass
 import { UnityProductsComponent } from '../catalogs/unityProducts/unityProducts.component';
 import { UnityProductsEditComponent } from '../catalogs/unityProducts/edit/unityProductsEdit.component';
 import { ClientsComponent } from '../admin/clients/clients.component';
-import { EditClientsComponent } from '../admin/clients/edit/editClients.component';
 import { CatalogGenericComponent } from '../catalogs/generic/catalogGeneric.component';
 import { CatalogGenericEditComponent } from '../catalogs/generic/edit/catalogGenericEdit.component';
 import { Validate } from 'src/app/core/helpers/util.validator.';
 import { PmlComponent } from '../admin/pml/pml.component';
 import { WeatherComponent } from '../admin/weather/weather.component';
+import { PlantsComponent } from '../admin/plants/plants.component';
+import { FiscalRegimensSatComponent } from '../catalogsSat/fiscalRegimeSat/fiscalRegimensSat.component';
+import { MoneysSatComponent } from '../catalogsSat/moneysSat/moneysSat.component';
+import { PaymentMethodsSatComponent } from '../catalogsSat/paymentMethodsSat/paymentMethodsSat.component';
+import { PaymentWaysSatComponent } from '../catalogsSat/paymentWaysSat/paymentWaysSat.component';
+import { ProductsSatComponent } from '../catalogsSat/productsSat/productsSat.component';
+import { RatesIvaSatComponent } from '../catalogsSat/ratesIvaSat/ratesIvaSat.component';
+import { UnityProductsSatComponent } from '../catalogsSat/unityProductsSat/unityProductsSat.component';
+import { UsesCfdiSatComponent } from '../catalogsSat/usesCfdiSat/usesCfdiSat.component';
+import { TypesRelationSatComponent } from '../catalogsSat/typesRelationSat/typesRelationSat.component';
+import { StatesComponent } from '../catalogs/states/states.component';
+import { StatesEditComponent } from '../catalogs/states/edit/statesEdit.component';
+import { MoneysComponent } from '../catalogs/moneys/moneys.component';
+import { MoneysEditComponent } from '../catalogs/moneys/edit/moneysEdit.component';
+import { BranchInvoiceSeriesComponent } from '../admin/branchInvoiceSeries/branchInvoiceSeries.component';
+import { BranchInvoiceSeriesEditComponent } from '../admin/branchInvoiceSeries/edit/branchInvoiceSeriesEdit.component';
+import { EditClientsComponent } from '../admin/clients/edit/clientsEdit.component';
+import { EditPlantsComponent } from '../admin/plants/edit/plantsEdit.component';
+import { InvoicesEditComponent } from '../admin/invoices/edit/invoicesEdit.component';
 
 @Component({
   selector: 'app-safeHome',
@@ -24,7 +42,13 @@ import { WeatherComponent } from '../admin/weather/weather.component';
     ProductsComponent, ProductsEditComponent, ChangePasswordComponent,
     UnityProductsComponent, UnityProductsEditComponent, ClientsComponent,
     EditClientsComponent, CatalogGenericComponent, CatalogGenericEditComponent,
-    PmlComponent,WeatherComponent
+    PmlComponent, WeatherComponent, EditPlantsComponent, PlantsComponent,
+    FiscalRegimensSatComponent, MoneysSatComponent, PaymentMethodsSatComponent,
+    PaymentWaysSatComponent, ProductsSatComponent, RatesIvaSatComponent,
+    UnityProductsSatComponent, UsesCfdiSatComponent, TypesRelationSatComponent,
+    StatesComponent, StatesEditComponent, MoneysComponent, MoneysEditComponent,
+    BranchInvoiceSeriesComponent, BranchInvoiceSeriesEditComponent,
+    InvoicesEditComponent
   ]
 })
 export class SafeHomeComponent implements OnInit {
@@ -52,7 +76,32 @@ export class SafeHomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.eventService.sendMainSafe(new EventMessage(101, {}));
+
+    /*
+    this.eventService.sendMainSafe(new EventMessage(18, {
+      readOnly: false,
+      new: true,
+      edit: false
+    })); */
+
+    /*
+    this.eventService.sendMainSafe(new EventMessage(18, 'educationLevel'));
+    */
+
+  
+    this.eventService.sendMainSafe(new EventMessage(20, { 
+      readOnly:false,
+      new:true,
+      edit:false,
+      invoice: {
+      id:1,
+      name:"AGUILA"
+    }}));
+
+    /*
+    this.eventService.sendMainSafe(new EventMessage(12, {
+    })); */
+
   }
 
   private clickMenu(event: EventMessage): void {
@@ -69,7 +118,7 @@ export class SafeHomeComponent implements OnInit {
         const refProductsEdit =
           this.viewContainerRef.createComponent(factoryProductsEdit);
         refProductsEdit.instance.entity = event.data;
-        refProductsEdit.instance.productSelected = event.data.product;
+        refProductsEdit.instance.idProduct = event.data.product.id;
         refProductsEdit.changeDetectorRef.detectChanges();
         break;
       case 5:
@@ -97,7 +146,7 @@ export class SafeHomeComponent implements OnInit {
         const refEditClients =
           this.viewContainerRef.createComponent(factoryEditClients);
         refEditClients.instance.entity = event.data;
-        if(Validate(event.data.client)) {
+        if (Validate(event.data.client)) {
           refEditClients.instance.idClient = event.data.client.id;
         }
         refEditClients.changeDetectorRef.detectChanges();
@@ -119,11 +168,91 @@ export class SafeHomeComponent implements OnInit {
         refCatalogGenericEdit.changeDetectorRef.detectChanges();
         break;
       case 11:
-          const factoryPml= this.componentFactoryResolver.resolveComponentFactory(PmlComponent);
-          const refPml =
-            this.viewContainerRef.createComponent(factoryPml);
-            refPml.changeDetectorRef.detectChanges();
-          break;  
+        const factoryPml = this.componentFactoryResolver.resolveComponentFactory(PmlComponent);
+        const refPml =
+          this.viewContainerRef.createComponent(factoryPml);
+        refPml.changeDetectorRef.detectChanges();
+        break;
+      case 12:
+        const factoryPlants = this.componentFactoryResolver
+          .resolveComponentFactory(PlantsComponent);
+        const refPlants =
+          this.viewContainerRef.createComponent(factoryPlants);
+        refPlants.changeDetectorRef.detectChanges();
+        break;
+      case 13:
+        const factoryEditPlants = this.componentFactoryResolver
+          .resolveComponentFactory(EditPlantsComponent);
+        const refEditPlants =
+          this.viewContainerRef.createComponent(factoryEditPlants);
+        refEditPlants.instance.entity = event.data;
+        if (Validate(event.data.plant)) {
+          refEditPlants.instance.idPlant = event.data.plant.id;
+        }
+        refEditPlants.changeDetectorRef.detectChanges();
+        break;
+      case 14:
+        const factoryStates = this.componentFactoryResolver
+          .resolveComponentFactory(StatesComponent);
+        const refStates =
+          this.viewContainerRef.createComponent(factoryStates);
+        refStates.changeDetectorRef.detectChanges();
+        break;
+      case 15:
+        const factoryStatesEdit = this.componentFactoryResolver
+          .resolveComponentFactory(StatesEditComponent);
+        const refStatesEdit =
+          this.viewContainerRef.createComponent(factoryStatesEdit);
+        refStatesEdit.instance.entity = event.data;
+        refStatesEdit.instance.stateSelect = event.data.state;
+        refStatesEdit.changeDetectorRef.detectChanges();
+        break;
+      case 16:
+        const factoryMoneys = this.componentFactoryResolver
+          .resolveComponentFactory(MoneysComponent);
+        const refMoneys =
+          this.viewContainerRef.createComponent(factoryMoneys);
+        refMoneys.changeDetectorRef.detectChanges();
+        break;
+      case 17:
+        const factoryMoneysEdit = this.componentFactoryResolver
+          .resolveComponentFactory(MoneysEditComponent);
+        const refMoneysEdit =
+          this.viewContainerRef.createComponent(factoryMoneysEdit);
+        refMoneysEdit.instance.entity = event.data;
+        refMoneysEdit.instance.moneySelect = event.data.money;
+        refMoneysEdit.changeDetectorRef.detectChanges();
+        break;
+
+      case 18:
+          const factoryBrancheInvoiceSeries = this.componentFactoryResolver
+            .resolveComponentFactory(BranchInvoiceSeriesComponent);
+          const refBrancheInvoiceSeries =
+            this.viewContainerRef.createComponent(factoryBrancheInvoiceSeries);
+            refBrancheInvoiceSeries.changeDetectorRef.detectChanges();
+          break;
+        case 19:
+            const factoryBrancheInvoiceSeriesEdit = 
+            this.componentFactoryResolver.resolveComponentFactory(BranchInvoiceSeriesEditComponent);
+            const refBrancheInvoiceSeriesEdit =
+              this.viewContainerRef.createComponent(factoryBrancheInvoiceSeriesEdit);
+              refBrancheInvoiceSeriesEdit.instance.entity = event.data;
+              refBrancheInvoiceSeriesEdit.instance.branchOfficeInvoiceSerieSelected = 
+              event.data.branchOfficeInvoiceSerie;
+              refBrancheInvoiceSeriesEdit.changeDetectorRef.detectChanges();
+            break;
+
+          case 20:
+              const factoryInvoicesEdit = 
+              this.componentFactoryResolver.resolveComponentFactory(InvoicesEditComponent);
+              const refInvoicesEdit =
+                this.viewContainerRef.createComponent(factoryInvoicesEdit);
+                refInvoicesEdit.instance.entity = event.data;
+                refInvoicesEdit.instance.invoiceSelected = 
+                event.data.invoice;
+                refInvoicesEdit.changeDetectorRef.detectChanges();
+              break;    
+
       case 100:
         const factoryChangePasword =
           this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent);
@@ -132,15 +261,76 @@ export class SafeHomeComponent implements OnInit {
         refChangePasword.changeDetectorRef.detectChanges();
         break;
 
-        case 101:
-          const factoryWeather =
-            this.componentFactoryResolver.resolveComponentFactory(WeatherComponent);
-          const refWeather =
-            this.viewContainerRef.createComponent(factoryWeather);
-            refWeather.changeDetectorRef.detectChanges();
-          break;
-  
-
+      case 101:
+        const factoryWeather =
+          this.componentFactoryResolver.resolveComponentFactory(WeatherComponent);
+        const refWeather =
+          this.viewContainerRef.createComponent(factoryWeather);
+        refWeather.changeDetectorRef.detectChanges();
+        break;
+      case 201:
+        const factoryFiscalRegimensSat =
+          this.componentFactoryResolver.resolveComponentFactory(FiscalRegimensSatComponent);
+        const refFiscalRegimensSat =
+          this.viewContainerRef.createComponent(factoryFiscalRegimensSat);
+        refFiscalRegimensSat.changeDetectorRef.detectChanges();
+        break;
+      case 202:
+        const factoryMoneysSat =
+          this.componentFactoryResolver.resolveComponentFactory(MoneysSatComponent);
+        const refMoneysSat =
+          this.viewContainerRef.createComponent(factoryMoneysSat);
+        refMoneysSat.changeDetectorRef.detectChanges();
+        break;
+      case 203:
+        const factoryPaymentMethodsSat =
+          this.componentFactoryResolver.resolveComponentFactory(PaymentMethodsSatComponent);
+        const refaymentMethodsSat =
+          this.viewContainerRef.createComponent(factoryPaymentMethodsSat);
+        refaymentMethodsSat.changeDetectorRef.detectChanges();
+        break;
+      case 204:
+        const factoryPaymentWaysSat =
+          this.componentFactoryResolver.resolveComponentFactory(PaymentWaysSatComponent);
+        const refPaymentWaysSat =
+          this.viewContainerRef.createComponent(factoryPaymentWaysSat);
+        refPaymentWaysSat.changeDetectorRef.detectChanges();
+        break;
+      case 205:
+        const factoryProductsSat =
+          this.componentFactoryResolver.resolveComponentFactory(ProductsSatComponent);
+        const refProductsSat =
+          this.viewContainerRef.createComponent(factoryProductsSat);
+        refProductsSat.changeDetectorRef.detectChanges();
+        break;
+      case 206:
+        const factoryRatesIvaSat =
+          this.componentFactoryResolver.resolveComponentFactory(RatesIvaSatComponent);
+        const refRatesIvaSat =
+          this.viewContainerRef.createComponent(factoryRatesIvaSat);
+        refRatesIvaSat.changeDetectorRef.detectChanges();
+        break;
+      case 207:
+        const factoryUnityProductsSat =
+          this.componentFactoryResolver.resolveComponentFactory(UnityProductsSatComponent);
+        const refUnityProductsSat =
+          this.viewContainerRef.createComponent(factoryUnityProductsSat);
+        refUnityProductsSat.changeDetectorRef.detectChanges();
+        break;
+      case 208:
+        const factoryUsesCfdiSat =
+          this.componentFactoryResolver.resolveComponentFactory(UsesCfdiSatComponent);
+        const refUsesCfdiSat =
+          this.viewContainerRef.createComponent(factoryUsesCfdiSat);
+        refUsesCfdiSat.changeDetectorRef.detectChanges();
+        break;
+      case 209:
+        const factoryTypesRelationSat =
+          this.componentFactoryResolver.resolveComponentFactory(TypesRelationSatComponent);
+        const refTypesRelationSat =
+          this.viewContainerRef.createComponent(factoryTypesRelationSat);
+        refTypesRelationSat.changeDetectorRef.detectChanges();
+        break;
     }
   }
 

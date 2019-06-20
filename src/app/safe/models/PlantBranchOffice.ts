@@ -1,0 +1,22 @@
+export interface PlantBranchOffice {
+    id?,
+    idPlant?,
+    name?,
+    observations?,
+    logo1?,
+    logo2?,
+    logo3?
+    clientNumber?,
+    street?,
+    outdoorNumber?,
+    interiorNumber?,
+    idCountry?,
+    country?
+    idState?,
+    state?
+    colony?,
+    city?,
+    location?,
+    cp?,
+    edit?
+}

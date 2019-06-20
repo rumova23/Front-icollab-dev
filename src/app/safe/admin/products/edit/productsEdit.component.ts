@@ -4,16 +4,19 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 import { Router } from "@angular/router";
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { Entity } from 'src/app/core/models/Entity';
-import { User } from 'src/app/security/models/User';
 import { Product } from 'src/app/safe/models/Product';
 import { MarketService } from 'src/app/safe/services/market.service';
-import { TypeProduct } from 'src/app/safe/models/TypeProduct.';
 import { ProductSat } from 'src/app/safe/models/ProductSat';
 import { Constants } from 'src/app/core/globals/Constants';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { UnityProduct } from 'src/app/safe/models/UnityProduct';
-import { System } from 'src/app/safe/models/System';
+import { CatalogService } from 'src/app/core/services/catalog.service';
+import { CatalogOrder } from 'src/app/core/models/CatalogOrder';
+import { CatalogOrderGeneric } from 'src/app/core/models/CatalogOrderGeneric';
+import { CatalogOrderFind } from 'src/app/core/models/CatalogOrderFind';
+import { CatalogOrderSat } from 'src/app/core/models/CatalogOrderSat';
+import { CatalogOrderSatFind } from 'src/app/core/models/CatalogOrderSatFind';
 import { RateIvaSat } from 'src/app/safe/models/RateIvaSat';
 
 
@@ -26,25 +29,29 @@ import { RateIvaSat } from 'src/app/safe/models/RateIvaSat';
 export class ProductsEditComponent implements OnInit {
   productForm: FormGroup;
   entity: Entity;
+  idProduct: number;
   product: Product;
-  typesProduct: Array<TypeProduct>;
+  typesProduct: Array<CatalogOrderGeneric>;
   productsSat: Array<ProductSat>;
   unityProducts: Array<UnityProduct>;
-  systems: Array<System>;
+  systems: Array<CatalogOrderGeneric>;
   ratesIvaSat: Array<RateIvaSat>
   productSelected: Product;
   count: number;
+  catalogs: Array<CatalogOrder> = new CatalogOrderFind().product;
+  catalogsSat: Array<CatalogOrderSat> = new CatalogOrderSatFind().product;
   constructor(
     public toastr: ToastrManager,
     private router: Router,
     private fb: FormBuilder,
     private globalService: GlobalService,
     private marketService: MarketService,
+    private catalogService: CatalogService,
     private eventService: EventService
   ) { }
 
   ngOnInit() {
-    this.loadDataProducts();
+    this.loadCatalogs();
     this.productForm = this.fb.group({
       'code': new FormControl('', Validators.required),
       'name': new FormControl('', Validators.required),
@@ -63,39 +70,72 @@ export class ProductsEditComponent implements OnInit {
     });
   }
 
-  private loadDataProducts() {
-    this.marketService.loadDataProducts(1)
+  private loadCatalogs() {
+    this.catalogService.list(this.catalogs)
       .subscribe(
         data => {
-          this.typesProduct = data.resultado.typesProduct;
-          this.productsSat = data.resultado.productsSat;
-          this.unityProducts = data.resultado.unityProducts;
-          this.systems = data.resultado.systems;
-          this.ratesIvaSat = data.resultado.ratesIvaSat;
-          if (this.entity.readOnly) {
-            this.setData(1);
-          } else if (this.entity.edit) {
-            this.setData(2);
-          } else {
-            this.product = {} as Product;
-          }
+          console.log(data.result);
+          const result = data.result;
+          this.typesProduct = result.filter(entity =>
+            entity.catalog === 'typeProduct')[0].data;
+          this.systems = result.filter(entity =>
+            entity.catalog === 'sys')[0].data;
+          this.catalogService.listSat(this.catalogsSat)
+            .subscribe(
+              dat => {
+                const res = dat.result;
+                console.log(dat);
+                this.productsSat = res.filter(entity =>
+                  entity.catalog === 'product')[0].data;
+                this.ratesIvaSat = res.filter(entity =>
+                  entity.catalog === 'rateIva')[0].data;
+                this.catalogService.listUnityProduct(3)
+                  .subscribe(
+                    da => {
+                      this.unityProducts = da.result;
+                    },
+                    errorDa => {
+                      this.toastr.errorToastr(Constants.ERROR_LOAD, 'Unidad de productos');
+                    });
+                if (this.entity.readOnly) {
+                  this.setData(1);
+                } else if (this.entity.edit) {
+                  this.setData(2);
+                } else {
+                  this.product = {} as Product;
+                }
+              },
+              errorDat => {
+                this.toastr.errorToastr(Constants.ERROR_LOAD, 'Catálogos del Sat');
+              });
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Datos de Productos');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Catálogos');
         });
   }
 
   setData(option: number) {
-    this.productSelected.typeProduct = this.typesProduct.filter(entity =>
-      entity.id === this.productSelected.idTypeProduct)[0];
-    this.productSelected.productSat = this.productsSat.filter(entity =>
-      entity.id === this.productSelected.idProductSat)[0];
-    this.productSelected.unityProduct = this.unityProducts.filter(entity =>
-      entity.id === this.productSelected.idUnityProduct)[0];
-    this.productForm.patchValue(this.productSelected);
-    if (option == 1) {
-      this.productForm.disable();
-    }
+    this.marketService.getProduct(this.idProduct)
+      .subscribe(
+        data => {
+          this.productSelected = data.result;
+          this.productSelected.typeProduct = this.typesProduct.filter(entity =>
+            entity.id === this.productSelected.idTypeProduct)[0];
+          this.productSelected.productSat = this.productsSat.filter(entity =>
+            entity.id === this.productSelected.idProductSat)[0];
+          this.productSelected.unityProduct = this.unityProducts.filter(entity =>
+            entity.id === this.productSelected.idUnityProduct)[0];
+          this.productSelected.rateIvaSat = this.ratesIvaSat.filter(entity =>
+              entity.id === this.productSelected.idRateIvaSat)[0];
+          this.productForm.patchValue(this.productSelected);
+          if (option == 1) {
+            this.productForm.disable();
+          }
+        },
+        errorData => {
+          console.log(errorData);
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Client');
+        });
   }
 
   getTitle() {
@@ -104,7 +144,7 @@ export class ProductsEditComponent implements OnInit {
   }
 
   compareObjects(o1: any, o2: any): boolean {
-    return o1.name === o2.name && o1.id === o2.id;
+    return o1.code === o2.code && o1.id === o2.id;
   }
 
   save(value) {

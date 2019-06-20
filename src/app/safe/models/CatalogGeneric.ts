@@ -1,6 +1,9 @@
 export interface CatalogGeneric {
     id?,
-    name?,
+    code?,
+    description?,
+    order?,
+    catalog?,
     active?,
     save?,
 }

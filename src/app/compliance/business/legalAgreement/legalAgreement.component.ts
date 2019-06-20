@@ -78,7 +78,8 @@ export class LegalAgreementComponent implements OnInit {
   filtrarCompliance(){
     this.limpiarTablas();
 
-    this.complianceService.getCompliancePorPlantaYFechas( this.globalService.plantaDefaultId, new Date(this.fFechaInicio.value), new Date(this.fFechaFin.value)).subscribe(
+    this.complianceService.getCompliancePorPlantaYFechas( 
+      this.globalService.plantaDefaultId, new Date(this.fFechaInicio.value), new Date(this.fFechaFin.value)).subscribe(
       result => {
         console.log("PRIMERA TABLA");
         console.log(result);

@@ -2,10 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { ToastrManager } from 'ng6-toastr-notifications';
-import { MarketService } from '../../services/market.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { Constants } from 'src/app/core/globals/Constants';
+import { CatalogService } from 'src/app/core/services/catalog.service';
+import { CatalogGeneric } from '../../models/CatalogGeneric';
 
 
 @Component({
@@ -24,10 +25,10 @@ export class CatalogGenericComponent implements OnInit {
   ];
   filterBtn = { label: "buscar" };
   rowsPorPage = [50, 100, 250, 500];
-  generics: Array<any>;
+  generics: Array<CatalogGeneric>;
   catalog: string;
   constructor(
-    private marketService: MarketService,
+    private catalogService: CatalogService,
     public toastr: ToastrManager,
     private eventService: EventService,
     private globalService: GlobalService,
@@ -37,8 +38,9 @@ export class CatalogGenericComponent implements OnInit {
   ngOnInit() {
     this.cols = [
       'id',
-      'name',
-      'active',
+      'code',
+      'description',
+      'order',
       "ver",
       "modificar"
     ];
@@ -47,78 +49,17 @@ export class CatalogGenericComponent implements OnInit {
   }
 
   private loadData() {
-    switch (this.catalog) {
-      case 'sys':
-        this.marketService.loadSystems(2)
-          .subscribe(
-            data => {
-              this.generics = data.resultado;
-            },
-            errorData => {
-              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Sistemas');
-            });
-        break;
-      case 'typeProduct':
-        this.marketService.loadTypeProducts(2)
-          .subscribe(
-            data => {
-              this.generics = data.resultado;
-            },
-            errorData => {
-              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Tipos de Producto');
-            });
-        break;
-      case 'paymentCondition':
-        this.marketService.loadPaymentConditions(2)
-          .subscribe(
-            data => {
-              this.generics = data.resultado;
-            },
-            errorData => {
-              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Condiciones de Pago');
-            });
-        break;
-      case 'typePerson':
-        this.marketService.loadTypePersons(2)
-          .subscribe(
-            data => {
-              this.generics = data.resultado;
-            },
-            errorData => {
-              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Tipos de Persona');
-            });
-        break;
-      case 'typeClient':
-        this.marketService.loadTypeClients(2)
-          .subscribe(
-            data => {
-              this.generics = data.resultado;
-            },
-            errorData => {
-              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Tipos de Client');
-            });
-        break;
-        case 'country':
-            this.marketService.loadCountries(2)
-              .subscribe(
-                data => {
-                  this.generics = data.resultado;
-                },
-                errorData => {
-                  this.toastr.errorToastr(Constants.ERROR_LOAD, 'Países');
-                });
-            break;
-          case 'bank':
-              this.marketService.loadBanks(2)
-                .subscribe(
-                  data => {
-                    this.generics = data.resultado;
-                  },
-                  errorData => {
-                    this.toastr.errorToastr(Constants.ERROR_LOAD, 'Bancos');
-                  });
-              break;    
-    }
+    this.catalogService.get(this.catalog)
+    .subscribe(
+      data => {
+        console.log(data);
+        this.generics = data.result;
+      },
+      errorData => {
+        console.log(errorData);
+        this.toastr.errorToastr(Constants.ERROR_LOAD, 'Catálogos');
+
+      });
   }
 
   getTitle() {

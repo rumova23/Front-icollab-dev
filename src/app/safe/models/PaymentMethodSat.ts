@@ -1,8 +1,7 @@
-export interface PaymentWay {
+export interface PaymentMethodSat {
     id?,
     name?,
     code?,
     active?,
-    banked?,
     save?,
 }

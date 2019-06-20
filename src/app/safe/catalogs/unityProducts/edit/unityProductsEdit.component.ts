@@ -5,12 +5,12 @@ import { Router } from "@angular/router";
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { Entity } from 'src/app/core/models/Entity';
 import { Product } from 'src/app/safe/models/Product';
-import { MarketService } from 'src/app/safe/services/market.service';
 import { UnityProductSat } from 'src/app/safe/models/UnityProductSat';
 import { Constants } from 'src/app/core/globals/Constants';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { UnityProduct } from 'src/app/safe/models/UnityProduct';
+import { CatalogService } from 'src/app/core/services/catalog.service';
 
 
 
@@ -31,16 +31,17 @@ export class UnityProductsEditComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private globalService: GlobalService,
-    private marketService: MarketService,
+    private catalogService: CatalogService,
     private eventService: EventService
   ) { }
 
   ngOnInit() {
     this.loadUnityProductsSat();
     this.unityProductForm = this.fb.group({
-      'name': new FormControl('', Validators.required),
+      'code': new FormControl('', Validators.required),
       'description': new FormControl('', Validators.required),
       'active': new FormControl(false),
+      'order': new FormControl('', Validators.required),
       'unityProductSat': new FormControl('', Validators.required)
     });
     if (this.entity.readOnly) {
@@ -54,10 +55,10 @@ export class UnityProductsEditComponent implements OnInit {
   }
 
   loadUnityProductsSat() {
-    this.marketService.loadUnityProductsSat(1)
+    this.catalogService.getSat('unityProduct')
       .subscribe(
         data => {
-          this.unityProductsSat = data.resultado;
+          this.unityProductsSat = data.result;
           console.log(this.unityProductSelect);
             if (this.entity.readOnly) {
               this.unityProductSelect.unityProductSat = this.unityProductsSat.filter(unity =>
@@ -96,7 +97,7 @@ export class UnityProductsEditComponent implements OnInit {
     ) ? this.unityProductSelect.id : 0;
     this.unityProduct.save = this.entity.new;
     this.unityProduct.idUnityProductSat = this.unityProduct.unityProductSat.id;
-    this.marketService.saveUnityProduct(this.unityProduct)
+    this.catalogService.saveUnityProduct(this.unityProduct)
       .subscribe(
         data => {
           this.eventService.sendMainSafe(new EventMessage(5, null));

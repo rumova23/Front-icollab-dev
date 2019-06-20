@@ -47,7 +47,7 @@ export class UsersComponent implements OnInit {
     this.securityService.loadUsers()
       .subscribe(
         data => {
-          this.users = data.resultado;
+          this.users = data.result;
         },
         errorData => {
           console.log(errorData);

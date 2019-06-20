@@ -27,9 +27,7 @@ export class ClientsComponent implements OnInit {
   ];
   filterBtn = { label: "buscar" };
   rowsPorPage = [50, 100, 250, 500];
-
   clients:Array<Client>;
-
   constructor(private globalService: GlobalService,
     private marketService: MarketService,
     private eventService: EventService,
@@ -52,10 +50,10 @@ export class ClientsComponent implements OnInit {
   }
 
   private loadClients() {
-    this.marketService.loadClients(2)
+    this.marketService.loadClients(3)
       .subscribe(
         data => {
-          this.clients = data.resultado;
+          this.clients = data.result;
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clients');

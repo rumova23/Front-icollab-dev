@@ -12,12 +12,11 @@ import { ItemClient } from 'src/app/safe/models/ItemClient';
 import { Bank } from 'src/app/safe/models/Bank';
 import { Country } from 'src/app/safe/models/Country';
 import { State } from 'src/app/safe/models/State';
-import { PaymentCondition } from 'src/app/safe/models/PaymentCondition';
-import { PaymentMethod } from 'src/app/safe/models/PaymentMethod';
-import { PaymentWay } from 'src/app/safe/models/PaymentWay';
+import { PaymentMethodSat } from 'src/app/safe/models/PaymentMethodSat';
+import { PaymentWaySat } from 'src/app/safe/models/PaymentWaySat';
 import { TypeClient } from 'src/app/safe/models/TypeClient';
 import { TypePerson } from 'src/app/safe/models/TypePerson';
-import { UseCfdi } from 'src/app/safe/models/UseCfdi';
+import { UseCfdiSat } from 'src/app/safe/models/UseCfdiSat';
 import { Product } from 'src/app/safe/models/Product';
 import { ClientAccount } from 'src/app/safe/models/ClientAccount';
 import { ClientContact } from 'src/app/safe/models/ClientContact';
@@ -28,63 +27,78 @@ import { Validate } from 'src/app/core/helpers/util.validator.';
 import { ClientFiscalData } from 'src/app/safe/models/ClientFiscalData';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventService } from 'src/app/core/services/event.service';
+import { CatalogOrder } from 'src/app/core/models/CatalogOrder';
+import { CatalogOrderFind } from 'src/app/core/models/CatalogOrderFind';
+import { CatalogOrderSat } from 'src/app/core/models/CatalogOrderSat';
+import { CatalogOrderSatFind } from 'src/app/core/models/CatalogOrderSatFind';
+import { CatalogService } from 'src/app/core/services/catalog.service';
+import { CatalogOrderGeneric } from 'src/app/core/models/CatalogOrderGeneric';
 
 
 @Component({
-  selector: 'app-editClients',
-  templateUrl: './editClients.component.html',
-  styleUrls: ['./editClients.component.scss']
+  selector: 'app-clientsEdit',
+  templateUrl: './clientsEdit.component.html',
+  styleUrls: ['./clientsEdit.component.scss']
 })
 
 export class EditClientsComponent implements OnInit {
-  title = "Registro de Clientes: Nuevo registro";
   itemClient: ItemClient = new ItemClient();
   formControls = this.itemClient.formControls;
   formControlsAccount = this.itemClient.formControlsAccount;
   formControlsContact = this.itemClient.formControlsContact;
   formControlsProduct = this.itemClient.formControlsProduct;
   clientForm: FormGroup;
-  accountForm: FormGroup;
   //entity: Entity = { new: false, edit: true, readOnly: false };
   entity: Entity;
   banks: Array<Bank>;
   countries: Array<Country>;
   states: Array<State>;
-  paymentConditions: Array<PaymentCondition>;
-  paymentMethods: Array<PaymentMethod>;
-  paymentWays: Array<PaymentWay>;
+  paymentConditions: Array<CatalogOrderGeneric>;
+  paymentMethods: Array<PaymentMethodSat>;
+  paymentWays: Array<PaymentWaySat>;
   typesClient: Array<TypeClient>;
   typesPerson: Array<TypePerson>;
-  usesCfdi: Array<UseCfdi>;
+  usesCfdi: Array<UseCfdiSat>;
   products: Array<Product>;
+
+  accountForm: FormGroup;
   clientAccounts: Array<ClientAccount> = [];
   accountsDataSource = new MatTableDataSource<ClientAccount>();
   accountsColumns =
-    ['bank', 'branchOffice', 'account', 'clabe', 'reference', 'rm'];
+    ['bank', 'branchOffice', 'account', 'clabe', 'reference', 'edit', 'rm'];
+  editingAccount: boolean = false;
+  idAccount = 0;
 
   contactForm: FormGroup;
   clientContacts: Array<ClientContact> = [];
   contactsDatasource = new MatTableDataSource<ClientContact>();
-  clientsColumns =
+  contactsColumns =
     ['name', 'lastName', 'maidenName', 'email', 'phone',
       'movilPhone',
       'position',
       'title',
       'observations',
+      'edit',
       'rm'];
+  editingContact: boolean = false;
+  idContact = 0;
 
   productForm: FormGroup;
   clientProducts: Array<ClientProduct> = [];
   productsDatasource = new MatTableDataSource<ClientContact>();
-  productsColumns = ['product', 'code', 'active', 'rm'];
+  productsColumns = ['product', 'code', 'active', 'edit','rm'];
+  editingProduct: boolean = false;
+  idProduct = 0;
+
   idClient: number = 8;
   client: Client = {}
-  clientSelected: Client = {}
-
+  clientSelected: Client = {};
+  catalogs: Array<CatalogOrder> = new CatalogOrderFind().client;
+  catalogsSat: Array<CatalogOrderSat> = new CatalogOrderSatFind().client;
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
-
   constructor(private globalService: GlobalService,
     private ngZone: NgZone, private marketService: MarketService,
+    private catalogService: CatalogService,
     private fb: FormBuilder,
     private eventService: EventService,
     private toastr: ToastrManager) { }
@@ -113,6 +127,8 @@ export class EditClientsComponent implements OnInit {
       'interiorNumber': new FormControl('', Validators.required),
       'country': new FormControl('', Validators.required),
       'state': new FormControl('', Validators.required),
+      'colony': new FormControl('', Validators.required),
+      'city': new FormControl('', Validators.required),
       'location': new FormControl('', Validators.required),
       'cp': new FormControl('', Validators.required),
       'email': new FormControl('', Validators.email),
@@ -154,7 +170,7 @@ export class EditClientsComponent implements OnInit {
       'code': new FormControl('', Validators.required),
       'active': new FormControl(false),
     });
-    this.loadDataClients();
+    this.loadCatalogs();
   }
   triggerResize() {
     // Wait for changes to be applied, then trigger textarea resize.
@@ -162,19 +178,24 @@ export class EditClientsComponent implements OnInit {
       .subscribe(() => this.autosize.resizeToFitContent(true));
   }
 
-  private loadDataClients() {
-    this.marketService.loadDataClients(1)
+
+  private loadCatalogs() {
+    this.catalogService.list(this.catalogs)
       .subscribe(
         data => {
-          this.banks = data.resultado.banks
-          this.countries = data.resultado.countries;
-          this.paymentConditions = data.resultado.paymentConditions;
-          this.paymentMethods = data.resultado.paymentMethods;
-          this.paymentWays = data.resultado.paymentWays;
-          this.typesClient = data.resultado.typesClient;
-          this.typesPerson = data.resultado.typesPerson;
-          this.usesCfdi = data.resultado.usesCfdi;
-          this.products = data.resultado.products;
+          const result = data.result;
+          console.log(result);
+          this.banks = result.filter(entity =>
+            entity.catalog === 'bank')[0].data;
+          this.countries = result.filter(entity =>
+            entity.catalog === 'country')[0].data;
+          this.paymentConditions = result.filter(entity =>
+            entity.catalog === 'paymentCondition')[0].data;
+          this.typesClient = result.filter(entity =>
+            entity.catalog === 'typeClient')[0].data;
+          this.typesPerson = result.filter(entity =>
+            entity.catalog === 'typePerson')[0].data;
+          //this.products = data.result.products;
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -182,23 +203,14 @@ export class EditClientsComponent implements OnInit {
                 case 'typeClient':
                   inputs[a].options = this.typesClient;
                   break;
+                case 'country':
+                  inputs[a].options = this.countries;
+                  break;
                 case 'paymentCondition':
                   inputs[a].options = this.paymentConditions;
                   break;
-                case 'useCfdi':
-                  inputs[a].options = this.usesCfdi;
-                  break;
-                case 'paymentMethod':
-                  inputs[a].options = this.paymentMethods;
-                  break;
-                case 'paymentWay':
-                  inputs[a].options = this.paymentWays;
-                  break;
                 case 'typePerson':
                   inputs[a].options = this.typesPerson;
-                  break;
-                case 'country':
-                  inputs[a].options = this.countries;
                   break;
               }
             }
@@ -210,6 +222,53 @@ export class EditClientsComponent implements OnInit {
                 break;
             }
           }
+          this.loadCatalogsSat();
+        },
+        errorData => {
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Catálogos');
+        });
+  }
+
+  private loadCatalogsSat() {
+    this.catalogService.listSat(this.catalogsSat)
+      .subscribe(
+        data => {
+          const result = data.result;
+          console.log(result);
+          this.usesCfdi = result.filter(entity =>
+            entity.catalog === 'useCfdi')[0].data;
+          this.paymentMethods = result.filter(entity =>
+            entity.catalog === 'paymentMethod')[0].data;
+          this.paymentWays = result.filter(entity =>
+            entity.catalog === 'paymentWay')[0].data;
+          for (var i = 0; i < this.formControls.length; i++) {
+            const inputs = this.formControls[i].inputs;
+            for (var a = 0; a < inputs.length; a++) {
+              switch (inputs[a].formControlName) {
+                case 'useCfdi':
+                  inputs[a].options = this.usesCfdi;
+                  break;
+                case 'paymentMethod':
+                  inputs[a].options = this.paymentMethods;
+                  break;
+                case 'paymentWay':
+                  inputs[a].options = this.paymentWays;
+                  break;
+              }
+            }
+          }
+          this.loadProducts();
+        },
+        errorData => {
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Datos de Clientes');
+        });
+  }
+
+  loadProducts() {
+    this.marketService.loadProducts(1)
+      .subscribe(
+        data => {
+          this.products = data.result;
           for (var a = 0; a < this.formControlsProduct.length; a++) {
             switch (this.formControlsProduct[a].formControlName) {
               case 'product':
@@ -230,13 +289,13 @@ export class EditClientsComponent implements OnInit {
         });
   }
 
-
   setData(option: number) {
     this.marketService.getClient(this.idClient)
       .subscribe(
         data => {
-          this.clientSelected = data.resultado;
-          this.states = data.resultado.states;
+          this.clientSelected = data.result;
+          console.log(this.clientSelected);
+          this.states = data.result.states;
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -268,29 +327,27 @@ export class EditClientsComponent implements OnInit {
           this.clientSelected.fiscalData.country = this.countries.filter(entity =>
             entity.id === this.clientSelected.fiscalData.idCountry)[0];
 
-            this.clientSelected.fiscalData.state = this.states.filter(entity =>
-              entity.id === this.clientSelected.fiscalData.idState)[0];
+          this.onLoadState(this.clientSelected.fiscalData.country);
 
-            this.clientAccounts = this.clientSelected.clientAccounts;
-            for (var i = 0; i < this.clientAccounts.length; i++) {
-              this.clientAccounts[i].bank = this.banks.filter(entity =>
-                entity.id === this.clientAccounts[i].idBank)[0];
-            }
-            this.clientProducts = this.clientSelected.clientProducts;
-            for (var i = 0; i < this.clientProducts.length; i++) {
-              this.clientProducts[i].product = this.products.filter(entity =>
-                entity.id === this.clientProducts[i].idProduct)[0];
-            }
-            this.clientForm.patchValue(this.clientSelected);
-            this.clientForm.patchValue({ paymentPhone: this.clientSelected.phone });
-            this.clientForm.patchValue(this.clientSelected.fiscalData);
-            this.accountsDataSource.data = this.clientAccounts;
-            this.clientContacts = this.clientSelected.clientContacts;
-            this.contactsDatasource.data = this.clientContacts;
-            this.productsDatasource.data = this.clientProducts;
-            if (option == 1) {
-              this.clientForm.disable();
-            }  
+          this.clientAccounts = this.clientSelected.clientAccounts;
+          for (var i = 0; i < this.clientAccounts.length; i++) {
+            this.clientAccounts[i].bank = this.banks.filter(entity =>
+              entity.id === this.clientAccounts[i].idBank)[0];
+          }
+          this.clientProducts = this.clientSelected.clientProducts;
+          for (var i = 0; i < this.clientProducts.length; i++) {
+            this.clientProducts[i].product = this.products.filter(entity =>
+              entity.id === this.clientProducts[i].idProduct)[0];
+          }
+          this.clientForm.patchValue(this.clientSelected);
+          this.clientForm.patchValue({ paymentPhone: this.clientSelected.phone });
+          this.accountsDataSource.data = this.clientAccounts;
+          this.clientContacts = this.clientSelected.clientContacts;
+          this.contactsDatasource.data = this.clientContacts;
+          this.productsDatasource.data = this.clientProducts;
+          if (option == 1) {
+            this.clientForm.disable();
+          }
         },
         errorData => {
           console.log(errorData);
@@ -307,7 +364,7 @@ export class EditClientsComponent implements OnInit {
     if (input.formControlName !== "country") {
       return;
     }
-    this.marketService.loadStates(value.id, 1)
+    this.catalogService.loadStates(value.id, 1)
       .subscribe(
         data => {
           console.log(data);
@@ -316,7 +373,7 @@ export class EditClientsComponent implements OnInit {
             for (var a = 0; a < inputs.length; a++) {
               switch (inputs[a].formControlName) {
                 case 'state':
-                  this.states = data.resultado;
+                  this.states = data.result;
                   inputs[a].options = this.states
                   break;
               }
@@ -328,11 +385,60 @@ export class EditClientsComponent implements OnInit {
         });
   }
 
-  saveAccount(value) {
-    this.clientAccounts.push(value);
+  onLoadState(value) {
+    this.catalogService.loadStates(value.id, 1)
+      .subscribe(
+        data => {
+          for (var i = 0; i < this.formControls.length; i++) {
+            const inputs = this.formControls[i].inputs;
+            for (var a = 0; a < inputs.length; a++) {
+              switch (inputs[a].formControlName) {
+                case 'state':
+                  this.states = data.result;
+                  this.clientSelected.fiscalData.state = this.states.filter(entity =>
+                    entity.id === this.clientSelected.fiscalData.idState)[0];
+                  this.clientForm.patchValue(this.clientSelected.fiscalData);
+                  inputs[a].options = this.states
+                  break;
+              }
+            }
+          }
+        },
+        errorData => {
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Estados');
+        });
+  }
+
+  editAccount(account) {
+    this.accountForm.reset();
+    console.log(account);
+    this.idAccount = account.id;
+    console.log(account);
+    this.accountForm.patchValue(account);
+    this.editingAccount = true;
+  }
+
+  cancelAccount() {
+    if(this.editingAccount) {
+      this.editingAccount = false;
+    }
+    this.idAccount = 0;
+    this.accountForm.reset();
+  }
+
+  saveAccount(account) {
+    if(this.editingAccount) {
+      account.edit = true;
+      this.clientAccounts.splice(account, 1);
+      this.editingAccount = false;
+    }
+    account.id =  this.idAccount;
+    this.idAccount = 0;
+    this.clientAccounts.push(account);
     this.accountsDataSource.data = this.clientAccounts;
     this.clientAccounts.slice();
     this.accountForm.reset();
+    console.log(account);
   }
 
   deleteAccount(i) {
@@ -340,12 +446,37 @@ export class EditClientsComponent implements OnInit {
     this.accountsDataSource.data = this.clientAccounts;
   }
 
-  saveContact(value) {
-    this.clientContacts.push(value);
+  editContact(contact) {
+    this.contactForm.reset();
+    console.log(contact);
+    this.idContact = contact.id;
+    console.log(contact);
+    this.contactForm.patchValue(contact);
+    this.editingContact = true;
+  }
+
+  cancelContact() {
+    if(this.editingContact) {
+      this.editingContact = false;
+    }
+    this.idContact = 0;
+    this.contactForm.reset();
+  }
+
+  saveContact(contact) {
+    if(this.editingContact) {
+      contact.edit = true;
+      this.clientContacts.splice(contact, 1);
+      this.editingContact = false;
+    }
+    contact.id =  this.idAccount;
+    this.idContact = 0;
+    this.clientContacts.push(contact);
     console.log(this.clientContacts);
     this.contactsDatasource.data = this.clientContacts;
     this.clientContacts.slice();
     this.contactForm.reset();
+    console.log(contact);
   }
 
   deleteContact(i) {
@@ -353,8 +484,32 @@ export class EditClientsComponent implements OnInit {
     this.contactsDatasource.data = this.clientAccounts;
   }
 
-  saveProduct(value) {
-    this.clientProducts.push(value);
+  editProduct(product) {
+    this.productForm.reset();
+    console.log(product);
+    this.idProduct = product.id;
+    console.log(product);
+    this.productForm.patchValue(product);
+    this.editingProduct = true;
+  }
+
+  cancelProduct() {
+    if(this.editingProduct) {
+      this.editingProduct = false;
+    }
+    this.idProduct = 0;
+    this.productForm.reset();
+  }
+
+  saveProduct(product) {
+    if(this.editingProduct) {
+      product.edit = true;
+      this.clientProducts.splice(product, 1);
+      this.editingProduct = false;
+    }
+    product.id =  this.idProduct;
+    this.idProduct = 0;
+    this.clientProducts.push(product);
     console.log(this.clientProducts);
     this.productsDatasource.data = this.clientProducts;
     this.clientProducts.slice();
@@ -383,7 +538,6 @@ export class EditClientsComponent implements OnInit {
     this.client.id = (this.clientSelected !== null && this.clientSelected !== undefined &&
       this.clientSelected.id !== null && this.clientSelected.id !== undefined
     ) ? this.clientSelected.id : 0;
-    console.log(value);
     this.client.save = this.entity.new;
     this.client.idTypeClient = value.typeClient.id;
     this.client.number = value.number;
@@ -407,9 +561,14 @@ export class EditClientsComponent implements OnInit {
 
     for (var i = 0; i < this.clientAccounts.length; i++) {
       this.clientAccounts[i].idBank = this.clientAccounts[i].bank.id;
+      this.clientAccounts[i].idClient = this.client.id;
     }
     for (var i = 0; i < this.clientProducts.length; i++) {
       this.clientProducts[i].idProduct = this.clientProducts[i].product.id;
+      this.clientProducts[i].idClient = this.client.id;
+    }
+    for (var i = 0; i < this.clientContacts.length; i++) {
+      this.clientContacts[i].idClient = this.client.id;
     }
 
     this.client.clientAccounts = this.clientAccounts;
@@ -422,6 +581,8 @@ export class EditClientsComponent implements OnInit {
     fiscalData.street = value.street;
     fiscalData.outdoorNumber = value.outdoorNumber;
     fiscalData.interiorNumber = value.interiorNumber;
+    fiscalData.colony = value.colony;
+    fiscalData.city = value.city;
     fiscalData.location = value.location;
     fiscalData.cp = value.cp;
     fiscalData.email = value.email;

@@ -8,6 +8,9 @@ import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { Constants } from 'src/app/core/globals/Constants';
 import { RateIvaSat } from '../../models/RateIvaSat';
+import { CatalogOrder } from 'src/app/core/models/CatalogOrder';
+import { CatalogOrderFind } from 'src/app/core/models/CatalogOrderFind';
+import { CatalogService } from 'src/app/core/services/catalog.service';
 
 
 @Component({
@@ -29,12 +32,16 @@ export class ProductsComponent implements OnInit {
   products: Array<Product>;
   ratesIvaSat: Array<RateIvaSat>;
   count: number;
+  catalogs: Array<CatalogOrder> = [];
   constructor(
     private marketService: MarketService,
+    private catalogService: CatalogService,
     public toastr: ToastrManager,
     private eventService: EventService,
     private globalService: GlobalService,
-  ) { }
+  ) {
+    this.catalogs.push(new CatalogOrderFind().product[0]);
+  }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {
@@ -53,22 +60,23 @@ export class ProductsComponent implements OnInit {
   }
 
   private loadProducts() {
-    this.marketService.loadProducts(2)
+    this.marketService.loadProducts(3)
       .subscribe(
         data => {
-          this.products = data.resultado;
-          this.loadRatesIvaSat();
+          this.products = data.result;
+          this.loadCatalogs();
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Productos');
         });
   }
 
-  private loadRatesIvaSat() {
-    this.marketService.loadRatesIvaSat(2)
+  private loadCatalogs() {
+    this.catalogService.getSat('rateIva')
       .subscribe(
         data => {
-          this.ratesIvaSat = data.resultado;
+          this.ratesIvaSat = data.result;
+          console.log(data);
           for (var i = 0; i < this.products.length; i++) {
             this.products[i].rateIvaSat = this.ratesIvaSat.filter(entity =>
               entity.id === this.products[i].idRateIvaSat)[0];

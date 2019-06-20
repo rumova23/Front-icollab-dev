@@ -1,9 +1,9 @@
 export interface UnityProduct {
     id?,
     code?,
-    name?,
     description?,
     active?
+    order?
     save?
     idUnityProductSat?,
     unityProductSat?

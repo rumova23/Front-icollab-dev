@@ -18,7 +18,7 @@ export class JwtInterceptor implements HttpInterceptor {
        if (user) {
            let headers = new HttpHeaders().set('Content-Type', 'application/json');
            headers = headers.set('authorization', 'Bearer '
-            + user.token + "|" + user.user);
+            + user.token + "|" + user.username);
            const cloned = request.clone({
                headers: headers
            });

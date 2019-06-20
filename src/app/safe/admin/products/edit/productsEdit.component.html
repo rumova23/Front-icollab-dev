@@ -51,7 +51,7 @@
             <mat-label>Tipo de Producto</mat-label>
             <mat-select formControlName="typeProduct" [compareWith]="compareObjects">
               <mat-option *ngFor="let typeProduct of typesProduct" [value]="typeProduct">
-                {{ typeProduct.name }}
+                {{ typeProduct.code }}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -67,7 +67,7 @@
             <mat-label>Unidad de Producto</mat-label>
             <mat-select formControlName="unityProduct" [compareWith]="compareObjects">
               <mat-option *ngFor="let unityProduct of unityProducts" [value]="unityProduct">
-                {{ unityProduct.name }}
+                {{ unityProduct.description}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -115,7 +115,7 @@
             <mat-form-field class="w-100">
               <mat-label>Sistemas</mat-label>
               <mat-select formControlName="systems" [compareWith]="compareObjects" multiple>
-                <mat-option *ngFor="let system of systems" [value]="system">{{system.name}}</mat-option>
+                <mat-option *ngFor="let system of systems" [value]="system">{{system.code}}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>

@@ -1,14 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { Router } from "@angular/router";
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { Entity } from 'src/app/core/models/Entity';
-import { MarketService } from 'src/app/safe/services/market.service';
 import { Constants } from 'src/app/core/globals/Constants';
 import { EventService } from 'src/app/core/services/event.service';
-import { EventMessage } from 'src/app/core/models/EventMessage';
 import { CatalogGeneric } from 'src/app/safe/models/CatalogGeneric';
+import { CatalogService } from 'src/app/core/services/catalog.service';
+import { EventMessage } from 'src/app/core/models/EventMessage';
 
 
 
@@ -28,14 +28,16 @@ export class CatalogGenericEditComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private globalService: GlobalService,
-    private marketService: MarketService,
+    private catalogService: CatalogService,
     private eventService: EventService
   ) { }
 
   ngOnInit() {
     this.genericForm = this.fb.group({
-      'name': new FormControl('', Validators.required),
+      'code': new FormControl('', Validators.required),
+      'description': new FormControl('', Validators.required),
       'active': new FormControl(false),
+      'order': new FormControl('', Validators.required)
     });
     if (this.entity.readOnly) {
       this.genericForm.patchValue(this.catalogGenericSelected);
@@ -52,6 +54,70 @@ export class CatalogGenericEditComponent implements OnInit {
       "Consultar " : (this.entity.edit) ? "Editar " : "Agregar ");
     let title = "";
     switch (this.catalog) {
+      case 'gender':
+        title = "Género";
+        break;
+      case 'educationLevel':
+        title = "Nivel de Estudios";
+        break;
+      case 'position':
+        title = "Posición";
+        break;
+      case 'department':
+        title = "Departamento";
+        break;
+      case 'workstation':
+        title = "Puesto de trabajo";
+        break;
+      case 'employeeBoss':
+        title = "Jefe del empleado";
+        break;
+      case 'workingHour':
+        title = "Horario de trabajo";
+        break;
+      case 'employeePlace':
+        title = "Lugar de trabajo";
+        break;
+      case 'employeeDependent':
+        title = "Personas a cargo del empleado";
+        break;
+      case 'ethicalValue':
+        title = "Valores";
+        break;
+      case 'aptitud':
+        title = "Aptitudes";
+        break;
+      case 'typeCompliance':
+        title = "Tipo de Cumplimiento";
+        break;
+      case 'authority':
+        title = "Autoridades";
+        break;
+      case 'typeApplication':
+        title = "Tipo de aplicación";
+        break;
+      case 'deliveryPeriod':
+        title = "Periodo de entrega";
+        break;
+      case 'typeDay':
+        title = "Tipo de días";
+        break;
+      case 'legalRequirement':
+        title = "Requisito Legal";
+        break;
+      case 'responsible':
+        title = "Responsable";
+        break;
+      case 'supervisor':
+        title = "Supervisor";
+        break;
+      case 'typeEmployee':
+        title = "Tipo de Empleado";
+        break;
+      case 'actorProfile':
+        title = "Perfil Actor";
+        break;
+
       case 'sys':
         title = "Sistema";
         break;
@@ -60,9 +126,6 @@ export class CatalogGenericEditComponent implements OnInit {
         break;
       case 'paymentCondition':
         title = "Condición de Pago";
-        break;
-      case 'typePerson':
-        title = "Tipo de Persona";
         break;
       case 'typeClient':
         title = "Tipo de Cliente";
@@ -88,79 +151,16 @@ export class CatalogGenericEditComponent implements OnInit {
       this.catalogGenericSelected.id !== null && this.catalogGenericSelected.id !== undefined
     ) ? this.catalogGenericSelected.id : 0;
     this.catalogGeneric.save = this.entity.new;
+    this.catalogGeneric.catalog = this.catalog;
     console.log(this.catalogGeneric);
-    switch (this.catalog) {
-      case 'sys':
-        this.marketService.saveSystem(this.catalogGeneric)
-          .subscribe(
-            data => {
-              this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
-            },
-            errorData => {
-              this.toastr.errorToastr(Constants.ERROR_SAVE, '');
-            });
-        break;
-      case 'typeProduct':
-        this.marketService.saveTypeProduct(this.catalogGeneric)
-          .subscribe(
-            data => {
-              this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
-            },
-            errorData => {
-              this.toastr.errorToastr(Constants.ERROR_SAVE, '');
-            });
-        break;
-      case 'paymentCondition':
-        this.marketService.savePaymentCondition(this.catalogGeneric)
-          .subscribe(
-            data => {
-              this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
-            },
-            errorData => {
-              this.toastr.errorToastr(Constants.ERROR_SAVE, '');
-            });
-        break;
-      case 'typePerson':
-        this.marketService.saveTypePerson(this.catalogGeneric)
-          .subscribe(
-            data => {
-              this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
-            },
-            errorData => {
-              this.toastr.errorToastr(Constants.ERROR_SAVE, '');
-            });
-        break;
-      case 'typeClient':
-        this.marketService.saveTypeClient(this.catalogGeneric)
-          .subscribe(
-            data => {
-              this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
-            },
-            errorData => {
-              this.toastr.errorToastr(Constants.ERROR_SAVE, '');
-            });
-        break;
-      case 'country':
-        this.marketService.saveCountry(this.catalogGeneric)
-          .subscribe(
-            data => {
-              this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
-            },
-            errorData => {
-              this.toastr.errorToastr(Constants.ERROR_SAVE, '');
-            });
-        break;
-      case 'bank':
-        this.marketService.saveBank(this.catalogGeneric)
-          .subscribe(
-            data => {
-              this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
-            },
-            errorData => {
-              this.toastr.errorToastr(Constants.ERROR_SAVE, '');
-            });
-        break;
-    }
+    this.catalogService.saveGeneric(this.catalogGeneric)
+    .subscribe(
+      data => {
+        this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
+      },
+      errorData => {
+        this.toastr.errorToastr(Constants.ERROR_SAVE, 'Clientes');
+      });
 
   }
 

@@ -1,5 +1,6 @@
 export interface ClientContact {
     id?,
+    idClient?,
     name?,
     lastName?,
     maidenName?,

@@ -21,7 +21,7 @@ export class ItemClient {
             section: "Datos Fiscales",
             inputs: [
                 { inputtype: "select", label: "Uso CDFI", options: [], formControlName: "useCfdi" },
-                { inputtype: "select", label: "Metodo de Pago", options: [], formControlName: "paymentMethod" },
+                { inputtype: "select", label: "Método de Pago", options: [], formControlName: "paymentMethod" },
                 { inputtype: "select", label: "Tipo de Persona", options: [], formControlName: "typePerson" },
                 { inputtype: "text", label: "Razón Social", formControlName: "businessName" },
                 { inputtype: "text", label: "RFC", formControlName: "rfc" },
@@ -30,7 +30,9 @@ export class ItemClient {
                 { inputtype: "text", label: "Número Interior", formControlName: "interiorNumber" },
                 { inputtype: "select", label: "País", options: [], formControlName: "country" },
                 { inputtype: "select", label: "Estado", options: [], formControlName: "state" },
-                { inputtype: "text", label: "Ciudad (Localidad)", formControlName: "location" },
+                { inputtype: "text", label: "Colonia", formControlName: "colony" },
+                { inputtype: "text", label: "Ciudad", formControlName: "city" },
+                { inputtype: "text", label: "Localidad", formControlName: "location" },
                 { inputtype: "text", label: "C.P", formControlName: "cp" },
                 { inputtype: "text", label: "Email", formControlName: "email" },
                 { inputtype: "text", label: "Teléfono", formControlName: "phone" }

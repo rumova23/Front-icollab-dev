@@ -1,6 +1,6 @@
 export interface User {
     id?;
-    user?;
+    username?;
     name?;
     lastName?;
     maidenName?;

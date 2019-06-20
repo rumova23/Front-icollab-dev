@@ -103,14 +103,14 @@ export class LoginComponent implements OnInit {
                 this.loading = false;
     });*/
     const loginData = this.loginForm.value;
+    
     this.securityService.login({
       user: loginData.usr,
       password: loginData.pass }
       )
       .subscribe(
         data => {
-          console.log(data.resultado);
-          localStorage.setItem("user", JSON.stringify(data.resultado));
+          localStorage.setItem("user", JSON.stringify(data.result));
           JSON.parse(localStorage.getItem("user"));
           this.loading = true;
           this.addBlock(2, null);

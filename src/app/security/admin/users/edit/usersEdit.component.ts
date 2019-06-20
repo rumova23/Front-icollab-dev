@@ -49,7 +49,7 @@ export class UsersEditComponent implements OnInit {
       'lastName': new FormControl('', Validators.required),
       'maidenName': new FormControl('', Validators.required),
       'email':  new FormControl('', [Validators.required, Validators.email]),
-      'user': new FormControl('', [Validators.required, Validators.minLength(6)]),
+      'username': new FormControl('', [Validators.required, Validators.minLength(6)]),
       'password': new FormControl('', [Validators.required, Validators.minLength(8)]),
       'active':  new FormControl(false),
       'roles': new FormControl('', Validators.required),
@@ -57,30 +57,36 @@ export class UsersEditComponent implements OnInit {
       'apps': new FormControl('', Validators.required)
     });
     if(this.entity.readOnly) {
-      this.userForm.patchValue(this.userSelected);
-      this.userForm.disable() 
+      this.loadData(1);
     } else if (this.entity.edit) {
-      this.userForm.patchValue(this.userSelected);
-      console.log(this.userForm.value);
+      this.loadData(2);
     } else {
       this.user = {}
     }
-    this.inputs =  [
-      {label:"user",inputtype:"text",value:""},
-      {label:"password",inputtype:"text", value:""},
-      {label:"name",inputtype:"text", value:""},
-      {label:"lastName",inputtype:"text", value:""},
-      {label:"maidenName",inputtype:"text", value:""},
-      {label:"active",inputtype:"text",checked:true}
-    ];
+  }
+
+  loadData(option:number) {
+    this.securityService.getUser(this.userSelected.id)
+    .subscribe(
+      data => {
+        console.log(data);
+        this.userSelected = data.result;
+        this.userForm.patchValue(this.userSelected);
+        if(option == 1) {
+          this.userForm.disable(); 
+        }
+      },
+      errorData => {
+        this.toastr.errorToastr(Constants.ERROR_LOAD, 'Usuario');
+      });
   }
 
   loadRoles() {
     this.securityService.loadRoles()
     .subscribe(
       data => {
-        this.roles = data.resultado;
-        console.log(this.roles);
+        console.log(data);
+        this.roles = data.result;
       },
       errorData => {
         this.toastr.errorToastr(Constants.ERROR_LOAD, 'Roles');
