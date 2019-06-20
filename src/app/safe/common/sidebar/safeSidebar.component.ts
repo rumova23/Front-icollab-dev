@@ -85,33 +85,78 @@ export class SafeSidebarComponent implements OnInit {
       case 'Clientes':
         option = 7;
         break;
-      case 'Catálogo de Sistemas':
+      case 'Sistemas':
         option = 9;
         catalog = "sys";
         break;
-      case 'Catálogo de Tipos de Cliente':
+      case 'Tipos de Cliente':
         option = 9;
         catalog = "typeClient";
         break;
-      case 'Catálogo de Tipos de Producto':
+      case 'Tipos de Producto':
         option = 9;
         catalog = "typeProduct";
         break;
-      case 'Catálogo de Condiciones de Pago':
+      case 'Condiciones de Pago':
         option = 9;
         catalog = "paymentCondition";
         break;
-      case 'Catálogo de Países':
+      case 'Países':
         option = 9;
         catalog = "country";
         break;
-      case 'Catálogo de Bancos':
+      case 'Bancos':
         option = 9;
         catalog = "bank";
         break;
       case 'Pml':
         option = 11;
-        break;  
+        break;
+      case 'Planta':
+        option = 12;
+        break;
+      case 'Plantas':
+        option = 12;
+        break;
+      case 'Plantas':
+        option = 12;
+        break;
+      case 'Estados':
+        option = 14;
+        break;
+      case 'Monedas':
+        option = 16;
+        break;
+      case 'Serie Facturas':
+        option = 18;
+        break;
+      case 'Regímenes Fiscales SAT':
+        option = 201;
+        break;
+      case 'Monedas SAT':
+        option = 202;
+        break;
+      case 'Métodos de Pago SAT':
+        option = 203;
+        break;
+      case 'Formas de Pago SAT':
+        option = 204;
+        break;
+      case 'Productos SAT':
+        option = 205;
+        break;
+      case 'Porcentajes de Iva':
+        option = 206;
+        break;
+      case 'Unidades de Producto SAT':
+        option = 207;
+        break;
+      case 'Usos CFDI SAT':
+        option = 208;
+        break;
+      case 'Tipos de Relación SAT':
+        option = 209;
+        break;
     }
     if (option == 9) {
       this.eventService.sendMainSafe(new EventMessage(option, catalog));

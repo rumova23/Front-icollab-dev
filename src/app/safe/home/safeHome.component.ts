@@ -88,7 +88,7 @@ export class SafeHomeComponent implements OnInit {
     this.eventService.sendMainSafe(new EventMessage(18, 'educationLevel'));
     */
 
-  
+   /*
     this.eventService.sendMainSafe(new EventMessage(20, { 
       readOnly:false,
       new:true,
@@ -96,7 +96,7 @@ export class SafeHomeComponent implements OnInit {
       invoice: {
       id:1,
       name:"AGUILA"
-    }}));
+    }})); */
 
     /*
     this.eventService.sendMainSafe(new EventMessage(12, {
@@ -118,7 +118,9 @@ export class SafeHomeComponent implements OnInit {
         const refProductsEdit =
           this.viewContainerRef.createComponent(factoryProductsEdit);
         refProductsEdit.instance.entity = event.data;
-        refProductsEdit.instance.idProduct = event.data.product.id;
+        if (Validate(event.data.product)) {
+          refProductsEdit.instance.idProduct = event.data.product.id;
+        }
         refProductsEdit.changeDetectorRef.detectChanges();
         break;
       case 5:

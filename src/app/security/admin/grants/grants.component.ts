@@ -51,9 +51,7 @@ export class GrantsComponent implements OnInit {
         data => {
           //this.grants = data.result;
           const grants = data.result;
-          console.log(data.result);
           for(var i = 0;i < grants.length; i++) {
-            console.log(grants[i].idApp);
             grants[i].app =  this.apps.filter(app => app.id === grants[i].idApp)[0];
           }
           this.grants = grants;

@@ -85,7 +85,7 @@ export class GrantsEditComponent implements OnInit {
         }
       },
       errorData => {
-        this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
+        this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
       });
   }
 

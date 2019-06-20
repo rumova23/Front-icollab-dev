@@ -87,6 +87,7 @@ export class CatalogGenericComponent implements OnInit {
               title = "Bancos";
               break;         
     }
+    return title;
   }
 
   compareObjects(o1: any, o2: any): boolean {

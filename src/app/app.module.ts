@@ -68,8 +68,8 @@ import { UsersEditComponent } from './security/admin/users/edit/usersEdit.compon
 import { RolesComponent } from './security/admin/roles/roles.component';
 import { RolesEditComponent } from './security/admin/roles/edit/rolesEdit.component';
 import { SafeHomeComponent } from './safe/home/safeHome.component';
-import { SafeHeaderComponent } from './safe/comun/header/safeHeader.component';
-import { SafeSidebarComponent } from './safe/comun/sidebar/safeSidebar.component';
+import { SafeHeaderComponent } from './safe/common/header/safeHeader.component';
+import { SafeSidebarComponent } from './safe/common/sidebar/safeSidebar.component';
 import { GrantsComponent } from './security/admin/grants/grants.component';
 import { ProductsComponent } from './safe/admin/products/products.component';
 import { ProductsEditComponent } from './safe/admin/products/edit/productsEdit.component';
