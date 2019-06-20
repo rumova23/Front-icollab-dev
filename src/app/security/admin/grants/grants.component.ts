@@ -60,7 +60,7 @@ export class GrantsComponent implements OnInit {
         },
         errorData => {
           console.log(errorData);
-          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Permisos');
+          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
 
         });
   }

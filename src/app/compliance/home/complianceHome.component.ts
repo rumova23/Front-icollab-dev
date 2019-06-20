@@ -53,14 +53,21 @@ export class ComplianceHomeComponent implements OnInit {
   }
 
   ngOnInit() {
+<<<<<<< HEAD
     this.eventService.sendMainCompliance(new EventMessage(
       11, {
         idEmpleado: 1,
         tipo:'Editar'
       }
     ));
+=======
+    setTimeout(() => this.periodo(), 5000);
+>>>>>>> 01a98dbff4d99c015129d1dd3e2bcc21d0dfa92e
   }
 
+  private periodo(){
+    this.eventService.sendMainCompliance(new EventMessage(10, null));
+  }
   private clickMenu(event: EventMessage): void {
     this.viewContainerRef.clear();
     let factoryComplianceTypes;
@@ -138,7 +145,7 @@ export class ComplianceHomeComponent implements OnInit {
             const refPerfilHome =
               this.viewContainerRef.createComponent(factoryPerfilHome);
               refPerfilHome.instance.idEmpleado = event.data.idEmpleado;
-              refPerfilHome.instance.isViewable = event.data.isViewable;
+              refPerfilHome.instance.isViewable = true;
               refPerfilHome.instance.isdisabled = event.data.isdisabled;
               refPerfilHome.instance.tipo = event.data.tipo;
               refPerfilHome.changeDetectorRef.detectChanges();

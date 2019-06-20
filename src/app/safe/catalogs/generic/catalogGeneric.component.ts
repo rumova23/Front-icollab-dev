@@ -49,6 +49,7 @@ export class CatalogGenericComponent implements OnInit {
   }
 
   private loadData() {
+<<<<<<< HEAD
     this.catalogService.get(this.catalog)
     .subscribe(
       data => {
@@ -60,6 +61,80 @@ export class CatalogGenericComponent implements OnInit {
         this.toastr.errorToastr(Constants.ERROR_LOAD, 'Catálogos');
 
       });
+=======
+    switch (this.catalog) {
+      case 'sys':
+        this.marketService.loadSystems(2)
+          .subscribe(
+            data => {
+              this.generics = data.resultado;
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+            });
+        break;
+      case 'typeProduct':
+        this.marketService.loadTypeProducts(2)
+          .subscribe(
+            data => {
+              this.generics = data.resultado;
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+            });
+        break;
+      case 'paymentCondition':
+        this.marketService.loadPaymentConditions(2)
+          .subscribe(
+            data => {
+              this.generics = data.resultado;
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+            });
+        break;
+      case 'typePerson':
+        this.marketService.loadTypePersons(2)
+          .subscribe(
+            data => {
+              this.generics = data.resultado;
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+            });
+        break;
+      case 'typeClient':
+        this.marketService.loadTypeClients(2)
+          .subscribe(
+            data => {
+              this.generics = data.resultado;
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+            });
+        break;
+        case 'country':
+            this.marketService.loadCountries(2)
+              .subscribe(
+                data => {
+                  this.generics = data.resultado;
+                },
+                errorData => {
+                  this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+                });
+            break;
+          case 'bank':
+              this.marketService.loadBanks(2)
+                .subscribe(
+                  data => {
+                    this.generics = data.resultado;
+                  },
+                  errorData => {
+                    this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+                  });
+              break;    
+    }
+>>>>>>> 01a98dbff4d99c015129d1dd3e2bcc21d0dfa92e
   }
 
   getTitle() {

@@ -153,6 +153,7 @@ export class CatalogGenericEditComponent implements OnInit {
     this.catalogGeneric.save = this.entity.new;
     this.catalogGeneric.catalog = this.catalog;
     console.log(this.catalogGeneric);
+<<<<<<< HEAD
     this.catalogService.saveGeneric(this.catalogGeneric)
     .subscribe(
       data => {
@@ -161,6 +162,80 @@ export class CatalogGenericEditComponent implements OnInit {
       errorData => {
         this.toastr.errorToastr(Constants.ERROR_SAVE, 'Clientes');
       });
+=======
+    switch (this.catalog) {
+      case 'sys':
+        this.marketService.saveSystem(this.catalogGeneric)
+          .subscribe(
+            data => {
+              this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
+            });
+        break;
+      case 'typeProduct':
+        this.marketService.saveTypeProduct(this.catalogGeneric)
+          .subscribe(
+            data => {
+              this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
+            });
+        break;
+      case 'paymentCondition':
+        this.marketService.savePaymentCondition(this.catalogGeneric)
+          .subscribe(
+            data => {
+              this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
+            });
+        break;
+      case 'typePerson':
+        this.marketService.saveTypePerson(this.catalogGeneric)
+          .subscribe(
+            data => {
+              this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
+            });
+        break;
+      case 'typeClient':
+        this.marketService.saveTypeClient(this.catalogGeneric)
+          .subscribe(
+            data => {
+              this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
+            });
+        break;
+      case 'country':
+        this.marketService.saveCountry(this.catalogGeneric)
+          .subscribe(
+            data => {
+              this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
+            });
+        break;
+      case 'bank':
+        this.marketService.saveBank(this.catalogGeneric)
+          .subscribe(
+            data => {
+              this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
+            });
+        break;
+    }
+>>>>>>> 01a98dbff4d99c015129d1dd3e2bcc21d0dfa92e
 
   }
 

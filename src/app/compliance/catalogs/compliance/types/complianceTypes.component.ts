@@ -12,7 +12,9 @@ import { EventService } from 'src/app/core/services/event.service';
 import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { DatePipe } from '@angular/common';
-
+import { SecurityService } from 'src/app/core/services/security.service';
+import { Constants } from 'src/app/core/globals/Constants';
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 @Component({
   selector: 'app-complianceTypes',
@@ -25,7 +27,7 @@ export class ComplianceTypesComponent implements OnInit {
   @Input() nombreCatalogo: string;
   entidadEstatusId: string;
   titulo: String;
-
+  listUsers: Array<any>;
 
   dataSource;
   data: any[] = [];
@@ -47,17 +49,26 @@ export class ComplianceTypesComponent implements OnInit {
                 private confirmationDialogService: ConfirmationDialogService,
                 public toastr: ToastrManager,
                 private eventService: EventService,
-                private datePipe: DatePipe) { }
+                private datePipe: DatePipe,
+                private securityService: SecurityService) { }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  
   ngOnInit() {
-    //this.nombreCatalogo = this.route.snapshot.params.nombreCatalogo;
+    
+    this.addBlock(1, "Cargando...")
+    
     this.titulo = 'Catálogos / ' + this.nombreCatalogo;
-    this.cargaDatos();
     this.estatusMaestroService.getEntidadEstatus( 'CAT_MAESTRO_OPCION', 'Activo').subscribe(data => {
       this.entidadEstatusId = data.entidadEstatusId;
+    },
+    error =>{
+      console.log(<any>error)
+      this.addBlock(2,null)
+      this.toastr.errorToastr('Error al cargar estatus maestro.', 'Lo siento,');
     });
+    this.loadUsers();
   }
 
   action(option: number, id: any) {
@@ -79,19 +90,28 @@ export class ComplianceTypesComponent implements OnInit {
      console.log(type);
      this.eventService.sendMainCompliance(new EventMessage(5, type));
   }
+
+  private loadUsers() {
+    this.addBlock(1, "Cargando...")
+    this.securityService.loadUsers()
+      .subscribe(
+        data => {
+          this.listUsers = data.resultado;
+          this.cargaDatos();
+        },
+        errorData => {
+          console.log(errorData);
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+          this.addBlock(2,null)
+        });
+  }
+
   cargaDatos() {
+    this.addBlock(1, "Cargando...")
     this.data = [];
     this.catalogoMaestroService.getCatalogo( this.nombreCatalogo ).subscribe(data => {
-      //console.dir(data);
-      //debugger;
-      
-      data.sort(function (a, b) {
-        if (a.opcion.codigo > b.opcion.codigo) {return 1;}
-        if (a.opcion.codigo < b.opcion.codigo) {return -1;}
-        return 0;// a must be equal to b
-      });
-
       let i = 0;
+      let userDetail;
       for (let element of data) {
         i += 1;
         let obj             = {};
@@ -99,8 +119,12 @@ export class ComplianceTypesComponent implements OnInit {
         obj['id']           = element.maestroOpcionId;
         obj['name']         = element.opcion.codigo;
         obj['description']  = element.opcion.descripcion;
-        obj['user']         = element.opcion.userUpdated || element.opcion.userCreated;
-        obj['dateup']       = (element.opcion.dateUpdated || element.opcion.dateCreated) ? this.datePipe.transform(new Date(element.opcion.dateUpdated || element.opcion.dateCreated),'dd-MM-yyyy h:mm a') : "";
+        //obj['user']         = element.opcion.userUpdated || element.opcion.userCreated;
+        //obj['user']         = element.opcion.fullNameUpdated;
+        
+        userDetail = this.listUsers.find( user => user.user === element.userUpdated );
+        obj['user']        = userDetail == undefined ? 'system' : userDetail.name + " " + userDetail.lastName;
+        obj['dateup']       = (element.dateUpdated) ? this.datePipe.transform(new Date(element.dateUpdated ),'dd-MM-yyyy h:mm a') : "";
         obj['status']       = (element.entidadEstatusId == this.entidadEstatusId) ? 'Activo' : 'Inactivo';
         obj['see']          = 'sys_see';
         obj['edit']         = 'sys_edit';
@@ -116,8 +140,8 @@ export class ComplianceTypesComponent implements OnInit {
         {key:'name',label:'Nombre'},
         {key:'description',label:'Descripción'},
         {key:'status',label:'Estatus'},
-        {key:'user',label:'Usuario Modifico'},
-        {key:'dateup',label:'Fecha y hora Última Modificación'}
+        {key:'user',label:'Usuario Última Modificación'},
+        {key:'dateup',label:'Fecha y Hora de Última Modificación'}
       ];
       this.displayedColumnsActions = [
         {key:'see',label:'Ver'},
@@ -129,6 +153,12 @@ export class ComplianceTypesComponent implements OnInit {
       this.dataSource = new MatTableDataSource<any>(this.data);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.addBlock(2,null)
+    },
+    error =>{
+      console.log(<any> error)
+      this.addBlock(2,null)
+      this.toastr.errorToastr('Error al cargar catalogo.', 'Lo siento,');
     });
   }
 
@@ -155,4 +185,10 @@ export class ComplianceTypesComponent implements OnInit {
           })
           .catch(() => console.log('Cancelo'));
   }
+
+  //Loadin
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
+
 }

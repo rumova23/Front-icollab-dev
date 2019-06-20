@@ -24,7 +24,7 @@ const ELEMENT_DATA: any[] = [
     ]
   },
   {
-    date:'sabado 11 mayo 2019',
+    date:'Sábado 11 mayo 2019',
     powers:[
       {'Hora':'14:00:00', 'Potencia Planeada PPA': 10, 'Potencia Planeada Máxima Real Demostrada': '5'},
       {'Hora':'15:00:00', 'Potencia Planeada PPA': 5,  'Potencia Planeada Máxima Real Demostrada': '6'},
@@ -32,7 +32,7 @@ const ELEMENT_DATA: any[] = [
     ]
   },
   {
-    date:'domingo 12 mayo 2019',
+    date:'Domingo 12 mayo 2019',
     powers:[
       {'Hora':'14:00:00', 'Potencia Planeada PPA': 10, 'Potencia Planeada Máxima Real Demostrada': '8'},
       {'Hora':'15:00:00', 'Potencia Planeada PPA': 5,  'Potencia Planeada Máxima Real Demostrada': '9'},

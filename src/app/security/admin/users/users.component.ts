@@ -51,7 +51,7 @@ export class UsersComponent implements OnInit {
         },
         errorData => {
           console.log(errorData);
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Usuarios');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
         });
   }
 

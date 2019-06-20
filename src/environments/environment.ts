@@ -19,10 +19,9 @@ export const environment = {
   ,pmlUrl     : 'http://localhost:1114/pml/rest/'
 };
 //*/
-///*
 export const environment = {
   production: false
-  ,appVersion : 'Desarrollo V 1.0'
+  , appVersion : 'Desarrollo V 1.0'
   , mnUrl      : 'http://localhost:1155/'  // micro catalago maestro
   , micro_catalago_maestro      : 'http://localhost:1155/'  // micro catalago maestro
   , sgUrl      : 'http://localhost:8400/'  // seguridad
@@ -31,13 +30,19 @@ export const environment = {
   , fdUrl      : 'http://localhost:1211/'  // filedb
   , mtUrl      : 'http://localhost:1188/'  // micro tag
   , coUrl      : 'http://localhost:1199/'  // micro compliance seguimiento
+  , micro_seguimiento      : 'http://localhost:1199/'  // micro compliance seguimiento
   , estatus_maestro      : 'http://localhost:1177/'  // micro estatus maestro
+<<<<<<< HEAD
   ,securityUrl     : 'http://localhost:11122/'  // estatus maestro,
   ,mercadoUrl     : 'http://localhost:11120/'  // estatus maestro
   ,pmlUrl     : 'http://localhost:1114/'
   ,catalog      : 'http://localhost:1155/'  // micro catalago maestro
+=======
+  , securityUrl     : 'http://201.149.85.14:11122/security/'  // estatus maestro,
+  , mercadoUrl     : 'http://localhost:11120/'  // estatus maestro
+  , pmlUrl     : 'http://localhost:1114/pml/rest/'
+>>>>>>> 01a98dbff4d99c015129d1dd3e2bcc21d0dfa92e
 };
-//*/
 
 /*
  * For easier debugging in development mode, you can import the following file

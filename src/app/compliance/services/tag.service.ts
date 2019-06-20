@@ -52,8 +52,8 @@ export class TagService {
     return this.http.get( `${ this.baseMicroTagUrl }${actividad}`, httpOptions);
   }
 
-  getActividadesPrecedentes(padre: string, tags: string[]) {
-    return this.http.get( `${ this.baseMicroTagUrl }getActividadesPrecedentes/${padre}/${tags}`, httpOptions);
+  getActividadesPrecedentes(padre) : Observable<any> {
+    return this.http.get( `${ this.baseMicroTagUrl }getActividadesPrecedentes/${padre}`, httpOptions);
   }
 
   /*
@@ -62,12 +62,11 @@ export class TagService {
   }
   */
 
-  agregarPrecedentes(tag: string, tags: string[]) {
+  agregarPrecedentes(tag, tags) : Observable<any> {
     return this.http.get( `${ this.baseMicroTagUrl }agregarPrecedentes/${tag}/${tags}`, httpOptions);
   }
 
-  eliminarPrecedente(tagPrecedente: TagPrecedente) {
-    console.log(tagPrecedente);
+  eliminarPrecedente(tagPrecedente): Observable<any> {
     return this.http.post( `${ this.baseMicroTagUrl }eliminarPrecedente`, tagPrecedente, httpOptions);
   }
 
@@ -80,8 +79,8 @@ export class TagService {
   }
 
   // Actividades
-  getCatalogoActividades() : Observable<any> {
-    return this.http.get( `${ this.baseMicroTagUrl }actividad/all`, httpOptions);
+  getCatalogoActividades(status) : Observable<any> {
+    return this.http.get( `${ this.baseMicroTagUrl }actividad/all/${status}`, httpOptions);
   }
 
   getPrefijoConsecutivo(actividadId: number) {

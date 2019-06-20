@@ -39,7 +39,7 @@ export class PerfilComboService {
 
   constructor(private http: HttpClient) { }
 
-  getCatalogo(nameCat: Array<any>) {
+  getCatalogo(nameCat: Array<any>): Observable<any> {
     return this.http.get( `${ this.baseUrl }listCatalogos/${nameCat}`, httpOptions);
   }
 
@@ -47,16 +47,16 @@ export class PerfilComboService {
     return this.http.get( `${ this.baseUrl }valoresAptitudes/${list}`, httpOptions);
   }
 
-  getEmpleado(id: number) {
+  getEmpleado(id: number): Observable<any> {
     return this.http.get( `${ this.baseUrl2 }empleado/${id}`, httpOptions);
   }
 
-  getEmpleadoDetalles(id: number) {
+  getEmpleadoDetalles(id: number): Observable<any> {
     return this.http.get( `${ this.baseUrl2 }empleadoDetalle/${id}`, httpOptions);
   }
 
 
-  getSave(empleado: Empleado) {
+  getSave(empleado: Empleado): Observable<any> {
       return this.http.put( `${ this.baseUrl2 }actualizaEmpleado`, empleado, httpOptions);
   }
 

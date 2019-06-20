@@ -9,8 +9,8 @@
   <form [formGroup]="clientForm" (ngSubmit)="save(clientForm.value)">
     <div class="row mt-5 mb-5">
       <div class="col">
-        <button type="submit" class="btn right" [disabled]="!clientForm.valid"
-          [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+        <button type="submit" class="btn btn-info right" [disabled]="!clientForm.valid"
+          >
           Guardar Cliente
         </button>
       </div>
@@ -18,7 +18,7 @@
     <!-- Inputs -->
     <ng-container *ngFor="let formControl of formControls">
       <div class="row">
-        <div class="col dividerSection" [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+        <div class="col dividerSection" >
           <b>{{formControl.section}}</b>
         </div>
       </div>
@@ -126,7 +126,7 @@
   <!-- CUENTAS DEL CLIENTE -->
   <form [formGroup]="accountForm" (ngSubmit)="saveAccount(accountForm.value)">
     <div class="row">
-      <div class="col dividerSection" [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+      <div class="col dividerSection" >
         <b>Cuentas de Cliente</b>
       </div>
     </div>
@@ -176,12 +176,17 @@
       </ng-container>
     </div>
     <div class="col">
+<<<<<<< HEAD:src/app/safe/admin/clients/edit/clientsEdit.component.html
       <button type="button" class="btn right" (click)="cancelAccount()"
         [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
         Cancelar
       </button>
       <button type="submit" class="btn right" [disabled]="!accountForm.valid"
         [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+=======
+      <button type="submit" class="btn btn-info right" [disabled]="!accountForm.valid"
+        >
+>>>>>>> 01a98dbff4d99c015129d1dd3e2bcc21d0dfa92e:src/app/safe/admin/clients/edit/editClients.component.html
         Agregar
       </button>
     </div>
@@ -244,7 +249,7 @@
   <!-- CONTACTOS DEL CLIENTE -->
   <form [formGroup]="contactForm" (ngSubmit)="saveContact(contactForm.value)">
     <div class="row">
-      <div class="col dividerSection" [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+      <div class="col dividerSection" >
         <b>Contactos de Cliente</b>
       </div>
     </div>
@@ -291,12 +296,17 @@
       </ng-container>
     </div>
     <div class="col">
+<<<<<<< HEAD:src/app/safe/admin/clients/edit/clientsEdit.component.html
       <button type="button" class="btn right" (click)="cancelContact()"
         [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
         Cancelar
       </button>
       <button type="submit" class="btn right" [disabled]="!contactForm.valid"
         [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+=======
+      <button type="submit" class="btn btn-info right" [disabled]="!contactForm.valid"
+        >
+>>>>>>> 01a98dbff4d99c015129d1dd3e2bcc21d0dfa92e:src/app/safe/admin/clients/edit/editClients.component.html
         Agregar
       </button>
     </div>
@@ -382,7 +392,7 @@
   <!-- CÓDIGOS PARA ADDENDA PRODUCTOS DEL CLIENTE -->
   <form [formGroup]="productForm" (ngSubmit)="saveProduct(productForm.value)">
     <div class="row">
-      <div class="col dividerSection" [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+      <div class="col dividerSection" >
         <b> Códigos para Addenda Productos del Cliente </b>
       </div>
     </div>
@@ -450,12 +460,17 @@
       </ng-container>
     </div>
     <div class="col">
+<<<<<<< HEAD:src/app/safe/admin/clients/edit/clientsEdit.component.html
       <button type="button" class="btn right" (click)="cancelProduct()"
         [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
         Cancelar
       </button>
       <button type="submit" class="btn right" [disabled]="!productForm.valid"
         [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+=======
+      <button type="submit" class="btn btn-info right" [disabled]="!productForm.valid"
+        >
+>>>>>>> 01a98dbff4d99c015129d1dd3e2bcc21d0dfa92e:src/app/safe/admin/clients/edit/editClients.component.html
         Agregar
       </button>
     </div>

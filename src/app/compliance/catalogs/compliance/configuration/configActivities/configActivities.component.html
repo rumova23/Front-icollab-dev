@@ -8,7 +8,7 @@
           <!-- Material input -->
           <div class="md-form">
             <mat-form-field class="w-100">
-              <input matInput placeholder="Id Tag" formControlName="fIdTag" readonly="true">
+              <input matInput placeholder="Id Tag" formControlName="fIdTag">
             </mat-form-field>
           </div>
         </div>
@@ -17,8 +17,8 @@
           <!-- Material input -->
           <div class="md-form">
             <mat-form-field class="w-100">
-              <input matInput placeholder="Tag" formControlName="fTag" readonly="true"
-                [ngClass]="{ 'is-invalid': submitted && f.fTag.errors }">
+              <input  matInput placeholder="Tag" formControlName="fTag" disabled="true"
+                      [ngClass]="{ 'is-invalid': submitted && f.fTag.errors }">
               <div *ngIf="submitted && f.fTag.errors" style="color:red">
                 <div *ngIf="f.fTag.errors.required">Requerido</div>
               </div>
@@ -56,7 +56,7 @@
             <mat-form-field class="w-100">
               <mat-label>Categoría</mat-label>
               <mat-select formControlName="fActividad" [compareWith]="compareFn"
-                (selectionChange)="asignarNombreTag($event.value)" [disabled]="habilitarActividad"
+                (selectionChange)="asignarNombreTag($event.value)" 
                 [ngClass]="{ 'is-invalid': submitted && f.fActividad.errors }">
                 <mat-option *ngFor="let operator of comboActividades;" [value]="operator.value">{{operator.label}}
                 </mat-option>
@@ -71,7 +71,7 @@
           <div class="md-form form-group">
             <mat-form-field class="w-100">
               <input matInput placeholder="Nombre del Cumplimiento" formControlName="fClasificacionActividad"
-                [readonly]="soloLectura" [ngClass]="{ 'is-invalid': submitted && f.fClasificacionActividad.errors }">
+                    [ngClass]="{ 'is-invalid': submitted && f.fClasificacionActividad.errors }">
               <div *ngIf="submitted && f.fClasificacionActividad.errors" style="color:red">
                 <div *ngIf="f.fClasificacionActividad.errors.required">Requerido</div>
               </div>
@@ -85,7 +85,7 @@
           <div class="md-form form-group">
             <mat-form-field class="w-100">
               <mat-label>Tipo de Cumplimiento</mat-label>
-              <mat-select formControlName="fTipoCumplimiento" [disabled]="soloLectura" [compareWith]="compareFn"
+              <mat-select formControlName="fTipoCumplimiento" [compareWith]="compareFn"
                 [ngClass]="{ 'is-invalid': submitted && f.fTipoCumplimiento.errors }">
                 <mat-option *ngFor="let operator of comboTipoCumplimiento;" [value]="operator.value">{{operator.label}}
                 </mat-option>
@@ -99,7 +99,7 @@
         <div class="col-md-6">
           <div class="md-form">
             <mat-form-field class="w-100">
-              <input matInput placeholder="Requisito Legal" formControlName="fRequisitoLegal" [readonly]="soloLectura"
+              <input matInput placeholder="Requisito Legal" formControlName="fRequisitoLegal"
                 [ngClass]="{ 'is-invalid': submitted && f.fRequisitoLegal.errors }">
               <div *ngIf="submitted && f.fRequisitoLegal.errors" style="color:red">
                 <div *ngIf="f.fRequisitoLegal.errors.required">Requerido</div>
@@ -114,7 +114,7 @@
           <div class="md-form form-group">
             <mat-form-field class="w-100">
               <mat-label>Autoridad</mat-label>
-              <mat-select [compareWith]="compareFn" formControlName="fAutoridad" [disabled]="soloLectura"
+              <mat-select [compareWith]="compareFn" formControlName="fAutoridad"
                 [ngClass]="{ 'is-invalid': submitted && f.fAutoridad.errors }">
                 <mat-option *ngFor="let operator of comboAutoridad;" [value]="operator.value">{{operator.label}}
                 </mat-option>
@@ -129,7 +129,7 @@
           <div class="md-form form-group">
             <mat-form-field class="w-100">
               <mat-label>Tipo de Aplicación</mat-label>
-              <mat-select [compareWith]="compareFn" formControlName="fTipoAplicacion" [disabled]="soloLectura"
+              <mat-select [compareWith]="compareFn" formControlName="fTipoAplicacion"
                 [ngClass]="{ 'is-invalid': submitted && f.fTipoAplicacion.errors }">
                 <mat-option *ngFor="let operator of comboTipoAplicacion;" [value]="operator.value">{{operator.label}}
                 </mat-option>
@@ -147,7 +147,7 @@
           <div class="md-form form-group">
             <mat-form-field class="w-100">
               <mat-label>Período de entrega</mat-label>
-              <mat-select [compareWith]="compareFn" formControlName="fPeriodoEntrega" [disabled]="soloLectura"
+              <mat-select [compareWith]="compareFn" formControlName="fPeriodoEntrega"
                 [ngClass]="{ 'is-invalid': submitted && f.fPeriodoEntrega.errors }">
                 <mat-option *ngFor="let operator of comboPeriodoEntrega;" [value]="operator.value">{{operator.label}}
                 </mat-option>
@@ -162,7 +162,7 @@
           <div class="md-form form-group">
             <mat-form-field class="w-100">
               <mat-label>Tipo de días</mat-label>
-              <mat-select [compareWith]="compareFn" formControlName="fTipoDias" [disabled]="soloLectura"
+              <mat-select [compareWith]="compareFn" formControlName="fTipoDias"
                 [ngClass]="{ 'is-invalid': submitted && f.fTipoDias.errors }">
                 <mat-option *ngFor="let operator of comboTipoDias;" [value]="operator.value">{{operator.label}}
                 </mat-option>
@@ -192,23 +192,6 @@
           </div>
         </div>
       </div>
-      <!--div class="row">
-        <div class="col-md-6">
-          <div class="md-form form-group">
-            <mat-form-field class="w-100">
-              <mat-label>Estatus</mat-label>
-              <mat-select [compareWith]="compareFn" formControlName="fComboEstatus" [disabled]="deshabiliarEstatus"
-                [ngClass]="{ 'is-invalid': submitted && f.fComboEstatus.errors }">
-                <mat-option *ngFor="let operator of comboEstatus;" [value]="operator.value">{{operator.label}}
-                </mat-option>
-              </mat-select>
-              <div *ngIf="submitted && f.fComboEstatus.errors" style="color:red">
-                <div *ngIf="f.fComboEstatus.errors.required">Requerido</div>
-              </div>
-            </mat-form-field>
-          </div>
-        </div>
-      </div-->
 
       <div class="row">
         <div class="col-md-6">
@@ -239,60 +222,67 @@
         </div>
       </div>
     </form>
+  </div>
+</div>
 
     <div class="row" *ngIf="existeTagId">
       <div class="col-md-12">
-        <div class="row" *ngIf="isPrecedentes">
-            <div class="col-md-6">
-              <div class="md-form">
-                <mat-label>Actividades Procedentes</mat-label>
-              </div>
+        <div class="row" *ngIf="!soloLectura">
+          <div class="col-md-6">
+            <div class="md-form">
+              <button type="button" class="btn"
+                [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
+                (click)="mostrarPrecedentes()">Mostrar Precedentes</button>
             </div>
           </div>
-          <div class="row" *ngIf="!soloLectura">
-            <div class="col-md-6">
-              <div class="md-form">
-                <button type="button" class="btn"
-                  [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
-                  (click)="mostrarPrecedentes()">Mostrar Precedente</button>
-              </div>
+        </div>
+        <div class="row" *ngIf="tablaAgregarPrecedentes">
+          <div class="col-md-6">
+            <div class="md-form">
+              <mat-label>Lista de actividades disponibles para asiganar como procedentes</mat-label>
             </div>
           </div>
+        </div>
 
         <!-- LISTA DE PRECEDENTES PARA ASIGNAR -->
-        <div class="row" >
-          <div class="col-md-12" *ngIf="tablaAgregarPrecedentes">
-            <div class="tabla-responsi mat-elevation-z8">      
-              <table mat-table matSort class="table_catalogo" [dataSource]="tagPrecedentesParaAsiganar">
-                <ng-container matColumnDef="ID_ACTIVIDAD">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center">ID ACTIVIDAD </th>
-                  <td mat-cell *matCellDef="let element" class="p-2 border-none">
-                    {{element.tagId}}
-                  </td>
+        <div class="row mt-4">
+          <div class="col" *ngIf="tablaAgregarPrecedentes">
+            <div class="tabla-responsi mat-elevation-z1">
+              <div class="col-md-6">
+                <div class="md-form">      
+                  <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Escriba palaba a filtrar">
+                  </mat-form-field>
+                </div>
+              </div>
+              <table matSort mat-table [dataSource]="registrosParaAsignar" class="table_catalogo">
+                <!-- orden Column -->
+                <ng-container matColumnDef="tagId">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center" > TAG ID </th>
+                  <td mat-cell *matCellDef="let element">{{element.tagId}} </td>
                 </ng-container>
-                <ng-container matColumnDef="ACTIVIDAD">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center">ACTIVIDAD</th>
-                  <td mat-cell *matCellDef="let element" class="p-2 border-none">
-                    {{element.tag}}
-                  </td>
+                <!-- orden Column -->
+                <ng-container matColumnDef="tag">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> ACTIVIDAD </th>
+                  <td mat-cell *matCellDef="let element"> {{element.tag}} </td>
                 </ng-container>
-                <ng-container matColumnDef="DESCRIPCION">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center">DESCRIPCIÓN</th>
-                  <td mat-cell *matCellDef="let element" class="p-2 border-none">
-                    {{element.descripcion}}
-                  </td>
+                <!-- nombre Column -->
+                <ng-container matColumnDef="descripcion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> DESCRIPCION </th>
+                  <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
                 </ng-container>
-                <ng-container matColumnDef="ASIGNAR_PRECEDENTE">
+                <ng-container matColumnDef="assignPrecedent">
                   <th mat-header-cell *matHeaderCellDef class="txt-center">ASIGNAR PRECEDENTE </th>
                   <td mat-cell *matCellDef="let element" class="p-2 border-none">
                     <u><i>
-                      <mdb-checkbox (change)="agregarQuitarId( element.tag )"></mdb-checkbox>
+                      <!--mdb-checkbox (change)="agregarQuitarId( element.tag )"></mdb-checkbox-->
+                      <mat-checkbox class="active" color="primary" (change)="agregarQuitarId( element.tag )"></mat-checkbox>
                     </i></u>
                   </td>
                 </ng-container>
-                
-                <tr mat-header-row *matHeaderRowDef="cabeceraTagPrecedentesAux"></tr>
-                <tr mat-row *matRowDef="let row; columns: cabeceraTagPrecedentesAux;"></tr>
+                <!-- header -->
+                <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
               </table>
               <mat-paginator [pageSizeOptions]="registros_x_pagina" showFirstLastButtons></mat-paginator>
             </div>
@@ -307,61 +297,73 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    
+        <!-- LISTA DE PRECEDENTES PARA ASIGNAR -->
 
-    <!-- SECCIÓN DE LOS PRECEDENTES -->
-    <div class="row" *ngIf="existeTagId">
-      <div class="col-md-12">
-
-        <!-- LISTA DE PRECEDENTES ASIGNADOS -->
-        <div class="row" *ngIf="existeTagId">
-          <div class="col-md-6">
-            <div class="md-form">
-              <mat-label>Lista de procedentes asignados</mat-label>
-            </div>
-          </div>
-        </div>
+        <!-- SECCIÓN DE LOS PRECEDENTES -->
         <div class="row" *ngIf="existeTagId">
           <div class="col-md-12">
-            <div class="md-form">
-              <table mdbTable>
-                <thead>
-                  <tr>
-                    <th *ngFor="let head of cabeceraTagPrecedentes" scope="col">{{head}} </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr mdbTableCol *ngFor="let tagPrecedente of tagPrecedentes">
-                    <th scope="row"> {{tagPrecedente.tagPadre.tagId}} </th>
-                    <td>{{tagPrecedente.tagPadre.tag}}</td>
-                    <td>{{tagPrecedente.tagHijo.tag}}</td>
-                    <td>
-                      <a (click)="eliminarPrecedente(tagPrecedente)">
-                        <img src="assets/images/skins/ico_Borrar.png" alt="eliminar">
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <!-- LISTA DE PRECEDENTES ASIGNADOS -->
+            <div class="row" *ngIf="existeTagId">
+              <div class="col-md-6">
+                <div class="md-form">
+                  <mat-label>Lista de procedentes asignados</mat-label>
+                </div>
+              </div>
             </div>
+            
+            <div class="row mt-4" *ngIf="existeTagId">
+              <div class="col-md-12">
+                <div class="tabla-responsi mat-elevation-z1">
+                  <mat-form-field>
+                    <input matInput (keyup)="applyFilter1($event.target.value)" placeholder="Escriba palaba a filtrar">
+                  </mat-form-field>
+                  <table matSort mat-table [dataSource]="tagPrecedentes" class="table_catalogo">
+                    <!-- orden Column -->
+                    <ng-container matColumnDef="tagId">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> TAG ID </th>
+                      <td mat-cell *matCellDef="let element">{{element.tagId}} </td>
+                    </ng-container>
+                    <!-- orden Column -->
+                    <ng-container matColumnDef="tagPadre">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> TAG PADRE </th>
+                      <td mat-cell *matCellDef="let element"> {{element.tagPadre}} </td>
+                    </ng-container>
+                    <!-- nombre Column -->
+                    <ng-container matColumnDef="tagHijo">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> TAG HIJO </th>
+                      <td mat-cell *matCellDef="let element"> {{element.tagHijo}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="opcion">
+                      <th mat-header-cell *matHeaderCellDef class="txt-center">OPCIÓN </th>
+                      <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                        <u><i>
+                          <a (click)="eliminarPrecedente(element.elementTag)">
+                              <img src="assets/images/skins/ico_Borrar.png" alt="eliminar">
+                          </a>
+                        </i></u>
+                      </td>
+                    </ng-container>
+                    <!-- header -->
+                    <tr mat-header-row *matHeaderRowDef="cabeceraTagPrecedentes"></tr>
+                    <tr mat-row *matRowDef="let row; columns: cabeceraTagPrecedentes;"></tr>
+                  </table>
+                  <mat-paginator [pageSizeOptions]="registros_x_pagina1" showFirstLastButtons></mat-paginator>
+                </div>
+              </div>
+            </div>
+            <!-- LISTA DE PRECEDENTES ASIGNADOS -->
           </div>
         </div>
-        <!-- LISTA DE PRECEDENTES ASIGNADOS -->
+  </div>
+</div>
 
-      </div>
+<div class="row">
+  <div class="col">
+    <div class="float-right">
+      <button type="button" class="btn btn-md" 
+              [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
+              (click)="regresar()">Regresar
+      </button>
     </div>
-
-    <div class="row">
-      <div class="col-10"></div>
-      <div class="col-2">
-        <button type="button" class="btn"
-          [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
-          (click)="regresar()">Regresar</button>
-      </div>
-    </div>
-
-
   </div>
 </div>

@@ -51,6 +51,16 @@ export interface actividades {
   styleUrls: ['./responsibilities.component.scss']
 })
 export class ResponsibilitiesComponent implements OnInit {
+
+  constructor( public tagsServ: PersonalCompetenteService ) {
+    this.actividades = [];
+    this.tags = [];
+    this.cumplimientos = [];
+
+    this.actividadesAsignados = [];
+    this.tagsAsignados = [];
+    this.cumplimientosAsignados = [];
+  }
   @Input() inIdEmpleado: number;
   @Input() inTipo: string;
   @Input() isViewable: string;
@@ -72,16 +82,7 @@ export class ResponsibilitiesComponent implements OnInit {
 
   tagsId = [[], [], [], [], [],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
   tagsValor = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
-
-  constructor( public tagsServ: PersonalCompetenteService ) {
-    this.actividades = [];
-    this.tags = [];
-    this.cumplimientos = [];
-
-    this.actividadesAsignados = [];
-    this.tagsAsignados = [];
-    this.cumplimientosAsignados = [];
-  }
+  valorModal: number;
 
   resuelveDS(respTagDTO) {
     respTagDTO.actvs.forEach( actividad => {
@@ -95,27 +96,30 @@ export class ResponsibilitiesComponent implements OnInit {
     });
   }
 
-  resuelveDSAsignados(respTagDTO) {
-    respTagDTO.actvs.forEach( actividad => {
+  resuelveDSAsignados(data) {
+    data.actvs.forEach( actividad => {
       actividad.cumplimi.forEach( cumplimiento => {
         cumplimiento.tagsRes.forEach( tg => {
           this.tagsAsignados.push(new ActiHijo( tg.id, tg.desc));
         });
-        this.cumplimientosAsignados.push( new Acti( cumplimiento.id, cumplimiento.desc, this.tags) );
+        this.cumplimientosAsignados.push( new Acti( cumplimiento.id, cumplimiento.desc, this.tagsAsignados) );
       } );
-      this.actividadesAsignados.push( new Acti( actividad.id, actividad.desc, this.cumplimientos) );
+      this.actividadesAsignados.push( new Acti( actividad.id, actividad.desc, this.cumplimientosAsignados) );
     });
+    console.dir(this.actividadesAsignados);
   }
   ngOnInit() {
     this.plantas = [];
     this.perfiles = [];
     this.tagsServ.getTagsAsignacion(this.inIdEmpleado).subscribe(
-    respTagDTO => {
-      this.resuelveDS(respTagDTO);
+    data1 => {
+      console.dir(data1)
+      this.resuelveDS(data1);
     });
     this.tagsServ.getTagsAsignado(this.inIdEmpleado).subscribe(
-    respTagDTO => {
-      this.resuelveDSAsignados(respTagDTO);
+    data => {
+      console.dir(data);
+      this.resuelveDSAsignados(data);
     });
     this.tagsServ.getPlantaPerfil().subscribe (
       poRespuesta => {
@@ -140,50 +144,44 @@ export class ResponsibilitiesComponent implements OnInit {
       }
     }
 
-    this.tagsServ.salvarTags( this.SaveRespuestas, this.inIdEmpleado ).subscribe(
-      respuesta => {
-        if ( !respuesta ){
-          console.log("El back no responde");
-        } else {
-          let estatus = respuesta[ 'status' ];
-          if ( estatus === 'exito'){
+    this.tagsServ.salvarTags( this.SaveRespuestas, this.inIdEmpleado ).subscribe(respuesta => {
+          if ( respuesta.status === 'exito') {
+            console.log(respuesta.mensaje);
           } else {
-            console.log(respuesta[ 'mensaje' ]);
+            console.log(respuesta.mensaje);
           }
-        }
     });
   }
 
   onChange(event, item) {
     console.log( event, item);
   }
-  valorModal: number;
-  
-  eliminar($event, empleadoId: number ){
+  eliminar($event, empleadoId: number ) {
     this.valorModal = $event;
     /*si modal regresa 1 es que aceptado la operacion */
-    if(this.valorModal == 1){
-    } 
+    if (this.valorModal === 1) {
+    }
   }
-  
-  salvarPlantaPerfil(){
+  salvarPlantaPerfil() {
     this.salvarPP  = [];
-    let index: number = 0;
-    let indexT: number = 0;
-    this.plantaOpcTag.forEach( tag=>{
+    let index = 0;
+    let indexT = 0;
+    this.plantaOpcTag.forEach( tag => {
       this.plantaOpc.forEach(
-        perf =>{
-          /*let campos: string = "{ 'empleado': " + this.inIdEmpleado + ", 'planta':" + this.plantaOpc[index] + ", 'perfil':" + this.plantaPerfilOpc[index]+" }";*/
-          let campos: string = this.inIdEmpleado + ":" + this.plantaOpc[index] + ":" + this.plantaPerfilOpc[index]+ ":" + this.plantaOpcTag[indexT];
+        perf => {
+          const campos = this.inIdEmpleado + ':'
+              + this.plantaOpc[index] + ':'
+              + this.plantaPerfilOpc[index] + ':'
+              + this.plantaOpcTag[indexT];
           this.salvarPP.push(campos);
           index++;
         }
       );
       indexT++;
-    }); 
+    });
 
     this.tagsServ.salvarPlantaPerfilEmpleado(this.salvarPP).subscribe(
-      resultado =>{
+      resultado => {
     });
   }
 

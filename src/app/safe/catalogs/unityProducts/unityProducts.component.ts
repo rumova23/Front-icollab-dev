@@ -48,6 +48,24 @@ export class UnityProductsComponent implements OnInit {
     this.loading = false;
   }
 
+<<<<<<< HEAD
+=======
+  loadUnityProductsSat() {
+    this.marketService.loadUnityProductsSat(2)
+      .subscribe(
+        data => {
+          this.unityProductsSat = data.resultado;
+          console.log(this.unityProductsSat);
+          this.loadUnityProducts();
+        },
+        errorData => {
+          console.log(errorData);
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+
+        });
+  }
+
+>>>>>>> 01a98dbff4d99c015129d1dd3e2bcc21d0dfa92e
   loadUnityProducts() {
     this.catalogService.listUnityProduct(3)
       .subscribe(
@@ -56,7 +74,7 @@ export class UnityProductsComponent implements OnInit {
           console.log(this.unityProducts);
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Unidas de Producto');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
         });
   }
 

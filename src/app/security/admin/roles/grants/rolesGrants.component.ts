@@ -65,7 +65,7 @@ export class RolesGrantsComponent implements OnInit {
           this.loadGrantsTree();
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Grants Roles');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
         });
   }
 
@@ -92,7 +92,7 @@ export class RolesGrantsComponent implements OnInit {
           console.log(this.fathers);
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Grants Arbol');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
         });
   }
 
@@ -126,7 +126,7 @@ export class RolesGrantsComponent implements OnInit {
          this.eventService.sendMainSecurity(new EventMessage(5, null));
       },
       errorData => {
-        this.toastr.errorToastr(Constants.ERROR_LOAD, 'Grants Roles');
+        this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
       });
   }
 

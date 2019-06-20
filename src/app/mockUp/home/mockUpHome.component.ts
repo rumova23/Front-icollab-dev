@@ -4,37 +4,39 @@ import { ActivatedRoute } from '@angular/router';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { GlobalService } from 'src/app/core/globals/global.service';
-import { ClientsComponent } from '../admin/clients/clients.component';
 import { LegalAgreementComponent } from 'src/app/compliance/business/legalAgreement/legalAgreement.component';
-import { SafeNewEventComponent } from '../business/logBook/newEvent/safeNewEvent.component';
-import { PlannedPowersPPAComponent } from '../business/mdaPlanningProcess/plannedPowersPpa/plannedPowersPpa.component';
-import { HeatRateRecordComponent } from '../business/mdaPlanningProcess/heatRateRecord/heatRateRecord.component';
-import { SalesOffersComponent } from '../business/mdaPlanningProcess/salesOffers/salesOffers.component';
 import { DashboardAComponent } from 'src/app/compliance/dashboards/dashboard-a/dashboard-a.component';
+import { PlannedPowersPPAComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpa/plannedPowersPpa.component';
+import { HeatRateRecordComponent } from 'src/app/safe/business/mdaPlanningProcess/heatRateRecord/heatRateRecord.component';
+import { SalesOffersComponent } from 'src/app/safe/business/mdaPlanningProcess/salesOffers/salesOffers.component';
+import { ClientsComponent } from 'src/app/safe/admin/clients/clients.component';
+import { SafeNewEventComponent } from 'src/app/safe/business/logBook/newEvent/safeNewEvent.component';
+import { SalesOffersV2Component } from 'src/app/safe/business/mdaPlanningProcess/salesOffersV2/salesOffersV2.component';
 
 @Component({
-  selector: 'app-safeLinkMockUp',
-  templateUrl: './safeLinkMockUp.component.html',
-  styleUrls: ['./safeLinkMockUp.component.scss'],
+  selector: 'app-mockUpHome',
+  templateUrl: './mockUpHome.component.html',
+  styleUrls: ['./mockUpHome.component.scss'],
   entryComponents: [
     PlannedPowersPPAComponent, HeatRateRecordComponent, SalesOffersComponent, ClientsComponent,
-    LegalAgreementComponent, SafeNewEventComponent,DashboardAComponent
+    LegalAgreementComponent, SafeNewEventComponent,DashboardAComponent,SalesOffersV2Component
   ]
 })
-export class SafeLinkMockUp implements OnInit {
+export class MockUpHomeComponent implements OnInit {
     menu = [
         {
           id:'Link-MockUp',
           label:'Link-MockUp',
           icon:'/assets/images/skins/layer_7_ek1.png',
           children:[
-            /*{label:'planned-powers-ppa'},
+            {label:'planned-powers-ppa'},
             {label:'heat-rate-record'},
             {label:'sales-offers'},
+            {label:'sales-offers-V2'},
             {label:'registration-customer'},
-            {label: 'Legal-Compliance'},
-            {label: 'New Event'},*/
-            {label: 'Monitoreo nivel 2'}
+            {label:'Legal-Compliance'},
+            {label:'New Event'},
+            {label:'Monitoreo nivel 2'}
 
           ]
         },
@@ -48,7 +50,7 @@ export class SafeLinkMockUp implements OnInit {
     private globalService: GlobalService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private eventService: EventService) {
-    this.serviceSubscription = this.eventService.onChangeMainSafe.subscribe({
+    this.serviceSubscription = this.eventService.onChangeMainLinkMockUp.subscribe({
       next: (event: EventMessage) => {
         console.log(event);
         switch (event.id) {
@@ -67,12 +69,15 @@ export class SafeLinkMockUp implements OnInit {
 
   }
   
+  toggleMenu() {
+    this.eventService.sendLinkMockUp(new EventMessage(1, null));
+  }
   clickMenu0(item) {
     console.log(item);
     let option = 0;
     let data = {};
     switch (item.label) {
-        case 'Safe-Link-MockUp':
+        case 'Link-MockUp':
             option = 3;
             data = item;
             break;
@@ -104,10 +109,16 @@ export class SafeLinkMockUp implements OnInit {
             option = 9;
             data = item;
             break;  
+        case 'sales-offers-V2':
+            option = 10;
+            data = item;
+            break;  
 
             
     }
-    this.clickMenu(new EventMessage(option, data));
+    //this.clickMenu(new EventMessage(option, data));
+    this.eventService.sendLinkMockUp(new EventMessage(option, data));
+    
   }
   private clickMenu(event: EventMessage): void {
     this.viewContainerRef.clear();
@@ -154,6 +165,13 @@ export class SafeLinkMockUp implements OnInit {
           const refDashboard =
           this.viewContainerRef.createComponent(factoryDashboard);
           refDashboard.changeDetectorRef.detectChanges();
+          break;
+          
+        case 10:
+          const factorySalesOffersV2 = this.componentFactoryResolver.resolveComponentFactory(SalesOffersV2Component);
+          const refSalesOffersV2 =
+          this.viewContainerRef.createComponent(factorySalesOffersV2);
+          refSalesOffersV2.changeDetectorRef.detectChanges();
           break;
 
             

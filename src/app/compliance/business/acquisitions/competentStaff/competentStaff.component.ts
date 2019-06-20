@@ -193,7 +193,7 @@ export class CompetentStaffComponent implements OnInit {
   generarExamen(empleadoId: number) {
     console.log('generarExamen(empleadoId: number):' + empleadoId);
     this.preguntas.generaExamen(empleadoId).subscribe(data => {
-      this.toastr.successToastr('Se generaron los examenes correctamente', 'Exito!');
+      this.toastr.successToastr('Se generaron los examenes correctamente', '¡Se ha logrado!');
     }
     );
   }

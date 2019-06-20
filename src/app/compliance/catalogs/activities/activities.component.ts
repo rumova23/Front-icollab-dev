@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { GlobalService } from 'src/app/core/globals/global.service';
-import { ToastrManager } from 'ng6-toastr-notifications';
-import { TagActividadDTO } from '../../models/TagActividadDTO';
+import { ToastrManager } from 'ng6-toastr-notifications'
+import { SecurityService } from 'src/app/core/services/security.service';
 import { TagService } from '../../services/tag.service';
 import { ConfirmationDialogService } from 'src/app/core/services/confirmation-dialog.service';
 import { CatalogType } from '../../models/CatalogType';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
-
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 @Component({
   selector: 'app-activities',
@@ -19,6 +19,7 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 export class ActivitiesComponent implements OnInit {
   titulo: String = "Catálogos / Categorías";
   registros;
+  userResult;
   data: any[] = [];
   columnas: string[] = ['order','category','prefix','userUpdated','dateUpdated','status','see','update','delete'];          
 
@@ -32,6 +33,7 @@ export class ActivitiesComponent implements OnInit {
 
   constructor(
       private tagService: TagService,
+      private securityService: SecurityService,
       public toastr: ToastrManager,
       private globalService: GlobalService,
       private eventService: EventService,
@@ -42,18 +44,29 @@ export class ActivitiesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
-  
-    this.obtenerListaActividades();
+    this.addBlock(1, "Cargando...")
+    this.securityService.loadUsers().subscribe( userResult => {
+      this.userResult = userResult;
+      this.obtenerListaActividades();
+      this.addBlock(2, null);
+    },
+    error =>{
+      console.log(<any>error);
+      this.addBlock(2, null);
+      this.toastr.errorToastr('Error al cargar lista de usuarios.', 'Lo siento,');
+    });
 
   }
 
   
   obtenerListaActividades(){
+    this.addBlock(1, "Cargando...");
     this.data = [];
-    this.tagService.getCatalogoActividades().subscribe( data => {
+    this.tagService.getCatalogoActividades("TODOS").subscribe( data => {
         console.log(data)
         let listObj = [];
         let i = 0;
+        let userDetail;
         for (let element of data) {
           i += 1;
           let obj             = {};
@@ -61,7 +74,8 @@ export class ActivitiesComponent implements OnInit {
           obj['category']     = element.nombre;
           obj['prefix']       = element.prefijo;
           obj['status']       = element.estatus.estatus.nombre;
-          obj['userUpdated']  = element.userUpdated;
+          userDetail = this.userResult.resultado.find( user => user.user === element.userUpdated );
+          obj['userUpdated']        = userDetail == undefined ? 'system' : userDetail.name + " " + userDetail.lastName;
           obj['dateUpdated']  = element.dateUpdated;
           obj['see']      = 'sys_see';
           obj['edit']     = 'sys_edit';
@@ -73,18 +87,21 @@ export class ActivitiesComponent implements OnInit {
         this.registros =  new MatTableDataSource<any>(listObj);
         this.registros.paginator = this.paginator;
         this.registros.sort = this.matSort;
+
+        this.addBlock(2, null);
       },
       error => {
         console.log("Error al obtener catalgo de actividades.");
         console.log(<any> error)
+        this.addBlock(2, null);
+        this.toastr.errorToastr('Error al obtener catalgo de actividades.', 'Lo siento,');
       }
     )
   }
 
   public eliminarActividad(actividad: any) {
     this.confirmationDialogService.confirm('Por favor, confirme..', 
-          'Está seguro de eliminar la actividad? ' + actividad.nombre)
-    .then((confirmed) => {
+          'Está seguro de eliminar la actividad? ' + actividad.nombre).then((confirmed) => {
         if (confirmed){
           this.eliminarActividadConfirm(actividad)
         }
@@ -102,7 +119,7 @@ export class ActivitiesComponent implements OnInit {
           this.obtenerListaActividades();
           this.toastr.successToastr(res.mensaje, '¡Se ha logrado!');
         }else{
-          this.toastr.errorToastr(res.mensaje, 'Success!');
+          this.toastr.errorToastr(res.mensaje, 'Lo siento,');
         }
       },
       error => {
@@ -131,5 +148,10 @@ export class ActivitiesComponent implements OnInit {
     console.log(type);
     this.eventService.sendMainCompliance(new EventMessage(7, type));
  }
+
+  //Loadin
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
 
 }

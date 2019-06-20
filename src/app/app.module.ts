@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { MDBBootstrapModule, DropdownModule } from 'angular-bootstrap-md';
 import { BlockUIModule } from 'ng-block-ui';
 
@@ -7,7 +7,7 @@ import { BlockUIModule } from 'ng-block-ui';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material';
+import { MatNativeDateModule, MatPaginatorIntl } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -80,7 +80,6 @@ import { RolesGrantsComponent } from './security/admin/roles/grants/rolesGrants.
 import { TreeviewModule } from 'ngx-treeview';
 import { Constants } from './core/globals/Constants';
 import { ComplianceTypesEditComponent } from './compliance/catalogs/compliance/types/edit/complianceTypesEdit.component';
-import { SafeLinkMockUp } from './safe/links-mock-up/safeLinkMockUp';
 import { ClientsComponent } from './safe/admin/clients/clients.component';
 import { UnityProductsComponent } from './safe/catalogs/unityProducts/unityProducts.component';
 import { UnityProductsEditComponent } from './safe/catalogs/unityProducts/edit/unityProductsEdit.component';
@@ -114,8 +113,18 @@ import { EditClientsComponent } from './safe/admin/clients/edit/clientsEdit.comp
 import { EditPlantsComponent } from './safe/admin/plants/edit/plantsEdit.component';
 import { InvoicesEditComponent } from './safe/admin/invoices/edit/invoicesEdit.component';
 
+import { MockUpHomeComponent } from './mockUp/home/mockUpHome.component';
+import { MockUpHeaderComponent } from './mockUp/comun/header/mockUpHeader.component';
+import { MatPaginatorIntlSpanish } from './core/helpers/apanishPaginatorIntl';
+import { SalesOffersV2Component } from './safe/business/mdaPlanningProcess/salesOffersV2/salesOffersV2.component';
+import { registerLocaleData } from '@angular/common';
 
 
+
+import localePy from '@angular/common/locales/es-PY';
+
+
+registerLocaleData(localePy, 'es');
 
 @NgModule({
   declarations: [
@@ -206,10 +215,13 @@ import { InvoicesEditComponent } from './safe/admin/invoices/edit/invoicesEdit.c
     InvoicesEditComponent,
 
 
-    SafeLinkMockUp,
+    MockUpHomeComponent,
+    MockUpHeaderComponent,
+
     PlannedPowersPPAComponent,
     HeatRateRecordComponent,
     SalesOffersComponent,
+    SalesOffersV2Component,
     SafeNewEventComponent,
 
   ],
@@ -242,7 +254,9 @@ import { InvoicesEditComponent } from './safe/admin/invoices/edit/invoicesEdit.c
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     ConfirmationDialogService,
-    EventService
+    EventService,
+    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlSpanish },
+    { provide: LOCALE_ID, useValue: 'es' } 
   ],
   entryComponents: [ ConfirmationDialogComponent ],
   bootstrap: [AppComponent]

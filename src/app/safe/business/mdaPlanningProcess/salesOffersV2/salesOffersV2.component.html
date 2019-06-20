@@ -1,0 +1,61 @@
+<div class="p-5">
+    
+    <div class="container-fluid">
+        <div class="row justify-content-between">
+            <div class="col click" (click)="previousMonth()">
+                <i class="fas fa-chevron-circle-left fa-3x"></i>
+            </div>
+            <div class="col">
+                <h1 class="text-center">{{title  | date:'MMMM y' }}</h1>
+            </div>
+            <div class="col click text-right" (click)="nextMonth()">
+                <i class="fas fa-chevron-circle-right fa-3x"></i>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="month row">
+            <ng-container  *ngFor="let week of weeks;let i = index ;">
+                <ng-container *ngIf="week.days.length > 0">
+                    <div class="week" [ngClass]="{'col-md-12': week.active, 'col-md-6': !week.active}">
+                        <hr class="mt-5">
+                        <div class="row titleweek" (click)="week.active=!week.active">
+                            <p>Semana {{i+1}}</p>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="day col" *ngFor="let day of week.days">
+                                <div class="titleday">{{day.date  | date:'d EEEE'}}</div><hr>
+                                <div class="offers">
+                                    <div class="offer container-fluid" 
+                                        *ngFor="let offer of day.offers" 
+                                        [ngClass]="offer.type" 
+                                        (click)="clickOffer(offer)">
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <i class="icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <p>{{offer.title}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-end">
+                                            <div class="col text-right" *ngIf="offer.reliquidation != '0' ">
+                                                <span class="badge badge-light">{{offer.reliquidation}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+</div>

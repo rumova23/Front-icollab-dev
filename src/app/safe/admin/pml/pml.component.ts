@@ -56,7 +56,7 @@ export class PmlComponent implements OnInit {
           this.addBlock(2, null);
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Pml')
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,')
           this.addBlock(2, null);
         });
   }

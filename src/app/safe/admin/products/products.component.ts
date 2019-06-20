@@ -67,7 +67,7 @@ export class ProductsComponent implements OnInit {
           this.loadCatalogs();
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Productos');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
         });
   }
 
@@ -83,7 +83,7 @@ export class ProductsComponent implements OnInit {
           }
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Ivas Sat');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
         });
   }
 

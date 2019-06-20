@@ -47,26 +47,26 @@ export class WeatherComponent implements OnInit {
           .subscribe(() => {
             this.conected = false;
             console.log("Socket desconectado");
-            this.toastr.errorToastr("Socket desconectado");
+            this.toastr.errorToastr("Socket desconectado",'Lo siento,');
           });
         this.socketService.onError()
           .subscribe((error: any) => {
             this.conected = false;
-            this.toastr.errorToastr("Socket error conexión");
+            this.toastr.errorToastr("Socket error conexión",'Lo siento,');
           });
         this.socketService.login()
           .subscribe((errorLogin: any) => {
             if (errorLogin) {
               console.log(errorLogin);
               this.conected = false;
-              this.toastr.errorToastr("Error al loguearse al socket", errorLogin);
+              this.toastr.errorToastr(errorLogin,'Lo siento,');
             } else {
               this.channel = this.socketService.suscribeChannel("weather");
               console.log( this.channel);
               this.socketService.onChannelError(this.channel - 1)
                 .subscribe((errorChannel: any) => {
                   console.log(errorChannel);
-                  this.toastr.errorToastr("Error en en Canal", errorChannel);
+                  this.toastr.errorToastr(errorChannel, 'Lo siento,');
                 });
               this.socketService.onChannelWatch(this.channel - 1)
                 .subscribe((data: any) => {
@@ -75,7 +75,7 @@ export class WeatherComponent implements OnInit {
             }
           });
       } else {
-        this.toastr.errorToastr("Token inválido");
+        this.toastr.errorToastr("Token inválido",'Lo siento,');
       }
     }
   }
