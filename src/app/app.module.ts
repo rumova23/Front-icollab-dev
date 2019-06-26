@@ -22,13 +22,13 @@ import { MaterialModule } from './modules/material-module';
 import { ConfirmationDialogService } from './core/services/confirmation-dialog.service';
 import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 import { ErrorInterceptor } from './core/helpers/error.interceptor';
-import { ConfirmationDialogComponent } from './comun/confirmationDialog/confirmationDialog.component';
+import { ConfirmationDialogComponent } from './common/confirmationDialog/confirmationDialog.component';
 import { ComplianceModule } from './compliance/complianceModule.module';
-import { BreadcrumbsComponent } from './comun/breadcrumbs/breadcrumbs.component';
-import { CalendarComponent } from './comun/calendar/calendar.component';
+import { BreadcrumbsComponent } from './common/breadcrumbs/breadcrumbs.component';
+import { CalendarComponent } from './common/calendar/calendar.component';
 import { CatalogsComponent } from './compliance//catalogs/catalogs.component';
-import { ConfirmationModalComponent } from './comun/confirmationModal/confirmationModal.component';
-import { HomeComponent } from './comun/home/home.component';
+import { ConfirmationModalComponent } from './common/confirmationModal/confirmationModal.component';
+import { HomeComponent } from './common/home/home.component';
 import { PerfilComponent } from './compliance/business/perfil/perfil.component';
 import { BehaviorComponent } from './compliance/business/perfil/behavior/behavior.component';
 import { SkillsComponent } from './compliance/business/perfil/skills/skills.component';
@@ -57,7 +57,7 @@ import { AuthoritiesEditComponent } from './compliance/catalogs/authorities/edit
 import { UploadComponent } from './compliance/business/perfil/upload/upload.component';
 import { ComplianceConfigurationComponent } from './compliance/catalogs/compliance/configuration/complianceConfiguration.component';
 import { EventService } from './core/services/event.service';
-import { LoginComponent } from './comun/login/login.component';
+import { LoginComponent } from './common/login/login.component';
 import { SecurityHomeComponent } from './security/home/securityHome.component';
 import { ComplianceHeaderComponent } from './compliance/comun/header/complianceHeader.component';
 import { ComplianceSidebarComponent } from './compliance/comun/sidebar/complianceSidebar.component';
@@ -73,9 +73,10 @@ import { SafeSidebarComponent } from './safe/common/sidebar/safeSidebar.componen
 import { GrantsComponent } from './security/admin/grants/grants.component';
 import { ProductsComponent } from './safe/admin/products/products.component';
 import { ProductsEditComponent } from './safe/admin/products/edit/productsEdit.component';
-import { ChangePasswordComponent } from './comun/changePassword/changePassword.component';
+import { ChangePasswordComponent } from './common/changePassword/changePassword.component';
 import { GrantsEditComponent } from './security/admin/grants/edit/grantsEdit.component';
 import { RolesGrantsComponent } from './security/admin/roles/grants/rolesGrants.component';
+
 
 import { TreeviewModule } from 'ngx-treeview';
 import { Constants } from './core/globals/Constants';
@@ -109,8 +110,8 @@ import { MoneysComponent } from './safe/catalogs/moneys/moneys.component';
 import { MoneysEditComponent } from './safe/catalogs/moneys/edit/moneysEdit.component';
 import { BranchInvoiceSeriesComponent } from './safe/admin/branchInvoiceSeries/branchInvoiceSeries.component';
 import { BranchInvoiceSeriesEditComponent } from './safe/admin/branchInvoiceSeries/edit/branchInvoiceSeriesEdit.component';
-import { EditClientsComponent } from './safe/admin/clients/edit/clientsEdit.component';
-import { EditPlantsComponent } from './safe/admin/plants/edit/plantsEdit.component';
+import { ClientsEditComponent } from './safe/admin/clients/edit/clientsEdit.component';
+import { PlantsEditComponent } from './safe/admin/plants/edit/plantsEdit.component';
 import { InvoicesEditComponent } from './safe/admin/invoices/edit/invoicesEdit.component';
 
 import { MockUpHomeComponent } from './mockUp/home/mockUpHome.component';
@@ -122,6 +123,11 @@ import { registerLocaleData } from '@angular/common';
 
 
 import localePy from '@angular/common/locales/es-PY';
+import { InvoicesComponent } from './safe/admin/invoices/invoices.component';
+import { FuecdEditComponent } from './safe/admin/fuecd/edit/fuecdEdit.component';
+import { FileUploadComponent } from './common/fileUpload/fileUpload.component';
+import { ProgressComponent } from './common/progress/progress.component';
+import { FuecdComponent } from './safe/admin/fuecd/fuecd.component';
 
 
 registerLocaleData(localePy, 'es');
@@ -129,6 +135,8 @@ registerLocaleData(localePy, 'es');
 @NgModule({
   declarations: [
     AppComponent,
+    FileUploadComponent,
+    ProgressComponent,
     PerfilComponent,
     BehaviorComponent,
     SkillsComponent,
@@ -189,14 +197,14 @@ registerLocaleData(localePy, 'es');
     UnityProductsComponent,
     UnityProductsEditComponent,
     ClientsComponent,
-    EditClientsComponent,
+    ClientsEditComponent,
     CatalogGenericComponent,
     CatalogGenericEditComponent,
     PmlComponent,
     WeatherComponent,
     PerfilHomeComponent,
     PlantsComponent,
-    EditPlantsComponent,
+    PlantsEditComponent,
     FiscalRegimensSatComponent,
     MoneysSatComponent,
     PaymentMethodsSatComponent,
@@ -213,7 +221,9 @@ registerLocaleData(localePy, 'es');
     BranchInvoiceSeriesComponent,
     BranchInvoiceSeriesEditComponent,
     InvoicesEditComponent,
-
+    InvoicesComponent,
+    FuecdComponent,
+    FuecdEditComponent,
 
     MockUpHomeComponent,
     MockUpHeaderComponent,

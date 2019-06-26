@@ -10,7 +10,7 @@ import { GrantsComponent } from '../admin/grants/grants.component';
 import { GrantsEditComponent } from '../admin/grants/edit/grantsEdit.component';
 import { RolesGrantsComponent } from '../admin/roles/grants/rolesGrants.component';
 import { GlobalService } from 'src/app/core/globals/global.service';
-import { ChangePasswordComponent } from 'src/app/comun/changePassword/changePassword.component';
+import { ChangePasswordComponent } from 'src/app/common/changePassword/changePassword.component';
 
 
 @Component({

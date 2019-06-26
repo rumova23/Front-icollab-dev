@@ -25,8 +25,11 @@ import { Invoice } from 'src/app/safe/models/Invoice';
 import { ItemInvoice } from 'src/app/safe/models/ItemInvoice';
 import { TypeRelationSat } from 'src/app/safe/models/TypeRelationSat';
 import { InvoiceProduct } from 'src/app/safe/models/InvoiceProduct';
-import { SortUtils } from 'src/app/core/helpers/SortUtils';
+import { SortUtils } from 'src/app/core/helpers/sort-utils';
 import * as moment from 'moment';
+import { RateIvaSat } from 'src/app/safe/models/RateIvaSat';
+import { Plant } from 'src/app/security/models/Plant';
+import { Validate } from 'src/app/core/helpers/util.validator.';
 
 
 @Component({
@@ -49,6 +52,7 @@ export class InvoicesEditComponent implements OnInit {
   paymentWays: Array<PaymentWaySat>;
   usesCfdi: Array<UseCfdiSat>;
   typesRelation: Array<TypeRelationSat>;
+  ratesIva: Array<RateIvaSat>;
 
   products: Array<Product>;
   clients: Array<Client>;
@@ -62,12 +66,16 @@ export class InvoicesEditComponent implements OnInit {
   invoiceProducts: Array<InvoiceProduct> = [];
   productsDatasource = new MatTableDataSource<InvoiceProduct>();
   productsColumns = ['product', 'quantity', 'unitValue',
-  'amount', 'percentageIva', 'amountIva',
-  'edit', 'rm'];
+    'amount', 'percentageIva', 'amountIva',
+    'edit', 'rm'];
   editingProduct: boolean = false;
   idProduct = 0;
 
   clientSelected: Client = {};
+  plantSelected: Plant = {}
+
+  //regex =  "/^\d{1,22}\.\d{1,12}$/";
+  regex = "^[0-9]{1,12}?.?[0-9]{1,22}$";
 
 
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
@@ -82,6 +90,8 @@ export class InvoicesEditComponent implements OnInit {
   ngOnInit() {
     this.invoiceForm = this.fb.group({
       //datos de general
+      'plantBranchOffice': new FormControl('', Validators.required),
+      'plantDirection': new FormControl('', Validators.required),
       'client': new FormControl('', Validators.required),
       'money': new FormControl('', Validators.required),
       'yearMarket': new FormControl(''),
@@ -120,8 +130,10 @@ export class InvoicesEditComponent implements OnInit {
 
     this.productForm = this.fb.group({
       'product': new FormControl('', Validators.required),
-      'quantity': new FormControl('', Validators.required),
-      'unitValue': new FormControl('', Validators.required)
+      'quantity': new FormControl('', [Validators.required,
+      Validators.pattern(this.regex)]),
+      'unitValue': new FormControl('', [Validators.required,
+      Validators.pattern(this.regex)])
     });
 
     this.loadCatalogs();
@@ -169,7 +181,10 @@ export class InvoicesEditComponent implements OnInit {
             entity.catalog === 'useCfdi')[0].data;
           this.typesRelation = result.filter(entity =>
             entity.catalog === 'typeRelation')[0].data;
-
+          this.ratesIva = result.filter(entity =>
+            entity.catalog === 'rateIva')[0].data;
+          console.log("rates iva");
+          console.log(this.ratesIva);
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -215,15 +230,15 @@ export class InvoicesEditComponent implements OnInit {
               }
             }
           }
-          this.loadClients();
+          this.getClients();
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Monedas');
         });
   }
 
-  private loadClients() {
-    this.marketService.loadClients(3)
+  private getClients() {
+    this.marketService.getClients(3)
       .subscribe(
         data => {
           this.clients = data.result;
@@ -237,11 +252,39 @@ export class InvoicesEditComponent implements OnInit {
               }
             }
           }
+          this.getPlant();
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clients');
         });
   }
+
+  private getPlant() {
+    this.marketService.getPlant(1)
+      .subscribe(
+        data => {
+          this.plantSelected = data.result;
+          console.log(this.plantSelected);
+          for (var i = 0; i < this.formControls.length; i++) {
+            const inputs = this.formControls[i].inputs;
+            for (var a = 0; a < inputs.length; a++) {
+              switch (inputs[a].formControlName) {
+                case 'plantDirection':
+                  inputs[a].options = this.plantSelected.plantDirections;
+                  break;
+                  case 'plantBranchOffice':
+                    inputs[a].options = this.plantSelected.plantBranches;
+                    break;  
+              }
+            }
+          }
+        },
+        errorData => {
+          console.log(errorData);
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Client');
+        });
+  }
+
   editProduct(product) {
     this.productForm.reset();
     console.log(product);
@@ -268,8 +311,25 @@ export class InvoicesEditComponent implements OnInit {
     product.id = this.idProduct;
     this.idProduct = 0;
     product.amount = product.quantity * product.unitValue;
+    product.amount = Number(product.amount.toFixed(6));
+    product.percentageIva = this.ratesIva.filter(entity =>
+      entity.id === product.product.idRateIvaSat)[0].percentageIva;
+    product.amountIva = Number((product.amount * product.percentageIva) / 100);
     console.log(product);
     this.invoiceProducts.push(product);
+    const allAmounts = this.invoiceProducts.map(i => i.amount);
+    console.log(allAmounts);
+    const allIvas = this.invoiceProducts.map(i => i.amountIva);
+    console.log(allIvas);
+    const subtotal = allAmounts.reduce((a, b) => a + b, 0);
+    const amountRateIvaTransfer = allIvas.reduce((a, b) => a + b, 0);
+    console.log(subtotal)
+    console.log(amountRateIvaTransfer);
+    this.invoiceForm.controls['subtotal'].setValue(subtotal);
+    this.invoiceForm.controls['subtotal2'].setValue(subtotal);
+    this.invoiceForm.controls['amountRateIvaTransfer'].setValue(amountRateIvaTransfer);
+    this.invoiceForm.controls['total'].setValue(subtotal + amountRateIvaTransfer);
+
     console.log(this.invoiceProducts);
     this.productsDatasource.data = this.invoiceProducts;
     this.invoiceProducts.slice();
@@ -312,7 +372,6 @@ export class InvoicesEditComponent implements OnInit {
                 break;
             }
           }
-
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Estados');
@@ -342,6 +401,9 @@ export class InvoicesEditComponent implements OnInit {
             this.paymentWays.filter(entity =>
               entity.id === this.clientSelected.fiscalData.idPaymentMethod)[0]
           );
+          this.setSysVaue(3);
+          this.invoiceProducts = [];
+          this.productsDatasource.data = this.invoiceProducts;
         },
         errorData => {
           console.log(errorData);
@@ -365,8 +427,16 @@ export class InvoicesEditComponent implements OnInit {
         this.invoiceForm.controls['yearClosing'].setValue(null);
         this.invoiceForm.controls['monthClosing'].setValue(null);
         break;
+      case 3:
+        this.invoiceForm.controls['yearMarket'].setValue(null);
+        this.invoiceForm.controls['monthMarket'].setValue(null);
+        this.invoiceForm.controls['dayMarket'].setValue(null);
+        this.invoiceForm.controls['yearClosing'].setValue(null);
+        this.invoiceForm.controls['monthClosing'].setValue(null);
+        break;
     }
   }
+
   getYear() {
     return moment(new Date()).year();
   }
@@ -379,7 +449,47 @@ export class InvoicesEditComponent implements OnInit {
     return moment(new Date()).date();
   }
 
+  getPlantDirection(direction) {
+    return direction.colony;
+  }
+
+  getPlantBranchOffice(direction) {
+    return direction.colony;
+  }
+
   save(value) {
     console.log(value);
+    if (!Validate(this.invoiceProducts)
+      || this.invoiceProducts.length === 0) {
+      this.toastr.errorToastr("Los productos de la factura no pueden ser vacíos",
+        'Productos');
+      return;
+    }
+    this.invoice = value;
+    this.invoice.idSys = value.sys.id;
+    this.invoice.idPlantBranchOffice = value.plantBranchOffice.id;
+    this.invoice.idPlantDirection = value.plantDirection.id,
+      this.invoice.idClient = value.client.id;
+    this.invoice.idMoney = value.money.id;
+    this.invoice.idPaymentMethod = value.paymentMethod.id;
+    this.invoice.idPaymentCondition = value.paymentCondition.id;
+    this.invoice.idPaymentWay = value.paymentWay.id;
+    this.invoice.idUseCfdi = value.useCfdi.id;
+    this.invoice.idTypeRelation = value.typeRelation.id;
+    this.invoice.idPlantFiscalData = this.plantSelected.fiscalData.id;
+    this.invoice.idClientFiscalData = this.clientSelected.fiscalData.id;
+    this.invoice.save = this.entity.new;
+    for (var i = 0; i < this.invoiceProducts.length; i++) {
+      this.invoiceProducts[i].idProduct = this.invoiceProducts[i].product.id;
+    }
+    this.invoice.invoiceProducts = this.invoiceProducts;
+    this.marketService.saveInvoice(this.invoice)
+    .subscribe(
+      data => {
+        //this.eventService.sendMainSafe(new EventMessage(12, {}));
+      },
+      errorData => {
+        this.toastr.errorToastr(Constants.ERROR_SAVE, 'Facturas');
+      });
   }
 }

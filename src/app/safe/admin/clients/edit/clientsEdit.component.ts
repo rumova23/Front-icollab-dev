@@ -41,7 +41,7 @@ import { CatalogOrderGeneric } from 'src/app/core/models/CatalogOrderGeneric';
   styleUrls: ['./clientsEdit.component.scss']
 })
 
-export class EditClientsComponent implements OnInit {
+export class ClientsEditComponent implements OnInit {
   itemClient: ItemClient = new ItemClient();
   formControls = this.itemClient.formControls;
   formControlsAccount = this.itemClient.formControlsAccount;

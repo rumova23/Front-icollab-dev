@@ -50,6 +50,11 @@ export class CatalogOrderSatFind {
             catalog: 'typeRelation',
             active: 1,
             order: 1
+        },
+        {
+            catalog: 'rateIva',
+            active: 1,
+            order: 1
         }
     ];
 }

@@ -3,8 +3,12 @@ export class ItemInvoice {
         {
             section: "General",
             inputs: [
-                { inputtype: "select", label: "Cliente", options: [], formControlName: "client" },
+                { inputtype: "plantBranchOffice", label: "Sucursales de la Planta", options: [], 
+                formControlName: "plantBranchOffice" },
+                { inputtype: "plantDirection", label: "Direcciones de la Planta", options: [], 
+                            formControlName: "plantDirection" },
                 { inputtype: "select", label: "Sistema", options: [], formControlName: "sys" },
+                { inputtype: "select", label: "Cliente", options: [], formControlName: "client" },
                 { inputtype: "text", label: "Emails envío", formControlName: "emails" },
                 { inputtype: "text", label: "Año Mercado", formControlName: "yearMarket" },
                 { inputtype: "text", label: "Mes Mercado", formControlName: "monthMarket" },

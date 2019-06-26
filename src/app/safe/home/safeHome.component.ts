@@ -5,7 +5,7 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { ProductsComponent } from '../admin/products/products.component';
 import { ProductsEditComponent } from '../admin/products/edit/productsEdit.component';
 import { GlobalService } from 'src/app/core/globals/global.service';
-import { ChangePasswordComponent } from 'src/app/comun/changePassword/changePassword.component';
+import { ChangePasswordComponent } from 'src/app/common/changePassword/changePassword.component';
 import { UnityProductsComponent } from '../catalogs/unityProducts/unityProducts.component';
 import { UnityProductsEditComponent } from '../catalogs/unityProducts/edit/unityProductsEdit.component';
 import { ClientsComponent } from '../admin/clients/clients.component';
@@ -30,9 +30,12 @@ import { MoneysComponent } from '../catalogs/moneys/moneys.component';
 import { MoneysEditComponent } from '../catalogs/moneys/edit/moneysEdit.component';
 import { BranchInvoiceSeriesComponent } from '../admin/branchInvoiceSeries/branchInvoiceSeries.component';
 import { BranchInvoiceSeriesEditComponent } from '../admin/branchInvoiceSeries/edit/branchInvoiceSeriesEdit.component';
-import { EditClientsComponent } from '../admin/clients/edit/clientsEdit.component';
-import { EditPlantsComponent } from '../admin/plants/edit/plantsEdit.component';
+import { ClientsEditComponent } from '../admin/clients/edit/clientsEdit.component';
+import { PlantsEditComponent } from '../admin/plants/edit/plantsEdit.component';
 import { InvoicesEditComponent } from '../admin/invoices/edit/invoicesEdit.component';
+import { InvoicesComponent } from '../admin/invoices/invoices.component';
+import { FuecdEditComponent } from '../admin/fuecd/edit/fuecdEdit.component';
+import { FuecdComponent } from '../admin/fuecd/fuecd.component';
 
 @Component({
   selector: 'app-safeHome',
@@ -41,14 +44,14 @@ import { InvoicesEditComponent } from '../admin/invoices/edit/invoicesEdit.compo
   entryComponents: [
     ProductsComponent, ProductsEditComponent, ChangePasswordComponent,
     UnityProductsComponent, UnityProductsEditComponent, ClientsComponent,
-    EditClientsComponent, CatalogGenericComponent, CatalogGenericEditComponent,
-    PmlComponent, WeatherComponent, EditPlantsComponent, PlantsComponent,
+    ClientsEditComponent, CatalogGenericComponent, CatalogGenericEditComponent,
+    PmlComponent, WeatherComponent, PlantsEditComponent, PlantsComponent,
     FiscalRegimensSatComponent, MoneysSatComponent, PaymentMethodsSatComponent,
     PaymentWaysSatComponent, ProductsSatComponent, RatesIvaSatComponent,
     UnityProductsSatComponent, UsesCfdiSatComponent, TypesRelationSatComponent,
     StatesComponent, StatesEditComponent, MoneysComponent, MoneysEditComponent,
     BranchInvoiceSeriesComponent, BranchInvoiceSeriesEditComponent,
-    InvoicesEditComponent
+    InvoicesEditComponent,InvoicesComponent, FuecdComponent,FuecdEditComponent
   ]
 })
 export class SafeHomeComponent implements OnInit {
@@ -77,26 +80,26 @@ export class SafeHomeComponent implements OnInit {
 
   ngOnInit() {
 
-    /*
-    this.eventService.sendMainSafe(new EventMessage(18, {
+
+    this.eventService.sendMainSafe(new EventMessage(22, {
       readOnly: false,
       new: true,
       edit: false
-    })); */
+    }));
 
     /*
     this.eventService.sendMainSafe(new EventMessage(18, 'educationLevel'));
     */
 
-   /*
-    this.eventService.sendMainSafe(new EventMessage(20, { 
-      readOnly:false,
-      new:true,
-      edit:false,
-      invoice: {
-      id:1,
-      name:"AGUILA"
-    }})); */
+    /*
+     this.eventService.sendMainSafe(new EventMessage(20, { 
+       readOnly:false,
+       new:true,
+       edit:false,
+       invoice: {
+       id:1,
+       name:"AGUILA"
+     }})); */
 
     /*
     this.eventService.sendMainSafe(new EventMessage(12, {
@@ -144,7 +147,7 @@ export class SafeHomeComponent implements OnInit {
         refClients.changeDetectorRef.detectChanges();
         break;
       case 8:
-        const factoryEditClients = this.componentFactoryResolver.resolveComponentFactory(EditClientsComponent);
+        const factoryEditClients = this.componentFactoryResolver.resolveComponentFactory(ClientsEditComponent);
         const refEditClients =
           this.viewContainerRef.createComponent(factoryEditClients);
         refEditClients.instance.entity = event.data;
@@ -184,7 +187,7 @@ export class SafeHomeComponent implements OnInit {
         break;
       case 13:
         const factoryEditPlants = this.componentFactoryResolver
-          .resolveComponentFactory(EditPlantsComponent);
+          .resolveComponentFactory(PlantsEditComponent);
         const refEditPlants =
           this.viewContainerRef.createComponent(factoryEditPlants);
         refEditPlants.instance.entity = event.data;
@@ -227,33 +230,55 @@ export class SafeHomeComponent implements OnInit {
         break;
 
       case 18:
-          const factoryBrancheInvoiceSeries = this.componentFactoryResolver
-            .resolveComponentFactory(BranchInvoiceSeriesComponent);
-          const refBrancheInvoiceSeries =
-            this.viewContainerRef.createComponent(factoryBrancheInvoiceSeries);
-            refBrancheInvoiceSeries.changeDetectorRef.detectChanges();
-          break;
-        case 19:
-            const factoryBrancheInvoiceSeriesEdit = 
-            this.componentFactoryResolver.resolveComponentFactory(BranchInvoiceSeriesEditComponent);
-            const refBrancheInvoiceSeriesEdit =
-              this.viewContainerRef.createComponent(factoryBrancheInvoiceSeriesEdit);
-              refBrancheInvoiceSeriesEdit.instance.entity = event.data;
-              refBrancheInvoiceSeriesEdit.instance.branchOfficeInvoiceSerieSelected = 
-              event.data.branchOfficeInvoiceSerie;
-              refBrancheInvoiceSeriesEdit.changeDetectorRef.detectChanges();
-            break;
-
-          case 20:
-              const factoryInvoicesEdit = 
-              this.componentFactoryResolver.resolveComponentFactory(InvoicesEditComponent);
-              const refInvoicesEdit =
-                this.viewContainerRef.createComponent(factoryInvoicesEdit);
-                refInvoicesEdit.instance.entity = event.data;
-                refInvoicesEdit.instance.invoiceSelected = 
-                event.data.invoice;
-                refInvoicesEdit.changeDetectorRef.detectChanges();
-              break;    
+        const factoryBrancheInvoiceSeries = this.componentFactoryResolver
+          .resolveComponentFactory(BranchInvoiceSeriesComponent);
+        const refBrancheInvoiceSeries =
+          this.viewContainerRef.createComponent(factoryBrancheInvoiceSeries);
+        refBrancheInvoiceSeries.changeDetectorRef.detectChanges();
+        break;
+      case 19:
+        const factoryBrancheInvoiceSeriesEdit =
+          this.componentFactoryResolver.resolveComponentFactory(BranchInvoiceSeriesEditComponent);
+        const refBrancheInvoiceSeriesEdit =
+          this.viewContainerRef.createComponent(factoryBrancheInvoiceSeriesEdit);
+        refBrancheInvoiceSeriesEdit.instance.entity = event.data;
+        refBrancheInvoiceSeriesEdit.instance.branchOfficeInvoiceSerieSelected =
+          event.data.branchOfficeInvoiceSerie;
+        refBrancheInvoiceSeriesEdit.changeDetectorRef.detectChanges();
+        break;
+      case 20:
+        const factoryInvoices = this.componentFactoryResolver
+          .resolveComponentFactory(InvoicesComponent);
+        const refInvoices =
+          this.viewContainerRef.createComponent(factoryInvoices);
+        refInvoices.changeDetectorRef.detectChanges();
+        break;
+      case 21:
+        const factoryInvoicesEdit =
+          this.componentFactoryResolver.resolveComponentFactory(InvoicesEditComponent);
+        const refInvoicesEdit =
+          this.viewContainerRef.createComponent(factoryInvoicesEdit);
+        refInvoicesEdit.instance.entity = event.data;
+        if (Validate(event.data.invoice)) {
+          refInvoicesEdit.instance.invoiceSelected =
+            event.data.invoice;
+        }
+        refInvoicesEdit.changeDetectorRef.detectChanges();
+        break;
+        case 22:
+          const factoryFuecd =
+            this.componentFactoryResolver.resolveComponentFactory(FuecdComponent);
+          const refFuecd =
+            this.viewContainerRef.createComponent(factoryFuecd);
+            refFuecd.changeDetectorRef.detectChanges();
+          break;  
+        case 23:
+          const factoryFuecdEdit =
+            this.componentFactoryResolver.resolveComponentFactory(FuecdEditComponent);
+          const refFuecdEdit =
+            this.viewContainerRef.createComponent(factoryFuecdEdit);
+            refFuecdEdit.changeDetectorRef.detectChanges();
+          break;  
 
       case 100:
         const factoryChangePasword =

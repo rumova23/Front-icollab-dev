@@ -1,6 +1,14 @@
 export interface InvoiceProduct {
     id?,
     save?,
+    product?,
+    serie?;
+    number?;
+    idPlantBranchOffice?;
+    idSys?;
+    idProduct?;
+    code?;
+    description?;
     quantity?;
     unitValue?,
     discount?,

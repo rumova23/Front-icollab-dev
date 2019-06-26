@@ -1,22 +1,24 @@
 import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { ToastrManager } from 'ng6-toastr-notifications';
-import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { MarketService } from '../../services/market.service';
 import { Client } from '../../models/Client';
 import { Constants } from 'src/app/core/globals/Constants';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventService } from 'src/app/core/services/event.service';
+import { Plant } from 'src/app/security/models/Plant';
+import { SecurityService } from 'src/app/core/services/security.service';
+import { Invoice } from '../../models/Invoice';
 
 
 
 @Component({
-  selector: 'app-clients',
-  templateUrl: './clients.component.html',
-  styleUrls: ['./clients.component.scss']
+  selector: 'app-invoices',
+  templateUrl: './invoices.component.html',
+  styleUrls: ['./invoices.component.scss']
 })
 
-export class ClientsComponent implements OnInit {
+export class InvoicesComponent implements OnInit {
  
   loading: boolean;
   cols: any[];
@@ -27,7 +29,10 @@ export class ClientsComponent implements OnInit {
   ];
   filterBtn = { label: "buscar" };
   rowsPorPage = [50, 100, 250, 500];
+
+  invoices:Array<Invoice>;
   clients:Array<Client>;
+
   constructor(private globalService: GlobalService,
     private marketService: MarketService,
     private eventService: EventService,
@@ -37,11 +42,9 @@ export class ClientsComponent implements OnInit {
     this.getClients();
     this.cols = [
       'id',
-      'number',
-      'classification',
-      'businessGroup',
-      'commercialBusiness',
-      "tradename",
+      'invoice',
+      'date',
+      'client',
       "ver",
       "modificar"
     ];
@@ -54,30 +57,48 @@ export class ClientsComponent implements OnInit {
       .subscribe(
         data => {
           this.clients = data.result;
+          console.log(this.clients);
+          this.getInvoices();
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
         });
   }
 
+  private getInvoices() {
+    this.marketService.getInvoices(3)
+      .subscribe(
+        data => {
+          this.invoices = data.result;
+          console.log(this.invoices);
+          for(var i = 0; i < this.invoices.length; i++) {
+            this.invoices[i].client = this.clients.filter(entity =>
+              entity.id ===  this.invoices[i].idClient)[0];
+          }
+        },
+        errorData => {
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Facturas');
+        });
+  }
+
   newEntity() {
     this.eventService.sendMainSafe(new
-      EventMessage(8, { readOnly: false, edit: false, new: true, client: {} }));
+      EventMessage(8, { readOnly: false, edit: false, new: true, plant: {} }));
   }
 
   getStatus(entity: Client) {
     return (entity.active) ? "Activo " : "Inactivo";
   }
 
-  action(client: Client, option: number) {
+  action(plant: Plant, option: number) {
     switch (option) {
       case 2:
         this.eventService.sendMainSafe(new
-          EventMessage(8, { readOnly: true, edit: false, new: false, client: client }));
+          EventMessage(13, { readOnly: true, edit: false, new: false, plant: plant }));
         break;
       case 3:
         this.eventService.sendMainSafe(new
-          EventMessage(8, { readOnly: false, edit: true, new: false, client: client }));
+          EventMessage(13, { readOnly: false, edit: true, new: false, plant: plant }));
         break;
     }
   }

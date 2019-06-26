@@ -38,7 +38,7 @@ import * as moment from 'moment';
   styleUrls: ['./plantsEdit.component.scss']
 })
 
-export class EditPlantsComponent implements OnInit {
+export class PlantsEditComponent implements OnInit {
   itemPlant: ItemPlant = new ItemPlant();
   formControls = this.itemPlant.formControls;
   formControlsAccount = this.itemPlant.formControlsAccount;

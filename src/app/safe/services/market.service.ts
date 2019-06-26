@@ -6,6 +6,7 @@ import { Product } from '../models/Product';
 import { Client } from '../models/Client';
 import { Plant } from 'src/app/security/models/Plant';
 import { BranchOfficeInvoiceSerie } from '../models/BranchOfficeInvoiceSerie';
+import { Invoice } from '../models/Invoice';
 
 
 
@@ -15,23 +16,11 @@ export class MarketService {
   constructor(private http: HttpClient) {
   }
 
-  loadDataProducts(option: number): Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'product/data/' + option);
-  }
-
-  loadDataClients(option: number): Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'client/data/' + option);
-  }
-
-  loadDataPlants(option: number): Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'plant/data/' + option);
-  }
-
   loadProducts(option: number): Observable<any> {
     return this.http.get(environment.mercadoUrl + 'product/list/' + option);
   }
 
-  loadClients(option: number): Observable<any> {
+  getClients(option: number): Observable<any> {
     return this.http.get(environment.mercadoUrl + 'client/list/' + option);
   }
 
@@ -47,6 +36,22 @@ export class MarketService {
     return this.http.post(environment.mercadoUrl + 'plant/save', plant);
   }
 
+  saveInvoice(invoice: Invoice): Observable<any> {
+    return this.http.post(environment.mercadoUrl + 'invoice/save', invoice);
+  }
+
+  saveFuecd(data): Observable<any> {
+    return this.http.post(environment.fuecdUrl + 'save', data);
+  }
+
+  getFuecd():Observable<any> {
+    return this.http.get(environment.fuecdUrl + 'list');
+  }
+
+  validateFuecd(data): Observable<any> {
+    return this.http.post(environment.fuecdUrl + 'validate', data);
+  }
+
   getProduct(idProduct: number): Observable<any> {
     return this.http.get(environment.mercadoUrl + 'product/get/' + idProduct);
   }
@@ -55,12 +60,16 @@ export class MarketService {
     return this.http.get(environment.mercadoUrl + 'client/get/' + idClient);
   }
 
-  getPlant(idPlant: number): Observable<any> {
+  getPlant(idPlant): Observable<any> {
     return this.http.get(environment.mercadoUrl + 'plant/get/' + idPlant);
   }
 
-  loadPlants(option: number): Observable<any> {
+  getPlants(option: number): Observable<any> {
     return this.http.get(environment.mercadoUrl + 'plant/list/' + option);
+  }
+
+  getInvoices(option: number): Observable<any> {
+    return this.http.get(environment.mercadoUrl + 'invoice/list/' + option);
   }
 
   getPmls(data: any): Observable<any> {
