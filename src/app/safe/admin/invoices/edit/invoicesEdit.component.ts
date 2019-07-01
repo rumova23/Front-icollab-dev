@@ -30,6 +30,7 @@ import * as moment from 'moment';
 import { RateIvaSat } from 'src/app/safe/models/RateIvaSat';
 import { Plant } from 'src/app/security/models/Plant';
 import { Validate } from 'src/app/core/helpers/util.validator.';
+import { EventMessage } from 'src/app/core/models/EventMessage';
 
 
 @Component({
@@ -272,16 +273,86 @@ export class InvoicesEditComponent implements OnInit {
                 case 'plantDirection':
                   inputs[a].options = this.plantSelected.plantDirections;
                   break;
-                  case 'plantBranchOffice':
-                    inputs[a].options = this.plantSelected.plantBranches;
-                    break;  
+                case 'plantBranchOffice':
+                  inputs[a].options = this.plantSelected.plantBranches;
+                  break;
               }
             }
           }
+          this.setData();
         },
         errorData => {
           console.log(errorData);
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Client');
+        });
+  }
+
+  setData() {
+    if (this.entity.readOnly) {
+      this.getInvoice();
+    }
+  }
+
+  getInvoice() {
+    this.marketService.getInvoice(this.invoiceSelected)
+      .subscribe(
+        data => {
+          this.invoiceSelected = data.result;
+          console.log(this.invoiceSelected);
+          this.invoiceSelected.client = this.clients.filter(entity =>
+            entity.id === this.invoiceSelected.idClient)[0];
+          this.invoiceSelected.sys = this.systems.filter(entity =>
+            entity.id === this.invoiceSelected.idSys)[0];
+          this.invoiceSelected.money = this.moneys.filter(entity =>
+              entity.id === this.invoiceSelected.idMoney)[0];
+          this.invoiceSelected.paymentMethod = this.paymentMethods.filter(entity =>
+                entity.id === this.invoiceSelected.idPaymentMethod)[0];   
+          this.invoiceSelected.paymentWay = this.paymentWays.filter(entity =>
+            entity.id === this.invoiceSelected.idPaymentWay)[0];
+          this.invoiceSelected.paymentCondition = this.paymentConditions.filter(entity =>
+            entity.id === this.invoiceSelected.idPaymentCondition)[0];  
+          this.invoiceSelected.useCfdi =  this.usesCfdi.filter(entity =>
+            entity.id === this.invoiceSelected.idUseCfdi)[0];  
+          this.marketService.getClient(this.invoiceSelected.idClient)
+            .subscribe(
+              dataC => {
+                this.clientSelected = dataC.result;
+                this.invoiceSelected.plantBranchOffice = this.
+                  plantSelected.plantBranches.filter(entity =>
+                  entity.id === this.invoiceSelected.idPlantBranchOffice)[0];
+                  this.invoiceSelected.plantDirection = this.
+                  plantSelected.plantDirections.filter(entity =>
+                  entity.id === this.invoiceSelected.idPlantDirection)[0];
+                this.invoiceProducts = this.invoiceSelected.invoiceProducts;
+                this.marketService.getProductsByClient(this.invoiceSelected.idClient)
+                .subscribe(
+                  dataP => {
+                    this.products = dataP.result;
+                    for (var a = 0; a < this.formControlsProduct.length; a++) {
+                      switch (this.formControlsProduct[a].formControlName) {
+                        case 'product':
+                          this.formControlsProduct[a].options = this.products;
+                          break;
+                      }
+                    }
+                    for(let i =0; i < this.invoiceProducts.length; i++) {
+                      this.invoiceProducts[i].product = this.products.filter(entity =>
+                        entity.id === this.invoiceProducts[i].idProduct)[0];
+                    }
+                    this.productsDatasource.data = this.invoiceProducts;
+                    this.invoiceForm.patchValue(this.invoiceSelected);
+                    this.invoiceForm.disable();
+                  },
+                  errorDataP => {
+                    this.toastr.errorToastr(Constants.ERROR_LOAD, 'Productos por cliente');
+                  });
+              },
+              errorDataC => {
+                this.toastr.errorToastr(Constants.ERROR_LOAD, 'Obtener Cliente');
+              });
+        },
+        errorData => {
+          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Obtener Factura');
         });
   }
 
@@ -412,28 +483,30 @@ export class InvoicesEditComponent implements OnInit {
   }
 
   setSysVaue(value) {
-    switch (value) {
-      case 1:
-        this.invoiceForm.controls['yearMarket'].setValue(null);
-        this.invoiceForm.controls['monthMarket'].setValue(null);
-        this.invoiceForm.controls['dayMarket'].setValue(null);
-        this.invoiceForm.controls['yearClosing'].setValue(this.getYear());
-        this.invoiceForm.controls['monthClosing'].setValue(this.getMonth());
-        break;
-      case 2:
-        this.invoiceForm.controls['yearMarket'].setValue(this.getYear());
-        this.invoiceForm.controls['monthMarket'].setValue(this.getMonth());
-        this.invoiceForm.controls['dayMarket'].setValue(this.getDay());
-        this.invoiceForm.controls['yearClosing'].setValue(null);
-        this.invoiceForm.controls['monthClosing'].setValue(null);
-        break;
-      case 3:
-        this.invoiceForm.controls['yearMarket'].setValue(null);
-        this.invoiceForm.controls['monthMarket'].setValue(null);
-        this.invoiceForm.controls['dayMarket'].setValue(null);
-        this.invoiceForm.controls['yearClosing'].setValue(null);
-        this.invoiceForm.controls['monthClosing'].setValue(null);
-        break;
+    if (this.entity.new) {
+      switch (value) {
+        case 1:
+          this.invoiceForm.controls['yearMarket'].setValue(null);
+          this.invoiceForm.controls['monthMarket'].setValue(null);
+          this.invoiceForm.controls['dayMarket'].setValue(null);
+          this.invoiceForm.controls['yearClosing'].setValue(this.getYear());
+          this.invoiceForm.controls['monthClosing'].setValue(this.getMonth());
+          break;
+        case 2:
+          this.invoiceForm.controls['yearMarket'].setValue(this.getYear());
+          this.invoiceForm.controls['monthMarket'].setValue(this.getMonth());
+          this.invoiceForm.controls['dayMarket'].setValue(this.getDay());
+          this.invoiceForm.controls['yearClosing'].setValue(null);
+          this.invoiceForm.controls['monthClosing'].setValue(null);
+          break;
+        case 3:
+          this.invoiceForm.controls['yearMarket'].setValue(null);
+          this.invoiceForm.controls['monthMarket'].setValue(null);
+          this.invoiceForm.controls['dayMarket'].setValue(null);
+          this.invoiceForm.controls['yearClosing'].setValue(null);
+          this.invoiceForm.controls['monthClosing'].setValue(null);
+          break;
+      }
     }
   }
 
@@ -484,12 +557,12 @@ export class InvoicesEditComponent implements OnInit {
     }
     this.invoice.invoiceProducts = this.invoiceProducts;
     this.marketService.saveInvoice(this.invoice)
-    .subscribe(
-      data => {
-        //this.eventService.sendMainSafe(new EventMessage(12, {}));
-      },
-      errorData => {
-        this.toastr.errorToastr(Constants.ERROR_SAVE, 'Facturas');
-      });
+      .subscribe(
+        data => {
+          this.eventService.sendMainSafe(new EventMessage(20, {}));
+        },
+        errorData => {
+          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Facturas');
+        });
   }
 }

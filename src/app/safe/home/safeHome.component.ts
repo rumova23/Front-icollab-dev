@@ -36,6 +36,10 @@ import { InvoicesEditComponent } from '../admin/invoices/edit/invoicesEdit.compo
 import { InvoicesComponent } from '../admin/invoices/invoices.component';
 import { FuecdEditComponent } from '../admin/fuecd/edit/fuecdEdit.component';
 import { FuecdComponent } from '../admin/fuecd/fuecd.component';
+import { FuecdInvoiceComponent } from '../admin/fuecd/invoice/fuecdInvoice.component';
+import { FinancialIndexesComponent } from '../admin/financialIndexes/financialIndexes.component';
+import { InppComponent } from '../admin/inpp/inpp.component';
+import { UsppiComponent } from '../admin/usppi/usppi.component';
 
 @Component({
   selector: 'app-safeHome',
@@ -51,7 +55,8 @@ import { FuecdComponent } from '../admin/fuecd/fuecd.component';
     UnityProductsSatComponent, UsesCfdiSatComponent, TypesRelationSatComponent,
     StatesComponent, StatesEditComponent, MoneysComponent, MoneysEditComponent,
     BranchInvoiceSeriesComponent, BranchInvoiceSeriesEditComponent,
-    InvoicesEditComponent,InvoicesComponent, FuecdComponent,FuecdEditComponent
+    InvoicesEditComponent, InvoicesComponent, FuecdComponent, FuecdEditComponent,
+    FuecdInvoiceComponent, FinancialIndexesComponent, InppComponent,UsppiComponent
   ]
 })
 export class SafeHomeComponent implements OnInit {
@@ -81,7 +86,7 @@ export class SafeHomeComponent implements OnInit {
   ngOnInit() {
 
 
-    this.eventService.sendMainSafe(new EventMessage(22, {
+    this.eventService.sendMainSafe(new EventMessage(27, {
       readOnly: false,
       new: true,
       edit: false
@@ -265,21 +270,52 @@ export class SafeHomeComponent implements OnInit {
         }
         refInvoicesEdit.changeDetectorRef.detectChanges();
         break;
-        case 22:
-          const factoryFuecd =
-            this.componentFactoryResolver.resolveComponentFactory(FuecdComponent);
-          const refFuecd =
-            this.viewContainerRef.createComponent(factoryFuecd);
-            refFuecd.changeDetectorRef.detectChanges();
-          break;  
-        case 23:
-          const factoryFuecdEdit =
-            this.componentFactoryResolver.resolveComponentFactory(FuecdEditComponent);
-          const refFuecdEdit =
-            this.viewContainerRef.createComponent(factoryFuecdEdit);
-            refFuecdEdit.changeDetectorRef.detectChanges();
-          break;  
+      case 22:
+        const factoryFuecd =
+          this.componentFactoryResolver.resolveComponentFactory(FuecdComponent);
+        const refFuecd =
+          this.viewContainerRef.createComponent(factoryFuecd);
+        refFuecd.changeDetectorRef.detectChanges();
+        break;
+      case 23:
+        const factoryFuecdEdit =
+          this.componentFactoryResolver.resolveComponentFactory(FuecdEditComponent);
+        const refFuecdEdit =
+          this.viewContainerRef.createComponent(factoryFuecdEdit);
+        refFuecdEdit.changeDetectorRef.detectChanges();
+        break;
+      case 24:
+        const factoryFuecdInvoice =
+          this.componentFactoryResolver.resolveComponentFactory(FuecdInvoiceComponent);
+        const refFuecdInvoice =
+          this.viewContainerRef.createComponent(factoryFuecdInvoice);
+        if (Validate(event.data.fuecd)) {
+          refFuecdInvoice.instance.idFuecd = event.data.fuecd.id;
+        }
+        refFuecdInvoice.changeDetectorRef.detectChanges();
+        break;
+      case 25:
+        const factoryFinancialIndexes =
+          this.componentFactoryResolver.resolveComponentFactory(FinancialIndexesComponent);
+        const refFinalcialIndexes =
+          this.viewContainerRef.createComponent(factoryFinancialIndexes);
+        refFinalcialIndexes.changeDetectorRef.detectChanges();
+        break;
+      case 26:
+        const factoryInpp =
+          this.componentFactoryResolver.resolveComponentFactory(InppComponent);
+        const refInpp =
+          this.viewContainerRef.createComponent(factoryInpp);
+        refInpp.changeDetectorRef.detectChanges();
+        break;
 
+      case 27:
+          const factoryUsppi =
+            this.componentFactoryResolver.resolveComponentFactory(UsppiComponent);
+          const refUsppi =
+            this.viewContainerRef.createComponent(factoryUsppi);
+            refUsppi.changeDetectorRef.detectChanges();
+          break;  
       case 100:
         const factoryChangePasword =
           this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent);

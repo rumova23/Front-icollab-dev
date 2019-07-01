@@ -1,5 +1,6 @@
 export interface TimeRegister {
     id?,
+    idSettlementInvoice?,
     fuecd?,
     ful?,
     date?,
@@ -8,4 +9,5 @@ export interface TimeRegister {
     iva?,
     totalAmount?,
     totalNet?,
+    invoice?;
 }

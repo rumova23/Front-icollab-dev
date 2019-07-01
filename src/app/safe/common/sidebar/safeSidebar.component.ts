@@ -109,6 +109,51 @@ export class SafeSidebarComponent implements OnInit {
         option = 9;
         catalog = "bank";
         break;
+      case 'Contrato Afectado':
+        option = 9;
+        catalog = "contractAffected";
+        break;
+      case 'Equipos':
+        option = 9;
+        catalog = "listEquipment";
+        break;
+      case 'Unidades de Generación':
+        option = 9;
+        catalog = "generationUnits";
+        break;
+      case 'Valores de Tolerancia':
+        option = 9;
+        catalog = "valuesTolerance";
+        break;
+      case 'Fuentes Generadoras':
+        option = 9;
+        catalog = "generatingSources";
+        break;
+      case 'Tipos de Despacho':
+        option = 9;
+        catalog = "typesOffice";
+        break;
+      case 'Tipos MEM':
+        option = 9;
+        catalog = "typesMem";
+        break;
+      case 'Estatus de Bitácora':
+        option = 9;
+        catalog = "statusBinnacle";
+        break;
+      case 'Estatus de Factura':
+        option = 9;
+        catalog = "statusInvoice";
+        break;
+      case 'Estatus de Pago Factura':
+        option = 9;
+        catalog = "statusInvoicePayment";
+        break;
+      case 'Estatus de Aprobación Bitácora':
+        option = 9;
+        catalog = "statusBinnacleApproval";
+        break;
+
       case 'Pml':
         option = 11;
         break;
@@ -129,6 +174,21 @@ export class SafeSidebarComponent implements OnInit {
         break;
       case 'Serie Facturas':
         option = 18;
+        break;
+      case 'Facturas':
+        option = 20;
+        break;
+      case 'Estado de Cuenta Diario':
+        option = 22;
+        break;
+      case 'Tipos de Cambio':
+        option = 25;
+        break;
+      case 'INPP':
+        option = 26;
+        break;
+      case 'USPPI':
+        option = 27;
         break;
       case 'Regímenes Fiscales SAT':
         option = 201;

@@ -42,7 +42,7 @@ export class FuecdComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {
-    this.getFuecd();
+    this.getFuecds();
     this.cols = [
       'id',
       'fuecd',
@@ -50,13 +50,14 @@ export class FuecdComponent implements OnInit {
       'subcuentKey',
       'dateOperation',
       "dateEmission",
-      "systemKey"
+      "systemKey",
+      "invoice"
     ];
     this.loading = false;
   }
 
-  private getFuecd() {
-    this.marketService.getFuecd()
+  private getFuecds() {
+    this.marketService.getFuecds()
       .subscribe(
         data => {
           this.fuecd = data.result;
@@ -73,6 +74,11 @@ export class FuecdComponent implements OnInit {
   newEntity() {
     this.eventService.sendMainSafe(new
       EventMessage(23, { readOnly: false, edit: false, new: true, user: {} }));
+  }
+
+  invoice(fuecd) {
+    this.eventService.sendMainSafe(new
+      EventMessage(24, { readOnly: false, edit: false, new: true, fuecd: fuecd }));
   }
 
 }

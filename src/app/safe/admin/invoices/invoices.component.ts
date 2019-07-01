@@ -45,8 +45,7 @@ export class InvoicesComponent implements OnInit {
       'invoice',
       'date',
       'client',
-      "ver",
-      "modificar"
+      'ver'
     ];
     this.loading = false;
     
@@ -83,22 +82,22 @@ export class InvoicesComponent implements OnInit {
 
   newEntity() {
     this.eventService.sendMainSafe(new
-      EventMessage(8, { readOnly: false, edit: false, new: true, plant: {} }));
+      EventMessage(21, { readOnly: false, edit: false, new: true, plant: {} }));
   }
 
   getStatus(entity: Client) {
     return (entity.active) ? "Activo " : "Inactivo";
   }
 
-  action(plant: Plant, option: number) {
+  action(invoice: Invoice, option: number) {
     switch (option) {
       case 2:
         this.eventService.sendMainSafe(new
-          EventMessage(13, { readOnly: true, edit: false, new: false, plant: plant }));
+          EventMessage(21, { readOnly: true, edit: false, new: false, invoice: invoice }));
         break;
       case 3:
         this.eventService.sendMainSafe(new
-          EventMessage(13, { readOnly: false, edit: true, new: false, plant: plant }));
+          EventMessage(21, { readOnly: false, edit: true, new: false, invoice: invoice }));
         break;
     }
   }

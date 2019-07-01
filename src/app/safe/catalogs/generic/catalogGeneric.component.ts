@@ -49,17 +49,51 @@ export class CatalogGenericComponent implements OnInit {
   }
 
   private loadData() {
-    this.catalogService.get(this.catalog)
-    .subscribe(
-      data => {
-        console.log(data);
-        this.generics = data.result;
-      },
-      errorData => {
-        console.log(errorData);
-        this.toastr.errorToastr(Constants.ERROR_LOAD, 'Catálogos');
+    if (!this.catalog.includes("status")) {
+      this.catalogService.get(this.catalog)
+        .subscribe(
+          data => {
+            console.log(data);
+            this.generics = data.result;
+          },
+          errorData => {
+            console.log(errorData);
+            this.toastr.errorToastr(Constants.ERROR_LOAD, 'Catálogos');
 
-      });
+          });
+    } else {
+      this.catalogService.getStatus(this.getStatus(), 3)
+        .subscribe(
+          data => {
+            console.log(data);
+            this.generics = data.result;
+          },
+          errorData => {
+            console.log(errorData);
+            this.toastr.errorToastr(Constants.ERROR_LOAD, 'Catálogos');
+
+          });
+    }
+
+  }
+
+  getStatus() {
+    let entity: string = "";
+    switch (this.catalog) {
+      case 'statusBinnacle':
+        entity = "BINNACLE";
+        break;
+      case 'statusInvoice':
+        entity = "INVOICE";
+        break;
+      case 'statusInvoicePayment':
+        entity = "INVOICE_PAYMENT";
+        break;
+      case 'statusBinnacleApproval':
+          entity = "BINNACLE_APPROVAL";
+          break;  
+    }
+    return entity;
   }
 
   getTitle() {
@@ -79,19 +113,58 @@ export class CatalogGenericComponent implements OnInit {
         break;
       case 'typeClient':
         title = "Tipos de Cliente";
-        break; 
+        break;
       case 'country':
-            title = "Países";
-            break;     
+        title = "Países";
+        break;
       case 'bank':
-              title = "Bancos";
-              break;         
+        title = "Bancos";
+        break;
+      case 'contractAffected':
+        title = "Contrato Afectado";
+        break;
+      case 'listEquipment':
+        title = "Equipos";
+        break;
+      case 'generationUnits':
+        title = "Unidades de Generación";
+        break;
+      case 'valuesTolerance':
+        title = "Valores de Tolerancia";
+        break;
+      case 'generatingSources':
+          title = "Fuentes Generadoras";
+          break;  
+      case 'typesOffice':
+        title = "Tipos de Despacho";
+        break;
+      case 'typesMem':
+        title = "Tipos MEM";
+        break;
+      case 'statusBinnacle':
+        title = "Estatus Bitaćora";
+        break;
+      case 'statusInvoice':
+          title = "Estatus de Factura";
+          break;  
+      case 'statusInvoicePayment':
+          title = "Estatus de Pago Factura";
+          break;       
+      case 'statusBinnacleApproval':
+          title = "Estatus de Aprobación Bitácora";
+          break;   
+
     }
     return title;
   }
 
   compareObjects(o1: any, o2: any): boolean {
     return o1.id === o2.id;
+  }
+
+  visible() {
+    return this.catalog !== "typesMem" 
+    && !this.catalog.includes('status');
   }
 
   newEntity() {

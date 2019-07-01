@@ -79,4 +79,7 @@ export class CatalogService {
     return this.http.post(environment.catalog +  'money/save', money );
   }
 
+  getStatus(entity: string, option): Observable<any> {
+    return this.http.get(environment.catalog + 'status/list/'  +  entity + '/' + option);
+  }
 }

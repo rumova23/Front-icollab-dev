@@ -1,8 +1,10 @@
 export interface Invoice {
-    number?,
     serie?,
-    idPlantBranchOffice?;
+    number?,
+    idPlantBranchOffice?,
+    plantBranchOffice?,
     idSys?,
+    sys?,
     save?
     yearMarket?
     monthMarket?;
@@ -15,21 +17,28 @@ export interface Invoice {
     folioCfd?;
     date?;
     idMoney?;
+    money?,
     exchangeRate?;
     idClient?;
     client?;
     emails?;
     idPaymentWay?;
+    paymentWay?
     account?;
     creditDays?;
     purchaseOrder?;
     idPaymentCondition?;
+    paymentCondition?,
     idUseCfdi?;
+    useCfdi?,
     idPaymentMethod?;
+    paymentMethod?,
     confirmationSat?;
     paymentConditions?;
     idTypeRelation?;
+    typeRelation?,
     idTypeInvoice?;
+    typeInvoice?,
     subtotal?;
     percentageDiscount?;
     discountAmount?;
@@ -50,8 +59,11 @@ export interface Invoice {
     xml?;
     xmlCancellation?;
     idPlantFiscalData?;
+    plantFiscalData?,
     idPlantDirection?;
+    plantDirection?,
     idClientFiscalData?;
+    clientFiscalData?,
     cp?;
     fuf?;
     accountOrder?;

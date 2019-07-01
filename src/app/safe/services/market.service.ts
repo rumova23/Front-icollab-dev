@@ -7,6 +7,7 @@ import { Client } from '../models/Client';
 import { Plant } from 'src/app/security/models/Plant';
 import { BranchOfficeInvoiceSerie } from '../models/BranchOfficeInvoiceSerie';
 import { Invoice } from '../models/Invoice';
+import { TimeRegister } from '../models/TimeRegister';
 
 
 
@@ -44,8 +45,20 @@ export class MarketService {
     return this.http.post(environment.fuecdUrl + 'save', data);
   }
 
-  getFuecd():Observable<any> {
+  saveFuecdInvoice(data): Observable<any> {
+    return this.http.post(environment.mercadoUrl + 'invoice/fuecd', data);
+  }
+
+  getInvoice(id): Observable<any> {
+    return this.http.post(environment.mercadoUrl + 'invoice/get', id);
+  }
+
+  getFuecds():Observable<any> {
     return this.http.get(environment.fuecdUrl + 'list');
+  }
+
+  getFuecd(id:number):Observable<any> {
+    return this.http.get(environment.fuecdUrl + 'get/' + id);
   }
 
   validateFuecd(data): Observable<any> {
@@ -90,6 +103,18 @@ export class MarketService {
 
   getProductsByClient(idClient) : Observable<any> {
     return this.http.get(environment.mercadoUrl + 'product/list/client/' + idClient);
+  }
+
+  getFinalcialIndexes(data: any): Observable<any> {
+    return this.http.post(environment.mercadoUrl + "financialIndex/list", data);
+  }
+
+  getInpp(data: any): Observable<any> {
+    return this.http.post(environment.mercadoUrl + "inpp/list", data);
+  }
+
+  getUsppi(data: any): Observable<any> {
+    return this.http.post(environment.mercadoUrl + "usppi/list", data);
   }
 
 }

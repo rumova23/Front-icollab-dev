@@ -136,6 +136,24 @@ export class CatalogGenericEditComponent implements OnInit {
       case 'bank':
         title = "Banco";
         break;
+      case 'contractAffected':
+        title = "Contrato Afectado";
+        break;
+      case 'listEquipment':
+        title = "Equipo";
+        break;
+      case 'generationUnits':
+        title = "Unidad de Generación";
+        break;
+      case 'valuesTolerance':
+        title = "Valor de Tolerancia";
+        break;
+      case 'generatingSources':
+          title = "Fuente Generadora";
+          break;  
+      case 'typesOffice':
+        title = "Tipo de Despacho";
+        break;
     }
     return verbose + ' ' + title;
   }
@@ -154,13 +172,13 @@ export class CatalogGenericEditComponent implements OnInit {
     this.catalogGeneric.catalog = this.catalog;
     console.log(this.catalogGeneric);
     this.catalogService.saveGeneric(this.catalogGeneric)
-    .subscribe(
-      data => {
-        this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
-      },
-      errorData => {
-        this.toastr.errorToastr(Constants.ERROR_SAVE, 'Clientes');
-      });
+      .subscribe(
+        data => {
+          this.eventService.sendMainSafe(new EventMessage(9, this.catalog));
+        },
+        errorData => {
+          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Clientes');
+        });
 
   }
 

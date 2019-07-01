@@ -128,6 +128,10 @@ import { FuecdEditComponent } from './safe/admin/fuecd/edit/fuecdEdit.component'
 import { FileUploadComponent } from './common/fileUpload/fileUpload.component';
 import { ProgressComponent } from './common/progress/progress.component';
 import { FuecdComponent } from './safe/admin/fuecd/fuecd.component';
+import { FuecdInvoiceComponent } from './safe/admin/fuecd/invoice/fuecdInvoice.component';
+import { FinancialIndexesComponent } from './safe/admin/financialIndexes/financialIndexes.component';
+import { InppComponent } from './safe/admin/inpp/inpp.component';
+import { UsppiComponent } from './safe/admin/usppi/usppi.component';
 
 
 registerLocaleData(localePy, 'es');
@@ -224,6 +228,10 @@ registerLocaleData(localePy, 'es');
     InvoicesComponent,
     FuecdComponent,
     FuecdEditComponent,
+    FuecdInvoiceComponent,
+    FinancialIndexesComponent,
+    InppComponent,
+    UsppiComponent,
 
     MockUpHomeComponent,
     MockUpHeaderComponent,
