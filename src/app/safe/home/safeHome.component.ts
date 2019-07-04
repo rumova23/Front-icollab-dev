@@ -40,6 +40,8 @@ import { FuecdInvoiceComponent } from '../admin/fuecd/invoice/fuecdInvoice.compo
 import { FinancialIndexesComponent } from '../admin/financialIndexes/financialIndexes.component';
 import { InppComponent } from '../admin/inpp/inpp.component';
 import { UsppiComponent } from '../admin/usppi/usppi.component';
+import { CreditNotesEditComponent } from '../admin/creditNotes/edit/creditNotesEdit.component';
+import { DebitNotesEditComponent } from '../admin/debitNotes/edit/debitNotesEdit.component';
 
 @Component({
   selector: 'app-safeHome',
@@ -56,7 +58,8 @@ import { UsppiComponent } from '../admin/usppi/usppi.component';
     StatesComponent, StatesEditComponent, MoneysComponent, MoneysEditComponent,
     BranchInvoiceSeriesComponent, BranchInvoiceSeriesEditComponent,
     InvoicesEditComponent, InvoicesComponent, FuecdComponent, FuecdEditComponent,
-    FuecdInvoiceComponent, FinancialIndexesComponent, InppComponent,UsppiComponent
+    FuecdInvoiceComponent, FinancialIndexesComponent, InppComponent, UsppiComponent,
+    CreditNotesEditComponent, DebitNotesEditComponent
   ]
 })
 export class SafeHomeComponent implements OnInit {
@@ -86,7 +89,7 @@ export class SafeHomeComponent implements OnInit {
   ngOnInit() {
 
 
-    this.eventService.sendMainSafe(new EventMessage(27, {
+    this.eventService.sendMainSafe(new EventMessage(31, {
       readOnly: false,
       new: true,
       edit: false
@@ -310,12 +313,36 @@ export class SafeHomeComponent implements OnInit {
         break;
 
       case 27:
-          const factoryUsppi =
-            this.componentFactoryResolver.resolveComponentFactory(UsppiComponent);
-          const refUsppi =
-            this.viewContainerRef.createComponent(factoryUsppi);
-            refUsppi.changeDetectorRef.detectChanges();
-          break;  
+        const factoryUsppi =
+          this.componentFactoryResolver.resolveComponentFactory(UsppiComponent);
+        const refUsppi =
+          this.viewContainerRef.createComponent(factoryUsppi);
+        refUsppi.changeDetectorRef.detectChanges();
+        break;
+      case 29:
+        const factoryCreditNotesEdit =
+          this.componentFactoryResolver.resolveComponentFactory(CreditNotesEditComponent);
+        const refCreditNotesEdit =
+          this.viewContainerRef.createComponent(factoryCreditNotesEdit);
+        refCreditNotesEdit.instance.entity = event.data;
+        if (Validate(event.data.creditNote)) {
+          refCreditNotesEdit.instance.creditNoteSelected =
+            event.data.creditNote;
+        }
+        refCreditNotesEdit.changeDetectorRef.detectChanges();
+        break;
+      case 31:
+        const factoryDebitNotesEdit =
+          this.componentFactoryResolver.resolveComponentFactory(DebitNotesEditComponent);
+        const refDebitNotesEdit =
+          this.viewContainerRef.createComponent(factoryDebitNotesEdit);
+        refDebitNotesEdit.instance.entity = event.data;
+        if (Validate(event.data.debitNote)) {
+          refDebitNotesEdit.instance.debitNoteSelected =
+            event.data.creditNote;
+        }
+        refDebitNotesEdit.changeDetectorRef.detectChanges();
+        break;
       case 100:
         const factoryChangePasword =
           this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent);

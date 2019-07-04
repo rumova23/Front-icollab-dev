@@ -1,4 +1,4 @@
-export interface InvoiceProduct {
+export interface CreditNoteProduct {
     id?,
     save?,
     product?,
@@ -25,4 +25,18 @@ export interface InvoiceProduct {
     codeClient?,
     folioUnique?,
     concept?
+    originalAmount?,
+    modifiedAmount?,
+    amountAjust?,
+    iva?,
+    total?,
+    amountLetter?;
+    folioUnique2?;
+    concept2?;
+    originalAmount2?;
+    modifiedAmount2?;
+    amountAjust2?;
+    iva2?;
+    total2?;
+    amountLetter2?;
 }

@@ -132,6 +132,8 @@ import { FuecdInvoiceComponent } from './safe/admin/fuecd/invoice/fuecdInvoice.c
 import { FinancialIndexesComponent } from './safe/admin/financialIndexes/financialIndexes.component';
 import { InppComponent } from './safe/admin/inpp/inpp.component';
 import { UsppiComponent } from './safe/admin/usppi/usppi.component';
+import { CreditNotesEditComponent } from './safe/admin/creditNotes/edit/creditNotesEdit.component';
+import { DebitNotesEditComponent } from './safe/admin/debitNotes/edit/debitNotesEdit.component';
 
 
 registerLocaleData(localePy, 'es');
@@ -232,6 +234,8 @@ registerLocaleData(localePy, 'es');
     FinancialIndexesComponent,
     InppComponent,
     UsppiComponent,
+    CreditNotesEditComponent,
+    DebitNotesEditComponent,
 
     MockUpHomeComponent,
     MockUpHeaderComponent,
