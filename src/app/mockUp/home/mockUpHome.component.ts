@@ -7,6 +7,9 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 import { LegalAgreementComponent } from 'src/app/compliance/business/legalAgreement/legalAgreement.component';
 import { DashboardAComponent } from 'src/app/compliance/dashboards/dashboard-a/dashboard-a.component';
 import { PlannedPowersPPAComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpa/plannedPowersPpa.component';
+import { PlannedPowersPPADComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaD/plannedPowersPpaD.component';
+import { PlannedPowersPpaBComponent } from 'src/app/safe/business/mdaPlanningProcess/planned-powers-ppa-b/planned-powers-ppa-b.component';
+import { PlannedPowersPpaCComponent } from 'src/app/safe/business/mdaPlanningProcess/planned-powers-ppa-c/planned-powers-ppa-c.component';
 import { HeatRateRecordComponent } from 'src/app/safe/business/mdaPlanningProcess/heatRateRecord/heatRateRecord.component';
 import { SalesOffersComponent } from 'src/app/safe/business/mdaPlanningProcess/salesOffers/salesOffers.component';
 import { ClientsComponent } from 'src/app/safe/admin/clients/clients.component';
@@ -20,6 +23,7 @@ import { SalesOffersV2Component } from 'src/app/safe/business/mdaPlanningProcess
   entryComponents: [
     PlannedPowersPPAComponent, HeatRateRecordComponent, SalesOffersComponent, ClientsComponent,
     LegalAgreementComponent, SafeNewEventComponent,DashboardAComponent,SalesOffersV2Component
+    ,PlannedPowersPpaBComponent,PlannedPowersPpaCComponent,PlannedPowersPPADComponent
   ]
 })
 export class MockUpHomeComponent implements OnInit {
@@ -36,7 +40,10 @@ export class MockUpHomeComponent implements OnInit {
             {label:'registration-customer'},
             {label:'Legal-Compliance'},
             {label:'New Event'},
-            {label:'Monitoreo nivel 2'}
+            {label:'Monitoreo nivel 2'},
+            {label:'planned-powers-ppa-B'},
+            {label:'planned-powers-ppa-C'},
+            {label:'planned-powers-ppa-D'}
 
           ]
         },
@@ -113,6 +120,18 @@ export class MockUpHomeComponent implements OnInit {
             option = 10;
             data = item;
             break;  
+        case 'planned-powers-ppa-B':
+            option = 11;
+            data = item;
+            break;  
+        case 'planned-powers-ppa-C':
+            option = 12;
+            data = item;
+            break;  
+        case 'planned-powers-ppa-D':
+            option = 13;
+            data = item;
+            break;  
 
             
     }
@@ -172,6 +191,21 @@ export class MockUpHomeComponent implements OnInit {
           const refSalesOffersV2 =
           this.viewContainerRef.createComponent(factorySalesOffersV2);
           refSalesOffersV2.changeDetectorRef.detectChanges();
+          break;
+        case 11:
+          this.viewContainerRef.createComponent(
+            this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPpaBComponent)
+            ).changeDetectorRef.detectChanges();
+          break;
+        case 12:
+          this.viewContainerRef.createComponent(
+            this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPpaCComponent)
+            ).changeDetectorRef.detectChanges();
+          break;
+        case 13:
+          this.viewContainerRef.createComponent(
+            this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPADComponent)
+            ).changeDetectorRef.detectChanges();
           break;
 
             

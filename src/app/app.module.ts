@@ -132,7 +132,9 @@ import { FuecdInvoiceComponent } from './safe/admin/fuecd/invoice/fuecdInvoice.c
 import { FinancialIndexesComponent } from './safe/admin/financialIndexes/financialIndexes.component';
 import { InppComponent } from './safe/admin/inpp/inpp.component';
 import { UsppiComponent } from './safe/admin/usppi/usppi.component';
-
+import { PlannedPowersPpaBComponent } from './safe/business/mdaPlanningProcess/planned-powers-ppa-b/planned-powers-ppa-b.component';
+import { PlannedPowersPpaCComponent } from 'src/app/safe/business/mdaPlanningProcess/planned-powers-ppa-c/planned-powers-ppa-c.component';
+import { PlannedPowersPPADComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaD/plannedPowersPpaD.component';
 
 registerLocaleData(localePy, 'es');
 
@@ -241,6 +243,9 @@ registerLocaleData(localePy, 'es');
     SalesOffersComponent,
     SalesOffersV2Component,
     SafeNewEventComponent,
+    PlannedPowersPpaBComponent,
+    PlannedPowersPpaCComponent,
+    PlannedPowersPPADComponent,
 
   ],
   imports: [
