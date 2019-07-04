@@ -8,6 +8,8 @@ import { Plant } from 'src/app/security/models/Plant';
 import { BranchOfficeInvoiceSerie } from '../models/BranchOfficeInvoiceSerie';
 import { Invoice } from '../models/Invoice';
 import { TimeRegister } from '../models/TimeRegister';
+import { CreditNote } from '../models/CreditNote';
+import { DebitNote } from '../models/DebitNote';
 
 
 
@@ -41,6 +43,14 @@ export class MarketService {
     return this.http.post(environment.mercadoUrl + 'invoice/save', invoice);
   }
 
+  saveCreditNote(invoice: CreditNote): Observable<any> {
+    return this.http.post(environment.mercadoUrl + 'creditNote/save', invoice);
+  }
+
+  saveDebitNote(invoice: DebitNote): Observable<any> {
+    return this.http.post(environment.mercadoUrl + 'debitNote/save', invoice);
+  }
+
   saveFuecd(data): Observable<any> {
     return this.http.post(environment.fuecdUrl + 'save', data);
   }
@@ -50,7 +60,15 @@ export class MarketService {
   }
 
   getInvoice(id): Observable<any> {
-    return this.http.post(environment.mercadoUrl + 'invoice/get', id);
+    return this.http.get(environment.mercadoUrl + 'invoice/get/' + id);
+  }
+
+  getCreditNote(id): Observable<any> {
+    return this.http.get(environment.mercadoUrl + 'creditNote/get/' + id);
+  }
+
+  getDebitNote(id): Observable<any> {
+    return this.http.get(environment.mercadoUrl + 'debitNote/get/' + id);
   }
 
   getFuecds():Observable<any> {

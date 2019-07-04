@@ -1,5 +1,6 @@
-export interface Invoice {
+export interface CreditNote {
     id?,
+    idInvoice?,
     serie?,
     number?,
     idPlantBranchOffice?,
@@ -13,6 +14,7 @@ export interface Invoice {
     yearClosing?;
     monthClosing?;
     invoice?;
+    creditNote?,
     idStatus?;
     idStatusPayment?;
     folioCfd?;
@@ -81,5 +83,5 @@ export interface Invoice {
     reference?;
     contact?;
     rfcProvCertif?;
-    invoiceProducts;
+    creditNoteProducts;
 }
