@@ -48,21 +48,24 @@
         <i class="fas fa-arrow-alt-circle-right"></i>
       </div>
     </div>
-
     
 
-    <div class="mat-elevation-z8">
+    <div class="example-container mat-elevation-z8">
       <table matSort  mat-table [dataSource]="dataSource">
         
         <!-- Item Description Column -->
         <ng-container [matColumnDef]="column" *ngFor="let column of displayedHeader">
-          <th mat-header-cell *matHeaderCellDef [attr.colspan]="colspanHeader" style="text-align: center;">{{column}}</th>
-        </ng-container>
-        <!-- Item Description Column -->
-        <ng-container [matColumnDef]="column" *ngFor="let column of columnsTocheck">
-          <th mat-header-cell *matHeaderCellDef style="text-align: center;"><input *ngIf="!column.includes('-Hora')" type="checkbox"></th>
-        </ng-container>
+          <ng-container *ngIf="column=='____'">
+            <th mat-header-cell *matHeaderCellDef [attr.colspan]="3" style="text-align: center;">{{column}}</th>
+          </ng-container>
+          <ng-container *ngIf="column!='____'">
+            <th mat-header-cell *matHeaderCellDef [attr.colspan]="colspanHeader" style="text-align: center;">{{column}}</th>
+          </ng-container>
 
+
+          
+        </ng-container>
+    
         
         <ng-container [matColumnDef]="column.key" *ngFor="let column of displayedColumns">
           <th mat-header-cell *matHeaderCellDef> {{column.label}} </th>
@@ -81,22 +84,12 @@
               
 
           </td>
-          
-          <td mat-footer-cell *matFooterCellDef>             
-              <ng-container *ngIf="column.label != 'Hora' && column.label != 'Potencia Planeada PPA'">
-                <button>Guardar</button> 
-                <button>Detalles</button>
-              </ng-container>
-          </td>
         </ng-container>
         
         
-        <tr mat-header-row *matHeaderRowDef="displayedHeader; sticky: true"></tr>
-        <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
-        <tr mat-header-row *matHeaderRowDef="columnsTocheck"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedHeader"></tr>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
-        <tr mat-footer-row *matFooterRowDef="columnsToDisplay;"></tr>
-
       </table>
     </div>
     <div class="row mt-5  justify-content-end">

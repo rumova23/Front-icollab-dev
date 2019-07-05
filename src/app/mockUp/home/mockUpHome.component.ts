@@ -7,9 +7,10 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 import { LegalAgreementComponent } from 'src/app/compliance/business/legalAgreement/legalAgreement.component';
 import { DashboardAComponent } from 'src/app/compliance/dashboards/dashboard-a/dashboard-a.component';
 import { PlannedPowersPPAComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpa/plannedPowersPpa.component';
-import { PlannedPowersPPADComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaD/plannedPowersPpaD.component';
 import { PlannedPowersPpaBComponent } from 'src/app/safe/business/mdaPlanningProcess/planned-powers-ppa-b/planned-powers-ppa-b.component';
 import { PlannedPowersPpaCComponent } from 'src/app/safe/business/mdaPlanningProcess/planned-powers-ppa-c/planned-powers-ppa-c.component';
+import { PlannedPowersPPADComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaD/plannedPowersPpaD.component';
+import { PlannedPowersPPAEComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaE/plannedPowersPpaE.component';
 import { HeatRateRecordComponent } from 'src/app/safe/business/mdaPlanningProcess/heatRateRecord/heatRateRecord.component';
 import { SalesOffersComponent } from 'src/app/safe/business/mdaPlanningProcess/salesOffers/salesOffers.component';
 import { ClientsComponent } from 'src/app/safe/admin/clients/clients.component';
@@ -23,7 +24,7 @@ import { SalesOffersV2Component } from 'src/app/safe/business/mdaPlanningProcess
   entryComponents: [
     PlannedPowersPPAComponent, HeatRateRecordComponent, SalesOffersComponent, ClientsComponent,
     LegalAgreementComponent, SafeNewEventComponent,DashboardAComponent,SalesOffersV2Component
-    ,PlannedPowersPpaBComponent,PlannedPowersPpaCComponent,PlannedPowersPPADComponent
+    ,PlannedPowersPpaBComponent,PlannedPowersPpaCComponent,PlannedPowersPPADComponent,PlannedPowersPPAEComponent
   ]
 })
 export class MockUpHomeComponent implements OnInit {
@@ -43,7 +44,8 @@ export class MockUpHomeComponent implements OnInit {
             {label:'Monitoreo nivel 2'},
             {label:'planned-powers-ppa-B'},
             {label:'planned-powers-ppa-C'},
-            {label:'planned-powers-ppa-D'}
+            {label:'planned-powers-ppa-D'},
+            {label:'planned-powers-ppa-E'}
 
           ]
         },
@@ -132,6 +134,11 @@ export class MockUpHomeComponent implements OnInit {
             option = 13;
             data = item;
             break;  
+            
+        case 'planned-powers-ppa-E':
+          option = 14;
+          data = item;
+          break;  
 
             
     }
@@ -205,6 +212,11 @@ export class MockUpHomeComponent implements OnInit {
         case 13:
           this.viewContainerRef.createComponent(
             this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPADComponent)
+            ).changeDetectorRef.detectChanges();
+          break;
+        case 14:
+          this.viewContainerRef.createComponent(
+            this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAEComponent)
             ).changeDetectorRef.detectChanges();
           break;
 

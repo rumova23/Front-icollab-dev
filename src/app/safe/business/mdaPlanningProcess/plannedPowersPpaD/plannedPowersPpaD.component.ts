@@ -40,8 +40,9 @@ const ELEMENT_DATA: any[] = [
       {'Hora':'20', 'Potencia Planeada PPA': 2, 'Potencia Planeada Máxima Real Demostrada': '5'},
       {'Hora':'24', 'Potencia Planeada PPA': 2, 'Potencia Planeada Máxima Real Demostrada': '5'},
       {'Hora':'23', 'Potencia Planeada PPA': 2, 'Potencia Planeada Máxima Real Demostrada': '5'},
-      {'Hora':'24', 'Potencia Planeada PPA': 2, 'Potencia Planeada Máxima Real Demostrada': '5'}
-    ]
+      {'Hora':'24', 'Potencia Planeada PPA': 2, 'Potencia Planeada Máxima Real Demostrada': '5'},
+    ],
+    link:''
   },
   {
     date:'Sábado 11 mayo 2019',
