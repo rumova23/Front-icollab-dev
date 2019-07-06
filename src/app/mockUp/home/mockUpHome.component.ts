@@ -16,6 +16,8 @@ import { SalesOffersComponent } from 'src/app/safe/business/mdaPlanningProcess/s
 import { ClientsComponent } from 'src/app/safe/admin/clients/clients.component';
 import { SafeNewEventComponent } from 'src/app/safe/business/logBook/newEvent/safeNewEvent.component';
 import { SalesOffersV2Component } from 'src/app/safe/business/mdaPlanningProcess/salesOffersV2/salesOffersV2.component';
+import { PlannedPowersPpaFComponent }from 'src/app/safe/business/mdaPlanningProcess/planned-powers-ppa-f/planned-powers-ppa-f.component';
+
 
 @Component({
   selector: 'app-mockUpHome',
@@ -25,6 +27,7 @@ import { SalesOffersV2Component } from 'src/app/safe/business/mdaPlanningProcess
     PlannedPowersPPAComponent, HeatRateRecordComponent, SalesOffersComponent, ClientsComponent,
     LegalAgreementComponent, SafeNewEventComponent,DashboardAComponent,SalesOffersV2Component
     ,PlannedPowersPpaBComponent,PlannedPowersPpaCComponent,PlannedPowersPPADComponent,PlannedPowersPPAEComponent
+    ,PlannedPowersPpaFComponent
   ]
 })
 export class MockUpHomeComponent implements OnInit {
@@ -45,7 +48,8 @@ export class MockUpHomeComponent implements OnInit {
             {label:'planned-powers-ppa-B'},
             {label:'planned-powers-ppa-C'},
             {label:'planned-powers-ppa-D'},
-            {label:'planned-powers-ppa-E'}
+            {label:'planned-powers-ppa-E'},
+            {label:'planned-powers-ppa-F'}
 
           ]
         },
@@ -139,6 +143,10 @@ export class MockUpHomeComponent implements OnInit {
           option = 14;
           data = item;
           break;  
+        case 'planned-powers-ppa-F':
+          option = 15;
+          data = item;
+          break;  
 
             
     }
@@ -220,6 +228,11 @@ export class MockUpHomeComponent implements OnInit {
             ).changeDetectorRef.detectChanges();
           break;
 
+        case 15:
+          this.viewContainerRef.createComponent(
+            this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPpaFComponent)
+            ).changeDetectorRef.detectChanges();
+          break;
             
     }
   }
