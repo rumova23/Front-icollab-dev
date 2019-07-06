@@ -137,6 +137,7 @@ import { PlannedPowersPpaCComponent } from 'src/app/safe/business/mdaPlanningPro
 import { PlannedPowersPPADComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaD/plannedPowersPpaD.component';
 import { PlannedPowersPPAEComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaE/plannedPowersPpaE.component';
 import { PlannedPowersPpaFComponent } from './safe/business/mdaPlanningProcess/planned-powers-ppa-f/planned-powers-ppa-f.component';
+import { PlannedPowersPPAGComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaG/plannedPowersPpaG.component';
 
 import { CreditNotesEditComponent } from './safe/admin/creditNotes/edit/creditNotesEdit.component';
 import { DebitNotesEditComponent } from './safe/admin/debitNotes/edit/debitNotesEdit.component';
@@ -256,6 +257,7 @@ registerLocaleData(localePy, 'es');
     PlannedPowersPPADComponent,
     PlannedPowersPPAEComponent,
     PlannedPowersPpaFComponent,
+    PlannedPowersPPAGComponent,
 
   ],
   imports: [

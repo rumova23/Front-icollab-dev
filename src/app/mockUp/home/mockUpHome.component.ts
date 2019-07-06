@@ -17,7 +17,7 @@ import { ClientsComponent } from 'src/app/safe/admin/clients/clients.component';
 import { SafeNewEventComponent } from 'src/app/safe/business/logBook/newEvent/safeNewEvent.component';
 import { SalesOffersV2Component } from 'src/app/safe/business/mdaPlanningProcess/salesOffersV2/salesOffersV2.component';
 import { PlannedPowersPpaFComponent }from 'src/app/safe/business/mdaPlanningProcess/planned-powers-ppa-f/planned-powers-ppa-f.component';
-
+import { PlannedPowersPPAGComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaG/plannedPowersPpaG.component';
 
 @Component({
   selector: 'app-mockUpHome',
@@ -27,7 +27,7 @@ import { PlannedPowersPpaFComponent }from 'src/app/safe/business/mdaPlanningProc
     PlannedPowersPPAComponent, HeatRateRecordComponent, SalesOffersComponent, ClientsComponent,
     LegalAgreementComponent, SafeNewEventComponent,DashboardAComponent,SalesOffersV2Component
     ,PlannedPowersPpaBComponent,PlannedPowersPpaCComponent,PlannedPowersPPADComponent,PlannedPowersPPAEComponent
-    ,PlannedPowersPpaFComponent
+    ,PlannedPowersPpaFComponent, PlannedPowersPPAGComponent
   ]
 })
 export class MockUpHomeComponent implements OnInit {
@@ -49,7 +49,8 @@ export class MockUpHomeComponent implements OnInit {
             {label:'planned-powers-ppa-C'},
             {label:'planned-powers-ppa-D'},
             {label:'planned-powers-ppa-E'},
-            {label:'planned-powers-ppa-F'}
+            {label:'planned-powers-ppa-F'},
+            {label:'planned-powers-ppa-G'}
 
           ]
         },
@@ -147,6 +148,10 @@ export class MockUpHomeComponent implements OnInit {
           option = 15;
           data = item;
           break;  
+        case 'planned-powers-ppa-G':
+          option = 16;
+          data = item;
+          break;  
 
             
     }
@@ -231,6 +236,11 @@ export class MockUpHomeComponent implements OnInit {
         case 15:
           this.viewContainerRef.createComponent(
             this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPpaFComponent)
+            ).changeDetectorRef.detectChanges();
+          break;
+        case 16:
+          this.viewContainerRef.createComponent(
+            this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAGComponent)
             ).changeDetectorRef.detectChanges();
           break;
             
