@@ -136,9 +136,10 @@ import { PlannedPowersPpaBComponent } from './safe/business/mdaPlanningProcess/p
 import { PlannedPowersPpaCComponent } from 'src/app/safe/business/mdaPlanningProcess/planned-powers-ppa-c/planned-powers-ppa-c.component';
 import { PlannedPowersPPADComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaD/plannedPowersPpaD.component';
 import { PlannedPowersPPAEComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaE/plannedPowersPpaE.component';
-import { PlannedPowersPpaFComponent } from './safe/business/mdaPlanningProcess/planned-powers-ppa-f/planned-powers-ppa-f.component';
+import { PlannedPowersPPAFComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaF/plannedPowersPpaF.component';
 import { PlannedPowersPPAGComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaG/plannedPowersPpaG.component';
-
+import { PlannedPowersPPAHComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaH/plannedPowersPpaH.component';
+import { PlannedPowersPPAIComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaI/plannedPowersPpaI.component';
 import { CreditNotesEditComponent } from './safe/admin/creditNotes/edit/creditNotesEdit.component';
 import { DebitNotesEditComponent } from './safe/admin/debitNotes/edit/debitNotesEdit.component';
 
@@ -256,8 +257,10 @@ registerLocaleData(localePy, 'es');
     PlannedPowersPpaCComponent,
     PlannedPowersPPADComponent,
     PlannedPowersPPAEComponent,
-    PlannedPowersPpaFComponent,
+    PlannedPowersPPAFComponent,
     PlannedPowersPPAGComponent,
+    PlannedPowersPPAHComponent,
+    PlannedPowersPPAIComponent
 
   ],
   imports: [

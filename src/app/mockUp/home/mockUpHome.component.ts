@@ -16,9 +16,10 @@ import { SalesOffersComponent } from 'src/app/safe/business/mdaPlanningProcess/s
 import { ClientsComponent } from 'src/app/safe/admin/clients/clients.component';
 import { SafeNewEventComponent } from 'src/app/safe/business/logBook/newEvent/safeNewEvent.component';
 import { SalesOffersV2Component } from 'src/app/safe/business/mdaPlanningProcess/salesOffersV2/salesOffersV2.component';
-import { PlannedPowersPpaFComponent }from 'src/app/safe/business/mdaPlanningProcess/planned-powers-ppa-f/planned-powers-ppa-f.component';
+import { PlannedPowersPPAFComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaF/plannedPowersPpaF.component';
 import { PlannedPowersPPAGComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaG/plannedPowersPpaG.component';
-
+import { PlannedPowersPPAHComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaH/plannedPowersPpaH.component';
+import { PlannedPowersPPAIComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaI/plannedPowersPpaI.component';
 @Component({
   selector: 'app-mockUpHome',
   templateUrl: './mockUpHome.component.html',
@@ -27,7 +28,7 @@ import { PlannedPowersPPAGComponent } from 'src/app/safe/business/mdaPlanningPro
     PlannedPowersPPAComponent, HeatRateRecordComponent, SalesOffersComponent, ClientsComponent,
     LegalAgreementComponent, SafeNewEventComponent,DashboardAComponent,SalesOffersV2Component
     ,PlannedPowersPpaBComponent,PlannedPowersPpaCComponent,PlannedPowersPPADComponent,PlannedPowersPPAEComponent
-    ,PlannedPowersPpaFComponent, PlannedPowersPPAGComponent
+    ,PlannedPowersPPAFComponent, PlannedPowersPPAGComponent,PlannedPowersPPAHComponent,PlannedPowersPPAIComponent
   ]
 })
 export class MockUpHomeComponent implements OnInit {
@@ -47,10 +48,12 @@ export class MockUpHomeComponent implements OnInit {
             {label:'Monitoreo nivel 2'},
             {label:'planned-powers-ppa-B'},
             {label:'planned-powers-ppa-C'},
-            {label:'planned-powers-ppa-D'},
-            {label:'planned-powers-ppa-E'},
-            {label:'planned-powers-ppa-F'},
-            {label:'planned-powers-ppa-G'}
+            {label:'Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaD'},
+            {label:'Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaE'},
+            {label:'Planeación de variables'},
+            {label:'Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaG'},
+            {label:'Importación'},
+            {label:'planned-powers-ppa-I'}
 
           ]
         },
@@ -135,25 +138,33 @@ export class MockUpHomeComponent implements OnInit {
             option = 12;
             data = item;
             break;  
-        case 'planned-powers-ppa-D':
+        case 'Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaD':
             option = 13;
             data = item;
             break;  
             
-        case 'planned-powers-ppa-E':
+        case 'Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaE':
           option = 14;
           data = item;
           break;  
-        case 'planned-powers-ppa-F':
-          option = 15;
-          data = item;
-          break;  
-        case 'planned-powers-ppa-G':
+
+        case 'Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaG':
           option = 16;
           data = item;
           break;  
-
-            
+        case 'Planeación de variables':
+          option = 17;
+          data = item;
+          break; 
+        case 'Importación':
+          option = 18;
+          data = item;
+          break; 
+  
+        case 'planned-powers-ppa-I':
+          option = 19;
+          data = item;
+          break;         
     }
     //this.clickMenu(new EventMessage(option, data));
     this.eventService.sendLinkMockUp(new EventMessage(option, data));
@@ -232,15 +243,27 @@ export class MockUpHomeComponent implements OnInit {
             this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAEComponent)
             ).changeDetectorRef.detectChanges();
           break;
-
-        case 15:
-          this.viewContainerRef.createComponent(
-            this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPpaFComponent)
-            ).changeDetectorRef.detectChanges();
-          break;
         case 16:
           this.viewContainerRef.createComponent(
             this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAGComponent)
+            ).changeDetectorRef.detectChanges();
+          break;
+          
+        case 17:
+          this.viewContainerRef.createComponent(
+            this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAFComponent)
+            ).changeDetectorRef.detectChanges();
+          break;
+          
+        case 18:
+          this.viewContainerRef.createComponent(
+            this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAHComponent)
+            ).changeDetectorRef.detectChanges();
+          break;
+          
+        case 19:
+          this.viewContainerRef.createComponent(
+            this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAIComponent)
             ).changeDetectorRef.detectChanges();
           break;
             
