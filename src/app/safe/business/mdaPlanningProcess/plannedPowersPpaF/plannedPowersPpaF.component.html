@@ -53,7 +53,7 @@
         </ng-container>
         <!-- Item Description Column -->
         <ng-container [matColumnDef]="column" *ngFor="let column of columnsTocheck">
-          <th mat-header-cell *matHeaderCellDef style="text-align: center;"><input *ngIf="!column.includes('-Hora')" type="checkbox"></th>
+          <th mat-header-cell *matHeaderCellDef style="text-align: center;"><input *ngIf="!column.includes('-Hora')&&!column.includes('-Total')" type="checkbox"></th>
         </ng-container>
 
         
@@ -63,7 +63,7 @@
 
             
               
-              <mat-form-field  style="width: 70px;" *ngIf="column.label != 'Hora'" >
+              <mat-form-field  style="width: 70px;" *ngIf="column.label != 'Hora' && column.label != 'Total'" >
                 <input matInput value="{{element[column.key]}} ">
               </mat-form-field>
 

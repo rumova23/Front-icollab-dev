@@ -16,7 +16,7 @@ import {MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
 ];*/
 const ELEMENT_DATA: any[] = [
   {
-    date:'Viernes 10 mayo 2019',
+    date:'01/07/2019',
     powers:[
       {'Hora':'1', 'Potencia Planeada PPA': 1, 'Potencia Planeada Máxima Real Demostrada': '10'},
       {'Hora':'2', 'Potencia Planeada PPA': 2, 'Potencia Planeada Máxima Real Demostrada': '11'},
@@ -45,7 +45,7 @@ const ELEMENT_DATA: any[] = [
     link:''
   },
   {
-    date:'Sábado 11 mayo 2019',
+    date:'02/07/2019',
     powers:[
       {'Hora':'1', 'Potencia Planeada PPA': 1, 'Potencia Planeada Máxima Real Demostrada': '10'},
       {'Hora':'2', 'Potencia Planeada PPA': 2, 'Potencia Planeada Máxima Real Demostrada': '11'},
@@ -73,7 +73,7 @@ const ELEMENT_DATA: any[] = [
     ]
   },
   {
-    date:'Domingo 12 mayo 2019',
+    date:'03/07/2019',
     powers:[
       {'Hora':'1', 'Potencia Planeada PPA': 1, 'Potencia Planeada Máxima Real Demostrada': '10'},
       {'Hora':'2', 'Potencia Planeada PPA': 2, 'Potencia Planeada Máxima Real Demostrada': '11'},
