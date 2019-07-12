@@ -58,7 +58,7 @@ export class UnityProductsEditComponent implements OnInit {
     this.catalogService.getSat('unityProduct')
       .subscribe(
         data => {
-          this.unityProductsSat = data.result;
+          this.unityProductsSat = data;
           console.log(this.unityProductSelect);
             if (this.entity.readOnly) {
               this.unityProductSelect.unityProductSat = this.unityProductsSat.filter(unity =>

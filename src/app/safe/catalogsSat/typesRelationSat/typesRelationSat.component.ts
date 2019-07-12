@@ -39,7 +39,7 @@ export class TypesRelationSatComponent implements OnInit {
     this.catalogService.getSat('typeRelation')
       .subscribe(
         data => {
-          this.typesRelationSat = data.result;
+          this.typesRelationSat = data;
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Tipos de relación SAT');

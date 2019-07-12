@@ -46,7 +46,7 @@ export class UsppiComponent implements OnInit {
     this.marketService.getUsppi(data).subscribe(
       dataP => {
         console.log(dataP);
-        const result = dataP.result.Results.series[0].data;
+        const result = dataP.Results.series[0].data;
         let datas = [];
         console.log(result);
         for (var i = data.yearInit; i <= data.yearEnd; i++) {

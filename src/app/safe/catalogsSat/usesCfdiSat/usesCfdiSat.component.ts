@@ -42,8 +42,8 @@ export class UsesCfdiSatComponent implements OnInit {
     this.catalogService.getSat('useCfdi')
       .subscribe(
         data => {
-          console.log(data.result);
-          this.usesCfdiSat = data.result;
+          console.log(data);
+          this.usesCfdiSat = data;
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Tasas Iva');

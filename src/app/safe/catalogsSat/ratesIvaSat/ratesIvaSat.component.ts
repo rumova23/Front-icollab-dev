@@ -41,7 +41,7 @@ export class RatesIvaSatComponent implements OnInit {
     this.catalogService.getSat('rateIva')
       .subscribe(
         data => {
-          this.ratesIvaSat = data.result;
+          this.ratesIvaSat = data;
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Tasas Iva');

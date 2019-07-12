@@ -44,7 +44,7 @@ export class FiscalRegimensSatComponent implements OnInit {
     this.catalogService.getSat('fiscalRegime')
       .subscribe(
         data => {
-          this.fiscalRegimesSat = data.result;
+          this.fiscalRegimesSat = data;
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Fiscal Regimen');

@@ -94,7 +94,9 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/weather-icons-wind.min.css",
+              "scr/weather-icons.min.css"
             ],
             "scripts": [],
             "assets": [

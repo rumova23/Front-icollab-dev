@@ -1,248 +1,204 @@
-@import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900);
-
-$color1: #C8DAE6;
-$color2: white;
-$color3: #B8B8B8;
-$color4: #FFCD41;
-$color5: #2092A9;
-
-body {
-    background-color: lighten($color1, 10%) !important;
+.current, .hourly-forecast, .main-forecast, footer, .details {
+    background: rgba(0, 0, 0, 0.6);
 }
 
-*, *:before, *:after {
-  box-sizing: border-box;
-}
-
-.weather-wrapper {
-    margin-top: 20px;
+.container {
+    max-width: 500px;
+  }
+  
+  /*
+   * CURRENT CONDITIONS
+   */
+  
+  .location {
+    font-size: 2.5rem;
+  }
+  
+  .visual {
+    margin-right: 1rem;
+  }
+  
+  .visual .temp {
+    font-size: 4rem;
+  }
+  
+  .visual .temp-scale {
+    font-size: 1.5rem;
+    margin-top: 15px;
+  }
+  
+  .visual {
+    float: none;
+  }
+  
+  .current-details {
+    float: none;
+  }
+  
+  .real-feel::before {
+    content: "RealFeel®: ";
+  }
+  
+  .uv-index::before {
+    content: "UV-index: ";
+  }
+  
+  .air-quality::before {
+    content: "Air quality: ";
+  }
+  
+  /* 
+   * HOURLY FORECAST
+   */
+  
+  .hourly-forecast {
+    overflow: auto;
+    white-space: nowrap;
+  }
+  
+  .hourly-forecast div {
+    display: inline-block;
+  }
+  
+  /*
+   * MAIN FORECAST
+   */
+  
+  .temp-high, .precip-day {
+    font-weight: bold;
+  }
+  
+  /*
+   * DETAILS
+   */
+   
+  .humidity::before {
+    display: block;
+    font-family: weathericons;
+    content: "\f07a";
+    font-size: 30px;
+  }
+  
+  .pressure::before {
+    display: block;
+    font-family: weathericons;
+    content: "\f079";
+    font-size: 30px;
+  }
+  
+  .wind-speed::before {
+    display: block;
+    font-family: weathericons;
+    content: "\f050";
+    font-size: 30px;
+  }
+  
+  .wind-direction::before {
+    display: block;
+    font-family: weathericons;
+    content: "\f0b1";
+    font-size: 30px;
+  }
+  
+  .visibility::before {
+    display: block;
+    font-family: FontAwesome;
+    content: "\f1e5";
+    font-size: 30px;
+  }
+  
+  .cloud-cover::before {
+    display: block;
+    font-family: weathericons;
+    content: "\f013";
+    font-size: 30px;
+  }
+  
+  .sunrise::before {
+    display: block;
+    font-family: weathericons;
+    content: "\f051";
+    font-size: 30px;
+  }
+  
+  .sunset::before {
+    display: block;
+    font-family: weathericons;
+    content: "\f052";
+    font-size: 30px;
+  }
+  
+  .moonrise::before {
+    display: block;
+    font-family: weathericons;
+    content: "\f0c9";
+    font-size: 30px;
+  }
+  
+  .moonset::before {
+    display: block;
+    font-family: weathericons;
+    content: "\f0ca";
+    font-size: 30px;
+  }
+  
+  .moon-phase i {
+    display: block;
+    height: 45px;
+    font-size: 30px;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
-}
-
-.weather-card {
-    
-    margin:  20px 5px;
-    border-radius: 20px;
-    position: relative;
-    overflow: hidden;
-    width: 270px;
-    height: 270px;
-    background-color: $color2;
-    box-shadow: 0px 0px 25px 1px rgba(50, 50, 50, 0.1);
-    animation: appear 500ms ease-out forwards;
-    
-    h1 {
-        position: absolute !important;
-        font-family: 'Lato', sans-serif !important;
-        font-weight:300 !important;
-        font-size:80px !important;
-        color: $color3 !important;
-        bottom: 0 !important;
-        left: 35px !important;
-        opacity: 0 !important;
-        transform: translateX(150px) !important;
-        animation: title-appear 500ms ease-out 500ms forwards !important;
-    }
-    
-    p {
-        position: absolute !important;
-        font-family: 'Lato', sans-serif !important;
-        font-weight:300 !important;
-        font-size:28px !important;
-        color: lighten($color3, 10%) !important; 
-        bottom: 0 !important;
-        left: 35px !important;
-        animation: title-appear 1s ease-out 500ms forwards !important;
-    }
-
-    p1 {
-        position: absolute !important;
-        font-family: 'Lato', sans-serif !important;
-        font-weight:300 !important;
-        font-size:18px !important;
-        color: lighten($color3, 10%) !important; 
-        bottom: 0 !important;
-        left: 35px !important;
-        animation: title-appear 1s ease-out 500ms forwards !important;
-    }
-
-}
-
-.weather-card2 {
-    
-    margin:  20px 5px;
-    border-radius: 20px;
-    position: relative;
-    overflow: hidden;
-    width: 120px;
-    height: 120px;
-    background-color: $color2;
-    box-shadow: 0px 0px 25px 1px rgba(50, 50, 50, 0.1);
-    animation: appear 500ms ease-out forwards;
-    
-    h1 {
-        position: absolute !important;
-        font-family: 'Lato', sans-serif !important;
-        font-weight:300 !important;
-        font-size:80px !important;
-        color: $color3 !important;
-        bottom: 0 !important;
-        left: 35px !important;
-        opacity: 0 !important;
-        transform: translateX(150px) !important;
-        animation: title-appear 500ms ease-out 500ms forwards !important;
-    }
-    
-    p {
-        position: absolute !important;
-        font-family: 'Lato', sans-serif !important;
-        font-weight:300 !important;
-        font-size:28px !important;
-        color: lighten($color3, 10%) !important; 
-        bottom: 0 !important;
-        left: 35px !important;
-        animation: title-appear 1s ease-out 500ms forwards !important;
-    }
-
-    p1 {
-        position: absolute !important;
-        font-family: 'Lato', sans-serif !important;
-        font-weight:300 !important;
-        font-size:18px !important;
-        color: lighten($color3, 10%) !important; 
-        bottom: 0 !important;
-        left: 35px !important;
-        animation: title-appear 1s ease-out 500ms forwards !important;
-    }
-
-}
-.weather-icon {
-    position: relative;
-    width: 50px;
-    height: 50px;
-    top: 0;
-    float: right;
-    margin: 40px 40px 0 0;
-    animation: weather-icon-move 5s ease-in-out infinite;
-}
-
-.weather-icon2 {
-    position: relative;
-    width: 30px;
-    height: 30px;
-    top: 0;
-    float: right;
-    margin: 40px 40px 0 0;
-    animation: weather-icon-move 5s ease-in-out infinite;
-}
-
-.sun { 
-    background: $color4; 
-	border-radius: 50%; 
-	box-shadow: rgba(255,255,0,0.1) 0 0 0 4px;
-    animation: light 800ms ease-in-out infinite alternate, weather-icon-move 5s ease-in-out infinite;
-}
-
-@keyframes light {
-    from {
-        box-shadow: rgba(255,255,0,0.2) 0 0 0 10px;
-    }
-    to {
-        box-shadow: rgba(255,255,0,0.2) 0 0 0 17px;
-    }
-}
-
-.cloud { 
-    margin-right:60px;
-    background: darken($color1, 5%); 
-	border-radius: 20px; 
-    width: 15px;
-    height: 15px;
-    box-shadow: 
-		darken($color1, 5%) 24px -6px 0 2px, 
-		darken($color1, 5%) 10px 5px 0 5px, 
-		darken($color1, 5%) 30px 5px 0 2px, 
-        darken($color1, 5%) 11px -8px 0 -3px, 
-        darken($color1, 5%) 25px 11px 0 -1px;
-    
-    
-    &:after {
-        content: "";
-        position: absolute;
-        border-radius: 10px;
-        background-color: transparent;
-        width: 4px;
-        height: 12px;
-        left: 0;
-        top: 21px;
-        transform: rotate(30deg);
-        
-        animation: rain 800ms ease-in-out infinite alternate;
-    }
-}
-
-@keyframes rain {
-    from {
-        box-shadow: 
-        $color5 8px 0px,
-		$color5 32px -6px, 
-		$color5 20px 0px;
-    }
-    to {
-        box-shadow: 
-        $color5 8px 6px,
-		$color5 32px 0px, 
-		$color5 20px 6px;
-    }
-}
-
-@keyframes weather-icon-move {
-	50% { 
-        transform: translateY(-8px); 
-    }
-}
-
-.inspiration {
-    margin-top: 80px;
-    color: darken($color1, 25%);
-    font-family: 'Lato', sans-serif;
-    font-weight:300;
-    font-size:24px;
+  }
+  
+  .beaufort::before {
+    display: block;
+    font-family: weathericons;
+    content: "\f050";
+    font-size: 30px;
+  }
+  
+  /*
+   * FOOTER
+   */
+  
+  footer {
+    margin-top: 0.5rem;
     text-align: center;
-    
-    
-    a {
-        color: #FF8F8F !important;
-        font-weight:400 !important;
-        animation: all 300ms ease-in-out !important;
+    font-size: 12px;
+  }
+  
+  .fa.fa-code {
+    position: relative;
+    top: 1px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  .fa.fa-heart {
+    position: relative;
+    top: 1px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  .fa.fa-bolt {
+    position: relative;
+    top: 1px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  @media (min-width: 440px) {
+    .visual {
+      float: left;
     }
-}
-
-@keyframes appear {
-  0% {
-    transform:scale(0);
-  }
-  50% {
-    transform:scale(1.05)
-  }
-  75% {
-    transform:scale(0.95)
-  }
-  100% {
-   transform:scale(1)
-  }
-}
-
-@keyframes title-appear {
-    from {
-        opacity: 0;
-        transform: translateX(150px);
+  
+    .current-details {
+      float: right;
+      margin-top: 1rem;
     }
-    to {
-        opacity: 1;
-        transform: translateX(0px);
-    }
-}
+  }

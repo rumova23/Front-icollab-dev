@@ -44,7 +44,7 @@ export class MoneysSatComponent implements OnInit {
       .subscribe(
         data => {
           console.log(data);
-          this.moneysSat = data.result;
+          this.moneysSat = data;
           console.log(this.moneysSat);
         },
         errorData => {

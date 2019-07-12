@@ -32,11 +32,12 @@ export const environment = {
   , coUrl      : 'http://localhost:1199/'  // micro compliance seguimiento
   , micro_seguimiento      : 'http://localhost:1199/'  // micro compliance seguimiento
   , estatus_maestro      : 'http://localhost:1177/'  // micro estatus maestro
-  ,securityUrl     : 'http://localhost:11122/'  // estatus maestro,
-  ,mercadoUrl     : 'http://localhost:11120/'  // estatus maestro
+  ,securityUrl     : 'http://localhost:11123/security/'  // security maestro,
+  ,mercadoUrl     : 'http://localhost:11123/market/'  // estatus maestro
   ,fuecdUrl     : 'http://localhost:1166/fuecd/'  
+  ,trUrl     : 'http://localhost:1167/'
   ,pmlUrl     : 'http://localhost:1114/'
-  ,catalog      : 'http://localhost:1155/'  // micro catalago maestro
+  ,catalog      : 'http://localhost:11123/catalog/'  // micro catalago maestro
 };
 
 /*

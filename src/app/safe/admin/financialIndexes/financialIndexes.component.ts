@@ -44,7 +44,7 @@ export class FinancialIndexesComponent implements OnInit {
     this.marketService.getFinalcialIndexes(data).subscribe(
         dataP => {
           console.log(dataP);
-          this.dataSource.data = dataP.result.bmx.series[0].datos;
+          this.dataSource.data = dataP.bmx.series[0].datos;
           /*
           if(dataP.length === 0) {
             this.toastr.warningToastr('No hay datos para mostrar')

@@ -37,7 +37,7 @@ export class FuecdInvoiceComponent implements OnInit {
     this.marketService.getFuecd(this.idFuecd)
       .subscribe(
         data => {
-          const status = data.result;
+          const status = data;
           this.accountStatus = status;
           console.log(status);
           for (let a = 0; a < status.settlements.length; a++) {

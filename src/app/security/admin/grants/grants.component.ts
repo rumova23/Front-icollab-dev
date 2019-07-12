@@ -49,8 +49,8 @@ export class GrantsComponent implements OnInit {
     this.securityService.loadGrants()
       .subscribe(
         data => {
-          //this.grants = data.result;
-          const grants = data.result;
+          //this.grants = data;
+          const grants = data;
           for(var i = 0;i < grants.length; i++) {
             grants[i].app =  this.apps.filter(app => app.id === grants[i].idApp)[0];
           }

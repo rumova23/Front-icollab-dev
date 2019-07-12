@@ -63,8 +63,8 @@ export class FuecdEditComponent implements OnInit {
       this.marketService.validateFuecd({ file: this.file, name:  this.fileName})
         .subscribe(
           data => {
-            console.log(data.result);
-            const status = data.result;
+            console.log(data);
+            const status = data;
             console.log(status);
             for (let a = 0; a < status.settlements.length; a++) {
               const settlement = status.settlements[a];

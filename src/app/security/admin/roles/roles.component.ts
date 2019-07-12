@@ -43,7 +43,7 @@ export class RolesComponent implements OnInit {
     this.securityService.loadRoles()
       .subscribe(
         data => {
-          this.roles = data.result;
+          this.roles = data;
           console.log(this.roles);
           this.loadApps();
         },

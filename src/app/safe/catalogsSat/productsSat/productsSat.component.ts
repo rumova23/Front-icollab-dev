@@ -42,7 +42,7 @@ export class  ProductsSatComponent implements OnInit {
     this.catalogService.getSat('product')
       .subscribe(
         data => {
-          this.productsSat = data.result;
+          this.productsSat = data;
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Productos');

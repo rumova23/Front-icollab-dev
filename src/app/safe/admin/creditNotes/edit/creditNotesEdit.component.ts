@@ -148,7 +148,7 @@ export class CreditNotesEditComponent implements OnInit {
     this.catalogService.list(this.catalogs)
       .subscribe(
         data => {
-          const result = data.result;
+          const result = data;
           this.paymentConditions = result.filter(entity =>
             entity.catalog === 'paymentCondition')[0].data;
           this.systems = result.filter(entity =>
@@ -177,7 +177,7 @@ export class CreditNotesEditComponent implements OnInit {
     this.catalogService.listSat(this.catalogsSat)
       .subscribe(
         data => {
-          const result = data.result;
+          const result = data;
           this.paymentMethods = result.filter(entity =>
             entity.catalog === 'paymentMethod')[0].data;
           this.paymentWays = result.filter(entity =>
@@ -224,7 +224,7 @@ export class CreditNotesEditComponent implements OnInit {
     this.catalogService.loadMoneys(1)
       .subscribe(
         data => {
-          this.moneys = data.result;
+          this.moneys = data;
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -235,24 +235,24 @@ export class CreditNotesEditComponent implements OnInit {
               }
             }
           }
-          this.getInvoices();
+          this.getClients();
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Monedas');
         });
   }
 
-  private getInvoices() {
-    this.marketService.getInvoices(1)
+  private getClients() {
+    this.marketService.getClients(3)
       .subscribe(
         data => {
-          this.invoices = data.result;
+          this.clients = data;
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
               switch (inputs[a].formControlName) {
-                case 'invoice':
-                  inputs[a].options = this.invoices;
+                case 'client':
+                  inputs[a].options = this.clients;
                   break;
               }
             }
@@ -268,7 +268,7 @@ export class CreditNotesEditComponent implements OnInit {
     this.marketService.getPlant(1)
       .subscribe(
         data => {
-          this.plantSelected = data.result;
+          this.plantSelected = data;
           console.log(this.plantSelected);
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
@@ -283,11 +283,33 @@ export class CreditNotesEditComponent implements OnInit {
               }
             }
           }
-          this.setData();
+          this.getInvoices();
         },
         errorData => {
           console.log(errorData);
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Client');
+        });
+  }
+
+  private getInvoices() {
+    this.marketService.getInvoices(1)
+      .subscribe(
+        data => {
+          this.invoices = data;
+          for (var i = 0; i < this.formControls.length; i++) {
+            const inputs = this.formControls[i].inputs;
+            for (var a = 0; a < inputs.length; a++) {
+              switch (inputs[a].formControlName) {
+                case 'invoice':
+                  inputs[a].options = this.invoices;
+                  break;
+              }
+            }
+          }
+          this.setData();
+        },
+        errorData => {
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clients');
         });
   }
 
@@ -301,8 +323,10 @@ export class CreditNotesEditComponent implements OnInit {
     this.marketService.getCreditNote(this.creditNoteSelected.id)
       .subscribe(
         data => {
-          this.creditNoteSelected = data.result;
-          console.log(this.creditNoteSelected);
+          this.creditNoteSelected = data;
+          console.log(this.creditNoteSelected.idClient);
+          this.creditNoteSelected.invoice = this.invoices.filter(entity =>
+            entity.id === this.creditNoteSelected.idInvoice)[0];
           this.creditNoteSelected.client = this.clients.filter(entity =>
             entity.id === this.creditNoteSelected.idClient)[0];
           this.creditNoteSelected.sys = this.systems.filter(entity =>
@@ -320,7 +344,7 @@ export class CreditNotesEditComponent implements OnInit {
           this.marketService.getClient(this.creditNoteSelected.idClient)
             .subscribe(
               dataC => {
-                this.clientSelected = dataC.result;
+                this.clientSelected = dataC;
                 this.creditNoteSelected.plantBranchOffice = this.
                   plantSelected.plantBranches.filter(entity =>
                   entity.id === this.creditNoteSelected.idPlantBranchOffice)[0];
@@ -331,7 +355,7 @@ export class CreditNotesEditComponent implements OnInit {
                 this.marketService.getProductsByClient(this.creditNoteSelected.idClient)
                 .subscribe(
                   dataP => {
-                    this.products = dataP.result;
+                    this.products = dataP;
                     for (var a = 0; a < this.formControlsProduct.length; a++) {
                       switch (this.formControlsProduct[a].formControlName) {
                         case 'product':
@@ -356,7 +380,7 @@ export class CreditNotesEditComponent implements OnInit {
               });
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Obtener Factura');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Obtener NOta de Crédito');
         });
   }
 
@@ -485,7 +509,7 @@ export class CreditNotesEditComponent implements OnInit {
     this.marketService.getProductsByClient(id)
       .subscribe(
         data => {
-          this.products = data.result;
+          this.products = data;
           for (var a = 0; a < this.formControlsProduct.length; a++) {
             switch (this.formControlsProduct[a].formControlName) {
               case 'product':
@@ -503,7 +527,7 @@ export class CreditNotesEditComponent implements OnInit {
     this.marketService.getClient(id)
       .subscribe(
         data => {
-          this.clientSelected = data.result;
+          this.clientSelected = data;
           console.log(this.clientSelected);
           this.creditNoteForm.controls['emails'].setValue(this.clientSelected.emailInvoice);
           this.creditNoteForm.controls['paymentCondition'].setValue(

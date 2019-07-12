@@ -70,7 +70,7 @@ export class UsersEditComponent implements OnInit {
     .subscribe(
       data => {
         console.log(data);
-        this.userSelected = data.result;
+        this.userSelected = data;
         this.userForm.patchValue(this.userSelected);
         if(option == 1) {
           this.userForm.disable(); 
@@ -86,7 +86,7 @@ export class UsersEditComponent implements OnInit {
     .subscribe(
       data => {
         console.log(data);
-        this.roles = data.result;
+        this.roles = data;
       },
       errorData => {
         this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');

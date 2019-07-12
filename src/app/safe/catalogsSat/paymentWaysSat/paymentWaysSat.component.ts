@@ -41,7 +41,7 @@ export class  PaymentWaysSatComponent implements OnInit {
     this.catalogService.getSat('paymentWay')
       .subscribe(
         data => {
-          this.paymentWaysSat = data.result;
+          this.paymentWaysSat = data;
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Formas de Pago');

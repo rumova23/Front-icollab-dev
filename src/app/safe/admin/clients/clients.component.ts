@@ -53,7 +53,7 @@ export class ClientsComponent implements OnInit {
     this.marketService.getClients(3)
       .subscribe(
         data => {
-          this.clients = data.result;
+          this.clients = data;
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');

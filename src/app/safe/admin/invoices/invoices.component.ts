@@ -55,7 +55,7 @@ export class InvoicesComponent implements OnInit {
     this.marketService.getClients(3)
       .subscribe(
         data => {
-          this.clients = data.result;
+          this.clients = data;
           console.log(this.clients);
           this.getInvoices();
         },
@@ -68,7 +68,7 @@ export class InvoicesComponent implements OnInit {
     this.marketService.getInvoices(3)
       .subscribe(
         data => {
-          this.invoices = data.result;
+          this.invoices = data;
           console.log(this.invoices);
           for(var i = 0; i < this.invoices.length; i++) {
             this.invoices[i].client = this.clients.filter(entity =>

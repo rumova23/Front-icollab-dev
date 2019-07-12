@@ -52,7 +52,7 @@ export class MoneysComponent implements OnInit {
       .subscribe(
         data => {
           console.log(data);
-          this.moneys = data.result;
+          this.moneys = data;
         },
         errorData => {
           console.log(errorData);

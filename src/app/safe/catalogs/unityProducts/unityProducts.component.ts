@@ -52,7 +52,7 @@ export class UnityProductsComponent implements OnInit {
     this.catalogService.listUnityProduct(3)
       .subscribe(
         data => {
-          this.unityProducts = data.result;
+          this.unityProducts = data;
           console.log(this.unityProducts);
         },
         errorData => {

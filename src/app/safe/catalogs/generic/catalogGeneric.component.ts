@@ -54,7 +54,7 @@ export class CatalogGenericComponent implements OnInit {
         .subscribe(
           data => {
             console.log(data);
-            this.generics = data.result;
+            this.generics = data;
           },
           errorData => {
             console.log(errorData);
@@ -66,7 +66,7 @@ export class CatalogGenericComponent implements OnInit {
         .subscribe(
           data => {
             console.log(data);
-            this.generics = data.result;
+            this.generics = data;
           },
           errorData => {
             console.log(errorData);

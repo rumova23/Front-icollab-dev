@@ -42,6 +42,8 @@ import { InppComponent } from '../admin/inpp/inpp.component';
 import { UsppiComponent } from '../admin/usppi/usppi.component';
 import { CreditNotesEditComponent } from '../admin/creditNotes/edit/creditNotesEdit.component';
 import { DebitNotesEditComponent } from '../admin/debitNotes/edit/debitNotesEdit.component';
+import { CreditNotesComponent } from '../admin/creditNotes/creditNotes.component';
+import { DebitNotesComponent } from '../admin/debitNotes/debitNotes.component';
 
 @Component({
   selector: 'app-safeHome',
@@ -59,6 +61,7 @@ import { DebitNotesEditComponent } from '../admin/debitNotes/edit/debitNotesEdit
     BranchInvoiceSeriesComponent, BranchInvoiceSeriesEditComponent,
     InvoicesEditComponent, InvoicesComponent, FuecdComponent, FuecdEditComponent,
     FuecdInvoiceComponent, FinancialIndexesComponent, InppComponent, UsppiComponent,
+    CreditNotesComponent, DebitNotesComponent,
     CreditNotesEditComponent, DebitNotesEditComponent
   ]
 })
@@ -87,13 +90,12 @@ export class SafeHomeComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
-    this.eventService.sendMainSafe(new EventMessage(31, {
+    /*
+    this.eventService.sendMainSafe(new EventMessage(101, {
       readOnly: false,
       new: true,
       edit: false
-    }));
+    })); */
 
     /*
     this.eventService.sendMainSafe(new EventMessage(18, 'educationLevel'));
@@ -319,6 +321,13 @@ export class SafeHomeComponent implements OnInit {
           this.viewContainerRef.createComponent(factoryUsppi);
         refUsppi.changeDetectorRef.detectChanges();
         break;
+      case 28:
+        const factoryCreditNotes =
+          this.componentFactoryResolver.resolveComponentFactory(CreditNotesComponent);
+        const refCreditNotes =
+          this.viewContainerRef.createComponent(factoryCreditNotes);
+          refCreditNotes.changeDetectorRef.detectChanges();
+        break;
       case 29:
         const factoryCreditNotesEdit =
           this.componentFactoryResolver.resolveComponentFactory(CreditNotesEditComponent);
@@ -331,6 +340,13 @@ export class SafeHomeComponent implements OnInit {
         }
         refCreditNotesEdit.changeDetectorRef.detectChanges();
         break;
+        case 30:
+        const factoryDebitNotes =
+          this.componentFactoryResolver.resolveComponentFactory(DebitNotesComponent);
+        const refDebitNotes =
+          this.viewContainerRef.createComponent(factoryDebitNotes);
+          refDebitNotes.changeDetectorRef.detectChanges();
+        break;  
       case 31:
         const factoryDebitNotesEdit =
           this.componentFactoryResolver.resolveComponentFactory(DebitNotesEditComponent);
@@ -343,6 +359,7 @@ export class SafeHomeComponent implements OnInit {
         }
         refDebitNotesEdit.changeDetectorRef.detectChanges();
         break;
+        
       case 100:
         const factoryChangePasword =
           this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent);

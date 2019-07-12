@@ -74,8 +74,8 @@ export class ProductsEditComponent implements OnInit {
     this.catalogService.list(this.catalogs)
       .subscribe(
         data => {
-          console.log(data.result);
-          const result = data.result;
+          console.log(data);
+          const result = data;
           this.typesProduct = result.filter(entity =>
             entity.catalog === 'typeProduct')[0].data;
           this.systems = result.filter(entity =>
@@ -83,7 +83,7 @@ export class ProductsEditComponent implements OnInit {
           this.catalogService.listSat(this.catalogsSat)
             .subscribe(
               dat => {
-                const res = dat.result;
+                const res = dat;
                 console.log(dat);
                 this.productsSat = res.filter(entity =>
                   entity.catalog === 'product')[0].data;
@@ -92,7 +92,7 @@ export class ProductsEditComponent implements OnInit {
                 this.catalogService.listUnityProduct(3)
                   .subscribe(
                     da => {
-                      this.unityProducts = da.result;
+                      this.unityProducts = da;
                     },
                     errorDa => {
                       this.toastr.errorToastr(Constants.ERROR_LOAD, 'Unidad de productos');
@@ -118,7 +118,7 @@ export class ProductsEditComponent implements OnInit {
     this.marketService.getProduct(this.idProduct)
       .subscribe(
         data => {
-          this.productSelected = data.result;
+          this.productSelected = data;
           this.productSelected.typeProduct = this.typesProduct.filter(entity =>
             entity.id === this.productSelected.idTypeProduct)[0];
           this.productSelected.productSat = this.productsSat.filter(entity =>

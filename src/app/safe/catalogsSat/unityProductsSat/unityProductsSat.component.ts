@@ -40,7 +40,7 @@ export class  UnityProductsSatComponent implements OnInit {
     this.catalogService.getSat('unityProduct')
       .subscribe(
         data => {
-          this.unityProductsSat = data.result;
+          this.unityProductsSat = data;
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Unidades de Producto SAT');

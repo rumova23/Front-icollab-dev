@@ -49,7 +49,7 @@ export class PmlComponent implements OnInit {
     this.addBlock(1, null);
     this.marketService.getPmls(data).subscribe(
         dataP => {
-          this.dataSource.data = dataP.result;
+          this.dataSource.data = dataP;
           if(data.length === 0) {
             this.toastr.warningToastr('No hay datos para mostrar')
           }

@@ -44,7 +44,7 @@ export class InppComponent implements OnInit {
     this.marketService.getInpp(data).subscribe(
         dataP => {
           console.log(dataP);
-          this.dataSource.data = dataP.result;
+          this.dataSource.data = dataP;
           /*
           if(dataP.length === 0) {
             this.toastr.warningToastr('No hay datos para mostrar')

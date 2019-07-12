@@ -53,7 +53,7 @@ export class BranchInvoiceSeriesComponent implements OnInit {
     this.catalogService.get('sys')
       .subscribe(
         data => {
-          this.systems = data.result;
+          this.systems = data;
           console.log(this.systems);
           this.getPlantBranches();
         },
@@ -66,7 +66,7 @@ export class BranchInvoiceSeriesComponent implements OnInit {
     this.marketService.getPlantBranches(this.globalService.plantaDefaultId)
       .subscribe(
         data => {
-          this.plantBranches = data.result;
+          this.plantBranches = data;
           console.log(this.plantBranches);
           this.getBranchOfficeInvoiceSeries();
         },
@@ -79,7 +79,7 @@ export class BranchInvoiceSeriesComponent implements OnInit {
     this.marketService.getBranchOfficeInvoiceSeries()
       .subscribe(
         data => {
-          this.branchOfficeInvoiceSeries = data.result;
+          this.branchOfficeInvoiceSeries = data;
           console.log(this.branchOfficeInvoiceSeries);
           for(var i = 0; i <  this.branchOfficeInvoiceSeries.length; i++) {
             this.branchOfficeInvoiceSeries[i].plantBranchOffice = 

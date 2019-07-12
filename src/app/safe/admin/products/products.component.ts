@@ -63,7 +63,7 @@ export class ProductsComponent implements OnInit {
     this.marketService.loadProducts(3)
       .subscribe(
         data => {
-          this.products = data.result;
+          this.products = data;
           this.loadCatalogs();
         },
         errorData => {
@@ -75,7 +75,7 @@ export class ProductsComponent implements OnInit {
     this.catalogService.getSat('rateIva')
       .subscribe(
         data => {
-          this.ratesIvaSat = data.result;
+          this.ratesIvaSat = data;
           console.log(data);
           for (var i = 0; i < this.products.length; i++) {
             this.products[i].rateIvaSat = this.ratesIvaSat.filter(entity =>

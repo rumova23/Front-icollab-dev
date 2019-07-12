@@ -53,7 +53,7 @@ export class StatesComponent implements OnInit {
       .subscribe(
         data => {
           console.log(data);
-          this.states = data.result;
+          this.states = data;
         },
         errorData => {
           console.log(errorData);

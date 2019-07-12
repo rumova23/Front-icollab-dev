@@ -8,6 +8,11 @@ import { SocketService } from 'src/app/core/services/socket.service';
 import { Validate } from 'src/app/core/helpers/util.validator.';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { EventSocket } from 'src/app/core/models/EventSocket';
+import { TrService } from '../../services/tr.service';
+import { Constants } from 'src/app/core/globals/Constants';
+
+import * as moment from 'moment';
+
 
 
 @Component({
@@ -19,16 +24,23 @@ export class WeatherComponent implements OnInit {
   interval: any;
   conected: boolean = false;
   channel: any;
+  weather:any;
+  hourly:any;
+  forecast: any;
+
   constructor(private marketService: MarketService, public toastr: ToastrManager,
     private eventService: EventService,
     private socketService: SocketService,
+    private trService: TrService,
     private securityService: SecurityService,
     private globalService: GlobalService) { }
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {
+    const date = moment(new Date()).format(Constants.DATE_FORMAT_WEATHER);
+    this.getWeather(date);
     this.interval = setInterval(() => {
       console.log("tryinn... conected");
-      this.socketConection();
+      //this.socketConection();
     }, 5000);
   }
 
@@ -78,6 +90,44 @@ export class WeatherComponent implements OnInit {
         this.toastr.errorToastr("Token inválido",'Lo siento,');
       }
     }
+  }
+
+  getWeather(date: string) {
+    this.trService.getWeather(date)
+    .subscribe(
+      data => {
+        this.weather = data.docs[0].data;
+        console.log(this.weather);
+        this.getHourly(date);
+      },
+      errorData => {
+        this.toastr.errorToastr(Constants.ERROR_LOAD, 'Weather');
+      });
+  }
+
+  getHourly(date: string) {
+    this.trService.getHourly(date)
+    .subscribe(
+      data => {
+        this.hourly = data.docs[0].data;
+        console.log(this.hourly);
+        this.getForecast(date);
+      },
+      errorData => {
+        this.toastr.errorToastr(Constants.ERROR_LOAD, 'Hourly');
+      });
+  }
+
+  getForecast(date: string) {
+    this.trService.getForecast(date)
+    .subscribe(
+      data => {
+        this.forecast = data.docs[0].data;
+        console.log(this.forecast);
+      },
+      errorData => {
+        this.toastr.errorToastr(Constants.ERROR_LOAD, 'Forecast');
+      });
   }
 
 

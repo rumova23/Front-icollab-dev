@@ -56,7 +56,7 @@ export class BranchInvoiceSeriesEditComponent implements OnInit {
     this.catalogService.get('sys')
       .subscribe(
         data => {
-          this.systems = data.result;
+          this.systems = data;
           console.log(this.systems);
           this.getPlantBranches();
         },
@@ -69,7 +69,7 @@ export class BranchInvoiceSeriesEditComponent implements OnInit {
     this.marketService.getPlantBranches(this.globalService.plantaDefaultId)
       .subscribe(
         data => {
-          this.plantBranches = data.result;
+          this.plantBranches = data;
           if (this.entity.readOnly) {
             this.branchOfficeInvoiceSerieSelected.plantBranchOffice 
             = this.plantBranches.filter(entity =>

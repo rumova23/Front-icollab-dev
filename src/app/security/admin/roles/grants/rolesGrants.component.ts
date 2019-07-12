@@ -61,7 +61,7 @@ export class RolesGrantsComponent implements OnInit {
     this.securityService.loadGrantsRole(this.role.id)
       .subscribe(
         data => {
-          this.values = data.result;
+          this.values = data;
           this.loadGrantsTree();
         },
         errorData => {
@@ -73,8 +73,8 @@ export class RolesGrantsComponent implements OnInit {
     this.securityService.loadGrantsTree(this.role.idApp)
       .subscribe(
         data => {
-          this.grants = data.result;
-          const grants = data.result;
+          this.grants = data;
+          const grants = data;
           console.log(grants);
           for (var i = 0; i < grants.length; i++) {
             this.fathers.push(grants[i].value);

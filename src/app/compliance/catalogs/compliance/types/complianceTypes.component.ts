@@ -96,7 +96,7 @@ export class ComplianceTypesComponent implements OnInit {
     this.securityService.loadUsers()
       .subscribe(
         data => {
-          this.listUsers = data.resultado;
+          this.listUsers = data.Resultado;
           this.cargaDatos();
         },
         errorData => {

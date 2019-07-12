@@ -53,7 +53,7 @@ export class PlantsComponent implements OnInit {
     this.securityService.getPlant(this.globalService.plantaDefaultId)
       .subscribe(
         data => {
-          this.plants = data.result;
+          this.plants = data;
           console.log(this.plants);
         },
         errorData => {

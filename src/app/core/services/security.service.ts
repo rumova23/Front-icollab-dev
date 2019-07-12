@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Role } from 'src/app/security/models/Role';
 import { Parameter } from 'src/app/security/models/Parameter';
@@ -12,60 +12,60 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 
-/*
-const httpOptions = {
+const HEADERS = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
     'Accept-Language': 'es-419,es;q=0.9',
-    'Accept': 'application/json'
+    Accept: 'application/json',
+    'Access-Control-Allow-Origin': '*'
   })
-}; */
+};
 
 
 @Injectable({ providedIn: 'root' })
 export class SecurityService {
   private currentUser;
 
-  constructor(private http: HttpClient, 
+  constructor(private http: HttpClient,
     private router: Router) {
-    this.currentUser = JSON.parse(localStorage.getItem('user'));
+   
   }
 
   getTreeSample(): TreeviewItem[] {
     const childrenCategory = new TreeviewItem({
-        text: 'Children', value: 1, collapsed: true, children: [
-            { text: 'Baby 3-5', value: 11 },
-            { text: 'Baby 6-8', value: 12 },
-            { text: 'Baby 9-12', value: 13 }
-        ]
+      text: 'Children', value: 1, collapsed: true, children: [
+        { text: 'Baby 3-5', value: 11 },
+        { text: 'Baby 6-8', value: 12 },
+        { text: 'Baby 9-12', value: 13 }
+      ]
     });
     const itCategory = new TreeviewItem({
-        text: 'IT', value: 9, children: [
-            {
-                text: 'Programming', value: 91, children: [{
-                    text: 'Frontend', value: 911, children: [
-                        { text: 'Angular 1', value: 9111 },
-                        { text: 'Angular 2', value: 9112 },
-                        { text: 'ReactJS', value: 9113, disabled: true }
-                    ]
-                }, {
-                    text: 'Backend', value: 912, children: [
-                        { text: 'C#', value: 9121 },
-                        { text: 'Java', value: 9122 },
-                        { text: 'Python', value: 9123, checked: false, disabled: true }
-                    ]
-                }]
-            },
-            {
-                text: 'Networking', value: 92, children: [
-                    { text: 'Internet', value: 921 },
-                    { text: 'Security', value: 922 }
-                ]
-            }
-        ]
+      text: 'IT', value: 9, children: [
+        {
+          text: 'Programming', value: 91, children: [{
+            text: 'Frontend', value: 911, children: [
+              { text: 'Angular 1', value: 9111 },
+              { text: 'Angular 2', value: 9112 },
+              { text: 'ReactJS', value: 9113, disabled: true }
+            ]
+          }, {
+            text: 'Backend', value: 912, children: [
+              { text: 'C#', value: 9121 },
+              { text: 'Java', value: 9122 },
+              { text: 'Python', value: 9123, checked: false, disabled: true }
+            ]
+          }]
+        },
+        {
+          text: 'Networking', value: 92, children: [
+            { text: 'Internet', value: 921 },
+            { text: 'Security', value: 922 }
+          ]
+        }
+      ]
     });
     return [childrenCategory, itCategory];
-}
+  }
 
   /*
   private handleError<T>(operation = 'operation', result?: T) {
@@ -78,23 +78,31 @@ export class SecurityService {
   } */
 
   public getCurrentUser(): User {
-    this.currentUser = JSON.parse(localStorage.getItem('user'));
-    return this.currentUser;
+    if(Validate(localStorage.getItem('user'))) {
+      return JSON.parse(localStorage.getItem('user'));
+    }
+    return null;
   }
 
   public getToken(): User {
-    this.currentUser = JSON.parse(localStorage.getItem('user'));
-    return this.currentUser.token;
+    if(Validate(localStorage.getItem('user'))) {
+      return JSON.parse(localStorage.getItem('user')).token;
+    }
+    return null;
   }
 
   public getNameUser(): string {
-    this.currentUser = JSON.parse(localStorage.getItem('user'));
-    return this.currentUser.name;
+    if(Validate(localStorage.getItem('user'))) {
+      return JSON.parse(localStorage.getItem('user')).name;
+    }
+    return null;
   }
-  
+
   public getLastNameUser(): string {
-    this.currentUser = JSON.parse(localStorage.getItem('user'));
-    return this.currentUser.lastName;
+    if(Validate(localStorage.getItem('user'))) {
+      return JSON.parse(localStorage.getItem('user')).lastName;
+    }
+    return null;
   }
 
   /*
@@ -119,11 +127,11 @@ export class SecurityService {
   getMenu(name: string): any[] {
     const user = this.getCurrentUser();
     console.log(user);
-    if(!Validate(user)) {
+    if (!Validate(user)) {
       return [];
     }
     const app = user.apps.filter(app => app.name === name)[0];
-    if(!Validate(app)) {
+    if (!Validate(app)) {
       return [];
     }
     return app.children;
@@ -164,7 +172,7 @@ export class SecurityService {
     //return this.http.get(environment.securityUrl + 'plant/list');
   }
 
-  getPlant(idPlant):Observable<any> {
+  getPlant(idPlant): Observable<any> {
     return this.http.get(environment.securityUrl + 'plant/get/' + idPlant);
   }
 
@@ -198,7 +206,7 @@ export class SecurityService {
   }
 
   loadGrantsTree(idApp: number): Observable<any> {
-    return this.http.get(environment.securityUrl + 'grant/tree/list/'+ idApp);
+    return this.http.get(environment.securityUrl + 'grant/tree/list/' + idApp);
   }
 
   changePassword(changePassword: any): Observable<any> {

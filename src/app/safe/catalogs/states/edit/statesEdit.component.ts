@@ -49,7 +49,7 @@ export class StatesEditComponent implements OnInit {
     this.catalogService.get('country')
       .subscribe(
         data => {
-          this.countries = data.result;
+          this.countries = data;
           console.log(this.countries);
             if (this.entity.readOnly) {
               this.stateSelect.country = this.countries.filter(unity =>

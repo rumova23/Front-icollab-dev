@@ -142,6 +142,8 @@ import { PlannedPowersPPAHComponent } from 'src/app/safe/business/mdaPlanningPro
 import { PlannedPowersPPAIComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaI/plannedPowersPpaI.component';
 import { CreditNotesEditComponent } from './safe/admin/creditNotes/edit/creditNotesEdit.component';
 import { DebitNotesEditComponent } from './safe/admin/debitNotes/edit/debitNotesEdit.component';
+import { CreditNotesComponent } from './safe/admin/creditNotes/creditNotes.component';
+import { DebitNotesComponent } from './safe/admin/debitNotes/debitNotes.component';
 
 
 registerLocaleData(localePy, 'es');
@@ -244,6 +246,8 @@ registerLocaleData(localePy, 'es');
     UsppiComponent,
     CreditNotesEditComponent,
     DebitNotesEditComponent,
+    CreditNotesComponent,
+    DebitNotesComponent,
 
     MockUpHomeComponent,
     MockUpHeaderComponent,

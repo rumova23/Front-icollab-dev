@@ -60,7 +60,7 @@ export class FuecdComponent implements OnInit {
     this.marketService.getFuecds()
       .subscribe(
         data => {
-          this.fuecd = data.result;
+          this.fuecd = data;
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'FUECD');

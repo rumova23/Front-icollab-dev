@@ -183,7 +183,7 @@ export class ClientsEditComponent implements OnInit {
     this.catalogService.list(this.catalogs)
       .subscribe(
         data => {
-          const result = data.result;
+          const result = data;
           console.log(result);
           this.banks = result.filter(entity =>
             entity.catalog === 'bank')[0].data;
@@ -195,7 +195,6 @@ export class ClientsEditComponent implements OnInit {
             entity.catalog === 'typeClient')[0].data;
           this.typesPerson = result.filter(entity =>
             entity.catalog === 'typePerson')[0].data;
-          //this.products = data.result.products;
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -233,7 +232,7 @@ export class ClientsEditComponent implements OnInit {
     this.catalogService.listSat(this.catalogsSat)
       .subscribe(
         data => {
-          const result = data.result;
+          const result = data;
           console.log(result);
           this.usesCfdi = result.filter(entity =>
             entity.catalog === 'useCfdi')[0].data;
@@ -268,7 +267,7 @@ export class ClientsEditComponent implements OnInit {
     this.marketService.loadProducts(1)
       .subscribe(
         data => {
-          this.products = data.result;
+          this.products = data;
           for (var a = 0; a < this.formControlsProduct.length; a++) {
             switch (this.formControlsProduct[a].formControlName) {
               case 'product':
@@ -293,9 +292,9 @@ export class ClientsEditComponent implements OnInit {
     this.marketService.getClient(this.idClient)
       .subscribe(
         data => {
-          this.clientSelected = data.result;
+          this.clientSelected = data;
           console.log(this.clientSelected);
-          this.states = data.result.states;
+          this.states = data.states;
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -373,7 +372,7 @@ export class ClientsEditComponent implements OnInit {
             for (var a = 0; a < inputs.length; a++) {
               switch (inputs[a].formControlName) {
                 case 'state':
-                  this.states = data.result;
+                  this.states = data;
                   inputs[a].options = this.states
                   break;
               }
@@ -394,7 +393,7 @@ export class ClientsEditComponent implements OnInit {
             for (var a = 0; a < inputs.length; a++) {
               switch (inputs[a].formControlName) {
                 case 'state':
-                  this.states = data.result;
+                  this.states = data;
                   this.clientSelected.fiscalData.state = this.states.filter(entity =>
                     entity.id === this.clientSelected.fiscalData.idState)[0];
                   this.clientForm.patchValue(this.clientSelected.fiscalData);

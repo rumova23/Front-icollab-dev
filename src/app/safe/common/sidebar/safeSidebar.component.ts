@@ -190,6 +190,12 @@ export class SafeSidebarComponent implements OnInit {
       case 'USPPI':
         option = 27;
         break;
+      case 'Notas de Crédito':
+        option = 28;
+        break;   
+      case 'Notas de Débito':
+          option = 30;
+          break;     
       case 'Regímenes Fiscales SAT':
         option = 201;
         break;

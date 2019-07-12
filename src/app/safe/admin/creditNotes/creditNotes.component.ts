@@ -7,6 +7,7 @@ import { Constants } from 'src/app/core/globals/Constants';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventService } from 'src/app/core/services/event.service';
 import { Invoice } from '../../models/Invoice';
+import { CreditNote } from '../../models/CreditNote';
 
 
 
@@ -27,8 +28,7 @@ export class CreditNotesComponent implements OnInit {
   ];
   filterBtn = { label: "buscar" };
   rowsPorPage = [50, 100, 250, 500];
-
-  invoices:Array<Invoice>;
+  creditNotes:Array<CreditNote>;
   clients:Array<Client>;
 
   constructor(private globalService: GlobalService,
@@ -53,49 +53,48 @@ export class CreditNotesComponent implements OnInit {
     this.marketService.getClients(3)
       .subscribe(
         data => {
-          this.clients = data.result;
-          console.log(this.clients);
-          this.getInvoices();
+          this.clients = data;
+          this.getCreditNotes();
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clientes');
         });
   }
 
-  private getInvoices() {
-    this.marketService.getInvoices(3)
+  private getCreditNotes() {
+    this.marketService.getCreditNotes(3)
       .subscribe(
         data => {
-          this.invoices = data.result;
-          console.log(this.invoices);
-          for(var i = 0; i < this.invoices.length; i++) {
-            this.invoices[i].client = this.clients.filter(entity =>
-              entity.id ===  this.invoices[i].idClient)[0];
+          this.creditNotes = data;
+          console.log(this.creditNotes);
+          for(var i = 0; i < this.creditNotes.length; i++) {
+            this.creditNotes[i].client = this.clients.filter(entity =>
+              entity.id ===  this.creditNotes[i].idClient)[0];
           }
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Facturas');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Notas de crédito');
         });
   }
 
   newEntity() {
     this.eventService.sendMainSafe(new
-      EventMessage(21, { readOnly: false, edit: false, new: true, plant: {} }));
+      EventMessage(29, { readOnly: false, edit: false, new: true, creditNote: {} }));
   }
 
   getStatus(entity: Client) {
     return (entity.active) ? "Activo " : "Inactivo";
   }
 
-  action(invoice: Invoice, option: number) {
+  action(creditNote: CreditNote, option: number) {
     switch (option) {
       case 2:
         this.eventService.sendMainSafe(new
-          EventMessage(21, { readOnly: true, edit: false, new: false, invoice: invoice }));
+          EventMessage(29, { readOnly: true, edit: false, new: false, creditNote: creditNote }));
         break;
       case 3:
         this.eventService.sendMainSafe(new
-          EventMessage(21, { readOnly: false, edit: true, new: false, invoice: invoice }));
+          EventMessage(29, { readOnly: false, edit: true, new: false, creditNote: creditNote }));
         break;
     }
   }

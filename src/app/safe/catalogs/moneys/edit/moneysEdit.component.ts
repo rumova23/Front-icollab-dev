@@ -52,7 +52,7 @@ export class MoneysEditComponent implements OnInit {
     this.catalogService.getSat('money')
       .subscribe(
         data => {
-          this.moneysSat = data.result;
+          this.moneysSat = data;
           console.log(this.moneySelect);
             if (this.entity.readOnly) {
               this.moneySelect.moneySat = this.moneysSat.filter(unity =>

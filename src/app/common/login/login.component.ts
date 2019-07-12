@@ -110,7 +110,7 @@ export class LoginComponent implements OnInit {
       )
       .subscribe(
         data => {
-          localStorage.setItem("user", JSON.stringify(data.result));
+          localStorage.setItem("user", JSON.stringify(data));
           JSON.parse(localStorage.getItem("user"));
           this.loading = true;
           this.addBlock(2, null);

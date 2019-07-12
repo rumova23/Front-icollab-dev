@@ -103,6 +103,14 @@ export class MarketService {
     return this.http.get(environment.mercadoUrl + 'invoice/list/' + option);
   }
 
+  getCreditNotes(option: number): Observable<any> {
+    return this.http.get(environment.mercadoUrl + 'creditNote/list/' + option);
+  }
+
+  getDebitNotes(option: number): Observable<any> {
+    return this.http.get(environment.mercadoUrl + 'debitNote/list/' + option);
+  }
+
   getPmls(data: any): Observable<any> {
     return this.http.post(environment.pmlUrl + "list", data);
   }

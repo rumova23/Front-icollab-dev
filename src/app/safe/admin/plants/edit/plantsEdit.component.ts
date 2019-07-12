@@ -187,15 +187,15 @@ export class PlantsEditComponent implements OnInit {
     this.catalogService.list(this.catalogs)
       .subscribe(
         data => {
-          const result = data.result;
+          const result = data;
           this.banks = result.filter(entity =>
             entity.catalog === 'bank')[0].data;
           this.countries = result.filter(entity =>
             entity.catalog === 'country')[0].data;
           this.typesPerson = result.filter(entity =>
             entity.catalog === 'typePerson')[0].data;
-          this.moneys = data.result.moneys;
-          this.fiscalRegimens = data.result.fiscalRegimens;
+          this.moneys = data.moneys;
+          this.fiscalRegimens = data.fiscalRegimens;
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -238,7 +238,7 @@ export class PlantsEditComponent implements OnInit {
     this.catalogService.getSat('fiscalRegime')
       .subscribe(
         data => {
-          this.fiscalRegimens = data.result;
+          this.fiscalRegimens = data;
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -261,8 +261,8 @@ export class PlantsEditComponent implements OnInit {
     this.catalogService.loadMoneys(1)
       .subscribe(
         data => {
-          console.log(data.result);
-          this.moneys = data.result;
+          console.log(data);
+          this.moneys = data;
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -284,7 +284,7 @@ export class PlantsEditComponent implements OnInit {
     this.marketService.getPlant(this.idPlant)
       .subscribe(
         data => {
-          this.plantSelected = data.result;
+          this.plantSelected = data;
           if (Validate(this.plantSelected.fiscalData)) {
             this.plantSelected.fiscalData.typePerson = this.typesPerson.filter(entity =>
               entity.id === this.plantSelected.fiscalData.idTypePerson)[0];
@@ -313,7 +313,7 @@ export class PlantsEditComponent implements OnInit {
             this.catalogService.loadStatesAll({ids:ids, option: 1})
             .subscribe(
               dat => {  
-                const result = dat.result;
+                const result = dat;
                 for(var i = 0; i< this.plantBranches.length; i++) {
                   this.plantBranches[i].state = result.filter(entity =>
                     entity.id ===   this.plantBranches[i].idState)[0];        
@@ -340,7 +340,7 @@ export class PlantsEditComponent implements OnInit {
             this.catalogService.loadStatesAll({ids:ids, option: 1})
             .subscribe(
               dat => {  
-                const result = dat.result;
+                const result = dat;
                 for(var i = 0; i< this.plantDirections.length; i++) {
                   this.plantDirections[i].state = result.filter(entity =>
                     entity.id ===   this.plantDirections[i].idState)[0];        
@@ -384,7 +384,7 @@ export class PlantsEditComponent implements OnInit {
             if (Validate(options)) {
               switch (this.formControlsDirection[i].formControlName) {
                 case 'state':
-                  this.states = data.result;
+                  this.states = data;
                   this.formControlsDirection[i].options = this.states
                   break;
               }
@@ -408,7 +408,7 @@ export class PlantsEditComponent implements OnInit {
             if (Validate(options)) {
               switch (this.formControlsBranch[i].formControlName) {
                 case 'state':
-                  this.states = data.result;
+                  this.states = data;
                   this.formControlsBranch[i].options = this.states
                   break;
               }
