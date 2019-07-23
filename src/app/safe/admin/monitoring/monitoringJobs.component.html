@@ -1,0 +1,197 @@
+<div class="p-5">
+
+    
+    <div class=" row">
+      <div class="col">
+        <span class="agila-cda-titulo">Configuración de Job</span>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col">
+        <div class="tabla-responsi mat-elevation-z8">
+          <table mat-table [dataSource]="ftpConnections" class="table_catalogo">
+            <ng-container matColumnDef="idFtp">
+              <th mat-header-cell *matHeaderCellDef class="txt-center"> # </th>
+              <td mat-cell *matCellDef="let element"> {{element.idFtp}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="applicationName">
+                <th mat-header-cell *matHeaderCellDef class="txt-center">Nombre de Aplicación </th>
+                <td mat-cell *matCellDef="let element"> {{element.applicationName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef class="txt-center">Tipo </th>
+              <td mat-cell *matCellDef="let element"> {{ element.type }} </td>
+           </ng-container>
+
+          <ng-container matColumnDef="host">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Host </th>
+            <td mat-cell *matCellDef="let element"> {{element.host}} </td>
+          </ng-container>
+          <ng-container matColumnDef="port">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Puerto </th>
+            <td mat-cell *matCellDef="let element"> {{element.port}} </td>
+          </ng-container>
+          <ng-container matColumnDef="user">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Usuario </th>
+            <td mat-cell *matCellDef="let element"> {{element.userFtp}} </td>
+          </ng-container>
+          <ng-container matColumnDef="password">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Contraseña </th>
+            <td mat-cell *matCellDef="let element"> {{element.password}} </td>
+          </ng-container>
+          <ng-container matColumnDef="retrievePath">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Ruta Origen </th>
+            <td mat-cell *matCellDef="let element"> {{element.retrievePath}} </td>
+          </ng-container>
+          <ng-container matColumnDef="putPath">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Ruta Destino </th>
+            <td mat-cell *matCellDef="let element"> {{element.putPath}} </td>
+          </ng-container>
+          <ng-container matColumnDef="folderBase">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Folder Base </th>
+            <td mat-cell *matCellDef="let element"> {{element.folderBase}} </td>
+          </ng-container>
+          <ng-container matColumnDef="active">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Activo </th>
+            <td mat-cell *matCellDef="let element"> {{ element.active ? 'Activo' : 'Inactivo'}} </td>
+          </ng-container>
+          <ng-container matColumnDef="repeatTimes">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Veces a repetir </th>
+            <td mat-cell *matCellDef="let element"> {{ element.repeatTimes }} </td>
+          </ng-container>
+          <ng-container matColumnDef="waitTime">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Tiempo de espera entre repeticiones </th>
+            <td mat-cell *matCellDef="let element"> {{ element.waitTime }} </td>
+          </ng-container>
+          
+        <ng-container matColumnDef="userUpdated">
+          <th mat-header-cell *matHeaderCellDef class="txt-center">Usuario Actualización </th>
+          <td mat-cell *matCellDef="let element"> {{element.userUpdated }} </td>
+        </ng-container>
+        <ng-container matColumnDef="dateUpdated">
+          <th mat-header-cell *matHeaderCellDef class="txt-center">Fecha Actualización </th>
+          <td mat-cell *matCellDef="let element"> {{element.dateUpdated | date:'dd-MM-yyyy HH:mm a'}} </td>
+        </ng-container>
+        <ng-container matColumnDef="ver">
+          <th mat-header-cell *matHeaderCellDef class="txt-center"> Ver </th>
+          <td mat-cell *matCellDef="let element">
+            <a (click)="action(element, 2)">
+              <img src="assets/images/skins/ico_Ver.png" alt="Mostrar detalle de ejecución">
+            </a>
+          </td>
+        </ng-container>
+        <!-- modificar Column -->
+        <ng-container matColumnDef="modificar">
+          <th mat-header-cell *matHeaderCellDef class="txt-center"> Modificar </th>
+          <td mat-cell *matCellDef="let element">
+            <a (click)="action(element, 3)">
+              <img src="assets/images/skins/ico_Editar.png" alt="Visualizar">
+            </a>
+          </td>
+        </ng-container>
+
+
+          <!-- header -->
+          <tr mat-header-row *matHeaderRowDef="colsFtpConnection"></tr>
+          <tr mat-row *matRowDef="let row; columns: colsFtpConnection;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+
+    <div class=" row">
+      <div class="col">
+        <br><br>  
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="d-flex justify-content-end" >
+          <button type="button" class="btn" (click)="executeProcess('FILEZILLA', false)"
+            [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">FILEZILLA Diario
+          </button>
+
+          <button type="button" class="btn" (click)='executeProcess("FILEZILLA", true)'
+            [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">FILEZILLA Mensual
+          </button>
+
+          <button type="button" class="btn" (click)='executeProcess("CTUNG", false)'
+            [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">CTUNG Diario
+          </button>
+
+          <button type="button" class="btn" (click)="executeProcess('CTUNG', true)"
+            [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">CTUNG Mensual
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class=" row">
+      <div class="col">
+        <br><br>  
+      </div>
+    </div>
+  
+    <div class=" row">
+      <div class="col">
+        <span class="agila-cda-titulo">Histórico de ejecución de Jobs</span>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col">
+        <div class="tabla-responsi mat-elevation-z8">
+          <table mat-table [dataSource]="historyExcecutedJobs" class="table_catalogo">
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef class="txt-center"> # </th>
+              <td mat-cell *matCellDef="let element"> {{element.idFtpMonitoring}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="applicationName">
+                <th mat-header-cell *matHeaderCellDef class="txt-center">Nombre de la Aplicación</th>
+                <td mat-cell *matCellDef="let element"> {{element.applicationName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="monthly">
+              <th mat-header-cell *matHeaderCellDef class="txt-center">Periodo </th>
+              <td mat-cell *matCellDef="let element"> {{ element.monthly ? 'Mensual' : 'Diaria'}} </td>
+           </ng-container>
+
+           <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Estatus de ejecución </th>
+            <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="user">
+          <th mat-header-cell *matHeaderCellDef class="txt-center">Usuario Actualización </th>
+          <td mat-cell *matCellDef="let element"> {{element.userCreated }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef class="txt-center">Fecha Actualización </th>
+          <td mat-cell *matCellDef="let element"> {{element.dateCreated | date:'dd-MM-yyyy HH:mm a'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="details">
+          <th mat-header-cell *matHeaderCellDef class="txt-center"> Ver Detalles </th>
+          <td mat-cell *matCellDef="let element">
+            <a (click)="action2(element)"> 
+              <img src="assets/images/skins/ico_Ver.png" alt="Visualizar">
+            </a>
+          </td>
+        </ng-container>
+
+          <!-- header -->
+          <tr mat-header-row *matHeaderRowDef="cols"></tr>
+          <tr mat-row *matRowDef="let row; columns: cols;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+
+  </div>

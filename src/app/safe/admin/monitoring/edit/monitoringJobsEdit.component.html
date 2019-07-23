@@ -1,0 +1,220 @@
+<div class="row pb-5">
+  <div class="col">
+    <span class="agila-cda-titulo">{{getTitle()}}</span>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <form [formGroup]="ftpConnectionForm" (ngSubmit)="save(ftpConnectionForm.value)">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Id Conexión de FTP" formControlName="idFtp">
+              <mat-error *ngIf="!ftpConnectionForm.controls['idFtp'].valid 
+                  && ftpConnectionForm.controls['idFtp'].touched">
+                Requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field>
+            <mat-label>Nombre de la Aplicación</mat-label>
+            <mat-select formControlName="applicationName" [compareWith]="compareObjects">
+              <mat-option *ngFor="let appName of applicationNames" [value]="appName">
+                {{ appName.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-error *ngIf="!ftpConnectionForm.controls['applicationName'].valid 
+                        && ftpConnectionForm.controls['applicationName'].touched">
+            Requerido
+          </mat-error>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field>
+            <mat-label>Tipo</mat-label>
+            <mat-select formControlName="type" [compareWith]="compareObjects">
+              <mat-option *ngFor="let type of types" [value]="type">
+                {{ type.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-error *ngIf="!ftpConnectionForm.controls['type'].valid 
+                        && ftpConnectionForm.controls['type'].touched">
+            Requerido
+          </mat-error>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Host" formControlName="host">
+              <mat-error *ngIf="!ftpConnectionForm.controls['host'].valid 
+                      && ftpConnectionForm.controls['host'].touched">
+                Requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Puerto" formControlName="port">
+              <mat-error *ngIf="!ftpConnectionForm.controls['port'].valid 
+                      && ftpConnectionForm.controls['port'].touched">
+                Requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Usuario" formControlName="userFtp">
+              <mat-error *ngIf="!ftpConnectionForm.controls['userFtp'].valid 
+                      && ftpConnectionForm.controls['userFtp'].touched">
+                Requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Password" formControlName="password">
+              <mat-error *ngIf="!ftpConnectionForm.controls['password'].valid 
+                      && ftpConnectionForm.controls['password'].touched">
+                Requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Ruta de donde se obtendrán los archivos" formControlName="retrievePath">
+              <mat-error *ngIf="!ftpConnectionForm.controls['retrievePath'].valid 
+                      && ftpConnectionForm.controls['retrievePath'].touched">
+                Requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Ruta donde serán depositados los archivos" formControlName="putPath">
+              <mat-error *ngIf="!ftpConnectionForm.controls['putPath'].valid 
+                      && ftpConnectionForm.controls['putPath'].touched">
+                Requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Folder base de descarga " formControlName="folderBase">
+              <mat-error *ngIf="!ftpConnectionForm.controls['folderBase'].valid 
+                      && ftpConnectionForm.controls['folderBase'].touched">
+                Requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+   
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Repeticiones si falla el proceso " formControlName="repeatTimes">
+              <mat-error *ngIf="!ftpConnectionForm.controls['repeatTimes'].valid 
+                      && ftpConnectionForm.controls['repeatTimes'].touched">
+                Requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="md-form">
+              <mat-form-field class="w-100">
+                <input matInput placeholder="Tiempo de espera entre repeticiones " formControlName="waitTime">
+                <mat-error *ngIf="!ftpConnectionForm.controls['waitTime'].valid 
+                        && ftpConnectionForm.controls['waitTime'].touched">
+                  Requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-checkbox id="active" class="active" color="primary" formControlName="active">Activa
+          </mat-checkbox>
+          <mat-error *ngIf="!ftpConnectionForm.controls['active'].valid 
+                        && ftpConnectionForm.controls['active'].touched">
+            Requerido
+          </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="d-flex justify-content-end" *ngIf="!entity.readOnly">
+            <button type="submit" class="btn" [disabled]="!ftpConnectionForm.valid"
+              [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-10"><br><br></div>
+</div>
+
+<div class="row">
+  <div class="col-10"></div>
+  <div class="col-2">
+    <button type="button" class="btn"
+      [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
+      (click)="back()">Regresar</button>
+  </div>
+</div>

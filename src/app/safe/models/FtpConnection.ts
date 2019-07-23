@@ -1,0 +1,15 @@
+export interface FtpConnection {
+    idFtp?,
+    applicationName?,
+    type?,
+    host?,
+    port?,
+    userFtp?,
+    password?,
+    retrievePath?,
+    putPath?,
+    folderBase?,
+    active?,
+    repeatTimes?,
+    waitTime?,
+}
