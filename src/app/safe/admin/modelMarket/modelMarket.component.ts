@@ -89,7 +89,7 @@ export class ModelMarketComponent implements OnInit {
       'priceMegawatt11': new FormControl('', Validators.nullValidator)
     });
     //this.date.setDate(this.date.getDate() + 1);
-    this.loadData();
+    //this.loadData();
 
   }
 
