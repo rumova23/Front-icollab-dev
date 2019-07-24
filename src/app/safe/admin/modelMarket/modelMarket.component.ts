@@ -19,7 +19,7 @@ export class ModelMarketComponent implements OnInit {
   data: Array<ModelMarket> = [];
   dataSource;
   cols: any[];
-  date: Date = new Date();
+  date: Date;
 
   modelMarketForm: FormGroup;
   hour = 0;
@@ -88,7 +88,7 @@ export class ModelMarketComponent implements OnInit {
       'megawatt11': new FormControl('', Validators.nullValidator),
       'priceMegawatt11': new FormControl('', Validators.nullValidator)
     });
-    this.date.setDate(this.date.getDate() + 1);
+    //this.date.setDate(this.date.getDate() + 1);
     this.loadData();
 
   }

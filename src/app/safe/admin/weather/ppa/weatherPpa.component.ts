@@ -18,7 +18,7 @@ export class WeatherPpaComponent implements OnInit {
   data: Array<WeatherPpa> = [];
   dataSource;
   cols: any[];
-  date: Date = new Date();
+  date: Date;
 
   weatherForm: FormGroup;
   hour = 0;
@@ -45,7 +45,7 @@ export class WeatherPpaComponent implements OnInit {
       'pressure': new FormControl('', Validators.required),
       'humidity': new FormControl('', Validators.required)
     });
-    this.date.setDate(this.date.getDate() + 1);
+    //this.date.setDate(this.date.getDate() + 1);
     this.loadData();
 
   }

@@ -18,7 +18,7 @@ export class EnergyPpaComponent implements OnInit {
   data: Array<EnergyPpa> = [];
   dataSource;
   cols: any[];
-  date: Date = new Date();
+  date: Date;
 
   energyForm: FormGroup;
   hour = 0;
@@ -42,7 +42,7 @@ export class EnergyPpaComponent implements OnInit {
       'indoorCalorificValue': new FormControl('', Validators.required),
       'powerFactor': new FormControl('', Validators.required)
     });
-    this.date.setDate(this.date.getDate() + 1);
+    //this.date.setDate(this.date.getDate() + 1);
     this.loadData();
 
   }

@@ -18,7 +18,7 @@ export class ChargePpaComponent implements OnInit {
   data: Array<ChargePpa> = [];
   dataSource;
   cols: any[];
-  date: Date = new Date();
+  date: Date;
 
   chargeForm: FormGroup;
   hour = 0;
@@ -52,7 +52,7 @@ export class ChargePpaComponent implements OnInit {
       'margin': new FormControl('', Validators.required),
       'others': new FormControl('', Validators.required)
     });
-    this.date.setDate(this.date.getDate() + 1);
+    //this.date.setDate(this.date.getDate() + 1);
     this.loadData();
 
   }
