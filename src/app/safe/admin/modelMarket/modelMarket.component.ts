@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { Validate } from 'src/app/core/helpers/util.validator.';
 import { ModelMarket } from '../../models/ModelMarket';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-modelMarket',
@@ -99,6 +100,7 @@ export class ModelMarketComponent implements OnInit {
           console.log(data);
           const rows = data.rows;
           this.dateDespatch = data.dateDespatch;
+          this.data = [];
           for (var i = 0; i < rows.length; i++) {
             let hour: ModelMarket = {};
             const offerIncrements = rows[i].offerIncrements;
@@ -327,25 +329,42 @@ export class ModelMarketComponent implements OnInit {
       });
   }
 
-  save() {
-    const dat = this.data = this.data.filter(entity =>
-      entity.edit == true);
-    if (!Validate(dat) || dat.length <= 0) {
+  download() {
+    if (!Validate(this.data) || this.data.length <= 0) {
       return;
     }
-    this.marketService.editEnergy({
-      time: this.date.getTime(),
-      data: dat
-    })
-      .subscribe(
+    this.marketService.downloadModelMarket(
+      this.date.getTime()
+    ) .subscribe(
         dat => {
           console.log(dat);
-          this.loadData();
+          let blob = new Blob([this.base64toBlob(dat.base64,
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')], {});
+          saveAs(blob, dat.nameFile);
           this.toastr.successToastr(Constants.SAVE_SUCCESS);
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Error al descargar archivo');
         });
+  }
+
+  base64toBlob(base64Data, contentType) {
+    contentType = contentType || '';
+    let sliceSize = 1024;
+    let byteCharacters = atob(base64Data);
+    let bytesLength = byteCharacters.length;
+    let slicesCount = Math.ceil(bytesLength / sliceSize);
+    let byteArrays = new Array(slicesCount);
+    for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+      let begin = sliceIndex * sliceSize;
+      let end = Math.min(begin + sliceSize, bytesLength);
+      let bytes = new Array(end - begin);
+      for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+        bytes[i] = byteCharacters[offset].charCodeAt(0);
+      }
+      byteArrays[sliceIndex] = new Uint8Array(bytes);
+    }
+    return new Blob(byteArrays, { type: contentType });
   }
 
 }

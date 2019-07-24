@@ -210,4 +210,8 @@ export class MarketService {
     return this.http.post(environment.modelMarket + "raws/prediction/updaterow", data);
   }
 
+  downloadModelMarket(time): Observable<any> {
+    return this.http.get(environment.modelMarket + 'raws/download/' + time);
+  }
+
 }

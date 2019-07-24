@@ -72,6 +72,9 @@ export class SafeSidebarComponent implements OnInit {
   clickMenu(item) {
     let option = 0;
     let catalog: string = "";
+    let typeWeather: string = "";
+    let typeCharge: string = "";
+    let typeEnergy: string = "";
     switch (item.label) {
       case 'Servicios':
         option = 3;
@@ -192,10 +195,66 @@ export class SafeSidebarComponent implements OnInit {
         break;
       case 'Notas de Crédito':
         option = 28;
-        break;   
+        break;
       case 'Notas de Débito':
-          option = 30;
-          break;     
+        option = 30;
+        break;
+      case 'Carga Humedad':
+        option = 32;
+        typeWeather = "Humedad";
+        break;
+      case 'Carga Presión Barométrica':
+        option = 32;
+        typeWeather = "Presión Barométrica";
+        break;
+      case 'Carga Temperatura':
+        option = 32;
+        typeWeather = "Temperatura";
+        break;
+      case 'Consulta Clima':
+        option = 33;
+        break;
+      case 'Carga Cargo Fijo':
+        option = 34;
+        typeCharge = "Cargo Fijo"
+        break;
+      case 'Carga Cargo Variable':
+        option = 34;
+        typeCharge = "Cargo Variable"
+        break;
+      case 'Carga Gas':
+        option = 34;
+        typeCharge = "Gas"
+        break;
+      case 'Carga HR / MW':
+        option = 34;
+        typeCharge = "HR / MW"
+        break;
+      case 'Carga Margen x MM':
+        option = 34;
+        typeCharge = "Margen x MM"
+        break;
+      case 'Carga Otros':
+        option = 34;
+        typeCharge = "Otros"
+        break;
+      case 'Consulta Cargos':
+        option = 35;
+        break;
+      case 'Carga Poder Calorífico Inferior':
+        option = 36;
+        typeEnergy = "Poder Calorífico Inferior"
+        break;
+      case 'Carga Factor de Potencia':
+        option = 36;
+        typeEnergy = "Factor de Potencia"
+        break;
+      case 'Consulta Variables Energía':
+        option = 37;
+        break;
+      case 'Modelo Matemático':
+          option = 38;
+          break;        
       case 'Regímenes Fiscales SAT':
         option = 201;
         break;
@@ -226,6 +285,12 @@ export class SafeSidebarComponent implements OnInit {
     }
     if (option == 9) {
       this.eventService.sendMainSafe(new EventMessage(option, catalog));
+    } else if (option == 32) {
+      this.eventService.sendMainSafe(new EventMessage(option, typeWeather));
+    } else if (option == 34) {
+      this.eventService.sendMainSafe(new EventMessage(option, typeCharge));
+    } else if (option == 36) {
+      this.eventService.sendMainSafe(new EventMessage(option, typeEnergy));  
     } else {
       this.eventService.sendMainSafe(new EventMessage(option, item));
     }

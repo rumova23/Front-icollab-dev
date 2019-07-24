@@ -32,401 +32,240 @@
     </div>
   </div>
 
-  <!--   <div class="row justify-content-between mb-2 mt-2 f25">
-    <div class="col">
-      <i class="fas fa-arrow-circle-left"></i>
-    </div>
-    <div class="col txt-right">
-      <i class="fas fa-arrow-alt-circle-right"></i>
-    </div>
-  </div>
- -->
   <form [formGroup]="modelMarketForm" (ngSubmit)="addModelMarket(modelMarketForm.value)">
     <div class="row">
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
-          <div class="col-md-8">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="megawatt1" placeholder="MW">
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['megawatt1'].valid 
-                                && modelMarketForm.controls['megawatt1'].touched">
-              Requerido
-            </mat-error>
-          </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="megawatt1" placeholder="MW">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          
         </div>
       </div>
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
-          <div class="col-md-8">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="priceMegawatt1" placeholder="$/MWh">
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['priceMegawatt1'].valid 
-                                  && modelMarketForm.controls['priceMegawatt1'].touched">
-              Requerido
-            </mat-error>
-          </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="priceMegawatt1" placeholder="$/MWh">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
+      <div class="col-md-auto col-md-6 col-lg-3">
           <div class="col-md-8">
             <mat-form-field class="full-width">
               <input matInput formControlName="megawatt2" placeholder="MW">
             </mat-form-field>
           </div>
           <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['megawatt2'].valid 
-                                  && modelMarketForm.controls['megawatt2'].touched">
-              Requerido
-            </mat-error>
+            
           </div>
-        </div>
       </div>
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
+      <div class="col-md-auto col-md-6 col-lg-3">
           <div class="col-md-8">
             <mat-form-field class="full-width">
               <input matInput formControlName="priceMegawatt2" placeholder="$/MWh">
             </mat-form-field>
           </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['priceMegawatt2'].valid 
-                                    && modelMarketForm.controls['priceMegawatt2'].touched">
-              Requerido
-            </mat-error>
+          <div class="col-md-4">  
           </div>
-        </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
-          <div class="col-md-8">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="megawatt3" placeholder="MW">
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['megawatt3'].valid 
-                                    && modelMarketForm.controls['megawatt3'].touched">
-              Requerido
-            </mat-error>
-          </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="megawatt3" placeholder="MW">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          
         </div>
       </div>
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
-          <div class="col-md-8">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="priceMegawatt3" placeholder="$/MWh">
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['priceMegawatt3'].valid 
-                                      && modelMarketForm.controls['priceMegawatt3'].touched">
-              Requerido
-            </mat-error>
-          </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="priceMegawatt3" placeholder="$/MWh">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          
         </div>
       </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
+      <div class="col-md-auto col-md-6 col-lg-3">
           <div class="col-md-8">
             <mat-form-field class="full-width">
               <input matInput formControlName="megawatt4" placeholder="MW">
             </mat-form-field>
           </div>
           <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['megawatt4'].valid 
-                                      && modelMarketForm.controls['megawatt4'].touched">
-              Requerido
-            </mat-error>
+            
           </div>
-        </div>
       </div>
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
+      <div class="col-md-auto col-md-6 col-lg-3">
           <div class="col-md-8">
             <mat-form-field class="full-width">
               <input matInput formControlName="priceMegawatt4" placeholder="$/MWh">
             </mat-form-field>
           </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['priceMegawatt4'].valid 
-                                        && modelMarketForm.controls['priceMegawatt4'].touched">
-              Requerido
-            </mat-error>
+          <div class="col-md-4">  
           </div>
-        </div>
       </div>
     </div>
+
     <div class="row">
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
-          <div class="col-md-8">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="megawatt5" placeholder="MW">
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['megawatt5'].valid 
-                                    && modelMarketForm.controls['megawatt5'].touched">
-              Requerido
-            </mat-error>
-          </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="megawatt5" placeholder="MW">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          
         </div>
       </div>
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
-          <div class="col-md-8">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="priceMegawatt5" placeholder="$/MWh">
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['priceMegawatt5'].valid 
-                                      && modelMarketForm.controls['priceMegawatt5'].touched">
-              Requerido
-            </mat-error>
-          </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="priceMegawatt5" placeholder="$/MWh">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
+      <div class="col-md-auto col-md-6 col-lg-3">
           <div class="col-md-8">
             <mat-form-field class="full-width">
               <input matInput formControlName="megawatt6" placeholder="MW">
             </mat-form-field>
           </div>
           <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['megawatt6'].valid 
-                                      && modelMarketForm.controls['megawatt6'].touched">
-              Requerido
-            </mat-error>
+            
           </div>
-        </div>
       </div>
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
+      <div class="col-md-auto col-md-6 col-lg-3">
           <div class="col-md-8">
             <mat-form-field class="full-width">
               <input matInput formControlName="priceMegawatt6" placeholder="$/MWh">
             </mat-form-field>
           </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['priceMegawatt6'].valid 
-                                        && modelMarketForm.controls['priceMegawatt6'].touched">
-              Requerido
-            </mat-error>
+          <div class="col-md-4">  
           </div>
-        </div>
       </div>
     </div>
+
     <div class="row">
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
-          <div class="col-md-8">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="megawatt7" placeholder="MW">
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['megawatt7'].valid 
-                                        && modelMarketForm.controls['megawatt7'].touched">
-              Requerido
-            </mat-error>
-          </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="megawatt7" placeholder="MW">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          
         </div>
       </div>
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
-          <div class="col-md-8">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="priceMegawatt7" placeholder="$/MWh">
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['priceMegawatt7'].valid 
-                                          && modelMarketForm.controls['priceMegawatt7'].touched">
-              Requerido
-            </mat-error>
-          </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="priceMegawatt7" placeholder="$/MWh">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
+      <div class="col-md-auto col-md-6 col-lg-3">
           <div class="col-md-8">
             <mat-form-field class="full-width">
               <input matInput formControlName="megawatt8" placeholder="MW">
             </mat-form-field>
           </div>
           <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['megawatt8'].valid 
-                                          && modelMarketForm.controls['megawatt8'].touched">
-              Requerido
-            </mat-error>
+            
           </div>
-        </div>
       </div>
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
+      <div class="col-md-auto col-md-6 col-lg-3">
           <div class="col-md-8">
             <mat-form-field class="full-width">
               <input matInput formControlName="priceMegawatt8" placeholder="$/MWh">
             </mat-form-field>
           </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['priceMegawatt8'].valid 
-                                            && modelMarketForm.controls['priceMegawatt8'].touched">
-              Requerido
-            </mat-error>
+          <div class="col-md-4">  
           </div>
-        </div>
       </div>
     </div>
+
     <div class="row">
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
-          <div class="col-md-8">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="megawatt9" placeholder="MW">
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['megawatt9'].valid 
-                                            && modelMarketForm.controls['megawatt9'].touched">
-              Requerido
-            </mat-error>
-          </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="megawatt9" placeholder="MW">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          
         </div>
       </div>
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
-          <div class="col-md-8">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="priceMegawatt9" placeholder="$/MWh">
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['priceMegawatt9'].valid 
-                                              && modelMarketForm.controls['priceMegawatt9'].touched">
-              Requerido
-            </mat-error>
-          </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="priceMegawatt9" placeholder="$/MWh">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
+      <div class="col-md-auto col-md-6 col-lg-3">
           <div class="col-md-8">
             <mat-form-field class="full-width">
               <input matInput formControlName="megawatt10" placeholder="MW">
             </mat-form-field>
           </div>
           <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['megawatt10'].valid 
-                                              && modelMarketForm.controls['megawatt10'].touched">
-              Requerido
-            </mat-error>
+            
           </div>
-        </div>
       </div>
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
+      <div class="col-md-auto col-md-6 col-lg-3">
           <div class="col-md-8">
             <mat-form-field class="full-width">
               <input matInput formControlName="priceMegawatt10" placeholder="$/MWh">
             </mat-form-field>
           </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['priceMegawatt10'].valid 
-                                                && modelMarketForm.controls['priceMegawatt10'].touched">
-              Requerido
-            </mat-error>
+          <div class="col-md-4">  
           </div>
-        </div>
       </div>
     </div>
+
     <div class="row">
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
-          <div class="col-md-8">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="megawatt10" placeholder="MW">
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['megawatt10'].valid 
-                                                && modelMarketForm.controls['megawatt10'].touched">
-              Requerido
-            </mat-error>
-          </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="megawatt11" placeholder="MW">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          
         </div>
       </div>
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
-          <div class="col-md-8">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="priceMegawatt10" placeholder="$/MWh">
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['priceMegawatt10'].valid 
-                                                  && modelMarketForm.controls['priceMegawatt10'].touched">
-              Requerido
-            </mat-error>
-          </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="priceMegawatt11" placeholder="$/MWh">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          
         </div>
       </div>
+ 
     </div>
-    <div class="row">
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
-          <div class="col-md-8">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="megawatt11" placeholder="MW">
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['megawatt11'].valid 
-                                                  && modelMarketForm.controls['megawatt11'].touched">
-              Requerido
-            </mat-error>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-auto col-md-6 col-lg-4">
-        <div class="row">
-          <div class="col-md-8">
-            <mat-form-field class="full-width">
-              <input matInput formControlName="priceMegawatt11" placeholder="$/MWh">
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-error *ngIf="!modelMarketForm.controls['priceMegawatt11'].valid 
-                                                    && modelMarketForm.controls['priceMegawatt11'].touched">
-              Requerido
-            </mat-error>
-          </div>
-        </div>
-      </div>
-    </div>
+    
     <div class="col">
       <button type="button" class="btn right" (click)="cancelModelMarket()"
         [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
@@ -596,7 +435,7 @@
 
     <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
       <div>
-        <button type="button" class="btn btn-primary" (click)="save()">Guardar</button>
+        <button type="button" class="btn btn-primary" (click)="download()">Descargar</button>
       </div>
     </div>
 

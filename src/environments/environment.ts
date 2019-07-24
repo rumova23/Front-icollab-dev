@@ -40,6 +40,8 @@ export const environment = {
   ,pmlUrl     : 'http://localhost:1114/'
   ,catalog      : 'http://localhost:11123/catalog/'  // micro catalago maestro
   ,modelMarket     : 'http://localhost:11123/mmmercado/'  // estatus maestro
+
+  ,monitoringUrl     : 'http://localhost:1212/ftpconsumer/'  // Monitoreo FTP
 };
 
 /*

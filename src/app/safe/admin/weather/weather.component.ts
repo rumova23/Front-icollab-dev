@@ -37,7 +37,7 @@ export class WeatherComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {
     const date = moment(new Date()).format(Constants.DATE_FORMAT_WEATHER);
-    this.getWeather(date);
+    //this.getWeather(date);
     this.interval = setInterval(() => {
       console.log("tryinn... conected");
       //this.socketConection();

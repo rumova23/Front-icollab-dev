@@ -138,7 +138,7 @@ export class EnergyEditComponent implements OnInit {
   private getTypeEnergy() {
     let option: number = 0;
     switch (this.typeEnergy) {
-      case 'Poder Calorifíco Inferior':
+      case 'Poder Calorífico Inferior':
         option = 1;
         break;
       case 'Factor de Potencia':

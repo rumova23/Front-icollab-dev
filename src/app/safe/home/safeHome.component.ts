@@ -101,11 +101,11 @@ export class SafeHomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    
-    this.eventService.sendMainSafe(new EventMessage(38, {
-      typeWeather: 'Humedad'
-    })); 
-    
+
+    this.eventService.sendMainSafe(new EventMessage(101, {
+      typeEnergy: 'Factor de Potencia'
+    }));
+
     /*
     this.eventService.sendMainSafe(new EventMessage(38, {
       typeEnergy: 'Factor de Potencia'
@@ -386,7 +386,7 @@ export class SafeHomeComponent implements OnInit {
         const refWeatherEdit =
           this.viewContainerRef.createComponent(factoryWeatherEdit);
         if (Validate(event.data)) {
-          refWeatherEdit.instance.typeWeather = event.data.typeWeather;
+          refWeatherEdit.instance.typeWeather = event.data;
         }
         refWeatherEdit.changeDetectorRef.detectChanges();
         break;
@@ -403,7 +403,7 @@ export class SafeHomeComponent implements OnInit {
         const refChargeEdit =
           this.viewContainerRef.createComponent(factoryChargeEdit);
         if (Validate(event.data)) {
-          refChargeEdit.instance.typeCharge = event.data.typeCharge;
+          refChargeEdit.instance.typeCharge = event.data;
         }
         refChargeEdit.changeDetectorRef.detectChanges();
         break;
@@ -420,7 +420,7 @@ export class SafeHomeComponent implements OnInit {
         const refEnergyEdit =
           this.viewContainerRef.createComponent(factoryEnergyEdit);
         if (Validate(event.data)) {
-          refEnergyEdit.instance.typeEnergy = event.data.typeEnergy;
+          refEnergyEdit.instance.typeEnergy = event.data;
         }
         refEnergyEdit.changeDetectorRef.detectChanges();
         break;
@@ -431,13 +431,13 @@ export class SafeHomeComponent implements OnInit {
           this.viewContainerRef.createComponent(factoryEnergyPpa);
         refEnergyPpa.changeDetectorRef.detectChanges();
         break;
-        case 38:
-          const factoryModelMarket =
-            this.componentFactoryResolver.resolveComponentFactory(ModelMarketComponent);
-          const refModelMarket =
-            this.viewContainerRef.createComponent(factoryModelMarket);
-            refModelMarket.changeDetectorRef.detectChanges();
-          break;        
+      case 38:
+        const factoryModelMarket =
+          this.componentFactoryResolver.resolveComponentFactory(ModelMarketComponent);
+        const refModelMarket =
+          this.viewContainerRef.createComponent(factoryModelMarket);
+        refModelMarket.changeDetectorRef.detectChanges();
+        break;
       case 100:
         const factoryChangePasword =
           this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent);

@@ -83,6 +83,7 @@ export class ChargePpaComponent implements OnInit {
   }
 
   addCharge(charge) {
+    /*
     this.data = this.data.filter(entity =>
       entity.hour !== this.hour);
     charge.hour = this.hour; this.data = this.data.filter(entity =>
@@ -100,7 +101,11 @@ export class ChargePpaComponent implements OnInit {
     //this.data.slice();
     this.data.sort((a, b) => (a.hour > b.hour) ? 1 : -1)
     this.dataSource.data = this.data;
+    this.chargeForm.reset(); */
+    charge.hour = this.hour;
+    this.hour = 0;
     this.chargeForm.reset();
+    this.save(charge);
   }
 
   dateChange(event) {
@@ -109,10 +114,11 @@ export class ChargePpaComponent implements OnInit {
     this.loadData();
   }
 
-  save() {
+  save(dat) {
+    /*
     const dat = this.data = this.data.filter(entity =>
-      entity.edit == true);
-    if (!Validate(dat) || dat.length <= 0) {
+      entity.edit == true); */
+    if (!Validate(dat)) {
       return;
     }
     this.marketService.editCharge({
