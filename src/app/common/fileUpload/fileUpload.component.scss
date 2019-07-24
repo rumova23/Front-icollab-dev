@@ -8,9 +8,10 @@
   width: 450px;
   max-width: 100%;
   margin: 0 auto;
-  padding: 26px 20px 30px;
+  padding: 26px 20px 30px 10px;
   -webkit-transition: 0.2s;
   transition: 0.2s;
+  margin-left:2px;
 }
 
 .file-drop-area.is-active {
@@ -18,13 +19,14 @@
 }
 
 .fake-btn {
-  background-color: #007bff;
+  background-color: #33b5e5 !important ;
   border: 1px solid #9E9EC4;
   border-radius: 3px;
   padding: 8px 15px;
   margin-right: 8px;
   font-size: 12px;
   text-transform: uppercase;
+  color:white;
 }
 
 .file-msg {

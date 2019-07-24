@@ -7,7 +7,6 @@ import { Client } from '../models/Client';
 import { Plant } from 'src/app/security/models/Plant';
 import { BranchOfficeInvoiceSerie } from '../models/BranchOfficeInvoiceSerie';
 import { Invoice } from '../models/Invoice';
-import { TimeRegister } from '../models/TimeRegister';
 import { CreditNote } from '../models/CreditNote';
 import { DebitNote } from '../models/DebitNote';
 
@@ -83,6 +82,66 @@ export class MarketService {
     return this.http.post(environment.fuecdUrl + 'validate', data);
   }
 
+  downloadCharge(idTypeCharge): Observable<any>  {
+    return this.http.get(environment.weatherUrl + 'charge/download/' + idTypeCharge);
+  }
+
+  validateCharge(data): Observable<any> {
+    return this.http.post(environment.weatherUrl + 'charge/validate', data);
+  }
+
+  saveCharge(data): Observable<any> {
+    return this.http.post(environment.weatherUrl + 'charge/save', data);
+  }
+
+  listCharge(time): Observable<any> {
+    return this.http.get(environment.weatherUrl + 'charge/list/' + time);
+  }
+
+  editCharge(data) {
+    return this.http.post(environment.weatherUrl + 'charge/edit', data);
+  }
+
+  downloadWeather(idTypeWeather): Observable<any>  {
+    return this.http.get(environment.weatherUrl + 'download/' + idTypeWeather);
+  }
+
+  validateWeather(data): Observable<any> {
+    return this.http.post(environment.weatherUrl + 'validate', data);
+  }
+
+  saveWeather(data): Observable<any> {
+    return this.http.post(environment.weatherUrl + 'save', data);
+  }
+
+  listWeather(time): Observable<any> {
+    return this.http.get(environment.weatherUrl + 'list/' + time);
+  }
+
+  editWeather(data) {
+    return this.http.post(environment.weatherUrl + 'edit', data);
+  }
+
+  downloadEnergy(idTypeCharge): Observable<any>  {
+    return this.http.get(environment.weatherUrl + 'energy/download/' + idTypeCharge);
+  }
+
+  validateEnergy(data): Observable<any> {
+    return this.http.post(environment.weatherUrl + 'energy/validate', data);
+  }
+
+  saveEnergy(data): Observable<any> {
+    return this.http.post(environment.weatherUrl + 'energy/save', data);
+  }
+
+  listEnergy(time): Observable<any> {
+    return this.http.get(environment.weatherUrl + 'energy/list/' + time);
+  }
+
+  editEnergy(data) {
+    return this.http.post(environment.weatherUrl + 'energy/edit', data);
+  }
+
   getProduct(idProduct: number): Observable<any> {
     return this.http.get(environment.mercadoUrl + 'product/get/' + idProduct);
   }
@@ -141,6 +200,14 @@ export class MarketService {
 
   getUsppi(data: any): Observable<any> {
     return this.http.post(environment.mercadoUrl + "usppi/list", data);
+  }
+
+  getModelMarket(time): Observable<any> {
+    return this.http.get(environment.modelMarket + "raws/prediction/planning/" + time);
+  }
+
+  saveModelMarket(data): Observable<any> {
+    return this.http.post(environment.modelMarket + "raws/prediction/updaterow", data);
   }
 
 }

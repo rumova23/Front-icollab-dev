@@ -7,6 +7,8 @@ export class Constants {
     
     public static LOADING_MEESSAGE: string = "Por favor espere...";
 
+    public static SAVE_SUCCESS: string = "Guardado correcto";
+
     public static DATE_FORMAT_PLANT = "YYYY-MM-DD";
     public static DATE_FORMAT_WEATHER = "YYYY/MM/DD";
 

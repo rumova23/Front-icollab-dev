@@ -34,10 +34,12 @@ export const environment = {
   , estatus_maestro      : 'http://localhost:1177/'  // micro estatus maestro
   ,securityUrl     : 'http://localhost:11123/security/'  // security maestro,
   ,mercadoUrl     : 'http://localhost:11123/market/'  // estatus maestro
-  ,fuecdUrl     : 'http://localhost:1166/fuecd/'  
+  ,fuecdUrl     : 'http://localhost:11123/fuecd/'   // fuecd
+  ,weatherUrl     : 'http://localhost:11123/weather/'   // weather
   ,trUrl     : 'http://localhost:1167/'
   ,pmlUrl     : 'http://localhost:1114/'
   ,catalog      : 'http://localhost:11123/catalog/'  // micro catalago maestro
+  ,modelMarket     : 'http://localhost:11123/mmmercado/'  // estatus maestro
 };
 
 /*

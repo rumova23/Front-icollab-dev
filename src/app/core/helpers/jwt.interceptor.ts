@@ -24,7 +24,8 @@ export class JwtInterceptor implements HttpInterceptor {
     constructor(private securityService: SecurityService) { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const user = this.securityService.getCurrentUser();
-        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        let headers = new HttpHeaders();
+        //.set('Content-Type', 'application/json');
         headers.set('Access-Control-Allow-Origin', '*');
         if (user) {
             headers = headers.set('Authorization', 'Bearer '

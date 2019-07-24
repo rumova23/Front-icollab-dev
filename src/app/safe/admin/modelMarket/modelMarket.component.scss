@@ -1,0 +1,30 @@
+table {
+  width: 100%;
+}
+td{
+  text-align: center;
+  border: solid #ccc 1px;
+}
+
+.mat-footer-row td{
+  border: solid #ccc 0px;
+}
+
+.full-width {
+  width: 100%;
+}
+.dividerSection{
+  padding: 10px;
+  margin-top: 15px;
+  margin-bottom: 30px;
+  background: #ccc;
+}
+
+.make-edit {
+  background-color: #017817;
+}
+
+.mat-row, .mat-header-row {  
+  min-width: 2800px;  
+  width: 100%;  
+}

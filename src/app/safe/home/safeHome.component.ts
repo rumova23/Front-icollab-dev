@@ -44,6 +44,13 @@ import { CreditNotesEditComponent } from '../admin/creditNotes/edit/creditNotesE
 import { DebitNotesEditComponent } from '../admin/debitNotes/edit/debitNotesEdit.component';
 import { CreditNotesComponent } from '../admin/creditNotes/creditNotes.component';
 import { DebitNotesComponent } from '../admin/debitNotes/debitNotes.component';
+import { WeatherEditComponent } from '../admin/weather/edit/weatherEdit.component';
+import { WeatherPpaComponent } from '../admin/weather/ppa/weatherPpa.component';
+import { ChargeEditComponent } from '../admin/charge/edit/chargeEdit.component';
+import { ChargePpaComponent } from '../admin/charge/ppa/chargePpa.component';
+import { EnergyEditComponent } from '../admin/energy/edit/energyEdit.component';
+import { EnergyPpaComponent } from '../admin/energy/ppa/energyPpa.component';
+import { ModelMarketComponent } from '../admin/modelMarket/modelMarket.component';
 
 @Component({
   selector: 'app-safeHome',
@@ -62,7 +69,11 @@ import { DebitNotesComponent } from '../admin/debitNotes/debitNotes.component';
     InvoicesEditComponent, InvoicesComponent, FuecdComponent, FuecdEditComponent,
     FuecdInvoiceComponent, FinancialIndexesComponent, InppComponent, UsppiComponent,
     CreditNotesComponent, DebitNotesComponent,
-    CreditNotesEditComponent, DebitNotesEditComponent
+    CreditNotesEditComponent, DebitNotesEditComponent,
+    WeatherEditComponent, WeatherPpaComponent,
+    ChargeEditComponent, ChargePpaComponent,
+    EnergyEditComponent, EnergyPpaComponent,
+    ModelMarketComponent
   ]
 })
 export class SafeHomeComponent implements OnInit {
@@ -90,8 +101,18 @@ export class SafeHomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    
+    this.eventService.sendMainSafe(new EventMessage(38, {
+      typeWeather: 'Humedad'
+    })); 
+    
     /*
-    this.eventService.sendMainSafe(new EventMessage(101, {
+    this.eventService.sendMainSafe(new EventMessage(38, {
+      typeEnergy: 'Factor de Potencia'
+    })); */
+
+    /*
+    this.eventService.sendMainSafe(new EventMessage(33, {
       readOnly: false,
       new: true,
       edit: false
@@ -326,7 +347,7 @@ export class SafeHomeComponent implements OnInit {
           this.componentFactoryResolver.resolveComponentFactory(CreditNotesComponent);
         const refCreditNotes =
           this.viewContainerRef.createComponent(factoryCreditNotes);
-          refCreditNotes.changeDetectorRef.detectChanges();
+        refCreditNotes.changeDetectorRef.detectChanges();
         break;
       case 29:
         const factoryCreditNotesEdit =
@@ -340,13 +361,13 @@ export class SafeHomeComponent implements OnInit {
         }
         refCreditNotesEdit.changeDetectorRef.detectChanges();
         break;
-        case 30:
+      case 30:
         const factoryDebitNotes =
           this.componentFactoryResolver.resolveComponentFactory(DebitNotesComponent);
         const refDebitNotes =
           this.viewContainerRef.createComponent(factoryDebitNotes);
-          refDebitNotes.changeDetectorRef.detectChanges();
-        break;  
+        refDebitNotes.changeDetectorRef.detectChanges();
+        break;
       case 31:
         const factoryDebitNotesEdit =
           this.componentFactoryResolver.resolveComponentFactory(DebitNotesEditComponent);
@@ -359,7 +380,64 @@ export class SafeHomeComponent implements OnInit {
         }
         refDebitNotesEdit.changeDetectorRef.detectChanges();
         break;
-        
+      case 32:
+        const factoryWeatherEdit =
+          this.componentFactoryResolver.resolveComponentFactory(WeatherEditComponent);
+        const refWeatherEdit =
+          this.viewContainerRef.createComponent(factoryWeatherEdit);
+        if (Validate(event.data)) {
+          refWeatherEdit.instance.typeWeather = event.data.typeWeather;
+        }
+        refWeatherEdit.changeDetectorRef.detectChanges();
+        break;
+      case 33:
+        const factoryWeatherPpa =
+          this.componentFactoryResolver.resolveComponentFactory(WeatherPpaComponent);
+        const refWeatherPpa =
+          this.viewContainerRef.createComponent(factoryWeatherPpa);
+        refWeatherPpa.changeDetectorRef.detectChanges();
+        break;
+      case 34:
+        const factoryChargeEdit =
+          this.componentFactoryResolver.resolveComponentFactory(ChargeEditComponent);
+        const refChargeEdit =
+          this.viewContainerRef.createComponent(factoryChargeEdit);
+        if (Validate(event.data)) {
+          refChargeEdit.instance.typeCharge = event.data.typeCharge;
+        }
+        refChargeEdit.changeDetectorRef.detectChanges();
+        break;
+      case 35:
+        const factoryChargePpa =
+          this.componentFactoryResolver.resolveComponentFactory(ChargePpaComponent);
+        const refChargePpa =
+          this.viewContainerRef.createComponent(factoryChargePpa);
+        refChargePpa.changeDetectorRef.detectChanges();
+        break;
+      case 36:
+        const factoryEnergyEdit =
+          this.componentFactoryResolver.resolveComponentFactory(EnergyEditComponent);
+        const refEnergyEdit =
+          this.viewContainerRef.createComponent(factoryEnergyEdit);
+        if (Validate(event.data)) {
+          refEnergyEdit.instance.typeEnergy = event.data.typeEnergy;
+        }
+        refEnergyEdit.changeDetectorRef.detectChanges();
+        break;
+      case 37:
+        const factoryEnergyPpa =
+          this.componentFactoryResolver.resolveComponentFactory(EnergyPpaComponent);
+        const refEnergyPpa =
+          this.viewContainerRef.createComponent(factoryEnergyPpa);
+        refEnergyPpa.changeDetectorRef.detectChanges();
+        break;
+        case 38:
+          const factoryModelMarket =
+            this.componentFactoryResolver.resolveComponentFactory(ModelMarketComponent);
+          const refModelMarket =
+            this.viewContainerRef.createComponent(factoryModelMarket);
+            refModelMarket.changeDetectorRef.detectChanges();
+          break;        
       case 100:
         const factoryChangePasword =
           this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent);

@@ -144,6 +144,13 @@ import { CreditNotesEditComponent } from './safe/admin/creditNotes/edit/creditNo
 import { DebitNotesEditComponent } from './safe/admin/debitNotes/edit/debitNotesEdit.component';
 import { CreditNotesComponent } from './safe/admin/creditNotes/creditNotes.component';
 import { DebitNotesComponent } from './safe/admin/debitNotes/debitNotes.component';
+import { WeatherEditComponent } from './safe/admin/weather/edit/weatherEdit.component';
+import { WeatherPpaComponent } from './safe/admin/weather/ppa/weatherPpa.component';
+import { ChargeEditComponent } from './safe/admin/charge/edit/chargeEdit.component';
+import { ChargePpaComponent } from './safe/admin/charge/ppa/chargePpa.component';
+import { EnergyEditComponent } from './safe/admin/energy/edit/energyEdit.component';
+import { EnergyPpaComponent } from './safe/admin/energy/ppa/energyPpa.component';
+import { ModelMarketComponent } from './safe/admin/modelMarket/modelMarket.component';
 
 
 registerLocaleData(localePy, 'es');
@@ -248,6 +255,14 @@ registerLocaleData(localePy, 'es');
     DebitNotesEditComponent,
     CreditNotesComponent,
     DebitNotesComponent,
+    WeatherEditComponent,
+    WeatherPpaComponent,
+    ChargeEditComponent,
+    ChargePpaComponent,
+    EnergyEditComponent,
+    EnergyPpaComponent,
+    ModelMarketComponent,
+
 
     MockUpHomeComponent,
     MockUpHeaderComponent,

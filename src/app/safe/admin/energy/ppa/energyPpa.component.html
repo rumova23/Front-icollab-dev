@@ -1,0 +1,133 @@
+<div class="p-5">
+
+  <!-- Titulo -->
+  <div class=" row">
+    <div class="col">
+      <span class="agila-cda-titulo">{{title}}</span>
+    </div>
+  </div>
+
+  <!-- Filtros de busqueda  -->
+  <div class="row mt-4 mb-4">
+    <div class="col">
+      <div class="filtros mt-2 row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-10">
+          <div class="row">
+            <div class="col-md-auto">
+              <mat-form-field>
+                <input matInput [matDatepicker]="De" placeholder="De" [(ngModel)]="date"
+                (dateChange)="dateChange($event)">
+                <mat-datepicker-toggle matSuffix [for]="De"></mat-datepicker-toggle>
+                <mat-datepicker #De></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      <!--   <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
+          <div>
+            <button type="button" class="btn btn-primary">Buscar</button>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+<!--   <div class="row justify-content-between mb-2 mt-2 f25">
+    <div class="col">
+      <i class="fas fa-arrow-circle-left"></i>
+    </div>
+    <div class="col txt-right">
+      <i class="fas fa-arrow-alt-circle-right"></i>
+    </div>
+  </div>
+ -->
+    <form [formGroup]="energyForm" (ngSubmit)="addEnergy(energyForm.value)">
+      <div class="row">
+        <div class="col-md-auto col-md-6 col-lg-4">
+          <div class="row">
+            <div class="col-md-8">
+              <mat-form-field class="full-width">
+                <input matInput formControlName="indoorCalorificValue" placeholder="Poder Calorifíco Inferior">
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-error *ngIf="!energyForm.controls['indoorCalorificValue'].valid 
+                                && energyForm.controls['indoorCalorificValue'].touched">
+                Requerido
+              </mat-error>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-auto col-md-6 col-lg-4">
+          <div class="row">
+            <div class="col-md-8">
+              <mat-form-field class="full-width">
+                <input matInput formControlName="powerFactor" placeholder="Factor de Potencia">
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-error *ngIf="!energyForm.controls['powerFactor'].valid 
+                                  && energyForm.controls['powerFactor'].touched">
+                Requerido
+              </mat-error>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+          <button type="button" class="btn right" (click)="cancelEnergy()"
+            [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+            Cancelar
+          </button>
+          <button type="submit" class="btn right" 
+          [disabled]="!energyForm.valid || hour === 0"
+            [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+            Agregar
+          </button>
+        </div>
+    </form>
+
+  <div class="mat-elevation-z8">
+    <table matSort mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="hour">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">Hora</th>
+        <td mat-cell *matCellDef="let element"> {{element.hour}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="indoorCalorificValue">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">Poder Calorifíco Inferior</th>
+        <td mat-cell *matCellDef="let element"> {{element.indoorCalorificValue}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="powerFactor">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">Factor de Potencia</th>
+        <td mat-cell *matCellDef="let element"> {{element.powerFactor}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef class="txt-center"> Modificar </th>
+        <td mat-cell *matCellDef="let element">
+          <a (click)="editEnergy(element)">
+            <img src="assets/images/skins/ico_Editar.png" alt="Visualizar">
+          </a>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="cols"></tr>
+      <tr mat-row *matRowDef="let row; columns: cols;" 
+      [ngClass]="{'make-edit': row.edit === true}" ></tr>
+    </table>
+  </div>
+  <div class="row mt-5  justify-content-end">
+
+    <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
+      <div>
+        <button type="button" class="btn btn-primary"  
+        (click)="save()">Guardar</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
