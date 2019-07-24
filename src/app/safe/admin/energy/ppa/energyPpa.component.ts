@@ -43,7 +43,7 @@ export class EnergyPpaComponent implements OnInit {
       'powerFactor': new FormControl('', Validators.required)
     });
     //this.date.setDate(this.date.getDate() + 1);
-    this.loadData();
+    //this.loadData();
 
   }
 
