@@ -19,17 +19,20 @@ export class TrService {
   constructor(private http: HttpClient) {
   }
 
-  getWeather(date: string): Observable<any> {
-    return this.http.get(environment.trUrl + 'weather/list?date=' + date);
+  getWeather(time): Observable<any> {
+    return this.http.get(environment.trUrl + 'weather/list/' + time);
   }
 
-  getHourly(date: string): Observable<any> {
-    return this.http.get(environment.trUrl + 'hourly/list?date=' + date);
+  getForecast(time): Observable<any> {
+    return this.http.get(environment.trUrl + 'forecast/list/' + time);
   }
 
-  getForecast(date: string): Observable<any> {
-    return this.http.get(environment.trUrl + 'forecast/list?date=' + date);
+  getTemperature(time): Observable<any> {
+    return this.http.get(environment.weatherUrl + 'temperature/list/' + time);
   }
 
- 
+  getHourly(time): Observable<any> {
+    return this.http.get(environment.trUrl + 'hourly/list/' + time);
+  }
+
 }

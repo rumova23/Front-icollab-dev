@@ -1,25 +1,55 @@
     <!-- CURRENT CONDITIONS -->
     <div class="container current p-3 mt-2">
         <div id="location" class="location">VillaMar</div>
-        <div id="date" class="date">Miércoles, 30 May 2018 12:00 PM EEST</div>
-        <div id="text" class="text">T-storms</div>
+        <!-- <div id="date" class="date">Miércoles, 30 May 2018 12:00 PM EEST</div> -->
+        <div id="date" class="date">{{stringDate}}</div>
+        <div id="text" class="text">{{weatherText}}</div>
         <div class="clearfix">
           <div class="visual">
-            <img id="icon" src="assets/icons/conditions/41.svg" width="100" height="100">
-            <div id="temp" class="temp d-inline-block align-top">-11</div>
+            <img id="icon" 
+            [src]="weatherImg"  width="100" height="100">
+            <div id="temp" class="temp d-inline-block align-top">{{temp}}</div>
             <div id="tempScale" class="temp-scale d-inline-block align-top">&#8451;</div>
           </div>
+
           <div class="current-details">
-            <div id="realFeel" class="real-feel">-12 ℃</div>
-            <div id="uvIndex" class="uv-index">4, Moderate</div>
-            <div id="airQuality" class="air-quality">Good</div>
+            <div id="realFeel" class="real-feel">{{realFeelTemp}} ℃</div>
+            <div id="uvIndex" class="uv-index">{{UVIndex}}, {{UVIndexText}}</div>
+            <div id="pressureTendency" class="pressure-tendency">{{pressureTendency}}</div>
           </div>
         </div>
       </div>
+        <!-- DETAILS -->
+      <div class="details container text-center py-3 mt-2">
+          <div class="row">
+            <div id="humidity" class="col-3 humidity text-center">{{humidity}}%</div>
+            <div id="pressure" class="col-3 pressure text-center">{{pressure}} mb</div>
+            <div id="windSpeed" class="col-3 wind-speed text-center">{{windSpeed}} km/h</div>
+           
+          </div>
+          <!-- <div class="row mt-3">
+            <div id="visibility" class="col-3 visibility text-center">2 km</div>
+            <div id="cloudCover" class="col-3 cloud-cover text-center">100%</div>
+            <div id="sunrise" class="col-3 sunrise text-center">05:48</div>
+            <div id="sunset" class="col-3 sunset text-center">20:48</div>
+          </div>
+          <div class="row mt-3">
+            <div id="moonrise" class="col-3 moonrise text-center">05:48</div>
+            <div id="moonset" class="col-3 moonset text-center">20:48</div>
+            <div id="moonPhase" class="col-3 moon-phase text-center"><i class="wi wi-moon-waxing-crescent-5"></i>Waxing Crescent</div>
+            <div id="beaufort" class="col-3 beaufort text-center">12 B</div>
+          </div> -->
+        </div>
   
       <!-- HOURLY FORECAST -->
       <div class="hourly-forecast container text-center p-3 mt-2">
-        <div class="align-self-center">
+      <div class="align-self-center" 
+      *ngFor="let hour of hours; let indexHour = index">
+        <div id="time-0" class="d-block">{{hour.time}}</div>
+        <img id="hourly-icon-0" [src]="hour.url" width="60" height="60">
+        <div id="hourly-temp-0" class="d-block">{{hour.value}}&deg;</div>
+      </div>
+<!--         <div class="align-self-center">
           <div id="time-0" class="d-block">13:00</div>
           <img id="hourly-icon-0" src="assets/icons/conditions/1.svg" width="60" height="60">
           <div id="hourly-temp-0" class="d-block">27&deg;</div>
@@ -78,12 +108,27 @@
           <div id="time-11" class="d-block">23:00</div>
           <img id="hourly-icon-11" src="assets/icons/conditions/1.svg" width="60" height="60">
           <div id="hourly-temp-11" class="d-block">27&deg;</div>
-        </div>
+        </div>  -->
       </div>
         
       <!-- MAIN FORECAST -->
       <div class="main-forecast container text-center mt-2">
-        <div class="row">
+          <div class="row"
+          *ngFor="let prediction of predictions; let indexPrediction = index">
+              <div id="day-0" class="col-2 align-self-center text-left">{{prediction.date}}</div>
+              <div class="col-1 align-self-center">
+                <img id="icon-0" src="assets/icons/conditions/1.svg" width="40" height="40">
+              </div>
+              <div class="col-3 align-self-center">
+                <div id="temp-high-0" class="temp-high">Min: {{prediction.min}}&deg;</div>
+                <div id="temp-low-0">Max: {{prediction.max}}&deg;</div>
+              </div>
+              <div class="col-5 align-self-center">
+                  <div id="temp-day-0" class="temp-high">Día: {{prediction.dayText}}</div>
+                  <div id="temp-night-0">Noche: {{prediction.nightText}}</div>
+                </div>
+            </div>
+ <!--        <div class="row">
           <div id="day-0" class="col-3 align-self-center text-left">Today</div>
           <div class="col-3 align-self-center">
             <img id="icon-0" src="assets/icons/conditions/1.svg" width="60" height="60">
@@ -156,27 +201,7 @@
             <div id="precip-day-4" class="precip-day">35%</div>
             <div id="precip-night-4">4%</div>
           </div>
-        </div>
-      </div>
-  
-      <!-- DETAILS -->
-      <div class="details container text-center py-3 mt-2">
-        <div class="row">
-          <div id="humidity" class="col-3 humidity text-center">75%</div>
-          <div id="pressure" class="col-3 pressure text-center">1020 mb</div>
-          <div id="windSpeed" class="col-3 wind-speed text-center">211 km/h</div>
-          <div id="windDirection" class="col-3 wind-direction text-center">180° (SSW)</div>
-        </div>
-        <!-- <div class="row mt-3">
-          <div id="visibility" class="col-3 visibility text-center">2 km</div>
-          <div id="cloudCover" class="col-3 cloud-cover text-center">100%</div>
-          <div id="sunrise" class="col-3 sunrise text-center">05:48</div>
-          <div id="sunset" class="col-3 sunset text-center">20:48</div>
-        </div>
-        <div class="row mt-3">
-          <div id="moonrise" class="col-3 moonrise text-center">05:48</div>
-          <div id="moonset" class="col-3 moonset text-center">20:48</div>
-          <div id="moonPhase" class="col-3 moon-phase text-center"><i class="wi wi-moon-waxing-crescent-5"></i>Waxing Crescent</div>
-          <div id="beaufort" class="col-3 beaufort text-center">12 B</div>
         </div> -->
       </div>
+  
+  

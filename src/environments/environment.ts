@@ -36,11 +36,10 @@ export const environment = {
   ,mercadoUrl     : 'http://localhost:11123/market/'  // estatus maestro
   ,fuecdUrl     : 'http://localhost:11123/fuecd/'   // fuecd
   ,weatherUrl     : 'http://localhost:11123/weather/'   // weather
-  ,trUrl     : 'http://localhost:1167/'
   ,pmlUrl     : 'http://localhost:1114/'
   ,catalog      : 'http://localhost:11123/catalog/'  // micro catalago maestro
   ,modelMarket     : 'http://localhost:11123/mmmercado/'  // estatus maestro
-
+  ,trUrl     : 'http://localhost:11123/tr/'   // weather
   ,monitoringUrl     : 'http://localhost:1212/ftpconsumer/'  // Monitoreo FTP
 };
 
