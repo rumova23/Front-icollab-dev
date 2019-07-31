@@ -62,37 +62,9 @@ export class ChargePpaComponent implements OnInit {
   private loadData() {
     this.marketService.listCharge(this.date.getTime())
       .subscribe(
-        data => {
-          console.log(data);
-          this.data = data;
-          /*
-          for(var i = 0; i < this.data.length; i ++) {
-            this.data[i].colorFixed = 
-             Number(this.data[i].fixed <= Number(this.config[0].value)) ? 
-             '#05FCE5' :  Number(this.data[i].fixed >= Number(this.config[1].value)) ?
-             '#F5FC05': '';
-             this.data[i].colorVariable = 
-             Number(this.data[i].variable <= Number(this.config[2].value)) ? 
-             '#05FCE5' :  Number(this.data[i].variable >= Number(this.config[3].value)) ?
-             '#F5FC05': '';
-             this.data[i].colorGas = 
-             Number(this.data[i].gas <= Number(this.config[4].value)) ? 
-             '#05FCE5' :  Number(this.data[i].gas >= Number(this.config[5].value)) ?
-             '#F5FC05': '';
-             this.data[i].colorHr = 
-             Number(this.data[i].hr <= Number(this.config[6].value)) ? 
-             '#05FCE5' :  Number(this.data[i].hr >= Number(this.config[7].value)) ?
-             '#F5FC05': '';
-             this.data[i].colorMargin = 
-             Number(this.data[i].margin <= Number(this.config[8].value)) ? 
-             '#05FCE5' :  Number(this.data[i].margin >= Number(this.config[9].value)) ?
-             '#F5FC05': '';
-             this.data[i].colorOthers = 
-             Number(this.data[i].others <= Number(this.config[10].value)) ? 
-             '#05FCE5' :  Number(this.data[i].others >= Number(this.config[11].value)) ?
-             '#F5FC05': '';
-  
-          } */
+        dat => {
+          console.log(dat);
+          this.data = dat;
           this.dataSource = new MatTableDataSource<any>(this.data);
         },
         errorData => {
