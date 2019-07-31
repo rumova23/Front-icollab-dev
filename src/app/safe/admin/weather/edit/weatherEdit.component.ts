@@ -91,7 +91,6 @@ export class WeatherEditComponent implements OnInit {
       })
         .subscribe(
           data => {
-            console.log(data);
             if (data.success) {
               if (data.message === "ok") {
                 this.save();
@@ -128,6 +127,7 @@ export class WeatherEditComponent implements OnInit {
       .subscribe(
         dataS => {
           console.log(dataS);
+          this.toastr.successToastr(Constants.SAVE_SUCCESS, '');
         },
         errorDataS => {
           console.log(errorDataS);
