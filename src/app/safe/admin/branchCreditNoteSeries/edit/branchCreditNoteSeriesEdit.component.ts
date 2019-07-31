@@ -12,21 +12,22 @@ import { CatalogService } from 'src/app/core/services/catalog.service';
 import { CatalogOrderGeneric } from 'src/app/core/models/CatalogOrderGeneric';
 import { PlantBranchOffice } from 'src/app/safe/models/PlantBranchOffice';
 import { BranchOfficeInvoiceSerie } from 'src/app/safe/models/BranchOfficeInvoiceSerie';
+import { BranchOfficeCreditNoteSerie } from 'src/app/safe/models/BranchOfficeCreditNoteSerie';
 
 
 
 @Component({
-  selector: 'app-branchInvoiceSeriesEdit',
-  templateUrl: './branchInvoiceSeriesEdit.component.html',
-  styleUrls: ['./branchInvoiceSeriesEdit.component.scss']
+  selector: 'app-branchCreditNoteSeriesEdit',
+  templateUrl: './branchCreditNoteSeriesEdit.component.html',
+  styleUrls: ['./branchCreditNoteSeriesEdit.component.scss']
 })
-export class BranchInvoiceSeriesEditComponent implements OnInit {
+export class BranchCreditNoteSeriesEditComponent implements OnInit {
   branchInvoiceSeriesForm: FormGroup;
   entity: Entity;
   systems: Array<CatalogOrderGeneric> = [];
   plantBranches : Array<PlantBranchOffice> = [];
-  branchOfficeInvoiceSerie: BranchOfficeInvoiceSerie;
-  branchOfficeInvoiceSerieSelected: BranchOfficeInvoiceSerie;
+  branchOfficeCreditNoteSerie: BranchOfficeCreditNoteSerie;
+  branchOfficeCreditNoteSerieSelected: BranchOfficeCreditNoteSerie;
   constructor(
     public toastr: ToastrManager,
     private router: Router,
@@ -71,14 +72,14 @@ export class BranchInvoiceSeriesEditComponent implements OnInit {
         data => {
           this.plantBranches = data;
           if (this.entity.readOnly) {
-            this.branchOfficeInvoiceSerieSelected.plantBranchOffice 
+            this.branchOfficeCreditNoteSerie.plantBranchOffice 
             = this.plantBranches.filter(entity =>
-              entity.id ===   this.branchOfficeInvoiceSerieSelected.idPlantBranchOffice)[0];
-            this.branchOfficeInvoiceSerieSelected.sys 
+              entity.id ===   this.branchOfficeCreditNoteSerie.idPlantBranchOffice)[0];
+            this.branchOfficeCreditNoteSerie.sys 
             = this.systems.filter(entity =>
-              entity.id ===   this.branchOfficeInvoiceSerieSelected.idSys)[0];
+              entity.id ===   this.branchOfficeCreditNoteSerie.idSys)[0];
           } else {
-            this.branchOfficeInvoiceSerie = {} as BranchOfficeInvoiceSerie;
+            this.branchOfficeCreditNoteSerie = {} as BranchOfficeInvoiceSerie;
           }
         },
         errorData => {
@@ -91,14 +92,14 @@ export class BranchInvoiceSeriesEditComponent implements OnInit {
   }
 
   save(value) {
-    this.branchOfficeInvoiceSerie = value;
-    this.branchOfficeInvoiceSerie.idPlantBranchOffice = 
-            this.branchOfficeInvoiceSerie.plantBranchOffice.id;
-    this.branchOfficeInvoiceSerie.idSys = this.branchOfficeInvoiceSerie.sys.id;
-    this.marketService.saveBranchOfficeInvoiceSerie(this.branchOfficeInvoiceSerie)
+    this.branchOfficeCreditNoteSerie = value;
+    this.branchOfficeCreditNoteSerie.idPlantBranchOffice = 
+            this.branchOfficeCreditNoteSerie.plantBranchOffice.id;
+    this.branchOfficeCreditNoteSerie.idSys = this.branchOfficeCreditNoteSerie.sys.id;
+    this.marketService.saveBranchOfficeCreditNoteSerie(this.branchOfficeCreditNoteSerie)
       .subscribe(
         data => {
-          this.eventService.sendMainSafe(new EventMessage(18, null));
+          this.eventService.sendMainSafe(new EventMessage(40, null));
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_SAVE, '');

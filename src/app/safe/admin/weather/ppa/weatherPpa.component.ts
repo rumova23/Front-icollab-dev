@@ -22,6 +22,7 @@ export class WeatherPpaComponent implements OnInit {
 
   weatherForm: FormGroup;
   hour = 0;
+  config:any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -47,6 +48,8 @@ export class WeatherPpaComponent implements OnInit {
     });
     //this.date.setDate(this.date.getDate() + 1);
     //this.loadData();
+    this.getConfigWeather();
+
 
   }
 
@@ -56,11 +59,39 @@ export class WeatherPpaComponent implements OnInit {
         data => {
           console.log(data);
           this.data = data;
+          for(var i = 0; i < this.data.length; i ++) {
+            this.data[i].colorTemperature = 
+             Number(this.data[i].temperature <= Number(this.config[0].value)) ? 
+             '#05FCE5' :  Number(this.data[i].temperature >= Number(this.config[1].value)) ?
+             '#F5FC05': '';
+             this.data[i].colorHumidity = 
+             Number(this.data[i].humidity <= Number(this.config[2].value)) ? 
+             '#05FCE5' :  Number(this.data[i].humidity >= Number(this.config[3].value)) ?
+             '#F5FC05': '';
+             this.data[i].colorPressure = 
+             Number(this.data[i].pressure <= Number(this.config[4].value)) ? 
+             '#05FCE5' :  Number(this.data[i].pressure >= Number(this.config[5].value)) ?
+             '#F5FC05': '';
+  
+          }
           this.dataSource = new MatTableDataSource<any>(this.data);
+          //this.dataSource = new MatTableDataSource<any>(this.data);
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
         });
+  }
+
+  private getConfigWeather() {
+    this.marketService.getConfigWeather()
+    .subscribe(
+      dat => {
+        this.config = dat;
+        console.log(dat);
+      },
+      errorData => {
+        this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
+      });
   }
 
   editWeather(weather) {

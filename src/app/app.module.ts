@@ -151,6 +151,8 @@ import { ChargePpaComponent } from './safe/admin/charge/ppa/chargePpa.component'
 import { EnergyEditComponent } from './safe/admin/energy/edit/energyEdit.component';
 import { EnergyPpaComponent } from './safe/admin/energy/ppa/energyPpa.component';
 import { ModelMarketComponent } from './safe/admin/modelMarket/modelMarket.component';
+import { BranchCreditNoteSeriesComponent } from './safe/admin/branchCreditNoteSeries/branchCreditNoteSeries.component';
+import { BranchCreditNoteSeriesEditComponent } from './safe/admin/branchCreditNoteSeries/edit/branchCreditNoteSeriesEdit.component';
 
 
 registerLocaleData(localePy, 'es');
@@ -262,6 +264,8 @@ registerLocaleData(localePy, 'es');
     EnergyEditComponent,
     EnergyPpaComponent,
     ModelMarketComponent,
+    BranchCreditNoteSeriesComponent,
+    BranchCreditNoteSeriesEditComponent,
 
 
     MockUpHomeComponent,

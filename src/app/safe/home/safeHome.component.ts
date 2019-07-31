@@ -51,6 +51,8 @@ import { ChargePpaComponent } from '../admin/charge/ppa/chargePpa.component';
 import { EnergyEditComponent } from '../admin/energy/edit/energyEdit.component';
 import { EnergyPpaComponent } from '../admin/energy/ppa/energyPpa.component';
 import { ModelMarketComponent } from '../admin/modelMarket/modelMarket.component';
+import { BranchCreditNoteSeriesComponent } from '../admin/branchCreditNoteSeries/branchCreditNoteSeries.component';
+import { BranchCreditNoteSeriesEditComponent } from '../admin/branchCreditNoteSeries/edit/branchCreditNoteSeriesEdit.component';
 
 @Component({
   selector: 'app-safeHome',
@@ -73,7 +75,7 @@ import { ModelMarketComponent } from '../admin/modelMarket/modelMarket.component
     WeatherEditComponent, WeatherPpaComponent,
     ChargeEditComponent, ChargePpaComponent,
     EnergyEditComponent, EnergyPpaComponent,
-    ModelMarketComponent
+    ModelMarketComponent, BranchCreditNoteSeriesComponent,BranchCreditNoteSeriesEditComponent
   ]
 })
 export class SafeHomeComponent implements OnInit {
@@ -438,6 +440,23 @@ export class SafeHomeComponent implements OnInit {
           this.viewContainerRef.createComponent(factoryModelMarket);
         refModelMarket.changeDetectorRef.detectChanges();
         break;
+      case 40:
+          const factoryBranchCreditNoteSerie =
+            this.componentFactoryResolver.resolveComponentFactory(BranchCreditNoteSeriesComponent);
+          const refBranchCreditNoteSerie =
+            this.viewContainerRef.createComponent(factoryBranchCreditNoteSerie);
+            refBranchCreditNoteSerie.changeDetectorRef.detectChanges();
+          break;  
+        case 41:
+            const factoryBrancheCreditNoteSeriesEdit =
+              this.componentFactoryResolver.resolveComponentFactory(BranchCreditNoteSeriesEditComponent);
+            const refBrancheCreidtNoteSeriesEdit =
+              this.viewContainerRef.createComponent(factoryBrancheCreditNoteSeriesEdit);
+              refBrancheCreidtNoteSeriesEdit.instance.entity = event.data;
+              refBrancheCreidtNoteSeriesEdit.instance.branchOfficeCreditNoteSerieSelected =
+              event.data.branchOfficeCreditNoteSerie;
+              refBrancheCreidtNoteSeriesEdit.changeDetectorRef.detectChanges();
+            break;    
       case 100:
         const factoryChangePasword =
           this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent);
@@ -446,6 +465,7 @@ export class SafeHomeComponent implements OnInit {
         refChangePasword.changeDetectorRef.detectChanges();
         break;
 
+        
       case 101:
         const factoryWeather =
           this.componentFactoryResolver.resolveComponentFactory(WeatherComponent);

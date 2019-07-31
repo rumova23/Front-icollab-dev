@@ -97,7 +97,7 @@
           <button type="submit" class="btn right" 
           [disabled]="!weatherForm.valid || hour === 0"
             [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
-            Agregar
+            Guardar
           </button>
         </div>
     </form>
@@ -112,17 +112,20 @@
 
       <ng-container matColumnDef="temperature">
         <th mat-header-cell *matHeaderCellDef class="txt-center">Temperatura</th>
-        <td mat-cell *matCellDef="let element"> {{element.temperature}} </td>
+        <td mat-cell *matCellDef="let element"
+        [style.background-color]="element.colorTemperature"> {{element.temperature}} </td>
       </ng-container>
 
       <ng-container matColumnDef="pressure">
         <th mat-header-cell *matHeaderCellDef class="txt-center">Presión</th>
-        <td mat-cell *matCellDef="let element"> {{element.pressure}} </td>
+        <td mat-cell *matCellDef="let element"
+        [style.background-color]="element.colorPressure"> {{element.pressure}} </td>
       </ng-container>
 
       <ng-container matColumnDef="humidity">
         <th mat-header-cell *matHeaderCellDef class="txt-center">Húmedad</th>
-        <td mat-cell *matCellDef="let element"> {{element.humidity}} </td>
+        <td mat-cell *matCellDef="let element"
+        [style.background-color]="element.colorHumidity"> {{element.humidity}} </td>
       </ng-container>
 
       <ng-container matColumnDef="edit">

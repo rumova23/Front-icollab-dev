@@ -9,6 +9,7 @@ import { BranchOfficeInvoiceSerie } from '../models/BranchOfficeInvoiceSerie';
 import { Invoice } from '../models/Invoice';
 import { CreditNote } from '../models/CreditNote';
 import { DebitNote } from '../models/DebitNote';
+import { BranchOfficeCreditNoteSerie } from '../models/BranchOfficeCreditNoteSerie';
 
 
 
@@ -182,8 +183,16 @@ export class MarketService {
     return this.http.get(environment.mercadoUrl + 'branchOfficeInvoiceSerie/list');
   }
 
-  saveBranchOfficeSerie(branchOfficeInvoiceSerie: BranchOfficeInvoiceSerie): Observable<any> {
+  saveBranchOfficeInvoiceSerie(branchOfficeInvoiceSerie: BranchOfficeInvoiceSerie): Observable<any> {
     return this.http.post(environment.mercadoUrl + 'branchOfficeInvoiceSerie/save', branchOfficeInvoiceSerie);
+  }
+
+  getBranchOfficeCreditNoteSeries(): Observable<any> {
+    return this.http.get(environment.mercadoUrl + 'branchOfficeCreditNoteSerie/list');
+  }
+
+  saveBranchOfficeCreditNoteSerie(branchOfficeCreditNoteSerie: BranchOfficeCreditNoteSerie): Observable<any> {
+    return this.http.post(environment.mercadoUrl + 'branchOfficeCreditNoteSerie/save', branchOfficeCreditNoteSerie);
   }
 
   getProductsByClient(idClient) : Observable<any> {
@@ -212,6 +221,14 @@ export class MarketService {
 
   downloadModelMarket(time): Observable<any> {
     return this.http.get(environment.modelMarket + 'raws/download/' + time);
+  }
+
+  getConfigWeather(): Observable<any> {
+    return this.http.get(environment.weatherUrl + 'config/');
+  }
+
+  getConfigCharge(): Observable<any> {
+    return this.http.get(environment.weatherUrl + 'charge/config/');
   }
 
 }

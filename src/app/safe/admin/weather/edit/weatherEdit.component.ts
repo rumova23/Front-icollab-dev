@@ -39,6 +39,7 @@ export class WeatherEditComponent implements OnInit {
   ngOnInit() {
     this.temperatureForm = this.fb.group({
       'file': new FormControl(null, [Validators.required, requiredFileType('xlsx')])
+      //'date':new FormControl('', Validators.required)
     });
   }
 

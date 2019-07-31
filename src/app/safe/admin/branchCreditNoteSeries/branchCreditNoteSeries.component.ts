@@ -14,18 +14,18 @@ import { CatalogOrderGeneric } from 'src/app/core/models/CatalogOrderGeneric';
 
 
 @Component({
-  selector: 'app-branchInvoiceSeries',
-  templateUrl: './branchInvoiceSeries.component.html',
-  styleUrls: ['./branchInvoiceSeries.component.scss']
+  selector: 'app-branchCreditNoteSeries',
+  templateUrl: './branchCreditNoteSeries.component.html',
+  styleUrls: ['./branchCreditNoteSeries.component.scss']
 })
 
-export class BranchInvoiceSeriesComponent implements OnInit {
+export class BranchCreditNoteSeriesComponent implements OnInit {
   loading: boolean;
   cols: any[];
   rowsPorPage = [50, 100, 250, 500];
   systems: Array<CatalogOrderGeneric> = [];
   plantBranches : Array<PlantBranchOffice> = [];
-  branchOfficeInvoiceSeries: Array<BranchOfficeInvoiceSerie>;
+  branchOfficeCreditNoteSeries: Array<BranchOfficeInvoiceSerie>;
   constructor(
     private marketService: MarketService,
     private catalogService: CatalogService,
@@ -68,26 +68,26 @@ export class BranchInvoiceSeriesComponent implements OnInit {
         data => {
           this.plantBranches = data;
           console.log(this.plantBranches);
-          this.getBranchOfficeInvoiceSeries();
+          this.getBranchOfficeCreditNoteSeries();
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Sucursales de la planta');
         });
   }
 
-  getBranchOfficeInvoiceSeries() {
+  getBranchOfficeCreditNoteSeries() {
     this.marketService.getBranchOfficeInvoiceSeries()
       .subscribe(
         data => {
-          this.branchOfficeInvoiceSeries = data;
-          console.log(this.branchOfficeInvoiceSeries);
-          for(var i = 0; i <  this.branchOfficeInvoiceSeries.length; i++) {
-            this.branchOfficeInvoiceSeries[i].plantBranchOffice = 
+          this.branchOfficeCreditNoteSeries = data;
+          console.log(this.branchOfficeCreditNoteSeries);
+          for(var i = 0; i <  this.branchOfficeCreditNoteSeries.length; i++) {
+            this.branchOfficeCreditNoteSeries[i].plantBranchOffice = 
               this.plantBranches.filter(entity =>
-              entity.id ===  this.branchOfficeInvoiceSeries[i].idPlantBranchOffice)[0];
-              this.branchOfficeInvoiceSeries[i].sys 
+              entity.id ===  this.branchOfficeCreditNoteSeries[i].idPlantBranchOffice)[0];
+              this.branchOfficeCreditNoteSeries[i].sys 
               = this.systems.filter(entity =>
-                entity.id ===  this.branchOfficeInvoiceSeries[i].idSys)[0];
+                entity.id ===  this.branchOfficeCreditNoteSeries[i].idSys)[0];
           }
         },
         errorData => {
@@ -108,15 +108,15 @@ export class BranchInvoiceSeriesComponent implements OnInit {
     return (entity.active) ? "Activo " : "Inactivo";
   }
 
-  action(branchOfficeInvoiceSerie: BranchOfficeInvoiceSerie, option: number) {
+  action(product: Product, option: number) {
     switch (option) {
       case 2:
         this.eventService.sendMainSafe(new
-          EventMessage(19, { readOnly: true, edit: false, new: false, branchOfficeInvoiceSerie:branchOfficeInvoiceSerie }));
+          EventMessage(4, { readOnly: true, edit: false, new: false, product: product }));
         break;
       case 3:
         this.eventService.sendMainSafe(new
-          EventMessage(19, { readOnly: false, edit: true, new: false, branchOfficeInvoiceSerie: branchOfficeInvoiceSerie }));
+          EventMessage(4, { readOnly: false, edit: true, new: false, product: product }));
         break;
     }
   }
