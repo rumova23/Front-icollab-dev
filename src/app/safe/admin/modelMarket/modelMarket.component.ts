@@ -110,7 +110,7 @@ export class ModelMarketComponent implements OnInit {
             hour.limitDispatchMin = rows[i].planningDetail.limitDespatchMin;
             hour.limitDispatchMax = rows[i].planningDetail.limitDespatchMax;
             hour.idSubInt =  rows[i].planningDetail.idSubInt;
-            hour.minimumPowerOperationCost = rows[i].planningDetail.costOperation;
+            hour.minimumPowerOperationCost = rows[i].planningCharges.costOperation;
             for (var a = 0; a < offerIncrements.length; a++) {
               switch (a) {
                 case 0:
