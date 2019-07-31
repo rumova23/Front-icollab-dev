@@ -19,6 +19,7 @@ export class ModelMarketComponent implements OnInit {
   data: Array<ModelMarket> = [];
   dataSource;
   cols: any[];
+  colsGroup: any [];
   date: Date;
 
   modelMarketForm: FormGroup;
@@ -90,6 +91,7 @@ export class ModelMarketComponent implements OnInit {
     });
     //this.date.setDate(this.date.getDate() + 1);
     //this.loadData();
+    this.colsGroup = ['-', '--', '1', '2', '3', '4', '5','6','7','8','9','10','11'];
 
   }
 

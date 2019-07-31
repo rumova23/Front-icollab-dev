@@ -56,7 +56,6 @@ export class ChargePpaComponent implements OnInit {
     //this.date.setDate(this.date.getDate() + 1);
    // this.loadData();
    this.getConfigCharge();
-
   }
 
   private loadData() {
