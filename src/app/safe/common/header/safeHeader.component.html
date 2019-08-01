@@ -1,53 +1,59 @@
-<mdb-navbar SideClass="navbar navbar-expand-lg navbar-light blue-grey lighten-4 row" [containerInside]="false">
-        <mat-toolbar-row>
-          <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleMenu()" color="primary">
-            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-          </button>
-          <a (click)="changeModule()">
-            <span> <img src="../../../assets/img/logo_safe.png" height="40" alt=""></span>
-          </a>
-        </mat-toolbar-row>
-        <links>
-      
-      
-          <ul class="navbar-nav ml-auto nav-flex-icons "
-            [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
-      
-            <li class="nav-item">
-                <a class="nav-link waves-effect waves-light" style="color:white;">
-                  {{getNameUser()}}
-                </a>
-            </li>
-            
-            <li class="nav-item dropdown" dropdown *ngIf="globalService.aguila">
-              <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
-                <img src="../../../assets/images/skins/shape_1.png" height="35" alt="">
-              </a>
-      
-              <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown-primary" role="menu">
-                <a class="dropdown-item waves-light" mdbWavesEffect (click)="cambioPlantaSol()">Sol</a>
-                <a class="dropdown-item waves-light" mdbWavesEffect (click)="changePassword()">Cambiar Contraseña</a>
-                <a class="dropdown-item waves-light" mdbWavesEffect (click)="logout()">Salir</a>
-      
-              </div>
-      
-            </li>
-      
-            <li class="nav-item dropdown" dropdown *ngIf="!globalService.aguila">
-              <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
-                <img src="../../../assets/images/skins/logobotonsol.png" height="35" alt="">
-              </a>
-      
-              <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown-primary" role="menu">
-                <a class="dropdown-item waves-light" mdbWavesEffect (click)="cambioPlantaAguila()">Aguila</a>
-                <a class="dropdown-item waves-light" mdbWavesEffect (click)="changePassword()">Cambiar Contraseña</a>
-                <a class="dropdown-item waves-light" mdbWavesEffect (click)="logout()">Salir</a>
-              </div>
-            </li>
-            <li><span style="padding-left:20px"></span></li>
-          </ul>
-      
-      
-        </links>
-      
-      </mdb-navbar>
+<div class="position: inherit !important;width: 100%;" [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+	<mdb-navbar SideClass="navbar navbar-expand-lg" [containerInside]="false">
+		<mdb-navbar-brand mdbDropdown>
+			<a class="navbar-brand" style="border-right: solid white;" mdbDropdownToggle mdbWavesEffect  class="dropdown-toggle waves-light">
+				<img src="{{srclogo}}" height="35" alt="" />
+				<strong style="color:white;" class="mr-4 ml-3">{{nameplanta}}</strong>
+			</a>
+			<div class="dropdown-menu dropdown-primary">
+				<a class="dropdown-item" (click)="cambioPlantaSol()" *ngIf="globalService.aguila">Sol</a>
+				<a class="dropdown-item" (click)="cambioPlantaAguila()" *ngIf="!globalService.aguila">Aguila</a>
+				<a class="dropdown-item" (click)="changePassword()">Cambiar Contraseña</a>
+				<div class="divider dropdown-divider"></div>
+				<a class="dropdown-item" (click)="logout()">Salir</a>
+			</div>
+		</mdb-navbar-brand>
+		<links>
+
+			<!-- Links -->
+			<ul class="navbar-nav mr-auto">
+			  <li class="nav-item active">
+				<button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleMenu()" style="color:white;">
+					<mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+				</button>
+			  </li>
+			  
+			  
+ 
+
+			  <li class="nav-item">
+					<form action="" class="mysearch">
+						<input type="search" name="" id="" placeholder="Search your content...">
+						<i class="fa fa-search"></i>
+					</form>
+			  </li>
+			</ul>
+			<!-- Links -->
+		
+			<ul class="navbar-nav ml-auto nav-flex-icons">
+			  <li class="nav-item">
+				<a class="nav-link">
+					<mdb-icon far icon="envelope" style="color: #fff"></mdb-icon>
+				</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link">
+					<mdb-icon far icon="bell" style="color: #fff"></mdb-icon>
+				</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" style="padding: 3px;" (click)="changeModule()">
+					<img src="../../../assets/img/logo_safe-simple.png" height="30" alt="" /> 
+					<span style="color: #ccc"> Safe</span>
+				</a>
+			  </li>
+			</ul>
+		  </links>
+		  <!-- Collapsible content -->
+	</mdb-navbar>
+</div>

@@ -53,6 +53,7 @@ import { EnergyPpaComponent } from '../admin/energy/ppa/energyPpa.component';
 import { ModelMarketComponent } from '../admin/modelMarket/modelMarket.component';
 import { BranchCreditNoteSeriesComponent } from '../admin/branchCreditNoteSeries/branchCreditNoteSeries.component';
 import { BranchCreditNoteSeriesEditComponent } from '../admin/branchCreditNoteSeries/edit/branchCreditNoteSeriesEdit.component';
+import { SecurityService } from 'src/app/core/services/security.service';
 
 @Component({
   selector: 'app-safeHome',
@@ -84,9 +85,11 @@ export class SafeHomeComponent implements OnInit {
   @ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
 
   constructor(private route: ActivatedRoute,
-    private globalService: GlobalService,
+    public globalService: GlobalService,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private eventService: EventService) {
+    private eventService: EventService
+    ,private securityService: SecurityService
+    ) {
     this.serviceSubscription = this.eventService.onChangeMainSafe.subscribe({
       next: (event: EventMessage) => {
         console.log(event);
@@ -140,6 +143,10 @@ export class SafeHomeComponent implements OnInit {
 
   }
 
+  getNameUser() {
+    let name = this.securityService.getNameUser() +" "+ this.securityService.getLastNameUser();
+    return name;
+  }
   private clickMenu(event: EventMessage): void {
     this.viewContainerRef.clear();
     switch (event.id) {

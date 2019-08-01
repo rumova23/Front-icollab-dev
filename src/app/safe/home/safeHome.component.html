@@ -4,14 +4,21 @@
     <!-- /Header -->
     <div id="body">
         <!-- Aside -->
-        <aside id="columna" [ngStyle]="{'width':aside_open ? '250px' : '60px' }"
-            [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
-            <div class="container-fluid">
+        <aside id="columna" [ngStyle]="{'width':aside_open ? '250px' : '60px' }">
+            <div>
                 <div class="row">
-                    <div class="col mt-2 mr-1 mb-3" style="text-align: right;">
-                        <span (click)="aside_open=!aside_open">
-
-                        </span>
+                    
+                    <div class="col p-0">
+                        <div class="user-panel">
+                            <div class="image">
+                                <img src="../../../assets/images/avatar2.png" alt="" class="img-user">
+                            </div>
+                            <div class="info-user" *ngIf="aside_open">
+                                <p>Bienvenido, {{getNameUser()}}</p>
+                                <p class="f-10">No tienes tareas pendientes</p>
+                            </div>
+                            <img src="../../../assets/images/avatar-bg.png" alt="" class="bg-user">
+                        </div>
                     </div>
                 </div>
                 <app-safeSidebar [aside_open]='aside_open'></app-safeSidebar>
@@ -29,7 +36,7 @@
             </div>
         </section>
     </div>
-    <footer id="pie">
+    <footer id="pie"[ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}" >
         Derechos Reservados &copy;
     </footer>
 </div>

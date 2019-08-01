@@ -11,6 +11,9 @@ import { SecurityService } from 'src/app/core/services/security.service';
   styleUrls: ['./safeHeader.component.css']
 })
 export class SafeHeaderComponent implements OnInit {
+  
+  srclogo="../../../assets/images/skins/shape_1.png";
+  nameplanta="Aguila";
   constructor(private globalService: GlobalService,
     private eventService: EventService,
     private securityService: SecurityService,
@@ -18,18 +21,6 @@ export class SafeHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
-
-  cambioPlantaSol() {
-    this.globalService.aguila = !this.globalService.aguila
-    this.globalService.plantaDefaultId = "83";
-    if (this.router.isActive("/config-act", true)) {
-      this.router.routeReuseStrategy.shouldReuseRoute = function () {
-        return false;
-      }
-      this.router.navigated = false;
-      this.router.navigate(['/config-act']);
-    }
   }
 
   getNameUser() {
@@ -53,7 +44,7 @@ export class SafeHeaderComponent implements OnInit {
 
   cambioPlantaAguila() {
 
-    this.globalService.aguila = !this.globalService.aguila
+    this.cambioTema();
     this.globalService.plantaDefaultId = "82";
 
     if (this.router.isActive("/config-act", true)) {
@@ -63,6 +54,25 @@ export class SafeHeaderComponent implements OnInit {
       this.router.navigated = false;
       this.router.navigateByUrl('/config-act');
     }
+  }
+
+  cambioPlantaSol() {
+    
+    this.cambioTema();
+    this.globalService.plantaDefaultId = "83";
+    if (this.router.isActive("/config-act", true)) {
+      this.router.routeReuseStrategy.shouldReuseRoute = function () {
+        return false;
+      }
+      this.router.navigated = false;
+      this.router.navigate(['/config-act']);
+    }
+  }
+  
+  cambioTema(){
+    this.globalService.aguila = !this.globalService.aguila;
+    this.srclogo = this.globalService.aguila ? "../../../assets/images/skins/shape_1.png":"../../../assets/images/skins/logobotonsol.png";
+    this.nameplanta = this.globalService.aguila ? "Aguila":"Sol";
   }
 
 }
