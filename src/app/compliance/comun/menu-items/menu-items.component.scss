@@ -1,0 +1,21 @@
+.mat-list-item.active {
+  background-color : rgba(255,0,0,0.5);
+}
+
+.itemStyleBlue{
+  /*background-color : DodgerBlue ;*/
+  color            : Black;
+}
+.itemStyleBlue:hover{
+  background-color : #cfd8dc!important;
+  color            : Black!important;
+}
+
+.itemStyleOrange{
+  /*background-color : Orange ;*/
+  color            : Black;
+}
+.itemStyleOrange:hover{
+  background-color : #cfd8dc!important;
+  color            : Black!important;
+}

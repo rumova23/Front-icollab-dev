@@ -21,7 +21,7 @@ import { EventBlocked } from 'src/app/core/models/EventBlocked';
   styleUrls: ['./complianceConfiguration.component.scss']
 })
 export class ComplianceConfigurationComponent implements OnInit {
-  titulo: String = "Configuración de cumplimientos";
+  titulo: String = "Características";
   registros;
   data: any[] = [];
   userResult;
@@ -52,7 +52,7 @@ export class ComplianceConfigurationComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private confirmationDialogService: ConfirmationDialogService,
-    private globalService: GlobalService,
+    public globalService: GlobalService,
     private eventService: EventService
   ) {
     this.serviceSubscription = this.eventService.onChangePlant.subscribe({
@@ -78,17 +78,20 @@ export class ComplianceConfigurationComponent implements OnInit {
       fNombre: ['', '']
     })
 
+    /*
     this.securityService.loadUsers().subscribe( userResult => {
       this.addBlock(2, null);
       this.userResult = userResult;
+    */  
       this.obtenerListaTags();
+    /*  
     },
     error =>{
       console.log(<any>error);
       this.addBlock(2, null);
       this.toastr.errorToastr('Error al cargar lista de usuarios.', 'Lo siento,');
     });
-
+    */
     
   }
 
@@ -108,15 +111,19 @@ export class ComplianceConfigurationComponent implements OnInit {
           let obj                   = {};
           obj['order']              = i;
           obj['tag']                = element.tag;
-          obj['nombre']             = element.clasificacionActividad;
-          obj['clasificacion']      = element.actividad.nombre;
-          obj['cumplimiento_legal'] = element.tipoCumplimiento.opcion.codigo;
-          obj['autoridad']          = element.autoridad.opcion.codigo;
-          obj['tipo_aplicacion']    = element.tipoAplicacion.opcion.codigo;
-          obj['periodo_entrega']    = element.periodoEntrega.opcion.codigo;
-          obj['estatus']            = element.estatus.estatus.nombre;
+          obj['nombre']             = element.classificationActivity;
+          obj['clasificacion']      = element.activity.name;
+          obj['cumplimiento_legal'] = element.typeCompliance.code;
+
+          if (element.authority != null){
+            obj['autoridad']          = element.authority.code;
+          }
+          obj['tipo_aplicacion']    = element.applicationType.code;
+          obj['periodo_entrega']    = element.deliveryPeriod.code;
+          obj['estatus']            = element.estatusGenerico;
+
           //obj['userUpdated']        = element.userUpdated;
-          userDetail = this.userResult.resultado.find( user => user.user === element.userUpdated );
+          //userDetail = this.userResult.resultado.find( user => user.user === element.userUpdated );
           obj['userUpdated']        = userDetail == undefined ? 'system' : userDetail.name + " " + userDetail.lastName;
           obj['dateUpdated']        = element.dateUpdated;
           obj['see']                = 'sys_see';
@@ -153,7 +160,7 @@ export class ComplianceConfigurationComponent implements OnInit {
   
   eliminarTagConfirm(tag: any){
     console.log(tag);
-    this.tagService.eliminarTag(tag.element.tagId).subscribe(
+    this.tagService.eliminarTag(tag.element.idTag).subscribe(
       respuesta => {
         this.addBlock(2, null);
         let res: any;
@@ -192,7 +199,7 @@ export class ComplianceConfigurationComponent implements OnInit {
     }
     console.log(type);
     this.eventService.sendMainCompliance(new EventMessage(9, type));
- }
+ } 
 
   //Loadin
   private addBlock(type, msg): void {

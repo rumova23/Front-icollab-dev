@@ -7,12 +7,13 @@ import { SecurityService } from 'src/app/core/services/security.service';
 
 @Component({
   selector: 'app-complianceHeader',
-  templateUrl: './complianceHeader.component.html',
-  styleUrls: ['./complianceHeader.component.scss']
+  templateUrl: './complianceHeader.component.html'
 })
 export class ComplianceHeaderComponent implements OnInit {
-  color: string = 'warn'
-  constructor(private globalService: GlobalService,
+  color: string = 'warn';
+  srclogo="../../../assets/images/skins/shape_1.png";
+  nameplanta="Aguila";
+  constructor(public globalService: GlobalService,
     private eventService: EventService,
     private securityService: SecurityService,
     private router: Router) {
@@ -44,14 +45,21 @@ export class ComplianceHeaderComponent implements OnInit {
   }
 
   cambioPlantaAguila() {
-    this.globalService.aguila = !this.globalService.aguila
+    this.cambioTema();
     this.globalService.plantaDefaultId = "82";
     this.eventService.sendPlant(new EventMessage(100, {}));
+    this.eventService.sendMainCompliance(new EventMessage(101, {}));
   }
 
   cambioPlantaSol() {
-    this.globalService.aguila = !this.globalService.aguila
+    this.cambioTema();
     this.globalService.plantaDefaultId = "83";
     this.eventService.sendPlant(new EventMessage(100, {}));
+    this.eventService.sendMainCompliance(new EventMessage(101, {}));
+  }
+  cambioTema(){
+    this.globalService.aguila = !this.globalService.aguila;
+    this.srclogo = this.globalService.aguila ? "../../../assets/images/skins/shape_1.png":"../../../assets/images/skins/logobotonsol.png";
+    this.nameplanta = this.globalService.aguila ? "Aguila":"Sol";
   }
 }

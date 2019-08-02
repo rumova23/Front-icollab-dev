@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Input  } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { Employee } from '../../models/Employee';
 
@@ -15,6 +16,8 @@ const ELEMENT_DATA: Employee[] = [
   styleUrls: ['./employees.component.scss']
 })
 export class EmployeesComponent implements OnInit {
+  @Input() aside_open;
+  
   titulo: String = "Catálogos / Empleados";
   registros = new MatTableDataSource<Employee>(ELEMENT_DATA);
   columnas: string[] = ['orden', 'nombre', 'appaterno', 'apmaterno', 'genero', 'posicion', 'departamento', 'puesto', 'lugartrabajo', 'ver', 'modificar', 'pdf'];

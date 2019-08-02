@@ -1,20 +1,20 @@
 import { Detalle } from './Detalle';
 
 export class Empleado {
-    public carrera: string
-    public claveGenerico: number
-    public detalle: Detalle
-    public empleadoId: number
-    public estatusGenerico: string
-    public estidadEstatus: number
-    public fechanacimiento: string
-    public generoId: number
-    public gradoEstudioId: number
-    public materno: string
-    public mensajeGenerico: string
-    public nombres: string
-    public paterno: string
-    public userId: number
+    private carrera: string
+    private claveGenerico: number
+    private detalle: Detalle
+    private empleadoId: number
+    private estatusGenerico: string
+    private estidadEstatus: number
+    private fechanacimiento: string
+    private generoId: number
+    private gradoEstudioId: number
+    private materno: string
+    private mensajeGenerico: string
+    private nombres: string
+    private paterno: string
+    private userId: number
 
     constructor(
         carrera: string,
@@ -37,7 +37,7 @@ export class Empleado {
         this.detalle = detalle;
         this.empleadoId = empleadoId;
         this.estatusGenerico = estatusGenerico;
-        this.estidadEstatus = estidadEstatus;
+        this.estidadEstatus = estidadEstatus; 
         this.fechanacimiento = fechanacimiento;
         this.generoId = generoId;
         this.gradoEstudioId = gradoEstudioId;

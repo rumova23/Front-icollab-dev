@@ -16,7 +16,8 @@ import { MatAccordion } from '@angular/material';
   styleUrls: ['./legalAgreement.component.scss']
 })
 export class LegalAgreementComponent implements OnInit {
-  
+  @Input() aside_open;
+
   @ViewChild('pagos') childPagos : TablesLegalAgreementComponent;
   @ViewChild('notificaciones') childNotificaciones : TablesLegalAgreementComponent;
   @ViewChild('reportes') childReportes : TablesLegalAgreementComponent;
@@ -64,7 +65,7 @@ export class LegalAgreementComponent implements OnInit {
 
   constructor(
     private complianceService: ComplianceService,
-    private globalService: GlobalService,
+    public globalService: GlobalService,
     private formBuilder: FormBuilder
   ) { }
 
@@ -78,8 +79,7 @@ export class LegalAgreementComponent implements OnInit {
   filtrarCompliance(){
     this.limpiarTablas();
 
-    this.complianceService.getCompliancePorPlantaYFechas( 
-      this.globalService.plantaDefaultId, new Date(this.fFechaInicio.value), new Date(this.fFechaFin.value)).subscribe(
+    this.complianceService.getCompliancePorPlantaYFechas( this.globalService.plantaDefaultId, new Date(this.fFechaInicio.value), new Date(this.fFechaFin.value)).subscribe(
       result => {
         console.log("PRIMERA TABLA");
         console.log(result);

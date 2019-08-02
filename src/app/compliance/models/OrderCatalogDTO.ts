@@ -1,18 +1,18 @@
 
 export class OrderCatalogDTO {
 
-    public catalogName: string
-    public order: string
-    public status: string
+    public catalog: string
+    public order: number
+    public active: number
     
     constructor(
-        catalogName: string,
-        order: string,
-        status: string
+        catalog: string,
+        order: number,
+        active: number
     ){
-        this.catalogName = catalogName;
+        this.catalog = catalog;
         this.order = order;
-        this.status = status
+        this.active = active
     }
     
 }

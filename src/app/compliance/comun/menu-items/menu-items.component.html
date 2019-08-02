@@ -1,0 +1,21 @@
+<a mat-list-item (click)="itemSelected(item)" 
+    [ngStyle]="{'padding-left': (deep * indent) + units}" 
+    [ngClass]="{'itemStyleBlue': globalService.aguila , 'itemStyleOrange': !globalService.aguila}">
+  <mat-icon class="itemIcon" *ngIf="deep===0 || item.children">{{item.icon}}
+  </mat-icon>
+  <div class=" col-10 pl-2">
+    <span *ngIf="aside_open">{{item.label}}
+    </span>
+  </div>
+  <span fxFlex *ngIf="item.children && item.children.length && aside_open" class="aside_icon_expand_right">
+    <span fxFlex>
+    </span>
+    <mat-icon [@icon180]="viewHide ? 'view': 'hide'">
+      expand_less
+    </mat-icon>
+  </span>
+</a>
+<div *ngIf="viewHide && aside_open">
+  <app-menu-items *ngFor="let itemIn of item.children" [item]="itemIn" [deep]="deep + 1" [aside_open]="aside_open">
+  </app-menu-items>
+</div>

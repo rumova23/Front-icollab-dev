@@ -2,10 +2,8 @@ import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolve
 import { ActivatedRoute } from '@angular/router';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventService } from 'src/app/core/services/event.service';
-import { AuthoritiesComponent } from '../catalogs/authorities/authorities.component';
-import { ChangePasswordComponent } from 'src/app/common/changePassword/changePassword.component';
+import { ChangePasswordComponent } from 'src/app/comun/changePassword/changePassword.component';
 import { GlobalService } from 'src/app/core/globals/global.service';
-import { CatalogsComponent } from '../catalogs/catalogs.component';
 import { ComplianceTypesComponent } from '../catalogs/compliance/types/complianceTypes.component';
 import { ComplianceTypesEditComponent } from '../catalogs/compliance/types/edit/complianceTypesEdit.component';
 import { ActivitiesComponent } from '../catalogs/activities/activities.component';
@@ -15,14 +13,14 @@ import { ConfigActivitiesComponent } from '../catalogs/compliance/configuration/
 import { ComplianceWelcomeComponent } from './welcome/complianceWelcome.component';
 import { AcquisitionsComponent } from '../business/acquisitions/acquisitions.component';
 import { PerfilHomeComponent } from '../business/perfil/home/perfilHome.component';
-
+import { SecurityService } from 'src/app/core/services/security.service';
 
 @Component({
   selector: 'app-complianceHome',
   templateUrl: './complianceHome.component.html',
   styleUrls: ['./complianceHome.component.scss'],
   entryComponents: [
-    AuthoritiesComponent, ChangePasswordComponent, ComplianceWelcomeComponent, CatalogsComponent,
+    ChangePasswordComponent, ComplianceWelcomeComponent,
     ComplianceTypesComponent, ComplianceTypesEditComponent, ActivitiesComponent,
     ActivitiesEditComponent, ComplianceConfigurationComponent,
     ConfigActivitiesComponent, AcquisitionsComponent, PerfilHomeComponent
@@ -33,60 +31,68 @@ export class ComplianceHomeComponent implements OnInit {
   serviceSubscription: any;
   @ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
 
+
   constructor(private route: ActivatedRoute,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private globalService: GlobalService,
-    private eventService: EventService) {
-    this.serviceSubscription = this.eventService.onChangeMainCompliance.subscribe({
-      next: (event: EventMessage) => {
-        console.log(event);
-        switch (event.id) {
-          case 1:
-            this.aside_open = !this.aside_open;
-            break;
-          default:
-            this.clickMenu(event);
-            break;
+    public globalService: GlobalService,
+    private eventService: EventService
+   ,private securityService: SecurityService) {
+
+      this.serviceSubscription = this.eventService.onChangeMainCompliance.subscribe({
+        next: (event: EventMessage) => {
+          console.log("complianceHome.component.ts this.eventService.onChangeMainCompliance.subscribe(..  (event: EventMessage)");
+          console.log(event);
+          switch (event.id) {
+            case 1:
+              this.aside_open = !this.aside_open;
+              break;
+            default:
+              this.clickMenu(event);
+              break;
+          }
         }
-      }
-    });
+      });
   }
 
   ngOnInit() {
-    this.eventService.sendMainCompliance(new EventMessage(
-      11, {
-        idEmpleado: 1,
-        tipo:'Editar'
-      }
-    ));
+    setTimeout(() => this.periodo(), 5000);
   }
 
-  private periodo(){
-    this.eventService.sendMainCompliance(new EventMessage(10, null));
+  getNameUser() {
+    let name = this.securityService.getNameUser() +" "+ this.securityService.getLastNameUser();
+    return name;
   }
+  
+  private periodo(){
+    this.eventService.sendMainCompliance(new EventMessage(101, null));
+  }
+ 
   private clickMenu(event: EventMessage): void {
+      console.log("event");
+      console.dir(event);
     this.viewContainerRef.clear();
     let factoryComplianceTypes;
     let refComplianceTypes;
     let factoryComplianceTypesEdit;
     let refComplianceTypesEdit;
     switch (event.id) {
-      case 3:
-        const factoryCatalogs =
-          this.componentFactoryResolver.resolveComponentFactory(CatalogsComponent);
-        const refCatalogs =
-          this.viewContainerRef.createComponent(factoryCatalogs);
-        refCatalogs.changeDetectorRef.detectChanges();
+      case 101:
+        const factoryHome =
+          this.componentFactoryResolver.resolveComponentFactory(ComplianceWelcomeComponent);
+        const refHome =
+          this.viewContainerRef.createComponent(factoryHome);
+          refHome.changeDetectorRef.detectChanges();
         break;
-      case 4:
+
+      case 4: //Autoridades
         factoryComplianceTypes =
           this.componentFactoryResolver.resolveComponentFactory(ComplianceTypesComponent);
         refComplianceTypes =
           this.viewContainerRef.createComponent(factoryComplianceTypes);
-        refComplianceTypes.instance.nombreCatalogo = 'AUTORIDAD';
+        refComplianceTypes.instance.nombreCatalogo = 'Autoridades';
         refComplianceTypes.changeDetectorRef.detectChanges();
         break;
-      case 5:
+      case 5: //Agregar
         factoryComplianceTypesEdit =
           this.componentFactoryResolver.resolveComponentFactory(ComplianceTypesEditComponent);
         refComplianceTypesEdit =
@@ -95,15 +101,15 @@ export class ComplianceHomeComponent implements OnInit {
         refComplianceTypesEdit.changeDetectorRef.detectChanges();
         break;
 
-      case 6:
+
+      case 6: //Categorias
         const factoryActivities =
           this.componentFactoryResolver.resolveComponentFactory(ActivitiesComponent);
         const refActivities =
           this.viewContainerRef.createComponent(factoryActivities);
         refActivities.changeDetectorRef.detectChanges();
         break;
-
-      case 7:
+      case 7: //Agregar
         const factoryActivitiesEdit =
           this.componentFactoryResolver.resolveComponentFactory(ActivitiesEditComponent);
         const refActivitiesEdit =
@@ -111,30 +117,33 @@ export class ComplianceHomeComponent implements OnInit {
         refActivitiesEdit.instance.catalogType = event.data;
         refActivitiesEdit.changeDetectorRef.detectChanges();
         break;
-      case 8:
+
+
+      case 8: //Caracteristicas
         const factoryComplianceConf= 
-          this.componentFactoryResolver
-          .resolveComponentFactory(ComplianceConfigurationComponent);
+          this.componentFactoryResolver.resolveComponentFactory(ComplianceConfigurationComponent);
         const refComplianceConf =
           this.viewContainerRef.createComponent(factoryComplianceConf);
           refComplianceConf.changeDetectorRef.detectChanges();
         break;  
-      
-      case 9:
-        const factoryConfigActivities =
-          this.componentFactoryResolver.resolveComponentFactory(ConfigActivitiesComponent);
-        const refConfigActivities =
-          this.viewContainerRef.createComponent(factoryConfigActivities);
-          refConfigActivities.instance.catalogType = event.data;
-          refConfigActivities.changeDetectorRef.detectChanges();
-        break;   
-        case 10:
+      case 9: //Agregar
+         const factoryConfigActivities =
+           this.componentFactoryResolver.resolveComponentFactory(ConfigActivitiesComponent);
+         const refConfigActivities =
+           this.viewContainerRef.createComponent(factoryConfigActivities);
+           refConfigActivities.instance.catalogType = event.data;
+           refConfigActivities.changeDetectorRef.detectChanges();
+         break;
+
+
+       case 10: //Personal Competente
           const factoryAdquisitions =
             this.componentFactoryResolver.resolveComponentFactory(AcquisitionsComponent);
           const refAdquisitions =
             this.viewContainerRef.createComponent(factoryAdquisitions);
             refAdquisitions.changeDetectorRef.detectChanges();
           break; 
+
         case 11:
             const factoryPerfilHome =
               this.componentFactoryResolver.resolveComponentFactory(PerfilHomeComponent);
@@ -154,13 +163,8 @@ export class ComplianceHomeComponent implements OnInit {
           this.viewContainerRef.createComponent(factoryChangePasword);
         refChangePasword.changeDetectorRef.detectChanges();
         break;
-        case 101:
-          const factoryHome =
-            this.componentFactoryResolver.resolveComponentFactory(ComplianceWelcomeComponent);
-          const refHome =
-            this.viewContainerRef.createComponent(factoryHome);
-          refHome.changeDetectorRef.detectChanges();
-          break;
+
+
     }
   }
 }

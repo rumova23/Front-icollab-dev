@@ -1,3 +1,4 @@
+<!--
 <mat-expansion-panel>
   <mat-expansion-panel-header>
     <mat-panel-title>
@@ -5,14 +6,24 @@
     </mat-panel-title>
     <mat-panel-description></mat-panel-description>
   </mat-expansion-panel-header>
+-->
+ 
   <!--Boton nuevo emoleado-->
   <div class="row mb-3">
     <div class="col">
-      <button type="button" class="btn btn-primary" (click)="action(0, 'guardar')"><i
-          class="fas fa-user-plus"></i>&nbsp;Agregar</button>
+      <button type="button" class="btn" 
+        [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}" 
+                                          >
+        <!--(click)="action(1, 'guardar')"-->
+        <i class="fas fa-user-plus"></i>&nbsp;Agregar
+      </button>          
+
     </div>
   </div>
+  <hr>
+
   <!-- Filtros de busqueda  -->
+ <!--
   <div class="row">
     <div class="col">
       <div class="filtros mt-2 row">
@@ -33,22 +44,26 @@
 
           </ng-container>
         </div>
-      </div> <!-- /.filtros -->
+      </div> 
     </div>
   </div>
 
   <div class="row  justify-content-end">
     <div class="col-md-auto">
-      <button type="button" class="btn btn-primary" (click)="alert('Vaciar los campos de busqueda')"><i
+      <button type="button" class="btn" 
+          [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}" 
+          (click)="resetSearch()"><i
           class="fas fa-broom"></i>&nbsp;Limpiar</button>
     </div>
     <div class="col-md-auto">
-      <button type="button" class="btn btn-primary" (click)="alert('Filtro de empleados')"><i
+      <button type="button" class="btn" 
+          [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}" 
+          (click)="alert('Filtro de empleados')"><i
           class="fas fa-search"></i>&nbsp;Buscar</button>
     </div>
   </div>
-
   <hr>
+-->
 
   <div class="tabla-responsive text-nowrap mat-elevation-z0">
     <table mat-table [dataSource]="registros" matSort>
@@ -167,4 +182,7 @@
     <mat-paginator [pageSizeOptions]="registros_x_pagina" showFirstLastButtons></mat-paginator>
   </div>
   <!-- version solo tabla -->
+
+<!--
 </mat-expansion-panel>
+-->  

@@ -7,6 +7,7 @@ import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
+import { GlobalService } from 'src/app/core/globals/global.service';
 
 export interface Personalcompetente {
   orden: number; // Este es unnúmero consecutivo que pertenece al orden en el que aparece en la tabla
@@ -54,7 +55,9 @@ export class PersonalcompetenteImp implements Personalcompetente {
     appaterno: string, apmaterno: string, genero: string,
     posicion: string, departamento: string, puesto: string,
     lugartrabajo: string, fechevaluacion: string, status: string,
-    ver: string, editar: string, pdf: string, eliminar: string, nuevoexamen: string, mensajeEliminar: string) {
+    ver: string, editar: string, pdf: string, eliminar: string
+    ,nuevoexamen: string, mensajeEliminar: string
+    ) {
     this.orden = orden;
     this.empleadoId = empleadoId;
     this.nEmpleado = nEmpleado;
@@ -104,8 +107,10 @@ export class CompetentStaffComponent implements OnInit {
     private catalogoMaestroService: CatalogoMaestroService,
     private preguntas: PerfilComboService,
     private eventService: EventService,
-    public toastr: ToastrManager) {
+    public toastr: ToastrManager
+   ,public globalService: GlobalService) {
   }
+
   getCatalog(index, catalog) {
     this.catalogoMaestroService.getCatalogo(catalog).subscribe((data) => {
       for (const cat of data) {
@@ -113,6 +118,8 @@ export class CompetentStaffComponent implements OnInit {
       }
     });
   }
+
+
   loadCatalogs() {
     this.getCatalog(3, 'genero');
     this.getCatalog(4, 'posicion');
@@ -131,6 +138,10 @@ export class CompetentStaffComponent implements OnInit {
 
   alert = function (arg) {
     alert(arg);
+  }
+
+  resetSearch(){
+    
   }
 
   cargaTabla() {
@@ -193,7 +204,7 @@ export class CompetentStaffComponent implements OnInit {
   generarExamen(empleadoId: number) {
     console.log('generarExamen(empleadoId: number):' + empleadoId);
     this.preguntas.generaExamen(empleadoId).subscribe(data => {
-      this.toastr.successToastr('Se generaron los examenes correctamente', '¡Se ha logrado!');
+      this.toastr.successToastr('Se generaron los examenes correctamente', 'Exito!');
     }
     );
   }

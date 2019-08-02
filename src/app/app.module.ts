@@ -26,7 +26,6 @@ import { ConfirmationDialogComponent } from './common/confirmationDialog/confirm
 import { ComplianceModule } from './compliance/complianceModule.module';
 import { BreadcrumbsComponent } from './common/breadcrumbs/breadcrumbs.component';
 import { CalendarComponent } from './common/calendar/calendar.component';
-import { CatalogsComponent } from './compliance//catalogs/catalogs.component';
 import { ConfirmationModalComponent } from './common/confirmationModal/confirmationModal.component';
 import { HomeComponent } from './common/home/home.component';
 import { PerfilComponent } from './compliance/business/perfil/perfil.component';
@@ -39,21 +38,17 @@ import { LegalAgreementComponent } from './compliance/business/legalAgreement/le
 import { TablesLegalAgreementComponent } from './compliance/business/legalAgreement/content/tablesLegalAgreement.component';
 import { EmployeesComponent } from './compliance/business/employees/employees.component';
 import { ActivitiesComponent } from './compliance/catalogs/activities/activities.component';
-import { ActivitiesTypesComponent } from './compliance/catalogs/activities/types/activitiesTypes.component';
 import { ComplianceTypesComponent } from './compliance/catalogs/compliance/types/complianceTypes.component';
 import { DashboardAComponent } from './compliance/dashboards/dashboard-a/dashboard-a.component';
 import { DashboardBComponent } from './compliance/dashboards/dashboard-b/dashboard-b.component';
 import { DashboardsComponent } from './compliance/business/perfil/dashboards/dashboards.component';
 import { ResponsibilitiesComponent } from './compliance/business/perfil/responsibilities/responsibilities.component';
 import { ObsyCommentsComponent } from './compliance/business/perfil/obsyComments/obsyComments.component';
-import { AuthoritiesComponent } from './compliance/catalogs/authorities/authorities.component';
 import { DepartmentsComponent } from './compliance/catalogs/departments/departments.component';
 import { PeriodsComponent } from './compliance/catalogs/periods/periods.component';
 import { DaysTypesComponent } from './compliance/catalogs/days/types/daysTypes.component';
 import { ActivitiesEditComponent } from './compliance/catalogs/activities/edit/activitiesEdit.component';
 import { CompetentStaffComponent } from './compliance/business/acquisitions/competentStaff/competentStaff.component';
-import { ActivitiesTypesEditComponent } from './compliance/catalogs/activities/types/edit/activitiesTypesEdit.component';
-import { AuthoritiesEditComponent } from './compliance/catalogs/authorities/edit/authoritiesEdit.component';
 import { UploadComponent } from './compliance/business/perfil/upload/upload.component';
 import { ComplianceConfigurationComponent } from './compliance/catalogs/compliance/configuration/complianceConfiguration.component';
 import { EventService } from './core/services/event.service';
@@ -177,7 +172,6 @@ registerLocaleData(localePy, 'es');
     ComplianceSidebarComponent,
     EmployeesComponent,
     ActivitiesComponent,
-    ActivitiesTypesComponent,
     ComplianceTypesComponent,
     ComplianceTypesEditComponent,
     DashboardAComponent,
@@ -185,16 +179,12 @@ registerLocaleData(localePy, 'es');
     DashboardsComponent,
     ResponsibilitiesComponent,
     ObsyCommentsComponent,
-    CatalogsComponent,
-    AuthoritiesComponent,
     DepartmentsComponent,
     PeriodsComponent,
     DaysTypesComponent,
     ActivitiesEditComponent,
     CompetentStaffComponent,
-    ActivitiesTypesEditComponent,
     ComplianceTypesComponent,
-    AuthoritiesEditComponent,
     UploadComponent,
     CalendarComponent,
     ConfirmationModalComponent,

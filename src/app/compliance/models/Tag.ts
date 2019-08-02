@@ -4,52 +4,49 @@ import { TagPlanta } from './TagPlanta';
 
 export class Tag {
 
-    public tagId: number;
+    public idTag: number;
     public tag: string;
-    public descripcion: string;
-    
-    public actividadId: number;
-    public clasificacionActividad: number;
-    public tipoCumplimientoId: number;
+    public description: string;
+    public idActivity: number;
+    public classificationActivity: number;
+    public idTypeCompliance: number;
     public requisitoLegal: string;
-    public autoridadId: number;
-    public tipoAplicacionId: number;
-    public periodoEntregaId: number;
-    public tipoDiasId: number;
-    public entidadEstatusId: number;
-    public plantas: Array <TagPlanta>;
-    public precedentes : Array<TagPrecedente>;
+    public idAuthority: number;
+    public idApplicationType: number;
+    public idDeliveryPeriod: number;
+    public idDaysType: number;
+    public active: boolean;
+    //public plantas: Array <TagPlanta>;
+    public precedents : Array<TagPrecedente>;
     
     constructor(
-        tagId: number,
+        idTag: number,
         tag: string,
-        descripcion: string,
-        actividadId: number,
-        clasificacionActividad: number,
-        tipoCumplimientoId: number,
+        description: string,
+        idActivity: number,
+        classificationActivity: number,
+        idTypeCompliance: number,
         requisitoLegal: string,
-        autoridadId: number,
-        tipoAplicacionId: number,
-        periodoEntregaId: number,
-        tipoDiasId: number,
-        entidadEstatusId: number,
-        plantas: Array<TagPlanta>,
-        precedentes: Array<TagPrecedente>        
+        idAuthority: number,
+        idApplicationType: number,
+        idDeliveryPeriod: number,
+        idDaysType: number,
+        active: boolean,
+        precedents : Array<TagPrecedente>
     ) {
-        this.tagId = tagId;
+        this.idTag = idTag;
         this.tag = tag;
-        this.descripcion = descripcion;
-        this.actividadId = actividadId;
-        this.clasificacionActividad = clasificacionActividad;
-        this.tipoCumplimientoId = tipoCumplimientoId;
+        this.description = description;
+        this.idActivity = idActivity;
+        this.classificationActivity = classificationActivity;
+        this.idTypeCompliance = idTypeCompliance;
         this.requisitoLegal = requisitoLegal;
-        this.autoridadId = autoridadId;
-        this.tipoAplicacionId = tipoAplicacionId;
-        this.periodoEntregaId = periodoEntregaId;
-        this.tipoDiasId = tipoDiasId;
-        this.entidadEstatusId = entidadEstatusId;
-        this.plantas = plantas;
-        this.precedentes = precedentes; 
+        this.idAuthority = idAuthority;
+        this.idApplicationType = idApplicationType;
+        this.idDeliveryPeriod = idDeliveryPeriod;
+        this.idDaysType = idDaysType;
+        this.active = active;
+        this.precedents = precedents; 
     }
 
 }

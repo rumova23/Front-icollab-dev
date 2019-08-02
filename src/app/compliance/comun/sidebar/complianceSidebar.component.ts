@@ -1,63 +1,104 @@
 import { Component, OnInit,Input, ViewChildren } from '@angular/core';
+import { ViewChild } from '@angular/core';
+
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { CollapseComponent } from 'angular-bootstrap-md';
 
+import { menuItem }   from '../menu-items/menuItem';
+import { MatSidenav } from '@angular/material/sidenav';
+
 @Component({
-  selector: 'app-complianceSidebar',
-  templateUrl: './complianceSidebar.component.html',
-  styleUrls: ['./complianceSidebar.component.scss']
+  selector     : 'app-complianceSidebar'
+  ,templateUrl : './complianceSidebar.component.html'
 })
 export class ComplianceSidebarComponent implements OnInit {
   @Input() aside_open;
-  /*
-  menu = [
-    {
-      id:'catalogos',
-      label:'Catálogos',
-      icon:'/assets/images/skins/layer_7_ek1.png',
-      url:'/catalogos',
-      children:[
-        {label:'Catálogo de Autoridades'},
-        {label:'Catálogo de Categorías'},
-        {label:'Configuración de Cumplimientos'},
-        {label:'Cambio de Password'},
-      ]
-    },
-    {
-      id:'cumplimiento',
-      label:'Cumplimiento de Adquisiciones',
-      icon:'/assets/images/skins/layer_10_ek1.png',
-      url:'/cumplimiento-adquisiciones',
-      children:[
-        {label:'Personal Competente',url:'/cumplimiento-adquisiciones'}
-      ]
-    },
-    {
-      id:'dashboard',
-      label:'Dashboard',
-      icon:'/assets/images/skins/layer_14_ek1.png',
-      url:'/dashboard-a',
-      children:[
-      ]
-    },
-    {
-      id:'cumplimientoLegal',
-      label:'Cumplimiento Legal',
-      icon:'/assets/images/skins/layer_10_ek1.png',
-      url:'/cumplimiento-legal',
-      children:[
-      ]
-    }
-  ]; */
-  menu = [];
   serviceSubscription: any;
+
+  @Input() item : menuItem;
+  @ViewChild('left')  left  : MatSidenav;
+  @ViewChild('right') right : MatSidenav;  
+  menu : menuItem[];
+  
   constructor(private globalService: GlobalService,  
     private eventService: EventService,
     private securityService: SecurityService) {
+
       this.menu = securityService.getMenu('Compliance');
+       //console.log("+++++++");
+       //console.dir(this.menu);
+
+      let temp0:menuItem;
+      let flag0:boolean = true;
+      while ( flag0 ){
+        flag0 = false;          
+        for (let ins=0; ins < this.menu.length -1; ins++) {
+          if ( parseInt(this.menu[ins]['url']) > parseInt(this.menu[ins+1]['url'])){
+            temp0 = this.menu[ins]; 
+            this.menu[ins] = this.menu[ ins + 1];
+            this.menu[ins + 1] = temp0;
+            flag0 = true; 
+          }
+        }
+      }
+
+      for (let option of this.menu) {
+        //console.log("option")
+        //console.dir(option)
+        if (option.children){
+          let temp:menuItem;
+          let flag:boolean = true;
+          while ( flag ){
+            flag = false;          
+            for (let ins=0; ins < option.children.length -1; ins++) {
+              if ( parseInt(option.children[ins]['url']) > parseInt(option.children[ins+1]['url'])){
+                temp = option.children[ins]; 
+                option.children[ins] = option.children[ins + 1];
+                option.children[ins + 1] = temp;
+                flag = true;
+              }
+                
+              if (option.children[ins]['label']=='Cumplimiento Legal'){
+                if (!option.children[ins].children){
+                  option.children[ins].children = new Array();
+                  let childrenA:any  = {};
+                  childrenA['label'] ="Características";
+                  childrenA['icon']  ="gavel";
+                  option.children[ins].children.push(childrenA);
+                  let childrenB:any  = {};
+                  childrenB['label'] ="Planeación";
+                  childrenB['icon']  ="event_available";
+                  option.children[ins].children.push(childrenB);
+                }
+              }
+
+              if (option.children[ins]['label']=='Cumplimiento Adquisiciones'){
+                if (!option.children[ins].children){
+                  option.children[ins].children = new Array();
+                  let childrenA:any  = {};
+                  childrenA['label'] ="Personal Competente";
+                  childrenA['icon']  ="person";
+                  option.children[ins].children.push(childrenA);
+                  let childrenB:any  = {};
+                  childrenB['label'] ="Proveedor Calificado";
+                  childrenB['icon']  ="perm_contact_calendar";
+                  option.children[ins].children.push(childrenB);
+                  let childrenC:any  = {};
+                  childrenC['label'] ="Dependencias y Organismos Aplicables";
+                  childrenC['icon']  ="business";
+                  option.children[ins].children.push(childrenC);
+                }
+              }
+            }
+          }
+          console.log("****  SALIENDO DEL while *****");
+        }
+      }
+      console.dir(this.menu);
+
       this.serviceSubscription = this.eventService.onChangeMainCompliance.subscribe({
         next: (event: EventMessage) => {
           switch (event.id) {
@@ -67,9 +108,11 @@ export class ComplianceSidebarComponent implements OnInit {
           }
         }
       });
+  }
 
-     }
-  ngOnInit() {}
+  ngOnInit() {
+  }
+
   @ViewChildren(CollapseComponent) collapses: CollapseComponent[];
   toggleMenu(i) {
     this.eventService.sendMainCompliance(new EventMessage(1, null));
@@ -77,35 +120,6 @@ export class ComplianceSidebarComponent implements OnInit {
       (index == i) ? collapse.show() : collapse.hide();
     });
   }
-  clickMenu(item) {
-    console.log(item);
-    let option = 0;
-    let data = {};
-    switch (item.label) {
-      case 'Catálogos':
-        option = 3;
-        data = item;
-        break;
-      case 'Catálogo de Autoridades':
-        option = 4;
-        break;  
-      case 'Catálogo de Categorías':
-        option = 6;
-        data = item;
-        break;  
-      case 'Configuración de Cumplimientos':
-        option = 8;
-        data = item;
-        break;   
-      case 'Inicio':
-        option = 101;
-        data = item;
-        break;  
-      case 'Cumplimiento de Adquisiciones':
-        option = 10;
-        data = item;
-        break;     
-    }
-    this.eventService.sendMainCompliance(new EventMessage(option, data));
-  }
+
+
 }

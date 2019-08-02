@@ -21,7 +21,7 @@ export class ActivitiesComponent implements OnInit {
   registros;
   userResult;
   data: any[] = [];
-  columnas: string[] = ['order','category','prefix','userUpdated','dateUpdated','status','see','update','delete'];          
+  columnas: string[] = ['order','prefix','category','userUpdated','dateUpdated','status','see','update','delete'];          
 
   filtros = [
     {label:"Actividad",inputtype:"text"},
@@ -35,7 +35,7 @@ export class ActivitiesComponent implements OnInit {
       private tagService: TagService,
       private securityService: SecurityService,
       public toastr: ToastrManager,
-      private globalService: GlobalService,
+      public globalService: GlobalService,
       private eventService: EventService,
       private confirmationDialogService: ConfirmationDialogService,
   ) { }
@@ -44,7 +44,9 @@ export class ActivitiesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
-    this.addBlock(1, "Cargando...")
+    //this.addBlock(1, "Cargando...")
+    this.obtenerListaActividades();
+    /*
     this.securityService.loadUsers().subscribe( userResult => {
       this.userResult = userResult;
       this.obtenerListaActividades();
@@ -54,13 +56,13 @@ export class ActivitiesComponent implements OnInit {
       console.log(<any>error);
       this.addBlock(2, null);
       this.toastr.errorToastr('Error al cargar lista de usuarios.', 'Lo siento,');
-    });
+    });*/
 
   }
 
   
   obtenerListaActividades(){
-    this.addBlock(1, "Cargando...");
+    //this.addBlock(1, "Cargando...");
     this.data = [];
     this.tagService.getCatalogoActividades("TODOS").subscribe( data => {
         console.log(data)
@@ -70,13 +72,14 @@ export class ActivitiesComponent implements OnInit {
         for (let element of data) {
           i += 1;
           let obj             = {};
-          obj['order']        = i;
-          obj['category']     = element.nombre;
-          obj['prefix']       = element.prefijo;
-          obj['status']       = element.estatus.estatus.nombre;
-          userDetail = this.userResult.resultado.find( user => user.user === element.userUpdated );
-          obj['userUpdated']        = userDetail == undefined ? 'system' : userDetail.name + " " + userDetail.lastName;
-          obj['dateUpdated']  = element.dateUpdated;
+          obj['order']        = i; 
+          obj['category']     = element.name;
+          obj['prefix']       = element.prefix;
+          obj['status']       = element.active == true ? 'Activo' : 'Inactivo';
+          //userDetail = this.userResult.resultado.find( user => user.user === element.userUpdated );
+          //obj['userUpdated']  = userDetail == undefined ? 'system' : userDetail.name + " " + userDetail.lastName;
+          obj['userUpdated']  = element.userUpdated == undefined ? 'system' : element.userUpdated;
+          obj['dateUpdated']  = element.dateUpdated == undefined ? element.dateCreated : element.dateUpdated;
           obj['see']      = 'sys_see';
           obj['edit']     = 'sys_edit';
           obj['delete']   = 'sys_delete';
@@ -101,7 +104,7 @@ export class ActivitiesComponent implements OnInit {
 
   public eliminarActividad(actividad: any) {
     this.confirmationDialogService.confirm('Por favor, confirme..', 
-          'Está seguro de eliminar la actividad? ' + actividad.nombre).then((confirmed) => {
+          'Está seguro de eliminar la actividad? ' + actividad.name).then((confirmed) => {
         if (confirmed){
           this.eliminarActividadConfirm(actividad)
         }
@@ -111,7 +114,7 @@ export class ActivitiesComponent implements OnInit {
 
   eliminarActividadConfirm(actividad: any){
     console.log(actividad);
-    this.tagService.eliminarActividad(actividad.actividadId).subscribe(
+    this.tagService.eliminarActividad(actividad.idActivity).subscribe(
       respuesta => {
         let res: any;
         res = respuesta;
@@ -119,7 +122,7 @@ export class ActivitiesComponent implements OnInit {
           this.obtenerListaActividades();
           this.toastr.successToastr(res.mensaje, '¡Se ha logrado!');
         }else{
-          this.toastr.errorToastr(res.mensaje, 'Lo siento,');
+          this.toastr.errorToastr(res.mensaje, 'Success!');
         }
       },
       error => {
@@ -128,7 +131,7 @@ export class ActivitiesComponent implements OnInit {
       }
     )
   }
-
+ 
   action(option: number, id: any) {
     let type: CatalogType = {};
     switch(option) {

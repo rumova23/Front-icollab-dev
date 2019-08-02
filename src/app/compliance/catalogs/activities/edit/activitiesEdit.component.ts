@@ -7,7 +7,6 @@ import { Combo } from 'src/app/compliance/models/Combo';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { TagActividadDTO } from 'src/app/compliance/models/TagActividadDTO';
 import { TagActividadInDTO } from 'src/app/compliance/models/TagActividadInDTO';
-import { GenerigResponseDTO } from 'src/app/compliance/models/GenerigResponseDTO';
 import { TagService } from 'src/app/compliance/services/tag.service';
 import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import { EventService } from 'src/app/core/services/event.service';
@@ -15,9 +14,8 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 @Component({
-  selector: 'app-activitiesEdit',
-  templateUrl: './activitiesEdit.component.html',
-  styleUrls: ['./activitiesEdit.component.scss']
+  selector: 'app-activitiesEdit'
+  ,templateUrl: './activitiesEdit.component.html'
 })
 export class ActivitiesEditComponent implements OnInit {
 
@@ -38,6 +36,7 @@ export class ActivitiesEditComponent implements OnInit {
   checkedActivoId;
   checkedInactivoId;
   valueActiveStatus;
+  disabledSave:boolean = false; 
 
   constructor(
     private route: ActivatedRoute,
@@ -45,15 +44,15 @@ export class ActivitiesEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     public toastr: ToastrManager,
     private router: Router,
-    private globalService: GlobalService,
+    public globalService: GlobalService,
     private eventService: EventService
   ) { }
 
   get f() { return this.actividadesForm.controls; }
 
-  ngOnInit() {
+  ngOnInit() { 
 
-    this.addBlock(1, "Cargando...")
+    //this.addBlock(1, "Cargando...")
 
     this.actividadesForm = this.formBuilder.group({
       fActividadId: ['', ''],
@@ -64,9 +63,8 @@ export class ActivitiesEditComponent implements OnInit {
       fTareaTiempo: ['30', [Validators.min(1), Validators.max(100)] ]
     });
 
-    //this.accion = this.route.snapshot.params.accion;
-    this.accion = this.catalogType.action;
 
+    /*
     this.tagService.getEstatusMaestroOpcion().subscribe(
       catalogoResult => {
         console.log(catalogoResult)
@@ -90,10 +88,14 @@ export class ActivitiesEditComponent implements OnInit {
         this.addBlock(2, null);
         this.toastr.errorToastr('Error al cargar estatus maestro.', 'Lo siento,');
       }
-    );
+    );*/
 
+    //this.accion = this.route.snapshot.params.accion;
+    this.accion = this.catalogType.action;
+        
     if (this.accion === 'editar') {
       this.deshabiliarEstatus = false;
+      this.disabledSave = true;      
       this.titulo = "Editar / Catálogo de Categorías";
     } else if (this.accion === 'ver') {
       this.deshabiliarEstatus = true;
@@ -113,8 +115,8 @@ export class ActivitiesEditComponent implements OnInit {
 
   obtenerDatosActividad() {
     
-    this.addBlock(1, "Cargando...");
-
+    //this.addBlock(1, "Cargando...");
+    
     this.actividadId = this.catalogType.id;
     console.log("Accion: " + this.accion);
     if (this.actividadId > 0) {
@@ -123,21 +125,15 @@ export class ActivitiesEditComponent implements OnInit {
           console.log(respuesta)
           let tagActividad: TagActividadDTO
           tagActividad = <TagActividadDTO>respuesta;
-          if (tagActividad != null && tagActividad.actividadId) {
-            this.actividadesForm.controls['fActividadId'].setValue(tagActividad.actividadId);
-            this.actividadesForm.controls['fActividad'].setValue(tagActividad.nombre);
-            this.actividadesForm.controls['fPrefijo'].setValue(tagActividad.prefijo);
-            this.actividadesForm.controls['fTareaPorVencer'].setValue(tagActividad.tareaPorVencer);
-            this.actividadesForm.controls['fTareaProximaVencer'].setValue(tagActividad.tareaProximaVencer);
-            this.actividadesForm.controls['fTareaTiempo'].setValue(tagActividad.tareaTiempo);
+          if (tagActividad != null && tagActividad.idActivity) {
+            this.actividadesForm.controls['fActividadId'].setValue(tagActividad.idActivity);
+            this.actividadesForm.controls['fActividad'].setValue(tagActividad.name);
+            this.actividadesForm.controls['fPrefijo'].setValue(tagActividad.prefix);
+            this.actividadesForm.controls['fTareaPorVencer'].setValue(tagActividad.timeTask);
+            this.actividadesForm.controls['fTareaProximaVencer'].setValue(tagActividad.taskNextOvercome);
+            this.actividadesForm.controls['fTareaTiempo'].setValue(tagActividad.taskOvercome);
             
-            this.valueActiveStatus = tagActividad.estatus.estatus.estatusId;
-            
-            if (this.checkedActivoId === tagActividad.estatus.estatus.estatusId  ){
-              this.checkedEstatus = true;
-            }else{
-              this.checkedEstatus = false;
-            }
+            this.checkedEstatus = tagActividad.active;
             
             if (this.accion === 'ver') {
               this.soloLectura = true;
@@ -161,25 +157,11 @@ export class ActivitiesEditComponent implements OnInit {
           this.addBlock(2, null);
           this.toastr.errorToastr('Error al obtener detalles de la actividad.', 'Lo siento,'); 
         }
-      ).add(() => {
-        this.delay(500);
-      });
+      );
     }
   }
 
-  async delay(ms: number) {
-    await new Promise(
-      resolve => setTimeout(() => resolve(), ms)).then(() => { this.validStatus(); });
-  }
 
-  validStatus(){
-    if (this.checkedActivoId === this.valueActiveStatus  ){
-      this.checkedEstatus = true;
-    }else{
-      this.checkedEstatus = false;
-    }
-    console.log(" Pone check en: " + this.checkedEstatus )
-  }
 
   submitted = false;
   onSubmit() {
@@ -244,25 +226,21 @@ export class ActivitiesEditComponent implements OnInit {
 
   }
 
-  regresar(){
-    this.eventService.sendMainCompliance(new EventMessage(6, {}));
-  }
-
   actualizarActividad() {
-    this.addBlock(1, "Cargando...")
-    
+    //this.addBlock(1, "Cargando...")
+    /*
     let idStatus;
     if (this.checkedEstatus){
       idStatus = this.checkedActivoId;
     }else{
       idStatus = this.checkedInactivoId;
-    }
+    }*/
 
     let actividad = new TagActividadInDTO(
     this.actividadesForm.controls['fActividadId'].value,
     this.actividadesForm.controls['fActividad'].value,
     this.actividadesForm.controls['fPrefijo'].value,
-    idStatus,
+    this.checkedEstatus,
     40,//this.actividadesForm.controls['fTareaPorVencer'].value,
     30,//this.actividadesForm.controls['fTareaProximaVencer'].value,
     30);//this.actividadesForm.controls['fTareaTiempo'].value);
@@ -296,11 +274,19 @@ export class ActivitiesEditComponent implements OnInit {
     else{
       this.checkedEstatus = true;
     }
+
+    if (this.accion === 'editar') {
+      this.disabledSave = false;
+    }    
   }
 
-  //Loadin
+  //Loading
   private addBlock(type, msg): void {
     this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
-  
+
+  regresar(){
+    this.eventService.sendMainCompliance(new EventMessage(6, {}));
+  }
+
 }

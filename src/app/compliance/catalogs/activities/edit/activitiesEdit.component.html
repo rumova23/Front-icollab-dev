@@ -1,152 +1,156 @@
-<!-- Titulo -->
-<div class="row pb-5">
-  <div class="col">
-    <span class="agila-cda-titulo">{{titulo}}</span>
-  </div>
-</div>
 <div class="row">
-  <div class="col">
-    <form [formGroup]="actividadesForm" (ngSubmit)="onSubmit()">
+    <mdb-breadcrumb customClass="white" class="w-100">
+      <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+      <mdb-breadcrumb-item class="active">{{titulo}}</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
+</div>
 
-      <div class="row" style="display:none;">
-        <!-- Grid column -->
-        <div class="col-md-4">
-          <!-- Material input -->
-          <div class="md-form">
-            <mat-form-field class="w-100">
-              <input matInput placeholder="ID Actividad" formControlName="fActividadId" readonly="true">
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <!-- Grid column -->
-        <div class="col">
-          <!-- Material input -->
-          <div class="md-form">
-            <mat-form-field class="w-100">
-              <input matInput 
-                    placeholder="Categoría" 
-                    formControlName="fActividad">
-              <div *ngIf="submitted && f.fActividad.errors" style="color:red">
-                <div *ngIf="f.fActividad.errors.required">Requerido</div>
+<div class="section">
+    <div class="row">
+      <div class="col">
+        <form [formGroup]="actividadesForm" (ngSubmit)="onSubmit()">
+
+          <div class="row" style="display:none;">
+            <!-- Grid column -->
+            <div class="col-md-4">
+              <!-- Material input -->
+              <div>
+                <mat-form-field class="w-100">
+                  <input matInput placeholder="ID Actividad" formControlName="fActividadId" readonly="true">
+                </mat-form-field>
               </div>
-            </mat-form-field>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="row">
-        <!-- Grid column -->
-        <div class="col">
-          <!-- Material input -->
-          <div class="md-form">
-            <mat-form-field class="w-100">
-              <input matInput placeholder="Prefijo" formControlName="fPrefijo">
-              <div *ngIf="submitted && f.fPrefijo.errors" style="color:red">
-                <div *ngIf="f.fPrefijo.errors.required">Requerido</div>
-              </div>
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-      <div class="row" *ngIf="false">
-        <!-- Grid column -->
-        <div class="col">
+
           <div class="row">
-            <div class="col-md-4">
-              <mat-form-field>
-                <input matInput formControlName="fTareaPorVencer"
-                                [readonly]="soloLectura"
-                                [(ngModel)]="tareaPorVencer" 
-                                type="number" 
-                                step="1"
-                                min="1"
-                                max= maxTareaPorVencer
-                                pattern="^[0-9]+"
-                                placeholder="% Tarea a vencer">
-                <div *ngIf="submitted && f.fTareaPorVencer.errors" style="color:red">
-                  <mat-error *ngIf="f.fTareaPorVencer.hasError('required')">
-                    Amount is required.
-                  </mat-error>  
-                  <mat-error *ngIf="f.fTareaPorVencer.hasError('min')">
-                    Minimum Amount is 100.
-                  </mat-error>  
-                  <mat-error *ngIf="f.fTareaPorVencer.hasError('max')">
-                    Maximum Amount is 200.
-                  </mat-error>        
-                </div>         
-              </mat-form-field>
-            </div>
-            <div class="col-md-4">
-              <mat-form-field>
-                <input matInput formControlName="fTareaProximaVencer"
-                                [readonly]="soloLectura" 
-                                [(ngModel)]="tareaProximaVencer" 
-                                type="number"
-                                step="1" 
-                                min="1"
-                                max= maxTareaProximaVencer
-                                pattern="^[0-9]+"
-                                placeholder="% Próxima a vencer">
-              </mat-form-field>
-            </div>
-            <div class="col-md-4">
-              <mat-form-field> 
-                <input matInput formControlName="fTareaTiempo"
-                                [readonly]="soloLectura" 
-                                [(ngModel)]="tareaTiempo" 
-                                type="number"
-                                step="1" 
-                                min="1"
-                                max= maxTareaTiempo
-                                pattern="^[0-9]+"
-                                placeholder="% Tarea en tiempo">
-              </mat-form-field>
+            <!-- Grid column -->
+            <div class="col">
+              <!-- Material input -->
+              <div>
+                <mat-form-field class="w-100">
+                  <input matInput placeholder="Prefijo" formControlName="fPrefijo">
+                  <div *ngIf="submitted && f.fPrefijo.errors" style="color:red">
+                    <div *ngIf="f.fPrefijo.errors.required">Requerido</div>
+                  </div>
+                </mat-form-field>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+          
+          <div class="row">
+            <!-- Grid column -->
+            <div class="col">
+              <!-- Material input -->
+              <div>
+                <mat-form-field class="w-100">
+                  <input matInput 
+                        placeholder="Categoría" 
+                        formControlName="fActividad">
+                  <div *ngIf="submitted && f.fActividad.errors" style="color:red">
+                    <div *ngIf="f.fActividad.errors.required">Requerido</div>
+                  </div>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
 
-      <div class="row">
-        <div class="col">
-          <ng-container>
-            <div class="col-md-auto col-md-6 col-lg-4">
+          <div class="row" *ngIf="false">
+            <!-- Grid column -->
+            <div class="col">
               <div class="row">
-                <div class="col-md-8">
-                  <mat-checkbox class="active" color="primary" 
-                    (change)="chanceCheck();"
-                    [checked]="checkedEstatus"
-                    [disabled]="deshabiliarEstatus">
-                    <mat-label>Activo</mat-label>
-                  </mat-checkbox>
+                <div class="col-md-4">
+                  <mat-form-field>
+                    <input matInput formControlName="fTareaPorVencer"
+                                    [readonly]="soloLectura"
+                                    [(ngModel)]="tareaPorVencer" 
+                                    type="number" 
+                                    step="1"
+                                    min="1"
+                                    max= maxTareaPorVencer
+                                    pattern="^[0-9]+"
+                                    placeholder="% Tarea a vencer">
+                    <div *ngIf="submitted && f.fTareaPorVencer.errors" style="color:red">
+                      <mat-error *ngIf="f.fTareaPorVencer.hasError('required')">
+                        Amount is required.
+                      </mat-error>  
+                      <mat-error *ngIf="f.fTareaPorVencer.hasError('min')">
+                        Minimum Amount is 100.
+                      </mat-error>  
+                      <mat-error *ngIf="f.fTareaPorVencer.hasError('max')">
+                        Maximum Amount is 200.
+                      </mat-error>        
+                    </div>         
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field>
+                    <input matInput formControlName="fTareaProximaVencer"
+                                    [readonly]="soloLectura" 
+                                    [(ngModel)]="tareaProximaVencer" 
+                                    type="number"
+                                    step="1" 
+                                    min="1"
+                                    max= maxTareaProximaVencer
+                                    pattern="^[0-9]+"
+                                    placeholder="% Próxima a vencer">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field> 
+                    <input matInput formControlName="fTareaTiempo"
+                                    [readonly]="soloLectura" 
+                                    [(ngModel)]="tareaTiempo" 
+                                    type="number"
+                                    step="1" 
+                                    min="1"
+                                    max= maxTareaTiempo
+                                    pattern="^[0-9]+"
+                                    placeholder="% Tarea en tiempo">
+                  </mat-form-field>
                 </div>
               </div>
             </div>
-          </ng-container>
-        </div>
-      </div>
-  
-      <div class="row">
-        <div class="col-md-4"></div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="d-flex justify-content-end" *ngIf="!soloLectura">
-            <button type="submit" class="btn"
-              [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">Guardar</button>
           </div>
-        </div>
-      </div>
-    </form>
 
-    <div class="row">
-      <div class="col-10"></div>
-      <div class="col-2">
-        <button type="button" class="btn"
-          [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
-          (click)="regresar()">Regresar</button>
+          <div class="row">
+            <div class="col">
+              <ng-container>
+                <div class="col-md-auto col-md-6 col-lg-4">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <mat-checkbox class="active" color="primary" 
+                        (change)="chanceCheck();"
+                        [checked]="checkedEstatus"
+                        [disabled]="deshabiliarEstatus">
+                        <mat-label>Activo</mat-label>
+                      </mat-checkbox>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+      
+          <div class="row">
+            <div class="col-md-4"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="d-flex justify-content-end" *ngIf="!soloLectura">
+                <button type="submit" class="btn"
+                  [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
+                  [disabled]="disabledSave">Guardar</button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="" style="text-align: right;">
+            <button type="button" class="btn"
+              [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
+              (click)="regresar()">Regresar</button>
+        </div>
+
       </div>
     </div>
-
-  </div>
 </div>

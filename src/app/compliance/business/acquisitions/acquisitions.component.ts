@@ -7,7 +7,7 @@ import { MdbTableService } from 'angular-bootstrap-md';
   styleUrls: ['./acquisitions.component.scss']
 })
 export class AcquisitionsComponent implements OnInit {
-  titulo = 'Cumplimiento de Adquisiciones';
+  titulo = 'Personal Competente';
   constructor(private tableService: MdbTableService) { }
 
   ngOnInit() {

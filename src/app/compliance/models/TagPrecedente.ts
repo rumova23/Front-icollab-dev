@@ -2,16 +2,16 @@ import { Tag } from './Tag';
 
 export class TagPrecedente {
 
-    public tagPrecedenteId: number;
+    public idTagPrecedent: number;
     public tagPadre: Tag;
     public tagHijo: Tag;
     
     constructor(
-        tagPrecedenteId: number,
+        idTagPrecedent: number,
         tagPadre: Tag,
         tagHijo: Tag
     ) {
-        this.tagPrecedenteId = tagPrecedenteId;
+        this.idTagPrecedent = idTagPrecedent;
         this.tagPadre = tagPadre;
         this.tagHijo = tagHijo;
     }

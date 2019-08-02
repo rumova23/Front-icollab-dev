@@ -1,41 +1,45 @@
-   <!-- Titulo -->
-   <div class=" row mb-3">
-    <div class="col">
-        <span class="agila-cda-titulo">{{titulo}}</span>
+<div class="row">
+    <mdb-breadcrumb customClass="white" class="w-100">
+      <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+      <mdb-breadcrumb-item class="active">{{titulo}}</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
+</div>
+
+<div class="section">
+    <!-- Accordion -->
+    <div class="row">
+      <div class="col">
+
+          <app-competentStaff></app-competentStaff>
+        
+        <!--
+          <mat-accordion>
+
+              <app-competentStaff></app-competentStaff>
+      
+              <!-- Pestaña 2 
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      <mdb-icon fas icon="plus" class="mr-2"></mdb-icon> Proveedor Calificado
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+              </mat-expansion-panel>
+      
+      
+              <mat-expansion-panel >
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      <mdb-icon fas icon="plus" class="mr-2"></mdb-icon>Dependencias y Organismos Aplicables
+                  </mat-panel-title>
+                  <mat-panel-description>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p>Dependencias y Organismos Aplicables</p>
+              </mat-expansion-panel>
+          </mat-accordion>
+        -->
+
+      </div>
     </div>
-  </div>
-  <!-- Accordion -->
-  <div class="row">
-    <div class="col">
-        <mat-accordion>
-            <!-- Pestaña 1-->
-            <app-competentStaff></app-competentStaff>
-          
-    
-            <!-- Pestaña 2 -->
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                    <mdb-icon fas icon="plus" class="mr-2"></mdb-icon> Proveedor Calificado
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-            </mat-expansion-panel>
-    
-    
-            <mat-expansion-panel >
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                    <mdb-icon fas icon="plus" class="mr-2"></mdb-icon>Dependencias y Organismos Aplicables
-                </mat-panel-title>
-                <mat-panel-description>
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              <p>Dependencias y Organismos Aplicables</p>
-            </mat-expansion-panel>
-    
-    
-    
-        </mat-accordion>
-          
-    </div>
-  </div>
+</div>

@@ -1,25 +1,8 @@
 <div class="row">
-        <div class="col">
-            <ul class="menu-lateral">
-                <li class='item-icono' *ngFor="let item of menu;let i=index">
-                    <a 
-                    *ngIf="item.children && item.children.length > 0">
-                        <img src="{{item.icon}}" (click)="toggleMenu(i)" />
-                    </a>
-                    <ng-container *ngIf="item.children && item.children.length > 0">
-                        <a [ngStyle]="{'display':aside_open ? '' : 'none' }" 
-                        (click)="clickMenu(item)">
-                            <span class="ml-2">{{item.label}}</span>
-                            <div class='fa fa-caret-down right' ></div>
-                        </a>
-                        <ul mdbCollapse [isCollapsed]="true" #catalogos="bs-collapse"
-                            [ngStyle]="{'display':aside_open ? '' : 'none' }">
-                            <li *ngFor="let subItem of item.children">
-                                <a (click)="clickMenu(subItem)"><span>{{subItem.label}}</span></a>
-                            </li>
-                        </ul>
-                    </ng-container>
-                </li>
-            </ul>
-        </div>
-    </div>
+  <div class="col">
+    <mat-nav-list>
+      <app-menu-items *ngFor="let item of menu" [item]="item" [deep]="0" [aside_open]="aside_open">
+      </app-menu-items>
+    </mat-nav-list>
+  </div>
+</div>
