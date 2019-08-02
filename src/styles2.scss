@@ -42,6 +42,7 @@ body{
     transition: 0.5s;
     background: #eee;
 }
+
 .section{
     background: #ffffff;
     border-radius: 6px;
@@ -49,6 +50,7 @@ body{
     
     margin-top: 15px;
     margin-bottom: 30px;
+    overflow: hidden;
 }
 #pie {
     clear: both; 
@@ -66,7 +68,23 @@ input ,.form-control{
     font-size: 14px;
 }
 /**********     HEADER    **********/
-
+    .myheader{
+        color: #ffffff;   
+    }
+    .nameplanta{
+        color:white;
+        font-family: Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif!important;
+        font-size: 25px;
+        font-weight: 700;
+    }
+    .group_logo_module{
+        padding: 3px;
+        font: inherit;
+        font-size: 17px;
+        font-style: italic;
+        vertical-align: middle;
+    }
+    button:focus {outline:0px;}
     .dropdown-toggle::after {
         content: none;
     }
@@ -77,8 +95,6 @@ input ,.form-control{
         top: 50%;
         padding: 5px;
         transform: translate(0%,-50%);
-
-        
         transition: 1.5s;
     }
     .mysearch input{
@@ -186,6 +202,7 @@ input ,.form-control{
 .f-10{
     font-size: 10px;
 }
+/*.    /aside    */
 .user-panel{
     white-space: nowrap;
     overflow: hidden;
@@ -219,16 +236,20 @@ input ,.form-control{
     background-size: cover;
     vertical-align: middle;
 }
-.aside_icon_expand_right{
-    width: 100%;
-    text-align: right;
-}
-aside span{
-    font-size:small;
-}
-aside mat-icon {
-    color: #A5A5A5;
-}
+    .aside_icon_expand_right{
+        width: 100%;
+        text-align: right;
+    }
+    aside span{
+        font-size:small;
+        font-weight: 400;
+        font-family: Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif!important;
+    }
+    aside mat-icon {
+        color: #A5A5A5;
+    }
+
+/*.    /aside    */
 button.blue, button.orange {
     color:#fff;    
     border-radius: 5px;
