@@ -27,7 +27,8 @@ import { ComplianceModule } from './compliance/complianceModule.module';
 import { BreadcrumbsComponent } from './common/breadcrumbs/breadcrumbs.component';
 import { CalendarComponent } from './common/calendar/calendar.component';
 import { ConfirmationModalComponent } from './common/confirmationModal/confirmationModal.component';
-import { HomeComponent } from './common/home/home.component';
+//import { HomeComponent } from './common/home/home.component';
+import { HomeComponent } from './comun/home/home.component';
 import { PerfilComponent } from './compliance/business/perfil/perfil.component';
 import { BehaviorComponent } from './compliance/business/perfil/behavior/behavior.component';
 import { SkillsComponent } from './compliance/business/perfil/skills/skills.component';
@@ -52,7 +53,8 @@ import { CompetentStaffComponent } from './compliance/business/acquisitions/comp
 import { UploadComponent } from './compliance/business/perfil/upload/upload.component';
 import { ComplianceConfigurationComponent } from './compliance/catalogs/compliance/configuration/complianceConfiguration.component';
 import { EventService } from './core/services/event.service';
-import { LoginComponent } from './common/login/login.component';
+//import { LoginComponent } from './common/login/login.component';
+import { LoginComponent } from './comun/login/login.component';
 import { SecurityHomeComponent } from './security/home/securityHome.component';
 import { ComplianceHeaderComponent } from './compliance/comun/header/complianceHeader.component';
 import { ComplianceSidebarComponent } from './compliance/comun/sidebar/complianceSidebar.component';
@@ -149,6 +151,7 @@ import { ModelMarketComponent } from './safe/admin/modelMarket/modelMarket.compo
 import { BranchCreditNoteSeriesComponent } from './safe/admin/branchCreditNoteSeries/branchCreditNoteSeries.component';
 import { BranchCreditNoteSeriesEditComponent } from './safe/admin/branchCreditNoteSeries/edit/branchCreditNoteSeriesEdit.component';
 
+import { MenuItemsComponent }       from './compliance/comun/menu-items/menu-items.component';
 
 registerLocaleData(localePy, 'es');
 
@@ -275,6 +278,7 @@ registerLocaleData(localePy, 'es');
     PlannedPowersPPAHComponent,
     PlannedPowersPPAIComponent
 
+    ,MenuItemsComponent    
   ],
   imports: [
     BrowserModule,

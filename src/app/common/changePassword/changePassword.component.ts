@@ -18,7 +18,7 @@ export class ChangePasswordComponent implements OnInit {
   constructor(private securityService: SecurityService,
     private router: Router,
     public toastr: ToastrManager,
-    private globalService: GlobalService,
+    public globalService: GlobalService,
     private fb: FormBuilder
     ) {
   }
@@ -33,15 +33,15 @@ export class ChangePasswordComponent implements OnInit {
 
   save(value) {
     if(!Validate(value.password)) {
-      this.toastr.errorToastr('La contraseña es incorrecta', 'Lo siento,');
+      this.toastr.errorToastr('La contraseña es incorrecta', '');
       return;
     }
     if(!Validate(value.confirmPassword)) {
-      this.toastr.errorToastr('La confirmación de la contraseña es incorrecta', 'Lo siento,');
+      this.toastr.errorToastr('La confirmación de la contraseña es incorrecta', '');
       return;
     }
     if(value.password !== value.confirmPassword) {
-      this.toastr.errorToastr('Las contraseñas no coinciden', 'Lo siento,');
+      this.toastr.errorToastr('Las contraseñas no coinciden', '');
       return;
     }
     this.securityService.changePassword(value)
@@ -51,7 +51,7 @@ export class ChangePasswordComponent implements OnInit {
           this.router.navigate(['/login']);
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento, Cambiar Contraseña');
+          this.toastr.errorToastr(Constants.ERROR_SAVE, 'Cambiar Contraseña');
         });
   }
 }
