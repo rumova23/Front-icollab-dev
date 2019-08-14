@@ -34,3 +34,4 @@ dist/
 .idea/codeStyles/Project.xml
 .idea/front-icollabs.iml
 package-lock.json
+.idea/$PRODUCT_WORKSPACE_FILE$
