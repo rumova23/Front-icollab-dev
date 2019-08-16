@@ -39,7 +39,7 @@ export class ConfigActivitiesComponent implements OnInit {
   comboEstatus: Array<Combo>;
   listaCombos: Array<any>;
   
-  cabeceraTagPrecedentes: string[] = ['tagId', 'tagPadre', 'tagHijo', 'opcion'];
+  cabeceraTagPrecedentes: string[] = ['tagId', 'tagPadre', 'tagHijo', 'tagHijoNombreCumplimiento', 'opcion'];
   columnas: string[] = ['tagId', 'tag', 'descripcion', 'assignPrecedent'];
   titulo: String;
 
@@ -118,29 +118,13 @@ export class ConfigActivitiesComponent implements OnInit {
       catalogs.forEach(element => {
         if ( element.catalog === comp ){
           element.data.forEach ( elementCatalog => {
-            let value = elementCatalog.id;
+            let value = elementCatalog.id; 
             let label = elementCatalog.code;
             combo.push(new Combo(value, label));
           })
         }
       });
-/*
-      let estatus = poRespuesta['message'];
-      if (estatus === 'ok') {
-        let lista = poRespuesta['result'];
-        for ( let i=0; i < lista.length; i++){
-          if (lista[i].catalog == comp) {
-            for ( let j=0; j < lista[i].data.length; j++){
-              let value = lista[i].data[j].id;
-              let label = lista[i].data[j].code;
-              data.push(new Combo(value, label));
-            }
-          }
-        }
-        console.log(data);
-      } else {
-        console.log('El sistema indica diferente a exito para: ' + comp);
-      }*/
+
     }
   }
 
@@ -188,7 +172,7 @@ export class ConfigActivitiesComponent implements OnInit {
     this.listaCombos.push( new OrderCatalogDTO('legalRequirement', 1, 1)); 
     
     //this.addBlock(1, "Cargando...");
-    
+     
     this.tagService.getlistCatalogoOrdenados(this.listaCombos).subscribe(
       poRespuesta => {
         this.resuelveDS(poRespuesta, this.comboTipoCumplimiento, 'typeCompliance');
@@ -613,6 +597,8 @@ export class ConfigActivitiesComponent implements OnInit {
       this.addBlock(1, "Cargando...");
       this.tagService.agregarPrecedentes(tag, this.idsTagPrecedentes).subscribe(
         respuesta => {
+          console.log("======================>" + respuesta);
+          console.log(respuesta);
 
           let listObj = [];
           for (let element of respuesta) {
@@ -620,6 +606,7 @@ export class ConfigActivitiesComponent implements OnInit {
             obj['tagId']          = element.idTagPrecedent;
             obj['tagPadre']       = element.tagPadre.tag;
             obj['tagHijo']        = element.tagHijo.tag;
+            obj['tagHijoNombreCumplimiento']  = element.tagHijo.classificationActivity;
             obj['elementTag']     = element;
             listObj.push(obj);
           }

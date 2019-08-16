@@ -5,7 +5,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { GlobalService } from 'src/app/core/globals/global.service';
-import { Tag } from 'src/app/compliance/models/Tag';
 import { TagService } from 'src/app/compliance/services/tag.service';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { ConfirmationDialogService } from 'src/app/core/services/confirmation-dialog.service';
@@ -13,12 +12,13 @@ import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
-
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-complianceConfiguration',
   templateUrl: './complianceConfiguration.component.html',
   styleUrls: ['./complianceConfiguration.component.scss']
+  ,providers: [DatePipe]  
 })
 export class ComplianceConfigurationComponent implements OnInit {
   titulo: String = "Características";
@@ -46,7 +46,6 @@ export class ComplianceConfigurationComponent implements OnInit {
 
   constructor(
     private tagService: TagService,
-    private securityService: SecurityService,
     private formBuilder: FormBuilder,
     public toastr: ToastrManager,
     private route: ActivatedRoute,
@@ -54,7 +53,8 @@ export class ComplianceConfigurationComponent implements OnInit {
     private confirmationDialogService: ConfirmationDialogService,
     public globalService: GlobalService,
     private eventService: EventService
-  ) {
+   ,private datePipe: DatePipe) {    
+
     this.serviceSubscription = this.eventService.onChangePlant.subscribe({
       next: (event: EventMessage) => {
         switch (event.id) {
@@ -112,7 +112,9 @@ export class ComplianceConfigurationComponent implements OnInit {
           obj['order']              = i;
           obj['tag']                = element.tag;
           obj['nombre']             = element.classificationActivity;
-          obj['clasificacion']      = element.activity.name;
+          if (element.activity){
+            obj['clasificacion']      = element.activity.name;
+          }
           obj['cumplimiento_legal'] = element.typeCompliance.code;
 
           if (element.authority != null){
@@ -122,10 +124,16 @@ export class ComplianceConfigurationComponent implements OnInit {
           obj['periodo_entrega']    = element.deliveryPeriod.code;
           obj['estatus']            = element.estatusGenerico;
 
-          //obj['userUpdated']        = element.userUpdated;
-          //userDetail = this.userResult.resultado.find( user => user.user === element.userUpdated );
-          obj['userUpdated']        = userDetail == undefined ? 'system' : userDetail.name + " " + userDetail.lastName;
-          obj['dateUpdated']        = element.dateUpdated;
+          obj['userUpdated'] = element.userUpdated == undefined ? element.userCreated : element.userUpdated;
+          let dateUpdated = element.dateUpdated == undefined ? element.dateCreated : element.dateUpdated;
+              //console.log("let dateUpdated");
+              //console.log(dateUpdated);
+          obj['dateUpdated'] = ".";  
+          if (dateUpdated){
+            obj['dateUpdated'] = dateUpdated; //this.datePipe.transform(new Date(dateUpdated) ,'dd-MM-yyyy HH:mm')
+          }          
+
+
           obj['see']                = 'sys_see';
           obj['edit']               = 'sys_edit';
           obj['delete']             = 'sys_delete';
