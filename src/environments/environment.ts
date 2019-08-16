@@ -21,26 +21,30 @@ export const environment = {
 //*/
 export const environment = {
   production: false
-  , appVersion : 'Desarrollo V 1.0'
-  , mnUrl      : 'http://localhost:1155/'  // micro catalago maestro
-  , micro_catalago_maestro      : 'http://localhost:1155/'  // micro catalago maestro
-  , sgUrl      : 'http://localhost:8400/'  // seguridad
-  , pgUrl      : 'http://localhost:1144/'  // micro examen
-  , cnUrl      : 'http://localhost:1122/'  // evaluacion
-  , fdUrl      : 'http://localhost:1211/'  // filedb
-  , mtUrl      : 'http://localhost:1188/'  // micro tag
-  , coUrl      : 'http://localhost:1199/'  // micro compliance seguimiento
-  , micro_seguimiento      : 'http://localhost:1199/'  // micro compliance seguimiento
-  , estatus_maestro      : 'http://localhost:1177/'  // micro estatus maestro
-  ,securityUrl     : 'http://localhost:11123/security/'  // security maestro,
-  ,mercadoUrl     : 'http://localhost:11123/market/'  // estatus maestro
-  ,fuecdUrl     : 'http://localhost:11123/fuecd/'   // fuecd
-  ,weatherUrl     : 'http://localhost:11123/weather/'   // weather
-  ,pmlUrl     : 'http://localhost:1114/'
-  ,catalog      : 'http://localhost:11123/catalog/'  // micro catalago maestro
+  ,appVersion  : 'Desarrollo V 1.0'
+  ,securityUrl : 'http://localhost:11123/security/'  // security maestro,  
+  ,sgUrl       : 'http://localhost:8400/'      // seguridad
+
+  ,mnUrl       : 'http://localhost:1155/'  // micro catalago maestro
+  ,micro_catalago_maestro : 'http://localhost:1155/'  // micro catalago maestro
+  ,mtUrl      : 'http://localhost:1188/tag/'  // micro tag
+
+  ,pgUrl      : 'http://localhost:1144/'  // micro examen
+  ,cnUrl      : 'http://localhost:1122/'  // evaluacion
+  ,coUrl      : 'http://localhost:1199/'  // micro compliance seguimiento
+  ,micro_seguimiento : 'http://localhost:1199/'  // micro compliance seguimiento  
+  ,fdUrl      : 'http://localhost:1211/'  // filedb
+
+  ,estatus_maestro : 'http://localhost:1177/'  // micro estatus maestro
+  
+  ,mercadoUrl      : 'http://localhost:11123/market/'  // estatus maestro
+  ,fuecdUrl        : 'http://localhost:11123/fuecd/'   // fuecd
+  ,weatherUrl      : 'http://localhost:11123/weather/'   // weather
+  ,pmlUrl          : 'http://localhost:1114/'
+  ,catalog         : 'http://localhost:11123/catalog/'  // micro catalago maestro
   ,modelMarket     : 'http://localhost:11123/mmmercado/'  // estatus maestro
-  ,trUrl     : 'http://localhost:11123/tr/'   // weather
-  ,monitoringUrl     : 'http://localhost:1212/ftpconsumer/'  // Monitoreo FTP
+  ,trUrl           : 'http://localhost:11123/tr/'   // weather
+  ,monitoringUrl   : 'http://localhost:1212/ftpconsumer/'  // Monitoreo FTP
 };
 
 /*

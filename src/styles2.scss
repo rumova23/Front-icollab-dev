@@ -30,19 +30,13 @@ body{
     transition: 0.5s;
     /*background: #2ea9fc;*/
     min-height: 600px;
-}
-.blue{
-    background: #0F5787 !important;
-}
-.orange{
-    background: #D67700 !important;
+    padding-right: 5px;
 }
 #seccion {
     float: left;
     transition: 0.5s;
     background: #eee;
 }
-
 .section{
     background: #ffffff;
     border-radius: 6px;
@@ -57,6 +51,15 @@ body{
     text-align: center;
     padding: 20px;
     color:#ffffff;
+}
+.backgroundBlack{
+    background: #000000 !important;
+}
+.myblue{
+    background: #0F5787 !important;
+}
+.myorange{
+    background: #D67700 !important;
 }
 .txt-center{
     text-align: center;
@@ -77,6 +80,23 @@ input ,.form-control{
         font-size: 25px;
         font-weight: 700;
     }
+    .myheader .mybrand{
+        border-right: solid 1px;min-width: 215px;
+        text-align: center;
+        display: inline-block;
+        margin-right: 18px;
+    }
+    .myheader .myicobarstoggle{
+        margin-right: 5px;
+        cursor:pointer;
+    }
+    .logomodheader{
+        margin-top: -15px;
+        height: 35px;
+    }
+    .myheader .fas,.myheader .far,.myheader .lnr{
+        font-size: 1.25rem;
+    }
     .group_logo_module{
         padding: 3px;
         font: inherit;
@@ -85,8 +105,8 @@ input ,.form-control{
         vertical-align: middle;
     }
     button:focus {outline:0px;}
-    .dropdown-toggle::after {
-        content: none;
+    .hiddenDropdownAfter::after{
+        content: none !important;
     }
     .mysearch{
         position: absolute;
@@ -133,6 +153,42 @@ input ,.form-control{
     .mysearch:hover input{
         display: block;
     }
+
+    .myheader h4{
+        font-size: 14px;
+        margin: 0;
+        font-weight: 700;
+        color: #8c92a3;
+    }
+    .myheader h5{    
+        font-size: 14px;
+        margin: 0;
+        padding: 5px 0 15px;
+        color: #8c92a3;
+    }
+    .myheader .divider {
+        margin-right: 15px;
+        margin-left: 15px;
+    }
+    .myheader .dropdownMenuheader{
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+        padding: 10px 0px;
+        color: #444;
+        font-size: 14px;
+    }
+    .myheader .dropdownMenufooter{
+        background: #ccc;
+        color: #fff;
+        padding: 5px 15px;
+        border-radius: 30px;
+        margin: 0;
+        position: relative;
+        top: 3px;
+        font-size: 13px;
+    }
 /*********     ./HEADER     *************/
 
 
@@ -157,15 +213,20 @@ input ,.form-control{
         margin-top: 10px;
         margin-bottom: 10px;
     }
+
 /* ./ventanas contenido */
 
 /* Estilos para las tablas en catalogos */
     .mat-elevation-z8{
         box-shadow: 0 0 0 0 rgba(0,0,0,.2), 0 0 0 0 rgba(0,0,0,.14), 0 0 0 0 rgba(0,0,0,.12);
         border: 1px solid #e6ebf5;
+        width: auto;
+        overflow: auto;
     }
     .mat-elevation-z0{
         border: 1px solid #e6ebf5;
+        width: auto;
+        overflow: auto;
     }
 
     .table_catalogo {
@@ -186,14 +247,13 @@ input ,.form-control{
     .mat-elevation-z8 td, .mat-elevation-z0 td{
         border-right: rgba(223,223,223,1.00) solid 1px;
         text-align: center;
+        font-size: 0.7em !important;
     }
     .tabla-responsi {
         width: auto;
         overflow: auto;
     }
-    td{
-        font-size: 0.7em !important;
-    }
+
 /* Estilos para las tablas en catalogos */
 .breadcrumb{
     border-radius: 0;
@@ -250,7 +310,7 @@ input ,.form-control{
     }
 
 /*.    /aside    */
-button.blue, button.orange {
+button.myblue, button.myorange {
     color:#fff;    
     border-radius: 5px;
     padding-top: .5rem;
@@ -258,7 +318,7 @@ button.blue, button.orange {
     text-transform: capitalize;
 
 }
-button.blue:hover, button.orange:hover{
+button.myblue:hover, button.myorange:hover{
     color:#fff;    
     border-radius: 5px;
     padding-top: .5rem;
