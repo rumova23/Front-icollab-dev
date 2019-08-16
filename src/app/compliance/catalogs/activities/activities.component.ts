@@ -9,11 +9,13 @@ import { CatalogType } from '../../models/CatalogType';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-activities',
   templateUrl: './activities.component.html',
   styleUrls: ['./activities.component.scss']
+ ,providers: [DatePipe]  
 })
 
 export class ActivitiesComponent implements OnInit {
@@ -32,13 +34,14 @@ export class ActivitiesComponent implements OnInit {
   registros_x_pagina = [50,100,250,500];
 
   constructor(
-      private tagService: TagService,
-      private securityService: SecurityService,
-      public toastr: ToastrManager,
-      public globalService: GlobalService,
-      private eventService: EventService,
-      private confirmationDialogService: ConfirmationDialogService,
-  ) { }
+    private tagService: TagService,
+    public  toastr: ToastrManager,
+    public  globalService: GlobalService,
+    private eventService: EventService,
+    private confirmationDialogService: ConfirmationDialogService,
+    private datePipe: DatePipe) { 
+
+  }
 
   @ViewChild(MatSort) matSort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -62,7 +65,6 @@ export class ActivitiesComponent implements OnInit {
 
   
   obtenerListaActividades(){
-    //this.addBlock(1, "Cargando...");
     this.data = [];
     this.tagService.getCatalogoActividades("TODOS").subscribe( data => {
         console.log(data)
@@ -75,11 +77,17 @@ export class ActivitiesComponent implements OnInit {
           obj['order']        = i; 
           obj['category']     = element.name;
           obj['prefix']       = element.prefix;
-          obj['status']       = element.active == true ? 'Activo' : 'Inactivo';
-          //userDetail = this.userResult.resultado.find( user => user.user === element.userUpdated );
-          //obj['userUpdated']  = userDetail == undefined ? 'system' : userDetail.name + " " + userDetail.lastName;
-          obj['userUpdated']  = element.userUpdated == undefined ? 'system' : element.userUpdated;
-          obj['dateUpdated']  = element.dateUpdated == undefined ? element.dateCreated : element.dateUpdated;
+          obj['status']       = element.active == true ? 'Activo' : 'Inactivo'; 
+          obj['userUpdated'] = element.userUpdated == undefined ? element.userCreated : element.userUpdated;
+          let dateUpdated = element.dateUpdated == undefined ? element.dateCreated : element.dateUpdated;
+              console.log("let dateUpdated");
+              console.log(dateUpdated);
+          obj['dateUpdated'] = ".";  
+          if (dateUpdated){
+            //obj['dateUpdated'] = this.datePipe.transform(new Date(dateUpdated) ,'dd/MM/yyyy HH:mm')
+            obj['dateUpdated'] = dateUpdated;
+          }
+
           obj['see']      = 'sys_see';
           obj['edit']     = 'sys_edit';
           obj['delete']   = 'sys_delete';
@@ -121,6 +129,22 @@ export class ActivitiesComponent implements OnInit {
         if ( res.clave == 0 ){
           this.obtenerListaActividades();
           this.toastr.successToastr(res.mensaje, '¡Se ha logrado!');
+
+          this.confirmationDialogService.confirm('Por favor, confirme..'
+          ,'Está seguro de eliminar los registros clonados? ')
+          .then((confirmed) => {
+            if (confirmed) {  
+              this.tagService.outCatalogItemCloned(actividad["referenceclone"]).subscribe(
+                  data =>{
+                   this.toastr.successToastr('Los registros clonados fueron correctamente eliminados', '¡Se ha logrado!');
+                  }
+              );
+            }
+          }
+        )
+        .catch(() => console.log('Cancelo eliminar clones'));
+
+
         }else{
           this.toastr.errorToastr(res.mensaje, 'Success!');
         }

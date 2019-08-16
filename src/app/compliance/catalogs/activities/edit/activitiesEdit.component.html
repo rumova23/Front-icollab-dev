@@ -4,8 +4,14 @@
       <mdb-breadcrumb-item class="active">{{titulo}}</mdb-breadcrumb-item>
     </mdb-breadcrumb>
 </div>
-
+ 
 <div class="section">
+    <div class="row pb-3">
+        <div class="col">
+            <p class="section_titulo_0">Configuración de {{titulo}}</p>
+            <p class="section_subtitulo_0">Aqui puedes {{titulo}}.</p>
+        </div>
+    </div>
     <div class="row">
       <div class="col">
         <form [formGroup]="actividadesForm" (ngSubmit)="onSubmit()">
@@ -21,39 +27,32 @@
               </div>
             </div>
           </div>
-
-          <div class="row">
-            <!-- Grid column -->
-            <div class="col">
-              <!-- Material input -->
-              <div>
-                <mat-form-field class="w-100">
-                  <input matInput placeholder="Prefijo" formControlName="fPrefijo">
+		  <div class="row">
+		  <div class="col-md-4">
+              <input mdbInput class="form-control" formControlName="fPrefijo"
+				  	        placeholder="Prefijo"  #code maxlength="30">
+		          <div class="text-right">
+		              {{code.value?.length || 0}}/30  
+		          </div>
                   <div *ngIf="submitted && f.fPrefijo.errors" style="color:red">
                     <div *ngIf="f.fPrefijo.errors.required">Requerido</div>
                   </div>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
-          
-          <div class="row">
-            <!-- Grid column -->
-            <div class="col">
-              <!-- Material input -->
-              <div>
-                <mat-form-field class="w-100">
-                  <input matInput 
-                        placeholder="Categoría" 
-                        formControlName="fActividad">
+				  </div>
+				  </div>
+			<br/>	  
+		  <div class="row">
+		  <div class="col-md-12">
+
+            <input mdbInput class="form-control" formControlName="fActividad"
+               placeholder="Categoría" #categoria maxlength="100">
+				  <div class="text-right">{{categoria.value?.length || 0}}/100</div>
                   <div *ngIf="submitted && f.fActividad.errors" style="color:red">
                     <div *ngIf="f.fActividad.errors.required">Requerido</div>
                   </div>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
+			      <br/>
 
+				  </div>
+				  </div>
           <div class="row" *ngIf="false">
             <!-- Grid column -->
             <div class="col">
@@ -138,19 +137,84 @@
             <div class="col-md-12">
               <div class="d-flex justify-content-end" *ngIf="!soloLectura">
                 <button type="submit" class="btn"
-                  [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
-                  [disabled]="disabledSave">Guardar</button>
-              </div>
+                  [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
+                  [disabled]="disabledSave">
+                  <i class="ti-pencil"></i>
+                  Guardar / Actualizar
+                  </button>
+                  <button type="button" class="btn"
+                  [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
+                  (click)="regresar()">
+                  <i class="ti-angle-double-left"></i>
+                  Regresar</button>
+                </div>
             </div>
           </div>
         </form>
 
         <div class="" style="text-align: right;">
-            <button type="button" class="btn"
-              [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
-              (click)="regresar()">Regresar</button>
+            
         </div>
 
+
+
+        <div class="row" *ngIf="showClone">
+          <div class="col">
+            <ng-container>
+              <div class="col-md-auto col-md-6 col-lg-4">
+                <div class="row">
+                  <div class="col-md-8">
+                    <mat-checkbox class="active" color="primary" 
+                                      (change)="changeClone();"                                        
+                                       [checked]="checkedClone"> 
+                      <mat-label  *ngIf="globalService.aguila">Sol</mat-label>
+                      <mat-label  *ngIf="!globalService.aguila">Aguila</mat-label>
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div style="text-align: left;" *ngIf="showClone">
+          <button type="button" class="btn"
+            [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
+            (click)="clonar()"
+            [disabled]="!checkedClone">Clonar
+          </button>
+        </div>
+
+
+
+        <div class="row" *ngIf="showEditClonated && !cloned">
+          <div class="col">
+            <ng-container>
+              <div class="col-md-auto col-md-6 col-lg-4">
+                <div class="row">
+                  <div class="col-md-8">
+                    <mat-checkbox class="active" color="primary" 
+                                      (change)="changeEditClonated();"                                        
+                                      [checked]="checkedEditClonated"> 
+                      <mat-label  *ngIf="globalService.aguila">Sol</mat-label>
+                      <mat-label  *ngIf="!globalService.aguila">Aguila</mat-label>
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div style="text-align: left;" *ngIf="showEditClonated && !cloned">
+          <button type="button" class="btn"
+            [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
+            (click)="editClonated()"
+            [disabled]="!checkedEditClonated">Actualizar elementos clonados
+          </button>
+        </div>
       </div>
+    </div>
+
+    <div *ngIf="cloned">
+      Elemento clonado
     </div>
 </div>

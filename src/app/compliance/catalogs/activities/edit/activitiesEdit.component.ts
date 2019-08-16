@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { Router } from "@angular/router";
-import { Combo } from 'src/app/compliance/models/Combo';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { TagActividadDTO } from 'src/app/compliance/models/TagActividadDTO';
 import { TagActividadInDTO } from 'src/app/compliance/models/TagActividadInDTO';
@@ -12,10 +11,12 @@ import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-activitiesEdit'
   ,templateUrl: './activitiesEdit.component.html'
+  ,providers: [DatePipe]  
 })
 export class ActivitiesEditComponent implements OnInit {
 
@@ -38,6 +39,18 @@ export class ActivitiesEditComponent implements OnInit {
   valueActiveStatus;
   disabledSave:boolean = false; 
 
+  showClone        : boolean = false;
+  showEditClonated : boolean = false;
+
+  checkedClone : boolean = false;
+  checkedEditClonated : boolean = false;  
+
+  origen : string;
+  cloned : boolean =false;
+
+  idStatus;  
+  actividad;
+
   constructor(
     private route: ActivatedRoute,
     private tagService: TagService,
@@ -45,8 +58,10 @@ export class ActivitiesEditComponent implements OnInit {
     public toastr: ToastrManager,
     private router: Router,
     public globalService: GlobalService,
-    private eventService: EventService
-  ) { }
+    private eventService: EventService 
+    ,private datePipe: DatePipe) { 
+
+  }
 
   get f() { return this.actividadesForm.controls; }
 
@@ -134,6 +149,8 @@ export class ActivitiesEditComponent implements OnInit {
             this.actividadesForm.controls['fTareaTiempo'].setValue(tagActividad.taskOvercome);
             
             this.checkedEstatus = tagActividad.active;
+            this.origen = tagActividad.referenceclone;
+            this.cloned = tagActividad.cloned;
             
             if (this.accion === 'ver') {
               this.soloLectura = true;
@@ -190,23 +207,28 @@ export class ActivitiesEditComponent implements OnInit {
 
 
   crearActividad() {
-
-    let idStatus;
     if (this.checkedEstatus){
-      idStatus = this.checkedActivoId;
-    }else{
-      idStatus = this.checkedInactivoId;
+      //this.idStatus = this.checkedActivoId;
+      this.idStatus = true;
+    }
+    else{
+      //this.idStatus = this.checkedInactivoId;
+      this.idStatus = false;
     }
 
-    let actividad = new TagActividadInDTO(0,
+    this.origen = this.datePipe.transform(new Date() ,'ddMMyyyyHHmmssSSS');
+
+    this.actividad = new TagActividadInDTO(0,
       this.actividadesForm.controls['fActividad'].value,
       this.actividadesForm.controls['fPrefijo'].value,
-      idStatus,
+      this.idStatus,
       this.actividadesForm.controls['fTareaPorVencer'].value,
       this.actividadesForm.controls['fTareaProximaVencer'].value,
-      this.actividadesForm.controls['fTareaTiempo'].value);
-      
-    this.tagService.crearActividad(actividad).subscribe(
+      this.actividadesForm.controls['fTareaTiempo'].value,
+      this.origen,
+      0);
+
+    this.tagService.crearActividad(this.actividad, this.globalService.aguila).subscribe(
       result => {
         console.log(result);
         let generigResponseDTO : any;
@@ -215,8 +237,23 @@ export class ActivitiesEditComponent implements OnInit {
           this.toastr.errorToastr('El nombre del CATÁLOGO o del PREFIJO ya existe, favor de modificar.', 'Lo siento,');
         }else{
           this.toastr.successToastr('La actividad fue Creada con éxito.', '¡Se ha logrado!');
-          //this.router.navigateByUrl('/catalogo-actividades');
-          this.eventService.sendMainCompliance(new EventMessage(6, {}));
+
+          if (this.accion === 'nuevo') {
+            this.soloLectura = true;
+            this.actividadesForm.controls['fActividad'].disable();
+            this.actividadesForm.controls['fPrefijo'].disable();     
+            this.deshabiliarEstatus = true;
+            this.disabledSave = true;
+            this.showClone = true;
+          }
+          else{
+            this.deshabiliarEstatus = true;
+            this.disabledSave = true;
+            this.showEditClonated = true;
+            //this.eventService.sendMainCompliance(new EventMessage(6, {}));
+          }
+
+          
         }
       },
       error => {
@@ -226,41 +263,93 @@ export class ActivitiesEditComponent implements OnInit {
 
   }
 
-  actualizarActividad() {
-    //this.addBlock(1, "Cargando...")
-    /*
-    let idStatus;
-    if (this.checkedEstatus){
-      idStatus = this.checkedActivoId;
-    }else{
-      idStatus = this.checkedInactivoId;
-    }*/
+  clonar(){
+    this.actividad = new TagActividadInDTO(0,
+      this.actividadesForm.controls['fActividad'].value,
+      this.actividadesForm.controls['fPrefijo'].value,
+      this.idStatus,
+      this.actividadesForm.controls['fTareaPorVencer'].value,
+      this.actividadesForm.controls['fTareaProximaVencer'].value,
+      this.actividadesForm.controls['fTareaTiempo'].value,
+      this.origen,
+      1);
 
-    let actividad = new TagActividadInDTO(
+    console.log("this.actividad");
+    console.log(this.actividad);
+
+    this.tagService.crearActividad(this.actividad, !this.globalService.aguila).subscribe(
+      result => {
+        console.log(result);
+        let generigResponseDTO : any;
+        generigResponseDTO = result;
+        if ( generigResponseDTO.clave == 99 ){
+          this.toastr.errorToastr('El nombre del CATÁLOGO o del PREFIJO a Clonar ya existe, favor de modificar.', 'Lo siento,');
+        }else{
+          this.toastr.successToastr('La actividad fue Clonada con éxito.', '¡Se ha logrado!');
+        }
+
+        this.eventService.sendMainCompliance(new EventMessage(6, {})); 
+      }
+    )
+  }
+
+
+  actualizarActividad() {
+    if (this.checkedEstatus){
+      //this.idStatus = this.checkedActivoId;
+      this.idStatus = true;
+    }
+    else{
+      //this.idStatus = this.checkedInactivoId;
+      this.idStatus = false;
+    }
+
+    this.actividad = new TagActividadInDTO(
     this.actividadesForm.controls['fActividadId'].value,
     this.actividadesForm.controls['fActividad'].value,
     this.actividadesForm.controls['fPrefijo'].value,
     this.checkedEstatus,
-    40,//this.actividadesForm.controls['fTareaPorVencer'].value,
-    30,//this.actividadesForm.controls['fTareaProximaVencer'].value,
-    30);//this.actividadesForm.controls['fTareaTiempo'].value);
-    console.log(actividad);
-    this.tagService.editarActividad(actividad).subscribe(
+    40,  //this.actividadesForm.controls['fTareaPorVencer'].value,
+    30,  //this.actividadesForm.controls['fTareaProximaVencer'].value,
+    30,  //this.actividadesForm.controls['fTareaTiempo'].value);
+    this.origen,
+    0);
+
+    console.log(this.actividad);
+    this.tagService.editarActividad(this.actividad).subscribe(
       result => {
         console.log(result);
         this.toastr.successToastr('La actividad fue actualizada con éxito.', '¡Se ha logrado!');
-        //this.router.navigateByUrl('/catalogo-actividades/editar/'+this.actividadId);
-        //this.router.navigateByUrl('/catalogo-actividades');
-        this.eventService.sendMainCompliance(new EventMessage(6, {}));
-        this.addBlock(2, null)
+
+        this.deshabiliarEstatus = true;
+        this.disabledSave = true;                
+        this.showEditClonated = true;
+        //this.eventService.sendMainCompliance(new EventMessage(6, {}));
+        //this.addBlock(2, null)
       },
       error => {
         console.log(<any>error);
         this.addBlock(2, null)
         this.toastr.errorToastr('Error al Editar la actividad.', 'Lo siento,');
       });
-
   }
+
+  editClonated(){
+    console.log("this.actividad['idActivity']");
+    console.log(this.actividad['idActivity']);
+    console.log("this.actividad['referenceclone']");
+    console.log(this.actividad['referenceclone']);
+    this.tagService.setEditClonated(this.actividad,!this.globalService.aguila).subscribe( 
+      dataBack => { 
+        console.log("ZZZZZ");
+        console.dir(dataBack);
+        this.toastr.successToastr('La actualización de elementos clonados se logró con éxito.', '¡Se ha logrado!');
+        this.eventService.sendMainCompliance(new EventMessage(6, {}));
+      }
+    );
+  }  
+
+
 
   //Compara valores del combo para seleccionar la opción correspondiente
   compareFn(combo1: number, combo2: number) {
@@ -287,6 +376,15 @@ export class ActivitiesEditComponent implements OnInit {
 
   regresar(){
     this.eventService.sendMainCompliance(new EventMessage(6, {}));
+  }
+
+
+  changeClone(){
+    this.checkedClone = !this.checkedClone;
+  }
+
+  changeEditClonated(){
+    this.checkedEditClonated = !this.checkedEditClonated;
   }
 
 }
