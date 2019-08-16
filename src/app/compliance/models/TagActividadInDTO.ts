@@ -8,7 +8,9 @@ export class TagActividadInDTO {
     public timeTask: number;
     public taskNextOvercome: number;
     public taskOvercome: number;
-    
+    public referenceclone:string;
+    public cloned:number;    
+
     constructor(
         idActivity: number,
         name: string,
@@ -17,6 +19,8 @@ export class TagActividadInDTO {
         timeTask: number,
         taskNextOvercome: number,
         taskOvercome: number,
+        referenceclone : string,
+        cloned:number
     ) {
         this.idActivity = idActivity;
         this.name = name;
@@ -25,5 +29,7 @@ export class TagActividadInDTO {
         this.timeTask = timeTask;
         this.taskNextOvercome = taskNextOvercome;
         this.taskOvercome = taskOvercome;
+        this.referenceclone = referenceclone;
+        this.cloned = cloned;
     }
 }

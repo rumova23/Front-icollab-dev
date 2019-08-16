@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { TagPrecedente } from '../models/TagPrecedente';
 import { Tag } from '../models/Tag';
@@ -39,22 +40,30 @@ export class TagService {
     console.log("this.parameters");
     console.log(this.parameters);    
 
+  let user = JSON.parse(localStorage.getItem('user'));
+      console.log("user");
+      console.dir(user);  
+      user = user['username'];
+      console.log("user");
+      console.dir(user);
+
     if (plantSelected){
-      let p1 = new HttpParams().set("X-TENANT-ID","aguila");
+      let p1 = new HttpParams().set("X-TENANT-ID","aguila")
+                               .set("user",user);
       this.parameters = p1;
-    }
+    } 
     else{
-      let p2 = new HttpParams().set("X-TENANT-ID","sol");
+      let p2 = new HttpParams().set("X-TENANT-ID","sol")
+                               .set("user",user);      
       this.parameters = p2;
     }
     
   }
 
 
-
   getlistCatalogoOrdenados(catalogos: Array<OrderCatalogDTO>) {
     this.setXTenantId(this.globalService.aguila);
-    console.dir(catalogos);
+    console.dir(catalogos); 
     //return this.http.post( `${ this.baseCatalagoUrl }catalog/list`, catalogos, httpOptions);
     return this.http.post( `${ this.baseCatalagoUrl }catalog/list`, catalogos, {params : this.parameters });
   }
@@ -131,8 +140,8 @@ export class TagService {
     return this.http.get( `${ this.baseMicroTagUrl }actividad/obtenerActividad/${actividadId}`, {params : this.parameters });
   }
 
-  crearActividad(actividad: TagActividadInDTO) {
-    this.setXTenantId(this.globalService.aguila);    
+  crearActividad(actividad: TagActividadInDTO, selectedPlant) {
+    this.setXTenantId(selectedPlant);
     console.dir(actividad);
     return this.http.post( `${ this.baseMicroTagUrl }actividad/crear`, actividad, {params : this.parameters });
   }
@@ -142,10 +151,23 @@ export class TagService {
     console.dir(actividad);
     return this.http.post( `${ this.baseMicroTagUrl }actividad/editar`, actividad, {params : this.parameters });
   }
+  setEditClonated(actividad, plantSelected){
+    this.setXTenantId(plantSelected);
+    return this.http.post( `${ this.baseMicroTagUrl }actividad/editedclonated` , actividad, {params : this.parameters });
+  }
+  
+
+
+
 
   eliminarActividad(idActivity: number) {
     this.setXTenantId(this.globalService.aguila);    
     return this.http.get( `${ this.baseMicroTagUrl }actividad/eliminar/${idActivity}`, {params : this.parameters });
   }
+  outCatalogItemCloned(referenceclone:string){
+    this.setXTenantId(!this.globalService.aguila);
+    return this.http.get( `${ this.baseMicroTagUrl }actividad/deleteclonated/${referenceclone}`, {params : this.parameters });
+  }
+
 
 }

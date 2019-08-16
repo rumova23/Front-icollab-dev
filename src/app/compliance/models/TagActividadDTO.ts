@@ -11,7 +11,9 @@ export class TagActividadDTO {
     public taskNextOvercome: number;
     public active: boolean;
     public siguienteCodigoTag: string;
-    
+    public referenceclone:string;
+    public cloned:boolean;
+
     constructor(
         idActivity: number,
         name: string,
@@ -21,7 +23,9 @@ export class TagActividadDTO {
         taskOvercome: number,
         taskNextOvercome: number, 
         active: boolean,
-        siguienteCodigoTag: string
+        siguienteCodigoTag: string,
+        referenceclone:string,
+        cloned:boolean
     ) {
         this.idActivity = idActivity;
         this.name = name;
@@ -32,5 +36,7 @@ export class TagActividadDTO {
         this.taskNextOvercome = taskNextOvercome;
         this.active = active;
         this.siguienteCodigoTag = siguienteCodigoTag;
+        this.referenceclone = referenceclone;
+        this.cloned = cloned;
     }
 }
