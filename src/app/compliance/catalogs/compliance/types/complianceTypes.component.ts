@@ -97,9 +97,15 @@ export class ComplianceTypesComponent implements OnInit {
           obj['id']          = element.id;
           obj['name']        = element.code;
           obj['description'] = element.description;
-          obj['userUpdated'] = element.userUpdated == undefined ? 'system' : element.userUpdated;
+          obj['userUpdated'] = element.userUpdated == undefined ? element.userCreated : element.userUpdated;
           let dateUpdated = element.dateUpdated == undefined ? element.dateCreated : element.dateUpdated;
-          obj['dateUpdated'] = this.datePipe.transform(new Date(dateUpdated) ,'dd-MM-yyyy h:mm a')
+              //console.log("let dateUpdated");
+              //console.log(dateUpdated);
+          obj['dateUpdated'] = ".";  
+          if (dateUpdated){
+            obj['dateUpdated'] = this.datePipe.transform(new Date(dateUpdated) ,'dd/MM/yyyy HH:mm')
+          }
+
           obj['status']      = element.active == true ? 'Activo' : 'Inactivo';
           obj['element']     = element; //Al Eliminar se usa
           this.data.push(obj);
@@ -172,7 +178,7 @@ export class ComplianceTypesComponent implements OnInit {
 
   eliminarRegistro(maestroOpcion: any) {
       console.dir(maestroOpcion);
-
+      console.log(maestroOpcion["referenceclone"]);
       this.confirmationDialogService.confirm('Por favor, confirme..',
           'Está seguro de eliminar el registro? ')
           .then((confirmed) => {
@@ -183,12 +189,28 @@ export class ComplianceTypesComponent implements OnInit {
                   data =>{
                    this.toastr.successToastr('El registro fue correctamente eliminado', '¡Se ha logrado!');
                    this.eventService.sendMainCompliance(new EventMessage(4, {}));
+
+                   this.confirmationDialogService.confirm('Por favor, confirme..'
+                     ,'Está seguro de eliminar los registros clonados? ')
+                     .then((confirmed) => {
+                       if (confirmed) {  
+                         this.catalogoMaestroService.outCatalogItemCloned(ComplianceTypesComponent.mainCatalog 
+                           ,maestroOpcion["referenceclone"]).subscribe(
+                             data =>{
+                              this.toastr.successToastr('Los registros clonados fueron correctamente eliminados', '¡Se ha logrado!');
+                             }          
+                         );
+                       }
+                     }
+                   )
+                   .catch(() => console.log('Cancelo eliminar clones'));
+
                   }
                 )
             }
             
           })
-          .catch(() => console.log('Cancelo'));
+          .catch(() => console.log('Cancelo eliminar'));
   }  
 
   cargaDatos() {
@@ -242,19 +264,10 @@ export class ComplianceTypesComponent implements OnInit {
     });
   }
 
-  /*cargaDatos() {
-    this.catalogoMaestroService.getCatalogo( this.nombreCatalogo ).subscribe(data => {
-      this.registros =  new MatTableDataSource<MaestroOpcion>(data);
-      this.registros.paginator = this.paginator;
-      this.registros.sort = this.sort;
-    });
-  }*/
-
-
 
   //Loading
   private addBlock(type, msg): void {
     this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
- 
+
 }

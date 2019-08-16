@@ -7,23 +7,28 @@
 
 <div class="section">
 
-
+    <div class="row pb-2">
+        <div class="col">
+            <p class="section_titulo_0">{{title}}</p>
+            <p class="section_subtitulo_0">Tabla de contenidos.</p>
+        </div>
+    </div>
+    <hr>
     <div class="row mb-3 mt-3">
-      <div class="col">
+      <div class="col text-right">
         <button type="button" class="btn" 
-          [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}" 
+          [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" 
           (click)="action(1, 0)"> 
-          <i class="fas fa-user-plus"></i>&nbsp;Agregar
+          <mdb-icon fas icon="plus"></mdb-icon>&nbsp;Agregar
         </button>
       </div>
     </div>
-    <hr>
     <!-- Filtros de busqueda -->
 
     <!-- Tabla de Catalogos -->
     <div class="row mt-4 mb-4">
       <div class="col">
-        <div class="mat-elevation-z8">
+        <div class="mat-elevation-z0">
           <table matSort mat-table [dataSource]="dataSource" class="table_catalogo">
             <ng-container [matColumnDef]="column.key" *ngFor="let column of displayedColumnsOrder">
               <th mat-header-cell *matHeaderCellDef mat-sort-header > {{column.label}} </th>

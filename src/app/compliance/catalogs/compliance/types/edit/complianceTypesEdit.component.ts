@@ -9,6 +9,7 @@ import { Combo } from 'src/app/compliance/models/Combo';
 import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
+import { DatePipe } from '@angular/common';
 
 export interface Inputs {
   label: string;
@@ -20,6 +21,7 @@ export interface Inputs {
 @Component({
   selector: 'app-complianceTypesEdit'
  ,templateUrl: './complianceTypesEdit.component.html'
+ ,providers: [DatePipe]
 })
 export class ComplianceTypesEditComponent implements OnInit {
 
@@ -52,17 +54,25 @@ export class ComplianceTypesEditComponent implements OnInit {
   disabledSave:boolean = false;
   result;
 
-  verClonar:boolean = false;
+  verClonar        : boolean = false;
+  showEditClonated : boolean = false;
+
+  checkedClonar : boolean = false;
+  checkedEditClonated : boolean = false;
+
+  dataSubmit = {}
+  origen:string;
+  cloned:boolean =false;
 
   constructor(
     private catalogoMaestroService: CatalogoMaestroService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    public toastr: ToastrManager,
-    private router: Router,
-    public globalService: GlobalService,
-    private eventService: EventService) {
-    this.autoridadesForm = this.formBuilder.group({});
+    public  toastr: ToastrManager,
+    public  globalService: GlobalService,
+    private eventService: EventService
+   ,private datePipe: DatePipe) {
+
+      this.autoridadesForm = this.formBuilder.group({});
   }
 
 
@@ -83,7 +93,7 @@ export class ComplianceTypesEditComponent implements OnInit {
     console.log("this.catalogType");
     console.dir(this.catalogType);
     this.accion = this.catalogType.action;
-        
+
     if (this.accion === 'editar') {
       this.deshabiliarEstatus = false;
       this.disabledSave = true;
@@ -110,10 +120,10 @@ export class ComplianceTypesEditComponent implements OnInit {
 
       this.obtenerDatosAutoridad(true);
     }
-
   }
 
-  dataSubmit = {}
+
+
   obtenerDatosAutoridad(putData){
     console.log("obtenerDatosAutoridad(..)");
     this.catalogoMaestroService.getCatalogoIndividual('authority').subscribe(
@@ -136,6 +146,8 @@ export class ComplianceTypesEditComponent implements OnInit {
             this.autoridadesForm.controls['nombreOpcion'].setValue(element.code);
             this.autoridadesForm.controls['opcionDescripcion'].setValue(element.description);
             this.checkedEstatus = element.active;
+            this.origen = element.referenceclone;
+            this.cloned = element.cloned;
           }
 
           if (!putData){
@@ -164,11 +176,16 @@ export class ComplianceTypesEditComponent implements OnInit {
             this.dataSubmit['id'] = this.nMax + 1;
             this.dataSubmit['order'] = this.nMax + 1;
             this.dataSubmit['save'] = true;
+            this.origen = this.datePipe.transform(new Date() ,'ddMMyyyyHHmmssSSS');
+            this.dataSubmit['referenceclone'] = this.origen;
+            this.dataSubmit['cloned'] = 0;
           }
           if (this.accion === 'editar') {
             this.dataSubmit['id'] = this.catalogType.id;
             this.dataSubmit['order'] = this.catalogType.id;
             this.dataSubmit['save'] = false;
+            this.dataSubmit['referenceclone'] = this.origen;
+            this.dataSubmit['cloned'] = this.cloned;
           }
   
           console.log("this.dataSubmit");
@@ -190,13 +207,18 @@ export class ComplianceTypesEditComponent implements OnInit {
                 this.soloLectura = true;
                 this.autoridadesForm.controls['nombreOpcion'].disable();
                 this.autoridadesForm.controls['opcionDescripcion'].disable();
+                this.deshabiliarEstatus = true;
+                this.disabledSave = true;
                 this.verClonar = true;
               }
               else{
-                this.eventService.sendMainCompliance(new EventMessage(4, {}));
+                this.deshabiliarEstatus = true;
+                this.disabledSave = true;                
+                this.showEditClonated = true;
+                //this.eventService.sendMainCompliance(new EventMessage(4, {}));
               }
-
            });
+
         }
               
       }
@@ -206,24 +228,40 @@ export class ComplianceTypesEditComponent implements OnInit {
 
   }
   
+
   clonar(){
-    this.dataSubmit['id'] = this.dataSubmit['id'] + 1000;
+    this.dataSubmit['cloned'] = 1;
     this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit,!this.globalService.aguila).subscribe( 
       dataBack => { 
        console.log("//////");
        console.dir(dataBack);
        this.toastr.successToastr('La autoridad fue clonada con éxito.', '¡Se ha logrado!');
        this.eventService.sendMainCompliance(new EventMessage(4, {}));
-      });
-
+      }
+    );
   }
+
+  editClonated(){
+    console.log("this.dataSubmit['id']");
+    console.log(this.dataSubmit['id']);
+    console.log("this.dataSubmit['referenceclone']");
+    console.log(this.dataSubmit['referenceclone']);
+    this.catalogoMaestroService.setEditClonated(this.dataSubmit,!this.globalService.aguila).subscribe( 
+      dataBack => { 
+       console.log("ZZZZZ");
+       console.dir(dataBack);
+       this.toastr.successToastr('La actualización de elementos clonados se logró con éxito.', '¡Se ha logrado!');
+       this.eventService.sendMainCompliance(new EventMessage(4, {}));
+      }
+    );
+  }
+
 
 
   async delay(ms: number) {
     await new Promise(
       resolve => setTimeout(() => resolve(), ms)).then(() => { this.validStatus(); });
   }
-
 
   validStatus(){
     if (this.checkedActivoId === this.valueActiveStatus  ){
@@ -265,9 +303,6 @@ export class ComplianceTypesEditComponent implements OnInit {
     return option;
   }
 
-  regresar(){
-    this.eventService.sendMainCompliance(new EventMessage(4, {}));
-  }
 
   changeCheck(){
     if (this.checkedEstatus)
@@ -281,10 +316,48 @@ export class ComplianceTypesEditComponent implements OnInit {
     }
   }
 
-  inUpperCase(){
-    console.log(this.autoridadesForm.controls['nombreOpcion'].value);
-    //this.autoridadesForm.controls['nombreOpcion'] = 
-    //this.autoridadesForm.controls['nombreOpcion'].value.toUpperCase();   
+  changeClonar(){
+    this.checkedClonar = !this.checkedClonar;
+  }
+
+  changeEditClonated(){
+    this.checkedEditClonated = !this.checkedEditClonated;
+  }
+
+
+
+
+  regresar(){
+    console.log("regresar");
+    if (!this.checkedClonar){
+      console.log("obtenerDatosAutoridad(..) - En regresar");
+      this.catalogoMaestroService.getCatalogoIndividual('authority').subscribe(
+        dataBack => {
+          console.log("dataBack - En regresar");
+          console.dir(dataBack);
+          //console.dir(dataBack['result']);
+          this.result = dataBack;
+  
+          for (let element of this.result) { 
+            if (element.code === this.autoridadesForm.controls['nombreOpcion'].value){
+              console.log("element.id");
+              console.log(element.id);
+              this.dataSubmit['id'] = element.id;
+            }
+          }
+
+          this.dataSubmit['save'] = false;
+          this.dataSubmit['referenceclone'] = "XYZ";
+          this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit,this.globalService.aguila).subscribe( 
+            dataBack => { 
+             console.log("SI no se clona se quita la referencia");
+             console.dir(dataBack);
+          });
+
+        })
+    }
+
+    this.eventService.sendMainCompliance(new EventMessage(4, {}));
   }
 
 }
