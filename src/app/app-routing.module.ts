@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ComplianceHomeComponent } from './compliance/home/complianceHome.component';
-//import { HomeComponent } from './common/home/home.component';
-//import { LoginComponent } from './common/login/login.component';
-import { HomeComponent } from './comun/home/home.component';
-import { LoginComponent } from './comun/login/login.component';
+import { HomeComponent }   from './common/home/home.component';
+import { LoginComponent }  from './common/login/login.component';
+//import { HomeComponent } from './comun/home/home.component';
+//import { LoginComponent } from './comun/login/login.component';
 import { SecurityHomeComponent } from './security/home/securityHome.component';
 import { SafeHomeComponent } from './safe/home/safeHome.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { MockUpHomeComponent } from './mockUp/home/mockUpHome.component';
-
 
 const routes: Routes = [
   // otherwise redirect to home
