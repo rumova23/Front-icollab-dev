@@ -61,7 +61,7 @@ export class CatalogoMaestroService {
   }
 
   getCatalogoIndividual(catalogo){
-    console.log("¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡");
+    console.log("============");
     this.setXTenantId(this.globalService.aguila);
     console.log("httpOptions");
     console.log(httpOptions);
@@ -79,11 +79,19 @@ export class CatalogoMaestroService {
     this.setXTenantId(plantSelected);
     return this.http.post( `${ this.micro_catalago_maestro }catalog/save` , catalogo, {params : this.parameters });
   }
-
+  setEditClonated(catalogo, plantSelected){
+    this.setXTenantId(plantSelected);
+    return this.http.post( `${ this.micro_catalago_maestro }catalog/editedclonated` , catalogo, {params : this.parameters });
+  }
+  
   outCatalogoItem(catalogName:string ,id:number){
     this.setXTenantId(this.globalService.aguila);
     return this.http.delete( `${ this.micro_catalago_maestro }catalog/delete/` + catalogName + "/" + id, {params : this.parameters });    
   }
+  outCatalogItemCloned(catalogName:string ,referenceclone:string){
+    this.setXTenantId(!this.globalService.aguila);
+    return this.http.delete( `${ this.micro_catalago_maestro }catalog/deleteclonated/` + catalogName + "/" + referenceclone, {params : this.parameters });    
+  } 
 
   getlistCatalogoOrdenados(catalogos: Array<OrderCatalogDTO>) {
     this.setXTenantId(this.globalService.aguila);
