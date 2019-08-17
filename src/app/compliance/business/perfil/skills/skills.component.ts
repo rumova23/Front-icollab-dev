@@ -12,12 +12,12 @@ import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
   styleUrls: ['./skills.component.scss']
 })
 export class SkillsComponent implements OnInit {
-  @Input() inIdEmpleado: number;
-  @Input() inTipo: string;
-  temas: Array<any>;
-  idTemas: Array<any>;
-  pregs: Array<any>;
-  resp: Array<any>;
+  @Input() inIdEmpleado : number;
+  @Input() inTipo : string;
+  temas : Array<any>;
+  idTemas : Array<any>;
+  pregs : Array<any>;
+  resp : Array<any>;
   grupRes = [[], [], [], [], [], [], [], [], [], [], []];
   grupOpc = [[], [], [], [], [], [], [], [], [], [], []];
   grupPreg = [[], [], [], [], [], [], [], [], [], [], []];
@@ -31,16 +31,26 @@ export class SkillsComponent implements OnInit {
   constructor(private cdRef: ChangeDetectorRef,
               private ruteo: ActivatedRoute,
               private preguntas: PerfilComboService,
-              public toastr: ToastrManager) { }
+              public  toastr: ToastrManager) { 
+
+  }
+
+
+
   ngOnInit() {
+    /*
     this.preguntas.obtenEstatusTerminado('TX_EXAMEN_RESERVACION', 'Terminado').subscribe(
         data => {
           this.terminadoId = data.entidadEstatusId;
         }
     );
+    */
+
     if (this.inTipo === 'ver') {
       this.isdisabled = true;
     }
+
+
     this.temas = [];
     this.idTemas = [ 'DEFAULT' ];
     this.preguntas.obtenPreguntasExamen('DEFAULT', this.inIdEmpleado).subscribe(
@@ -80,6 +90,8 @@ export class SkillsComponent implements OnInit {
     );
   }
 
+
+
   onSubmit() {
     this.SaveRespuestas = [];
     for (let i = 0; i < this.grupPreg.length; i++) {
@@ -89,12 +101,15 @@ export class SkillsComponent implements OnInit {
         }
       }
     }
+
     this.preguntas.postRespuetaExamen(this.examenReservacionId, this.SaveRespuestas).subscribe(
       respuesta => {
         console.dir( respuesta  );
       }
     );
   }
+
+
   terminaExamen() {
     let mensaje = '';
     let sonTodas = true;
@@ -113,6 +128,7 @@ export class SkillsComponent implements OnInit {
         }
       }
     }
+
     if (sonTodas) {
       this.onSubmit();
       this.preguntas.terminaExamen(this.examenReservacionId).subscribe(

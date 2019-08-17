@@ -37,19 +37,26 @@ export class BehaviorComponent implements OnInit {
       private ruteo: ActivatedRoute,
       private router: Router,
       private preguntas: PerfilComboService,
-      public toastr: ToastrManager) { }
+      public toastr: ToastrManager) { 
+  }
+
+
   ngOnInit() {
+    /*
     this.preguntas.obtenEstatusTerminado('TX_EXAMEN_RESERVACION', 'Terminado').subscribe(
         data => {
           this.terminadoId = data.entidadEstatusId;
         }
     );
+    */
+
     if (this.inTipo === 'ver') {
       this.isdisabled = true;
     }
     this.temas = [];
     this.totalPreg = [];
     this.idTemas = [ 'PSICOMETRICO DEFAULT'];
+
     this.preguntas.obtenPreguntasExamen('PSICOMETRICO DEFAULT', this.inIdEmpleado).subscribe(
       reservacion => {
         if ( reservacion.estatusGenerico === 'exito') {
@@ -85,6 +92,7 @@ export class BehaviorComponent implements OnInit {
 
   }
 
+
   onSubmit() {
     this.SaveRespuestas = [];
     for (let i = 0; i < this.grupPreg.length; i++) {
@@ -100,6 +108,8 @@ export class BehaviorComponent implements OnInit {
         }
     );
   }
+
+
   terminaExamen() {
     let sonTodas = true;
     for (let i = 0; i < this.grupPreg.length; i++) {
@@ -121,4 +131,6 @@ export class BehaviorComponent implements OnInit {
       this.toastr.errorToastr('Para terminar el examen, Todas las preguntas deben contestarse.', '!Oops.');
     }
   }
+
+  
 }
