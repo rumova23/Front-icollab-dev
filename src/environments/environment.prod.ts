@@ -52,6 +52,7 @@ export const environment = {
   , sgUrl      : 'http://localhost:8400/'  // seguridad
   , pgUrl      : 'http://localhost:1144/'  // micro examen
   , cnUrl      : 'http://localhost:1122/'  // evaluacion
+  ,knUrl       : 'http://localhost:1133/knowledge/'  // conocimiento  
   , fdUrl      : 'http://localhost:1211/'  // filedb
   , mtUrl      : 'http://localhost:1188/'  // micro tag
   , coUrl      : 'http://localhost:1199/'  // micro compliance seguimiento
