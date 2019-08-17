@@ -31,7 +31,7 @@ export const environment = {
 
   ,pgUrl      : 'http://localhost:1144/exam/'  // micro examen
   ,cnUrl      : 'http://localhost:1122/'  // evaluacion
-  ,knUrl       : 'http://localhost:1133/knowledge/'  // conocimiento  
+  
   ,coUrl      : 'http://localhost:1199/'  // micro compliance seguimiento
   ,micro_seguimiento : 'http://localhost:1199/'  // micro compliance seguimiento  
   ,fdUrl      : 'http://localhost:1211/'  // filedb
