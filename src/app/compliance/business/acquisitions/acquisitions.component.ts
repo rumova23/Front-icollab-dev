@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdbTableService } from 'angular-bootstrap-md';
 
+
 @Component({
   selector: 'app-acquisitions',
   templateUrl: './acquisitions.component.html',

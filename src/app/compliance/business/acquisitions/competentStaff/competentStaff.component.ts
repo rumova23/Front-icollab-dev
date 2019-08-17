@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
-import { debug } from 'util';
 import { PersonalCompetenteService } from 'src/app/compliance/services/personal-competente.service';
 import { CatalogoMaestroService } from 'src/app/core/services/catalogo-maestro.service';
 import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
@@ -8,6 +7,7 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { GlobalService } from 'src/app/core/globals/global.service';
+
 
 export interface Personalcompetente {
   orden: number; // Este es unnúmero consecutivo que pertenece al orden en el que aparece en la tabla
@@ -30,6 +30,7 @@ export interface Personalcompetente {
   nuevoexamen: string;
   mensajeEliminar: string;
 }
+
 
 export class PersonalcompetenteImp implements Personalcompetente {
   orden: number;
@@ -79,6 +80,10 @@ export class PersonalcompetenteImp implements Personalcompetente {
     this.mensajeEliminar = mensajeEliminar;
   }
 }
+
+
+
+
 @Component({
   selector: 'app-competentStaff',
   templateUrl: './competentStaff.component.html',
@@ -89,7 +94,7 @@ export class CompetentStaffComponent implements OnInit {
   titulo: string = 'Personal Competente';
   inTitulo: string = 'Confirmacion';
   registros = new MatTableDataSource<Personalcompetente>();
-  columnas: string[] = ['orden', 'nEmpleado', 'nombre', 'appaterno', 'apmaterno', 'genero', 'posicion', 'departamento', 'puesto', 'lugartrabajo', 'fechevaluacion', 'status', 'ver', 'editar', 'pdf', 'eliminar', 'nuevoexamen'];
+  columnas: string[] = ['orden', 'nEmpleado', 'nombre', 'appaterno', 'apmaterno', 'genero', 'posicion', 'departamento', 'puesto', 'lugartrabajo', 'fechevaluacion', 'status', 'ver', 'editar',  'eliminar'];
   filters = [
     { label: "Nombre", inputtype: "text" },
     { label: "Apellido paterno", inputtype: "text" },
@@ -112,20 +117,26 @@ export class CompetentStaffComponent implements OnInit {
   }
 
   getCatalog(index, catalog) {
-    this.catalogoMaestroService.getCatalogo(catalog).subscribe((data) => {
-      for (const cat of data) {
-        this.filters[index].options.push({ value: cat.opcion.codigo, viewValue: cat.opcion.codigo });
-      }
+    console.log("getCatalog(...");
+    console.log("catalog=" + catalog);
+    //this.catalogoMaestroService.getCatalogo(catalog).subscribe(
+    this.catalogoMaestroService.getCatalogoIndividual(catalog).subscribe(
+      (dataBack) => {
+      console.log("dataBack");
+      console.log(dataBack);
+      //for (const cat of data) {
+        //this.filters[index].options.push({ value: cat.opcion.codigo, viewValue: cat.opcion.codigo });
+      //}
     });
   }
 
 
   loadCatalogs() {
-    this.getCatalog(3, 'genero');
-    this.getCatalog(4, 'posicion');
-    this.getCatalog(5, 'departamento');
-    this.getCatalog(6, 'puestoTrab');
-    this.getCatalog(7, 'lugar');
+    this.getCatalog(3, 'gender');
+    this.getCatalog(4, 'position');
+    this.getCatalog(5, 'department');
+    this.getCatalog(6, 'workstation');
+    this.getCatalog(7, 'employeePlace');
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -133,7 +144,7 @@ export class CompetentStaffComponent implements OnInit {
 
   ngOnInit() {
     this.cargaTabla();
-    this.loadCatalogs();
+    //this.loadCatalogs();
   }
 
   alert = function (arg) {
@@ -145,8 +156,15 @@ export class CompetentStaffComponent implements OnInit {
   }
 
   cargaTabla() {
+    console.log("cargaTabla(...");
+    console.log("cargaTabla(...");
+
     this.elementData = [];
-    this.personal.getEmpleados().subscribe(resul => {
+    this.personal.getEmpleados().subscribe(
+      resul => {
+        console.log("==> this.personal.getEmpleados()...");
+        console.dir(resul);
+
       if (!resul) {
         console.log('El back no responde');
       } else {
@@ -160,11 +178,13 @@ export class CompetentStaffComponent implements OnInit {
             let nombres = resul['empleados'][key].nombres;
             let paterno = resul['empleados'][key].paterno;
             let materno = resul['empleados'][key].materno;
+
             let generoId = resul['empleados'][key].generoId;
             let posicionId = resul['empleados'][key].posicionId;
             let departamentoId = resul['empleados'][key].departamentoId;
             let puestoId = resul['empleados'][key].puestoId;
             let lugarTrabajoId = resul['empleados'][key].lugarTrabajoId;
+            
             this.elementData.push(new PersonalcompetenteImp(index, empleadoId, empleadoStrId, nombres, paterno, materno,
               generoId, posicionId, departamentoId, puestoId, lugarTrabajoId, 'por definir', 'por definir',
               'home-compliance/',
@@ -172,9 +192,10 @@ export class CompetentStaffComponent implements OnInit {
               'home-compliance/',
               'home-compliance/',
               'home-compliance',
-              'Esta seguro de eliminar el empelado numero: ' + empleadoStrId));
+              'Esta seguro de eliminar el empleado numero: ' + empleadoStrId));
             index++;
           });
+
           this.registros = new MatTableDataSource<Personalcompetente>(this.elementData);
           this.registros.paginator = this.paginator;
           this.registros.sort = this.sort;
@@ -183,6 +204,7 @@ export class CompetentStaffComponent implements OnInit {
         }
       }
     });
+
   }
 
 
@@ -194,13 +216,18 @@ export class CompetentStaffComponent implements OnInit {
       this.personal.deleteEliminar(empleadoId).subscribe(
         respuesta => {
           if (respuesta['status'] == "exito") {
-            alert('SUCCESS!! :-)\n\n' + JSON.stringify('Eliminacion exitosa'));
-            this.cargaTabla();
+            //alert('SUCCESS!! :-)\n\n' + JSON.stringify('Eliminacion exitosa'));
+            //this.cargaTabla();
+
+            this.eventService.sendMainCompliance(new EventMessage(10, {})); 
           }
         }
       );
     }
   }
+
+
+
   generarExamen(empleadoId: number) {
     console.log('generarExamen(empleadoId: number):' + empleadoId);
     this.preguntas.generaExamen(empleadoId).subscribe(data => {
@@ -211,7 +238,7 @@ export class CompetentStaffComponent implements OnInit {
 
   action(idEmpleado, tipo) {
     this.eventService.sendMainCompliance(new
-      EventMessage(11, {
+      EventMessage(11, { 
         idEmpleado: idEmpleado,
         tipo: tipo
       }));

@@ -22,12 +22,12 @@ export const environment = {
 export const environment = {
   production: false
   ,appVersion  : 'Desarrollo V 1.0'
-  ,securityUrl : 'http://localhost:11123/security/'  // security maestro,  
+  ,securityUrl : 'http://200.52.85.140:11123/security/'  // security maestro,  
   ,sgUrl       : 'http://localhost:8400/'      // seguridad
 
-  ,mnUrl       : 'http://localhost:1155/'  // micro catalago maestro
-  ,micro_catalago_maestro : 'http://localhost:1155/'  // micro catalago maestro
-  ,mtUrl      : 'http://localhost:1188/tag/'  // micro tag
+  ,mnUrl       : 'http://200.52.85.140:1155/'  // micro catalago maestro
+  ,micro_catalago_maestro : 'http://200.52.85.140:1155/'  // micro catalago maestro
+  ,mtUrl      : 'http://200.52.85.140:1188/tag/'  // micro tag
 
   ,pgUrl      : 'http://localhost:1144/'  // micro examen
   ,cnUrl      : 'http://localhost:1122/'  // evaluacion
