@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolve
 import { ActivatedRoute } from '@angular/router';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventService } from 'src/app/core/services/event.service';
-import { ChangePasswordComponent } from 'src/app/comun/changePassword/changePassword.component';
+import { ChangePasswordComponent } from 'src/app/common/changePassword/changePassword.component';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { ComplianceTypesComponent } from '../catalogs/compliance/types/complianceTypes.component';
 import { ComplianceTypesEditComponent } from '../catalogs/compliance/types/edit/complianceTypesEdit.component';
