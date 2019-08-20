@@ -153,6 +153,11 @@ import { BranchCreditNoteSeriesEditComponent } from './safe/admin/branchCreditNo
 
 import { MenuItemsComponent }       from './compliance/comun/menu-items/menu-items.component';
 
+//Se agregan al ejecutar ng build --prod
+import { MonitoringJobsEditComponent } from '../app/safe/admin/monitoring/edit/monitoringJobsEdit.component';
+import { DetailJobsComponent } from '../app/safe/admin/monitoring/detail/detailJobs.component';
+import { MonitoringJobsComponent } from '../app/safe/admin/monitoring/monitoringJobs.component';
+
 registerLocaleData(localePy, 'es');
 
 @NgModule({
@@ -279,6 +284,9 @@ registerLocaleData(localePy, 'es');
     PlannedPowersPPAIComponent
 
     ,MenuItemsComponent    
+    ,MonitoringJobsEditComponent
+    ,DetailJobsComponent
+    ,MonitoringJobsComponent
   ],
   imports: [
     BrowserModule,
