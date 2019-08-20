@@ -52,11 +52,19 @@ export const environment = {
   , sgUrl      : 'http://localhost:8400/'  // seguridad
   , pgUrl      : 'http://localhost:1144/'  // micro examen
   , cnUrl      : 'http://localhost:1122/'  // evaluacion
-  ,knUrl       : 'http://localhost:1133/knowledge/'  // conocimiento  
+  ,knUrl       : 'http://localhost:1133/knowledge/'  // conocimiento 
+  ,micro_seguimiento : 'http://200.52.85.140:1199/'  // micro compliance seguimiento    
   , fdUrl      : 'http://localhost:1211/'  // filedb
   , mtUrl      : 'http://localhost:1188/'  // micro tag
-  , coUrl      : 'http://localhost:1199/'  // micro compliance seguimiento
+  , coUrl      : 'http://localhost:1199/'  // micro compliance seguimiento 
   , estatus_maestro      : 'http://localhost:1177/'  // micro estatus maestro
   ,securityUrl     : 'http://localhost:11122/security/'  // estatus maestro,
   ,mercadoUrl     : 'http://localhost:11120/'  // estatus maestro
+  ,fuecdUrl        : 'http://200.52.85.140:11123/fuecd/'   // fuecd  
+  ,weatherUrl      : 'http://200.52.85.140:11123/weather/'   // weather  
+  ,monitoringUrl   : 'http://200.52.85.140:1212/ftpconsumer/'  // Monitoreo FTP  
+  ,pmlUrl          : 'http://200.52.85.140:1114/'
+  ,trUrl           : 'http://200.52.85.140:11123/tr/'   // weather    
+  ,modelMarket     : 'http://200.52.85.140:11123/mmmercado/'  // estatus maestro 
+  ,catalog         : 'http://200.52.85.140:11123/catalog/'  // micro catalago maestro   
 };
