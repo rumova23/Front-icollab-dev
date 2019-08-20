@@ -47,7 +47,7 @@ export class RolesGrantsComponent implements OnInit {
   constructor(
     public toastr: ToastrManager,
     private router: Router,
-    private globalService: GlobalService,
+    public globalService: GlobalService,
     private eventService: EventService,
     private securityService: SecurityService
   ) { }

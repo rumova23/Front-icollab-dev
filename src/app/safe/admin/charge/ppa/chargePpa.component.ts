@@ -27,7 +27,7 @@ export class ChargePpaComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   constructor(private marketService: MarketService,
-    private globalService: GlobalService,
+    public globalService: GlobalService,
     private fb: FormBuilder,
     private toastr: ToastrManager) {
 
@@ -127,7 +127,10 @@ export class ChargePpaComponent implements OnInit {
     this.loadData();
   }
 
-  save(dat) {
+  save2() {
+    }
+
+    save(dat) {    
     /*
     const dat = this.data = this.data.filter(entity =>
       entity.edit == true); */

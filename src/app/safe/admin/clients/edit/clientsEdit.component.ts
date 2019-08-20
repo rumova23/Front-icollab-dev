@@ -96,7 +96,7 @@ export class ClientsEditComponent implements OnInit {
   catalogs: Array<CatalogOrder> = new CatalogOrderFind().client;
   catalogsSat: Array<CatalogOrderSat> = new CatalogOrderSatFind().client;
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
-  constructor(private globalService: GlobalService,
+  constructor(public globalService: GlobalService,
     private ngZone: NgZone, private marketService: MarketService,
     private catalogService: CatalogService,
     private fb: FormBuilder,

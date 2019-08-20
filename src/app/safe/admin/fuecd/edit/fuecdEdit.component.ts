@@ -36,7 +36,10 @@ export class FuecdEditComponent implements OnInit {
   columns = ['id', 'fuecd', 'ful', 'date', 'concept',
     'iva', 'totalNet', 'totalAmount'];
   valid: boolean = false;
-  constructor(private globalService: GlobalService,
+
+  progress;
+
+  constructor(public globalService: GlobalService,
     private ngZone: NgZone, private marketService: MarketService,
     private fb: FormBuilder,
     private eventService: EventService,

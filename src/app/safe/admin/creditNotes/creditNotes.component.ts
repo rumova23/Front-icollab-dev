@@ -31,7 +31,7 @@ export class CreditNotesComponent implements OnInit {
   creditNotes:Array<CreditNote>;
   clients:Array<Client>;
 
-  constructor(private globalService: GlobalService,
+  constructor(public globalService: GlobalService,
     private marketService: MarketService,
     private eventService: EventService,
     private toastr: ToastrManager) { }

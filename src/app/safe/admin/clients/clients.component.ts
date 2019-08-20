@@ -28,7 +28,7 @@ export class ClientsComponent implements OnInit {
   filterBtn = { label: "buscar" };
   rowsPorPage = [50, 100, 250, 500];
   clients:Array<Client>;
-  constructor(private globalService: GlobalService,
+  constructor(public globalService: GlobalService,
     private marketService: MarketService,
     private eventService: EventService,
     private toastr: ToastrManager) { }

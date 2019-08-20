@@ -101,7 +101,7 @@ export class PlantsEditComponent implements OnInit {
   catalogsSat: Array<CatalogOrderSat> = new CatalogOrderSatFind().product;
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
-  constructor(private globalService: GlobalService,
+  constructor(public globalService: GlobalService,
     private ngZone: NgZone, private marketService: MarketService,
     private fb: FormBuilder,
     private eventService: EventService,

@@ -30,7 +30,11 @@ export class WeatherEditComponent implements OnInit {
   fileName: any;
   typeWeather: string;
   valid: boolean = false;
-  constructor(private globalService: GlobalService,
+
+  title;
+  progress;
+  
+  constructor(public globalService: GlobalService,
     private marketService: MarketService,
     private fb: FormBuilder,
     private confirmationDialogService: ConfirmationDialogService,

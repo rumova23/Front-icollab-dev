@@ -27,6 +27,8 @@ export class PmlComponent implements OnInit {
   conexionForm: FormGroup;
   search: any = {};
 
+  titulo:String;
+  
   constructor(private marketService: MarketService,  public toastr: ToastrManager,
     private eventService : EventService,
     private globalService: GlobalService, private fb: FormBuilder) { }

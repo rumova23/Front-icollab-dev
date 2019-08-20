@@ -30,7 +30,7 @@ export class MonitoringJobsComponent implements OnInit {
   
 
 
-  constructor(private globalService: GlobalService,
+  constructor(public globalService: GlobalService,
     private eventService: EventService,
     private monitoringService : MonitoringService,
     private toastr: ToastrManager) { }

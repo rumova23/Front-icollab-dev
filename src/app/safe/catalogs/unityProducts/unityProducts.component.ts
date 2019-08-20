@@ -31,7 +31,7 @@ export class UnityProductsComponent implements OnInit {
   constructor(
     public toastr: ToastrManager,
     private eventService: EventService,
-    private globalService: GlobalService,
+    public globalService: GlobalService,
     private catalogService: CatalogService
   ) { }
 

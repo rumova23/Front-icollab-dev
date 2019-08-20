@@ -28,7 +28,7 @@ export class SecurityHomeComponent implements OnInit {
   @ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
 
   constructor(private route: ActivatedRoute,
-    private globalService: GlobalService,
+    public globalService: GlobalService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private eventService: EventService) {
     this.serviceSubscription = this.eventService.onChangeMainSecurity.subscribe({

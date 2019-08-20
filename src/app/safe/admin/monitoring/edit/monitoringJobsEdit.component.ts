@@ -36,7 +36,7 @@ export class MonitoringJobsEditComponent implements OnInit {
   applicationNames: Array<Opciontmp> ;
   types: Array<Opciontmp> ;
 
-  constructor(private globalService: GlobalService,
+  constructor(public globalService: GlobalService,
     private eventService: EventService,
     private monitoringService : MonitoringService,
     private toastr: ToastrManager,

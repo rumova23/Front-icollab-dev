@@ -157,6 +157,7 @@ import { MenuItemsComponent }       from './compliance/comun/menu-items/menu-ite
 import { MonitoringJobsEditComponent } from '../app/safe/admin/monitoring/edit/monitoringJobsEdit.component';
 import { DetailJobsComponent } from '../app/safe/admin/monitoring/detail/detailJobs.component';
 import { MonitoringJobsComponent } from '../app/safe/admin/monitoring/monitoringJobs.component';
+import { TwelveDigitsDirective } from '../app/core/helpers/twelve-digits';
 
 registerLocaleData(localePy, 'es');
 
@@ -287,6 +288,7 @@ registerLocaleData(localePy, 'es');
     ,MonitoringJobsEditComponent
     ,DetailJobsComponent
     ,MonitoringJobsComponent
+    ,TwelveDigitsDirective
   ],
   imports: [
     BrowserModule,

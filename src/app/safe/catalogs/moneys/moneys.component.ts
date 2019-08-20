@@ -31,7 +31,7 @@ export class MoneysComponent implements OnInit {
     private catalogService: CatalogService,
     private toastr: ToastrManager,
     private eventService: EventService,
-    private globalService: GlobalService,
+    public globalService: GlobalService,
   ) { }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

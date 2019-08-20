@@ -31,7 +31,7 @@ export class BranchCreditNoteSeriesComponent implements OnInit {
     private catalogService: CatalogService,
     public toastr: ToastrManager,
     private eventService: EventService,
-    private globalService: GlobalService,
+    public globalService: GlobalService,
   ) {
   }
 

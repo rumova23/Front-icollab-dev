@@ -24,7 +24,7 @@ export class GrantsComponent implements OnInit {
   apps: Array<App>;
   constructor(private securityService: SecurityService,
     public toastr: ToastrManager,
-    private globalService: GlobalService,
+    public globalService: GlobalService,
     private eventService: EventService) { }
 
   ngOnInit() {

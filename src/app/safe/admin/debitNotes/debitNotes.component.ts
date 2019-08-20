@@ -32,7 +32,7 @@ export class DebitNotesComponent implements OnInit {
   debitNotes:Array<DebitNote>;
   clients:Array<Client>;
 
-  constructor(private globalService: GlobalService,
+  constructor(public globalService: GlobalService,
     private marketService: MarketService,
     private eventService: EventService,
     private toastr: ToastrManager) { }

@@ -30,7 +30,11 @@ export class EnergyEditComponent implements OnInit {
   fileName: any;
   typeEnergy: string;
   valid: boolean = false;
-  constructor(private globalService: GlobalService,
+
+  progress;
+  title;
+
+  constructor(public globalService: GlobalService,
     private marketService: MarketService,
     private fb: FormBuilder,
     private confirmationDialogService: ConfirmationDialogService,

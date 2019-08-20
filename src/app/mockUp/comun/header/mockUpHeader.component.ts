@@ -11,7 +11,7 @@ import { SecurityService } from 'src/app/core/services/security.service';
   styleUrls: ['./mockUpHeader.component.scss']
 })
 export class MockUpHeaderComponent implements OnInit {
-  constructor(private globalService: GlobalService,
+  constructor(public globalService: GlobalService,
     private eventService: EventService,
     private securityService: SecurityService,
     private router: Router) {

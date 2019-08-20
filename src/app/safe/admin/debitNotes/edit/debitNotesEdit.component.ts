@@ -84,7 +84,7 @@ export class DebitNotesEditComponent implements OnInit {
 
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
-  constructor(private globalService: GlobalService,
+  constructor(public globalService: GlobalService,
     private ngZone: NgZone, private marketService: MarketService,
     private catalogService: CatalogService,
     private fb: FormBuilder,

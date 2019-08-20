@@ -27,7 +27,7 @@ export class WeatherPpaComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   constructor(private marketService: MarketService,
-    private globalService: GlobalService,
+    public globalService: GlobalService,
     private fb: FormBuilder,
     private toastr: ToastrManager) {
 

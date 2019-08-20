@@ -30,7 +30,11 @@ export class ChargeEditComponent implements OnInit {
   fileName: any;
   typeCharge: string;
   valid: boolean = false;
-  constructor(private globalService: GlobalService,
+
+  title;
+  progress;
+  
+  constructor(public globalService: GlobalService,
     private marketService: MarketService,
     private fb: FormBuilder,
     private confirmationDialogService: ConfirmationDialogService,

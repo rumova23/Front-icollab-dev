@@ -12,7 +12,7 @@ import { SecurityService } from 'src/app/core/services/security.service';
 })
 export class SecurityHeaderComponent implements OnInit {
   color: string = 'warn'
-  constructor(private globalService: GlobalService,
+  constructor(public globalService: GlobalService,
     private eventService: EventService,
     private securityService: SecurityService,
     private router: Router) {

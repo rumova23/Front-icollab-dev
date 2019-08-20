@@ -26,7 +26,7 @@ export class EnergyPpaComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   constructor(private marketService: MarketService,
-    private globalService: GlobalService,
+    public globalService: GlobalService,
     private fb: FormBuilder,
     private toastr: ToastrManager) {
   }
@@ -98,6 +98,9 @@ export class EnergyPpaComponent implements OnInit {
     console.log(event);
     this.date = event.value;
     this.loadData();
+  }
+
+  save2() {
   }
 
   save(dat) {

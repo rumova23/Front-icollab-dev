@@ -14,7 +14,7 @@ export class SafeHeaderComponent implements OnInit {
   
   srclogo="../../../assets/images/skins/shape_1.png";
   nameplanta="Aguila";
-  constructor(private globalService: GlobalService,
+  constructor(public globalService: GlobalService,
     private eventService: EventService,
     private securityService: SecurityService,
     private router: Router) {

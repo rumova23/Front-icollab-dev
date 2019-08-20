@@ -25,7 +25,7 @@ export class UsersComponent implements OnInit {
 
   constructor(private securityService: SecurityService,
     public toastr: ToastrManager,
-    private globalService: GlobalService,
+    public globalService: GlobalService,
     private eventService: EventService,
     private fb: FormBuilder) { }
 

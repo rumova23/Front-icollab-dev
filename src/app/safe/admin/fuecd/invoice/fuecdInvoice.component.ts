@@ -22,7 +22,7 @@ export class FuecdInvoiceComponent implements OnInit {
   idFuecd: number = 0;
   columns = ['id', 'fuecd', 'ful', 'date', 'concept',
     'iva', 'totalNet', 'totalAmount', 'invoice'];
-  constructor(private globalService: GlobalService,
+  constructor(public globalService: GlobalService,
     private ngZone: NgZone, private marketService: MarketService,
     private fb: FormBuilder,
     private eventService: EventService,

@@ -33,7 +33,7 @@ export class InvoicesComponent implements OnInit {
   invoices:Array<Invoice>;
   clients:Array<Client>;
 
-  constructor(private globalService: GlobalService,
+  constructor(public globalService: GlobalService,
     private marketService: MarketService,
     private eventService: EventService,
     private toastr: ToastrManager) { }

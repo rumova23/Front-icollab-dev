@@ -24,7 +24,7 @@ export class DetailJobsComponent implements OnInit {
   rowsPorPage = [50, 100, 250, 500];
   
   
-  constructor(private globalService: GlobalService,
+  constructor(public globalService: GlobalService,
     private eventService: EventService,
     private monitoringService : MonitoringService,
     private toastr: ToastrManager,
