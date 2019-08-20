@@ -104,8 +104,8 @@ export class PerfilComboService {
     this.setXTenantId(this.globalService.aguila);    
     console.log("configuracionExamen"); 
     console.log(configuracionExamen); 
-    //return this.http.get(`${this.baseknUrl}preguntas/${configuracionExamen}/${empleadoId}`, httpOptions);
-    return this.http.post(`${this.baseUrl2}genera`, {empleadoId : empleadoId},{params : this.parameters });
+    //return this.http.get(`${this.baseUrl2}examen/preguntas/${configuracionExamen}/${empleadoId}`, httpOptions);
+    return this.http.get(`${this.baseUrl2}preguntas/${configuracionExamen}/${empleadoId}`, {params : this.parameters });
   }
 
 
@@ -125,8 +125,11 @@ export class PerfilComboService {
   generaExamen(empleadoId: number): Observable<any> {
     this.setXTenantId(this.globalService.aguila);        
     console.log('generaExamen(empleadoId: number): ' + empleadoId);
+    //let RequestBody = {};
+    //RequestBody['empleadoId'] = empleadoId;
+    let RequestBody = empleadoId;
     //return this.http.post(`${this.baseUrl2}` + 'genera?empleadoId=' + empleadoId, httpOptions);
-    return this.http.post(`${this.baseUrl2}` + 'genera?empleadoId=' + empleadoId, {params : this.parameters });
+    return this.http.post(`${this.baseUrl2}` + 'genera', RequestBody , {params : this.parameters });
   }
 
 

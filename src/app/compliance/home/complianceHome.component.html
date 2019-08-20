@@ -9,8 +9,9 @@
             <div class="col p-0">
                 <div class="user-panel">
                     <div class="image">
-                        <img src="../../../assets/images/avatar2.png" alt="" class="img-user">
-                    </div>
+                      <img *ngIf="getgender()===1" src="../../../assets/images/avatar2.png" alt="" class="img-user">
+                      <img *ngIf="getgender()===2" src="../../../assets/images/womenAvatar.png" alt="" class="img-user">
+                    </div> 
                     <div class="info-user" *ngIf="aside_open">
                         <p>Bienvenido, {{getNameUser()}}</p>
                         <p class="f-10">No tienes tareas pendientes</p>

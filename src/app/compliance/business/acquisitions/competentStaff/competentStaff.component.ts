@@ -94,7 +94,7 @@ export class CompetentStaffComponent implements OnInit {
   titulo: string = 'Personal Competente';
   inTitulo: string = 'Confirmacion';
   registros = new MatTableDataSource<Personalcompetente>();
-  columnas: string[] = ['orden', 'nEmpleado', 'nombre', 'appaterno', 'apmaterno', 'genero', 'posicion', 'departamento', 'puesto', 'lugartrabajo', 'fechevaluacion', 'status', 'ver', 'editar',  'eliminar'];
+  columnas: string[] = ['orden', 'nEmpleado', 'nombre', 'appaterno', 'apmaterno', 'genero', 'posicion', 'departamento', 'puesto', 'lugartrabajo', 'fechevaluacion', 'status', 'ver', 'editar',  'eliminar', 'nuevoexamen'];
   filters = [
     { label: "Nombre", inputtype: "text" },
     { label: "Apellido paterno", inputtype: "text" },
@@ -226,15 +226,14 @@ export class CompetentStaffComponent implements OnInit {
     }
   }
 
-
-
   generarExamen(empleadoId: number) {
     console.log('generarExamen(empleadoId: number):' + empleadoId);
     this.preguntas.generaExamen(empleadoId).subscribe(data => {
-      this.toastr.successToastr('Se generaron los examenes correctamente', 'Exito!');
+      this.toastr.successToastr('Se generaron los examenes correctamente', '¡Se ha logrado!');
     }
     );
   }
+
 
   action(idEmpleado, tipo) {
     this.eventService.sendMainCompliance(new

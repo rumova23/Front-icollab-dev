@@ -49,6 +49,8 @@ export class BehaviorComponent implements OnInit {
         }
     );
     */
+    console.log(" ===========================      BehaviorComponent       ===========================")
+    console.log(" ===========================      BehaviorComponent       ===========================")
 
     if (this.inTipo === 'ver') {
       this.isdisabled = true;
@@ -91,6 +93,7 @@ export class BehaviorComponent implements OnInit {
     );
 
   }
+
 
 
   onSubmit() {
