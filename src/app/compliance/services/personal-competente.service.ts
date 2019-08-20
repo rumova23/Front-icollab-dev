@@ -59,33 +59,33 @@ export class PersonalCompetenteService {
 
   getEmpleados() {
     this.setXTenantId(this.globalService.aguila);
-    return this.http.get(`${this.baseUrl2}personalCompetente/empleados`, httpOptions);
+    return this.http.get(`${this.baseUrl2}personalCompetente/empleados`, {params : this.parameters });
   }
 
   
   deleteEliminar(idEmpleado: number) {
-    return this.http.delete(`${this.baseUrl2}personalCompetente/empleados?idEmpleado=` + idEmpleado, httpOptions);
+    return this.http.delete(`${this.baseUrl2}personalCompetente/empleados?idEmpleado=` + idEmpleado, {params : this.parameters });
   }
 
 
   getTagsAsignacion(idEmpleado: number): Observable<any> {
-    return this.http.get(`${this.microSeguimiento}personalCompetente/tags/ASIGNACION/${idEmpleado}`, httpOptions);
+    return this.http.get(`${this.microSeguimiento}personalCompetente/tags/ASIGNACION/${idEmpleado}`, {params : this.parameters });
   }
 
   getTagsAsignado(idEmpleado: number): Observable<any> {
-    return this.http.get(`${this.microSeguimiento}personalCompetente/tags/ASIGNADO/${idEmpleado}`, httpOptions);
+    return this.http.get(`${this.microSeguimiento}personalCompetente/tags/ASIGNADO/${idEmpleado}`, {params : this.parameters });
   }
 
   salvarTags(listtags: Array<string>, empleadoId: number): Observable<any> {
-    return this.http.post(`${this.microSeguimiento}tags/empleados?empleadoId=` + empleadoId, listtags, httpOptions);
+    return this.http.post(`${this.microSeguimiento}tags/empleados?empleadoId=` + empleadoId, listtags, {params : this.parameters });
   }
 
   getPlantaPerfil(): Observable<any> {
-    return this.http.get(`${this.baseUrl}tags/planta/perfilActor`, httpOptions);
+    return this.http.get(`${this.baseUrl}tags/planta/perfilActor`, {params : this.parameters });
   }
 
   salvarPlantaPerfilEmpleado(lista: Array<any>) {
-    return this.http.post(`${this.baseUrl}tags/planta/perfilActor`, lista, httpOptions);
+    return this.http.post(`${this.baseUrl}tags/planta/perfilActor`, lista, {params : this.parameters });
   }
 
 }
