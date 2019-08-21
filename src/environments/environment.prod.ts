@@ -46,25 +46,31 @@ export const environment = {
 */
 export const environment = {
   production: false
-  ,appVersion : 'Desarrollo V 1.0'
-  , mnUrl      : 'http://localhost:1155/'  // micro catalago maestro
-  , micro_catalago_maestro      : 'http://localhost:1155/'  // micro catalago maestro
-  , sgUrl      : 'http://localhost:8400/'  // seguridad
-  , pgUrl      : 'http://localhost:1144/'  // micro examen
-  , cnUrl      : 'http://localhost:1122/'  // evaluacion
-  ,knUrl       : 'http://localhost:1133/knowledge/'  // conocimiento 
-  ,micro_seguimiento : 'http://200.52.85.140:1199/'  // micro compliance seguimiento    
-  , fdUrl      : 'http://localhost:1211/'  // filedb
-  , mtUrl      : 'http://localhost:1188/'  // micro tag
-  , coUrl      : 'http://localhost:1199/'  // micro compliance seguimiento 
-  , estatus_maestro      : 'http://localhost:1177/'  // micro estatus maestro
-  ,securityUrl     : 'http://localhost:11122/security/'  // estatus maestro,
-  ,mercadoUrl     : 'http://localhost:11120/'  // estatus maestro
-  ,fuecdUrl        : 'http://200.52.85.140:11123/fuecd/'   // fuecd  
-  ,weatherUrl      : 'http://200.52.85.140:11123/weather/'   // weather  
-  ,monitoringUrl   : 'http://200.52.85.140:1212/ftpconsumer/'  // Monitoreo FTP  
-  ,pmlUrl          : 'http://200.52.85.140:1114/'
-  ,trUrl           : 'http://200.52.85.140:11123/tr/'   // weather    
-  ,modelMarket     : 'http://200.52.85.140:11123/mmmercado/'  // estatus maestro 
-  ,catalog         : 'http://200.52.85.140:11123/catalog/'  // micro catalago maestro   
+  ,appVersion  : 'Desarrollo V 1.0'
+  ,securityUrl : 'http://200.52.85.140:11123/security/'  // estatus maestro,
+  //,sgUrl       : 'http://200.52.85.140:8400/'      // seguridad
+  ,sgUrl      : 'http://200.52.85.140:11123/'    // seguridad
+
+  ,mnUrl      : 'http://200.52.85.140:1155/'  // micro catalago maestro
+  ,micro_catalago_maestro : 'http://200.52.85.140:1155/'  // micro catalago maestro
+
+  ,mtUrl      : 'http://200.52.85.140:1188/tag/'  // micro tag
+
+  ,pgUrl       : 'http://200.52.85.140:1144/exam/'  // micro examen 
+  ,knUrl       : 'http://200.52.85.140:1133/knowledge/'  // conocimiento   
+  ,cnUrl       : 'http://200.52.85.140:1122/'  // evaluacion
+  ,fdUrl       : 'http://200.52.85.140:1211/'  // filedb
+  ,coUrl       : 'http://200.52.85.140:1199/'  // micro compliance seguimiento
+  ,micro_seguimiento : 'http://200.52.85.140:1199/'  // micro compliance seguimiento  
+  ,estatus_maestro   : 'http://200.52.85.140:1177/'  // micro estatus maestro
+
+  ,mercadoUrl  : 'http://200.52.85.140:11123/market/'  // estatus maestro
+  
+  ,fuecdUrl      : 'http://200.52.85.140:11123/fuecd/'   // fuecd
+  ,weatherUrl    : 'http://200.52.85.140:11123/weather/'   // weather
+  ,pmlUrl        : 'http://200.52.85.140:1114/'
+  ,catalog       : 'http://200.52.85.140:11123/catalog/'  // micro catalago maestro
+  ,modelMarket   : 'http://200.52.85.140:11123/mmmercado/'  // estatus maestro
+  ,trUrl         : 'http://200.52.85.140:11123/tr/'   // weather
+  ,monitoringUrl : 'http://200.52.85.140:1212/ftpconsumer/'  // Monitoreo FTP
 };
