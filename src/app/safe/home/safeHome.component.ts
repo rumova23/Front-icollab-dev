@@ -51,6 +51,8 @@ import { ChargePpaComponent } from '../admin/charge/ppa/chargePpa.component';
 import { EnergyEditComponent } from '../admin/energy/edit/energyEdit.component';
 import { EnergyPpaComponent } from '../admin/energy/ppa/energyPpa.component';
 import { ModelMarketComponent } from '../admin/modelMarket/modelMarket.component';
+import { PpaComponent } from '../admin/modelMarket/ppa/ppa.component';
+
 import { BranchCreditNoteSeriesComponent } from '../admin/branchCreditNoteSeries/branchCreditNoteSeries.component';
 import { BranchCreditNoteSeriesEditComponent } from '../admin/branchCreditNoteSeries/edit/branchCreditNoteSeriesEdit.component';
 import { SecurityService } from 'src/app/core/services/security.service';
@@ -433,6 +435,7 @@ export class SafeHomeComponent implements OnInit {
         }
         refEnergyEdit.changeDetectorRef.detectChanges();
         break;
+
       case 37:
         const factoryEnergyPpa =
           this.componentFactoryResolver.resolveComponentFactory(EnergyPpaComponent);
@@ -447,6 +450,16 @@ export class SafeHomeComponent implements OnInit {
           this.viewContainerRef.createComponent(factoryModelMarket);
         refModelMarket.changeDetectorRef.detectChanges();
         break;
+
+      case 39:
+        const factoryPPA =
+          this.componentFactoryResolver.resolveComponentFactory(PpaComponent);
+        const refModelPPA =
+          this.viewContainerRef.createComponent(factoryPPA);
+        refModelPPA.changeDetectorRef.detectChanges();
+        break;
+
+
       case 40:
           const factoryBranchCreditNoteSerie =
             this.componentFactoryResolver.resolveComponentFactory(BranchCreditNoteSeriesComponent);

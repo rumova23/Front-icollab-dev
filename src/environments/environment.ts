@@ -22,10 +22,15 @@ export const environment = {
 export const environment = {
   production: false
   ,appVersion : 'Desarrollo V 1.0'
-  , mnUrl      : 'http://localhost:1155/'  // micro catalago maestro
-  , micro_catalago_maestro      : 'http://localhost:1155/'  // micro catalago maestro
-  , sgUrl      : 'http://localhost:8400/'  // seguridad
-  , pgUrl      : 'http://localhost:1144/'  // micro examen
+
+  ,securityUrl : 'http://localhost:11122/'  // estatus maestro,
+  //,sgUrl       : 'http://200.52.85.140:8400/'      // seguridad
+  ,sgUrl      : 'http://200.52.85.140:11123/'    // seguridad
+  
+  ,mnUrl      : 'http://200.52.85.140:1155/'  // micro catalago maestro
+  ,micro_catalago_maestro : 'http://200.52.85.140:1155/'  // micro catalago maestro
+
+  , pgUrl      : 'http://localhost:1144/exam/'  // micro examen
   , cnUrl      : 'http://localhost:1122/'  // evaluacion
   ,knUrl       : 'http://localhost:1133/knowledge/'  // conocimiento 
   ,micro_seguimiento : 'http://200.52.85.140:1199/'  // micro compliance seguimiento    
@@ -33,7 +38,7 @@ export const environment = {
   , mtUrl      : 'http://localhost:1188/'  // micro tag
   , coUrl      : 'http://localhost:1199/'  // micro compliance seguimiento 
   , estatus_maestro      : 'http://localhost:1177/'  // micro estatus maestro
-  ,securityUrl     : 'http://localhost:11122/security/'  // estatus maestro,
+
   ,mercadoUrl     : 'http://localhost:11120/'  // estatus maestro
   ,fuecdUrl        : 'http://200.52.85.140:11123/fuecd/'   // fuecd  
   ,weatherUrl      : 'http://200.52.85.140:11123/weather/'   // weather  

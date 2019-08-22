@@ -61,6 +61,8 @@ export class ComplianceSidebarComponent implements OnInit {
                 flag = true;
               }
                 
+              //console.log("++");
+              //console.log(option.children[ins]['label']);
               if (option.children[ins]['label']=='Cumplimiento Legal'){
                 if (!option.children[ins].children){
                   option.children[ins].children = new Array();

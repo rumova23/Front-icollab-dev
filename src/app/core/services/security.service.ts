@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Role } from 'src/app/security/models/Role';
 import { Parameter } from 'src/app/security/models/Parameter';
@@ -26,10 +28,29 @@ const HEADERS = {
 export class SecurityService {
   private currentUser;
 
+  parameters:any;
   constructor(private http: HttpClient,
     private router: Router) {
    
   }
+
+
+  setUserId(){
+    console.log("setUserId()");
+    console.log("this.parameters");
+    console.log(this.parameters);    
+
+    let user = JSON.parse(localStorage.getItem('user'));
+    console.log("user");
+    console.dir(user);  
+    user = user['username'];
+    console.log("user");
+    console.dir(user);
+
+    this.parameters = new HttpParams().set("user",user);
+     
+  }
+
 
   getTreeSample(): TreeviewItem[] {
     const childrenCategory = new TreeviewItem({
@@ -210,7 +231,8 @@ export class SecurityService {
   }
 
   changePassword(changePassword: any): Observable<any> {
-    return this.http.post(environment.securityUrl + 'user/password/change', changePassword);
+    this.setUserId();
+    return this.http.post(environment.securityUrl + 'user/password/change', changePassword ,{params : this.parameters });
   }
 
   saveRoleGrants(roleGrant: RoleGrant): Observable<any> {

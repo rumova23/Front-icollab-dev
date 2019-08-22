@@ -249,12 +249,18 @@ export class SafeSidebarComponent implements OnInit {
         option = 36;
         typeEnergy = "Factor de Potencia"
         break;
+
+        
       case 'Consulta Variables Energía':
         option = 37;
         break;
-      case 'Modelo Matemático':
+      case 'Modelo Matemático - Mercado':
           option = 38;
-          break;        
+          break;
+      case 'Modelo Matemático - PPA':
+          option = 39;
+          break;
+          
       case 'Regímenes Fiscales SAT':
         option = 201;
         break;
