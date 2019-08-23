@@ -22,7 +22,7 @@ import { ObsyCommentsComponent } from '../obsyComments/obsyComments.component';
   ]
 })
 export class PerfilHomeComponent implements OnInit {
-
+  title = "Perfil de Puesto";
   idEmpleado: number;
   tipo: string;
   isViewable: boolean = true;

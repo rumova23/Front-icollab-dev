@@ -122,7 +122,8 @@ export class ComplianceConfigurationComponent implements OnInit {
           }
           obj['tipo_aplicacion']    = element.applicationType.code;
           obj['periodo_entrega']    = element.deliveryPeriod.code;
-          obj['estatus']            = element.estatusGenerico;
+          //obj['estatus']            = element.estatusGenerico;
+          obj['estatus']            = (element.active) ? 'Activo' : 'Inactivo';
 
           obj['userUpdated'] = element.userUpdated == undefined ? element.userCreated : element.userUpdated;
           let dateUpdated = element.dateUpdated == undefined ? element.dateCreated : element.dateUpdated;

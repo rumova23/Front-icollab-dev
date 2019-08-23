@@ -8,6 +8,7 @@ import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
 import { OrderCatalogDTO } from 'src/app/compliance/models/OrderCatalogDTO'; 
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
+import { GlobalService } from 'src/app/core/globals/global.service';
 
 @Component({
   selector: 'app-perfil',
@@ -20,7 +21,8 @@ export class PerfilComponent implements OnInit {
   @Input() inIdEmpleado: number;
   @Input() inTipo: string;
   @Input() isViewable: string;
-
+  
+  title = "Perfil de Puesto";
   generos: Array<any>;
   grados: Array<any>;
   posiciones: Array<any>;
@@ -54,7 +56,8 @@ export class PerfilComponent implements OnInit {
   constructor(
     private cmbos: PerfilComboService
    ,private formBuilder: FormBuilder
-   ,public toastr: ToastrManager
+   ,public toastr: ToastrManager              
+   ,public globalService: GlobalService
    ,private eventService: EventService) { 
 
   }
