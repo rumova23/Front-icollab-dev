@@ -13,7 +13,7 @@ import { SecurityService } from 'src/app/core/services/security.service';
 export class SafeHeaderComponent implements OnInit {
   
   srclogo="../../../assets/images/skins/shape_1.png";
-  nameplanta="Aguila";
+  nameplanta="EAT";
   constructor(public globalService: GlobalService,
     private eventService: EventService,
     private securityService: SecurityService,
@@ -72,7 +72,7 @@ export class SafeHeaderComponent implements OnInit {
   cambioTema(){
     this.globalService.aguila = !this.globalService.aguila;
     this.srclogo = this.globalService.aguila ? "../../../assets/images/skins/shape_1.png":"../../../assets/images/skins/logobotonsol.png";
-    this.nameplanta = this.globalService.aguila ? "Aguila":"Sol";
+    this.nameplanta = this.globalService.aguila ? "EAT":"EST";
   }
 
 }
