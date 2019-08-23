@@ -1,51 +1,164 @@
+<div class="myheader sticky-top" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+	<!--Navbar-->
+	<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark" [containerInside]="false">
 
-<mdb-navbar SideClass="navbar navbar-expand-lg navbar-light blue-grey lighten-4 row" [containerInside]="false">
-  <mat-toolbar-row>
-    <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleMenu()" color="primary">
-      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-    </button>
-    <span> <img src="../../../assets/img/logo_compliance.png" height="40" alt=""></span>
-  </mat-toolbar-row>
-  <links>
+		<!-- Navbar brand -->
+		<mdb-navbar-brand>
+			<div class="mybrand">
+				<strong class="nameplanta mr-4 ml-3">Security</strong>
+			</div>	
+			<mdb-icon fas icon="bars" (click)="toggleMenu()" class="myicobarstoggle"></mdb-icon>
+		</mdb-navbar-brand>
+	  
+		<!-- Collapsible content -->
+		<links>
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+					<a class="nav-link">
+						<div class="btn-group">
+							<form action="" class="mysearch">
+								<input type="search" name="" id="" placeholder="Search your content...">
+								<i class="fa fa-search"></i>
+							</form>
+						</div>
+					</a>
+				</li>
+			</ul>
+	  
+			<ul class="navbar-nav ml-auto nav-flex-icons">
+				<!--Tools-->
+				<li class="nav-item">
+					<a class="nav-link">
+						<div class="btn-group" mdbDropdown>
+							<mdb-icon fas icon="tools" dropdownToggle></mdb-icon>
+							<div class="dropdown-menu dropdown-menu-right">
+								<div class="col">
+									<p class="dropdownMenuheader">Herramientas</p>
+								</div>
+								<a class="dropdown-item" (click)="changePassword()">
+									<table>
+										<tr>
+											<td><span class="lnr lnr-lock"></span>&nbsp;&nbsp;&nbsp;</td>
+											<td><h4>Cambiar Contraseña</h4></td>
+										</tr>
+									</table>
+								</a>
+								<div class="divider dropdown-divider"></div>
+								<a class="dropdown-item" (click)="logout()">
+									<table>
+										<tr>
+											<td>
+												<span class="lnr lnr-power-switch"></span>&nbsp;&nbsp;&nbsp;
+											</td>
+											<td>
+												<h4>Salir</h4>
+											</td>
+										</tr>
+									</table>
+								</a>
+							</div>
+						</div>
+					</a>
+				</li>
 
-
-    <ul class="navbar-nav ml-auto nav-flex-icons "
-      [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
-    
-      <li class="nav-item">
-        <a class="nav-link waves-effect waves-light" style="color:white;">
-          {{getNameUser()}}
-        </a>
-    </li>
-
-      <li class="nav-item dropdown" dropdown *ngIf="globalService.aguila">
-        <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
-          <img src="../../../assets/images/skins/shape_1.png" height="35" alt="">
-        </a>
-
-        <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown-primary" role="menu">
-          <a class="dropdown-item waves-light" mdbWavesEffect (click)="cambioPlantaSol()">Sol</a>
-          <a class="dropdown-item waves-light" mdbWavesEffect (click)="changePassword()">Cambiar Contraseña</a>
-          <a class="dropdown-item waves-light" mdbWavesEffect (click)="logout()">Salir</a>
-        </div>
-
-      </li>
-
-      <li class="nav-item dropdown" dropdown *ngIf="!globalService.aguila">
-        <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
-          <img src="../../../assets/images/skins/logobotonsol.png" height="35" alt="">
-        </a>
-
-        <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown-primary" role="menu">
-          <a class="dropdown-item waves-light" mdbWavesEffect (click)="cambioPlantaAguila()">Aguila</a>
-          <a class="dropdown-item waves-light" mdbWavesEffect (click)="changePassword()">Cambiar Contraseña</a>
-          <a class="dropdown-item waves-light" mdbWavesEffect (click)="logout()">Salir</a>
-        </div>
-      </li>
-      <li><span style="padding-left:20px"></span></li>
-    </ul>
-
-
-  </links>
-
-</mdb-navbar>
+				<li class="nav-item">
+					<a class="nav-link">
+						<div class="btn-group" mdbDropdown>
+							<mdb-icon far icon="envelope" dropdownToggle></mdb-icon>
+							<div *dropdownMenu class="dropdown-menu dropdown-menu-right " role="menu">
+								<div class="col">
+									<p class="dropdownMenuheader">Emails</p>
+								</div>
+								<a class="dropdown-item" >
+									<table>
+										<tr>
+											<td>
+												<i class="ti-announcement"></i>&nbsp;&nbsp;&nbsp;
+											</td>
+											<td>
+												<h4>Email</h4>
+												<h5>Cargar</h5>
+											</td>
+										</tr>
+									</table>
+								</a>
+								<div class="divider dropdown-divider"></div>
+								<a class="dropdown-item" (click)="changePassword()">
+									<table>
+										<tr>
+											<td>
+												<i class="ti-announcement"></i>&nbsp;&nbsp;&nbsp;
+											</td>
+											<td>
+												<h4>Email</h4>
+												<h5>Reiniciar</h5>
+											</td>
+										</tr>
+									</table>
+								</a>
+								<div class="divider dropdown-divider"></div>
+								<a class="dropdown-item text-right" (click)="changePassword()">
+									<span class="dropdownMenufooter">
+										Ver Todos
+									</span>
+								</a>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link">
+						<div class="btn-group" mdbDropdown>
+							<mdb-icon far icon="bell" dropdownToggle></mdb-icon>
+							<div *dropdownMenu class="dropdown-menu dropdown-menu-right " role="menu">
+								<div class="col">
+									<p class="dropdownMenuheader">Notificaciones</p>
+								</div>
+								<a class="dropdown-item" >
+									<table>
+										<tr>
+											<td>
+												<i class="ti-announcement"></i>&nbsp;&nbsp;&nbsp;
+											</td>
+											<td>
+												<h4>Notificaciones 1</h4>
+												<h5>Cargar</h5>
+											</td>
+										</tr>
+									</table>
+								</a>
+								<div class="divider dropdown-divider"></div>
+								<a class="dropdown-item">
+									<table>
+										<tr>
+											<td>
+												<i class="ti-announcement"></i>&nbsp;&nbsp;&nbsp;
+											</td>
+											<td>
+												<h4>Notificaciones 2</h4>
+												<h5>Reiniciar</h5>
+											</td>
+										</tr>
+									</table>
+								</a>
+								<div class="divider dropdown-divider"></div>
+								<a class="dropdown-item text-right" (click)="changePassword()">
+									<span class="dropdownMenufooter">
+										Ver Todos
+									</span>
+								</a>
+							</div>
+						</div>
+					</a>
+				</li>
+			</ul>
+		  
+		  	<span class="navbar-text white-text">
+				<img src="/assets/img/admin.png" class="logomodheader"  (click)="changeModule()" /> 
+				<span class="nameplanta mr-4">Security</span>
+			</span>
+		</links>
+		<!-- Collapsible content -->
+	</mdb-navbar>
+	<!--/.Navbar-->
+</div>

@@ -63,4 +63,7 @@ export class SecurityHeaderComponent implements OnInit {
       this.router.navigateByUrl('/config-act');
     }
   }
+  changeModule(){
+    this.router.navigate(['/home']);
+  }
 }
