@@ -1,0 +1,838 @@
+<div class="monitoreo">
+    <div class="text-right parpadea text iconowiffi">
+        <div style="text-align: center">
+            <div>
+                <i class="fas fa-wifi fa-2x " [ngClass]="{'icon-verde':wifi,'icon-rojo':!wifi}"></i>
+            </div>
+            <span *ngIf="!wifi"[ngClass]="{'icon-verde':wifi,'icon-rojo':!wifi}">offline</span>
+            <span *ngIf="wifi" [ngClass]="{'icon-verde':wifi,'icon-rojo':!wifi}">online</span>
+        </div>
+    </div>
+    <div class="row">
+        <!--  CONDICIONES AMBIENTALES  -->
+        <div class="col-md-auto border-r">
+            <div class="txtcenter mb-4">
+                <strong class="nameplanta">CONDICIONES <br/> AMBIENTALES</strong>
+                <!--{{ "PANEL.TITULO_CONDICIONES" | translate }}-->
+            </div>
+            <!--div class="row">
+                <div class="col">
+                    <div class="dropdown" mdbDropdown>
+                        <div mdbDropdownToggle mdbWavesEffect class="dropdown-toggle hiddenDropdownAfter">
+                            <span class="badge badge-pill" 
+                                  style="vertical-align:super;font-size: .3rem; "
+                                  [ngStyle]="{'background-color':dataset_main['getTemperaturaAmbiente'].backgroundColor}"
+                                  *ngIf="(dataset_main['getTemperaturaAmbiente'] !== undefined) && !dataset_main['getTemperaturaAmbiente'].hidden"
+                            >&nbsp;</span>&nbsp;
+                            <span class="myicon">
+                                <i class="fas"
+                                    [ngClass]="{
+                                        'icon-rojo'                      : calltags['getTemperaturaAmbiente'] == 0 || calltags['getTemperaturaAmbiente'] > 21,
+                                        'fa-thermometer-empty'           : calltags['getTemperaturaAmbiente'] == 0, 
+                                        'fa-thermometer-half  icon-azul' : calltags['getTemperaturaAmbiente'] > 0 && calltags['getTemperaturaAmbiente'] <= 21, 
+                                        'fa-thermometer-full '           : calltags['getTemperaturaAmbiente'] > 21
+                                    }"    
+                                ></i>
+                            </span>
+                            &nbsp;&nbsp;
+                            <span class="mydatatxt">
+                                {{ calltags['getTemperaturaAmbiente'] | number:'1.1-1' }}
+                            </span>
+                            <span class="sub">°C</span>
+                        </div>
+                        
+                        <div class="dropdown-menu">
+                            <div class="col">
+                                <p class="dropdownMenuheader">Visualizar en:</p>
+                            </div>
+                            <div class="divider dropdown-divider"></div>
+                            <a class="dropdown-item" 
+                                (click)="datasetToggleChartMain('getTemperaturaAmbiente')"
+                                [ngStyle]="{'background-color':
+                                (dataset_main['getTemperaturaAmbiente'] !== undefined) && (!dataset_main['getTemperaturaAmbiente'].hidden)
+                                    ? 
+                                    dataset_main['getTemperaturaAmbiente'].backgroundColor:''}"
+                                 
+                            >
+                                Grafica principal
+                            </a>
+                            <a class="dropdown-item"
+                                (click)="openModal_01([
+                                    'getTemperaturaAmbiente'
+                                    ,'getPresionAtmosferica'
+                                    ])" >
+                                Ventana emergente 
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div-->
+
+
+            
+            <div class="row">
+                <div class="col">
+                    <div (click)="datasetToggleChartMain('getTemperaturaAmbiente')">
+                        <span class="badge" 
+                                style="vertical-align:super;font-size: .3rem; "
+                                [ngStyle]="{'background-color':dataset_main['getTemperaturaAmbiente'].backgroundColor}"
+                                *ngIf="(dataset_main['getTemperaturaAmbiente'] !== undefined) && !dataset_main['getTemperaturaAmbiente'].hidden"
+                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon">
+                            <i class="fas"
+                                [ngClass]="{
+                                    'icon-rojo'                      : calltags['getTemperaturaAmbiente'] == 0 || calltags['getTemperaturaAmbiente'] > 21,
+                                    'fa-thermometer-empty'           : calltags['getTemperaturaAmbiente'] == 0, 
+                                    'fa-thermometer-half  icon-azul' : calltags['getTemperaturaAmbiente'] > 0 && calltags['getTemperaturaAmbiente'] <= 21, 
+                                    'fa-thermometer-full '           : calltags['getTemperaturaAmbiente'] > 21
+                                }"    
+                            ></i>
+                        </span>
+                        &nbsp;
+                        <span class="mydatatxt">
+                            {{ calltags['getTemperaturaAmbiente'] | number:'1.1-1' }}
+                        </span>
+                        <span class="sub">
+                            °C
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <div (click)="datasetToggleChartMain('getPresionAtmosferica')">
+                        <span class="badge" 
+                            style="vertical-align:super;font-size: .3rem; "
+                            [ngStyle]="{'background-color':dataset_main['getPresionAtmosferica'].backgroundColor}"
+                            *ngIf="(dataset_main['getPresionAtmosferica'] !== undefined) && !dataset_main['getPresionAtmosferica'].hidden"
+                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon">
+                            <i class="fas fa-tachometer-alt icon-color" 
+                                [ngClass]="{
+                                'icon-rojo':calltags['getPresionAtmosferica'] == 0}">
+                            </i>
+                        </span>
+                        &nbsp;
+                        <span class="mydatatxt">
+                            {{ calltags['getPresionAtmosferica'] | number:'1.1-1' }} 
+                        </span>
+                        <span class="sub">
+                            MBAR
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-11">
+                    <div (click)="datasetToggleChartMain('gethumedad')">
+                        <span class="badge" 
+                            style="vertical-align:super;font-size: .3rem; "
+                            [ngStyle]="{'background-color':dataset_main['gethumedad'].backgroundColor}"
+                            *ngIf="(dataset_main['gethumedad'] !== undefined) && !dataset_main['gethumedad'].hidden"
+                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon">
+                            <svg width="25" height="25" viewBox="0 0 35 35">
+                                <path  class="" [ngClass]="{
+                                    'iconsvg_rojo':calltags['gethumedad'] == 0,'iconsvg_azul':calltags['gethumedad'] > 0}" d="m 22.919922,0.00585938 c -0.154877,-0.15939001 -2.287128,2.82259252 -2.597656,3.63281252 -0.153279,0.39992 -0.280102,0.9791025 -0.283204,1.2890625 -0.01041,1.11936 0.835098,2.3283637 1.900391,2.7148437 1.829771,0.66351 3.890811,-0.9653656 3.689453,-2.9160156 C 25.533547,3.8025725 25.1193,2.968085 23.984375,1.421875 23.453567,0.698695 22.974052,0.06155936 22.919922,0.00585938 Z m -8.16211,0.80859374 C 13.74167,0.78300813 12.717657,0.8576225 11.765625,1.0390625 9.516744,1.4677325 7.4883584,2.3615763 5.6777344,3.7226562 4.6161944,4.5206664 2.9773899,6.2680981 2.2636719,7.3613281 0.50441775,10.056278 -0.32004572,13.746686 0.11523438,16.978516 c 0.8732796,6.48401 6.09454012,11.607038 12.59960962,12.361328 1.324838,0.15337 2.001514,0.14513 3.433594,-0.04687 1.282862,-0.17198 3.382812,-0.742712 3.382812,-0.919922 0,-0.04887 -0.250253,-0.221363 -0.554688,-0.382813 -0.304404,-0.16155 -0.88164,-0.558529 -1.283203,-0.880859 -0.680653,-0.54665 -0.763503,-0.580294 -1.230468,-0.496094 -0.275512,0.0494 -1.269469,0.08866 -2.208985,0.09766 -1.440642,0.0061 -1.901424,-0.04189 -2.935547,-0.310547 C 9.2603028,25.865683 6.8447244,24.401758 5.5820312,22.923828 3.1962363,20.131248 2.2274877,16.709733 2.8085938,13.126953 3.0166818,11.843903 3.2116865,11.22675 3.7734375,10.0625 6.1958405,5.04192 11.8413,2.4071019 17.203125,3.7949219 c 0.544839,0.14098 1.004908,0.2578125 1.023437,0.2578125 0.01856,0 0.122666,-0.31002 0.232422,-0.6875 0.109737,-0.37749 0.31925,-0.8880258 0.464844,-1.1347656 C 19.09017,1.9485786 19.144742,1.7385625 19.070312,1.6640625 19.005192,1.5989725 18.391722,1.4000963 17.707031,1.2226562 16.782653,0.9831263 15.773957,0.84589813 14.757812,0.81445312 Z M 30.761719,5.640625 c -0.02349,-0.00944 -0.04461,-0.00807 -0.06445,0.00391 -0.02646,0.015968 -0.05167,0.049256 -0.08008,0.097656 -0.07106,0.12116 -0.383424,0.5596163 -0.69336,0.9726563 -1.266221,1.68758 -1.523274,2.0598343 -1.830078,2.6464843 -0.393499,0.7526399 -0.668875,1.6380409 -0.671875,2.1503909 -0.0047,1.34143 0.993102,2.754333 2.253906,3.189453 0.844105,0.29136 1.148206,0.298866 1.990235,0.04883 1.287973,-0.38255 2.390625,-1.820814 2.390625,-3.121094 0,-1.22808 -0.713309,-2.7153823 -2.13086,-4.4453122 C 31.671784,6.8736819 31.303038,6.3718425 31.105469,6.0703125 30.927889,5.799255 30.832195,5.668934 30.761719,5.640625 Z M 7.3789062,10.580078 c -0.3142778,0.0016 -0.6296566,0.07921 -0.9628906,0.230469 -1.359197,0.61702 -1.3795652,2.489525 -0.033203,3.166015 l 0.00195,-0.002 c 0.23969,0.1204 0.7079688,0.21865 1.0429688,0.21875 2.131935,7.3e-4 2.8064266,-2.528768 0.9042968,-3.392578 -0.3266615,-0.147595 -0.638847,-0.222287 -0.953125,-0.220703 z m 5.8515628,0.234375 c -0.869462,0 -0.932872,0.01943 -1.298828,0.40625 -0.88286,0.93337 -5.3007816,6.907169 -5.3007816,7.167969 0,0.02528 0.1001751,0.07212 0.2207031,0.103516 0.414546,0.108249 0.6741136,0.08539 1.2597656,-0.109376 0.489383,-0.162949 0.7002953,-0.345163 1.2695313,-1.095703 0.375574,-0.49529 1.3861766,-1.830325 2.2460936,-2.966797 0.859892,-1.136468 1.778435,-2.338475 2.041016,-2.671874 0.262578,-0.333271 0.478515,-0.657904 0.478515,-0.720704 0,-0.06286 -0.412964,-0.113281 -0.916015,-0.113281 z m 9.220703,0.285156 -0.763672,1.140625 c -0.419925,0.62756 -1.169722,1.647678 -1.666016,2.267578 -1.252617,1.564521 -1.973432,2.67707 -2.070312,3.19336 -0.04525,0.24107 -0.211457,0.613732 -0.369141,0.826172 -0.58161,0.78328 -0.896786,2.48891 -0.68164,3.6875 0.376799,2.09921 1.76113,3.74567 3.757812,4.46875 0.689568,0.24606 0.994202,0.2878 2.001953,0.25 1.010582,-0.03794 1.318433,-0.102814 2.035156,-0.433594 0.950443,-0.43881 2.081255,-1.436644 2.5625,-2.257812 0.460824,-0.786371 0.789063,-1.947692 0.789063,-2.800782 0,-2.08829 -0.973589,-4.126504 -3.517578,-7.371094 -0.351029,-0.44772 -0.961422,-1.299498 -1.357422,-1.892578 z M 7.3085938,11.578125 c 0.158258,-0.03319 0.3345197,0.01419 0.5039062,0.183594 0.274183,0.27413 0.2537828,1.089949 -0.033203,1.349609 C 7.4761225,13.385951 7.3170658,13.37276 7.0117188,13.044922 6.517489,12.514484 6.8338195,11.677697 7.3085938,11.578125 Z m 6.0195312,3.535156 c -1.134526,-0.0534 -2.1875,0.776392 -2.1875,1.845703 0,0.46129 0.394029,1.121686 0.863281,1.447266 0.392343,0.28001 0.560238,0.308384 1.279297,0.271484 0.667809,-0.03418 0.913937,-0.108632 1.273438,-0.382812 1.178149,-0.89861 0.751796,-2.683793 -0.740235,-3.101563 -0.162543,-0.04551 -0.326206,-0.07245 -0.488281,-0.08008 z m -0.121094,0.960938 c 0.342369,0 0.6875,0.42093 0.6875,0.83789 0,0.45053 -0.397515,0.9934 -0.6875,0.9375 -0.411894,-0.07956 -0.689453,-0.412525 -0.689453,-0.828125 0,-0.5147 0.315391,-0.947265 0.689453,-0.947265 z" />
+                            </svg>
+                        </span>
+                        <span class="mydatatxt">
+                            {{ calltags['gethumedad'] | number:'1.1-1' }}
+                        </span>
+                        <span class="sub">
+                            %
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col" style="width: 80% !important;">
+            <div class="txtcenter mb-4">
+                <strong class="nameplanta">PARAMETROS PRINCIPALES DE GENERACIÓN</strong>
+                <!--{{ "PANEL.TITULO_PARAMETROS_GRALES" | translate }} -->
+                <!--div class="col">
+                    <h1 class="txtcenter">
+                        <div id="detecci_n_y_correcci_2" >
+                                PARAMETROS PRINCIPALES DE GENERACIÓN 
+                        </div>
+                    </h1>
+                </div-->
+            </div>
+            <div class="row">
+                <div class="col text-center" 
+                    (click)="datasetToggleChartMain('getPotenciaNeta')">
+                    <span class="badge badge-pill myicon"
+                        [ngClass]="{
+                            'eclipse-azul':(dataset_main['getPotenciaNeta'] !== undefined) && !dataset_main['getPotenciaNeta'].hidden ,
+                            'eclipse-gris':(dataset_main['getPotenciaNeta'] !== undefined) && dataset_main['getPotenciaNeta'].hidden,
+                            'eclipse-rojo':(dataset_main['getPotenciaNeta'] == undefined || calltags['getPotenciaNeta'] == 0) 
+                        }"
+                    >&nbsp;</span>
+                    <br>
+                    <span class="mydatatxt font-weight-bold">
+                        Potencia Neta
+                    </span>
+                    <br>
+                    <span class="mydatatxt">
+                        {{ calltags['getPotenciaNeta'] | number:'3.2-2' }}  
+                    </span>
+                    <span class="sub">MW</span>
+                    <br>
+                    <span class="sub">
+                        {{fechaActual | date:'dd/MM/yyyy'}}
+                        {{fechaActual | date:'HH:mm:ss'}} 
+                    </span>
+                </div>
+                <div class="col text-center" 
+                    (click)="datasetToggleChartMain('getPotenciaCCDV')">
+                    <span class="badge badge-pill myicon"
+                        [ngClass]="{
+                            'eclipse-morado': (dataset_main['getPotenciaCCDV'] !== undefined) && !dataset_main['getPotenciaCCDV'].hidden ,
+                            'eclipse-gris'  : (dataset_main['getPotenciaCCDV'] !== undefined) && dataset_main['getPotenciaCCDV'].hidden,
+                            'eclipse-rojo'  : (dataset_main['getPotenciaCCDV'] == undefined || calltags['getPotenciaCCDV'] == 0) 
+                        }"
+                    >&nbsp;</span>
+                    <br>
+                    <span class="mydatatxt font-weight-bold">
+                        <!--{{ "PANEL.TITULO_POTENCIA_CCDV" | translate }}-->
+                        Potencia CCDV
+                    </span>
+                    <br>
+                    <span class="mydatatxt">
+                        {{ calltags['getPotenciaCCDV'] | number:'3.2-2' }}
+                    </span>
+                    <span class="sub">MW</span>
+                    <br>
+                    <span class="sub">
+                        {{fechaActual | date:'dd/MM/yyyy'}} 
+                        {{fechaActual | date:'HH:mm:ss'}}
+                    </span>
+                </div>
+                <div class="col text-center" 
+                    (click)="datasetToggleChartMain('getRegimenTermico')">
+                    <span class="badge badge-pill myicon"
+                        [ngClass]="{
+                            'eclipse-verde': (dataset_main['getRegimenTermico'] !== undefined) && !dataset_main['getRegimenTermico'].hidden ,
+                            'eclipse-gris' : (dataset_main['getRegimenTermico'] !== undefined) && dataset_main['getRegimenTermico'].hidden,
+                            'eclipse-rojo' : (dataset_main['getRegimenTermico'] == undefined || calltags['getRegimenTermico'] == 0) 
+                        }"
+                    >&nbsp;</span>
+                    <br>
+                    <span class="mydatatxt font-weight-bold">
+                        Régimen Térmico 
+                        <!--{{ "PANEL.TITULO_VELOCIDAD_CALENTAMIENTO" | translate }}-->
+                    </span>
+                    <br>
+                    <span class="mydatatxt">
+                        {{ calltags['getRegimenTermico'] | number:'4.0-0' }} 
+                    </span>
+                    <span class="sub">KJ/KWh</span>
+                    <br>
+                    <span class="sub">
+                        {{fechaActual | date:'dd/MM/yyyy'}}
+                        {{fechaActual | date:'HH:mm:ss'}}
+                    </span>
+                </div>
+            </div>
+            <div class="row justify-content-end">
+                <div class="col-4  text-right">
+                    <div class="btn-group" [ngClass]="{'show':showDropdownchart_01}">
+                        <span class="dropdown-toggle" data-toggle="dropdown" 
+                            (click)="showDropdownchart_01=!showDropdownchart_01">
+                            <i class="fa-cog fas"></i>
+                        </span>
+                        <div class="dropdown-menu dropdown-menu-lg-right" [ngClass]="{'show':showDropdownchart_01}">
+                            <div class="pr-4 mb-4">
+                                <button type="button" class="close" aria-label="Close" (click)="showDropdownchart_01=!showDropdownchart_01">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" (click)="emptyChart()">Vaciar grafica</a>
+                            <a class="dropdown-item" (click)="togleModalTags()">Ver lista de tags</a>
+                            <div class="dropdown-divider"></div>
+
+                            <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChartMain(myform)">
+                                <div class="form-group">
+                                  <label>Cantidad de datos:</label>
+                                  <input type="number" class="form-control" [(ngModel)]="data_per_graph_main" name="data_per_graph_main">
+                                </div>
+                                <div class="form-group">
+                                  <label>Segundos:</label>
+                                  <input type="number" [(ngModel)]="time_on_request" 
+                                    class="form-control" name="time_on_request" min="1">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Tipo</label>
+                                    <select class="form-control" [(ngModel)]="type_graph_main" name="type_graph_main">
+                                    <option value="line">Lineas</option>
+                                    <option value="bar">Barras</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Escalas</label>
+                                    <select class="form-control" [(ngModel)]="dynamic_scale" name="dynamic_scale">
+                                        <option value="dynamic">Dinámicas</option>
+                                        <option value="dynamic_with_0">Dinámicas incluyendo el Cero</option>
+                                        <option value="static">Estática</option>
+                                        <option value="static_min">Solo base Estática</option>
+                                    </select>
+                                </div>
+                                <div class="text-right">
+                                    <button type="submit" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">Actualizar</button>
+                                </div>
+                            </form>
+                        </div>
+                      </div>
+                </div>
+            </div>
+            <div class="row">
+                <!--<div class="col" style="position: relative; min-height: 393px;"> -->
+                <div class="col"> 
+                    <div class="chart-container">
+                        <canvas id="canvas1"></canvas>
+                    </div>
+                    <!--canvas id="canvas1" class="grafica_principal" width="400" height="400"></canvas-->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col">
+            <!-- CT-1 -->
+            <div class="ct-header">
+                <div class="row">
+                    <div class="col">
+                        <strong class="nameplanta">
+                            CT-1
+                            <!--{{ "PANEL.TITULO_CT" | translate }} 1-->
+                        </strong>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoGas')">
+                        <span class="badge" 
+                            style="vertical-align:super;font-size: .3rem; "
+                            [ngStyle]="{'background-color':dataset_main['getCTUnoGas'].backgroundColor}"
+                            *ngIf=" (dataset_main['getCTUnoGas'] !== undefined) && !dataset_main['getCTUnoGas'].hidden"
+                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon">
+                            <i class="fab fa-gripfire" [ngClass]="{
+                                'icon-rojo':calltags['getCTUnoGas'] < 1000 ,
+                                'icon-verde':calltags['getCTUnoGas'] >= 1000
+                            }"></i>
+                        </span>
+                        <span class="mydatatxt">
+                            Gas
+                            <!--{{ "PANEL.TITULO_GAS" | translate }}-->
+                        </span>
+                        <br>
+                        <span class="mydatatxt">
+                        {{ calltags['getCTUnoGas'] | number:'5.0-0' }}  
+                        </span>
+                        <span class="sub">
+                            NM3/h 
+                        </span>
+                    </div>
+ 
+                    <div class="col txtcenter" *ngIf="globalService.aguila" (click)="datasetToggleChartMain('getCTUnoDiesel')">
+                        <span class="badge" 
+                            style="vertical-align:super;font-size: .3rem; "
+                            [ngStyle]="{'background-color':dataset_main['getCTUnoDiesel'].backgroundColor}"
+                            *ngIf=" (dataset_main['getCTUnoDiesel'] !== undefined) && !dataset_main['getCTUnoDiesel'].hidden"
+                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon">
+                            <i class="fas fa-gas-pump" [ngClass]="{
+                                'icon-rojo':calltags['getCTUnoDiesel'] < 5 ,
+                                'icon-verde':calltags['getCTUnoDiesel'] >= 5
+                            }"></i> 
+                        </span>
+                        <span class="mydatatxt">
+                            Diesel
+                            <!--{{ "PANEL.TITULO_DIESEL" | translate }} -->
+                        </span>
+                        <br>
+                        <span class="mydatatxt">
+                        {{ calltags['getCTUnoDiesel'] | number:'1.1-2' }} 
+                        </span>
+                        <span class="sub">
+                            T/h
+                        </span>
+                    </div>
+                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoRT')">
+                        <span class="badge" 
+                            style="vertical-align:super;font-size: .3rem; "
+                            [ngStyle]="{'background-color':dataset_main['getCTUnoRT'].backgroundColor}"
+                            *ngIf=" (dataset_main['getCTUnoRT'] !== undefined) && !dataset_main['getCTUnoRT'].hidden"
+                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon">
+                            <i class="fas fa-chart-line" [ngClass]="{
+                                'icon-rojo':calltags['getCTUnoRT'] < 1000 ,
+                                'icon-verde':calltags['getCTUnoRT'] >= 1000
+                            }"></i>
+                        </span>
+                        <span class="mydatatxt">
+                            RT
+                            <!--{{ "PANEL.TITULO_HR" | translate }} -->
+                        </span>
+                        <br>
+                        <span class="mydatatxt">
+                        {{ calltags['getCTUnoRT'] | number:'4.0-0' }} 
+                        </span>
+                        <span class="sub">
+                            KJ/KWh 
+                        </span>
+                    </div>
+                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoMW')">
+                        <span class="badge" 
+                            style="vertical-align:super;font-size: .3rem; "
+                            [ngStyle]="{'background-color':dataset_main['getCTUnoMW'].backgroundColor}"
+                            *ngIf=" (dataset_main['getCTUnoMW'] !== undefined) && !dataset_main['getCTUnoMW'].hidden"
+                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon">
+                            <i class="fas fa-bolt" 
+                            [ngClass]="{
+                                'icon-rojo':calltags['getCTUnoMW'] <= 10 ,
+                                'icon-amarillo':calltags['getCTUnoMW'] > 10 ,
+                                'icon-verde':calltags['getCTUnoMW'] >= 80
+                            }"></i>
+                        </span>
+                        <span class="mydatatxt"></span>
+                        <br>
+                        <span class="mydatatxt">
+                        {{ calltags['getCTUnoMW'] | number:'3.2-2' }}  
+                        </span>
+                        <span class="sub">
+                            MW
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center" (click)="openModal_01([],'CT-1')">
+                    <video src="/assets/monitoring/phase3/turbin0.webm"  type="video/webm" autoplay loop *ngIf="calltags['getCTUnoRPM'] > 10" width="320">
+                    </video>
+                    <video src="/assets/monitoring/phase3/turbin0.webm"  type="video/webm" *ngIf="calltags['getCTUnoRPM'] <= 10" width="320">
+                    </video>
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoRPM')">
+                    <span class="badge" 
+                        style="vertical-align:super;font-size: .3rem; "
+                        [ngStyle]="{'background-color':dataset_main['getCTUnoRPM'].backgroundColor}"
+                        *ngIf=" (dataset_main['getCTUnoRPM'] !== undefined) && !dataset_main['getCTUnoRPM'].hidden"
+                    >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                    <span class="myicon">
+
+                        <i class="fas fa-running icon-verde running" *ngIf="calltags['getCTUnoRPM'] > 10"></i>
+                        <i class="fas fa-bed icon-rojo" *ngIf="calltags['getCTUnoRPM'] <= 10"></i>
+                    </span>
+                    <br>
+                    <span class="mydatatxt">
+                    {{ calltags['getCTUnoRPM'] | number:'4.0-0' }} 
+                    </span>
+                    <span class="sub">
+                        RPM
+                    </span>
+                </div>
+            </div>
+            <!-- ./CT-1 -->
+        </div>
+        <div class="col">
+            <!-- CT-2 -->		
+            <div class="ct-header">
+                <div class="row">
+                    <div class="col">
+                        <strong class="nameplanta">
+                            CT-2
+                            <!--{{ "PANEL.TITULO_CT" | translate }}2-->
+                        </strong>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosGas')">
+                        <span class="badge" 
+                            style="vertical-align:super;font-size: .3rem; "
+                            [ngStyle]="{'background-color':dataset_main['getCTDosGas'].backgroundColor}"
+                            *ngIf=" (dataset_main['getCTDosGas'] !== undefined) && !dataset_main['getCTDosGas'].hidden"
+                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon">
+                            <i class="fab fa-gripfire" [ngClass]="{
+                                'icon-rojo':calltags['getCTDosGas'] < 1000 ,
+                                'icon-verde':calltags['getCTDosGas'] >= 1000
+                            }"></i>
+                        </span>
+                        <span class="mydatatxt">
+                            Gas
+                            <!--{{ "PANEL.TITULO_GAS" | translate }}-->
+                        </span>
+                        <br>
+                        <span class="mydatatxt">
+                            {{ calltags['getCTDosGas'] | number:'5.0-0' }} 
+                        </span>
+                        <span class="sub">
+                            NM3/h
+                        </span>
+                    </div>
+                    <div class="col txtcenter" *ngIf="globalService.aguila" (click)="datasetToggleChartMain('getCTDosDiesel')">
+                        <span class="badge" 
+                            style="vertical-align:super;font-size: .3rem; "
+                            [ngStyle]="{'background-color':dataset_main['getCTDosDiesel'].backgroundColor}"
+                            *ngIf=" (dataset_main['getCTDosDiesel'] !== undefined) && !dataset_main['getCTDosDiesel'].hidden"
+                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon">
+                            <i class="fas fa-gas-pump" [ngClass]="{
+                                'icon-rojo':calltags['getCTDosDiesel'] < 5 ,
+                                'icon-verde':calltags['getCTDosDiesel'] >= 5
+                            }"></i> 
+                        </span>
+                        <span class="mydatatxt">
+                            Diesel
+                            <!--{{ "PANEL.TITULO_DIESEL" | translate }} -->
+                        </span>
+                        <br>
+                        <span class="mydatatxt">
+                            {{ calltags['getCTDosDiesel'] | number:'1.1-2' }}  
+                        </span>
+                        <span class="sub">
+                            T/h
+                        </span>
+                    </div>
+                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosRT')">					
+                        <span class="badge" 
+                            style="vertical-align:super;font-size: .3rem; "
+                            [ngStyle]="{'background-color':dataset_main['getCTDosRT'].backgroundColor}"
+                            *ngIf=" (dataset_main['getCTDosRT'] !== undefined) && !dataset_main['getCTDosRT'].hidden"
+                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon">
+                            <i class="fas fa-chart-line" [ngClass]="{
+                                'icon-rojo':calltags['getCTDosRT'] < 1000 ,
+                                'icon-verde':calltags['getCTDosRT'] >= 1000
+                            }"></i>
+                        </span>
+                        <span class="mydatatxt">
+                            RT
+                            <!--{{ "PANEL.TITULO_HR" | translate }}-->
+                        </span>
+                        <br>
+                        <span class="mydatatxt">
+                            {{ calltags['getCTDosRT'] | number:'4.0-0' }} 
+                        </span>
+                        <span class="sub">
+                            KJ/KWh 
+                        </span>
+                    </div>
+                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosMW')">
+                        <span class="badge" 
+                            style="vertical-align:super;font-size: .3rem; "
+                            [ngStyle]="{'background-color':dataset_main['getCTDosMW'].backgroundColor}"
+                            *ngIf=" (dataset_main['getCTDosMW'] !== undefined) && !dataset_main['getCTDosMW'].hidden"
+                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon">
+                            <i class="fas fa-bolt" 
+                            [ngClass]="{
+                                'icon-rojo':calltags['getCTDosMW'] <= 10,
+                                'icon-amarillo':calltags['getCTDosMW'] > 10 ,
+                                'icon-verde':calltags['getCTDosMW'] >= 80
+                            }"></i>
+                    </span>
+                        <span class="mydatatxt"></span>
+                        <br>
+                        <span class="mydatatxt">
+                            {{ calltags['getCTDosMW'] | number:'3.2-2' }} 
+                        </span>
+                        <span class="sub">
+                            MW
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                </div>
+            </div>
+            <!-- Imagen de turbina -->
+            <div class="row">
+                <div class="col text-center" (click)="openModal_01([],'CT-2')">
+                    
+                    <video src="/assets/monitoring/phase3/turbin0.webm"  type="video/webm" autoplay loop *ngIf="calltags['getCTDosRPM'] > 10" width="320">
+                    </video>
+                    <video src="/assets/monitoring/phase3/turbin0.webm"  type="video/webm" *ngIf="calltags['getCTDosRPM'] <= 10" width="320">
+                    </video>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosRPM')">				
+                    <span class="badge" 
+                        style="vertical-align:super;font-size: .3rem; "
+                        [ngStyle]="{'background-color':dataset_main['getCTDosRPM'].backgroundColor}"
+                        *ngIf=" (dataset_main['getCTDosRPM'] !== undefined) && !dataset_main['getCTDosRPM'].hidden"
+                    >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                    <span class="myicon">
+                        <i class="fas fa-running icon-verde running" *ngIf="calltags['getCTDosRPM'] > 10"></i>
+                        <i class="fas fa-bed icon-rojo" *ngIf="calltags['getCTDosRPM'] <= 10"></i>
+                    </span>
+                    <span class="mydatatxt"></span>
+                    <br>
+                    <span class="mydatatxt">
+                        {{ calltags['getCTDosRPM'] | number:'4.0-0' }} 
+                    </span>
+                    <span class="sub">
+                        RPM
+                    </span>
+                </div>
+            </div>
+            <!-- ./CT-2 -->
+        </div>
+        <div class="col">
+            <!-- CT-3 -->
+            <div class="ct-header">
+                <div class="row">
+                    <div class="col">
+                        <strong class="nameplanta">
+                            TV
+                            <!--{{ "PANEL.TITULO_TV" | translate }} -->
+                        </strong>
+                    </div>
+                </div>
+                <hr>
+                
+                <div class="row w550">
+                    <div class="col txtcenter" (click)="datasetToggleChartMain('getTVRT')">
+                        <span class="badge" 
+                            style="vertical-align:super;font-size: .3rem; "
+                            [ngStyle]="{'background-color':dataset_main['getTVRT'].backgroundColor}"
+                            *ngIf="(dataset_main['getTVRT'] !== undefined) && !dataset_main['getTVRT'].hidden"
+                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon">
+                            <i class="fas fa-chart-line" [ngClass]="{
+                                'icon-rojo':calltags['getTVRT'] < 1000 ,
+                                'icon-verde':calltags['getTVRT'] >= 1000
+                            }"></i>
+                        </span>
+                        <span class="mydatatxt">
+                            RT
+                            <!--{{ "PANEL.TITULO_HR" | translate }}-->
+                        </span>
+                        <br>
+                        <span class="mydatatxt">
+                            {{ calltags['getTVRT'] | number:'4.0-0' }} 
+                        </span>
+                        <span class="sub">
+                            KJ/KWh
+                        </span>
+                    </div>
+                    <div class="col txtcenter" (click)="datasetToggleChartMain('getTVMW')">
+                        <span class="badge" 
+                            style="vertical-align:super;font-size: .3rem; "
+                            [ngStyle]="{'background-color':dataset_main['getTVMW'].backgroundColor}"
+                            *ngIf="(dataset_main['getTVMW'] !== undefined) && !dataset_main['getTVMW'].hidden"
+                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon">
+                            <i class="fas fa-bolt"  [ngClass]="{
+                                'icon-rojo':calltags['getTVMW'] <= 10,
+                                'icon-amarillo':calltags['getTVMW'] > 10 ,
+                                'icon-verde':calltags['getTVMW'] >= 80
+                            }"></i>
+                        </span>
+                        <!--<span class="tituloct hiden">
+                            {{ "PANEL.TITULO_HR" | translate }}
+                        </span>-->
+                        <br>
+                        <span class="mydatatxt">
+                            {{ calltags['getTVMW'] | number:'3.2-2' }} 
+                        </span>
+                        <span class="sub">
+                            MW
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col hiden">
+                        
+                            ...
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- Imagen de turbina -->
+            <div class="row">
+                <div class="col text-center">
+                    <img id="layer_31" src="/assets/monitoring/phase3/turbina_vapor.png" name="layer_31" style="width: 320px; height:180px;" />
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col txtcenter" (click)="datasetToggleChartMain('getTVRPM')">
+                    <span class="badge" 
+                        style="vertical-align:super;font-size: .3rem; "
+                        [ngStyle]="{'background-color':dataset_main['getTVRPM'].backgroundColor}"
+                        *ngIf="(dataset_main['getTVRPM'] !== undefined) && !dataset_main['getTVRPM'].hidden"
+                    >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                    <span class="myicon">
+                        <i class="fas fa-running icon-verde running" *ngIf="calltags['getTVRPM'] > 10"></i>
+                        <i class="fas fa-bed icon-rojo" *ngIf="calltags['getTVRPM'] <= 10"></i>
+                    </span>
+                    <!--<span class="tituloct hiden">
+                        {{ "PANEL.TITULO_HR" | translate }}
+                    </span>-->
+                    <br>
+                    <span class="mydatatxt">
+                        {{ calltags['getTVRPM'] | number:'4.0-0' }} 
+                    </span>
+                    <span class="sub">
+                        RPM
+                    </span>
+                </div>
+            </div>
+            <!-- ./CT-3 -->
+        </div>
+    </div>
+    
+    
+    <!--
+            <button (click)="cambiarIdioma('ja')" class="btn btn-info">JP
+            </button>
+            <button (click)="cambiarIdioma('en')" class="btn btn-info">EN
+            </button>
+            <button (click)="cambiarIdioma('es')" class="btn btn-info">ES
+            </button>
+    -->
+    <br><br><br>
+</div>
+
+    
+<!-- Modal -->
+<div class="modal-backdrop fade show" *ngIf="showModal"></div>
+<div class="modal fade " 
+        id="exampleModalLong" 
+        tabindex="-1" 
+        role="dialog" 
+        aria-modal="true"
+        [ngClass]="{'show':showModal}"
+        style="overflow-y: auto;"
+        >
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">{{titleModal}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal_01()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body pt-1 pb-1">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col text-center">
+                            <video src="/assets/monitoring/phase3/turbin0.webm"  type="video/webm" autoplay loop *ngIf="calltags['getCTDosRPM'] > 10" width="320">
+                            </video>
+                            <video src="/assets/monitoring/phase3/turbin0.webm"  type="video/webm" *ngIf="calltags['getCTDosRPM'] <= 10" width="320">
+                            </video>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <canvas id="chart_rt" class="grafica_modal" ></canvas>
+                        </div>
+                        <div class="col">
+                                <canvas id="chart_rpm" class="grafica_modal" ></canvas>
+                        </div>
+                        <div class="col">
+                            <canvas id="chart_mw" class="grafica_modal" ></canvas>
+                            <!--div class="chart-container">
+                                <canvas id="canvas_modal"></canvas>
+                            </div-->
+                        </div>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col">
+                            <canvas id="chart_rt_t1" class="grafica_modal" ></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer mb-1">
+                <button type="button" class="btn" (click)="closeModal_01()"
+                    [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                    Cerrar
+            </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+      
+      <!-- Modal -->
+<div class="modal-backdrop fade show" *ngIf="showModal_lst_tags"></div>
+<div class="modal fade " 
+        id="exampleModalLong" 
+        tabindex="-1" 
+        role="dialog" 
+        aria-modal="true"
+        [ngClass]="{'show':showModal_lst_tags}"
+        style="overflow-y: auto;"
+        >
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Listado de tags</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="togleModalTags()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body pt-1 pb-1">
+                <div class="container-fluid">
+                    <div class="row" >
+                        <div class="col">
+                            <table class="table table-dark">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">TAG's</th>
+                                        <th scope="col">
+                                            
+                                            <a style="color:#007bff;" target="_blank" href="https://192.168.1.175/piwebapi/dataservers/s0uQAgHoBd0ku7P3cWOJL6IgU0VSVklET1JfUEk/points?MaxCount=10000">AGUILA</a> 
+                                        </th>
+                                        <th scope="col">
+                                            <a style="color:#007bff;" target="_blank" href="https://192.168.1.240/piwebapi/dataservers/F1DS4rhZAwFMREKDf7s8vylUqgUElUVg/points?MaxCount=10000">SOL</a> 
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                              
+                                    <tr *ngFor="let tag of dev_view_lstTags">
+                                        <td>
+                                            <span class="mydatatxt bold" style="color:#ffffff">
+                                                    {{tag.label}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a style="color:#007bff;" target="_blank" href="https://192.168.1.175/piwebapi/streams/{{tag.webId_EAT}}/value">ver en Aguila</a> 
+                                        </td>
+                                        <td>
+                                            <a style="color:#007bff;" target="_blank" href="https://192.168.1.240/piwebapi/streams/{{tag.webId_EST}}/value">ver en Sol</a> 
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                                      
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer mb-1">
+                <button type="button" class="btn" (click)="togleModalTags()"
+                    [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                    Cerrar
+            </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+      
+      

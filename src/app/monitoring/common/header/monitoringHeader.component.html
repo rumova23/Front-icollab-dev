@@ -5,7 +5,10 @@
 		<!-- Navbar brand -->
 		<mdb-navbar-brand>
 			<div class="mybrand">
-				<strong class="nameplanta mr-4 ml-3">Security</strong>
+				<img src="{{srclogo}}" height="35" width="45" alt="" />
+				<strong class="nameplanta mr-4 ml-3">{{nameplanta}}</strong>
+				<a class="navbar-brand" *ngIf="globalService.aguila" ><mdb-icon fas icon="exchange-alt" class="mr-2" (click)="cambioPlantaSol()"></mdb-icon></a>
+				<a class="navbar-brand" *ngIf="!globalService.aguila"><mdb-icon fas icon="exchange-alt" class="mr-2" (click)="cambioPlantaAguila()"></mdb-icon></a>
 			</div>	
 			<mdb-icon fas icon="bars" (click)="toggleMenu()" class="myicobarstoggle"></mdb-icon>
 		</mdb-navbar-brand>
@@ -154,8 +157,8 @@
 			</ul>
 		  
 		  	<span class="navbar-text white-text">
-				<img src="/assets/img/admin.png" class="logomodheader"  (click)="changeModule()" /> 
-				<span class="nameplanta mr-4">Security</span>
+				<img src="../../../assets/img/logo_monitoreo_simple.png" class="logomodheader"  (click)="changeModule()" /> 
+				<span class="nameplanta mr-4">Monitoreo Administrativo</span>
 			</span>
 		</links>
 		<!-- Collapsible content -->

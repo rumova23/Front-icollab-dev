@@ -18,6 +18,8 @@ export class EventService {
 
     public onChangeMainLinkMockUp: EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
 
+    public onChangeMainMonitoring: EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
+
 
 
     public sendMainCompliance(message: EventMessage) {
@@ -26,6 +28,10 @@ export class EventService {
 
     public sendMainSecurity(message: EventMessage) {
         this.onChangeMainSecurity.emit(message);
+    }
+    
+    public sendMainMonitoring(message: EventMessage) {
+        this.onChangeMainMonitoring.emit(message);
     }
 
     public sendMainSafe(message: EventMessage) {

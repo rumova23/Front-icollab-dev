@@ -150,6 +150,16 @@ export class SafeHomeComponent implements OnInit {
     let name = this.securityService.getNameUser() +" "+ this.securityService.getLastNameUser();
     return name;
   }
+     
+  getgender(){
+    let generoId = JSON.parse(localStorage.getItem('user'));
+    //console.log("generoId");
+    //console.dir(generoId);  
+    generoId = generoId['generoId'];
+    //console.log("generoId");
+    //console.dir(generoId);
+    return generoId;
+  }
   private clickMenu(event: EventMessage): void {
     this.viewContainerRef.clear();
     switch (event.id) {

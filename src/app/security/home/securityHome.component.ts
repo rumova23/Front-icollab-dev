@@ -11,7 +11,7 @@ import { GrantsEditComponent } from '../admin/grants/edit/grantsEdit.component';
 import { RolesGrantsComponent } from '../admin/roles/grants/rolesGrants.component';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { ChangePasswordComponent } from 'src/app/common/changePassword/changePassword.component';
-
+import { SecurityService } from 'src/app/core/services/security.service';
 
 @Component({
   selector: 'app-securityHome',
@@ -30,7 +30,9 @@ export class SecurityHomeComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     public globalService: GlobalService,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private eventService: EventService) {
+    private eventService: EventService,
+    private securityService: SecurityService
+    ) {
     this.serviceSubscription = this.eventService.onChangeMainSecurity.subscribe({
       next: (event: EventMessage) => {
         switch (event.id) {
@@ -55,6 +57,21 @@ export class SecurityHomeComponent implements OnInit {
       edit: false,
       new: true
     })); */
+  }
+
+  getNameUser() {
+    let name = this.securityService.getNameUser() +" "+ this.securityService.getLastNameUser();
+    return name;
+  }
+   
+  getgender(){
+    let generoId = JSON.parse(localStorage.getItem('user'));
+    //console.log("generoId");
+    //console.dir(generoId);  
+    generoId = generoId['generoId'];
+    //console.log("generoId");
+    //console.dir(generoId);
+    return generoId;
   }
 
   private clickMenu(event: EventMessage): void {

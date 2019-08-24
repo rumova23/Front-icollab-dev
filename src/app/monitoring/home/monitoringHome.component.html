@@ -1,9 +1,8 @@
 <div id="agrupar">
-  <app-complianceHeader></app-complianceHeader>
-
+  <app-monitoringHeader></app-monitoringHeader>
   <div id="body">
     <aside id="columna" 
-         [ngStyle]="{'width':aside_open ? '230px' : '60px' }">
+         [ngStyle]="{'width':aside_open ? '230px' : '0px' }">
       <div>
         <div class="row">
             <div class="col p-0">
@@ -22,13 +21,13 @@
                 </div>
             </div>
         </div>
-        <app-complianceSidebar [aside_open]='aside_open'>
-        </app-complianceSidebar>
+        <app-monitoringSidebar [aside_open]='aside_open'>
+        </app-monitoringSidebar>
       </div>
     </aside>
  
-    <section id="seccion" 
-        [ngStyle]="{'width':aside_open ? 'calc(100% - 230px)' : 'calc(100% - 60px)' }">
+    <section id="seccion" class="backgroundBlack"
+        [ngStyle]="{'width':aside_open ? 'calc(100% - 230px)' : 'calc(100% )' }">
       <!--  CUERPO DEL COMPONENTE -->
       <div class="container-fluid">
         <ng-template #container></ng-template>
