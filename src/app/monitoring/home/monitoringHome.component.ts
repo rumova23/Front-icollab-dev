@@ -52,6 +52,15 @@ export class MonitoringHomeComponent implements OnInit {
     return name;
   }
   
+  getgender(){
+    let generoId = JSON.parse(localStorage.getItem('user'));
+    //console.log("generoId");
+    //console.dir(generoId);  
+    generoId = generoId['generoId'];
+    //console.log("generoId");
+    //console.dir(generoId);
+    return generoId;
+  }
   private periodo(){
     this.eventService.sendMainMonitoring(new EventMessage(4, null));
   }
