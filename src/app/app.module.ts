@@ -159,6 +159,9 @@ import { DetailJobsComponent } from '../app/safe/admin/monitoring/detail/detailJ
 import { MonitoringJobsComponent } from '../app/safe/admin/monitoring/monitoringJobs.component';
 import { TwelveDigitsDirective } from '../app/core/helpers/twelve-digits';
 
+
+import { PpaComponent } from '../app/safe/admin/modelMarket/ppa/ppa.component';
+
 registerLocaleData(localePy, 'es');
 
 @NgModule({
@@ -289,6 +292,7 @@ registerLocaleData(localePy, 'es');
     ,DetailJobsComponent
     ,MonitoringJobsComponent
     ,TwelveDigitsDirective
+    ,PpaComponent
   ],
   imports: [
     BrowserModule,

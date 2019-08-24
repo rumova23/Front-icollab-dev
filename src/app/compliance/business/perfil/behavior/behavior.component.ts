@@ -59,17 +59,23 @@ export class BehaviorComponent implements OnInit {
     this.totalPreg = [];
     this.idTemas = [ 'PSICOMETRICO DEFAULT'];
 
-    this.preguntas.obtenPreguntasExamen('PSICOMETRICO DEFAULT', this.inIdEmpleado).subscribe(
+    //this.preguntas.obtenPreguntasExamen('PSICOMETRICO DEFAULT', this.inIdEmpleado).subscribe(
+    this.preguntas.obtenPreguntasExamen('2').subscribe(  
       reservacion => {
-        if ( reservacion.estatusGenerico === 'exito') {
-          this.examenReservacionId = reservacion.examenReservacionId;
-          this.entidadEstatusId = reservacion.entidadEstatusId;
+        console.log("??????????????????");
+        console.dir(reservacion);
+
+        //if ( reservacion.estatusGenerico === 'exito') {
+          //this.examenReservacionId = reservacion.examenReservacionId;
+          //this.entidadEstatusId = reservacion.entidadEstatusId;
           let i = -1;
-          reservacion.preguntasExamen.forEach( tema => {
+          //reservacion.preguntasExamen.forEach( tema => {
+          for (let ins=0; ins < reservacion.length -1; ins++) {
             i += 1;
             this.pregs = [];
             let j = -1;
-            tema.preguntas.forEach( pregunta => {
+            //tema.preguntas.forEach( pregunta => {
+            reservacion[ins].preguntas.forEach( pregunta => {  
               j += 1;
               const optRes = pregunta.respuestas;
               this.resp = [];
@@ -80,15 +86,18 @@ export class BehaviorComponent implements OnInit {
               this.grupPreg[i][j] = pregunta.preguntaId;
               this.grupOpc[i][j] = pregunta.respuestaPresentacionId;
             });
+
+
             this.temas.push( new Tema(
-                tema.value,
-                tema.label,
-                tema.color,
+                reservacion[ins].temaId,
+                reservacion[ins].tema,
+                reservacion[ins].color,
                 null,
                 null,
                 this.pregs) );
-          });
-        }
+          }
+          //});
+        //}
       }
     );
 

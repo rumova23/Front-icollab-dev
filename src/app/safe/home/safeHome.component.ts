@@ -78,7 +78,8 @@ import { SecurityService } from 'src/app/core/services/security.service';
     WeatherEditComponent, WeatherPpaComponent,
     ChargeEditComponent, ChargePpaComponent,
     EnergyEditComponent, EnergyPpaComponent,
-    ModelMarketComponent, BranchCreditNoteSeriesComponent,BranchCreditNoteSeriesEditComponent
+    ModelMarketComponent, BranchCreditNoteSeriesComponent
+   ,BranchCreditNoteSeriesEditComponent ,PpaComponent
   ]
 })
 export class SafeHomeComponent implements OnInit {

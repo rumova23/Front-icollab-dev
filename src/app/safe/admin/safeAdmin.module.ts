@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { PpaComponent } from './modelMarket/ppa/ppa.component';
+
 //import { BranchInvoiceSeriesComponent } from './branchInvoiceSeries/branchInvoiceSeries.component';
 
 @NgModule({
@@ -7,7 +7,7 @@ import { PpaComponent } from './modelMarket/ppa/ppa.component';
   ],
   declarations: [
     //BranchInvoiceSeriesComponent
-  PpaComponent],
+  ],
   exports: [
     //BranchInvoiceSeriesComponent
   ]

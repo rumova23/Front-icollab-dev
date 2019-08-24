@@ -98,17 +98,17 @@ export class PerfilComboService {
     return this.http.get( `${ this.baseUrl2 }empleadoDetalle/${id}`, {params : this.parameters });
   }
 
-
-
-  obtenPreguntasExamen(configuracionExamen: string, empleadoId: number): Observable<any> {
+  obtenPreguntasExamen(configuracionExamen: string): Observable<any> {
     this.setXTenantId(this.globalService.aguila);    
     console.log("configuracionExamen"); 
     console.log(configuracionExamen); 
     //return this.http.get(`${this.baseUrl2}examen/preguntas/${configuracionExamen}/${empleadoId}`, httpOptions);
-    return this.http.get(`${this.baseUrl2}preguntas/${configuracionExamen}/${empleadoId}`, {params : this.parameters });
+    return this.http.get(`${this.baseknUrl}examen/${configuracionExamen}/`, {params : this.parameters });
   }
 
 
+
+  
   getValoresAptitudes(list: Array<any>) {
     this.setXTenantId(this.globalService.aguila);        
     //return this.http.get( `${ this.baseUrl }valoresAptitudes/${list}`, httpOptions);
