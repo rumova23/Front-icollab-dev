@@ -9,6 +9,7 @@ import { SecurityHomeComponent } from './security/home/securityHome.component';
 import { SafeHomeComponent } from './safe/home/safeHome.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { MockUpHomeComponent } from './mockUp/home/mockUpHome.component';
+import { MonitoringHomeComponent } from 'src/app/monitoring/home/monitoringHome.component';
 
 const routes: Routes = [
   // otherwise redirect to home
@@ -27,6 +28,13 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       app: 'Safe'
+    }
+  },
+  {
+    path: 'monitoring/home', component: MonitoringHomeComponent, pathMatch: 'full',
+    canActivate: [AuthGuard],
+    data: {
+      app: 'Administrative_monitoring'
     }
   },
 

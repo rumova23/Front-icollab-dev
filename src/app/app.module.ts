@@ -159,6 +159,17 @@ import { DetailJobsComponent } from '../app/safe/admin/monitoring/detail/detailJ
 import { MonitoringJobsComponent } from '../app/safe/admin/monitoring/monitoringJobs.component';
 import { TwelveDigitsDirective } from '../app/core/helpers/twelve-digits';
 
+/* Module Monitoring */
+import { MonitoringHomeComponent } from 'src/app/monitoring/home/monitoringHome.component';
+import { MonitoringHeaderComponent } from 'src/app/monitoring/common/header/monitoringHeader.component';
+import { MonitoringSidebarComponent } from 'src/app/monitoring/common/sidebar/monitoringSidebar.component';
+import { MonitoringPhase3Component } from 'src/app/monitoring/boards/phase3/monitoringPhase3.component';
+
+
+
+/* ./Module Monitoring */
+
+
 registerLocaleData(localePy, 'es');
 
 @NgModule({
@@ -289,6 +300,13 @@ registerLocaleData(localePy, 'es');
     ,DetailJobsComponent
     ,MonitoringJobsComponent
     ,TwelveDigitsDirective
+
+
+
+    ,MonitoringHomeComponent
+    ,MonitoringHeaderComponent
+    ,MonitoringSidebarComponent
+    ,MonitoringPhase3Component
   ],
   imports: [
     BrowserModule,

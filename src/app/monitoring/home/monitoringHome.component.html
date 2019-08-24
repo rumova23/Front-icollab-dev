@@ -1,0 +1,38 @@
+<div id="agrupar">
+  <app-monitoringHeader></app-monitoringHeader>
+  <div id="body">
+    <aside id="columna" 
+         [ngStyle]="{'width':aside_open ? '230px' : '0px' }">
+      <div>
+        <div class="row">
+            <div class="col p-0">
+                <div class="user-panel">
+                    <div class="image">
+                        <img src="../../../assets/images/avatar2.png" alt="" class="img-user">
+                    </div>
+                    <div class="info-user" *ngIf="aside_open">
+                        <p>Bienvenido, {{getNameUser()}}</p>
+                        <p class="f-10">No tienes tareas pendientes</p>
+                    </div>
+                    <img src="../../../assets/images/avatar-bg.png" alt="" class="bg-user">
+                </div>
+            </div>
+        </div>
+        <app-monitoringSidebar [aside_open]='aside_open'>
+        </app-monitoringSidebar>
+      </div>
+    </aside>
+ 
+    <section id="seccion" class="backgroundBlack"
+        [ngStyle]="{'width':aside_open ? 'calc(100% - 230px)' : 'calc(100% )' }">
+      <!--  CUERPO DEL COMPONENTE -->
+      <div class="container-fluid">
+        <ng-template #container></ng-template>
+      </div>
+    </section>
+  </div>
+
+  <footer id="pie" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+    Derechos Reservados &copy;
+  </footer>
+</div>
