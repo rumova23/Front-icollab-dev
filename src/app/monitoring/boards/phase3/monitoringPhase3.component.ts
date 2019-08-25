@@ -211,32 +211,32 @@ export class MonitoringPhase3Component implements OnInit {
     this.showDropdownchart_01 = false;
   }
   change_graph_dynamic_scale(){
-    for (let index = 0; index < this.chart_01.options.scales.yAxes.length; index++) {
-      const element = this.chart_01.options.scales.yAxes[index];
-      const calltag = this.chart_01.options.scales.yAxes[index].id;
+    for (let index = 0; index < this.chart_01.config.options.scales.yAxes.length; index++) {
+      const element = this.chart_01.config.options.scales.yAxes[index];
+      const calltag = this.chart_01.config.options.scales.yAxes[index].id;
       if (this.dynamic_scale === 'dynamic') {
         if(M3.lstTags[calltag]){
-          this.chart_01.options.scales.yAxes[index].ticks.min = undefined;
-          this.chart_01.options.scales.yAxes[index].ticks.max = undefined;
-          this.chart_01.options.scales.yAxes[index].ticks.beginAtZero = false;
+          this.chart_01.config.options.scales.yAxes[index].ticks.min = undefined;
+          this.chart_01.config.options.scales.yAxes[index].ticks.max = undefined;
+          this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = false;
         }
       }else if(this.dynamic_scale === 'dynamic_with_0'){
         if(M3.lstTags[calltag]){
-          this.chart_01.options.scales.yAxes[index].ticks.min = undefined;
-          this.chart_01.options.scales.yAxes[index].ticks.max = undefined;
-          this.chart_01.options.scales.yAxes[index].ticks.beginAtZero = true;
+          this.chart_01.config.options.scales.yAxes[index].ticks.min = undefined;
+          this.chart_01.config.options.scales.yAxes[index].ticks.max = undefined;
+          this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = true;
         }
       }else if(this.dynamic_scale === 'static'){
         if(M3.lstTags[calltag]){
-          this.chart_01.options.scales.yAxes[index]['ticks']['min'] = M3.lstTags[calltag]['min'];
-          this.chart_01.options.scales.yAxes[index]['ticks']['max'] = M3.lstTags[calltag]['max'];
-          this.chart_01.options.scales.yAxes[index].ticks.beginAtZero = false;
+          this.chart_01.config.options.scales.yAxes[index]['ticks']['min'] = M3.lstTags[calltag]['min'];
+          this.chart_01.config.options.scales.yAxes[index]['ticks']['max'] = M3.lstTags[calltag]['max'];
+          this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = false;
         }
       }else if(this.dynamic_scale === 'static_min'){
         if(M3.lstTags[calltag]){
-          this.chart_01.options.scales.yAxes[index]['ticks']['min'] = M3.lstTags[calltag]['min'];
-          this.chart_01.options.scales.yAxes[index]['ticks']['max'] = undefined;
-          this.chart_01.options.scales.yAxes[index].ticks.beginAtZero = false;
+          this.chart_01.config.options.scales.yAxes[index]['ticks']['min'] = M3.lstTags[calltag]['min'];
+          this.chart_01.config.options.scales.yAxes[index]['ticks']['max'] = undefined;
+          this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = false;
         }
       }
 
@@ -261,7 +261,7 @@ export class MonitoringPhase3Component implements OnInit {
     this.chart_01.data.datasets.forEach(function(element) {
       element.hidden=true;
     });
-    this.chart_01.options.scales.yAxes.forEach(function(element) {
+    this.chart_01.config.options.scales.yAxes.forEach(function(element) {
       element.display=false;
     });
     this.showDropdownchart_01 = false;
@@ -270,11 +270,11 @@ export class MonitoringPhase3Component implements OnInit {
     if (this.dataset_main[calltag] !== undefined) {
       this.dataset_main[calltag].hidden = !this.dataset_main[calltag].hidden;
   
-      for (let index = 0; index < this.chart_01.options.scales.yAxes.length; index++) {
-        const element = this.chart_01.options.scales.yAxes[index];
+      for (let index = 0; index < this.chart_01.config.options.scales.yAxes.length; index++) {
+        const element = this.chart_01.config.options.scales.yAxes[index];
         if (element.id == calltag) {
           this.yAxes_main[calltag].display= !this.dataset_main[calltag].hidden;
-          this.chart_01.options.scales.yAxes[index].display= !this.dataset_main[calltag].hidden;
+          this.chart_01.config.options.scales.yAxes[index].display= !this.dataset_main[calltag].hidden;
           this.chart_01.update();
         }
       }
@@ -404,7 +404,7 @@ export class MonitoringPhase3Component implements OnInit {
       this.chart_modal.data.datasets.push(newDatasetModal);
 
       this.dataset_modal[calltag] = this.chart_modal.data.datasets[this.chart_modal.data.datasets.length-1];
-      this.yAxes_modal[calltag]   = this.chart_modal.options.scales.yAxes[this.chart_modal.options.scales.yAxes.length-1];
+      this.yAxes_modal[calltag]   = this.chart_modal.config.options.scales.yAxes[this.chart_modal.config.options.scales.yAxes.length-1];
       
 
     }else{
@@ -415,7 +415,7 @@ export class MonitoringPhase3Component implements OnInit {
       }//*/
     }
     //console.log("data",this.chart_01.data.datasets);
-    //console.log("y ",this.chart_01.options.scales.yAxes);
+    //console.log("y ",this.chart_01.config.options.scales.yAxes);
     this.chart_modal.update();
   }
   addDataset(tagconf,calltag,data){
@@ -475,11 +475,11 @@ export class MonitoringPhase3Component implements OnInit {
       };
       
       this.chart_01.data.datasets.push(newDataset);
-      this.chart_01.options.scales.yAxes.push(newYaxis);
+      this.chart_01.config.options.scales.yAxes.push(newYaxis);
 
       
       this.dataset_main[calltag] = this.chart_01.data.datasets[this.chart_01.data.datasets.length-1];
-      this.yAxes_main[calltag]   = this.chart_01.options.scales.yAxes[this.chart_01.options.scales.yAxes.length-1];
+      this.yAxes_main[calltag]   = this.chart_01.config.options.scales.yAxes[this.chart_01.config.options.scales.yAxes.length-1];
       
     }else{
       (tag.data as number[]).push(data);
@@ -489,7 +489,7 @@ export class MonitoringPhase3Component implements OnInit {
       }
     }
     //console.log("data",this.chart_01.data.datasets);
-    //console.log("y ",this.chart_01.options.scales.yAxes);
+    //console.log("y ",this.chart_01.config.options.scales.yAxes);
     this.chart_01.update();
   }
   initializeAt0(){
