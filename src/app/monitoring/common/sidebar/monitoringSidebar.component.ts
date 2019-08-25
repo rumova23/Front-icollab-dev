@@ -7,7 +7,7 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { CollapseComponent } from 'angular-bootstrap-md';
 
-import { menuItem }   from '../menu-items/menuItem';
+import { menuItem }   from 'src/app/compliance/comun/menu-items/menuItem';
 import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
