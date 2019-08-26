@@ -24,23 +24,29 @@ export class MonitoringSidebarComponent implements OnInit {
   //menu : menuItem[];
   
   menu : menuItem[]= [
-    {
+    /*{
       id: 'Dashboard',
       idFather:'',
-      icon: 'event_available',
+      icon: 'business',
       label: 'Dashboard',
       children: [
         { 
           id: 'Fase 3',
           idFather:'Dashboard',
-          icon:'event_available',
+          icon:'business',
           label:'Fase 3',
         },
       ]
+    },//*/
+    {
+      id: 'Fase 3',
+      idFather:'',
+      icon: 'business',
+      label: 'Fase 3'
     },{
       id: 'Fase 2',
       idFather:'',
-      icon: 'event_available',
+      icon: 'business',
       label: 'Fase 2'
     }
   ]; 
