@@ -1,11 +1,20 @@
-<div class="p-5">
-  <!-- Titulo -->
-  <div class=" row">
-    <div class="col">
-      <span class="agila-cda-titulo">Monedas</span>
-    </div>
+<div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+    <mdb-breadcrumb-item>Catálogos SAT</mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">Monedas</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+
+<div class="section">
+  <div class="row pb-2">
+      <div class="col">
+          <p class="section_titulo_0">Monedas</p>
+          <p class="section_subtitulo_0"> </p>
+      </div>
   </div>
-  <div class="row mt-4">
+  <hr>
+  <div class="row mb-3 mt-3">
     <div class="col">
       <div class="tabla-responsi mat-elevation-z8">
         <table mat-table [dataSource]="moneysSat" class="table_catalogo">
