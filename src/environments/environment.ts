@@ -27,8 +27,8 @@ export const environment = {
   //,sgUrl       : 'http://200.52.85.140:8400/'      // seguridad
   ,sgUrl       : 'http://200.52.85.140:11123/'    // seguridad
   
-  ,mnUrl       : 'http://200.52.85.140:1155/'  // micro catalago maestro
-  ,micro_catalago_maestro : 'http://200.52.85.140:1155/'  // micro catalago maestro
+  ,mnUrl       : 'http://200.52.85.140:1155/'  // micro catalogo maestro
+  ,micro_catalago_maestro : 'http://200.52.85.140:1155/'  // micro catalogo maestro
 
   ,mtUrl       : 'http://localhost:1188/tag/'  // micro tag
 
@@ -37,7 +37,6 @@ export const environment = {
   ,knUrl       : 'http://localhost:1133/knowledge/'  // conocimiento 
   ,micro_seguimiento : 'http://localhost:1199/'  // micro compliance seguimiento    
   ,coUrl       : 'http://localhost:1199/'  // micro compliance seguimiento 
-
   ,fdUrl       : 'http://localhost:1211/'  // filedb
 
   ,estatus_maestro : 'http://localhost:1177/'  // micro estatus maestro
