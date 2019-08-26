@@ -140,11 +140,11 @@ export class SkillsComponent implements OnInit {
       this.onSubmit();
       this.preguntas.terminaExamen(this.examenReservacionId).subscribe(
           respuesta => {
-            this.toastr.successToastr('Se Actualizo a examen Finalizado. Para examen de habilidades', 'Exito!');
+            this.toastr.successToastr('Se Actualizo. Para examen de habilidades', '¡Se ha logrado!');
           }
       );
     } else {
-      this.toastr.errorToastr(mensaje, '!Oops.');
+      this.toastr.errorToastr(mensaje, 'Lo siento,');
     }
   }
 
