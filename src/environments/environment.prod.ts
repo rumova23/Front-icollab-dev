@@ -45,7 +45,7 @@ export const environment = {
 
 */
 export const environment = {
-  production: false
+  production: false 
   ,appVersion  : 'Desarrollo V 1.0'
   ,securityUrl : 'http://200.52.85.140:11123/security/'  // estatus maestro,
   //,sgUrl       : 'http://200.52.85.140:8400/'      // seguridad
@@ -57,11 +57,12 @@ export const environment = {
   ,mtUrl      : 'http://200.52.85.140:1188/tag/'  // micro tag
 
   ,pgUrl       : 'http://200.52.85.140:1144/exam/'  // micro examen 
+  ,cnUrl       : 'http://200.52.85.140:1122/'  // evaluacion  
   ,knUrl       : 'http://200.52.85.140:1133/knowledge/'  // conocimiento   
-  ,cnUrl       : 'http://200.52.85.140:1122/'  // evaluacion
-  ,fdUrl       : 'http://200.52.85.140:1211/'  // filedb
-  ,coUrl       : 'http://200.52.85.140:1199/'  // micro compliance seguimiento
   ,micro_seguimiento : 'http://200.52.85.140:1199/'  // micro compliance seguimiento  
+  ,coUrl       : 'http://200.52.85.140:1199/'  // micro compliance seguimiento
+  ,fdUrl       : 'http://200.52.85.140:1211/'  // filedb
+   
   ,estatus_maestro   : 'http://200.52.85.140:1177/'  // micro estatus maestro
 
   ,mercadoUrl  : 'http://200.52.85.140:11123/market/'  // estatus maestro
