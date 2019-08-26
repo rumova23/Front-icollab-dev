@@ -38,7 +38,7 @@ export const environment = {
   ,micro_seguimiento : 'http://localhost:1199/'  // micro compliance seguimiento    
   ,coUrl       : 'http://localhost:1199/'  // micro compliance seguimiento 
   ,fdUrl       : 'http://localhost:1211/'  // filedb
-
+  
   ,estatus_maestro : 'http://localhost:1177/'  // micro estatus maestro
 
   ,mercadoUrl      : 'http://localhost:11120/'  // estatus maestro

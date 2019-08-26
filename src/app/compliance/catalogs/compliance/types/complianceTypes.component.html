@@ -16,7 +16,7 @@
     <hr>
     <div class="row mb-3 mt-3">
       <div class="col text-right">
-        <button type="button" class="btn" 
+        <button type="button" class="btn" *ngIf="showAdd"
           [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" 
           (click)="action(1, 0)"> 
           <mdb-icon fas icon="plus"></mdb-icon>&nbsp;Agregar

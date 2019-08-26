@@ -12,6 +12,8 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { DatePipe } from '@angular/common';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
+import { menuItem }   from '../../../comun/menu-items/menuItem';
+
 
 @Component({
   selector: 'app-complianceTypes',
@@ -41,14 +43,22 @@ export class ComplianceTypesComponent implements OnInit {
   listaCombos: Array<any>;
   result;
 
+  menu : menuItem[];
+  showAdd    : boolean = false;
+  showView   : boolean = false;
+  showUpdate : boolean = false;
+  showDelete : boolean = false;
+
   constructor(
-                private catalogoMaestroService: CatalogoMaestroService,
-                private route: ActivatedRoute, public globalService: GlobalService,
+    private catalogoMaestroService: CatalogoMaestroService,
+    public globalService: GlobalService,
                 private confirmationDialogService: ConfirmationDialogService,
                 public toastr: ToastrManager,
                 private eventService: EventService,
                 private datePipe: DatePipe,
-                private securityService: SecurityService) { }
+                private securityService: SecurityService) { 
+    this.menu = securityService.getMenu('Compliance');
+  }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -59,6 +69,45 @@ export class ComplianceTypesComponent implements OnInit {
     this.loadUsers();
 
     this.getDataSource();
+     
+    console.log("**********")
+    console.dir(this.menu);
+    for (let option of this.menu) {
+      //console.log("option")
+      //console.dir(option)
+      if (option.children){
+        let flag:boolean = true;
+        while ( flag ){
+          flag = false;          
+          for (let ins=0; ins < option.children.length -1; ins++) {
+            //if (option.children[ins]['label']=="Autoridades"){
+            if (option.children[ins]['label']==this.nombreCatalogo){
+              if (option.children[ins].actions){
+                for (let action=0; action < option.children[ins].actions.length ; action++) {
+                   //console.log("option.children[ins].actions[action]")
+                   console.log(option.children[ins].actions[action]);
+                   if (option.children[ins].actions[action] == "CREAR"){
+                    this.showAdd = true;
+                   }                   
+                   if (option.children[ins].actions[action] == "VER"){
+                     this.showView = true;
+                   }
+                   if (option.children[ins].actions[action] == "EDITAR"){
+                    this.showUpdate = true;
+                   }
+                   if (option.children[ins].actions[action] == "BORRAR"){
+                    this.showDelete = true;
+                   }
+                }
+              }
+            }
+
+          }
+        }
+        console.log("****  SALIENDO DEL while *****");
+      }
+    }
+ 
   }
 
 
@@ -119,13 +168,22 @@ export class ComplianceTypesComponent implements OnInit {
          ,{key:'dateUpdated',label:'Fecha y Hora última modificación'}
          ,{key:'status',label:'Estatus'}
         ];
-        this.displayedColumnsActions = [
-          {key:'sys_see',label:'Ver'},
-          {key:'sys_edit',label:'Editar'},
-          {key:'sys_delete',label:'Eliminar'}
-        ];
-        this.columnsToDisplay = [ 'order','name','description','userUpdated','dateUpdated','status'
-                                 ,'sys_see','sys_edit','sys_delete'];
+
+        this.displayedColumnsActions = [];
+        this.columnsToDisplay = [ 'order','name','description','userUpdated','dateUpdated','status'];
+        
+        if (this.showView){
+          this.displayedColumnsActions.push({key:'sys_see',label:'Ver'});
+          this.columnsToDisplay.push('sys_see');
+        }
+        if (this.showUpdate){
+          this.displayedColumnsActions.push({key:'sys_edit',label:'Editar'});
+          this.columnsToDisplay.push('sys_edit');
+        }
+        if (this.showUpdate){
+          this.displayedColumnsActions.push({key:'sys_delete',label:'Eliminar'});
+          this.columnsToDisplay.push('sys_delete');
+        }
 
         console.log("this.data");
         console.dir(this.data);
