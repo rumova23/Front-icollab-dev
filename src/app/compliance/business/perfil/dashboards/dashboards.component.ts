@@ -32,11 +32,24 @@ export class DashboardsComponent implements OnInit {
     this.cl_1 = ['Aciertos', 'Desacierto'];
 
     this.scalaServ.obtenCalificacion(this.inIdEmpleado).subscribe(
-      calificacion => {
-        this.scalaServ.getReservacionesEmpleado(calificacion.calificacionId).subscribe(data => {
+      calificacion => { 
+        console.log("<<<<<<====================>>>>>>>");
+        console.log("<<<<<<=========  calificacion ===========>>>>>>>");
+        console.log(calificacion);
+
+        this.scalaServ.getReservacionesEmpleado(calificacion.calificacionId).subscribe(
+         data => {
+          console.log("<<<<<<====================>>>>>>>");
+          console.log("<<<<<<==========  data ==========>>>>>>>");
+          console.log(data);
+
           for (const examenreservacion of data) {
             this.scalaServ.getGraficas(examenreservacion.examenReservacionId).subscribe(
               resultado => {
+                console.log("<<<<<<====================>>>>>>>");
+                console.log("<<<<<<==========  resultado ==========>>>>>>>");
+                console.log(resultado);
+
                 this.resuelveGrafica(resultado, 'pie', 1, true);
               });
           }
@@ -50,6 +63,7 @@ export class DashboardsComponent implements OnInit {
       }
     );
   }
+
 
   resuelveScalas(poRespuesta: Object, camp: string) {
     if (!poRespuesta) {
@@ -71,6 +85,7 @@ export class DashboardsComponent implements OnInit {
     }
   }
 
+  
   resuelveGrafica(poRespuesta: object, chartType: string, border: number, respon: boolean) {
     if (!poRespuesta) {
       console.log("El back no responde");
