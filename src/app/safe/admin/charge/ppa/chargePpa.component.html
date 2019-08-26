@@ -1,14 +1,21 @@
-<div class="p-5">
+<div class="row">
+    <mdb-breadcrumb customClass="white" class="w-100">
+      <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+      <mdb-breadcrumb-item>Modelo de Mercado</mdb-breadcrumb-item>
+      <mdb-breadcrumb-item class="active">{{title}}</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
+</div>
 
-  <!-- Titulo -->
-  <div class=" row">
-    <div class="col">
-      <span class="agila-cda-titulo">{{title}}</span>
-    </div>
+<div class="section">
+
+  <div class="row pb-2">
+      <div class="col">
+          <p class="section_titulo_0">{{title}}</p>
+          <p class="section_subtitulo_0"> </p>
+      </div>
   </div>
-
-  <!-- Filtros de busqueda  -->
-  <div class="row mt-4 mb-4">
+  <hr>
+  <div class="row mb-3 mt-3">
     <div class="col">
       <div class="filtros mt-2 row">
         <div class="col-12 col-sm-12 col-md-12 col-lg-10">
@@ -136,19 +143,19 @@
       </div>
       <div class="col">
           <button type="button" class="btn right" (click)="cancelCharge()"
-            [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+            [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
             Cancelar
           </button>
           <button type="submit" class="btn right" 
           [disabled]="!chargeForm.valid || hour === 0"
-            [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+            [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
             Agregar
           </button>
         </div>
     </form>
-
-  <div class="mat-elevation-z8">
-    <table matSort mat-table [dataSource]="dataSource">
+    <br>
+  <div class="mat-elevation-z0">
+    <table matSort mat-table [dataSource]="dataSource" class="table_catalogo">
 
       <ng-container matColumnDef="hour">
         <th mat-header-cell *matHeaderCellDef class="txt-center">Hora</th>
@@ -208,7 +215,7 @@
 
     <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
       <div>
-        <button type="button" class="btn btn-primary"  
+        <button type="button" class="btn"  [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
         (click)="save2()">Guardar</button>
       </div>
     </div>

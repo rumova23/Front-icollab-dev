@@ -1,19 +1,26 @@
-<div class="p-5">
-  <!-- Titulo -->
-  <div class="row justify-content-between">
-    <div class="col">
-      <span class="agila-cda-titulo">{{title}}</span>
-    </div>
+<div class="row">
+    <mdb-breadcrumb customClass="white" class="w-100">
+      <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+      <mdb-breadcrumb-item>Modelo de Mercado</mdb-breadcrumb-item>
+      <mdb-breadcrumb-item class="active">{{typeCharge}}</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
   </div>
-  <!-- Inputs -->
-  <ng-container>
-    <mdb-card class="mt-4">
-      <mdb-card-body>
+  <div class="section">
+    <div class="row pb-2">
+        <div class="col">
+            <p class="section_titulo_0">{{typeCharge}}</p>
+            <p class="section_subtitulo_0"> </p>
+        </div>
+    </div>
+    
+    <hr>
+  
+    <div class="row mb-3 mt-3">
+      <div class="col">
         <form [formGroup]="chargeForm" (ngSubmit)="upload(chargeForm.value)">
           <div class="row">
-            <div class="col"><b>{{typeCharge}}</b></div>
             <div class="col txt-r">
-              <button type="button" class="btn btn-info right" (click)="download()">
+              <button type="button" class="btn right" (click)="download()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
                 <mdb-icon far icon="save" class="mr-1"></mdb-icon> Descarga Layout
               </button>
             </div>
@@ -28,15 +35,14 @@
               </mat-error>
             </div>
             <div class="col txt-r">
-              <button type="submit" class="btn btn-info right" 
+              <button type="submit" class="btn right" 
                   [disabled]="!chargeForm.valid"
-                [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+                [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
                 <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
               </button>
             </div>
           </div>
         </form>
-      </mdb-card-body>
-    </mdb-card>
-  </ng-container>
-</div>
+      </div>
+    </div>
+  </div>

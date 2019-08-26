@@ -1,14 +1,22 @@
-<div class="p-5">
-
-  <!-- Titulo -->
-  <div class=" row">
-    <div class="col">
-      <span class="agila-cda-titulo">{{title}}</span>
-    </div>
+<div class="row">
+    <mdb-breadcrumb customClass="white" class="w-100">
+      <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+      <mdb-breadcrumb-item>Modelo de Mercado</mdb-breadcrumb-item>
+      <mdb-breadcrumb-item class="active">{{title}}</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
   </div>
+  <div class="section">
+    <div class="row pb-2">
+        <div class="col">
+            <p class="section_titulo_0">{{title}}</p>
+            <p class="section_subtitulo_0"> </p>
+        </div>
+    </div>
+    
+    <hr>
+  
+    <div class="row mb-3 mt-3">
 
-  <!-- Filtros de busqueda  -->
-  <div class="row mt-4 mb-4">
     <div class="col">
       <div class="filtros mt-2 row">
         <div class="col-12 col-sm-12 col-md-12 col-lg-10">
@@ -270,18 +278,19 @@
 
     <div class="col">
       <button type="button" class="btn right" (click)="cancelModelMarket()"
-        [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+        [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
         Cancelar
       </button>
       <button type="submit" class="btn right" [disabled]="!modelMarketForm.valid || hour === 0"
-        [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+        [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
         Agregar
       </button>
     </div>
+    <br/>
   </form>
 
-  <div class="mat-elevation-z8">
-    <table matSort mat-table [dataSource]="dataSource">
+  <div class="mat-elevation-z0">
+    <table matSort mat-table [dataSource]="dataSource" class="table_catalogo">
 
       <ng-container matColumnDef="hour">
         <th mat-header-cell *matHeaderCellDef class="txt-center">Hora</th>
@@ -509,7 +518,7 @@
 
     <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
       <div>
-        <button type="button" class="btn btn-primary" (click)="download()">Descargar</button>
+        <button type="button" class="btn" (click)="download()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">Descargar</button>
       </div>
     </div>
 
