@@ -60,6 +60,7 @@ export class BehaviorComponent implements OnInit {
     this.idTemas = [ 'PSICOMETRICO DEFAULT'];
 
     //this.preguntas.obtenPreguntasExamen('PSICOMETRICO DEFAULT', this.inIdEmpleado).subscribe(
+    this.examenReservacionId =1;  
     this.preguntas.obtenPreguntasExamen('2').subscribe(  
       reservacion => {
         console.log("??????????????????");
@@ -70,7 +71,7 @@ export class BehaviorComponent implements OnInit {
           //this.entidadEstatusId = reservacion.entidadEstatusId;
           let i = -1;
           //reservacion.preguntasExamen.forEach( tema => {
-          for (let ins=0; ins < reservacion.length -1; ins++) {
+          for (let ins=0; ins < reservacion.length; ins++) {
             i += 1;
             this.pregs = [];
             let j = -1;
@@ -80,14 +81,19 @@ export class BehaviorComponent implements OnInit {
               const optRes = pregunta.respuestas;
               this.resp = [];
               optRes.forEach( or => {
-                this.resp.push(new Tema( or.respuestaId, or.respuesta, null, null, null, null));
+                if (or.respuesta!="No"){
+                  this.resp.push(new Tema(or.respuestaId, or.respuesta, '1', null, null, null));
+                }
+                else{
+                  this.resp.push(new Tema(or.respuestaId, or.respuesta, null, null, null, null));
+                }
               });
               this.pregs.push( new Tema( pregunta.preguntaId, pregunta.pregunta, null, pregunta.respuestaPresentacionId, null, this.resp) );
               this.grupPreg[i][j] = pregunta.preguntaId;
               this.grupOpc[i][j] = pregunta.respuestaPresentacionId;
             });
 
-
+            console.log("reservacion[ins].tema=" + reservacion[ins].tema);
             this.temas.push( new Tema(
                 reservacion[ins].temaId,
                 reservacion[ins].tema,
@@ -136,11 +142,11 @@ export class BehaviorComponent implements OnInit {
       this.onSubmit();
       this.preguntas.terminaExamen(this.examenReservacionId).subscribe(
           respuesta => {
-            this.toastr.successToastr('Se Actualizo a examen Finalizado. Para examen sicometrico', 'Exito!');
+            this.toastr.successToastr('Se Actualizo a examen Finalizado. Para examen sicometrico', '¡Se ha logrado!');
           }
       );
     } else {
-      this.toastr.errorToastr('Para terminar el examen, Todas las preguntas deben contestarse.', '!Oops.');
+      this.toastr.errorToastr('Para terminar el examen, Todas las preguntas deben contestarse.', 'Lo siento,');
     }
   }
 

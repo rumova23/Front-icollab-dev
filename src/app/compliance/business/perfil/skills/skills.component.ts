@@ -64,7 +64,7 @@ export class SkillsComponent implements OnInit {
             //this.entidadEstatusId = reservacion.entidadEstatusId;
             let i = -1;
             //reservacion.preguntasExamen.forEach( tema => {
-            for (let ins=0; ins < reservacion.length -1; ins++) {
+            for (let ins=0; ins < reservacion.length; ins++) {
               i += 1;
               this.pregs = [];
               let j = -1;
