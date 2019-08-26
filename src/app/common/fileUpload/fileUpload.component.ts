@@ -1,5 +1,6 @@
 import { Component, HostListener, ElementRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { GlobalService } from 'src/app/core/globals/global.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -25,7 +26,8 @@ export class FileUploadComponent implements ControlValueAccessor {
     this.file = file;
   }
 
-  constructor( private host: ElementRef<HTMLInputElement> ) {
+  constructor( private host: ElementRef<HTMLInputElement>
+    ,public globalService: GlobalService ) {
   }
 
   writeValue( value: null ) {

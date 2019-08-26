@@ -6,13 +6,14 @@ import { ChangePasswordComponent } from 'src/app/common/changePassword/changePas
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { MonitoringPhase3Component } from '../boards/phase3/monitoringPhase3.component';
+import { MonitoringPhase2Component } from '../boards/phase2/monitoringPhase2.component';
  
 @Component({
   selector: 'app-monitoringHome',
   templateUrl: './monitoringHome.component.html',
   styleUrls: ['./monitoringHome.component.scss'],
   entryComponents: [
-    ChangePasswordComponent, MonitoringPhase3Component
+    ChangePasswordComponent, MonitoringPhase3Component, MonitoringPhase2Component
   ]
 })
 export class MonitoringHomeComponent implements OnInit {
@@ -76,8 +77,12 @@ export class MonitoringHomeComponent implements OnInit {
 
     switch (event.id) {
 
-      case 4:
-          
+      case 2:
+        this.viewContainerRef.createComponent(
+          this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase2Component)
+        ).changeDetectorRef.detectChanges();
+        break;
+      case 3:
         this.viewContainerRef.createComponent(
           this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase3Component)
         ).changeDetectorRef.detectChanges();

@@ -7,7 +7,7 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { CollapseComponent } from 'angular-bootstrap-md';
 
-import { menuItem }   from 'src/app/compliance/comun/menu-items/menuItem';
+import { menuItem }   from '../menuItems/monitoringMenuItem';
 import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
@@ -21,16 +21,43 @@ export class MonitoringSidebarComponent implements OnInit {
   @Input() item : menuItem;
   @ViewChild('left')  left  : MatSidenav;
   @ViewChild('right') right : MatSidenav;  
-  menu : menuItem[];
+  //menu : menuItem[];
   
+  menu : menuItem[]= [
+    /*{
+      id: 'Dashboard',
+      idFather:'',
+      icon: 'business',
+      label: 'Dashboard',
+      children: [
+        { 
+          id: 'Fase 3',
+          idFather:'Dashboard',
+          icon:'business',
+          label:'Fase 3',
+        },
+      ]
+    },//*/
+    {
+      id: 'Fase 3',
+      idFather:'',
+      icon: 'business',
+      label: 'Fase 3'
+    },{
+      id: 'Fase 2',
+      idFather:'',
+      icon: 'business',
+      label: 'Fase 2'
+    }
+  ]; 
   constructor(private globalService: GlobalService,  
     private eventService: EventService,
     private securityService: SecurityService) {
 
-      this.menu = securityService.getMenu('Compliance');
-       //console.log("+++++++");
-       //console.dir(this.menu);
-
+      //this.menu = securityService.getMenu('Compliance');
+       console.log("+++++++");
+       console.dir(this.menu);
+/*
       let temp0:menuItem;
       let flag0:boolean = true;
       while ( flag0 ){
@@ -100,8 +127,8 @@ export class MonitoringSidebarComponent implements OnInit {
         }
       }
       console.dir(this.menu);
-
-      this.serviceSubscription = this.eventService.onChangeMainCompliance.subscribe({
+//*/
+      this.serviceSubscription = this.eventService.onChangeMainMonitoring.subscribe({
         next: (event: EventMessage) => {
           switch (event.id) {
             case 1:
@@ -122,6 +149,5 @@ export class MonitoringSidebarComponent implements OnInit {
       (index == i) ? collapse.show() : collapse.hide();
     });
   }
-
 
 }
