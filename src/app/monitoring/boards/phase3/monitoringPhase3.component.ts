@@ -174,7 +174,66 @@ export class MonitoringPhase3Component implements OnInit {
 
     
     this.change_graph_update_time_rest();
+/*
+    var data = {
+      labels: ["Success", "Error"],
+      datasets: [
+          {
+              data: [50,10],
+              backgroundColor: ["red", "#ccc"],
+              borderWidth: 0
+          }
+      ]
+    };
+    
+    var myChart = new Chart('mychart', {
+        type: 'doughnut',
+        data: data,
+        options: {
+            cutoutPercentage: 80,
+            rotation: .8 * Math.PI, 
+            circumference: 1.4 * Math.PI,
+            maintainAspectRatio: true,
+            responsive: true,
+            legend: {
+                display: false
+            },
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            },
+        },
+        plugins: [{
+            beforeDraw: function(chart) {
+                const width = chart.width;
+                const height = chart.height;
+                const ctx = chart.ctx;
+                ctx.restore();
+                const fontSize = (height / 114).toFixed(2);
+                ctx.font = fontSize + "em sans-serif";
+                ctx.textBaseline = 'middle';
+                var total = data.datasets[0].data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                    return previousValue + currentValue;
+                });
+                var text = total+"";
+                
+                //const textX = Math.round((width - this.chart.ctx.measureText(text).width) / 2),
+                const textX = Math.round((width - ctx.measureText(text).width) / 2);
+                const textY = height/2.5;
 
+                var gradient = ctx.createLinearGradient(0, 0, 80, 0);
+                gradient.addColorStop(0,"magenta");
+                gradient.addColorStop(0.5, "blue");
+                gradient.addColorStop(1.0, "red");
+                // Fill with gradient
+                ctx.fillStyle = gradient;
+
+
+                ctx.fillText(text, textX, textY);
+                ctx.save();
+            }
+        }]
+    });//*/
   }
   chartInit(){
     this.chart_01    = new Chart('canvas1'     ,this.chart_1_config);

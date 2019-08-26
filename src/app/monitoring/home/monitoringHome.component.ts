@@ -63,7 +63,7 @@ export class MonitoringHomeComponent implements OnInit {
     return generoId;
   }
   private periodo(){
-    this.eventService.sendMainMonitoring(new EventMessage(4, null));
+    this.eventService.sendMainMonitoring(new EventMessage(3, null));
   }
  
   private clickMenu(event: EventMessage): void {
