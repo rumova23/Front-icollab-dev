@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Input } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { ToastrManager } from 'ng6-toastr-notifications'
@@ -11,6 +12,8 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import { DatePipe } from '@angular/common';
 
+import { menuItem }   from '../../comun/menu-items/menuItem';
+
 @Component({
   selector: 'app-activities',
   templateUrl: './activities.component.html',
@@ -19,11 +22,14 @@ import { DatePipe } from '@angular/common';
 })
 
 export class ActivitiesComponent implements OnInit {
-  titulo: String = "Catálogos / Categorías";
+
+  @Input() nombreCatalogo: string;
+
+  titulo: String = "";
   registros;
   userResult;
   data: any[] = [];
-  columnas: string[] = ['order','prefix','category','userUpdated','dateUpdated','status','see','update','delete'];          
+  columnas: string[] = ['order','prefix','category','userUpdated','dateUpdated','status'];
 
   filtros = [
     {label:"Actividad",inputtype:"text"},
@@ -33,20 +39,29 @@ export class ActivitiesComponent implements OnInit {
   filtrobtn = {label:"buscar"};
   registros_x_pagina = [50,100,250,500];
 
+  menu : menuItem[];
+  showAdd    : boolean = false;
+  showView   : boolean = false;
+  showUpdate : boolean = false;
+  showDelete : boolean = false;
+
   constructor(
     private tagService: TagService,
     public  toastr: ToastrManager,
     public  globalService: GlobalService,
     private eventService: EventService,
     private confirmationDialogService: ConfirmationDialogService,
-    private datePipe: DatePipe) { 
-
+    private datePipe: DatePipe
+   ,private securityService: SecurityService) { 
+      this.menu = securityService.getMenu('Compliance');
   }
 
   @ViewChild(MatSort) matSort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
+    this.titulo = 'Catálogos / ' + this.nombreCatalogo;
+
     //this.addBlock(1, "Cargando...")
     this.obtenerListaActividades();
     /*
@@ -60,6 +75,45 @@ export class ActivitiesComponent implements OnInit {
       this.addBlock(2, null);
       this.toastr.errorToastr('Error al cargar lista de usuarios.', 'Lo siento,');
     });*/
+
+    console.log("**********")
+    console.dir(this.menu);
+    for (let option of this.menu) {
+      //console.log("option")
+      //console.dir(option)
+      if (option.children){
+        let flag:boolean = true;
+        while ( flag ){
+          flag = false;          
+          for (let ins=0; ins < option.children.length -1; ins++) {
+            //if (option.children[ins]['label']=="Categorías"){
+            if (option.children[ins]['label']==this.nombreCatalogo){
+              if (option.children[ins].actions){
+                for (let action=0; action < option.children[ins].actions.length ; action++) {
+                   //console.log("option.children[ins].actions[action]")
+                   console.log(option.children[ins].actions[action]);
+                   if (option.children[ins].actions[action] == "/CREAR"){
+                    this.showAdd = true;
+                   }                   
+                   if (option.children[ins].actions[action] == "VER"){
+                     this.showView = true;
+                   }
+                   if (option.children[ins].actions[action] == "EDITAR"){
+                    this.showUpdate = true;
+                   }
+                   if (option.children[ins].actions[action] == "BORRAR"){
+                    this.showDelete = true;
+                   }
+                }
+              }
+            }
+
+          }
+        }
+        console.log("****  SALIENDO DEL while *****");
+      }
+    }
+
 
   }
 
@@ -94,6 +148,21 @@ export class ActivitiesComponent implements OnInit {
           obj['element']  = element;
           listObj.push(obj);
         }
+
+
+        if (this.showView){
+          //this.displayedColumnsActions.push({key:'see',label:'Ver'});
+          this.columnas.push('see');
+        }
+        if (this.showUpdate){
+          //this.displayedColumnsActions.push({key:'update',label:'Editar'});
+          this.columnas.push('update');
+        }
+        if (this.showUpdate){
+          //this.displayedColumnsActions.push({key:'delete',label:'Eliminar'});
+          this.columnas.push('delete');
+        }
+      
 
         this.registros =  new MatTableDataSource<any>(listObj);
         this.registros.paginator = this.paginator;

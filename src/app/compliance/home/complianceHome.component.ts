@@ -117,6 +117,7 @@ export class ComplianceHomeComponent implements OnInit {
           this.componentFactoryResolver.resolveComponentFactory(ActivitiesComponent);
         const refActivities =
           this.viewContainerRef.createComponent(factoryActivities);
+          refActivities.instance.nombreCatalogo = 'Categorías';
         refActivities.changeDetectorRef.detectChanges();
         break;
       case 7: //Agregar

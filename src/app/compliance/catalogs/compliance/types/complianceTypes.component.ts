@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { ToastrManager } from 'ng6-toastr-notifications';
 
-import { ActivatedRoute } from '@angular/router';
 import { CatalogoMaestroService } from 'src/app/core/services/catalogo-maestro.service';
 import { ConfirmationDialogService } from 'src/app/core/services/confirmation-dialog.service';
 import { GlobalService } from 'src/app/core/globals/global.service';
@@ -52,12 +51,12 @@ export class ComplianceTypesComponent implements OnInit {
   constructor(
     private catalogoMaestroService: CatalogoMaestroService,
     public globalService: GlobalService,
-                private confirmationDialogService: ConfirmationDialogService,
-                public toastr: ToastrManager,
-                private eventService: EventService,
-                private datePipe: DatePipe,
-                private securityService: SecurityService) { 
-    this.menu = securityService.getMenu('Compliance');
+    private confirmationDialogService: ConfirmationDialogService,
+    public toastr: ToastrManager,
+    private eventService: EventService,
+    private datePipe: DatePipe,
+    private securityService: SecurityService) { 
+      this.menu = securityService.getMenu('Compliance');
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
