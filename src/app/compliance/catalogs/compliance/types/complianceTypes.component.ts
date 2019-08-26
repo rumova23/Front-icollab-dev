@@ -78,7 +78,7 @@ export class ComplianceTypesComponent implements OnInit {
         let flag:boolean = true;
         while ( flag ){
           flag = false;          
-          for (let ins=0; ins < option.children.length -1; ins++) {
+          for (let ins=0; ins < option.children.length; ins++) {
             //if (option.children[ins]['label']=="Autoridades"){
             if (option.children[ins]['label']==this.nombreCatalogo){
               if (option.children[ins].actions){

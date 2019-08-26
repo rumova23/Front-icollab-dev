@@ -85,14 +85,14 @@ export class ActivitiesComponent implements OnInit {
         let flag:boolean = true;
         while ( flag ){
           flag = false;          
-          for (let ins=0; ins < option.children.length -1; ins++) {
+          for (let ins=0; ins < option.children.length; ins++) {
             //if (option.children[ins]['label']=="Categorías"){
             if (option.children[ins]['label']==this.nombreCatalogo){
               if (option.children[ins].actions){
                 for (let action=0; action < option.children[ins].actions.length ; action++) {
                    //console.log("option.children[ins].actions[action]")
                    console.log(option.children[ins].actions[action]);
-                   if (option.children[ins].actions[action] == "/CREAR"){
+                   if (option.children[ins].actions[action] == "CREAR"){
                     this.showAdd = true;
                    }                   
                    if (option.children[ins].actions[action] == "VER"){
@@ -134,8 +134,8 @@ export class ActivitiesComponent implements OnInit {
           obj['status']       = element.active == true ? 'Activo' : 'Inactivo'; 
           obj['userUpdated'] = element.userUpdated == undefined ? element.userCreated : element.userUpdated;
           let dateUpdated = element.dateUpdated == undefined ? element.dateCreated : element.dateUpdated;
-              console.log("let dateUpdated");
-              console.log(dateUpdated);
+              //console.log("let dateUpdated");
+              //console.log(dateUpdated);
           obj['dateUpdated'] = ".";  
           if (dateUpdated){
             //obj['dateUpdated'] = this.datePipe.transform(new Date(dateUpdated) ,'dd/MM/yyyy HH:mm')
