@@ -27,7 +27,7 @@ export class FileUploadComponent implements ControlValueAccessor {
   }
 
   constructor( private host: ElementRef<HTMLInputElement>
-    ,private globalService: GlobalService ) {
+    ,public globalService: GlobalService ) {
   }
 
   writeValue( value: null ) {
