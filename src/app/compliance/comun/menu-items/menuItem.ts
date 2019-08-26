@@ -4,5 +4,6 @@ export interface menuItem {
   icon      : string;  
   label     : string;
   url?      : string;
-  children? : menuItem[];  
+  children? : menuItem[];
+  actions?  : [];  
 }

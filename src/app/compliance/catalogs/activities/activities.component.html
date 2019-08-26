@@ -15,7 +15,8 @@
     <hr>
     <div class="row mb-3 mt-3">
       <div class="col text-right">
-        <button type="button" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
+        <button type="button" class="btn" *ngIf="showAdd"
+        [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
         (click)="action(1, 0)"><mdb-icon fas icon="plus"></mdb-icon>&nbsp;Agregar</button>
       </div>
     </div>
@@ -52,30 +53,28 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Fecha y Hora última modificación </th>
               <td mat-cell *matCellDef="let element"> {{element.dateUpdated | date:'dd/MM/yyyy HH:mm'}} </td>
             </ng-container>
+
+
             <!-- ver Column -->
-            <ng-container matColumnDef="see">
+            <ng-container matColumnDef="see" *ngIf="showView">
               <th mat-header-cell *matHeaderCellDef class="txt-center"> Ver </th>
               <td mat-cell *matCellDef="let element">
-                <!-- <a routerLink="/catalogo-actividades/ver/{{element.idActivity}}">
-                  <img src="assets/images/skins/ico_Ver.png" alt="Visualizar">
-                </a> -->
                 <a  (click)="action(2, element.element.idActivity)">
                   <img src="assets/images/skins/ico_Ver.png" alt="Visualizar">
                 </a>
               </td>
             </ng-container>
+
             <!-- modificar Column -->
             <ng-container matColumnDef="update">
               <th mat-header-cell *matHeaderCellDef class="txt-center"> Modificar </th>
               <td mat-cell *matCellDef="let element">
-                <!-- <a routerLink="/catalogo-actividades/editar/{{element.idActivity}}">
-                  <img src="assets/images/skins/ico_Editar.png" alt="Visualizar">
-                </a> -->
                 <a  (click)="action(3, element.element.idActivity)">
                   <img src="assets/images/skins/ico_Editar.png" alt="Visualizar">
                 </a>
               </td>
             </ng-container>
+
             <!-- eliminar Column -->
             <ng-container matColumnDef="delete">
               <th mat-header-cell *matHeaderCellDef class="txt-center"> Eliminar </th>
@@ -85,6 +84,7 @@
                 </a>
               </td>
             </ng-container>
+
 
             <!-- header -->
             <tr mat-header-row *matHeaderRowDef="columnas"></tr>
