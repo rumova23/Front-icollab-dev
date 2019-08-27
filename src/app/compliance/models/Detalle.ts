@@ -1,16 +1,23 @@
 export class Detalle {
-    private departamentoId: number
-    private empleadoDetalleId: number
-    private empleadoId: number
-    private estidadEstatusID: number
-    private fechaInicioPuesto: string
-    private horarioTrabajoId: number
-    private jefeInmediatoId: number
-    private lugarTrabajoId: number
-    private personalCargoId: number
-    private posicionId: number
-    private tipoEmpleadoId: number
-    private descGralPuesto: string
+    private empleadoId: number;
+    private empleadoDetalleId: number;
+    
+    //carrera
+    private posicionId: number;
+    private departamentoId: number;
+
+    private puestoTrabajoId : number;
+    private jefeInmediatoId: number;  
+    private horarioTrabajoId: number;
+
+    private lugarTrabajoId: number;
+    private fechaInicioPuesto: string;
+    private personalCargoId: number;
+
+    private descGralPuesto: string;
+
+    private estidadEstatusID: number;
+    private tipoEmpleadoId: number;
 
     constructor(
         departamentoId: number,
@@ -25,19 +32,21 @@ export class Detalle {
         posicionId: number,
         tipoEmpleadoId: number,
         descGralPuesto: string
+        ,puestoTrabajoId :number
     ) {
-        this.departamentoId = departamentoId
-        this.empleadoDetalleId = empleadoDetalleId
-        this.empleadoId = empleadoId
-        this.estidadEstatusID = estidadEstatusID
-        this.fechaInicioPuesto = fechaInicioPuesto,
-        this.horarioTrabajoId = horarioTrabajoId
-        this.jefeInmediatoId = jefeInmediatoId
-        this.lugarTrabajoId = lugarTrabajoId
-        this.personalCargoId = personalCargoId
-        this.posicionId = posicionId
-        this.tipoEmpleadoId = tipoEmpleadoId
-        this.descGralPuesto = descGralPuesto
+        this.departamentoId = departamentoId;
+        this.empleadoDetalleId = empleadoDetalleId;
+        this.empleadoId = empleadoId;
+        this.estidadEstatusID = estidadEstatusID;
+        this.fechaInicioPuesto = fechaInicioPuesto;
+        this.horarioTrabajoId = horarioTrabajoId;
+        this.jefeInmediatoId = jefeInmediatoId;
+        this.lugarTrabajoId = lugarTrabajoId;
+        this.personalCargoId = personalCargoId;
+        this.posicionId = posicionId;
+        this.tipoEmpleadoId = tipoEmpleadoId;
+        this.descGralPuesto = descGralPuesto;
+        this.puestoTrabajoId = puestoTrabajoId;
     }
 
 }
