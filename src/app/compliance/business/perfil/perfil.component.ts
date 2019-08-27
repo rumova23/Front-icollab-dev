@@ -12,7 +12,7 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 
 @Component({
   selector: 'app-perfil',
-  templateUrl: './perfil.component.html',
+  templateUrl: './perfil_v2.component.html',
   styleUrls: ['./perfil.component.scss']
 })
 export class PerfilComponent implements OnInit {
