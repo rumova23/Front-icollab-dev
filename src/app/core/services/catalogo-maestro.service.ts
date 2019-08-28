@@ -49,12 +49,22 @@ export class CatalogoMaestroService {
     console.log("this.parameters");
     console.log(this.parameters);    
 
+    
+    let user = JSON.parse(localStorage.getItem('user'));
+    console.log("user");
+    console.dir(user);  
+    user = user['username'];
+    console.log("user");
+    console.dir(user);
+
     if (plantSelected){
-      let p1 = new HttpParams().set("X-TENANT-ID","aguila");
+      let p1 = new HttpParams().set("X-TENANT-ID","aguila")
+      .set("user",user);
       this.parameters = p1;
     }
     else{
-      let p2 = new HttpParams().set("X-TENANT-ID","sol");
+      let p2 = new HttpParams().set("X-TENANT-ID","sol")
+      .set("user",user);
       this.parameters = p2;
     }
     
