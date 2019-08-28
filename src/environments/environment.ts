@@ -27,8 +27,8 @@ export const environment = {
   //,sgUrl       : 'http://200.52.85.140:8400/'      // seguridad
   ,sgUrl       : 'http://200.52.85.140:11123/'    // seguridad
   
-  ,mnUrl       : 'http://200.52.85.140:1155/'  // micro catalogo maestro
-  ,micro_catalago_maestro : 'http://200.52.85.140:1155/'  // micro catalogo maestro
+  ,mnUrl       : 'http://localhost:1155/'  // micro catalogo maestro
+  ,micro_catalago_maestro : 'http://localhost:1155/'  // micro catalogo maestro
 
   ,mtUrl       : 'http://200.52.85.140:1188/tag/'  // micro tag
 

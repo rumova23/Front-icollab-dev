@@ -173,8 +173,8 @@ export class ComplianceTypesEditComponent implements OnInit {
           this.dataSubmit['catalog'] = 'authority';
 
           if (this.accion === 'nuevo') {
-            this.dataSubmit['id'] = this.nMax + 1;
-            this.dataSubmit['order'] = this.nMax + 1;
+              //this.dataSubmit['id'] = this.nMax + 1;
+              //this.dataSubmit['order'] = this.nMax + 1;
             this.dataSubmit['save'] = true;
             this.origen = this.datePipe.transform(new Date() ,'ddMMyyyyHHmmssSSS');
             this.dataSubmit['referenceclone'] = this.origen;

@@ -36,6 +36,7 @@ export class CatalogoMaestroService {
   headers = new HttpHeaders().set("X-TENANT-ID","aguila");
   
   parameters:any;
+  user :any;
 
   private micro_catalago_maestro = environment.micro_catalago_maestro;
 
@@ -49,12 +50,21 @@ export class CatalogoMaestroService {
     console.log("this.parameters");
     console.log(this.parameters);    
 
+      this.user = JSON.parse(localStorage.getItem('user'));
+      console.log("this.user");
+      console.dir(this.user);  
+      this.user = this.user['username'];
+      console.log("this.user");
+      console.dir(this.user);
+ 
     if (plantSelected){
-      let p1 = new HttpParams().set("X-TENANT-ID","aguila");
+      let p1 = new HttpParams().set("X-TENANT-ID","aguila")
+                               .set("user", this.user);
       this.parameters = p1;
-    }
+    } 
     else{
-      let p2 = new HttpParams().set("X-TENANT-ID","sol");
+      let p2 = new HttpParams().set("X-TENANT-ID","sol")
+                               .set("user", this.user);      
       this.parameters = p2;
     }
     
