@@ -23,14 +23,14 @@ export const environment = {
   production: false
   ,appVersion : 'Desarrollo V 1.0'
 
-  ,securityUrl : 'http://localhost:11122/'  // estatus maestro,
+  ,securityUrl : 'http://200.52.85.140:11123/security/'  // estatus maestro,
   //,sgUrl       : 'http://200.52.85.140:8400/'      // seguridad
   ,sgUrl       : 'http://200.52.85.140:11123/'    // seguridad
   
   ,mnUrl       : 'http://200.52.85.140:1155/'  // micro catalogo maestro
   ,micro_catalago_maestro : 'http://200.52.85.140:1155/'  // micro catalogo maestro
 
-  ,mtUrl       : 'http://localhost:1188/tag/'  // micro tag
+  ,mtUrl       : 'http://200.52.85.140:1188/tag/'  // micro tag
 
   ,pgUrl       : 'http://localhost:1144/exam/'  // micro examen
   ,cnUrl       : 'http://localhost:1122/'  // evaluacion

@@ -9,11 +9,13 @@ import { OrderCatalogDTO } from 'src/app/compliance/models/OrderCatalogDTO';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { GlobalService } from 'src/app/core/globals/global.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil_v2.component.html',
   styleUrls: ['./perfil.component.scss']
+ ,providers: [DatePipe]    
 })
 export class PerfilComponent implements OnInit {
 
@@ -58,7 +60,8 @@ export class PerfilComponent implements OnInit {
    ,private formBuilder: FormBuilder
    ,public toastr: ToastrManager              
    ,public globalService: GlobalService
-   ,private eventService: EventService) { 
+   ,private eventService: EventService
+   ,private datePipe: DatePipe) { 
 
   }
   
@@ -118,6 +121,7 @@ export class PerfilComponent implements OnInit {
           console.log(respuesta);
           console.log(respuesta['fechanacimiento']);
           const currentDate = new Date().toISOString().substring(0, 10);
+
           this.perfilForm.controls['fNumEmpo'].setValue(respuesta[ 'empleadoId' ]);
           this.perfilForm.controls['fAMaterno'].setValue(respuesta[ 'materno' ]);
           this.perfilForm.controls['fNombres'].setValue(respuesta[ 'nombres' ]);
@@ -129,7 +133,11 @@ export class PerfilComponent implements OnInit {
           
           //this.perfilForm.controls['fNaci'].setValue(respuesta[ 'fechanacimiento' ]);
           //this.perfilForm.patchValue({fNaci: respuesta[ 'fechanacimiento' ]});
-          this.perfilForm.controls['fNaci'].setValue(currentDate);
+          //this.perfilForm.controls['fNaci'].setValue(currentDate);
+          let bornD = this.datePipe.transform(new Date(respuesta['fechanacimiento'].substring(0, 10)),'yyyy-MM-dd');
+          //console.log("---bornD---");
+          //console.log(bornD);
+          this.perfilForm.controls['fNaci'].setValue(bornD);
 
           this.gender         = respuesta[ 'generoId' ]; 
           this.educationLevel = respuesta[ 'gradoEstudioId' ];
@@ -142,20 +150,21 @@ export class PerfilComponent implements OnInit {
           console.log(respuesta);
           this.perfilForm.controls['fPosicion'].setValue(respuesta[ 'posicionId' ]+'');
           this.perfilForm.controls['fDepto'].setValue(respuesta[ 'departamentoId' ]+'');
-          this.perfilForm.controls['fPueTrab'].setValue(respuesta[ 'tipoEmpleadoId' ]+'');
+          this.perfilForm.controls['fPueTrab'].setValue(respuesta[ 'puestoTrabajoId' ]+'');
           this.perfilForm.controls['fJefInm'].setValue(respuesta[ 'jefeInmediatoId' ]+'');
           this.perfilForm.controls['fHorTrab'].setValue(respuesta[ 'horarioTrabajoId' ]+'');
           this.perfilForm.controls['fLugTrab'].setValue(respuesta[ 'lugarTrabajoId' ]+'');
-          this.perfilForm.controls['fStartJob'].patchValue(respuesta[ 'fechaInicioPuesto' ]+'');
+          this.perfilForm.controls['fStartJob'].setValue(this.datePipe.transform(new Date(respuesta['fechaInicioPuesto'].substring(0, 10)),'yyyy-MM-dd'));
           this.perfilForm.controls['fPerCarg'].setValue(respuesta[ 'personalCargoId' ]+'');
           this.perfilForm.controls['fDescGralPust'].setValue(respuesta[ 'descGralPuesto' ]);
 
           this.position          = respuesta[ 'posicionId' ];
           this.department        = respuesta[ 'departamentoId' ];
-          this.workstation       = respuesta[ 'tipoEmpleadoId' ];
+          this.workstation       = respuesta[ 'puestoTrabajoId' ];
           this.employeeBoss      = respuesta[ 'jefeInmediatoId' ];
           this.workingHour       = respuesta[ 'horarioTrabajoId' ];
           this.employeePlace     = respuesta[ 'lugarTrabajoId' ];
+          //fecha-inicio-laboral
           this.employeeDependent = respuesta[ 'personalCargoId' ];
 
         }
@@ -271,7 +280,8 @@ export class PerfilComponent implements OnInit {
                            this.perfilForm.controls['fPerCarg'].value,
                            this.perfilForm.controls['fPosicion'].value,
                            0,
-                           this.perfilForm.controls['fDescGralPust'].value);
+                           this.perfilForm.controls['fDescGralPust'].value
+                           ,this.perfilForm.controls['fPueTrab'].value);
                           
     let emp = new Empleado( this.perfilForm.controls['fCarrera'].value,
                             1, 
