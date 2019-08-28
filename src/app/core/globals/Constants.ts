@@ -15,7 +15,8 @@ export class Constants {
 
     public static OPTIONS = {
         path: '/socketcluster/',
-        hostname: 'localhost',
+        //hostname: 'localhost',
+        hostname: '201.149.85.14',
         port:8001,
         autoConnect: true,
         autoReconnect: false,
