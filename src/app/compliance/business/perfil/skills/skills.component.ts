@@ -54,6 +54,8 @@ export class SkillsComponent implements OnInit {
     this.temas = [];
     this.idTemas = [ 'DEFAULT' ];
     //this.preguntas.obtenPreguntasExamen('DEFAULT', this.inIdEmpleado).subscribe(
+
+  
     this.preguntas.obtenPreguntasExamen('1').subscribe(
         reservacion => {
           console.log("PPPPPPPPPPPPPPP");
@@ -95,6 +97,9 @@ export class SkillsComponent implements OnInit {
 
         }
     );
+
+
+
   }
 
 
@@ -109,11 +114,27 @@ export class SkillsComponent implements OnInit {
       }
     }
 
-    this.preguntas.postRespuetaExamen(this.examenReservacionId, this.SaveRespuestas).subscribe(
-      respuesta => {
-        console.dir( respuesta  );
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    this.preguntas.generaExamen(this.inIdEmpleado, 'DEFAULT').subscribe(
+      data => {
+        console.log("@@@@@@@@@@@@@@@@@@@@@");
+        console.log(data);
+        this.examenReservacionId = data["examenReservacionId"];  
+        console.log("this.examenReservacionId=" + this.examenReservacionId );
+
+        this.preguntas.postRespuetaExamen(this.examenReservacionId, this.SaveRespuestas).subscribe(
+          respuesta => {
+            console.dir( respuesta  );
+
+            this.isdisabled = true;            
+            this.toastr.successToastr('Se Actualizo. Para examen de habilidades', '¡Se ha logrado!');
+          }
+        );        
+
       }
-    );
+    );    
+
+
   }
 
 
@@ -138,11 +159,14 @@ export class SkillsComponent implements OnInit {
 
     if (sonTodas) {
       this.onSubmit();
+
+      /*
       this.preguntas.terminaExamen(this.examenReservacionId).subscribe(
           respuesta => {
             this.toastr.successToastr('Se Actualizo. Para examen de habilidades', '¡Se ha logrado!');
           }
       );
+      */
     } else {
       this.toastr.errorToastr(mensaje, 'Lo siento,');
     }

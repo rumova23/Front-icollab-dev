@@ -40,6 +40,7 @@ export class PerfilComboService {
   private baseknUrl = environment.knUrl;
 
   parameters:any;
+  user:any;
 
   constructor(private http: HttpClient
              ,private globalService: GlobalService) { }
@@ -51,21 +52,21 @@ export class PerfilComboService {
     console.log("this.parameters");
     console.log(this.parameters);    
 
-  let user = JSON.parse(localStorage.getItem('user'));
-      console.log("user");
-      console.dir(user);  
-      user = user['username'];
-      console.log("user");
-      console.dir(user);
+      this.user = JSON.parse(localStorage.getItem('user'));
+      console.log("this.user");
+      console.dir(this.user);  
+      this.user = this.user['username'];
+      console.log("this.user");
+      console.dir(this.user);
 
     if (plantSelected){
       let p1 = new HttpParams().set("X-TENANT-ID","aguila")
-                               .set("user",user);
+                               .set("user", this.user);
       this.parameters = p1;
     } 
     else{
       let p2 = new HttpParams().set("X-TENANT-ID","sol")
-                               .set("user",user);      
+                               .set("user", this.user);      
       this.parameters = p2;
     }
     
@@ -122,12 +123,15 @@ export class PerfilComboService {
   }
 
 
-  generaExamen(empleadoId: number): Observable<any> {
+  generaExamen(empleadoIdentifier: number, config:String): Observable<any> {
     this.setXTenantId(this.globalService.aguila);        
-    console.log('generaExamen(empleadoId: number): ' + empleadoId);
-    //let RequestBody = {};
-    //RequestBody['empleadoId'] = empleadoId;
-    let RequestBody = empleadoId;
+    console.log('generaExamen(empleadoId: number): ' + empleadoIdentifier);
+    let RequestBody = {
+       empleadoId    : empleadoIdentifier
+      ,configuracion : config
+    };
+    //let RequestBody = empleadoId;
+
     //return this.http.post(`${this.baseUrl2}` + 'genera?empleadoId=' + empleadoId, httpOptions);
     return this.http.post(`${this.baseUrl2}` + 'genera', RequestBody , {params : this.parameters });
   }
@@ -162,7 +166,7 @@ export class PerfilComboService {
   terminaExamen(examenReservacionId: number): Observable<any>  {
     this.setXTenantId(this.globalService.aguila);        
     //return this.http.post(`${this.baseUrl2}terminaExamen?examenReservacionId=` + examenReservacionId , httpOptions);
-    return this.http.post(`${this.baseUrl2}terminaExamen?examenReservacionId=` + examenReservacionId , {params : this.parameters });
+    return this.http.post(`${this.baseUrl2}terminaExamen?examenReservacionId=` + examenReservacionId + "&user=" + this.user, {params : this.parameters });
   }
 
 

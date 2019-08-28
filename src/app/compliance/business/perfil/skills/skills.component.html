@@ -45,7 +45,8 @@
                         <button type="submit" class="btn btn-primary btn-md" [disabled]="(this.entidadEstatusId === this.terminadoId) ? true:false" >Guardar</button>
                         <button class="btn btn-primary btn-md" (click)="terminaExamen()" [disabled]="(this.entidadEstatusId === this.terminadoId) ? true:false">Termina Examen</button>
                         -->
-                        <button class="btn btn-primary btn-md" (click)="terminaExamen()">Termina Examen</button>
+                        <button class="btn btn-primary btn-md" (click)="terminaExamen()" [disabled]="isdisabled">Termina Examen
+                        </button>
                     </div>
                 </div>    
             </form>

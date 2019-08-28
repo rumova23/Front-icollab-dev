@@ -60,7 +60,15 @@ export class BehaviorComponent implements OnInit {
     this.idTemas = [ 'PSICOMETRICO DEFAULT'];
 
     //this.preguntas.obtenPreguntasExamen('PSICOMETRICO DEFAULT', this.inIdEmpleado).subscribe(
-    this.examenReservacionId =1;  
+    this.preguntas.generaExamen(this.inIdEmpleado, 'PSICOMETRICO DEFAULT').subscribe(
+      data => {
+        console.log("$$$$$$$$$$$$$$$");
+        console.log(data);
+        this.examenReservacionId = data["examenReservacionId"];  
+        console.log("this.examenReservacionId=" + this.examenReservacionId );
+      }
+    );
+
     this.preguntas.obtenPreguntasExamen('2').subscribe(  
       reservacion => {
         console.log("??????????????????");
@@ -120,9 +128,15 @@ export class BehaviorComponent implements OnInit {
         }
       }
     }
+
     this.preguntas.postRespuetaExamen(this.examenReservacionId, this.SaveRespuestas).subscribe(
         respuesta => {
           console.dir( respuesta  );
+
+
+          this.isdisabled = true;
+          this.toastr.errorToastr('Para terminar el examen, Todas las preguntas deben contestarse.', 'Lo siento,');
+
         }
     );
   }
@@ -140,11 +154,15 @@ export class BehaviorComponent implements OnInit {
     }
     if (sonTodas) {
       this.onSubmit();
+
+      /*
       this.preguntas.terminaExamen(this.examenReservacionId).subscribe(
           respuesta => {
-            this.toastr.successToastr('Se Actualizo a examen Finalizado. Para examen sicometrico', '¡Se ha logrado!');
+            this.toastr.successToastr('Se Actualizo a examen Finalizado. Para examen psicométrico', '¡Se ha logrado!');
           }
       );
+      */
+
     } else {
       this.toastr.errorToastr('Para terminar el examen, Todas las preguntas deben contestarse.', 'Lo siento,');
     }
