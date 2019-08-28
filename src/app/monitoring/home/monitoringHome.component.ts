@@ -8,6 +8,9 @@ import { SecurityService } from 'src/app/core/services/security.service';
 import { MonitoringPhase3Component } from '../boards/phase3/monitoringPhase3.component';
 import { MonitoringPhase2Component } from '../boards/phase2/monitoringPhase2.component';
  
+import { MonitoringSoService } from '../services/monitoringSo.service';
+import { EventSocket } from 'src/app/core/models/EventSocket';
+
 @Component({
   selector: 'app-monitoringHome',
   templateUrl: './monitoringHome.component.html',
@@ -26,7 +29,9 @@ export class MonitoringHomeComponent implements OnInit {
     private componentFactoryResolver: ComponentFactoryResolver,
     public globalService: GlobalService,
     private eventService: EventService
-   ,private securityService: SecurityService) {
+   ,private securityService: SecurityService
+   ,private socketService: MonitoringSoService,
+   ) {
 
       this.serviceSubscription = this.eventService.onChangeMainMonitoring.subscribe({
         next: (event: EventMessage) => {
@@ -42,10 +47,46 @@ export class MonitoringHomeComponent implements OnInit {
           }
         }
       });
+      this.soc();
   }
+  
+  conected: boolean = false;
+  soc(){
+    
+    const token = this.securityService.getToken();
+    
+    this.socketService.initSocket(token);
 
+    
+    this.socketService.onEvent(EventSocket.CONNECT)
+    .subscribe(() => {
+      this.conected = true;
+      console.log(  this.conected);
+    });
+    this.socketService.onEvent(EventSocket.DISCONNECT)
+      .subscribe(() => {
+        this.conected = false;
+        console.log("Socket desconectado");
+        //this.toastr.errorToastr("Socket desconectado",'Lo siento,');
+      });
+
+    console.log(EventSocket);
+
+    
+    let channelWeather = this.socketService.suscribeChannel("pi");
+    console.log("subcribe");
+    console.log( channelWeather);
+
+    
+    this.socketService.onChannelWatch(channelWeather - 1)
+    .subscribe((data: any) => {
+      console.log('data pi------------------');
+      console.log(data);
+    });
+
+  }
   ngOnInit() {
-    setTimeout(() => this.periodo(), 1000);
+    //setTimeout(() => this.periodo(), 1000);
   }
 
   getNameUser() {
