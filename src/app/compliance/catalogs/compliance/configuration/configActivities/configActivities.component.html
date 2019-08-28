@@ -101,7 +101,7 @@
           <select class="form-control" 
             formControlName="fActividad" 
             [compareWith]="compareFn"
-            (selectionChange)="asignarNombreTag($event.value)" 
+            (change)="asignarNombreTag($event.target.value)" 
             [ngClass]="{ 'is-invalid': submitted && f.fActividad.errors }"
           >
             <option
