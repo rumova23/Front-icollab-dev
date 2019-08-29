@@ -47,44 +47,9 @@ export class MonitoringHomeComponent implements OnInit {
           }
         }
       });
-      this.soc();
+      
   }
   
-  conected: boolean = false;
-  soc(){
-    
-    const token = this.securityService.getToken();
-    
-    this.socketService.initSocket(token);
-
-    
-    this.socketService.onEvent(EventSocket.CONNECT)
-    .subscribe(() => {
-      this.conected = true;
-      console.log(  this.conected);
-    });
-    this.socketService.onEvent(EventSocket.DISCONNECT)
-      .subscribe(() => {
-        this.conected = false;
-        console.log("Socket desconectado");
-        //this.toastr.errorToastr("Socket desconectado",'Lo siento,');
-      });
-
-    console.log(EventSocket);
-
-    
-    let channelWeather = this.socketService.suscribeChannel("pi");
-    console.log("subcribe");
-    console.log( channelWeather);
-
-    
-    this.socketService.onChannelWatch(channelWeather - 1)
-    .subscribe((data: any) => {
-      console.log('data pi------------------');
-      console.log(data);
-    });
-
-  }
   ngOnInit() {
     //setTimeout(() => this.periodo(), 1000);
   }

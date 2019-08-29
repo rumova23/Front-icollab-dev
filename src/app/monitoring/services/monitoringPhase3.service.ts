@@ -59,5 +59,23 @@ export class MonitoringPhase3Service {
     return throwError(
       'Algo malo sucedio;');
   };
+  public getTagsAguila(){
+    //let urlBack = 'http://201.149.85.14:1119/pi/getTagsAguila';
+    let urlBack = 'http://localhost:1119/pi/getTagsAguila';
+    
+    return this.http.get(urlBack, {headers:this.headers, responseType : "text"} )
+    .pipe(
+      catchError(this.handleError) // then handle the error
+    );
+  }
 
+  public getTagsSol(){
+    //let urlBack = 'http://201.149.85.14:1119/pi/getTagsSol';
+    let urlBack = 'http://localhost:1119/pi/getTagsSol';
+    
+    return this.http.get(urlBack, {headers:this.headers, responseType : "text"} )
+    .pipe(
+      catchError(this.handleError) // then handle the error
+    );
+  }
 }
