@@ -254,12 +254,13 @@
       </div>
     </div>
     <!--  Botones  -->
-    <div class="row" *ngIf="!soloLectura">
+    <div class="row" >
       <div class="col-md-12">
         <div class="d-flex justify-content-end">
           <button type="submit" class="btn btn-md"
-            [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-            <i class="ti-pencil"></i>
+            [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
+            *ngIf="!soloLectura">
+            <i class="ti-pencil" ></i>
             Guardar / Actualizar
           </button>
           <button type="button" class="btn btn-md" 
