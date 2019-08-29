@@ -4,11 +4,11 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 import { Respuesta } from 'src/app/compliance/models/Respuesta';
 import { Tema } from 'src/app/compliance/models/Tema';
 import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
-
+import { GlobalService } from 'src/app/core/globals/global.service';
 
 @Component({
   selector: 'app-skills',
-  templateUrl: './skills.component.html',
+  templateUrl: './skillsV2.component.html',
   styleUrls: ['./skills.component.scss']
 })
 export class SkillsComponent implements OnInit {
@@ -31,7 +31,9 @@ export class SkillsComponent implements OnInit {
   constructor(private cdRef: ChangeDetectorRef,
               private ruteo: ActivatedRoute,
               private preguntas: PerfilComboService,
-              public  toastr: ToastrManager) { 
+              public  toastr: ToastrManager,
+              public globalService: GlobalService
+              ) { 
 
   }
 
