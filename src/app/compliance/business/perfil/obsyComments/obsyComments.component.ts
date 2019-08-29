@@ -6,11 +6,11 @@ import { Documents } from 'src/app/compliance/models/Documents';
 import { CarasDocument } from 'src/app/compliance/models/CarasDocument';
 import { Comentario } from 'src/app/core/models/comentario';
 import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
-
+import { GlobalService } from 'src/app/core/globals/global.service';
 
 @Component({
   selector: 'app-obsyComments',
-  templateUrl: './obsyComments.component.html',
+  templateUrl: './obsyCommentsV2.component.html',
   styleUrls: ['./obsyComments.component.scss']
 })
 export class ObsyCommentsComponent implements OnInit {
@@ -30,6 +30,7 @@ export class ObsyCommentsComponent implements OnInit {
 
   constructor(
     private comentarios: PerfilComboService,
+    public globalService: GlobalService,
     private formBuildier: FormBuilder, public toastr: ToastrManager) {
     this.observacioes = [];
   }

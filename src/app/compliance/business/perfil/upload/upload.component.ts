@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
+import { GlobalService } from 'src/app/core/globals/global.service';
 
 @Component({
   selector: 'app-upload',
@@ -12,7 +13,9 @@ import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
                     <input [disabled]="isdisabled" name="file" type="file" (change)="onChange($event)"/>
                   </div>
                   <div class="col-sm" >
-                    <button [disabled]="isdisabled" mdbBtn color="primary" mdbWavesEffect type="submit" >Subir</button>
+                    <button [disabled]="isdisabled" mdbBtn color="primary" mdbWavesEffect type="submit" 
+                    [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
+                    >Subir</button>
                   </div>
                 </div>
               </form>
@@ -25,7 +28,9 @@ export class UploadComponent implements OnInit {
   formGroup: FormGroup;
   isdisabled: boolean = false;
 
-  constructor(private fb: FormBuilder, private cargar: PerfilComboService, private cd: ChangeDetectorRef) {
+  constructor(private fb: FormBuilder, 
+    public globalService: GlobalService,
+    private cargar: PerfilComboService, private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
