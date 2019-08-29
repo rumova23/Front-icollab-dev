@@ -65,10 +65,10 @@
 	</div>
 
 	<!-- /inputs -->
-	<div class="d-flex justify-content-end" *ngIf="accion != 'ver'">
+	<div class="d-flex justify-content-end">
 		<button type="submit" class="btn"
 			[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-			[disabled]="disabledSave">
+			[disabled]="disabledSave" *ngIf="accion != 'ver'">
 			<i class="ti-pencil"></i>
 			Guardar / Actualizar
 		</button>
