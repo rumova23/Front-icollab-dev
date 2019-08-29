@@ -10,7 +10,15 @@ import { interval } from 'rxjs';
 import { Chart } from 'chart.js';
 import { GlobalService } from 'src/app/core/globals/global.service';
 
+import { SecurityService } from 'src/app/core/services/security.service';
+import { Validate } from 'src/app/core/helpers/util.validator.';
+import { SocketService } from 'src/app/core/services/socket.service';
+import { EventSocket } from 'src/app/core/models/EventSocket';
+
+
+
 import * as M3 from './config';
+import { DateAdapter } from 'angular-calendar';
 
 @Component({
   selector: 'app-monitoringPhase3',
@@ -46,7 +54,7 @@ export class MonitoringPhase3Component implements OnInit {
   showDropdownchart_01 = false;
   myinterval = null;
   mysubscribeinterval = null;
-  time_on_request : number = 1;//4000;
+  time_on_request : number = 3;//4000;
   data_per_graph_main = 10;
   type_graph_main = 'line';
   dynamic_scale = 'static';
@@ -147,7 +155,8 @@ export class MonitoringPhase3Component implements OnInit {
     ,private modalService       : NgbModal
     ,private activatedRoute     : ActivatedRoute
     ,public globalService       : GlobalService
-    
+    ,private securityService: SecurityService
+    ,private socketService: SocketService
     ) {
       
      
@@ -559,6 +568,125 @@ export class MonitoringPhase3Component implements OnInit {
       }
     }
   }
+  socketConection(){
+    //if(!this.conected){
+    if(!this.globalService.socketConnect){
+      const token = this.securityService.getToken();
+      if (Validate(token)) {
+        this.socketService.initSocket(token);
+
+        //Status
+        this.socketService.onEvent(EventSocket.CONNECT)
+        .subscribe(() => {
+          //this.conected = true;
+          this.globalService.socketConnect = true;
+          console.log( "Socket Conectado" ,this.globalService.socketConnect);
+          
+
+
+        });
+        this.socketService.onEvent(EventSocket.DISCONNECT)
+        .subscribe(() => {
+          //this.conected = false;
+          this.globalService.socketConnect = false;
+          console.log("Socket desconectado");
+          //this.toastr.errorToastr("Socket desconectado",'Lo siento,');
+        });
+        this.socketService.onError()
+          .subscribe((error: any) => {
+            //this.conected = false;
+            this.globalService.socketConnect = false;
+            console.log("ERROR",error);
+            //this.toastr.errorToastr("Socket error conexión",'Lo siento,');
+        });
+        this.socketService.login()
+          .subscribe((errorLogin: any) => {
+            if (errorLogin) {
+              console.log(errorLogin);
+              //this.conected = false;
+              this.globalService.socketConnect = false;
+              //this.toastr.errorToastr(errorLogin,'Lo siento,');
+            } else {
+              
+            
+
+
+              let channelPiAguila = this.socketService.suscribeChannel("pi-aguila");
+              this.socketService.onChannelWatch(channelPiAguila - 1)
+              .subscribe((data: any) => {
+                if(this.globalService.aguila){
+                  console.log(data);
+                  this.dataAdapter(data);
+                }
+
+              });
+
+              
+              let channelPiSol = this.socketService.suscribeChannel("pi-sol");
+              this.socketService.onChannelWatch(channelPiSol - 1)
+              .subscribe((data: any) => {
+                if(!this.globalService.aguila){
+                  console.log(data);
+                  this.dataAdapter(data);
+               
+                }
+
+              });
+
+
+
+              
+            }
+          });
+      }else {
+        //this.toastr.errorToastr("Token inválido",'Lo siento,');
+         console.log('Token inválido');
+      }
+    }else{
+      //Solicitar tags
+      ///*
+    }
+  }
+  dataAdapter(data){
+    
+    for (const calltag in M3.lstTags) {
+      if (M3.lstTags.hasOwnProperty(calltag)) {
+        let mydata = null;
+
+        const tagconf  = M3.lstTags[calltag];
+        const webID    = (this.globalService.aguila)?tagconf.webId_EAT:tagconf.webId_EST;
+        //this.peticion(calltag,tagconf,webID);
+        
+        for(const tag of data.tags){
+          if(tag.webId == webID){
+            mydata = tag;
+            break;
+          }
+        }
+        if(mydata != null){
+
+          let datoprocesado = null;
+          if(tagconf.typadata == 'float')     datoprocesado = parseFloat(mydata.value);
+          else if(tagconf.typadata == 'int')  datoprocesado = parseInt(mydata.value);
+          
+          this.calltags[tagconf.calltags]          = datoprocesado;
+          
+          this.addDataset(tagconf,tagconf.calltags,datoprocesado);
+          this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt');
+          this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRPM','getCTDosRPM','getTVRPM'],'chart_rpm');
+          this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoMW','getCTDosMW','getTVMW'],'chart_mw');
+          this.addDatasetLine ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt_t1');
+          
+          if(tagconf.calltags=='getPresionAtmosferica')this.wifi = true;
+
+        }else{
+          this.calltags[tagconf.calltags]          = 0;
+          if(tagconf.calltags=='getPresionAtmosferica')this.wifi = false;
+        }
+
+      }
+    }
+  }
   peticion(calltag, tagconf, webID){
 
     if(this.isdemo){
@@ -597,6 +725,7 @@ export class MonitoringPhase3Component implements OnInit {
     );
   }
   TraerDatosDesdePiWebAPI(){
+    /*
     for (const calltag in M3.lstTags) {
       if (M3.lstTags.hasOwnProperty(calltag)) {
         const tagconf  = M3.lstTags[calltag];
@@ -604,6 +733,29 @@ export class MonitoringPhase3Component implements OnInit {
         this.peticion(calltag,tagconf,webID);
       }
     }
+    //*/
+    
+    this.socketConection();
+
+
+    
+    console.log(">>>>>>>  TraerDatosDesdePiWebAPI");
+    if(this.globalService.aguila){
+      this.wsPI.getTagsAguila().subscribe(data=>{
+        if(!this.globalService.socketConnect){
+          this.dataAdapter(JSON.parse(data));
+        }
+      },err=>{});
+    }else{
+      this.wsPI.getTagsSol().subscribe(data=>{
+        if(!this.globalService.socketConnect){
+          this.dataAdapter(JSON.parse(data));
+        }
+      },err=>{});
+    }
+
+
+
   }
   cambiarIdioma(pc_idioma : string) {
     //this.translate.use(pc_idioma);
