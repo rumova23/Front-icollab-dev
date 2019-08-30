@@ -135,8 +135,11 @@
             </div>
         </div>
         
-        <div *ngIf="cloned">
+        <div *ngIf="cloned && origen!='DESLIGADO'">
           Elemento clonado
+		</div>
+        <div *ngIf="cloned && origen=='DESLIGADO'">
+          Elemento desligado
 		</div>
 		
         <div *ngIf="accion!='nuevo' && !cloned && origen!='NO_CLONADO'">

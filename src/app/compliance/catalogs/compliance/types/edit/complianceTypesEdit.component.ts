@@ -184,7 +184,14 @@ export class ComplianceTypesEditComponent implements OnInit {
             this.dataSubmit['id'] = this.catalogType.id;
             this.dataSubmit['order'] = this.catalogType.id;
             this.dataSubmit['save'] = false;
-            this.dataSubmit['referenceclone'] = this.origen;
+
+            if (this.cloned){
+              this.dataSubmit['referenceclone'] = "DESLIGADO";
+            }
+            else {
+              this.dataSubmit['referenceclone'] = this.origen;
+            }
+
             this.dataSubmit['cloned'] = this.cloned;
           }
   
@@ -329,7 +336,8 @@ export class ComplianceTypesEditComponent implements OnInit {
 
   regresar(){
     console.log("regresar");
-    if (this.accion === 'nuevo' && !this.checkedClonar){
+    if ( (this.accion === 'nuevo' || this.accion === 'editar') 
+        && !this.checkedClonar){
       console.log("obtenerDatosAutoridad(..) - En regresar");
       this.catalogoMaestroService.getCatalogoIndividual('authority').subscribe(
         dataBack => {
@@ -347,7 +355,12 @@ export class ComplianceTypesEditComponent implements OnInit {
           }
 
           this.dataSubmit['save'] = false;
-          this.dataSubmit['referenceclone'] = "NO_CLONADO";
+          if (this.accion === 'nuevo'){
+            this.dataSubmit['referenceclone'] = "NO_CLONADO";
+          }
+          else{
+            this.dataSubmit['referenceclone'] = this.datePipe.transform(new Date() ,'ddMMyyyyHHmmssSSS');
+          }
           this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit,this.globalService.aguila).subscribe( 
             dataBack => { 
              console.log("SI no se clona se quita la referencia");
@@ -357,6 +370,8 @@ export class ComplianceTypesEditComponent implements OnInit {
         })
     }
 
+
+    
     this.eventService.sendMainCompliance(new EventMessage(4, {}));
   }
 
