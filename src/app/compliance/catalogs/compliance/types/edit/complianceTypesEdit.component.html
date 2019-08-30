@@ -109,7 +109,7 @@
                 </div>
 
 
-                <div class="row" *ngIf="showEditClonated && !cloned && origen!='XYZ'">
+                <div class="row" *ngIf="showEditClonated && !cloned && origen!='NO_CLONADO'">
                     <div class="col">
                       <ng-container>
 							<div class="form-group">
@@ -124,7 +124,7 @@
                       </ng-container>
                     </div>
                   </div>
-                  <div style="text-align: right;" *ngIf="showEditClonated && !cloned && origen!='XYZ'">
+                  <div style="text-align: right;" *ngIf="showEditClonated && !cloned && origen!='NO_CLONADO'">
                     <button type="button" class="btn"
                       [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
                       (click)="editClonated()"
@@ -137,6 +137,10 @@
         
         <div *ngIf="cloned">
           Elemento clonado
+		</div>
+		
+        <div *ngIf="accion!='nuevo' && !cloned && origen!='NO_CLONADO'">
+          Elemento con clones
         </div>
 
 </div>

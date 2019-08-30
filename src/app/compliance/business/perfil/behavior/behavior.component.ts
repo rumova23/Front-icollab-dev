@@ -133,7 +133,6 @@ export class BehaviorComponent implements OnInit {
         respuesta => {
           console.dir( respuesta  );
 
-
           this.isdisabled = true;
           this.toastr.errorToastr('Para terminar el examen, Todas las preguntas deben contestarse.', 'Lo siento,');
 

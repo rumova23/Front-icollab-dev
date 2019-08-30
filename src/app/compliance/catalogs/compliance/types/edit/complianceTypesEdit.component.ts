@@ -53,7 +53,7 @@ export class ComplianceTypesEditComponent implements OnInit {
   registroExistente:boolean = false;
   disabledSave:boolean = false;
   result;
-
+ 
   verClonar        : boolean = false;
   showEditClonated : boolean = false;
 
@@ -329,7 +329,7 @@ export class ComplianceTypesEditComponent implements OnInit {
 
   regresar(){
     console.log("regresar");
-    if (!this.checkedClonar){
+    if (this.accion === 'nuevo' && !this.checkedClonar){
       console.log("obtenerDatosAutoridad(..) - En regresar");
       this.catalogoMaestroService.getCatalogoIndividual('authority').subscribe(
         dataBack => {
@@ -347,7 +347,7 @@ export class ComplianceTypesEditComponent implements OnInit {
           }
 
           this.dataSubmit['save'] = false;
-          this.dataSubmit['referenceclone'] = "XYZ";
+          this.dataSubmit['referenceclone'] = "NO_CLONADO";
           this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit,this.globalService.aguila).subscribe( 
             dataBack => { 
              console.log("SI no se clona se quita la referencia");

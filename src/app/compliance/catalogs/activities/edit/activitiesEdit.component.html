@@ -163,15 +163,16 @@
         <div class="row" *ngIf="showClone">
           <div class="col">
             <ng-container>
-				<div class="form-group">
-					<label>Clonar elemento en:</label><br>
+				     <div class="form-group">
+               <label>Clonar elemento en:</label>
+               <br>
                     <mat-checkbox class="active" color="primary" 
                                       (change)="changeClone();"                                        
                                        [checked]="checkedClone"> 
                       	<mat-label  *ngIf="globalService.aguila">Sol</mat-label>
                       	<mat-label  *ngIf="!globalService.aguila">Aguila</mat-label>
                     </mat-checkbox>
-				</div>
+				     </div>
             </ng-container>
           </div>
         </div>
@@ -213,4 +214,8 @@
     <div *ngIf="cloned">
       Elemento clonado
     </div>
+
+    <div *ngIf="accion!='nuevo' && !cloned && origen!='NO_CLONADO'">
+      Elemento con clones
+    </div>    
 </div>
