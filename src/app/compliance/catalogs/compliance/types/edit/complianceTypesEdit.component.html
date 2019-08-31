@@ -142,7 +142,7 @@
           Elemento desligado
 		</div>
 		
-        <div *ngIf="accion!='nuevo' && !cloned && origen!='NO_CLONADO'">
+        <div *ngIf="accion!='nuevo' && !cloned && origen!='NO_CLONADO' && this.hasCloned">
           Elemento con clones
         </div>
 
