@@ -35,7 +35,7 @@ export class ConfigActivitiesComponent implements OnInit {
   comboTipoAplicacion: Array<Combo>;
   comboPeriodoEntrega: Array<Combo>;
   comboTipoDias: Array<Combo>;
-  comboPlanta: Array<Combo>;
+  //comboPlanta: Array<Combo>;
   comboEstatus: Array<Combo>;
   listaCombos: Array<any>;
   
@@ -154,7 +154,7 @@ export class ConfigActivitiesComponent implements OnInit {
     this.comboTipoAplicacion = new Array<Combo>();
     this.comboPeriodoEntrega = new Array<Combo>();
     this.comboTipoDias = new Array<Combo>();
-    this.comboPlanta = new Array<Combo>();
+    //this.comboPlanta = new Array<Combo>();
     //this.plantas = new Array<TagPlanta>();
     this.comboEstatus = new Array<Combo>();
     
@@ -169,7 +169,7 @@ export class ConfigActivitiesComponent implements OnInit {
     this.listaCombos.push( new OrderCatalogDTO('typeApplication',1, 1));
     this.listaCombos.push( new OrderCatalogDTO('deliveryPeriod', 1, 1));
     this.listaCombos.push( new OrderCatalogDTO('typeDay', 1, 1));
-    this.listaCombos.push( new OrderCatalogDTO('legalRequirement', 1, 1)); 
+    //this.listaCombos.push( new OrderCatalogDTO('legalRequirement', 1, 1)); 
     
     //this.addBlock(1, "Cargando...");
      
@@ -180,7 +180,7 @@ export class ConfigActivitiesComponent implements OnInit {
         this.resuelveDS(poRespuesta, this.comboTipoAplicacion, 'typeApplication');
         this.resuelveDS(poRespuesta, this.comboPeriodoEntrega, 'deliveryPeriod');
         this.resuelveDS(poRespuesta, this.comboTipoDias, 'typeDay');
-        this.resuelveDS(poRespuesta, this.comboPlanta, 'legalRequirement');
+        //this.resuelveDS(poRespuesta, this.comboPlanta, 'legalRequirement');
       }
     ).add(() => {
       this.addBlock(2, null);
