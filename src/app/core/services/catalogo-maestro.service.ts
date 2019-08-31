@@ -94,7 +94,11 @@ export class CatalogoMaestroService {
     this.setXTenantId(plantSelected);
     return this.http.post( `${ this.micro_catalago_maestro }catalog/editedclonated` , catalogo, {params : this.parameters });
   }
-  
+  hasClonated(catalogo, plantSelected){
+    this.setXTenantId(plantSelected);
+    return this.http.post( `${ this.micro_catalago_maestro }catalog/hasclonated` , catalogo, {params : this.parameters });
+  }  
+
   outCatalogoItem(catalogName:string ,id:number){
     this.setXTenantId(this.globalService.aguila);
     return this.http.delete( `${ this.micro_catalago_maestro }catalog/delete/` + catalogName + "/" + id, {params : this.parameters });    

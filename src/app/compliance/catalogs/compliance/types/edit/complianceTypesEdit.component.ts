@@ -220,9 +220,20 @@ export class ComplianceTypesEditComponent implements OnInit {
               }
               else{
                 this.deshabiliarEstatus = true;
-                this.disabledSave = true;                
-                this.showEditClonated = true;
-                //this.eventService.sendMainCompliance(new EventMessage(4, {}));
+                this.disabledSave = true;
+
+                this.catalogoMaestroService.hasClonated(this.dataSubmit,this.globalService.aguila).subscribe( 
+                  response => {                 
+                    console.log("-------response-------");
+                    console.log(response);
+
+                    this.showEditClonated = true;
+
+
+
+                  });
+
+                    //this.eventService.sendMainCompliance(new EventMessage(4, {}));                  
               }
            });
 
