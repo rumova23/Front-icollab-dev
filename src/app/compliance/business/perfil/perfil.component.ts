@@ -134,7 +134,13 @@ export class PerfilComponent implements OnInit {
           //this.perfilForm.controls['fNaci'].setValue(respuesta[ 'fechanacimiento' ]);
           //this.perfilForm.patchValue({fNaci: respuesta[ 'fechanacimiento' ]});
           //this.perfilForm.controls['fNaci'].setValue(currentDate);
-          let bornD = this.datePipe.transform(new Date(respuesta['fechanacimiento'].substring(0, 10)),'yyyy-MM-dd');
+          console.log("---bornD---");          
+          console.log(respuesta['fechanacimiento'].substring(0, 10));
+
+          let bornD = this.datePipe.transform(
+               (new Date(respuesta['fechanacimiento'].substring(0, 10))).getTime() + (60*60*24*1000)
+               ,'yyyy-MM-dd');
+
           //console.log("---bornD---");
           //console.log(bornD);
           this.perfilForm.controls['fNaci'].setValue(bornD);
@@ -154,7 +160,10 @@ export class PerfilComponent implements OnInit {
           this.perfilForm.controls['fJefInm'].setValue(respuesta[ 'jefeInmediatoId' ]+'');
           this.perfilForm.controls['fHorTrab'].setValue(respuesta[ 'horarioTrabajoId' ]+'');
           this.perfilForm.controls['fLugTrab'].setValue(respuesta[ 'lugarTrabajoId' ]+'');
-          this.perfilForm.controls['fStartJob'].setValue(this.datePipe.transform(new Date(respuesta['fechaInicioPuesto'].substring(0, 10)),'yyyy-MM-dd'));
+          let jobD = this.datePipe.transform(
+            (new Date(respuesta['fechaInicioPuesto'].substring(0, 10))).getTime() + (60*60*24*1000)
+            ,'yyyy-MM-dd');
+          this.perfilForm.controls['fStartJob'].setValue(jobD);
           this.perfilForm.controls['fPerCarg'].setValue(respuesta[ 'personalCargoId' ]+'');
           this.perfilForm.controls['fDescGralPust'].setValue(respuesta[ 'descGralPuesto' ]);
 
