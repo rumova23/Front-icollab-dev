@@ -112,14 +112,11 @@ export class PerfilComponent implements OnInit {
     
 
     if(this.inTipo == "ver" || this.inTipo == "editar"){
-      console.log("++++++++++++++++++++++++++++++++++++++");
-      console.log("++++++++++++++++++++++++++++++++++++++");
 
       this.cmbos.getEmpleado(this.inIdEmpleado).subscribe(
         respuesta => {
           console.log("1111111111111111111111111111111111111111");
           console.log(respuesta);
-          console.log(respuesta['fechanacimiento']);
           const currentDate = new Date().toISOString().substring(0, 10);
 
           this.perfilForm.controls['fNumEmpo'].setValue(respuesta[ 'empleadoId' ]);
@@ -131,18 +128,10 @@ export class PerfilComponent implements OnInit {
           this.perfilForm.controls['fGenero'].patchValue(respuesta[ 'generoId' ]+'');
           this.perfilForm.controls['fGrado'].setValue(respuesta[ 'gradoEstudioId' ]+'');
           
-          //this.perfilForm.controls['fNaci'].setValue(respuesta[ 'fechanacimiento' ]);
-          //this.perfilForm.patchValue({fNaci: respuesta[ 'fechanacimiento' ]});
-          //this.perfilForm.controls['fNaci'].setValue(currentDate);
-          console.log("---bornD---");          
-          console.log(respuesta['fechanacimiento'].substring(0, 10));
-
           let bornD = this.datePipe.transform(
                (new Date(respuesta['fechanacimiento'].substring(0, 10))).getTime() + (60*60*24*1000)
                ,'yyyy-MM-dd');
 
-          //console.log("---bornD---");
-          //console.log(bornD);
           this.perfilForm.controls['fNaci'].setValue(bornD);
 
           this.gender         = respuesta[ 'generoId' ]; 

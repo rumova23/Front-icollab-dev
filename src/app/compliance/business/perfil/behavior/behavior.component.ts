@@ -32,6 +32,8 @@ export class BehaviorComponent implements OnInit {
   isdisabled = false;
   submitted = false;
   idRadio: string;
+  isdisabledFinish = true;
+
   constructor(
       private cdRef: ChangeDetectorRef,
       private ruteo: ActivatedRoute,
@@ -60,14 +62,13 @@ export class BehaviorComponent implements OnInit {
     this.idTemas = [ 'PSICOMETRICO DEFAULT'];
 
     //this.preguntas.obtenPreguntasExamen('PSICOMETRICO DEFAULT', this.inIdEmpleado).subscribe(
-    this.preguntas.generaExamen(this.inIdEmpleado, 'PSICOMETRICO DEFAULT').subscribe(
-      data => {
-        console.log("$$$$$$$$$$$$$$$");
-        console.log(data);
-        this.examenReservacionId = data["examenReservacionId"];  
-        console.log("this.examenReservacionId=" + this.examenReservacionId );
-      }
-    );
+  this.preguntas.generaExamen(this.inIdEmpleado, 'PSICOMETRICO DEFAULT').subscribe(
+    data => {
+      console.log("$$$$$$$$$$$$$$$");
+      console.log(data);
+      this.examenReservacionId = data["examenReservacionId"];  
+      console.log("this.examenReservacionId=" + this.examenReservacionId );
+
 
     this.preguntas.obtenPreguntasExamen('2').subscribe(  
       reservacion => {
@@ -84,7 +85,7 @@ export class BehaviorComponent implements OnInit {
 
           for (let ins=0; ins < reservacion.length; ins++) {
             j += 1;
-            console.log("i=" + i + " j=" + j);
+            //console.log("i=" + i + " j=" + j);
 
             if ((tema !=reservacion[ins]["tema"]) || (ins == reservacion.length - 1)){
               tema = reservacion[ins]["tema"];               
@@ -102,7 +103,8 @@ export class BehaviorComponent implements OnInit {
                 i += 1;
                 j = -1;
                 this.pregs = [];
-              }             
+              }  
+                         
             }
 
             reservacion[ins].preguntas.forEach( pregunta => {  
@@ -125,17 +127,38 @@ export class BehaviorComponent implements OnInit {
                                          ,this.resp) 
                               );
               this.grupPreg[i][j] = pregunta.preguntaId;
-              this.grupOpc[i][j]  = pregunta.respuestaPresentacionId;
+              //this.grupOpc[i][j]  = pregunta.respuestaPresentacionId;
+              this.selectRadio(i,j,this.examenReservacionId, pregunta.preguntaId);
             });
 
+            
           }
+
+          console.log("i=" + i);
+          console.log("j=" + j);
+
           //});
         //}
       }
     );
 
-  }
+   }
+  );
 
+ }
+
+  selectRadio(i:number, j:number, examenReservacionId:number, preguntaId:number){
+    this.preguntas.getValoresAptitudes(examenReservacionId, preguntaId).subscribe(
+      valor => {
+        if (valor){
+          this.grupOpc[i][j]  = 1;
+          console.log(i + "," + j + "=" + this.grupOpc[i][j]);
+        }
+        else{
+          this.grupOpc[i][j]  = 2;
+        }
+      });     
+   }
 
 
   onSubmit() {
@@ -148,13 +171,15 @@ export class BehaviorComponent implements OnInit {
       }
     }
 
-    this.preguntas.postRespuetaExamen(this.examenReservacionId, this.SaveRespuestas).subscribe(
+    console.log("--this.examenReservacionId=" + this.examenReservacionId);
+
+    this.preguntas.respuestaExamen(this.examenReservacionId, this.SaveRespuestas).subscribe(
         respuesta => {
-          console.dir( respuesta  );
+          console.log("respuesta");
+          console.dir(respuesta);
 
-          this.isdisabled = true;
-          this.toastr.errorToastr('Para terminar el examen, Todas las preguntas deben contestarse.', 'Lo siento,');
-
+          this.isdisabledFinish = false;
+          //this.toastr.errorToastr('Para terminar el examen, Todas las preguntas deben contestarse.', 'Lo siento,');
         }
     );
   }
@@ -171,15 +196,13 @@ export class BehaviorComponent implements OnInit {
       }
     }
     if (sonTodas) {
-      this.onSubmit();
+      //this.onSubmit();
 
-      /*
       this.preguntas.terminaExamen(this.examenReservacionId).subscribe(
           respuesta => {
             this.toastr.successToastr('Se Actualizo a examen Finalizado. Para examen psicométrico', '¡Se ha logrado!');
           }
       );
-      */
 
     } else {
       this.toastr.errorToastr('Para terminar el examen, Todas las preguntas deben contestarse.', 'Lo siento,');

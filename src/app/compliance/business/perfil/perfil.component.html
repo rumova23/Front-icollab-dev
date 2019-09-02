@@ -75,7 +75,7 @@
               <mat-radio-group formControlName="fGenero" [(ngModel)]="gender"
                 [ngClass]="{ 'is-invalid': submitted && f.fGenero.errors }">
                   <mat-radio-button *ngFor="let data of generos; " [value]="data.value">{{data.label}}</mat-radio-button>
-              </mat-radio-group>
+              </mat-radio-group> 
               <div *ngIf="submitted && f.fGenero.errors" style="color:red">
                   <div *ngIf="f.fGenero.errors.required">Requerido</div>
               </div>  

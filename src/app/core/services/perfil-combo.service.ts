@@ -46,18 +46,19 @@ export class PerfilComboService {
              ,private globalService: GlobalService) { }
 
   setXTenantId(plantSelected){
+    /*
     console.log("setXTenantId(plantSelected)");
     console.log("plantSelected");
     console.log(plantSelected);
     console.log("this.parameters");
     console.log(this.parameters);    
-
+    */
       this.user = JSON.parse(localStorage.getItem('user'));
-      console.log("this.user");
-      console.dir(this.user);  
+      //console.log("this.user");
+      //console.dir(this.user);  
       this.user = this.user['username'];
-      console.log("this.user");
-      console.dir(this.user);
+      //console.log("this.user");
+      //console.dir(this.user);
 
     if (plantSelected){
       let p1 = new HttpParams().set("X-TENANT-ID","aguila")
@@ -99,29 +100,6 @@ export class PerfilComboService {
     return this.http.get( `${ this.baseUrl2 }empleadoDetalle/${id}`, {params : this.parameters });
   }
 
-  obtenPreguntasExamen(configuracionExamen: string): Observable<any> {
-    this.setXTenantId(this.globalService.aguila);    
-    console.log("configuracionExamen"); 
-    console.log(configuracionExamen); 
-    //return this.http.get(`${this.baseUrl2}examen/preguntas/${configuracionExamen}/${empleadoId}`, httpOptions);
-    return this.http.get(`${this.baseknUrl}examen/${configuracionExamen}/`, {params : this.parameters });
-  }
-
-
-
-  
-  getValoresAptitudes(list: Array<any>) {
-    this.setXTenantId(this.globalService.aguila);        
-    //return this.http.get( `${ this.baseUrl }valoresAptitudes/${list}`, httpOptions);
-    return this.http.get( `${ this.baseUrl }valoresAptitudes/${list}`, {params : this.parameters });
-  }
-
-  postValoresHabilidades(idEmpleado: number, resulta: Array<any>) {
-    this.setXTenantId(this.globalService.aguila);        
-    //return this.http.post( `${ this.baseUrl2 }guardarSicometricoEmpleado?idEmpleado=` + idEmpleado, resulta, httpOptions);
-    return this.http.post( `${ this.baseUrl2 }guardarSicometricoEmpleado?idEmpleado=` + idEmpleado, resulta, {params : this.parameters });
-  }
-
 
   generaExamen(empleadoIdentifier: number, config:String): Observable<any> {
     this.setXTenantId(this.globalService.aguila);        
@@ -136,12 +114,38 @@ export class PerfilComboService {
     return this.http.post(`${this.baseUrl2}` + 'genera', RequestBody , {params : this.parameters });
   }
 
+  obtenPreguntasExamen(configuracionExamen: string): Observable<any> {
+    this.setXTenantId(this.globalService.aguila);    
+    console.log("configuracionExamen"); 
+    console.log(configuracionExamen); 
+    //return this.http.get(`${this.baseUrl2}examen/preguntas/${configuracionExamen}/${empleadoId}`, httpOptions);
+    return this.http.get(`${this.baseknUrl}examen/${configuracionExamen}/`, {params : this.parameters });
+  }
 
-  postRespuetaExamen(examenReservacionId: number, resulta: Array<Respuesta>) {
+
+  respuestaExamen(examenReservacionId: number, resulta: Array<Respuesta>) {
     this.setXTenantId(this.globalService.aguila);        
     //return this.http.post( `${ this.baseUrl2 }guardaexamen?examenReservacionId=` + examenReservacionId, resulta, httpOptions);
     return this.http.post( `${ this.baseUrl2 }guardaexamen?examenReservacionId=` + examenReservacionId, resulta, {params : this.parameters });
   }
+
+
+  getValoresAptitudes(examenReservacionId: number, preguntaId:number) {
+    this.setXTenantId(this.globalService.aguila);
+    //return this.http.get( `${ this.baseUrl }valoresAptitudes/${list}`, httpOptions);
+    return this.http.post( `${ this.baseUrl2 }valorRespuesta?examenReservacionId=` + examenReservacionId 
+                             + `&preguntaId=` + preguntaId, {},{params : this.parameters });
+  }
+
+  
+  postValoresHabilidades(idEmpleado: number, resulta: Array<any>) {
+    this.setXTenantId(this.globalService.aguila);        
+    //return this.http.post( `${ this.baseUrl2 }guardarSicometricoEmpleado?idEmpleado=` + idEmpleado, resulta, httpOptions);
+    return this.http.post( `${ this.baseUrl2 }guardarSicometricoEmpleado?idEmpleado=` + idEmpleado, resulta, {params : this.parameters });
+  }
+
+
+
 
   getScalas(val: string) {
     this.setXTenantId(this.globalService.aguila);        

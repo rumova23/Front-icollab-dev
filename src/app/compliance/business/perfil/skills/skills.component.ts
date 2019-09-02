@@ -55,8 +55,16 @@ export class SkillsComponent implements OnInit {
     this.idTemas = [ 'DEFAULT' ];
     //this.preguntas.obtenPreguntasExamen('DEFAULT', this.inIdEmpleado).subscribe(
 
-  
-    this.preguntas.obtenPreguntasExamen('1').subscribe(
+    /*
+  this.preguntas.generaExamen(this.inIdEmpleado, 'DEFAULT').subscribe(
+    data => {
+      console.log("DDDDDDDDDDDDDDDDDDD");
+      console.log(data);
+      this.examenReservacionId = data["examenReservacionId"];  
+      console.log("this.examenReservacionId=" + this.examenReservacionId );    
+   */
+
+     this.preguntas.obtenPreguntasExamen('1').subscribe(
         reservacion => {
           console.log("PPPPPPPPPPPPPPP");
           console.dir(reservacion);
@@ -71,7 +79,7 @@ export class SkillsComponent implements OnInit {
   
             for (let ins=0; ins < reservacion.length; ins++) {
               j += 1;
-              console.log("i=" + i + " j=" + j);
+              //console.log("i=" + i + " j=" + j);
   
               if ((tema !=reservacion[ins]["tema"]) || (ins == reservacion.length - 1)){
                 tema = reservacion[ins]["tema"];               
@@ -112,7 +120,8 @@ export class SkillsComponent implements OnInit {
                                            ,this.resp) 
                                 );
                 this.grupPreg[i][j] = pregunta.preguntaId;
-                this.grupOpc[i][j]  = pregunta.respuestaPresentacionId;
+                //this.grupOpc[i][j]  = pregunta.respuestaPresentacionId;
+                this.selectRadio(i,j,this.examenReservacionId, pregunta.preguntaId);
               });
   
             }
@@ -120,9 +129,27 @@ export class SkillsComponent implements OnInit {
         }
     );
 
-
+    /*
+   }
+  );
+*/
 
   }
+
+
+  selectRadio(i:number, j:number, examenReservacionId:number, preguntaId:number){
+    this.preguntas.getValoresAptitudes(examenReservacionId, preguntaId).subscribe(
+      valor => {
+        if (valor){
+          this.grupOpc[i][j]  = 1;
+          console.log(i + "," + j + "=" + this.grupOpc[i][j]);
+        }
+        else{
+          this.grupOpc[i][j]  = 2;
+        }
+      });     
+   }
+
 
 
 
@@ -144,7 +171,7 @@ export class SkillsComponent implements OnInit {
         this.examenReservacionId = data["examenReservacionId"];  
         console.log("this.examenReservacionId=" + this.examenReservacionId );
 
-        this.preguntas.postRespuetaExamen(this.examenReservacionId, this.SaveRespuestas).subscribe(
+        this.preguntas.respuestaExamen(this.examenReservacionId, this.SaveRespuestas).subscribe(
           respuesta => {
             console.dir( respuesta  );
 

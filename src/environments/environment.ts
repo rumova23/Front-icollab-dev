@@ -27,20 +27,22 @@ export const environment = {
   //,sgUrl       : 'http://200.52.85.140:8400/'      // seguridad
   ,sgUrl       : 'http://200.52.85.140:11123/'    // seguridad
   
-  //,mnUrl       : 'http://200.52.85.140:1155/'  // micro catalogo maestro
-  //,micro_catalago_maestro : 'http://200.52.85.140:1155/'  // micro catalogo maestro
-  ,mnUrl       : 'http://localhost:1155/'  // micro catalogo maestro
-  ,micro_catalago_maestro : 'http://localhost:1155/'  // micro catalogo maestro
+  ,mnUrl       : 'http://200.52.85.140:1155/'  // micro catalogo maestro
+  ,micro_catalago_maestro : 'http://200.52.85.140:1155/'  // micro catalogo maestro
+  //,mnUrl       : 'http://localhost:1155/'  // micro catalogo maestro
+  //,micro_catalago_maestro : 'http://localhost:1155/'  // micro catalogo maestro
 
-  //,mtUrl       : 'http://200.52.85.140:1188/tag/'  // micro tag
-  ,mtUrl       : 'http://localhost:1188/tag/'  // micro tag
+  ,mtUrl       : 'http://200.52.85.140:1188/tag/'  // micro tag
+  //,mtUrl       : 'http://localhost:1188/tag/'  // micro tag
 
   ,pgUrl       : 'http://localhost:1144/exam/'  // micro examen
-  ,cnUrl       : 'http://localhost:1122/'  // evaluacion
+  ,cnUrl       : 'http://200.52.85.140:1122/'  // evaluacion
+  //,cnUrl       : 'http://localhost:1122/'  // evaluacion
   ,knUrl       : 'http://localhost:1133/knowledge/'  // conocimiento 
+  ,fdUrl       : 'http://localhost:1211/'  // filedb
+
   ,micro_seguimiento : 'http://localhost:1199/'  // micro compliance seguimiento    
   ,coUrl       : 'http://localhost:1199/'  // micro compliance seguimiento 
-  ,fdUrl       : 'http://localhost:1211/'  // filedb
   
   ,estatus_maestro : 'http://localhost:1177/'  // micro estatus maestro
 

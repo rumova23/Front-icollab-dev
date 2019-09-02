@@ -26,7 +26,7 @@
                       <mat-radio-group [disabled]="isdisabled" [(ngModel)]="grupOpc[i][j]" [ngModelOptions]="{standalone: true}">
                         <div class="row">
                           <div class="col"  *ngFor="let opc of preg.pregu">
-                            <mat-radio-button  [checked]="opc.label!='No'" [value]="opc.value">{{opc.label}}
+                            <mat-radio-button  [value]="opc.value">{{opc.label}}
                             </mat-radio-button>
                           </div>
                         </div>
@@ -48,7 +48,7 @@
                   <button class="btn btn-primary btn-md" (click)="terminaExamen()" [disabled]="(this.entidadEstatusId === this.terminadoId) ? true:false">Termina Examen</button>
                 -->
                   <button class="btn btn-primary btn-md" (click)="terminaExamen()" 
-                    [disabled]="isdisabled">Termina Examen</button>
+                    [disabled]="isdisabledFinish">Termina Examen</button>
               </div>
           </div>  
         </form>
