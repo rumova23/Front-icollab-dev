@@ -35,7 +35,7 @@
     </section>
   </div>
 
-  <footer id="pie" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+  <footer id="pie" [style.background]="theme.getBackgroundColor()">
     Derechos Reservados &copy;
   </footer>
 </div>

@@ -20,6 +20,8 @@ export class EventService {
 
     public onChangeMainMonitoring: EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
 
+    public onChangeSocketConnect: EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
+
 
 
     public sendMainCompliance(message: EventMessage) {
@@ -48,5 +50,9 @@ export class EventService {
 
     public sendLinkMockUp(message: EventMessage) {
         this.onChangeMainLinkMockUp.emit(message);
+    }
+
+    public sendSocketConnect(message: EventMessage) {
+        this.onChangeSocketConnect.emit(message);
     }
 }

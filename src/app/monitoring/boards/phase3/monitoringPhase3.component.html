@@ -289,7 +289,7 @@
                                     </select>
                                 </div>
                                 <div class="text-right">
-                                    <button type="submit" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">Actualizar</button>
+                                    <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">Actualizar</button>
                                 </div>
                             </form>
                         </div>
@@ -763,8 +763,8 @@
                 </div>
             </div>
             <div class="modal-footer mb-1">
-                <button type="button" class="btn" (click)="closeModal_01()"
-                    [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                <button type="button" class="btn mybtn" (click)="closeModal_01()"
+                    [style.background]="theme.getBackgroundColor()">
                     Cerrar
             </button>
             </div>
@@ -831,8 +831,8 @@
                 </div>
             </div>
             <div class="modal-footer mb-1">
-                <button type="button" class="btn" (click)="togleModalTags()"
-                    [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                <button type="button" class="btn mybtn" (click)="togleModalTags()"
+                [style.background]="theme.getBackgroundColor()">
                     Cerrar
             </button>
             </div>

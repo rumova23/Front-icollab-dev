@@ -25,6 +25,7 @@ export class MonitoringSoService {
       this.options = Constants.OPTIONS;
       this.options.query = { token: token };
       this.socket = socketCluster.connect(this.options);
+      return this.socket;
     }
     public onEvent(event: EventSocket): Observable<any> {
         return new Observable<EventSocket>(observer => {

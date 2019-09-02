@@ -164,6 +164,7 @@ import { PpaComponent } from '../app/safe/admin/modelMarket/ppa/ppa.component';
 
 /* Module Monitoring */
 import { MonitoringHomeComponent } from 'src/app/monitoring/home/monitoringHome.component';
+import { MonitoringWelcomeComponent } from 'src/app/monitoring/home/welcome/monitoringWelcome.component';
 import { MonitoringHeaderComponent } from 'src/app/monitoring/common/header/monitoringHeader.component';
 import { MonitoringSidebarComponent } from 'src/app/monitoring/common/sidebar/monitoringSidebar.component';
 import { MonitoringMenuItemsComponent } from 'src/app/monitoring/common/menuItems/monitoringMenuItems.component';
@@ -305,6 +306,7 @@ registerLocaleData(localePy, 'es');
     ,PpaComponent
 
     ,MonitoringHomeComponent
+    ,MonitoringWelcomeComponent
     ,MonitoringHeaderComponent
     ,MonitoringSidebarComponent
     ,MonitoringMenuItemsComponent

@@ -1,12 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { environment } from  'src/environments/environment';
 import { MonitoringPhase3Service }   from '../../services/monitoringPhase3.service';
+import { EventService } from 'src/app/core/services/event.service';
 
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { interval } from 'rxjs';
+import { interval, Subscription, Observable, timer } from 'rxjs';
 import { Chart } from 'chart.js';
 import { GlobalService } from 'src/app/core/globals/global.service';
 
@@ -17,16 +18,22 @@ import { EventSocket } from 'src/app/core/models/EventSocket';
 
 
 
+
 import * as M3 from './config';
 import { DateAdapter } from 'angular-calendar';
+import { EventMessage } from 'src/app/core/models/EventMessage';
+import { ThemeService } from 'src/app/core/globals/theme';
 
 @Component({
   selector: 'app-monitoringPhase3',
   templateUrl: './monitoringPhase3.component.html',
   styleUrls: ['./monitoringPhase3.component.css'],
 })
-export class MonitoringPhase3Component implements OnInit {
-    
+export class MonitoringPhase3Component implements OnInit, OnDestroy {
+  private subscriptions : Subscription[] = [];
+  private everySecond   : Observable<number>;
+  private timeRequest   : Observable<number>;
+  
   dev_view_lstTags = [];
   isdemo      = false;
   calltags    = [];
@@ -53,7 +60,6 @@ export class MonitoringPhase3Component implements OnInit {
   
   showDropdownchart_01 = false;
   myinterval = null;
-  mysubscribeinterval = null;
   time_on_request : number = 3;//4000;
   data_per_graph_main = 10;
   type_graph_main = 'line';
@@ -68,7 +74,7 @@ export class MonitoringPhase3Component implements OnInit {
 
     
 	
-  chart_1_config = {
+  chart_config_1 = {
     type: 'line'
     ,data: {
       labels: new Array(this.data_per_graph_main)
@@ -149,109 +155,269 @@ export class MonitoringPhase3Component implements OnInit {
   
     /* No estan en la vista */
 
-
   constructor(
-    private wsPI               : MonitoringPhase3Service
+	public globalService        : GlobalService
+	,public theme               : ThemeService
+    ,private wsPI               : MonitoringPhase3Service
     ,private modalService       : NgbModal
     ,private activatedRoute     : ActivatedRoute
-    ,public globalService       : GlobalService
-    ,private securityService: SecurityService
-    ,private socketService: SocketService
+    ,private securityService    : SecurityService
+    ,private socketService      : SocketService
+    ,private eventService       : EventService
     ) {
-      
-     
-      for (const calltag in M3.lstTags) {
-        if (M3.lstTags.hasOwnProperty(calltag)) {
-          this.dev_view_lstTags.push(M3.lstTags[calltag]);
-        }
-      }
-	  
+		
+		
+		for (const calltag in M3.lstTags) {
+			if (M3.lstTags.hasOwnProperty(calltag)) {
+			this.dev_view_lstTags.push(M3.lstTags[calltag]);
+			}
+		}
+		
+			
     }
 
-  ngOnInit() {
-    //idiomas disponibles
-    /*this.translate.addLangs(["es", "en", "ja"]);
-    this.translate.setDefaultLang('es');
-    this.translate.use('es');//*/
+	ngOnInit() {
+		//idiomas disponibles
+		/*this.translate.addLangs(["es", "en", "ja"]);
+		this.translate.setDefaultLang('es');
+		this.translate.use('es');//*/
 
-    this.chartInit();
-    this.initializeAt0();
-
-    let lo_tiempoFechaYHora = interval(1000);
-    lo_tiempoFechaYHora.subscribe(t => this.fechaYHora());
-    
-
-    
-    this.change_graph_update_time_rest();
-/*
-    var data = {
-      labels: ["Success", "Error"],
-      datasets: [
-          {
-              data: [50,10],
-              backgroundColor: ["red", "#ccc"],
-              borderWidth: 0
-          }
-      ]
-    };
-    
-    var myChart = new Chart('mychart', {
-        type: 'doughnut',
-        data: data,
-        options: {
-            cutoutPercentage: 80,
-            rotation: .8 * Math.PI, 
-            circumference: 1.4 * Math.PI,
-            maintainAspectRatio: true,
-            responsive: true,
-            legend: {
-                display: false
-            },
-            animation: {
-                animateScale: true,
-                animateRotate: true
-            },
-        },
-        plugins: [{
-            beforeDraw: function(chart) {
-                const width = chart.width;
-                const height = chart.height;
-                const ctx = chart.ctx;
-                ctx.restore();
-                const fontSize = (height / 114).toFixed(2);
-                ctx.font = fontSize + "em sans-serif";
-                ctx.textBaseline = 'middle';
-                var total = data.datasets[0].data.reduce(function(previousValue, currentValue, currentIndex, array) {
-                    return previousValue + currentValue;
-                });
-                var text = total+"";
-                
-                //const textX = Math.round((width - this.chart.ctx.measureText(text).width) / 2),
-                const textX = Math.round((width - ctx.measureText(text).width) / 2);
-                const textY = height/2.5;
-
-                var gradient = ctx.createLinearGradient(0, 0, 80, 0);
-                gradient.addColorStop(0,"magenta");
-                gradient.addColorStop(0.5, "blue");
-                gradient.addColorStop(1.0, "red");
-                // Fill with gradient
-                ctx.fillStyle = gradient;
+		this.initializeAt0();
+		this.chartInit();
 
 
-                ctx.fillText(text, textX, textY);
-                ctx.save();
-            }
-        }]
-    });//*/
-  }
-  chartInit(){
-    this.chart_01    = new Chart('canvas1'     ,this.chart_1_config);
-    //this.chart_modal = new Chart('canvas_modal',this.chart_modal_config);
-    this.chart_rt    = new Chart('chart_rt'    , M3.chart_rt_config);
-    this.chart_rpm   = new Chart('chart_rpm'   , M3.chart_rpm_config);
-    this.chart_mw    = new Chart('chart_mw'    , M3.chart_mw_config);
-    this.chart_rt_t1 = new Chart('chart_rt_t1' , M3.chart_rt_t1_config);
-  }
+		this.subscribeFechaYHora()
+		this.subscrubeChangeGraphUpdateTimeRest();
+		this.subscribeSocketOnStatus();
+		this.subscribeSocket();
+	/*
+		var data = {
+		labels: ["Success", "Error"],
+		datasets: [
+			{
+				data: [50,10],
+				backgroundColor: ["red", "#ccc"],
+				borderWidth: 0
+			}
+		]
+		};
+		
+		var myChart = new Chart('mychart', {
+			type: 'doughnut',
+			data: data,
+			options: {
+				cutoutPercentage: 80,
+				rotation: .8 * Math.PI, 
+				circumference: 1.4 * Math.PI,
+				maintainAspectRatio: true,
+				responsive: true,
+				legend: {
+					display: false
+				},
+				animation: {
+					animateScale: true,
+					animateRotate: true
+				},
+			},
+			plugins: [{
+				beforeDraw: function(chart) {
+					const width = chart.width;
+					const height = chart.height;
+					const ctx = chart.ctx;
+					ctx.restore();
+					const fontSize = (height / 114).toFixed(2);
+					ctx.font = fontSize + "em sans-serif";
+					ctx.textBaseline = 'middle';
+					var total = data.datasets[0].data.reduce(function(previousValue, currentValue, currentIndex, array) {
+						return previousValue + currentValue;
+					});
+					var text = total+"";
+					
+					//const textX = Math.round((width - this.chart.ctx.measureText(text).width) / 2),
+					const textX = Math.round((width - ctx.measureText(text).width) / 2);
+					const textY = height/2.5;
+
+					var gradient = ctx.createLinearGradient(0, 0, 80, 0);
+					gradient.addColorStop(0,"magenta");
+					gradient.addColorStop(0.5, "blue");
+					gradient.addColorStop(1.0, "red");
+					// Fill with gradient
+					ctx.fillStyle = gradient;
+
+
+					ctx.fillText(text, textX, textY);
+					ctx.save();
+				}
+			}]
+		});//*/
+	}
+	ngOnDestroy(){
+		for (const iterator in this.subscriptions) {
+			this.subscriptions[iterator].unsubscribe();
+		}
+		this.unsubscribeSocket();
+	}
+	initializeAt0(){
+		for (const calltag in M3.lstTags) {
+			if (M3.lstTags.hasOwnProperty(calltag)) {
+			this.calltags[calltag] = 0;
+			}
+		}
+	}
+	chartInit(){
+		this.chart_01    = new Chart('canvas1'     , this.chart_config_1);
+		this.chart_rt    = new Chart('chart_rt'    , M3.chart_config_rt);
+		this.chart_rpm   = new Chart('chart_rpm'   , M3.chart_config_rpm);
+		this.chart_mw    = new Chart('chart_mw'    , M3.chart_config_mw);
+		this.chart_rt_t1 = new Chart('chart_rt_t1' , M3.chart_config_rt_t1);
+		//this.chart_modal = new Chart('canvas_modal',this.chart_modal_config);
+	}
+	subscribeFechaYHora(){
+		this.everySecond = timer(0,1000);
+		this.subscriptions['everySecond']=this.everySecond.subscribe(()=>{
+			this.fechaActual = new Date();
+		});
+	}
+	subscrubeChangeGraphUpdateTimeRest(){
+		if(this.subscriptions['timeRequest'] != undefined){
+			this.subscriptions['timeRequest'].unsubscribe();
+		}
+		this.timeRequest = timer(0,this.time_on_request*1000);
+		this.subscriptions['timeRequest']=this.timeRequest.subscribe(()=>this.TraerDatosDesdePiWebAPI());
+	}
+	subscribeSocketOnStatus(){
+		this.subscriptions['onChangeSocketConnect'] = this.eventService.onChangeSocketConnect.subscribe({
+			next: (event: EventMessage) => {
+				if(event.id === 0){
+          this.unsubscribeSocket();
+          /**
+           * iniciar proceso de peticion REST
+           */
+				}else if(event.id === 1){
+          /**
+           * terminar proceso de peticion REST
+           */
+					this.subscribeSocket();
+				}
+			}
+		});
+	}
+	subscribeSocket(){
+		if(this.globalService.socketConnect){
+			let channelBackPiIsRun = this.socketService.suscribeChannel("back-pi-isrun");
+
+			this.subscriptions['back-pi-isrun'] = this.socketService.onChannelWatch(channelBackPiIsRun-1)
+				.subscribe((data:any)=>{
+					console.log("back-pi-isrun::",data);
+				});
+			this.subscriptions['back-pi-isrun-error'] = this.socketService.onChannelError(channelBackPiIsRun-1)
+				.subscribe((errorChannel:any)=>{
+					console.log("back-pi-isrun-isrun::",errorChannel);
+				});
+			if(this.globalService.plant.name === "AGUILA"){
+				let channelPiAguila = this.socketService.suscribeChannel("pi-aguila");
+				this.subscriptions['pi-aguila-error'] = this.socketService.onChannelError(channelPiAguila - 1)
+				.subscribe((errorChannel: any) => {console.log("pi-aguila-error",errorChannel);});
+
+				this.subscriptions['pi-aguila'] = this.socketService.onChannelWatch(channelPiAguila - 1)
+				.subscribe((data: any) => {
+					console.log("channelPiAguila::",data);
+					this.dataAdapter(data);
+				});
+			}else if(this.globalService.plant.name === "SOL"){
+				let channelPiSol = this.socketService.suscribeChannel("pi-sol");
+				this.subscriptions['pi-sol-error'] = this.socketService.onChannelError(channelPiSol - 1)
+				.subscribe((errorChannel: any) => {console.log("pi-sol-error",errorChannel);});
+
+				this.subscriptions['pi-sol'] = this.socketService.onChannelWatch(channelPiSol - 1)
+				.subscribe((data: any) => {
+					console.log(data);
+					this.dataAdapter(data);
+				});
+			}
+		}
+	}
+	unsubscribeSocket(){
+		[    'pi-aguila','pi-aguila-error'
+			,'pi-sol','pi-sol-error'
+			,'back-pi-isrun','back-pi-isrun-error'
+		].forEach(event=>{
+			if(this.subscriptions[event] != undefined && this.subscriptions[event].isStopped==false){
+				this.subscriptions[event].unsubscribe();
+			}
+		});
+		this.socketService.removeChannel("pi-aguila");
+		this.socketService.removeChannel("pi-sol");
+		this.socketService.removeChannel("back-pi-isrun");
+	}
+	TraerDatosDesdePiWebAPI(){
+		/*
+		for (const calltag in M3.lstTags) {
+			if (M3.lstTags.hasOwnProperty(calltag)) {
+				const tagconf  = M3.lstTags[calltag];
+				const webID    = (this.globalService.aguila)?tagconf.webId_EAT:tagconf.webId_EST;
+				this.peticion(calltag,tagconf,webID);
+			}
+		}
+		//*/
+  
+	  
+		console.log(">>>>>>>  TraerDatosDesdePiWebAPI");
+		
+		///*
+		if( !this.globalService.socketConnect ){
+			if(this.globalService.plant.name === "AGUILA"){
+				this.wsPI.getTagsAguila().subscribe(data=>{
+					this.dataAdapter(JSON.parse(data));
+				},err=>{});
+			}else if(this.globalService.plant.name === "SOL"){
+				this.wsPI.getTagsSol().subscribe(data=>{
+					this.dataAdapter(JSON.parse(data));
+				},err=>{});
+			}
+		}
+  		//*/
+	}
+	dataAdapter(data){
+		for (const calltag in M3.lstTags) {
+		  if (M3.lstTags.hasOwnProperty(calltag)) {
+			let mydata = null;
+	
+			const tagconf  = M3.lstTags[calltag];
+			const webID    = (this.globalService.plant.name === "AGUILA")?tagconf.webId_EAT:tagconf.webId_EST;
+			//this.peticion(calltag,tagconf,webID);
+			
+			for(const tag of data.tags.Items){
+			  if(tag.WebId == webID){
+				mydata = tag;
+				break;
+			  }
+			}
+			if(mydata != null){
+	
+			  let datoprocesado = null;
+			  if(tagconf.typadata == 'float')     datoprocesado = parseFloat(mydata.Value.Value);
+			  else if(tagconf.typadata == 'int')  datoprocesado = parseInt(mydata.Value.Value);
+			  
+			  this.calltags[tagconf.calltags]          = datoprocesado;
+			  
+			  this.addDataset(tagconf,tagconf.calltags,datoprocesado);
+			  this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt');
+			  this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRPM','getCTDosRPM','getTVRPM'],'chart_rpm');
+			  this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoMW','getCTDosMW','getTVMW'],'chart_mw');
+			  this.addDatasetLine ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt_t1');
+			  
+			  if(tagconf.calltags=='getPresionAtmosferica')this.wifi = true;
+	
+			}else{
+			  this.calltags[tagconf.calltags]          = 0;
+			  if(tagconf.calltags=='getPresionAtmosferica')this.wifi = false;
+			}
+	
+		  }
+		}
+	}
+
   updateChartMain(form){
     this.chart_01.data.labels = new Array(form.value.data_per_graph_main);
     this.time_on_request      = form.value.time_on_request;
@@ -272,7 +438,7 @@ export class MonitoringPhase3Component implements OnInit {
 
     this.change_graph_dynamic_scale();
 
-    this.change_graph_update_time_rest();
+    this.subscrubeChangeGraphUpdateTimeRest();
 
     this.chart_01.config.type = form.value.type_graph_main;
     this.chart_01.update();
@@ -347,21 +513,6 @@ export class MonitoringPhase3Component implements OnInit {
         }
       }
     }
-  }
-  change_graph_update_time_rest(){
-    if(this.mysubscribeinterval != null){
-      this.mysubscribeinterval.unsubscribe();
-      this.mysubscribeinterval.closed= true;
-      this.mysubscribeinterval.remove(this.mysubscribeinterval);
-    }else{
-      this.TraerDatosDesdePiWebAPI();  
-    }
-
-    this.myinterval = interval(this.time_on_request*1000);
-    this.mysubscribeinterval = this.myinterval.subscribe(() => this.TraerDatosDesdePiWebAPI());
-  }
-  fechaYHora(){
-    this.fechaActual = new Date();
   }
   obtenerValor(po_textoHTML):string{
     if(!this.wsPI.conexiondirectaPI){
@@ -560,133 +711,6 @@ export class MonitoringPhase3Component implements OnInit {
     //console.log("y ",this.chart_01.config.options.scales.yAxes);
     this.chart_01.update();
   }
-  initializeAt0(){
-    for (const calltag in M3.lstTags) {
-      if (M3.lstTags.hasOwnProperty(calltag)) {
-        const tagconf          = M3.lstTags[calltag];
-        this.calltags[calltag] = 0;
-      }
-    }
-  }
-  socketConection(){
-    //if(!this.conected){
-    if(!this.globalService.socketConnect){
-      const token = this.securityService.getToken();
-      if (Validate(token)) {
-        this.socketService.initSocket(token);
-
-        //Status
-        this.socketService.onEvent(EventSocket.CONNECT)
-        .subscribe(() => {
-          //this.conected = true;
-          this.globalService.socketConnect = true;
-          console.log( "Socket Conectado" ,this.globalService.socketConnect);
-          
-
-
-        });
-        this.socketService.onEvent(EventSocket.DISCONNECT)
-        .subscribe(() => {
-          //this.conected = false;
-          this.globalService.socketConnect = false;
-          console.log("Socket desconectado");
-          //this.toastr.errorToastr("Socket desconectado",'Lo siento,');
-        });
-        this.socketService.onError()
-          .subscribe((error: any) => {
-            //this.conected = false;
-            this.globalService.socketConnect = false;
-            console.log("ERROR",error);
-            //this.toastr.errorToastr("Socket error conexión",'Lo siento,');
-        });
-        this.socketService.login()
-          .subscribe((errorLogin: any) => {
-            if (errorLogin) {
-              console.log(errorLogin);
-              //this.conected = false;
-              this.globalService.socketConnect = false;
-              //this.toastr.errorToastr(errorLogin,'Lo siento,');
-            } else {
-              
-            
-
-
-              let channelPiAguila = this.socketService.suscribeChannel("pi-aguila");
-              this.socketService.onChannelWatch(channelPiAguila - 1)
-              .subscribe((data: any) => {
-                if(this.globalService.aguila){
-                  console.log(data);
-                  this.dataAdapter(data);
-                }
-
-              });
-
-              
-              let channelPiSol = this.socketService.suscribeChannel("pi-sol");
-              this.socketService.onChannelWatch(channelPiSol - 1)
-              .subscribe((data: any) => {
-                if(!this.globalService.aguila){
-                  console.log(data);
-                  this.dataAdapter(data);
-               
-                }
-
-              });
-
-
-
-              
-            }
-          });
-      }else {
-        //this.toastr.errorToastr("Token inválido",'Lo siento,');
-         console.log('Token inválido');
-      }
-    }else{
-      //Solicitar tags
-      ///*
-    }
-  }
-  dataAdapter(data){
-    
-    for (const calltag in M3.lstTags) {
-      if (M3.lstTags.hasOwnProperty(calltag)) {
-        let mydata = null;
-
-        const tagconf  = M3.lstTags[calltag];
-        const webID    = (this.globalService.aguila)?tagconf.webId_EAT:tagconf.webId_EST;
-        //this.peticion(calltag,tagconf,webID);
-        
-        for(const tag of data.tags){
-          if(tag.webId == webID){
-            mydata = tag;
-            break;
-          }
-        }
-        if(mydata != null){
-
-          let datoprocesado = null;
-          if(tagconf.typadata == 'float')     datoprocesado = parseFloat(mydata.value);
-          else if(tagconf.typadata == 'int')  datoprocesado = parseInt(mydata.value);
-          
-          this.calltags[tagconf.calltags]          = datoprocesado;
-          
-          this.addDataset(tagconf,tagconf.calltags,datoprocesado);
-          this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt');
-          this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRPM','getCTDosRPM','getTVRPM'],'chart_rpm');
-          this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoMW','getCTDosMW','getTVMW'],'chart_mw');
-          this.addDatasetLine ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt_t1');
-          
-          if(tagconf.calltags=='getPresionAtmosferica')this.wifi = true;
-
-        }else{
-          this.calltags[tagconf.calltags]          = 0;
-          if(tagconf.calltags=='getPresionAtmosferica')this.wifi = false;
-        }
-
-      }
-    }
-  }
   peticion(calltag, tagconf, webID){
 
     if(this.isdemo){
@@ -702,7 +726,7 @@ export class MonitoringPhase3Component implements OnInit {
       //*/
       return;
     }
-    this.wsPI.getTag(webID,this.globalService.aguila).subscribe(
+    this.wsPI.getTag(webID,(this.globalService.plant.name === "AGUILA")).subscribe(
       data=>{
         let datoprocesado = null;
         if(tagconf.typadata == 'float')     datoprocesado = parseFloat(this.obtenerValor(data));
@@ -723,39 +747,6 @@ export class MonitoringPhase3Component implements OnInit {
         if(calltag=='getPresionAtmosferica')this.wifi = false;
       }
     );
-  }
-  TraerDatosDesdePiWebAPI(){
-    /*
-    for (const calltag in M3.lstTags) {
-      if (M3.lstTags.hasOwnProperty(calltag)) {
-        const tagconf  = M3.lstTags[calltag];
-        const webID    = (this.globalService.aguila)?tagconf.webId_EAT:tagconf.webId_EST;
-        this.peticion(calltag,tagconf,webID);
-      }
-    }
-    //*/
-    
-    this.socketConection();
-
-
-    
-    console.log(">>>>>>>  TraerDatosDesdePiWebAPI");
-    if(this.globalService.aguila){
-      this.wsPI.getTagsAguila().subscribe(data=>{
-        if(!this.globalService.socketConnect){
-          this.dataAdapter(JSON.parse(data));
-        }
-      },err=>{});
-    }else{
-      this.wsPI.getTagsSol().subscribe(data=>{
-        if(!this.globalService.socketConnect){
-          this.dataAdapter(JSON.parse(data));
-        }
-      },err=>{});
-    }
-
-
-
   }
   cambiarIdioma(pc_idioma : string) {
     //this.translate.use(pc_idioma);

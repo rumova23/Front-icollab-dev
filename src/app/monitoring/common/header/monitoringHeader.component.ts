@@ -4,16 +4,16 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { SecurityService } from 'src/app/core/services/security.service';
+import { ThemeService } from 'src/app/core/globals/theme';
 
 @Component({
   selector: 'app-monitoringHeader',
   templateUrl: './monitoringHeader.component.html'
 })
 export class MonitoringHeaderComponent implements OnInit {
-  color: string = 'warn';
-  srclogo="../../../assets/images/skins/shape_1.png";
-  nameplanta="EAT";
-  constructor(public globalService: GlobalService,
+  constructor(
+    public globalService: GlobalService,
+    public theme:ThemeService,
     private eventService: EventService,
     private securityService: SecurityService,
     private router: Router) {
@@ -43,23 +43,16 @@ export class MonitoringHeaderComponent implements OnInit {
   logout() {
     this.securityService.logout();
   }
-
-  cambioPlantaAguila() {
-    this.cambioTema();
-    this.globalService.plantaDefaultId = "82";
-    this.eventService.sendPlant(new EventMessage(100, {}));
-    this.eventService.sendMainMonitoring(new EventMessage(4, {}));
+  changePlant(plant){
+    let plants = this.securityService.loadPlants();
+    for(let i = 0; i < plants.length;i++){
+      if(plants[i].name == plant){
+        this.globalService.plant = plants[i];
+        break;
+      }
+    }
+    this.eventService.sendMainMonitoring(new EventMessage(this.globalService.page, {}));
+    //this.eventService.sendMainMonitoring(new EventMessage(101, {}));
   }
 
-  cambioPlantaSol() {
-    this.cambioTema();
-    this.globalService.plantaDefaultId = "83";
-    this.eventService.sendPlant(new EventMessage(100, {}));
-    this.eventService.sendMainMonitoring(new EventMessage(4, {}));
-  }
-  cambioTema(){
-    this.globalService.aguila = !this.globalService.aguila;
-    this.srclogo = this.globalService.aguila ? "../../../assets/images/skins/shape_1.png":"../../../assets/images/skins/logobotonsol.png";
-    this.nameplanta = this.globalService.aguila ? "EAT":"EST";
-  }
 }

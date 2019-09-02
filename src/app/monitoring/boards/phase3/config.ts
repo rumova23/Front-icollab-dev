@@ -36,7 +36,7 @@ lstTags['getTVRT']                = {  calltags:'getTVRT'                 ,typad
 lstTags['getTVMW']                = {  calltags:'getTVMW'                 ,typadata:'float'  ,label: 'TV - MW'               ,min:0  ,max:600  ,color:'#CC3300'  ,id_EAT:0  ,webId_EAT:'P0uQAgHoBd0ku7P3cWOJL6Ig4h4AAAU0VSVklET1JfUElcRUhBMDgwMTk'   ,id_EST:0   ,webId_EST:'F1DP4rhZAwFMREKDf7s8vylUqgDwMAAAUElUVlxULkNFQS4yMDQ0'      };
 lstTags['getTVRPM']               = {  calltags:'getTVRPM'                ,typadata:'int'    ,label: 'TV - RPM'              ,min:0  ,max:600  ,color:'#99CC99'  ,id_EAT:0  ,webId_EAT:'P0uQAgHoBd0ku7P3cWOJL6IgSiIAAAU0VSVklET1JfUElcRUhBMDg3MDE'   ,id_EST:0   ,webId_EST:'F1DP4rhZAwFMREKDf7s8vylUqg_gwAAAUElUVlxDRUEuNDI0'          };
 
-export const chart_rt_config = {
+export const chart_config_rt = {
     type: 'horizontalBar'
     ,data: {
       labels: ['RT']
@@ -86,7 +86,7 @@ export const chart_rt_config = {
       }
     }
 };
-export const chart_rpm_config = {
+export const chart_config_rpm = {
     type: 'horizontalBar'
     ,data: {
       labels: ['RPM']
@@ -134,7 +134,7 @@ export const chart_rpm_config = {
       }
     }
 };
-export const chart_mw_config = {
+export const chart_config_mw = {
     type: 'horizontalBar'
     ,data: {
       labels: ['MW']
@@ -183,7 +183,7 @@ export const chart_mw_config = {
       }
     }
 };
-export const chart_rt_t1_config = {
+export const chart_config_rt_t1 = {
     type: 'line'
     ,data: {
       labels: new Array(10)
