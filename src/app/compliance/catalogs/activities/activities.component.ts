@@ -195,6 +195,7 @@ export class ActivitiesComponent implements OnInit {
       respuesta => {
         let res: any;
         res = respuesta;
+        console.dir(res);
         if ( res.clave == 0 ){
           this.obtenerListaActividades();
           this.toastr.successToastr(res.mensaje, '¡Se ha logrado!');
@@ -215,7 +216,7 @@ export class ActivitiesComponent implements OnInit {
 
 
         }else{
-          this.toastr.errorToastr(res.mensaje, 'Success!');
+          this.toastr.errorToastr(res.mensaje, 'Lo siento,');
         }
       },
       error => {

@@ -137,16 +137,16 @@
           </div>
           <div class="row">
             <div class="col-md-12">
-              <div class="d-flex justify-content-end" *ngIf="!soloLectura">
+              <div class="d-flex justify-content-end">
                 <button type="submit" class="btn"
                   [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-                  [disabled]="disabledSave">
+                  [disabled]="disabledSave" *ngIf="!soloLectura">
                   <i class="ti-pencil"></i>
                   Guardar / Actualizar
                   </button>
                   <button type="button" class="btn"
                   [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-                  (click)="regresar()">
+                  (click)="regresar()" >
                   <i class="ti-angle-double-left"></i>
                   Regresar</button>
                 </div>
@@ -163,15 +163,16 @@
         <div class="row" *ngIf="showClone">
           <div class="col">
             <ng-container>
-				<div class="form-group">
-					<label>Clonar elemento en:</label><br>
+				     <div class="form-group">
+               <label>Clonar elemento en:</label>
+               <br>
                     <mat-checkbox class="active" color="primary" 
                                       (change)="changeClone();"                                        
                                        [checked]="checkedClone"> 
                       	<mat-label  *ngIf="globalService.aguila">Sol</mat-label>
                       	<mat-label  *ngIf="!globalService.aguila">Aguila</mat-label>
                     </mat-checkbox>
-				</div>
+				     </div>
             </ng-container>
           </div>
         </div>
@@ -213,4 +214,8 @@
     <div *ngIf="cloned">
       Elemento clonado
     </div>
+
+    <div *ngIf="accion!='nuevo' && !cloned && origen!='NO_CLONADO'">
+      Elemento con clones
+    </div>    
 </div>

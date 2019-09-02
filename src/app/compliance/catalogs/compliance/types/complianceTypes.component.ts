@@ -244,7 +244,11 @@ export class ComplianceTypesComponent implements OnInit {
               this.catalogoMaestroService.outCatalogoItem(ComplianceTypesComponent.mainCatalog 
                 ,maestroOpcion.id).subscribe(
                   data =>{
+                   console.log("+++++++");
+                   console.log(data);
+                   
                    this.toastr.successToastr('El registro fue correctamente eliminado', '¡Se ha logrado!');
+
                    this.eventService.sendMainCompliance(new EventMessage(4, {}));
 
                    this.confirmationDialogService.confirm('Por favor, confirme..'
@@ -263,6 +267,9 @@ export class ComplianceTypesComponent implements OnInit {
                    .catch(() => console.log('Cancelo eliminar clones'));
 
                   }
+                  , error => {
+                    this.toastr.errorToastr(error.error["text"], 'Lo siento,');
+                  },                  
                 )
             }
             

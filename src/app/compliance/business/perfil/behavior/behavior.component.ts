@@ -71,21 +71,41 @@ export class BehaviorComponent implements OnInit {
 
     this.preguntas.obtenPreguntasExamen('2').subscribe(  
       reservacion => {
-        console.log("??????????????????");
+        console.log("BBBBBBBBBBBBBBBBB");
         console.dir(reservacion);
 
         //if ( reservacion.estatusGenerico === 'exito') {
           //this.examenReservacionId = reservacion.examenReservacionId;
           //this.entidadEstatusId = reservacion.entidadEstatusId;
-          let i = -1;
-          //reservacion.preguntasExamen.forEach( tema => {
+          let i = 0;
+          let j = -1;          
+          let tema = "";
+          this.pregs = [];
+
           for (let ins=0; ins < reservacion.length; ins++) {
-            i += 1;
-            this.pregs = [];
-            let j = -1;
-            //tema.preguntas.forEach( pregunta => {
+            j += 1;
+            console.log("i=" + i + " j=" + j);
+
+            if ((tema !=reservacion[ins]["tema"]) || (ins == reservacion.length - 1)){
+              tema = reservacion[ins]["tema"];               
+              console.log("ins=" + ins + " | tema=" + tema );
+              console.log("reservacion[ins].tema=" + reservacion[ins].tema);
+              if (ins>0){
+                this.temas.push( new Tema(
+                  reservacion[ins-1].temaId,
+                  reservacion[ins-1].tema,
+                  reservacion[ins-1].color,
+                  null,
+                  null,
+                  this.pregs) );
+
+                i += 1;
+                j = -1;
+                this.pregs = [];
+              }             
+            }
+
             reservacion[ins].preguntas.forEach( pregunta => {  
-              j += 1;
               const optRes = pregunta.respuestas;
               this.resp = [];
               optRes.forEach( or => {
@@ -96,19 +116,18 @@ export class BehaviorComponent implements OnInit {
                   this.resp.push(new Tema(or.respuestaId, or.respuesta, null, null, null, null));
                 }
               });
-              this.pregs.push( new Tema( pregunta.preguntaId, pregunta.pregunta, null, pregunta.respuestaPresentacionId, null, this.resp) );
+
+              this.pregs.push( new Tema( pregunta.preguntaId
+                                         ,pregunta.pregunta
+                                         ,null
+                                         ,pregunta.respuestaPresentacionId
+                                         ,null
+                                         ,this.resp) 
+                              );
               this.grupPreg[i][j] = pregunta.preguntaId;
-              this.grupOpc[i][j] = pregunta.respuestaPresentacionId;
+              this.grupOpc[i][j]  = pregunta.respuestaPresentacionId;
             });
 
-            console.log("reservacion[ins].tema=" + reservacion[ins].tema);
-            this.temas.push( new Tema(
-                reservacion[ins].temaId,
-                reservacion[ins].tema,
-                reservacion[ins].color,
-                null,
-                null,
-                this.pregs) );
           }
           //});
         //}
@@ -132,7 +151,6 @@ export class BehaviorComponent implements OnInit {
     this.preguntas.postRespuetaExamen(this.examenReservacionId, this.SaveRespuestas).subscribe(
         respuesta => {
           console.dir( respuesta  );
-
 
           this.isdisabled = true;
           this.toastr.errorToastr('Para terminar el examen, Todas las preguntas deben contestarse.', 'Lo siento,');

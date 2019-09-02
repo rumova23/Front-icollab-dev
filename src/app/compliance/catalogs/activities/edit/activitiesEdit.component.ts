@@ -50,6 +50,7 @@ export class ActivitiesEditComponent implements OnInit {
 
   idStatus;  
   actividad;
+  result;
 
   constructor(
     private route: ActivatedRoute,
@@ -67,8 +68,6 @@ export class ActivitiesEditComponent implements OnInit {
 
   ngOnInit() { 
 
-    //this.addBlock(1, "Cargando...")
-
     this.actividadesForm = this.formBuilder.group({
       fActividadId: ['', ''],
       fActividad: ['', Validators.required],
@@ -77,33 +76,6 @@ export class ActivitiesEditComponent implements OnInit {
       fTareaProximaVencer: ['30', [Validators.min(1), Validators.max(100)] ],
       fTareaTiempo: ['30', [Validators.min(1), Validators.max(100)] ]
     });
-
-
-    /*
-    this.tagService.getEstatusMaestroOpcion().subscribe(
-      catalogoResult => {
-        console.log(catalogoResult)
-        let entidadEstatus: any;
-        entidadEstatus = catalogoResult;
-        entidadEstatus.forEach(element => {
-
-          if ( element.estatus.nombre === 'Activo' ){
-            this.checkedActivoId = element.estatus.estatusId;
-          }
-
-          if ( element.estatus.nombre === 'Inactivo' ){
-            this.checkedInactivoId = element.estatus.estatusId;
-          }
-        });
-        this.addBlock(2, null);
-      },
-      error => {
-        console.log("Error al obtener catalgo de estatus.");
-        console.log(<any>error)
-        this.addBlock(2, null);
-        this.toastr.errorToastr('Error al cargar estatus maestro.', 'Lo siento,');
-      }
-    );*/
 
     //this.accion = this.route.snapshot.params.accion;
     this.accion = this.catalogType.action;
@@ -129,11 +101,12 @@ export class ActivitiesEditComponent implements OnInit {
   }
 
   obtenerDatosActividad() {
-    
-    //this.addBlock(1, "Cargando...");
-    
-    this.actividadId = this.catalogType.id;
     console.log("Accion: " + this.accion);
+
+    this.actividadId = this.catalogType.id;
+    console.log("this.actividadId: " + this.actividadId);
+    
+
     if (this.actividadId > 0) {
       this.tagService.getActividad(this.actividadId).subscribe(
         respuesta => {
@@ -374,9 +347,60 @@ export class ActivitiesEditComponent implements OnInit {
     this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 
+
   regresar(){
+    console.log("regresar");
+    if (this.accion === 'nuevo' && !this.checkedClone){
+      let element_id;
+      console.log("obtenerDatosCategoria(..) - En regresar");
+
+      this.tagService.getCatalogoActividades("TODOS").subscribe( 
+        dataBack => {
+         console.log("dataBack - En regresar");
+         console.dir(dataBack);
+          //console.dir(dataBack['result']);
+          this.result = dataBack;
+  
+          for (let element of this.result) { 
+            if (element.name === this.actividadesForm.controls['fActividad'].value){
+              console.log("element.id");
+              console.log(element.idActivity);
+              element_id = element.idActivity;
+            }
+          }
+
+          if (this.checkedEstatus){
+            this.idStatus = true;
+          }
+          else{
+            this.idStatus = false;
+          }
+      
+          this.actividad = new TagActividadInDTO(
+            element_id,
+            this.actividadesForm.controls['fActividad'].value,
+            this.actividadesForm.controls['fPrefijo'].value,
+            this.checkedEstatus,
+            40,  //this.actividadesForm.controls['fTareaPorVencer'].value,
+            30,  //this.actividadesForm.controls['fTareaProximaVencer'].value,
+            30,  //this.actividadesForm.controls['fTareaTiempo'].value);
+            "NO_CLONADO",
+            0);
+      
+            console.log(this.actividad);
+            this.tagService.editarActividad(this.actividad).subscribe(
+              result => {
+                console.log(result);
+                console.log("SI no se clona se quita la referencia");
+              },
+              error => {
+                console.log(<any>error);
+              });
+        })
+    }
+
     this.eventService.sendMainCompliance(new EventMessage(6, {}));
-  }
+  }  
 
 
   changeClone(){
