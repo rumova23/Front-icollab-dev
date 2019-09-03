@@ -347,7 +347,7 @@
                         </span>
                     </div>
  
-                    <div class="col txtcenter" *ngIf="globalService.aguila" (click)="datasetToggleChartMain('getCTUnoDiesel')">
+                    <div class="col txtcenter" *ngIf="theme.visibilityTag('getCTUnoDiesel')" (click)="datasetToggleChartMain('getCTUnoDiesel')">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getCTUnoDiesel'].backgroundColor}"
@@ -488,7 +488,7 @@
                             NM3/h
                         </span>
                     </div>
-                    <div class="col txtcenter" *ngIf="globalService.aguila" (click)="datasetToggleChartMain('getCTDosDiesel')">
+                    <div class="col txtcenter" *ngIf="theme.visibilityTag('getCTDosDiesel')" (click)="datasetToggleChartMain('getCTDosDiesel')">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getCTDosDiesel'].backgroundColor}"

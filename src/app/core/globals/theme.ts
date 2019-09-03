@@ -55,6 +55,23 @@ export class ThemeService {
         //return plant.label; // lo ideal
         return label;
     }
+    visibilityTag(tag){
+        
+        let plant = this.globalService.plant;
+        let visibility = true;
+        if(tag == 'getCTUnoDiesel' || tag == 'getCTDosDiesel'){
+            switch(plant.name){
+                case "AGUILA":
+                    visibility = true;
+                break;
+                case "SOL":
+                    visibility = false;
+                break;
+            }
+        }
+        //return plant.label; // lo ideal
+        return visibility;
+    }
     getNameLabelApp(){
         let app = this.globalService.app;
         let label = "";
