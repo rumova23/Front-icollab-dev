@@ -52,11 +52,12 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 
 
   wifi        = false;
+  tooltipWifi = "";
 
   showModal_lst_tags = false;
 
   showModal   = false;
-  titleModal  = "";
+  titleModal  = "tooltip";
   
   showDropdownchart_01 = false;
   myinterval = null;
@@ -187,7 +188,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 
 
 		this.subscribeFechaYHora()
-		this.subscrubeChangeGraphUpdateTimeRest();
+		
 		this.subscribeSocketOnStatus();
 		this.subscribeSocket();
 	/*
@@ -285,18 +286,19 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		this.timeRequest = timer(0,this.time_on_request*1000);
 		this.subscriptions['timeRequest']=this.timeRequest.subscribe(()=>this.TraerDatosDesdePiWebAPI());
 	}
+	unsubscrubeChangeGraphUpdateTimeRest(){
+		if(this.subscriptions['timeRequest']  != undefined && this.subscriptions["timeRequest"].isStopped==false){
+			this.subscriptions['timeRequest'].unsubscribe();
+		}
+	}
 	subscribeSocketOnStatus(){
 		this.subscriptions['onChangeSocketConnect'] = this.eventService.onChangeSocketConnect.subscribe({
 			next: (event: EventMessage) => {
 				if(event.id === 0){
-          this.unsubscribeSocket();
-          /**
-           * iniciar proceso de peticion REST
-           */
+					this.unsubscribeSocket();
+					this.subscrubeChangeGraphUpdateTimeRest();
 				}else if(event.id === 1){
-          /**
-           * terminar proceso de peticion REST
-           */
+					this.unsubscrubeChangeGraphUpdateTimeRest();
 					this.subscribeSocket();
 				}
 			}
@@ -308,6 +310,35 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 
 			this.subscriptions['back-pi-isrun'] = this.socketService.onChannelWatch(channelBackPiIsRun-1)
 				.subscribe((data:any)=>{
+					if(data.isrun == 0){
+						this.whenLosingConnection();
+					}else if(data.isrun == 1){
+						if(data.backPi['status-pi-aguila'] == 0){
+							if(this.globalService.plant.name === "AGUILA"){
+								this.whenLosingConnection();
+							}
+						}else if(data.backPi['status-pi-sol'] == 0){
+							if(this.globalService.plant.name === "SOL"){
+								this.whenLosingConnection();
+							}
+						}else if(data.backPi['status-doc-aguila'] == 0){
+							if(this.globalService.plant.name === "AGUILA"){
+								this.subscrubeChangeGraphUpdateTimeRest();
+						    }
+					    }else if(data.backPi['status-doc-sol'] == 0){
+							if(this.globalService.plant.name === "SOL"){
+								this.subscrubeChangeGraphUpdateTimeRest();
+						    }
+					    }else if(data.backPi['status-doc-aguila'] == 1){
+							if(this.globalService.plant.name === "AGUILA"){
+								this.unsubscrubeChangeGraphUpdateTimeRest();
+						    }
+					    }else if(data.backPi['status-doc-sol'] == 1){
+							if(this.globalService.plant.name === "SOL"){
+								this.unsubscrubeChangeGraphUpdateTimeRest();
+						    }
+					    }
+					}
 					console.log("back-pi-isrun::",data);
 				});
 			this.subscriptions['back-pi-isrun-error'] = this.socketService.onChannelError(channelBackPiIsRun-1)
@@ -363,20 +394,22 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
   
 	  
 		console.log(">>>>>>>  TraerDatosDesdePiWebAPI");
-		
-		///*
-		if( !this.globalService.socketConnect ){
-			if(this.globalService.plant.name === "AGUILA"){
+	
+		if(this.globalService.plant.name === "AGUILA"){
 				this.wsPI.getTagsAguila().subscribe(data=>{
 					this.dataAdapter(JSON.parse(data));
-				},err=>{});
-			}else if(this.globalService.plant.name === "SOL"){
-				this.wsPI.getTagsSol().subscribe(data=>{
+				},err=>{
+					this.whenLosingConnection();
+				}
+			);
+		}else if(this.globalService.plant.name === "SOL"){
+			this.wsPI.getTagsSol().subscribe(data=>{
 					this.dataAdapter(JSON.parse(data));
-				},err=>{});
-			}
+				},err=>{
+					this.whenLosingConnection();
+				}
+			);
 		}
-  		//*/
 	}
 	dataAdapter(data){
 		for (const calltag in M3.lstTags) {
@@ -417,338 +450,366 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		  }
 		}
 	}
+	cleanDataChart(){
+		for (const iterator in this.dataset_main) {
+			this.dataset_main[iterator]['data'] = [];
+		}
+		for (const iterator of this['chart_rt'].data.datasets) {
+			iterator.data = [];
+		}
+		for (const iterator of this['chart_rpm'].data.datasets) {
+			iterator.data = [];
+		}
+		for (const iterator of this['chart_mw'].data.datasets) {
+			iterator.data = [];
+		}
+		for (const iterator of this['chart_rt_t1'].data.datasets) {
+			iterator.data = [];
+		}
+		
+		this['chart_rt'].update();
+		this['chart_rpm'].update();
+		this['chart_mw'].update();
+		this['chart_rt_t1'].update();
+		this.chart_01.update();
+	}
+	whenLosingConnection(){
+		this.wifi = false;
+		this.initializeAt0();
+		this.cleanDataChart();
+	}
+	updateChartMain(form){
+		this.chart_01.data.labels = new Array(form.value.data_per_graph_main);
+		this.time_on_request      = form.value.time_on_request;
+		this.data_per_graph_main  = form.value.data_per_graph_main;
+		this.dynamic_scale        = form.value.dynamic_scale;
+		
+		/* Si el "data_per_graph_main" es menor a lo que existe
+		* esto eliminara los elementos del inicio que sibren 
+		* para pintar la grafica 
+		*/
+		this.chart_01.data.datasets.forEach(function(element) {
+		if(form.value.data_per_graph_main < element.data.length){
+			element.data = element.data.slice(
+			element.data.length - form.value.data_per_graph_main
+			,element.data.length);
+		}
+		});
 
-  updateChartMain(form){
-    this.chart_01.data.labels = new Array(form.value.data_per_graph_main);
-    this.time_on_request      = form.value.time_on_request;
-    this.data_per_graph_main  = form.value.data_per_graph_main;
-    this.dynamic_scale        = form.value.dynamic_scale;
-    
-    /* Si el "data_per_graph_main" es menor a lo que existe
-     * esto eliminara los elementos del inicio que sibren 
-     * para pintar la grafica 
-     */
-    this.chart_01.data.datasets.forEach(function(element) {
-      if(form.value.data_per_graph_main < element.data.length){
-        element.data = element.data.slice(
-           element.data.length - form.value.data_per_graph_main
-          ,element.data.length);
-      }
-    });
+		this.change_graph_dynamic_scale();
 
-    this.change_graph_dynamic_scale();
+		this.subscrubeChangeGraphUpdateTimeRest();
 
-    this.subscrubeChangeGraphUpdateTimeRest();
-
-    this.chart_01.config.type = form.value.type_graph_main;
-    this.chart_01.update();
-    this.showDropdownchart_01 = false;
-  }
-  change_graph_dynamic_scale(){
-    for (let index = 0; index < this.chart_01.config.options.scales.yAxes.length; index++) {
-      const element = this.chart_01.config.options.scales.yAxes[index];
-      const calltag = this.chart_01.config.options.scales.yAxes[index].id;
-      if (this.dynamic_scale === 'dynamic') {
-        if(M3.lstTags[calltag]){
-          this.chart_01.config.options.scales.yAxes[index].ticks.min = undefined;
-          this.chart_01.config.options.scales.yAxes[index].ticks.max = undefined;
-          this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = false;
-        }
-      }else if(this.dynamic_scale === 'dynamic_with_0'){
-        if(M3.lstTags[calltag]){
-          this.chart_01.config.options.scales.yAxes[index].ticks.min = undefined;
-          this.chart_01.config.options.scales.yAxes[index].ticks.max = undefined;
-          this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = true;
-        }
-      }else if(this.dynamic_scale === 'static'){
-        if(M3.lstTags[calltag]){
-          this.chart_01.config.options.scales.yAxes[index]['ticks']['min'] = M3.lstTags[calltag]['min'];
-          this.chart_01.config.options.scales.yAxes[index]['ticks']['max'] = M3.lstTags[calltag]['max'];
-          this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = false;
-        }
-      }else if(this.dynamic_scale === 'static_min'){
-        if(M3.lstTags[calltag]){
-          this.chart_01.config.options.scales.yAxes[index]['ticks']['min'] = M3.lstTags[calltag]['min'];
-          this.chart_01.config.options.scales.yAxes[index]['ticks']['max'] = undefined;
-          this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = false;
-        }
-      }
+		this.chart_01.config.type = form.value.type_graph_main;
+		this.chart_01.update();
+		this.showDropdownchart_01 = false;
+	}
+	change_graph_dynamic_scale(){
+		for (let index = 0; index < this.chart_01.config.options.scales.yAxes.length; index++) {
+		const element = this.chart_01.config.options.scales.yAxes[index];
+		const calltag = this.chart_01.config.options.scales.yAxes[index].id;
+		if (this.dynamic_scale === 'dynamic') {
+			if(M3.lstTags[calltag]){
+			this.chart_01.config.options.scales.yAxes[index].ticks.min = undefined;
+			this.chart_01.config.options.scales.yAxes[index].ticks.max = undefined;
+			this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = false;
+			}
+		}else if(this.dynamic_scale === 'dynamic_with_0'){
+			if(M3.lstTags[calltag]){
+			this.chart_01.config.options.scales.yAxes[index].ticks.min = undefined;
+			this.chart_01.config.options.scales.yAxes[index].ticks.max = undefined;
+			this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = true;
+			}
+		}else if(this.dynamic_scale === 'static'){
+			if(M3.lstTags[calltag]){
+			this.chart_01.config.options.scales.yAxes[index]['ticks']['min'] = M3.lstTags[calltag]['min'];
+			this.chart_01.config.options.scales.yAxes[index]['ticks']['max'] = M3.lstTags[calltag]['max'];
+			this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = false;
+			}
+		}else if(this.dynamic_scale === 'static_min'){
+			if(M3.lstTags[calltag]){
+			this.chart_01.config.options.scales.yAxes[index]['ticks']['min'] = M3.lstTags[calltag]['min'];
+			this.chart_01.config.options.scales.yAxes[index]['ticks']['max'] = undefined;
+			this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = false;
+			}
+		}
 
 
-      
-    }
-  }
-  togleModalTags(){
-    this.showModal_lst_tags = ! this.showModal_lst_tags;
-  }
-  openModal_01(calltag,title?){
-    this.titleModal = title;
-    this.showModal = true;
-  }
-  closeModal_01(){
-    this.showModal = false;
-  }
-  changeTypeChart(){
+		
+		}
+	}
+	togleModalTags(){
+		this.showModal_lst_tags = ! this.showModal_lst_tags;
+	}
+	openModal_01(calltag,title?){
+		this.titleModal = title;
+		this.showModal = true;
+	}
+	closeModal_01(){
+		this.showModal = false;
+	}
+	emptyChart(){
+		this.chart_01.data.datasets.forEach(function(element) {
+		element.hidden=true;
+		});
+		this.chart_01.config.options.scales.yAxes.forEach(function(element) {
+		element.display=false;
+		});
+		this.showDropdownchart_01 = false;
+	}
+	datasetToggleChartMain(calltag){
+		if (this.dataset_main[calltag] !== undefined) {
+		this.dataset_main[calltag].hidden = !this.dataset_main[calltag].hidden;
+	
+		for (let index = 0; index < this.chart_01.config.options.scales.yAxes.length; index++) {
+			const element = this.chart_01.config.options.scales.yAxes[index];
+			if (element.id == calltag) {
+			this.yAxes_main[calltag].display= !this.dataset_main[calltag].hidden;
+			this.chart_01.config.options.scales.yAxes[index].display= !this.dataset_main[calltag].hidden;
+			this.chart_01.update();
+			}
+		}
+		}
+	}
+	addDatasetRT(tagconf,calltag,data,tags,chart){
+		/*El método find() devuelve el valor del primer elemento 
+		del array que cumple la función de prueba proporcionada. 
+		En cualquier otro caso se devuelve undefined. */
+		let existDataset = function (tag) {
+		return (tag.id === calltag);
+		};
 
-  }
-  emptyChart(){
-    this.chart_01.data.datasets.forEach(function(element) {
-      element.hidden=true;
-    });
-    this.chart_01.config.options.scales.yAxes.forEach(function(element) {
-      element.display=false;
-    });
-    this.showDropdownchart_01 = false;
-  }
-  datasetToggleChartMain(calltag){
-    if (this.dataset_main[calltag] !== undefined) {
-      this.dataset_main[calltag].hidden = !this.dataset_main[calltag].hidden;
-  
-      for (let index = 0; index < this.chart_01.config.options.scales.yAxes.length; index++) {
-        const element = this.chart_01.config.options.scales.yAxes[index];
-        if (element.id == calltag) {
-          this.yAxes_main[calltag].display= !this.dataset_main[calltag].hidden;
-          this.chart_01.config.options.scales.yAxes[index].display= !this.dataset_main[calltag].hidden;
-          this.chart_01.update();
-        }
-      }
-    }
-  }
-  obtenerValor(po_textoHTML):string{
-    if(!this.wsPI.conexiondirectaPI){
-      var obj = JSON.parse(po_textoHTML);
-      return obj.Value;
-    }
+		//if(['getCTUnoRT','getCTDosRT','getTVRT'].includes(calltag)){
+		if(tags.includes(calltag)){
+		let tag = this[chart].data.datasets.find(existDataset);
+		if(tag == undefined){
+	
+			let newColor = (tagconf.color == '#cccccc') ? M3.generateColorHEX(calltag):tagconf.color;
+	
+			var newDatasetModal = {
+			id:calltag,
+			label: tagconf.label,
+			backgroundColor: newColor,
+			borderColor: newColor,
+			data: [data],
+			fill: false,
+			hidden:false
+			};
+			this[chart].data.datasets.push(newDatasetModal);
+		}else{
+			(tag.data as number[])=[data];
+		}
+		this[chart].update();
+		}
 
-    let lc_cadena = po_textoHTML.toString();
-    //console.log(lc_cadena);
+	}
+	addDatasetLine(tagconf,calltag,data,tags,chart){
+		/*El método find() devuelve el valor del primer elemento 
+		del array que cumple la función de prueba proporcionada. 
+		En cualquier otro caso se devuelve undefined. */
+		let existDataset = function (tag) {
+		return (tag.id === calltag);
+		};
 
-    let ln_pos1Value = lc_cadena.indexOf(";Value") + 14;
-    //console.log("ln_pos1Value=" + ln_pos1Value);
-    let ln_pos2Value = lc_cadena.substring(ln_pos1Value).indexOf(",");
-    //console.log("ln_pos2Value=" + ln_pos2Value);
-    
-    let lc_valor = lc_cadena.substring(ln_pos1Value, ln_pos1Value + ln_pos2Value).trim();
-    return lc_valor;
-  }
-  
-  addDatasetRT(tagconf,calltag,data,tags,chart){
-    /*El método find() devuelve el valor del primer elemento 
-    del array que cumple la función de prueba proporcionada. 
-    En cualquier otro caso se devuelve undefined. */
-    let existDataset = function (tag) {
-      return (tag.id === calltag);
-    };
+		//if(['getCTUnoRT','getCTDosRT','getTVRT'].includes(calltag)){
+		if(tags.includes(calltag)){
+		let tag = this[chart].data.datasets.find(existDataset);
+		if(tag == undefined){
+	
+			var newColor = (tagconf.color == '#cccccc') ? M3.generateColorHEX(calltag):tagconf.color;
+	
+			var newDatasetModal = {
+			id:calltag,
+			label: tagconf.label,
+			backgroundColor: newColor,
+			borderColor: newColor,
+			data: [data],
+			fill: false,
+			hidden:false
+			};
+			this[chart].data.datasets.push(newDatasetModal);
+		}else{
+			(tag.data as number[]).push(data);
+			//tag.data.push(data);
+			if(tag.data.length >= 11){
+			tag.data.shift();
+			}
+		}
+		this[chart].update();
+		}
 
-    //if(['getCTUnoRT','getCTDosRT','getTVRT'].includes(calltag)){
-    if(tags.includes(calltag)){
-      let tag = this[chart].data.datasets.find(existDataset);
-      if(tag == undefined){
-  
-        let newColor = (tagconf.color == '#cccccc') ? M3.generateColorHEX(calltag):tagconf.color;
-   
-        var newDatasetModal = {
-          id:calltag,
-          label: tagconf.label,
-          backgroundColor: newColor,
-          borderColor: newColor,
-          data: [data],
-          fill: false,
-          hidden:false
-        };
-        this[chart].data.datasets.push(newDatasetModal);
-      }else{
-        (tag.data as number[])=[data];
-      }
-      this[chart].update();
-    }
+	}
+	addDataset(tagconf,calltag,data){
+		let existDataset = function (tag) {
+		return (tag.id === calltag);
+		};
+		let hiddenDataset = function(){
+		switch(calltag) {
+			case "getPotenciaNeta":
+			case "getPotenciaCCDV":
+			case "getRegimenTermico":
+			return false;
+			default:
+			return true;
+		}
+		}
+		let displayYAxis = function(){
+		//return false;
+		switch(calltag) {
+			case "getPotenciaNeta":
+			case "getPotenciaCCDV":
+			case "getRegimenTermico":
+			return true;
+			default:
+			return false;
+		}
+		}
+		
+		let tag = this.chart_01.data.datasets.find(existDataset);
+		if(tag == undefined){
+		//let newColor = tagconf.color;
+		let newColor = (tagconf.color == '#cccccc') ? M3.generateColorHEX(calltag):tagconf.color;
+		var newDataset = {
+			id:calltag,
+			label: M3.lstTags[calltag].label+'----'+newColor,
+			backgroundColor: newColor,
+			borderColor: newColor,
+			data: [data],
+			fill: false,
+			yAxisID: calltag,
+			//yAxisID: 'my887896',
+			hidden:hiddenDataset()
+		};
+		var newYaxis = {
+			id: calltag,
+			type: 'linear', 
+			display: displayYAxis(),
+			position: 'left',
+			ticks:{
+			fontColor:newColor,
+			fontSize:12,
+			min: tagconf.min,
+			max: tagconf.max,
+			beginAtZero: false
+			},
+			
+		};
+		
+		this.chart_01.data.datasets.push(newDataset);
+		this.chart_01.config.options.scales.yAxes.push(newYaxis);
 
-  }
-  addDatasetLine(tagconf,calltag,data,tags,chart){
-    /*El método find() devuelve el valor del primer elemento 
-    del array que cumple la función de prueba proporcionada. 
-    En cualquier otro caso se devuelve undefined. */
-    let existDataset = function (tag) {
-      return (tag.id === calltag);
-    };
+		
+		this.dataset_main[calltag] = this.chart_01.data.datasets[this.chart_01.data.datasets.length-1];
+		this.yAxes_main[calltag]   = this.chart_01.config.options.scales.yAxes[this.chart_01.config.options.scales.yAxes.length-1];
+		
+		}else{
+		(tag.data as number[]).push(data);
+		//tag.data.push(data);
+		if(tag.data.length >= this.chart_01.data.labels.length+1){
+			tag.data.shift();
+		}
+		}
+		//console.log("data",this.chart_01.data.datasets);
+		//console.log("y ",this.chart_01.config.options.scales.yAxes);
+		this.chart_01.update();
+	}
 
-    //if(['getCTUnoRT','getCTDosRT','getTVRT'].includes(calltag)){
-    if(tags.includes(calltag)){
-      let tag = this[chart].data.datasets.find(existDataset);
-      if(tag == undefined){
-  
-        var newColor = (tagconf.color == '#cccccc') ? M3.generateColorHEX(calltag):tagconf.color;
-   
-        var newDatasetModal = {
-          id:calltag,
-          label: tagconf.label,
-          backgroundColor: newColor,
-          borderColor: newColor,
-          data: [data],
-          fill: false,
-          hidden:false
-        };
-        this[chart].data.datasets.push(newDatasetModal);
-      }else{
-        (tag.data as number[]).push(data);
-        //tag.data.push(data);
-        if(tag.data.length >= 11){
-          tag.data.shift();
-        }
-      }
-      this[chart].update();
-    }
+	
 
-  }
-  addDatasetModal(label,calltag,data){
-    let existDataset = function (tag) {
-      return (tag.id === calltag);
-    };
+	addDatasetModal(label,calltag,data){
+		let existDataset = function (tag) {
+		return (tag.id === calltag);
+		};
 
-    
-    let tag = this.chart_modal.data.datasets.find(existDataset);
-    if(tag == undefined){
+		
+		let tag = this.chart_modal.data.datasets.find(existDataset);
+		if(tag == undefined){
 
-      var newColor = M3.generateColorHEX(calltag);
- 
-      var newDatasetModal = {
-        id:calltag,
-        label: calltag,
-        backgroundColor: newColor,
-        borderColor: newColor,
-        data: [data],
-        fill: false,
-        hidden:true
-      };
-      this.chart_modal.data.datasets.push(newDatasetModal);
+		var newColor = M3.generateColorHEX(calltag);
+	
+		var newDatasetModal = {
+			id:calltag,
+			label: calltag,
+			backgroundColor: newColor,
+			borderColor: newColor,
+			data: [data],
+			fill: false,
+			hidden:true
+		};
+		this.chart_modal.data.datasets.push(newDatasetModal);
 
-      this.dataset_modal[calltag] = this.chart_modal.data.datasets[this.chart_modal.data.datasets.length-1];
-      this.yAxes_modal[calltag]   = this.chart_modal.config.options.scales.yAxes[this.chart_modal.config.options.scales.yAxes.length-1];
-      
+		this.dataset_modal[calltag] = this.chart_modal.data.datasets[this.chart_modal.data.datasets.length-1];
+		this.yAxes_modal[calltag]   = this.chart_modal.config.options.scales.yAxes[this.chart_modal.config.options.scales.yAxes.length-1];
+		
 
-    }else{
-      (tag.data as number[])=[data];
-      //tag.data.push(data);
-      /*if(tag.data.length >= this.chart_modal.data.labels.length+1){
-        tag.data.shift();
-      }//*/
-    }
-    //console.log("data",this.chart_01.data.datasets);
-    //console.log("y ",this.chart_01.config.options.scales.yAxes);
-    this.chart_modal.update();
-  }
-  addDataset(tagconf,calltag,data){
-    let existDataset = function (tag) {
-      return (tag.id === calltag);
-    };
-    let hiddenDataset = function(){
-      switch(calltag) {
-        case "getPotenciaNeta":
-        case "getPotenciaCCDV":
-        case "getRegimenTermico":
-          return false;
-        default:
-          return true;
-      }
-    }
-    let displayYAxis = function(){
-      //return false;
-      switch(calltag) {
-        case "getPotenciaNeta":
-        case "getPotenciaCCDV":
-        case "getRegimenTermico":
-          return true;
-        default:
-          return false;
-      }
-    }
-    
-    let tag = this.chart_01.data.datasets.find(existDataset);
-    if(tag == undefined){
-      //let newColor = tagconf.color;
-      let newColor = (tagconf.color == '#cccccc') ? M3.generateColorHEX(calltag):tagconf.color;
-      var newDataset = {
-        id:calltag,
-        label: M3.lstTags[calltag].label+'----'+newColor,
-        backgroundColor: newColor,
-        borderColor: newColor,
-        data: [data],
-        fill: false,
-        yAxisID: calltag,
-        //yAxisID: 'my887896',
-        hidden:hiddenDataset()
-      };
-      var newYaxis = {
-        id: calltag,
-        type: 'linear', 
-        display: displayYAxis(),
-        position: 'left',
-        ticks:{
-          fontColor:newColor,
-          fontSize:12,
-          min: tagconf.min,
-          max: tagconf.max,
-          beginAtZero: false
-        },
-        
-      };
-      
-      this.chart_01.data.datasets.push(newDataset);
-      this.chart_01.config.options.scales.yAxes.push(newYaxis);
+		}else{
+		(tag.data as number[])=[data];
+		//tag.data.push(data);
+		/*if(tag.data.length >= this.chart_modal.data.labels.length+1){
+			tag.data.shift();
+		}//*/
+		}
+		//console.log("data",this.chart_01.data.datasets);
+		//console.log("y ",this.chart_01.config.options.scales.yAxes);
+		this.chart_modal.update();
+	}
+	obtenerValor(po_textoHTML):string{
+		/*
+		if(!this.wsPI.conexiondirectaPI){
+		var obj = JSON.parse(po_textoHTML);
+		return obj.Value;
+		}
 
-      
-      this.dataset_main[calltag] = this.chart_01.data.datasets[this.chart_01.data.datasets.length-1];
-      this.yAxes_main[calltag]   = this.chart_01.config.options.scales.yAxes[this.chart_01.config.options.scales.yAxes.length-1];
-      
-    }else{
-      (tag.data as number[]).push(data);
-      //tag.data.push(data);
-      if(tag.data.length >= this.chart_01.data.labels.length+1){
-        tag.data.shift();
-      }
-    }
-    //console.log("data",this.chart_01.data.datasets);
-    //console.log("y ",this.chart_01.config.options.scales.yAxes);
-    this.chart_01.update();
-  }
-  peticion(calltag, tagconf, webID){
+		let lc_cadena = po_textoHTML.toString();
+		//console.log(lc_cadena);
 
-    if(this.isdemo){
-      this.calltags[calltag]          = Math.random() * (500 - 51) + 51;
+		let ln_pos1Value = lc_cadena.indexOf(";Value") + 14;
+		//console.log("ln_pos1Value=" + ln_pos1Value);
+		let ln_pos2Value = lc_cadena.substring(ln_pos1Value).indexOf(",");
+		//console.log("ln_pos2Value=" + ln_pos2Value);
+		
+		let lc_valor = lc_cadena.substring(ln_pos1Value, ln_pos1Value + ln_pos2Value).trim();
+		return lc_valor;
+		//*/
+		return "";
+	}
+	peticion(calltag, tagconf, webID){
+		/*
+		if(this.isdemo){
+		this.calltags[calltag]          = Math.random() * (500 - 51) + 51;
 
-      this.addDataset     ( tagconf, calltag, this.calltags[calltag] );
-      this.addDatasetRT   ( tagconf, calltag, this.calltags[calltag],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt');
-      this.addDatasetRT   ( tagconf, calltag, this.calltags[calltag],['getCTUnoRPM','getCTDosRPM','getTVRPM'],'chart_rpm');
-      this.addDatasetRT   ( tagconf, calltag, this.calltags[calltag],['getCTUnoMW','getCTDosMW','getTVMW'],'chart_mw');
-      this.addDatasetLine ( tagconf, calltag, this.calltags[calltag],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt_t1');
-      /*
-      //this.addDatasetModal(label,calltag,this.calltags[calltag]);
-      //*/
-      return;
-    }
-    this.wsPI.getTag(webID,(this.globalService.plant.name === "AGUILA")).subscribe(
-      data=>{
-        let datoprocesado = null;
-        if(tagconf.typadata == 'float')     datoprocesado = parseFloat(this.obtenerValor(data));
-        else if(tagconf.typadata == 'int')  datoprocesado = parseInt(this.obtenerValor(data));
-        
-        this.calltags[calltag]          = datoprocesado;
-        
-        this.addDataset(tagconf,calltag,datoprocesado);
-        this.addDatasetRT ( tagconf, calltag, this.calltags[calltag],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt');
-        this.addDatasetRT ( tagconf, calltag, this.calltags[calltag],['getCTUnoRPM','getCTDosRPM','getTVRPM'],'chart_rpm');
-        this.addDatasetRT ( tagconf, calltag, this.calltags[calltag],['getCTUnoMW','getCTDosMW','getTVMW'],'chart_mw');
-        this.addDatasetLine ( tagconf, calltag, this.calltags[calltag],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt_t1');
-        
-        if(calltag=='getPresionAtmosferica')this.wifi = true;
-      },
-      err=>{
-        this.calltags[calltag]          = 0;
-        if(calltag=='getPresionAtmosferica')this.wifi = false;
-      }
-    );
-  }
-  cambiarIdioma(pc_idioma : string) {
-    //this.translate.use(pc_idioma);
-  }
+		this.addDataset     ( tagconf, calltag, this.calltags[calltag] );
+		this.addDatasetRT   ( tagconf, calltag, this.calltags[calltag],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt');
+		this.addDatasetRT   ( tagconf, calltag, this.calltags[calltag],['getCTUnoRPM','getCTDosRPM','getTVRPM'],'chart_rpm');
+		this.addDatasetRT   ( tagconf, calltag, this.calltags[calltag],['getCTUnoMW','getCTDosMW','getTVMW'],'chart_mw');
+		this.addDatasetLine ( tagconf, calltag, this.calltags[calltag],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt_t1');
+		//this.addDatasetModal(label,calltag,this.calltags[calltag]);
+		return;
+		}
+		this.wsPI.getTag(webID,(this.globalService.plant.name === "AGUILA")).subscribe(
+		data=>{
+			let datoprocesado = null;
+			if(tagconf.typadata == 'float')     datoprocesado = parseFloat(this.obtenerValor(data));
+			else if(tagconf.typadata == 'int')  datoprocesado = parseInt(this.obtenerValor(data));
+			
+			this.calltags[calltag]          = datoprocesado;
+			
+			this.addDataset(tagconf,calltag,datoprocesado);
+			this.addDatasetRT ( tagconf, calltag, this.calltags[calltag],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt');
+			this.addDatasetRT ( tagconf, calltag, this.calltags[calltag],['getCTUnoRPM','getCTDosRPM','getTVRPM'],'chart_rpm');
+			this.addDatasetRT ( tagconf, calltag, this.calltags[calltag],['getCTUnoMW','getCTDosMW','getTVMW'],'chart_mw');
+			this.addDatasetLine ( tagconf, calltag, this.calltags[calltag],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt_t1');
+			
+			if(calltag=='getPresionAtmosferica')this.wifi = true;
+		},
+		err=>{
+			this.calltags[calltag]          = 0;
+			if(calltag=='getPresionAtmosferica')this.wifi = false;
+		}
+		);
+		//*/
+	}
+	cambiarIdioma(pc_idioma : string) {
+		//this.translate.use(pc_idioma);
+	}
 }
