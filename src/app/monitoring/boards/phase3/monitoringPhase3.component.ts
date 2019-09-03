@@ -79,7 +79,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
     type: 'line'
     ,data: {
       labels: new Array(this.data_per_graph_main)
-      //labels: ["miguel","Erika"]
+      //labels: ["k1","k2",'k3','k4']
       ,datasets: []
     }
     ,options: {
@@ -89,7 +89,11 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
       legend: {display: false,labels:{fontColor: 'red',fontSize:26}}
       ,scales: {
         xAxes: [{
-          display: false,
+			gridLines:{
+				color:"rgba(255,255,255,1)",
+				display: false,
+			},
+          display: true,
           ticks:{
             fontColor:"orange"
           }
@@ -660,16 +664,37 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 			return false;
 		}
 		}
+		let hexToRGB = function(h,a) {
+			let r = "0"; 
+			let g = "0";
+			let b = "0";
+		  
+			// 3 digits
+			if (h.length == 4) {
+				r = "0x" + h[1] + h[1];
+				g = "0x" + h[2] + h[2];
+				b = "0x" + h[3] + h[3];
+		  
+			// 6 digits
+			} else if (h.length == 7) {
+				r = "0x" + h[1] + h[2];
+				g = "0x" + h[3] + h[4];
+				b = "0x" + h[5] + h[6];
+			}
+			
+			return "rgb("+ +r + "," + +g + "," + +b + ","+a+")";
+		  }
 		
 		let tag = this.chart_01.data.datasets.find(existDataset);
 		if(tag == undefined){
-		//let newColor = tagconf.color;
-		let newColor = (tagconf.color == '#cccccc') ? M3.generateColorHEX(calltag):tagconf.color;
+		let rgba = hexToRGB(tagconf.color,0.3);
+		
+		let hex = (tagconf.color == '#cccccc') ? M3.generateColorHEX(calltag):tagconf.color;
 		var newDataset = {
 			id:calltag,
-			label: M3.lstTags[calltag].label+'----'+newColor,
-			backgroundColor: newColor,
-			borderColor: newColor,
+			label: M3.lstTags[calltag].label,
+			backgroundColor: hex,
+			borderColor: hex,
 			data: [data],
 			fill: false,
 			yAxisID: calltag,
@@ -682,11 +707,15 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 			display: displayYAxis(),
 			position: 'left',
 			ticks:{
-			fontColor:newColor,
-			fontSize:12,
-			min: tagconf.min,
-			max: tagconf.max,
-			beginAtZero: false
+				fontColor:hex,
+				fontSize:12,
+				min: tagconf.min,
+				max: tagconf.max,
+				beginAtZero: false
+			},
+			gridLines:{
+				color:"rgb(52, 58, 64)",
+				display: false,
 			},
 			
 		};

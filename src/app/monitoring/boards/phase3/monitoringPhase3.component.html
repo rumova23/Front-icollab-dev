@@ -21,7 +21,7 @@
                         <div mdbDropdownToggle mdbWavesEffect class="dropdown-toggle hiddenDropdownAfter">
                             <span class="badge badge-pill" 
                                   style="vertical-align:super;font-size: .3rem; "
-                                  [ngStyle]="{'background-color':dataset_main['getTemperaturaAmbiente'].backgroundColor}"
+                                  [ngStyle]="{'background-color':dataset_main['getTemperaturaAmbiente'].borderColor}"
                                   *ngIf="(dataset_main['getTemperaturaAmbiente'] !== undefined) && !dataset_main['getTemperaturaAmbiente'].hidden"
                             >&nbsp;</span>&nbsp;
                             <span class="myicon">
@@ -51,7 +51,7 @@
                                 [ngStyle]="{'background-color':
                                 (dataset_main['getTemperaturaAmbiente'] !== undefined) && (!dataset_main['getTemperaturaAmbiente'].hidden)
                                     ? 
-                                    dataset_main['getTemperaturaAmbiente'].backgroundColor:''}"
+                                    dataset_main['getTemperaturaAmbiente'].borderColor:''}"
                                  
                             >
                                 Grafica principal
@@ -75,7 +75,7 @@
                     <div (click)="datasetToggleChartMain('getTemperaturaAmbiente')">
                         <span class="badge" 
                                 style="vertical-align:super;font-size: .3rem; "
-                                [ngStyle]="{'background-color':dataset_main['getTemperaturaAmbiente'].backgroundColor}"
+                                [ngStyle]="{'background-color':dataset_main['getTemperaturaAmbiente'].borderColor}"
                                 *ngIf="(dataset_main['getTemperaturaAmbiente'] !== undefined) && !dataset_main['getTemperaturaAmbiente'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
                         <span class="myicon">
@@ -104,7 +104,7 @@
                     <div (click)="datasetToggleChartMain('getPresionAtmosferica')">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
-                            [ngStyle]="{'background-color':dataset_main['getPresionAtmosferica'].backgroundColor}"
+                            [ngStyle]="{'background-color':dataset_main['getPresionAtmosferica'].borderColor}"
                             *ngIf="(dataset_main['getPresionAtmosferica'] !== undefined) && !dataset_main['getPresionAtmosferica'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
                         <span class="myicon">
@@ -128,7 +128,7 @@
                     <div (click)="datasetToggleChartMain('gethumedad')">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
-                            [ngStyle]="{'background-color':dataset_main['gethumedad'].backgroundColor}"
+                            [ngStyle]="{'background-color':dataset_main['gethumedad'].borderColor}"
                             *ngIf="(dataset_main['gethumedad'] !== undefined) && !dataset_main['gethumedad'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
                         <span class="myicon">
@@ -325,7 +325,7 @@
                     <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoGas')">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
-                            [ngStyle]="{'background-color':dataset_main['getCTUnoGas'].backgroundColor}"
+                            [ngStyle]="{'background-color':dataset_main['getCTUnoGas'].borderColor}"
                             *ngIf=" (dataset_main['getCTUnoGas'] !== undefined) && !dataset_main['getCTUnoGas'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
                         <span class="myicon">
@@ -350,7 +350,7 @@
                     <div class="col txtcenter" *ngIf="theme.visibilityTag('getCTUnoDiesel')" (click)="datasetToggleChartMain('getCTUnoDiesel')">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
-                            [ngStyle]="{'background-color':dataset_main['getCTUnoDiesel'].backgroundColor}"
+                            [ngStyle]="{'background-color':dataset_main['getCTUnoDiesel'].borderColor}"
                             *ngIf=" (dataset_main['getCTUnoDiesel'] !== undefined) && !dataset_main['getCTUnoDiesel'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
                         <span class="myicon">
@@ -374,7 +374,7 @@
                     <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoRT')">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
-                            [ngStyle]="{'background-color':dataset_main['getCTUnoRT'].backgroundColor}"
+                            [ngStyle]="{'background-color':dataset_main['getCTUnoRT'].borderColor}"
                             *ngIf=" (dataset_main['getCTUnoRT'] !== undefined) && !dataset_main['getCTUnoRT'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
                         <span class="myicon">
@@ -398,7 +398,7 @@
                     <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoMW')">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
-                            [ngStyle]="{'background-color':dataset_main['getCTUnoMW'].backgroundColor}"
+                            [ngStyle]="{'background-color':dataset_main['getCTUnoMW'].borderColor}"
                             *ngIf=" (dataset_main['getCTUnoMW'] !== undefined) && !dataset_main['getCTUnoMW'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
                         <span class="myicon">
@@ -432,7 +432,7 @@
                 <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoRPM')">
                     <span class="badge" 
                         style="vertical-align:super;font-size: .3rem; "
-                        [ngStyle]="{'background-color':dataset_main['getCTUnoRPM'].backgroundColor}"
+                        [ngStyle]="{'background-color':dataset_main['getCTUnoRPM'].borderColor}"
                         *ngIf=" (dataset_main['getCTUnoRPM'] !== undefined) && !dataset_main['getCTUnoRPM'].hidden"
                     >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
                     <span class="myicon">
@@ -467,7 +467,7 @@
                     <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosGas')">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
-                            [ngStyle]="{'background-color':dataset_main['getCTDosGas'].backgroundColor}"
+                            [ngStyle]="{'background-color':dataset_main['getCTDosGas'].borderColor}"
                             *ngIf=" (dataset_main['getCTDosGas'] !== undefined) && !dataset_main['getCTDosGas'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
                         <span class="myicon">
@@ -491,7 +491,7 @@
                     <div class="col txtcenter" *ngIf="theme.visibilityTag('getCTDosDiesel')" (click)="datasetToggleChartMain('getCTDosDiesel')">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
-                            [ngStyle]="{'background-color':dataset_main['getCTDosDiesel'].backgroundColor}"
+                            [ngStyle]="{'background-color':dataset_main['getCTDosDiesel'].borderColor}"
                             *ngIf=" (dataset_main['getCTDosDiesel'] !== undefined) && !dataset_main['getCTDosDiesel'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
                         <span class="myicon">
@@ -515,7 +515,7 @@
                     <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosRT')">					
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
-                            [ngStyle]="{'background-color':dataset_main['getCTDosRT'].backgroundColor}"
+                            [ngStyle]="{'background-color':dataset_main['getCTDosRT'].borderColor}"
                             *ngIf=" (dataset_main['getCTDosRT'] !== undefined) && !dataset_main['getCTDosRT'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
                         <span class="myicon">
@@ -539,7 +539,7 @@
                     <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosMW')">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
-                            [ngStyle]="{'background-color':dataset_main['getCTDosMW'].backgroundColor}"
+                            [ngStyle]="{'background-color':dataset_main['getCTDosMW'].borderColor}"
                             *ngIf=" (dataset_main['getCTDosMW'] !== undefined) && !dataset_main['getCTDosMW'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
                         <span class="myicon">
@@ -577,7 +577,7 @@
                 <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosRPM')">				
                     <span class="badge" 
                         style="vertical-align:super;font-size: .3rem; "
-                        [ngStyle]="{'background-color':dataset_main['getCTDosRPM'].backgroundColor}"
+                        [ngStyle]="{'background-color':dataset_main['getCTDosRPM'].borderColor}"
                         *ngIf=" (dataset_main['getCTDosRPM'] !== undefined) && !dataset_main['getCTDosRPM'].hidden"
                     >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
                     <span class="myicon">
@@ -613,7 +613,7 @@
                     <div class="col txtcenter" (click)="datasetToggleChartMain('getTVRT')">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
-                            [ngStyle]="{'background-color':dataset_main['getTVRT'].backgroundColor}"
+                            [ngStyle]="{'background-color':dataset_main['getTVRT'].borderColor}"
                             *ngIf="(dataset_main['getTVRT'] !== undefined) && !dataset_main['getTVRT'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
                         <span class="myicon">
@@ -637,7 +637,7 @@
                     <div class="col txtcenter" (click)="datasetToggleChartMain('getTVMW')">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
-                            [ngStyle]="{'background-color':dataset_main['getTVMW'].backgroundColor}"
+                            [ngStyle]="{'background-color':dataset_main['getTVMW'].borderColor}"
                             *ngIf="(dataset_main['getTVMW'] !== undefined) && !dataset_main['getTVMW'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
                         <span class="myicon">
@@ -677,7 +677,7 @@
                 <div class="col txtcenter" (click)="datasetToggleChartMain('getTVRPM')">
                     <span class="badge" 
                         style="vertical-align:super;font-size: .3rem; "
-                        [ngStyle]="{'background-color':dataset_main['getTVRPM'].backgroundColor}"
+                        [ngStyle]="{'background-color':dataset_main['getTVRPM'].borderColor}"
                         *ngIf="(dataset_main['getTVRPM'] !== undefined) && !dataset_main['getTVRPM'].hidden"
                     >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
                     <span class="myicon">
