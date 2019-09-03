@@ -18,9 +18,9 @@ export class SkillsComponent implements OnInit {
   idTemas : Array<any>;
   pregs : Array<any>;
   resp : Array<any>;
-  grupRes = [[], [], [], [], [], [], [], [], [], [], []];
-  grupOpc = [[], [], [], [], [], [], [], [], [], [], []];
-  grupPreg = [[], [], [], [], [], [], [], [], [], [], []];
+  grupResSkill = [[], [], [], [], [], [], [], [], [], [], []];
+  grupOpcSkill = [[], [], [], [], [], [], [], [], [], [], []];
+  grupPregSkill = [[], [], [], [], [], [], [], [], [], [], []];
   SaveRespuestas: Array<Respuesta>;
   examenReservacionId: number;
   entidadEstatusId: number;
@@ -55,14 +55,13 @@ export class SkillsComponent implements OnInit {
     this.idTemas = [ 'DEFAULT' ];
     //this.preguntas.obtenPreguntasExamen('DEFAULT', this.inIdEmpleado).subscribe(
 
-    /*
+
   this.preguntas.generaExamen(this.inIdEmpleado, 'DEFAULT').subscribe(
     data => {
       console.log("DDDDDDDDDDDDDDDDDDD");
       console.log(data);
       this.examenReservacionId = data["examenReservacionId"];  
       console.log("this.examenReservacionId=" + this.examenReservacionId );    
-   */
 
      this.preguntas.obtenPreguntasExamen('1').subscribe(
         reservacion => {
@@ -119,7 +118,7 @@ export class SkillsComponent implements OnInit {
                                            ,null
                                            ,this.resp) 
                                 );
-                this.grupPreg[i][j] = pregunta.preguntaId;
+                this.grupPregSkill[i][j] = pregunta.preguntaId;
                 //this.grupOpc[i][j]  = pregunta.respuestaPresentacionId;
                 this.selectRadio(i,j,this.examenReservacionId, pregunta.preguntaId);
               });
@@ -129,10 +128,8 @@ export class SkillsComponent implements OnInit {
         }
     );
 
-    /*
    }
   );
-*/
 
   }
 
@@ -140,13 +137,11 @@ export class SkillsComponent implements OnInit {
   selectRadio(i:number, j:number, examenReservacionId:number, preguntaId:number){
     this.preguntas.getValoresAptitudes(examenReservacionId, preguntaId).subscribe(
       valor => {
-        if (valor){
-          this.grupOpc[i][j]  = 1;
-          console.log(i + "," + j + "=" + this.grupOpc[i][j]);
-        }
-        else{
-          this.grupOpc[i][j]  = 2;
-        }
+        console.log("===valor===");
+        console.log(valor);
+        this.grupOpcSkill[i][j] = valor["respuetaId"];
+        this.grupResSkill[i][j] = valor["justificacion"];
+        //console.log(i + "," + j + "=" + this.grupOpcSkill[i][j]);
       });     
    }
 
@@ -155,33 +150,25 @@ export class SkillsComponent implements OnInit {
 
   onSubmit() {
     this.SaveRespuestas = [];
-    for (let i = 0; i < this.grupPreg.length; i++) {
-      for (let j = 0; j < this.grupPreg[i].length; j++) {
-        if ( this.grupOpc[i][j] != null) {
-          this.SaveRespuestas.push( new Respuesta( this.grupPreg[i][j], this.grupOpc[i][j], this.grupRes[i][j] ) );
+    for (let i = 0; i < this.grupPregSkill.length; i++) {
+      for (let j = 0; j < this.grupPregSkill[i].length; j++) {
+        if ( this.grupOpcSkill[i][j] != null) {
+          this.SaveRespuestas.push( new Respuesta( this.grupPregSkill[i][j], this.grupOpcSkill[i][j], this.grupResSkill[i][j] ) );
         }
       }
     }
 
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-    this.preguntas.generaExamen(this.inIdEmpleado, 'DEFAULT').subscribe(
-      data => {
-        console.log("@@@@@@@@@@@@@@@@@@@@@");
-        console.log(data);
-        this.examenReservacionId = data["examenReservacionId"];  
         console.log("this.examenReservacionId=" + this.examenReservacionId );
 
         this.preguntas.respuestaExamen(this.examenReservacionId, this.SaveRespuestas).subscribe(
           respuesta => {
             console.dir( respuesta  );
 
-            this.isdisabled = true;            
-            this.toastr.successToastr('Se Actualizo. Para examen de habilidades', '¡Se ha logrado!');
+            //this.isdisabled = true;            
+            //this.toastr.successToastr('Se Actualizo. Para examen de habilidades', '¡Se ha logrado!');
           }
         );        
 
-      }
-    );    
 
 
   }
@@ -190,15 +177,15 @@ export class SkillsComponent implements OnInit {
   terminaExamen() {
     let mensaje = '';
     let sonTodas = true;
-    for (let i = 0; i < this.grupPreg.length; i++) {
-      for (let j = 0; j < this.grupPreg[i].length; j++) {
-        if ( this.grupOpc[i][j] == null) {
+    for (let i = 0; i < this.grupPregSkill.length; i++) {
+      for (let j = 0; j < this.grupPregSkill[i].length; j++) {
+        if ( this.grupOpcSkill[i][j] == null) {
           sonTodas = false;
           mensaje += 'Para terminar el examen, Todas las preguntas deben contestarse.'
           break;
         }
 
-        if ( this.grupRes[i][j] == null) {
+        if ( this.grupResSkill[i][j] == null) {
           sonTodas = false;
           mensaje += 'Para terminar el examen, Todas las justificaciones deben contestarse.'
           break;

@@ -150,13 +150,10 @@ export class BehaviorComponent implements OnInit {
   selectRadio(i:number, j:number, examenReservacionId:number, preguntaId:number){
     this.preguntas.getValoresAptitudes(examenReservacionId, preguntaId).subscribe(
       valor => {
-        if (valor){
-          this.grupOpc[i][j]  = 1;
-          console.log(i + "," + j + "=" + this.grupOpc[i][j]);
-        }
-        else{
-          this.grupOpc[i][j]  = 2;
-        }
+          console.log("===valor===");
+          console.log(valor);
+          this.grupOpc[i][j]  = valor["respuetaId"];
+          //console.log(i + "," + j + "=" + this.grupOpc[i][j]);
       });     
    }
 
