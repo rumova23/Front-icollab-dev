@@ -161,14 +161,15 @@ import { TwelveDigitsDirective } from '../app/core/helpers/twelve-digits';
 
 import { PpaComponent } from '../app/safe/admin/modelMarket/ppa/ppa.component';
 
-import { CommonHeaderComponent } from 'src/app/common/header/commonHeader.component';
 /* Module Monitoring */
 import { MonitoringHomeComponent } from 'src/app/monitoring/home/monitoringHome.component';
+import { MonitoringHeaderComponent } from 'src/app/monitoring/common/header/monitoringHeader.component';
 import { MonitoringWelcomeComponent } from 'src/app/monitoring/home/welcome/monitoringWelcome.component';
 import { MonitoringSidebarComponent } from 'src/app/monitoring/common/sidebar/monitoringSidebar.component';
 import { MonitoringMenuItemsComponent } from 'src/app/monitoring/common/menuItems/monitoringMenuItems.component';
 import { MonitoringPhase3Component } from 'src/app/monitoring/boards/phase3/monitoringPhase3.component';
 import { MonitoringPhase2Component } from 'src/app/monitoring/boards/phase2/monitoringPhase2.component';
+
 /* ./Module Monitoring */
 
 
@@ -184,7 +185,6 @@ registerLocaleData(localePy, 'es');
     SkillsComponent,
     LoginComponent,
     HomeComponent,
-    CommonHeaderComponent,
     ComplianceHomeComponent,
     ComplianceWelcomeComponent,
     AcquisitionsComponent,
@@ -306,6 +306,7 @@ registerLocaleData(localePy, 'es');
     ,PpaComponent
 
     ,MonitoringHomeComponent
+    ,MonitoringHeaderComponent
     ,MonitoringWelcomeComponent
     ,MonitoringSidebarComponent
     ,MonitoringMenuItemsComponent

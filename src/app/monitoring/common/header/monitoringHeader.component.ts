@@ -7,10 +7,10 @@ import { SecurityService } from 'src/app/core/services/security.service';
 import { ThemeService } from 'src/app/core/globals/theme';
 
 @Component({
-  selector: 'app-commonHeader',
-  templateUrl: './commonHeader.component.html'
+  selector: 'app-monitoringHeader',
+  templateUrl: './monitoringHeader.component.html'
 })
-export class CommonHeaderComponent implements OnInit {
+export class MonitoringHeaderComponent implements OnInit {
   constructor(
     public globalService: GlobalService,
     public theme:ThemeService,
