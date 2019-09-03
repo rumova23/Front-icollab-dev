@@ -18,7 +18,7 @@ ng build --output-path="dist/compliance" --deployUrl="compliance/" --prod
 
 ng build --output-path="dist/compliance" --deployUrl="compliance/"
 
-ng build --prod --base-href /icollab/
+ng build --prod --base-href /icollab/ --output-path="dist/icollab"
 
 and set in src\environments\environment.ts
 ```

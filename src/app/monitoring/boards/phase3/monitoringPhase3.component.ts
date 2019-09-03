@@ -498,7 +498,6 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 
 		this.change_graph_dynamic_scale();
 
-		this.subscrubeChangeGraphUpdateTimeRest();
 
 		this.chart_01.config.type = form.value.type_graph_main;
 		this.chart_01.update();
@@ -506,36 +505,33 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 	}
 	change_graph_dynamic_scale(){
 		for (let index = 0; index < this.chart_01.config.options.scales.yAxes.length; index++) {
-		const element = this.chart_01.config.options.scales.yAxes[index];
-		const calltag = this.chart_01.config.options.scales.yAxes[index].id;
-		if (this.dynamic_scale === 'dynamic') {
-			if(M3.lstTags[calltag]){
-			this.chart_01.config.options.scales.yAxes[index].ticks.min = undefined;
-			this.chart_01.config.options.scales.yAxes[index].ticks.max = undefined;
-			this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = false;
+			const element = this.chart_01.config.options.scales.yAxes[index];
+			const calltag = this.chart_01.config.options.scales.yAxes[index].id;
+			if (this.dynamic_scale === 'dynamic') {
+				if(M3.lstTags[calltag]){
+				this.chart_01.config.options.scales.yAxes[index].ticks.min = undefined;
+				this.chart_01.config.options.scales.yAxes[index].ticks.max = undefined;
+				this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = false;
+				}
+			}else if(this.dynamic_scale === 'dynamic_with_0'){
+				if(M3.lstTags[calltag]){
+				this.chart_01.config.options.scales.yAxes[index].ticks.min = undefined;
+				this.chart_01.config.options.scales.yAxes[index].ticks.max = undefined;
+				this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = true;
+				}
+			}else if(this.dynamic_scale === 'static'){
+				if(M3.lstTags[calltag]){
+				this.chart_01.config.options.scales.yAxes[index]['ticks']['min'] = M3.lstTags[calltag]['min'];
+				this.chart_01.config.options.scales.yAxes[index]['ticks']['max'] = M3.lstTags[calltag]['max'];
+				this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = false;
+				}
+			}else if(this.dynamic_scale === 'static_min'){
+				if(M3.lstTags[calltag]){
+				this.chart_01.config.options.scales.yAxes[index]['ticks']['min'] = M3.lstTags[calltag]['min'];
+				this.chart_01.config.options.scales.yAxes[index]['ticks']['max'] = undefined;
+				this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = false;
+				}
 			}
-		}else if(this.dynamic_scale === 'dynamic_with_0'){
-			if(M3.lstTags[calltag]){
-			this.chart_01.config.options.scales.yAxes[index].ticks.min = undefined;
-			this.chart_01.config.options.scales.yAxes[index].ticks.max = undefined;
-			this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = true;
-			}
-		}else if(this.dynamic_scale === 'static'){
-			if(M3.lstTags[calltag]){
-			this.chart_01.config.options.scales.yAxes[index]['ticks']['min'] = M3.lstTags[calltag]['min'];
-			this.chart_01.config.options.scales.yAxes[index]['ticks']['max'] = M3.lstTags[calltag]['max'];
-			this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = false;
-			}
-		}else if(this.dynamic_scale === 'static_min'){
-			if(M3.lstTags[calltag]){
-			this.chart_01.config.options.scales.yAxes[index]['ticks']['min'] = M3.lstTags[calltag]['min'];
-			this.chart_01.config.options.scales.yAxes[index]['ticks']['max'] = undefined;
-			this.chart_01.config.options.scales.yAxes[index].ticks.beginAtZero = false;
-			}
-		}
-
-
-		
 		}
 	}
 	togleModalTags(){
