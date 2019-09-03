@@ -7,6 +7,7 @@ import { SecurityService } from 'src/app/core/services/security.service';
 import { App } from 'src/app/security/models/App';
 import { Utils } from 'angular-bootstrap-md/lib/utils/utils.class';
 import { Validate } from 'src/app/core/helpers/util.validator.';
+import { GlobalService } from 'src/app/core/globals/global.service';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   apps: Array<App>;
 
   constructor(private securityService: SecurityService,
+		public  globalService: GlobalService,
     public router: Router) {
     
   }
@@ -26,6 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     //this.loadAllUsers();
     this.loadApps();
+    this.globalService.plant = this.securityService.loadPlants()[0];
   }
 
   loadApps() {
