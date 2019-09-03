@@ -41,12 +41,12 @@ export class MonitoringSidebarComponent implements OnInit {
     {
       id: 'Fase 3',
       idFather:'',
-      icon: 'business',
+      icon: 'pie_chart',
       label: 'Fase 3'
     },{
       id: 'Fase 2',
       idFather:'',
-      icon: 'business',
+      icon: 'insert_chart',
       label: 'Fase 2'
     }
   ]; 
