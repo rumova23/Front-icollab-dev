@@ -219,9 +219,9 @@
                     (click)="datasetToggleChartMain('getRegimenTermico')">
                     <span class="badge badge-pill myicon"
                         [ngClass]="{
-                            'eclipse-verde': (dataset_main['getRegimenTermico'] !== undefined) && !dataset_main['getRegimenTermico'].hidden ,
-                            'eclipse-gris' : (dataset_main['getRegimenTermico'] !== undefined) && dataset_main['getRegimenTermico'].hidden,
-                            'eclipse-rojo' : (dataset_main['getRegimenTermico'] == undefined || calltags['getRegimenTermico'] == 0) 
+                            'eclipse-verde': (dataset_main['getRegimenTermico'] !== undefined) && !dataset_main['getRegimenTermico'].hidden && (calltags['getRegimenTermico'] != 0) ,
+                            'eclipse-gris' : (dataset_main['getRegimenTermico'] !== undefined) &&  dataset_main['getRegimenTermico'].hidden && (calltags['getRegimenTermico'] != 0),
+                            'eclipse-rojo' : (calltags['getRegimenTermico'] == 0) 
                         }"
                     >&nbsp;</span>
                     <br>
@@ -265,11 +265,11 @@
                                   <label>Cantidad de datos:</label>
                                   <input type="number" class="form-control" [(ngModel)]="data_per_graph_main" name="data_per_graph_main">
                                 </div>
-                                <div class="form-group">
+                                <!--div class="form-group">
                                   <label>Segundos:</label>
                                   <input type="number" [(ngModel)]="time_on_request" 
                                     class="form-control" name="time_on_request" min="1">
-                                </div>
+                                </div-->
                                 
                                 <div class="form-group">
                                     <label>Tipo</label>
@@ -800,12 +800,32 @@
                                     <tr>
                                         <th scope="col">TAG's</th>
                                         <th scope="col">
-                                            
-                                            <a style="color:#007bff;" target="_blank" href="https://192.168.1.175/piwebapi/dataservers/s0uQAgHoBd0ku7P3cWOJL6IgU0VSVklET1JfUEk/points?MaxCount=10000">AGUILA</a> 
+                                            AGUILA
                                         </th>
                                         <th scope="col">
-                                            <a style="color:#007bff;" target="_blank" href="https://192.168.1.240/piwebapi/dataservers/F1DS4rhZAwFMREKDf7s8vylUqgUElUVg/points?MaxCount=10000">SOL</a> 
+                                            SOL
                                         </th>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <a style="color:#fff;" target="_blank" href="https://192.168.1.175/piwebapi/dataservers/s0uQAgHoBd0ku7P3cWOJL6IgU0VSVklET1JfUEk/points?MaxCount=10000">
+                                                ver en PI  
+                                            </a> 
+                                            <br><br>  
+                                            <a style="color:#fff;" target="_blank" href="http://201.149.85.14:1119/pi/list-aguila">
+                                                ver en back
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a style="color:#fff;" target="_blank" href="https://192.168.1.240/piwebapi/dataservers/F1DS4rhZAwFMREKDf7s8vylUqgUElUVg/points?MaxCount=10000">
+                                                ver en PI  
+                                            </a> 
+                                            <br><br>
+                                            <a style="color:#fff;" target="_blank" href="http://201.149.85.14:1119/pi/list-sol">
+                                                ver en back
+                                            </a>
+                                        </td>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -817,10 +837,22 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <a style="color:#007bff;" target="_blank" href="https://192.168.1.175/piwebapi/streams/{{tag.webId_EAT}}/value">ver en Aguila</a> 
+                                            <a style="color:#fff;" target="_blank" href="https://192.168.1.175/piwebapi/points/{{tag.webId_EAT}}">
+                                                ver en PI  
+                                            </a> 
+                                            <br><br>
+                                            <a style="color:#fff;" target="_blank" href="http://201.149.85.14:1119/pi/get?plant=aguila&webId={{tag.webId_EAT}}">
+                                                ver en back
+                                            </a>
                                         </td>
                                         <td>
-                                            <a style="color:#007bff;" target="_blank" href="https://192.168.1.240/piwebapi/streams/{{tag.webId_EST}}/value">ver en Sol</a> 
+                                            <a style="color:#fff;" target="_blank" href="https://192.168.1.240/piwebapi/points/{{tag.webId_EST}}">
+                                                ver en PI  
+                                            </a> 
+                                            <br><br>
+                                            <a style="color:#fff;" target="_blank" href="http://201.149.85.14:1119/pi/get?plant=sol&webId={{tag.webId_EST}}">
+                                                ver en back
+                                            </a>
                                         </td>
                                     </tr>
                                 </tbody>
