@@ -40,11 +40,11 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 		private socketService: SocketService
 	) {
 			this.subscribeOnMenu();
-			this.globalService.plant = this.securityService.loadPlants()[0];//tal vez sera bueno quitarla y
-			//ponerla directo en el home 
-			this.globalService.page  = 101; // dado que inicia con welcome
 	}
 	ngOnInit() {
+		this.globalService.page  = 101; // dado que inicia con welcome
+		this.theme.setApp("Administrative_monitoring");
+		this.globalService.plant = this.securityService.loadPlants()[0];
 		this.openSocket();
 	}
 	ngAfterViewInit() {
@@ -69,7 +69,7 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 							this.unsubscribeOpenSocket();
 							this.globalService.socketConnect = true;
 							this.eventService.sendSocketConnect(new EventMessage(1, null));
-							console.log( "Socket Conectado::");
+							console.log( "Socket Conectado::",this.globalService.socketConnect);
 						});
 					this.subscriptions['socketDisconnect']
 					= 	this.socketService.onEvent(EventSocket.DISCONNECT)
@@ -78,7 +78,7 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 							this.subscribeOpenSocket();
 							this.globalService.socketConnect = false;
 							this.eventService.sendSocketConnect(new EventMessage(0, null));
-							console.log("Socket desconectado::");
+							console.log("Socket desconectado::",this.globalService.socketConnect);
 						});
 					this.subscriptions['socketOnError']
 					=   this.socketService.onError()

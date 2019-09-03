@@ -55,4 +55,39 @@ export class ThemeService {
         //return plant.label; // lo ideal
         return label;
     }
+    getNameLabelApp(){
+        let app = this.globalService.app;
+        let label = "";
+        switch(app.name){
+            case "Administrative_monitoring":
+                label ="Monitoreo";
+            break;
+        }
+        //return app.label; // lo ideal
+        return label;
+    }
+    getLogoApp(){
+        let app = this.globalService.app;
+        let logo = "";
+        switch(app.name){
+            case "Administrative_monitoring":
+                logo ="/assets/img/logo_monitoreo_simple.png";
+            break;
+        }
+        //return app.logo; // lo ideal
+        return logo;
+    }
+
+
+    setApp(name){
+        let apps = this.securityService.loadApps();
+        for(let i = 0; i < apps.length; i++){
+          if(apps[i].name == name){
+            this.globalService.app = apps[i];
+            break;
+          }
+        }
+    }
+		
+
 }

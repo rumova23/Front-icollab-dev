@@ -8,6 +8,7 @@ export class GlobalService {
   aguila:boolean  = true;
   plantaDefaultId = "1";
   plant;
+  app;
   page;
   constructor() { }
 }
