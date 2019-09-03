@@ -39,12 +39,12 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 		private securityService: SecurityService,
 		private socketService: SocketService
 	) {
-			this.subscribeOnMenu();
+		this.theme.setApp("Administrative_monitoring");
+		this.globalService.plant = this.securityService.loadPlants()[0];
+		this.subscribeOnMenu();
 	}
 	ngOnInit() {
 		this.globalService.page  = 101; // dado que inicia con welcome
-		this.theme.setApp("Administrative_monitoring");
-		this.globalService.plant = this.securityService.loadPlants()[0];
 		this.openSocket();
 	}
 	ngAfterViewInit() {
