@@ -177,7 +177,7 @@ export class BehaviorComponent implements OnInit {
           console.dir(respuesta);
 
           this.isdisabledFinish = false;
-          //this.toastr.errorToastr('Para terminar el examen, Todas las preguntas deben contestarse.', 'Lo siento,');
+          this.toastr.successToastr('Se ha guardado la sección de Comportamiento Personal', '¡Se ha logrado!');
         }
     );
   }
@@ -189,16 +189,15 @@ export class BehaviorComponent implements OnInit {
       for (let j = 0; j < this.grupPreg[i].length; j++) {
         if ( this.grupOpc[i][j] == null) {
           sonTodas = false;
-          break;
         }
       }
     }
-    if (sonTodas) {
-      //this.onSubmit();
 
+    console.log("sonTodas=" + sonTodas);
+    if (sonTodas) {
       this.preguntas.terminaExamen(this.examenReservacionId).subscribe(
           respuesta => {
-            this.toastr.successToastr('Se Actualizo a examen Finalizado. Para examen psicométrico', '¡Se ha logrado!');
+            this.toastr.successToastr('Se actualizo a examen Finalizado', '¡Se ha logrado!');
           }
       );
 

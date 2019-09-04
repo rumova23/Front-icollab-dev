@@ -1,6 +1,6 @@
 <div class="container-fluid mt-5 mb-5">
     <mdb-card>
-        <mdb-card-header><h3>Conocimiento y habilidades</h3></mdb-card-header>
+        <mdb-card-header><h3>Conocimiento y Habilidades</h3></mdb-card-header>
         <mdb-card-body> 
                     
             <!--<div class="row">
@@ -54,8 +54,8 @@
                         <button type="submit" class="btn btn-primary btn-md" 
                            >Guardar
                         </button>
-                        <button class="btn btn-primary btn-md" (click)="terminaExamen()" 
-                           >Termina Examen
+                        <button type="button" class="btn btn-primary btn-md" (click)="terminaExamen()" 
+                           [disabled]="isdisabledFinish">Termina Examen
                         </button>
                     </div>
                 </div>    
