@@ -101,7 +101,7 @@ export class BehaviorComponent implements OnInit {
                   this.pregs) );
 
                 i += 1;
-                j = -1;
+                j = 0;
                 this.pregs = [];
               }  
                          
@@ -134,8 +134,8 @@ export class BehaviorComponent implements OnInit {
             
           }
 
-          console.log("i=" + i);
-          console.log("j=" + j);
+          //console.log("i=" + i);
+          //console.log("j=" + j);
 
           //});
         //}
@@ -150,8 +150,8 @@ export class BehaviorComponent implements OnInit {
   selectRadio(i:number, j:number, examenReservacionId:number, preguntaId:number){
     this.preguntas.getValoresAptitudes(examenReservacionId, preguntaId).subscribe(
       valor => {
-          console.log("===valor===");
-          console.log(valor);
+          //console.log("===valor===");
+          //console.log(valor);
           this.grupOpc[i][j]  = valor["respuetaId"];
           //console.log(i + "," + j + "=" + this.grupOpc[i][j]);
       });     
@@ -160,11 +160,12 @@ export class BehaviorComponent implements OnInit {
 
   onSubmit() {
     this.SaveRespuestas = [];
+    console.dir(this.grupPreg);
     for (let i = 0; i < this.grupPreg.length; i++) {
       for (let j = 0; j < this.grupPreg[i].length; j++) {
         if ( this.grupOpc[i][j] != null) {
           this.SaveRespuestas.push( new Respuesta( this.grupPreg[i][j], this.grupOpc[i][j], null ) );
-        }
+        } 
       }
     }
 

@@ -94,7 +94,7 @@ export class SkillsComponent implements OnInit {
                     this.pregs) );
   
                   i += 1;
-                  j = -1;
+                  j = 0;
                   this.pregs = [];
                 }             
               }
