@@ -23,8 +23,8 @@ export class BehaviorComponent implements OnInit {
   pregs: Array<any>;
   totalPreg: Array<any>;
   resp: Array<any>;
-  grupOpc = [[], [], [], [], [], [], [], [], [], [], []];
-  grupPreg = [[], [], [], [], [], [], [], [], [], [], []];
+  grupOpc = [[], [] ];
+  grupPreg = [[], [] ];
   SaveRespuestas: Array<Respuesta>;
   SaveOpciones: Array<any>;
   arryCata: Array<any>;
@@ -87,7 +87,7 @@ export class BehaviorComponent implements OnInit {
             j += 1;
             //console.log("i=" + i + " j=" + j);
 
-            if ((tema !=reservacion[ins]["tema"]) || (ins == reservacion.length - 1)){
+            if (tema !=reservacion[ins]["tema"]){
               tema = reservacion[ins]["tema"];               
               console.log("ins=" + ins + " | tema=" + tema );
               console.log("reservacion[ins].tema=" + reservacion[ins].tema);
@@ -102,6 +102,7 @@ export class BehaviorComponent implements OnInit {
 
                 i += 1;
                 j = 0;
+
                 this.pregs = [];
               }  
                          
@@ -126,6 +127,17 @@ export class BehaviorComponent implements OnInit {
                                          ,null
                                          ,this.resp) 
                               );
+              //console.log("i=" + i + "," + "j=" + j);
+              if (ins == reservacion.length - 1){
+                this.temas.push( new Tema(
+                  reservacion[ins].temaId,
+                  reservacion[ins].tema,
+                  reservacion[ins].color,
+                  null,
+                  null,
+                  this.pregs) );
+              }
+
               this.grupPreg[i][j] = pregunta.preguntaId;
               //this.grupOpc[i][j]  = pregunta.respuestaPresentacionId;
               this.selectRadio(i,j,this.examenReservacionId, pregunta.preguntaId);
@@ -133,9 +145,6 @@ export class BehaviorComponent implements OnInit {
 
             
           }
-
-          //console.log("i=" + i);
-          //console.log("j=" + j);
 
           //});
         //}
@@ -160,7 +169,8 @@ export class BehaviorComponent implements OnInit {
 
   onSubmit() {
     this.SaveRespuestas = [];
-    console.dir(this.grupPreg);
+    //console.log("this.grupPreg");
+    //console.dir(this.grupPreg);
     for (let i = 0; i < this.grupPreg.length; i++) {
       for (let j = 0; j < this.grupPreg[i].length; j++) {
         if ( this.grupOpc[i][j] != null) {
@@ -185,9 +195,12 @@ export class BehaviorComponent implements OnInit {
 
   terminaExamen() {
     let sonTodas = true;
+    console.log("this.grupPreg");
+    console.log(this.grupPreg);
     for (let i = 0; i < this.grupPreg.length; i++) {
       for (let j = 0; j < this.grupPreg[i].length; j++) {
         if ( this.grupOpc[i][j] == null) {
+          console.log("this.grupOpc[" + i + "][" + j + "]=" + this.grupOpc[i][j]);
           sonTodas = false;
         }
       }
