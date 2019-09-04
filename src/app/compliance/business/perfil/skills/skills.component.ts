@@ -137,8 +137,8 @@ export class SkillsComponent implements OnInit {
   selectRadio(i:number, j:number, examenReservacionId:number, preguntaId:number){
     this.preguntas.getValoresAptitudes(examenReservacionId, preguntaId).subscribe(
       valor => {
-        console.log("===valor===");
-        console.log(valor);
+        //console.log("===valor===");
+        //console.log(valor);
         this.grupOpcSkill[i][j] = valor["respuetaId"];
         this.grupResSkill[i][j] = valor["justificacion"];
         //console.log(i + "," + j + "=" + this.grupOpcSkill[i][j]);
