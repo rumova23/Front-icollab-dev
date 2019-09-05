@@ -13,7 +13,10 @@ import { MonitoringHomeComponent } from 'src/app/monitoring/home/monitoringHome.
 
 const routes: Routes = [
   // otherwise redirect to home
+  
   { path: '', component: LoginComponent },
+  //{ path: '', component: MonitoringHomeComponent },
+
   //{ path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent, pathMatch: 'full' },
   {

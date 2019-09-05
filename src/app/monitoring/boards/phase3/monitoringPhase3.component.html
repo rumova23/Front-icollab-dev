@@ -265,17 +265,30 @@
                                   <label>Cantidad de datos:</label>
                                   <input type="number" class="form-control" [(ngModel)]="data_per_graph_main" name="data_per_graph_main">
                                 </div>
-                                <!--div class="form-group">
+                                <div class="form-group">
                                   <label>Segundos:</label>
-                                  <input type="number" [(ngModel)]="time_on_request" 
-                                    class="form-control" name="time_on_request" min="1">
-                                </div-->
+                                  <input type="number" [(ngModel)]="time_refreseh_data" 
+                                    class="form-control" name="time_refreseh_data" min="1">
+                                </div>
                                 
                                 <div class="form-group">
                                     <label>Tipo</label>
                                     <select class="form-control" [(ngModel)]="type_graph_main" name="type_graph_main">
                                     <option value="line">Lineas</option>
                                     <option value="bar">Barras</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tamaño punto:</label>
+                                    <input type="number" class="form-control" [(ngModel)]="chart_01_point_radius" name="chart_01_point_radius" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>Tipo Lineas con fondo</label>
+                                    <select class="form-control" [(ngModel)]="chart_01_fill" name="chart_01_fill">
+                                    <option value="false">none</option>
+                                    <option value="start">start</option>
+                                    <option value="origin">origin</option>
+                                    <option value="end">end</option>
                                     </select>
                                 </div>
                                 

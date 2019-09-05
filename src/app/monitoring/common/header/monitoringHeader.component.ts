@@ -44,13 +44,25 @@ export class MonitoringHeaderComponent implements OnInit {
     this.securityService.logout();
   }
   changePlant(plant){
-    let plants = this.securityService.loadPlants();
-    for(let i = 0; i < plants.length;i++){
-      if(plants[i].name == plant){
-        this.globalService.plant = plants[i];
+    try{
+      let plants = this.securityService.loadPlants();
+      for(let i = 0; i < plants.length;i++){
+        if(plants[i].name == plant){
+          this.globalService.plant = plants[i];
+          break;
+        }
+      }
+    }catch(err){
+      switch(plant){
+        case "AGUILA":
+          this.globalService.plant = {id: 1, name: "AGUILA"};
+        break;
+        case "SOL":
+          this.globalService.plant = {id: 2, name: "SOL"};
         break;
       }
     }
+
     this.eventService.sendMainMonitoring(new EventMessage(this.globalService.page, {}));
     //this.eventService.sendMainMonitoring(new EventMessage(101, {}));
   }

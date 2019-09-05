@@ -39,8 +39,16 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 		private securityService: SecurityService,
 		private socketService: SocketService
 	) {
-		this.theme.setApp("Administrative_monitoring");
-		this.globalService.plant = this.securityService.loadPlants()[0];
+		try{
+			this.theme.setApp("Administrative_monitoring");
+			this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
+		}catch(err){
+			// Para que funcione en la .201
+			///*
+			this.globalService.plant = {id: 1, name: "AGUILA"};
+			this.globalService.app   = {id: 8, name: "Administrative_monitoring"};
+			//*/
+		}
 		this.subscribeOnMenu();
 	}
 	ngOnInit() {
@@ -59,8 +67,10 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 	}
 	openSocket(){
 		if(!this.globalService.socketConnect){
-			const token = this.securityService.getToken();        
+			const token = this.securityService.getToken() || 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZXIiLCJhdXRoIjpbeyJuYW1lIjoiUk9MRV9BRE1JTl9TRUNVUklUWSJ9LHsibmFtZSI6IlJPTEVfQURNSU5fQ09NUExJQU5DRSJ9LHsibmFtZSI6IlJPTEVfQURNSU5fU0FGRSJ9LHsibmFtZSI6IlJPTEVfQURNSU5fQURNSU5JU1RSQVRJVkVfTU9OSVRPUklORyJ9XSwiaWF0IjoxNTY3NTU5Mjc3LCJleHAiOjE1Njc1NjY0Nzd9.Ikozy3CH7DdmWaWGRw2iaRN8M-fJdpQlpL56auotGlI';     
+
 			if (Validate(token)) {
+			
 				let socket = this.socketService.initSocket(token);
 				if(socket["state"] == "open" || socket["state"] == "connecting"){
 					this.subscriptions['socketConnect']
@@ -109,7 +119,11 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 						
 				}
 			}else {
-			console.log('Token inválido');
+				console.log('Token inválido');
+				this.unsubscribeSocket();
+				//this.subscribeOpenSocket(); // no tiene caso correr esto ya que no esta adecuadamente logueado el usuario
+				this.globalService.socketConnect = false;
+				this.eventService.sendSocketConnect(new EventMessage(0, null));
 			}
 		}
 	}
@@ -138,7 +152,6 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 	subscribeOnMenu(){
 		this.subscriptions.push(this.eventService.onChangeMainMonitoring.subscribe({
 			next: (event: EventMessage) => {
-			console.log("Click en Aside",event);
 			switch (event.id) {
 				case 1:
 				this.aside_open = !this.aside_open;
@@ -182,7 +195,7 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 	}
 	getgender(){
 		let generoId = JSON.parse(localStorage.getItem('user'));
-		generoId = generoId['generoId'];
+		generoId = generoId ? generoId['generoId']: 2;
 		return generoId;
 	}
 }

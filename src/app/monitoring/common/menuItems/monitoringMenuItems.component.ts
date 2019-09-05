@@ -42,8 +42,6 @@ export class MonitoringMenuItemsComponent implements OnInit {
   }
 
   itemSelected(item: menuItem) {
-    console.log("menu-items.component.ts itemSelected(...");
-    console.log(item.label);
     let option = 0;
     let data = {};    
     if (item.children && item.children.length) {
@@ -67,7 +65,8 @@ export class MonitoringMenuItemsComponent implements OnInit {
           option = 101;
           data = item;
       }
-
+      //console.log(item);
+      //console.log(option);
 
       this.eventService.sendMainMonitoring(new EventMessage(option, data));
     }

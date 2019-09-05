@@ -47,6 +47,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
   dataset_main = [];
   yAxes_main   = [];
 
+
   dataset_modal = [];
   yAxes_modal   = [];
 
@@ -62,16 +63,21 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
   showDropdownchart_01 = false;
   myinterval = null;
   time_on_request : number = 3;//4000;
+  time_refreseh_data : number = 5;
   data_per_graph_main = 10;
   type_graph_main = 'line';
   dynamic_scale = 'static';
+  chart_01_fill = "false";
+  chart_01_point_radius = 3;
+  
 
 
   cadaIntervalo : number = 1000;//4000;
   fechaActual   : any;
+  fechaActualAnterior :any = new Date();
 
 
-
+	
 
     
 	
@@ -83,34 +89,41 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
       ,datasets: []
     }
     ,options: {
-      responsive: true,
-//      aspectRatio:3,
-      maintainAspectRatio: false,
-      legend: {display: false,labels:{fontColor: 'red',fontSize:26}}
-      ,scales: {
-        xAxes: [{
-			gridLines:{
-				color:"rgba(255,255,255,1)",
+		responsive: true,
+	//      aspectRatio:3,
+		maintainAspectRatio: false,
+		legend: {display: false,labels:{fontColor: 'red',fontSize:26}},
+		elements: {
+			point: {
+				//hoverBackgroundColor: makeHalfAsOpaque,
+				radius: this.chart_01_point_radius,
+				hoverRadius: 15,
+			}
+		}
+		,scales: {
+			xAxes: [{
+				gridLines:{
+					color:"rgba(255,255,255,1)",
+					display: false,
+				},
+			display: true,
+			ticks:{
+				fontColor:"orange"
+			}
+			}]
+			,yAxes: [{
+				type: 'linear', 
 				display: false,
-			},
-          display: true,
-          ticks:{
-            fontColor:"orange"
-          }
-        }]
-        ,yAxes: [{
-            type: 'linear', 
-            display: false,
-            position: 'left',
-            id: 'my887896',
-            ticks:{
-              min: 0,
-              max: 1,
-              beginAtZero: false  
-            },
-          }
-        ],
-      }
+				position: 'left',
+				id: 'my887896',
+				ticks:{
+				min: 0,
+				max: 1,
+				beginAtZero: false  
+				},
+			}
+			],
+		}
     }
   };
   chart_modal_config = {
@@ -178,9 +191,10 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 			}
 		}
 		
-			
+		if( ! this.globalService.socketConnect ){
+			this.subscrubeChangeGraphUpdateTimeRest();
+		}
     }
-
 	ngOnInit() {
 		//idiomas disponibles
 		/*this.translate.addLangs(["es", "en", "ja"]);
@@ -281,6 +295,12 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		this.everySecond = timer(0,1000);
 		this.subscriptions['everySecond']=this.everySecond.subscribe(()=>{
 			this.fechaActual = new Date();
+			
+			/*console.log("fechaActualAnterior::: ",this.fechaActualAnterior);
+			console.log("fechaActual::: ",this.fechaActual);
+			var seconds = (this.fechaActual.getTime() - this.fechaActualAnterior.getTime()) / 1000;
+			console.log("fechaActual - Anterior seconds ::: ",seconds);//*/
+			
 		});
 	}
 	subscrubeChangeGraphUpdateTimeRest(){
@@ -343,11 +363,11 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 						    }
 					    }
 					}
-					console.log("back-pi-isrun::",data);
+					//console.log("back-pi-isrun::",data);
 				});
 			this.subscriptions['back-pi-isrun-error'] = this.socketService.onChannelError(channelBackPiIsRun-1)
 				.subscribe((errorChannel:any)=>{
-					console.log("back-pi-isrun-isrun::",errorChannel);
+					//console.log("back-pi-isrun-isrun::",errorChannel);
 				});
 			if(this.globalService.plant.name === "AGUILA"){
 				let channelPiAguila = this.socketService.suscribeChannel("pi-aguila");
@@ -356,8 +376,11 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 
 				this.subscriptions['pi-aguila'] = this.socketService.onChannelWatch(channelPiAguila - 1)
 				.subscribe((data: any) => {
-					console.log("channelPiAguila::",data);
-					this.dataAdapter(data);
+					if(  this.check_time_refreseh_data() ){
+						//console.log(data);
+						this.fechaActualAnterior = new Date();
+						this.dataAdapter(data);
+					}
 				});
 			}else if(this.globalService.plant.name === "SOL"){
 				let channelPiSol = this.socketService.suscribeChannel("pi-sol");
@@ -366,8 +389,11 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 
 				this.subscriptions['pi-sol'] = this.socketService.onChannelWatch(channelPiSol - 1)
 				.subscribe((data: any) => {
-					console.log(data);
-					this.dataAdapter(data);
+					if(  this.check_time_refreseh_data() ){
+						//console.log(data);
+						this.fechaActualAnterior = new Date();
+						this.dataAdapter(data);
+					}
 				});
 			}
 		}
@@ -390,13 +416,13 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		for (const calltag in M3.lstTags) {
 			if (M3.lstTags.hasOwnProperty(calltag)) {
 				const tagconf  = M3.lstTags[calltag];
-				const webID    = (this.globalService.aguila)?tagconf.webId_EAT:tagconf.webId_EST;
+				const webID    = (this.globalService.plant.name == 'AGUILA')?tagconf.webId_EAT:tagconf.webId_EST;
 				this.peticion(calltag,tagconf,webID);
 			}
 		}
 		//*/
   
-	  
+		///*
 		console.log(">>>>>>>  TraerDatosDesdePiWebAPI");
 	
 		if(this.globalService.plant.name === "AGUILA"){
@@ -414,6 +440,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 				}
 			);
 		}
+		//*/
 	}
 	dataAdapter(data){
 		for (const calltag in M3.lstTags) {
@@ -422,7 +449,6 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 	
 			const tagconf  = M3.lstTags[calltag];
 			const webID    = (this.globalService.plant.name === "AGUILA")?tagconf.webId_EAT:tagconf.webId_EST;
-			//this.peticion(calltag,tagconf,webID);
 			
 			for(const tag of data.tags.Items){
 			  if(tag.WebId == webID){
@@ -482,11 +508,18 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		this.initializeAt0();
 		this.cleanDataChart();
 	}
+	check_time_refreseh_data(){
+		// se le resta 1 porque elsimple echo de esperar al siguiente cambio y evaluacion tarda un segundo 
+		// esto es porque usamos this.fechaActual
+		return (this.time_refreseh_data - 1) < ( ( this.fechaActual.getTime() - this.fechaActualAnterior.getTime() ) / 1000) ;
+	}
 	updateChartMain(form){
-		this.chart_01.data.labels = new Array(form.value.data_per_graph_main);
-		this.time_on_request      = form.value.time_on_request;
-		this.data_per_graph_main  = form.value.data_per_graph_main;
-		this.dynamic_scale        = form.value.dynamic_scale;
+		this.chart_01.data.labels  = new Array(form.value.data_per_graph_main);
+		this.time_refreseh_data    = form.value.time_refreseh_data;
+		this.data_per_graph_main   = form.value.data_per_graph_main;
+		this.dynamic_scale         = form.value.dynamic_scale;
+		this.chart_01_fill         = form.value.chart_01_fill;
+		this.chart_01_point_radius = form.value.chart_01_point_radius;
 		
 		/* Si el "data_per_graph_main" es menor a lo que existe
 		* esto eliminara los elementos del inicio que sibren 
@@ -502,8 +535,26 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 
 		this.change_graph_dynamic_scale();
 
+		this.chart_01.config.options.elements.point.radius = this.chart_01_point_radius;
 
 		this.chart_01.config.type = form.value.type_graph_main;
+		switch(form.value.type_graph_main){
+			case "line":
+				for (const iterator in this.dataset_main) {
+					this.dataset_main[iterator]['backgroundColor']=this.dataset_main[iterator]['rgba'];
+				}
+			break;
+			case "bar":
+				for (const iterator in this.dataset_main) {
+					this.dataset_main[iterator]['backgroundColor']=this.dataset_main[iterator]['borderColor'];
+				}
+			break;
+		}
+
+		for (const iterator in this.dataset_main) {
+			this.dataset_main[iterator]['fill'] = this.chart_01_fill;
+		}
+
 		this.chart_01.update();
 		this.showDropdownchart_01 = false;
 	}
@@ -692,11 +743,13 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		let hex = (tagconf.color == '#cccccc') ? M3.generateColorHEX(calltag):tagconf.color;
 		var newDataset = {
 			id:calltag,
+			rgba:rgba,
 			label: M3.lstTags[calltag].label,
-			backgroundColor: hex,
+			backgroundColor: rgba,
 			borderColor: hex,
 			data: [data],
-			fill: false,
+			//fill: false,
+			fill: this.chart_01_fill,
 			yAxisID: calltag,
 			//yAxisID: 'my887896',
 			hidden:hiddenDataset()
@@ -799,7 +852,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		return "";
 	}
 	peticion(calltag, tagconf, webID){
-		/*
+		///*
 		if(this.isdemo){
 		this.calltags[calltag]          = Math.random() * (500 - 51) + 51;
 

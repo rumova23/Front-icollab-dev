@@ -48,7 +48,9 @@ export class MonitoringPhase3Service {
 		'Algo malo sucedio;');
 	};
 	public getTagsAguila(){
-		let urlBack = 'http://201.149.85.14:1119/pi/getTagsAguila';
+		let urlBack = 'http://200.52.85.140:1119/pi/getTagsAguila';
+		//let urlBack = 'http://172.20.141.102:1119/pi/getTagsAguila';
+		//let urlBack = 'http://201.149.85.14:1119/pi/getTagsAguila';
 		//let urlBack = 'http://localhost:1119/pi/getTagsAguila';
 		
 		return this.http.get(urlBack, {headers:this.headers, responseType : "text"} )
@@ -58,7 +60,9 @@ export class MonitoringPhase3Service {
 	}
 
 	public getTagsSol(){
-		let urlBack = 'http://201.149.85.14:1119/pi/getTagsSol';
+		let urlBack = 'http://200.52.85.140:1119/pi/getTagsSol'; // ip publica del nuevo servidor 
+		//let urlBack = 'http://172.20.141.102:1119/pi/getTagsSol'; // modelo matematico desde la ip interna al pi
+		//let urlBack = 'http://201.149.85.14:1119/pi/getTagsSol'; // ip publica del de modelo matematico 
 		//let urlBack = 'http://localhost:1119/pi/getTagsSol';
 		
 		return this.http.get(urlBack, {headers:this.headers, responseType : "text"} )
