@@ -9,7 +9,7 @@ hgroup{
     display: block;
 } 
 p{
-    margin: 0 0 10px;
+    margin: 0;
 }
 body{
     text-align: center;
@@ -301,7 +301,7 @@ input ,.form-control{
     }
     aside span{
         font-size:small;
-        font-weight: 400;
+        /*font-weight: 400;*/
         font-family: Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif!important;
     }
     aside mat-icon {

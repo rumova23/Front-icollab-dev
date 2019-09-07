@@ -16,9 +16,9 @@ export class Constants {
     public static OPTIONS = {
         path: '/socketcluster/',
         //hostname: 'localhost',
-        //hostname: '201.149.85.14',
-        //hostname: '172.20.141.102',
-        hostname:'200.52.85.140',
+        //hostname: '201.149.85.14', // ip publica de modelo matematico
+        //hostname: '172.20.141.102', // ip de la red de silverio que tenia modelo matematico
+        hostname:'200.52.85.140', // ip publica del nuevo servidor 440
         port:8001,
         autoConnect: true,
         autoReconnect: false,
