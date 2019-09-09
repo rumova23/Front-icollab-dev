@@ -162,13 +162,14 @@ import { TwelveDigitsDirective } from '../app/core/helpers/twelve-digits';
 import { PpaComponent } from '../app/safe/admin/modelMarket/ppa/ppa.component';
 
 /* Module Monitoring */
-import { MonitoringHomeComponent } from 'src/app/monitoring/home/monitoringHome.component';
-import { MonitoringHeaderComponent } from 'src/app/monitoring/common/header/monitoringHeader.component';
-import { MonitoringWelcomeComponent } from 'src/app/monitoring/home/welcome/monitoringWelcome.component';
-import { MonitoringSidebarComponent } from 'src/app/monitoring/common/sidebar/monitoringSidebar.component';
-import { MonitoringMenuItemsComponent } from 'src/app/monitoring/common/menuItems/monitoringMenuItems.component';
-import { MonitoringPhase3Component } from 'src/app/monitoring/boards/phase3/monitoringPhase3.component';
-import { MonitoringPhase2Component } from 'src/app/monitoring/boards/phase2/monitoringPhase2.component';
+import { MonitoringBaseSocketOnComponent } from 'src/app/monitoring/class/monitoringBaseSocketOn.component';
+import { MonitoringHomeComponent }         from 'src/app/monitoring/home/monitoringHome.component';
+import { MonitoringHeaderComponent }       from 'src/app/monitoring/common/header/monitoringHeader.component';
+import { MonitoringWelcomeComponent }      from 'src/app/monitoring/home/welcome/monitoringWelcome.component';
+import { MonitoringSidebarComponent }      from 'src/app/monitoring/common/sidebar/monitoringSidebar.component';
+import { MonitoringMenuItemsComponent }    from 'src/app/monitoring/common/menuItems/monitoringMenuItems.component';
+import { MonitoringPhase3Component }       from 'src/app/monitoring/boards/phase3/monitoringPhase3.component';
+import { MonitoringPhase2Component }       from 'src/app/monitoring/boards/phase2/monitoringPhase2.component';
 
 /* ./Module Monitoring */
 
@@ -311,7 +312,7 @@ registerLocaleData(localePy, 'es');
     ,MonitoringSidebarComponent
     ,MonitoringMenuItemsComponent
     ,MonitoringPhase3Component
-    ,MonitoringPhase2Component
+    ,MonitoringPhase2Component, MonitoringBaseSocketOnComponent
   ],
   imports: [
     BrowserModule,

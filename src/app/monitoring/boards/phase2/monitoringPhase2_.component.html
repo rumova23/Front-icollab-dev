@@ -1,0 +1,1141 @@
+<div style="    background: #000000;
+margin-left: -15px;
+padding-left: 15px;
+margin-right: -15px;
+padding-right: 15px;">
+
+
+  <h1 class="p-2" style="text-align: center;color: #ffffff;background: #000000">Overview</h1>      
+  <!-- row 1 -->
+  <div class="row">
+    <!-- col Botones -->
+    <div>
+      <div style="width: 214px;" >
+          <div class="row pt-3 pl-3 pb-3 tablinks0 active m-0">
+              <div class=" IconoMedidor "><img src="assets/images/dashboard/1x/ico_power_.png" alt=""></div>
+              <div class="col btn-inline">
+                <span class="btn-titulo btn-verde">Power Output</span>
+                <br>
+                <span class="btn-sub">950 </span><span class="btn-sub-sub">Mw</span>
+              </div>
+          </div>
+          <div class="row pt-3 pl-3 pb-3 tablinks0 m-0">
+              <div class="IconoMedidor"><img src="assets/images/dashboard/1x/ico_heat_.png" alt=""></div>
+              <div class="col btn-inline">
+                <span class="btn-titulo btn-verde">Heat Rate</span>
+                <br>
+                <span class="btn-sub">6957</span><span class="btn-sub-sub"> Kwh/KJ</span>
+              </div>
+          </div>
+            <div class="row pt-3 pl-3 pb-3 tablinks0 m-0">
+                <div class="IconoMedidor"><img src="assets/images/dashboard/1x/ico_capacity_.png" alt=""></div>
+                <div class="col btn-inline">
+                  <span class="btn-titulo btn-verde">Capacity Factor</span>
+                  <br>
+                  <span class="btn-sub">91</span><span class="btn-sub-sub"> %</span>
+                </div>
+            </div>
+            <div class="row pt-3 pl-3 pb-3 tablinks0 m-0">
+                <div class="IconoMedidor"><img src="assets/images/dashboard/1x/ico_fuel_.png" alt=""></div>
+                <div class="col btn-inline">
+                  <span class="btn-titulo btn-verde">Fuel Gain/Lost</span>
+                  <br>
+                  <span class="btn-sub">3</span><span class="btn-sub-sub"> %</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- col grafica lineas -->
+    <div class="col col-md-auto color19 pt-3">
+      <div style="width:400px;">
+        <div style="display: block">
+          <canvas mdbChart
+              [chartType]="chartType"
+              [datasets]="chartDatasets"
+              [labels]="chartLabels"
+              [colors]="chartColors"
+              [options]="chartOptions"
+              [legend]="true"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)">
+          </canvas>
+        </div>
+      </div>
+    </div>
+    <!-- col graficas circulares -->
+    <div class="col-md-auto color19 pt-3">
+      <div class="row pl-4 pr-4">
+        <!-- col circulos 1 -->
+        <div class="col-md-auto">
+            <div class="row ">
+              <div class="sub marauto" >
+                  Actuals
+              </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+              <div class="sub">
+                  <table class="h-100">
+                    <tbody>
+                      <tr>
+                        <td class="align-middle">{{cl_1[0]}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+              <div class="m-1 ">
+                  <div style="width:40px;">
+                    <div style="display: block">
+                      <canvas mdbChart
+                          [chartType]="doughnut"
+                          [datasets]="cd_1"
+                          [labels]="cl_1"
+                          [colors]="cc_1"
+                          [options]="co_1"
+                          [legend]="false"
+                          (chartHover)="chartHovered($event)"
+                          (chartClick)="chartClicked($event)"
+                          >
+                      </canvas>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+                <div class="sub">
+                    <table class="h-100">
+                      <tbody>
+                        <tr>
+                          <td class="align-middle">middle</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="m-1">
+                    <div style="width:40px;">
+                      <div style="display: block">
+                        <canvas mdbChart
+                            [chartType]="doughnut"
+                            [datasets]="cd_1"
+                            [labels]="cl_1"
+                            [colors]="cc_1"
+                            [options]="co_1"
+                            [legend]="false"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            >
+                        </canvas>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+                <div class="sub">
+                    <table class="h-100">
+                      <tbody>
+                        <tr>
+                          <td class="align-middle">middle</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="m-1">
+                    <div style="width:40px;">
+                      <div style="display: block">
+                        <canvas mdbChart
+                            [chartType]="doughnut"
+                            [datasets]="cd_1"
+                            [labels]="cl_1"
+                            [colors]="cc_1"
+                            [options]="co_1"
+                            [legend]="false"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            >
+                        </canvas>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /doughnut -->
+        </div>
+        <div style="border: solid 1px #efefef;margin-left: 5px;margin-right: 5px;"></div>
+        <!-- col circulos 2 -->
+        <div class="col-md-auto">
+            <div class="row ">
+              <div class="sub marauto" >
+                  Dif
+              </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+              <div class="m-1 ">
+                  <div style="width:40px;">
+                    <div style="display: block">
+                      <canvas mdbChart
+                          [chartType]="doughnut"
+                          [datasets]="cd_1"
+                          [labels]="cl_1"
+                          [colors]="cc_rojo"
+                          [options]="co_1"
+                          [legend]="false"
+                          (chartHover)="chartHovered($event)"
+                          (chartClick)="chartClicked($event)"
+                          >
+                      </canvas>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+                <div class="m-1">
+                    <div style="width:40px;">
+                      <div style="display: block">
+                        <canvas mdbChart
+                            [chartType]="doughnut"
+                            [datasets]="cd_1"
+                            [labels]="cl_1"
+                            [colors]="cc_rojo"
+                            [options]="co_1"
+                            [legend]="false"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            >
+                        </canvas>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+                <div class="m-1">
+                    <div style="width:40px;">
+                      <div style="display: block">
+                        <canvas mdbChart
+                            [chartType]="doughnut"
+                            [datasets]="cd_1"
+                            [labels]="cl_1"
+                            [colors]="cc_rojo"
+                            [options]="co_1"
+                            [legend]="false"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            >
+                        </canvas>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /doughnut -->
+        </div>
+        <div style="border: solid 1px #efefef;margin-left: 5px;margin-right: 5px;"></div>
+        <!-- col circulos 3 -->
+        <div class="col-md-auto">
+            <div class="row ">
+              <div class="sub marauto" >
+                  Actuals
+              </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+              <div class="sub">
+                  <table class="h-100">
+                    <tbody>
+                      <tr>
+                        <td class="align-middle">{{cl_1[0]}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+              <div class="m-1 ">
+                  <div style="width:40px;">
+                    <div style="display: block">
+                      <canvas mdbChart
+                          [chartType]="doughnut"
+                          [datasets]="cd_1"
+                          [labels]="cl_1"
+                          [colors]="cc_1"
+                          [options]="co_1"
+                          [legend]="false"
+                          (chartHover)="chartHovered($event)"
+                          (chartClick)="chartClicked($event)"
+                          >
+                      </canvas>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+                <div class="sub">
+                    <table class="h-100">
+                      <tbody>
+                        <tr>
+                          <td class="align-middle">middle</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="m-1">
+                    <div style="width:40px;">
+                      <div style="display: block">
+                        <canvas mdbChart
+                            [chartType]="doughnut"
+                            [datasets]="cd_1"
+                            [labels]="cl_1"
+                            [colors]="cc_1"
+                            [options]="co_1"
+                            [legend]="false"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            >
+                        </canvas>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+                <div class="sub">
+                    <table class="h-100">
+                      <tbody>
+                        <tr>
+                          <td class="align-middle">middle</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="m-1">
+                    <div style="width:40px;">
+                      <div style="display: block">
+                        <canvas mdbChart
+                            [chartType]="doughnut"
+                            [datasets]="cd_1"
+                            [labels]="cl_1"
+                            [colors]="cc_1"
+                            [options]="co_1"
+                            [legend]="false"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            >
+                        </canvas>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /doughnut -->
+        </div>
+      </div>
+    </div>
+    <!-- /col -->
+    <!-- Excess capacity -->
+    <div class="col col-md-auto color-gris pt-3">
+      <div class="row mb-3">
+        <div class="col txt-center">
+            <span class="txt-gris">Excess capacity</span>  
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+          <!-- col circulos 1 -->
+          <div class="col-md-auto">
+              <!-- doughnut -->
+              <div class="row" >
+                <div class="col">
+              
+
+                  <div style="background-image: url('assets/images/dashboard/1x/ico_EAT.png'); 
+                    background-position: center; 
+                    background-repeat: 
+                    no-repeat; 
+                    width: 115px; 
+                    display: inline-block; text-align: center;">
+                    <img src="assets/images/dashboard/1x/chart_capacity_EAT.png" alt="">
+                  </div>
+
+
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col txt-center txt-gris">
+                  <span style="font-size: 16px;">950  </span><span style="font-size: 12px;">Mw</span>
+                </div>
+              </div>
+            
+              <!-- /doughnut -->
+              
+          </div>
+          <div class="divider"></div>
+          <!-- col circulos 2 -->
+          <div class="col-md-auto">
+              <!-- doughnut -->
+              <div class="row" >
+                <div class="col">
+                  
+                  <div style="background-image: url('assets/images/dashboard/1x/ico_EST.png'); 
+                    background-position: center; 
+                    background-repeat: 
+                    no-repeat; 
+                    width: 115px; 
+                    display: inline-block; text-align: center;">
+                    <img src="assets/images/dashboard/1x/chart_capacity_EST.png" alt="">
+                  </div>
+
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col txt-center txt-gris">
+                  <span style="font-size: 16px;">950  </span><span style="font-size: 12px;">Mw</span>
+                </div>
+              </div>
+            
+              <!-- /doughnut -->
+              
+          </div>
+
+      </div>
+    </div>
+    <!-- /Excess capacity -->
+    <div class="col col-md-auto color19 pt-3">
+      <div class="row">
+          <div class="col sub" style="display: inline-block;">
+            <span style="font-size: 14px;">Dispatch</span>
+            <br><br>
+            <span style="font-size: 16px;">24 </span><span style="font-size: 12px;">hours</span>
+          </div>
+      </div>
+    </div>
+    
+    <!-- /Excess capacity -->
+    <div class="col col-md-auto color19 pt-3">
+      <div class="row">
+          <div class="col sub" style="display: inline-block;">
+            <img src="/assets/images/cosa.png" alt="">
+          </div>
+      </div>
+    </div>
+    <div class="col color19 pt-3"></div>
+
+  </div>
+  <!-- /row 1 -->
+  <!-- row 2 -->
+  <h1 class="p-2" style="text-align: center;color: #03b0f0;background: #000000">EAT</h1>      
+  <div class="row mt-3">
+    <!-- col Botones -->
+    <div>
+      <div style="width: 214px;" >
+          <div class="row pt-3 pl-3 pb-3 tablinks0 active m-0">
+              <div class=" IconoMedidor "><img src="assets/images/dashboard/1x/ico_power_EAT.png" alt=""></div>
+              <div class="col btn-inline">
+                <span class="btn-titulo btn-azul">Power Output</span>
+                <br>
+                <span class="btn-sub">950 </span><span class="btn-sub-sub">Mw</span>
+              </div>
+          </div>
+          <div class="row pt-3 pl-3 pb-3 tablinks0 m-0">
+              <div class="IconoMedidor"><img src="assets/images/dashboard/1x/ico_heat_EAT.png" alt=""></div>
+              <div class="col btn-inline">
+                <span class="btn-titulo btn-azul">Heat Rate</span>
+                <br>
+                <span class="btn-sub">6957</span><span class="btn-sub-sub"> Kwh/KJ</span>
+              </div>
+          </div>
+            <div class="row pt-3 pl-3 pb-3 tablinks0 m-0">
+                <div class="IconoMedidor"><img src="assets/images/dashboard/1x/ico_capacity_EAT.png" alt=""></div>
+                <div class="col btn-inline">
+                  <span class="btn-titulo btn-azul">Capacity Factor</span>
+                  <br>
+                  <span class="btn-sub">91</span><span class="btn-sub-sub"> %</span>
+                </div>
+            </div>
+            <div class="row pt-3 pl-3 pb-3 tablinks0 m-0">
+                <div class="IconoMedidor"><img src="assets/images/dashboard/1x/ico_fuel_EAT.png" alt=""></div>
+                <div class="col btn-inline">
+                  <span class="btn-titulo btn-azul">Fuel Gain/Lost</span>
+                  <br>
+                  <span class="btn-sub">3</span><span class="btn-sub-sub"> %</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- col grafica lineas -->
+    <div class="col col-md-auto color19 pt-3">
+      <div style="width:400px;">
+        <div style="display: block">
+          <canvas mdbChart
+              [chartType]="chartType"
+              [datasets]="chartDatasets"
+              [labels]="chartLabels"
+              [colors]="chartColors"
+              [options]="chartOptions"
+              [legend]="true"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)">
+          </canvas>
+        </div>
+      </div>
+    </div>
+    <!-- col graficas circulares -->
+    <div class="col-md-auto color19 pt-3">
+      <div class="row pl-4 pr-4">
+        <!-- col circulos 1 -->
+        <div class="col-md-auto">
+            <div class="row ">
+              <div class="sub marauto" >
+                  Actuals
+              </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+              <div class="sub">
+                  <table class="h-100">
+                    <tbody>
+                      <tr>
+                        <td class="align-middle">{{cl_1[0]}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+              <div class="m-1 ">
+                  <div style="width:40px;">
+                    <div style="display: block">
+                      <canvas mdbChart
+                          [chartType]="doughnut"
+                          [datasets]="cd_1"
+                          [labels]="cl_1"
+                          [colors]="cc_1"
+                          [options]="co_1"
+                          [legend]="false"
+                          (chartHover)="chartHovered($event)"
+                          (chartClick)="chartClicked($event)"
+                          >
+                      </canvas>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+                <div class="sub">
+                    <table class="h-100">
+                      <tbody>
+                        <tr>
+                          <td class="align-middle">middle</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="m-1">
+                    <div style="width:40px;">
+                      <div style="display: block">
+                        <canvas mdbChart
+                            [chartType]="doughnut"
+                            [datasets]="cd_1"
+                            [labels]="cl_1"
+                            [colors]="cc_1"
+                            [options]="co_1"
+                            [legend]="false"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            >
+                        </canvas>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+                <div class="sub">
+                    <table class="h-100">
+                      <tbody>
+                        <tr>
+                          <td class="align-middle">middle</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="m-1">
+                    <div style="width:40px;">
+                      <div style="display: block">
+                        <canvas mdbChart
+                            [chartType]="doughnut"
+                            [datasets]="cd_1"
+                            [labels]="cl_1"
+                            [colors]="cc_1"
+                            [options]="co_1"
+                            [legend]="false"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            >
+                        </canvas>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /doughnut -->
+        </div>
+        <div style="border: solid 1px #efefef;margin-left: 5px;margin-right: 5px;"></div>
+        <!-- col circulos 2 -->
+        <div class="col-md-auto">
+            <div class="row ">
+              <div class="sub marauto" >
+                  Dif
+              </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+              <div class="m-1 ">
+                  <div style="width:40px;">
+                    <div style="display: block">
+                      <canvas mdbChart
+                          [chartType]="doughnut"
+                          [datasets]="cd_1"
+                          [labels]="cl_1"
+                          [colors]="cc_rojo"
+                          [options]="co_1"
+                          [legend]="false"
+                          (chartHover)="chartHovered($event)"
+                          (chartClick)="chartClicked($event)"
+                          >
+                      </canvas>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+                <div class="m-1">
+                    <div style="width:40px;">
+                      <div style="display: block">
+                        <canvas mdbChart
+                            [chartType]="doughnut"
+                            [datasets]="cd_1"
+                            [labels]="cl_1"
+                            [colors]="cc_rojo"
+                            [options]="co_1"
+                            [legend]="false"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            >
+                        </canvas>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+                <div class="m-1">
+                    <div style="width:40px;">
+                      <div style="display: block">
+                        <canvas mdbChart
+                            [chartType]="doughnut"
+                            [datasets]="cd_1"
+                            [labels]="cl_1"
+                            [colors]="cc_rojo"
+                            [options]="co_1"
+                            [legend]="false"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            >
+                        </canvas>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /doughnut -->
+        </div>
+        <div style="border: solid 1px #efefef;margin-left: 5px;margin-right: 5px;"></div>
+        <!-- col circulos 3 -->
+        <div class="col-md-auto">
+            <div class="row ">
+              <div class="sub marauto" >
+                  Actuals
+              </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+              <div class="sub">
+                  <table class="h-100">
+                    <tbody>
+                      <tr>
+                        <td class="align-middle">{{cl_1[0]}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+              <div class="m-1 ">
+                  <div style="width:40px;">
+                    <div style="display: block">
+                      <canvas mdbChart
+                          [chartType]="doughnut"
+                          [datasets]="cd_1"
+                          [labels]="cl_1"
+                          [colors]="cc_1"
+                          [options]="co_1"
+                          [legend]="false"
+                          (chartHover)="chartHovered($event)"
+                          (chartClick)="chartClicked($event)"
+                          >
+                      </canvas>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+                <div class="sub">
+                    <table class="h-100">
+                      <tbody>
+                        <tr>
+                          <td class="align-middle">middle</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="m-1">
+                    <div style="width:40px;">
+                      <div style="display: block">
+                        <canvas mdbChart
+                            [chartType]="doughnut"
+                            [datasets]="cd_1"
+                            [labels]="cl_1"
+                            [colors]="cc_1"
+                            [options]="co_1"
+                            [legend]="false"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            >
+                        </canvas>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+                <div class="sub">
+                    <table class="h-100">
+                      <tbody>
+                        <tr>
+                          <td class="align-middle">middle</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="m-1">
+                    <div style="width:40px;">
+                      <div style="display: block">
+                        <canvas mdbChart
+                            [chartType]="doughnut"
+                            [datasets]="cd_1"
+                            [labels]="cl_1"
+                            [colors]="cc_1"
+                            [options]="co_1"
+                            [legend]="false"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            >
+                        </canvas>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /doughnut -->
+        </div>
+      </div>
+    </div>
+    <!-- /col -->
+    
+    
+    <!-- col grafica lineas 2 -->
+    <div class="col col-md-auto color-gris pt-3">
+      <div style="width:400px;">
+        <div style="display: block">
+          <canvas mdbChart
+              [chartType]="chartType"
+              [datasets]="chartDatasets"
+              [labels]="chartLabels"
+              [colors]="chartColors"
+              [options]="chartOptions"
+              [legend]="true"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)">
+          </canvas>
+        </div>
+      </div>
+    </div>
+    <!-- /Excess capacity -->
+    <div class="col col-md-auto color19 pt-3">
+      <div class="row">
+        <div class="col txt-center">
+            <span class="txt-gris">Diesel Tank</span>  
+        </div>
+      </div>
+      <div class="row">
+        <div class="col txt-center">
+            <span class="txt-gris">100%</span>  
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+            <div style="background-image: url('assets/images/dashboard/1x/ico_DISEL.png'); 
+            background-position: center; 
+            background-repeat: no-repeat; text-align: center;">
+              <img src="assets/images/dashboard/1x/chart_disel2.png" alt="">
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col color19 pt-3"></div>
+
+  </div>
+  <!-- /row 2 -->
+  <!-- row 3 -->
+  <h1 class="p-2" style="text-align: center;color: #ff9d00; background: #000000">EST</h1>      
+  <div class="row mt-3">
+    <!-- col Botones -->
+    <div>
+      <div style="width: 214px;" >
+          <div class="row pt-3 pl-3 pb-3 tablinks0 active m-0">
+              <div class=" IconoMedidor "><img src="assets/images/dashboard/1x/ico_power_EST.png" alt=""></div>
+              <div class="col btn-inline">
+                <span class="btn-titulo btn-naranja">Power Output</span>
+                <br>
+                <span class="btn-sub">950 </span><span class="btn-sub-sub">Mw</span>
+              </div>
+          </div>
+          <div class="row pt-3 pl-3 pb-3 tablinks0 m-0">
+              <div class="IconoMedidor"><img src="assets/images/dashboard/1x/ico_heat_EST.png" alt=""></div>
+              <div class="col btn-inline">
+                <span class="btn-titulo btn-naranja">Heat Rate</span>
+                <br>
+                <span class="btn-sub">6957</span><span class="btn-sub-sub"> Kwh/KJ</span>
+              </div>
+          </div>
+            <div class="row pt-3 pl-3 pb-3 tablinks0 m-0">
+                <div class="IconoMedidor"><img src="assets/images/dashboard/1x/ico_capacity_EST.png" alt=""></div>
+                <div class="col btn-inline">
+                  <span class="btn-titulo btn-naranja">Capacity Factor</span>
+                  <br>
+                  <span class="btn-sub">91</span><span class="btn-sub-sub"> %</span>
+                </div>
+            </div>
+            <div class="row pt-3 pl-3 pb-3 tablinks0 m-0">
+                <div class="IconoMedidor"><img src="assets/images/dashboard/1x/ico_fuel_EST.png" alt=""></div>
+                <div class="col btn-inline">
+                  <span class="btn-titulo btn-naranja">Fuel Gain/Lost</span>
+                  <br>
+                  <span class="btn-sub">3</span><span class="btn-sub-sub"> %</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- col grafica lineas -->
+    <div class="col col-md-auto color19 pt-3">
+      <div style="width:400px;">
+        <div style="display: block">
+          <canvas mdbChart
+              [chartType]="chartType"
+              [datasets]="chartDatasets"
+              [labels]="chartLabels"
+              [colors]="chartColors"
+              [options]="chartOptions"
+              [legend]="true"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)">
+          </canvas>
+        </div>
+      </div>
+    </div>
+    <!-- col graficas circulares -->
+    <div class="col-md-auto color19 pt-3">
+      <div class="row  pl-4 pr-4">
+        <!-- col circulos 1 -->
+        <div class="col-md-auto">
+            <div class="row ">
+              <div class="sub marauto" >
+                  Actuals
+              </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+              <div class="sub">
+                  <table class="h-100">
+                    <tbody>
+                      <tr>
+                        <td class="align-middle">{{cl_1[0]}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+              <div class="m-1 ">
+                  <div style="width:40px;">
+                    <div style="display: block">
+                      <canvas mdbChart
+                          [chartType]="doughnut"
+                          [datasets]="cd_1"
+                          [labels]="cl_1"
+                          [colors]="cc_1"
+                          [options]="co_1"
+                          [legend]="false"
+                          (chartHover)="chartHovered($event)"
+                          (chartClick)="chartClicked($event)"
+                          >
+                      </canvas>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+                <div class="sub">
+                    <table class="h-100">
+                      <tbody>
+                        <tr>
+                          <td class="align-middle">middle</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="m-1">
+                    <div style="width:40px;">
+                      <div style="display: block">
+                        <canvas mdbChart
+                            [chartType]="doughnut"
+                            [datasets]="cd_1"
+                            [labels]="cl_1"
+                            [colors]="cc_1"
+                            [options]="co_1"
+                            [legend]="false"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            >
+                        </canvas>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+                <div class="sub">
+                    <table class="h-100">
+                      <tbody>
+                        <tr>
+                          <td class="align-middle">middle</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="m-1">
+                    <div style="width:40px;">
+                      <div style="display: block">
+                        <canvas mdbChart
+                            [chartType]="doughnut"
+                            [datasets]="cd_1"
+                            [labels]="cl_1"
+                            [colors]="cc_1"
+                            [options]="co_1"
+                            [legend]="false"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            >
+                        </canvas>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /doughnut -->
+        </div>
+        <div style="border: solid 1px #efefef;margin-left: 5px;margin-right: 5px;"></div>
+        <!-- col circulos 2 -->
+        <div class="col-md-auto">
+            <div class="row ">
+              <div class="sub marauto" >
+                  Dif
+              </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+              <div class="m-1 ">
+                  <div style="width:40px;">
+                    <div style="display: block">
+                      <canvas mdbChart
+                          [chartType]="doughnut"
+                          [datasets]="cd_1"
+                          [labels]="cl_1"
+                          [colors]="cc_rojo"
+                          [options]="co_1"
+                          [legend]="false"
+                          (chartHover)="chartHovered($event)"
+                          (chartClick)="chartClicked($event)"
+                          >
+                      </canvas>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+                <div class="m-1">
+                    <div style="width:40px;">
+                      <div style="display: block">
+                        <canvas mdbChart
+                            [chartType]="doughnut"
+                            [datasets]="cd_1"
+                            [labels]="cl_1"
+                            [colors]="cc_rojo"
+                            [options]="co_1"
+                            [legend]="false"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            >
+                        </canvas>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+                <div class="m-1">
+                    <div style="width:40px;">
+                      <div style="display: block">
+                        <canvas mdbChart
+                            [chartType]="doughnut"
+                            [datasets]="cd_1"
+                            [labels]="cl_1"
+                            [colors]="cc_rojo"
+                            [options]="co_1"
+                            [legend]="false"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            >
+                        </canvas>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /doughnut -->
+        </div>
+        <div style="border: solid 1px #efefef;margin-left: 5px;margin-right: 5px;"></div>
+        <!-- col circulos 3 -->
+        <div class="col-md-auto">
+            <div class="row ">
+              <div class="sub marauto" >
+                  Actuals
+              </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+              <div class="sub">
+                  <table class="h-100">
+                    <tbody>
+                      <tr>
+                        <td class="align-middle">{{cl_1[0]}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+              <div class="m-1 ">
+                  <div style="width:40px;">
+                    <div style="display: block">
+                      <canvas mdbChart
+                          [chartType]="doughnut"
+                          [datasets]="cd_1"
+                          [labels]="cl_1"
+                          [colors]="cc_1"
+                          [options]="co_1"
+                          [legend]="false"
+                          (chartHover)="chartHovered($event)"
+                          (chartClick)="chartClicked($event)"
+                          >
+                      </canvas>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <!-- doughnut -->
+            <div class="row" >
+                <div class="sub">
+                    <table class="h-100">
+                      <tbody>
+                        <tr>
+                          <td class="align-middle">middle</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="m-1">
+                    <div style="width:40px;">
+                      <div style="display: block">
+                        <canvas mdbChart
+                            [chartType]="doughnut"
+                            [datasets]="cd_1"
+                            [labels]="cl_1"
+                            [colors]="cc_1"
+                            [options]="co_1"
+                            [legend]="false"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"
+                            >
+                        </canvas>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!-- doughnut -->
+      <div class="row" >
+          <div class="sub">
+              <table class="h-100">
+                <tbody>
+                  <tr>
+                    <td class="align-middle">middle</td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+          <div class="m-1">
+              <div style="width:40px;">
+                <div style="display: block">
+                  <canvas mdbChart
+                      [chartType]="doughnut"
+                      [datasets]="cd_1"
+                      [labels]="cl_1"
+                      [colors]="cc_1"
+                      [options]="co_1"
+                      [legend]="false"
+                      (chartHover)="chartHovered($event)"
+                      (chartClick)="chartClicked($event)"
+                      >
+                  </canvas>
+                </div>
+              </div>
+          </div>
+      </div>
+      <!-- /doughnut -->
+  </div>
+  </div>
+  </div>
+  <!-- /col -->
+
+  <!-- col grafica lineas -->
+  <div class="col color-gris pt-3">
+  <div style="width:400px;">
+  <div style="display: block">
+    <canvas mdbChart
+        [chartType]="chartType"
+        [datasets]="chartDatasets"
+        [labels]="chartLabels"
+        [colors]="chartColors"
+        [options]="chartOptions"
+        [legend]="true"
+        (chartHover)="chartHovered($event)"
+        (chartClick)="chartClicked($event)">
+    </canvas>
+  </div>
+  </div>
+  </div>
+  </div>
+  <!-- /row 3 -->
+      
+</div>

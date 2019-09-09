@@ -25,7 +25,7 @@
         </app-monitoringSidebar>
       </div>
     </aside>
- 
+    <!--div *ngIf="aside_open" class="position-fixed" style="width: 100%;height: 100%; z-index: 1; background: #000;opacity: 0.7;transition: 0.5s;"></div-->
     <section id="seccion"
         [ngStyle]="{'width':aside_open ? 'calc(100% - 230px)' : 'calc(100% )' }">
       <!--  CUERPO DEL COMPONENTE -->
