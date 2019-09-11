@@ -20,7 +20,6 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 	calltags         = [];
 	charts           : Chart[]=[]
 	wifi             : boolean = false;
-	//chartsControls   : ChartControl[];
 	chartsControls   : Array<ChartControl>=[];
 
   
@@ -30,7 +29,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		public eventService         : EventService  ,
 		public socketService        : SocketService
 	) {
-		super(eventService,socketService);
+		super(globalService,eventService,socketService);
 	}
 	  
 	ngOnInit() {
@@ -42,6 +41,10 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		this.subscribeSocketOnStatus();
 		this.subscribeSocketChanels();
 	}
+	puebafuncionllamadodesdehijo(event){
+		console.log(event);
+		
+	}
 	initializeAt0(){
 		for (const calltag in TAGS.lstTags) {
 			if (TAGS.lstTags.hasOwnProperty(calltag)) {
@@ -50,106 +53,41 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		}
 	}
 	chartInit(){
-		this.initcontrols();
-		console.log(this.chartsControls);
+
 		
 		//this.chart_est_power_01    = new Chart('chart_est_power_01'     , this.chart_config_1);
 		//this.chart_rt    = new Chart('chart_rt'    , TAGS.chart_config_rt);
 		//this.chart_rpm   = new Chart('chart_rpm'   , TAGS.chart_config_rpm);
-		this.charts['chart_mw']= new Chart('chart_mw'    ,  BasChart.chartCreateConfig());
-		this.charts['chart_est_power_01']= new Chart('chart_est_power_01'    ,  BasChart.chartCreateConfig());
+		//this.charts['chart_mw']= new Chart('chart_mw'    ,  BasChart.chartCreateConfig());
+		this.charts['chart_est_power_01']= new Chart('chart_est_power_01'    ,  TAGS.chart_config_rt);
 		//this.chart_mw    = new Chart('chart_mw'    ,  BasChart.chartCreateConfig());
 		//this.chart_est_power_01 = new Chart('chart_est_power_01' ,  BasChart.chartCreateConfig());
 		//this.chart_modal = new Chart('canvas_modal',this.chart_modal_config);
+		this.createChart('chart_est_power_01');
+		console.log(this.chartsControls);
 	}
-	initcontrols(){
-		this.chartsControls['chart_est_power_01']={
+	createChart(id){
+		//this.charts[id]= new Chart(id, BasChart.chartCreateConfig());
+		
+		this.chartsControls[id]={
+			chart          : id,
+			type_graph     : 'line',
+			type_scale     : 'dynamic',
+			fill           : 'false',
 			data_per_graph : 3,
 			point_radius   : 3,
-			time_refreseh  : 3,
-			type_graph     : 'line',
-			type_scale     : 'false',
-			fill           : 'false'
+			time_refreseh  : 3
 		};
 	}
 
-	subscribeSocketChanels(){
-		if(this.globalService.socketConnect){
-		this.subscriptionsPerChannel = [
-			'pi-aguila','pi-aguila-error',
-			'pi-sol','pi-sol-error',
-			'back-pi-isrun','back-pi-isrun-error'
-		];
-		this.chanels = ["pi-aguila", "pi-sol", "back-pi-isrun"];
 
-
-			let channelBackPiIsRun = this.socketService.suscribeChannel("back-pi-isrun");
-
-			this.subscriptions['back-pi-isrun'] = this.socketService.onChannelWatch(channelBackPiIsRun-1)
-				.subscribe((data:any)=>{
-					if(data.isrun == 0){
-						this.whenLosingConnection();
-					}else if(data.isrun == 1){
-						if(data.backPi['status-pi-aguila'] == 0){
-							if(this.globalService.plant.name === "AGUILA"){
-								this.whenLosingConnection();
-							}
-						}else if(data.backPi['status-pi-sol'] == 0){
-							if(this.globalService.plant.name === "SOL"){
-								this.whenLosingConnection();
-							}
-						}else if(data.backPi['status-doc-aguila'] == 0){
-							if(this.globalService.plant.name === "AGUILA"){
-							}
-						}else if(data.backPi['status-doc-sol'] == 0){
-							if(this.globalService.plant.name === "SOL"){
-							}
-						}else if(data.backPi['status-doc-aguila'] == 1){
-							if(this.globalService.plant.name === "AGUILA"){
-							}
-						}else if(data.backPi['status-doc-sol'] == 1){
-							if(this.globalService.plant.name === "SOL"){
-							}
-						}
-					}
-					//console.log("back-pi-isrun::",data);
-				});
-			this.subscriptions['back-pi-isrun-error'] = this.socketService.onChannelError(channelBackPiIsRun-1)
-				.subscribe((errorChannel:any)=>{
-					//console.log("back-pi-isrun-isrun::",errorChannel);
-				});
-			if(this.globalService.plant.name === "AGUILA"){
-				let channelPiAguila = this.socketService.suscribeChannel("pi-aguila");
-				this.subscriptions['pi-aguila-error'] = this.socketService.onChannelError(channelPiAguila - 1)
-				.subscribe((errorChannel: any) => {console.log("pi-aguila-error",errorChannel);});
-
-				this.subscriptions['pi-aguila'] = this.socketService.onChannelWatch(channelPiAguila - 1)
-				.subscribe((data: any) => {
-					//console.log(data);
-					this.dataAdapter(data);
-					if(  this.check_time_refreseh_data() ){
-						this.timePast = new Date();
-						this.dataAdapter(data);
-					}
-				});
-			}else if(this.globalService.plant.name === "SOL"){
-				let channelPiSol = this.socketService.suscribeChannel("pi-sol");
-				this.subscriptions['pi-sol-error'] = this.socketService.onChannelError(channelPiSol - 1)
-				.subscribe((errorChannel: any) => {console.log("pi-sol-error",errorChannel);});
-
-				this.subscriptions['pi-sol'] = this.socketService.onChannelWatch(channelPiSol - 1)
-				.subscribe((data: any) => {
-					if(  this.check_time_refreseh_data() ){
-						//console.log(data);
-						this.timePast = new Date();
-						this.dataAdapter(data);
-					}
-				});
-			}
-		}
-	}
 
 	dataAdapter(data){
+		/*
+		if(  this.check_time_refreseh_data() ){
+			this.timePast = new Date();
+			this.dataAdapter(data);
+		}//*/
 		for (const calltag in TAGS.lstTags) {
 		if (TAGS.lstTags.hasOwnProperty(calltag)) {
 			let mydata = null;
@@ -171,7 +109,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 			/*this.addDataset(tagconf,tagconf.calltags,datoprocesado);
 			this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt');
 			this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRPM','getCTDosRPM','getTVRPM'],'chart_rpm');//*/
-			this.addDatasetLine ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoMW','getCTDosMW','getTVMW'],'chart_mw');
+			//this.addDatasetLine ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoMW','getCTDosMW','getTVMW'],'chart_mw');
 			this.addDatasetLine ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_est_power_01');
 			
 			if(tagconf.calltags=='getPresionAtmosferica')this.wifi = true;
@@ -200,7 +138,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 
 
 	updateChartMain(form){
-		/*
+		///*
 		this.chartsControls['chart_est_power_01'].data_per_graph 
 		= new Array(form.value.data_per_graph_main);
 		this.chartsControls['chart_est_power_01'].time_refreseh
@@ -218,18 +156,20 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		* esto eliminara los elementos del inicio que sibren 
 		* para pintar la grafica 
 		*/
-		/*
+		///*
 		this.charts['chart_est_power_01'].data.datasets.forEach(function(element) {
+			debugger;
 		if(form.value.data_per_graph_main < element.data.length){
+			debugger;
 			element.data = element.data.slice(
 			element.data.length - form.value.data_per_graph_main
 			,element.data.length);
 		}
 		});//*/
+		this.charts['chart_est_power_01'].config.options.elements.point.radius = this.chartsControls['chart_est_power_01'].point_radius;
 		/*
 		this.change_graph_dynamic_scale();
 
-		this.chart_01.config.options.elements.point.radius = this.chart_01_point_radius;
 
 		this.chart_01.config.type = form.value.type_graph_main;
 		switch(form.value.type_graph_main){
@@ -263,25 +203,25 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 
 		//if(['getCTUnoRT','getCTDosRT','getTVRT'].includes(calltag)){
 		if(tags.includes(calltag)){
-		let tag = this[chart].data.datasets.find(existDataset);
-		if(tag == undefined){
-	
-			let newColor = tagconf.color;
-	
-			var newDatasetModal = {
-			id:calltag,
-			label: tagconf.label,
-			backgroundColor: newColor,
-			borderColor: newColor,
-			data: [data],
-			fill: false,
-			hidden:false
-			};
-			this[chart].data.datasets.push(newDatasetModal);
-		}else{
-			(tag.data as number[])=[data];
-		}
-		this[chart].update();
+			let tag = this.charts[chart].data.datasets.find(existDataset);
+			if(tag == undefined){
+		
+				let newColor = tagconf.color;
+		
+				var newDatasetModal = {
+				id:calltag,
+				label: tagconf.label,
+				backgroundColor: newColor,
+				borderColor: newColor,
+				data: [data],
+				fill: false,
+				hidden:false
+				};
+				this.charts[chart].data.datasets.push(newDatasetModal);
+			}else{
+				(tag.data as number[])=[data];
+			}
+			this.charts[chart].update();
 		}
 
 	}
@@ -296,33 +236,40 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		//if(['getCTUnoRT','getCTDosRT','getTVRT'].includes(calltag)){
 		if(tags.includes(calltag)){
 			
-		let tag = this.charts[chart].data.datasets.find(existDataset);
-		//console.log(tag);
-		
-		if(tag == undefined){
-	
-			var newColor = tagconf.color;
-	
-			var newDatasetModal = {
-			id:calltag,
-			label: tagconf.label,
-			backgroundColor: newColor,
-			borderColor: newColor,
-			data: [data],
-			fill: false,
-			hidden:false
-			};
-			this.charts[chart].data.datasets.push(newDatasetModal);
-			//console.log(this.charts[chart].data.datasets);
+			let tag = this.charts[chart].data.datasets.find(existDataset);
+			//console.log(tag);
 			
-		}else{
-			(tag.data as number[]).push(data);
-			//tag.data.push(data);
-			if(tag.data.length >= 11){
-			tag.data.shift();
+			if(tag == undefined){
+		
+				var newColor = tagconf.color;
+		
+				var newDatasetModal = {
+				id:calltag,
+				label: tagconf.label,
+				backgroundColor: newColor,
+				borderColor: newColor,
+				data: [data],
+				fill: false,
+				hidden:false
+				};
+				this.charts[chart].data.datasets.push(newDatasetModal);
+				//console.log(this.charts[chart].data.datasets);
+				
+			}else{
+				
+				/**Para la grafica tipo  line , bar*/
+				/*
+				(tag.data as number[]).push(data);
+				//tag.data.push(data);
+				if(tag.data.length >= 11){
+					tag.data.shift();
+				}
+				//*/
+
+				/**Para la grafica tipo  horizontalBar*/
+				//(tag.data as number[])=[data];
 			}
-		}
-		this.charts[chart].update();
+			this.charts[chart].update();
 		}
 		//console.log(this.charts);
 		//console.log(this.charts['chart_est_power_01'].data);
@@ -331,7 +278,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 	addDataset(tagconf,calltag,data){
 		let chart_est_power_01:Chart;
 		let existDataset = function (tag) {
-		return (tag.id === calltag);
+			return (tag.id === calltag);
 		};
 		let hiddenDataset = function(){
 		switch(calltag) {
@@ -357,52 +304,57 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		
 		let tag = chart_est_power_01.data.datasets.find(existDataset);
 		if(tag == undefined){
-		let rgba = BasChart.hexToRGB(tagconf.color,0.3);
-		let hex = tagconf.color;
+			let rgba = BasChart.hexToRGB(tagconf.color,0.3);
+			let hex = tagconf.color;
 
-		var newDataset = {
-			id:calltag,
-			rgba:rgba,
-			label: TAGS.lstTags[calltag].label,
-			backgroundColor: rgba,
-			borderColor: hex,
-			data: [data],
-			fill: false,
-			//fill: this.chart_est_power_01_fill,
-			yAxisID: calltag,
-			//yAxisID: 'my887896',
-			hidden:hiddenDataset()
-		};
-		var newYaxis = {
-			id: calltag,
-			type: 'linear', 
-			display: displayYAxis(),
-			position: 'left',
-			ticks:{
-				fontColor:hex,
-				fontSize:12,
-				min: tagconf.min,
-				max: tagconf.max,
-				beginAtZero: false
-			},
-			gridLines:{
-				color:"rgb(52, 58, 64)",
-				display: false,
-			},
+			var newDataset = {
+				id:calltag,
+				rgba:rgba,
+				label: TAGS.lstTags[calltag].label,
+				backgroundColor: rgba,
+				borderColor: hex,
+				data: [data],
+				fill: false,
+				//fill: this.chart_est_power_01_fill,
+				yAxisID: calltag,
+				//yAxisID: 'my887896',
+				hidden:hiddenDataset()
+			};
+			var newYaxis = {
+				id: calltag,
+				type: 'linear', 
+				display: displayYAxis(),
+				position: 'left',
+				ticks:{
+					fontColor:hex,
+					fontSize:12,
+					min: tagconf.min,
+					max: tagconf.max,
+					beginAtZero: false
+				},
+				gridLines:{
+					color:"rgb(52, 58, 64)",
+					display: false,
+				},
+				
+			};
 			
-		};
-		
-		chart_est_power_01.data.datasets.push(newDataset);
-		chart_est_power_01.config.options.scales.yAxes.push(newYaxis);
+			chart_est_power_01.data.datasets.push(newDataset);
+			chart_est_power_01.config.options.scales.yAxes.push(newYaxis);
 
-		
+			
 		
 		}else{
-		(tag.data as number[]).push(data);
-		//tag.data.push(data);
-		if(tag.data.length >= chart_est_power_01.data.labels.length+1){
-			tag.data.shift();
-		}
+			/**Para la grafica tipo  line , bar*/
+			(tag.data as number[]).push(data);
+			//tag.data.push(data);
+			if(tag.data.length >= chart_est_power_01.data.labels.length+1){
+				tag.data.shift();
+			}
+
+			
+			/**Para la grafica tipo  horizontalBar*/
+			//(tag.data as number[])=[data];
 		}
 		//console.log("data",chart_est_power_01.data.datasets);
 		//console.log("y ",chart_est_power_01.config.options.scales.yAxes);

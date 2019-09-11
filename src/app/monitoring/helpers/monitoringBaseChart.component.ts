@@ -33,7 +33,7 @@ export const generateColorHEX = function(calltag){
 }
 export const chartCreateConfig = function (){
 	return {
-	type: 'line'
+	type: 'horizontalBar'
 	,data: {
 		//labels: new Array(this.data_per_graph_main)
 		labels: ["k1","k2",'k3','k4']
@@ -41,39 +41,56 @@ export const chartCreateConfig = function (){
 	}
 	,options: {
 		responsive: true,
-	//      aspectRatio:3,
 		maintainAspectRatio: false,
-		legend: {display: false,labels:{fontColor: 'red',fontSize:26}},
 		elements: {
-		point: {
-			//hoverBackgroundColor: makeHalfAsOpaque,
-			radius: this.chart_est_power_01_point_radius,
-			hoverRadius: 15,
-		}
-		}
-		,scales: {
-		xAxes: [{
-			gridLines:{
-			color:"rgba(255,255,255,1)",
-			display: false,
+			point: {
+				//hoverBackgroundColor: makeHalfAsOpaque,
+				//radius: this.chart_est_power_01_point_radius,
+				radius: 2,
+				hoverRadius: 15,
 			},
-		display: true,
-		ticks:{
-			fontColor:"orange"
-		}
-		}]
-		,yAxes: [{
-			type: 'linear', 
+			rectangle: {
+			  borderWidth: 2,
+			}
+		},
+		legend: {
 			display: true,
-			position: 'left',
-			id: 'my887896',
-			ticks:{
-			//min: 0,
-			//max: 1,
-			beginAtZero: false  
-			},
-		}
-		],
+			labels:{
+				fontColor: 'red',
+				fontSize:12,
+				usePointStyle:true,
+			}
+		},
+		scales: {
+			xAxes: [
+				{
+					display: true,
+					gridLines:{
+						color:"rgba(255,255,255,1)",
+						display: false,
+					},
+					ticks:{
+						fontColor:"orange",
+						fontSize:12,
+						beginAtZero: false,
+						//suggestedMin:9000
+					}
+				}
+			]
+			,yAxes: [
+				{
+					type: 'linear', 
+					display: true,
+					position: 'left',
+					id: 'my887896',
+					ticks:{
+						//min: 0,
+						//max: 1,
+						//suggestedMin:9000
+						beginAtZero: false  
+					},
+				}
+			],
 		}
 	}
 	};

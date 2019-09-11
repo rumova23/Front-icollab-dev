@@ -15,7 +15,7 @@
     </div>
     <!-- SOL -->
     <div class="row">
-        <div class="col-12 text-center mycolororange"><h5>EST</h5></div>
+        <div class="col-12 text-center mycolororange my-3"><h5><strong>EST</strong></h5></div>
   
         <div class="col-12 col-lg-3 col-xl-2 p-0">
             <ul class="nav flex-lg-column nav-pills nav-justified">
@@ -90,25 +90,31 @@
             </ul>
         </div>
         <div class="col-12 col-lg-9 col-xl-10">
-            <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-content " id="v-pills-tabContent">
                 <div class="tab-pane fade show active" id="v-pills-Power_Output" role="tabpanel" aria-labelledby="v-pills-Power_Output-tab">
 					<div class="row">
 						<div class="col">
-								<!--div class="btn-group">
-									<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										Right-aligned menu
-									</button>
-									<div class="dropdown-menu dropdown-menu-right">
-										<button class="dropdown-item" type="button">Action</button>
-										<button class="dropdown-item" type="button">Another action</button>
-										<button class="dropdown-item" type="button">Something else here</button>
-									</div>
-								</div-->
-							<canvas id="chart_est_power_01"></canvas></div>
+							<app-monitoringChartsControls
+							[chartsControl]       = "chartsControls['chart_est_power_01']"
+							(chartsControlOutPut) = "puebafuncionllamadodesdehijo($event)"
+							>
+								
+							</app-monitoringChartsControls>
+								
+								<div>
+									<canvas id="chart_est_power_01"></canvas>
+								</div>
+						</div>
 						<div class="col"><canvas id="chart_mw"></canvas>  
 							
 						</div>
-						<div class="col">c</div>
+						<div class="col">
+								<app-monitoringChartsControls
+								[chartsControl]       = "chartsControls['chart_est_power_01']"
+								(chartsControlOutPut) = "puebafuncionllamadodesdehijo($event)"
+								>
+							</app-monitoringChartsControls>
+						</div>
 					</div>
 				</div>
                 <div class="tab-pane fade" id="v-pills-Heat_Rate" role="tabpanel" aria-labelledby="v-pills-Heat_Rate-tab">Heat_Rate</div>

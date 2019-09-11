@@ -170,6 +170,7 @@ import { MonitoringSidebarComponent }      from 'src/app/monitoring/common/sideb
 import { MonitoringMenuItemsComponent }    from 'src/app/monitoring/common/menuItems/monitoringMenuItems.component';
 import { MonitoringPhase3Component }       from 'src/app/monitoring/boards/phase3/monitoringPhase3.component';
 import { MonitoringPhase2Component }       from 'src/app/monitoring/boards/phase2/monitoringPhase2.component';
+import { MonitoringChartsControlsComponent } from 'src/app/monitoring/common/chartsControls/monitoringChartsControls.component';
 
 /* ./Module Monitoring */
 
@@ -312,7 +313,9 @@ registerLocaleData(localePy, 'es');
     ,MonitoringSidebarComponent
     ,MonitoringMenuItemsComponent
     ,MonitoringPhase3Component
-    ,MonitoringPhase2Component, MonitoringBaseSocketOnComponent
+    ,MonitoringPhase2Component
+    ,MonitoringBaseSocketOnComponent
+    ,MonitoringChartsControlsComponent
   ],
   imports: [
     BrowserModule,

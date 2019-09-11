@@ -56,6 +56,7 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 		this.openSocket();
 	}
 	ngAfterViewInit() {
+		//const factory = this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase2Component);
 		const factory = this.componentFactoryResolver.resolveComponentFactory(MonitoringWelcomeComponent);
 		this.viewContainerRef.createComponent(factory);
 	}
