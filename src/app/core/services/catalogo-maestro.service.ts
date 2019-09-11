@@ -38,7 +38,7 @@ export class CatalogoMaestroService {
   parameters:any;
   user :any;
 
-  private micro_catalago_maestro = environment.micro_catalago_maestro;
+  private microCatalagoMaestro = environment.catalogUrl;
 
   constructor(private http: HttpClient
              ,public globalService: GlobalService) { }
@@ -80,39 +80,39 @@ export class CatalogoMaestroService {
     console.log(this.headers);
     console.log("this.parameters");
     console.log(this.parameters); 
-    //return this.http.get( `${ this.micro_catalago_maestro }catalog/get/` + catalogo ,httpOptions);
-    //return this.http.get( `${ this.micro_catalago_maestro }catalog/get/` + catalogo , {headers:httpOptions});
-    //return this.http.get( `${ this.micro_catalago_maestro }catalog/get/` + catalogo , {headers : this.headers });
-    return this.http.get( `${ this.micro_catalago_maestro }catalog/get/` + catalogo , {params : this.parameters });
+    //return this.http.get( `${ this.microCatalagoMaestro }catalog/get/` + catalogo ,httpOptions);
+    //return this.http.get( `${ this.microCatalagoMaestro }catalog/get/` + catalogo , {headers:httpOptions});
+    //return this.http.get( `${ this.microCatalagoMaestro }catalog/get/` + catalogo , {headers : this.headers });
+    return this.http.get( `${ this.microCatalagoMaestro }catalog/get/` + catalogo , {params : this.parameters });
   }
   
   setCatalogoIndividual(catalogo, plantSelected){
     this.setXTenantId(plantSelected);
-    return this.http.post( `${ this.micro_catalago_maestro }catalog/save` , catalogo, {params : this.parameters });
+    return this.http.post( `${ this.microCatalagoMaestro }catalog/save` , catalogo, {params : this.parameters });
   }
   setEditClonated(catalogo, plantSelected){
     this.setXTenantId(plantSelected);
-    return this.http.post( `${ this.micro_catalago_maestro }catalog/editedclonated` , catalogo, {params : this.parameters });
+    return this.http.post( `${ this.microCatalagoMaestro }catalog/editedclonated` , catalogo, {params : this.parameters });
   }
   hasClonated(catalogo, plantSelected){
     this.setXTenantId(plantSelected);
-    return this.http.post( `${ this.micro_catalago_maestro }catalog/hasclonated` , catalogo, {params : this.parameters });
+    return this.http.post( `${ this.microCatalagoMaestro }catalog/hasclonated` , catalogo, {params : this.parameters });
   }  
 
   outCatalogoItem(catalogName:string ,id:number){
     this.setXTenantId(this.globalService.aguila);
-    return this.http.delete( `${ this.micro_catalago_maestro }catalog/delete/` + catalogName + "/" + id, {params : this.parameters });    
+    return this.http.delete( `${ this.microCatalagoMaestro }catalog/delete/` + catalogName + "/" + id, {params : this.parameters });    
   }
   outCatalogItemCloned(catalogName:string ,referenceclone:string){
     this.setXTenantId(!this.globalService.aguila);
-    return this.http.delete( `${ this.micro_catalago_maestro }catalog/deleteclonated/` + catalogName + "/" + referenceclone, {params : this.parameters });    
+    return this.http.delete( `${ this.microCatalagoMaestro }catalog/deleteclonated/` + catalogName + "/" + referenceclone, {params : this.parameters });    
   } 
 
   getlistCatalogoOrdenados(catalogos: Array<OrderCatalogDTO>) {
     this.setXTenantId(this.globalService.aguila);
     console.log("catalogos");
     console.dir(catalogos);
-    return this.http.post( `${ this.micro_catalago_maestro }catalog/list`, catalogos, {params : this.parameters });   
+    return this.http.post( `${ this.microCatalagoMaestro }catalog/list`, catalogos, {params : this.parameters });   
   }
 
 
@@ -120,32 +120,32 @@ export class CatalogoMaestroService {
 
 
   getCatalogo(nameCat): Observable<any> {
-    //return this.http.get(`${this.micro_catalago_maestro}admin/catalogo/${nameCat}`, httpOptions);
-    return this.http.get(`${this.micro_catalago_maestro}admin/catalogo/${nameCat}`, {headers:httpOptions});
+    //return this.http.get(`${this.microCatalagoMaestro}admin/catalogo/${nameCat}`, httpOptions);
+    return this.http.get(`${this.microCatalagoMaestro}admin/catalogo/${nameCat}`, {headers:httpOptions});
   }
 
   getOpcion(idOpcion: string): Observable<any> {
     // @ts-ignore
     // @ts-ignore
-    return this.http.get(`${this.micro_catalago_maestro}catalogoOpcion/id/${idOpcion}`, httpOptions);
+    return this.http.get(`${this.microCatalagoMaestro}catalogoOpcion/id/${idOpcion}`, httpOptions);
   }
   // tslint:disable-next-line:max-line-length
   salvarOpcion(opcionNombre: string, opcionDescripcion: string, estatus: string, orden: string, maestroNombre: string): Observable<MaestroOpcion> {
     // @ts-ignore
     // tslint:disable-next-line:max-line-length
-    return this.http.post(`${this.micro_catalago_maestro}catalogoOpcion/catalogo/` + maestroNombre + `/` + opcionNombre + `/` + opcionDescripcion + `/` + estatus + `/` + orden, httpOptions);
+    return this.http.post(`${this.microCatalagoMaestro}catalogoOpcion/catalogo/` + maestroNombre + `/` + opcionNombre + `/` + opcionDescripcion + `/` + estatus + `/` + orden, httpOptions);
   }
 
   updateOpcion(opcionNombre: string, opcionDescripcion: string, estatus: string, orden: string, maestroOpcionId: string) {
     // tslint:disable-next-line:max-line-length
-    return this.http.post(`${this.micro_catalago_maestro}catalogoOpcion/catalogo/update/` + `/` + opcionNombre + `/` + opcionDescripcion + `/` + estatus + `/` + orden + `/` + maestroOpcionId, httpOptions);
+    return this.http.post(`${this.microCatalagoMaestro}catalogoOpcion/catalogo/update/` + `/` + opcionNombre + `/` + opcionDescripcion + `/` + estatus + `/` + orden + `/` + maestroOpcionId, httpOptions);
   }
 
   updateEstatus(maestroOpcionId: string) {
-    return this.http.post(`${this.micro_catalago_maestro}catalogoOpcion/catalogo/update/estatus/` + maestroOpcionId, httpOptions);
+    return this.http.post(`${this.microCatalagoMaestro}catalogoOpcion/catalogo/update/estatus/` + maestroOpcionId, httpOptions);
   }
 
   borrarEstatus(maestroOpcionId: string) {
-    return this.http.post(`${this.micro_catalago_maestro}catalogoOpcion/catalogo/delete/` + maestroOpcionId, httpOptions);
+    return this.http.post(`${this.microCatalagoMaestro}catalogoOpcion/catalogo/delete/` + maestroOpcionId, httpOptions);
   }
 }

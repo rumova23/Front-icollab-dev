@@ -24,62 +24,60 @@ const httpOptions = {
 @Injectable({ providedIn: 'root' })
 export class CatalogService {
 
-  constructor(private http: HttpClient, 
-    private router: Router) {
-  
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   list(catalogs: Array<CatalogOrder>): Observable<any> {
-    return this.http.post(environment.catalog + 'list', catalogs);
+    return this.http.post(environment.catalogUrl + 'list', catalogs);
   }
 
   get(catalog: string): Observable<any> {
-    return this.http.get(environment.catalog + 'get/'  +  catalog);
+    return this.http.get(environment.catalogUrl + 'catalog/get/'  +  catalog);
   }
 
   listSat(catalogs: Array<CatalogOrderSat>): Observable<any> {
-    return this.http.post(environment.catalog + 'sat/list', catalogs);
+    return this.http.post(environment.catalogUrl + 'sat/list', catalogs);
   }
 
   getSat(catalog: string): Observable<any> {
-    return this.http.get(environment.catalog + 'sat/get/'  +  catalog);
+    return this.http.get(environment.catalogUrl + 'sat/get/'  +  catalog);
   }
 
   saveGeneric(generic: CatalogGeneric) {
-    return this.http.post(environment.catalog +  'save', generic );
+    return this.http.post(environment.catalogUrl +  'save', generic );
   }
 
   listUnityProduct(option: number):Observable<any> {
-    return this.http.get(environment.catalog + 'unityProduct/list/' + option);
+    return this.http.get(environment.catalogUrl + 'unityProduct/list/' + option);
   }
 
   loadStates(idCountry:any, option: number): Observable<any> {
-    return this.http.get(environment.catalog +
+    return this.http.get(environment.catalogUrl +
        'state/list/' + idCountry + '/' + option);
   }
 
   loadStatesAll(data): Observable<any> {
-    return this.http.post(environment.catalog +  'state/listAll',data );
+    return this.http.post(environment.catalogUrl +  'state/listAll',data );
   }
 
   loadMoneys(option: number): Observable<any> {
-    return this.http.get(environment.catalog +
+    return this.http.get(environment.catalogUrl +
        'money/list/'  + option);
   }
 
   saveState(state: State) {
-    return this.http.post(environment.catalog +  'state/save', state );
+    return this.http.post(environment.catalogUrl +  'state/save', state );
   }
 
   saveUnityProduct(unityProduct: UnityProduct) {
-    return this.http.post(environment.catalog +  'unityProduct/save', unityProduct );
+    return this.http.post(environment.catalogUrl +  'unityProduct/save', unityProduct );
   }
 
   saveMoney(money: Money) {
-    return this.http.post(environment.catalog +  'money/save', money );
+    return this.http.post(environment.catalogUrl +  'money/save', money );
   }
 
   getStatus(entity: string, option): Observable<any> {
-    return this.http.get(environment.catalog + 'status/list/'  +  entity + '/' + option);
+    return this.http.get(environment.catalogUrl + 'status/list/'  +  entity + '/' + option);
   }
 }

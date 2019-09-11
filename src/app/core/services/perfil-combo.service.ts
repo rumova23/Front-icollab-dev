@@ -32,12 +32,10 @@ const httpOptions2 = {
 })
 export class PerfilComboService {
 
-  private baseUrl = environment.mnUrl;
-  private baseUrl2 = environment.pgUrl;
-  private baseUrl3 = environment.cnUrl;
-  private baseUrl4 = environment.fdUrl;
-  private estatus_maestro = environment.estatus_maestro;
-  private baseknUrl = environment.knUrl;
+  private baseUrl = environment.catalogUrl;
+  private baseUrl2 = environment.microexamenUrl;
+  private baseUrl3 = environment.evaluacionExamenUrl;
+  private baseknUrl = environment.knowledgeUrl;
 
   parameters:any;
   user:any;

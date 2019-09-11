@@ -19,7 +19,7 @@ const httpOptions = {
 })
 export class ComplianceService {
 
-  private baseMicroComplianceUrl = environment.coUrl;
+  private baseMicroComplianceUrl = environment.seguimiento;
   
   constructor(private http: HttpClient) { }
 

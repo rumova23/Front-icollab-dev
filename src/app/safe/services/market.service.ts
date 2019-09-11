@@ -20,35 +20,35 @@ export class MarketService {
   }
 
   loadProducts(option: number): Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'product/list/' + option);
+    return this.http.get(environment.marketUrl + 'product/list/' + option);
   }
 
   getClients(option: number): Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'client/list/' + option);
+    return this.http.get(environment.marketUrl + 'client/list/' + option);
   }
 
   saveProduct(product: Product): Observable<any> {
-    return this.http.post(environment.mercadoUrl + 'product/save', product);
+    return this.http.post(environment.marketUrl + 'product/save', product);
   }
 
   saveClient(client: Client): Observable<any> {
-    return this.http.post(environment.mercadoUrl + 'client/save', client);
+    return this.http.post(environment.marketUrl + 'client/save', client);
   }
 
   savePlant(plant: Plant): Observable<any> {
-    return this.http.post(environment.mercadoUrl + 'plant/save', plant);
+    return this.http.post(environment.marketUrl + 'plant/save', plant);
   }
 
   saveInvoice(invoice: Invoice): Observable<any> {
-    return this.http.post(environment.mercadoUrl + 'invoice/save', invoice);
+    return this.http.post(environment.marketUrl + 'invoice/save', invoice);
   }
 
   saveCreditNote(invoice: CreditNote): Observable<any> {
-    return this.http.post(environment.mercadoUrl + 'creditNote/save', invoice);
+    return this.http.post(environment.marketUrl + 'creditNote/save', invoice);
   }
 
   saveDebitNote(invoice: DebitNote): Observable<any> {
-    return this.http.post(environment.mercadoUrl + 'debitNote/save', invoice);
+    return this.http.post(environment.marketUrl + 'debitNote/save', invoice);
   }
 
   saveFuecd(data): Observable<any> {
@@ -56,19 +56,19 @@ export class MarketService {
   }
 
   saveFuecdInvoice(data): Observable<any> {
-    return this.http.post(environment.mercadoUrl + 'invoice/fuecd', data);
+    return this.http.post(environment.marketUrl + 'invoice/fuecd', data);
   }
 
   getInvoice(id): Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'invoice/get/' + id);
+    return this.http.get(environment.marketUrl + 'invoice/get/' + id);
   }
 
   getCreditNote(id): Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'creditNote/get/' + id);
+    return this.http.get(environment.marketUrl + 'creditNote/get/' + id);
   }
 
   getDebitNote(id): Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'debitNote/get/' + id);
+    return this.http.get(environment.marketUrl + 'debitNote/get/' + id);
   }
 
   getFuecds():Observable<any> {
@@ -144,31 +144,31 @@ export class MarketService {
   }
 
   getProduct(idProduct: number): Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'product/get/' + idProduct);
+    return this.http.get(environment.marketUrl + 'product/get/' + idProduct);
   }
 
   getClient(idClient: number): Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'client/get/' + idClient);
+    return this.http.get(environment.marketUrl + 'client/get/' + idClient);
   }
 
   getPlant(idPlant): Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'plant/get/' + idPlant);
+    return this.http.get(environment.marketUrl + 'plant/get/' + idPlant);
   }
 
   getPlants(option: number): Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'plant/list/' + option);
+    return this.http.get(environment.marketUrl + 'plant/list/' + option);
   }
 
   getInvoices(option: number): Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'invoice/list/' + option);
+    return this.http.get(environment.marketUrl + 'invoice/list/' + option);
   }
 
   getCreditNotes(option: number): Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'creditNote/list/' + option);
+    return this.http.get(environment.marketUrl + 'creditNote/list/' + option);
   }
 
   getDebitNotes(option: number): Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'debitNote/list/' + option);
+    return this.http.get(environment.marketUrl + 'debitNote/list/' + option);
   }
 
   getPmls(data: any): Observable<any> {
@@ -176,51 +176,51 @@ export class MarketService {
   }
 
   getPlantBranches(idPlant: string): Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'plantBranchOffice/list/' + idPlant);
+    return this.http.get(environment.marketUrl + 'plantBranchOffice/list/' + idPlant);
   }
 
   getBranchOfficeInvoiceSeries(): Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'branchOfficeInvoiceSerie/list');
+    return this.http.get(environment.marketUrl + 'branchOfficeInvoiceSerie/list');
   }
 
   saveBranchOfficeInvoiceSerie(branchOfficeInvoiceSerie: BranchOfficeInvoiceSerie): Observable<any> {
-    return this.http.post(environment.mercadoUrl + 'branchOfficeInvoiceSerie/save', branchOfficeInvoiceSerie);
+    return this.http.post(environment.marketUrl + 'branchOfficeInvoiceSerie/save', branchOfficeInvoiceSerie);
   }
 
   getBranchOfficeCreditNoteSeries(): Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'branchOfficeCreditNoteSerie/list');
+    return this.http.get(environment.marketUrl + 'branchOfficeCreditNoteSerie/list');
   }
 
   saveBranchOfficeCreditNoteSerie(branchOfficeCreditNoteSerie: BranchOfficeCreditNoteSerie): Observable<any> {
-    return this.http.post(environment.mercadoUrl + 'branchOfficeCreditNoteSerie/save', branchOfficeCreditNoteSerie);
+    return this.http.post(environment.marketUrl + 'branchOfficeCreditNoteSerie/save', branchOfficeCreditNoteSerie);
   }
 
   getProductsByClient(idClient) : Observable<any> {
-    return this.http.get(environment.mercadoUrl + 'product/list/client/' + idClient);
+    return this.http.get(environment.marketUrl + 'product/list/client/' + idClient);
   }
 
   getFinalcialIndexes(data: any): Observable<any> {
-    return this.http.post(environment.mercadoUrl + "financialIndex/list", data);
+    return this.http.post(environment.marketUrl + "financialIndex/list", data);
   }
 
   getInpp(data: any): Observable<any> {
-    return this.http.post(environment.mercadoUrl + "inpp/list", data);
+    return this.http.post(environment.marketUrl + "inpp/list", data);
   }
 
   getUsppi(data: any): Observable<any> {
-    return this.http.post(environment.mercadoUrl + "usppi/list", data);
+    return this.http.post(environment.marketUrl + "usppi/list", data);
   }
 
   getModelMarket(time): Observable<any> {
-    return this.http.get(environment.modelMarket + "raws/prediction/planning/" + time);
+    return this.http.get(environment.mmmercadoUrl + "raws/prediction/planning/" + time);
   }
 
   saveModelMarket(data): Observable<any> {
-    return this.http.post(environment.modelMarket + "raws/prediction/updaterow", data);
+    return this.http.post(environment.mmmercadoUrl + "raws/prediction/updaterow", data);
   }
 
   downloadModelMarket(time): Observable<any> {
-    return this.http.get(environment.modelMarket + 'raws/download/' + time);
+    return this.http.get(environment.mmmercadoUrl + 'raws/download/' + time);
   }
 
   getConfigWeather(): Observable<any> {

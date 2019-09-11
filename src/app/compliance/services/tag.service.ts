@@ -25,8 +25,8 @@ const httpOptions = {
     providedIn: 'root'
 })
 export class TagService {
-  private baseCatalagoUrl = environment.mnUrl;
-  private baseMicroTagUrl = environment.mtUrl;
+  private baseCatalagoUrl = environment.catalogUrl;
+  private baseMicroTagUrl = environment.tagsUrl;
   
   parameters:any;
 

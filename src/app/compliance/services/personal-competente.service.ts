@@ -20,9 +20,9 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class PersonalCompetenteService {
-  private baseUrl2 = environment.pgUrl;
-  private baseUrl = environment.mtUrl;
-  private microSeguimiento = environment.micro_seguimiento;
+  private baseUrl2 = environment.microexamenUrl;
+  private baseUrl = environment.tagsUrl;
+  private microSeguimiento = environment.seguimiento;
 
   parameters:any;
 
