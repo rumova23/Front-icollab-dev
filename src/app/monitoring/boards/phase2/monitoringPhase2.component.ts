@@ -1,14 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { environment } from  'src/environments/environment';
-import { EventService } from 'src/app/core/services/event.service';
-import { Chart } from 'chart.js';
-import { GlobalService } from 'src/app/core/globals/global.service';
-import { SocketService } from 'src/app/core/services/socket.service';
-import { ThemeService } from 'src/app/core/globals/theme';
+import { Component, OnInit, OnDestroy }    from '@angular/core';
+import { environment }                     from  'src/environments/environment';
+import { Chart }                           from 'chart.js';
+import { GlobalService }                   from 'src/app/core/globals/global.service';
+import { ThemeService }                    from 'src/app/core/globals/theme';
+import { EventService }                    from 'src/app/core/services/event.service';
+import { SocketService }                   from 'src/app/core/services/socket.service';
 import { MonitoringBaseSocketOnComponent } from 'src/app/monitoring/class/monitoringBaseSocketOn.component';
-import { ChartControl } from 'src/app/monitoring/models/ChartControl';
-import * as TAGS from './config';
-import * as BasChart from '../../helpers/monitoringBaseChart.component';
+import { ChartControl }                    from 'src/app/monitoring/models/ChartControl';
+import * as TAGS                           from 'src/app/monitoring/boards/phase2/config';
+import * as BasChart                       from 'src/app/monitoring/helpers/monitoringBaseChart.component';
 
 
 @Component({
@@ -65,23 +65,23 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		//this.chart_mw    = new Chart('chart_mw'    ,  BasChart.chartCreateConfig());
 		//this.chart_est_power_01 = new Chart('chart_est_power_01' ,  BasChart.chartCreateConfig());
 		//this.chart_modal = new Chart('canvas_modal',this.chart_modal_config);
-		this.createChart('chart_est_power_01');
-		this.createChart('chart_mw');
+		this.createChart('chart_est_item01_col01');
+		this.createChart('chart_est_item01_col03');
 		//console.log(this.chartsControls);
 	}
 	createChart(idChart){
-		this.charts[idChart]= new Chart(idChart, BasChart.chartCreateConfig());
-		
 		this.chartsControls[idChart]={
 			idChart        : idChart,
 			type_graph     : 'line',
 			type_scale     : 'dynamic',
 			fill           : 'false',
-			data_per_graph : 3,
+			data_per_graph : 10,
 			point_radius   : 3,
 			time_refreseh  : 3,
 			timePast       : new Date()
 		};
+		this.charts[idChart]= new Chart(idChart, BasChart.chartCreateConfig(this.chartsControls[idChart]));
+		
 	}
 
 
@@ -108,8 +108,8 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 				if(PItag != null){
 					if(tagconf.calltags=='getPresionAtmosferica')this.wifi = true;
 					this.calltags[tagconf.calltags]          = PItag.Value.Value;
-					this.addDatasetLine ('chart_est_power_01', tagconf, PItag, ['getTemperaturaAmbiente']);
-					this.addDatasetLine ('chart_mw', tagconf, PItag, ['getRegimenTermico']);
+					this.addDatasetLine ('chart_est_item01_col01', tagconf, PItag, ['getTemperaturaAmbiente']);
+					this.addDatasetLine ('chart_est_item01_col03', tagconf, PItag, ['getRegimenTermico']);
 				}else{
 					if(tagconf.calltags=='getPresionAtmosferica')this.wifi = false;
 					this.calltags[tagconf.calltags]          = 0;

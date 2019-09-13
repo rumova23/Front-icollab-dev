@@ -27,7 +27,7 @@
 							</div>
 							<div class="col pl-lg-0 d-none d-sm-block">
 								<p class="mycolororange">
-									Power_Output
+									Power Output
 								</p>
 								<p>
 									texto 2
@@ -40,11 +40,11 @@
 					<a class="nav-link rounded-0 text-lg-left" data-toggle="pill" data-target="#v-pills-Heat_Rate" role="tab" aria-controls="v-pills-Heat_Rate" aria-selected="false">
 						<div class="row">
 							<div class="col-12 col-lg-auto align-self-center mycolororange">
-								<i class="fas fa-bolt"></i>
+								<i class="fas fa-thermometer-three-quarters"></i>
 							</div>
 							<div class="col pl-lg-0 d-none d-sm-block">
 								<p class="mycolororange">
-									Heat_Rate
+									Heat Rate
 								</p>
 								<p>
 									texto 2
@@ -57,11 +57,11 @@
 					<a class="nav-link rounded-0 text-lg-left" data-toggle="pill" data-target="#v-pills-Capacity_Factor" role="tab" aria-controls="v-pills-Capacity_Factor" aria-selected="false">
 						<div class="row">
 							<div class="col-12 col-lg-auto align-self-center mycolororange">
-								<i class="fas fa-bolt"></i>
+								<i class="fas fa-battery-three-quarters"></i>
 							</div>
 							<div class="col pl-lg-0 d-none d-sm-block">
 								<p class="mycolororange">
-									Capacity_Factor
+									Capacity Factor
 								</p>
 								<p>
 									texto 2
@@ -74,11 +74,11 @@
 					<a class="nav-link rounded-0 text-lg-left" data-toggle="pill" data-target="#v-pills-Fuel_Gain_Lost" role="tab" aria-controls="v-pills-Fuel_Gain_Lost" aria-selected="false">
 						<div class="row">
 							<div class="col-12 col-lg-auto align-self-center mycolororange">
-								<i class="fas fa-bolt"></i>
+								<i class="fas fa-gas-pump"></i>
 							</div>
 							<div class="col pl-lg-0 d-none d-sm-block">
 								<p class="mycolororange">
-									Fuel_Gain_Lost
+									Fuel Gain Lost
 								</p>
 								<p>
 									texto 2
@@ -93,46 +93,58 @@
             <div class="tab-content h-100" id="v-pills-tabContent">
                 <div class="tab-pane fade show active h-100" id="v-pills-Power_Output" role="tabpanel" aria-labelledby="v-pills-Power_Output-tab">
 					<div class="row h-100">
-						<div class="col-12 d-block d-sm-none text-center mycolororange py-3 gris3"><h6><strong>Power Output</strong></h6></div>
-						<div class="col gris2 pt-3">
+						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
+							<h6 class="mycolororange"><strong>Power Output</strong></h6>
+							<p>texto 2</p>
+						</div>
+						<div class="col-12 col-md-8 col-xl-5 gris2 pt-3">
 							<app-monitoringChartsControls
-								[chartsControl]       = "chartsControls['chart_est_power_01']"
+								[chartsControl]       = "chartsControls['chart_est_item01_col01']"
 								(chartsControlOutPut) = "puebafuncionllamadodesdehijo($event)"
 							>
 							</app-monitoringChartsControls>
 							<div>
-								<canvas id="chart_est_power_01"></canvas>
+								<canvas id="chart_est_item01_col01"></canvas>
 							</div>
 						</div>
-						<div class="col gris2 pt-3">
+						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
 						</div>
-						<div class="col gris3 pt-3">
+						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
 							<app-monitoringChartsControls
-								[chartsControl]       = "chartsControls['chart_mw']"
+								[chartsControl]       = "chartsControls['chart_est_item01_col03']"
 								(chartsControlOutPut) = "puebafuncionllamadodesdehijo($event)"
 							>
 							</app-monitoringChartsControls>
 							<div>
-								<canvas id="chart_mw"></canvas>  
+								<canvas id="chart_est_item01_col03"></canvas>  
 							</div>
 						</div>
 					</div>
 				</div>
                 <div class="tab-pane fade" id="v-pills-Heat_Rate" role="tabpanel" aria-labelledby="v-pills-Heat_Rate-tab">
 					<div class="row h-100">
-						<div class="col-12 d-block d-sm-none text-center mycolororange py-3 gris3"><h6><strong>Heat_Rate</strong></h6></div>
+						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
+							<h6 class="mycolororange"><strong>Heat Rate</strong></h6>
+							<p>texto 2</p>
+						</div>
 					</div>	
 					Heat_Rate
 				</div>
                 <div class="tab-pane fade" id="v-pills-Capacity_Factor" role="tabpanel" aria-labelledby="v-pills-Capacity_Factor-tab">
 					<div class="row h-100">
-						<div class="col-12 d-block d-sm-none text-center mycolororange py-3 gris3"><h6><strong>Capacity Factor</strong></h6></div>
+						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
+							<h6 class="mycolororange"><strong>Capacity Factor</strong></h6>
+							<p>texto 2</p>
+						</div>
 					</div>	
 					Capacity Factor
 				</div>
                 <div class="tab-pane fade" id="v-pills-Fuel_Gain_Lost" role="tabpanel" aria-labelledby="v-pills-Fuel_Gain_Lost-tab">
 					<div class="row h-100">
-						<div class="col-12 d-block d-sm-none text-center mycolororange py-3 gris3"><h6><strong>Fuel Gain/Lost</strong></h6></div>
+						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
+							<h6 class="mycolororange"><strong>Fuel Gain/Lost</strong></h6>
+							<p>texto 2</p>
+						</div>
 					</div>	
 					Fuel Gain/Lost
 				</div>

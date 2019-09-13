@@ -1,3 +1,5 @@
+import { ChartControl } from 'src/app/monitoring/models/ChartControl';
+
 export const hexToRGB = function(h,a) {
 	let r = "0"; 
 	let g = "0";
@@ -31,7 +33,7 @@ export const generateColorHEX = function(calltag){
 	}
 	return "#" + coolor;
 }
-export const chartCreateConfig = function (){
+export const chartCreateConfig = function (chartsControl : ChartControl){
 	return {
 	type: 'line'
 	,data: {
