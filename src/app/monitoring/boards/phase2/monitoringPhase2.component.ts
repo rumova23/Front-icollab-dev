@@ -236,7 +236,8 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					///*
 					(datasetTag.data as number[]).push(PItag.Value.Value);
 					//tag.data.push(data);
-					if(datasetTag.data.length > this.chartsControls[idChart].data_per_graph){
+					//if(datasetTag.data.length > this.chartsControls[idChart].data_per_graph){
+					if(datasetTag.data.length > 10){
 						datasetTag.data.shift();
 					}
 					//*/

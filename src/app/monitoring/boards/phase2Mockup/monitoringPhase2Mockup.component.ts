@@ -1,5 +1,11 @@
+import { Component, OnInit } from '@angular/core';
 
-export class MonitoringPhase2MaquetaComponent {
+@Component({
+  selector: 'app-monitoringPhase2Mockup',
+  templateUrl: './monitoringPhase2Mockup.component.html',
+  styleUrls: ['./monitoringPhase2Mockup.component.scss']
+})
+export class MonitoringPhase2MockupComponent implements OnInit {
   
   
   /* Grafica lineas */

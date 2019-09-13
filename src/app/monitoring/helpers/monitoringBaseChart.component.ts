@@ -35,8 +35,8 @@ export const chartCreateConfig = function (){
 	return {
 	type: 'line'
 	,data: {
-		//labels: new Array(this.data_per_graph_main)
-		labels: ["k1","k2","k3"]
+		labels: new Array(10)
+		//labels: ["k1","k2","k3"]
 		,datasets: []
 	}
 	,options: {
