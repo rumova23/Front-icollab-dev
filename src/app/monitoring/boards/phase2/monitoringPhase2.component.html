@@ -20,7 +20,7 @@
         <div class="col-12 col-lg-3 col-xl-2 p-0">
             <ul class="nav flex-lg-column nav-pills nav-justified">
 				<li class="nav-item">
-					<a class="rounded-0 nav-link text-lg-left active" data-toggle="pill" data-target="#v-pills-Power_Output" role="tab" aria-controls="v-pills-Power_Output" aria-selected="true">
+					<a class="nav-link rounded-0 text-lg-left active" data-toggle="pill" data-target="#v-pills-Power_Output" role="tab" aria-controls="v-pills-Power_Output" aria-selected="true">
 						<div class="row">
 							<div class="col-12 col-lg-auto align-self-center mycolororange">
 								<i class="fas fa-bolt"></i>
@@ -37,7 +37,7 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="rounded-0 nav-link text-lg-left" data-toggle="pill" data-target="#v-pills-Heat_Rate" role="tab" aria-controls="v-pills-Heat_Rate" aria-selected="false">
+					<a class="nav-link rounded-0 text-lg-left" data-toggle="pill" data-target="#v-pills-Heat_Rate" role="tab" aria-controls="v-pills-Heat_Rate" aria-selected="false">
 						<div class="row">
 							<div class="col-12 col-lg-auto align-self-center mycolororange">
 								<i class="fas fa-bolt"></i>
@@ -54,7 +54,7 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="rounded-0 nav-link text-lg-left" data-toggle="pill" data-target="#v-pills-Capacity_Factor" role="tab" aria-controls="v-pills-Capacity_Factor" aria-selected="false">
+					<a class="nav-link rounded-0 text-lg-left" data-toggle="pill" data-target="#v-pills-Capacity_Factor" role="tab" aria-controls="v-pills-Capacity_Factor" aria-selected="false">
 						<div class="row">
 							<div class="col-12 col-lg-auto align-self-center mycolororange">
 								<i class="fas fa-bolt"></i>
@@ -71,7 +71,7 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="rounded-0 nav-link text-lg-left" data-toggle="pill" data-target="#v-pills-Fuel_Gain_Lost" role="tab" aria-controls="v-pills-Fuel_Gain_Lost" aria-selected="false">
+					<a class="nav-link rounded-0 text-lg-left" data-toggle="pill" data-target="#v-pills-Fuel_Gain_Lost" role="tab" aria-controls="v-pills-Fuel_Gain_Lost" aria-selected="false">
 						<div class="row">
 							<div class="col-12 col-lg-auto align-self-center mycolororange">
 								<i class="fas fa-bolt"></i>
@@ -90,36 +90,52 @@
             </ul>
         </div>
         <div class="col-12 col-lg-9 col-xl-10">
-            <div class="tab-content " id="v-pills-tabContent">
-                <div class="tab-pane fade show active" id="v-pills-Power_Output" role="tabpanel" aria-labelledby="v-pills-Power_Output-tab">
-					<div class="row">
-						<div class="col">
+            <div class="tab-content h-100" id="v-pills-tabContent">
+                <div class="tab-pane fade show active h-100" id="v-pills-Power_Output" role="tabpanel" aria-labelledby="v-pills-Power_Output-tab">
+					<div class="row h-100">
+						<div class="col-12 d-block d-sm-none text-center mycolororange py-3 gris3"><h6><strong>Power Output</strong></h6></div>
+						<div class="col gris2 pt-3">
 							<app-monitoringChartsControls
-							[chartsControl]       = "chartsControls['chart_est_power_01']"
-							(chartsControlOutPut) = "puebafuncionllamadodesdehijo($event)"
-							>
-								
-							</app-monitoringChartsControls>
-								
-								<div>
-									<canvas id="chart_est_power_01"></canvas>
-								</div>
-						</div>
-						<div class="col"><canvas id="chart_mw"></canvas>  
-							
-						</div>
-						<div class="col">
-								<app-monitoringChartsControls
 								[chartsControl]       = "chartsControls['chart_est_power_01']"
 								(chartsControlOutPut) = "puebafuncionllamadodesdehijo($event)"
-								>
+							>
 							</app-monitoringChartsControls>
+							<div>
+								<canvas id="chart_est_power_01"></canvas>
+							</div>
+						</div>
+						<div class="col gris2 pt-3">
+						</div>
+						<div class="col gris3 pt-3">
+							<app-monitoringChartsControls
+								[chartsControl]       = "chartsControls['chart_mw']"
+								(chartsControlOutPut) = "puebafuncionllamadodesdehijo($event)"
+							>
+							</app-monitoringChartsControls>
+							<div>
+								<canvas id="chart_mw"></canvas>  
+							</div>
 						</div>
 					</div>
 				</div>
-                <div class="tab-pane fade" id="v-pills-Heat_Rate" role="tabpanel" aria-labelledby="v-pills-Heat_Rate-tab">Heat_Rate</div>
-                <div class="tab-pane fade" id="v-pills-Capacity_Factor" role="tabpanel" aria-labelledby="v-pills-Capacity_Factor-tab">Capacity Factor</div>
-                <div class="tab-pane fade" id="v-pills-Fuel_Gain_Lost" role="tabpanel" aria-labelledby="v-pills-Fuel_Gain_Lost-tab">Fuel Gain/Lost</div>
+                <div class="tab-pane fade" id="v-pills-Heat_Rate" role="tabpanel" aria-labelledby="v-pills-Heat_Rate-tab">
+					<div class="row h-100">
+						<div class="col-12 d-block d-sm-none text-center mycolororange py-3 gris3"><h6><strong>Heat_Rate</strong></h6></div>
+					</div>	
+					Heat_Rate
+				</div>
+                <div class="tab-pane fade" id="v-pills-Capacity_Factor" role="tabpanel" aria-labelledby="v-pills-Capacity_Factor-tab">
+					<div class="row h-100">
+						<div class="col-12 d-block d-sm-none text-center mycolororange py-3 gris3"><h6><strong>Capacity Factor</strong></h6></div>
+					</div>	
+					Capacity Factor
+				</div>
+                <div class="tab-pane fade" id="v-pills-Fuel_Gain_Lost" role="tabpanel" aria-labelledby="v-pills-Fuel_Gain_Lost-tab">
+					<div class="row h-100">
+						<div class="col-12 d-block d-sm-none text-center mycolororange py-3 gris3"><h6><strong>Fuel Gain/Lost</strong></h6></div>
+					</div>	
+					Fuel Gain/Lost
+				</div>
             </div>
         </div>
     </div>

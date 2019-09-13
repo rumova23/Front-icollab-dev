@@ -12,10 +12,8 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 export class MonitoringBaseSocketOnComponent implements OnInit {
 	public subscriptions           : Subscription[] = [];
 	public timeCurrent             : Date = new Date();
-	public timePast                : Date = new Date();
 	public subscriptionsPerChannel : Array<string> = [];
 	public chanels                 : Array<string> = [];
-	public time_refreseh_data      : number;
 
 
 	constructor(
@@ -39,12 +37,6 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 	subscribeEverySecond(){
 		this.subscriptions['everySecond'] = timer(0,1000).subscribe(()=>{
 			this.timeCurrent = new Date();
-      
-			/*console.log("fechaActualAnterior::: ",this.fechaActualAnterior);
-			console.log("fechaActual::: ",this.fechaActual);
-			var seconds = (this.fechaActual.getTime() - this.fechaActualAnterior.getTime()) / 1000;
-			console.log("fechaActual - Anterior seconds ::: ",seconds);//*/
-			
 		});
 	}
 	subscribeSocketOnStatus(){
@@ -135,10 +127,17 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 		}
 	}
 
-	check_time_refreseh_data(){
+	check_time_refreseh_data(time_refreseh_data, timePast){
 		// se le resta 1 porque elsimple echo de esperar al siguiente cambio y evaluacion tarda un segundo 
 		// esto es porque usamos this.fechaActual
-		return (this.time_refreseh_data - 1) < ( ( this.timeCurrent.getTime() - this.timePast.getTime() ) / 1000) ;
+		
+			console.log("fechaActualAnterior::: ",timePast);
+			console.log("fechaActual::: ",this.timeCurrent);
+			console.log("time_refreseh_data::: ",time_refreseh_data);
+			var seconds = (this.timeCurrent.getTime() - timePast.getTime()) / 1000;
+			console.log("fechaActual - Anterior seconds ::: ",seconds);//*/
+
+		return (time_refreseh_data) < ( ( this.timeCurrent.getTime() - timePast.getTime() ) / 1000) ;
 	}
 	addSubscriptionsPerChannel(channels:Array<string>){
 		for (const channel of channels) {

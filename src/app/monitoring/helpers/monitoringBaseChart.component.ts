@@ -33,10 +33,10 @@ export const generateColorHEX = function(calltag){
 }
 export const chartCreateConfig = function (){
 	return {
-	type: 'horizontalBar'
+	type: 'line'
 	,data: {
 		//labels: new Array(this.data_per_graph_main)
-		labels: ["k1","k2",'k3','k4']
+		labels: ["k1","k2","k3"]
 		,datasets: []
 	}
 	,options: {
@@ -50,7 +50,7 @@ export const chartCreateConfig = function (){
 				hoverRadius: 15,
 			},
 			rectangle: {
-			  borderWidth: 2,
+			  //borderWidth: 2,
 			}
 		},
 		legend: {
@@ -58,7 +58,7 @@ export const chartCreateConfig = function (){
 			labels:{
 				fontColor: 'red',
 				fontSize:12,
-				usePointStyle:true,
+				usePointStyle:false,
 			}
 		},
 		scales: {
@@ -79,10 +79,9 @@ export const chartCreateConfig = function (){
 			]
 			,yAxes: [
 				{
-					type: 'linear', 
-					display: true,
+					display: false,
 					position: 'left',
-					id: 'my887896',
+					id: 'yAxesDefault',
 					ticks:{
 						//min: 0,
 						//max: 1,
@@ -94,4 +93,13 @@ export const chartCreateConfig = function (){
 		}
 	}
 	};
+}
+export const getDatasetTag = function (lst,calltag){
+	/*El método find() devuelve el valor del primer elemento 
+	del array que cumple la función de prueba proporcionada. 
+	En cualquier otro caso se devuelve undefined. */
+	let existDataset = function (tag) {
+		return (tag.id === calltag);
+	};
+	return lst.find(existDataset);
 }

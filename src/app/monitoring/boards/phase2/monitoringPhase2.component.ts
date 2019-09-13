@@ -17,10 +17,11 @@ import * as BasChart from '../../helpers/monitoringBaseChart.component';
   styleUrls: ['./monitoringPhase2.component.scss']
 })
 export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent implements OnInit,OnDestroy  {
-	calltags         = [];
-	charts           : Chart[]=[]
 	wifi             : boolean = false;
-	chartsControls   : Array<ChartControl>=[];
+	calltags         = []; 
+	charts           : Array<Chart>        = [];
+	chartsControls   : Array<ChartControl> = [];
+	tagsPerChart     : Array<ChartControl> = [];
 
   
 	constructor(
@@ -59,24 +60,27 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		//this.chart_rt    = new Chart('chart_rt'    , TAGS.chart_config_rt);
 		//this.chart_rpm   = new Chart('chart_rpm'   , TAGS.chart_config_rpm);
 		//this.charts['chart_mw']= new Chart('chart_mw'    ,  BasChart.chartCreateConfig());
-		this.charts['chart_est_power_01']= new Chart('chart_est_power_01'    ,  TAGS.chart_config_rt);
+		
+		//this.charts['chart_est_power_01']= new Chart('chart_est_power_01'    ,  TAGS.chart_config_rt);
 		//this.chart_mw    = new Chart('chart_mw'    ,  BasChart.chartCreateConfig());
 		//this.chart_est_power_01 = new Chart('chart_est_power_01' ,  BasChart.chartCreateConfig());
 		//this.chart_modal = new Chart('canvas_modal',this.chart_modal_config);
 		this.createChart('chart_est_power_01');
-		console.log(this.chartsControls);
+		this.createChart('chart_mw');
+		//console.log(this.chartsControls);
 	}
-	createChart(id){
-		//this.charts[id]= new Chart(id, BasChart.chartCreateConfig());
+	createChart(idChart){
+		this.charts[idChart]= new Chart(idChart, BasChart.chartCreateConfig());
 		
-		this.chartsControls[id]={
-			chart          : id,
+		this.chartsControls[idChart]={
+			idChart        : idChart,
 			type_graph     : 'line',
 			type_scale     : 'dynamic',
 			fill           : 'false',
 			data_per_graph : 3,
 			point_radius   : 3,
-			time_refreseh  : 3
+			time_refreseh  : 3,
+			timePast       : new Date()
 		};
 	}
 
@@ -89,37 +93,28 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 			this.dataAdapter(data);
 		}//*/
 		for (const calltag in TAGS.lstTags) {
-		if (TAGS.lstTags.hasOwnProperty(calltag)) {
-			let mydata = null;
-	
-			const tagconf  = TAGS.lstTags[calltag];
-			const webID    = (this.globalService.plant.name === "AGUILA")?tagconf.webId_EAT:tagconf.webId_EST;
-			
-			for(const tag of data.tags.Items){
-			if(tag.WebId == webID){
-				mydata = tag;
-				break;
+			if (TAGS.lstTags.hasOwnProperty(calltag)) {
+				let PItag = null;
+		
+				const tagconf  = TAGS.lstTags[calltag];
+				const webID    = (this.globalService.plant.name === "AGUILA")?tagconf.webId_EAT:tagconf.webId_EST;
+				
+				for(const tag of data.tags.Items){
+					if(tag.WebId == webID){
+						PItag = tag;
+						break;
+					}
+				}
+				if(PItag != null){
+					if(tagconf.calltags=='getPresionAtmosferica')this.wifi = true;
+					this.calltags[tagconf.calltags]          = PItag.Value.Value;
+					this.addDatasetLine ('chart_est_power_01', tagconf, PItag, ['getTemperaturaAmbiente']);
+					this.addDatasetLine ('chart_mw', tagconf, PItag, ['getRegimenTermico']);
+				}else{
+					if(tagconf.calltags=='getPresionAtmosferica')this.wifi = false;
+					this.calltags[tagconf.calltags]          = 0;
+				}
 			}
-			}
-			if(mydata != null){
-	
-			
-			this.calltags[tagconf.calltags]          = mydata.Value.Value;
-			
-			/*this.addDataset(tagconf,tagconf.calltags,datoprocesado);
-			this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt');
-			this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRPM','getCTDosRPM','getTVRPM'],'chart_rpm');//*/
-			//this.addDatasetLine ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoMW','getCTDosMW','getTVMW'],'chart_mw');
-			this.addDatasetLine ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_est_power_01');
-			
-			if(tagconf.calltags=='getPresionAtmosferica')this.wifi = true;
-	
-			}else{
-			this.calltags[tagconf.calltags]          = 0;
-			if(tagconf.calltags=='getPresionAtmosferica')this.wifi = false;
-			}
-	
-		}
 		}
 	}
 	cleanDataofCharts(){
@@ -193,87 +188,84 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		//this.showDropdownchart_01 = false;
 	}
 
-	addDatasetRT(tagconf,calltag,data,tags,chart){
-		/*El método find() devuelve el valor del primer elemento 
-		del array que cumple la función de prueba proporcionada. 
-		En cualquier otro caso se devuelve undefined. */
-		let existDataset = function (tag) {
-		return (tag.id === calltag);
-		};
-
-		//if(['getCTUnoRT','getCTDosRT','getTVRT'].includes(calltag)){
-		if(tags.includes(calltag)){
-			let tag = this.charts[chart].data.datasets.find(existDataset);
-			if(tag == undefined){
-		
-				let newColor = tagconf.color;
-		
-				var newDatasetModal = {
-				id:calltag,
-				label: tagconf.label,
-				backgroundColor: newColor,
-				borderColor: newColor,
-				data: [data],
-				fill: false,
-				hidden:false
-				};
-				this.charts[chart].data.datasets.push(newDatasetModal);
-			}else{
-				(tag.data as number[])=[data];
-			}
-			this.charts[chart].update();
-		}
-
-	}
-	addDatasetLine(tagconf,calltag,data,tags,chart){
-		/*El método find() devuelve el valor del primer elemento 
-		del array que cumple la función de prueba proporcionada. 
-		En cualquier otro caso se devuelve undefined. */
-		let existDataset = function (tag) {
-		return (tag.id === calltag);
-		};
-		
-		//if(['getCTUnoRT','getCTDosRT','getTVRT'].includes(calltag)){
-		if(tags.includes(calltag)){
+	addDatasetLine(idChart, tagconf, PItag, tags){
+		//if(this.check_time_refreseh_data(this.chartsControls[idChart].time_refreseh ,this.chartsControls[idChart].timePast) ){
+		//	this.chartsControls[idChart].timePast = new Date();
+			if(tags.includes(tagconf.calltags)){
+				let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets,tagconf.calltags);
+				if(datasetTag == undefined){
 			
-			let tag = this.charts[chart].data.datasets.find(existDataset);
-			//console.log(tag);
+					var hex  = tagconf.color;
+					let rgba = BasChart.hexToRGB(tagconf.color,0.3);
 			
-			if(tag == undefined){
-		
-				var newColor = tagconf.color;
-		
-				var newDatasetModal = {
-				id:calltag,
-				label: tagconf.label,
-				backgroundColor: newColor,
-				borderColor: newColor,
-				data: [data],
-				fill: false,
-				hidden:false
-				};
-				this.charts[chart].data.datasets.push(newDatasetModal);
-				//console.log(this.charts[chart].data.datasets);
-				
-			}else{
-				
-				/**Para la grafica tipo  line , bar*/
-				/*
-				(tag.data as number[]).push(data);
-				//tag.data.push(data);
-				if(tag.data.length >= 11){
-					tag.data.shift();
+					var newDataset = {
+						id:tagconf.calltags,
+						rgba:rgba,
+						label: tagconf.label,
+						backgroundColor: hex,
+						borderColor: hex,
+						data: [PItag.Value.Value],
+						fill: false,
+						hidden:false,
+						yAxisID: tagconf.calltags
+					};
+					var newYaxis = {
+						id: tagconf.calltags,
+						display: true,
+						position: 'left',
+						ticks:{
+							fontColor:hex,
+							fontSize:12,
+							min: tagconf.min,
+							max: tagconf.max,
+							beginAtZero: false
+						},
+						gridLines:{
+							color:"rgb(52, 58, 64)",
+							display: false,
+						},
+						
+					};
+					this.charts[idChart].data.datasets.push(newDataset);
+					this.charts[idChart].config.options.scales.yAxes.push(newYaxis);
+					//console.log(this.charts[chart].data.datasets);
+					
+				}else{
+					
+					/**Para la grafica tipo  line , bar*/
+					///*
+					(datasetTag.data as number[]).push(PItag.Value.Value);
+					//tag.data.push(data);
+					if(datasetTag.data.length > this.chartsControls[idChart].data_per_graph){
+						datasetTag.data.shift();
+					}
+					//*/
+	
+					/**Para la grafica tipo  horizontalBar*/
+					//(datasetTag.data as number[])=[PItag.Value.Value];
 				}
-				//*/
-
-				/**Para la grafica tipo  horizontalBar*/
-				//(tag.data as number[])=[data];
+				this.charts[idChart].update();
+				
 			}
-			this.charts[chart].update();
-		}
+		//}
 		//console.log(this.charts);
 		//console.log(this.charts['chart_est_power_01'].data);
-		
+	}
+	private generateDataset(){
+		/*
+		var hex  = tagconf.color;
+		let rgba = BasChart.hexToRGB(tagconf.color,0.3);
+		return {
+			id:calltag,
+			rgba:rgba,
+			label: tagconf.label,
+			backgroundColor: rgba,
+			borderColor: hex,
+			data: [data],
+			fill: false,
+			hidden:false,
+			yAxisID: calltag
+		};//*/
 	}
 	addDataset(tagconf,calltag,data){
 		let chart_est_power_01:Chart;
@@ -304,8 +296,8 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		
 		let tag = chart_est_power_01.data.datasets.find(existDataset);
 		if(tag == undefined){
+			let hex  = tagconf.color;
 			let rgba = BasChart.hexToRGB(tagconf.color,0.3);
-			let hex = tagconf.color;
 
 			var newDataset = {
 				id:calltag,
