@@ -20,18 +20,7 @@ ng build --output-path="dist/compliance" --deployUrl="compliance/"
 
 ng build --prod --base-href /icollab/ --output-path="dist/icollab"
 
-and set in src\environments\environment.ts
-```
-export const environment = {
-  production: false
-  ,mnUrl      : 'http://201.149.85.14:8383/catalogomaestro/'  /**micro catalago maestro port:1155*/
-  ,sgUrl      : 'http://localhost:8400/'  /**seguridad port:8400*/
-  ,pgUrl      : 'http://201.149.85.14:8383/microexamen/'  /**micro examen port:1144*/ 
-  ,cnUrl      : 'http://201.149.85.14:8383/evaluacionexamen/' /**evaluacion port:1122*/ 
-  ,mtUrl      : 'http://201.149.85.14:8383/tags/'  /**micro tag port:1188*/ 
-  ,appVersion : 'Desarrollo V 0.0.0.1'
-};
-```
+
 
 ## Running unit tests
 
