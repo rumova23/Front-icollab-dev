@@ -4,15 +4,19 @@
             <div>
                 <i class="fas fa-wifi fa-2x " [ngClass]="{'icon-verde':wifi,'icon-rojo':!wifi}"></i>
             </div>
-            <span *ngIf="!wifi"[ngClass]="{'icon-verde':wifi,'icon-rojo':!wifi}">offline</span>
-            <span *ngIf="wifi" [ngClass]="{'icon-verde':wifi,'icon-rojo':!wifi}">online</span>
+            <span *ngIf="!wifi"[ngClass]="{'icon-verde':wifi,'icon-rojo':!wifi}">
+                {{language('OFFLINE')}}</span>
+            <span *ngIf="wifi" [ngClass]="{'icon-verde':wifi,'icon-rojo':!wifi}">
+                {{language('ONLINE')}}</span>
         </div>
     </div>
     <div class="row">
         <!--  CONDICIONES AMBIENTALES  -->
         <div class="col-md-auto">
             <div class="txtcenter mb-4">
-                <strong class="nameplanta">CONDICIONES <br/> AMBIENTALES</strong>
+                <strong class="nameplanta">
+                    {{language('TITULO_CONDICIONES')}}
+                </strong>
                 <!--{{ "PANEL.TITULO_CONDICIONES" | translate }}-->
             </div>
             <!--div class="row">
@@ -155,7 +159,7 @@
         <div class="border-r d-none d-lg-block"></div>
         <div class="col" style="width: 70% !important;">
             <div class="txtcenter mb-4">
-                <strong class="nameplanta">PARAMETROS PRINCIPALES DE GENERACIÓN</strong>
+                <strong class="nameplanta">{{language('TITULO_PARAMETROS_GRALES')}}</strong>
                 <!--{{ "PANEL.TITULO_PARAMETROS_GRALES" | translate }} -->
                 <!--div class="col">
                     <h1 class="txtcenter">
@@ -177,7 +181,7 @@
                     >&nbsp;</span>
                     <br>
                     <span class="mydatatxt font-weight-bold">
-                        Potencia Neta
+                        {{language('TITULO_POTENCIA')}}
                     </span>
                     <br>
                     <span class="mydatatxt">
@@ -202,7 +206,7 @@
                     <br>
                     <span class="mydatatxt font-weight-bold">
                         <!--{{ "PANEL.TITULO_POTENCIA_CCDV" | translate }}-->
-                        Potencia CCDV
+                        {{language('TITULO_POTENCIA_CCDV')}}
                     </span>
                     <br>
                     <span class="mydatatxt">
@@ -226,8 +230,8 @@
                     >&nbsp;</span>
                     <br>
                     <span class="mydatatxt font-weight-bold">
-                        Régimen Térmico 
                         <!--{{ "PANEL.TITULO_VELOCIDAD_CALENTAMIENTO" | translate }}-->
+                        {{language('TITULO_VELOCIDAD_CALENTAMIENTO')}}
                     </span>
                     <br>
                     <span class="mydatatxt">
@@ -256,53 +260,55 @@
                             </div>
                             
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" (click)="emptyChart()">Vaciar grafica</a>
-                            <a class="dropdown-item" (click)="togleModalTags()">Ver lista de tags</a>
+                            <a class="dropdown-item" (click)="emptyChart()">{{language('VACIAR_GRAFICA')}}</a>
+                            <a class="dropdown-item" (click)="togleModalTags()">{{language('VER_LISTA_TAGS')}}</a>
                             <div class="dropdown-divider"></div>
 
                             <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChartMain(myform)">
                                 <div class="form-group">
-                                  <label>Cantidad de datos:</label>
+                                  <label>{{language('CANTIDAD_DATOS')}}:</label>
                                   <input type="number" class="form-control" [(ngModel)]="data_per_graph_main" name="data_per_graph_main">
                                 </div>
                                 <div class="form-group">
-                                  <label>Segundos:</label>
+                                  <label>{{language('SEGUNDOS')}}:</label>
                                   <input type="number" [(ngModel)]="time_refreseh_data" 
                                     class="form-control" name="time_refreseh_data" min="1">
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label>Tipo</label>
+                                    <label>{{language('TIPO')}}</label>
                                     <select class="form-control" [(ngModel)]="type_graph_main" name="type_graph_main">
-                                    <option value="line">Lineas</option>
-                                    <option value="bar">Barras</option>
+                                    <option value="line">{{language('LINEAS')}}</option>
+                                    <option value="bar">{{language('BARRAS')}}</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Tamaño punto:</label>
+                                    <label>{{language('TAMANO_PUNTO')}}:</label>
                                     <input type="number" class="form-control" [(ngModel)]="chart_01_point_radius" name="chart_01_point_radius" min="0">
                                 </div>
                                 <div class="form-group">
-                                    <label>Tipo Lineas con fondo</label>
+                                    <label>{{language('TIPO_FONDO')}}</label>
                                     <select class="form-control" [(ngModel)]="chart_01_fill" name="chart_01_fill">
-                                    <option value="false">none</option>
-                                    <option value="start">start</option>
-                                    <option value="origin">origin</option>
-                                    <option value="end">end</option>
+                                    <option value="false">{{language('NINGUNO')}}</option>
+                                    <option value="start">{{language('INICIO')}}</option>
+                                    <option value="origin">{{language('ORIGEN')}}</option>
+                                    <option value="end">{{language('FINAL')}}</option>
                                     </select>
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label>Escalas</label>
+                                    <label>{{language('ESCALAS')}}</label>
                                     <select class="form-control" [(ngModel)]="dynamic_scale" name="dynamic_scale">
-                                        <option value="dynamic">Dinámicas</option>
-                                        <option value="dynamic_with_0">Dinámicas incluyendo el Cero</option>
-                                        <option value="static">Estática</option>
-                                        <option value="static_min">Solo base Estática</option>
+                                        <option value="dynamic">{{language('DINAMICAS')}}</option>
+                                        <option value="dynamic_with_0">{{language('INCLUIR_CERO')}}</option>
+                                        <option value="static">{{language('ESTATICA')}}</option>
+                                        <option value="static_min">{{language('SOLO_BASE_ESTATICA')}}</option>
                                     </select>
                                 </div>
                                 <div class="text-right">
-                                    <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">Actualizar</button>
+                                    <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">
+                                            {{language('ACTUALIZAR')}}
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -327,8 +333,7 @@
             <div class="ct-header">
                 <div class="row">
                     <div class="col">
-                        <strong class="nameplanta">
-                            CT-1
+                        <strong class="nameplanta">{{language('TITULO_CT')}}1
                             <!--{{ "PANEL.TITULO_CT" | translate }} 1-->
                         </strong>
                     </div>
@@ -347,8 +352,7 @@
                                 'icon-verde':calltags['getCTUnoGas'] >= 1000
                             }"></i>
                         </span>
-                        <span class="mydatatxt">
-                            Gas
+                        <span class="mydatatxt">{{language('TITULO_GAS')}}
                             <!--{{ "PANEL.TITULO_GAS" | translate }}-->
                         </span>
                         <br>
@@ -372,8 +376,7 @@
                                 'icon-verde':calltags['getCTUnoDiesel'] >= 5
                             }"></i> 
                         </span>
-                        <span class="mydatatxt">
-                            Diesel
+                        <span class="mydatatxt">{{language('TITULO_DIESEL')}}
                             <!--{{ "PANEL.TITULO_DIESEL" | translate }} -->
                         </span>
                         <br>
@@ -396,8 +399,7 @@
                                 'icon-verde':calltags['getCTUnoRT'] >= 1000
                             }"></i>
                         </span>
-                        <span class="mydatatxt">
-                            RT
+                        <span class="mydatatxt">{{language('TITULO_HR')}}
                             <!--{{ "PANEL.TITULO_HR" | translate }} -->
                         </span>
                         <br>
@@ -469,8 +471,8 @@
             <div class="ct-header">
                 <div class="row">
                     <div class="col">
-                        <strong class="nameplanta">
-                            CT-2
+                        <strong class="nameplanta">{{language('TITULO_CT')}}2
+                        
                             <!--{{ "PANEL.TITULO_CT" | translate }}2-->
                         </strong>
                     </div>
@@ -489,8 +491,8 @@
                                 'icon-verde':calltags['getCTDosGas'] >= 1000
                             }"></i>
                         </span>
-                        <span class="mydatatxt">
-                            Gas
+                        <span class="mydatatxt">{{language('TITULO_GAS')}}
+                            
                             <!--{{ "PANEL.TITULO_GAS" | translate }}-->
                         </span>
                         <br>
@@ -513,8 +515,8 @@
                                 'icon-verde':calltags['getCTDosDiesel'] >= 5
                             }"></i> 
                         </span>
-                        <span class="mydatatxt">
-                            Diesel
+                        <span class="mydatatxt">{{language('TITULO_DIESEL')}}
+                            
                             <!--{{ "PANEL.TITULO_DIESEL" | translate }} -->
                         </span>
                         <br>
@@ -537,8 +539,8 @@
                                 'icon-verde':calltags['getCTDosRT'] >= 1000
                             }"></i>
                         </span>
-                        <span class="mydatatxt">
-                            RT
+                        <span class="mydatatxt">{{language('TITULO_HR')}}
+                            
                             <!--{{ "PANEL.TITULO_HR" | translate }}-->
                         </span>
                         <br>
@@ -614,8 +616,8 @@
             <div class="ct-header">
                 <div class="row">
                     <div class="col">
-                        <strong class="nameplanta">
-                            TV
+                        <strong class="nameplanta">{{language('TITULO_TV')}}
+                            
                             <!--{{ "PANEL.TITULO_TV" | translate }} -->
                         </strong>
                     </div>
@@ -635,8 +637,8 @@
                                 'icon-verde':calltags['getTVRT'] >= 1000
                             }"></i>
                         </span>
-                        <span class="mydatatxt">
-                            RT
+                        <span class="mydatatxt">{{language('TITULO_HR')}}
+                            
                             <!--{{ "PANEL.TITULO_HR" | translate }}-->
                         </span>
                         <br>
@@ -777,8 +779,8 @@
             </div>
             <div class="modal-footer mb-1">
                 <button type="button" class="btn mybtn" (click)="closeModal_01()"
-                    [style.background]="theme.getBackgroundColor()">
-                    Cerrar
+                    [style.background]="theme.getBackgroundColor()">{{language('CERRAR')}}
+
             </button>
             </div>
         </div>

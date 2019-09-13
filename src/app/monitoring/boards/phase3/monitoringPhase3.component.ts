@@ -15,6 +15,7 @@ import { SecurityService } from 'src/app/core/services/security.service';
 import { Validate } from 'src/app/core/helpers/util.validator.';
 import { SocketService } from 'src/app/core/services/socket.service';
 import { EventSocket } from 'src/app/core/models/EventSocket';
+declare var $: any;
 
 
 
@@ -200,6 +201,9 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		/*this.translate.addLangs(["es", "en", "ja"]);
 		this.translate.setDefaultLang('es');
 		this.translate.use('es');//*/
+        $('.form-group').on('click', function(e) {
+            e.stopPropagation();
+        });
 
 		this.initializeAt0();
 		this.chartInit();
@@ -269,12 +273,16 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 				}
 			}]
 		});//*/
+		
 	}
 	ngOnDestroy(){
 		for (const iterator in this.subscriptions) {
 			this.subscriptions[iterator].unsubscribe();
 		}
 		this.unsubscribeSocket();
+	}
+	language(item){
+		return M3.language[this.globalService.languge][item];
 	}
 	initializeAt0(){
 		for (const calltag in M3.lstTags) {

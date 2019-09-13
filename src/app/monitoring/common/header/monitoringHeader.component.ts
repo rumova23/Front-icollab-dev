@@ -66,5 +66,9 @@ export class MonitoringHeaderComponent implements OnInit {
     this.eventService.sendMainMonitoring(new EventMessage(this.globalService.page, {}));
     //this.eventService.sendMainMonitoring(new EventMessage(101, {}));
   }
+  changeLangage(languge){
+    this.globalService.languge = languge;
+    this.eventService.sendMainMonitoring(new EventMessage(this.globalService.page, {}));
+  }
 
 }
