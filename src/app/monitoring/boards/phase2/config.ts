@@ -1,9 +1,56 @@
 
+export var listCharts = {
+    chart_overview_item01_col01:{
+        plant:"sol",
+        controls:{},
+        tags:[
+            {webId:null ,value:null ,timestamp:null ,calltags:"getPowerOutput"},
+        ],
+    },
+    chart_overview_item01_col03:{
+        plant:"sol",
+        controls:{},
+        tags:[
+            {webId:null ,value:null ,timestamp:null ,calltags:"getPotenciaCCDV"},
+            {webId:null ,value:null ,timestamp:null ,calltags:"getCTUnoRPM"},    
+        ],
+    },
+    chart_eat_item01_col01:{
+        plant:"aguila",
+        controls:{},
+        tags:[
+            {webId:null ,value:null ,timestamp:null ,calltags:"getPowerOutput"},
+        ],
+    },
+    chart_eat_item01_col03:{
+        plant:"aguila",
+        controls:{},
+        tags:[
+            {webId:null ,value:null ,timestamp:null ,calltags:"getPotenciaCCDV"},
+            {webId:null ,value:null ,timestamp:null ,calltags:"getCTUnoRPM"},    
+        ],
+    },
+    chart_est_item01_col01:{
+        plant:"sol",
+        controls:{},
+        tags:[
+            {webId:null ,value:null ,timestamp:null ,calltags:"getPowerOutput"},
+        ],
+    },
+    chart_est_item01_col03:{
+        plant:"sol",
+        controls:{},
+        tags:[
+            {webId:null ,value:null ,timestamp:null ,calltags:"getPotenciaCCDV"},
+            {webId:null ,value:null ,timestamp:null ,calltags:"getCTUnoRPM"},    
+        ],
+    }
+}
 export const lstTags = [];
-lstTags['getTemperaturaAmbiente'] = {  calltags:'getTemperaturaAmbiente'  ,typadata:'float'  ,label: 'Temperatura ambiente'  ,min:0  ,max:100    ,color:'#ecec1b'  ,id_EAT:0  ,webId_EAT:'P0uQAgHoBd0ku7P3cWOJL6IglyQAAAU0VSVklET1JfUElcUDJBMDgyMTE'   ,id_EST:0   ,webId_EST:'F1DP4rhZAwFMREKDf7s8vylUqgxwMAAAUElUVlxULkNFQS4yMjQ1'      };
+lstTags['getPowerOutput']         = {  calltags:'getPowerOutput'          ,typadata:'float'  ,label: 'Power Output'          ,min:0  ,max:1200   ,color:'#5d76d3'  ,id_EAT:0  ,webId_EAT:'P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM'   ,id_EST:0   ,webId_EST:'F1DP4rhZAwFMREKDf7s8vylUqgkgYAAAUElUVlxULkxHUy5DRUEuNDY'      };
 lstTags['getPresionAtmosferica']  = {  calltags:'getPresionAtmosferica'   ,typadata:'int'    ,label: 'Presión atmosférica '  ,min:0  ,max:1200   ,color:'#d9d5fe'  ,id_EAT:0  ,webId_EAT:'P0uQAgHoBd0ku7P3cWOJL6IgmSQAAAU0VSVklET1JfUElcUDJBMDgyMTM'   ,id_EST:0   ,webId_EST:'F1DP4rhZAwFMREKDf7s8vylUqg5gIAAAUElUVlw1MlBDLUFJLTAwNQ'    };
 lstTags['gethumedad']             = {  calltags:'gethumedad'              ,typadata:'int'    ,label: 'Humedad'               ,min:0  ,max:100    ,color:'#c5f327'  ,id_EAT:0  ,webId_EAT:'P0uQAgHoBd0ku7P3cWOJL6IgmCQAAAU0VSVklET1JfUElcUDJBMDgyMTI'   ,id_EST:0   ,webId_EST:'F1DP4rhZAwFMREKDf7s8vylUqgtgIAAAUElUVlw1MlBDLUFJLTAwNA'    };
-lstTags['getPotenciaNeta']        = {  calltags:'getPotenciaNeta'         ,typadata:'float'  ,label: 'Potencia Neta'         ,min:0  ,max:590    ,color:'#5d76d3'  ,id_EAT:0  ,webId_EAT:'P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY'   ,id_EST:0   ,webId_EST:'F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz'      };
+lstTags['getPotenciaNeta']        = {  calltags:'getPotenciaNeta'         ,typadata:'float'  ,label: 'Potencia Neta'         ,min:0  ,max:590    ,color:'#4s16d3'  ,id_EAT:0  ,webId_EAT:'P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY'   ,id_EST:0   ,webId_EST:'F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz'      };
 lstTags['getPotenciaCCDV']        = {  calltags:'getPotenciaCCDV'         ,typadata:'float'  ,label: 'Potencia CCDV'         ,min:0  ,max:590    ,color:'#9741f6'  ,id_EAT:0  ,webId_EAT:'P0uQAgHoBd0ku7P3cWOJL6IgICUAAAU0VSVklET1JfUElcREFBMDgxMTE'   ,id_EST:0   ,webId_EST:'F1DP4rhZAwFMREKDf7s8vylUqg1QMAAAUElUVlxULkNFQS4yMjYy'      };
 lstTags['getRegimenTermico']      = {  calltags:'getRegimenTermico'       ,typadata:'int'    ,label: 'Régimen térmico'       ,min:0  ,max:14000  ,color:'#4cc900'  ,id_EAT:0  ,webId_EAT:'P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM'   ,id_EST:0   ,webId_EST:'F1DP4rhZAwFMREKDf7s8vylUqgkgYAAAUElUVlxULkxHUy5DRUEuNDY'   };
 lstTags['getCTUnoGas']            = {  calltags:'getCTUnoGas'             ,typadata:'int'    ,label: 'RT-1 - Gas'            ,min:0  ,max:50000  ,color:'#CCFF00'  ,id_EAT:0  ,webId_EAT:'P0uQAgHoBd0ku7P3cWOJL6IguB8AAAU0VSVklET1JfUElcRzFBMDgwNzM'   ,id_EST:0   ,webId_EST:'F1DP4rhZAwFMREKDf7s8vylUqglAAAAAUElUVlw1MUNFQUdGMDAxXzAx'  };

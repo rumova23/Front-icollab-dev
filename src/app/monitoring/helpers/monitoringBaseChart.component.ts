@@ -1,4 +1,3 @@
-import { ChartControl } from 'src/app/monitoring/models/ChartControl';
 
 export const hexToRGB = function(h,a) {
 	let r = "0"; 
@@ -33,11 +32,12 @@ export const generateColorHEX = function(calltag){
 	}
 	return "#" + coolor;
 }
-export const chartCreateConfig = function (chartsControl : ChartControl){
+export const chartCreateConfig = function (controls){
+	
 	return {
 	type: 'line'
 	,data: {
-		labels: new Array(10)
+		labels: new Array(controls['data_per_graph'])
 		//labels: ["k1","k2","k3"]
 		,datasets: []
 	}
@@ -52,7 +52,7 @@ export const chartCreateConfig = function (chartsControl : ChartControl){
 				hoverRadius: 15,
 			},
 			rectangle: {
-			  //borderWidth: 2,
+			  borderWidth: 1,
 			}
 		},
 		legend: {
@@ -74,7 +74,7 @@ export const chartCreateConfig = function (chartsControl : ChartControl){
 					ticks:{
 						fontColor:"orange",
 						fontSize:12,
-						beginAtZero: false,
+						//beginAtZero: false,
 						//suggestedMin:9000
 					}
 				}
@@ -88,7 +88,7 @@ export const chartCreateConfig = function (chartsControl : ChartControl){
 						//min: 0,
 						//max: 1,
 						//suggestedMin:9000
-						beginAtZero: false  
+						//beginAtZero: false  
 					},
 				}
 			],

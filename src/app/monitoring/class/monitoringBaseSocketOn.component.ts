@@ -10,10 +10,11 @@ import { GlobalService } from 'src/app/core/globals/global.service';
   template: `NO UI TO BE FOUND HERE!`
 })
 export class MonitoringBaseSocketOnComponent implements OnInit {
+	public PiIsRun                 : boolean        = false;
 	public subscriptions           : Subscription[] = [];
-	public timeCurrent             : Date = new Date();
-	public subscriptionsPerChannel : Array<string> = [];
-	public chanels                 : Array<string> = [];
+	public timeCurrent             : Date           = new Date();
+	public subscriptionsPerChannel : Array<string>  = [];
+	public chanels                 : Array<string>  = [];
 
 
 	constructor(
@@ -68,10 +69,13 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 		let channelBackPiIsRun = this.socketService.suscribeChannel("back-pi-isrun");
 
 		this.subscriptions['back-pi-isrun'] = this.socketService.onChannelWatch(channelBackPiIsRun-1)
-			.subscribe((data:any)=>{
+			.subscribe((data:any)=>{				
 				if(data.isrun == 0){
+					this.PiIsRun = false;
 					this.whenLosingConnection();
+					console.log(data);
 				}else if(data.isrun == 1){
+					this.PiIsRun=true;
 					if(data.backPi['status-pi-aguila'] == 0){
 						if(this.globalService.plant.name === "AGUILA"){
 							this.whenLosingConnection();
@@ -119,6 +123,18 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 			});
 		}
 	}
+	subscribeSocketChanelPiServers(){
+		this.addSubscriptionsPerChannel(['pi-servers','pi-servers-error']);
+		this.addChanels(["pi-servers"]);
+		let channelPiSol = this.socketService.suscribeChannel("pi-servers");
+		this.subscriptions['pi-servers-error'] = this.socketService.onChannelError(channelPiSol - 1)
+		.subscribe((errorChannel: any) => {/*console.log("pi-servers-error",errorChannel);*/});
+
+		this.subscriptions['pi-servers'] = this.socketService.onChannelWatch(channelPiSol - 1)
+		.subscribe((data: any) => {
+			this.dataAdapter(data);
+		});
+	}
 	subscribeSocketChanels(){
 		if(this.globalService.socketConnect){
 			this.subscribeSocketChanelbackPiIsRun();
@@ -130,14 +146,14 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 	check_time_refreseh_data(time_refreseh_data, timePast){
 		// se le resta 1 porque elsimple echo de esperar al siguiente cambio y evaluacion tarda un segundo 
 		// esto es porque usamos this.fechaActual
-		
+			/*
 			console.log("fechaActualAnterior::: ",timePast);
 			console.log("fechaActual::: ",this.timeCurrent);
 			console.log("time_refreseh_data::: ",time_refreseh_data);
 			var seconds = (this.timeCurrent.getTime() - timePast.getTime()) / 1000;
 			console.log("fechaActual - Anterior seconds ::: ",seconds);//*/
 
-		return (time_refreseh_data) < ( ( this.timeCurrent.getTime() - timePast.getTime() ) / 1000) ;
+		return (time_refreseh_data -1) < ( ( this.timeCurrent.getTime() - timePast.getTime() ) / 1000) ;
 	}
 	addSubscriptionsPerChannel(channels:Array<string>){
 		for (const channel of channels) {

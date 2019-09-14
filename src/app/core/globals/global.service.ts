@@ -10,7 +10,7 @@ export class GlobalService {
 
   public socketConnect : boolean = false;
   plant;
-  app;
+  app;  // Representa al modulo activo
   page;
   constructor() { }
 }
