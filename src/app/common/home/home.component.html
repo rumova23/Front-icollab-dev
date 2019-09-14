@@ -1,6 +1,6 @@
 <div class="full-height d-flex align-items-center">
-    <div class="panel px-md-5 py-5" style="margin: auto;">
-        <div class="col-12 flex-center"><img src="../../assets/img/logosafe.png"></div>
+    <div class="panel px-md-5 py-5 text-center" style="margin: auto;">
+        <div class="col-12"><img src="../../assets/img/logosafe.png"></div>
         <h3 class="mycolororange"><strong>I Collab</strong></h3>    
         <hr>
         <div class="container">
@@ -11,27 +11,27 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-6 col-md-4 text-center my-2" *ngIf="existApp('Safe')">
+                <div class="col-6 col-md-4 my-2" *ngIf="existApp('Safe')">
                     <a (click)="goSafe()">
                         <img src="../../assets/img/logo_safe.png">
                     </a>
                 </div>
-                <div class="col-6 col-md-4 text-center my-2" *ngIf="existApp('Compliance')">
+                <div class="col-6 col-md-4 my-2" *ngIf="existApp('Compliance')">
                     <a (click)="goCompliance()">
                         <img src="../../assets/img/logo_compliance.png">
                     </a>
                 </div>
-                <div class="col-6 col-md-4 text-center my-2" *ngIf="existApp('Administrative_monitoring')">
+                <div class="col-6 col-md-4 my-2" *ngIf="existApp('Administrative_monitoring')">
                     <a (click)="goAdministrative_monitoring()">
                         <img src="../../assets/img/logo_mnitoreo.png">
                     </a>
                 </div>
-                <div class="col-6 col-md-4 text-center my-2" *ngIf="existApp('Efh')">
+                <div class="col-6 col-md-4 my-2" *ngIf="existApp('Efh')">
                     <a (click)="goSafe()">
                         <img src="../../assets/img/logo_safe.png">
                     </a>
                 </div>
-                <div class="col-6 col-md-4 text-center my-2" *ngIf="existApp('Security')">
+                <div class="col-6 col-md-4 my-2" *ngIf="existApp('Security')">
                     <a (click)="goSecurity()">
                         <img src="../../assets/img/admin.png">
                     </a>
