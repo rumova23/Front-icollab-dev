@@ -43,7 +43,7 @@ export var listCharts = {
             }
         ],
     },
-    
+
     chart_eat_item01_col01:{
         plant:"aguila",
         controls:{},
@@ -85,6 +85,48 @@ export var listCharts = {
         ]
     },
     chart_eat_item01_col03:{
+        plant:"aguila",
+        controls:{},
+        tags:[
+            {calltags:"PotenciaCCDV",value:function(){
+                return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
+                }
+            },
+            {calltags:"CTUnoRPM",value:function(){
+                return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
+                }
+            },    
+        ]
+    },
+    chart_eat_item02_col03:{
+        plant:"aguila",
+        controls:{},
+        tags:[
+            {calltags:"PotenciaCCDV",value:function(){
+                return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
+                }
+            },
+            {calltags:"CTUnoRPM",value:function(){
+                return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
+                }
+            },    
+        ]
+    },
+    chart_eat_item03_col03:{
+        plant:"aguila",
+        controls:{},
+        tags:[
+            {calltags:"PotenciaCCDV",value:function(){
+                return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
+                }
+            },
+            {calltags:"CTUnoRPM",value:function(){
+                return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
+                }
+            },    
+        ]
+    },
+    chart_eat_item04_col03:{
         plant:"aguila",
         controls:{},
         tags:[
@@ -152,7 +194,49 @@ export var listCharts = {
                 }
             },    
         ]
-    }//*/
+    },
+    chart_est_item02_col03:{
+        plant:"sol",
+        controls:{},
+        tags:[
+            {calltags:"PotenciaCCDV",value:function(){
+                return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
+                }
+            },
+            {calltags:"CTUnoRPM",value:function(){
+                return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
+                }
+            },    
+        ]
+    },
+    chart_est_item03_col03:{
+        plant:"sol",
+        controls:{},
+        tags:[
+            {calltags:"PotenciaCCDV",value:function(){
+                return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
+                }
+            },
+            {calltags:"CTUnoRPM",value:function(){
+                return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
+                }
+            },    
+        ]
+    },
+    chart_est_item04_col03:{
+        plant:"sol",
+        controls:{},
+        tags:[
+            {calltags:"PotenciaCCDV",value:function(){
+                return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
+                }
+            },
+            {calltags:"CTUnoRPM",value:function(){
+                return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
+                }
+            },    
+        ]
+    }
 }
 export var lstTags = [];
 lstTags['PowerOutput']         = {  label: 'Power Output'          ,min:0  ,max:1200   ,color:'#5d76d3'  ,aguila:[{WebId:'P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM',WebTag:null}]  ,sol:[{WebId:'F1DP4rhZAwFMREKDf7s8vylUqgkgYAAAUElUVlxULkxHUy5DRUEuNDY'   ,WebTag:null}]  ,overview:[{value:null,timestamp:null}]};

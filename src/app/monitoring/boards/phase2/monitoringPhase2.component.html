@@ -66,6 +66,21 @@
 						</div>
 					</a>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link rounded-0 text-lg-left" data-toggle="pill" data-target="#v-pills-Overview-Fuel_Gain_Lost" role="tab" aria-controls="v-pills-Overview-Fuel_Gain_Lost" aria-selected="false">
+						<div class="row">
+							<div class="col-12 col-lg-auto align-self-center mycolorgreen">
+								<i class="fas fa-gas-pump"></i>
+							</div>
+							<div class="col pl-lg-0 d-none d-sm-block">
+								<p class="mycolorgreen">
+									Fuel Gain Lost
+								</p>
+								<p>{{calltags["FuelGain-overview"] | number:'3.2-2'}}</p>
+							</div>
+						</div>
+					</a>
+				</li>
 			</ul>
 		</div>
 		<div class="col-12 col-lg-9 col-xl-10">
@@ -308,6 +323,17 @@
 						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
 						</div>
 						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_eat_item02_col03')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12">
+									<canvas id="chart_eat_item02_col03"></canvas>  
+								</div>
+							</div>
 						</div>
 					</div>	
 				</div>
@@ -333,6 +359,17 @@
 						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
 						</div>
 						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_eat_item03_col03')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12">
+									<canvas id="chart_eat_item03_col03"></canvas>  
+								</div>
+							</div>
 						</div>
 					</div>	
 				</div>
@@ -358,6 +395,17 @@
 						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
 						</div>
 						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_eat_item04_col03')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12">
+									<canvas id="chart_eat_item04_col03"></canvas>  
+								</div>
+							</div>
 						</div>
 					</div>	
 				</div>
@@ -432,7 +480,7 @@
             </ul>
         </div>
         <div class="col-12 col-lg-9 col-xl-10">
-            <div class="tab-content h-100" id="v-pills-tabContent" style="min-height: 230px">
+            <div class="tab-content h-100" id="v-pills-tabContent">
                 <div class="tab-pane fade h-100 show active" id="v-pills-EST-Power_Output" role="tabpanel" aria-labelledby="v-pills-EST-Power_Output-tab">
 					<div class="row h-100">
 						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
@@ -491,6 +539,17 @@
 						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
 						</div>
 						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_est_item02_col03')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12">
+									<canvas id="chart_est_item02_col03"></canvas>  
+								</div>
+							</div>
 						</div>
 					</div>	
 				</div>
@@ -516,6 +575,17 @@
 						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
 						</div>
 						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_est_item03_col03')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12">
+									<canvas id="chart_est_item03_col03"></canvas>  
+								</div>
+							</div>
 						</div>
 					</div>	
 				</div>
@@ -541,6 +611,17 @@
 						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
 						</div>
 						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_est_item04_col03')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12">
+									<canvas id="chart_est_item04_col03"></canvas>  
+								</div>
+							</div>
 						</div>
 					</div>	
 				</div>
