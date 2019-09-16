@@ -78,8 +78,9 @@ import { SecurityService } from 'src/app/core/services/security.service';
     WeatherEditComponent, WeatherPpaComponent,
     ChargeEditComponent, ChargePpaComponent,
     EnergyEditComponent, EnergyPpaComponent,
-    ModelMarketComponent, BranchCreditNoteSeriesComponent
-   ,BranchCreditNoteSeriesEditComponent ,PpaComponent
+    ModelMarketComponent, BranchCreditNoteSeriesComponent,
+    BranchCreditNoteSeriesEditComponent,
+    PpaComponent
   ]
 })
 export class SafeHomeComponent implements OnInit {
@@ -476,18 +477,18 @@ export class SafeHomeComponent implements OnInit {
             this.componentFactoryResolver.resolveComponentFactory(BranchCreditNoteSeriesComponent);
           const refBranchCreditNoteSerie =
             this.viewContainerRef.createComponent(factoryBranchCreditNoteSerie);
-            refBranchCreditNoteSerie.changeDetectorRef.detectChanges();
-          break;  
+          refBranchCreditNoteSerie.changeDetectorRef.detectChanges();
+          break;
         case 41:
             const factoryBrancheCreditNoteSeriesEdit =
               this.componentFactoryResolver.resolveComponentFactory(BranchCreditNoteSeriesEditComponent);
             const refBrancheCreidtNoteSeriesEdit =
               this.viewContainerRef.createComponent(factoryBrancheCreditNoteSeriesEdit);
-              refBrancheCreidtNoteSeriesEdit.instance.entity = event.data;
-              refBrancheCreidtNoteSeriesEdit.instance.branchOfficeCreditNoteSerieSelected =
+            refBrancheCreidtNoteSeriesEdit.instance.entity = event.data;
+            refBrancheCreidtNoteSeriesEdit.instance.branchOfficeCreditNoteSerieSelected =
               event.data.branchOfficeCreditNoteSerie;
-              refBrancheCreidtNoteSeriesEdit.changeDetectorRef.detectChanges();
-            break;    
+            refBrancheCreidtNoteSeriesEdit.changeDetectorRef.detectChanges();
+            break;
       case 100:
         const factoryChangePasword =
           this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent);
@@ -495,8 +496,6 @@ export class SafeHomeComponent implements OnInit {
           this.viewContainerRef.createComponent(factoryChangePasword);
         refChangePasword.changeDetectorRef.detectChanges();
         break;
-
-        
       case 101:
         const factoryWeather =
           this.componentFactoryResolver.resolveComponentFactory(WeatherComponent);

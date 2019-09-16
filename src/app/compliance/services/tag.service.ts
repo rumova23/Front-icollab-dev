@@ -81,17 +81,17 @@ export class TagService {
   save(tag: Tag) : Observable<any> {
     this.setXTenantId(this.globalService.aguila);    
     console.dir(tag);
-    return this.http.post( `${ this.baseMicroTagUrl }save`, tag, {params : this.parameters });
+    return this.http.post( `${ this.baseMicroTagUrl }tag/save`, tag, {params : this.parameters });
   }
 
   getActividadPorTag(actividad: string) {
     this.setXTenantId(this.globalService.aguila);    
-    return this.http.get( `${ this.baseMicroTagUrl }${actividad}`, {params : this.parameters });
+    return this.http.get( `${ this.baseMicroTagUrl }tag/${actividad}`, {params : this.parameters });
   }
 
   getActividadesPrecedentes(padre) : Observable<any> {
     this.setXTenantId(this.globalService.aguila);    
-    return this.http.get( `${ this.baseMicroTagUrl }getActividadesPrecedentes/${padre}`, {params : this.parameters });
+    return this.http.get( `${ this.baseMicroTagUrl }tag/getActividadesPrecedentes/${padre}`, {params : this.parameters });
   }
 
   /*
@@ -102,17 +102,17 @@ export class TagService {
 
   agregarPrecedentes(tag, tags) : Observable<any> {
     this.setXTenantId(this.globalService.aguila);    
-    return this.http.get( `${ this.baseMicroTagUrl }agregarPrecedentes/${tag}/${tags}`, {params : this.parameters });
+    return this.http.get( `${ this.baseMicroTagUrl }tag/agregarPrecedentes/${tag}/${tags}`, {params : this.parameters });
   }
 
   eliminarPrecedente(tagPrecedente): Observable<any> {
     this.setXTenantId(this.globalService.aguila);    
-    return this.http.post( `${ this.baseMicroTagUrl }eliminarPrecedente`, tagPrecedente, {params : this.parameters });
+    return this.http.post( `${ this.baseMicroTagUrl }tag/eliminarPrecedente`, tagPrecedente, {params : this.parameters });
   }
 
   obtenTagPorFiltros(plantaId) : Observable<any> {
     this.setXTenantId(this.globalService.aguila);    
-    return this.http.get( `${ this.baseMicroTagUrl }getAll`, {params : this.parameters });
+    return this.http.get( `${ this.baseMicroTagUrl }tag/getAll`, {params : this.parameters });
   }
   /*
   obtenTagPorFiltros(plantaId) : Observable<any> {
@@ -121,39 +121,39 @@ export class TagService {
 
   eliminarTag(tagId: number) : Observable<any> {
     this.setXTenantId(this.globalService.aguila);    
-    return this.http.get( `${ this.baseMicroTagUrl }eliminar/${tagId}`, {params : this.parameters });
+    return this.http.get( `${ this.baseMicroTagUrl }tag/eliminar/${tagId}`, {params : this.parameters });
   }
 
   // Actividades
   getCatalogoActividades(status) : Observable<any> {
     this.setXTenantId(this.globalService.aguila); 
-    return this.http.get( `${ this.baseMicroTagUrl }actividad/all/${status}`, {params : this.parameters });
+    return this.http.get( `${ this.baseMicroTagUrl }tag/actividad/all/${status}`, {params : this.parameters });
   }
 
   getPrefijoConsecutivo(actividadId: number) {
     this.setXTenantId(this.globalService.aguila);
-    return this.http.get( `${ this.baseMicroTagUrl }actividad/obtenerConsecutivo/${actividadId}`, {params : this.parameters });
+    return this.http.get( `${ this.baseMicroTagUrl }tag/actividad/obtenerConsecutivo/${actividadId}`, {params : this.parameters });
   }
 
   getActividad(actividadId: number) {
     this.setXTenantId(this.globalService.aguila);    
-    return this.http.get( `${ this.baseMicroTagUrl }actividad/obtenerActividad/${actividadId}`, {params : this.parameters });
+    return this.http.get( `${ this.baseMicroTagUrl }tag/actividad/obtenerActividad/${actividadId}`, {params : this.parameters });
   }
 
   crearActividad(actividad: TagActividadInDTO, selectedPlant) {
     this.setXTenantId(selectedPlant);
     console.dir(actividad);
-    return this.http.post( `${ this.baseMicroTagUrl }actividad/crear`, actividad, {params : this.parameters });
+    return this.http.post( `${ this.baseMicroTagUrl }tag/actividad/crear`, actividad, {params : this.parameters });
   }
 
   editarActividad(actividad: TagActividadInDTO) {
     this.setXTenantId(this.globalService.aguila);    
     console.dir(actividad);
-    return this.http.post( `${ this.baseMicroTagUrl }actividad/editar`, actividad, {params : this.parameters });
+    return this.http.post( `${ this.baseMicroTagUrl }tag/actividad/editar`, actividad, {params : this.parameters });
   }
   setEditClonated(actividad, plantSelected){
     this.setXTenantId(plantSelected);
-    return this.http.post( `${ this.baseMicroTagUrl }actividad/editedclonated` , actividad, {params : this.parameters });
+    return this.http.post( `${ this.baseMicroTagUrl }tag/actividad/editedclonated` , actividad, {params : this.parameters });
   }
   
 

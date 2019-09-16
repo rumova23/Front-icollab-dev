@@ -28,7 +28,7 @@ export class CatalogService {
   }
 
   list(catalogs: Array<CatalogOrder>): Observable<any> {
-    return this.http.post(environment.catalogUrl + 'list', catalogs);
+    return this.http.post(environment.catalogUrl + 'catalog/list', catalogs);
   }
 
   get(catalog: string): Observable<any> {
@@ -44,7 +44,7 @@ export class CatalogService {
   }
 
   saveGeneric(generic: CatalogGeneric) {
-    return this.http.post(environment.catalogUrl +  'save', generic );
+    return this.http.post(environment.catalogUrl +  'catalog/save', generic );
   }
 
   listUnityProduct(option: number):Observable<any> {

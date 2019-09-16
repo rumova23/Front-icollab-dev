@@ -24,66 +24,56 @@ export class PersonalCompetenteService {
   private baseUrl = environment.tagsUrl;
   private microSeguimiento = environment.seguimiento;
 
-  parameters:any;
+  parameters: any;
 
-  constructor(private http: HttpClient
-             ,private globalService: GlobalService) { }
+  constructor(private http: HttpClient,
+              private globalService: GlobalService) { }
 
-  setXTenantId(plantSelected){
-    console.log("setXTenantId(plantSelected)");
-    console.log("plantSelected");
+  setXTenantId(plantSelected) {
+    console.log('setXTenantId(plantSelected)');
+    console.log('plantSelected');
     console.log(plantSelected);
-    console.log("this.parameters");
-    console.log(this.parameters);    
+    console.log('this.parameters');
+    console.log(this.parameters);
 
-  let user = JSON.parse(localStorage.getItem('user'));
-      console.log("user");
-      console.dir(user);  
-      user = user['username'];
-      console.log("user");
-      console.dir(user);
+    let user = JSON.parse(localStorage.getItem('user'));
+    console.log('user');
+    console.dir(user);
+    user = user.username;
+    console.log('user');
+    console.dir(user);
 
-    if (plantSelected){
-      let p1 = new HttpParams().set("X-TENANT-ID","aguila")
-                               .set("user",user);
+    if (plantSelected) {
+      const p1 = new HttpParams().set('X-TENANT-ID', 'aguila')
+                               .set('user', user);
       this.parameters = p1;
-    } 
-    else{
-      let p2 = new HttpParams().set("X-TENANT-ID","sol")
-                               .set("user",user);      
+    } else {
+      let p2 = new HttpParams().set('X-TENANT-ID', 'sol')
+                               .set('user', user);
       this.parameters = p2;
     }
-    
   }
 
 
   getEmpleados() {
     this.setXTenantId(this.globalService.aguila);
-    return this.http.get(`${this.baseUrl2}personalCompetente/empleados`, {params : this.parameters });
+    return this.http.get(`${this.baseUrl2}exam/personalCompetente/empleados`, {params : this.parameters });
   }
-
-  
   deleteEliminar(idEmpleado: number) {
-    return this.http.delete(`${this.baseUrl2}personalCompetente/empleados?idEmpleado=` + idEmpleado, {params : this.parameters });
+    return this.http.delete(`${this.baseUrl2}exam/personalCompetente/empleados?idEmpleado=` + idEmpleado, {params : this.parameters });
   }
-
-
   getTagsAsignacion(idEmpleado: number): Observable<any> {
     return this.http.get(`${this.microSeguimiento}personalCompetente/tags/ASIGNACION/${idEmpleado}`, {params : this.parameters });
   }
-
   getTagsAsignado(idEmpleado: number): Observable<any> {
     return this.http.get(`${this.microSeguimiento}personalCompetente/tags/ASIGNADO/${idEmpleado}`, {params : this.parameters });
   }
-
   salvarTags(listtags: Array<string>, empleadoId: number): Observable<any> {
     return this.http.post(`${this.microSeguimiento}tags/empleados?empleadoId=` + empleadoId, listtags, {params : this.parameters });
   }
-
   getPlantaPerfil(): Observable<any> {
     return this.http.get(`${this.baseUrl}tags/planta/perfilActor`, {params : this.parameters });
   }
-
   salvarPlantaPerfilEmpleado(lista: Array<any>) {
     return this.http.post(`${this.baseUrl}tags/planta/perfilActor`, lista, {params : this.parameters });
   }

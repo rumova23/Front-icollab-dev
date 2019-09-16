@@ -48,7 +48,7 @@ export class WeatherPpaComponent implements OnInit {
     });
     //this.date.setDate(this.date.getDate() + 1);
     //this.loadData();
-    this.getConfigWeather();
+    //this.getConfigWeather();
 
 
   }

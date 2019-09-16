@@ -23,8 +23,8 @@ export class BehaviorComponent implements OnInit {
   pregs: Array<any>;
   totalPreg: Array<any>;
   resp: Array<any>;
-  grupOpc = [[], [] ];
-  grupPreg = [[], [] ];
+  grupOpc = [[], []];
+  grupPreg = [[], []];
   SaveRespuestas: Array<Respuesta>;
   SaveOpciones: Array<any>;
   arryCata: Array<any>;
@@ -39,9 +39,8 @@ export class BehaviorComponent implements OnInit {
       private ruteo: ActivatedRoute,
       private router: Router,
       private preguntas: PerfilComboService,
-      public toastr: ToastrManager) { 
+      public toastr: ToastrManager) {
   }
-
 
   ngOnInit() {
     /*
@@ -51,8 +50,6 @@ export class BehaviorComponent implements OnInit {
         }
     );
     */
-    console.log(" ===========================      BehaviorComponent       ===========================")
-    console.log(" ===========================      BehaviorComponent       ===========================")
 
     if (this.inTipo === 'ver') {
       this.isdisabled = true;
@@ -61,130 +58,70 @@ export class BehaviorComponent implements OnInit {
     this.totalPreg = [];
     this.idTemas = [ 'PSICOMETRICO DEFAULT'];
 
-    //this.preguntas.obtenPreguntasExamen('PSICOMETRICO DEFAULT', this.inIdEmpleado).subscribe(
-  this.preguntas.generaExamen(this.inIdEmpleado, 'PSICOMETRICO DEFAULT').subscribe(
-    data => {
-      console.log("$$$$$$$$$$$$$$$");
-      console.log(data);
-      this.examenReservacionId = data["examenReservacionId"];  
-      console.log("this.examenReservacionId=" + this.examenReservacionId );
-
-
-    this.preguntas.obtenPreguntasExamen('2').subscribe(  
+    this.preguntas.obtenPreguntasExamen('PSICOMETRICO DEFAULT', this.inIdEmpleado).subscribe(
       reservacion => {
-        console.log("BBBBBBBBBBBBBBBBB");
-        console.dir(reservacion);
 
-        //if ( reservacion.estatusGenerico === 'exito') {
-          //this.examenReservacionId = reservacion.examenReservacionId;
-          //this.entidadEstatusId = reservacion.entidadEstatusId;
-          let i = 0;
-          let j = -1;          
-          let tema = "";
-          this.pregs = [];
+        this.examenReservacionId = reservacion.examenReservacionId;
+        // if ( reservacion.estatusGenerico === 'exito') {
 
-          for (let ins=0; ins < reservacion.length; ins++) {
-            j += 1;
-            //console.log("i=" + i + " j=" + j);
+          // this.entidadEstatusId = reservacion.entidadEstatusId;
+        let j = -1;
+        this.pregs = [];
 
-            if (tema !=reservacion[ins]["tema"]){
-              tema = reservacion[ins]["tema"];               
-              console.log("ins=" + ins + " | tema=" + tema );
-              console.log("reservacion[ins].tema=" + reservacion[ins].tema);
-              if (ins>0){
-                this.temas.push( new Tema(
-                  reservacion[ins-1].temaId,
-                  reservacion[ins-1].tema,
-                  reservacion[ins-1].color,
-                  null,
-                  null,
-                  this.pregs) );
 
-                i += 1;
-                j = 0;
+        for (let ins = 0; ins < reservacion.preguntasExamen.length; ins++) {
+            this.pregs = [];
+            j = -1;
 
-                this.pregs = [];
-              }  
-                         
-            }
-
-            reservacion[ins].preguntas.forEach( pregunta => {  
-              const optRes = pregunta.respuestas;
+            reservacion.preguntasExamen[ins].preguntas.forEach( pregunta => {
+              j++;
               this.resp = [];
-              optRes.forEach( or => {
-                if (or.respuesta!="No"){
+              pregunta.respuestas.forEach( or => {
+                if (or.respuesta !== 'No') {
                   this.resp.push(new Tema(or.respuestaId, or.respuesta, '1', null, null, null));
-                }
-                else{
+                } else {
                   this.resp.push(new Tema(or.respuestaId, or.respuesta, null, null, null, null));
                 }
               });
 
               this.pregs.push( new Tema( pregunta.preguntaId
-                                         ,pregunta.pregunta
-                                         ,null
-                                         ,pregunta.respuestaPresentacionId
-                                         ,null
-                                         ,this.resp) 
+                                         , pregunta.pregunta
+                                         , null
+                                         , pregunta.respuestaPresentacionId
+                                         , null
+                                         , this.resp)
                               );
-              //console.log("i=" + i + "," + "j=" + j);
-              if (ins == reservacion.length - 1){
-                this.temas.push( new Tema(
-                  reservacion[ins].temaId,
-                  reservacion[ins].tema,
-                  reservacion[ins].color,
-                  null,
-                  null,
-                  this.pregs) );
-              }
-
-              this.grupPreg[i][j] = pregunta.preguntaId;
-              //this.grupOpc[i][j]  = pregunta.respuestaPresentacionId;
-              this.selectRadio(i,j,this.examenReservacionId, pregunta.preguntaId);
+              this.grupPreg[ins][j] = pregunta.preguntaId;
+              this.grupOpc[ins][j]  = pregunta.respuestaPresentacionId;
+              // this.selectRadio(i,j,this.examenReservacionId, pregunta.preguntaId);
             });
-
-            
+            this.temas.push( new Tema(
+              reservacion.preguntasExamen[ins].temaId,
+              reservacion.preguntasExamen[ins].tema,
+              reservacion.preguntasExamen[ins].color,
+              null,
+              null,
+              this.pregs));
           }
 
-          //});
-        //}
-      }
-    );
-
-   }
-  );
-
+          // });
+        // }
+   });
  }
-
-  selectRadio(i:number, j:number, examenReservacionId:number, preguntaId:number){
-    this.preguntas.getValoresAptitudes(examenReservacionId, preguntaId).subscribe(
-      valor => {
-          //console.log("===valor===");
-          //console.log(valor);
-          this.grupOpc[i][j]  = valor["respuetaId"];
-          //console.log(i + "," + j + "=" + this.grupOpc[i][j]);
-      });     
-   }
 
 
   onSubmit() {
     this.SaveRespuestas = [];
-    //console.log("this.grupPreg");
-    //console.dir(this.grupPreg);
     for (let i = 0; i < this.grupPreg.length; i++) {
       for (let j = 0; j < this.grupPreg[i].length; j++) {
         if ( this.grupOpc[i][j] != null) {
           this.SaveRespuestas.push( new Respuesta( this.grupPreg[i][j], this.grupOpc[i][j], null ) );
-        } 
+        }
       }
     }
 
-    console.log("--this.examenReservacionId=" + this.examenReservacionId);
-
     this.preguntas.respuestaExamen(this.examenReservacionId, this.SaveRespuestas).subscribe(
         respuesta => {
-          console.log("respuesta");
-          console.dir(respuesta);
 
           this.isdisabledFinish = false;
           this.toastr.successToastr('Se ha guardado la sección de Comportamiento Personal', '¡Se ha logrado!');
@@ -195,18 +132,14 @@ export class BehaviorComponent implements OnInit {
 
   terminaExamen() {
     let sonTodas = true;
-    console.log("this.grupPreg");
-    console.log(this.grupPreg);
     for (let i = 0; i < this.grupPreg.length; i++) {
       for (let j = 0; j < this.grupPreg[i].length; j++) {
         if ( this.grupOpc[i][j] == null) {
-          console.log("this.grupOpc[" + i + "][" + j + "]=" + this.grupOpc[i][j]);
           sonTodas = false;
         }
       }
     }
 
-    console.log("sonTodas=" + sonTodas);
     if (sonTodas) {
       this.preguntas.terminaExamen(this.examenReservacionId).subscribe(
           respuesta => {
@@ -219,5 +152,5 @@ export class BehaviorComponent implements OnInit {
     }
   }
 
-  
+
 }

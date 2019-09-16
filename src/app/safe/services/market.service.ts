@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../models/Product';
 import { Client } from '../models/Client';
@@ -11,13 +11,49 @@ import { CreditNote } from '../models/CreditNote';
 import { DebitNote } from '../models/DebitNote';
 import { BranchOfficeCreditNoteSerie } from '../models/BranchOfficeCreditNoteSerie';
 
-
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Accept-Language': 'es-419,es;q=0.9',
+    'Accept': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,POST,PATCH,DELETE,PUT,OPTIONS',
+    'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token, content-type',
+  })
+};
 
 @Injectable({ providedIn: 'root' })
 export class MarketService {
 
+  parameters: any;
   constructor(private http: HttpClient) {
   }
+
+  setXTenantId(plantSelected) {
+    console.log('setXTenantId(plantSelected)');
+    console.log('plantSelected');
+    console.log(plantSelected);
+    console.log('this.parameters');
+    console.log(this.parameters);
+
+    let user = JSON.parse(localStorage.getItem('user'));
+    console.log('user');
+    console.dir(user);
+    user = user.username;
+    console.log('user');
+    console.dir(user);
+
+    if (plantSelected) {
+      const p1 = new HttpParams().set('X-TENANT-ID', 'aguila')
+          .set('user', user);
+      this.parameters = p1;
+    } else {
+      let p2 = new HttpParams().set('X-TENANT-ID', 'sol')
+          .set('user', user);
+      this.parameters = p2;
+    }
+  }
+
 
   loadProducts(option: number): Observable<any> {
     return this.http.get(environment.marketUrl + 'product/list/' + option);

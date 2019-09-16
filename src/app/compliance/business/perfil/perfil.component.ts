@@ -14,8 +14,8 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil_v2.component.html',
-  styleUrls: ['./perfil.component.scss']
- ,providers: [DatePipe]    
+  styleUrls: ['./perfil.component.scss'],
+    providers: [DatePipe]
 })
 export class PerfilComponent implements OnInit {
 
@@ -23,8 +23,7 @@ export class PerfilComponent implements OnInit {
   @Input() inIdEmpleado: number;
   @Input() inTipo: string;
   @Input() isViewable: string;
-  
-  title = "Perfil de Puesto";
+  title = 'Perfil de Puesto';
   generos: Array<any>;
   grados: Array<any>;
   posiciones: Array<any>;
@@ -42,7 +41,7 @@ export class PerfilComponent implements OnInit {
   isdisabled: boolean = false;
   isdisableIdEmp: boolean = false;
 
-  labBotAcep: string = "Guardar";
+  labBotAcep = 'Guardar';
 
   gender;
   educationLevel;
@@ -56,26 +55,24 @@ export class PerfilComponent implements OnInit {
 
 
   constructor(
-    private cmbos: PerfilComboService
-   ,private formBuilder: FormBuilder
-   ,public toastr: ToastrManager              
-   ,public globalService: GlobalService
-   ,private eventService: EventService
-   ,private datePipe: DatePipe) { 
-
+    private cmbos: PerfilComboService,
+    private formBuilder: FormBuilder,
+    public toastr: ToastrManager,
+    public globalService: GlobalService,
+    private eventService: EventService,
+    private datePipe: DatePipe) {
   }
-  
   ngOnInit() {
     //console.clear();
-    console.log("=======================================");
-    console.log("=======================================");
-    console.log("this.inTipo");
+    console.log('=======================================');
+    console.log('=======================================');
+    console.log('this.inTipo');
     console.log(this.inTipo);
-    console.log("this.inIdEmpleado");
+    console.log('this.inIdEmpleado');
     console.log(this.inIdEmpleado);
 
-    if( this.inIdEmpleado > 0){
-      this.labBotAcep = "Modificar"; 
+    if ( this.inIdEmpleado > 0) {
+      this.labBotAcep = 'Modificar';
     }
 
     this.setCombos();
