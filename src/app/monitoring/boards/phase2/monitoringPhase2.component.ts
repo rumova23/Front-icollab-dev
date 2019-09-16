@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy }    from '@angular/core';
-import { environment }                     from  'src/environments/environment';
 import { Chart }                           from 'chart.js';
 import { GlobalService }                   from 'src/app/core/globals/global.service';
 import { ThemeService }                    from 'src/app/core/globals/theme';
@@ -17,8 +16,8 @@ import * as BasChart                       from 'src/app/monitoring/helpers/moni
   styleUrls: ['./monitoringPhase2.component.scss']
 })
 export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent implements OnInit,OnDestroy  {
-	calltags         = []; 
-	charts           : Array<Chart>        = [];
+	calltags  = []; 
+	charts    : Array<Chart> = [];
 
   
 	constructor(
@@ -39,95 +38,9 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		this.initializeAt0();
 		this.chartInit();
 
-	
 		this.subscribeEverySecond();
 		this.subscribeSocketOnStatus();
 		this.subscribeSocketChanels();
-	}	
-	subscribeSocketChanels(){
-		if(this.globalService.socketConnect){
-			this.subscribeSocketChanelbackPiIsRun();
-			this.subscribeSocketChanelPiServers();
-		}
-	}
-	modifyChart(event){
-		// event es de tipo ChartControl
-		TAGS.listCharts[event.idChart]['controls'] = event;
-		let chartC = TAGS.listCharts[event.idChart]['controls'];
-		
-		/* Ajustar la cantidad de datos que se muestran en la grafica */
-		this.charts[event.idChart].data.datasets.forEach(function(element) {
-			/* Si el "data_per_graph_main" es menor a lo que existe
-			*  esto eliminara los elementos del inicio que sibren 
-			*  para pintar la grafica 
-			*/
-			if(chartC.data_per_graph < element.data.length){
-				element.data = element.data.slice(
-				element.data.length - chartC.data_per_graph
-				,element.data.length);
-			}
-		});
-		this.charts[event.idChart].data.labels  = new Array(chartC.data_per_graph);
-		/* ./ Ajustar la cantidad de datos que se muestran en la grafica */
-
-
-
-
-		switch(chartC.type_graph){
-			case "line":
-				for (const iterator in this.charts[event.idChart].data.datasets) {
-					this.charts[event.idChart].data.datasets[iterator]['backgroundColor']=this.charts[event.idChart].data.datasets[iterator]['rgba'];
-				}
-			break;
-			case "bar":
-				for (const iterator in this.charts[event.idChart].data.datasets) {
-					this.charts[event.idChart].data.datasets[iterator]['backgroundColor']=this.charts[event.idChart].data.datasets[iterator]['borderColor'];
-				}
-			break;
-		}
-
-		for (const iterator in this.charts[event.idChart].data.datasets) {
-			this.charts[event.idChart].data.datasets[iterator]['fill'] = chartC.fill;
-		}
-
-
-
-		this.change_graph_dynamic_scale(event.idChart);
-		this.charts[event.idChart].config.options.elements.point.radius = chartC.point_radius;
-		this.charts[event.idChart].config.type = chartC.type_graph;
-		this.charts[event.idChart].update();
-	}
-	change_graph_dynamic_scale(idChart){
-		let chartC = TAGS.listCharts[idChart]['controls'];
-		for (let index = 0; index < this.charts[idChart].config.options.scales.yAxes.length; index++) {
-			const element = this.charts[idChart].config.options.scales.yAxes[index];
-			const calltag = this.charts[idChart].config.options.scales.yAxes[index].id;
-			if (chartC.type_scale === 'dynamic') {
-				if(TAGS.lstTags[calltag]){
-				this.charts[idChart].config.options.scales.yAxes[index].ticks.min = undefined;
-				this.charts[idChart].config.options.scales.yAxes[index].ticks.max = undefined;
-				this.charts[idChart].config.options.scales.yAxes[index].ticks.beginAtZero = false;
-				}
-			}else if(chartC.type_scale === 'dynamic_with_0'){
-				if(TAGS.lstTags[calltag]){
-				this.charts[idChart].config.options.scales.yAxes[index].ticks.min = undefined;
-				this.charts[idChart].config.options.scales.yAxes[index].ticks.max = undefined;
-				this.charts[idChart].config.options.scales.yAxes[index].ticks.beginAtZero = true;
-				}
-			}else if(chartC.type_scale === 'static'){
-				if(TAGS.lstTags[calltag]){
-				this.charts[idChart].config.options.scales.yAxes[index]['ticks']['min'] = TAGS.lstTags[calltag]['min'];
-				this.charts[idChart].config.options.scales.yAxes[index]['ticks']['max'] = TAGS.lstTags[calltag]['max'];
-				this.charts[idChart].config.options.scales.yAxes[index].ticks.beginAtZero = false;
-				}
-			}else if(chartC.type_scale === 'static_min'){
-				if(TAGS.lstTags[calltag]){
-				this.charts[idChart].config.options.scales.yAxes[index]['ticks']['min'] = TAGS.lstTags[calltag]['min'];
-				this.charts[idChart].config.options.scales.yAxes[index]['ticks']['max'] = undefined;
-				this.charts[idChart].config.options.scales.yAxes[index].ticks.beginAtZero = false;
-				}
-			}
-		}
 	}
 	initializeAt0(){
 		for (const local_tag_key in TAGS.lstTags) {
@@ -144,7 +57,14 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 				this.createChart(idChart);
 			}
 		}
+	}	
+	subscribeSocketChanels(){
+		if(this.globalService.socketConnect){
+			this.subscribeSocketChanelbackPiIsRun();
+			this.subscribeSocketChanelPiServers();
+		}
 	}
+
 	createChart(idChart){
 		TAGS.listCharts[idChart]['controls'] = {
 			idChart        : idChart,
@@ -161,23 +81,11 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 	getchartControl(idChart){
 		return TAGS.listCharts[idChart]?TAGS.listCharts[idChart]['controls'] : {idChart:false};
 	}
+
 	dataAdapter(data){
 		this.updateLocalTagValue(data);
 		this.updateLocalTagOverView();
 		this.addDataToChart();
-	}
-	addDataToChart(){
-		for (const idChart in TAGS.listCharts) {
-			if (TAGS.listCharts.hasOwnProperty(idChart)) {
-				if(this.check_time_refreseh_data(
-					TAGS.listCharts[idChart]['controls']['time_refreseh'],
-					TAGS.listCharts[idChart]['controls']['timePast']
-				)){
-					TAGS.listCharts[idChart]['controls']['timePast'] = new Date();
-					this.addDatasetLine2(idChart);
-				}
-			}
-		}
 	}
 	updateLocalTagValue(data){
 		//let ii = Object.keys(TAGS.lstTags).length;
@@ -212,46 +120,32 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 			}
 		}
 	}
+	addDataToChart(){
+		for (const idChart in TAGS.listCharts) {
+			if (TAGS.listCharts.hasOwnProperty(idChart)) {
+				if(this.check_time_refreseh_data(
+					TAGS.listCharts[idChart]['controls']['time_refreseh'],
+					TAGS.listCharts[idChart]['controls']['timePast']
+				)){
+					TAGS.listCharts[idChart]['controls']['timePast'] = new Date();
+					this.addDatasetLine(idChart);
+				}
+			}
+		}
+	}
 
-	addDatasetLine2(idChart){
+	addDatasetLine(idChart){
 		let chart = TAGS.listCharts[idChart];
 
-		for(let chartTags of chart.tags){
-			let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets, chartTags.calltags);
-			let tagconf    = TAGS.lstTags[chartTags.calltags];
+		for(let chartTag of chart.tags){
+			let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets, chartTag.calltags);
+			let tagconf    = TAGS.lstTags[chartTag.calltags];
 			if(datasetTag == undefined){
 		
-				var hex  = tagconf.color;
-				let rgba = BasChart.hexToRGB(tagconf.color,0.3);
-		
-				var newDataset = {
-					id:chartTags.calltags,
-					rgba:rgba,
-					label: tagconf.label,
-					backgroundColor: hex,
-					borderColor: hex,
-					data: [chartTags.value()],
-					fill: false,
-					hidden:false,
-					yAxisID: chartTags.calltags
-				};
-				var newYaxis = {
-					id: chartTags.calltags,
-					display: true,
-					position: 'left',
-					ticks:{
-						fontColor:hex,
-						fontSize:12,
-						//min: tagconf.min,
-						//max: tagconf.max,
-						//beginAtZero: false
-					},
-					gridLines:{
-						color:"rgb(52, 58, 64)",
-						display: false,
-					},
-					
-				};
+				var newDataset = BasChart.generateDataset(chartTag,tagconf);
+				var newYaxis = BasChart.generateYaxis(chartTag,tagconf);
+
+				
 				this.charts[idChart].data.datasets.push(newDataset);
 				this.charts[idChart].config.options.scales.yAxes.push(newYaxis);
 				//console.log(this.charts[chart].data.datasets);
@@ -260,7 +154,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 				
 				/**Para la grafica tipo  line , bar*/
 				///*
-				(datasetTag.data as number[]).push(chartTags.value());
+				(datasetTag.data as number[]).push(chartTag.value());
 				//tag.data.push(data);
 				if(datasetTag.data.length > chart.controls.data_per_graph){
 					datasetTag.data.shift();
@@ -268,75 +162,11 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 				//*/
 
 				/**Para la grafica tipo  horizontalBar*/
-				//(datasetTag.data as number[])=[chartTags.value];
+				//(datasetTag.data as number[])=[chartTag.value];
 			}
 			
 		}
 		this.charts[idChart].update();
-		//console.log(this.charts);
-		//console.log(this.charts['chart_est_power_01'].data);
-	}
-	addDatasetLine(idChart, tagconf, PItag, tags){
-		//if(this.check_time_refreseh_data(this.chartsControls[idChart].time_refreseh ,this.chartsControls[idChart].timePast) ){
-		//	this.chartsControls[idChart].timePast = new Date();
-			if(tags.includes(tagconf.calltags)){
-				let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets,tagconf.calltags);
-				if(datasetTag == undefined){
-			
-					var hex  = tagconf.color;
-					let rgba = BasChart.hexToRGB(tagconf.color,0.3);
-			
-					var newDataset = {
-						id:tagconf.calltags,
-						rgba:rgba,
-						label: tagconf.label,
-						backgroundColor: hex,
-						borderColor: hex,
-						data: [PItag.Value.Value],
-						fill: false,
-						hidden:false,
-						yAxisID: tagconf.calltags
-					};
-					var newYaxis = {
-						id: tagconf.calltags,
-						display: true,
-						position: 'left',
-						ticks:{
-							fontColor:hex,
-							fontSize:12,
-							min: tagconf.min,
-							max: tagconf.max,
-							beginAtZero: false
-						},
-						gridLines:{
-							color:"rgb(52, 58, 64)",
-							display: false,
-						},
-						
-					};
-					this.charts[idChart].data.datasets.push(newDataset);
-					this.charts[idChart].config.options.scales.yAxes.push(newYaxis);
-					//console.log(this.charts[chart].data.datasets);
-					
-				}else{
-					
-					/**Para la grafica tipo  line , bar*/
-					///*
-					(datasetTag.data as number[]).push(PItag.Value.Value);
-					//tag.data.push(data);
-					//if(datasetTag.data.length > this.chartsControls[idChart].data_per_graph){
-					if(datasetTag.data.length > 10){
-						datasetTag.data.shift();
-					}
-					//*/
-	
-					/**Para la grafica tipo  horizontalBar*/
-					//(datasetTag.data as number[])=[PItag.Value.Value];
-				}
-				this.charts[idChart].update();
-				
-			}
-		//}
 		//console.log(this.charts);
 		//console.log(this.charts['chart_est_power_01'].data);
 	}
@@ -352,24 +182,17 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		this.initializeAt0();
 		this.cleanDataofCharts();
 	}
+	modifyChart(event){
+		// event es de tipo ChartControl
+		TAGS.listCharts[event.idChart]['controls'] = event;
 
-	private generateDataset(){
-		/*
-		var hex  = tagconf.color;
-		let rgba = BasChart.hexToRGB(tagconf.color,0.3);
-
-		var newDataset = {
-			id:tagconf.calltags,
-			rgba:rgba,
-			label: tagconf.label,
-			backgroundColor: hex,
-			borderColor: hex,
-			data: [chartTags.value],
-			fill: false,
-			hidden:false,
-			yAxisID: tagconf.calltags
-		};
-		//*/
+		BasChart.change_data_per_graph ( this.charts[event.idChart], TAGS.listCharts[event.idChart] );
+		BasChart.change_typa_chart     ( this.charts[event.idChart], TAGS.listCharts[event.idChart] );
+		BasChart.changeFill            ( this.charts[event.idChart], TAGS.listCharts[event.idChart] );
+		BasChart.change_point_radius   ( this.charts[event.idChart], TAGS.listCharts[event.idChart] );
+		BasChart.change_type_scale     ( this.charts[event.idChart], TAGS.listCharts[event.idChart], TAGS.lstTags );
+		BasChart.chart_update          ( this.charts[event.idChart] );
 	}
+
   }
   
