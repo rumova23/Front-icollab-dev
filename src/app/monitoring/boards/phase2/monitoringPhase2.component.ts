@@ -41,6 +41,44 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		this.subscribeEverySecond();
 		this.subscribeSocketOnStatus();
 		this.subscribeSocketChanels();
+
+
+
+		var myChart = new Chart('mychart',{
+			type: 'doughnut',
+			data: {
+				datasets: [{
+					data: [1,2],
+					label: 'Dataset 1',
+					borderWidth:0,
+					backgroundColor: [
+						"#46FF33",
+						"#363838",
+					],
+				}],
+				labels: [
+					'Green',
+					'Gray',
+				]
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				cutoutPercentage: 40,
+				legend: {
+					display: false,
+					position: 'top',
+				},
+				title: {
+					display: false,
+					text: ''
+				},
+				animation: {
+					animateScale: true,
+					animateRotate: true
+				}
+			}
+		} );
 	}
 	initializeAt0(){
 		for (const local_tag_key in TAGS.lstTags) {
