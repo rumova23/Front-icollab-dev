@@ -172,6 +172,7 @@ import { MonitoringPhase3Component }           from 'src/app/monitoring/boards/p
 import { MonitoringPhase2MockupComponent }     from 'src/app/monitoring/boards/phase2Mockup/monitoringPhase2Mockup.component';
 import { MonitoringPhase2Component }           from 'src/app/monitoring/boards/phase2/monitoringPhase2.component';
 import { MonitoringChartsControlsComponent }   from 'src/app/monitoring/common/chartsControls/monitoringChartsControls.component';
+import { MonitoringMmMarketComponent }         from 'src/app/monitoring/boards/mmMarket/monitoringMmMarket.component';
 
 /* ./Module Monitoring */
 
@@ -318,6 +319,7 @@ registerLocaleData(localePy, 'es');
     ,MonitoringPhase2MockupComponent
     ,MonitoringBaseSocketOnComponent
     ,MonitoringChartsControlsComponent
+    ,MonitoringMmMarketComponent
   ],
   imports: [
     BrowserModule,

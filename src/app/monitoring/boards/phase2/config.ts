@@ -1,7 +1,3 @@
-
-var getvalue=function(calltags,plant){
-    return this.lstTags;
-}
 export var listCharts = {
     chart_overview_item01_col01:{
         plant:"sol",

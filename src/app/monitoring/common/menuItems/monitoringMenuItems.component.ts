@@ -63,7 +63,9 @@ export class MonitoringMenuItemsComponent implements OnInit {
         case 'Fase 2 Mockup':
           option = 4;
           break;
-
+        case 'Mm Market':
+            option = 5;
+            break;
         default:
           option = 101;
           data = item;

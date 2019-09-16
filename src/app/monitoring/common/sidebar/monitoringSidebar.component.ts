@@ -53,6 +53,11 @@ export class MonitoringSidebarComponent implements OnInit {
       idFather:'',
       icon: 'insert_chart',
       label: 'Fase 2 Mockup'
+    },{
+      id: 'Mm Market',
+      idFather:'',
+      icon: 'insert_chart',
+      label: 'Mm Market'
     }
   ]; 
   constructor(private globalService: GlobalService,  

@@ -16,6 +16,7 @@ import { MonitoringWelcomeComponent }          from 'src/app/monitoring/home/wel
 import { MonitoringPhase2MockupComponent }     from 'src/app/monitoring/boards/phase2Mockup/monitoringPhase2Mockup.component';
 import { MonitoringPhase2Component }           from 'src/app/monitoring/boards/phase2/monitoringPhase2.component';
 import { MonitoringPhase3Component }           from 'src/app/monitoring/boards/phase3/monitoringPhase3.component';
+import { MonitoringMmMarketComponent }         from 'src/app/monitoring/boards/mmMarket/monitoringMmMarket.component';
 
 
 @Component({
@@ -23,7 +24,8 @@ import { MonitoringPhase3Component }           from 'src/app/monitoring/boards/p
 	templateUrl: './monitoringHome.component.html',
 	styleUrls: ['./monitoringHome.component.scss'],
 	entryComponents: [
-		MonitoringWelcomeComponent, ChangePasswordComponent, MonitoringPhase3Component, MonitoringPhase2Component, MonitoringPhase2MockupComponent
+		 MonitoringWelcomeComponent, ChangePasswordComponent, MonitoringPhase3Component, MonitoringPhase2Component, MonitoringPhase2MockupComponent
+		,MonitoringMmMarketComponent
 	]
 })
 export class MonitoringHomeComponent implements OnInit, OnDestroy {
@@ -182,6 +184,11 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 			case 4:
 				this.viewContainerRef.createComponent(
 				this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase2MockupComponent)
+				).changeDetectorRef.detectChanges();
+			break;
+			case 5:
+				this.viewContainerRef.createComponent(
+				this.componentFactoryResolver.resolveComponentFactory(MonitoringMmMarketComponent)
 				).changeDetectorRef.detectChanges();
 			break;
 			case 100:
