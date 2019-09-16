@@ -58,7 +58,7 @@ export const chartCreateConfig = function (controls){
 		legend: {
 			display: true,
 			labels:{
-				fontColor: 'red',
+				fontColor: '#ffffff',
 				fontSize:12,
 				usePointStyle:false,
 			}

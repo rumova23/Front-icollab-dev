@@ -43,12 +43,43 @@ export var listCharts = {
             }
         ],
     },
+    
     chart_eat_item01_col01:{
         plant:"aguila",
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
                 return lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value'];
+                }
+            },
+        ]
+    },
+    chart_eat_item02_col01:{
+        plant:"aguila",
+        controls:{},
+        tags:[
+            {calltags:"HeatRate",value:function(){
+                return lstTags["HeatRate"]['aguila'][0]['WebTag']['Value']['Value'];
+                }
+            },
+        ]
+    },
+    chart_eat_item03_col01:{
+        plant:"aguila",
+        controls:{},
+        tags:[
+            {calltags:"CapacityFactor",value:function(){
+                return lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value'];
+                }
+            },
+        ]
+    },
+    chart_eat_item04_col01:{
+        plant:"aguila",
+        controls:{},
+        tags:[
+            {calltags:"FuelGain",value:function(){
+                return lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value'];
                 }
             },
         ]
@@ -67,12 +98,43 @@ export var listCharts = {
             },    
         ]
     },
+
     chart_est_item01_col01:{
         plant:"sol",
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
                 return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
+                }
+            },
+        ]
+    },
+    chart_est_item02_col01:{
+        plant:"sol",
+        controls:{},
+        tags:[
+            {calltags:"HeatRate",value:function(){
+                return lstTags["HeatRate"]['sol'][0]['WebTag']['Value']['Value'];
+                }
+            },
+        ]
+    },
+    chart_est_item03_col01:{
+        plant:"sol",
+        controls:{},
+        tags:[
+            {calltags:"CapacityFactor",value:function(){
+                return lstTags["CapacityFactor"]['sol'][0]['WebTag']['Value']['Value'];
+                }
+            },
+        ]
+    },
+    chart_est_item04_col01:{
+        plant:"sol",
+        controls:{},
+        tags:[
+            {calltags:"FuelGain",value:function(){
+                return lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value'];
                 }
             },
         ]
@@ -94,9 +156,9 @@ export var listCharts = {
 }
 export var lstTags = [];
 lstTags['PowerOutput']         = {  label: 'Power Output'          ,min:0  ,max:1200   ,color:'#5d76d3'  ,aguila:[{WebId:'P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM',WebTag:null}]  ,sol:[{WebId:'F1DP4rhZAwFMREKDf7s8vylUqgkgYAAAUElUVlxULkxHUy5DRUEuNDY'   ,WebTag:null}]  ,overview:[{value:null,timestamp:null}]};
-lstTags['HeatRate']            = {  label: 'Presión atmosférica'   ,min:0  ,max:1200   ,color:'#d9d5fe'  ,aguila:[{WebId:'P0uQAgHoBd0ku7P3cWOJL6IgmSQAAAU0VSVklET1JfUElcUDJBMDgyMTM',WebTag:null}]  ,sol:[{WebId:'F1DP4rhZAwFMREKDf7s8vylUqg5gIAAAUElUVlw1MlBDLUFJLTAwNQ'    ,WebTag:null}]  ,overview:[{value:null,timestamp:null}]};
-lstTags['CapacityFactor']      = {  label: 'Humedad'               ,min:0  ,max:100    ,color:'#c5f327'  ,aguila:[{WebId:'P0uQAgHoBd0ku7P3cWOJL6IgmCQAAAU0VSVklET1JfUElcUDJBMDgyMTI',WebTag:null}]  ,sol:[{WebId:'F1DP4rhZAwFMREKDf7s8vylUqgtgIAAAUElUVlw1MlBDLUFJLTAwNA'    ,WebTag:null}]  ,overview:[{value:null,timestamp:null}]};
-lstTags['FuelGain']            = {  label: 'Potencia Neta'         ,min:0  ,max:590    ,color:'#9741f6'  ,aguila:[{WebId:'P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY',WebTag:null}]  ,sol:[{WebId:'F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz'      ,WebTag:null}]  ,overview:[{value:null,timestamp:null}]};
+lstTags['HeatRate']            = {  label: 'Heat Rate'             ,min:0  ,max:1200   ,color:'#d9d5fe'  ,aguila:[{WebId:'P0uQAgHoBd0ku7P3cWOJL6IgmSQAAAU0VSVklET1JfUElcUDJBMDgyMTM',WebTag:null}]  ,sol:[{WebId:'F1DP4rhZAwFMREKDf7s8vylUqg5gIAAAUElUVlw1MlBDLUFJLTAwNQ'    ,WebTag:null}]  ,overview:[{value:null,timestamp:null}]};
+lstTags['CapacityFactor']      = {  label: 'Capacity Factor'       ,min:0  ,max:100    ,color:'#c5f327'  ,aguila:[{WebId:'P0uQAgHoBd0ku7P3cWOJL6IgmCQAAAU0VSVklET1JfUElcUDJBMDgyMTI',WebTag:null}]  ,sol:[{WebId:'F1DP4rhZAwFMREKDf7s8vylUqgtgIAAAUElUVlw1MlBDLUFJLTAwNA'    ,WebTag:null}]  ,overview:[{value:null,timestamp:null}]};
+lstTags['FuelGain']            = {  label: 'Fuel Gain'             ,min:0  ,max:590    ,color:'#9741f6'  ,aguila:[{WebId:'P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY',WebTag:null}]  ,sol:[{WebId:'F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz'      ,WebTag:null}]  ,overview:[{value:null,timestamp:null}]};
 
 lstTags['PotenciaCCDV']        = {  label: 'Potencia CCDV'         ,min:0  ,max:590    ,color:'#9741f6'  ,aguila:[{WebId:'P0uQAgHoBd0ku7P3cWOJL6IgICUAAAU0VSVklET1JfUElcREFBMDgxMTE',WebTag:null}]  ,sol:[{WebId:'F1DP4rhZAwFMREKDf7s8vylUqg1QMAAAUElUVlxULkNFQS4yMjYy'      ,WebTag:null}]  ,overview:[{value:null,timestamp:null}]};
 lstTags['RegimenTermico']      = {  label: 'Régimen térmico'       ,min:0  ,max:14000  ,color:'#4cc900'  ,aguila:[{WebId:'P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM',WebTag:null}]  ,sol:[{WebId:'F1DP4rhZAwFMREKDf7s8vylUqgkgYAAAUElUVlxULkxHUy5DRUEuNDY'   ,WebTag:null}]  ,overview:[{value:null,timestamp:null}]};
