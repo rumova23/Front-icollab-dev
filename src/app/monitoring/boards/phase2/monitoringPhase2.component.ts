@@ -9,7 +9,6 @@ import { MonitoringBaseSocketOnComponent } from 'src/app/monitoring/class/monito
 import { ChartControl }                    from 'src/app/monitoring/models/ChartControl';
 import * as TAGS                           from 'src/app/monitoring/boards/phase2/config';
 import * as BasChart                       from 'src/app/monitoring/helpers/monitoringBaseChart.component';
-import { element } from 'protractor';
 
 
 @Component({
@@ -131,9 +130,11 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		}
 	}
 	initializeAt0(){
-		for (const calltag in TAGS.lstTags) {
-			if (TAGS.lstTags.hasOwnProperty(calltag)) {
-			this.calltags[calltag] = 0;
+		for (const local_tag_key in TAGS.lstTags) {
+			if (TAGS.lstTags.hasOwnProperty(local_tag_key)) {
+				this.calltags[local_tag_key+'-aguila']   = 0;
+				this.calltags[local_tag_key+'-sol']      = 0;
+				this.calltags[local_tag_key+'-overview'] = 0;
 			}
 		}
 	}
@@ -158,9 +159,14 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		this.charts[idChart]= new Chart(idChart, BasChart.chartCreateConfig(TAGS.listCharts[idChart]['controls']));
 	}
 	getchartControl(idChart){
-		return TAGS.listCharts[idChart]['controls'];
+		return TAGS.listCharts[idChart]?TAGS.listCharts[idChart]['controls'] : {idChart:false};
 	}
 	dataAdapter(data){
+		this.updateLocalTagValue(data);
+		this.updateLocalTagOverView();
+		this.addDataToChart();
+	}
+	addDataToChart(){
 		for (const idChart in TAGS.listCharts) {
 			if (TAGS.listCharts.hasOwnProperty(idChart)) {
 				if(this.check_time_refreseh_data(
@@ -168,40 +174,48 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					TAGS.listCharts[idChart]['controls']['timePast']
 				)){
 					TAGS.listCharts[idChart]['controls']['timePast'] = new Date();
-					this.addDataToChart(idChart,data);
+					this.addDatasetLine2(idChart);
 				}
 			}
 		}
 	}
-	addDataToChart(idChart,data){
-		this.getTagsPerChart(idChart,data);
-		this.addDatasetLine2(idChart);
-	}
-	getTagsPerChart(idChart,data){
-		let chart = TAGS.listCharts[idChart];
-		for(let dataTag of data[chart.plant].tags.Items){
-			for(let chartTags of chart.tags){
-				if(chartTags.webId == null){
-					let plant  = null;
-					switch(chart.plant){
-						case "aguila":
-							plant = 'webId_EAT';
-						break;
-						case "sol":
-							plant = 'webId_EST';
-						break;
+	updateLocalTagValue(data){
+		//let ii = Object.keys(TAGS.lstTags).length;
+		for(const web_Plant in data){
+			if(data.hasOwnProperty(web_Plant) && !["name","_id","_rev"].includes(web_Plant)){
+				for(const web_Tag of data[web_Plant]['tags']['Items']){
+					for (const local_Tag in TAGS.lstTags) {
+						if (TAGS.lstTags.hasOwnProperty(local_Tag)) {
+							const element = TAGS.lstTags[local_Tag];
+							for (const local_webIds of element[web_Plant]) {
+								if(local_webIds.WebId == web_Tag.WebId){
+									local_webIds.WebTag = web_Tag;
+								}
+							}
+						}
 					}
-					if(plant) chartTags.webId = TAGS.lstTags[chartTags.calltags][plant];
-				}
-				if(chartTags.webId == dataTag.WebId){
-					chartTags.value     = dataTag.Value.Value;
-					chartTags.timestamp = dataTag.Value.Timestamp
 				}
 			}
 		}
 	}
+	updateLocalTagOverView(){
+		for (const local_tag_key in TAGS.lstTags) {
+			if (TAGS.lstTags.hasOwnProperty(local_tag_key)) {
+				const local_tag  = TAGS.lstTags[local_tag_key];
+				const aguila     = local_tag.aguila[0]['WebTag'] ? local_tag.aguila[0]['WebTag']["Value"]["Value"] : 0;
+				const sol        = local_tag.sol[0]['WebTag']    ? local_tag.sol[0]['WebTag']["Value"]["Value"]    : 0;
+				const overview   = aguila + sol;
+				local_tag.overview[0]['value']           = overview;
+				this.calltags[local_tag_key+'-aguila']   = aguila;
+				this.calltags[local_tag_key+'-sol']      = sol;
+				this.calltags[local_tag_key+'-overview'] = overview;
+			}
+		}
+	}
+
 	addDatasetLine2(idChart){
 		let chart = TAGS.listCharts[idChart];
+
 		for(let chartTags of chart.tags){
 			let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets, chartTags.calltags);
 			let tagconf    = TAGS.lstTags[chartTags.calltags];
@@ -211,18 +225,18 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 				let rgba = BasChart.hexToRGB(tagconf.color,0.3);
 		
 				var newDataset = {
-					id:tagconf.calltags,
+					id:chartTags.calltags,
 					rgba:rgba,
 					label: tagconf.label,
 					backgroundColor: hex,
 					borderColor: hex,
-					data: [chartTags.value],
+					data: [chartTags.value()],
 					fill: false,
 					hidden:false,
-					yAxisID: tagconf.calltags
+					yAxisID: chartTags.calltags
 				};
 				var newYaxis = {
-					id: tagconf.calltags,
+					id: chartTags.calltags,
 					display: true,
 					position: 'left',
 					ticks:{
@@ -246,7 +260,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 				
 				/**Para la grafica tipo  line , bar*/
 				///*
-				(datasetTag.data as number[]).push(chartTags.value);
+				(datasetTag.data as number[]).push(chartTags.value());
 				//tag.data.push(data);
 				if(datasetTag.data.length > chart.controls.data_per_graph){
 					datasetTag.data.shift();
@@ -343,17 +357,19 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		/*
 		var hex  = tagconf.color;
 		let rgba = BasChart.hexToRGB(tagconf.color,0.3);
-		return {
-			id:calltag,
+
+		var newDataset = {
+			id:tagconf.calltags,
 			rgba:rgba,
 			label: tagconf.label,
-			backgroundColor: rgba,
+			backgroundColor: hex,
 			borderColor: hex,
-			data: [data],
+			data: [chartTags.value],
 			fill: false,
 			hidden:false,
-			yAxisID: calltag
-		};//*/
+			yAxisID: tagconf.calltags
+		};
+		//*/
 	}
   }
   
