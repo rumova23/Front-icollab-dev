@@ -1,6 +1,6 @@
 export var listCharts = {
     chart_overview_item01_col01:{
-        plant:"sol",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -10,7 +10,7 @@ export var listCharts = {
         ],
     },
     chart_overview_item02_col01:{
-        plant:"sol",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"HeatRate",value:function(){
@@ -20,7 +20,7 @@ export var listCharts = {
         ],
     },
     chart_overview_item03_col01:{
-        plant:"sol",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"CapacityFactor",value:function(){
@@ -30,7 +30,7 @@ export var listCharts = {
         ],
     },
     chart_overview_item04_col01:{
-        plant:"sol",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"FuelGain",value:function(){
@@ -41,7 +41,7 @@ export var listCharts = {
     },
 
     chart_eat_item01_col01:{
-        plant:"aguila",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -51,7 +51,7 @@ export var listCharts = {
         ]
     },
     chart_eat_item02_col01:{
-        plant:"aguila",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"HeatRate",value:function(){
@@ -61,7 +61,7 @@ export var listCharts = {
         ]
     },
     chart_eat_item03_col01:{
-        plant:"aguila",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"CapacityFactor",value:function(){
@@ -71,7 +71,7 @@ export var listCharts = {
         ]
     },
     chart_eat_item04_col01:{
-        plant:"aguila",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"FuelGain",value:function(){
@@ -81,7 +81,7 @@ export var listCharts = {
         ]
     },
     chart_eat_item01_col03:{
-        plant:"aguila",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"PotenciaCCDV",value:function(){
@@ -95,7 +95,7 @@ export var listCharts = {
         ]
     },
     chart_eat_item02_col03:{
-        plant:"aguila",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"PotenciaCCDV",value:function(){
@@ -109,7 +109,7 @@ export var listCharts = {
         ]
     },
     chart_eat_item03_col03:{
-        plant:"aguila",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"PotenciaCCDV",value:function(){
@@ -123,7 +123,7 @@ export var listCharts = {
         ]
     },
     chart_eat_item04_col03:{
-        plant:"aguila",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"PotenciaCCDV",value:function(){
@@ -138,7 +138,7 @@ export var listCharts = {
     },
 
     chart_est_item01_col01:{
-        plant:"sol",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -148,7 +148,7 @@ export var listCharts = {
         ]
     },
     chart_est_item02_col01:{
-        plant:"sol",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"HeatRate",value:function(){
@@ -158,7 +158,7 @@ export var listCharts = {
         ]
     },
     chart_est_item03_col01:{
-        plant:"sol",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"CapacityFactor",value:function(){
@@ -168,7 +168,7 @@ export var listCharts = {
         ]
     },
     chart_est_item04_col01:{
-        plant:"sol",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"FuelGain",value:function(){
@@ -178,7 +178,7 @@ export var listCharts = {
         ]
     },
     chart_est_item01_col03:{
-        plant:"sol",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"PotenciaCCDV",value:function(){
@@ -192,7 +192,7 @@ export var listCharts = {
         ]
     },
     chart_est_item02_col03:{
-        plant:"sol",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"PotenciaCCDV",value:function(){
@@ -206,7 +206,7 @@ export var listCharts = {
         ]
     },
     chart_est_item03_col03:{
-        plant:"sol",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"PotenciaCCDV",value:function(){
@@ -220,7 +220,7 @@ export var listCharts = {
         ]
     },
     chart_est_item04_col03:{
-        plant:"sol",
+        type:"line",
         controls:{},
         tags:[
             {calltags:"PotenciaCCDV",value:function(){
@@ -232,7 +232,320 @@ export var listCharts = {
                 }
             },    
         ]
-    }
+    },
+
+    
+    chart_eat_item01_col02_col01_it01:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_eat_item01_col02_col02_it01:{
+        type:"doughnut_completo",
+        color:"red",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_eat_item01_col02_col03_it01:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_eat_item01_col02_col01_it02:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_eat_item01_col02_col02_it02:{
+        type:"doughnut_completo",
+        color:"red",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_eat_item01_col02_col03_it02:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_eat_item01_col02_col01_it03:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_eat_item01_col02_col02_it03:{
+        type:"doughnut_completo",
+        color:"red",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_eat_item01_col02_col03_it03:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);
+                return temp;
+                }
+            }  
+        ]
+    },
+
+
+    chart_est_item01_col02_col01_it01:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_est_item01_col02_col02_it01:{
+        type:"doughnut_completo",
+        color:"red",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_est_item01_col02_col03_it01:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_est_item01_col02_col01_it02:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_est_item01_col02_col02_it02:{
+        type:"doughnut_completo",
+        color:"red",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_est_item01_col02_col03_it02:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_est_item01_col02_col01_it03:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_est_item01_col02_col02_it03:{
+        type:"doughnut_completo",
+        color:"red",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_est_item01_col02_col03_it03:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);
+                return temp;
+                }
+            }  
+        ]
+    },
+
+
+    
 }
 export var lstTags = [];
 lstTags['PowerOutput']         = {  label: 'Power Output'          ,min:0  ,max:1200   ,color:'#5d76d3'  ,aguila:[{WebId:'P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM',WebTag:null}]  ,sol:[{WebId:'F1DP4rhZAwFMREKDf7s8vylUqgkgYAAAUElUVlxULkxHUy5DRUEuNDY'   ,WebTag:null}]  ,overview:[{value:null,timestamp:null}]};

@@ -43,7 +43,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		this.subscribeSocketChanels();
 
 
-
+		/*
 		var myChart = new Chart('mychart',{
 			type: 'doughnut',
 			data: {
@@ -78,7 +78,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					animateRotate: true
 				}
 			}
-		} );
+		} );//*/
 	}
 	initializeAt0(){
 		for (const local_tag_key in TAGS.lstTags) {
@@ -104,6 +104,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 	}
 
 	createChart(idChart){
+		
 		TAGS.listCharts[idChart]['controls'] = {
 			idChart        : idChart,
 			type_graph     : 'line',
@@ -114,7 +115,17 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 			time_refreseh  : 3,
 			timePast       : new Date()
 		};
-		this.charts[idChart]= new Chart(idChart, BasChart.chartCreateConfig(TAGS.listCharts[idChart]['controls']));
+
+		switch (TAGS.listCharts[idChart].type) {
+			case "doughnut_completo":
+					this.charts[idChart]= new Chart(idChart, BasChart.doughnutCompletoConfig() );
+				break;
+		
+			default:
+					this.charts[idChart]= new Chart(idChart, BasChart.chartCreateConfig(TAGS.listCharts[idChart]['controls']));
+				break;
+		}
+		
 	}
 	getchartControl(idChart){
 		return TAGS.listCharts[idChart]?TAGS.listCharts[idChart]['controls'] : {idChart:false};
@@ -166,12 +177,68 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					TAGS.listCharts[idChart]['controls']['timePast']
 				)){
 					TAGS.listCharts[idChart]['controls']['timePast'] = new Date();
-					this.addDatasetLine(idChart);
+					switch (TAGS.listCharts[idChart].type) {
+						case "doughnut_completo":
+							
+							this.addDataset_doughnut_completo(idChart);
+							break;
+						default:
+							this.addDatasetLine(idChart);
+							break;
+					}
 				}
 			}
 		}
 	}
+	addDataset_doughnut_completo(idChart){
+		let chart = TAGS.listCharts[idChart];
 
+		for(let chartTag of chart.tags){
+			let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets, chartTag.calltags);
+			let tagconf    = TAGS.lstTags[chartTag.calltags];
+
+			if(datasetTag == undefined){
+		
+				var hex  = tagconf.color;
+				let rgba = BasChart.hexToRGB(tagconf.color,0.3);
+				
+				
+				var newDataset = {
+					id:chartTag.calltags,
+					rgba:rgba,
+					label: tagconf.label,
+					data: chartTag.value(),
+					borderWidth:0,
+					backgroundColor: [
+						chart.color,
+						"#363838",
+					]
+				};
+			
+				
+				this.charts[idChart].data.datasets.push(newDataset);
+				//console.log(this.charts[chart].data.datasets);
+				
+			}else{
+				
+				/**Para la grafica tipo  line , bar*/
+				/*
+				(datasetTag.data as number[]).push(chartTag.value());
+				//tag.data.push(data);
+				if(datasetTag.data.length > chart.controls.data_per_graph){
+					datasetTag.data.shift();
+				}
+				//*/
+
+				/**Para la grafica tipo  horizontalBar*/
+				(datasetTag.data as number[])=chartTag.value();
+			}
+			
+		}
+		this.charts[idChart].update();
+		//console.log(this.charts);
+		//console.log(this.charts['chart_est_power_01'].data);
+	}
 	addDatasetLine(idChart){
 		let chart = TAGS.listCharts[idChart];
 

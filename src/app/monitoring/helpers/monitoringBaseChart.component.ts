@@ -96,6 +96,33 @@ export const chartCreateConfig = function (controls){
 	}
 	};
 }
+export const doughnutCompletoConfig = function(){
+	return {
+		type: 'doughnut',
+		data: {
+			datasets: [],
+			labels: [
+				'Green',
+				'Gray',
+			]
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			cutoutPercentage: 40,
+			legend: {
+				display: false,
+			},
+			title: {
+				display: false,
+			},
+			animation: {
+				animateScale: true,
+				animateRotate: true
+			}
+		}
+	};
+}
 export const getDatasetTag = function (lst,calltag){
 	/*El método find() devuelve el valor del primer elemento 
 	del array que cumple la función de prueba proporcionada. 
