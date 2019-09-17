@@ -180,9 +180,37 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 			let tagconf    = TAGS.lstTags[chartTag.calltags];
 			if(datasetTag == undefined){
 		
-				var newDataset = BasChart.generateDataset(chartTag,tagconf);
-				var newYaxis = BasChart.generateYaxis(chartTag,tagconf);
-
+				var hex  = tagconf.color;
+				let rgba = BasChart.hexToRGB(tagconf.color,0.3);
+		
+				var newDataset = {
+					id:chartTag.calltags,
+					rgba:rgba,
+					label: tagconf.label,
+					backgroundColor: hex,
+					borderColor: hex,
+					data: [chartTag.value()],
+					fill: false,
+					hidden:false,
+					yAxisID: chartTag.calltags
+				};
+				var newYaxis = {
+					id: chartTag.calltags,
+					display: true,
+					position: 'left',
+					ticks:{
+						fontColor:hex,
+						fontSize:12,
+						//min: tagconf.min,
+						//max: tagconf.max,
+						//beginAtZero: false
+					},
+					gridLines:{
+						color:"rgb(52, 58, 64)",
+						display: false,
+					},
+					
+				};
 				
 				this.charts[idChart].data.datasets.push(newDataset);
 				this.charts[idChart].config.options.scales.yAxes.push(newYaxis);
