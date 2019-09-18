@@ -38,6 +38,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
   dev_view_lstTags = [];
   isdemo      = false;
   calltags    = [];
+  calltagsObj=[];
   chart_01    : Chart;
   chart_modal : Chart;
   chart_rt    : Chart;
@@ -288,6 +289,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		for (const calltag in M3.lstTags) {
 			if (M3.lstTags.hasOwnProperty(calltag)) {
 			this.calltags[calltag] = 0;
+			this.calltagsObj[calltag]       = {Name:""};
 			}
 		}
 	}
@@ -467,7 +469,8 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 			  }
 			}
 			if(mydata != null){
-				if(mydata.WebId == "P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM"){// regimen termico
+				if(bandera){// regimen termico
+					bandera = false;
 					let time3 = this.fechaActual.getHours() + ":" + this.fechaActual.getMinutes() + ":" + this.fechaActual.getSeconds();
 					this.chart_01.data.labels.push(time3);
 					if(this.chart_01.data.labels.length >= this.data_per_graph_main+1){
@@ -477,8 +480,10 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 			  let datoprocesado = null;
 			  if(tagconf.typadata == 'float')     datoprocesado = parseFloat(mydata.Value.Value);
 			  else if(tagconf.typadata == 'int')  datoprocesado = parseInt(mydata.Value.Value);
+			  //console.log(mydata);
 			  
 			  this.calltags[tagconf.calltags]          = datoprocesado;
+			  this.calltagsObj[tagconf.calltags]       = mydata;
 			  
 			  this.addDataset(mydata, tagconf,tagconf.calltags,datoprocesado);
 			  this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt');
