@@ -65,7 +65,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
   myinterval = null;
   time_on_request : number = 3;//4000;
   time_refreseh_data : number = 5;
-  data_per_graph_main = 10;
+  data_per_graph_main = 5;
   type_graph_main = 'line';
   dynamic_scale = 'static';
   chart_01_fill = "false";
@@ -85,7 +85,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
   chart_config_1 = {
     type: 'line'
     ,data: {
-      labels: new Array(this.data_per_graph_main)
+      labels: []
       //labels: ["k1","k2",'k3','k4']
       ,datasets: []
     }
@@ -451,6 +451,8 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		//*/
 	}
 	dataAdapter(data){
+		let bandera = true;
+		
 		for (const calltag in M3.lstTags) {
 		  if (M3.lstTags.hasOwnProperty(calltag)) {
 			let mydata = null;
@@ -458,21 +460,27 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 			const tagconf  = M3.lstTags[calltag];
 			const webID    = (this.globalService.plant.name === "AGUILA")?tagconf.webId_EAT:tagconf.webId_EST;
 			
-			for(const tag of data.tags.Items){
+			for(let tag of data.tags.Items){
 			  if(tag.WebId == webID){
 				mydata = tag;
 				break;
 			  }
 			}
 			if(mydata != null){
-	
+				if(mydata.WebId == "P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM"){// regimen termico
+					let time3 = this.fechaActual.getHours() + ":" + this.fechaActual.getMinutes() + ":" + this.fechaActual.getSeconds();
+					this.chart_01.data.labels.push(time3);
+					if(this.chart_01.data.labels.length >= this.data_per_graph_main+1){
+						this.chart_01.data.labels.shift();
+					}
+				}
 			  let datoprocesado = null;
 			  if(tagconf.typadata == 'float')     datoprocesado = parseFloat(mydata.Value.Value);
 			  else if(tagconf.typadata == 'int')  datoprocesado = parseInt(mydata.Value.Value);
 			  
 			  this.calltags[tagconf.calltags]          = datoprocesado;
 			  
-			  this.addDataset(tagconf,tagconf.calltags,datoprocesado);
+			  this.addDataset(mydata, tagconf,tagconf.calltags,datoprocesado);
 			  this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt');
 			  this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRPM','getCTDosRPM','getTVRPM'],'chart_rpm');
 			  this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoMW','getCTDosMW','getTVMW'],'chart_mw');
@@ -522,7 +530,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		return (this.time_refreseh_data - 1) < ( ( this.fechaActual.getTime() - this.fechaActualAnterior.getTime() ) / 1000) ;
 	}
 	updateChartMain(form){
-		this.chart_01.data.labels  = new Array(form.value.data_per_graph_main);
+		//this.chart_01.data.labels  = new Array(form.value.data_per_graph_main);
 		this.time_refreseh_data    = form.value.time_refreseh_data;
 		this.data_per_graph_main   = form.value.data_per_graph_main;
 		this.dynamic_scale         = form.value.dynamic_scale;
@@ -540,6 +548,11 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 			,element.data.length);
 		}
 		});
+		if(form.value.data_per_graph_main < this.chart_01.data.labels.length){
+			this.chart_01.data.labels = this.chart_01.data.labels.slice(
+			this.chart_01.data.labels.length - form.value.data_per_graph_main
+			,this.chart_01.data.labels.length);
+		}
 
 		this.change_graph_dynamic_scale();
 
@@ -698,7 +711,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		}
 
 	}
-	addDataset(tagconf,calltag,data){
+	addDataset(mydata, tagconf,calltag,data){
 		let existDataset = function (tag) {
 		return (tag.id === calltag);
 		};
@@ -744,6 +757,9 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 			return "rgb("+ +r + "," + +g + "," + +b + ","+a+")";
 		  }
 		
+		  let tiempo = new Date(mydata.Value.Timestamp);
+		  var time = tiempo.getHours() + ":" + tiempo.getMinutes() + ":" + tiempo.getSeconds();
+		  
 		let tag = this.chart_01.data.datasets.find(existDataset);
 		if(tag == undefined){
 		let rgba = hexToRGB(tagconf.color,0.3);
@@ -752,7 +768,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		var newDataset = {
 			id:calltag,
 			rgba:rgba,
-			label: M3.lstTags[calltag].label,
+			label: M3.lstTags[calltag].label+" : "+mydata.Value.Timestamp,
 			backgroundColor: rgba,
 			borderColor: hex,
 			data: [data],
@@ -789,6 +805,10 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		this.yAxes_main[calltag]   = this.chart_01.config.options.scales.yAxes[this.chart_01.config.options.scales.yAxes.length-1];
 		
 		}else{
+			
+			let tiempo = new Date(mydata.Value.Timestamp);
+			var time = tiempo.getHours() + ":" + tiempo.getMinutes() + ":" + tiempo.getSeconds();
+			tag.label= M3.lstTags[calltag].label+" : "+mydata.Value.Timestamp+" : "+time;
 		(tag.data as number[]).push(data);
 		//tag.data.push(data);
 		if(tag.data.length >= this.chart_01.data.labels.length+1){
@@ -860,7 +880,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		return "";
 	}
 	peticion(calltag, tagconf, webID){
-		///*
+		/*
 		if(this.isdemo){
 		this.calltags[calltag]          = Math.random() * (500 - 51) + 51;
 
