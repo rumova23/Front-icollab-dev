@@ -221,3 +221,11 @@ animation-iteration-count: infinite;
 	height: 300px;
 	width: 100%;
 }
+
+.mytooltip .tooltip-inner {
+	background-color: darkgreen !important;
+	font-size: 12px !important;
+}
+.mytooltip .arrow::before {
+	border-top-color: darkgreen !important;
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ViewEncapsulation} from '@angular/core';
 import { environment } from  'src/environments/environment';
 import { MonitoringPhase3Service }   from '../../services/monitoringPhase3.service';
 import { EventService } from 'src/app/core/services/event.service';
@@ -28,6 +28,7 @@ import { ThemeService } from 'src/app/core/globals/theme';
 @Component({
   selector: 'app-monitoringPhase3',
   templateUrl: './monitoringPhase3.component.html',
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./monitoringPhase3.component.css'],
 })
 export class MonitoringPhase3Component implements OnInit, OnDestroy {
@@ -480,7 +481,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 			  let datoprocesado = null;
 			  if(tagconf.typadata == 'float')     datoprocesado = parseFloat(mydata.Value.Value);
 			  else if(tagconf.typadata == 'int')  datoprocesado = parseInt(mydata.Value.Value);
-			  //console.log(mydata);
+			  console.log(mydata);
 			  
 			  this.calltags[tagconf.calltags]          = datoprocesado;
 			  this.calltagsObj[tagconf.calltags]       = mydata;

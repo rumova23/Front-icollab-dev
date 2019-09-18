@@ -51,7 +51,8 @@
                             </div>
                             <div class="divider dropdown-divider"></div>
                             <a class="dropdown-item" 
-                                (click)="datasetToggleChartMain('getTemperaturaAmbiente')  data-toggle="tooltip" data-html="true" title="{{calltagsObj['getTemperaturaAmbiente']['Name']}}""
+                            <ng-template #tip_getTemperaturaAmbiente><b>{{calltagsObj['getTemperaturaAmbiente']['Name']}}</b></ng-template>    
+                            (click)="datasetToggleChartMain('getTemperaturaAmbiente')  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTemperaturaAmbiente""
                                 [ngStyle]="{'background-color':
                                 (dataset_main['getTemperaturaAmbiente'] !== undefined) && (!dataset_main['getTemperaturaAmbiente'].hidden)
                                     ? 
@@ -74,7 +75,8 @@
   
             <div class="row">
                 <div class="col">
-                    <div (click)="datasetToggleChartMain('getTemperaturaAmbiente')" data-toggle="tooltip" data-html="true" title="{{calltagsObj['getTemperaturaAmbiente']['Name']}}">
+                    <ng-template #tip_getTemperaturaAmbiente><b>{{calltagsObj['getTemperaturaAmbiente']['Name']}}</b></ng-template>
+                    <div (click)="datasetToggleChartMain('getTemperaturaAmbiente')" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTemperaturaAmbiente">
                         <span class="badge" 
                                 style="vertical-align:super;font-size: .3rem; "
                                 [ngStyle]="{'background-color':dataset_main['getTemperaturaAmbiente'].borderColor}"
@@ -103,7 +105,8 @@
             <hr>
             <div class="row">
                 <div class="col">
-                    <div (click)="datasetToggleChartMain('getPresionAtmosferica')"  data-toggle="tooltip" data-html="true" title="{{calltagsObj['getPresionAtmosferica']['Name']}}">
+                    <ng-template #tip_getPresionAtmosferica><b>{{calltagsObj['getPresionAtmosferica']['Name']}}</b></ng-template>
+                    <div (click)="datasetToggleChartMain('getPresionAtmosferica')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getPresionAtmosferica">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getPresionAtmosferica'].borderColor}"
@@ -127,7 +130,8 @@
             </div>
             <div class="row">
                 <div class="col-11">
-                    <div (click)="datasetToggleChartMain('gethumedad')"  data-toggle="tooltip" data-html="true" title="{{calltagsObj['gethumedad']['Name']}}">
+                    <ng-template #tip_gethumedad><b>{{calltagsObj['gethumedad']['Name']}}</b></ng-template>
+                    <div (click)="datasetToggleChartMain('gethumedad')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_gethumedad">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['gethumedad'].borderColor}"
@@ -168,8 +172,9 @@
                 </div-->
             </div>
             <div class="row">
+                <ng-template #tip_getPotenciaNeta><b>{{calltagsObj['getPotenciaNeta']['Name']}}</b></ng-template>    
                 <div class="col text-center" 
-                    (click)="datasetToggleChartMain('getPotenciaNeta')"  data-toggle="tooltip" data-html="true" title="{{calltagsObj['getPotenciaNeta']['Name']}}">
+                (click)="datasetToggleChartMain('getPotenciaNeta')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getPotenciaNeta">
                     <span class="badge badge-pill myicon"
                         [ngClass]="{
                             'eclipse-azul':(dataset_main['getPotenciaNeta'] !== undefined) && !dataset_main['getPotenciaNeta'].hidden ,
@@ -192,8 +197,9 @@
                         {{fechaActual | date:'HH:mm:ss'}} 
                     </span>
                 </div>
+                <ng-template #tip_getPotenciaCCDV><b>{{calltagsObj['getPotenciaCCDV']['Name']}}</b></ng-template>    
                 <div class="col text-center" 
-                    (click)="datasetToggleChartMain('getPotenciaCCDV')"  data-toggle="tooltip" data-html="true" title="{{calltagsObj['getPotenciaCCDV']['Name']}}">
+                (click)="datasetToggleChartMain('getPotenciaCCDV')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getPotenciaCCDV">
                     <span class="badge badge-pill myicon"
                         [ngClass]="{
                             'eclipse-morado': (dataset_main['getPotenciaCCDV'] !== undefined) && !dataset_main['getPotenciaCCDV'].hidden ,
@@ -217,8 +223,9 @@
                         {{fechaActual | date:'HH:mm:ss'}}
                     </span>
                 </div>
+                <ng-template #tip_getRegimenTermico><b>{{calltagsObj['getRegimenTermico']['Name']}}</b></ng-template>    
                 <div class="col text-center" 
-                    (click)="datasetToggleChartMain('getRegimenTermico')"  data-toggle="tooltip" data-html="true" title="{{calltagsObj['getRegimenTermico']['Name']}}">
+                (click)="datasetToggleChartMain('getRegimenTermico')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getRegimenTermico">
                     <span class="badge badge-pill myicon"
                         [ngClass]="{
                             'eclipse-verde': (dataset_main['getRegimenTermico'] !== undefined) && !dataset_main['getRegimenTermico'].hidden && (calltags['getRegimenTermico'] != 0) ,
@@ -338,7 +345,8 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoGas')"  data-toggle="tooltip" data-html="true" title="{{calltagsObj['getCTUnoGas']['Name']}}">
+                    <ng-template #tip_getCTUnoGas><b>{{calltagsObj['getCTUnoGas']['Name']}}</b></ng-template>
+                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoGas')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoGas">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getCTUnoGas'].borderColor}"
@@ -362,7 +370,8 @@
                         </span>
                     </div>
  
-                    <div class="col txtcenter" *ngIf="theme.visibilityTag('getCTUnoDiesel')" (click)="datasetToggleChartMain('getCTUnoDiesel')"  data-toggle="tooltip" data-html="true" title="{{calltagsObj['getCTUnoDiesel']['Name']}}">
+                    <ng-template #tip_getCTUnoDiesel><b>{{calltagsObj['getCTUnoDiesel']['Name']}}</b></ng-template>
+                    <div class="col txtcenter" *ngIf="theme.visibilityTag('getCTUnoDiesel')" (click)="datasetToggleChartMain('getCTUnoDiesel')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoDiesel">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getCTUnoDiesel'].borderColor}"
@@ -385,7 +394,8 @@
                             T/h
                         </span>
                     </div>
-                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoRT')"  data-toggle="tooltip" data-html="true" title="{{calltagsObj['getCTUnoRT']['Name']}}">
+                    <ng-template #tip_getCTUnoRT><b>{{calltagsObj['getCTUnoRT']['Name']}}</b></ng-template>
+                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoRT')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoRT">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getCTUnoRT'].borderColor}"
@@ -408,7 +418,8 @@
                             KJ/KWh 
                         </span>
                     </div>
-                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoMW')"  data-toggle="tooltip" data-html="true" title="{{calltagsObj['getCTUnoMW']['Name']}}">
+                    <ng-template #tip_getCTUnoMW><b>{{calltagsObj['getCTUnoMW']['Name']}}</b></ng-template>
+                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoMW')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoMW">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getCTUnoMW'].borderColor}"
@@ -442,7 +453,8 @@
                 </div>
             </div>
             <div class="row mt-1">
-                <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoRPM')"  data-toggle="tooltip" data-html="true" title="{{calltagsObj['getCTUnoRPM']['Name']}}">
+                <ng-template #tip_getCTUnoRPM><b>{{calltagsObj['getCTUnoRPM']['Name']}}</b></ng-template>
+                <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoRPM')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoRPM">
                     <span class="badge" 
                         style="vertical-align:super;font-size: .3rem; "
                         [ngStyle]="{'background-color':dataset_main['getCTUnoRPM'].borderColor}"
@@ -477,7 +489,8 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosGas')"  data-toggle="tooltip" data-html="true" title="{{calltagsObj['getCTDosGas']['Name']}}">
+                    <ng-template #tip_getCTDosGas><b>{{calltagsObj['getCTDosGas']['Name']}}</b></ng-template>
+                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosGas')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosGas">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getCTDosGas'].borderColor}"
@@ -501,7 +514,8 @@
                             NM3/h
                         </span>
                     </div>
-                    <div class="col txtcenter" *ngIf="theme.visibilityTag('getCTDosDiesel')" (click)="datasetToggleChartMain('getCTDosDiesel')"  data-toggle="tooltip" data-html="true" title="{{calltagsObj['getCTDosDiesel']['Name']}}">
+                    <ng-template #tip_getCTDosDiesel><b>{{calltagsObj['getCTDosDiesel']['Name']}}</b></ng-template>
+                    <div class="col txtcenter" *ngIf="theme.visibilityTag('getCTDosDiesel')" (click)="datasetToggleChartMain('getCTDosDiesel')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosDiesel">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getCTDosDiesel'].borderColor}"
@@ -525,7 +539,8 @@
                             T/h
                         </span>
                     </div>
-                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosRT')" data-toggle="tooltip" data-html="true" title="{{calltagsObj['getCTDosRT']['Name']}}">	
+                    <ng-template #tip_getCTDosRT><b>{{calltagsObj['getCTDosRT']['Name']}}</b></ng-template>
+                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosRT')" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosRT">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getCTDosRT'].borderColor}"
@@ -549,7 +564,8 @@
                             KJ/KWh 
                         </span>
                     </div>
-                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosMW')"  data-toggle="tooltip" data-html="true" title="{{calltagsObj['getCTDosMW']['Name']}}">
+                    <ng-template #tip_getCTDosMW><b>{{calltagsObj['getCTDosMW']['Name']}}</b></ng-template>
+                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosMW')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosMW">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getCTDosMW'].borderColor}"
@@ -587,7 +603,8 @@
                 </div>
             </div>
             <div class="row mt-3">
-                <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosRPM')" data-toggle="tooltip" data-html="true" title="{{calltagsObj['getCTDosRPM']['Name']}}"	>
+                <ng-template #tip_getCTDosRPM><b>{{calltagsObj['getCTDosRPM']['Name']}}</b></ng-template>
+                <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosRPM')" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosRPM">
                     <span class="badge" 
                         style="vertical-align:super;font-size: .3rem; "
                         [ngStyle]="{'background-color':dataset_main['getCTDosRPM'].borderColor}"
@@ -623,7 +640,8 @@
                 <hr>
                 
                 <div class="row w550">
-                    <div class="col txtcenter" (click)="datasetToggleChartMain('getTVRT')"  data-toggle="tooltip" data-html="true" title="{{calltagsObj['getTVRT']['Name']}}">
+                    <ng-template #tip_getTVRT><b>{{calltagsObj['getTVRT']['Name']}}</b></ng-template>
+                    <div class="col txtcenter" (click)="datasetToggleChartMain('getTVRT')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTVRT">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getTVRT'].borderColor}"
@@ -647,7 +665,8 @@
                             KJ/KWh
                         </span>
                     </div>
-                    <div class="col txtcenter" (click)="datasetToggleChartMain('getTVMW')"  data-toggle="tooltip" data-html="true" title="{{calltagsObj['getTVMW']['Name']}}">
+                    <ng-template #tip_getTVMW><b>{{calltagsObj['getTVMW']['Name']}}</b></ng-template>
+                    <div class="col txtcenter" (click)="datasetToggleChartMain('getTVMW')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTVMW">
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getTVMW'].borderColor}"
@@ -687,7 +706,8 @@
                 </div>
             </div>
             <div class="row mt-3">
-                <div class="col txtcenter" (click)="datasetToggleChartMain('getTVRPM')"  data-toggle="tooltip" data-html="true" title="{{calltagsObj['getTVRPM']['Name']}}">
+                <ng-template #tip_getTVRPM><b>{{calltagsObj['getTVRPM']['Name']}}</b></ng-template>
+                <div class="col txtcenter" (click)="datasetToggleChartMain('getTVRPM')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTVRPM">
                     <span class="badge" 
                         style="vertical-align:super;font-size: .3rem; "
                         [ngStyle]="{'background-color':dataset_main['getTVRPM'].borderColor}"
