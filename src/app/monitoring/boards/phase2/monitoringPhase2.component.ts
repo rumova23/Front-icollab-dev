@@ -165,21 +165,68 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 				if(["PowerOutput","HeatRate","HeatRateCorreg"].includes(local_tag_key)){
 					const aguila     = local_tag.aguila[0]['WebTag'] ? local_tag.aguila[0]['WebTag']["Value"]["Value"] : 0;
 					const sol        = local_tag.sol[0]['WebTag']    ? local_tag.sol[0]['WebTag']["Value"]["Value"]    : 0;
-					const overview   = aguila + sol;
+					let overview     = aguila + sol;
+					if(local_tag_key == "HeatRate"){
+						overview     = (aguila + sol)/2;
+					}
 					local_tag.overview[0]['value']           = overview;
 					this.calltags[local_tag_key+'-aguila']   = aguila;
 					this.calltags[local_tag_key+'-sol']      = sol;
 					this.calltags[local_tag_key+'-overview'] = overview;
-				}else if(["CapacityFactor","FuelGain"].includes(local_tag_key)){
-					let algo0 = TAGS.lstTags['PowerOutput']['aguila']['WebTag']["Value"]["Value"];
-					let algo = TAGS.lstTags['PowerOutput']['aguila']['WebTag']["Value"]["Value"];
-					debugger;
-					let temp={Value:{Timestamp: "2019-09-19T00:08:22.8810119Z",
-						Value: (
-							(TAGS.lstTags['PowerOutput']['aguila']['WebTag']["Value"]["Value"] / 495 )*100
-						)}}
-						local_tag.aguila[0]['WebTag']= temp;
-						debugger;
+				}else if(["CapacityFactor"].includes(local_tag_key)){
+					let aguila_value = TAGS.lstTags['PowerOutput']['aguila'][0]['WebTag']["Value"]["Value"];
+					let value = (aguila_value / 495 )*100;
+					if(value > 100) value = 100;
+					let aguila_temp={Value:{Timestamp: "2019-09-19T00:08:22.8810119Z",Value: value}}
+					local_tag.aguila[0]['WebTag']= aguila_temp;
+
+					let sol_value = TAGS.lstTags['PowerOutput']['sol'][0]['WebTag']["Value"]["Value"];
+					let valuesol = (sol_value / 495 )*100;
+					if(value > 100) value = 100;
+					let sol_temp={Value:{Timestamp: "2019-09-19T00:08:22.8810119Z",Value: valuesol}}
+					local_tag.sol[0]['WebTag']= sol_temp;
+
+
+
+					const aguila     = local_tag.aguila[0]['WebTag'] ? local_tag.aguila[0]['WebTag']["Value"]["Value"] : 0;
+					const sol        = local_tag.sol[0]['WebTag']    ? local_tag.sol[0]['WebTag']["Value"]["Value"]    : 0;
+					let overview     = aguila + sol;
+					if(local_tag_key == "CapacityFactor"){
+						overview     = (aguila + sol)/2;
+					}
+					local_tag.overview[0]['value']           = overview;
+					this.calltags[local_tag_key+'-aguila']   = aguila;
+					this.calltags[local_tag_key+'-sol']      = sol;
+					this.calltags[local_tag_key+'-overview'] = overview;
+				}else if(["FuelGain"].includes(local_tag_key)){
+
+					let aguila_HeatRateCorreg = TAGS.lstTags['HeatRateCorreg']['aguila'][0]['WebTag']["Value"]["Value"];
+					let aguila_HeatRate       = TAGS.lstTags['HeatRate']['aguila'][0]['WebTag']["Value"]["Value"];
+					let aguila_value          = (((aguila_HeatRateCorreg-aguila_HeatRate) * 0.00004596  ) / 20.03);
+					let aguila_temp           = {Value:{Timestamp: "2019-09-19T00:08:22.8810119Z",Value: aguila_value}}
+					local_tag.aguila[0]['WebTag']= aguila_temp;
+
+					
+					let sol_HeatRateCorreg = TAGS.lstTags['HeatRateCorreg']['sol'][0]['WebTag']["Value"]["Value"];
+					let sol_HeatRate       = TAGS.lstTags['HeatRate']['sol'][0]['WebTag']["Value"]["Value"];
+					let sol_value          = sol_HeatRateCorreg-sol_HeatRate;
+					let sol_temp           = {Value:{Timestamp: "2019-09-19T00:08:22.8810119Z",Value: sol_value}}
+					local_tag.sol[0]['WebTag']= sol_temp;
+
+
+
+					
+
+					const aguila     = local_tag.aguila[0]['WebTag'] ? local_tag.aguila[0]['WebTag']["Value"]["Value"] : 0;
+					const sol        = local_tag.sol[0]['WebTag']    ? local_tag.sol[0]['WebTag']["Value"]["Value"]    : 0;
+					let overview     = aguila + sol;
+					if(local_tag_key == "CapacityFactor"){
+						overview     = (aguila + sol)/2;
+					}
+					local_tag.overview[0]['value']           = overview;
+					this.calltags[local_tag_key+'-aguila']   = aguila;
+					this.calltags[local_tag_key+'-sol']      = sol;
+					this.calltags[local_tag_key+'-overview'] = overview;
 				}
 			}
 		}
