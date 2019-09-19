@@ -119,7 +119,7 @@ import { registerLocaleData } from '@angular/common';
 
 
 
-import localePy from '@angular/common/locales/es-PY';
+import localePy from '@angular/common/locales/es-MX';
 import { InvoicesComponent } from './safe/admin/invoices/invoices.component';
 import { FuecdEditComponent } from './safe/admin/fuecd/edit/fuecdEdit.component';
 import { FileUploadComponent } from './common/fileUpload/fileUpload.component';
