@@ -523,6 +523,10 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		this['chart_rpm'].update();
 		this['chart_mw'].update();
 		this['chart_rt_t1'].update();
+
+		this.chart_01.data.labels = [];
+
+
 		this.chart_01.update();
 	}
 	whenLosingConnection(){
