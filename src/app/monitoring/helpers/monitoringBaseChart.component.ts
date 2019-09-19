@@ -35,7 +35,7 @@ export const generateColorHEX = function(calltag){
 export const chartCreateConfig = function (controls){
 	
 	return {
-	type: 'line'
+	type: controls['type_graph']
 	,data: {
 		labels: new Array(controls['data_per_graph'])
 		//labels: ["k1","k2","k3"]

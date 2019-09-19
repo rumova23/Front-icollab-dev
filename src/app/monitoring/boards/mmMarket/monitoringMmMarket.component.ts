@@ -18,6 +18,8 @@ import * as BasChart                       from 'src/app/monitoring/helpers/moni
 export class MonitoringMmMarketComponent extends MonitoringBaseSocketOnComponent implements OnInit,OnDestroy  {
 	calltags  = []; 
 	charts    : Array<Chart> = [];
+	data_01 = null;
+	data_02 = null;
 
   
 	constructor(
@@ -65,15 +67,16 @@ export class MonitoringMmMarketComponent extends MonitoringBaseSocketOnComponent
 	createChart(idChart){
 		TAGS.listCharts[idChart]['controls'] = {
 			idChart        : idChart,
-			type_graph     : 'line',
+			type_graph     : 'bar',
 			type_scale     : 'dynamic',
 			fill           : 'false',
-			data_per_graph : 10,
+			data_per_graph : 24,
 			point_radius   : 3,
 			time_refreseh  : 3,
 			timePast       : new Date()
 		};
 		this.charts[idChart]= new Chart(idChart, BasChart.chartCreateConfig(TAGS.listCharts[idChart]['controls']));
+		this.charts[idChart].data.labels = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24"];
 	}
 	getchartControl(idChart){
 		return TAGS.listCharts[idChart]?TAGS.listCharts[idChart]['controls'] : {idChart:false};
@@ -81,11 +84,16 @@ export class MonitoringMmMarketComponent extends MonitoringBaseSocketOnComponent
 
 	dataAdapter(data){
 		console.log(data);
+		if(this.data_01 == null){
+			this.data_01 = data;
+			this.data_02 = data;
+		}else{
+			this.data_01 = this.data_02;
+			this.data_02 = data;
+		}
 		
-		/*
-		this.updateLocalTagValue(data);
-		this.updateLocalTagOverView();
-		this.addDataToChart();//*/
+		
+		this.addDataToChart();
 	}
 	updateLocalTagValue(data){
 		//let ii = Object.keys(TAGS.lstTags).length;
@@ -109,51 +117,73 @@ export class MonitoringMmMarketComponent extends MonitoringBaseSocketOnComponent
 	updateLocalTagOverView(){
 		for (const local_tag_key in TAGS.lstTags) {
 			if (TAGS.lstTags.hasOwnProperty(local_tag_key)) {
-				const local_tag  = TAGS.lstTags[local_tag_key];
-				const aguila     = local_tag.aguila[0]['WebTag'] ? local_tag.aguila[0]['WebTag']["Value"]["Value"] : 0;
-				const sol        = local_tag.sol[0]['WebTag']    ? local_tag.sol[0]['WebTag']["Value"]["Value"]    : 0;
-				const overview   = aguila + sol;
-				local_tag.overview[0]['value']           = overview;
-				this.calltags[local_tag_key+'-aguila']   = aguila;
-				this.calltags[local_tag_key+'-sol']      = sol;
-				this.calltags[local_tag_key+'-overview'] = overview;
 			}
 		}
 	}
 	addDataToChart(){
 		for (const idChart in TAGS.listCharts) {
 			if (TAGS.listCharts.hasOwnProperty(idChart)) {
-				if(this.check_time_refreseh_data(
-					TAGS.listCharts[idChart]['controls']['time_refreseh'],
-					TAGS.listCharts[idChart]['controls']['timePast']
-				)){
+			
 					TAGS.listCharts[idChart]['controls']['timePast'] = new Date();
 					this.addDatasetLine(idChart);
-				}
+					this.addDatasetLine2(idChart);
+					
 			}
 		}
 	}
 
 	addDatasetLine(idChart){
-		let chart = TAGS.listCharts[idChart];
-
-		for(let chartTag of chart.tags){
-			let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets, chartTag.calltags);
-			let tagconf    = TAGS.lstTags[chartTag.calltags];
+			let lst = [];
+			for (const iterator of this.data_02.data) {
+				lst.push(iterator.prediction);	
+			}
+			console.log(lst);
+			
+			let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets, "chart_01");
+			let tagconf    = TAGS.lstTags["PowerOutput"];
 			if(datasetTag == undefined){
 		
-				var newDataset = BasChart.generateDataset(chartTag,tagconf);
-				var newYaxis = BasChart.generateYaxis(chartTag,tagconf);
-
+				var hex  = tagconf.color;
+				let rgba = BasChart.hexToRGB(tagconf.color,0.3);
+		
+				var newDataset = {
+					id:"chart_01",
+					rgba:rgba,
+					label: tagconf.label,
+					backgroundColor: rgba,
+					borderColor: hex,
+					data: lst,
+					fill: false,
+					hidden:false,
+					yAxisID: "01"
+				};
+				var newYaxis = {
+					id: "01",
+					display: true,
+					position: 'left',
+					ticks:{
+						fontColor:hex,
+						fontSize:12,
+						//min: tagconf.min,
+						//max: tagconf.max,
+						//beginAtZero: false
+					},
+					gridLines:{
+						color:"rgb(52, 58, 64)",
+						display: false,
+					},
+					
+				};
 				
 				this.charts[idChart].data.datasets.push(newDataset);
 				this.charts[idChart].config.options.scales.yAxes.push(newYaxis);
+				
 				//console.log(this.charts[chart].data.datasets);
 				
 			}else{
 				
 				/**Para la grafica tipo  line , bar*/
-				///*
+				/*
 				(datasetTag.data as number[]).push(chartTag.value());
 				//tag.data.push(data);
 				if(datasetTag.data.length > chart.controls.data_per_graph){
@@ -162,13 +192,81 @@ export class MonitoringMmMarketComponent extends MonitoringBaseSocketOnComponent
 				//*/
 
 				/**Para la grafica tipo  horizontalBar*/
-				//(datasetTag.data as number[])=[chartTag.value];
+				(datasetTag.data as number[])=lst;
 			}
 			
-		}
 		this.charts[idChart].update();
 		//console.log(this.charts);
 		//console.log(this.charts['chart_est_power_01'].data);
+	}
+	addDatasetLine2(idChart){
+		if(this.data_01 != null){
+			let lst = [];
+			for (const iterator of this.data_01.data) {
+				lst.push(iterator.prediction);	
+			}
+			console.log(lst);
+			
+			let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets, "chart_02");
+			let tagconf    = TAGS.lstTags["CapacityFactor"];
+			if(datasetTag == undefined){
+		
+				var hex  = tagconf.color;
+				let rgba = BasChart.hexToRGB(tagconf.color,0.3);
+		
+				var newDataset = {
+					id:"chart_02",
+					rgba:rgba,
+					label: tagconf.label,
+					backgroundColor: rgba,
+					borderColor: hex,
+					data: lst,
+					fill: false,
+					hidden:false,
+					yAxisID: "02"
+				};
+				var newYaxis = {
+					id: "02",
+					display: true,
+					position: 'left',
+					ticks:{
+						fontColor:hex,
+						fontSize:12,
+						//min: tagconf.min,
+						//max: tagconf.max,
+						//beginAtZero: false
+					},
+					gridLines:{
+						color:"rgb(52, 58, 64)",
+						display: false,
+					},
+					
+				};
+				
+				this.charts[idChart].data.datasets.push(newDataset);
+				this.charts[idChart].config.options.scales.yAxes.push(newYaxis);
+				
+				//console.log(this.charts[chart].data.datasets);
+				
+			}else{
+				
+				/**Para la grafica tipo  line , bar*/
+				/*
+				(datasetTag.data as number[]).push(chartTag.value());
+				//tag.data.push(data);
+				if(datasetTag.data.length > chart.controls.data_per_graph){
+					datasetTag.data.shift();
+				}
+				//*/
+
+				/**Para la grafica tipo  horizontalBar*/
+				(datasetTag.data as number[])=lst;
+			}
+			
+		this.charts[idChart].update();
+		//console.log(this.charts);
+		//console.log(this.charts['chart_est_power_01'].data);
+		}
 	}
 	cleanDataofCharts(){
 		for (const chart in this.charts) {
