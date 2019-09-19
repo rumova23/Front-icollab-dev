@@ -77,6 +77,8 @@ export class LegalAgreementComponent implements OnInit {
   }
 
   filtrarCompliance() {
+    console.log("************************");
+    
     this.limpiarTablas();
 
     this.complianceService.getCompliancePorPlantaYFechas(
