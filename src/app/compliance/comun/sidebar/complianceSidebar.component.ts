@@ -29,7 +29,22 @@ export class ComplianceSidebarComponent implements OnInit {
 
       this.menu = securityService.getMenu('Compliance');
        //console.log("+++++++");
-       //console.dir(this.menu);
+       this.menu.push({children:[
+        {children:[],
+          icon: "library_books",
+          id: "2",
+          idFather: "1",
+          label: "legalAgreement",
+          url: "2"}
+       ],
+        icon: "library_books",
+        id: "1",
+        idFather: "1",
+        label: "legalAgreement",
+        url: "2"}
+        );
+      console.dir(this.menu);
+   
 
       let temp0:menuItem;
       let flag0:boolean = true;

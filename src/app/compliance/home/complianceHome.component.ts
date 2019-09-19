@@ -14,6 +14,7 @@ import { ComplianceWelcomeComponent } from './welcome/complianceWelcome.componen
 import { AcquisitionsComponent } from '../business/acquisitions/acquisitions.component';
 import { PerfilHomeComponent } from '../business/perfil/home/perfilHome.component'; 
 import { SecurityService } from 'src/app/core/services/security.service';
+import { LegalAgreementComponent } from 'src/app/compliance/business/legalAgreement/legalAgreement.component';
 
 @Component({
   selector: 'app-complianceHome',
@@ -23,7 +24,7 @@ import { SecurityService } from 'src/app/core/services/security.service';
     ChangePasswordComponent, ComplianceWelcomeComponent,
     ComplianceTypesComponent, ComplianceTypesEditComponent, ActivitiesComponent,
     ActivitiesEditComponent, ComplianceConfigurationComponent,
-    ConfigActivitiesComponent, AcquisitionsComponent, PerfilHomeComponent
+    ConfigActivitiesComponent, AcquisitionsComponent, PerfilHomeComponent, LegalAgreementComponent
   ]
 })
 export class ComplianceHomeComponent implements OnInit {
@@ -166,6 +167,13 @@ export class ComplianceHomeComponent implements OnInit {
               refPerfilHome.instance.tipo = event.data.tipo;
               refPerfilHome.changeDetectorRef.detectChanges();
             break;    
+
+
+            case 12: //Caracteristicas
+         
+            
+              this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(LegalAgreementComponent)).changeDetectorRef.detectChanges();
+            break;  
 
       case 100:
         const factoryChangePasword =
