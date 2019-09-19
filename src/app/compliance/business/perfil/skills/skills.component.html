@@ -51,11 +51,8 @@
                         </button>                        
                        -->
 
-                        <button type="submit" class="btn btn-primary btn-md" 
-                           >Guardar
-                        </button>
-                        <button type="button" class="btn btn-primary btn-md" (click)="terminaExamen()" 
-                           [disabled]="isdisabledFinish">Termina Examen
+                        <button type="submit" class="btn btn-primary btn-md" [disabled]="isdisabled">Guardar</button>
+                        <button type="button" class="btn btn-primary btn-md" (click)="terminaExamen()" [disabled]="isdisabledFinish">Termina Examen
                         </button>
                     </div>
                 </div>    

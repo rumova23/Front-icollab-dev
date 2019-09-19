@@ -28,7 +28,7 @@ export class SkillsComponent implements OnInit {
   entidadEstatusId: number;
   terminadoId: number;
   isdisabled = false;
-  isdisabledFinish = true;
+  isdisabledFinish = false;
 
   constructor(private cdRef: ChangeDetectorRef,
               private ruteo: ActivatedRoute,
@@ -38,31 +38,25 @@ export class SkillsComponent implements OnInit {
 
   }
 
-
-
   ngOnInit() {
-    /*
-    this.preguntas.obtenEstatusTerminado('TX_EXAMEN_RESERVACION', 'Terminado').subscribe(
-        data => {
-          this.terminadoId = data.entidadEstatusId;
-        }
-    );
-    */
+          this.terminadoId = 2;
 
-    if (this.inTipo === 'ver') {
-      this.isdisabled = true;
-    }
+          if (this.inTipo === 'ver') {
+            this.isdisabled = true;
+          }
 
-
-    this.temas = [];
-    this.idTemas = [ 'DEFAULT' ];
-    this.preguntas.obtenPreguntasExamen('DEFAULT', this.inIdEmpleado).subscribe(reservacion => {
+          this.temas = [];
+          this.idTemas = [ 'DEFAULT' ];
+          this.preguntas.obtenPreguntasExamen('DEFAULT', this.inIdEmpleado).subscribe(reservacion => {
             let jj = -1;
             this.pregs = [];
 
             this.examenReservacionId = reservacion.examenReservacionId;
 
-      // tslint:disable-next-line:prefer-for-of
+            if (reservacion.entidadEstatusId === 2) {
+              this.isdisabledFinish = true;
+              this.isdisabled = true;
+            }
             for (let ins = 0; ins < reservacion.preguntasExamen.length; ins++) {
                   jj = -1;
                   this.pregs = [];
@@ -82,12 +76,12 @@ export class SkillsComponent implements OnInit {
                                            , pregunta.pregunta
                                            , null
                                            , pregunta.respuestaPresentacionId
-                                           , null
+                                           , pregunta.justificacion
                                            , this.resp)
                                 );
                     this.grupPregSkill[ins][jj] = pregunta.preguntaId;
                     this.grupOpcSkill[ins][jj]  = pregunta.respuestaPresentacionId;
-                // this.selectRadio(i, j, this.examenReservacionId, pregunta.preguntaId);
+                    this.grupResSkill[ins][jj]  = pregunta.justificacion;
               });
                   this.temas.push( new Tema(
               reservacion.preguntasExamen[ins].temaId,
@@ -111,38 +105,46 @@ export class SkillsComponent implements OnInit {
 
     this.preguntas.respuestaExamen(this.examenReservacionId, this.SaveRespuestas).subscribe(
           respuesta => {
-            this.isdisabledFinish = false;
             this.toastr.successToastr('Se ha guardado la sección de Conocimiento y Habilidades', '¡Se ha logrado!');
           }
         );
-
-
-
   }
-
 
   terminaExamen() {
     let mensaje = '';
     let sonTodas = true;
+    this.SaveRespuestas = [];
     for (let i = 0; i < this.grupPregSkill.length; i++) {
       for (let j = 0; j < this.grupPregSkill[i].length; j++) {
-        if ( this.grupOpcSkill[i][j] == null && sonTodas) {
-          sonTodas = false;
-          mensaje += 'Para terminar el examen, Todas las preguntas deben contestarse.';
-          break;
-        }
+        if ( this.grupOpcSkill[i][j] != null && this.grupResSkill[i][j] != null) {
+          this.SaveRespuestas.push( new Respuesta( this.grupPregSkill[i][j], this.grupOpcSkill[i][j], this.grupResSkill[i][j] ) );
+        } else {
+          if ( this.grupOpcSkill[i][j] == null) {
+            sonTodas = false;
+            mensaje += 'Para terminar el examen, Todas las preguntas deben contestarse.';
+            break;
+          }
 
-        if ( this.grupResSkill[i][j] == null && mensaje.length < 70) {
-          sonTodas = false;
-          mensaje += 'Para terminar el examen, Todas las justificaciones deben contestarse.';
-          break;
+          if ( this.grupResSkill[i][j] == null) {
+            sonTodas = false;
+            mensaje += 'Para terminar el examen, Todas las justificaciones deben contestarse.';
+            break;
+          }
         }
       }
     }
 
+    this.preguntas.respuestaExamen(this.examenReservacionId, this.SaveRespuestas).subscribe(
+        respuesta => {
+          this.toastr.successToastr('Se ha guardado la sección de Conocimiento y Habilidades', '¡Se ha logrado!');
+        }
+    );
+
     if (sonTodas) {
       this.preguntas.terminaExamen(this.examenReservacionId).subscribe(
           respuesta => {
+            this.isdisabledFinish = true;
+            this.isdisabled = true;
             this.toastr.successToastr('Se actualizo a examen Finalizado', '¡Se ha logrado!');
           }
       );
@@ -151,12 +153,4 @@ export class SkillsComponent implements OnInit {
       this.toastr.errorToastr(mensaje, 'Lo siento,');
     }
   }
-
-
-  // Loading
-  private addBlock(type, msg): void {
-    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
-  }
-
-
 }

@@ -147,7 +147,6 @@ export class SecurityService {
 
   getMenu(name: string): any[] {
     const user = this.getCurrentUser();
-    console.log(user);
     if (!Validate(user)) {
       return [];
     }
