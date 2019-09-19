@@ -63,19 +63,19 @@ export class PersonalCompetenteService {
     return this.http.delete(`${this.baseUrl2}exam/personalCompetente/empleados?idEmpleado=` + idEmpleado, {params : this.parameters });
   }
   getTagsAsignacion(idEmpleado: number): Observable<any> {
-    return this.http.get(`${this.microSeguimiento}personalCompetente/tags/ASIGNACION/${idEmpleado}`, {params : this.parameters });
+    return this.http.get(`${this.microSeguimiento}legal/personalCompetente/tags/ASIGNACION/${idEmpleado}`, {params : this.parameters });
   }
   getTagsAsignado(idEmpleado: number): Observable<any> {
-    return this.http.get(`${this.microSeguimiento}personalCompetente/tags/ASIGNADO/${idEmpleado}`, {params : this.parameters });
+    return this.http.get(`${this.microSeguimiento}legal/personalCompetente/tags/ASIGNADO/${idEmpleado}`, {params : this.parameters });
   }
   salvarTags(listtags: Array<string>, empleadoId: number): Observable<any> {
-    return this.http.post(`${this.microSeguimiento}tags/empleados?empleadoId=` + empleadoId, listtags, {params : this.parameters });
+    return this.http.post(`${this.microSeguimiento}legal/tags/empleados?empleadoId=` + empleadoId, listtags, {params : this.parameters });
   }
   getPlantaPerfil(): Observable<any> {
-    return this.http.get(`${this.baseUrl}tags/planta/perfilActor`, {params : this.parameters });
+    return this.http.get(`${this.baseUrl}tag/planta/perfilActor`, {params : this.parameters });
   }
   salvarPlantaPerfilEmpleado(lista: Array<any>) {
-    return this.http.post(`${this.baseUrl}tags/planta/perfilActor`, lista, {params : this.parameters });
+    return this.http.post(`${this.baseUrl}tag/planta/perfilActor`, lista, {params : this.parameters });
   }
 
 }

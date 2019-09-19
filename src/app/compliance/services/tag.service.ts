@@ -162,11 +162,11 @@ export class TagService {
 
   eliminarActividad(idActivity: number) {
     this.setXTenantId(this.globalService.aguila);    
-    return this.http.get( `${ this.baseMicroTagUrl }actividad/eliminar/${idActivity}`, {params : this.parameters });
+    return this.http.get( `${ this.baseMicroTagUrl }tag/actividad/eliminar/${idActivity}`, {params : this.parameters });
   }
   outCatalogItemCloned(referenceclone:string){
     this.setXTenantId(!this.globalService.aguila);
-    return this.http.get( `${ this.baseMicroTagUrl }actividad/deleteclonated/${referenceclone}`, {params : this.parameters });
+    return this.http.get( `${ this.baseMicroTagUrl }tag/actividad/deleteclonated/${referenceclone}`, {params : this.parameters });
   }
 
 
