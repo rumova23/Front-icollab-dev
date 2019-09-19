@@ -357,7 +357,7 @@ export var listCharts = {
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
                 temp.push(-0.2854 - lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
-                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(lstTags["FuelGain"].max);
                 return temp;
                 }
             }  
@@ -442,7 +442,7 @@ export var listCharts = {
             {calltags:"PowerOutput",value:function(){
                 let temp = [];
                 temp.push(lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value']);
-                temp.push(10000-lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value']);
+                temp.push(lstTags["PowerOutput"].max);
                 return temp;
                 }
             }  
@@ -455,8 +455,8 @@ export var listCharts = {
         tags:[
             {calltags:"HeatRate",value:function(){
                 let temp = [];
-                temp.push(lstTags["HeatRate"]['aguila'][0]['WebTag']['Value']['Value']);
-                temp.push(10000-lstTags["HeatRate"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(lstTags["HeatRate"]['sol'][0]['WebTag']['Value']['Value']);
+                temp.push(lstTags["HeatRate"].max);
                 return temp;
                 }
             }  
@@ -469,8 +469,8 @@ export var listCharts = {
         tags:[
             {calltags:"CapacityFactor",value:function(){
                 let temp = [];
-                temp.push(lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value']);
-                temp.push(10000-lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(lstTags["CapacityFactor"]['sol'][0]['WebTag']['Value']['Value']);
+                temp.push(100-lstTags["CapacityFactor"]['sol'][0]['WebTag']['Value']['Value']);
                 return temp;
                 }
             }  
@@ -483,14 +483,13 @@ export var listCharts = {
         tags:[
             {calltags:"FuelGain",value:function(){
                 let temp = [];
-                temp.push(lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
-                temp.push(10000-lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value']);
+                temp.push(100-lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value']);
                 return temp;
                 }
             }  
         ]
     },
-
     chart_est_item01_col02_col02_it01:{
         type:"doughnut_completo",
         color:"red",
@@ -501,8 +500,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(Math.random() * (200 - 1) + 1);
-                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(438.96-lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value']);
+                temp.push(lstTags["PowerOutput"].max);
                 return temp;
                 }
             }  
@@ -518,8 +517,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(Math.random() * (200 - 1) + 1);
-                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(lstTags["HeatRateCorreg"]['sol'][0]['WebTag']['Value']['Value']-lstTags["HeatRate"]['sol'][0]['WebTag']['Value']['Value']);
+                temp.push(lstTags["HeatRate"].max);
                 return temp;
                 }
             }  
@@ -535,8 +534,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(Math.random() * (200 - 1) + 1);
-                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(89-lstTags["CapacityFactor"]['sol'][0]['WebTag']['Value']['Value']);
+                temp.push(100-(89-lstTags["CapacityFactor"]['sol'][0]['WebTag']['Value']['Value']));
                 return temp;
                 }
             }  
@@ -552,8 +551,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(Math.random() * (200 - 1) + 1);
-                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(-0.2854 - lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value']);
+                temp.push(lstTags["FuelGain"].max);
                 return temp;
                 }
             }  
@@ -569,8 +568,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(Math.random() * (200 - 1) + 1);
-                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(454.84);
+                temp.push(lstTags["PowerOutput"].max);
                 return temp;
                 }
             }  
@@ -586,8 +585,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(Math.random() * (200 - 1) + 1);
-                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(lstTags["HeatRateCorreg"]['sol'][0]['WebTag']['Value']['Value']);
+                temp.push(lstTags["HeatRate"].max);
                 return temp;
                 }
             }  
@@ -603,8 +602,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(Math.random() * (200 - 1) + 1);
-                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(89);
+                temp.push(100-89);
                 return temp;
                 }
             }  
@@ -620,8 +619,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(Math.random() * (200 - 1) + 1);
-                temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(0.2115636);
+                temp.push(100-0.2115636);
                 return temp;
                 }
             }  
