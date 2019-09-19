@@ -61,7 +61,7 @@
 								<p class="mycolorgreen">
 									Fuel Gain Lost
 								</p>
-								<p>{{calltags["FuelGain-overview"] | number:'2.2-2'}} %</p>
+								<p>${{calltags["FuelGain-overview"] | number:'2.2-2'}}</p>
 							</div>
 						</div>
 					</a>
@@ -90,6 +90,41 @@
 							</div>							
 						</div>
 						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
+							<div class="row text-center">
+								<div class="col-4">
+									<div class="w-100"><p>Actuals</p></div><hr>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col01_it01" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["PowerOutput-overview"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col01_it02" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["HeatRate-overview"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col01_it03" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["CapacityFactor-overview"] | number:'2.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col01_it04" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["FuelGain-overview"] | number:'3.2-2'}}</div>
+								</div>
+								<div class="col-4">
+									<div class="w-100"><p>Dif</p></div><hr>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col02_it01" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{438.96 - calltags["PowerOutput-overview"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col02_it02" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["HeatRateCorreg-overview"] - calltags["HeatRate-overview"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col02_it03" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{89 - calltags["CapacityFactor-overview"] | number:'2.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col02_it04" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{-0.2854 - calltags["FuelGain-overview"] | number:'2.2-2'}}</div>
+								</div>
+								<div class="col-4">
+									<div class="w-100"><p>Expected</p></div><hr>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col03_it01" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">438.96</div>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col03_it02" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["HeatRateCorreg-overview"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col03_it03" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">89%</div>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col03_it04" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">-0.2854</div>
+								</div>
+							</div>
 						</div>
 						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
 							<div class="row h-100">
@@ -157,7 +192,7 @@
 					<div class="row h-100">
 						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
 							<h6 class="mycolororange"><strong>Fuel Gain/Lost</strong></h6>
-							<p>{{calltags["FuelGain-overview"] | number:'2.2-2'}} %</p>
+							<p>$ {{calltags["FuelGain-overview"] | number:'2.2-2'}}</p>
 						</div>
 						<div class="col-12 col-md-8 col-xl-5 gris2 pt-3">
 							<div class="row h-100">
@@ -241,7 +276,7 @@
 								<p class="mycolorblue">
 									Fuel Gain Lost
 								</p>
-								<p>{{calltags["FuelGain-aguila"] | number:'2.2-2'}} %</p>
+								<p>${{calltags["FuelGain-aguila"] | number:'2.2-2'}}</p>
 							</div>
 						</div>
 					</a>
@@ -397,7 +432,7 @@
 					<div class="row h-100">
 						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
 							<h6 class="mycolororange"><strong>Fuel Gain/Lost</strong></h6>
-							<p>{{calltags["FuelGain-aguila"] | number:'2.2-2'}} %</p>
+							<p>${{calltags["FuelGain-aguila"] | number:'2.2-2'}}</p>
 						</div>
 						<div class="col-12 col-md-8 col-xl-5 gris2 pt-3">
 							<div class="row h-100">
@@ -492,7 +527,7 @@
 								<p class="mycolororange">
 									Fuel Gain Lost
 								</p>
-								<p>{{calltags["FuelGain-sol"] | number:'2.2-2'}} %</p>
+								<p>${{calltags["FuelGain-sol"] | number:'2.2-2'}}</p>
 							</div>
 						</div>
 					</a>
@@ -648,7 +683,7 @@
 					<div class="row h-100">
 						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
 							<h6 class="mycolororange"><strong>Fuel Gain/Lost</strong></h6>
-							<p>{{calltags["FuelGain-sol"] | number:'2.2-2'}} %</p>
+							<p>${{calltags["FuelGain-sol"] | number:'2.2-2'}}</p>
 						</div>
 						<div class="col-12 col-md-8 col-xl-5 gris2 pt-3">
 							<div class="row h-100">

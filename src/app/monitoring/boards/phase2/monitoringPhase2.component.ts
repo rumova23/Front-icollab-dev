@@ -209,7 +209,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					
 					let sol_HeatRateCorreg = TAGS.lstTags['HeatRateCorreg']['sol'][0]['WebTag']["Value"]["Value"];
 					let sol_HeatRate       = TAGS.lstTags['HeatRate']['sol'][0]['WebTag']["Value"]["Value"];
-					let sol_value          = sol_HeatRateCorreg-sol_HeatRate;
+					let sol_value          = (((sol_HeatRateCorreg-sol_HeatRate) * 0.00004764) /  20.03);
 					let sol_temp           = {Value:{Timestamp: "2019-09-19T00:08:22.8810119Z",Value: sol_value}}
 					local_tag.sol[0]['WebTag']= sol_temp;
 

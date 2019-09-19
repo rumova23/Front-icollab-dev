@@ -234,6 +234,252 @@ export var listCharts = {
         ]
     },
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    chart_overview_item01_col02_col01_it01:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                let fdsfds = lstTags["PowerOutput"]['overview'][0]['value'];
+                let ewqewq = lstTags["PowerOutput"].max;
+                //debugger;
+                temp.push(lstTags["PowerOutput"]['overview'][0]['value']);
+                temp.push(lstTags["PowerOutput"].max*2);
+                //*//*
+                /*temp.push(Math.random() * (200 - 1) + 1);
+                temp.push(Math.random() * (200 - 1) + 1);//*/
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_overview_item01_col02_col01_it02:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"HeatRate",value:function(){
+                let temp = [];
+                temp.push(lstTags["HeatRate"]['overview'][0]['value']);
+                temp.push(lstTags["HeatRate"].max*2);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_overview_item01_col02_col01_it03:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"CapacityFactor",value:function(){
+                let temp = [];
+                temp.push(lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(100-lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value']);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_overview_item01_col02_col01_it04:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"FuelGain",value:function(){
+                let temp = [];
+                temp.push(lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(100-lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
+                return temp;
+                }
+            }  
+        ]
+    },
+
+    chart_overview_item01_col02_col02_it01:{
+        type:"doughnut_completo",
+        color:"red",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(438.96-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(lstTags["PowerOutput"].max);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_overview_item01_col02_col02_it02:{
+        type:"doughnut_completo",
+        color:"red",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(lstTags["HeatRateCorreg"]['aguila'][0]['WebTag']['Value']['Value']-lstTags["HeatRate"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(lstTags["HeatRate"].max);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_overview_item01_col02_col02_it03:{
+        type:"doughnut_completo",
+        color:"red",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(89-lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(100-(89-lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value']));
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_overview_item01_col02_col02_it04:{
+        type:"doughnut_completo",
+        color:"red",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(-0.2854 - lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(lstTags["FuelGain"].max);
+                return temp;
+                }
+            }  
+        ]
+    },
+
+    chart_overview_item01_col02_col03_it01:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(438.96);
+                temp.push(lstTags["PowerOutput"].max);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_overview_item01_col02_col03_it02:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(lstTags["HeatRateCorreg"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(lstTags["HeatRate"].max);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_overview_item01_col02_col03_it03:{
+        type:"doughnut_completo",
+        color:"#46FF33",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(89);
+                temp.push(100-89);
+                return temp;
+                }
+            }  
+        ]
+    },
+    chart_overview_item01_col02_col03_it04:{
+        type:"doughnut_completo",
+        color:"red",
+        controls:{},
+        tags:[
+            {calltags:"PowerOutput",value:function(){
+                let temp = [];
+                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
+                //*/
+                temp.push(-0.2854);
+                temp.push(90);
+                return temp;
+                }
+            }  
+        ]
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     chart_eat_item01_col02_col01_it01:{
         type:"doughnut_completo",
