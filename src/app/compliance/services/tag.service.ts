@@ -60,7 +60,6 @@ export class TagService {
     
   }
 
-
   getlistCatalogoOrdenados(catalogos: Array<OrderCatalogDTO>) {
     this.setXTenantId(this.globalService.aguila);
     console.dir(catalogos); 
@@ -81,7 +80,7 @@ export class TagService {
   save(tag: Tag) : Observable<any> {
     this.setXTenantId(this.globalService.aguila);    
     console.dir(tag);
-    return this.http.post( `${ this.baseMicroTagUrl }tag/save`, tag, {params : this.parameters });
+    return this.http.post( `${ this.baseMicroTagUrl }tag/guardar`, tag, {params : this.parameters });
   }
 
   getActividadPorTag(actividad: string) {
@@ -112,7 +111,7 @@ export class TagService {
 
   obtenTagPorFiltros(plantaId) : Observable<any> {
     this.setXTenantId(this.globalService.aguila);    
-    return this.http.get( `${ this.baseMicroTagUrl }tag/getAll`, {params : this.parameters });
+    return this.http.get( `${ this.baseMicroTagUrl }tag/All`, {params : this.parameters });
   }
   /*
   obtenTagPorFiltros(plantaId) : Observable<any> {

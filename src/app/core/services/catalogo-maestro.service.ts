@@ -105,7 +105,7 @@ export class CatalogoMaestroService {
   }
   outCatalogItemCloned(catalogName:string ,referenceclone:string){
     this.setXTenantId(!this.globalService.aguila);
-    return this.http.delete( `${ this.microCatalagoMaestro }catalog/deleteclonated/` + catalogName + "/" + referenceclone, {params : this.parameters });    
+    return this.http.delete( `${ this.microCatalagoMaestro }catalog/deleteclonated/` + catalogName + "/" + referenceclone, {params : this.parameters });
   } 
 
   getlistCatalogoOrdenados(catalogos: Array<OrderCatalogDTO>) {

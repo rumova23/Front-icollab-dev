@@ -10,6 +10,7 @@ import { Invoice } from '../models/Invoice';
 import { CreditNote } from '../models/CreditNote';
 import { DebitNote } from '../models/DebitNote';
 import { BranchOfficeCreditNoteSerie } from '../models/BranchOfficeCreditNoteSerie';
+import {GlobalService} from '../../core/globals/global.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -26,7 +27,8 @@ const httpOptions = {
 export class MarketService {
 
   parameters: any;
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private globalService: GlobalService) {
   }
 
   setXTenantId(plantSelected) {
@@ -248,7 +250,8 @@ export class MarketService {
   }
 
   getModelMarket(time): Observable<any> {
-    return this.http.get(environment.mmmercadoUrl + "raws/prediction/planning/" + time);
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.mmmercadoUrl + "raws/prediction/planning/" + time , {params : this.parameters });
   }
 
   saveModelMarket(data): Observable<any> {
