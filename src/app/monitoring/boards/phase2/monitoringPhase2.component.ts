@@ -146,6 +146,8 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 							const element = TAGS.lstTags[local_Tag];
 							for (const local_webIds of element[web_Plant]) {
 								if(local_webIds.WebId == web_Tag.WebId){
+									//console.log(web_Tag);
+									//debugger;
 									local_webIds.WebTag = web_Tag;
 								}
 							}
@@ -156,16 +158,29 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		}
 	}
 	updateLocalTagOverView(){
+		
 		for (const local_tag_key in TAGS.lstTags) {
 			if (TAGS.lstTags.hasOwnProperty(local_tag_key)) {
 				const local_tag  = TAGS.lstTags[local_tag_key];
-				const aguila     = local_tag.aguila[0]['WebTag'] ? local_tag.aguila[0]['WebTag']["Value"]["Value"] : 0;
-				const sol        = local_tag.sol[0]['WebTag']    ? local_tag.sol[0]['WebTag']["Value"]["Value"]    : 0;
-				const overview   = aguila + sol;
-				local_tag.overview[0]['value']           = overview;
-				this.calltags[local_tag_key+'-aguila']   = aguila;
-				this.calltags[local_tag_key+'-sol']      = sol;
-				this.calltags[local_tag_key+'-overview'] = overview;
+				if(["PowerOutput","HeatRate","HeatRateCorreg"].includes(local_tag_key)){
+					const aguila     = local_tag.aguila[0]['WebTag'] ? local_tag.aguila[0]['WebTag']["Value"]["Value"] : 0;
+					const sol        = local_tag.sol[0]['WebTag']    ? local_tag.sol[0]['WebTag']["Value"]["Value"]    : 0;
+					const overview   = aguila + sol;
+					local_tag.overview[0]['value']           = overview;
+					this.calltags[local_tag_key+'-aguila']   = aguila;
+					this.calltags[local_tag_key+'-sol']      = sol;
+					this.calltags[local_tag_key+'-overview'] = overview;
+				}else if(["CapacityFactor","FuelGain"].includes(local_tag_key)){
+					let algo0 = TAGS.lstTags['PowerOutput']['aguila']['WebTag']["Value"]["Value"];
+					let algo = TAGS.lstTags['PowerOutput']['aguila']['WebTag']["Value"]["Value"];
+					debugger;
+					let temp={Value:{Timestamp: "2019-09-19T00:08:22.8810119Z",
+						Value: (
+							(TAGS.lstTags['PowerOutput']['aguila']['WebTag']["Value"]["Value"] / 495 )*100
+						)}}
+						local_tag.aguila[0]['WebTag']= temp;
+						debugger;
+				}
 			}
 		}
 	}

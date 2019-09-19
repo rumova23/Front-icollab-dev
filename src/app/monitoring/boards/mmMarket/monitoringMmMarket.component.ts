@@ -58,8 +58,7 @@ export class MonitoringMmMarketComponent extends MonitoringBaseSocketOnComponent
 	}	
 	subscribeSocketChanels(){
 		if(this.globalService.socketConnect){
-			this.subscribeSocketChanelbackPiIsRun();
-			this.subscribeSocketChanelPiServers();
+			this.subscribeSocketChanelMmMarketAguila();
 		}
 	}
 
@@ -81,9 +80,12 @@ export class MonitoringMmMarketComponent extends MonitoringBaseSocketOnComponent
 	}
 
 	dataAdapter(data){
+		console.log(data);
+		
+		/*
 		this.updateLocalTagValue(data);
 		this.updateLocalTagOverView();
-		this.addDataToChart();
+		this.addDataToChart();//*/
 	}
 	updateLocalTagValue(data){
 		//let ii = Object.keys(TAGS.lstTags).length;

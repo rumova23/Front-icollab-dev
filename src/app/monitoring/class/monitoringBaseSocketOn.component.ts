@@ -135,6 +135,19 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 			this.dataAdapter(data);
 		});
 	}
+	subscribeSocketChanelMmMarketAguila(){
+		//mm-market-aguila
+		this.addSubscriptionsPerChannel(["mm-market-aguila","mm-market-aguila-error"]);
+		this.addChanels(["mm-market-aguila"]);
+		let channelPiSol = this.socketService.suscribeChannel("mm-market-aguila");
+		this.subscriptions["mm-market-aguila-error"] = this.socketService.onChannelError(channelPiSol - 1)
+		.subscribe((errorChannel: any) => {/*console.log("mm-market-aguila-error",errorChannel);*/});
+
+		this.subscriptions["mm-market-aguila"] = this.socketService.onChannelWatch(channelPiSol - 1)
+		.subscribe((data: any) => {
+			this.dataAdapter(data);
+		});
+	}
 	subscribeSocketChanels(){
 		if(this.globalService.socketConnect){
 			this.subscribeSocketChanelbackPiIsRun();
