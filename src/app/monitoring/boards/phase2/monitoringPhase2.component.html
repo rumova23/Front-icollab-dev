@@ -1,8 +1,10 @@
 <div class="monitoreo">
 	<!--  Visión general  -->
-	<div class="row d-flex align-items-stretch">
+	<div class="row">
 		<div class="col-12 text-center my-3"><h2><strong>Overview</strong></h2></div>
-		<div class="col-12 col-lg-3 col-xl-2 p-0 gris3 d-flex align-items-end">
+	</div>
+	<div class="row d-flex align-items-stretch">
+		<div class="col-12 col-lg-3 col-xl-2 p-0 gris3">
 			<ul class="nav flex-lg-column nav-pills nav-justified">
 				<li class="nav-item">
 					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_overview_item01_col01','PowerOutput')">
@@ -129,10 +131,12 @@
 			</div>
 		</div>
 	</div>
-    <!-- AGUILA -->
-    <div class="row d-flex align-items-stretch">
+	<!-- AGUILA -->
+	<div class="row">
 		<div class="col-12 text-center mycolorblue my-3"><h2><strong>EAT</strong></h2></div>
-		<div class="col-12 col-lg-3 col-xl-2 p-0 gris3 d-flex align-items-end">
+	</div>
+    <div class="row d-flex align-items-stretch">
+		<div class="col-12 col-lg-3 col-xl-2 p-0 gris3">
 			<ul class="nav flex-lg-column nav-pills nav-justified">
 				<li class="nav-item">
 					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_eat_item01_col01','PowerOutput')">
@@ -264,10 +268,12 @@
 			</div>
 		</div>
     </div>
-    <!-- SOL -->
+	<!-- SOL -->
+	<div class="row">
+		<div class="col-12 text-center mycolororange my-3"><h2><strong>EST</strong></h2></div>
+	</div>
     <div class="row d-flex align-items-stretch">
-        <div class="col-12 text-center mycolororange my-3"><h2><strong>EST</strong></h2></div>
-        <div class="col-12 col-lg-3 col-xl-2 p-0 gris3 d-flex align-items-end">
+        <div class="col-12 col-lg-3 col-xl-2 p-0 gris3">
             <ul class="nav flex-lg-column nav-pills nav-justified">
 				<li class="nav-item">
 					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_est_item01_col01','HeatRate')">
