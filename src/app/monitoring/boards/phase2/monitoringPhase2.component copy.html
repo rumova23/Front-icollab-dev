@@ -1,0 +1,723 @@
+<div class="monitoreo">
+    <!--  Visión general  -->
+    <div class="row">
+		<div class="col-12 text-center my-3"><h2><strong>Overview</strong></h2></div>
+		<div class="col-12 col-lg-3 col-xl-2 p-0">
+			<ul class="nav flex-lg-column nav-pills nav-justified">
+				<li class="nav-item">
+					<a class="nav-link rounded-0 text-lg-left active" data-toggle="pill" data-target="#v-pills-Overview-Power_Output" role="tab" aria-controls="v-pills-Overview-Power_Output" aria-selected="true">
+						<div class="row">
+							<div class="col-12 col-lg-auto align-self-center mycolorgreen">
+								<i class="fas fa-bolt"></i>
+							</div>
+							<div class="col pl-lg-0 d-none d-sm-block">
+								<p class="mycolorgreen">
+									Power Output
+								</p>
+								<p>
+									{{calltags["PowerOutput-overview"] | number:'3.2-2'}} Mw
+								</p>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link rounded-0 text-lg-left" data-toggle="pill" data-target="#v-pills-Overview-Heat_Rate" role="tab" aria-controls="v-pills-Overview-Heat_Rate" aria-selected="false">
+						<div class="row">
+							<div class="col-12 col-lg-auto align-self-center mycolorgreen">
+								<i class="fas fa-thermometer-three-quarters"></i>
+							</div>
+							<div class="col pl-lg-0 d-none d-sm-block">
+								<p class="mycolorgreen">
+									Heat Rate
+								</p>
+								<p>{{calltags["HeatRate-overview"] | number:'3.2-2'}} Kwh/KJ</p>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link rounded-0 text-lg-left" data-toggle="pill" data-target="#v-pills-Overview-Capacity_Factor" role="tab" aria-controls="v-pills-Overview-Capacity_Factor" aria-selected="false">
+						<div class="row">
+							<div class="col-12 col-lg-auto align-self-center mycolorgreen">
+								<i class="fas fa-battery-three-quarters"></i>
+							</div>
+							<div class="col pl-lg-0 d-none d-sm-block">
+								<p class="mycolorgreen">
+									Capacity Factor
+								</p>
+								<p>{{calltags["CapacityFactor-overview"] | number:'2.2-2'}} %</p>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link rounded-0 text-lg-left" data-toggle="pill" data-target="#v-pills-Overview-Fuel_Gain_Lost" role="tab" aria-controls="v-pills-Overview-Fuel_Gain_Lost" aria-selected="false">
+						<div class="row">
+							<div class="col-12 col-lg-auto align-self-center mycolorgreen">
+								<i class="fas fa-gas-pump"></i>
+							</div>
+							<div class="col pl-lg-0 d-none d-sm-block">
+								<p class="mycolorgreen">
+									Fuel Gain Lost
+								</p>
+								<p>${{calltags["FuelGain-overview"] | number:'2.2-2'}}</p>
+							</div>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="col-12 col-lg-9 col-xl-10">
+			<div class="tab-content h-100" id="v-pills-tabContent">
+				<div class="tab-pane fade h-100 show active" id="v-pills-Overview-Power_Output" role="tabpanel" aria-labelledby="v-pills-Overview-Power_Output-tab">
+					<div class="row h-100">
+						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
+							<h6 class="mycolororange"><strong>Power Output</strong></h6>
+							<p>{{calltags["PowerOutput-overview"] | number:'3.2-2'}} Mw</p>
+						</div>
+						<div class="col-12 col-md-8 col-xl-5 gris2 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_overview_item01_col01')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_overview_item01_col01"></canvas>
+								</div>
+							</div>							
+						</div>
+						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
+							<div class="row text-center">
+								<div class="col-4">
+									<div class="w-100"><p>Actuals</p></div><hr>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col01_it01" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["PowerOutput-overview"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col01_it02" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["HeatRate-overview"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col01_it03" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["CapacityFactor-overview"] | number:'2.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col01_it04" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["FuelGain-overview"] | number:'3.2-2'}}</div>
+								</div>
+								<div class="col-4">
+									<div class="w-100"><p>Dif</p></div><hr>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col02_it01" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{438.96 - calltags["PowerOutput-overview"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col02_it02" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["HeatRateCorreg-overview"] - calltags["HeatRate-overview"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col02_it03" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{89 - calltags["CapacityFactor-overview"] | number:'2.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col02_it04" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{-0.2854 - calltags["FuelGain-overview"] | number:'2.2-2'}}</div>
+								</div>
+								<div class="col-4">
+									<div class="w-100"><p>Expected</p></div><hr>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col03_it01" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">438.96</div>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col03_it02" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["HeatRateCorreg-overview"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col03_it03" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">89%</div>
+									<div class="w-100"><canvas id="chart_overview_item01_col02_col03_it04" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">-0.2854</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_overview_item01_col03"></canvas>  
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane fade h-100" id="v-pills-Overview-Heat_Rate" role="tabpanel" aria-labelledby="v-pills-Overview-Heat_Rate-tab">
+					<div class="row h-100">
+						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
+							<h6 class="mycolororange"><strong>Heat Rate</strong></h6>
+							<p>{{calltags["HeatRate-overview"] | number:'3.2-2'}} Kwh/KJ</p>
+						</div>
+						<div class="col-12 col-md-8 col-xl-5 gris2 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_overview_item02_col01')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_overview_item02_col01"></canvas>
+								</div>
+							</div>							
+						</div>
+						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
+						</div>
+						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
+						</div>
+					</div>	
+				</div>
+				<div class="tab-pane fade h-100" id="v-pills-Overview-Capacity_Factor" role="tabpanel" aria-labelledby="v-pills-Overview-Capacity_Factor-tab">
+					<div class="row h-100">
+						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
+							<h6 class="mycolororange"><strong>Capacity Factor</strong></h6>
+							<p>{{calltags["CapacityFactor-overview"] | number:'2.2-2'}} %</p>
+						</div>
+						<div class="col-12 col-md-8 col-xl-5 gris2 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_overview_item03_col01')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_overview_item03_col01"></canvas>
+								</div>
+							</div>							
+						</div>
+						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
+						</div>
+						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
+						</div>
+					</div>	
+				</div>
+				<div class="tab-pane fade h-100" id="v-pills-Overview-Fuel_Gain_Lost" role="tabpanel" aria-labelledby="v-pills-Overview-Fuel_Gain_Lost-tab">
+					<div class="row h-100">
+						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
+							<h6 class="mycolororange"><strong>Fuel Gain/Lost</strong></h6>
+							<p>$ {{calltags["FuelGain-overview"] | number:'2.2-2'}}</p>
+						</div>
+						<div class="col-12 col-md-8 col-xl-5 gris2 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_overview_item04_col01')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_overview_item04_col01"></canvas>
+								</div>
+							</div>							
+						</div>
+						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
+						</div>
+						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
+						</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+    </div>
+    <!-- AGUILA -->
+    <div class="row">
+		<div class="col-12 text-center mycolorblue my-3"><h2><strong>EAT</strong></h2></div>
+		<div class="col-12 col-lg-3 col-xl-2 p-0">
+			<ul class="nav flex-lg-column nav-pills nav-justified">
+				<li class="nav-item">
+					<a class="nav-link rounded-0 text-lg-left active" data-toggle="pill" data-target="#v-pills-EAT-Power_Output" role="tab" aria-controls="v-pills-EAT-Power_Output" aria-selected="true">
+						<div class="row">
+							<div class="col-12 col-lg-auto align-self-center mycolorblue">
+								<i class="fas fa-bolt"></i>
+							</div>
+							<div class="col pl-lg-0 d-none d-sm-block">
+								<p class="mycolorblue">
+									Power Output
+								</p>
+								<p>{{calltags["PowerOutput-aguila"] | number:'3.2-2'}} Mw</p>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link rounded-0 text-lg-left" data-toggle="pill" data-target="#v-pills-EAT-Heat_Rate" role="tab" aria-controls="v-pills-EAT-Heat_Rate" aria-selected="false">
+						<div class="row">
+							<div class="col-12 col-lg-auto align-self-center mycolorblue">
+								<i class="fas fa-thermometer-three-quarters"></i>
+							</div>
+							<div class="col pl-lg-0 d-none d-sm-block">
+								<p class="mycolorblue">
+									Heat Rate
+								</p>
+								<p>{{calltags["HeatRate-aguila"] | number:'3.2-2'}} Kwh/KJ</p>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link rounded-0 text-lg-left" data-toggle="pill" data-target="#v-pills-EAT-Capacity_Factor" role="tab" aria-controls="v-pills-EAT-Capacity_Factor" aria-selected="false">
+						<div class="row">
+							<div class="col-12 col-lg-auto align-self-center mycolorblue">
+								<i class="fas fa-battery-three-quarters"></i>
+							</div>
+							<div class="col pl-lg-0 d-none d-sm-block">
+								<p class="mycolorblue">
+									Capacity Factor
+								</p>
+								<p>{{calltags["CapacityFactor-aguila"] | number:'2.2-2'}} %</p>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link rounded-0 text-lg-left" data-toggle="pill" data-target="#v-pills-EAT-Fuel_Gain_Lost" role="tab" aria-controls="v-pills-EAT-Fuel_Gain_Lost" aria-selected="false">
+						<div class="row">
+							<div class="col-12 col-lg-auto align-self-center mycolorblue">
+								<i class="fas fa-gas-pump"></i>
+							</div>
+							<div class="col pl-lg-0 d-none d-sm-block">
+								<p class="mycolorblue">
+									Fuel Gain Lost
+								</p>
+								<p>${{calltags["FuelGain-aguila"] | number:'2.2-2'}}</p>
+							</div>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="col-12 col-lg-9 col-xl-10">
+			<div class="tab-content h-100" id="v-pills-tabContent">
+				<div class="tab-pane fade h-100 show active" id="v-pills-EAT-Power_Output" role="tabpanel" aria-labelledby="v-pills-EAT-Power_Output-tab">
+					<div class="row h-100">
+						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
+							<h6 class="mycolororange"><strong>Power Output</strong></h6>
+							<p>{{calltags["PowerOutput-aguila"] | number:'3.2-2'}} Mw</p>
+						</div>
+						<div class="col-12 col-md-8 col-xl-5 gris2 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_eat_item01_col01')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_eat_item01_col01"></canvas>
+								</div>
+							</div>							
+						</div>
+						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
+							<div class="row text-center">
+								<div class="col-4">
+									<div class="w-100"><p>Actuals</p></div><hr>
+									<div class="w-100"><canvas id="chart_eat_item01_col02_col01_it01" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["PowerOutput-aguila"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_eat_item01_col02_col01_it02" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["HeatRate-aguila"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_eat_item01_col02_col01_it03" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["CapacityFactor-aguila"] | number:'2.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_eat_item01_col02_col01_it04" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["FuelGain-aguila"] | number:'3.2-2'}}</div>
+								</div>
+								<div class="col-4">
+									<div class="w-100"><p>Dif</p></div><hr>
+									<div class="w-100"><canvas id="chart_eat_item01_col02_col02_it01" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{438.96 - calltags["PowerOutput-aguila"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_eat_item01_col02_col02_it02" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["HeatRateCorreg-aguila"] - calltags["HeatRate-aguila"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_eat_item01_col02_col02_it03" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{89 - calltags["CapacityFactor-aguila"] | number:'2.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_eat_item01_col02_col02_it04" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{-0.2854 - calltags["FuelGain-aguila"] | number:'2.2-2'}}</div>
+								</div>
+								<div class="col-4">
+									<div class="w-100"><p>Expected</p></div><hr>
+									<div class="w-100"><canvas id="chart_eat_item01_col02_col03_it01" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">438.96</div>
+									<div class="w-100"><canvas id="chart_eat_item01_col02_col03_it02" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["HeatRateCorreg-aguila"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_eat_item01_col02_col03_it03" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">89%</div>
+									<div class="w-100"><canvas id="chart_eat_item01_col02_col03_it04" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">-0.2854</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_eat_item01_col03')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_eat_item01_col03"></canvas>  
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane fade h-100" id="v-pills-EAT-Heat_Rate" role="tabpanel" aria-labelledby="v-pills-EAT-Heat_Rate-tab">
+					<div class="row h-100">
+						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
+							<h6 class="mycolororange"><strong>Heat Rate</strong></h6>
+							<p>{{calltags["HeatRate-aguila"] | number:'3.2-2'}} Kwh/KJ</p>
+						</div>
+						<div class="col-12 col-md-8 col-xl-5 gris2 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_eat_item02_col01')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_eat_item02_col01"></canvas>
+								</div>
+							</div>							
+						</div>
+						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
+						</div>
+						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_eat_item02_col03')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_eat_item02_col03"></canvas>  
+								</div>
+							</div>
+						</div>
+					</div>	
+				</div>
+				<div class="tab-pane fade h-100" id="v-pills-EAT-Capacity_Factor" role="tabpanel" aria-labelledby="v-pills-EAT-Capacity_Factor-tab">
+					<div class="row h-100">
+						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
+							<h6 class="mycolororange"><strong>Capacity Factor</strong></h6>
+							<p>{{calltags["CapacityFactor-aguila"] | number:'2.2-2'}} %</p>
+						</div>
+						<div class="col-12 col-md-8 col-xl-5 gris2 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_eat_item03_col01')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_eat_item03_col01"></canvas>
+								</div>
+							</div>							
+						</div>
+						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
+						</div>
+						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_eat_item03_col03')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_eat_item03_col03"></canvas>  
+								</div>
+							</div>
+						</div>
+					</div>	
+				</div>
+				<div class="tab-pane fade h-100" id="v-pills-EAT-Fuel_Gain_Lost" role="tabpanel" aria-labelledby="v-pills-EAT-Fuel_Gain_Lost-tab">
+					<div class="row h-100">
+						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
+							<h6 class="mycolororange"><strong>Fuel Gain/Lost</strong></h6>
+							<p>${{calltags["FuelGain-aguila"] | number:'2.2-2'}}</p>
+						</div>
+						<div class="col-12 col-md-8 col-xl-5 gris2 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_eat_item04_col01')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_eat_item04_col01"></canvas>
+								</div>
+							</div>							
+						</div>
+						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
+						</div>
+						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_eat_item04_col03')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_eat_item04_col03"></canvas>  
+								</div>
+							</div>
+						</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+    </div>
+    <!-- SOL -->
+    <div class="row">
+        <div class="col-12 text-center mycolororange my-3"><h2><strong>EST</strong></h2></div>
+        <div class="col-12 col-lg-3 col-xl-2 p-0">
+            <ul class="nav flex-lg-column nav-pills nav-justified">
+				<li class="nav-item">
+					<a class="nav-link rounded-0 text-lg-left active" data-toggle="pill" data-target="#v-pills-EST-Power_Output" role="tab" aria-controls="v-pills-EST-Power_Output" aria-selected="true">
+						<div class="row">
+							<div class="col-12 col-lg-auto align-self-center mycolororange">
+								<i class="fas fa-bolt"></i>
+							</div>
+							<div class="col pl-lg-0 d-none d-sm-block">
+								<p class="mycolororange">
+									Power Output
+								</p>
+								<p>{{calltags["PowerOutput-sol"] | number:'3.2-2'}}Mw</p>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link rounded-0 text-lg-left" data-toggle="pill" data-target="#v-pills-EST-Heat_Rate" role="tab" aria-controls="v-pills-EST-Heat_Rate" aria-selected="false">
+						<div class="row">
+							<div class="col-12 col-lg-auto align-self-center mycolororange">
+								<i class="fas fa-thermometer-three-quarters"></i>
+							</div>
+							<div class="col pl-lg-0 d-none d-sm-block">
+								<p class="mycolororange">
+									Heat Rate
+								</p>
+								<p>{{calltags["HeatRate-sol"] | number:'3.2-2'}} Kwh/KJ</p>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link rounded-0 text-lg-left" data-toggle="pill" data-target="#v-pills-EST-Capacity_Factor" role="tab" aria-controls="v-pills-EST-Capacity_Factor" aria-selected="false">
+						<div class="row">
+							<div class="col-12 col-lg-auto align-self-center mycolororange">
+								<i class="fas fa-battery-three-quarters"></i>
+							</div>
+							<div class="col pl-lg-0 d-none d-sm-block">
+								<p class="mycolororange">
+									Capacity Factor
+								</p>
+								<p>{{calltags["CapacityFactor-sol"] | number:'2.2-2'}} %</p>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link rounded-0 text-lg-left" data-toggle="pill" data-target="#v-pills-EST-Fuel_Gain_Lost" role="tab" aria-controls="v-pills-EST-Fuel_Gain_Lost" aria-selected="false">
+						<div class="row">
+							<div class="col-12 col-lg-auto align-self-center mycolororange">
+								<i class="fas fa-gas-pump"></i>
+							</div>
+							<div class="col pl-lg-0 d-none d-sm-block">
+								<p class="mycolororange">
+									Fuel Gain Lost
+								</p>
+								<p>${{calltags["FuelGain-sol"] | number:'2.2-2'}}</p>
+							</div>
+						</div>
+					</a>
+				</li>
+            </ul>
+        </div>
+        <div class="col-12 col-lg-9 col-xl-10">
+            <div class="tab-content h-100" id="v-pills-tabContent">
+                <div class="tab-pane fade h-100 show active" id="v-pills-EST-Power_Output" role="tabpanel" aria-labelledby="v-pills-EST-Power_Output-tab">
+					<div class="row h-100">
+						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
+							<h6 class="mycolororange"><strong>Power Output</strong></h6>
+							<p>{{calltags["PowerOutput-sol"] | number:'3.2-2'}}Mw</p>
+						</div>
+						<div class="col-12 col-md-8 col-xl-5 gris2 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_est_item01_col01')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_est_item01_col01"></canvas>
+								</div>
+							</div>							
+						</div>
+						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
+							<div class="row text-center">
+								<div class="col-4">
+									<div class="w-100"><p>Actuals</p></div><hr>
+									<div class="w-100"><canvas id="chart_est_item01_col02_col01_it01" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["PowerOutput-sol"] | number:'3.2-2'}}Mw</div>
+									<div class="w-100"><canvas id="chart_est_item01_col02_col01_it02" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["HeatRate-sol"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_est_item01_col02_col01_it03" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["CapacityFactor-sol"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_est_item01_col02_col01_it04" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["FuelGain-sol"] | number:'3.2-2'}}</div>
+								</div>
+								<div class="col-4">
+									<div class="w-100"><p>Dif</p></div><hr>
+									<div class="w-100"><canvas id="chart_est_item01_col02_col02_it01" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{454.84 - calltags["PowerOutput-sol"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_est_item01_col02_col02_it02" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["HeatRateCorreg-sol"] - calltags["HeatRate-sol"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_est_item01_col02_col02_it03" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{89 - calltags["CapacityFactor-sol"] | number:'2.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_est_item01_col02_col02_it04" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{0.211 - calltags["FuelGain-sol"] | number:'2.2-2'}}</div>
+								</div>
+								<div class="col-4">
+									<div class="w-100"><p>Expected</p></div><hr>
+									<div class="w-100"><canvas id="chart_est_item01_col02_col03_it01" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">454.84</div>
+									<div class="w-100"><canvas id="chart_est_item01_col02_col03_it02" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">{{calltags["HeatRateCorreg-sol"] | number:'3.2-2'}}</div>
+									<div class="w-100"><canvas id="chart_est_item01_col02_col03_it03" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">89%</div>
+									<div class="w-100"><canvas id="chart_est_item01_col02_col03_it04" style="height: 25px"></canvas></div>
+									<div class="w-100 f-10 mt-1">00.21</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_est_item01_col03')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_est_item01_col03"></canvas>  
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+                <div class="tab-pane fade h-100" id="v-pills-EST-Heat_Rate" role="tabpanel" aria-labelledby="v-pills-EST-Heat_Rate-tab">
+					<div class="row h-100">
+						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
+							<h6 class="mycolororange"><strong>Heat Rate</strong></h6>
+							<p>{{calltags["HeatRate-sol"] | number:'3.2-2'}} Kwh/KJ</p>
+						</div>
+						<div class="col-12 col-md-8 col-xl-5 gris2 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_est_item02_col01')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_est_item02_col01"></canvas>
+								</div>
+							</div>							
+						</div>
+						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
+						</div>
+						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_est_item02_col03')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_est_item02_col03"></canvas>  
+								</div>
+							</div>
+						</div>
+					</div>	
+				</div>
+                <div class="tab-pane fade h-100" id="v-pills-EST-Capacity_Factor" role="tabpanel" aria-labelledby="v-pills-EST-Capacity_Factor-tab">
+					<div class="row h-100">
+						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
+							<h6 class="mycolororange"><strong>Capacity Factor</strong></h6>
+							<p>{{calltags["CapacityFactor-sol"] | number:'2.2-2'}} %</p>
+						</div>
+						<div class="col-12 col-md-8 col-xl-5 gris2 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_est_item03_col01')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_est_item03_col01"></canvas>
+								</div>
+							</div>							
+						</div>
+						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
+						</div>
+						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_est_item03_col03')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_est_item03_col03"></canvas>  
+								</div>
+							</div>
+						</div>
+					</div>	
+				</div>
+                <div class="tab-pane fade h-100" id="v-pills-EST-Fuel_Gain_Lost" role="tabpanel" aria-labelledby="v-pills-EST-Fuel_Gain_Lost-tab">
+					<div class="row h-100">
+						<div class="col-12 d-block d-sm-none text-center py-3 gris3">
+							<h6 class="mycolororange"><strong>Fuel Gain/Lost</strong></h6>
+							<p>${{calltags["FuelGain-sol"] | number:'2.2-2'}}</p>
+						</div>
+						<div class="col-12 col-md-8 col-xl-5 gris2 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_est_item04_col01')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_est_item04_col01"></canvas>
+								</div>
+							</div>							
+						</div>
+						<div class="col-12 col-md-4 col-xl-2 gris2 pt-3">
+						</div>
+						<div class="col-12 col-md-12 col-xl-5 gris3 pt-3">
+							<div class="row h-100">
+								<div class="col-12">
+									<app-monitoringChartsControls
+										[chartsControl]       = "getchartControl('chart_est_item04_col03')"
+										(chartsControlOutPut) = "modifyChart($event)"
+									></app-monitoringChartsControls>
+								</div>
+								<div class="col-12 chart_medium">
+									<canvas id="chart_est_item04_col03"></canvas>  
+								</div>
+							</div>
+						</div>
+					</div>	
+				</div>
+            </div>
+        </div>
+	</div>
+	<div class="row mt-5">
+	</div>
+</div>
