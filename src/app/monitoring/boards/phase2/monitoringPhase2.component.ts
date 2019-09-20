@@ -113,6 +113,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 			data_per_graph : 10,
 			point_radius   : 3,
 			time_refreseh  : 3,
+			displayLegend  : false,
 			timePast       : new Date()
 		};
 
@@ -126,6 +127,28 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 				break;
 		}
 		
+	}
+	
+	datasetToggleChart(idchart,idDataset){
+		let chartDatasets = this.charts[idchart].data.datasets;
+		let chartYAxis = this.charts[idchart].config.options.scales.yAxes;
+
+		if (this.charts[idchart] !== undefined) {
+			for (let index = 0; index < chartDatasets.length; index++) {
+				const dataset = chartDatasets[index];
+				if(dataset['id'] == idDataset){
+					dataset.hidden = !dataset.hidden;
+				}
+			}
+	
+			for (let index = 0; index < chartYAxis.length; index++) {
+				const element = chartYAxis[index];
+				if (element.id == idDataset) {
+					element.display = !element.display;
+				}
+			}
+			this.charts[idchart].update();
+		}
 	}
 	getchartControl(idChart){
 		return TAGS.listCharts[idChart]?TAGS.listCharts[idChart]['controls'] : {idChart:false};

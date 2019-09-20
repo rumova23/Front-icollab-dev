@@ -7,4 +7,5 @@ export interface ChartControl {
     point_radius   : Number;
 	time_refreseh  : Number;
 	timePast       : Date;
+	displayLegend  : boolean,
 }

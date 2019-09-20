@@ -6,39 +6,22 @@ export var listCharts = {
             {calltags:"PowerOutput",value:function(){
                 return lstTags["PowerOutput"]['overview'][0]['value'];
                 }
-            }
-        ],
-    },
-    chart_overview_item02_col01:{
-        type:"line",
-        controls:{},
-        tags:[
+            },
             {calltags:"HeatRate",value:function(){
                 return lstTags["HeatRate"]['overview'][0]['value'];
                 }
-            }
-        ],
-    },
-    chart_overview_item03_col01:{
-        type:"line",
-        controls:{},
-        tags:[
+            },
             {calltags:"CapacityFactor",value:function(){
                 return lstTags["CapacityFactor"]['overview'][0]['value'];
                 }
-            }
-        ],
-    },
-    chart_overview_item04_col01:{
-        type:"line",
-        controls:{},
-        tags:[
+            },
             {calltags:"FuelGain",value:function(){
                 return lstTags["FuelGain"]['overview'][0]['value'];
                 }
             }
         ],
     },
+
 
     chart_eat_item01_col01:{
         type:"line",
@@ -48,38 +31,22 @@ export var listCharts = {
                 return lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value'];
                 }
             },
-        ]
-    },
-    chart_eat_item02_col01:{
-        type:"line",
-        controls:{},
-        tags:[
             {calltags:"HeatRate",value:function(){
                 return lstTags["HeatRate"]['aguila'][0]['WebTag']['Value']['Value'];
                 }
             },
-        ]
-    },
-    chart_eat_item03_col01:{
-        type:"line",
-        controls:{},
-        tags:[
             {calltags:"CapacityFactor",value:function(){
                 return lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value'];
                 }
             },
-        ]
-    },
-    chart_eat_item04_col01:{
-        type:"line",
-        controls:{},
-        tags:[
             {calltags:"FuelGain",value:function(){
                 return lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value'];
                 }
             },
         ]
     },
+
+  
     chart_eat_item01_col03:{
         type:"line",
         controls:{},
@@ -94,48 +61,8 @@ export var listCharts = {
             },    
         ]
     },
-    chart_eat_item02_col03:{
-        type:"line",
-        controls:{},
-        tags:[
-            {calltags:"PowerOutput",value:function(){
-                return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
-                }
-            },
-            {calltags:"HeatRate",value:function(){
-                return lstTags["HeatRate"]['aguila'][0]['WebTag']['Value']['Value'];
-                }
-            },    
-        ]
-    },
-    chart_eat_item03_col03:{
-        type:"line",
-        controls:{},
-        tags:[
-            {calltags:"PowerOutput",value:function(){
-                return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
-                }
-            },
-            {calltags:"HeatRate",value:function(){
-                return lstTags["HeatRate"]['aguila'][0]['WebTag']['Value']['Value'];
-                }
-            },    
-        ]
-    },
-    chart_eat_item04_col03:{
-        type:"line",
-        controls:{},
-        tags:[
-            {calltags:"PowerOutput",value:function(){
-                return lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value'];
-                }
-            },
-            {calltags:"HeatRate",value:function(){
-                return lstTags["HeatRate"]['aguila'][0]['WebTag']['Value']['Value'];
-                }
-            },    
-        ]
-    },
+
+
 
     chart_est_item01_col01:{
         type:"line",
@@ -145,38 +72,22 @@ export var listCharts = {
                 return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
                 }
             },
-        ]
-    },
-    chart_est_item02_col01:{
-        type:"line",
-        controls:{},
-        tags:[
             {calltags:"HeatRate",value:function(){
                 return lstTags["HeatRate"]['sol'][0]['WebTag']['Value']['Value'];
                 }
             },
-        ]
-    },
-    chart_est_item03_col01:{
-        type:"line",
-        controls:{},
-        tags:[
             {calltags:"CapacityFactor",value:function(){
                 return lstTags["CapacityFactor"]['sol'][0]['WebTag']['Value']['Value'];
                 }
             },
-        ]
-    },
-    chart_est_item04_col01:{
-        type:"line",
-        controls:{},
-        tags:[
             {calltags:"FuelGain",value:function(){
                 return lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value'];
                 }
             },
         ]
     },
+
+
     chart_est_item01_col03:{
         type:"line",
         controls:{},
@@ -191,49 +102,6 @@ export var listCharts = {
             },    
         ]
     },
-    chart_est_item02_col03:{
-        type:"line",
-        controls:{},
-        tags:[
-            {calltags:"PowerOutput",value:function(){
-                return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
-                }
-            },
-            {calltags:"HeatRate",value:function(){
-                return lstTags["HeatRate"]['sol'][0]['WebTag']['Value']['Value'];
-                }
-            },    
-        ]
-    },
-    chart_est_item03_col03:{
-        type:"line",
-        controls:{},
-        tags:[
-            {calltags:"PowerOutput",value:function(){
-                return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
-                }
-            },
-            {calltags:"HeatRate",value:function(){
-                return lstTags["HeatRate"]['sol'][0]['WebTag']['Value']['Value'];
-                }
-            },    
-        ]
-    },
-    chart_est_item04_col03:{
-        type:"line",
-        controls:{},
-        tags:[
-            {calltags:"PowerOutput",value:function(){
-                return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
-                }
-            },
-            {calltags:"HeatRate",value:function(){
-                return lstTags["HeatRate"]['sol'][0]['WebTag']['Value']['Value'];
-                }
-            },    
-        ]
-    },
-
 
 
 

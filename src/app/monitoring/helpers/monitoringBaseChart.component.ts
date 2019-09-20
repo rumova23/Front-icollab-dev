@@ -56,7 +56,7 @@ export const chartCreateConfig = function (controls){
 			}
 		},
 		legend: {
-			display: true,
+			display: controls['displayLegend'],
 			labels:{
 				fontColor: '#ffffff',
 				fontSize:12,
