@@ -264,7 +264,6 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					TAGS.listCharts[idChart]['controls']['timePast'] = new Date();
 					switch (TAGS.listCharts[idChart].type) {
 						case "doughnut_completo":
-							
 							this.addDataset_doughnut_completo(idChart);
 							break;
 						default:
@@ -326,7 +325,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 	}
 	addDatasetLine(idChart){
 		let chart = TAGS.listCharts[idChart];
-
+		let bandera = true;
 		for(let chartTag of chart.tags){
 			let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets, chartTag.calltags);
 			let tagconf    = TAGS.lstTags[chartTag.calltags];
@@ -383,6 +382,13 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 				//(datasetTag.data as number[])=[chartTag.value];
 			}
 			
+			if(bandera){// regimen termico
+				bandera = false;
+				this.charts[idChart].data.labels.push(this.getTime());
+				if(this.charts[idChart].data.labels.length > chart.controls.data_per_graph){
+					this.charts[idChart].data.labels.shift();
+				}
+			}
 		}
 		this.charts[idChart].update();
 		//console.log(this.charts);
@@ -393,6 +399,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 			for (const dataset of this.charts[chart].data.datasets) {
 				dataset.data = [];
 			}
+			this.charts[chart].data.labels = [];
 			this.charts[chart].update();
 		}
 	}

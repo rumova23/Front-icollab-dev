@@ -182,7 +182,15 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 			}
 		}
 	}
-
+	getTime(){
+		let checkTime = function(i) {
+			if (i < 10) {
+			  i = "0" + i;
+			}
+			return i;
+		  }
+		return checkTime(this.timeCurrent.getHours()) + ":" + checkTime(this.timeCurrent.getMinutes()) + ":" + checkTime(this.timeCurrent.getSeconds());
+	}
 
 	/*
 	 * Metodos que se tienen que definir en el controlador que hereda
