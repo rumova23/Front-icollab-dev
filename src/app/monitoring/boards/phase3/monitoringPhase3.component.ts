@@ -454,6 +454,13 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		//*/
 	}
 	dataAdapter(data){
+		
+		let checkTime = function(i) {
+			if (i < 10) {
+			  i = "0" + i;
+			}
+			return i;
+		  }
 		let bandera = true;
 		
 		for (const calltag in M3.lstTags) {
@@ -472,7 +479,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 			if(mydata != null){
 				if(bandera){// regimen termico
 					bandera = false;
-					let time3 = this.fechaActual.getHours() + ":" + this.fechaActual.getMinutes() + ":" + this.fechaActual.getSeconds();
+					let time3 = checkTime(this.fechaActual.getHours()) + ":" + checkTime(this.fechaActual.getMinutes()) + ":" + checkTime(this.fechaActual.getSeconds());
 					this.chart_01.data.labels.push(time3);
 					if(this.chart_01.data.labels.length >= this.data_per_graph_main+1){
 						this.chart_01.data.labels.shift();
