@@ -18,6 +18,7 @@ import * as BasChart                       from 'src/app/monitoring/helpers/moni
 export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent implements OnInit,OnDestroy  {
 	calltags  = []; 
 	charts    : Array<Chart> = [];
+	dataSets  : [] = [];
 
   
 	constructor(
@@ -365,8 +366,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 				
 				this.charts[idChart].data.datasets.push(newDataset);
 				this.charts[idChart].config.options.scales.yAxes.push(newYaxis);
-				//console.log(this.charts[chart].data.datasets);
-				
+				this.dataSets[idChart+"-"+chartTag.calltags] = newDataset;
 			}else{
 				
 				/**Para la grafica tipo  line , bar*/

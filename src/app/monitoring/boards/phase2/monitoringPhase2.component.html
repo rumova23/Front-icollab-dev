@@ -10,6 +10,10 @@
 					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_overview_item01_col01','PowerOutput')">
 						<div class="row">
 							<div class="col-12 col-lg-auto align-self-center mycolorgreen">
+								<span class="badge mybadge" 
+									[ngStyle]="{'background-color':dataSets['chart_overview_item01_col01-PowerOutput'].borderColor}"
+									*ngIf="(dataSets['chart_overview_item01_col01-PowerOutput'] !== undefined) && !dataSets['chart_overview_item01_col01-PowerOutput'].hidden"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
 								<i class="fas fa-bolt"></i>
 							</div>
 							<div class="col pl-lg-0 d-none d-sm-block">
@@ -22,7 +26,11 @@
 				<li class="nav-item">
 					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_overview_item01_col01','HeatRate')">
 						<div class="row">
-							<div class="col-12 col-lg-auto align-self-center mycolorgreen">
+							<div class="col-12 col-lg-auto align-self-center mycolorgreen">								
+								<span class="badge mybadge" 
+									[ngStyle]="{'background-color':dataSets['chart_overview_item01_col01-HeatRate'].borderColor}"
+									*ngIf="(dataSets['chart_overview_item01_col01-HeatRate'] !== undefined) && !dataSets['chart_overview_item01_col01-HeatRate'].hidden"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
 								<i class="fas fa-thermometer-three-quarters"></i>
 							</div>
 							<div class="col pl-lg-0 d-none d-sm-block">
@@ -35,7 +43,11 @@
 				<li class="nav-item">
 					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_overview_item01_col01','CapacityFactor')">
 						<div class="row">
-							<div class="col-12 col-lg-auto align-self-center mycolorgreen">
+							<div class="col-12 col-lg-auto align-self-center mycolorgreen">								
+								<span class="badge mybadge" 
+									[ngStyle]="{'background-color':dataSets['chart_overview_item01_col01-CapacityFactor'].borderColor}"
+									*ngIf="(dataSets['chart_overview_item01_col01-CapacityFactor'] !== undefined) && !dataSets['chart_overview_item01_col01-CapacityFactor'].hidden"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
 								<i class="fas fa-battery-three-quarters"></i>
 							</div>
 							<div class="col pl-lg-0 d-none d-sm-block">
@@ -48,7 +60,11 @@
 				<li class="nav-item">
 					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_overview_item01_col01','FuelGain')">
 						<div class="row">
-							<div class="col-12 col-lg-auto align-self-center mycolorgreen">
+							<div class="col-12 col-lg-auto align-self-center mycolorgreen">								
+								<span class="badge mybadge" 
+									[ngStyle]="{'background-color':dataSets['chart_overview_item01_col01-FuelGain'].borderColor}"
+									*ngIf="(dataSets['chart_overview_item01_col01-FuelGain'] !== undefined) && !dataSets['chart_overview_item01_col01-FuelGain'].hidden"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
 								<i class="fas fa-gas-pump"></i>
 							</div>
 							<div class="col pl-lg-0 d-none d-sm-block">
@@ -142,6 +158,10 @@
 					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_eat_item01_col01','PowerOutput')">
 						<div class="row">
 							<div class="col-12 col-lg-auto align-self-center mycolorblue">
+								<span class="badge mybadge" 
+									[ngStyle]="{'background-color':dataSets['chart_eat_item01_col01-PowerOutput'].borderColor}"
+									*ngIf="(dataSets['chart_eat_item01_col01-PowerOutput'] !== undefined) && !dataSets['chart_eat_item01_col01-PowerOutput'].hidden"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
 								<i class="fas fa-bolt"></i>
 							</div>
 							<div class="col pl-lg-0 d-none d-sm-block">
@@ -155,6 +175,10 @@
 					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_eat_item01_col01','HeatRate')">
 						<div class="row">
 							<div class="col-12 col-lg-auto align-self-center mycolorblue">
+								<span class="badge mybadge" 
+									[ngStyle]="{'background-color':dataSets['chart_eat_item01_col01-HeatRate'].borderColor}"
+									*ngIf="(dataSets['chart_eat_item01_col01-HeatRate'] !== undefined) && !dataSets['chart_eat_item01_col01-HeatRate'].hidden"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
 								<i class="fas fa-thermometer-three-quarters"></i>
 							</div>
 							<div class="col pl-lg-0 d-none d-sm-block">
@@ -168,6 +192,10 @@
 					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_eat_item01_col01','CapacityFactor')">
 						<div class="row">
 							<div class="col-12 col-lg-auto align-self-center mycolorblue">
+								<span class="badge mybadge" 
+									[ngStyle]="{'background-color':dataSets['chart_eat_item01_col01-CapacityFactor'].borderColor}"
+									*ngIf="(dataSets['chart_eat_item01_col01-CapacityFactor'] !== undefined) && !dataSets['chart_eat_item01_col01-CapacityFactor'].hidden"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
 								<i class="fas fa-battery-three-quarters"></i>
 							</div>
 							<div class="col pl-lg-0 d-none d-sm-block">
@@ -181,6 +209,10 @@
 					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_eat_item01_col01','FuelGain')">
 						<div class="row">
 							<div class="col-12 col-lg-auto align-self-center mycolorblue">
+								<span class="badge mybadge" 
+									[ngStyle]="{'background-color':dataSets['chart_eat_item01_col01-FuelGain'].borderColor}"
+									*ngIf="(dataSets['chart_eat_item01_col01-FuelGain'] !== undefined) && !dataSets['chart_eat_item01_col01-FuelGain'].hidden"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
 								<i class="fas fa-gas-pump"></i>
 							</div>
 							<div class="col pl-lg-0 d-none d-sm-block">
@@ -276,9 +308,13 @@
         <div class="col-12 col-lg-3 col-xl-2 p-0 gris3">
             <ul class="nav flex-lg-column nav-pills nav-justified">
 				<li class="nav-item">
-					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_est_item01_col01','HeatRate')">
+					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_est_item01_col01','PowerOutput')">
 						<div class="row">
 							<div class="col-12 col-lg-auto align-self-center mycolororange">
+								<span class="badge mybadge" 
+									[ngStyle]="{'background-color':dataSets['chart_est_item01_col01-PowerOutput'].borderColor}"
+									*ngIf="(dataSets['chart_est_item01_col01-PowerOutput'] !== undefined) && !dataSets['chart_est_item01_col01-PowerOutput'].hidden"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
 								<i class="fas fa-bolt"></i>
 							</div>
 							<div class="col pl-lg-0 d-none d-sm-block">
@@ -292,6 +328,10 @@
 					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_est_item01_col01','HeatRate')">
 						<div class="row">
 							<div class="col-12 col-lg-auto align-self-center mycolororange">
+								<span class="badge mybadge" 
+									[ngStyle]="{'background-color':dataSets['chart_est_item01_col01-HeatRate'].borderColor}"
+									*ngIf="(dataSets['chart_est_item01_col01-HeatRate'] !== undefined) && !dataSets['chart_est_item01_col01-HeatRate'].hidden"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
 								<i class="fas fa-thermometer-three-quarters"></i>
 							</div>
 							<div class="col pl-lg-0 d-none d-sm-block">
@@ -302,9 +342,13 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_est_item01_col01','HeatRate')">
+					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_est_item01_col01','CapacityFactor')">
 						<div class="row">
 							<div class="col-12 col-lg-auto align-self-center mycolororange">
+								<span class="badge mybadge" 
+									[ngStyle]="{'background-color':dataSets['chart_est_item01_col01-CapacityFactor'].borderColor}"
+									*ngIf="(dataSets['chart_est_item01_col01-CapacityFactor'] !== undefined) && !dataSets['chart_est_item01_col01-CapacityFactor'].hidden"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
 								<i class="fas fa-battery-three-quarters"></i>
 							</div>
 							<div class="col pl-lg-0 d-none d-sm-block">
@@ -315,9 +359,13 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_est_item01_col01','HeatRate')">
+					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_est_item01_col01','FuelGain')">
 						<div class="row">
 							<div class="col-12 col-lg-auto align-self-center mycolororange">
+								<span class="badge mybadge" 
+									[ngStyle]="{'background-color':dataSets['chart_est_item01_col01-FuelGain'].borderColor}"
+									*ngIf="(dataSets['chart_est_item01_col01-FuelGain'] !== undefined) && !dataSets['chart_est_item01_col01-FuelGain'].hidden"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
 								<i class="fas fa-gas-pump"></i>
 							</div>
 							<div class="col pl-lg-0 d-none d-sm-block">
