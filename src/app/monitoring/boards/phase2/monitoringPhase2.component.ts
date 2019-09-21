@@ -193,6 +193,9 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					if(local_tag_key == "HeatRate"){
 						overview     = (aguila + sol)/2;
 					}
+					if(local_tag_key == "HeatRateCorreg"){
+						overview     = (aguila + sol)/2;
+					}
 					local_tag.overview[0]['value']           = overview;
 					this.calltags[local_tag_key+'-aguila']   = aguila;
 					this.calltags[local_tag_key+'-sol']      = sol;
@@ -236,7 +239,8 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					let sol_value          = (((sol_HeatRateCorreg-sol_HeatRate) * 0.00004764) /  20.03);
 					let sol_temp           = {Value:{Timestamp: "2019-09-19T00:08:22.8810119Z",Value: sol_value}}
 					local_tag.sol[0]['WebTag']= sol_temp;
-
+					
+					console.log("Sol::",sol_HeatRateCorreg,sol_HeatRate,sol_value,"Aguila::",aguila_HeatRateCorreg,aguila_HeatRate);
 
 
 					

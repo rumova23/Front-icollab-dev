@@ -203,7 +203,12 @@ export const change_data_per_graph = function(chart, chartControl){
 			,element.data.length);
 		}
 	});
-	chart.data.labels  = new Array(chartC.data_per_graph);
+	if(chartC.data_per_graph < chart.data.labels.length){
+		chart.data.labels = chart.data.labels.slice(
+		chart.data.labels.length - chartC.data_per_graph
+		,chart.data.labels.length);
+	}
+	//chart.data.labels  = new Array(chartC.data_per_graph);
 }
 export const chart_update = function(chart){
 	chart.update();
