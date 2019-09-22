@@ -8,6 +8,7 @@ import { MonitoringBaseSocketOnComponent } from 'src/app/monitoring/class/monito
 import { ChartControl }                    from 'src/app/monitoring/models/ChartControl';
 import * as TAGS                           from 'src/app/monitoring/boards/phase2/config';
 import * as BasChart                       from 'src/app/monitoring/helpers/monitoringBaseChart.component';
+import { TrService } from 'src/app/safe/services/tr.service';
 
 
 @Component({
@@ -18,14 +19,36 @@ import * as BasChart                       from 'src/app/monitoring/helpers/moni
 export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent implements OnInit,OnDestroy  {
 	calltags  = []; 
 	charts    : Array<Chart> = [];
-	dataSets  : [] = [];
+	dataSets  : [] = []; // para poder conoce los colores de cada dataset 
+
+	
+	
+	weather:any;
+	date = new Date();
+	dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+	stringDate:string = '';
+	temp:any;
+	realFeelTemp:any;
+	weatherText = "";
+	weatherImg = "";
+	UVIndex: any;
+	UVIndexText: any;
+	pressureTendency: any;
+	humidity: any;
+	pressure:any;
+	windSpeed:any;
+	visibility:any;
+	hours = [];
+	predictionOptions = { weekday: 'long' };
+	predictions = [];
 
   
 	constructor(
 		public globalService        : GlobalService ,
 		public theme                : ThemeService  ,
 		public eventService         : EventService  ,
-		public socketService        : SocketService
+		public socketService        : SocketService ,
+		private trService           : TrService
 	) {
 		super(globalService,eventService,socketService);
 
@@ -36,6 +59,9 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 	}
 	  
 	ngOnInit() {
+		
+		this.stringDate = this.date.toLocaleDateString("es-ES", this.dateOptions);   
+
 		this.initializeAt0();
 		this.chartInit();
 
@@ -43,7 +69,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		this.subscribeSocketOnStatus();
 		this.subscribeSocketChanels();
 
-
+		this.getWeather();
 		/*
 		var myChart = new Chart('mychart',{
 			type: 'doughnut',
@@ -101,9 +127,23 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		if(this.globalService.socketConnect){
 			this.subscribeSocketChanelbackPiIsRun();
 			this.subscribeSocketChanelPiServers();
+			this.subscribeSocketChanelWeather();
 		}
 	}
 
+	getWeather() {
+		console.log(this.date.getTime());
+		this.trService.getWeather(this.date.getTime())
+		.subscribe(
+		  data => {
+			this.weather = data.docs[0].data;
+			this.loadWeatherData();
+			//this.getHourly();
+		  },
+		  errorData => {
+			//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
+		  });
+	  }
 	createChart(idChart){
 		
 		TAGS.listCharts[idChart]['controls'] = {
@@ -156,9 +196,14 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 	}
 
 	dataAdapter(data){
-		this.updateLocalTagValue(data);
-		this.updateLocalTagOverView();
-		this.addDataToChart();
+		if(data.name == "weather"){
+			this.weather = data.data;
+			this.loadWeatherData();
+		}else{
+			this.updateLocalTagValue(data);
+			this.updateLocalTagOverView();
+			this.addDataToChart();
+		}
 	}
 	updateLocalTagValue(data){
 		//let ii = Object.keys(TAGS.lstTags).length;
@@ -422,6 +467,26 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		BasChart.change_type_scale     ( this.charts[event.idChart], TAGS.listCharts[event.idChart], TAGS.lstTags );
 		BasChart.chart_update          ( this.charts[event.idChart] );
 	}
+	loadWeatherData() {
+		this.temp = this.weather.Temperature.Metric.Value;
+		this.realFeelTemp = this.weather.RealFeelTemperature.Metric.Value;
+		this.weatherText = this.weather.WeatherText;
+		this.UVIndex = this.weather.UVIndex;
+		this.UVIndexText = this.weather.UVIndexText;
+		this.pressureTendency = this.weather.PressureTendency.LocalizedText;
+		this.weatherImg = this.getUrlWeather();
+		this.humidity = this.weather.RelativeHumidity;
+		this.pressure = this.weather.Pressure.Metric.Value;
+		this.windSpeed = this.weather.Wind.Speed.Metric.Value;
+		this.visibility = this.weather.Visibility.Metric.Value;
+	  }
+	  
+	getUrlWeather() {
+		let img = "assets/icons/conditions/";
+			img = img + this.weather.WeatherIcon;
 
-  }
+		img = img + ".svg";
+		return img;
+	}
+}
   
