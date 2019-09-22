@@ -613,7 +613,7 @@ export var listCharts = {
         type:"doughnut_completo",
         color: function (){let color = "red"; 
             let res = lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'] - (455.4) ;
-            color = (res) > 0 ? "#46FF33":"red"; 
+            color = (res > 0 ) ? "#46FF33":"red"; 
             return color;},
         controls:{},
         tags:[
