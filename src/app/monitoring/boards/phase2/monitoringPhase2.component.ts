@@ -254,7 +254,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					let aguila_diesel_02 = TAGS.lstTags['CTDosDiesel']['aguila'][0]['WebTag']["Value"]["Value"];
 
 					let factor_para_capacityFactor = 495;
-					if(aguila_diesel_01 > 4) factor_para_capacityFactor = 405;
+					if(aguila_diesel_01 > 4 && aguila_diesel_02 > 4) factor_para_capacityFactor = 405;
 
 					let aguila_value = TAGS.lstTags['PowerOutput']['aguila'][0]['WebTag']["Value"]["Value"];
 					let value = (aguila_value / factor_para_capacityFactor )*100;
