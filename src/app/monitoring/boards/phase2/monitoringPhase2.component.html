@@ -115,11 +115,11 @@
 							<div class="w-100"><canvas id="chart_overview_item01_col02_col02_it01" style="height: 25px"></canvas></div>
 							<div class="w-100 f-10 mt-1">{{calltags["PowerOutput-overview"] - 440.55 | number:'2.2-2'}}</div>
 							<div class="w-100"><canvas id="chart_overview_item01_col02_col02_it02" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["HeatRate-overview"] - calltags["HeatRateCorreg-overview"] | number:'2.2-2'}}</div>
+							<div class="w-100 f-10 mt-1">{{calltags["HeatRateCorreg-overview"] - calltags["HeatRate-overview"] | number:'2.2-2'}}</div>
 							<div class="w-100"><canvas id="chart_overview_item01_col02_col02_it03" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{89 - calltags["CapacityFactor-overview"] | number:'2.2-2'}}</div>
+							<div class="w-100 f-10 mt-1">{{calltags["CapacityFactor-overview"] - 89 | number:'2.2-2'}}</div>
 							<div class="w-100"><canvas id="chart_overview_item01_col02_col02_it04" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{-0.246670 - calltags["FuelGain-overview"] | number:'1.2-5'}}</div>
+							<div class="w-100 f-10 mt-1">{{calltags["FuelGain-overview"] - (-0.063879 ) | number:'1.2-5'}}</div>
 						</div>
 						<div class="col-4">
 							<div class="w-100"><p>Expected</p></div><hr>
@@ -130,7 +130,7 @@
 							<div class="w-100"><canvas id="chart_overview_item01_col02_col03_it03" style="height: 25px"></canvas></div>
 							<div class="w-100 f-10 mt-1">89%</div>
 							<div class="w-100"><canvas id="chart_overview_item01_col02_col03_it04" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{ -0.246670 | number:'1.2-5'}}</div>
+							<div class="w-100 f-10 mt-1">{{ -0.063879 | number:'1.2-5'}}</div>
 						</div>
 					</div>
 				</div>
@@ -292,13 +292,13 @@
 						<div class="col-4">
 							<div class="w-100"><p>Dif</p></div><hr>
 							<div class="w-100"><canvas id="chart_eat_item01_col02_col02_it01" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{440.55 - calltags["PowerOutput-aguila"] | number:'2.2-2'}}</div>
+							<div class="w-100 f-10 mt-1">{{calltags["PowerOutput-aguila"] - 440.55 | number:'2.2-2'}}</div>
 							<div class="w-100"><canvas id="chart_eat_item01_col02_col02_it02" style="height: 25px"></canvas></div>
 							<div class="w-100 f-10 mt-1">{{calltags["HeatRateCorreg-aguila"] - calltags["HeatRate-aguila"] | number:'2.2-2'}}</div>
 							<div class="w-100"><canvas id="chart_eat_item01_col02_col02_it03" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{89 - calltags["CapacityFactor-aguila"] | number:'2.2-2'}}</div>
+							<div class="w-100 f-10 mt-1">{{calltags["CapacityFactor-aguila"] - 89 | number:'2.2-2'}}</div>
 							<div class="w-100"><canvas id="chart_eat_item01_col02_col02_it04" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{-0.246670 - calltags["FuelGain-aguila"] | number:'1.2-5'}}</div>
+							<div class="w-100 f-10 mt-1">{{calltags["FuelGain-aguila"] - (-0.246670) | number:'1.2-5'}}</div>
 						</div>
 						<div class="col-4">
 							<div class="w-100"><p>Expected</p></div><hr>
@@ -445,13 +445,13 @@
 						<div class="col-4">
 							<div class="w-100"><p>Dif</p></div><hr>
 							<div class="w-100"><canvas id="chart_est_item01_col02_col02_it01" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{455.4 - calltags["PowerOutput-sol"] | number:'2.2-2'}}</div>
+							<div class="w-100 f-10 mt-1">{{calltags["PowerOutput-sol"] - 455.4 | number:'2.2-2'}}</div>
 							<div class="w-100"><canvas id="chart_est_item01_col02_col02_it02" style="height: 25px"></canvas></div>
 							<div class="w-100 f-10 mt-1">{{calltags["HeatRateCorreg-sol"] - calltags["HeatRate-sol"] | number:'2.2-2'}}</div>
 							<div class="w-100"><canvas id="chart_est_item01_col02_col02_it03" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{89 - calltags["CapacityFactor-sol"] | number:'2.2-2'}}</div>
+							<div class="w-100 f-10 mt-1">{{calltags["CapacityFactor-sol"] - 89 | number:'2.2-2'}}</div>
 							<div class="w-100"><canvas id="chart_est_item01_col02_col02_it04" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{0.182791 - calltags["FuelGain-sol"] | number:'1.2-5' }}</div>
+							<div class="w-100 f-10 mt-1">{{calltags["FuelGain-sol"] - 0.182791 | number:'1.2-5' }}</div>
 						</div>
 						<div class="col-4">
 							<div class="w-100"><p>Expected</p></div><hr>

@@ -229,8 +229,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(89-lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value']);
-                temp.push(100-(89-lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value']));
+                temp.push(lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value'] - 89);
+                temp.push(100-(lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value'] - 89));
                 return temp;
                 }
             }  
@@ -246,8 +246,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(-0.246670 - lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
-                temp.push(lstTags["FuelGain"].max-(-0.246670 - lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']));
+                temp.push(lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value'] - (-0.063879));
+                temp.push(lstTags["FuelGain"].max-(lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value'] - (-0.063879)));
                 return temp;
                 }
             }  
@@ -315,8 +315,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(-0.246670);
-                temp.push(lstTags["FuelGain"].max - (-0.246670));
+                temp.push(-0.063879);
+                temp.push(lstTags["FuelGain"].max - (-0.063879));
                 return temp;
                 }
             }  
@@ -394,8 +394,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(438.96-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
-                temp.push(lstTags["PowerOutput"].max-(438.96-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']));
+                temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value'] - 438.96);
+                temp.push(lstTags["PowerOutput"].max-(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']) - 438.96);
                 return temp;
                 }
             }  
@@ -406,7 +406,7 @@ export var listCharts = {
         color:"red",
         controls:{},
         tags:[
-            {calltags:"PowerOutput",value:function(){
+            {calltags:"HeatRate",value:function(){
                 let temp = [];
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
@@ -423,13 +423,13 @@ export var listCharts = {
         color:"red",
         controls:{},
         tags:[
-            {calltags:"PowerOutput",value:function(){
+            {calltags:"CapacityFactor",value:function(){
                 let temp = [];
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(89-lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value']);
-                temp.push(100-(89-lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value']));
+                temp.push(lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value'] - 89);
+                temp.push(100-(lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value']) - 89);
                 return temp;
                 }
             }  
@@ -445,8 +445,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(-0.246670 - lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
-                temp.push(lstTags["FuelGain"].max - (-0.246670 - lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']));
+                temp.push(lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value'] - (-0.246670));
+                temp.push(lstTags["FuelGain"].max - (lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']) - (-0.246670));
                 return temp;
                 }
             }  
@@ -589,8 +589,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(438.96-lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value']);
-                temp.push(lstTags["PowerOutput"].max-(438.96-lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value']));
+                temp.push(lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'] - (438.96)  );
+                temp.push(lstTags["PowerOutput"].max-(lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'] - (438.96) ) );
                 return temp;
                 }
             }  
@@ -623,8 +623,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(89-lstTags["CapacityFactor"]['sol'][0]['WebTag']['Value']['Value']);
-                temp.push(100-(89-lstTags["CapacityFactor"]['sol'][0]['WebTag']['Value']['Value']));
+                temp.push(lstTags["CapacityFactor"]['sol'][0]['WebTag']['Value']['Value']  - 89 );
+                temp.push(100-(lstTags["CapacityFactor"]['sol'][0]['WebTag']['Value']['Value'] - 89)  );
                 return temp;
                 }
             }  
@@ -640,8 +640,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(0.182791 - lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value']);
-                temp.push(lstTags["FuelGain"].max -(0.182791 - lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value']));
+                temp.push(lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value'] - 0.182791   );
+                temp.push(lstTags["FuelGain"].max -(lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value'] - 0.182791)   );
                 return temp;
                 }
             }  
