@@ -54,11 +54,7 @@ export var listCharts = {
             {calltags:"PowerOutput",value:function(){
                 return lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value'];
                 }
-            },
-            {calltags:"HeatRate",value:function(){
-                return lstTags["HeatRate"]['aguila'][0]['WebTag']['Value']['Value'];
-                }
-            },    
+            }
         ]
     },
 
@@ -95,11 +91,7 @@ export var listCharts = {
             {calltags:"PowerOutput",value:function(){
                 return lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'];
                 }
-            },
-            {calltags:"HeatRate",value:function(){
-                return lstTags["HeatRate"]['sol'][0]['WebTag']['Value']['Value'];
-                }
-            },    
+            }  
         ]
     },
 

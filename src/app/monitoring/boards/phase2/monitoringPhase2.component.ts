@@ -159,6 +159,12 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 			timePast       : new Date()
 		};
 
+		if(idChart == "chart_eat_item01_col03" || idChart == "chart_est_item01_col03") {
+			TAGS.listCharts[idChart]['controls']['displayLegend']=true;
+			TAGS.listCharts[idChart]['controls']['data_per_graph']=24;
+			TAGS.listCharts[idChart]['controls']['time_refreseh']=3600;
+		}
+
 		switch (TAGS.listCharts[idChart].type) {
 			case "doughnut_completo":
 					this.charts[idChart]= new Chart(idChart, BasChart.doughnutCompletoConfig() );
