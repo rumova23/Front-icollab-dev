@@ -427,11 +427,16 @@ export var listCharts = {
         tags:[
             {calltags:"HeatRate",value:function(){
                 let temp = [];
-                /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
-                temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
-                //*/
-                temp.push(lstTags["HeatRateCorreg"]['aguila'][0]['WebTag']['Value']['Value']-lstTags["HeatRate"]['aguila'][0]['WebTag']['Value']['Value']);
-                temp.push(lstTags["HeatRate"].max-(lstTags["HeatRateCorreg"]['aguila'][0]['WebTag']['Value']['Value']-lstTags["HeatRate"]['aguila'][0]['WebTag']['Value']['Value']));
+
+                let res =     lstTags["HeatRateCorreg"]['aguila'][0]['WebTag']['Value']['Value']-lstTags["HeatRate"]['aguila'][0]['WebTag']['Value']['Value'] ;
+                if(res > 0 ){
+                    temp.push(res);
+                    temp.push(lstTags["HeatRate"].max-(res));
+                }else{
+                    temp.push(res);
+                    temp.push(lstTags["HeatRate"].max-(-(res)));
+                }
+
                 return temp;
                 }
             }  
@@ -607,7 +612,7 @@ export var listCharts = {
     chart_est_item01_col02_col02_it01:{
         type:"doughnut_completo",
         color: function (){let color = "red"; 
-            let res = lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'] - (438.96) ;
+            let res = lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'] - (455.4) ;
             color = (res) > 0 ? "#46FF33":"red"; 
             return color;},
         controls:{},
@@ -617,8 +622,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'] - (438.96)  );
-                temp.push(lstTags["PowerOutput"].max-(lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'] - (438.96) ) );
+                temp.push(lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'] - (455.4)  );
+                temp.push(lstTags["PowerOutput"].max-(lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'] - (455.4) ) );
                 return temp;
                 }
             }  
