@@ -709,7 +709,7 @@ export var listCharts = {
                 temp.push(10000-lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
                 temp.push(0.2115636);
-                temp.push(lstTags["FuelGain"].max -0.2115636);
+                temp.push(lstTags["FuelGain"].max - 0.2115636);
                 return temp;
                 }
             }  
