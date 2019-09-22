@@ -120,7 +120,7 @@ export var listCharts = {
     
     chart_overview_item01_col02_col01_it01:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -140,13 +140,13 @@ export var listCharts = {
     },
     chart_overview_item01_col02_col01_it02:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"HeatRate",value:function(){
                 let temp = [];
                 temp.push(lstTags["HeatRate"]['overview'][0]['value']);
-                temp.push((lstTags["HeatRate"].max*2)-lstTags["HeatRate"]['overview'][0]['value']);
+                temp.push((lstTags["HeatRate"].max)-lstTags["HeatRate"]['overview'][0]['value']);
                 return temp;
                 }
             }  
@@ -154,7 +154,7 @@ export var listCharts = {
     },
     chart_overview_item01_col02_col01_it03:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"CapacityFactor",value:function(){
@@ -168,7 +168,7 @@ export var listCharts = {
     },
     chart_overview_item01_col02_col01_it04:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"FuelGain",value:function(){
@@ -187,7 +187,10 @@ export var listCharts = {
 
     chart_overview_item01_col02_col02_it01:{
         type:"doughnut_completo",
-        color:"red",
+        color: function (){let color = "red"; 
+            let res = lstTags["PowerOutput"]['overview'][0]['value']-895.95;
+            color = (res) > 0 ? "#46FF33":"red";
+        return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -195,8 +198,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']-440.55);
-                temp.push(lstTags["PowerOutput"].max-(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value'])-440.55);
+                temp.push(lstTags["PowerOutput"]['overview'][0]['value']-895.95);
+                temp.push((lstTags["PowerOutput"].max*2)-(lstTags["PowerOutput"]['overview'][0]['value']-895.95));
                 return temp;
                 }
             }  
@@ -204,7 +207,11 @@ export var listCharts = {
     },
     chart_overview_item01_col02_col02_it02:{
         type:"doughnut_completo",
-        color:"red",
+        color: function (){let color = "red"; 
+        
+            let res = lstTags["HeatRateCorreg"]['overview'][0]['value']-lstTags["HeatRate"]['overview'][0]['value'];
+            color = (res) > 0 ? "#46FF33":"red";
+            return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -212,8 +219,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(lstTags["HeatRateCorreg"]['aguila'][0]['WebTag']['Value']['Value']-lstTags["HeatRate"]['aguila'][0]['WebTag']['Value']['Value']);
-                temp.push(lstTags["HeatRate"].max-(lstTags["HeatRateCorreg"]['aguila'][0]['WebTag']['Value']['Value']-lstTags["HeatRate"]['aguila'][0]['WebTag']['Value']['Value']));
+                temp.push(lstTags["HeatRateCorreg"]['overview'][0]['value']-lstTags["HeatRate"]['overview'][0]['value']);
+                temp.push(lstTags["HeatRate"].max-(lstTags["HeatRateCorreg"]['overview'][0]['value']-lstTags["HeatRate"]['overview'][0]['value']));
                 return temp;
                 }
             }  
@@ -221,7 +228,10 @@ export var listCharts = {
     },
     chart_overview_item01_col02_col02_it03:{
         type:"doughnut_completo",
-        color:"red",
+        color: function (){let color = "red"; 
+            let res = lstTags["CapacityFactor"]['overview'][0]['value']- ((89+89)/2);
+            color = (res) > 0 ? "#46FF33":"red";
+            return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -229,8 +239,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value'] - 89);
-                temp.push(100-(lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value'] - 89));
+                temp.push(lstTags["CapacityFactor"]['overview'][0]['value'] - ((89+89)/2));
+                temp.push(100-(lstTags["CapacityFactor"]['overview'][0]['value'] - ((89+89)/2)));
                 return temp;
                 }
             }  
@@ -238,7 +248,10 @@ export var listCharts = {
     },
     chart_overview_item01_col02_col02_it04:{
         type:"doughnut_completo",
-        color:"red",
+        color: function (){let color = "red"; 
+            let res = lstTags["FuelGain"]['overview'][0]['value'] - (-0.063879) ;
+            color = (res) > 0 ? "#46FF33":"red";
+            return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -246,8 +259,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value'] - (-0.063879));
-                temp.push(lstTags["FuelGain"].max-(lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value'] - (-0.063879)));
+                temp.push(lstTags["FuelGain"]['overview'][0]['value'] - (-0.063879));
+                temp.push(lstTags["FuelGain"].max-(lstTags["FuelGain"]['overview'][0]['value'] - (-0.063879)));
                 return temp;
                 }
             }  
@@ -256,7 +269,7 @@ export var listCharts = {
 
     chart_overview_item01_col02_col03_it01:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -264,8 +277,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(438.96);
-                temp.push(lstTags["PowerOutput"].max-438.96);
+                temp.push(895.95);
+                temp.push((lstTags["PowerOutput"].max*2) - (895.95));
                 return temp;
                 }
             }  
@@ -273,7 +286,7 @@ export var listCharts = {
     },
     chart_overview_item01_col02_col03_it02:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -290,7 +303,7 @@ export var listCharts = {
     },
     chart_overview_item01_col02_col03_it03:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -298,8 +311,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(89);
-                temp.push(100-89);
+                temp.push(((89+89)/2));
+                temp.push(100-((89+89)/2));
                 return temp;
                 }
             }  
@@ -307,7 +320,7 @@ export var listCharts = {
     },
     chart_overview_item01_col02_col03_it04:{
         type:"doughnut_completo",
-        color:"red",
+        color: function (){let color = "red"; return color;},
         controls:{},
         tags:[
             {calltags:"FuelGain",value:function(){
@@ -326,7 +339,7 @@ export var listCharts = {
     
     chart_eat_item01_col02_col01_it01:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -343,7 +356,7 @@ export var listCharts = {
     },
     chart_eat_item01_col02_col01_it02:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"HeatRate",value:function(){
@@ -357,7 +370,7 @@ export var listCharts = {
     },
     chart_eat_item01_col02_col01_it03:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"CapacityFactor",value:function(){
@@ -371,7 +384,7 @@ export var listCharts = {
     },
     chart_eat_item01_col02_col01_it04:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"FuelGain",value:function(){
@@ -386,7 +399,10 @@ export var listCharts = {
 
     chart_eat_item01_col02_col02_it01:{
         type:"doughnut_completo",
-        color:"red",
+        color: function (){let color = "red";
+            let res = lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value'] - 438.96 ;
+            color = (res) > 0 ? "#46FF33":"red"; 
+            return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -403,7 +419,10 @@ export var listCharts = {
     },
     chart_eat_item01_col02_col02_it02:{
         type:"doughnut_completo",
-        color:"red",
+        color: function (){let color = "red";
+        let res = lstTags["HeatRateCorreg"]['aguila'][0]['WebTag']['Value']['Value']-lstTags["HeatRate"]['aguila'][0]['WebTag']['Value']['Value'] ;
+        color = (res) > 0 ? "#46FF33":"red";
+         return color;},
         controls:{},
         tags:[
             {calltags:"HeatRate",value:function(){
@@ -420,7 +439,10 @@ export var listCharts = {
     },
     chart_eat_item01_col02_col02_it03:{
         type:"doughnut_completo",
-        color:"red",
+        color: function (){let color = "red"; 
+            let res = lstTags["CapacityFactor"]['aguila'][0]['WebTag']['Value']['Value'] - 89;
+            color = (res) > 0 ? "#46FF33":"red";
+            return color;},
         controls:{},
         tags:[
             {calltags:"CapacityFactor",value:function(){
@@ -437,7 +459,10 @@ export var listCharts = {
     },
     chart_eat_item01_col02_col02_it04:{
         type:"doughnut_completo",
-        color:"red",
+        color: function (){let color = "red"; 
+            let res = lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value'] - (-0.246670);
+            color = (res) > 0 ? "#46FF33":"red";
+            return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -455,7 +480,7 @@ export var listCharts = {
 
     chart_eat_item01_col02_col03_it01:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -472,7 +497,7 @@ export var listCharts = {
     },
     chart_eat_item01_col02_col03_it02:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -489,7 +514,7 @@ export var listCharts = {
     },
     chart_eat_item01_col02_col03_it03:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -506,7 +531,7 @@ export var listCharts = {
     },
     chart_eat_item01_col02_col03_it04:{
         type:"doughnut_completo",
-        color:"red",
+        color: function (){let color = "red"; return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -525,7 +550,7 @@ export var listCharts = {
 
     chart_est_item01_col02_col01_it01:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -539,7 +564,7 @@ export var listCharts = {
     },
     chart_est_item01_col02_col01_it02:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"HeatRate",value:function(){
@@ -553,7 +578,7 @@ export var listCharts = {
     },
     chart_est_item01_col02_col01_it03:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"CapacityFactor",value:function(){
@@ -567,7 +592,7 @@ export var listCharts = {
     },
     chart_est_item01_col02_col01_it04:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"FuelGain",value:function(){
@@ -581,7 +606,10 @@ export var listCharts = {
     },
     chart_est_item01_col02_col02_it01:{
         type:"doughnut_completo",
-        color:"red",
+        color: function (){let color = "red"; 
+            let res = lstTags["PowerOutput"]['sol'][0]['WebTag']['Value']['Value'] - (438.96) ;
+            color = (res) > 0 ? "#46FF33":"red"; 
+            return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -598,7 +626,10 @@ export var listCharts = {
     },
     chart_est_item01_col02_col02_it02:{
         type:"doughnut_completo",
-        color:"red",
+        color: function (){let color = "red"; 
+            let res = lstTags["HeatRateCorreg"]['sol'][0]['WebTag']['Value']['Value']-lstTags["HeatRate"]['sol'][0]['WebTag']['Value']['Value'];
+            color = (res) > 0 ? "#46FF33":"red"; 
+            return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -615,7 +646,10 @@ export var listCharts = {
     },
     chart_est_item01_col02_col02_it03:{
         type:"doughnut_completo",
-        color:"red",
+        color: function (){let color = "red"; 
+            let res = lstTags["CapacityFactor"]['sol'][0]['WebTag']['Value']['Value']  - 89;
+            color = (res) > 0 ? "#46FF33":"red"; 
+            return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -632,7 +666,10 @@ export var listCharts = {
     },
     chart_est_item01_col02_col02_it04:{
         type:"doughnut_completo",
-        color:"red",
+        color: function (){let color = "red"; 
+            let res = lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value'] - 0.182791 ;
+            color = (res) > 0 ? "#46FF33":"red"; 
+            return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -649,7 +686,7 @@ export var listCharts = {
     },
     chart_est_item01_col02_col03_it01:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -666,7 +703,7 @@ export var listCharts = {
     },
     chart_est_item01_col02_col03_it02:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -683,7 +720,7 @@ export var listCharts = {
     },
     chart_est_item01_col02_col03_it03:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"PowerOutput",value:function(){
@@ -700,7 +737,7 @@ export var listCharts = {
     },
     chart_est_item01_col02_col03_it04:{
         type:"doughnut_completo",
-        color:"#46FF33",
+        color: function(){let color = "#46FF33"; return color;},
         controls:{},
         tags:[
             {calltags:"FuelGain",value:function(){

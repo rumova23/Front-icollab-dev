@@ -345,7 +345,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					data: chartTag.value(),
 					borderWidth:0,
 					backgroundColor: [
-						chart.color,
+						chart.color(),
 						"#363838",
 					]
 				};
