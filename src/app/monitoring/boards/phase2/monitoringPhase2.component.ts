@@ -30,7 +30,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 	temp:any;
 	realFeelTemp:any;
 	weatherText = "";
-	weatherImg = "";
+	weatherImg = "assets/icons/conditions/1.svg";
 	UVIndex: any;
 	UVIndexText: any;
 	pressureTendency: any;
