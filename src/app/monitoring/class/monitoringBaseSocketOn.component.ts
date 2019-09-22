@@ -126,11 +126,11 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 	subscribeSocketChanelPiServers(){
 		this.addSubscriptionsPerChannel(['pi-servers','pi-servers-error']);
 		this.addChanels(["pi-servers"]);
-		let channelPiSol = this.socketService.suscribeChannel("pi-servers");
-		this.subscriptions['pi-servers-error'] = this.socketService.onChannelError(channelPiSol - 1)
+		let channel = this.socketService.suscribeChannel("pi-servers");
+		this.subscriptions['pi-servers-error'] = this.socketService.onChannelError(channel - 1)
 		.subscribe((errorChannel: any) => {/*console.log("pi-servers-error",errorChannel);*/});
 
-		this.subscriptions['pi-servers'] = this.socketService.onChannelWatch(channelPiSol - 1)
+		this.subscriptions['pi-servers'] = this.socketService.onChannelWatch(channel - 1)
 		.subscribe((data: any) => {
 			this.dataAdapter(data);
 		});
@@ -139,11 +139,47 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 		//mm-market-aguila
 		this.addSubscriptionsPerChannel(["mm-market-aguila","mm-market-aguila-error"]);
 		this.addChanels(["mm-market-aguila"]);
-		let channelPiSol = this.socketService.suscribeChannel("mm-market-aguila");
-		this.subscriptions["mm-market-aguila-error"] = this.socketService.onChannelError(channelPiSol - 1)
+		let channel = this.socketService.suscribeChannel("mm-market-aguila");
+		this.subscriptions["mm-market-aguila-error"] = this.socketService.onChannelError(channel - 1)
 		.subscribe((errorChannel: any) => {/*console.log("mm-market-aguila-error",errorChannel);*/});
 
-		this.subscriptions["mm-market-aguila"] = this.socketService.onChannelWatch(channelPiSol - 1)
+		this.subscriptions["mm-market-aguila"] = this.socketService.onChannelWatch(channel - 1)
+		.subscribe((data: any) => {
+			this.dataAdapter(data);
+		});
+	}
+	subscribeSocketChanelWeather(){
+		this.addSubscriptionsPerChannel(['weather','weather-error']);
+		this.addChanels(["weather"]);
+		let channel = this.socketService.suscribeChannel("weather");
+		this.subscriptions['weather-error'] = this.socketService.onChannelError(channel - 1)
+		.subscribe((errorChannel: any) => {/*console.log("weather-error",errorChannel);*/});
+
+		this.subscriptions['weather'] = this.socketService.onChannelWatch(channel - 1)
+		.subscribe((data: any) => {
+			this.dataAdapter(data);
+		});
+	}
+	subscribeSocketChanelForecast(){
+		this.addSubscriptionsPerChannel(['forecast','forecast-error']);
+		this.addChanels(["forecast"]);
+		let channel = this.socketService.suscribeChannel("forecast");
+		this.subscriptions['forecast-error'] = this.socketService.onChannelError(channel - 1)
+		.subscribe((errorChannel: any) => {/*console.log("forecast-error",errorChannel);*/});
+
+		this.subscriptions['forecast'] = this.socketService.onChannelWatch(channel - 1)
+		.subscribe((data: any) => {
+			this.dataAdapter(data);
+		});
+	}
+	subscribeSocketChanelHourly(){
+		this.addSubscriptionsPerChannel(['hourly','hourly-error']);
+		this.addChanels(["hourly"]);
+		let channel = this.socketService.suscribeChannel("hourly");
+		this.subscriptions['hourly-error'] = this.socketService.onChannelError(channel - 1)
+		.subscribe((errorChannel: any) => {/*console.log("hourly-error",errorChannel);*/});
+
+		this.subscriptions['hourly'] = this.socketService.onChannelWatch(channel - 1)
 		.subscribe((data: any) => {
 			this.dataAdapter(data);
 		});
