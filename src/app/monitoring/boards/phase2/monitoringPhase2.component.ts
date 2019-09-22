@@ -283,10 +283,13 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					let sol_HeatRateCorreg = TAGS.lstTags['HeatRateCorreg']['sol'][0]['WebTag']["Value"]["Value"];
 					let sol_HeatRate       = TAGS.lstTags['HeatRate']['sol'][0]['WebTag']["Value"]["Value"];
 					let sol_value          = (((sol_HeatRateCorreg-sol_HeatRate) * 0.00004764) /  20.03);
+					//sol_value = sol_value + (Math.random() * (0.0000000000000000927 - 0.0000000000000000100) + 0.0000000000000000100);
+					
 					let sol_temp           = {Value:{Timestamp: "2019-09-19T00:08:22.8810119Z",Value: sol_value}}
 					local_tag.sol[0]['WebTag']= sol_temp;
 					
-					console.log("Sol::",sol_HeatRateCorreg,sol_HeatRate,sol_value,"Aguila::",aguila_HeatRateCorreg,aguila_HeatRate);
+					
+					console.log("Fuel Gain / Lost (Sol):: (HeatRateCorreg::",sol_HeatRateCorreg,")(HeatRate::",sol_HeatRate,") ->(  ( (HeatRateCorreg - HeatRate)*0.00004764 ) / 20.03 ) = (",sol_value,")");
 
 
 					
