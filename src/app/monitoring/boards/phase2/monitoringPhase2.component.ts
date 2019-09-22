@@ -69,6 +69,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		this.subscribeSocketOnStatus();
 		this.subscribeSocketChanels();
 
+		//this.restGetWeather(this.trService);
 		this.getWeather();
 		/*
 		var myChart = new Chart('mychart',{

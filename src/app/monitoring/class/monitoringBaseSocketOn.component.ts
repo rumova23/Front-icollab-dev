@@ -238,4 +238,20 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 
 	}
 	
+
+	/* REST REQUEST */
+	
+	restGetWeather(Service) {
+		Service.getWeather(this.timeCurrent.getTime())
+		.subscribe(
+			data => {
+				this.dataAdapter(data);
+			},
+			errorData => {
+			//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
+			}
+		);
+	}
+
+	
 }
