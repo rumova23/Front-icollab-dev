@@ -246,8 +246,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(-0.2854 - lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
-                temp.push(lstTags["FuelGain"].max-(-0.2854 - lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']));
+                temp.push(-0.246670 - lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(lstTags["FuelGain"].max-(-0.246670 - lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']));
                 return temp;
                 }
             }  
@@ -315,8 +315,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(-0.2854);
-                temp.push(lstTags["FuelGain"].max - (-0.2854));
+                temp.push(-0.246670);
+                temp.push(lstTags["FuelGain"].max - (-0.246670));
                 return temp;
                 }
             }  
@@ -445,8 +445,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(-0.2854 - lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
-                temp.push(lstTags["FuelGain"].max - (-0.2854 - lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']));
+                temp.push(-0.246670 - lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(lstTags["FuelGain"].max - (-0.246670 - lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']));
                 return temp;
                 }
             }  
@@ -514,8 +514,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(-0.2854);
-                temp.push(lstTags["FuelGain"].max - (-0.2854) );
+                temp.push(-0.246670);
+                temp.push(lstTags["FuelGain"].max - (-0.246670) );
                 return temp;
                 }
             }  
@@ -640,8 +640,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(0.2115636 - lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value']);
-                temp.push(lstTags["FuelGain"].max -(0.2115636 - lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value']));
+                temp.push(0.182791 - lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value']);
+                temp.push(lstTags["FuelGain"].max -(0.182791 - lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value']));
                 return temp;
                 }
             }  
@@ -708,8 +708,8 @@ export var listCharts = {
                 /*temp.push(lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(0.2115636);
-                temp.push(lstTags["FuelGain"].max - 0.2115636);
+                temp.push(0.182791);
+                temp.push(lstTags["FuelGain"].max - 0.182791);
                 return temp;
                 }
             }  
