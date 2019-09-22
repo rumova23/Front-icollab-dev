@@ -195,8 +195,8 @@ export var listCharts = {
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
-                temp.push(438.96-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
-                temp.push(lstTags["PowerOutput"].max-(438.96-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']));
+                temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']-440.55);
+                temp.push(lstTags["PowerOutput"].max-(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value'])-440.55);
                 return temp;
                 }
             }  
@@ -310,47 +310,18 @@ export var listCharts = {
         color:"red",
         controls:{},
         tags:[
-            {calltags:"PowerOutput",value:function(){
+            {calltags:"FuelGain",value:function(){
                 let temp = [];
                 /*temp.push(lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
                 temp.push(-0.2854);
-                temp.push(90- (-0.2854));
+                temp.push(lstTags["FuelGain"].max - (-0.2854));
                 return temp;
                 }
             }  
         ]
     },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     
     chart_eat_item01_col02_col01_it01:{
@@ -406,7 +377,7 @@ export var listCharts = {
             {calltags:"FuelGain",value:function(){
                 let temp = [];
                 temp.push(lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
-                temp.push(100-lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
+                temp.push(lstTags["FuelGain"].max-lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
                 return temp;
                 }
             }  
@@ -475,7 +446,7 @@ export var listCharts = {
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
                 temp.push(-0.2854 - lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
-                temp.push(lstTags["FuelGain"].max);
+                temp.push(lstTags["FuelGain"].max - (-0.2854 - lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']));
                 return temp;
                 }
             }  
@@ -544,7 +515,7 @@ export var listCharts = {
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
                 temp.push(-0.2854);
-                temp.push(90);
+                temp.push(lstTags["FuelGain"].max - (-0.2854) );
                 return temp;
                 }
             }  
@@ -602,7 +573,7 @@ export var listCharts = {
             {calltags:"FuelGain",value:function(){
                 let temp = [];
                 temp.push(lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value']);
-                temp.push(1-lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value']);
+                temp.push(lstTags["FuelGain"].max -lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value']);
                 return temp;
                 }
             }  
@@ -670,7 +641,7 @@ export var listCharts = {
                 temp.push(10000-lstTags["PowerOutput"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
                 temp.push(0.2115636 - lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value']);
-                temp.push(1-(0.2115636 - lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value']));
+                temp.push(lstTags["FuelGain"].max -(0.2115636 - lstTags["FuelGain"]['sol'][0]['WebTag']['Value']['Value']));
                 return temp;
                 }
             }  
@@ -738,7 +709,7 @@ export var listCharts = {
                 temp.push(10000-lstTags["FuelGain"]['aguila'][0]['WebTag']['Value']['Value']);
                 //*/
                 temp.push(0.2115636);
-                temp.push(1-0.2115636);
+                temp.push(lstTags["FuelGain"].max -0.2115636);
                 return temp;
                 }
             }  
