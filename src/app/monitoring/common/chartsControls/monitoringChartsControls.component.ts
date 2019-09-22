@@ -20,10 +20,10 @@ export class MonitoringChartsControlsComponent implements OnInit {
     updateChart(form){
         this.chartsControl.type_graph     = form.value.type_graph;
         this.chartsControl.type_scale     = form.value.type_scale;
-        this.chartsControl.fill           = form.value.fill;
         this.chartsControl.data_per_graph = form.value.data_per_graph;
-        this.chartsControl.point_radius   = form.value.point_radius;
         this.chartsControl.time_refreseh  = form.value.time_refreseh;
+        if(form.value.type_graph=="line") this.chartsControl.fill           = form.value.fill;
+        if(form.value.type_graph=="line") this.chartsControl.point_radius   = form.value.point_radius;
         
         this.chartsControlOutPut.emit(this.chartsControl);
     }

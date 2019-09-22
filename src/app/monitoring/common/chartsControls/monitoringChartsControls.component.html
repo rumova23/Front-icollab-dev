@@ -24,11 +24,11 @@
                 </div>
                 <div class="form-group">
                     <label>Tamaño punto:</label>
-                    <input type="number" class="form-control" [(ngModel)]="chartsControl.point_radius" name="point_radius" min="0">
+                    <input type="number" class="form-control" [(ngModel)]="chartsControl.point_radius" name="point_radius" min="0" [disabled]="chartsControl.type_graph != 'line'">
                 </div>
                 <div class="form-group mystopPropagation">
                     <label>Tipo Lineas con fondo</label>
-                    <select class="form-control" [(ngModel)]="chartsControl.fill" name="fill">
+                    <select class="form-control" [(ngModel)]="chartsControl.fill" name="fill" [disabled]="chartsControl.type_graph != 'line'">
                     <option value="false">none</option>
                     <option value="start">start</option>
                     <option value="origin">origin</option>
