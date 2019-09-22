@@ -232,6 +232,8 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		for (const local_tag_key in TAGS.lstTags) {
 			if (TAGS.lstTags.hasOwnProperty(local_tag_key)) {
 				const local_tag  = TAGS.lstTags[local_tag_key];
+
+
 				if(["PowerOutput","HeatRate","HeatRateCorreg"].includes(local_tag_key)){
 					const aguila     = local_tag.aguila[0]['WebTag'] ? local_tag.aguila[0]['WebTag']["Value"]["Value"] : 0;
 					const sol        = local_tag.sol[0]['WebTag']    ? local_tag.sol[0]['WebTag']["Value"]["Value"]    : 0;
@@ -247,14 +249,21 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					this.calltags[local_tag_key+'-sol']      = sol;
 					this.calltags[local_tag_key+'-overview'] = overview;
 				}else if(["CapacityFactor"].includes(local_tag_key)){
+					let algo = TAGS.lstTags['CTUnoDiesel'];
+					let aguila_diesel_01 = TAGS.lstTags['CTUnoDiesel']['aguila'][0]['WebTag']["Value"]["Value"];
+					let aguila_diesel_02 = TAGS.lstTags['CTDosDiesel']['aguila'][0]['WebTag']["Value"]["Value"];
+
+					let factor_para_capacityFactor = 495;
+					if(aguila_diesel_01 > 4) factor_para_capacityFactor = 405;
+
 					let aguila_value = TAGS.lstTags['PowerOutput']['aguila'][0]['WebTag']["Value"]["Value"];
-					let value = (aguila_value / 495 )*100;
+					let value = (aguila_value / factor_para_capacityFactor )*100;
 					if(value > 100) value = 100;
 					let aguila_temp={Value:{Timestamp: "2019-09-19T00:08:22.8810119Z",Value: value}}
 					local_tag.aguila[0]['WebTag']= aguila_temp;
 
 					let sol_value = TAGS.lstTags['PowerOutput']['sol'][0]['WebTag']["Value"]["Value"];
-					let valuesol = (sol_value / 495 )*100;
+					let valuesol = (sol_value / factor_para_capacityFactor )*100;
 					if(value > 100) value = 100;
 					let sol_temp={Value:{Timestamp: "2019-09-19T00:08:22.8810119Z",Value: valuesol}}
 					local_tag.sol[0]['WebTag']= sol_temp;
