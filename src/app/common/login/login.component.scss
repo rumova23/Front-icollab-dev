@@ -27,7 +27,7 @@ html, body, header, .view {
   height: unset !important;
 }
 .intro-2 {
-  background: url('../../../assets/img/bg_full.jpg') no-repeat center center;
+  background: url('../../../assets/img/bg-large.png') no-repeat center center;
   background-size: cover;
 }
 
@@ -35,8 +35,8 @@ html, body, header, .view {
   height: 100vh !important;
 }
 .view-3 {
-  height: 10vh !important;
-  width: 10vh !important;
+  max-width: 250px;
+  height: auto;
 }
 
 .rgba-gradient .full-bg-img {
@@ -48,7 +48,7 @@ html, body, header, .view {
 
 .md-form .prefix {
   font-size: 1.5rem;
-  margin-top: 1rem;
+  /*margin-top: 1rem;*/
 }
 
 .md-form label {
