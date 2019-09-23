@@ -77,8 +77,6 @@ export class LegalAgreementComponent implements OnInit {
   }
 
   filtrarCompliance() {
-    console.log("************************");
-    
     this.limpiarTablas();
 
     this.complianceService.getCompliancePorPlantaYFechas(
@@ -86,8 +84,6 @@ export class LegalAgreementComponent implements OnInit {
         new Date(this.fFechaInicio.value),
         new Date(this.fFechaFin.value)).subscribe(
       result => {
-        console.log('PRIMERA TABLA');
-        console.log(result);
         this.elementData = result;
         this.asignarRegistros();
         this.complianceService.getDiagramas(
@@ -95,8 +91,6 @@ export class LegalAgreementComponent implements OnInit {
             new Date(this.fFechaInicio.value),
             new Date(this.fFechaFin.value)).subscribe(
           resultGant => {
-            console.log('DATOS DIAGRAMAS');
-            console.log(resultGant);
             this.elementDataGant = resultGant;
             this.asignarRegistrosGant();
           },

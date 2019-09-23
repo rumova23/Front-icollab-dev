@@ -14,7 +14,7 @@ import { ChargePpa } from 'src/app/safe/models/ChargePpa';
   styleUrls: ['./chargePpa.component.scss']
 })
 export class ChargePpaComponent implements OnInit {
-  title = "Cargos";
+  title = 'Cargos';
   data: Array<ChargePpa> = [];
   dataSource;
   cols: any[];
@@ -22,14 +22,14 @@ export class ChargePpaComponent implements OnInit {
 
   chargeForm: FormGroup;
   hour = 0;
-  config:any;
+  config: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   constructor(private marketService: MarketService,
-    public globalService: GlobalService,
-    private fb: FormBuilder,
-    private toastr: ToastrManager) {
+              public globalService: GlobalService,
+              private fb: FormBuilder,
+              private toastr: ToastrManager) {
 
   }
 
@@ -43,19 +43,19 @@ export class ChargePpaComponent implements OnInit {
       'margin',
       'others',
       'total',
-      "edit"
+      'edit'
     ];
     this.chargeForm = this.fb.group({
-      'fixed': new FormControl('', Validators.required),
-      'variable': new FormControl('', Validators.required),
-      'gas': new FormControl('', Validators.required),
-      'hr': new FormControl('', Validators.required),
-      'margin': new FormControl('', Validators.required),
-      'others': new FormControl('', Validators.required)
+      fixed: new FormControl('', Validators.required),
+      variable: new FormControl('', Validators.required),
+      gas: new FormControl('', Validators.required),
+      hr: new FormControl('', Validators.required),
+      margin: new FormControl('', Validators.required),
+      others: new FormControl('', Validators.required)
     });
-    //this.date.setDate(this.date.getDate() + 1);
+    // this.date.setDate(this.date.getDate() + 1);
    // this.loadData();
-   this.getConfigCharge();
+    this.getConfigCharge();
   }
 
   private loadData() {
@@ -103,9 +103,9 @@ export class ChargePpaComponent implements OnInit {
       entity.hour !== this.hour);
     charge.hour = this.hour;
     charge.edit = true;
-    charge.total = Number(charge.fixed) + 
+    charge.total = Number(charge.fixed) +
     Number(charge.variable) + Number(charge.gas) +
-    Number(charge.hr)  + Number(charge.margin) + 
+    Number(charge.hr)  + Number(charge.margin) +
     Number(charge.others);
     charge.total = Math.round(charge.total);
 
@@ -130,7 +130,7 @@ export class ChargePpaComponent implements OnInit {
   save2() {
     }
 
-    save(dat) {    
+    save(dat) {
     /*
     const dat = this.data = this.data.filter(entity =>
       entity.edit == true); */

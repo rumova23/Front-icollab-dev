@@ -7,9 +7,9 @@ const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
     'Accept-Language': 'es-419,es;q=0.9',
-    'Accept': 'application/json',
-    'Access-Control-Allow-Origin':'*',
-    'Authorization':'authkey',
+    Accept: 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    Authorization: 'authkey',
 
   })
 };
@@ -20,20 +20,20 @@ const httpOptions = {
 export class ComplianceService {
 
   private baseMicroComplianceUrl = environment.seguimiento;
-  
+
   constructor(private http: HttpClient) { }
 
-  getAllCompliance(){
+  getAllCompliance() {
     return this.http.get( `${ this.baseMicroComplianceUrl }legal/obten/complianceActividad`, httpOptions);
   }
 
-  getCompliancePorPlantaYFechas(plantaId: string, fechaInicio: Date, fechaFin: Date){
+  getCompliancePorPlantaYFechas(plantaId: string, fechaInicio: Date, fechaFin: Date) {
     return this.http.get( `${ this.baseMicroComplianceUrl }legal/obten/complianceActividad/${plantaId}/${fechaInicio}/${fechaFin}`, httpOptions);
   }
-  
+
   getDiagramas(plantaId: string, fechaInicio: Date, fechaFin: Date) {
     return this.http.get( `${ this.baseMicroComplianceUrl }legal/obten/obtenDiagramas/${plantaId}/${fechaInicio}/${fechaFin}`, httpOptions);
   }
-  
+
 
 }

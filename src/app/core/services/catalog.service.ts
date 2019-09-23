@@ -25,8 +25,7 @@ const httpOptions = {
 @Injectable({ providedIn: 'root' })
 export class CatalogService {
 
-  parameters: any;
-
+  parameters:any;
   constructor(private http: HttpClient, private router: Router,
               public globalService: GlobalService) {
   }

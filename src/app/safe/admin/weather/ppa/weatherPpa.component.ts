@@ -14,7 +14,7 @@ import { Validate } from 'src/app/core/helpers/util.validator.';
   styleUrls: ['./weatherPpa.component.scss']
 })
 export class WeatherPpaComponent implements OnInit {
-  title = "Consulta de variables de clima";
+  title = 'Consulta de variables de clima';
   data: Array<WeatherPpa> = [];
   dataSource;
   cols: any[];
@@ -22,14 +22,14 @@ export class WeatherPpaComponent implements OnInit {
 
   weatherForm: FormGroup;
   hour = 0;
-  config:any;
+  config: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   constructor(private marketService: MarketService,
-    public globalService: GlobalService,
-    private fb: FormBuilder,
-    private toastr: ToastrManager) {
+              public globalService: GlobalService,
+              private fb: FormBuilder,
+              private toastr: ToastrManager) {
 
   }
 
@@ -39,16 +39,16 @@ export class WeatherPpaComponent implements OnInit {
       'temperature',
       'pressure',
       'humidity',
-      "edit"
+      'edit'
     ];
     this.weatherForm = this.fb.group({
-      'temperature': new FormControl('', Validators.required),
-      'pressure': new FormControl('', Validators.required),
-      'humidity': new FormControl('', Validators.required)
+      temperature: new FormControl('', Validators.required),
+      pressure: new FormControl('', Validators.required),
+      humidity: new FormControl('', Validators.required)
     });
-    //this.date.setDate(this.date.getDate() + 1);
-    //this.loadData();
-    //this.getConfigWeather();
+    // this.date.setDate(this.date.getDate() + 1);
+    // this.loadData();
+    this.getConfigWeather();
 
 
   }
@@ -57,25 +57,24 @@ export class WeatherPpaComponent implements OnInit {
     this.marketService.listWeather(this.date.getTime())
       .subscribe(
         data => {
-          console.log(data);
           this.data = data;
-          for(var i = 0; i < this.data.length; i ++) {
-            this.data[i].colorTemperature = 
-             Number(this.data[i].temperature <= Number(this.config[0].value)) ? 
+          for (let i = 0; i < this.data.length; i ++) {
+            this.data[i].colorTemperature = this.data[i].temperature;
+            /*this.data[i].colorTemperature = Number(this.data[i].temperature <= Number(this.config[0].value)) ?
              '#05FCE5' :  Number(this.data[i].temperature >= Number(this.config[1].value)) ?
-             '#F5FC05': '';
-             this.data[i].colorHumidity = 
-             Number(this.data[i].humidity <= Number(this.config[2].value)) ? 
+             '#F5FC05' : '';*/
+            this.data[i].colorHumidity = this.data[i].humidity;
+            /*this.data[i].colorHumidity = Number(this.data[i].humidity <= Number(this.config[2].value)) ?
              '#05FCE5' :  Number(this.data[i].humidity >= Number(this.config[3].value)) ?
-             '#F5FC05': '';
-             this.data[i].colorPressure = 
-             Number(this.data[i].pressure <= Number(this.config[4].value)) ? 
+             '#F5FC05' : '';*/
+            this.data[i].colorPressure = this.data[i].pressure
+             /*this.data[i].colorPressure = Number(this.data[i].pressure <= Number(this.config[4].value)) ?
              '#05FCE5' :  Number(this.data[i].pressure >= Number(this.config[5].value)) ?
-             '#F5FC05': '';
-  
+             '#F5FC05' : '';*/
+
           }
           this.dataSource = new MatTableDataSource<any>(this.data);
-          //this.dataSource = new MatTableDataSource<any>(this.data);
+          // this.dataSource = new MatTableDataSource<any>(this.data);
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
@@ -127,6 +126,7 @@ export class WeatherPpaComponent implements OnInit {
   }
 
   dateChange(event) {
+    console.log('RTC::: XXXXXXXXXXXXXXX' );
     console.log(event);
     this.date = event.value;
     this.loadData();
@@ -143,8 +143,7 @@ export class WeatherPpaComponent implements OnInit {
       time: this.date.getTime(),
       data: dat
     })
-      .subscribe(
-        dat => {
+      .subscribe(dat => {
           this.loadData();
           this.toastr.successToastr(Constants.SAVE_SUCCESS);
         },
