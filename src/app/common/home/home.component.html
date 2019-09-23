@@ -1,90 +1,45 @@
-<section class="view intro-2" style="color:white">
-    <div class="row flex-center pt-5 mt-3 w-100">
-        <div class="col-md-6 col-xl-5 offset-xl-1">
-            <div class="card wow fadeInRight" data-wow-delay="0.3s">
-                <div class="card-body">
-                    <div class="container">
-                        <div calss="row">
-                            <div class="col-12 flex-center"><img src="../../assets/img/logosafe.png"></div>
-                        </div>
-                        <div calss="row">
-                            <div class="col-12 flex-center">
-                                <h3>I Collab</h3>
-                            </div>
-                        </div>
-                        <div calss="row">
-                            <div class="col-12 flex-center">
-                                <hr class="hr-light">
-                            </div>
-                        </div>
-                        <div calss="row">
-                            <div class="col-12">
-                                <h4>Bienvenidos</h4>
-                            </div>
-                        </div>
-                        <div calss="row">
-                            <div class="col-12">
-                                <h6>Elija el modulo al que dese ingresar</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container ">
-                        <div class="row flex-center">
-                            <div class="col-md-4"  *ngIf="existApp('Safe')">&nbsp;&nbsp;
-                                <a (click)="goSafe()">
-                                     <img src="../../assets/img/logo_safe.png">
-                                </a>
-                            </div>
-                            <div class="col-md-4" *ngIf="existApp('Compliance')">&nbsp;&nbsp;
-                                <a (click)="goCompliance()"><img
-                                        src="../../assets/img/logo_compliance.png">
-                                </a>
-                            </div>
-                            <div class="col-md-4" *ngIf="existApp('Administrative_monitoring')">&nbsp;&nbsp;
-                                <a (click)="goAdministrative_monitoring()"><img
-                                        src="../../assets/img/logo_mnitoreo.png">
-                                </a>
-                            </div>
-                            
-                            <!--a href="http://201.149.85.14:8686/dgc/Link-MockUp">
-                                <div class="col-md-4">&nbsp;&nbsp;
-                                    <img src="../../assets/img/logo_efhs.png">
-                                </div> 
-                            </a-->
-                            
-
-                            <div class="col-md-4"  *ngIf="existApp('Efh')">&nbsp;&nbsp;
-                                <img src="../../assets/img/logo_efh.png">
-                            </div> 
-                            <div class="w-100">&nbsp;</div>
-                        </div>
-                    </div>
-                    <div class="container">
-                        <div class="row flex-center">
-                            <div class="w-100">&nbsp;</div>
-                          <!--   <div class="col-md-4"  *ngIf="existApp('Monitoreo')">&nbsp;&nbsp;
-                                <img src="../../assets/img/logo_mnitoreo.png">
-                            </div>
-                            <div class="col-md-4" *ngIf="existApp('Gate')">&nbsp;&nbsp;
-                                <img src="../../assets/img/logo_gate.png">
-                            </div>
-                            <div class="col-md-4" *ngIf="existApp('Lotto')">&nbsp;&nbsp;
-                                <img src="../../assets/img/logo_lotto.png">
-                            </div> -->
-                        </div>
-                    </div>
-                    <div class="container">
-                        <div class="row flex-center">
-                            <div class="w-100">&nbsp;</div>
-                            <div class="col-md-4" *ngIf="existApp('Security')">&nbsp;&nbsp;
-                                <a (click)="goSecurity()">
-                                    <img src="../../assets/img/admin.png">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+<div class="full-height d-flex align-items-center">
+    <div class="panel px-md-5 py-5 text-center" style="margin: auto;">
+        <div class="col-12"><img src="/assets/img/common/ico_mod/ICollab.png" style="max-width: 250px;"></div>
+        <h3 class="mycolororange"><strong>I Collab</strong></h3>    
+        <hr>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="mycolororange"><strong>Bienvenidos</strong></h2>
+                    <h3><strong>Elija el modulo al que dese ingresar</strong></h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 col-md-4 my-2" *ngIf="existApp('Safe')">
+                    <a (click)="goSafe()">
+                        <img src="/assets/img/common/ico_mod/Safe-v2.png" class="img-fluid mx-auto" style="max-width: 100px;"><br>
+                        <h5>Safe</h5>
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 my-2" *ngIf="existApp('Compliance')">
+                    <a (click)="goCompliance()">
+                        <img src="/assets/img/common/ico_mod/Compliance-v2.png" class="img-fluid mx-auto" style="max-width: 100px;"><br>
+                        <h5>Compliance</h5>
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 my-2" *ngIf="existApp('Administrative_monitoring')">
+                    <a (click)="goAdministrative_monitoring()">
+                        <img src="/assets/img/common/ico_mod/MonitoreoAdministrativo-v2.png" class="img-fluid mx-auto" style="max-width: 100px;"><br>
+                        <h5>Monitoreo Administrativo</h5>
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 my-2" *ngIf="existApp('Efh')">
+                    <a (click)="goSafe()">
+                        <img src="/assets/img/common/ico_mod/EFH.png" class="img-fluid mx-auto" style="max-width: 100px;">
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 my-2" *ngIf="existApp('Security')">
+                    <a (click)="goSecurity()">
+                        <img src="/assets/img/common/ico_mod/admin.png" class="img-fluid mx-auto" style="max-width: 100px;">
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</div>
