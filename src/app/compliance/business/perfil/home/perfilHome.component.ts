@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolve
 import { ActivatedRoute } from '@angular/router';
 
 import { PerfilComponent } from '../perfil.component'; 
-//import { ResponsibilitiesComponent } from '../responsibilities/responsibilities.component';
+import { ResponsibilitiesComponent } from '../responsibilities/responsibilities.component';
 import { BehaviorComponent } from '../behavior/behavior.component';
 import { SkillsComponent } from '../skills/skills.component';
 import { DashboardsComponent } from '../dashboards/dashboards.component';
@@ -19,6 +19,7 @@ import { ObsyCommentsComponent } from '../obsyComments/obsyComments.component';
    ,SkillsComponent
    ,DashboardsComponent
    ,ObsyCommentsComponent
+   ,ResponsibilitiesComponent
   ]
 })
 export class PerfilHomeComponent implements OnInit {
@@ -57,11 +58,21 @@ export class PerfilHomeComponent implements OnInit {
     this.addFactorySkills();
     this.addFactoryDashboards();
     this.addFactoryObsyComments();
+    this.addFactoryResponsibilities();
   }
 
   private addFactoryPerfil() {
     const factoryPerfil = 
       this.componentFactoryResolver.resolveComponentFactory(PerfilComponent);
+    const refPerfil = this.perfil.createComponent(factoryPerfil);
+    refPerfil.instance.inTipo = this.tipo;
+    refPerfil.instance.inIdEmpleado = this.idEmpleado;
+    refPerfil.changeDetectorRef.detectChanges();
+  }
+
+  private addFactoryResponsibilities() {
+    const factoryPerfil = 
+      this.componentFactoryResolver.resolveComponentFactory(ResponsibilitiesComponent);
     const refPerfil = this.perfil.createComponent(factoryPerfil);
     refPerfil.instance.inTipo = this.tipo;
     refPerfil.instance.inIdEmpleado = this.idEmpleado;
