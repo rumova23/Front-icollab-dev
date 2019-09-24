@@ -30,18 +30,9 @@ export class PersonalCompetenteService {
               private globalService: GlobalService) { }
 
   setXTenantId(plantSelected) {
-    console.log('setXTenantId(plantSelected)');
-    console.log('plantSelected');
-    console.log(plantSelected);
-    console.log('this.parameters');
-    console.log(this.parameters);
 
     let user = JSON.parse(localStorage.getItem('user'));
-    console.log('user');
-    console.dir(user);
     user = user.username;
-    console.log('user');
-    console.dir(user);
 
     if (plantSelected) {
       const p1 = new HttpParams().set('X-TENANT-ID', 'aguila')
@@ -72,10 +63,10 @@ export class PersonalCompetenteService {
     return this.http.post(`${this.microSeguimiento}legal/tags/empleados?empleadoId=` + empleadoId, listtags, {params : this.parameters });
   }
   getPlantaPerfil(): Observable<any> {
-    return this.http.get(`${this.baseUrl}tag/planta/perfilActor`, {params : this.parameters });
+    return this.http.get(`${this.microSeguimiento}legal/tags/perfilActor`, {params : this.parameters });
   }
   salvarPlantaPerfilEmpleado(lista: Array<any>) {
-    return this.http.post(`${this.baseUrl}tag/planta/perfilActor`, lista, {params : this.parameters });
+    return this.http.post(`${this.microSeguimiento}legal//tags/perfilActor`, lista, {params : this.parameters });
   }
 
 }

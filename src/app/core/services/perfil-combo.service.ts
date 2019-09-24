@@ -44,13 +44,6 @@ export class PerfilComboService {
               private globalService: GlobalService) { }
 
   setXTenantId(plantSelected) {
-    /*
-    console.log("setXTenantId(plantSelected)");
-    console.log("plantSelected");
-    console.log(plantSelected);
-    console.log("this.parameters");
-    console.log(this.parameters);
-    */
       this.user = JSON.parse(localStorage.getItem('user'));
       this.user = this.user.username;
 
@@ -68,8 +61,6 @@ export class PerfilComboService {
 
   getlistCatalogoOrdenados(nameCatalogs: Array<any>) {
     this.setXTenantId(this.globalService.aguila);
-    console.log('nameCat');
-    console.log(nameCatalogs);
     // return this.http.post( `${ this.baseUrl }catalog/list`, nameCat, httpOptions);
     return this.http.post( `${ this.baseUrl }catalog/list`, nameCatalogs, {params : this.parameters });
   }

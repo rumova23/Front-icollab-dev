@@ -68,7 +68,6 @@ export class DebitNotesComponent implements OnInit {
       .subscribe(
         data => {
           this.debitNotes = data;
-          console.log(this.debitNotes);
           for(var i = 0; i < this.debitNotes.length; i++) {
             this.debitNotes[i].client = this.clients.filter(entity =>
               entity.id ===  this.debitNotes[i].idClient)[0];

@@ -12,7 +12,6 @@ export class ErrorInterceptor implements HttpInterceptor {
         request = request.clone()
         return next.handle(request).pipe(
           catchError((err: any) => {
-            console.log(err);
             if (err instanceof HttpErrorResponse) {
               if (err.status === 401) {
                 this.router.navigateByUrl('/login')

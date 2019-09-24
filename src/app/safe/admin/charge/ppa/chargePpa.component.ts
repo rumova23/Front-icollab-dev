@@ -62,7 +62,7 @@ export class ChargePpaComponent implements OnInit {
     this.marketService.listCharge(this.date.getTime())
       .subscribe(
         dat => {
-          console.log(dat);
+
           this.data = dat;
           this.dataSource = new MatTableDataSource<any>(this.data);
         },
@@ -76,7 +76,7 @@ export class ChargePpaComponent implements OnInit {
     .subscribe(
       dat => {
         this.config = dat;
-        console.log(dat);
+
       },
       errorData => {
         this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
@@ -86,7 +86,7 @@ export class ChargePpaComponent implements OnInit {
   editCharge(charge) {
     this.chargeForm.reset();
     this.hour = charge.hour;
-    console.log(charge);
+
     this.chargeForm.patchValue(charge);
   }
 
@@ -122,7 +122,7 @@ export class ChargePpaComponent implements OnInit {
   }
 
   dateChange(event) {
-    console.log(event);
+
     this.date = event.value;
     this.loadData();
   }
@@ -143,7 +143,7 @@ export class ChargePpaComponent implements OnInit {
     })
       .subscribe(
         dat => {
-          console.log(dat);
+
           this.loadData();
           this.toastr.successToastr(Constants.SAVE_SUCCESS);
         },

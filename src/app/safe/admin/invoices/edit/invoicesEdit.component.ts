@@ -184,8 +184,6 @@ export class InvoicesEditComponent implements OnInit {
             entity.catalog === 'typeRelation')[0].data;
           this.ratesIva = result.filter(entity =>
             entity.catalog === 'rateIva')[0].data;
-          console.log("rates iva");
-          console.log(this.ratesIva);
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -265,7 +263,6 @@ export class InvoicesEditComponent implements OnInit {
       .subscribe(
         data => {
           this.plantSelected = data;
-          console.log(this.plantSelected);
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -282,7 +279,6 @@ export class InvoicesEditComponent implements OnInit {
           this.setData();
         },
         errorData => {
-          console.log(errorData);
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Client');
         });
   }
@@ -298,7 +294,6 @@ export class InvoicesEditComponent implements OnInit {
       .subscribe(
         data => {
           this.invoiceSelected = data;
-          console.log(this.invoiceSelected);
           this.invoiceSelected.client = this.clients.filter(entity =>
             entity.id === this.invoiceSelected.idClient)[0];
           this.invoiceSelected.sys = this.systems.filter(entity =>
@@ -358,9 +353,7 @@ export class InvoicesEditComponent implements OnInit {
 
   editProduct(product) {
     this.productForm.reset();
-    console.log(product);
     this.idProduct = product.id;
-    console.log(product);
     this.productForm.patchValue(product);
     this.editingProduct = true;
   }
@@ -386,22 +379,21 @@ export class InvoicesEditComponent implements OnInit {
     product.percentageIva = this.ratesIva.filter(entity =>
       entity.id === product.product.idRateIvaSat)[0].percentageIva;
     product.amountIva = Number((product.amount * product.percentageIva) / 100);
-    console.log(product);
+
     this.invoiceProducts.push(product);
     const allAmounts = this.invoiceProducts.map(i => i.amount);
-    console.log(allAmounts);
+
     const allIvas = this.invoiceProducts.map(i => i.amountIva);
-    console.log(allIvas);
+
     const subtotal = allAmounts.reduce((a, b) => a + b, 0);
     const amountRateIvaTransfer = allIvas.reduce((a, b) => a + b, 0);
-    console.log(subtotal)
-    console.log(amountRateIvaTransfer);
+
     this.invoiceForm.controls['subtotal'].setValue(subtotal);
     this.invoiceForm.controls['subtotal2'].setValue(subtotal);
     this.invoiceForm.controls['amountRateIvaTransfer'].setValue(amountRateIvaTransfer);
     this.invoiceForm.controls['total'].setValue(subtotal + amountRateIvaTransfer);
 
-    console.log(this.invoiceProducts);
+
     this.productsDatasource.data = this.invoiceProducts;
     this.invoiceProducts.slice();
     this.productForm.reset();
@@ -454,7 +446,6 @@ export class InvoicesEditComponent implements OnInit {
       .subscribe(
         data => {
           this.clientSelected = data;
-          console.log(this.clientSelected);
           this.invoiceForm.controls['emails'].setValue(this.clientSelected.emailInvoice);
           this.invoiceForm.controls['paymentCondition'].setValue(
             this.paymentConditions.filter(entity =>
@@ -477,7 +468,6 @@ export class InvoicesEditComponent implements OnInit {
           this.productsDatasource.data = this.invoiceProducts;
         },
         errorData => {
-          console.log(errorData);
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Client');
         });
   }
@@ -531,7 +521,6 @@ export class InvoicesEditComponent implements OnInit {
   }
 
   save(value) {
-    console.log(value);
     if (!Validate(this.invoiceProducts)
       || this.invoiceProducts.length === 0) {
       this.toastr.errorToastr("Los productos de la factura no pueden ser vacíos",

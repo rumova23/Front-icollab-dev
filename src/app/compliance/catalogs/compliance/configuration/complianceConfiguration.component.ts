@@ -87,7 +87,6 @@ export class ComplianceConfigurationComponent implements OnInit {
     /*  
     },
     error =>{
-      console.log(<any>error);
       this.addBlock(2, null);
       this.toastr.errorToastr('Error al cargar lista de usuarios.', 'Lo siento,');
     });
@@ -99,10 +98,9 @@ export class ComplianceConfigurationComponent implements OnInit {
 
   obtenerListaTags() {
     this.addBlock(1, "Cargando...");
-    console.log( 'la planta id: ' + this.globalService.plantaDefaultId)
     this.data = [];
     this.tagService.obtenTagPorFiltros(this.globalService.plantaDefaultId).subscribe( data => {
-        console.dir( data );
+        
         let listObj = [];
         let i = 0;
         let userDetail;
@@ -127,8 +125,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 
           obj['userUpdated'] = element.userUpdated == undefined ? element.userCreated : element.userUpdated;
           let dateUpdated = element.dateUpdated == undefined ? element.dateCreated : element.dateUpdated;
-              //console.log("let dateUpdated");
-              //console.log(dateUpdated);
+
           obj['dateUpdated'] = ".";  
           if (dateUpdated){
             obj['dateUpdated'] = dateUpdated; //this.datePipe.transform(new Date(dateUpdated) ,'dd-MM-yyyy HH:mm')
@@ -151,7 +148,7 @@ export class ComplianceConfigurationComponent implements OnInit {
       error => {
         this.addBlock(2, null);
         this.toastr.errorToastr('Error al cargar lista de tags.', 'Lo siento,');
-        console.log(<any> error);
+
       }
     );
   }
@@ -168,7 +165,6 @@ export class ComplianceConfigurationComponent implements OnInit {
   }
   
   eliminarTagConfirm(tag: any){
-    console.log(tag);
     this.tagService.eliminarTag(tag.element.idTag).subscribe(
       respuesta => {
         this.addBlock(2, null);
@@ -182,7 +178,6 @@ export class ComplianceConfigurationComponent implements OnInit {
         }
       },
       error => {
-        console.log(<any> error);
         this.addBlock(2, null);
         this.toastr.errorToastr('Error al eliminar el tag.', 'Lo siento,');
       }
@@ -206,7 +201,6 @@ export class ComplianceConfigurationComponent implements OnInit {
         name: null}
        break;
     }
-    console.log(type);
     this.eventService.sendMainCompliance(new EventMessage(9, type));
  } 
 

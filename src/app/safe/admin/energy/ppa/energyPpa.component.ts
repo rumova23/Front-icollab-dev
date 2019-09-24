@@ -51,7 +51,6 @@ export class EnergyPpaComponent implements OnInit {
     this.marketService.listEnergy(this.date.getTime())
       .subscribe(
         data => {
-          console.log(data);
           this.data = data;
           this.dataSource = new MatTableDataSource<any>(this.data);
         },
@@ -63,8 +62,7 @@ export class EnergyPpaComponent implements OnInit {
   editEnergy(energy) {
     this.energyForm.reset();
     this.hour = energy.hour;
-    console.log(this.hour);
-    console.log(energy);
+
     this.energyForm.patchValue(energy);
   }
 
@@ -95,7 +93,7 @@ export class EnergyPpaComponent implements OnInit {
   }
 
   dateChange(event) {
-    console.log(event);
+
     this.date = event.value;
     this.loadData();
   }
@@ -116,7 +114,7 @@ export class EnergyPpaComponent implements OnInit {
     })
       .subscribe(
         dat => {
-          console.log(dat);
+
           this.loadData();
           this.toastr.successToastr(Constants.SAVE_SUCCESS);
         },

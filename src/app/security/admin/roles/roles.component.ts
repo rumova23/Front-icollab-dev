@@ -44,7 +44,6 @@ export class RolesComponent implements OnInit {
       .subscribe(
         data => {
           this.roles = data;
-          console.log(this.roles);
           this.loadApps();
         },
         errorData => {

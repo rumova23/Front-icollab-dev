@@ -190,9 +190,6 @@ export class PlannedPowersPPAEComponent implements OnInit {
       }
     }
 
-    //console.log(this.data);
-    //console.log(this.columnsTocheck);
-    //console.log(this.columnsToDisplay);
 
     this.dataSource = new MatTableDataSource<any>(this.data);
     //this.columnsToDisplay.push('Potencia Planeada PPA', 'Potencia Planeada Máxima Real Demostrada');

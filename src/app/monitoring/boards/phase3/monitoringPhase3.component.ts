@@ -370,12 +370,9 @@ export class MonitoringPhase3Component implements OnInit {
     }
 
     let lc_cadena = po_textoHTML.toString();
-    //console.log(lc_cadena);
 
     let ln_pos1Value = lc_cadena.indexOf(";Value") + 14;
-    //console.log("ln_pos1Value=" + ln_pos1Value);
     let ln_pos2Value = lc_cadena.substring(ln_pos1Value).indexOf(",");
-    //console.log("ln_pos2Value=" + ln_pos2Value);
     
     let lc_valor = lc_cadena.substring(ln_pos1Value, ln_pos1Value + ln_pos2Value).trim();
     return lc_valor;
@@ -482,8 +479,6 @@ export class MonitoringPhase3Component implements OnInit {
         tag.data.shift();
       }//*/
     }
-    //console.log("data",this.chart_01.data.datasets);
-    //console.log("y ",this.chart_01.config.options.scales.yAxes);
     this.chart_modal.update();
   }
   addDataset(tagconf,calltag,data){
@@ -556,8 +551,6 @@ export class MonitoringPhase3Component implements OnInit {
         tag.data.shift();
       }
     }
-    //console.log("data",this.chart_01.data.datasets);
-    //console.log("y ",this.chart_01.config.options.scales.yAxes);
     this.chart_01.update();
   }
   initializeAt0(){
@@ -580,7 +573,6 @@ export class MonitoringPhase3Component implements OnInit {
         .subscribe(() => {
           //this.conected = true;
           this.globalService.socketConnect = true;
-          console.log( "Socket Conectado" ,this.globalService.socketConnect);
           
 
 

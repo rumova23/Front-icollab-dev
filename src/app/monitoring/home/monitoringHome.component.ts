@@ -35,8 +35,7 @@ export class MonitoringHomeComponent implements OnInit {
 
       this.serviceSubscription = this.eventService.onChangeMainMonitoring.subscribe({
         next: (event: EventMessage) => {
-          console.log("complianceHome.component.ts this.eventService.onChangeMainMonitoring.subscribe(..  (event: EventMessage)");
-          console.log(event);
+
           switch (event.id) {
             case 1:
               this.aside_open = !this.aside_open;
@@ -61,11 +60,9 @@ export class MonitoringHomeComponent implements OnInit {
   
   getgender(){
     let generoId = JSON.parse(localStorage.getItem('user'));
-    //console.log("generoId");
-    //console.dir(generoId);  
+
     generoId = generoId['generoId'];
-    //console.log("generoId");
-    //console.dir(generoId);
+
     return generoId;
   }
   private periodo(){
@@ -73,8 +70,7 @@ export class MonitoringHomeComponent implements OnInit {
   }
  
   private clickMenu(event: EventMessage): void {
-      console.log("event");
-      console.dir(event);
+
     this.viewContainerRef.clear();
     let factoryComplianceTypes;
     let refComplianceTypes;

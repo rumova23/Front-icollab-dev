@@ -13,26 +13,24 @@ export class AuthGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const currentUser = this.securityService.getCurrentUser();
-        console.log('canActivate');
-        console.log(route.data.app);
-        if(!Validate(currentUser)) {
+        if (!Validate(currentUser)) {
             return false;
         }
-        if(!Validate(route.data.app)) {
+        if (!Validate(route.data.app)) {
             return false;
         }
         let permit = false;
-        if(route.data.app === 'Home') {
+        if (route.data.app === 'Home') {
             permit = !permit;
         } else {
-            permit = 
-            Validate(currentUser.apps.filter(app => app.name 
+            permit =
+            Validate(currentUser.apps.filter(app => app.name
                 === route.data.app)[0]);
         }
-        if(!permit) {
+        if (!permit) {
             this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
 
-        } 
+        }
         return permit;
     }
 }

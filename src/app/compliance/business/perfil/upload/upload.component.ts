@@ -55,9 +55,8 @@ export class UploadComponent implements OnInit {
 
   onSubmitImg() {
     this.cargar.upload(this.formGroup.controls['file'].value, 1).subscribe(
-      respuesta =>
-        console.dir(respuesta)
-    );
+      respuesta => {
+        console.dir(respuesta);
+      });
   }
-
 }

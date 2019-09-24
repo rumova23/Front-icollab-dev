@@ -76,7 +76,6 @@ export class ProductsComponent implements OnInit {
       .subscribe(
         data => {
           this.ratesIvaSat = data;
-          console.log(data);
           for (var i = 0; i < this.products.length; i++) {
             this.products[i].rateIvaSat = this.ratesIvaSat.filter(entity =>
               entity.id === this.products[i].idRateIvaSat)[0];

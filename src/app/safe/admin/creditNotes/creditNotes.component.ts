@@ -66,7 +66,7 @@ export class CreditNotesComponent implements OnInit {
       .subscribe(
         data => {
           this.creditNotes = data;
-          console.log(this.creditNotes);
+
           for(var i = 0; i < this.creditNotes.length; i++) {
             this.creditNotes[i].client = this.clients.filter(entity =>
               entity.id ===  this.creditNotes[i].idClient)[0];

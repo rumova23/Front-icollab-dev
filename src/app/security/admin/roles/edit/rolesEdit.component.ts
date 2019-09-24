@@ -64,7 +64,6 @@ export class RolesEditComponent implements OnInit {
   }
 
   save(value) {
-    console.log(value);
     this.role = value;
     this.role.id = (this.roleSelected !== null && this.roleSelected !== undefined &&
       this.roleSelected.id !== null && this.roleSelected.id !== undefined
@@ -74,7 +73,6 @@ export class RolesEditComponent implements OnInit {
     this.securityService.saveRole(this.role)
       .subscribe(
         data => {
-          console.log(data);
           this.eventService.sendMainSecurity(new EventMessage(5, null));
         },
         errorData => {

@@ -86,7 +86,7 @@ export class WeatherPpaComponent implements OnInit {
     .subscribe(
       dat => {
         this.config = dat;
-        console.log(dat);
+
       },
       errorData => {
         this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
@@ -96,7 +96,7 @@ export class WeatherPpaComponent implements OnInit {
   editWeather(weather) {
     this.weatherForm.reset();
     this.hour = weather.hour;
-    console.log(weather);
+
     this.weatherForm.patchValue(weather);
   }
 
@@ -126,8 +126,6 @@ export class WeatherPpaComponent implements OnInit {
   }
 
   dateChange(event) {
-    console.log('RTC::: XXXXXXXXXXXXXXX' );
-    console.log(event);
     this.date = event.value;
     this.loadData();
   }

@@ -28,7 +28,7 @@ export class ComplianceSidebarComponent implements OnInit {
     private securityService: SecurityService) {
 
       this.menu = securityService.getMenu('Compliance');
-       //console.log("+++++++");
+
        this.menu.push({children:[
         {children:[],
           icon: "library_books",
@@ -61,8 +61,6 @@ export class ComplianceSidebarComponent implements OnInit {
       }
 
       for (let option of this.menu) {
-        //console.log("option")
-        //console.dir(option)
         if (option.children){
           let temp:menuItem;
           let flag:boolean = true;
@@ -75,9 +73,6 @@ export class ComplianceSidebarComponent implements OnInit {
                 option.children[ins + 1] = temp;
                 flag = true;
               }
-                
-              //console.log("++");
-              //console.log(option.children[ins]['label']);
               if (option.children[ins]['label']=='Cumplimiento Legal'){
                 if (!option.children[ins].children){
                   option.children[ins].children = new Array();
@@ -111,10 +106,8 @@ export class ComplianceSidebarComponent implements OnInit {
               }
             }
           }
-          console.log("****  SALIENDO DEL while *****");
         }
       }
-      console.dir(this.menu);
 
       this.serviceSubscription = this.eventService.onChangeMainCompliance.subscribe({
         next: (event: EventMessage) => {

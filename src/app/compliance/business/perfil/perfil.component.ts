@@ -64,12 +64,6 @@ export class PerfilComponent implements OnInit {
   }
   ngOnInit() {
     //console.clear();
-    console.log('=======================================');
-    console.log('=======================================');
-    console.log('this.inTipo');
-    console.log(this.inTipo);
-    console.log('this.inIdEmpleado');
-    console.log(this.inIdEmpleado);
 
     if ( this.inIdEmpleado > 0) {
       this.labBotAcep = 'Modificar';
@@ -112,8 +106,6 @@ export class PerfilComponent implements OnInit {
 
       this.cmbos.getEmpleado(this.inIdEmpleado).subscribe(
         respuesta => {
-          console.log("1111111111111111111111111111111111111111");
-          console.log(respuesta);
           const currentDate = new Date().toISOString().substring(0, 10);
 
           this.perfilForm.controls['fNumEmpo'].setValue(respuesta[ 'empleadoId' ]);
@@ -138,8 +130,6 @@ export class PerfilComponent implements OnInit {
 
       this.cmbos.getEmpleadoDetalles(this.inIdEmpleado).subscribe(
         respuesta => {
-          console.log("22222222222222222222222222222222");
-          console.log(respuesta);
           this.perfilForm.controls['fPosicion'].setValue(respuesta[ 'posicionId' ]+'');
           this.perfilForm.controls['fDepto'].setValue(respuesta[ 'departamentoId' ]+'');
           this.perfilForm.controls['fPueTrab'].setValue(respuesta[ 'puestoTrabajoId' ]+'');
@@ -191,10 +181,6 @@ export class PerfilComponent implements OnInit {
 
     this.cmbos.getlistCatalogoOrdenados(this.arryCata).subscribe(
       poRespuesta => {
-        console.log("¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨");
-        console.log("¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨");
-        console.log("poRespuesta");
-        console.log(poRespuesta);
 
         this.resuelveDS(poRespuesta, this.generos, 'gender');
         this.resuelveDS(poRespuesta, this.grados, 'educationLevel');
@@ -205,18 +191,6 @@ export class PerfilComponent implements OnInit {
         this.resuelveDS(poRespuesta, this.horarios,'workingHour');
         this.resuelveDS(poRespuesta, this.lugares,'employeePlace');
         this.resuelveDS(poRespuesta, this.personas,'employeeDependent');
-
-        /*
-        console.log(this.generos);
-        console.log(this.grados);
-        console.log(this.posiciones);
-        console.log(this.departamentos);
-        console.log(this.puestoTrabs);
-        console.log(this.jefes);
-        console.log(this.horarios);
-        console.log(this.lugares);
-        console.log(this.personas);
-        */
       }
     );
 
@@ -295,8 +269,6 @@ export class PerfilComponent implements OnInit {
     
     this.cmbos.getSave(emp).subscribe(
       respuesta => {
-        console.log("respuesta");
-        console.dir( respuesta  );
 
         this.toastr.successToastr('El empleado fue Creado con éxito.', '¡Se ha logrado!');
         this.eventService.sendMainCompliance(new EventMessage(10, {}));

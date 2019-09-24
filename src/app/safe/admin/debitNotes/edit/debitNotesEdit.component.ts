@@ -187,8 +187,7 @@ export class DebitNotesEditComponent implements OnInit {
             entity.catalog === 'typeRelation')[0].data;
           this.ratesIva = result.filter(entity =>
             entity.catalog === 'rateIva')[0].data;
-          console.log("rates iva");
-          console.log(this.ratesIva);
+
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -268,7 +267,6 @@ export class DebitNotesEditComponent implements OnInit {
       .subscribe(
         data => {
           this.plantSelected = data;
-          console.log(this.plantSelected);
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -285,7 +283,6 @@ export class DebitNotesEditComponent implements OnInit {
           this.getInvoices();
         },
         errorData => {
-          console.log(errorData);
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Client');
         });
   }
@@ -323,7 +320,6 @@ export class DebitNotesEditComponent implements OnInit {
       .subscribe(
         data => {
           this.debitNoteSelected = data;
-          console.log(this.debitNoteSelected);
           this.debitNoteSelected.invoice = this.invoices.filter(entity =>
             entity.id === this.debitNoteSelected.idInvoice)[0];
           this.debitNoteSelected.client = this.clients.filter(entity =>

@@ -32,23 +32,14 @@ export class DashboardsComponent implements OnInit {
     this.cl_1 = ['Aciertos', 'Desacierto'];
 
     this.scalaServ.obtenCalificacion(this.inIdEmpleado).subscribe(
-      calificacion => { 
-        console.log("<<<<<<====================>>>>>>>");
-        console.log("<<<<<<=========  calificacion ===========>>>>>>>");
-        console.log(calificacion);
+      calificacion => {
 
         this.scalaServ.getReservacionesEmpleado(calificacion.calificacionId).subscribe(
          data => {
-          console.log("<<<<<<====================>>>>>>>");
-          console.log("<<<<<<==========  data ==========>>>>>>>");
-          console.log(data);
 
           for (const examenreservacion of data) {
             this.scalaServ.getGraficas(examenreservacion.examenReservacionId).subscribe(
               resultado => {
-                console.log("<<<<<<====================>>>>>>>");
-                console.log("<<<<<<==========  resultado ==========>>>>>>>");
-                console.log(resultado);
 
                 this.resuelveGrafica(resultado, 'pie', 1, true);
               });

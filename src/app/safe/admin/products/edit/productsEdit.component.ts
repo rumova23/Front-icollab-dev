@@ -74,7 +74,6 @@ export class ProductsEditComponent implements OnInit {
     this.catalogService.list(this.catalogs)
       .subscribe(
         data => {
-          console.log(data);
           const result = data;
           this.typesProduct = result.filter(entity =>
             entity.catalog === 'typeProduct')[0].data;
@@ -84,7 +83,6 @@ export class ProductsEditComponent implements OnInit {
             .subscribe(
               dat => {
                 const res = dat;
-                console.log(dat);
                 this.productsSat = res.filter(entity =>
                   entity.catalog === 'product')[0].data;
                 this.ratesIvaSat = res.filter(entity =>
@@ -133,7 +131,6 @@ export class ProductsEditComponent implements OnInit {
           }
         },
         errorData => {
-          console.log(errorData);
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Client');
         });
   }
@@ -148,7 +145,6 @@ export class ProductsEditComponent implements OnInit {
   }
 
   save(value) {
-    console.log(value);
     this.product = value;
     this.product.id = (this.productSelected !== null && this.productSelected !== undefined &&
       this.productSelected.id !== null && this.productSelected.id !== undefined

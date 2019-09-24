@@ -96,7 +96,6 @@ export class SafeHomeComponent implements OnInit {
     ) {
     this.serviceSubscription = this.eventService.onChangeMainSafe.subscribe({
       next: (event: EventMessage) => {
-        console.log(event);
         switch (event.id) {
           case 1:
             this.aside_open = !this.aside_open;
@@ -154,11 +153,7 @@ export class SafeHomeComponent implements OnInit {
      
   getgender(){
     let generoId = JSON.parse(localStorage.getItem('user'));
-    //console.log("generoId");
-    //console.dir(generoId);  
     generoId = generoId['generoId'];
-    //console.log("generoId");
-    //console.dir(generoId);
     return generoId;
   }
   private clickMenu(event: EventMessage): void {

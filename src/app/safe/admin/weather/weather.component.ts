@@ -73,12 +73,10 @@ export class WeatherComponent implements OnInit, OnDestroy {
         this.socketService.onEvent(EventSocket.CONNECT)
           .subscribe(() => {
             this.conected = true;
-            console.log(  this.conected);
           });
         this.socketService.onEvent(EventSocket.DISCONNECT)
           .subscribe(() => {
             this.conected = false;
-            console.log("Socket desconectado");
             //this.toastr.errorToastr("Socket desconectado",'Lo siento,');
           });
         this.socketService.onError()
@@ -89,16 +87,15 @@ export class WeatherComponent implements OnInit, OnDestroy {
         this.socketService.login()
           .subscribe((errorLogin: any) => {
             if (errorLogin) {
-              console.log(errorLogin);
               this.conected = false;
               //this.toastr.errorToastr(errorLogin,'Lo siento,');
             } else {
               this.channelWeather = this.socketService.suscribeChannel("weather");
-              console.log( this.channelWeather);
+
               this.channelForecast = this.socketService.suscribeChannel("forecast");
-              console.log( this.channelForecast);
+
               this.channelHourly = this.socketService.suscribeChannel("hourly");
-              console.log( this.channelHourly);
+
 
               this.socketService.onChannelError(this.channelWeather - 1)
                 .subscribe((errorChannel: any) => {
@@ -106,8 +103,6 @@ export class WeatherComponent implements OnInit, OnDestroy {
                 });
               this.socketService.onChannelWatch(this.channelWeather - 1)
                 .subscribe((data: any) => {
-                  console.log('data weather');
-                  console.log(data.data);
                   this.weather = data.data;
                   this.loadWeatherData();
                 });
@@ -118,8 +113,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
                 });
               this.socketService.onChannelWatch(this.channelForecast - 1)
                 .subscribe((data: any) => {
-                  console.log('data channelForecast');
-                  console.log(data);
+
                   this.forecast = data.data;
                   this.loadForecastData();
                 });
@@ -130,8 +124,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
                 });
               this.socketService.onChannelWatch(this.channelHourly - 1)
                 .subscribe((data: any) => {
-                  console.log('data channelHourly');
-                  console.log(data);
+
                   this.hourly = data.data;
                   this.loadHourlyData();
                 });  
@@ -145,13 +138,11 @@ export class WeatherComponent implements OnInit, OnDestroy {
   }
 
   getWeather() {
-    console.log(this.date.getTime());
     this.trService.getWeather(this.date.getTime())
     .subscribe(
       data => {
-        console.log(data);
         this.weather = data.docs[0].data;
-        console.log(this.weather);
+
         this.loadWeatherData();
         this.getHourly();
       },
@@ -206,11 +197,9 @@ export class WeatherComponent implements OnInit, OnDestroy {
     for(var i = 0; i < this.hourly.length; i ++) {
       let dateHour = new Date(this.hourly[i].DateTime);
       let hour = dateHour.getHours();
-      //console.log(dateHour);
-      //console.log(hour);
+
       dateHour.setHours(0,0,0,0);
-      //console.log(date.getTime());
-      //console.log(dateHour.getTime());
+
       if(date.getTime() === dateHour.getTime()) {
         this.hours.push({
           time: this.getTime(hour),
@@ -242,7 +231,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
     .subscribe(
       data => {
         this.forecast = data.docs[0].data;
-        console.log(this.forecast);
+
         this.loadForecastData();
       },
       errorData => {
@@ -265,7 +254,6 @@ export class WeatherComponent implements OnInit, OnDestroy {
         nightText: DailyForecasts[i].Night.ShortPhrase
       })
     }
-    console.log(this.predictions);
   }
 
 }

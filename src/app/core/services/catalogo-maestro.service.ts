@@ -44,19 +44,8 @@ export class CatalogoMaestroService {
              ,public globalService: GlobalService) { }
 
   setXTenantId(plantSelected){
-    console.log("setXTenantId(plantSelected)");
-    console.log("plantSelected");
-    console.log(plantSelected);
-    console.log("this.parameters");
-    console.log(this.parameters);    
-
-    
     let user = JSON.parse(localStorage.getItem('user'));
-    console.log("user");
-    console.dir(user);  
     user = user['username'];
-    console.log("user");
-    console.dir(user);
 
     if (plantSelected){
       let p1 = new HttpParams().set("X-TENANT-ID","aguila")
@@ -72,14 +61,7 @@ export class CatalogoMaestroService {
   }
 
   getCatalogoIndividual(catalogo){
-    console.log("============");
     this.setXTenantId(this.globalService.aguila);
-    console.log("httpOptions");
-    console.log(httpOptions);
-    console.log("this.headers");
-    console.log(this.headers);
-    console.log("this.parameters");
-    console.log(this.parameters); 
     //return this.http.get( `${ this.microCatalagoMaestro }catalog/get/` + catalogo ,httpOptions);
     //return this.http.get( `${ this.microCatalagoMaestro }catalog/get/` + catalogo , {headers:httpOptions});
     //return this.http.get( `${ this.microCatalagoMaestro }catalog/get/` + catalogo , {headers : this.headers });
@@ -110,8 +92,6 @@ export class CatalogoMaestroService {
 
   getlistCatalogoOrdenados(catalogos: Array<OrderCatalogDTO>) {
     this.setXTenantId(this.globalService.aguila);
-    console.log("catalogos");
-    console.dir(catalogos);
     return this.http.post( `${ this.microCatalagoMaestro }catalog/list`, catalogos, {params : this.parameters });   
   }
 

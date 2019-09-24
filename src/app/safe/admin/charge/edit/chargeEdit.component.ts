@@ -50,7 +50,7 @@ export class ChargeEditComponent implements OnInit {
     this.marketService.downloadCharge(this.getTypeCharge())
       .subscribe(
         data => {
-          console.log(data);
+
           let blob = new Blob([this.base64toBlob(data.file,
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')], {});
           saveAs(blob, data.name);
@@ -82,7 +82,7 @@ export class ChargeEditComponent implements OnInit {
   upload(value) {
     this.valid = false;
     let reader = new FileReader();
-    console.log(value.file);
+
     reader.onloadend = (e) => {
       this.file = reader.result;
       this.file = this.file.replace(/^data:(.*;base64,)?/, '');
@@ -94,12 +94,12 @@ export class ChargeEditComponent implements OnInit {
       })
         .subscribe(
           data => {
-            console.log(data);
+
             if (data.success) {
               if (data.message === "ok") {
                 this.save();
               } else {
-                console.log("pregunta");
+
                 this.confirmationDialogService.confirm('Confirmación', data.message)
                   .then((confirmed) => this.confirm(confirmed))
                   .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
@@ -109,7 +109,7 @@ export class ChargeEditComponent implements OnInit {
             }
           },
           errorData => {
-            console.log(errorData);
+
             this.chargeForm.reset();
             this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
           });
@@ -133,7 +133,7 @@ export class ChargeEditComponent implements OnInit {
           console.log(dataS);
         },
         errorDataS => {
-          console.log(errorDataS);
+
           this.chargeForm.reset();
           this.toastr.errorToastr(Constants.ERROR_LOAD, errorDataS);
         });

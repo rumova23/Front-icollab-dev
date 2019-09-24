@@ -32,18 +32,9 @@ export class MarketService {
   }
 
   setXTenantId(plantSelected) {
-    console.log('setXTenantId(plantSelected)');
-    console.log('plantSelected');
-    console.log(plantSelected);
-    console.log('this.parameters');
-    console.log(this.parameters);
 
     let user = JSON.parse(localStorage.getItem('user'));
-    console.log('user');
-    console.dir(user);
     user = user.username;
-    console.log('user');
-    console.dir(user);
 
     if (plantSelected) {
       const p1 = new HttpParams().set('X-TENANT-ID', 'aguila')

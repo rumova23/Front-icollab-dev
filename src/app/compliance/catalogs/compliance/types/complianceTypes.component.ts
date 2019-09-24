@@ -69,11 +69,7 @@ export class ComplianceTypesComponent implements OnInit {
 
     this.getDataSource();
      
-    console.log("**********")
-    console.dir(this.menu);
     for (let option of this.menu) {
-      //console.log("option")
-      //console.dir(option)
       if (option.children){
         let flag:boolean = true;
         while ( flag ){
@@ -83,8 +79,7 @@ export class ComplianceTypesComponent implements OnInit {
             if (option.children[ins]['label']==this.nombreCatalogo){
               if (option.children[ins].actions){
                 for (let action=0; action < option.children[ins].actions.length ; action++) {
-                   //console.log("option.children[ins].actions[action]")
-                   console.log(option.children[ins].actions[action]);
+                  
                    if (option.children[ins].actions[action] == "CREAR"){
                     this.showAdd = true;
                    }                   
@@ -103,7 +98,6 @@ export class ComplianceTypesComponent implements OnInit {
 
           }
         }
-        console.log("****  SALIENDO DEL while *****");
       }
     }
  
@@ -120,7 +114,6 @@ export class ComplianceTypesComponent implements OnInit {
           this.cargaDatos();
         },
         errorData => {
-          console.log(errorData);
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Usuarios');
           this.addBlock(2,null)
         });
@@ -133,8 +126,6 @@ export class ComplianceTypesComponent implements OnInit {
 
     this.catalogoMaestroService.getCatalogoIndividual(ComplianceTypesComponent.mainCatalog).subscribe(
       dataBack => {
-        console.log("dataBack");
-        console.dir(dataBack);
         this.result = dataBack;
         let i = 0;
         //for (let element of dataBack['result'][0]['data']) {
@@ -147,8 +138,6 @@ export class ComplianceTypesComponent implements OnInit {
           obj['description'] = element.description;
           obj['userUpdated'] = element.userUpdated == undefined ? element.userCreated : element.userUpdated;
           let dateUpdated = element.dateUpdated == undefined ? element.dateCreated : element.dateUpdated;
-              //console.log("let dateUpdated");
-              //console.log(dateUpdated);
           obj['dateUpdated'] = ".";  
           if (dateUpdated){
             obj['dateUpdated'] = this.datePipe.transform(new Date(dateUpdated) ,'dd/MM/yyyy HH:mm')
@@ -183,9 +172,6 @@ export class ComplianceTypesComponent implements OnInit {
           this.displayedColumnsActions.push({key:'sys_delete',label:'Eliminar'});
           this.columnsToDisplay.push('sys_delete');
         }
-
-        console.log("this.data");
-        console.dir(this.data);
         this.dataSource = new MatTableDataSource<any>(this.data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -227,25 +213,19 @@ export class ComplianceTypesComponent implements OnInit {
       break;
     }
 
-    console.log(type);
     this.eventService.sendMainCompliance(new EventMessage(5, type));
   }
 
 
 
   eliminarRegistro(maestroOpcion: any) {
-      console.dir(maestroOpcion);
-      console.log(maestroOpcion["referenceclone"]);
       this.confirmationDialogService.confirm('Por favor, confirme..',
           'Está seguro de eliminar el registro? ')
           .then((confirmed) => {
-            if (confirmed) {           
-              console.log("$$$$$$$$");
+            if (confirmed) {   
               this.catalogoMaestroService.outCatalogoItem(ComplianceTypesComponent.mainCatalog 
                 ,maestroOpcion.id).subscribe(
                   data =>{
-                   console.log("+++++++");
-                   console.log(data);
                    
                    this.toastr.successToastr('El registro fue correctamente eliminado', '¡Se ha logrado!');
 
@@ -322,7 +302,6 @@ export class ComplianceTypesComponent implements OnInit {
       this.addBlock(2,null)
     },
     error =>{
-      console.log(<any> error)
       this.addBlock(2,null)
       this.toastr.errorToastr('Error al cargar catalogo.', 'Lo siento,');
     });

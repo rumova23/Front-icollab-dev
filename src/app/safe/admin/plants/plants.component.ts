@@ -54,7 +54,6 @@ export class PlantsComponent implements OnInit {
       .subscribe(
         data => {
           this.plants = data;
-          console.log(this.plants);
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Plantas');

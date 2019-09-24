@@ -39,15 +39,15 @@ export class FuecdInvoiceComponent implements OnInit {
         data => {
           const status = data;
           this.accountStatus = status;
-          console.log(status);
+
           for (let a = 0; a < status.settlements.length; a++) {
             const settlement = status.settlements[a];
             for (let b = 0; b < settlement.settlementInvoices.length; b++) {
               const settlementInvoice = settlement.settlementInvoices[b];
-              console.log(settlementInvoice);
+
               for (let c = 0; c < settlementInvoice.concepts.length; c++) {
                 const concept = settlementInvoice.concepts[c];
-                //console.log(concept);
+
                 let timer: TimeRegister = {};
                 timer.fuecd = status.fuecd;
                 timer.id = concept.id;
@@ -62,7 +62,7 @@ export class FuecdInvoiceComponent implements OnInit {
                 this.timeRegisters.push(timer);
                 for (let d = 0; d < concept.annexeds.length; d++) {
                   const annexed = concept.annexeds[d];
-                  //console.log(annexed);
+
                   for (let e = 0; e < annexed.timeRegisters.length; e++) {
                     const timeRegister = annexed.timeRegisters[e];
                   }
@@ -70,7 +70,7 @@ export class FuecdInvoiceComponent implements OnInit {
               }
             }
           }
-          console.log(  this.timeRegisters);
+
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_SAVE, errorData);
@@ -98,7 +98,7 @@ export class FuecdInvoiceComponent implements OnInit {
     )
       .subscribe(
         data => {
-          console.log(data);
+
           this.eventService.sendMainSafe(new EventMessage(22, {}));
         },
         errorData => {

@@ -36,16 +36,9 @@ export class SecurityService {
 
 
   setUserId(){
-    console.log("setUserId()");
-    console.log("this.parameters");
-    console.log(this.parameters);    
 
     let user = JSON.parse(localStorage.getItem('user'));
-    console.log("user");
-    console.dir(user);  
     user = user['username'];
-    console.log("user");
-    console.dir(user);
 
     this.parameters = new HttpParams().set("user",user);
      
@@ -235,7 +228,6 @@ export class SecurityService {
   }
 
   saveRoleGrants(roleGrant: RoleGrant): Observable<any> {
-    console.log(roleGrant);
     return this.http.post(environment.securityUrl + 'grant/role/save', roleGrant);
   }
 

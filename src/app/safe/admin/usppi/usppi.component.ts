@@ -45,10 +45,10 @@ export class UsppiComponent implements OnInit {
     this.addBlock(1, null);
     this.marketService.getUsppi(data).subscribe(
       dataP => {
-        console.log(dataP);
+
         const result = dataP.Results.series[0].data;
         let datas = [];
-        console.log(result);
+
         for (var i = data.yearInit; i <= data.yearEnd; i++) {
           datas.push({
             year: i,
@@ -66,13 +66,13 @@ export class UsppiComponent implements OnInit {
             December: ""
           })
         }
-        console.log(datas);
+
         for (var a = 0; a < datas.length; a++) {
-          console.log(datas[a].year);
+
           for (var e = 0; e < result.length; e++) {
-            console.log( result[e].year);
+
             if (String(datas[a].year) === result[e].year) {
-              console.log(result[e].year);
+
               switch (result[e].periodName) {
                 case 'January':
                   datas[a].January = result[e].value;
@@ -114,9 +114,9 @@ export class UsppiComponent implements OnInit {
             }
           }
         }
-        console.log(datas);
+
         setTimeout(function(){
-          console.log(datas);
+
           this.dataSource.data = datas;
        }.bind(this), 500);
 
