@@ -59,6 +59,7 @@ export class PerfilHomeComponent implements OnInit {
     this.addFactorySkills();
     this.addFactoryDashboards();
     this.addFactoryObsyComments();
+    this.addFactoryResponsibilities();
   }
 
   private addFactoryPerfil() {
