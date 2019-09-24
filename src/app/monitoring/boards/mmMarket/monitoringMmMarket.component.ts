@@ -84,7 +84,6 @@ export class MonitoringMmMarketComponent extends MonitoringBaseSocketOnComponent
 	}
 
 	dataAdapter(data){
-		console.log(data);
 		this.data_01 = data;
 		
 		this.addDataToChart();
@@ -130,12 +129,11 @@ export class MonitoringMmMarketComponent extends MonitoringBaseSocketOnComponent
 	addDatasetLine(idChart){
 			let lst = [];
 			for (const iterator of this.data_01.data.PPA) {
-				lst.push(iterator.prediction);	
+				lst.push(parseFloat(iterator.prediction));	
 			}
-			console.log(lst);
 			
 			let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets, "chart_01");
-			let tagconf    = TAGS.lstTags["PowerOutput"];
+			let tagconf    = TAGS.lstTags["PPA"];
 			if(datasetTag == undefined){
 		
 				var hex  = tagconf.color;
@@ -159,8 +157,9 @@ export class MonitoringMmMarketComponent extends MonitoringBaseSocketOnComponent
 					ticks:{
 						fontColor:hex,
 						fontSize:12,
-						//min: tagconf.min,
-						//max: tagconf.max,
+						suggestedMin: tagconf.min,
+						suggestedMax: tagconf.max,
+						stepSize: tagconf.stepSize
 						//beginAtZero: false
 					},
 					gridLines:{
@@ -197,13 +196,28 @@ export class MonitoringMmMarketComponent extends MonitoringBaseSocketOnComponent
 	addDatasetLine2(idChart){
 		if(this.data_01 != null){
 			let lst = [];
+			for (let i = 0; i < this.data_01.data['Capacidad Excedente'].length; i++) {
+				let CapacidadExcedente     = parseFloat(this.data_01.data['Capacidad Excedente'][i]['prediction']);
+				let PPA                    = parseFloat(this.data_01.data['PPA'][i]['prediction']);
+				let PotenciaRealDemostrada = parseFloat(this.data_01.data['Potencia Real Demostrada'][i]['prediction']);
+				if(PPA <= PotenciaRealDemostrada)CapacidadExcedente = PPA + CapacidadExcedente;
+				if(PPA > PotenciaRealDemostrada )CapacidadExcedente = PotenciaRealDemostrada + CapacidadExcedente;
+				
+				/* mensaje
+				if(ppa <= prd){capacidad excedente = ppa + capacidad excedente]
+				if(ppa >= prd){capacidad excedente = prd + capacidad excedente]//*/
+					console.log("PPA::",PPA,"CapacidadExcedente::",CapacidadExcedente,"PotenciaRealDemostrada::",PotenciaRealDemostrada);
+					
+				lst.push(CapacidadExcedente);	
+			}
+			/*
 			for (const iterator of this.data_01.data['Capacidad Excedente']) {
 				lst.push(iterator.prediction);	
-			}
+			}//*/
 			console.log(lst);
 			
 			let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets, "chart_02");
-			let tagconf    = TAGS.lstTags["CapacityFactor"];
+			let tagconf    = TAGS.lstTags["CapacidadExcedente"];
 			if(datasetTag == undefined){
 		
 				var hex  = tagconf.color;
@@ -227,8 +241,9 @@ export class MonitoringMmMarketComponent extends MonitoringBaseSocketOnComponent
 					ticks:{
 						fontColor:hex,
 						fontSize:12,
-						//min: tagconf.min,
-						//max: tagconf.max,
+						suggestedMin: tagconf.min,
+						suggestedMax: tagconf.max,
+						stepSize: tagconf.stepSize
 						//beginAtZero: false
 					},
 					gridLines:{
@@ -268,11 +283,11 @@ export class MonitoringMmMarketComponent extends MonitoringBaseSocketOnComponent
 		if(this.data_01 != null){
 			let lst = [];
 			for (const iterator of this.data_01.data['Potencia Real Demostrada']) {
-				lst.push(iterator.prediction);	
+				lst.push(parseFloat(iterator.prediction));	
 			}
-			console.log(lst);
+			
 			let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets, "chart_03");
-			let tagconf    = TAGS.lstTags["getCTUnoRT"];
+			let tagconf    = TAGS.lstTags["PotenciaRealDemostrada"];
 			if(datasetTag == undefined){
 		
 				var hex  = tagconf.color;
@@ -296,8 +311,9 @@ export class MonitoringMmMarketComponent extends MonitoringBaseSocketOnComponent
 					ticks:{
 						fontColor:hex,
 						fontSize:12,
-						//min: tagconf.min,
-						//max: tagconf.max,
+						suggestedMin: tagconf.min,
+						suggestedMax: tagconf.max,
+						stepSize: tagconf.stepSize
 						//beginAtZero: false
 					},
 					gridLines:{
