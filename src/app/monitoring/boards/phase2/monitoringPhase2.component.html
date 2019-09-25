@@ -4,8 +4,8 @@
 		<div class="col-12 text-center my-3"><h2><strong>Overview</strong></h2></div>
 	</div>
 	<div class="row d-flex align-items-stretch">
-		<div class="col-12 col-lg-3 col-xl-2 p-0 gris1">
-			<ul class="nav flex-lg-column nav-pills nav-justified">
+		<div class="col-12 col-lg-3 col-xl-2 p-0 gris1 d-flex align-items-end">
+			<ul class="nav flex-lg-column nav-pills nav-justified w-100">
 				<li class="nav-item">
 					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_overview_item01_col01','PowerOutput')">
 						<div class="row">
@@ -97,40 +97,124 @@
 						</div>
 					</div>							
 				</div>
-				<div class="col-12 col-md-4 col-xl-3 gris3 pt-3">
+				<div class="col-12 col-md-4 col-xl-3 gris3 pt-3 d-flex align-items-end">
 					<div class="row text-center">
 						<div class="col-4">
-							<div class="w-100"><p>Actuals</p></div><hr>
-							<div class="w-100"><canvas id="chart_overview_item01_col02_col01_it01" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["PowerOutput-overview"] | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_overview_item01_col02_col01_it02" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["HeatRate-overview"] | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_overview_item01_col02_col01_it03" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["CapacityFactor-overview"] | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_overview_item01_col02_col01_it04" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["FuelGain-overview"] | number:'1.2-5'}}</div>
+							<div class="row hitem_titulo">
+								<div class="col">
+									<p>Actuals</p><hr>
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_overview_item01_col02_col01_it01" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["PowerOutput-overview"] | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_overview_item01_col02_col01_it02" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["HeatRate-overview"] | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_overview_item01_col02_col01_it03" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["CapacityFactor-overview"] | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_overview_item01_col02_col01_it04" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["FuelGain-overview"] | number:'1.2-5'}}
+								</div>
+							</div>
 						</div>
 						<div class="col-4">
-							<div class="w-100"><p>Dif</p></div><hr>
-							<div class="w-100"><canvas id="chart_overview_item01_col02_col02_it01" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["PowerOutput-overview"] - 895.95 | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_overview_item01_col02_col02_it02" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["HeatRateCorreg-overview"] - calltags["HeatRate-overview"] | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_overview_item01_col02_col02_it03" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["CapacityFactor-overview"] - 89 | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_overview_item01_col02_col02_it04" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["FuelGain-overview"] - (-0.063879 ) | number:'1.2-5'}}</div>
+							<div class="row hitem_titulo">
+								<div class="col-12">
+									<p>Dif</p><hr>
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_overview_item01_col02_col02_it01" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["PowerOutput-overview"] - 895.95 | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_overview_item01_col02_col02_it02" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["HeatRateCorreg-overview"] - calltags["HeatRate-overview"] | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_overview_item01_col02_col02_it03" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["CapacityFactor-overview"] - 89 | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_overview_item01_col02_col02_it04" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["FuelGain-overview"] - (-0.063879 ) | number:'1.2-5'}}
+								</div>
+							</div>
 						</div>
 						<div class="col-4">
-							<div class="w-100"><p>Expected</p></div><hr>
-							<div class="w-100"><canvas id="chart_overview_item01_col02_col03_it01" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">895.95</div>
-							<div class="w-100"><canvas id="chart_overview_item01_col02_col03_it02" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["HeatRateCorreg-overview"] | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_overview_item01_col02_col03_it03" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">88.87%</div>
-							<div class="w-100"><canvas id="chart_overview_item01_col02_col03_it04" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{ -0.063879 | number:'1.2-5'}}</div>
+							<div class="row hitem_titulo">
+								<div class="col-12">
+									<p>Expected</p><hr>
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_overview_item01_col02_col03_it01" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									895.95
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_overview_item01_col02_col03_it02" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["HeatRateCorreg-overview"] | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_overview_item01_col02_col03_it03" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									88.87%
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_overview_item01_col02_col03_it04" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{ -0.063879 | number:'1.2-5'}}
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -138,10 +222,6 @@
 					<div class="row">
 						<div class="col">
 							<h5>VillaMar</h5>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col">
 							<div>{{stringDate}}</div>
 							<div>{{weatherText}}</div>
 							<div>Sensación Real®: {{realFeelTemp}} ℃</div>
@@ -183,8 +263,8 @@
 		<div class="col-12 text-center mycolorblue my-3"><h2><strong class="mr-3">EAT</strong><img alt="" height="35" width="45" src="/assets/images/skins/shape_1.png"></h2></div>
 	</div>
     <div class="row d-flex align-items-stretch">
-		<div class="col-12 col-lg-3 col-xl-2 p-0 gris3">
-			<ul class="nav flex-lg-column nav-pills nav-justified">
+		<div class="col-12 col-lg-3 col-xl-2 p-0 gris3  d-flex align-items-end">
+			<ul class="nav flex-lg-column nav-pills nav-justified w-100">
 				<li class="nav-item">
 					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_eat_item01_col01','PowerOutput')">
 						<div class="row">
@@ -279,37 +359,121 @@
 				<div class="col-12 col-md-4 col-xl-3 gris3 pt-3">
 					<div class="row text-center">
 						<div class="col-4">
-							<div class="w-100"><p>Actuals</p></div><hr>
-							<div class="w-100"><canvas id="chart_eat_item01_col02_col01_it01" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["PowerOutput-aguila"] | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_eat_item01_col02_col01_it02" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["HeatRate-aguila"] | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_eat_item01_col02_col01_it03" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["CapacityFactor-aguila"] | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_eat_item01_col02_col01_it04" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["FuelGain-aguila"] | number:'1.2-5'}}</div>
+							<div class="row hitem_titulo">
+								<div class="col-12">
+									<p>Actuals</p><hr>
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_eat_item01_col02_col01_it01" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["PowerOutput-aguila"] | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_eat_item01_col02_col01_it02" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["HeatRate-aguila"] | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_eat_item01_col02_col01_it03" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["CapacityFactor-aguila"] | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_eat_item01_col02_col01_it04" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["FuelGain-aguila"] | number:'1.2-5'}}
+								</div>
+							</div>
 						</div>
 						<div class="col-4">
-							<div class="w-100"><p>Dif</p></div><hr>
-							<div class="w-100"><canvas id="chart_eat_item01_col02_col02_it01" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["PowerOutput-aguila"] - 440.55 | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_eat_item01_col02_col02_it02" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["HeatRateCorreg-aguila"] - calltags["HeatRate-aguila"] | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_eat_item01_col02_col02_it03" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["CapacityFactor-aguila"] - 89 | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_eat_item01_col02_col02_it04" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["FuelGain-aguila"] - (-0.246670) | number:'1.2-5'}}</div>
+							<div class="row hitem_titulo">
+								<div class="col-12">
+									<p>Dif</p><hr>
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_eat_item01_col02_col02_it01" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["PowerOutput-aguila"] - 440.55 | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_eat_item01_col02_col02_it02" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["HeatRateCorreg-aguila"] - calltags["HeatRate-aguila"] | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_eat_item01_col02_col02_it03" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["CapacityFactor-aguila"] - 89 | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_eat_item01_col02_col02_it04" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["FuelGain-aguila"] - (-0.246670) | number:'1.2-5'}}
+								</div>
+							</div>
 						</div>
 						<div class="col-4">
-							<div class="w-100"><p>Expected</p></div><hr>
-							<div class="w-100"><canvas id="chart_eat_item01_col02_col03_it01" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">440.55</div>
-							<div class="w-100"><canvas id="chart_eat_item01_col02_col03_it02" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["HeatRateCorreg-aguila"] | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_eat_item01_col02_col03_it03" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">89%</div>
-							<div class="w-100"><canvas id="chart_eat_item01_col02_col03_it04" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{ -0.246670 | number:'1.2-5'}}</div>
+							<div class="row hitem_titulo">
+								<div class="col-12">
+									<p>Expected</p><hr>
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_eat_item01_col02_col03_it01" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									440.55
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_eat_item01_col02_col03_it02" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["HeatRateCorreg-aguila"] | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_eat_item01_col02_col03_it03" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									89%
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_eat_item01_col02_col03_it04" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{ -0.246670 | number:'1.2-5'}}
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -336,8 +500,8 @@
 		<div class="col-12 text-center mycolororange my-3"><h2><strong class="mr-3">EST</strong><img alt="" height="35" width="45" src="/assets/images/skins/logobotonsol.png"></h2></div>
 	</div>
     <div class="row d-flex align-items-stretch">
-        <div class="col-12 col-lg-3 col-xl-2 p-0 gris3">
-            <ul class="nav flex-lg-column nav-pills nav-justified">
+        <div class="col-12 col-lg-3 col-xl-2 p-0 gris3 d-flex align-items-end">
+            <ul class="nav flex-lg-column nav-pills nav-justified w-100">
 				<li class="nav-item">
 					<a class="nav-link rounded-0 text-lg-left" (click)="datasetToggleChart('chart_est_item01_col01','PowerOutput')">
 						<div class="row">
@@ -432,37 +596,121 @@
 				<div class="col-12 col-md-4 col-xl-3 gris3 pt-3">
 					<div class="row text-center">
 						<div class="col-4">
-							<div class="w-100"><p>Actuals</p></div><hr>
-							<div class="w-100"><canvas id="chart_est_item01_col02_col01_it01" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["PowerOutput-sol"] | number:'2.2-2'}}Mw</div>
-							<div class="w-100"><canvas id="chart_est_item01_col02_col01_it02" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["HeatRate-sol"] | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_est_item01_col02_col01_it03" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["CapacityFactor-sol"] | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_est_item01_col02_col01_it04" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["FuelGain-sol"] | number:'1.2-5'}}</div>
+							<div class="row hitem_titulo">
+								<div class="col-12">
+									<p>Actuals</p><hr>
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_est_item01_col02_col01_it01" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["PowerOutput-sol"] | number:'2.2-2'}}Mw
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_est_item01_col02_col01_it02" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["HeatRate-sol"] | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_est_item01_col02_col01_it03" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["CapacityFactor-sol"] | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_est_item01_col02_col01_it04" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["FuelGain-sol"] | number:'1.2-5'}}
+								</div>
+							</div>
 						</div>
 						<div class="col-4">
-							<div class="w-100"><p>Dif</p></div><hr>
-							<div class="w-100"><canvas id="chart_est_item01_col02_col02_it01" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["PowerOutput-sol"] - 455.4 | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_est_item01_col02_col02_it02" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["HeatRateCorreg-sol"] - calltags["HeatRate-sol"] | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_est_item01_col02_col02_it03" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["CapacityFactor-sol"] - 89 | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_est_item01_col02_col02_it04" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["FuelGain-sol"] - 0.182791 | number:'1.2-5' }}</div>
+							<div class="row hitem_titulo">
+								<div class="col-12">
+									<p>Dif</p><hr>
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_est_item01_col02_col02_it01" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["PowerOutput-sol"] - 455.4 | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_est_item01_col02_col02_it02" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["HeatRateCorreg-sol"] - calltags["HeatRate-sol"] | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_est_item01_col02_col02_it03" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["CapacityFactor-sol"] - 89 | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_est_item01_col02_col02_it04" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["FuelGain-sol"] - 0.182791 | number:'1.2-5' }}
+								</div>
+							</div>
 						</div>
 						<div class="col-4">
-							<div class="w-100"><p>Expected</p></div><hr>
-							<div class="w-100"><canvas id="chart_est_item01_col02_col03_it01" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">455.4</div>
-							<div class="w-100"><canvas id="chart_est_item01_col02_col03_it02" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{calltags["HeatRateCorreg-sol"] | number:'2.2-2'}}</div>
-							<div class="w-100"><canvas id="chart_est_item01_col02_col03_it03" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">89%</div>
-							<div class="w-100"><canvas id="chart_est_item01_col02_col03_it04" style="height: 25px"></canvas></div>
-							<div class="w-100 f-10 mt-1">{{ 0.182791| number:'1.2-5' }}</div>
+							<div class="row hitem_titulo">
+								<div class="col-12">
+									<p>Expected</p><hr>
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_est_item01_col02_col03_it01" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									455.4
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_est_item01_col02_col03_it02" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{calltags["HeatRateCorreg-sol"] | number:'2.2-2'}}
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_est_item01_col02_col03_it03" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									89%
+								</div>
+							</div>
+							<div class="row hitem">
+								<div class="col-12">
+									<canvas id="chart_est_item01_col02_col03_it04" style="height: 25px"></canvas>
+								</div>
+								<div class="col-12 f-10">
+									{{ 0.182791| number:'1.2-5' }}
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
