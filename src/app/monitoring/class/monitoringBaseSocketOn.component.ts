@@ -11,9 +11,9 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 })
 export class MonitoringBaseSocketOnComponent implements OnInit {
 	public PiIsRun                 : boolean        = false;
-	public subscriptions           : Subscription[] = [];
-	public timeCurrent             : Date           = new Date();
-	public subscriptionsPerChannel : Array<string>  = [];
+	public subscriptions           : Subscription[] = [];          // almacena las todos los observables
+	public timeCurrent             : Date           = new Date();  // Se actualiza cada segundo subscribeEverySecond();
+	public subscriptionsPerChannel : Array<string>  = []; //tiene el listado de los keys de subscriptions que solo corresponden a los canales del socket
 	public chanels                 : Array<string>  = [];
 
 

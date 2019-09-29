@@ -74,4 +74,5 @@ export const environment = {
   ,modelMarket   : 'http://200.52.85.140:11123/mmmercado/'  // estatus maestro
   ,trUrl         : 'http://200.52.85.140:11123/tr/'   // weather
   ,monitoringUrl : 'http://200.52.85.140:1212/ftpconsumer/'  // Monitoreo FTP
+  ,urlTrPi       : 'http://200.52.85.140:1119/'  // micro catalago maestro   
 };

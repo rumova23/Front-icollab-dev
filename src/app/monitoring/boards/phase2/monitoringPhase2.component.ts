@@ -8,7 +8,8 @@ import { MonitoringBaseSocketOnComponent } from 'src/app/monitoring/class/monito
 import { ChartControl }                    from 'src/app/monitoring/models/ChartControl';
 import * as TAGS                           from 'src/app/monitoring/boards/phase2/config';
 import * as BasChart                       from 'src/app/monitoring/helpers/monitoringBaseChart.component';
-import { TrService } from 'src/app/safe/services/tr.service';
+import { MonitoringTrService } 			   from 'src/app/monitoring/services/MonitoringTr.service';
+import { TrService } 					   from 'src/app/safe/services/tr.service';
 
 
 @Component({
@@ -48,7 +49,8 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		public theme                : ThemeService  ,
 		public eventService         : EventService  ,
 		public socketService        : SocketService ,
-		private trService           : TrService
+		private trService           : TrService     ,
+		public monitoringTrService  : MonitoringTrService
 	) {
 		super(globalService,eventService,socketService);
 
@@ -70,7 +72,19 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		this.subscribeSocketChanels();
 
 		//this.restGetWeather(this.trService);
-		this.getWeather();
+		console.log(this.globalService.plant);
+		debugger;
+		
+		this.monitoringTrService.getStreamsetsInterpolated("webId=P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM&webId=P0uQAgHoBd0ku7P3cWOJL6IglyQAAAU0VSVklET1JfUElcUDJBMDgyMTE&startTime='21-08-19 00:00:00 GMT'&endTime=*-10h&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value&timeZone=America/New_York")
+		.subscribe(
+			data => {
+				//this.dataAdapter(data);
+				let fd = data;
+			},
+			errorData => {
+			//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
+			}
+		);
 		/*
 		var myChart = new Chart('mychart',{
 			type: 'doughnut',
