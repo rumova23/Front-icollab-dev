@@ -73,7 +73,6 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 
 		//this.restGetWeather(this.trService);
 		console.log(this.globalService.plant);
-		debugger;
 		
 		this.monitoringTrService.getStreamsetsInterpolated("webId=P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM&webId=P0uQAgHoBd0ku7P3cWOJL6IglyQAAAU0VSVklET1JfUElcUDJBMDgyMTE&startTime='21-08-19 00:00:00 GMT'&endTime=*-10h&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value&timeZone=America/New_York")
 		.subscribe(
@@ -228,18 +227,28 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 	}
 	updateLocalTagValue(data){
 		//let ii = Object.keys(TAGS.lstTags).length;
-		for(const web_Plant in data){
-			if(data.hasOwnProperty(web_Plant) && !["name","_id","_rev"].includes(web_Plant)){
-				for(const web_Tag of data[web_Plant]['tags']['Items']){
-					for (const local_Tag in TAGS.lstTags) {
-						if (TAGS.lstTags.hasOwnProperty(local_Tag)) {
-							const element = TAGS.lstTags[local_Tag];
-							for (const local_webIds of element[web_Plant]) {
-								if(local_webIds.WebId == web_Tag.WebId){
-									//console.log(web_Tag);
-									//debugger;
-									local_webIds.WebTag = web_Tag;
-								}
+		for(const web_Plant of data.data){
+			for(const web_Tag of web_Plant['Items']){
+
+				for (const local_Tag in TAGS.lstTags) {
+					if (TAGS.lstTags.hasOwnProperty(local_Tag)) {
+						const element = TAGS.lstTags[local_Tag];
+						let plant = "";
+						switch (web_Plant.plantId) {
+							case "1":
+								plant = "aguila"
+								break;
+							case "2":
+								plant = "sol"
+								break;
+							default:
+								break;
+						}
+						for (const local_webIds of element[plant]) {
+							if(local_webIds.WebId == web_Tag.WebId){
+								//console.log(web_Tag);
+								//debugger;
+								local_webIds.WebTag = web_Tag;
 							}
 						}
 					}

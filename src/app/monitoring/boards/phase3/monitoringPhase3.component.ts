@@ -470,7 +470,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 			const tagconf  = M3.lstTags[calltag];
 			const webID    = (this.globalService.plant.name === "AGUILA")?tagconf.webId_EAT:tagconf.webId_EST;
 			
-			for(let tag of data.tags.Items){
+			for(let tag of data.data[0]['Items']){
 			  if(tag.WebId == webID){
 				mydata = tag;
 				break;
@@ -488,7 +488,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 			  let datoprocesado = null;
 			  if(tagconf.typadata == 'float')     datoprocesado = parseFloat(mydata.Value.Value);
 			  else if(tagconf.typadata == 'int')  datoprocesado = parseInt(mydata.Value.Value);
-			  console.log(mydata);
+			  //console.log(mydata);
 			  
 			  this.calltags[tagconf.calltags]          = datoprocesado;
 			  this.calltagsObj[tagconf.calltags]       = mydata;
