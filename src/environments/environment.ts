@@ -52,7 +52,7 @@ export const environment = {
   ,trUrl           : 'http://200.52.85.140:11123/tr/'   // weather    
   ,modelMarket     : 'http://200.52.85.140:11123/mmmercado/'  // estatus maestro 
   ,catalog         : 'http://200.52.85.140:11123/catalog/'  // micro catalago maestro   
-  ,urlTrPi         : 'http://localhost:1119/'  // micro catalago maestro   
+  ,urlTrPi         : 'http://200.52.85.140:1119/'  // micro catalago maestro   
 };
 
 
