@@ -60,7 +60,8 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 	}
 	ngAfterViewInit() {
 		//const factory = this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase2Component);
-		const factory = this.componentFactoryResolver.resolveComponentFactory(MonitoringWelcomeComponent);
+		const factory = this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase3Component);
+		//const factory = this.componentFactoryResolver.resolveComponentFactory(MonitoringWelcomeComponent);
 		this.viewContainerRef.createComponent(factory);
 	}
 	ngOnDestroy(){

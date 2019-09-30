@@ -94,6 +94,13 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
     ,options: {
 		responsive: true,
 	//      aspectRatio:3,
+		'onClick' : function (evt, item) {
+         
+				//alert("click");
+				//console.log(evt, item);
+				
+
+          },
 		maintainAspectRatio: false,
 		legend: {display: false,labels:{fontColor: 'red',fontSize:26}},
 		elements: {
