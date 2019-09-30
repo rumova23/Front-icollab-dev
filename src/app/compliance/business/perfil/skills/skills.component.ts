@@ -29,6 +29,7 @@ export class SkillsComponent implements OnInit {
   terminadoId: number;
   isdisabled = false;
   isdisabledFinish = false;
+  accionCalifica = 'false';
 
   constructor(private cdRef: ChangeDetectorRef,
               private ruteo: ActivatedRoute,
@@ -146,6 +147,7 @@ export class SkillsComponent implements OnInit {
             this.isdisabledFinish = true;
             this.isdisabled = true;
             this.toastr.successToastr('Se actualizo a examen Finalizado', '¡Se ha logrado!');
+            this.preguntas.accion.next('califica');
           }
       );
 

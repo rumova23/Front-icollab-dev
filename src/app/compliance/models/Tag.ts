@@ -1,6 +1,5 @@
 
-import { TagPrecedente } from './TagPrecedente'
-import { TagPlanta } from './TagPlanta';
+import { TagPrecedente } from './TagPrecedente';
 
 export class Tag {
 
@@ -16,9 +15,7 @@ export class Tag {
     public idDeliveryPeriod: number;
     public idDaysType: number;
     public active: boolean;
-    //public plantas: Array <TagPlanta>;
-    public precedents : Array<TagPrecedente>;
-    
+    public precedents: Array<TagPrecedente>;
     constructor(
         idTag: number,
         tag: string,
@@ -32,7 +29,7 @@ export class Tag {
         idDeliveryPeriod: number,
         idDaysType: number,
         active: boolean,
-        precedents : Array<TagPrecedente>
+        precedents: Array<TagPrecedente>
     ) {
         this.idTag = idTag;
         this.tag = tag;
@@ -46,7 +43,6 @@ export class Tag {
         this.idDeliveryPeriod = idDeliveryPeriod;
         this.idDaysType = idDaysType;
         this.active = active;
-        this.precedents = precedents; 
+        this.precedents = precedents;
     }
-
 }

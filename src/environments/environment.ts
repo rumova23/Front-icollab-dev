@@ -1,4 +1,5 @@
 const hostGateway = 'http://200.52.85.140:11123/';
+// const hostLocal = 'http://localhost:11123/';
 export const environment = {
   production: false
   , appVersion  : 'Desarrollo V 1.0'

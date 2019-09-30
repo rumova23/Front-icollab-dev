@@ -114,10 +114,12 @@ export class ResponsibilitiesComponent implements OnInit {
     this.perfiles = [];
     this.tagsServ.getTagsAsignacion(this.inIdEmpleado).subscribe(
     data1 => {
+      console.dir(data1);
       this.resuelveDS(data1);
     });
     this.tagsServ.getTagsAsignado(this.inIdEmpleado).subscribe(
     data => {
+      console.dir(data);
       this.resuelveDSAsignados(data);
     });
     this.tagsServ.getPlantaPerfil().subscribe (

@@ -29,6 +29,7 @@ export class BehaviorComponent implements OnInit {
   isdisabled = false;
   isdisabledFinishBehavior = false;
   submitted = false;
+  accionCalifica = 'false';
 
   constructor(
       private cdRef: ChangeDetectorRef,
@@ -39,7 +40,6 @@ export class BehaviorComponent implements OnInit {
   }
 
   ngOnInit() {
-
       if (this.inTipo === 'ver') {
       this.isdisabled = true;
     }
@@ -140,6 +140,7 @@ export class BehaviorComponent implements OnInit {
                   this.isdisabledFinishBehavior = true;
                   this.isdisabled = true;
                   this.toastr.successToastr('Se actualizo a examen Finalizado', '¡Se ha logrado!');
+                  this.preguntas.accion.next('califica');
               }
           );
 

@@ -40,7 +40,7 @@ export class LegalAgreementComponent implements OnInit {
   fFechaFin = new FormControl((new Date()).toISOString());
   filtrosForm: FormGroup;
 
-  columnas: string[] = ['tag', 'actividad', 'planta', 'elaboradoPor', 'responsable', 'supervisor',
+  columnas: string[] = ['tag', 'actividad', 'elaboradoPor', 'responsable', 'supervisor',
                         'autoridad', 'tipo', 'periodo', 'tipoDias', 'precedentes', 'documentos',
                         'registros', 'requisitoLegal', 'observaciones',
                         'fechaInicioEventoProgramada', 'fechaFinEventoProgramada', 'periodoProgramado',
@@ -80,30 +80,24 @@ export class LegalAgreementComponent implements OnInit {
     this.limpiarTablas();
 
     this.complianceService.getCompliancePorPlantaYFechas(
-        this.globalService.plantaDefaultId,
         new Date(this.fFechaInicio.value),
-        new Date(this.fFechaFin.value)).subscribe(
-      result => {
-        this.elementData = result;
-        this.asignarRegistros();
-        this.complianceService.getDiagramas(
-            this.globalService.plantaDefaultId,
+        new Date(this.fFechaFin.value)).subscribe(result => {
+          this.elementData = result;
+          this.asignarRegistros();
+          this.complianceService.getDiagramas(
             new Date(this.fFechaInicio.value),
-            new Date(this.fFechaFin.value)).subscribe(
-          resultGant => {
-            this.elementDataGant = resultGant;
-            this.asignarRegistrosGant();
-          },
+            new Date(this.fFechaFin.value)).subscribe(resultGant => {
+              console.dir(resultGant);
+              this.elementDataGant = resultGant;
+              this.asignarRegistrosGant();
+            },
           error => {
             console.log(error as any);
-          }
-        );
+          });
       },
       error => {
         console.log(error as any);
-      }
-    );
-
+      });
   }
 
   limpiarTablas() {
@@ -134,8 +128,8 @@ export class LegalAgreementComponent implements OnInit {
     this.indiceOtros = 0;
 
     for (let indice = 0; indice < this.elementData.length; indice++ ) {
-      // tslint:disable-next-line:triple-equals
-      if ( this.elementData[indice].length > 0 && this.elementData[indice][0].actividad === 'PAGOS') {
+
+      if ( this.elementData[indice].length > 0 && this.elementData[indice][0].actividad === 'Pago') {
         this.indicePagos = indice;
         this.expandCloseAll = true;
       } else if ( this.elementData[indice].length > 0 && this.elementData[indice][0].actividad === 'NOTIFICACIONES') {
@@ -164,7 +158,6 @@ export class LegalAgreementComponent implements OnInit {
         this.expandCloseAll = true;
       }
     }
-
     if ( this.indicePagos > 0 ) {
       this.childPagos.columnas = this.columnas;
       this.registros = new MatTableDataSource<Compliance>(this.elementData[this.indicePagos]);
@@ -228,7 +221,7 @@ export class LegalAgreementComponent implements OnInit {
 
     for (let indice = 0; indice < this.elementDataGant.length; indice++ ) {
       if ( this.elementDataGant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 &&
-          this.elementDataGant[indice].actividad === 'PAGOS') {
+          this.elementDataGant[indice].actividad === 'Pago') {
         indicePagos = indice;
       } else if ( this.elementDataGant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 &&
           this.elementDataGant[indice].actividad === 'NOTIFICACIONES') {

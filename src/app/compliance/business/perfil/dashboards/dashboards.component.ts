@@ -25,7 +25,13 @@ export class DashboardsComponent implements OnInit {
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
 
-  constructor(private scalaServ: PerfilComboService) { }
+  constructor(private scalaServ: PerfilComboService) {
+    this.scalaServ.accion.subscribe(accion => {
+      if(accion === 'califica') {
+        this.ngOnInit();
+      }
+    });
+  }
 
   ngOnInit() {
     this.charResul = [];

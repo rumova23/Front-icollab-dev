@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpParams } from '@angular/common/http';
 import { Observable} from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Empleado } from 'src/app/compliance/models/Empleado';
 import { Respuesta } from 'src/app/compliance/models/Respuesta';
@@ -31,6 +32,8 @@ const httpOptions2 = {
   providedIn: 'root'
 })
 export class PerfilComboService {
+
+  accion: BehaviorSubject<string> = new BehaviorSubject<string>('no aplica');
 
   private baseUrl = environment.catalogUrl;
   private baseUrl2 = environment.microexamenUrl;
