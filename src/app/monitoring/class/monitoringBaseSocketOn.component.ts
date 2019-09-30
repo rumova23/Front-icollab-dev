@@ -70,8 +70,6 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 
 		this.subscriptions['back-pi-isrun'] = this.socketService.onChannelWatch(channelBackPiIsRun-1)
 			.subscribe((data:any)=>{
-				console.log(data);
-								
 				if(data.isrun == 0){
 					this.PiIsRun = false;
 					this.whenLosingConnection();
