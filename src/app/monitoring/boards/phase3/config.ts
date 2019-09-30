@@ -277,6 +277,7 @@ export const language = {
      ,"ESTATICA":"Estática"
      ,"SOLO_BASE_ESTATICA":"Base estática"
      ,"ACTUALIZAR":"Actualizar"
+     ,"TITULO_MW":"Potencia"
   },
   en:{
       "TITULO_BIENVENIDO" : "Welcome"
@@ -322,6 +323,7 @@ export const language = {
      ,"ESTATICA":"Static"
      ,"SOLO_BASE_ESTATICA":"Static base"
      ,"ACTUALIZAR":"To update"
+     ,"TITULO_MW":"Power"
   },
   ja:{
       "TITULO_BIENVENIDO" : "ようこそ"
@@ -367,5 +369,6 @@ export const language = {
      ,"ESTATICA":"静的"
      ,"SOLO_BASE_ESTATICA":"静的ベース"
      ,"ACTUALIZAR":"更新する"
+     ,"TITULO_MW":"効能"
   }
 }

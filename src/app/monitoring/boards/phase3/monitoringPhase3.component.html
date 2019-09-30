@@ -433,7 +433,8 @@
                                 'icon-verde':calltags['getCTUnoMW'] >= 80
                             }"></i>
                         </span>
-                        <span class="mydatatxt"></span>
+                        <span class="mydatatxt">{{language('TITULO_MW')}}
+                        </span>
                         <br>
                         <span class="mydatatxt">
                         {{ calltags['getCTUnoMW'] | number:'3.2-2' }}  
@@ -578,8 +579,9 @@
                                 'icon-amarillo':calltags['getCTDosMW'] > 10 ,
                                 'icon-verde':calltags['getCTDosMW'] >= 80
                             }"></i>
-                    </span>
-                        <span class="mydatatxt"></span>
+                        </span>
+                        <span class="mydatatxt">{{language('TITULO_MW')}}
+                        </span>
                         <br>
                         <span class="mydatatxt">
                             {{ calltags['getCTDosMW'] | number:'3.2-2' }} 
@@ -679,9 +681,8 @@
                                 'icon-verde':calltags['getTVMW'] >= 80
                             }"></i>
                         </span>
-                        <!--<span class="tituloct hiden">
-                            {{ "PANEL.TITULO_HR" | translate }}
-                        </span>-->
+                        <span class="mydatatxt">{{language('TITULO_MW')}}
+                        </span>
                         <br>
                         <span class="mydatatxt">
                             {{ calltags['getTVMW'] | number:'3.2-2' }} 
