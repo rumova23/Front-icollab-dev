@@ -74,11 +74,62 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		//this.restGetWeather(this.trService);
 		console.log(this.globalService.plant);
 		
-		this.monitoringTrService.getStreamsetsInterpolated("webId=P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM&webId=P0uQAgHoBd0ku7P3cWOJL6IglyQAAAU0VSVklET1JfUElcUDJBMDgyMTE&startTime='21-08-19 00:00:00 GMT'&endTime=*-10h&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value&timeZone=America/New_York")
+		this.monitoringTrService.getStreamsetsInterpolated("plantId=2&webId=F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz&startTime=*-24h&endTime=*&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value")
 		.subscribe(
 			data => {
 				//this.dataAdapter(data);
+				let values = [];
+				let labels = [];
 				let fd = data;
+				if( ! data.data[0]['error_response'] ){
+					for (const item of data.data[0]['Items'][0]['Items']) {
+						values.push(item['Value']);
+						let date = new Date(item['Timestamp']);
+						let checkTime = function(i) {
+							if (i < 10) {
+							  i = "0" + i;
+							}
+							return i;
+						  }
+						let miahora = checkTime(date.getHours()) + ":" + checkTime(date.getMinutes()) + ":" + checkTime(date.getSeconds());
+						labels.push(checkTime(date.getHours()) + ":" + checkTime(date.getMinutes()) + ":" + checkTime(date.getSeconds()));
+						//labels.push(item['Timestamp']);
+					}
+				}
+				this.addDatasetLine2("chart_est_item01_col03", values, labels)
+				//debugger;
+			},
+			errorData => {
+			//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
+			}
+		);
+
+
+		
+		this.monitoringTrService.getStreamsetsInterpolated("plantId=1&webId=P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY&startTime=*-24h&endTime=*&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value")
+		.subscribe(
+			data => {
+				//this.dataAdapter(data);
+				let values = [];
+				let labels = [];
+				let fd = data;
+				if( ! data.data[0]['error_response'] ){
+					for (const item of data.data[0]['Items'][0]['Items']) {
+						values.push(item['Value']);
+						let date = new Date(item['Timestamp']);
+						let checkTime = function(i) {
+							if (i < 10) {
+							  i = "0" + i;
+							}
+							return i;
+						  }
+						let miahora = checkTime(date.getHours()) + ":" + checkTime(date.getMinutes()) + ":" + checkTime(date.getSeconds());
+						labels.push(checkTime(date.getHours()) + ":" + checkTime(date.getMinutes()) + ":" + checkTime(date.getSeconds()));
+						//labels.push(item['Timestamp']);
+					}
+				}
+				this.addDatasetLine2("chart_eat_item01_col03", values, labels)
+				//debugger;
 			},
 			errorData => {
 			//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
@@ -480,6 +531,60 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					this.charts[idChart].data.labels.shift();
 				}
 			}
+		}
+		this.charts[idChart].update();
+		//console.log(this.charts);
+		//console.log(this.charts['chart_est_power_01'].data);
+	}
+	
+	addDatasetLine2(idChart, values, labels){
+		let chart = TAGS.listCharts[idChart];
+		let bandera = true;
+		for(let chartTag of chart.tags){
+			let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets, chartTag.calltags);
+			let tagconf    = TAGS.lstTags[chartTag.calltags];
+			if(datasetTag == undefined){
+		
+				var hex  = tagconf.color;
+				let rgba = BasChart.hexToRGB(tagconf.color,0.3);
+		
+				var newDataset = {
+					id:chartTag.calltags,
+					rgba:rgba,
+					label: tagconf.label,
+					backgroundColor: hex,
+					borderColor: hex,
+					data: values,
+					fill: false,
+					hidden:false,
+					yAxisID: chartTag.calltags
+				};
+				var newYaxis = {
+					id: chartTag.calltags,
+					display: true,
+					position: 'left',
+					ticks:{
+						fontColor:hex,
+						fontSize:12,
+						//min: tagconf.min,
+						//max: tagconf.max,
+						//beginAtZero: false
+					},
+					gridLines:{
+						color:"rgb(52, 58, 64)",
+						display: false,
+					},
+					
+				};
+				
+				this.charts[idChart].data.datasets.push(newDataset);
+				this.charts[idChart].config.options.scales.yAxes.push(newYaxis);
+				this.dataSets[idChart+"-"+chartTag.calltags] = newDataset;
+			}else{
+			}
+			
+			this.charts[idChart].data.labels = labels;
+				
 		}
 		this.charts[idChart].update();
 		//console.log(this.charts);
