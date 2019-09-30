@@ -69,24 +69,16 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 		let channelBackPiIsRun = this.socketService.suscribeChannel("back-pi-isrun");
 
 		this.subscriptions['back-pi-isrun'] = this.socketService.onChannelWatch(channelBackPiIsRun-1)
-			.subscribe((data:any)=>{				
+			.subscribe((data:any)=>{
+				console.log(data);
+								
 				if(data.isrun == 0){
 					this.PiIsRun = false;
 					this.whenLosingConnection();
 					console.log(data);
 				}else if(data.isrun == 1){
 					this.PiIsRun=true;
-					if(data.backPi['status-pi-aguila'] == 0){
-						if(this.globalService.plant.name === "AGUILA"){
-							this.whenLosingConnection();
-						}
-					}else if(data.backPi['status-pi-sol'] == 0){
-						if(this.globalService.plant.name === "SOL"){
-							this.whenLosingConnection();
-						}
-					}else if(data.backPi['status-doc-aguila'] == 0){
-					}else if(data.backPi['status-doc-sol'] == 0){
-					}
+					
 				}
 				//console.log("back-pi-isrun::",data);
 			});
