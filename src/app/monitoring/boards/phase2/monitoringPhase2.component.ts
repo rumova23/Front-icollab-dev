@@ -278,33 +278,40 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 	}
 	updateLocalTagValue(data){
 		//let ii = Object.keys(TAGS.lstTags).length;
-		for(const web_Plant of data.data){
-			for(const web_Tag of web_Plant['Items']){
-
-				for (const local_Tag in TAGS.lstTags) {
-					if (TAGS.lstTags.hasOwnProperty(local_Tag)) {
-						const element = TAGS.lstTags[local_Tag];
-						let plant = "";
-						switch (web_Plant.plantId) {
-							case "1":
-								plant = "aguila"
-								break;
-							case "2":
-								plant = "sol"
-								break;
-							default:
-								break;
-						}
-						for (const local_webIds of element[plant]) {
-							if(local_webIds.WebId == web_Tag.WebId){
-								//console.log(web_Tag);
-								//debugger;
-								local_webIds.WebTag = web_Tag;
+		if(data.hasOwnProperty('data') && Array.isArray(data.data) ){
+			for(const web_Plant of data.data){
+				if(web_Plant.hasOwnProperty('Items') && Array.isArray(web_Plant.Items) ){
+					for(const web_Tag of web_Plant['Items']){
+						for (const local_Tag in TAGS.lstTags) {
+							if (TAGS.lstTags.hasOwnProperty(local_Tag)) {
+								const element = TAGS.lstTags[local_Tag];
+								let plant = "";
+								switch (web_Plant.plantId) {
+									case "1":
+										plant = "aguila"
+										break;
+									case "2":
+										plant = "sol"
+										break;
+									default:
+										break;
+								}
+								for (const local_webIds of element[plant]) {
+									if(local_webIds.WebId == web_Tag.WebId){
+										//console.log(web_Tag);
+										local_webIds.WebTag = web_Tag;
+										//debugger;
+									}
+								}
 							}
 						}
 					}
+				}else{
+					console.log("ERROR:: if(web_Plant.hasOwnProperty('Items') && Array.isArray(web_Plant.Items) )",web_Plant);
 				}
 			}
+		}else{
+			console.log("ERROR:: data.hasOwnProperty('data') && Array.isArray(data.data)",data);
 		}
 	}
 	updateLocalTagOverView(){
@@ -312,8 +319,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		for (const local_tag_key in TAGS.lstTags) {
 			if (TAGS.lstTags.hasOwnProperty(local_tag_key)) {
 				const local_tag  = TAGS.lstTags[local_tag_key];
-
-
+				
 				if(["PowerOutput","HeatRate","HeatRateCorreg"].includes(local_tag_key)){
 					const aguila     = local_tag.aguila[0]['WebTag'] ? local_tag.aguila[0]['WebTag']["Value"]["Value"] : 0;
 					const sol        = local_tag.sol[0]['WebTag']    ? local_tag.sol[0]['WebTag']["Value"]["Value"]    : 0;
@@ -394,6 +400,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					this.calltags[local_tag_key+'-sol']      = sol;
 					this.calltags[local_tag_key+'-overview'] = overview;
 				}
+		
 			}
 		}
 	}
@@ -490,6 +497,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 				};
 				var newYaxis = {
 					id: chartTag.calltags,
+					//type: 'linear',// logarithmic / linear
 					display: true,
 					position: 'left',
 					ticks:{
@@ -503,7 +511,6 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 						color:"rgb(52, 58, 64)",
 						display: false,
 					},
-					
 				};
 				
 				this.charts[idChart].data.datasets.push(newDataset);

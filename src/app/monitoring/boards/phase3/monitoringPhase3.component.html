@@ -12,13 +12,67 @@
     </div>
     <div class="row">
         <!--  CONDICIONES AMBIENTALES  -->
-        <div class="col-12 col-md-4">
+        <div class="col-md-auto">
             <div class="txtcenter mb-4">
                 <strong class="nameplanta">
                     {{language('TITULO_CONDICIONES')}}
                 </strong>
+                <!--{{ "PANEL.TITULO_CONDICIONES" | translate }}-->
             </div>
-        
+            <!--div class="row">
+                <div class="col">
+                    <div class="dropdown" mdbDropdown>
+                        <div mdbDropdownToggle mdbWavesEffect class="dropdown-toggle hiddenDropdownAfter">
+                            <span class="badge badge-pill" 
+                                  style="vertical-align:super;font-size: .3rem; "
+                                  [ngStyle]="{'background-color':dataset_main['getTemperaturaAmbiente'].borderColor}"
+                                  *ngIf="(dataset_main['getTemperaturaAmbiente'] !== undefined) && !dataset_main['getTemperaturaAmbiente'].hidden"
+                            >&nbsp;</span>&nbsp;
+                            <span class="myicon">
+                                <i class="fas"
+                                    [ngClass]="{
+                                        'icon-rojo'                      : calltags['getTemperaturaAmbiente'] == 0 || calltags['getTemperaturaAmbiente'] > 21,
+                                        'fa-thermometer-empty'           : calltags['getTemperaturaAmbiente'] == 0, 
+                                        'fa-thermometer-half  icon-azul' : calltags['getTemperaturaAmbiente'] > 0 && calltags['getTemperaturaAmbiente'] <= 21, 
+                                        'fa-thermometer-full '           : calltags['getTemperaturaAmbiente'] > 21
+                                    }"    
+                                ></i>
+                            </span>
+                            &nbsp;&nbsp;
+                            <span class="mydatatxt">
+                                {{ calltags['getTemperaturaAmbiente'] | number:'1.1-1' }}
+                            </span>
+                            <span class="sub">°C</span>
+                        </div>
+                        
+                        <div class="dropdown-menu">
+                            <div class="col">
+                                <p class="dropdownMenuheader">Visualizar en:</p>
+                            </div>
+                            <div class="divider dropdown-divider"></div>
+                            <a class="dropdown-item" 
+                            <ng-template #tip_getTemperaturaAmbiente><b>{{calltagsObj['getTemperaturaAmbiente']['Name']}}</b></ng-template>    
+                            (click)="datasetToggleChartMain('getTemperaturaAmbiente')  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTemperaturaAmbiente""
+                                [ngStyle]="{'background-color':
+                                (dataset_main['getTemperaturaAmbiente'] !== undefined) && (!dataset_main['getTemperaturaAmbiente'].hidden)
+                                    ? 
+                                    dataset_main['getTemperaturaAmbiente'].borderColor:''}"
+                                 
+                            >
+                                Grafica principal
+                            </a>
+                            <a class="dropdown-item"
+                                (click)="openModal_01([
+                                    'getTemperaturaAmbiente'
+                                    ,'getPresionAtmosferica'
+                                    ])" >
+                                Ventana emergente 
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div-->
+  
             <div class="row">
                 <div class="col">
                     <ng-template #tip_getTemperaturaAmbiente><b>{{calltagsObj['getTemperaturaAmbiente']['Name']}}</b></ng-template>
@@ -105,7 +159,7 @@
             </div>
         </div>
         <div class="border-r d-none d-lg-block"></div>
-        <div class="col-12 col-md-8">
+        <div class="col" style="width: 70% !important;">
             <div class="txtcenter mb-4">
                 <strong class="nameplanta">{{language('TITULO_PARAMETROS_GRALES')}}</strong>
                 <!--{{ "PANEL.TITULO_PARAMETROS_GRALES" | translate }} -->
@@ -269,7 +323,10 @@
             <div class="row">
                 <!--<div class="col" style="position: relative; min-height: 393px;"> -->
                 <div class="col"> 
+                    <div class="chart-container">
                         <canvas id="canvas1"></canvas>
+                    </div>
+                    <!--canvas id="canvas1" class="grafica_principal" width="400" height="400"></canvas-->
                 </div>
             </div>
         </div>

@@ -33,78 +33,89 @@ export const generateColorHEX = function(calltag){
 	return "#" + coolor;
 }
 export const chartCreateConfig = function (controls){
-	
 	return {
-	type: controls['type_graph']
-	,data: {
-		labels: []
-		//labels: ["k1","k2","k3"]
-		,datasets: []
-	}
-	,options: {
-		responsive: true,
-		maintainAspectRatio: false,
-		elements: {
-			point: {
-				//hoverBackgroundColor: makeHalfAsOpaque,
-				//radius: this.chart_est_power_01_point_radius,
-				radius: 2,
-				hoverRadius: 15,
-			},
-			rectangle: {
-			  borderWidth: 1,
-			}
-		},
-		legend: {
-			display: controls['displayLegend'],
-			labels:{
-				fontColor: '#ffffff',
-				fontSize:12,
-				usePointStyle:false,
-			}
-		},
-		scales: {
-			xAxes: [
-				{
-					display: true,
-					gridLines:{
-						color:"rgba(255,255,255,1)",
-						display: false,
-					},
-					ticks:{
-						fontColor:"orange",
-						fontSize:12,
-						//beginAtZero: false,
-						//suggestedMin:9000
-					}
-				}
-			]
-			,yAxes: [
-				{
-					display: false,
-					position: 'left',
-					id: 'yAxesDefault',
-					ticks:{
-						//min: 0,
-						//max: 1,
-						//suggestedMin:9000
-						//beginAtZero: false  
-					},
-				}
-			],
+		type: controls['type_graph'] // line / bar
+		,data: {
+			labels: [],
+			datasets: []
 		}
-	}
+		,options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			elements: {
+				point: {
+					//hoverBackgroundColor: makeHalfAsOpaque,
+					//radius: this.chart_est_power_01_point_radius,
+					radius: 2,
+					hoverRadius: 15,
+					//pointStyle:'line'
+				},
+				rectangle: {
+				borderWidth: 1,
+				}
+			},
+			legend: {
+				display: controls['displayLegend'],
+				labels:{
+					fontColor: '#ffffff',
+					fontSize:12,
+					usePointStyle:false,
+				}
+			},
+			title: {
+				//display: false,
+				//text: 'Custom Chart Title',
+				//padding:10
+			},
+			animation: {
+				animateScale: true,
+				animateRotate: true
+			},
+			scales: {
+				xAxes: [
+					{
+						display: true,
+						gridLines:{
+							color:"rgba(255,255,255,1)",
+							display: false,
+						},
+						ticks:{
+							fontColor:"orange",
+							fontSize:12,
+							//beginAtZero: false,
+							//suggestedMin:9000
+						}
+					}
+				]
+				,yAxes: [
+					{	
+						type: 'linear',// logarithmic / linear
+						display: false,
+						position: 'left',
+						id: 'yAxesDefault',
+						ticks:{
+							//min: 0,
+							//max: 1,
+							//suggestedMin:9000,
+							//suggestedMax:9000,
+							//beginAtZero: false  
+							maxTicksLimit:2
+						},
+					}
+				],
+			}
+		}
 	};
 }
 export const doughnutCompletoConfig = function(){
 	return {
 		type: 'doughnut',
 		data: {
-			datasets: [],
 			labels: [
 				'Green',
 				'Gray',
-			]
+			],
+			datasets: []
 		},
 		options: {
 			responsive: true,
