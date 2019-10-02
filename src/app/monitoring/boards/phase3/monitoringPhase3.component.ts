@@ -185,6 +185,10 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
     }
   };
   
+  chartsControl = {
+	scale_min:0,
+	scale_max:16000
+  }
     /* No estan en la vista */
 
   constructor(
@@ -522,6 +526,9 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 	
 		  }
 		}
+	}
+	updateChart(formulario){
+
 	}
 	cleanDataChart(){
 		for (const iterator in this.dataset_main) {

@@ -346,26 +346,45 @@
                 <hr>
                 <div class="row">
                     <ng-template #tip_getCTUnoGas><b>{{calltagsObj['getCTUnoGas']['Name']}}</b></ng-template>
-                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoGas')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoGas">
-                        <span class="badge" 
-                            style="vertical-align:super;font-size: .3rem; "
-                            [ngStyle]="{'background-color':dataset_main['getCTUnoGas'].borderColor}"
-                            *ngIf=" (dataset_main['getCTUnoGas'] !== undefined) && !dataset_main['getCTUnoGas'].hidden"
-                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
-                        <span class="myicon">
+                    <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoGas">
+                        <div class="btn-group w-100" *ngIf=" (dataset_main['getCTUnoGas'] !== undefined) && !dataset_main['getCTUnoGas'].hidden">
+                            <a  class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:auto">
+                                <i class="far fa-chart-bar" [ngStyle]="{'color':dataset_main['getCTUnoGas'].borderColor}"></i>
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTUnoGas'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform)">
+                                    <input type="hidden" name="calltags" id="getCTUnoGas">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="chartsControl.scale_min" name="data_per_graph">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="chartsControl.scale_max" name="data_per_graph">
+                                    </div>
+                         
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">Actualizar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <span class="myicon" (click)="datasetToggleChartMain('getCTUnoGas')">
                             <i class="fab fa-gripfire" [ngClass]="{
                                 'icon-rojo':calltags['getCTUnoGas'] < 1000 ,
                                 'icon-verde':calltags['getCTUnoGas'] >= 1000
                             }"></i>
                         </span>
-                        <span class="mydatatxt">{{language('TITULO_GAS')}}
-                            <!--{{ "PANEL.TITULO_GAS" | translate }}-->
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getCTUnoGas')">
+                            {{language('TITULO_GAS')}}                            
                         </span>
                         <br>
-                        <span class="mydatatxt">
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getCTUnoGas')">
                         {{ calltags['getCTUnoGas'] | number:'5.0-0' }}  
                         </span>
-                        <span class="sub">
+                        <span class="sub" (click)="datasetToggleChartMain('getCTUnoGas')">
                             NM3/h 
                         </span>
                     </div>
