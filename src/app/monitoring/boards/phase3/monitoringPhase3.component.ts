@@ -80,7 +80,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
   fechaActualAnterior :any = new Date();
 
 
-	
+  ScaleClass:any;
 
     
 	
@@ -92,15 +92,11 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
       ,datasets: []
     }
     ,options: {
+		
 		responsive: true,
 	//      aspectRatio:3,
-		'onClick' : function (evt, item) {
-         
-				//alert("click");
-				//console.log(evt, item);
-				
-
-          },
+		
+		onClick:(clickEvt,activeElems)=>this.onChartClick(clickEvt,activeElems),
 		maintainAspectRatio: false,
 		legend: {display: false,labels:{fontColor: 'red',fontSize:26}},
 		elements: {
@@ -204,7 +200,19 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		if( ! this.globalService.socketConnect ){
 			this.subscrubeChangeGraphUpdateTimeRest();
 		}
-    }
+	}
+	
+	onChartClick(clickEvt:MouseEvent,activeElems:Array<any>){
+		//if click was on a bar, we don't care (we want clicks on labels)
+		let dafasfa = this.chart_01.options.scales;
+		//debugger;
+		//if(activeElems && activeElems.length) return;
+		
+		let mousePoint = Chart.helpers.getRelativePosition(clickEvt, this.chart_01);
+		debugger;
+		let clickY = this.chart_01['scales']['getRegimenTermico'].getValueForPixel(mousePoint.y);
+		debugger;
+	  }
 	ngOnInit() {
 		//idiomas disponibles
 		/*this.translate.addLangs(["es", "en", "ja"]);
@@ -222,6 +230,23 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		
 		this.subscribeSocketOnStatus();
 		this.subscribeSocket();
+		console.log(Chart);
+		
+		this.ScaleClass = Chart.helpers.extend({
+
+		});
+		var custom = Chart.controllers.bubble.extend({});
+		let fdsafdsa = Chart.Scale;
+		let fdsafdfdssa = Chart.scale;
+		this.ScaleClass = Chart.Scale.extend({
+			getValueForPixel:function(bar){
+				return "Pendejo";
+			}
+			
+		});
+		
+		Chart.scaleService.registerScaleType('myScale', this.ScaleClass, Chart.Scale.linear);
+		//*/
 	/*
 		var data = {
 		labels: ["Success", "Error"],
@@ -355,31 +380,6 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 					if(data.isrun == 0){
 						this.whenLosingConnection();
 					}else if(data.isrun == 1){
-						if(data.backPi['status-pi-aguila'] == 0){
-							if(this.globalService.plant.name === "AGUILA"){
-								this.whenLosingConnection();
-							}
-						}else if(data.backPi['status-pi-sol'] == 0){
-							if(this.globalService.plant.name === "SOL"){
-								this.whenLosingConnection();
-							}
-						}else if(data.backPi['status-doc-aguila'] == 0){
-							if(this.globalService.plant.name === "AGUILA"){
-								this.subscrubeChangeGraphUpdateTimeRest();
-						    }
-					    }else if(data.backPi['status-doc-sol'] == 0){
-							if(this.globalService.plant.name === "SOL"){
-								this.subscrubeChangeGraphUpdateTimeRest();
-						    }
-					    }else if(data.backPi['status-doc-aguila'] == 1){
-							if(this.globalService.plant.name === "AGUILA"){
-								this.unsubscrubeChangeGraphUpdateTimeRest();
-						    }
-					    }else if(data.backPi['status-doc-sol'] == 1){
-							if(this.globalService.plant.name === "SOL"){
-								this.unsubscrubeChangeGraphUpdateTimeRest();
-						    }
-					    }
 					}
 					//console.log("back-pi-isrun::",data);
 				});
@@ -804,7 +804,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		};
 		var newYaxis = {
 			id: calltag,
-			type: 'linear', 
+			type: 'linear', //'myScale','linear'
 			display: displayYAxis(),
 			position: 'left',
 			ticks:{
