@@ -185,10 +185,9 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
     }
   };
   
-  chartsControl = {
-	scale_min:0,
-	scale_max:16000
-  }
+
+  anyConfig = [];
+
     /* No estan en la vista */
 
   constructor(
@@ -233,6 +232,9 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
             e.stopPropagation();
         });
 
+        $('.mystopPropagation').on('click', function(e) {
+            e.stopPropagation();
+        });
 		this.initializeAt0();
 		this.chartInit();
 
@@ -332,8 +334,13 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 	initializeAt0(){
 		for (const calltag in M3.lstTags) {
 			if (M3.lstTags.hasOwnProperty(calltag)) {
-			this.calltags[calltag] = 0;
-			this.calltagsObj[calltag]       = {Name:""};
+				this.calltags[calltag] = 0;
+				this.calltagsObj[calltag]       = {Name:""};
+				this.anyConfig[calltag]={
+					scale_min : M3.lstTags[calltag]['min'],
+					scale_max : M3.lstTags[calltag]['max'],
+					type : "linear"
+					}
 			}
 		}
 	}
@@ -527,8 +534,16 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		  }
 		}
 	}
-	updateChart(formulario){
-
+	updateChart(formulario,tagcall){
+		for (let index = 0; index < this.chart_01.config.options.scales.yAxes.length; index++) {
+			const element = this.chart_01.config.options.scales.yAxes[index];
+			if(element.id == tagcall){
+				this.chart_01.config.options.scales.yAxes[index].ticks.min = this.anyConfig[tagcall]['scale_min'];
+				this.chart_01.config.options.scales.yAxes[index].ticks.max = this.anyConfig[tagcall]['scale_max'];
+				this.chart_01.config.options.scales.yAxes[index].type = this.anyConfig[tagcall]['type'];
+				this.chart_01.update();
+			}
+		}
 	}
 	cleanDataChart(){
 		for (const iterator in this.dataset_main) {
@@ -822,7 +837,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 			display: displayYAxis(),
 			position: 'left',
 			scaleLabel: {
-				display: true,
+				display: false,
 				labelString: 'Y',
 				fontFamily: 'Lato',
 				fontSize: 14,

@@ -353,16 +353,22 @@
                                 <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTUnoGas'].borderColor}"></i-->
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
-                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform)">
-                                    <input type="hidden" name="calltags" id="getCTUnoGas">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform,'getCTUnoGas')">
                                     <div class="form-group">
                                         <label>Escala min:</label>
-                                        <input type="number" class="form-control" [(ngModel)]="chartsControl.scale_min" name="data_per_graph">
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTUnoGas']['scale_min']" name="scale_min">
                                     </div>
                                     <div class="form-group">
                                         <label>Escala max:</label>
-                                        <input type="number" class="form-control" [(ngModel)]="chartsControl.scale_max" name="data_per_graph">
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTUnoGas']['scale_max']" name="scale_max">
                                     </div>
+                                    <!--div class="form-group mystopPropagation">
+                                        <label>Tipo</label>
+                                        <select class="form-control" [(ngModel)]="anyConfig['getCTUnoGas']['type']" name="type_graph">
+                                        <option value="linear">linear</option>
+                                        <option value="logarithmic">logarithmic</option>
+                                        </select>
+                                    </div-->
                          
                                     <div class="text-right">
                                         <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">Actualizar</button>
