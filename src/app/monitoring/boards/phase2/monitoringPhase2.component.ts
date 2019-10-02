@@ -267,6 +267,17 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 	}
 
 	dataAdapter(data){
+		let checkTime = function(i) {
+			if (i < 10) {
+			  i = "0" + i;
+			}
+			return i;
+		  }
+		console.log(
+			checkTime(this.timeCurrent.getHours()) + ":" + checkTime(this.timeCurrent.getMinutes()) + ":" + checkTime(this.timeCurrent.getSeconds())
+			,data
+		);
+		
 		if(data.name == "weather"){
 			this.weather = data.data;
 			this.loadWeatherData();
@@ -384,7 +395,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					local_tag.sol[0]['WebTag']= sol_temp;
 					
 					
-					console.log("Fuel Gain / Lost (Sol):: (HeatRateCorreg::",sol_HeatRateCorreg,")(HeatRate::",sol_HeatRate,") ->(  ( (HeatRateCorreg - HeatRate)*0.00004764 ) / 20.03 ) = (",sol_value,")");
+					//console.log("Fuel Gain / Lost (Sol):: (HeatRateCorreg::",sol_HeatRateCorreg,")(HeatRate::",sol_HeatRate,") ->(  ( (HeatRateCorreg - HeatRate)*0.00004764 ) / 20.03 ) = (",sol_value,")");
 
 
 					

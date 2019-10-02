@@ -118,7 +118,7 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 		this.addChanels(["pi-servers"]);
 		let channel = this.socketService.suscribeChannel("pi-servers");
 		this.subscriptions['pi-servers-error'] = this.socketService.onChannelError(channel - 1)
-		.subscribe((errorChannel: any) => {/*console.log("pi-servers-error",errorChannel);*/});
+		.subscribe((errorChannel: any) => {console.log("pi-servers-error",errorChannel);});
 
 		this.subscriptions['pi-servers'] = this.socketService.onChannelWatch(channel - 1)
 		.subscribe((data: any) => {
@@ -143,7 +143,7 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 		this.addChanels(["weather"]);
 		let channel = this.socketService.suscribeChannel("weather");
 		this.subscriptions['weather-error'] = this.socketService.onChannelError(channel - 1)
-		.subscribe((errorChannel: any) => {/*console.log("weather-error",errorChannel);*/});
+		.subscribe((errorChannel: any) => {console.log("weather-error",errorChannel);});
 
 		this.subscriptions['weather'] = this.socketService.onChannelWatch(channel - 1)
 		.subscribe((data: any) => {
