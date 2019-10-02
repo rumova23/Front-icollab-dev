@@ -252,12 +252,12 @@
             </div>
             <div class="row justify-content-end">
                 <div class="col-4  text-right">
-                    <div class="btn-group" [ngClass]="{'show':showDropdownchart_01}">
-                        <span class="dropdown-toggle" data-toggle="dropdown" 
-                            (click)="showDropdownchart_01=!showDropdownchart_01">
+                    <div class="btn-group">
+                        
+                        <a  class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa-cog fas"></i>
-                        </span>
-                        <div class="dropdown-menu dropdown-menu-lg-right" [ngClass]="{'show':showDropdownchart_01}">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg-right" style="z-index: 999999;min-width: 250px;">
                             <div class="pr-4 mb-4">
                                 <button type="button" class="close" aria-label="Close" (click)="showDropdownchart_01=!showDropdownchart_01">
                                     <span aria-hidden="true">&times;</span>
