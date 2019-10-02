@@ -24,6 +24,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 
 	
 	
+	calltagsObj=[];
 	weather:any;
 	date = new Date();
 	dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -178,6 +179,10 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 				this.calltags[local_tag_key+'-aguila']   = 0;
 				this.calltags[local_tag_key+'-sol']      = 0;
 				this.calltags[local_tag_key+'-overview'] = 0;
+				
+				this.calltagsObj[local_tag_key+'-aguila']   = {Name:""};
+				this.calltagsObj[local_tag_key+'-sol']      = {Name:""};
+				this.calltagsObj[local_tag_key+'-overview'] = {Name:""};
 			}
 		}
 	}
@@ -345,6 +350,13 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					this.calltags[local_tag_key+'-aguila']   = aguila;
 					this.calltags[local_tag_key+'-sol']      = sol;
 					this.calltags[local_tag_key+'-overview'] = overview;
+					
+					
+					const aguila2     = local_tag.aguila[0]['WebTag'] ? local_tag.aguila[0]['WebTag'] : {Name:"¿?"};
+					const sol2        = local_tag.sol[0]['WebTag']    ? local_tag.sol[0]['WebTag']    : {Name:"¿?"};
+					this.calltagsObj[local_tag_key+'-aguila']   = aguila2;
+					this.calltagsObj[local_tag_key+'-sol']      = sol2;
+
 				}else if(["CapacityFactor"].includes(local_tag_key)){
 					let algo = TAGS.lstTags['CTUnoDiesel'];
 					let aguila_diesel_01 = TAGS.lstTags['CTUnoDiesel']['aguila'][0]['WebTag']["Value"]["Value"];

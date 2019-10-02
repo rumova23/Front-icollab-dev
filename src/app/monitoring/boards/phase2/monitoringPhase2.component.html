@@ -275,7 +275,8 @@
 								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
 								<i class="fas fa-bolt"></i>
 							</div>
-							<div class="col pl-lg-0 d-none d-sm-block">
+							<ng-template #tip_PowerOutput_aguila><b>{{calltagsObj['PowerOutput-aguila']['Name']}}</b></ng-template>
+							<div class="col pl-lg-0 d-none d-sm-block" tooltipClass="mytooltip" [ngbTooltip]="tip_PowerOutput_aguila">
 								<p class="mycolorblue">Power Output</p>
 								<p>{{calltags["PowerOutput-aguila"] | number:'2.2-2'}} Mw</p>
 							</div>
@@ -292,7 +293,8 @@
 								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
 								<i class="fas fa-thermometer-three-quarters"></i>
 							</div>
-							<div class="col pl-lg-0 d-none d-sm-block">
+							<ng-template #tip_HeatRate_aguila><b>{{calltagsObj['HeatRate-aguila']['Name']}}</b></ng-template>
+							<div class="col pl-lg-0 d-none d-sm-block" tooltipClass="mytooltip" [ngbTooltip]="tip_HeatRate_aguila">
 								<p class="mycolorblue">Heat Rate</p>
 								<p>{{calltags["HeatRate-aguila"] | number:'2.2-2'}} KJ/KWh</p>
 							</div>
@@ -512,7 +514,8 @@
 								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
 								<i class="fas fa-bolt"></i>
 							</div>
-							<div class="col pl-lg-0 d-none d-sm-block">
+							<ng-template #tip_PowerOutput_sol><b>{{calltagsObj['PowerOutput-sol']['Name']}}</b></ng-template>
+							<div class="col pl-lg-0 d-none d-sm-block" tooltipClass="mytooltip" [ngbTooltip]="tip_PowerOutput_sol">
 								<p class="mycolororange">Power Output</p>
 								<p>{{calltags["PowerOutput-sol"] | number:'2.2-2'}}Mw</p>
 							</div>
@@ -529,7 +532,8 @@
 								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
 								<i class="fas fa-thermometer-three-quarters"></i>
 							</div>
-							<div class="col pl-lg-0 d-none d-sm-block">
+							<ng-template #tip_HeatRate_sol><b>{{calltagsObj['HeatRate-sol']['Name']}}</b></ng-template>
+							<div class="col pl-lg-0 d-none d-sm-block" tooltipClass="mytooltip" [ngbTooltip]="tip_HeatRate_sol">
 								<p class="mycolororange">Heat Rate</p>
 								<p>{{calltags["HeatRate-sol"] | number:'2.2-2'}} KJ/KWh</p>
 							</div>

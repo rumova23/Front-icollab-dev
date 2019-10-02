@@ -98,7 +98,15 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		
 		onClick:(clickEvt,activeElems)=>this.onChartClick(clickEvt,activeElems),
 		maintainAspectRatio: false,
-		legend: {display: false,labels:{fontColor: 'red',fontSize:26}},
+		legend: {
+			display: false,
+			labels:{
+				fontColor: 'red',
+				fontSize:26
+			},
+			position:"left"
+
+		},
 		elements: {
 			point: {
 				//hoverBackgroundColor: makeHalfAsOpaque,
@@ -209,9 +217,8 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		//if(activeElems && activeElems.length) return;
 		
 		let mousePoint = Chart.helpers.getRelativePosition(clickEvt, this.chart_01);
-		debugger;
+		let clickYhjhkhk = this.chart_01['scales']['getRegimenTermico'];
 		let clickY = this.chart_01['scales']['getRegimenTermico'].getValueForPixel(mousePoint.y);
-		debugger;
 	  }
 	ngOnInit() {
 		//idiomas disponibles
@@ -807,6 +814,15 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 			type: 'linear', //'myScale','linear'
 			display: displayYAxis(),
 			position: 'left',
+			scaleLabel: {
+				display: true,
+				labelString: 'Y',
+				fontFamily: 'Lato',
+				fontSize: 14,
+			  },
+			afterUpdate: function(axis){
+				
+			},
 			ticks:{
 				fontColor:hex,
 				fontSize:12,
