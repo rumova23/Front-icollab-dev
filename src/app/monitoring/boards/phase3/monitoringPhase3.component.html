@@ -347,7 +347,7 @@
                 <div class="row">
                     <ng-template #tip_getCTUnoGas><b>{{calltagsObj['getCTUnoGas']['Name']}}</b></ng-template>
                     <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoGas">
-                        <div class="btn-group w-100" *ngIf=" (dataset_main['getCTUnoGas'] !== undefined) && !dataset_main['getCTUnoGas'].hidden">
+                        <div class="btn-group w-100"  [ngStyle]="{'display': ((dataset_main['getCTUnoGas'] !== undefined) && !dataset_main['getCTUnoGas'].hidden)?'block':'none'}" >
                             <a  class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:auto">
                                 <i class="far fa-chart-bar" [ngStyle]="{'color':dataset_main['getCTUnoGas'].borderColor}"></i>
                                 <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTUnoGas'].borderColor}"></i-->
@@ -362,14 +362,12 @@
                                         <label>Escala max:</label>
                                         <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTUnoGas']['scale_max']" name="scale_max">
                                     </div>
-                                    <!--div class="form-group mystopPropagation">
-                                        <label>Tipo</label>
-                                        <select class="form-control" [(ngModel)]="anyConfig['getCTUnoGas']['type']" name="type_graph">
-                                        <option value="linear">linear</option>
-                                        <option value="logarithmic">logarithmic</option>
-                                        </select>
-                                    </div-->
                          
+                                    <div class="form-group">
+                                        <label>stepSize:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTUnoGas']['stepSize']" name="stepSize" min="0">
+                                    </div>
+
                                     <div class="text-right">
                                         <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">Actualizar</button>
                                     </div>

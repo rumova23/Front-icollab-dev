@@ -339,7 +339,8 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 				this.anyConfig[calltag]={
 					scale_min : M3.lstTags[calltag]['min'],
 					scale_max : M3.lstTags[calltag]['max'],
-					type : "linear"
+					type : "linear",
+					stepSize:0,
 					}
 			}
 		}
@@ -538,9 +539,17 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		for (let index = 0; index < this.chart_01.config.options.scales.yAxes.length; index++) {
 			const element = this.chart_01.config.options.scales.yAxes[index];
 			if(element.id == tagcall){
-				this.chart_01.config.options.scales.yAxes[index].ticks.min = this.anyConfig[tagcall]['scale_min'];
-				this.chart_01.config.options.scales.yAxes[index].ticks.max = this.anyConfig[tagcall]['scale_max'];
-				this.chart_01.config.options.scales.yAxes[index].type = this.anyConfig[tagcall]['type'];
+				if(this.anyConfig[tagcall]['scale_min'] < this.anyConfig[tagcall]['scale_max']){
+					this.chart_01.config.options.scales.yAxes[index].ticks.min = this.anyConfig[tagcall]['scale_min'];
+					this.chart_01.config.options.scales.yAxes[index].ticks.max = this.anyConfig[tagcall]['scale_max'];
+				}else{
+					this.anyConfig[tagcall]['scale_min'] = this.chart_01.config.options.scales.yAxes[index].ticks.min ;
+					this.anyConfig[tagcall]['scale_max'] = this.chart_01.config.options.scales.yAxes[index].ticks.max;
+				}
+
+
+				(this.anyConfig[tagcall]['stepSize'] == 0) ? this.chart_01.config.options.scales.yAxes[index].ticks.stepSize = null : this.chart_01.config.options.scales.yAxes[index].ticks.stepSize = this.anyConfig[tagcall]['stepSize'];
+				
 				this.chart_01.update();
 			}
 		}
