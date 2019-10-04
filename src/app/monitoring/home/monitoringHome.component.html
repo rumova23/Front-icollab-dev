@@ -1,5 +1,5 @@
 <div id="agrupar">
-  <app-monitoringHeader></app-monitoringHeader>
+  <app-header (outputHeader)="inputHeaderComponent($event)"></app-header>
   <div id="body">
     <aside id="columna" 
          [ngStyle]="{'width':aside_open ? '230px' : '0px' }">
@@ -35,7 +35,5 @@
     </section>
   </div>
 
-  <footer id="pie" [style.background]="theme.getBackgroundColor()">
-    Derechos Reservados &copy;
-  </footer>
+  <app-footer></app-footer>
 </div>

@@ -169,6 +169,11 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 			}
 		}));
 	}
+
+	inputHeaderComponent(event: EventMessage){
+		this.eventService.sendMainMonitoring(event);
+	}
+
 	private clickMenu(event: EventMessage): void {
 		this.viewContainerRef.clear();
 		switch (event.id) {
