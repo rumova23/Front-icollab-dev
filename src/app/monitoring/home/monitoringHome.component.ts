@@ -42,16 +42,7 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 		private securityService          : SecurityService,
 		private socketService            : SocketService
 	){
-		try{
-			this.theme.setApp("Administrative_monitoring");
-			this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
-		}catch(err){
-			// Para que funcione en la .201
-			///*
-			this.globalService.plant = {id: 1, name: "AGUILA"};
-			this.globalService.app   = {id: 8, name: "Administrative_monitoring"};
-			//*/
-		}
+		this.theme.setApp("Administrative_monitoring");
 		this.subscribeOnMenu();
 	}
 	ngOnInit() {
@@ -166,6 +157,39 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 					this.clickMenu(event);
 				break;
 			}
+			}
+		}));
+		
+		this.subscriptions.push(this.eventService.onChangeSidebarMenu.subscribe({
+			next: (event: EventMessage) => {
+				
+				let option = 0;
+				let data = {};    
+				switch (event.data.label) {
+					case 'Inicio':
+					  option = 101;
+					  data = event;
+					  break;
+					case 'Fase 2':
+					  option = 2;
+					  break;
+					case 'Fase 3':
+					  option = 3;
+					  break;
+					case 'Fase 2 Mockup':
+					  option = 4;
+					  break;
+					case 'Mm Market':
+						option = 5;
+						break;
+					default:
+					  option = 101;
+					  data = event;
+				  }
+				  //console.log(event);
+				  //console.log(option);
+			
+				  this.eventService.sendMainMonitoring(new EventMessage(option, data));
 			}
 		}));
 	}

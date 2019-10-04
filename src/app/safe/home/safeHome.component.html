@@ -1,6 +1,6 @@
 <div id="agrupar">
     <!-- Header -->
-    <app-safeHeader></app-safeHeader>
+    <app-header (outputHeader)="inputHeaderComponent($event)"></app-header>
     <!-- /Header -->
     <div id="body">
         <!-- Aside -->
@@ -24,7 +24,8 @@
                         </div>
                     </div>
                 </div>
-                <app-safeSidebar [aside_open]='aside_open'></app-safeSidebar>
+                
+                <app-sidebarMenu [aside_open]='aside_open'></app-sidebarMenu>
             </div>
         </aside>
         <!-- /Aside -->

@@ -160,9 +160,13 @@ import { MonitoringJobsComponent } from '../app/safe/admin/monitoring/monitoring
 import { TwelveDigitsDirective } from '../app/core/helpers/twelve-digits';
 
 import { PpaComponent } from '../app/safe/admin/modelMarket/ppa/ppa.component';
-
+/* Common */
 import { HeaderComponent }                     from 'src/app/common/header/header.component';
 import { FooterComponent }                     from 'src/app/common/footer/footer.component';
+import { SidebarMenuComponent }                from 'src/app/common/sidebar/menu/sidebarMenu.component';
+import { SidebarItemsComponent }               from 'src/app/common/sidebar/items/sidebarItems.component';
+import { SidebarComponent }                    from 'src/app/common/sidebar/sidebar/sidebar.component';
+/* ./Common */
 /* Module Monitoring */
 import { MonitoringBaseSocketOnComponent }     from 'src/app/monitoring/class/monitoringBaseSocketOn.component';
 import { MonitoringHomeComponent }             from 'src/app/monitoring/home/monitoringHome.component';
@@ -312,6 +316,9 @@ registerLocaleData(localePy, 'es');
     
     ,HeaderComponent
     ,FooterComponent
+    ,SidebarComponent
+    ,SidebarMenuComponent
+    ,SidebarItemsComponent
 
     ,MonitoringHomeComponent
     ,MonitoringWelcomeComponent

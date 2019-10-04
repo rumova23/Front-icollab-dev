@@ -16,11 +16,15 @@ export class EventService {
 
     public onChangePlant: EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
 
-    public onChangeMainLinkMockUp: EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
+    public onChangeMainLinkMockUp : EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
 
-    public onChangeMainMonitoring: EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
+    public onChangeMainMonitoring : EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
 
-    public onChangeSocketConnect: EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
+    public onChangeSocketConnect  : EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
+
+    public onChangeSidebarMenu    : EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
+
+    public onChangeNavBar         : EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
 
 
 
@@ -55,4 +59,13 @@ export class EventService {
     public sendSocketConnect(message: EventMessage) {
         this.onChangeSocketConnect.emit(message);
     }
+
+    public sendChangeSidebarMenu(message: EventMessage) {
+        this.onChangeSidebarMenu.emit(message);
+    }
+
+    public sendChangeNavBar(message: EventMessage) {
+        this.onChangeNavBar.emit(message);
+    }
+
 }
