@@ -185,7 +185,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
     }
   };
   
-
+  mibanderadecolor = true;
   anyConfig = [];
 
     /* No estan en la vista */
@@ -413,7 +413,12 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 
 				this.subscriptions['pi-aguila'] = this.socketService.onChannelWatch(channelPiAguila - 1)
 				.subscribe((data: any) => {
-					if(  this.check_time_refreseh_data() ){
+					if(this.mibanderadecolor){
+
+						this.fechaActualAnterior = new Date();
+						this.dataAdapter(data);
+						this.mibanderadecolor = false;
+					}else if(  this.check_time_refreseh_data() ){
 						//console.log(data);
 						this.fechaActualAnterior = new Date();
 						this.dataAdapter(data);
@@ -426,7 +431,12 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 
 				this.subscriptions['pi-sol'] = this.socketService.onChannelWatch(channelPiSol - 1)
 				.subscribe((data: any) => {
-					if(  this.check_time_refreseh_data() ){
+					if(this.mibanderadecolor){
+
+						this.fechaActualAnterior = new Date();
+						this.dataAdapter(data);
+						this.mibanderadecolor = false;
+					}else if(  this.check_time_refreseh_data() ){
 						//console.log(data);
 						this.fechaActualAnterior = new Date();
 						this.dataAdapter(data);
@@ -553,6 +563,20 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 				this.chart_01.update();
 			}
 		}
+
+		
+		if (this.dataset_main[tagcall] !== undefined) {
+			this.dataset_main[tagcall].hidden = !this.dataset_main[tagcall].hidden;
+		
+			for (let index = 0; index < this.chart_01.config.options.scales.yAxes.length; index++) {
+				const element = this.chart_01.config.options.scales.yAxes[index];
+				if (element.id == tagcall) {
+				this.yAxes_main[tagcall].display= true;
+				this.chart_01.config.options.scales.yAxes[index].display= true;
+				this.chart_01.update();
+				}
+			}
+			}
 	}
 	cleanDataChart(){
 		for (const iterator in this.dataset_main) {

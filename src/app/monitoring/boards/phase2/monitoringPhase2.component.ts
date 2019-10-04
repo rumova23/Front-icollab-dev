@@ -25,6 +25,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 	
 	
 	calltagsObj=[];
+	
 	weather:any;
 	date = new Date();
 	dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };

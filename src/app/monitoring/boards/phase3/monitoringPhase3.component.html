@@ -347,9 +347,9 @@
                 <div class="row">
                     <ng-template #tip_getCTUnoGas><b>{{calltagsObj['getCTUnoGas']['Name']}}</b></ng-template>
                     <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoGas">
-                        <div class="btn-group w-100"  [ngStyle]="{'display': ((dataset_main['getCTUnoGas'] !== undefined) && !dataset_main['getCTUnoGas'].hidden)?'block':'none'}" >
+                        <div class="btn-group w-100"   >
                             <a  class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:auto">
-                                <i class="far fa-chart-bar" [ngStyle]="{'color':dataset_main['getCTUnoGas'].borderColor}"></i>
+                                &nbsp;
                                 <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTUnoGas'].borderColor}"></i-->
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
@@ -363,10 +363,7 @@
                                         <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTUnoGas']['scale_max']" name="scale_max">
                                     </div>
                          
-                                    <div class="form-group">
-                                        <label>stepSize:</label>
-                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTUnoGas']['stepSize']" name="stepSize" min="0">
-                                    </div>
+                                    
 
                                     <div class="text-right">
                                         <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">Actualizar</button>
@@ -374,7 +371,12 @@
                                 </form>
                             </div>
                         </div>
-
+                        
+                        <span class="badge" 
+                            style="vertical-align:super;font-size: .3rem; "
+                            [ngStyle]="{'background-color':dataset_main['getCTUnoGas'].borderColor}"
+                            *ngIf=" (dataset_main['getCTUnoGas'] !== undefined) && !dataset_main['getCTUnoGas'].hidden"
+                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
                         <span class="myicon" (click)="datasetToggleChartMain('getCTUnoGas')">
                             <i class="fab fa-gripfire" [ngClass]="{
                                 'icon-rojo':calltags['getCTUnoGas'] < 1000 ,
@@ -394,61 +396,136 @@
                     </div>
  
                     <ng-template #tip_getCTUnoDiesel><b>{{calltagsObj['getCTUnoDiesel']['Name']}}</b></ng-template>
-                    <div class="col txtcenter" *ngIf="theme.visibilityTag('getCTUnoDiesel')" (click)="datasetToggleChartMain('getCTUnoDiesel')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoDiesel">
+                    <div class="col txtcenter" *ngIf="theme.visibilityTag('getCTUnoDiesel')" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoDiesel">
+                        <div class="btn-group w-100"   >
+                            <a  class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTUnoDiesel'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform,'getCTUnoDiesel')">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTUnoDiesel']['scale_min']" name="scale_min">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTUnoDiesel']['scale_max']" name="scale_max">
+                                    </div>
+                         
+                                    
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">Actualizar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getCTUnoDiesel'].borderColor}"
                             *ngIf=" (dataset_main['getCTUnoDiesel'] !== undefined) && !dataset_main['getCTUnoDiesel'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
-                        <span class="myicon">
+                        <span class="myicon" (click)="datasetToggleChartMain('getCTUnoDiesel')">
                             <i class="fas fa-gas-pump" [ngClass]="{
                                 'icon-rojo':calltags['getCTUnoDiesel'] < 5 ,
                                 'icon-verde':calltags['getCTUnoDiesel'] >= 5
                             }"></i> 
                         </span>
-                        <span class="mydatatxt">{{language('TITULO_DIESEL')}}
-                            <!--{{ "PANEL.TITULO_DIESEL" | translate }} -->
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getCTUnoDiesel')">
+                            {{language('TITULO_DIESEL')}}
                         </span>
                         <br>
-                        <span class="mydatatxt">
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getCTUnoDiesel')">
                         {{ calltags['getCTUnoDiesel'] | number:'1.1-2' }} 
                         </span>
-                        <span class="sub">
+                        <span class="sub" (click)="datasetToggleChartMain('getCTUnoDiesel')">
                             T/h
                         </span>
                     </div>
                     <ng-template #tip_getCTUnoRT><b>{{calltagsObj['getCTUnoRT']['Name']}}</b></ng-template>
-                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoRT')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoRT">
+                    <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoRT">
+                        <div class="btn-group w-100"   >
+                            <a  class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTUnoRT'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform,'getCTUnoRT')">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTUnoRT']['scale_min']" name="scale_min">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTUnoRT']['scale_max']" name="scale_max">
+                                    </div>
+                            
+                                    
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">Actualizar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getCTUnoRT'].borderColor}"
                             *ngIf=" (dataset_main['getCTUnoRT'] !== undefined) && !dataset_main['getCTUnoRT'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
-                        <span class="myicon">
+                        <span class="myicon" (click)="datasetToggleChartMain('getCTUnoRT')">
                             <i class="fas fa-chart-line" [ngClass]="{
                                 'icon-rojo':calltags['getCTUnoRT'] < 1000 ,
                                 'icon-verde':calltags['getCTUnoRT'] >= 1000
                             }"></i>
                         </span>
-                        <span class="mydatatxt">{{language('TITULO_HR')}}
-                            <!--{{ "PANEL.TITULO_HR" | translate }} -->
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getCTUnoRT')">
+                            {{language('TITULO_HR')}}
                         </span>
                         <br>
-                        <span class="mydatatxt">
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getCTUnoRT')">
                         {{ calltags['getCTUnoRT'] | number:'4.0-0' }} 
                         </span>
-                        <span class="sub">
+                        <span class="sub" (click)="datasetToggleChartMain('getCTUnoRT')">
                             KJ/KWh 
                         </span>
                     </div>
                     <ng-template #tip_getCTUnoMW><b>{{calltagsObj['getCTUnoMW']['Name']}}</b></ng-template>
-                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoMW')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoMW">
+                    <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoMW">
+                        <div class="btn-group w-100"   >
+                            <a  class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTUnoMW'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform,'getCTUnoMW')">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTUnoMW']['scale_min']" name="scale_min">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTUnoMW']['scale_max']" name="scale_max">
+                                    </div>
+                            
+                                    
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">Actualizar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getCTUnoMW'].borderColor}"
                             *ngIf=" (dataset_main['getCTUnoMW'] !== undefined) && !dataset_main['getCTUnoMW'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
-                        <span class="myicon">
+                        <span class="myicon" (click)="datasetToggleChartMain('getCTUnoMW')">
                             <i class="fas fa-bolt" 
                             [ngClass]="{
                                 'icon-rojo':calltags['getCTUnoMW'] <= 10 ,
@@ -456,13 +533,13 @@
                                 'icon-verde':calltags['getCTUnoMW'] >= 80
                             }"></i>
                         </span>
-                        <span class="mydatatxt">{{language('TITULO_MW')}}
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getCTUnoMW')">{{language('TITULO_MW')}}
                         </span>
                         <br>
-                        <span class="mydatatxt">
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getCTUnoMW')">
                         {{ calltags['getCTUnoMW'] | number:'3.2-2' }}  
                         </span>
-                        <span class="sub">
+                        <span class="sub" (click)="datasetToggleChartMain('getCTUnoMW')">
                             MW
                         </span>
                     </div>
@@ -478,22 +555,47 @@
             </div>
             <div class="row mt-1">
                 <ng-template #tip_getCTUnoRPM><b>{{calltagsObj['getCTUnoRPM']['Name']}}</b></ng-template>
-                <div class="col txtcenter" (click)="datasetToggleChartMain('getCTUnoRPM')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoRPM">
-                    <span class="badge" 
-                        style="vertical-align:super;font-size: .3rem; "
-                        [ngStyle]="{'background-color':dataset_main['getCTUnoRPM'].borderColor}"
-                        *ngIf=" (dataset_main['getCTUnoRPM'] !== undefined) && !dataset_main['getCTUnoRPM'].hidden"
-                    >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
-                    <span class="myicon">
+                <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoRPM">
+                    <div class="btn-group w-100"   >
+                        <a  class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:auto">
+                            &nbsp;
+                            <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTUnoRPM'].borderColor}"></i-->
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                            <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform,'getCTUnoRPM')">
+                                <div class="form-group">
+                                    <label>Escala min:</label>
+                                    <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTUnoRPM']['scale_min']" name="scale_min">
+                                </div>
+                                <div class="form-group">
+                                    <label>Escala max:</label>
+                                    <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTUnoRPM']['scale_max']" name="scale_max">
+                                </div>
+                        
+                                
+
+                                <div class="text-right">
+                                    <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">Actualizar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                        <span class="badge" 
+                            style="vertical-align:super;font-size: .3rem; "
+                            [ngStyle]="{'background-color':dataset_main['getCTUnoRPM'].borderColor}"
+                            *ngIf=" (dataset_main['getCTUnoRPM'] !== undefined) && !dataset_main['getCTUnoRPM'].hidden"
+                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                    <span class="myicon" (click)="datasetToggleChartMain('getCTUnoRPM')">
 
                         <i class="fas fa-running icon-verde running" *ngIf="calltags['getCTUnoRPM'] > 10"></i>
                         <i class="fas fa-bed icon-rojo" *ngIf="calltags['getCTUnoRPM'] <= 10"></i>
                     </span>
                     <br>
-                    <span class="mydatatxt">
+                    <span class="mydatatxt" (click)="datasetToggleChartMain('getCTUnoRPM')">
                     {{ calltags['getCTUnoRPM'] | number:'4.0-0' }} 
                     </span>
-                    <span class="sub">
+                    <span class="sub" (click)="datasetToggleChartMain('getCTUnoRPM')">
                         RPM
                     </span>
                 </div>
@@ -514,88 +616,188 @@
                 <hr>
                 <div class="row">
                     <ng-template #tip_getCTDosGas><b>{{calltagsObj['getCTDosGas']['Name']}}</b></ng-template>
-                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosGas')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosGas">
+                    <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosGas">
+                        <div class="btn-group w-100"   >
+                            <a  class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTDosGas'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform,'getCTDosGas')">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTDosGas']['scale_min']" name="scale_min">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTDosGas']['scale_max']" name="scale_max">
+                                    </div>
+                         
+                                    
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">Actualizar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getCTDosGas'].borderColor}"
                             *ngIf=" (dataset_main['getCTDosGas'] !== undefined) && !dataset_main['getCTDosGas'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
-                        <span class="myicon">
+                        <span class="myicon" (click)="datasetToggleChartMain('getCTDosGas')">
                             <i class="fab fa-gripfire" [ngClass]="{
                                 'icon-rojo':calltags['getCTDosGas'] < 1000 ,
                                 'icon-verde':calltags['getCTDosGas'] >= 1000
                             }"></i>
                         </span>
-                        <span class="mydatatxt">{{language('TITULO_GAS')}}
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getCTDosGas')">{{language('TITULO_GAS')}}
                             
                             <!--{{ "PANEL.TITULO_GAS" | translate }}-->
                         </span>
                         <br>
-                        <span class="mydatatxt">
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getCTDosGas')">
                             {{ calltags['getCTDosGas'] | number:'5.0-0' }} 
                         </span>
-                        <span class="sub">
+                        <span class="sub" (click)="datasetToggleChartMain('getCTDosGas')">
                             NM3/h
                         </span>
                     </div>
                     <ng-template #tip_getCTDosDiesel><b>{{calltagsObj['getCTDosDiesel']['Name']}}</b></ng-template>
-                    <div class="col txtcenter" *ngIf="theme.visibilityTag('getCTDosDiesel')" (click)="datasetToggleChartMain('getCTDosDiesel')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosDiesel">
+                    <div class="col txtcenter" *ngIf="theme.visibilityTag('getCTDosDiesel')" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosDiesel">
+                        <div class="btn-group w-100"   >
+                            <a  class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTDosDiesel'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform,'getCTDosDiesel')">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTDosDiesel']['scale_min']" name="scale_min">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTDosDiesel']['scale_max']" name="scale_max">
+                                    </div>
+                         
+                                    
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">Actualizar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getCTDosDiesel'].borderColor}"
                             *ngIf=" (dataset_main['getCTDosDiesel'] !== undefined) && !dataset_main['getCTDosDiesel'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
-                        <span class="myicon">
+                        <span class="myicon" (click)="datasetToggleChartMain('getCTDosDiesel')">
                             <i class="fas fa-gas-pump" [ngClass]="{
                                 'icon-rojo':calltags['getCTDosDiesel'] < 5 ,
                                 'icon-verde':calltags['getCTDosDiesel'] >= 5
                             }"></i> 
                         </span>
-                        <span class="mydatatxt">{{language('TITULO_DIESEL')}}
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getCTDosDiesel')">{{language('TITULO_DIESEL')}}
                             
                             <!--{{ "PANEL.TITULO_DIESEL" | translate }} -->
                         </span>
                         <br>
-                        <span class="mydatatxt">
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getCTDosDiesel')">
                             {{ calltags['getCTDosDiesel'] | number:'1.1-2' }}  
                         </span>
-                        <span class="sub">
+                        <span class="sub" (click)="datasetToggleChartMain('getCTDosDiesel')">
                             T/h
                         </span>
                     </div>
                     <ng-template #tip_getCTDosRT><b>{{calltagsObj['getCTDosRT']['Name']}}</b></ng-template>
-                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosRT')" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosRT">
+                    <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosRT">
+                        <div class="btn-group w-100"   >
+                            <a  class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTDosRT'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform,'getCTDosRT')">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTDosRT']['scale_min']" name="scale_min">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTDosRT']['scale_max']" name="scale_max">
+                                    </div>
+                         
+                                    
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">Actualizar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getCTDosRT'].borderColor}"
                             *ngIf=" (dataset_main['getCTDosRT'] !== undefined) && !dataset_main['getCTDosRT'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
-                        <span class="myicon">
+                        <span class="myicon" (click)="datasetToggleChartMain('getCTDosRT')">
                             <i class="fas fa-chart-line" [ngClass]="{
                                 'icon-rojo':calltags['getCTDosRT'] < 1000 ,
                                 'icon-verde':calltags['getCTDosRT'] >= 1000
                             }"></i>
                         </span>
-                        <span class="mydatatxt">{{language('TITULO_HR')}}
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getCTDosRT')">{{language('TITULO_HR')}}
                             
                             <!--{{ "PANEL.TITULO_HR" | translate }}-->
                         </span>
                         <br>
-                        <span class="mydatatxt">
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getCTDosRT')">
                             {{ calltags['getCTDosRT'] | number:'4.0-0' }} 
                         </span>
-                        <span class="sub">
+                        <span class="sub" (click)="datasetToggleChartMain('getCTDosRT')">
                             KJ/KWh 
                         </span>
                     </div>
                     <ng-template #tip_getCTDosMW><b>{{calltagsObj['getCTDosMW']['Name']}}</b></ng-template>
-                    <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosMW')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosMW">
+                    <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosMW">
+                        <div class="btn-group w-100"   >
+                            <a  class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTDosMW'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform,'getCTDosMW')">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTDosMW']['scale_min']" name="scale_min">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTDosMW']['scale_max']" name="scale_max">
+                                    </div>
+                         
+                                    
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">Actualizar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getCTDosMW'].borderColor}"
                             *ngIf=" (dataset_main['getCTDosMW'] !== undefined) && !dataset_main['getCTDosMW'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
-                        <span class="myicon">
+                        <span class="myicon" (click)="datasetToggleChartMain('getCTDosMW')">
                             <i class="fas fa-bolt" 
                             [ngClass]="{
                                 'icon-rojo':calltags['getCTDosMW'] <= 10,
@@ -603,13 +805,13 @@
                                 'icon-verde':calltags['getCTDosMW'] >= 80
                             }"></i>
                         </span>
-                        <span class="mydatatxt">{{language('TITULO_MW')}}
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getCTDosMW')">{{language('TITULO_MW')}}
                         </span>
                         <br>
-                        <span class="mydatatxt">
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getCTDosMW')">
                             {{ calltags['getCTDosMW'] | number:'3.2-2' }} 
                         </span>
-                        <span class="sub">
+                        <span class="sub" (click)="datasetToggleChartMain('getCTDosMW')">
                             MW
                         </span>
                     </div>
@@ -629,22 +831,47 @@
             </div>
             <div class="row mt-3">
                 <ng-template #tip_getCTDosRPM><b>{{calltagsObj['getCTDosRPM']['Name']}}</b></ng-template>
-                <div class="col txtcenter" (click)="datasetToggleChartMain('getCTDosRPM')" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosRPM">
-                    <span class="badge" 
-                        style="vertical-align:super;font-size: .3rem; "
-                        [ngStyle]="{'background-color':dataset_main['getCTDosRPM'].borderColor}"
-                        *ngIf=" (dataset_main['getCTDosRPM'] !== undefined) && !dataset_main['getCTDosRPM'].hidden"
-                    >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
-                    <span class="myicon">
+                <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosRPM">
+                    <div class="btn-group w-100"   >
+                        <a  class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:auto">
+                            &nbsp;
+                            <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTDosRPM'].borderColor}"></i-->
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                            <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform,'getCTDosRPM')">
+                                <div class="form-group">
+                                    <label>Escala min:</label>
+                                    <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTDosRPM']['scale_min']" name="scale_min">
+                                </div>
+                                <div class="form-group">
+                                    <label>Escala max:</label>
+                                    <input type="number" class="form-control" [(ngModel)]="anyConfig['getCTDosRPM']['scale_max']" name="scale_max">
+                                </div>
+                        
+                                
+
+                                <div class="text-right">
+                                    <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">Actualizar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                        <span class="badge" 
+                            style="vertical-align:super;font-size: .3rem; "
+                            [ngStyle]="{'background-color':dataset_main['getCTDosRPM'].borderColor}"
+                            *ngIf=" (dataset_main['getCTDosRPM'] !== undefined) && !dataset_main['getCTDosRPM'].hidden"
+                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                    <span class="myicon" (click)="datasetToggleChartMain('getCTDosRPM')">
                         <i class="fas fa-running icon-verde running" *ngIf="calltags['getCTDosRPM'] > 10"></i>
                         <i class="fas fa-bed icon-rojo" *ngIf="calltags['getCTDosRPM'] <= 10"></i>
                     </span>
-                    <span class="mydatatxt"></span>
+                    <span class="mydatatxt" (click)="datasetToggleChartMain('getCTDosRPM')"></span>
                     <br>
-                    <span class="mydatatxt">
+                    <span class="mydatatxt" (click)="datasetToggleChartMain('getCTDosRPM')">
                         {{ calltags['getCTDosRPM'] | number:'4.0-0' }} 
                     </span>
-                    <span class="sub">
+                    <span class="sub" (click)="datasetToggleChartMain('getCTDosRPM')">
                         RPM
                     </span>
                 </div>
@@ -666,51 +893,101 @@
                 
                 <div class="row w550">
                     <ng-template #tip_getTVRT><b>{{calltagsObj['getTVRT']['Name']}}</b></ng-template>
-                    <div class="col txtcenter" (click)="datasetToggleChartMain('getTVRT')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTVRT">
+                    <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTVRT">
+                        <div class="btn-group w-100"   >
+                            <a  class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getTVRT'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform,'getTVRT')">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getTVRT']['scale_min']" name="scale_min">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getTVRT']['scale_max']" name="scale_max">
+                                    </div>
+                         
+                                    
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">Actualizar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getTVRT'].borderColor}"
-                            *ngIf="(dataset_main['getTVRT'] !== undefined) && !dataset_main['getTVRT'].hidden"
+                            *ngIf=" (dataset_main['getTVRT'] !== undefined) && !dataset_main['getTVRT'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
-                        <span class="myicon">
+                        <span class="myicon" (click)="datasetToggleChartMain('getTVRT')">
                             <i class="fas fa-chart-line" [ngClass]="{
                                 'icon-rojo':calltags['getTVRT'] < 1000 ,
                                 'icon-verde':calltags['getTVRT'] >= 1000
                             }"></i>
                         </span>
-                        <span class="mydatatxt">{{language('TITULO_HR')}}
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getTVRT')">{{language('TITULO_HR')}}
                             
                             <!--{{ "PANEL.TITULO_HR" | translate }}-->
                         </span>
                         <br>
-                        <span class="mydatatxt">
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getTVRT')">
                             {{ calltags['getTVRT'] | number:'4.0-0' }} 
                         </span>
-                        <span class="sub">
+                        <span class="sub" (click)="datasetToggleChartMain('getTVRT')">
                             KJ/KWh
                         </span>
                     </div>
                     <ng-template #tip_getTVMW><b>{{calltagsObj['getTVMW']['Name']}}</b></ng-template>
-                    <div class="col txtcenter" (click)="datasetToggleChartMain('getTVMW')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTVMW">
+                    <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTVMW">
+                        <div class="btn-group w-100"   >
+                            <a  class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getTVMW'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform,'getTVMW')">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getTVMW']['scale_min']" name="scale_min">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getTVMW']['scale_max']" name="scale_max">
+                                    </div>
+                         
+                                    
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">Actualizar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
                         <span class="badge" 
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{'background-color':dataset_main['getTVMW'].borderColor}"
-                            *ngIf="(dataset_main['getTVMW'] !== undefined) && !dataset_main['getTVMW'].hidden"
+                            *ngIf=" (dataset_main['getTVMW'] !== undefined) && !dataset_main['getTVMW'].hidden"
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
-                        <span class="myicon">
+                        <span class="myicon" (click)="datasetToggleChartMain('getTVMW')">
                             <i class="fas fa-bolt"  [ngClass]="{
                                 'icon-rojo':calltags['getTVMW'] <= 10,
                                 'icon-amarillo':calltags['getTVMW'] > 10 ,
                                 'icon-verde':calltags['getTVMW'] >= 80
                             }"></i>
                         </span>
-                        <span class="mydatatxt">{{language('TITULO_MW')}}
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getTVMW')">{{language('TITULO_MW')}}
                         </span>
                         <br>
-                        <span class="mydatatxt">
+                        <span class="mydatatxt" (click)="datasetToggleChartMain('getTVMW')">
                             {{ calltags['getTVMW'] | number:'3.2-2' }} 
                         </span>
-                        <span class="sub">
+                        <span class="sub" (click)="datasetToggleChartMain('getTVMW')">
                             MW
                         </span>
                     </div>
@@ -731,13 +1008,38 @@
             </div>
             <div class="row mt-3">
                 <ng-template #tip_getTVRPM><b>{{calltagsObj['getTVRPM']['Name']}}</b></ng-template>
-                <div class="col txtcenter" (click)="datasetToggleChartMain('getTVRPM')"  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTVRPM">
-                    <span class="badge" 
-                        style="vertical-align:super;font-size: .3rem; "
-                        [ngStyle]="{'background-color':dataset_main['getTVRPM'].borderColor}"
-                        *ngIf="(dataset_main['getTVRPM'] !== undefined) && !dataset_main['getTVRPM'].hidden"
-                    >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
-                    <span class="myicon">
+                <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTVRPM">
+                    <div class="btn-group w-100"   >
+                            <a  class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getTVRPM'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform,'getTVRPM')">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getTVRPM']['scale_min']" name="scale_min">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="anyConfig['getTVRPM']['scale_max']" name="scale_max">
+                                    </div>
+                         
+                                    
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn" [style.background]="theme.getBackgroundColor()">Actualizar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    
+                        <span class="badge" 
+                            style="vertical-align:super;font-size: .3rem; "
+                            [ngStyle]="{'background-color':dataset_main['getTVRPM'].borderColor}"
+                            *ngIf=" (dataset_main['getTVRPM'] !== undefined) && !dataset_main['getTVRPM'].hidden"
+                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon" (click)="datasetToggleChartMain('getTVRPM')">
                         <i class="fas fa-running icon-verde running" *ngIf="calltags['getTVRPM'] > 10"></i>
                         <i class="fas fa-bed icon-rojo" *ngIf="calltags['getTVRPM'] <= 10"></i>
                     </span>
@@ -745,10 +1047,10 @@
                         {{ "PANEL.TITULO_HR" | translate }}
                     </span>-->
                     <br>
-                    <span class="mydatatxt">
+                    <span class="mydatatxt" (click)="datasetToggleChartMain('getTVRPM')">
                         {{ calltags['getTVRPM'] | number:'4.0-0' }} 
                     </span>
-                    <span class="sub">
+                    <span class="sub" (click)="datasetToggleChartMain('getTVRPM')">
                         RPM
                     </span>
                 </div>
