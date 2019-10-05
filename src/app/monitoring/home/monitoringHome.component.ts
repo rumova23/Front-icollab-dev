@@ -42,7 +42,17 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 		private securityService          : SecurityService,
 		private socketService            : SocketService
 	){
-		this.theme.setApp("Administrative_monitoring");
+		try{
+			this.theme.setApp("Administrative_monitoring");
+			if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
+		}catch(err){
+			// Para que funcione en la .201
+			///*
+			this.globalService.plant = {id: 1, name: "AGUILA"};
+			this.globalService.app   = {id: 8, name: "Administrative_monitoring"};
+			//*/
+		}
+
 		this.subscribeOnMenu();
 	}
 	ngOnInit() {

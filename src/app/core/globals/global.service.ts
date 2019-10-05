@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { App } from 'src/app/core/models/App';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class GlobalService {
 
   public socketConnect : boolean = false;
   plant;
-  app;  // Representa al modulo activo
+  app : App;  // Representa al modulo activo
   page;
   constructor() { }
 }

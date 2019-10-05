@@ -17,10 +17,13 @@ export class HeaderComponent implements OnInit {
 		public globalService    : GlobalService,
 		public theme            : ThemeService,
 		private securityService : SecurityService,
-		private router: Router
-		) { }
+		private router          : Router
+		) {
+			let fdsafdas ;
+		 }
 
 	ngOnInit() {
+		
 	}
 
 	getNameUser() {

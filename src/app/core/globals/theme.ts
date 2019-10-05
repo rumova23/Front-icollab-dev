@@ -78,8 +78,15 @@ export class ThemeService {
         switch(app.name){
             case "Administrative_monitoring":
                 label ="Monitoreo";
-            break;
+                break;
+            case "Safe":
+                label ="Safe";
+                break;
+            default:
+                label ="default";
+                break;
         }
+
         //return app.label; // lo ideal
         return label;
     }
@@ -88,8 +95,14 @@ export class ThemeService {
         let logo = "";
         switch(app.name){
             case "Administrative_monitoring":
-                logo ="/assets/img/logo_monitoreo_simple.png";
-            break;
+                logo ="/assets/img/common/ico_mod/MonitoreoAdministrativo-v2.png";
+                break;
+            case "Safe":
+                logo ="/assets/img/common/ico_mod/Safe-v2.png";
+                break;
+            default:
+                logo ="default";
+                break;
         }
         //return app.logo; // lo ideal
         return logo;

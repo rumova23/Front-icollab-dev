@@ -97,8 +97,17 @@ export class SafeHomeComponent implements OnInit {
     ,private securityService: SecurityService,
 		public  theme                    : ThemeService
     ) {
-      
-		this.theme.setApp("Safe");
+
+		try{
+			this.theme.setApp("Safe");
+			if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
+		}catch(err){
+			// Para que funcione en la .201
+			///*
+			this.globalService.plant = {id: 1, name: "AGUILA"};
+			this.globalService.app   = {id: 2, name: "Safe"};
+			//*/
+		}
     this.serviceSubscription = this.eventService.onChangeMainSafe.subscribe({
       next: (event: EventMessage) => {
         console.log(event);
