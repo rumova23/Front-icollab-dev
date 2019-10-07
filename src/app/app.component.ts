@@ -11,47 +11,46 @@ import { SecurityService }                     from 'src/app/core/services/secur
 
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+	selector    : 'app-root',
+	templateUrl : './app.component.html',
+	styleUrls   : ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'bla-bla';
-  serviceSubscription: any;
-  @BlockUI() blockUI: NgBlockUI;
-  constructor(
-    private eventService: EventService,
+	@BlockUI() blockUI  : NgBlockUI;
+	serviceSubscription : any;
+
+	constructor(
+		private eventService             : EventService,
 		public  globalService            : GlobalService,
 		public  theme                    : ThemeService,
 		private securityService          : SecurityService,
-  ) {
-    if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
-    this.serviceSubscription = this.eventService.onChangeApp.subscribe({
-      next: (event: EventMessage) => {
-        switch (event.id) {
-          case 1:
-            this.blocked(event.data as EventBlocked);
-            break;
-        }
-      }
-    });
-  }
+	) {
+		if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
+		this.serviceSubscription = this.eventService.onChangeApp.subscribe({
+			next: (event: EventMessage) => {
+				switch (event.id) {
+					case 1:
+					this.blocked(event.data as EventBlocked);
+					break;
+				}
+			}
+		});
+	}
 
-  private blocked(event: EventBlocked): void {
-    switch (event.id) {
-      case 1:
-        if (Validate(event.msg)) {
-          this.blockUI.stop();
-          this.blockUI.start(event.msg);
-        } else {
-          this.blockUI.stop();
-          this.blockUI.start();
-        }
-        break;
-      case 2:
-        this.blockUI.stop();
-        break;
-    }
-  }
-
+	private blocked(event: EventBlocked): void {
+		switch (event.id) {
+			case 1:
+				if (Validate(event.msg)) {
+					this.blockUI.stop();
+					this.blockUI.start(event.msg);
+				} else {
+					this.blockUI.stop();
+					this.blockUI.start();
+				}
+				break;
+			case 2:
+				this.blockUI.stop();
+				break;
+		}
+	}
 }
