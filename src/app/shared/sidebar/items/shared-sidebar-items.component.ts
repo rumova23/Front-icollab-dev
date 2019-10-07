@@ -1,5 +1,4 @@
 import { Component }  from '@angular/core';
-import { OnInit }     from '@angular/core';
 import { trigger }    from '@angular/animations';
 import { state }      from '@angular/animations';
 import { style }      from '@angular/animations';
@@ -26,7 +25,6 @@ import { GlobalService } from 'src/app/core/globals/global.service';
    ]
 })
 export class SharedSidebarItemsComponent {
-	@Input() aside_open;
 	@Input() item      : menuItem;
 	@Input() deep      : number = 0;  
 	viewHide           : boolean = false;
@@ -42,6 +40,6 @@ export class SharedSidebarItemsComponent {
 		if (item.children && item.children.length) {
 			this.viewHide = !this.viewHide;
 		}
-		this.eventService.sendChangeSidebarMenu({id:null,data:item});
+		this.eventService.sendChangePage(new EventMessage(null,item));
     }
 }

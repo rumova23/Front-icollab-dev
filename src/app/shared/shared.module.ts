@@ -21,8 +21,6 @@ import { MaterialModule              } from 'src/app/modules/material-module';
         SharedHeaderComponent,
         SharedFooterComponent,
         SharedSidebarComponent,
-        SharedSidebarMenuComponent,
-        SharedSidebarItemsComponent
     ],
     imports:[
         BrowserModule,

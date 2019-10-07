@@ -1,34 +1,28 @@
-import { Component, OnInit}    from '@angular/core';
+import { Component           } from '@angular/core';
 import { Input, ViewChildren } from '@angular/core';
-import { ViewChild }           from '@angular/core';
+import { ViewChild           } from '@angular/core';
 
-import { GlobalService }       from 'src/app/core/globals/global.service';
-import { EventService }        from 'src/app/core/services/event.service';
-import { EventMessage }        from 'src/app/core/models/EventMessage';
-import { SecurityService }     from 'src/app/core/services/security.service';
-import { CollapseComponent }   from 'angular-bootstrap-md';
+import { GlobalService       } from 'src/app/core/globals/global.service';
+import { SecurityService     } from 'src/app/core/services/security.service';
+import { CollapseComponent   } from 'angular-bootstrap-md';
 
-import { menuItem }            from 'src/app/common/sidebar/items/menuItem';
-import { MatSidenav }          from '@angular/material/sidenav';
+import { menuItem            } from 'src/app/common/sidebar/items/menuItem';
+import { MatSidenav          } from '@angular/material/sidenav';
 
 @Component({
-  selector: 'app-shared-sidebar-menu',
-  templateUrl: './shared-sidebar-menu.component.html',
-  styleUrls: ['./shared-sidebar-menu.component.scss']
+  selector    : 'app-shared-sidebar-menu',
+  templateUrl : './shared-sidebar-menu.component.html'
 })
-export class SharedSidebarMenuComponent implements OnInit {
-	@Input() aside_open;
-	@Input() item : menuItem;
+export class SharedSidebarMenuComponent{
+	@Input() item             : menuItem;
 	@ViewChild('left')  left  : MatSidenav;
 	@ViewChild('right') right : MatSidenav;  
 	@ViewChildren(CollapseComponent) collapses: CollapseComponent[];
 	
 	menu : menuItem[];
-	
 
 	constructor(
 		private globalService   : GlobalService,  
-		private eventService    : EventService,
 		private securityService : SecurityService
 	) {
 		let app   = globalService.app;
@@ -37,10 +31,6 @@ export class SharedSidebarMenuComponent implements OnInit {
 			this.hardcode(app.name);
 		}
 	}
-
-	ngOnInit() {
-	}
-
 	hardcode(name){
 		switch (name) {
 			case "Administrative_monitoring":

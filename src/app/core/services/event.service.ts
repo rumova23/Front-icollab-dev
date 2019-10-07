@@ -26,6 +26,8 @@ export class EventService {
 
     public onChangeNavBar         : EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
 
+    public onChangePage           : EventEmitter<EventMessage> = new EventEmitter<EventMessage>();
+
 
 
     public sendMainCompliance(message: EventMessage) {
@@ -66,6 +68,10 @@ export class EventService {
 
     public sendChangeNavBar(message: EventMessage) {
         this.onChangeNavBar.emit(message);
+    }
+
+    public sendChangePage(message: EventMessage) {
+        this.onChangePage.emit(message);
     }
 
 }

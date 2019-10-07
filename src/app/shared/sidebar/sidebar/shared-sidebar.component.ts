@@ -1,24 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component         } from '@angular/core';
+import { GlobalService     } from 'src/app/core/globals/global.service';
 
 @Component({
-  selector: 'app-shared-sidebar',
-  templateUrl: './shared-sidebar.component.html',
-  styleUrls: ['./shared-sidebar.component.scss']
+  selector    : 'app-shared-sidebar',
+  templateUrl : './shared-sidebar.component.html'
 })
-export class SharedSidebarComponent implements OnInit {
+export class SharedSidebarComponent{
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  constructor( public  globalService : GlobalService) { }
 
   getgender(){
     let generoId = JSON.parse(localStorage.getItem('user'));
-    //console.log("generoId");
-    //console.dir(generoId);  
     generoId = generoId['generoId'];
-    //console.log("generoId");
-    //console.dir(generoId);
     return generoId;
   }
 

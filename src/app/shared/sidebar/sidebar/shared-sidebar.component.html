@@ -1,6 +1,6 @@
 
 <aside id="columna" 
-    [ngStyle]="{'width':aside_open ? '230px' : '60px' }">
+    [ngStyle]="{'width':globalService.aside_open ? '230px' : '60px' }">
 	<div>
 	<div class="row">
 		<div class="col p-0">
@@ -19,6 +19,6 @@
 			</div>
 		</div>
 	</div>
-	<app-shared-sidebar-menu [aside_open]='aside_open'> </app-shared-sidebar-menu>
+	<app-shared-sidebar-menu> </app-shared-sidebar-menu>
 	</div>
 </aside>

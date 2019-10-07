@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Router }            from '@angular/router';
-import { ThemeService }      from 'src/app/core/globals/theme';
-import { GlobalService }     from 'src/app/core/globals/global.service';
-import { SecurityService }   from 'src/app/core/services/security.service';
-import { EventService }      from 'src/app/core/services/event.service';
-import { EventMessage }      from 'src/app/core/models/EventMessage';
+import { Router            } from '@angular/router';
+import { ThemeService      } from 'src/app/core/globals/theme';
+import { GlobalService     } from 'src/app/core/globals/global.service';
+import { SecurityService   } from 'src/app/core/services/security.service';
+import { EventService      } from 'src/app/core/services/event.service';
+import { EventMessage      } from 'src/app/core/models/EventMessage';
 
 @Component({
-  selector: 'app-shared-header',
-  templateUrl: './shared-header.component.html',
-  styleUrls: ['./shared-header.component.scss']
+  selector    : 'app-shared-header',
+  templateUrl : './shared-header.component.html',
+  styleUrls   : ['./shared-header.component.scss']
 })
 export class SharedHeaderComponent implements OnInit {
 
@@ -30,7 +30,8 @@ export class SharedHeaderComponent implements OnInit {
 		return name;
 	}
 	toggleMenu() {
-		this.eventService.sendChangeNavBar(new EventMessage(1, null));
+		//this.eventService.sendChangeNavBar(new EventMessage(1, null));
+		this.globalService.aside_open = !this.globalService.aside_open ;
 	}
 	
 	changePassword() {		

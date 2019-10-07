@@ -13,5 +13,6 @@ export class GlobalService {
   plant;
   app : App;  // Representa al modulo activo
   page;
+  aside_open : boolean = false;
   constructor() { }
 }

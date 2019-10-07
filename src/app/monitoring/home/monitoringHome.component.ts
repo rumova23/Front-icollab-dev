@@ -14,14 +14,12 @@ import { SecurityService }                     from 'src/app/core/services/secur
 })
 export class MonitoringHomeComponent implements OnInit, OnDestroy {
 	@ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
-	
-	
 	constructor(
 		private componentFactoryResolver : ComponentFactoryResolver,
 		public  globalService            : GlobalService,
 		public  theme                    : ThemeService,
 		private securityService          : SecurityService,
-	) { 
+	) {
 		
 		try{
 			this.theme.setApp("Administrative_monitoring");
