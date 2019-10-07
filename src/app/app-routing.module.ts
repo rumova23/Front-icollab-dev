@@ -14,7 +14,7 @@ import { MonitoringHomeComponent } from 'src/app/monitoring/home/monitoringHome.
 const routes: Routes = [
   // otherwise redirect to home
   
-  { path: '', component: LoginComponent },
+  //{ path: '', component: LoginComponent },
   //{ path: '', component: MonitoringHomeComponent },
 
   //{ path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
@@ -33,13 +33,13 @@ const routes: Routes = [
       app: 'Safe'
     }
   },
-  {
+  /*{
     path: 'monitoring/home', component: MonitoringHomeComponent, pathMatch: 'full',
     canActivate: [AuthGuard],
     data: {
       app: 'Administrative_monitoring'
     }
-  },
+  },//*/
 
   {
     path: 'security/home', component: SecurityHomeComponent, pathMatch: 'full',
@@ -65,13 +65,15 @@ const routes: Routes = [
 
 
 
-  { path: '**', redirectTo: '' }
+  { path: '**', component: LoginComponent}
 ];
 
-//export const routing = RouterModule.forRoot(routes);
+export const APP_ROUTES = RouterModule.forRoot(routes , {useHash:false });
 
+/*
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class APP_ROUTES { }
+//*/

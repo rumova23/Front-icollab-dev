@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MatPaginatorIntl } from '@angular/material';
 
-import { AppRoutingModule } from './app-routing.module';
+import { APP_ROUTES } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -168,17 +168,7 @@ import { SidebarItemsComponent }               from 'src/app/common/sidebar/item
 import { SidebarComponent }                    from 'src/app/common/sidebar/sidebar/sidebar.component';
 /* ./Common */
 /* Module Monitoring */
-import { MonitoringBaseSocketOnComponent }     from 'src/app/monitoring/class/monitoringBaseSocketOn.component';
-import { MonitoringHomeComponent }             from 'src/app/monitoring/home/monitoringHome.component';
-import { MonitoringWelcomeComponent }          from 'src/app/monitoring/home/welcome/monitoringWelcome.component';
-import { MonitoringSidebarComponent }          from 'src/app/monitoring/common/sidebar/monitoringSidebar.component';
-import { MonitoringMenuItemsComponent }        from 'src/app/monitoring/common/menuItems/monitoringMenuItems.component';
-import { MonitoringPhase3Component }           from 'src/app/monitoring/boards/phase3/monitoringPhase3.component';
-import { MonitoringPhase2MockupComponent }     from 'src/app/monitoring/boards/phase2Mockup/monitoringPhase2Mockup.component';
-import { MonitoringPhase2Component }           from 'src/app/monitoring/boards/phase2/monitoringPhase2.component';
-import { MonitoringChartsControlsComponent }   from 'src/app/monitoring/common/chartsControls/monitoringChartsControls.component';
-import { MonitoringMmMarketComponent }         from 'src/app/monitoring/boards/mmMarket/monitoringMmMarket.component';
-
+import { MonitoringModule } from './monitoring/monitoring.module';
 /* ./Module Monitoring */
 
 
@@ -320,20 +310,10 @@ registerLocaleData(localePy, 'es');
     ,SidebarMenuComponent
     ,SidebarItemsComponent
 
-    ,MonitoringHomeComponent
-    ,MonitoringWelcomeComponent
-    ,MonitoringSidebarComponent
-    ,MonitoringMenuItemsComponent
-    ,MonitoringPhase3Component
-    ,MonitoringPhase2Component
-    ,MonitoringPhase2MockupComponent
-    ,MonitoringBaseSocketOnComponent
-    ,MonitoringChartsControlsComponent
-    ,MonitoringMmMarketComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    APP_ROUTES,
     HttpClientModule,
     MDBBootstrapModule.forRoot(),
     DropdownModule.forRoot(),
@@ -353,7 +333,7 @@ registerLocaleData(localePy, 'es');
     BlockUIModule.forRoot({
       message: Constants.LOADING_MEESSAGE
     })
-
+    ,MonitoringModule
   ],
   exports:[ BrowserAnimationsModule, MatDatepickerModule, MatNativeDateModule],
   providers: [

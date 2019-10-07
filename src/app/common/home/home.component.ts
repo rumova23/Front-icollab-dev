@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.router.navigate(['/safe/home']);
   }
   goAdministrative_monitoring(){
-    this.router.navigate(['/monitoring/home']);
+    this.router.navigate(['/monitoring']);
   }
   goSecurity() {
     this.router.navigate(['/security/home']);

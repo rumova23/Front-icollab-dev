@@ -21,7 +21,7 @@ ng build --output-path="dist/compliance" --deployUrl="compliance/"
 ng build --prod --base-href /icollab/ --output-path="dist/icollab"
 
 
-
+npm install bootstrap jquery popper.js --save
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).

@@ -1,38 +1,13 @@
 <div id="agrupar">
-  <app-header (outputHeader)="inputHeaderComponent($event)"></app-header>
-  <div id="body">
-    <aside id="columna" 
-         [ngStyle]="{'width':aside_open ? '230px' : '0px' }">
-      <div>
-        <div class="row">
-            <div class="col p-0">
-                <div class="user-panel">
-                    <div class="image">
-                      <img *ngIf="getgender()===1" src="../../../assets/images/avatar2.png" alt="" class="img-user">
-                      <img *ngIf="getgender()===2" src="../../../assets/images/womenAvatar.png" alt="" class="img-user">
-                    </div><br>
-                    <div class="info-user" *ngIf="aside_open">
-                        <p  *ngIf="getgender()===1">Bienvenido,</p>
-                        <p  *ngIf="getgender()===2">Bienvenida,</p>
-                        <p>{{getNameUser()}}</p>
-                        <p class="f-10">No tienes tareas pendientes</p>
-                    </div>
-                    <img src="../../../assets/images/avatar-bg.png" alt="" class="bg-user">
-                </div>
-            </div>
-        </div>
-        <app-sidebarMenu [aside_open]='aside_open'></app-sidebarMenu>
-      </div>
-    </aside>
-    <section id="seccion"
-    [ngStyle]="{'width':aside_open ? 'calc(100% - 230px)' : 'calc(100% )' }">
-      <div *ngIf="aside_open" class="position-fixed d-block d-md-none" style="width: 100%;height: 100%; z-index: 1; background: #000;opacity: 0.9;transition: 0.5s;"></div>
-      <!--  CUERPO DEL COMPONENTE -->
-      <div class="container-fluid">
-        <ng-template #container></ng-template>
-      </div>
-    </section>
-  </div>
+	<app-shared-header></app-shared-header>
+	<app-shared-sidebar></app-shared-sidebar>
 
-  <app-footer></app-footer>
+	
+    <section id="seccion">
+		<div class="container-fluid">
+			<ng-template #container></ng-template>
+		</div>
+	</section>
+	
+	<app-shared-footer></app-shared-footer>
 </div>
