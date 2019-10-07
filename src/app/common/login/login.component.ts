@@ -8,6 +8,7 @@ import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
+import { GlobalService }                       from 'src/app/core/globals/global.service';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private securityService: SecurityService,
+		public  globalService            : GlobalService,
     private eventService: EventService,
     private alertService: AlertService) {
     if (this.securityService.getCurrentUser()) {
@@ -115,6 +117,7 @@ export class LoginComponent implements OnInit {
           this.loading = true;
           this.addBlock(2, null);
           this.router.navigate([this.returnUrl]);
+          if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
         },
         errorData => {
           this.addBlock(2, null);

@@ -5,9 +5,6 @@ import { EventService } from './core/services/event.service';
 import { EventBlocked } from './core/models/EventBlocked';
 import { Validate } from './core/helpers/util.validator.';
 
-import { GlobalService }                       from 'src/app/core/globals/global.service';
-import { ThemeService }                        from 'src/app/core/globals/theme';
-import { SecurityService }                     from 'src/app/core/services/security.service';
 
 
 @Component({
@@ -21,11 +18,7 @@ export class AppComponent {
 
 	constructor(
 		private eventService             : EventService,
-		public  globalService            : GlobalService,
-		public  theme                    : ThemeService,
-		private securityService          : SecurityService,
 	) {
-		if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
 		this.serviceSubscription = this.eventService.onChangeApp.subscribe({
 			next: (event: EventMessage) => {
 				switch (event.id) {
