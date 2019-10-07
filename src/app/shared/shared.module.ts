@@ -7,7 +7,7 @@ import { SharedSidebarMenuComponent  } from './sidebar/menu/shared-sidebar-menu.
 import { SharedSidebarItemsComponent } from './sidebar/items/shared-sidebar-items.component';
 
 import { MDBBootstrapModule          } from 'angular-bootstrap-md';
-
+import { MaterialModule              } from 'src/app/modules/material-module';
 
 @NgModule({
     declarations:[
@@ -27,6 +27,7 @@ import { MDBBootstrapModule          } from 'angular-bootstrap-md';
     imports:[
         BrowserModule,
         MDBBootstrapModule.forRoot(),
+        MaterialModule,
     ]
 
 })

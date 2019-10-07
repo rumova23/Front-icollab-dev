@@ -1,13 +1,16 @@
 <div id="agrupar">
 	<app-shared-header></app-shared-header>
-	<app-shared-sidebar></app-shared-sidebar>
+	
+	<div id="body">
+		<app-shared-sidebar></app-shared-sidebar>
 
-	
-    <section id="seccion">
-		<div class="container-fluid">
-			<ng-template #container></ng-template>
-		</div>
-	</section>
-	
+		
+		<section id="seccion" [ngStyle]="{'width':aside_open ? 'calc(100% - 230px)' : 'calc(100% - 60px)' }">
+			<div class="container-fluid">
+				<ng-template #container></ng-template>
+			</div>
+		</section>
+		
+	</div>
 	<app-shared-footer></app-shared-footer>
 </div>

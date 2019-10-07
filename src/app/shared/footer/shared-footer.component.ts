@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ThemeService }      from 'src/app/core/globals/theme';
 
 @Component({
   selector: 'app-shared-footer',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SharedFooterComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public theme : ThemeService
+    ) { }
 
   ngOnInit() {
   }
