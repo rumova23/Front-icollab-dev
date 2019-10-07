@@ -30,10 +30,8 @@ export class WeatherEditComponent implements OnInit {
   fileName: any;
   typeWeather: string;
   valid: boolean = false;
-
   title;
   progress;
-  
   constructor(public globalService: GlobalService,
     private marketService: MarketService,
     private fb: FormBuilder,
@@ -89,7 +87,8 @@ export class WeatherEditComponent implements OnInit {
       this.fileName = value.file.name;
       this.marketService.validateWeather({
         file: this.file,
-        name: this.fileName, idTypeWeather: this.getTypeWeather()
+        name: this.fileName,
+        idTypeWeather: this.getTypeWeather()
       })
         .subscribe(
           data => {

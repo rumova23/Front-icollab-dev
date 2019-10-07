@@ -1,35 +1,51 @@
 import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
+import { GlobalService } from 'src/app/core/globals/global.service';
+import {Constants} from "../../../../core/globals/Constants";
 
 @Component({
   selector: 'app-upload',
   template: `
               <div class="container">
-              <form [formGroup]="formGroup"  (ngSubmit)="onSubmitImg()">
-                <div class="rom">
-                  <div class="col-sm" >
-                    <input [disabled]="isdisabled" name="file" type="file" (change)="onChange($event)"/>
+                <form [formGroup]="formGroup">
+                  <div class="row">
+                    <div class="col">
+                      Carga de Soportes<br>
+                      <app-file-upload formControlName="file" [progress]="progress" (change)="selectFile($event)"></app-file-upload>
+                    </div>
+                    <div class="col txt-r">
+                      <button [disabled]="!selectedFiles" (click)="upload()" class="btn right"
+                              [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                        <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+                      </button>
+                    </div>
                   </div>
-                  <div class="col-sm" >
-                    <button [disabled]="isdisabled" mdbBtn color="primary" mdbWavesEffect type="submit" >Subir</button>
-                  </div>
-                </div>
-              </form>
-              </div> 
+                </form>
+              </div>
             `,
   styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent implements OnInit {
   @Input() inTipo: string;
+  @Input() inIdEmpleado: number;
+  @Input() typeDocument: number;
+  @Input() calificacionId: number;
   formGroup: FormGroup;
   isdisabled: boolean = false;
 
-  constructor(private fb: FormBuilder, private cargar: PerfilComboService, private cd: ChangeDetectorRef) {
+  file: any;
+  fileName: any;
+  valid: boolean = false;
+  progress;
+  selectedFiles: FileList;
+  currentFile: File;
+
+  constructor(private fb: FormBuilder, private cargar: PerfilComboService, private cd: ChangeDetectorRef, public globalService: GlobalService) {
   }
 
   ngOnInit() {
-    if (this.inTipo == "ver") {
+    if (this.inTipo === 'ver') {
       this.isdisabled = true;
     }
     this.formGroup = this.fb.group({
@@ -37,26 +53,16 @@ export class UploadComponent implements OnInit {
     });
   }
 
-  onChange(event) {
-    let reader = new FileReader();
-
-    if (event.target.files && event.target.files.length) {
-      const [file] = event.target.files;
-      reader.readAsDataURL(file);
-
-      reader.onload = () => {
-        this.formGroup.patchValue({
-          file: reader.result
-        });
-        this.cd.markForCheck();
-      };
-    }
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
   }
 
-  onSubmitImg() {
-    this.cargar.upload(this.formGroup.controls['file'].value, 1).subscribe(
-      respuesta => {
-        console.dir(respuesta);
-      });
+  upload() {
+    this.currentFile = this.selectedFiles.item(0);
+    this.cargar.upload(this.currentFile, this.calificacionId, this.typeDocument).subscribe(
+        respuesta => {
+          alert('llego');
+        });
+    this.cargar.accion.next('upload');
   }
 }

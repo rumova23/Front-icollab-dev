@@ -1,8 +1,11 @@
 export class CarasDocument {
-    private name: string;
-    private type: string;
+    public name: string;
+    public type: string;
+    public fileDownloadUri: string;
 
-    constructor(name: string, type: string){ this.name = name; this.type = type; }
-
-
+    constructor(name: string, type: string, fileDownloadUri: string) {
+        this.name = name;
+        this.type = type;
+        this.fileDownloadUri = fileDownloadUri;
+    }
 }

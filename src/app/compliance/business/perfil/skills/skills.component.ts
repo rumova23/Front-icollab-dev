@@ -29,7 +29,6 @@ export class SkillsComponent implements OnInit {
   terminadoId: number;
   isdisabled = false;
   isdisabledFinish = false;
-  accionCalifica = 'false';
 
   constructor(private cdRef: ChangeDetectorRef,
               private ruteo: ActivatedRoute,

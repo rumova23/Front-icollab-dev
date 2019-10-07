@@ -35,13 +35,15 @@ export class PerfilComboService {
 
   accion: BehaviorSubject<string> = new BehaviorSubject<string>('no aplica');
 
-  private baseUrl = environment.catalogUrl;
-  private baseUrl2 = environment.microexamenUrl;
-  private baseUrl3 = environment.evaluacionExamenUrl;
-  private baseknUrl = environment.knowledgeUrl;
+  private catalogUrl = environment.catalogUrl;
+  private microexamenUrl = environment.microexamenUrl;
+  private evaluacionExamenUrl = environment.evaluacionExamenUrl;
+  private microuploaddbUrl = environment.microuploaddbUrl;
 
   parameters: any;
   user: any;
+  calificacionId: any;
+  reservacionId: any;
 
   constructor(private http: HttpClient,
               private globalService: GlobalService) { }
@@ -61,29 +63,28 @@ export class PerfilComboService {
     }
   }
 
-
   getlistCatalogoOrdenados(nameCatalogs: Array<any>) {
     this.setXTenantId(this.globalService.aguila);
-    // return this.http.post( `${ this.baseUrl }catalog/list`, nameCat, httpOptions);
-    return this.http.post( `${ this.baseUrl }catalog/list`, nameCatalogs, {params : this.parameters });
+    // return this.http.post( `${ this.catalogUrl }catalog/list`, nameCat, httpOptions);
+    return this.http.post( `${ this.catalogUrl }catalog/list`, nameCatalogs, {params : this.parameters });
   }
 
   getSave(empleado: Empleado) {
     this.setXTenantId(this.globalService.aguila);
-    // return this.http.put( `${ this.baseUrl2 }exam/actualizaEmpleado`, empleado, httpOptions);
-    return this.http.put( `${ this.baseUrl2 }exam/actualizaEmpleado`, empleado, {params : this.parameters });
+    // return this.http.put( `${ this.microexamenUrl }exam/actualizaEmpleado`, empleado, httpOptions);
+    return this.http.put( `${ this.microexamenUrl }exam/actualizaEmpleado`, empleado, {params : this.parameters });
   }
 
   getEmpleado(id: number) {
     this.setXTenantId(this.globalService.aguila);
-    // return this.http.get( `${ this.baseUrl2 }exam/empleado/${id}`, httpOptions);
-    return this.http.get( `${ this.baseUrl2 }exam/empleado/${id}`, {params : this.parameters });
+    // return this.http.get( `${ this.microexamenUrl }exam/empleado/${id}`, httpOptions);
+    return this.http.get( `${ this.microexamenUrl }exam/empleado/${id}`, {params : this.parameters });
   }
 
   getEmpleadoDetalles(id: number) {
     this.setXTenantId(this.globalService.aguila);
-    // return this.http.get( `${ this.baseUrl2 }exam/empleadoDetalle/${id}`, httpOptions);
-    return this.http.get( `${ this.baseUrl2 }exam/empleadoDetalle/${id}`, {params : this.parameters });
+    // return this.http.get( `${ this.microexamenUrl }exam/empleadoDetalle/${id}`, httpOptions);
+    return this.http.get( `${ this.microexamenUrl }exam/empleadoDetalle/${id}`, {params : this.parameters });
   }
 
 
@@ -95,37 +96,35 @@ export class PerfilComboService {
     };
     // let RequestBody = empleadoId;
 
-    // return this.http.post(`${this.baseUrl2}` + 'exam/genera?empleadoId=' + empleadoId, httpOptions);
-    return this.http.post(`${this.baseUrl2}` + 'exam/genera', RequestBody , {params : this.parameters });
+    // return this.http.post(`${this.microexamenUrl}` + 'exam/genera?empleadoId=' + empleadoId, httpOptions);
+    return this.http.post(`${this.microexamenUrl}` + 'exam/genera', RequestBody , {params : this.parameters });
   }
 
   obtenPreguntasExamen(configuracionExamen: string, empleadoId: number): Observable<any> {
     this.setXTenantId(this.globalService.aguila);
-    return this.http.get(`${this.baseUrl2}exam/preguntas/${configuracionExamen}/${empleadoId}`, httpOptions);
-    // return this.http.get(`${this.baseknUrl}knowledge/examen/${configuracionExamen}`, {params : this.parameters });
+    return this.http.get(`${this.microexamenUrl}exam/preguntas/${configuracionExamen}/${empleadoId}`, httpOptions);
   }
 
 
   respuestaExamen(examenReservacionId: number, resulta: Array<Respuesta>) {
     this.setXTenantId(this.globalService.aguila);
-    // return this.http.post( `${ this.baseUrl2 }exam/guardaexamen?examenReservacionId=` + examenReservacionId, resulta, httpOptions);
-    return this.http.post( `${ this.baseUrl2 }exam/guardaexamen?examenReservacionId=` + examenReservacionId,
+    // return this.http.post( `${ this.microexamenUrl }exam/guardaexamen?examenReservacionId=` + examenReservacionId, resulta, httpOptions);
+    return this.http.post( `${ this.microexamenUrl }exam/guardaexamen?examenReservacionId=` + examenReservacionId,
         resulta, {params : this.parameters });
   }
 
 
   getValoresAptitudes(examenReservacionId: number, preguntaId: number) {
     this.setXTenantId(this.globalService.aguila);
-    // return this.http.get( `${ this.baseUrl }valoresAptitudes/${list}`, httpOptions);
-    return this.http.post( `${ this.baseUrl2 }exam/valorRespuesta?examenReservacionId=` + examenReservacionId
+    return this.http.post( `${ this.microexamenUrl }exam/valorRespuesta?examenReservacionId=` + examenReservacionId
                              + `&preguntaId=` + preguntaId, {}, {params : this.parameters });
   }
 
 
   postValoresHabilidades(idEmpleado: number, resulta: Array<any>) {
     this.setXTenantId(this.globalService.aguila);
-    // return this.http.post( `${ this.baseUrl2 }exam/guardarSicometricoEmpleado?idEmpleado=` + idEmpleado, resulta, httpOptions);
-    return this.http.post( `${ this.baseUrl2 }exam/guardarSicometricoEmpleado?idEmpleado=` + idEmpleado,
+    // return this.http.post( `${ this.microexamenUrl }exam/guardarSicometricoEmpleado?idEmpleado=` + idEmpleado, resulta, httpOptions);
+    return this.http.post( `${ this.microexamenUrl }exam/guardarSicometricoEmpleado?idEmpleado=` + idEmpleado,
         resulta, {params : this.parameters });
   }
 
@@ -134,69 +133,77 @@ export class PerfilComboService {
 
   getScalas(val: string) {
     this.setXTenantId(this.globalService.aguila);
-    // return this.http.get(`${this.baseUrl3}` + 'evalucionConfiguracion/get/' + val , httpOptions);
-    return this.http.get(`${this.baseUrl3}` + 'evalucionConfiguracion/get/' + val , {params : this.parameters });
+    // return this.http.get(`${this.evaluacionExamenUrl}` + 'evalucionConfiguracion/get/' + val , httpOptions);
+    return this.http.get(`${this.evaluacionExamenUrl}` + 'evalucionConfiguracion/get/' + val , {params : this.parameters });
   }
 
   public getReservacionesEmpleado(calificacionId: number): Observable<any>   {
     this.setXTenantId(this.globalService.aguila);
-    // return this.http.get(`${this.baseUrl2}exam/obten/reservacion/${calificacionId}`, httpOptions);
-    return this.http.get(`${this.baseUrl2}exam/obten/reservacion/${calificacionId}`, {params : this.parameters });
+    // return this.http.get(`${this.microexamenUrl}exam/obten/reservacion/${calificacionId}`, httpOptions);
+    return this.http.get(`${this.microexamenUrl}exam/obten/reservacion/${calificacionId}`, {params : this.parameters });
   }
 
 
 
   obtenCalificacion(empleadoId: number): Observable<any> {
     this.setXTenantId(this.globalService.aguila);
-    // return this.http.get(`${this.baseUrl2}exam/obten/calificacion/${empleadoId}`, httpOptions);
-    return this.http.get(`${this.baseUrl2}exam/obten/calificacion/${empleadoId}`, {params : this.parameters });
+    // return this.http.get(`${this.microexamenUrl}exam/obten/calificacion/${empleadoId}`, httpOptions);
+    return this.http.get(`${this.microexamenUrl}exam/obten/calificacion/${empleadoId}`, {params : this.parameters });
+  }
+
+  obtenCatalogoDocumentos() {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.get(`${this.microexamenUrl}exam/catalogo/documents/`, {params : this.parameters });
+  }
+
+  obtenDocumentos(calificacionId: number, typeDocument: string): Observable<any> {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.get(`${this.microexamenUrl}exam/obten/documents/${calificacionId}/${typeDocument}`, {params : this.parameters });
   }
 
   terminaExamen(examenReservacionId: number): Observable<any>  {
     this.setXTenantId(this.globalService.aguila);
-    // return this.http.post(`${this.baseUrl2}exam/terminaExamen?examenReservacionId=` + examenReservacionId , httpOptions);
-    return this.http.post(`${this.baseUrl2}exam/terminaExamen?examenReservacionId=` + examenReservacionId + '&user=' + this.user,
+    // return this.http.post(`${this.microexamenUrl}exam/terminaExamen?examenReservacionId=` + examenReservacionId , httpOptions);
+    return this.http.post(`${this.microexamenUrl}exam/terminaExamen?examenReservacionId=` + examenReservacionId + '&user=' + this.user,
         {params : this.parameters });
   }
 
 
   obtenEstatusTerminado(entidad: string, estatus: string): Observable<any> {
     this.setXTenantId(this.globalService.aguila);
-    // return this.http.get( `${ this.estatus_maestro }entidadEstatus/${entidad}/${estatus}`, httpOptions);
-    // return this.http.get( `${ this.estatus_maestro }entidadEstatus/${entidad}/${estatus}`, {params : this.parameters });
     return null;
   }
 
 
   getGraficas(examenReservacionId: number): Observable<any> {
     this.setXTenantId(this.globalService.aguila);
-    // return this.http.get(`${this.baseUrl2}exam/obten/calificacion/reservacion/${examenReservacionId}`, httpOptions);
-    return this.http.get(`${this.baseUrl2}exam/obten/calificacion/reservacion/${examenReservacionId}`, {params : this.parameters });
+    return this.http.get(`${this.microexamenUrl}exam/obten/calificacion/reservacion/${examenReservacionId}`, {params : this.parameters });
   }
 
 
   getComentarios(calificacionId: number): Observable<any>  {
     this.setXTenantId(this.globalService.aguila);
-    // return this.http.get(`${this.baseUrl2}exam/getObservaciones/${calificacionId}`, httpOptions);
-    return this.http.get(`${this.baseUrl2}exam/getObservaciones/${calificacionId}`, {params : this.parameters });
+    // return this.http.get(`${this.microexamenUrl}exam/getObservaciones/${calificacionId}`, httpOptions);
+    return this.http.get(`${this.microexamenUrl}exam/getObservaciones/${calificacionId}`, {params : this.parameters });
   }
 
 
   postObservaciones(calificacionId: number, observacion: string): Observable<any> {
     this.setXTenantId(this.globalService.aguila);
-    // return this.http.post( `${ this.baseUrl2 }exam/guardaObservacion/${calificacionId}/${observacion}`, httpOptions);
-    return this.http.post( `${ this.baseUrl2 }exam/guardaObservacion/${calificacionId}/${observacion}`, {params : this.parameters });
+    return this.http.post( `${ this.microexamenUrl }exam/guardaObservacion/${calificacionId}/${observacion}`, {params : this.parameters });
   }
 
 
-  upload(fileObj: File, idExamenReservacion: number) {
+  upload(fileObj: File, idCalificacion: number, typeDocument: number) {
     this.setXTenantId(this.globalService.aguila);
     const file: FormData = new FormData();
-    const idTipoDocumento: number = idExamenReservacion;
     file.append('file', fileObj);
-    // tslint:disable-next-line:max-line-length
-    // return this.http.post(`${ this.baseUrl2 }exam/guardarArchivos?idExamenReservacion=` + idExamenReservacion + `&idTipoDocumento=` + idTipoDocumento, file);
-    return this.http.post(`${ this.baseUrl2 }exam/guardarArchivos?idExamenReservacion=` +
-        idExamenReservacion + `&idTipoDocumento=` + idTipoDocumento, file);
+    return this.http.post(`${ this.microexamenUrl }exam/guardarArchivos?idCalificacion=` +
+        idCalificacion + `&typeDocument=` + typeDocument, file);
+  }
+
+  downloadFile(fileId: number) {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.get(`${ this.microuploaddbUrl }downloadFile/` + fileId, {params : this.parameters });
   }
 }
