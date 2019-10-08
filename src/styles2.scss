@@ -219,6 +219,15 @@ input ,.form-control{
 .item-icono{
     margin-bottom: 5px;
 }
+.sidebar_item{
+    color:#000000 !important;
+}
+
+.sidebar_item:hover{
+    background-color : #cfd8dc!important;
+    color            : Black!important;
+  }
+  
 /* ventanas contenido */
     .section_titulo_0{
         font-size: 14px;

@@ -1,6 +1,5 @@
-<a mat-list-item (click)="itemSelected(item)" 
-    [ngStyle]="{'padding-left': (deep * indent) + units}" 
-    [ngClass]="{'itemStyleBlue': globalService.aguila , 'itemStyleOrange': !globalService.aguila}">
+<a mat-list-item (click)="itemSelected(item)" class="sidebar_item"
+    [ngStyle]="{'padding-left': (deep * indent) + units}">
   <mat-icon class="itemIcon" *ngIf="deep===0 || item.children">{{item.icon}}
   </mat-icon>
   <div class=" col-10 pl-2">
