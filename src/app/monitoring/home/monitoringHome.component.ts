@@ -15,6 +15,7 @@ import { EventSocket                     } from 'src/app/core/models/EventSocket
 import { MonitoringWelcomeComponent      } from '../welcome/monitoring-welcome.component';
 import { MonitoringPhase2Component       } from '../boards/phase2/monitoring-phase2.component';
 import { MonitoringPhase3Component       } from '../boards/phase3/monitoring-phase3.component';
+import { MonitoringMmMarketComponent     } from '../boards/mmMarket/monitoringMmMarket.component';
 
 
 @Component({
@@ -25,6 +26,7 @@ import { MonitoringPhase3Component       } from '../boards/phase3/monitoring-pha
 		 MonitoringWelcomeComponent
 		,MonitoringPhase2Component
 		,MonitoringPhase3Component
+		,MonitoringMmMarketComponent
 	]
 })
 export class MonitoringHomeComponent implements OnInit, OnDestroy {
@@ -41,6 +43,7 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 		private socketService            : SocketService
 	) {
 		this.theme.setApp("Administrative_monitoring");
+		if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
 	}
 
 	ngOnInit() {
@@ -116,12 +119,13 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 				this.viewContainerRef.createComponent(
 				this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase2MockupComponent)
 				).changeDetectorRef.detectChanges();
-			break;
+			break;//*/
 			case 5:
 				this.viewContainerRef.createComponent(
 				this.componentFactoryResolver.resolveComponentFactory(MonitoringMmMarketComponent)
 				).changeDetectorRef.detectChanges();
 			break;
+			/*
 			case 100:
 				this.viewContainerRef.createComponent(
 					this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent)
