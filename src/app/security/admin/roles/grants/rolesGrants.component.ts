@@ -52,7 +52,6 @@ export class RolesGrantsComponent implements OnInit {
     private securityService: SecurityService
   ) { }
   ngOnInit() {
-    console.log(this.role);
     this.loadGrantsRole();
     //this.items = this.securityService.getTreeSample();
   }
@@ -75,7 +74,6 @@ export class RolesGrantsComponent implements OnInit {
         data => {
           this.grants = data;
           const grants = data;
-          console.log(grants);
           for (var i = 0; i < grants.length; i++) {
             this.fathers.push(grants[i].value);
             if(Validate(grants[i].children)) {
@@ -88,8 +86,6 @@ export class RolesGrantsComponent implements OnInit {
           for (var i = 0; i < grants.length; i++) {
             this.items.push(new TreeviewItem(grants[i], false));
           }
-          console.log(this.grants);
-          console.log(this.fathers);
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
@@ -105,16 +101,13 @@ export class RolesGrantsComponent implements OnInit {
   }
 
   selectedChange(event) {
-    console.log(event);
     this.values = event;
-    console.log(this.values);
     for (var i = 0; i < event.length; i++) {
       
     }
   }
 
   save() {
-    console.log(this.values);
     this.securityService.saveRoleGrants({
       idApp: this.role.idApp,
       idRole: this.role.id,
@@ -122,7 +115,6 @@ export class RolesGrantsComponent implements OnInit {
     })
     .subscribe(
       data => {
-         console.log(data);
          this.eventService.sendMainSecurity(new EventMessage(5, null));
       },
       errorData => {

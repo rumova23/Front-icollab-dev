@@ -101,16 +101,13 @@ export class ActivitiesEditComponent implements OnInit {
   }
 
   obtenerDatosActividad() {
-    console.log("Accion: " + this.accion);
 
     this.actividadId = this.catalogType.id;
-    console.log("this.actividadId: " + this.actividadId);
     
 
     if (this.actividadId > 0) {
       this.tagService.getActividad(this.actividadId).subscribe(
         respuesta => {
-          console.log(respuesta)
           let tagActividad: TagActividadDTO
           tagActividad = <TagActividadDTO>respuesta;
           if (tagActividad != null && tagActividad.idActivity) {
@@ -142,8 +139,6 @@ export class ActivitiesEditComponent implements OnInit {
 
         },
         error => {
-          console.log("Error al obtener catalgo de actividades.");
-          console.log(<any>error)
           this.addBlock(2, null);
           this.toastr.errorToastr('Error al obtener detalles de la actividad.', 'Lo siento,'); 
         }
@@ -203,7 +198,6 @@ export class ActivitiesEditComponent implements OnInit {
 
     this.tagService.crearActividad(this.actividad, this.globalService.aguila).subscribe(
       result => {
-        console.log(result);
         let generigResponseDTO : any;
         generigResponseDTO = result;
         if ( generigResponseDTO.clave == 99 ){
@@ -230,7 +224,6 @@ export class ActivitiesEditComponent implements OnInit {
         }
       },
       error => {
-        console.log(<any>error);
         this.toastr.errorToastr('Error al guardar la actividad.', 'Lo siento,');
       });
 
@@ -247,12 +240,9 @@ export class ActivitiesEditComponent implements OnInit {
       this.origen,
       1);
 
-    console.log("this.actividad");
-    console.log(this.actividad);
 
     this.tagService.crearActividad(this.actividad, !this.globalService.aguila).subscribe(
       result => {
-        console.log(result);
         let generigResponseDTO : any;
         generigResponseDTO = result;
         if ( generigResponseDTO.clave == 99 ){
@@ -288,10 +278,8 @@ export class ActivitiesEditComponent implements OnInit {
     this.origen,
     0);
 
-    console.log(this.actividad);
     this.tagService.editarActividad(this.actividad).subscribe(
       result => {
-        console.log(result);
         this.toastr.successToastr('La actividad fue actualizada con éxito.', '¡Se ha logrado!');
 
         this.deshabiliarEstatus = true;
@@ -301,21 +289,14 @@ export class ActivitiesEditComponent implements OnInit {
         //this.addBlock(2, null)
       },
       error => {
-        console.log(<any>error);
         this.addBlock(2, null)
         this.toastr.errorToastr('Error al Editar la actividad.', 'Lo siento,');
       });
   }
 
   editClonated(){
-    console.log("this.actividad['idActivity']");
-    console.log(this.actividad['idActivity']);
-    console.log("this.actividad['referenceclone']");
-    console.log(this.actividad['referenceclone']);
     this.tagService.setEditClonated(this.actividad,!this.globalService.aguila).subscribe( 
       dataBack => { 
-        console.log("ZZZZZ");
-        console.dir(dataBack);
         this.toastr.successToastr('La actualización de elementos clonados se logró con éxito.', '¡Se ha logrado!');
         this.eventService.sendMainCompliance(new EventMessage(6, {}));
       }
@@ -326,7 +307,6 @@ export class ActivitiesEditComponent implements OnInit {
 
   //Compara valores del combo para seleccionar la opción correspondiente
   compareFn(combo1: number, combo2: number) {
-    console.log(combo1 && combo2 && combo1 === combo2);
     return combo1 && combo2 && combo1 === combo2;
   }
 
@@ -349,22 +329,15 @@ export class ActivitiesEditComponent implements OnInit {
 
 
   regresar(){
-    console.log("regresar");
     if (this.accion === 'nuevo' && !this.checkedClone){
       let element_id;
-      console.log("obtenerDatosCategoria(..) - En regresar");
 
       this.tagService.getCatalogoActividades("TODOS").subscribe( 
         dataBack => {
-         console.log("dataBack - En regresar");
-         console.dir(dataBack);
-          //console.dir(dataBack['result']);
           this.result = dataBack;
   
           for (let element of this.result) { 
             if (element.name === this.actividadesForm.controls['fActividad'].value){
-              console.log("element.id");
-              console.log(element.idActivity);
               element_id = element.idActivity;
             }
           }
@@ -386,12 +359,9 @@ export class ActivitiesEditComponent implements OnInit {
             30,  //this.actividadesForm.controls['fTareaTiempo'].value);
             "NO_CLONADO",
             0);
-      
-            console.log(this.actividad);
+
             this.tagService.editarActividad(this.actividad).subscribe(
               result => {
-                console.log(result);
-                console.log("SI no se clona se quita la referencia");
               },
               error => {
                 console.log(<any>error);

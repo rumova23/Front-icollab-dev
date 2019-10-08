@@ -5,10 +5,10 @@ export class DatosPie {
     public cerrado: number;
     public abiertoFueraDeTiempo: number;
     public cerradoFueraDeTiempo: number;
-    
+
     constructor(
         abierto: number,
-        cerrado: number, 
+        cerrado: number,
         abiertoFueraDeTiempo: number,
         cerradoFueraDeTiempo: number
     ) {

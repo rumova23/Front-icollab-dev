@@ -7,9 +7,9 @@ const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
     'Accept-Language': 'es-419,es;q=0.9',
-    'Accept': 'application/json',
-    'Access-Control-Allow-Origin':'*',
-    'Authorization':'authkey',
+    Accept: 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    Authorization: 'authkey',
 
   })
 };
@@ -19,21 +19,19 @@ const httpOptions = {
 })
 export class ComplianceService {
 
-  private baseMicroComplianceUrl = environment.coUrl;
-  
+  private baseMicroComplianceUrl = environment.seguimiento;
+
   constructor(private http: HttpClient) { }
 
-  getAllCompliance(){
-    return this.http.get( `${ this.baseMicroComplianceUrl }obten/complianceActividad`, httpOptions);
+  getAllCompliance() {
+    return this.http.get( `${ this.baseMicroComplianceUrl }legal/obten/complianceActividad`, httpOptions);
   }
 
-  getCompliancePorPlantaYFechas(plantaId: string, fechaInicio: Date, fechaFin: Date){
-    return this.http.get( `${ this.baseMicroComplianceUrl }obten/complianceActividad/${plantaId}/${fechaInicio}/${fechaFin}`, httpOptions);
+    getCompliancePorPlantaYFechas(fechaInicio: Date, fechaFin: Date) {
+      return this.http.get( `${ this.baseMicroComplianceUrl }legal/obten/complianceActividad/${fechaInicio}/${fechaFin}`, httpOptions);
   }
-  
-  getDiagramas(plantaId: string, fechaInicio: Date, fechaFin: Date){
-    return this.http.get( `${ this.baseMicroComplianceUrl }obten/obtenDiagramas/${plantaId}/${fechaInicio}/${fechaFin}`, httpOptions);
-  }
-  
 
+  getDiagramas(fechaInicio: Date, fechaFin: Date) {
+    return this.http.get( `${ this.baseMicroComplianceUrl }legal/obten/obtenDiagramas/${fechaInicio}/${fechaFin}`, httpOptions);
+  }
 }

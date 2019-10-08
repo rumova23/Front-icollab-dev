@@ -91,8 +91,6 @@ export class ComplianceTypesEditComponent implements OnInit {
       estatus: ['',''],
     });
 
-    console.log("this.catalogType");
-    console.dir(this.catalogType);
     this.accion = this.catalogType.action;
 
     if (this.accion === 'editar') {
@@ -127,12 +125,8 @@ export class ComplianceTypesEditComponent implements OnInit {
 
 
   obtenerDatosAutoridad(putData){
-    console.log("obtenerDatosAutoridad(..)");
     this.catalogoMaestroService.getCatalogoIndividual('authority').subscribe(
       dataBack => {
-        console.log("dataBack");
-        console.dir(dataBack);
-        //console.dir(dataBack['result']);
         this.result = dataBack;
 
         this.nRow = 0;
@@ -143,8 +137,6 @@ export class ComplianceTypesEditComponent implements OnInit {
           }
 
           if (this.catalogType.id === element.id && putData){
-            console.log("element.id");
-            console.log(element.id);
             this.autoridadesForm.controls['nombreOpcion'].setValue(element.code);
             this.autoridadesForm.controls['opcionDescripcion'].setValue(element.description);
             this.checkedEstatus = element.active;
@@ -168,8 +160,6 @@ export class ComplianceTypesEditComponent implements OnInit {
 
         //ngOnInit() -- accion === 'editar' || this.accion === 'ver'
         if (putData){
-          console.log("this.cloned");
-          console.log(this.cloned);
           if (!this.cloned){
             this.dataSubmit['catalog']        = 'authority';
             this.dataSubmit['referenceclone'] = this.origen;
@@ -177,17 +167,13 @@ export class ComplianceTypesEditComponent implements OnInit {
             this.dataSubmit['description']    = this.autoridadesForm.controls['opcionDescripcion'].value;        
             this.dataSubmit['save']           = false;
             this.catalogoMaestroService.hasClonated(this.dataSubmit,!this.globalService.aguila).subscribe( 
-              response => {                 
-                //console.log("-------response-------");
-                //console.log(response);
+              response => {    
                 this.hasCloned = response["success"];
-                console.log("this.hasCloned=" + this.hasCloned);
                 
              });
           }          
         }
         else { //onSubmit() -- accion === 'editar' || this.accion === 'ver'
-          console.log("=================================================================");
 
           this.dataSubmit['code'] = this.autoridadesForm.controls['nombreOpcion'].value;
           this.dataSubmit['description'] = this.autoridadesForm.controls['opcionDescripcion'].value;
@@ -216,15 +202,10 @@ export class ComplianceTypesEditComponent implements OnInit {
 
             this.dataSubmit['cloned'] = this.cloned;
           }
-  
-          console.log("this.dataSubmit");
-          console.dir(this.dataSubmit);
     
           //alert("-------");
            this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit,this.globalService.aguila).subscribe( 
              dataBack => { 
-              console.log("//////");
-              console.dir(dataBack);
               if (this.accion === 'nuevo') {
                 this.toastr.successToastr('La autoridad fue creada con éxito.', '¡Se ha logrado!');
               }
@@ -264,8 +245,6 @@ export class ComplianceTypesEditComponent implements OnInit {
     this.dataSubmit['cloned'] = 1;
     this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit,!this.globalService.aguila).subscribe( 
       dataBack => { 
-       console.log("//////");
-       console.dir(dataBack);
        this.toastr.successToastr('La autoridad fue clonada con éxito.', '¡Se ha logrado!');
        this.eventService.sendMainCompliance(new EventMessage(4, {}));
       }
@@ -273,15 +252,9 @@ export class ComplianceTypesEditComponent implements OnInit {
   }
 
   editClonated(){
-    console.log("this.dataSubmit['id']");
-    console.log(this.dataSubmit['id']);
-    console.log("this.dataSubmit['referenceclone']");
-    console.log(this.dataSubmit['referenceclone']);
     this.dataSubmit['cloned'] = 1;
     this.catalogoMaestroService.setEditClonated(this.dataSubmit,!this.globalService.aguila).subscribe( 
-      dataBack => { 
-       console.log("ZZZZZ");
-       console.dir(dataBack);
+      dataBack => {
        this.toastr.successToastr('La actualización de elementos clonados se logró con éxito.', '¡Se ha logrado!');
        this.eventService.sendMainCompliance(new EventMessage(4, {}));
       }
@@ -301,7 +274,6 @@ export class ComplianceTypesEditComponent implements OnInit {
     }else{
       this.checkedEstatus = false;
     }
-    console.log(" Pone check en: " + this.checkedEstatus )
   }
 
 
@@ -312,16 +284,12 @@ export class ComplianceTypesEditComponent implements OnInit {
       this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Lo siento,');
       return;
     }
-    console.log("this.autoridadesForm.controls");    
-    console.log(this.autoridadesForm.controls);
-
     this.obtenerDatosAutoridad(false);
 
   }
   
   // Compara valores del combo para seleccionar la opción correspondiente
   compareFn(combo1: number, combo2: number) {
-    console.log(combo1 && combo2 && combo1 === combo2);
     return combo1 && combo2 && combo1 === combo2;
   }
 
@@ -360,21 +328,14 @@ export class ComplianceTypesEditComponent implements OnInit {
 
 
   regresar(){
-    console.log("regresar");
     if ( (this.accion === 'nuevo' || this.accion === 'editar') 
         && !this.checkedClonar){
-      console.log("obtenerDatosAutoridad(..) - En regresar");
       this.catalogoMaestroService.getCatalogoIndividual('authority').subscribe(
         dataBack => {
-          console.log("dataBack - En regresar");
-          console.dir(dataBack);
-          //console.dir(dataBack['result']);
           this.result = dataBack;
   
           for (let element of this.result) { 
             if (element.code === this.autoridadesForm.controls['nombreOpcion'].value){
-              console.log("element.id");
-              console.log(element.id);
               this.dataSubmit['id'] = element.id;
             }
           }
@@ -388,8 +349,6 @@ export class ComplianceTypesEditComponent implements OnInit {
           }
           this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit,this.globalService.aguila).subscribe( 
             dataBack => { 
-             console.log("SI no actualiza los clones se crea nueva la referencia");
-             console.dir(dataBack);
           });
 
         })

@@ -25,32 +25,28 @@ export class DashboardsComponent implements OnInit {
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
 
-  constructor(private scalaServ: PerfilComboService,
-    public globalService: GlobalService
-    ) { }
+
+  constructor(private scalaServ: PerfilComboService) {
+    this.scalaServ.accion.subscribe(accion => {
+      if(accion === 'califica') {
+        this.ngOnInit();
+      }
+    });
+  }
 
   ngOnInit() {
     this.charResul = [];
     this.cl_1 = ['Aciertos', 'Desacierto'];
 
     this.scalaServ.obtenCalificacion(this.inIdEmpleado).subscribe(
-      calificacion => { 
-        console.log("<<<<<<====================>>>>>>>");
-        console.log("<<<<<<=========  calificacion ===========>>>>>>>");
-        console.log(calificacion);
+      calificacion => {
 
         this.scalaServ.getReservacionesEmpleado(calificacion.calificacionId).subscribe(
          data => {
-          console.log("<<<<<<====================>>>>>>>");
-          console.log("<<<<<<==========  data ==========>>>>>>>");
-          console.log(data);
 
           for (const examenreservacion of data) {
             this.scalaServ.getGraficas(examenreservacion.examenReservacionId).subscribe(
               resultado => {
-                console.log("<<<<<<====================>>>>>>>");
-                console.log("<<<<<<==========  resultado ==========>>>>>>>");
-                console.log(resultado);
 
                 this.resuelveGrafica(resultado, 'pie', 1, true);
               });

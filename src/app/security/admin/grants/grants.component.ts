@@ -57,7 +57,6 @@ export class GrantsComponent implements OnInit {
           this.grants = grants;
         },
         errorData => {
-          console.log(errorData);
           this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
 
         });

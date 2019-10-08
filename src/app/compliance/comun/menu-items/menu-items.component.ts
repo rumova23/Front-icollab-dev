@@ -67,10 +67,14 @@ export class MenuItemsComponent implements OnInit {
           data = item;
           break;
 
-        case 'Personal Competente':
-          option = 10;
-          data = item;
-          break;
+          case 'Personal Competente':
+            option = 10;
+            data = item;
+            break;
+          case 'legalAgreement':
+            option = 12;
+            data = item;
+            break;
 
 
 

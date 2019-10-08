@@ -66,11 +66,7 @@ export class SecurityHomeComponent implements OnInit {
    
   getgender(){
     let generoId = JSON.parse(localStorage.getItem('user'));
-    //console.log("generoId");
-    //console.dir(generoId);  
     generoId = generoId['generoId'];
-    //console.log("generoId");
-    //console.dir(generoId);
     return generoId;
   }
 

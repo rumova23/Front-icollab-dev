@@ -1,6 +1,6 @@
 <div class="container-fluid mt-5 mb-5">
     <mdb-card>
-        <mdb-card-header><h3>Conocimiento y habilidades</h3></mdb-card-header>
+        <mdb-card-header><h3>Conocimiento y Habilidades</h3></mdb-card-header>
         <mdb-card-body> 
                     
             <!--<div class="row">
@@ -19,11 +19,11 @@
                     <div class="form-row" style="background: white;">
                             <div class="col-6">
                                 <h5>{{preg.label}}</h5>
-                                <input type="hidden" [(ngModel)]="grupPreg[i][j]" [ngModelOptions]="{standalone: true}" />
+                                <input type="hidden" [(ngModel)]="grupPregSkill[i][j]" [ngModelOptions]="{standalone: true}" />
                             </div>
                             <div class="col-6" style="text-align-last: right" >
                                 <div class="custom-control custom-radio custom-control-inline" >
-                                    <mat-radio-group [(ngModel)]="grupOpc[i][j]" [ngModelOptions]="{standalone: true}" [disabled]="isdisabled" >
+                                    <mat-radio-group [(ngModel)]="grupOpcSkill[i][j]" [ngModelOptions]="{standalone: true}" [disabled]="isdisabled" >
                                         <mat-radio-button *ngFor="let opc of preg.pregu;" [value]="opc.value">{{opc.label}}</mat-radio-button>
                                     </mat-radio-group>  
                                 </div>
@@ -32,7 +32,7 @@
                         <div class="form-row">
                             <div class="col-12">
                                 <mat-form-field>
-                                    <textarea [(ngModel)]="grupRes[i][j]" [ngModelOptions]="{standalone: true}"  matInput placeholder="¿Por qué?" [disabled]="isdisabled"></textarea>
+                                    <textarea [(ngModel)]="grupResSkill[i][j]" [ngModelOptions]="{standalone: true}"  matInput placeholder="¿Por qué?" [disabled]="isdisabled"></textarea>
                                 </mat-form-field>
                         </div>
                     </div>
@@ -51,11 +51,8 @@
                         </button>                        
                        -->
 
-                        <button type="submit" class="btn btn-primary btn-md" 
-                           >Guardar
-                        </button>
-                        <button class="btn btn-primary btn-md" (click)="terminaExamen()" 
-                           >Termina Examen
+                        <button type="submit" class="btn btn-primary btn-md" [disabled]="isdisabled">Guardar</button>
+                        <button type="button" class="btn btn-primary btn-md" (click)="terminaExamen()" [disabled]="isdisabledFinish">Termina Examen
                         </button>
                     </div>
                 </div>    

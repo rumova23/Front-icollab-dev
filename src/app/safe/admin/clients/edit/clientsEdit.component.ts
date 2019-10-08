@@ -184,7 +184,6 @@ export class ClientsEditComponent implements OnInit {
       .subscribe(
         data => {
           const result = data;
-          console.log(result);
           this.banks = result.filter(entity =>
             entity.catalog === 'bank')[0].data;
           this.countries = result.filter(entity =>
@@ -233,7 +232,6 @@ export class ClientsEditComponent implements OnInit {
       .subscribe(
         data => {
           const result = data;
-          console.log(result);
           this.usesCfdi = result.filter(entity =>
             entity.catalog === 'useCfdi')[0].data;
           this.paymentMethods = result.filter(entity =>
@@ -293,7 +291,6 @@ export class ClientsEditComponent implements OnInit {
       .subscribe(
         data => {
           this.clientSelected = data;
-          console.log(this.clientSelected);
           this.states = data.states;
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
@@ -349,7 +346,6 @@ export class ClientsEditComponent implements OnInit {
           }
         },
         errorData => {
-          console.log(errorData);
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
         });
   }
@@ -366,7 +362,6 @@ export class ClientsEditComponent implements OnInit {
     this.catalogService.loadStates(value.id, 1)
       .subscribe(
         data => {
-          console.log(data);
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -410,9 +405,7 @@ export class ClientsEditComponent implements OnInit {
 
   editAccount(account) {
     this.accountForm.reset();
-    console.log(account);
     this.idAccount = account.id;
-    console.log(account);
     this.accountForm.patchValue(account);
     this.editingAccount = true;
   }
@@ -437,7 +430,6 @@ export class ClientsEditComponent implements OnInit {
     this.accountsDataSource.data = this.clientAccounts;
     this.clientAccounts.slice();
     this.accountForm.reset();
-    console.log(account);
   }
 
   deleteAccount(i) {
@@ -447,9 +439,7 @@ export class ClientsEditComponent implements OnInit {
 
   editContact(contact) {
     this.contactForm.reset();
-    console.log(contact);
     this.idContact = contact.id;
-    console.log(contact);
     this.contactForm.patchValue(contact);
     this.editingContact = true;
   }
@@ -471,11 +461,9 @@ export class ClientsEditComponent implements OnInit {
     contact.id =  this.idAccount;
     this.idContact = 0;
     this.clientContacts.push(contact);
-    console.log(this.clientContacts);
     this.contactsDatasource.data = this.clientContacts;
     this.clientContacts.slice();
     this.contactForm.reset();
-    console.log(contact);
   }
 
   deleteContact(i) {
@@ -485,9 +473,7 @@ export class ClientsEditComponent implements OnInit {
 
   editProduct(product) {
     this.productForm.reset();
-    console.log(product);
     this.idProduct = product.id;
-    console.log(product);
     this.productForm.patchValue(product);
     this.editingProduct = true;
   }
@@ -509,7 +495,6 @@ export class ClientsEditComponent implements OnInit {
     product.id =  this.idProduct;
     this.idProduct = 0;
     this.clientProducts.push(product);
-    console.log(this.clientProducts);
     this.productsDatasource.data = this.clientProducts;
     this.clientProducts.slice();
     this.productForm.reset();

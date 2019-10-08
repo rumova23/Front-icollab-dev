@@ -30,10 +30,8 @@ export class WeatherEditComponent implements OnInit {
   fileName: any;
   typeWeather: string;
   valid: boolean = false;
-
   title;
   progress;
-  
   constructor(public globalService: GlobalService,
     private marketService: MarketService,
     private fb: FormBuilder,
@@ -51,7 +49,6 @@ export class WeatherEditComponent implements OnInit {
     this.marketService.downloadWeather(this.getTypeWeather())
       .subscribe(
         data => {
-          console.log(data);
           let blob = new Blob([this.base64toBlob(data.file,
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')], {});
           saveAs(blob, data.name);
@@ -83,7 +80,6 @@ export class WeatherEditComponent implements OnInit {
   upload(value) {
     this.valid = false;
     let reader = new FileReader();
-    console.log(value.file);
     reader.onloadend = (e) => {
       this.file = reader.result;
       this.file = this.file.replace(/^data:(.*;base64,)?/, '');
@@ -91,7 +87,8 @@ export class WeatherEditComponent implements OnInit {
       this.fileName = value.file.name;
       this.marketService.validateWeather({
         file: this.file,
-        name: this.fileName, idTypeWeather: this.getTypeWeather()
+        name: this.fileName,
+        idTypeWeather: this.getTypeWeather()
       })
         .subscribe(
           data => {
@@ -99,7 +96,6 @@ export class WeatherEditComponent implements OnInit {
               if (data.message === "ok") {
                 this.save();
               } else {
-                console.log("pregunta");
                 this.confirmationDialogService.confirm('Confirmación', data.message)
                   .then((confirmed) => this.confirm(confirmed))
                   .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
@@ -109,7 +105,6 @@ export class WeatherEditComponent implements OnInit {
             }
           },
           errorData => {
-            console.log(errorData);
             this.temperatureForm.reset();
             this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
           });
@@ -130,11 +125,9 @@ export class WeatherEditComponent implements OnInit {
     })
       .subscribe(
         dataS => {
-          console.log(dataS);
           this.toastr.successToastr(Constants.SAVE_SUCCESS, '');
         },
         errorDataS => {
-          console.log(errorDataS);
           this.temperatureForm.reset();
           this.toastr.errorToastr(Constants.ERROR_LOAD, errorDataS);
         });

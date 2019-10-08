@@ -12,31 +12,31 @@ export class MonitoringService {
 
   //Operaciones de la configuración
   getAllFtpConnections(): Observable<any> {
-    return this.http.get(environment.monitoringUrl + 'configuration/getAll');
+    return this.http.get(environment.ftpconsumerUrl + 'configuration/getAll');
   }
 
   getFtpConnection(idFtp: number): Observable<any> {
-    return this.http.get(environment.monitoringUrl + 'configuration/get/' + idFtp);
+    return this.http.get(environment.ftpconsumerUrl + 'configuration/get/' + idFtp);
   }
 
   saveFtpConnection(ftpConnection: FtpConnection): Observable<any> {
-    return this.http.post(environment.monitoringUrl + 'configuration/save', ftpConnection);
+    return this.http.post(environment.ftpconsumerUrl + 'configuration/save', ftpConnection);
   }
 
 
   //Monitoreo
   getHistoryExcecutedJobs(): Observable<any> {
-    return this.http.get(environment.monitoringUrl + 'monitoring/getAll/');
+    return this.http.get(environment.ftpconsumerUrl + 'monitoring/getAll/');
   }
 
   //Detalle
   getDetailJobs(idFtpMonitoring: number): Observable<any> {
-    return this.http.get(environment.monitoringUrl + 'monitoring/detail/get/' + idFtpMonitoring);
+    return this.http.get(environment.ftpconsumerUrl + 'monitoring/detail/get/' + idFtpMonitoring);
   }
 
   //Ejecucion de procesos
   executeProcess(applicationName: string, isMonthly: boolean ): Observable<any> {
-    let url = environment.monitoringUrl +'executeProcess/'+applicationName+'/'+isMonthly;
+    let url = environment.ftpconsumerUrl +'executeProcess/'+applicationName+'/'+isMonthly;
     //alert(url);
     return this.http.get( url );
   }

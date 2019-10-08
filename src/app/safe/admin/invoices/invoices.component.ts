@@ -56,7 +56,6 @@ export class InvoicesComponent implements OnInit {
       .subscribe(
         data => {
           this.clients = data;
-          console.log(this.clients);
           this.getInvoices();
         },
         errorData => {
@@ -69,7 +68,6 @@ export class InvoicesComponent implements OnInit {
       .subscribe(
         data => {
           this.invoices = data;
-          console.log(this.invoices);
           for(var i = 0; i < this.invoices.length; i++) {
             this.invoices[i].client = this.clients.filter(entity =>
               entity.id ===  this.invoices[i].idClient)[0];

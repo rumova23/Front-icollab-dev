@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 
-//import { BranchInvoiceSeriesComponent } from './branchInvoiceSeries/branchInvoiceSeries.component';
+// import { BranchInvoiceSeriesComponent } from './branchInvoiceSeries/branchInvoiceSeries.component';
 
 @NgModule({
   imports: [
   ],
   declarations: [
-    //BranchInvoiceSeriesComponent
+    // BranchInvoiceSeriesComponent
   ],
   exports: [
-    //BranchInvoiceSeriesComponent
+    // BranchInvoiceSeriesComponent
   ]
 })
 export class SafeAdminModule { }

@@ -242,7 +242,7 @@ export class PlantsEditComponent implements OnInit {
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
-              console.log()
+
               switch (inputs[a].formControlName) {
                 case 'fiscalRegimeSat':
                   inputs[a].options = this.fiscalRegimens;
@@ -261,7 +261,6 @@ export class PlantsEditComponent implements OnInit {
     this.catalogService.loadMoneys(1)
       .subscribe(
         data => {
-          console.log(data);
           this.moneys = data;
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
@@ -361,7 +360,6 @@ export class PlantsEditComponent implements OnInit {
           } */
         },
         errorData => {
-          console.log(errorData);
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Client');
         });
   }
@@ -422,9 +420,7 @@ export class PlantsEditComponent implements OnInit {
 
   editAccount(account) {
     this.accountForm.reset();
-    console.log(account);
     this.idAccount = account.id;
-    console.log(account);
     this.accountForm.patchValue(account);
     this.editingAccount = true;
   }
@@ -449,7 +445,6 @@ export class PlantsEditComponent implements OnInit {
     this.accountsDataSource.data = this.plantAccounts;
     this.plantAccounts.slice();
     this.accountForm.reset();
-    console.log(account);
   }
 
   deleteAccount(i) {
@@ -459,9 +454,7 @@ export class PlantsEditComponent implements OnInit {
 
   editDirection(direction) {
     this.directionForm.reset();
-    console.log(direction);
     this.idDirection = direction.id;
-    console.log(direction);
     this.directionForm.patchValue(direction);
     this.editingDirection = true;
   }
@@ -486,7 +479,6 @@ export class PlantsEditComponent implements OnInit {
     this.directionsDataSource.data = this.plantDirections;
     this.plantDirections.slice();
     this.directionForm.reset();
-    console.log(direction);
   }
 
   deleteDirection(i) {
@@ -496,9 +488,7 @@ export class PlantsEditComponent implements OnInit {
 
   editCertificate(certificate) {
     this.certificateForm.reset();
-    console.log(certificate);
     this.idCertificate = certificate.id;
-    console.log(certificate);
     this.certificateForm.patchValue(certificate);
     this.editingCertificate = true;
   }
@@ -519,7 +509,6 @@ export class PlantsEditComponent implements OnInit {
     }
     certificate.id =  this.idCertificate;
     this.idCertificate = 0;
-    console.log(certificate);
     certificate.dateUpload = 
             moment(certificate.dateUpload).format(Constants.DATE_FORMAT_PLANT);
     certificate.dateExpiration = 
@@ -528,7 +517,6 @@ export class PlantsEditComponent implements OnInit {
     this.certificatesDataSource.data = this.plantCertificates;
     this.plantCertificates.slice();
     this.certificateForm.reset();
-    console.log(certificate);
   }
 
   deleteCertificate(i) {
@@ -538,9 +526,7 @@ export class PlantsEditComponent implements OnInit {
 
   editBranch(branch) {
     this.branchForm.reset();
-    console.log(branch);
     this.idBranch = branch.id;
-    console.log(branch);
     this.branchForm.patchValue(branch);
     this.editingBranch = true;
   }
@@ -561,12 +547,10 @@ export class PlantsEditComponent implements OnInit {
     }
     branch.id =  this.idBranch;
     this.idBranch = 0;
-    console.log(branch);
     this.plantBranches.push(branch);
     this.branchesDataSource.data = this.plantBranches;
     this.plantBranches.slice();
     this.branchForm.reset();
-    console.log(branch);
   }
 
   deleteBranch(i) {
@@ -603,7 +587,6 @@ export class PlantsEditComponent implements OnInit {
     this.plant.id = (this.plantSelected !== null && this.plantSelected !== undefined &&
       this.plantSelected.id !== null && this.plantSelected.id !== undefined
     ) ? this.plantSelected.id : 0;
-    console.log(value);
     let fiscalData: PlantFiscalData = {}; 
     this.plant.save = this.entity.new;
     this.plant.name = value.name;

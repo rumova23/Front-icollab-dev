@@ -37,7 +37,6 @@ export class GrantsEditComponent implements OnInit {
     private securityService: SecurityService
   ) { }
   ngOnInit() {
-    console.log(this.grantSelected);
     this.loadApps();
     this.loadFathers();
     this.grantForm = this.fb.group({
@@ -96,29 +95,22 @@ export class GrantsEditComponent implements OnInit {
   }
 
   changeFather(event) {
-    console.log(event);
     this.isFather = event.checked;
-    console.log(this.grantForm.value.app);
     if(this.isFather) {
       this.fathers = this.fathersAll;
-      console.log(this.fathers);
       return;
     } else if(Validate(this.grantForm.value.app)) {
       this.fathers = this.fathersAll.filter(father => father.idApp === 
         this.grantForm.value.app.id);
-      console.log(this.fathers);
     }
-    console.log(this.isFather);
   }
 
   selectApp(event) {
-    console.log(event);
     if(this.isFather) {
       return;
     }
     this.grantForm.patchValue( {'father':null} )
     this.fathers = this.fathersAll.filter(father => father.idApp === event.id);
-    console.log(this.fathers);
   }
 
   save(value) {

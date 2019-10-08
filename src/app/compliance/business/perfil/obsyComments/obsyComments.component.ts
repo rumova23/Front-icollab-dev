@@ -18,21 +18,27 @@ export class ObsyCommentsComponent implements OnInit {
   @Input() inTipo: string;
   calificacionId: number;
   headObservaciones = ['#', 'Nombre', 'Observaciones', 'Fecha de ultima modificación'];
+  typeDocuments = ['Documentos', 'Registros', 'Referencias'];
   observacioes: Array<any>;
+  titleDocument: Array<any>;
   obsForm: FormGroup;
   submitted = false;
   isdisabled = false;
-  // tslint:disable-next-line:max-line-length
-  titleDocument = [new Documents('Documentos', [new CarasDocument('pdf 1', 'pdf'), new CarasDocument('png 3', 'png'), new CarasDocument('video 3', 'video')]),
-  new Documents('Registros', [new CarasDocument('txt 2', 'txt'), new CarasDocument('zip 3', 'zip')]),
-  // tslint:disable-next-line:max-line-length
-  new Documents('Referencias', [new CarasDocument('pdf 4', 'pdf'), new CarasDocument('word 5', 'doc'), new CarasDocument('excel 6', 'xls')])];
 
+  // tslint:disable-next-line:max-line-length
   constructor(
     private comentarios: PerfilComboService,
     public globalService: GlobalService,
     private formBuildier: FormBuilder, public toastr: ToastrManager) {
     this.observacioes = [];
+    this.titleDocument = [];
+    this.calificacionId = 0;
+    this.comentarios.accion.subscribe(accion => {
+      this.titleDocument = [];
+      if (accion === 'upload') {
+        this.ngOnInit();
+      }
+    });
   }
   ngOnInit() {
     if (this.inTipo === 'ver') {
@@ -42,6 +48,7 @@ export class ObsyCommentsComponent implements OnInit {
       fObserva: [{ value: '', disabled: this.isdisabled }, Validators.required]
     });
     this.obtieneObservaciones();
+    this.getDocumentos();
   }
 
   get f() { return this.obsForm.controls; }
@@ -59,7 +66,23 @@ export class ObsyCommentsComponent implements OnInit {
     this.observacioes.push(
       new Comentario(comenta.idUsr, comenta.nombre, comenta.observacion, comenta.fecha_modificacion));
   }
-
+  getDocumentos() {
+    for (let i = 0; i < this.typeDocuments.length; i++) {
+      let documents: Documents;
+      let carasDocumnts: Array<CarasDocument>;
+      carasDocumnts =  [];
+      this.comentarios.obtenCalificacion(this.inIdEmpleado).subscribe(calificacion => {
+        this.calificacionId = calificacion.calificacionId;
+        this.comentarios.obtenDocumentos(this.calificacionId, this.typeDocuments[i]).subscribe(docto => {
+          for (let j = 0; j < docto.length; j++) {
+            carasDocumnts.push(new CarasDocument(docto[j].fileName, 'png', docto[j].fileId));
+          }
+        });
+      });
+      documents = new Documents(this.typeDocuments[i], carasDocumnts);
+      this.titleDocument.push(documents);
+    }
+  }
   obtieneObservaciones() {
     this.comentarios.obtenCalificacion(this.inIdEmpleado).subscribe(
       calificacion => {
@@ -71,9 +94,8 @@ export class ObsyCommentsComponent implements OnInit {
           });
       });
   }
-
   guardarObserv() {
-    const obsva = this.obsForm.controls.fObserva.value
+    const obsva = this.obsForm.controls.fObserva.value;
     this.comentarios.obtenCalificacion(this.inIdEmpleado).subscribe(
       calificacion => {
         this.comentarios.postObservaciones(calificacion.calificacionId, obsva).subscribe(comenta => {
@@ -81,5 +103,10 @@ export class ObsyCommentsComponent implements OnInit {
             new Comentario(comenta.idUsr, comenta.nombre, comenta.observacion, comenta.fecha_modificacion));
         });
       });
+  }
+  downloadFile(fileId: number) {
+    this.comentarios.downloadFile(fileId).subscribe(
+        result => {
+        });
   }
 }

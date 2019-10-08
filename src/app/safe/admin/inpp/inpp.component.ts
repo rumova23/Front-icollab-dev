@@ -43,7 +43,6 @@ export class InppComponent implements OnInit {
     this.addBlock(1, null);
     this.marketService.getInpp(data).subscribe(
         dataP => {
-          console.log(dataP);
           this.dataSource.data = dataP;
           /*
           if(dataP.length === 0) {

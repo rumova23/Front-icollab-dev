@@ -188,8 +188,6 @@ export class CreditNotesEditComponent implements OnInit {
             entity.catalog === 'typeRelation')[0].data;
           this.ratesIva = result.filter(entity =>
             entity.catalog === 'rateIva')[0].data;
-          console.log("rates iva");
-          console.log(this.ratesIva);
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -269,7 +267,6 @@ export class CreditNotesEditComponent implements OnInit {
       .subscribe(
         data => {
           this.plantSelected = data;
-          console.log(this.plantSelected);
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -286,7 +283,6 @@ export class CreditNotesEditComponent implements OnInit {
           this.getInvoices();
         },
         errorData => {
-          console.log(errorData);
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Client');
         });
   }
@@ -324,7 +320,6 @@ export class CreditNotesEditComponent implements OnInit {
       .subscribe(
         data => {
           this.creditNoteSelected = data;
-          console.log(this.creditNoteSelected.idClient);
           this.creditNoteSelected.invoice = this.invoices.filter(entity =>
             entity.id === this.creditNoteSelected.idInvoice)[0];
           this.creditNoteSelected.client = this.clients.filter(entity =>
@@ -386,9 +381,7 @@ export class CreditNotesEditComponent implements OnInit {
 
   editProduct(product) {
     this.productForm.reset();
-    console.log(product);
     this.idProduct = product.id;
-    console.log(product);
     this.productForm.patchValue(product);
     this.editingProduct = true;
   }
@@ -414,22 +407,22 @@ export class CreditNotesEditComponent implements OnInit {
     product.percentageIva = this.ratesIva.filter(entity =>
       entity.id === product.product.idRateIvaSat)[0].percentageIva;
     product.amountIva = Number((product.amount * product.percentageIva) / 100);
-    console.log(product);
+
     this.creditNoteProducts.push(product);
     const allAmounts = this.creditNoteProducts.map(i => i.amount);
-    console.log(allAmounts);
+
     const allIvas = this.creditNoteProducts.map(i => i.amountIva);
-    console.log(allIvas);
+
     const subtotal = allAmounts.reduce((a, b) => a + b, 0);
     const amountRateIvaTransfer = allIvas.reduce((a, b) => a + b, 0);
-    console.log(subtotal)
-    console.log(amountRateIvaTransfer);
+
+
     this.creditNoteForm.controls['subtotal'].setValue(subtotal);
     this.creditNoteForm.controls['subtotal2'].setValue(subtotal);
     this.creditNoteForm.controls['amountRateIvaTransfer'].setValue(amountRateIvaTransfer);
     this.creditNoteForm.controls['total'].setValue(subtotal + amountRateIvaTransfer);
 
-    console.log(this.creditNoteProducts);
+
     this.productsDatasource.data = this.creditNoteProducts;
     this.creditNoteProducts.slice();
     this.productForm.reset();
@@ -450,7 +443,7 @@ export class CreditNotesEditComponent implements OnInit {
   onSelect(value, input) {
     switch (input.formControlName) {
       case 'invoice':
-        console.log('hacer algo');
+
         this.invoice = value;
         this.creditNoteForm.patchValue(this.invoice);
           this.creditNoteForm.controls['invoice'].setValue(

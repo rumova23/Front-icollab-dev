@@ -117,8 +117,6 @@ export class CompetentStaffComponent implements OnInit {
   }
 
   getCatalog(index, catalog) {
-    console.log("getCatalog(...");
-    console.log("catalog=" + catalog);
     //this.catalogoMaestroService.getCatalogo(catalog).subscribe(
     this.catalogoMaestroService.getCatalogoIndividual(catalog).subscribe(
       (dataBack) => {
@@ -156,14 +154,10 @@ export class CompetentStaffComponent implements OnInit {
   }
 
   cargaTabla() {
-    console.log("cargaTabla(...");
-    console.log("cargaTabla(...");
 
     this.elementData = [];
     this.personal.getEmpleados().subscribe(
       resul => {
-        console.log("==> this.personal.getEmpleados()...");
-        console.dir(resul);
 
       if (!resul) {
         console.log('El back no responde');
@@ -227,7 +221,6 @@ export class CompetentStaffComponent implements OnInit {
   }
 
   generarExamen(empleadoId: number) {
-    console.log('generarExamen(empleadoId: number):' + empleadoId);
     this.preguntas.generaExamen(empleadoId, '').subscribe(data => {
       this.toastr.successToastr('Se generaron los examenes correctamente', '¡Se ha logrado!');
     }

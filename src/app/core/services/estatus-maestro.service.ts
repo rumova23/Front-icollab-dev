@@ -19,15 +19,15 @@ const httpOptions = {
 })
 
 export class EstatusMaestroService {
-  private estatus_maestro = environment.estatus_maestro;
-  private micro_catalago_maestro = environment.micro_catalago_maestro
+  private estatusmaestro = environment.estatusmaestro;
+  private catalog = environment.catalogUrl
 
   constructor(private http: HttpClient) { }
 
   getEntidadEstatus(entidad: string, estatus: string): Observable<any> {
-    return this.http.get(`${this.estatus_maestro}entidadEstatus/${entidad}/${estatus}`, httpOptions);
+    return this.http.get(`${this.estatusmaestro}entidadEstatus/${entidad}/${estatus}`, httpOptions);
   }
   getEstatusMaestroOpcion() {
-    return this.http.get(`${this.micro_catalago_maestro}getEstatusMaestroOpcion`, httpOptions);
+    return this.http.get(`${this.catalog}getEstatusMaestroOpcion`, httpOptions);
   }
 }

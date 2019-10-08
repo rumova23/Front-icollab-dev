@@ -56,27 +56,24 @@ export class FuecdEditComponent implements OnInit {
   validate(value) {
     this.valid = false;
     let reader = new FileReader();
-    console.log(value.file);
     reader.onloadend = (e) => {
       this.file = reader.result;
       this.file = this.file.replace(/^data:(.*;base64,)?/, '');
-      console.log(this.file);
+
       this.file = this.file.trim();
       this.fileName = value.file.name;
       this.marketService.validateFuecd({ file: this.file, name:  this.fileName})
         .subscribe(
           data => {
-            console.log(data);
             const status = data;
-            console.log(status);
             for (let a = 0; a < status.settlements.length; a++) {
               const settlement = status.settlements[a];
               for (let b = 0; b < settlement.settlementInvoices.length; b++) {
                 const settlementInvoice = settlement.settlementInvoices[b];
-                console.log(settlementInvoice);
+
                 for (let c = 0; c < settlementInvoice.concepts.length; c++) {
                   const concept = settlementInvoice.concepts[c];
-                  console.log(concept);
+
                   let timer: TimeRegister = {};
                   timer.fuecd = status.fuecd;
                   timer.concept = concept.ful;
@@ -89,7 +86,7 @@ export class FuecdEditComponent implements OnInit {
                   this.timeRegisters.push(timer);
                   for (let d = 0; d < concept.annexeds.length; d++) {
                     const annexed = concept.annexeds[d];
-                    console.log(annexed);
+
                     for (let e = 0; e < annexed.timeRegisters.length; e++) {
                       const timeRegister = annexed.timeRegisters[e];
                     }
@@ -100,7 +97,7 @@ export class FuecdEditComponent implements OnInit {
             this.valid = true;
           },
           errorData => {
-            console.log(errorData);
+
             this.fuecdForm.reset();
             this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
           });
@@ -112,7 +109,7 @@ export class FuecdEditComponent implements OnInit {
       this.marketService.saveFuecd({ file: this.file, name: this.fileName })
         .subscribe(
           data => {
-            console.log(data);
+
             this.eventService.sendMainSafe(new EventMessage(22, {}));
           },
           errorData => {

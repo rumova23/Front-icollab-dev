@@ -69,7 +69,6 @@ export class UsersEditComponent implements OnInit {
     this.securityService.getUser(this.userSelected.id)
     .subscribe(
       data => {
-        console.log(data);
         this.userSelected = data;
         this.userForm.patchValue(this.userSelected);
         if(option == 1) {
@@ -85,7 +84,6 @@ export class UsersEditComponent implements OnInit {
     this.securityService.loadRoles()
     .subscribe(
       data => {
-        console.log(data);
         this.roles = data;
       },
       errorData => {
@@ -99,7 +97,6 @@ export class UsersEditComponent implements OnInit {
 
   loadApps() {
     this.apps = this.securityService.loadApps();
-    console.log(this.apps);
   }
 
   getTitle() {
@@ -112,7 +109,6 @@ export class UsersEditComponent implements OnInit {
   }
 
   save(value) {
-    console.log(value);
     this.user = value;
     this.user.id = (this.userSelected !== null && this.userSelected !== undefined &&
       this.userSelected.id !== null && this.userSelected.id !== undefined
@@ -121,7 +117,6 @@ export class UsersEditComponent implements OnInit {
     this.securityService.saveUser(this.user)
       .subscribe(
         data => {
-          console.log(data);
           this.eventService.sendMainSecurity(new EventMessage(3, null));
         },
         errorData => {

@@ -1,9 +1,8 @@
 import { CarasDocument } from './CarasDocument';
 
 export class Documents {
-    private titleDocument: string;
-    private carasDocuments: Array<CarasDocument>;
-    
+    public titleDocument: string;
+    public carasDocuments: Array<CarasDocument>;
     constructor(
         titleDocument: string,
         carasDocuments: Array<CarasDocument>

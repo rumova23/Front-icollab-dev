@@ -3,7 +3,7 @@ import { Tag } from './Tag';
 
 export class Compliance {
 
-    public tag: string;    
+    public tag: string;
     public complianceId: number;
     public tagPlantaId: number;
     public entidadEstatusId: number;

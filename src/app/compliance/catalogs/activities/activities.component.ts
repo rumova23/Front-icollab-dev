@@ -76,11 +76,7 @@ export class ActivitiesComponent implements OnInit {
       this.toastr.errorToastr('Error al cargar lista de usuarios.', 'Lo siento,');
     });*/
 
-    console.log("**********")
-    console.dir(this.menu);
     for (let option of this.menu) {
-      //console.log("option")
-      //console.dir(option)
       if (option.children){
         let flag:boolean = true;
         while ( flag ){
@@ -90,8 +86,6 @@ export class ActivitiesComponent implements OnInit {
             if (option.children[ins]['label']==this.nombreCatalogo){
               if (option.children[ins].actions){
                 for (let action=0; action < option.children[ins].actions.length ; action++) {
-                   //console.log("option.children[ins].actions[action]")
-                   console.log(option.children[ins].actions[action]);
                    if (option.children[ins].actions[action] == "CREAR"){
                     this.showAdd = true;
                    }                   
@@ -110,7 +104,6 @@ export class ActivitiesComponent implements OnInit {
 
           }
         }
-        console.log("****  SALIENDO DEL while *****");
       }
     }
 
@@ -121,7 +114,6 @@ export class ActivitiesComponent implements OnInit {
   obtenerListaActividades(){
     this.data = [];
     this.tagService.getCatalogoActividades("TODOS").subscribe( data => {
-        console.log(data)
         let listObj = [];
         let i = 0;
         let userDetail;
@@ -134,8 +126,7 @@ export class ActivitiesComponent implements OnInit {
           obj['status']       = element.active == true ? 'Activo' : 'Inactivo'; 
           obj['userUpdated'] = element.userUpdated == undefined ? element.userCreated : element.userUpdated;
           let dateUpdated = element.dateUpdated == undefined ? element.dateCreated : element.dateUpdated;
-              //console.log("let dateUpdated");
-              //console.log(dateUpdated);
+
           obj['dateUpdated'] = ".";  
           if (dateUpdated){
             //obj['dateUpdated'] = this.datePipe.transform(new Date(dateUpdated) ,'dd/MM/yyyy HH:mm')
@@ -171,8 +162,6 @@ export class ActivitiesComponent implements OnInit {
         this.addBlock(2, null);
       },
       error => {
-        console.log("Error al obtener catalgo de actividades.");
-        console.log(<any> error)
         this.addBlock(2, null);
         this.toastr.errorToastr('Error al obtener catalgo de actividades.', 'Lo siento,');
       }
@@ -190,12 +179,10 @@ export class ActivitiesComponent implements OnInit {
   }
 
   eliminarActividadConfirm(actividad: any){
-    console.log(actividad);
     this.tagService.eliminarActividad(actividad.idActivity).subscribe(
       respuesta => {
         let res: any;
         res = respuesta;
-        console.dir(res);
         if ( res.clave == 0 ){
           this.obtenerListaActividades();
           this.toastr.successToastr(res.mensaje, '¡Se ha logrado!');
@@ -220,7 +207,6 @@ export class ActivitiesComponent implements OnInit {
         }
       },
       error => {
-        console.log(<any> error);
         this.toastr.errorToastr('Error al eliminar la actividad.', 'Lo siento,');
       }
     )
@@ -242,7 +228,6 @@ export class ActivitiesComponent implements OnInit {
         name: null}
        break;
     }
-    console.log(type);
     this.eventService.sendMainCompliance(new EventMessage(7, type));
  }
 

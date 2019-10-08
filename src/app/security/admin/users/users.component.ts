@@ -50,7 +50,6 @@ export class UsersComponent implements OnInit {
           this.users = data;
         },
         errorData => {
-          console.log(errorData);
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
         });
   }

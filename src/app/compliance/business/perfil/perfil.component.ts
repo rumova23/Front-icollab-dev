@@ -14,8 +14,8 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil_v2.component.html',
-  styleUrls: ['./perfil.component.scss']
- ,providers: [DatePipe]    
+  styleUrls: ['./perfil.component.scss'],
+    providers: [DatePipe]
 })
 export class PerfilComponent implements OnInit {
 
@@ -23,8 +23,7 @@ export class PerfilComponent implements OnInit {
   @Input() inIdEmpleado: number;
   @Input() inTipo: string;
   @Input() isViewable: string;
-  
-  title = "Perfil de Puesto";
+  title = 'Perfil de Puesto';
   generos: Array<any>;
   grados: Array<any>;
   posiciones: Array<any>;
@@ -42,7 +41,7 @@ export class PerfilComponent implements OnInit {
   isdisabled: boolean = false;
   isdisableIdEmp: boolean = false;
 
-  labBotAcep: string = "Guardar";
+  labBotAcep = 'Guardar';
 
   gender;
   educationLevel;
@@ -56,26 +55,18 @@ export class PerfilComponent implements OnInit {
 
 
   constructor(
-    private cmbos: PerfilComboService
-   ,private formBuilder: FormBuilder
-   ,public toastr: ToastrManager              
-   ,public globalService: GlobalService
-   ,private eventService: EventService
-   ,private datePipe: DatePipe) { 
-
+    private cmbos: PerfilComboService,
+    private formBuilder: FormBuilder,
+    public toastr: ToastrManager,
+    public globalService: GlobalService,
+    private eventService: EventService,
+    private datePipe: DatePipe) {
   }
-  
   ngOnInit() {
     //console.clear();
-    console.log("=======================================");
-    console.log("=======================================");
-    console.log("this.inTipo");
-    console.log(this.inTipo);
-    console.log("this.inIdEmpleado");
-    console.log(this.inIdEmpleado);
 
-    if( this.inIdEmpleado > 0){
-      this.labBotAcep = "Modificar"; 
+    if ( this.inIdEmpleado > 0) {
+      this.labBotAcep = 'Modificar';
     }
 
     this.setCombos();
@@ -112,14 +103,9 @@ export class PerfilComponent implements OnInit {
     
 
     if(this.inTipo == "ver" || this.inTipo == "editar"){
-      console.log("++++++++++++++++++++++++++++++++++++++");
-      console.log("++++++++++++++++++++++++++++++++++++++");
 
       this.cmbos.getEmpleado(this.inIdEmpleado).subscribe(
         respuesta => {
-          console.log("1111111111111111111111111111111111111111");
-          console.log(respuesta);
-          console.log(respuesta['fechanacimiento']);
           const currentDate = new Date().toISOString().substring(0, 10);
 
           this.perfilForm.controls['fNumEmpo'].setValue(respuesta[ 'empleadoId' ]);
@@ -131,18 +117,10 @@ export class PerfilComponent implements OnInit {
           this.perfilForm.controls['fGenero'].patchValue(respuesta[ 'generoId' ]+'');
           this.perfilForm.controls['fGrado'].setValue(respuesta[ 'gradoEstudioId' ]+'');
           
-          //this.perfilForm.controls['fNaci'].setValue(respuesta[ 'fechanacimiento' ]);
-          //this.perfilForm.patchValue({fNaci: respuesta[ 'fechanacimiento' ]});
-          //this.perfilForm.controls['fNaci'].setValue(currentDate);
-          console.log("---bornD---");          
-          console.log(respuesta['fechanacimiento'].substring(0, 10));
-
           let bornD = this.datePipe.transform(
                (new Date(respuesta['fechanacimiento'].substring(0, 10))).getTime() + (60*60*24*1000)
                ,'yyyy-MM-dd');
 
-          //console.log("---bornD---");
-          //console.log(bornD);
           this.perfilForm.controls['fNaci'].setValue(bornD);
 
           this.gender         = respuesta[ 'generoId' ]; 
@@ -152,8 +130,6 @@ export class PerfilComponent implements OnInit {
 
       this.cmbos.getEmpleadoDetalles(this.inIdEmpleado).subscribe(
         respuesta => {
-          console.log("22222222222222222222222222222222");
-          console.log(respuesta);
           this.perfilForm.controls['fPosicion'].setValue(respuesta[ 'posicionId' ]+'');
           this.perfilForm.controls['fDepto'].setValue(respuesta[ 'departamentoId' ]+'');
           this.perfilForm.controls['fPueTrab'].setValue(respuesta[ 'puestoTrabajoId' ]+'');
@@ -205,10 +181,6 @@ export class PerfilComponent implements OnInit {
 
     this.cmbos.getlistCatalogoOrdenados(this.arryCata).subscribe(
       poRespuesta => {
-        console.log("¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨");
-        console.log("¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨");
-        console.log("poRespuesta");
-        console.log(poRespuesta);
 
         this.resuelveDS(poRespuesta, this.generos, 'gender');
         this.resuelveDS(poRespuesta, this.grados, 'educationLevel');
@@ -219,18 +191,6 @@ export class PerfilComponent implements OnInit {
         this.resuelveDS(poRespuesta, this.horarios,'workingHour');
         this.resuelveDS(poRespuesta, this.lugares,'employeePlace');
         this.resuelveDS(poRespuesta, this.personas,'employeeDependent');
-
-        /*
-        console.log(this.generos);
-        console.log(this.grados);
-        console.log(this.posiciones);
-        console.log(this.departamentos);
-        console.log(this.puestoTrabs);
-        console.log(this.jefes);
-        console.log(this.horarios);
-        console.log(this.lugares);
-        console.log(this.personas);
-        */
       }
     );
 
@@ -309,8 +269,6 @@ export class PerfilComponent implements OnInit {
     
     this.cmbos.getSave(emp).subscribe(
       respuesta => {
-        console.log("respuesta");
-        console.dir( respuesta  );
 
         this.toastr.successToastr('El empleado fue Creado con éxito.', '¡Se ha logrado!');
         this.eventService.sendMainCompliance(new EventMessage(10, {}));

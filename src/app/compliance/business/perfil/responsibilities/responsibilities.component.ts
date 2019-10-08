@@ -30,9 +30,9 @@ export class Acti {
   }
 }
 
-export interface categoria{
-  nombre:String;
-  actividades:actividades[];
+export interface categoria {
+  nombre: String;
+  actividades: actividades[];
 }
 export interface actividades {
   tag: string;
@@ -42,7 +42,7 @@ export interface actividades {
   status: string;
   ejecutor: string;
   responsable: string;
-  supervisor:string;
+  supervisor: string;
 }
 
 @Component({
@@ -77,14 +77,15 @@ export class ResponsibilitiesComponent implements OnInit {
   perfiles: Array<any>;
   plantaOpc = [];
   plantaPerfilOpc = [];
-  plantaOpcTag = []
+  plantaOpcTag = [];
   salvarPP: Array<any>;
 
-  tagsId = [[], [], [], [], [],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
-  tagsValor = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
+  tagsId = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
+  tagsValor = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
   valorModal: number;
 
   resuelveDS(respTagDTO) {
+    console.log('Pintando arbol para signar');
     respTagDTO.actvs.forEach( actividad => {
       actividad.cumplimi.forEach( cumplimiento => {
         cumplimiento.tagsRes.forEach( tg => {
@@ -97,6 +98,7 @@ export class ResponsibilitiesComponent implements OnInit {
   }
 
   resuelveDSAsignados(data) {
+    console.log('Pintando arbol de lo asignado');
     data.actvs.forEach( actividad => {
       actividad.cumplimi.forEach( cumplimiento => {
         cumplimiento.tagsRes.forEach( tg => {
@@ -106,14 +108,13 @@ export class ResponsibilitiesComponent implements OnInit {
       } );
       this.actividadesAsignados.push( new Acti( actividad.id, actividad.desc, this.cumplimientosAsignados) );
     });
-    console.dir(this.actividadesAsignados);
   }
   ngOnInit() {
     this.plantas = [];
     this.perfiles = [];
     this.tagsServ.getTagsAsignacion(this.inIdEmpleado).subscribe(
     data1 => {
-      console.dir(data1)
+      console.dir(data1);
       this.resuelveDS(data1);
     });
     this.tagsServ.getTagsAsignado(this.inIdEmpleado).subscribe(
@@ -123,10 +124,6 @@ export class ResponsibilitiesComponent implements OnInit {
     });
     this.tagsServ.getPlantaPerfil().subscribe (
       poRespuesta => {
-        poRespuesta.planta.forEach(planta => {
-          this.plantas.push(new ActiHijo(planta.id, planta.desc));
-        });
-
         poRespuesta.perfil.forEach(perfil => {
           this.perfiles.push(new ActiHijo(perfil.id, perfil.desc));
         });
@@ -136,10 +133,10 @@ export class ResponsibilitiesComponent implements OnInit {
 
   salvarTarea( ) {
     this.SaveRespuestas = [];
-    for (var _i = 0; _i < this.tagsId.length; _i++) {
-      for (var _j = 0; _j < this.tagsId[_i].length; _j++) {
-        if( this.tagsValor[_i][_j] != null){
-          this.SaveRespuestas.push(this.tagsId[_i][_j] + ":" + this.tagsValor[_i][_j] );
+    for (let _i = 0; _i < this.tagsId.length; _i++) {
+      for (let _j = 0; _j < this.tagsId[_i].length; _j++) {
+        if ( this.tagsValor[_i][_j] != null) {
+          this.SaveRespuestas.push(this.tagsId[_i][_j] + ':' + this.tagsValor[_i][_j] );
         }
       }
     }
