@@ -1,4 +1,4 @@
-import { Component         } from '@angular/core';
+import { Component, Input  } from '@angular/core';
 import { GlobalService     } from 'src/app/core/globals/global.service';
 import { SecurityService   } from 'src/app/core/services/security.service';
 
@@ -7,7 +7,7 @@ import { SecurityService   } from 'src/app/core/services/security.service';
   templateUrl : './shared-sidebar.component.html'
 })
 export class SharedSidebarComponent{
-
+	@Input() minwidth: string = "60px";
 	constructor( 
 		public  globalService : GlobalService,
 		private securityService: SecurityService

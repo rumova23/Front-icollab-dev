@@ -2,10 +2,10 @@
 	<app-shared-header></app-shared-header>
 	
 	<div id="body">
-		<app-shared-sidebar></app-shared-sidebar>
+		<app-shared-sidebar minwidth="0px"></app-shared-sidebar>
 
 		
-		<section id="seccion" [ngStyle]="{'width':globalService.aside_open ? 'calc(100% - 230px)' : 'calc(100% - 60px)' }">
+		<section id="seccion" [ngStyle]="{'width':globalService.aside_open ? 'calc(100% - 230px)' : 'calc(100%)' }">
 			<div class="container-fluid">
 				<ng-template #container></ng-template>
 			</div>
