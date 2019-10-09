@@ -12,9 +12,10 @@ import { ComplianceConfigurationComponent } from '../catalogs/compliance/configu
 import { ConfigActivitiesComponent } from '../catalogs/compliance/configuration/configActivities/configActivities.component';
 import { ComplianceWelcomeComponent } from './welcome/complianceWelcome.component';
 import { AcquisitionsComponent } from '../business/acquisitions/acquisitions.component';
-import { PerfilHomeComponent } from '../business/perfil/home/perfilHome.component'; 
+import { PerfilHomeComponent } from '../business/perfil/home/perfilHome.component';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { LegalAgreementComponent } from 'src/app/compliance/business/legalAgreement/legalAgreement.component';
+import { TaskPlanningComponent } from 'src/app/compliance/business/task-planning/task-planning.component';
 
 @Component({
   selector: 'app-complianceHome',
@@ -24,7 +25,7 @@ import { LegalAgreementComponent } from 'src/app/compliance/business/legalAgreem
     ChangePasswordComponent, ComplianceWelcomeComponent,
     ComplianceTypesComponent, ComplianceTypesEditComponent, ActivitiesComponent,
     ActivitiesEditComponent, ComplianceConfigurationComponent,
-    ConfigActivitiesComponent, AcquisitionsComponent, PerfilHomeComponent, LegalAgreementComponent
+    ConfigActivitiesComponent, AcquisitionsComponent, PerfilHomeComponent, LegalAgreementComponent, TaskPlanningComponent
   ]
 })
 export class ComplianceHomeComponent implements OnInit {
@@ -34,10 +35,10 @@ export class ComplianceHomeComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute,
-    private componentFactoryResolver: ComponentFactoryResolver,
-    public globalService: GlobalService,
-    private eventService: EventService
-   ,private securityService: SecurityService) {
+              private componentFactoryResolver: ComponentFactoryResolver,
+              public globalService: GlobalService,
+              private eventService: EventService,
+              private securityService: SecurityService) {
 
       this.serviceSubscription = this.eventService.onChangeMainCompliance.subscribe({
         next: (event: EventMessage) => {
@@ -58,20 +59,20 @@ export class ComplianceHomeComponent implements OnInit {
   }
 
   getNameUser() {
-    let name = this.securityService.getNameUser() +" "+ this.securityService.getLastNameUser();
+    const name = this.securityService.getNameUser() + ' ' + this.securityService.getLastNameUser();
     return name;
   }
-   
-  getgender(){
+
+  getgender() {
     let generoId = JSON.parse(localStorage.getItem('user'));
-    generoId = generoId['generoId'];
+    generoId = generoId.generoId;
     return generoId;
   }
 
-  private periodo(){
+  private periodo() {
     this.eventService.sendMainCompliance(new EventMessage(101, null));
   }
- 
+
   private clickMenu(event: EventMessage): void {
     this.viewContainerRef.clear();
     let factoryComplianceTypes;
@@ -84,10 +85,10 @@ export class ComplianceHomeComponent implements OnInit {
           this.componentFactoryResolver.resolveComponentFactory(ComplianceWelcomeComponent);
         const refHome =
           this.viewContainerRef.createComponent(factoryHome);
-          refHome.changeDetectorRef.detectChanges();
+        refHome.changeDetectorRef.detectChanges();
         break;
 
-      case 4: //Autoridades
+      case 4: // Autoridades
         factoryComplianceTypes =
           this.componentFactoryResolver.resolveComponentFactory(ComplianceTypesComponent);
         refComplianceTypes =
@@ -95,7 +96,7 @@ export class ComplianceHomeComponent implements OnInit {
         refComplianceTypes.instance.nombreCatalogo = 'Autoridades';
         refComplianceTypes.changeDetectorRef.detectChanges();
         break;
-      case 5: //Agregar
+      case 5: // Agregar
         factoryComplianceTypesEdit =
           this.componentFactoryResolver.resolveComponentFactory(ComplianceTypesEditComponent);
         refComplianceTypesEdit =
@@ -105,15 +106,15 @@ export class ComplianceHomeComponent implements OnInit {
         break;
 
 
-      case 6: //Categorias
+      case 6: // Categorias
         const factoryActivities =
           this.componentFactoryResolver.resolveComponentFactory(ActivitiesComponent);
         const refActivities =
           this.viewContainerRef.createComponent(factoryActivities);
-          refActivities.instance.nombreCatalogo = 'Categorías';
+        refActivities.instance.nombreCatalogo = 'Categorías';
         refActivities.changeDetectorRef.detectChanges();
         break;
-      case 7: //Agregar
+      case 7: // Agregar
         const factoryActivitiesEdit =
           this.componentFactoryResolver.resolveComponentFactory(ActivitiesEditComponent);
         const refActivitiesEdit =
@@ -123,47 +124,49 @@ export class ComplianceHomeComponent implements OnInit {
         break;
 
 
-      case 8: //Caracteristicas
-        const factoryComplianceConf= 
+      case 8: // Caracteristicas
+        const factoryComplianceConf =
           this.componentFactoryResolver.resolveComponentFactory(ComplianceConfigurationComponent);
         const refComplianceConf =
           this.viewContainerRef.createComponent(factoryComplianceConf);
-          refComplianceConf.changeDetectorRef.detectChanges();
-        break;  
-      case 9: //Agregar
+        refComplianceConf.changeDetectorRef.detectChanges();
+        break;
+      case 9: // Agregar
          const factoryConfigActivities =
            this.componentFactoryResolver.resolveComponentFactory(ConfigActivitiesComponent);
          const refConfigActivities =
            this.viewContainerRef.createComponent(factoryConfigActivities);
-           refConfigActivities.instance.catalogType = event.data;
-           refConfigActivities.changeDetectorRef.detectChanges();
+         refConfigActivities.instance.catalogType = event.data;
+         refConfigActivities.changeDetectorRef.detectChanges();
          break;
 
 
-       case 10: //Personal Competente
+       case 10: // Personal Competente
           const factoryAdquisitions =
             this.componentFactoryResolver.resolveComponentFactory(AcquisitionsComponent);
           const refAdquisitions =
             this.viewContainerRef.createComponent(factoryAdquisitions);
-            refAdquisitions.changeDetectorRef.detectChanges();
-          break; 
-
+          refAdquisitions.changeDetectorRef.detectChanges();
+          break;
         case 11:
             const factoryPerfilHome =
               this.componentFactoryResolver.resolveComponentFactory(PerfilHomeComponent);
             const refPerfilHome =
               this.viewContainerRef.createComponent(factoryPerfilHome);
-              refPerfilHome.instance.idEmpleado = event.data.idEmpleado;
-              refPerfilHome.instance.isViewable = true;
-              refPerfilHome.instance.isdisabled = event.data.isdisabled;
-              refPerfilHome.instance.tipo = event.data.tipo;
-              refPerfilHome.changeDetectorRef.detectChanges();
-            break;    
-
-
-            case 12: // Caracteristicas
-              this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(LegalAgreementComponent)).changeDetectorRef.detectChanges();
-            break;  
+            refPerfilHome.instance.idEmpleado = event.data.idEmpleado;
+            refPerfilHome.instance.isViewable = true;
+            refPerfilHome.instance.isdisabled = event.data.isdisabled;
+            refPerfilHome.instance.tipo = event.data.tipo;
+            refPerfilHome.changeDetectorRef.detectChanges();
+            break;
+      case 12: // Caracteristicas
+        this.viewContainerRef.createComponent(
+            this.componentFactoryResolver.resolveComponentFactory(LegalAgreementComponent)).changeDetectorRef.detectChanges();
+        break;
+      case 13: // TaskPlanningComponent
+        this.viewContainerRef.createComponent(
+            this.componentFactoryResolver.resolveComponentFactory(TaskPlanningComponent)).changeDetectorRef.detectChanges();
+        break;
 
       case 100:
         const factoryChangePasword =
@@ -172,8 +175,6 @@ export class ComplianceHomeComponent implements OnInit {
           this.viewContainerRef.createComponent(factoryChangePasword);
         refChangePasword.changeDetectorRef.detectChanges();
         break;
-
-
     }
   }
 }

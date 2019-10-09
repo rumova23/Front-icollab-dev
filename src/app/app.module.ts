@@ -28,13 +28,14 @@ import { BreadcrumbsComponent } from './common/breadcrumbs/breadcrumbs.component
 import { CalendarComponent } from './common/calendar/calendar.component';
 import { ConfirmationModalComponent } from './common/confirmationModal/confirmationModal.component';
 import { HomeComponent } from './common/home/home.component';
-//import { HomeComponent } from './comun/home/home.component';
+// import { HomeComponent } from './comun/home/home.component';
 import { PerfilComponent } from './compliance/business/perfil/perfil.component';
 import { BehaviorComponent } from './compliance/business/perfil/behavior/behavior.component';
 import { SkillsComponent } from './compliance/business/perfil/skills/skills.component';
 import { ComplianceHomeComponent } from './compliance/home/complianceHome.component';
 import { AcquisitionsComponent } from './compliance/business/acquisitions/acquisitions.component';
 import { ConfigActivitiesComponent } from './compliance/catalogs/compliance/configuration/configActivities/configActivities.component';
+import { TaskPlanningComponent } from './compliance/business/task-planning/task-planning.component';
 import { LegalAgreementComponent } from './compliance/business/legalAgreement/legalAgreement.component';
 import { TablesLegalAgreementComponent } from './compliance/business/legalAgreement/content/tablesLegalAgreement.component';
 import { EmployeesComponent } from './compliance/business/employees/employees.component';
@@ -54,7 +55,7 @@ import { UploadComponent } from './compliance/business/perfil/upload/upload.comp
 import { ComplianceConfigurationComponent } from './compliance/catalogs/compliance/configuration/complianceConfiguration.component';
 import { EventService } from './core/services/event.service';
 import { LoginComponent } from './common/login/login.component';
-//import { LoginComponent } from './comun/login/login.component';
+// import { LoginComponent } from './comun/login/login.component';
 import { SecurityHomeComponent } from './security/home/securityHome.component';
 import { ComplianceHeaderComponent } from './compliance/comun/header/complianceHeader.component';
 import { ComplianceSidebarComponent } from './compliance/comun/sidebar/complianceSidebar.component';
@@ -151,9 +152,9 @@ import { ModelMarketComponent } from './safe/admin/modelMarket/modelMarket.compo
 import { BranchCreditNoteSeriesComponent } from './safe/admin/branchCreditNoteSeries/branchCreditNoteSeries.component';
 import { BranchCreditNoteSeriesEditComponent } from './safe/admin/branchCreditNoteSeries/edit/branchCreditNoteSeriesEdit.component';
 
-import { MenuItemsComponent }       from './compliance/comun/menu-items/menu-items.component';
+import { MenuItemsComponent } from './compliance/comun/menu-items/menu-items.component';
 
-//Se agregan al ejecutar ng build --prod
+// Se agregan al ejecutar ng build --prod
 import { MonitoringJobsEditComponent } from '../app/safe/admin/monitoring/edit/monitoringJobsEdit.component';
 import { DetailJobsComponent } from '../app/safe/admin/monitoring/detail/detailJobs.component';
 import { MonitoringJobsComponent } from '../app/safe/admin/monitoring/monitoringJobs.component';
@@ -189,7 +190,7 @@ registerLocaleData(localePy, 'es');
     AcquisitionsComponent,
     ConfigActivitiesComponent,
     LegalAgreementComponent,
-    TablesLegalAgreementComponent, 
+    TablesLegalAgreementComponent,
     ComplianceHeaderComponent,
     ComplianceSidebarComponent,
     EmployeesComponent,
@@ -297,19 +298,20 @@ registerLocaleData(localePy, 'es');
     PlannedPowersPPAHComponent,
     PlannedPowersPPAIComponent
 
-    ,MenuItemsComponent    
-    ,MonitoringJobsEditComponent
-    ,DetailJobsComponent
-    ,MonitoringJobsComponent
-    ,TwelveDigitsDirective
-    ,PpaComponent
+    , MenuItemsComponent
+    , MonitoringJobsEditComponent
+    , DetailJobsComponent
+    , MonitoringJobsComponent
+    , TwelveDigitsDirective
+    , PpaComponent
 
-    ,MonitoringHomeComponent
-    ,MonitoringHeaderComponent
-    ,MonitoringSidebarComponent
-    ,MonitoringMenuItemsComponent
-    ,MonitoringPhase3Component
-    ,MonitoringPhase2Component
+    , MonitoringHomeComponent
+    , MonitoringHeaderComponent
+    , MonitoringSidebarComponent
+    , MonitoringMenuItemsComponent
+    , MonitoringPhase3Component
+    , MonitoringPhase2Component,
+    TaskPlanningComponent
   ],
   imports: [
     BrowserModule,
@@ -335,14 +337,14 @@ registerLocaleData(localePy, 'es');
     })
 
   ],
-  exports:[ BrowserAnimationsModule, MatDatepickerModule, MatNativeDateModule],
+  exports: [ BrowserAnimationsModule, MatDatepickerModule, MatNativeDateModule],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     ConfirmationDialogService,
     EventService,
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntlSpanish },
-    { provide: LOCALE_ID, useValue: 'es' } 
+    { provide: LOCALE_ID, useValue: 'es' }
   ],
   entryComponents: [ ConfirmationDialogComponent ],
   bootstrap: [AppComponent]
