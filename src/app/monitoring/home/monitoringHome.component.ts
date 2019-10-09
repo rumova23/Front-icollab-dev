@@ -47,7 +47,7 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		this.globalService.page  = new EventMessage(101,{});
+		this.globalService.page  = new EventMessage(101,{id: "Fase 3", idFather: "", icon: "pie_chart", label: "Inicio"});
 		this.openSocket();
 		this.subscribeOnChangePage();
 
