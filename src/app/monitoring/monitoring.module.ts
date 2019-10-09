@@ -13,6 +13,7 @@ import { MDBBootstrapModule          } from 'angular-bootstrap-md';
 import { MaterialModule              } from 'src/app/modules/material-module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MonitoringBaseSocketOnComponent } from './class/monitoringBaseSocketOn.component';
 
 @NgModule({
     declarations:[
@@ -21,7 +22,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         MonitoringPhase2Component,
         MonitoringPhase3Component,
         MonitoringChartsControlsComponent,
-        MonitoringMmMarketComponent
+        MonitoringMmMarketComponent,
+        MonitoringBaseSocketOnComponent
     ],
     exports:[
     ],
