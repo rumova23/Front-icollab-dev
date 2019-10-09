@@ -54,10 +54,10 @@ export class HeaderComponent implements OnInit {
 				break;
 			}
 		}
-		this.outputHeader.emit(new EventMessage(this.globalService.page, null));
+		this.outputHeader.emit(this.globalService.page);
 	}
 	changeLangage(languge){
 		this.globalService.languge = languge;
-		this.outputHeader.emit(new EventMessage(this.globalService.page, null));
+		this.outputHeader.emit(this.globalService.page);
 	}
 }

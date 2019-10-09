@@ -34,13 +34,16 @@
               "node_modules/angular-bootstrap-md/scss/bootstrap/bootstrap.scss",
               "node_modules/angular-bootstrap-md/scss/mdb-free.scss",
               "src/styles.scss",
-              "src/styles2.scss",
-              "src/assets/css/base/respaldo.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/assets/css/base/structure.css"
             ],
             "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "src/assets/js/socketcluster.js",
               "node_modules/chart.js/dist/Chart.js",
-              "node_modules/hammerjs/hammer.min.js",
-              "src/assets/js/socketcluster.js"
+              "node_modules/hammerjs/hammer.min.js"
             ],
             "es5BrowserSupport": true
           },

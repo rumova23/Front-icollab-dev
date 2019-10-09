@@ -20,8 +20,12 @@ ng build --output-path="dist/compliance" --deployUrl="compliance/"
 
 ng build --prod --base-href /icollab/ --output-path="dist/icollab"
 
-
+Se movió de lugar la implementación del Bootstrap; anteriormente se encontraba en el index.html
+Ahora pertenece a la carpeta modules.
+Se uso el siguiente comando para instalarlo y se agregaron las siguientes referencias en el angular.json
 npm install bootstrap jquery popper.js --save
+
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).

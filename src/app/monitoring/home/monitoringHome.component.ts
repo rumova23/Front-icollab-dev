@@ -47,7 +47,7 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		this.globalService.page  = 101; // dado que inicia con welcome
+		this.globalService.page  = new EventMessage(101,{});
 		this.openSocket();
 		this.subscribeOnChangePage();
 

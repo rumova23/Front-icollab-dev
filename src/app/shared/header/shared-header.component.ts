@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Inject            } from '@angular/core';
 import { Router            } from '@angular/router';
 import { ThemeService      } from 'src/app/core/globals/theme';
 import { GlobalService     } from 'src/app/core/globals/global.service';
 import { SecurityService   } from 'src/app/core/services/security.service';
 import { EventService      } from 'src/app/core/services/event.service';
 import { EventMessage      } from 'src/app/core/models/EventMessage';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector    : 'app-shared-header',
@@ -14,6 +16,7 @@ import { EventMessage      } from 'src/app/core/models/EventMessage';
 export class SharedHeaderComponent implements OnInit {
 
   constructor(
+	  @Inject(DOCUMENT) private _document,
       public globalService    : GlobalService,
       public theme            : ThemeService,
       private eventService    : EventService,
@@ -54,10 +57,13 @@ export class SharedHeaderComponent implements OnInit {
 				break;
 			}
 		}
-		this.eventService.sendChangeNavBar(new EventMessage(this.globalService.page, null));
+		this.eventService.sendChangePage(this.globalService.page);
+		
+		let url = `assets/css/theme/${plant.toLowerCase()}/default.css`;
+		this._document.getElementById("plant_theme").setAttribute('href',url);
 	}
 	changeLangage(languge){
 		this.globalService.languge = languge;
-		this.eventService.sendChangeNavBar(new EventMessage(this.globalService.page, null));
+		this.eventService.sendChangePage(this.globalService.page);
 	}
 }

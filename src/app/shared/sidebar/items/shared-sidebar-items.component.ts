@@ -40,6 +40,7 @@ export class SharedSidebarItemsComponent {
 		if (item.children && item.children.length) {
 			this.viewHide = !this.viewHide;
 		}
+		this.globalService.page = new EventMessage(null,item);
 		this.eventService.sendChangePage(new EventMessage(null,item));
     }
 }
