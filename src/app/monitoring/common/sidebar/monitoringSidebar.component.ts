@@ -15,7 +15,7 @@ import { MatSidenav } from '@angular/material/sidenav';
   ,templateUrl : './monitoringSidebar.component.html'
 })
 export class MonitoringSidebarComponent implements OnInit {
-  @Input() aside_open;
+  @Input() asideOpen;
   serviceSubscription: any;
 
   @Input() item : menuItem;
@@ -132,7 +132,7 @@ export class MonitoringSidebarComponent implements OnInit {
         next: (event: EventMessage) => {
           switch (event.id) {
             case 1:
-              this.aside_open = !this.aside_open;
+              this.asideOpen = !this.asideOpen;
               break;
           }
         }

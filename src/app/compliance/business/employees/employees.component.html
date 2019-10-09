@@ -4,21 +4,21 @@
     <!-- /Header -->
     <div id="body">
         <!-- Aside -->
-        <aside id="columna" [ngStyle]="{'width':aside_open ? '250px' : '60px' }">
+        <aside id="columna" [ngStyle]="{'width':asideOpen ? '250px' : '60px' }">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col mt-2 mr-1 mb-3" style="text-align: right;">
-                        <span (click)="aside_open=!aside_open" >
+                        <span (click)="asideOpen=!asideOpen" >
                             <mdb-icon fas icon="bars" style="font-size: 30px;"></mdb-icon>
                         </span>
                     </div>
                 </div>
-                <app-complianceSidebar [aside_open]='aside_open'></app-complianceSidebar>
+                <app-complianceSidebar [asideOpen]='asideOpen'></app-complianceSidebar>
             </div>
         </aside>
         <!-- /Aside -->
 
-        <section id="seccion" [ngStyle]="{'width':aside_open ? 'calc(100% - 250px)' : 'calc(100% - 60px)' }">
+        <section id="seccion" [ngStyle]="{'width':asideOpen ? 'calc(100% - 250px)' : 'calc(100% - 60px)' }">
             <div class="container-fluid">
             <!--  CUERPO DEL COMPONENTE -->
 

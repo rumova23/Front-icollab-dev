@@ -84,7 +84,7 @@ import { SecurityService } from 'src/app/core/services/security.service';
   ]
 })
 export class SafeHomeComponent implements OnInit {
-  @Input() aside_open;
+  @Input() asideOpen;
   public serviceSubscription: any;
   @ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
 
@@ -98,7 +98,7 @@ export class SafeHomeComponent implements OnInit {
       next: (event: EventMessage) => {
         switch (event.id) {
           case 1:
-            this.aside_open = !this.aside_open;
+            this.asideOpen = !this.asideOpen;
             break;
           default:
             this.clickMenu(event);

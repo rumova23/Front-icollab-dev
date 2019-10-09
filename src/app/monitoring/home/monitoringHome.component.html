@@ -2,7 +2,7 @@
   <app-monitoringHeader></app-monitoringHeader>
   <div id="body">
     <aside id="columna" 
-         [ngStyle]="{'width':aside_open ? '230px' : '0px' }">
+         [ngStyle]="{'width':asideOpen ? '230px' : '0px' }">
       <div>
         <div class="row">
             <div class="col p-0">
@@ -11,7 +11,7 @@
                       <img *ngIf="getgender()===1" src="../../../assets/images/avatar2.png" alt="" class="img-user">
                       <img *ngIf="getgender()===2" src="../../../assets/images/womenAvatar.png" alt="" class="img-user">
                     </div><br>
-                    <div class="info-user" *ngIf="aside_open">
+                    <div class="info-user" *ngIf="asideOpen">
                         <p  *ngIf="getgender()===1">Bienvenido,</p>
                         <p  *ngIf="getgender()===2">Bienvenida,</p>
                         <p>{{getNameUser()}}</p>
@@ -21,13 +21,13 @@
                 </div>
             </div>
         </div>
-        <app-monitoringSidebar [aside_open]='aside_open'>
+        <app-monitoringSidebar [asideOpen]='asideOpen'>
         </app-monitoringSidebar>
       </div>
     </aside>
  
     <section id="seccion" class="backgroundBlack"
-        [ngStyle]="{'width':aside_open ? 'calc(100% - 230px)' : 'calc(100% )' }">
+        [ngStyle]="{'width':asideOpen ? 'calc(100% - 230px)' : 'calc(100% )' }">
       <!--  CUERPO DEL COMPONENTE -->
       <div class="container-fluid">
         <ng-template #container></ng-template>

@@ -20,7 +20,7 @@ import { EventSocket } from 'src/app/core/models/EventSocket';
   ]
 })
 export class MonitoringHomeComponent implements OnInit {
-  @Input() aside_open;
+  @Input() asideOpen;
   serviceSubscription: any;
   @ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
 
@@ -38,7 +38,7 @@ export class MonitoringHomeComponent implements OnInit {
 
           switch (event.id) {
             case 1:
-              this.aside_open = !this.aside_open;
+              this.asideOpen = !this.asideOpen;
               break;
             default:
               this.clickMenu(event);

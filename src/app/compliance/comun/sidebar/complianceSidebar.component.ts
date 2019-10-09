@@ -1,4 +1,4 @@
-import { Component, OnInit,Input, ViewChildren } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren } from '@angular/core';
 import { ViewChild } from '@angular/core';
 
 import { GlobalService } from 'src/app/core/globals/global.service';
@@ -7,55 +7,49 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { CollapseComponent } from 'angular-bootstrap-md';
 
-import { menuItem }   from '../menu-items/menuItem';
+import { menuItem } from '../menu-items/menuItem';
 import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
-  selector     : 'app-complianceSidebar'
-  ,templateUrl : './complianceSidebar.component.html'
+  selector     : 'app-complianceSidebar',
+  templateUrl : './complianceSidebar.component.html'
 })
 export class ComplianceSidebarComponent implements OnInit {
-  @Input() aside_open;
+  @Input() asideOpen: any;
   serviceSubscription: any;
 
-  @Input() item : menuItem;
-  @ViewChild('left')  left  : MatSidenav;
-  @ViewChild('right') right : MatSidenav;  
-  menu : menuItem[];
-  
-  constructor(private globalService: GlobalService,  
-    private eventService: EventService,
-    private securityService: SecurityService) {
-
-      this.menu = securityService.getMenu('Compliance');
-
-       this.menu.push({children:[
-        {children:[],
-          icon: "library_books",
-          id: "2",
-          idFather: "1",
-          label: "legalAgreement",
-          url: "2"}
+  @Input() item: menuItem;
+  @ViewChild('left')  left: MatSidenav;
+  @ViewChild('right') right: MatSidenav;
+  menu: menuItem[];
+  constructor(private globalService: GlobalService,
+              private eventService: EventService,
+              private securityService: SecurityService) {
+    this.menu = securityService.getMenu('Compliance');
+    this.menu.push({children: [
+        {children: [],
+          icon: 'library_books',
+          id: '2',
+          idFather: '1',
+          label: 'legalAgreement',
+          url: '2'}
        ],
-        icon: "library_books",
-        id: "1",
-        idFather: "1",
-        label: "legalAgreement",
-        url: "2"}
+        icon: 'library_books',
+        id: '1',
+        idFather: '1',
+        label: 'legalAgreement',
+        url: '2'}
         );
-      console.dir(this.menu);
-   
-
-      let temp0:menuItem;
-      let flag0:boolean = true;
-      while ( flag0 ){
-        flag0 = false;          
-        for (let ins=0; ins < this.menu.length -1; ins++) {
-          if ( parseInt(this.menu[ins]['url']) > parseInt(this.menu[ins+1]['url'])){
-            temp0 = this.menu[ins]; 
+    let temp0: menuItem;
+    let flag0: boolean = true;
+    while ( flag0 ) {
+        flag0 = false;
+        for (let ins = 0; ins < this.menu.length - 1; ins++) {
+          if ( parseInt(this.menu[ins]['url']) > parseInt(this.menu[ins + 1] ['url'])) {
+            temp0 = this.menu[ins];
             this.menu[ins] = this.menu[ ins + 1];
             this.menu[ins + 1] = temp0;
-            flag0 = true; 
+            flag0 = true;
           }
         }
       }
@@ -73,16 +67,16 @@ export class ComplianceSidebarComponent implements OnInit {
                 option.children[ins + 1] = temp;
                 flag = true;
               }
-              if (option.children[ins]['label']=='Cumplimiento Legal'){
+              if (option.children[ins]['label'] === 'Cumplimiento Legal') {
                 if (!option.children[ins].children){
                   option.children[ins].children = new Array();
                   let childrenA:any  = {};
-                  childrenA['label'] ="Características";
-                  childrenA['icon']  ="gavel";
+                  childrenA['label'] ='Características';
+                  childrenA['icon']  ='gavel';
                   option.children[ins].children.push(childrenA);
                   let childrenB:any  = {};
-                  childrenB['label'] ="Planeación";
-                  childrenB['icon']  ="event_available";
+                  childrenB['label'] ='Planeación';
+                  childrenB['icon']  ='event_available';
                   option.children[ins].children.push(childrenB);
                 }
               }
@@ -91,16 +85,16 @@ export class ComplianceSidebarComponent implements OnInit {
                 if (!option.children[ins].children){
                   option.children[ins].children = new Array();
                   let childrenA:any  = {};
-                  childrenA['label'] ="Personal Competente";
-                  childrenA['icon']  ="person";
+                  childrenA['label'] ='Personal Competente';
+                  childrenA['icon']  ='person';
                   option.children[ins].children.push(childrenA);
                   let childrenB:any  = {};
-                  childrenB['label'] ="Proveedor Calificado";
-                  childrenB['icon']  ="perm_contact_calendar";
+                  childrenB['label'] ='Proveedor Calificado';
+                  childrenB['icon']  ='perm_contact_calendar';
                   option.children[ins].children.push(childrenB);
                   let childrenC:any  = {};
-                  childrenC['label'] ="Dependencias y Organismos Aplicables";
-                  childrenC['icon']  ="business";
+                  childrenC['label'] ='Dependencias y Organismos Aplicables';
+                  childrenC['icon']  ='business';
                   option.children[ins].children.push(childrenC);
                 }
               }
@@ -113,7 +107,7 @@ export class ComplianceSidebarComponent implements OnInit {
         next: (event: EventMessage) => {
           switch (event.id) {
             case 1:
-              this.aside_open = !this.aside_open;
+              this.asideOpen = !this.asideOpen;
               break;
           }
         }
@@ -127,7 +121,7 @@ export class ComplianceSidebarComponent implements OnInit {
   toggleMenu(i) {
     this.eventService.sendMainCompliance(new EventMessage(1, null));
     this.collapses.forEach((collapse: CollapseComponent, index) => {
-      (index == i) ? collapse.show() : collapse.hide();
+      (index === i) ? collapse.show() : collapse.hide();
     });
   }
 

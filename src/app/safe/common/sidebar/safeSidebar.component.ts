@@ -11,7 +11,7 @@ declare var $: any;
   styleUrls: ['./safeSidebar.component.css']
 })
 export class SafeSidebarComponent implements OnInit {
-  @Input() aside_open;
+  @Input() asideOpen;
   /*
   menu = [
     {
@@ -59,7 +59,7 @@ export class SafeSidebarComponent implements OnInit {
       next: (event: EventMessage) => {
         switch (event.id) {
           case 1:
-            this.aside_open = !this.aside_open;
+            this.asideOpen = !this.asideOpen;
             break;
         }
       }

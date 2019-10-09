@@ -4,10 +4,10 @@
   <mat-icon class="itemIcon" *ngIf="deep===0 || item.children">{{item.icon}}
   </mat-icon>
   <div class=" col-10 pl-2">
-    <span *ngIf="aside_open">{{item.label}}
+    <span *ngIf="asideOpen">{{item.label}}
     </span>
   </div>
-  <span fxFlex *ngIf="item.children && item.children.length && aside_open" class="aside_icon_expand_right">
+  <span fxFlex *ngIf="item.children && item.children.length && asideOpen" class="aside_icon_expand_right">
     <span fxFlex>
     </span>
     <mat-icon [@icon180]="viewHide ? 'view': 'hide'">
@@ -15,7 +15,7 @@
     </mat-icon>
   </span>
 </a>
-<div *ngIf="viewHide && aside_open">
-  <app-monitoringMenuItems *ngFor="let itemIn of item.children" [item]="itemIn" [deep]="deep + 1" [aside_open]="aside_open">
+<div *ngIf="viewHide && asideOpen">
+  <app-monitoringMenuItems *ngFor="let itemIn of item.children" [item]="itemIn" [deep]="deep + 1" [asideOpen]="asideOpen">
   </app-monitoringMenuItems>
 </div>

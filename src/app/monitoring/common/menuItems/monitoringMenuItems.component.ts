@@ -29,7 +29,7 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 export class MonitoringMenuItemsComponent implements OnInit {
 
   viewHide       : boolean = false;
-  @Input() aside_open;
+  @Input() asideOpen;
   @Input() item      : menuItem;
   @Input() deep      : number = 0;  
   indent             : number = 12;

@@ -28,7 +28,7 @@ import { LegalAgreementComponent } from 'src/app/compliance/business/legalAgreem
   ]
 })
 export class ComplianceHomeComponent implements OnInit {
-  @Input() aside_open;
+  @Input() asideOpen;
   serviceSubscription: any;
   @ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
 
@@ -43,7 +43,7 @@ export class ComplianceHomeComponent implements OnInit {
         next: (event: EventMessage) => {
           switch (event.id) {
             case 1:
-              this.aside_open = !this.aside_open;
+              this.asideOpen = !this.asideOpen;
               break;
             default:
               this.clickMenu(event);
@@ -161,9 +161,7 @@ export class ComplianceHomeComponent implements OnInit {
             break;    
 
 
-            case 12: //Caracteristicas
-         
-            
+            case 12: // Caracteristicas
               this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(LegalAgreementComponent)).changeDetectorRef.detectChanges();
             break;  
 

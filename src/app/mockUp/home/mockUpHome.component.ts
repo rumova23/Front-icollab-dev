@@ -59,7 +59,7 @@ export class MockUpHomeComponent implements OnInit {
         },
       ];
       
-  @Input() aside_open;
+  @Input() asideOpen;
   public serviceSubscription: any;
   @ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
 
@@ -72,7 +72,7 @@ export class MockUpHomeComponent implements OnInit {
         console.log(event);
         switch (event.id) {
           case 1:
-            this.aside_open = !this.aside_open;
+            this.asideOpen = !this.asideOpen;
             break;
           default:
             this.clickMenu(event);
