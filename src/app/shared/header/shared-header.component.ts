@@ -41,7 +41,7 @@ export class SharedHeaderComponent implements OnInit {
 		this.eventService.sendChangeNavBar(new EventMessage(101, null));
 	}
 	changeModule(){
-	  	this.router.navigate(['/home']);
+	  	this.router.navigate(['/']);
 	}
 	logout() {
 	  	this.securityService.logout();
