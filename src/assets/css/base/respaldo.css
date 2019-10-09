@@ -1,0 +1,349 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:100,300,400,400i,700,900);
+@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css);
+@import url(https://cdn.linearicons.com/free/1.0.0/icon-font.min.css);
+@import url(https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css);
+@import url(https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css);
+
+html, body{
+    width: 100%;
+    height: 100%;
+}
+header, section, footer, aside, nav, article, figure, figcaption,
+hgroup{
+    display: block;
+} 
+p{
+    margin: 0 !important;
+}
+body{
+    text-align: center;
+    font-family: Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif!important;
+    font-weight: 300;
+    font-size: 14px!important;
+}
+#agrupar {
+    width: 100%;
+    text-align: left;
+    min-height: 100%;
+}
+#body{
+    display: flex;
+}
+#columna {
+    float: left;
+    overflow-x: hidden;
+    transition: 0.5s;
+    /*background: #2ea9fc;*/
+    /*min-height: 600px;*/
+}
+#seccion {
+    float: left;
+    transition: 0.5s;
+    background: #eee;
+}
+.section{
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 30px;
+    
+    margin-top: 15px;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+#pie {
+    clear: both; 
+    text-align: center;
+    padding: 20px;
+    color:#ffffff;
+}
+.backgroundBlack{
+    background: #000000 !important;
+}
+.myblue{
+    background: #0F5787 !important;
+}
+.myorange{
+    background: #D67700 !important;
+}
+.mycolorblue{
+    color: #0F5787 !important;
+}
+.mycolororange{
+    color: #D67700 !important;
+}
+.mycolorgreen{
+    color: #00c19c !important;
+}
+.txt-center{
+    text-align: center;
+}
+.marauto{
+    margin: auto;
+}
+input ,.form-control{
+    font-size: 14px;
+}
+/**********     HEADER    **********/
+    .myheader{
+        color: #ffffff;   
+    }
+    .nameplanta{
+        color:white;
+        font-family: Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif!important;
+        font-size: 25px;
+        font-weight: 700;
+    }
+    .myheader .mybrand{
+        border-right: solid 1px;min-width: 215px;
+        text-align: center;
+        display: inline-block;
+        margin-right: 18px;
+    }
+    .myheader .myicobarstoggle{
+        margin-right: 5px;
+        cursor:pointer;
+    }
+    .logomodheader{
+        margin-top: -15px;
+        height: 35px;
+    }
+    .myheader .fas,.myheader .far,.myheader .lnr{
+        font-size: 1.25rem;
+    }
+    .group_logo_module{
+        padding: 3px;
+        font: inherit;
+        font-size: 17px;
+        font-style: italic;
+        vertical-align: middle;
+    }
+    button:focus {outline:0px;}
+    .hiddenDropdownAfter::after{
+        content: none !important;
+    }
+    .mysearch{
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        top: 50%;
+        padding: 5px;
+        transform: translate(0%,-50%);
+        transition: 1.5s;
+    }
+    .mysearch input{
+        position: absolute;
+        top: 0;
+        left: 0;
+        border: 0;
+        width: 100%;
+        height: 30px;
+        line-height: 75px;
+        outline: 0;
+        display: none;
+        font-size: 16px;
+        border-radius: 25px;
+        padding: 0 20px;
+        font-family: Shrikhand;
+    }
+    .mysearch i.fa{
+        position:absolute;
+        top:0;
+        right: 0;
+        width: 30px;
+        height: 30px;
+        box-sizing: border-box;
+        border-radius: 50%;
+        text-align: center;
+        transition: 1.5s;
+        color: #fff;
+        background: #ccc;
+        padding: 7px;
+    }
+    .mysearch:hover{
+        width: 250px;
+        cursor: pointer;
+    }
+    .mysearch:hover input{
+        display: block;
+    }
+
+    .myheader h4{
+        font-size: 14px;
+        margin: 0;
+        font-weight: 700;
+        color: #8c92a3;
+    }
+    .myheader h5{    
+        font-size: 14px;
+        margin: 0;
+        padding: 5px 0 15px;
+        color: #8c92a3;
+    }
+    .myheader .divider {
+        margin-right: 15px;
+        margin-left: 15px;
+    }
+    .myheader .dropdownMenuheader{
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+        padding: 10px 0px;
+        color: #444;
+        font-size: 14px;
+    }
+    .myheader .dropdownMenufooter{
+        background: #ccc;
+        color: #fff;
+        padding: 5px 15px;
+        border-radius: 30px;
+        margin: 0;
+        position: relative;
+        top: 3px;
+        font-size: 13px;
+    }
+/*********     ./HEADER     *************/
+
+
+/*mENU LATERA IZQUIERDO */
+.menu-lateral{
+    list-style-type:none;
+    margin: 0;
+    padding: 0;    
+    padding-right: 15px;
+}
+
+.label-icon{
+    margin-left: 5px;
+}
+.item-icono{
+    margin-bottom: 5px;
+}
+.sidebar_item{
+    color:#000000 !important;
+}
+
+.sidebar_item:hover{
+    background-color : #cfd8dc!important;
+    color            : Black!important;
+  }
+  
+/* ventanas contenido */
+    .section_titulo_0{
+        font-size: 14px;
+        font-weight: bold;       
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+/* ./ventanas contenido */
+
+/* Estilos para las tablas en catalogos */
+    .mat-elevation-z8{
+        box-shadow: 0 0 0 0 rgba(0,0,0,.2), 0 0 0 0 rgba(0,0,0,.14), 0 0 0 0 rgba(0,0,0,.12);
+        border: 1px solid #e6ebf5;
+        width: auto;
+        overflow: auto;
+    }
+    .mat-elevation-z0{
+        border: 1px solid #e6ebf5;
+        width: auto;
+        overflow: auto;
+    }
+
+    .table_catalogo {
+        width: 100%;
+    }
+    .table_catalogo tr:nth-child(even){
+        background: #F6F6F6;
+    } 
+    .table_catalogo th{
+        background:#6EB1D620;
+        text-align: center !important;
+    }
+     
+    .table_catalogo th button{
+        margin: auto;
+    }
+
+    .mat-elevation-z8 td, .mat-elevation-z0 td{
+        border-right: rgba(223,223,223,1.00) solid 1px;
+        text-align: center;
+        font-size: 0.7em !important;
+    }
+    .tabla-responsi {
+        width: auto;
+        overflow: auto;
+    }
+
+/* Estilos para las tablas en catalogos */
+.breadcrumb{
+    border-radius: 0;
+}
+
+.f-10{
+    font-size: 10px;
+}
+/*.    /aside    */
+.user-panel{
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    padding: 10px 10px 10px;
+    text-align: center;
+}   
+.img-user{
+    width: 100%;
+    max-width: 100px;
+    height: auto;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 0;
+} 
+.info-user{
+    color: black;
+    line-height: 1;
+}
+.bg-user{
+    opacity: .9;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background-size: cover;
+    vertical-align: middle;
+}
+    .aside_icon_expand_right{
+        width: 100%;
+        text-align: right;
+    }
+    aside span{
+        font-size:small;
+        /*font-weight: 400;*/
+        font-family: Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif!important;
+    }
+    aside mat-icon {
+        color: #A5A5A5;
+    }
+
+/*.    /aside    */
+button.mybtn, button.myblue, button.myorange {
+    color:#fff;    
+    border-radius: 5px;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    text-transform: capitalize;
+
+}
+button.mybtn:hover, button.myblue:hover, button.myorange:hover{
+    color:#fff;    
+    border-radius: 5px;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    text-transform: capitalize;
+}
