@@ -32,6 +32,7 @@ export class SkillsComponent implements OnInit {
   isdisabledFinish = false;
 
   constructor(private cdRef: ChangeDetectorRef,
+		public  globalService            : GlobalService,
               private ruteo: ActivatedRoute,
               private preguntas: PerfilComboService,
               public  toastr: ToastrManager,
