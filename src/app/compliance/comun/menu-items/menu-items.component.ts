@@ -69,6 +69,10 @@ export class MenuItemsComponent implements OnInit {
             option = 12;
             data = item;
             break;
+          case 'Planeación':
+              option = 13;
+              data = item;
+              break;
           case 'Cumplimiento Interno':
           break;
         default:
