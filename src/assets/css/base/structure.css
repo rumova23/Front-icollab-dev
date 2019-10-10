@@ -29,8 +29,11 @@ body{
     float         : left;
     transition    : 0.5s;
 }
-#pie {
+#myfooter {
     clear         : both; 
     text-align    : center;
     padding       : 20px;
+}
+aside{
+    height     : 100%;
 }
