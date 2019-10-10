@@ -1,0 +1,19 @@
+#seccion{
+    background: #eee;
+}
+.sidebar_item{
+    color:#000000 !important;
+}
+
+.sidebar_item:hover{
+    background-color : #cfd8dc!important;
+    color            : Black!important;
+}
+.section{
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 30px;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    overflow: hidden;
+}

@@ -35,7 +35,7 @@ export class SharedSidebarMenuComponent{
 		switch (name) {
 			case "Administrative_monitoring":
 				this.menu = [
-					/*{
+					{
 					id: 'Dashboard',
 					idFather:'',
 					icon: 'business',

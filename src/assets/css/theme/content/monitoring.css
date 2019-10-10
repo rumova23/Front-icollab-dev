@@ -1,5 +1,26 @@
-aside{
-    height     : 100%;
-    /*background : #44494e;*/
-    color      : #fff;
+#columna{
+	background: rgb(68, 73, 78);
+    color: #fff;
+}
+.info-user{
+    color: #fff;   
+}
+#seccion{
+    background:#000000;
+}
+hr{
+	background: #ffffff;
+	height: 1px;
+}
+.section{
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 30px;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.info-user{
+    color: #ffffff;
 }
