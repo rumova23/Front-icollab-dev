@@ -99,7 +99,7 @@ export class SafeHomeComponent implements OnInit {
 		public  theme                    : ThemeService
     ) {
 
-      let url = `assets/css/base/respaldo.css`;
+      let url = `/assets/css/base/respaldo.css`;
       document.getElementById("content_theme").setAttribute('href',url);
 		try{
 			this.theme.setApp("Safe");

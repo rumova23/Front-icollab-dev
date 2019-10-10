@@ -39,7 +39,7 @@ export class ComplianceHomeComponent implements OnInit {
     private eventService: EventService
    ,private securityService: SecurityService) {
 
-		let url = `assets/css/base/respaldo.css`;
+		let url = `/assets/css/base/respaldo.css`;
 		document.getElementById("content_theme").setAttribute('href',url);
       this.serviceSubscription = this.eventService.onChangeMainCompliance.subscribe({
         next: (event: EventMessage) => {

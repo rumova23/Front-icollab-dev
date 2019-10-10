@@ -42,7 +42,7 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 		private securityService          : SecurityService,
 		private socketService            : SocketService
 	) {
-		let url = `assets/css/theme/content/monitoring.css`;
+		let url = `/assets/css/theme/content/monitoring.css`;
 		document.getElementById("content_theme").setAttribute('href',url);
 		
 		this.theme.setApp("Administrative_monitoring");
