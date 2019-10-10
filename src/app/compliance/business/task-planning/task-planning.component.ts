@@ -11,5 +11,4 @@ export class TaskPlanningComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }
