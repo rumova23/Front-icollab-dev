@@ -1,3 +1,6 @@
-body{
-    background: blue;
+#myheader, 
+#myfooter,
+.mybtn
+{
+    background:#0F5787;
 }

@@ -1,0 +1,120 @@
+/**********     HEADER    **********/
+#myheader{
+    color: #ffffff;   
+}
+.nameplanta{
+    color:white;
+    font-family: Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif!important;
+    font-size: 25px;
+    font-weight: 700;
+}
+#myheader .mybrand{
+    border-right: solid 1px;min-width: 215px;
+    text-align: center;
+    display: inline-block;
+    margin-right: 18px;
+}
+#myheader .myicobarstoggle{
+    margin-right: 5px;
+    cursor:pointer;
+}
+.logomodheader{
+    margin-top: -15px;
+    height: 35px;
+}
+#myheader .fas,#myheader .far,#myheader .lnr{
+    font-size: 1.25rem;
+}
+.group_logo_module{
+    padding: 3px;
+    font: inherit;
+    font-size: 17px;
+    font-style: italic;
+    vertical-align: middle;
+}
+button:focus {outline:0px;}
+.hiddenDropdownAfter::after{
+    content: none !important;
+}
+.mysearch{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 50%;
+    padding: 5px;
+    transform: translate(0%,-50%);
+    transition: 1.5s;
+}
+.mysearch input{
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 0;
+    width: 100%;
+    height: 30px;
+    line-height: 75px;
+    outline: 0;
+    display: none;
+    font-size: 16px;
+    border-radius: 25px;
+    padding: 0 20px;
+    font-family: Shrikhand;
+}
+.mysearch i.fa{
+    position:absolute;
+    top:0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    text-align: center;
+    transition: 1.5s;
+    color: #fff;
+    background: #ccc;
+    padding: 7px;
+}
+.mysearch:hover{
+    width: 250px;
+    cursor: pointer;
+}
+.mysearch:hover input{
+    display: block;
+}
+
+#myheader h4{
+    font-size: 14px;
+    margin: 0;
+    font-weight: 700;
+    color: #8c92a3;
+}
+#myheader h5{    
+    font-size: 14px;
+    margin: 0;
+    padding: 5px 0 15px;
+    color: #8c92a3;
+}
+#myheader .divider {
+    margin-right: 15px;
+    margin-left: 15px;
+}
+#myheader .dropdownMenuheader{
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 10px 0px;
+    color: #444;
+    font-size: 14px;
+}
+#myheader .dropdownMenufooter{
+    background: #ccc;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 30px;
+    margin: 0;
+    position: relative;
+    top: 3px;
+    font-size: 13px;
+}
+/*********     ./HEADER     *************/

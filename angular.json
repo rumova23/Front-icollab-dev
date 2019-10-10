@@ -35,7 +35,8 @@
               "node_modules/angular-bootstrap-md/scss/mdb-free.scss",
               "src/styles.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/assets/css/base/structure.css"
+              "src/assets/css/base/structure.css",
+              "src/assets/css/base/base.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
