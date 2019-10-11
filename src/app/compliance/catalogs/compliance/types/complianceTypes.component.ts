@@ -11,7 +11,6 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { DatePipe } from '@angular/common';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
-import { menuItem }   from '../../../comun/menu-items/menuItem';
 
 
 @Component({
@@ -42,7 +41,7 @@ export class ComplianceTypesComponent implements OnInit {
   listaCombos: Array<any>;
   result;
 
-  menu : menuItem[];
+  menu : any[];
   showAdd    : boolean = false;
   showView   : boolean = false;
   showUpdate : boolean = false;

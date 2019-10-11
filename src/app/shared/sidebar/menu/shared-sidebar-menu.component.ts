@@ -6,7 +6,7 @@ import { GlobalService       } from 'src/app/core/globals/global.service';
 import { SecurityService     } from 'src/app/core/services/security.service';
 import { CollapseComponent   } from 'angular-bootstrap-md';
 
-import { menuItem            } from 'src/app/common/sidebar/items/menuItem';
+import { menuItem            } from '../items/menuItem';
 import { MatSidenav          } from '@angular/material/sidenav';
 
 @Component({

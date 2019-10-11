@@ -79,7 +79,21 @@ import { ToastrModule } from 'ng6-toastr-notifications';
 import { TreeviewModule } from 'ngx-treeview';
 import { BlockUIModule } from 'ng-block-ui';
 import { Constants } from '../core/globals/Constants';
+
+
+
+
+
+
 import { ComunModule2 } from '../common/comun.module';
+import { PlannedPowersPpaBComponent } from './business/mdaPlanningProcess/planned-powers-ppa-b/planned-powers-ppa-b.component';
+import { PlannedPowersPpaCComponent } from './business/mdaPlanningProcess/planned-powers-ppa-c/planned-powers-ppa-c.component';
+import { PlannedPowersPPADComponent } from './business/mdaPlanningProcess/plannedPowersPpaD/plannedPowersPpaD.component';
+import { PlannedPowersPPAEComponent } from './business/mdaPlanningProcess/plannedPowersPpaE/plannedPowersPpaE.component';
+import { PlannedPowersPPAFComponent } from './business/mdaPlanningProcess/plannedPowersPpaF/plannedPowersPpaF.component';
+import { PlannedPowersPPAGComponent } from './business/mdaPlanningProcess/plannedPowersPpaG/plannedPowersPpaG.component';
+import { PlannedPowersPPAHComponent } from './business/mdaPlanningProcess/plannedPowersPpaH/plannedPowersPpaH.component';
+import { PlannedPowersPPAIComponent } from './business/mdaPlanningProcess/plannedPowersPpaI/plannedPowersPpaI.component';
 
 
 
@@ -110,8 +124,16 @@ import { ComunModule2 } from '../common/comun.module';
         EnergyEditComponent, EnergyPpaComponent,
         ModelMarketComponent, BranchCreditNoteSeriesComponent,
         BranchCreditNoteSeriesEditComponent,
-        PpaComponent
+        PpaComponent,
 
+        PlannedPowersPpaBComponent,
+        PlannedPowersPpaCComponent,
+        PlannedPowersPPADComponent,
+        PlannedPowersPPAEComponent,
+        PlannedPowersPPAFComponent,
+        PlannedPowersPPAGComponent,
+        PlannedPowersPPAHComponent,
+        PlannedPowersPPAIComponent
     ],
     exports:[
     ],

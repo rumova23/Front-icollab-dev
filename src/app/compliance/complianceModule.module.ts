@@ -44,6 +44,7 @@ import { LegalAgreementComponent } from './business/legalAgreement/legalAgreemen
 import { CompetentStaffComponent } from './business/acquisitions/competentStaff/competentStaff.component';
 import { TablesLegalAgreementComponent } from './business/legalAgreement/content/tablesLegalAgreement.component';
 import { ResponsibilitiesComponent } from './business/perfil/responsibilities/responsibilities.component';
+import { EmployeesComponent } from './business/employees/employees.component';
 
 
 
@@ -64,7 +65,7 @@ import { ResponsibilitiesComponent } from './business/perfil/responsibilities/re
     ActivitiesEditComponent, ComplianceConfigurationComponent,
     ConfigActivitiesComponent, AcquisitionsComponent, 
     PerfilHomeComponent, LegalAgreementComponent
-
+,EmployeesComponent
     ,ResponsibilitiesComponent
 
     ],
