@@ -30,20 +30,6 @@ import { MatPaginatorIntlSpanish     } from './core/helpers/apanishPaginatorIntl
 import { TwelveDigitsDirective       } from './core/helpers/twelve-digits';
 
 
-
-
-//import { SecurityHomeComponent       } from './security/home/securityHome.component';
-//import { SecurityHeaderComponent     } from './security/comun/header/securityHeader.component';
-//import { SecuritySidebarComponent    } from './security/comun/sidebar/securitySidebar.component';
-//import { UsersComponent              } from './security/admin/users/users.component';
-//import { UsersEditComponent          } from './security/admin/users/edit/usersEdit.component';
-//import { RolesComponent              } from './security/admin/roles/roles.component';
-//import { RolesEditComponent          } from './security/admin/roles/edit/rolesEdit.component';
-//import { GrantsComponent             } from './security/admin/grants/grants.component';
-//import { GrantsEditComponent         } from './security/admin/grants/edit/grantsEdit.component';
-//import { RolesGrantsComponent        } from './security/admin/roles/grants/rolesGrants.component';
-
-
 import { TreeviewModule              } from 'ngx-treeview';
 
 import { MockUpHomeComponent         } from './mockUp/home/mockUpHome.component';
