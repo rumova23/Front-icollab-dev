@@ -26,7 +26,24 @@ import { TreeviewModule } from 'ngx-treeview';
 import { BlockUIModule } from 'ng-block-ui';
 import { Constants } from '../core/globals/Constants';
 import { ObsyCommentsComponent } from './business/perfil/obsyComments/obsyComments.component';
+
+
+
+
 import { ComplianceHomeComponent } from './home/complianceHome.component';
+import { ComplianceWelcomeComponent } from './home/welcome/complianceWelcome.component';
+import { ComplianceTypesComponent } from './catalogs/compliance/types/complianceTypes.component';
+import { ComplianceTypesEditComponent } from './catalogs/compliance/types/edit/complianceTypesEdit.component';
+import { ActivitiesComponent } from './catalogs/activities/activities.component';
+import { ActivitiesEditComponent } from './catalogs/activities/edit/activitiesEdit.component';
+import { ComplianceConfigurationComponent } from './catalogs/compliance/configuration/complianceConfiguration.component';
+import { ConfigActivitiesComponent } from './catalogs/compliance/configuration/configActivities/configActivities.component';
+import { AcquisitionsComponent } from './business/acquisitions/acquisitions.component';
+import { PerfilHomeComponent } from './business/perfil/home/perfilHome.component';
+import { LegalAgreementComponent } from './business/legalAgreement/legalAgreement.component';
+import { CompetentStaffComponent } from './business/acquisitions/competentStaff/competentStaff.component';
+import { TablesLegalAgreementComponent } from './business/legalAgreement/content/tablesLegalAgreement.component';
+import { ResponsibilitiesComponent } from './business/perfil/responsibilities/responsibilities.component';
 
 
 
@@ -38,7 +55,18 @@ import { ComplianceHomeComponent } from './home/complianceHome.component';
     declarations:[
       ComplianceHomeComponent,
       UploadComponent,
-      ObsyCommentsComponent
+      ObsyCommentsComponent,
+      TablesLegalAgreementComponent,
+      CompetentStaffComponent,
+    ComplianceWelcomeComponent,
+    ComplianceTypesComponent, ComplianceTypesEditComponent, 
+    ActivitiesComponent,
+    ActivitiesEditComponent, ComplianceConfigurationComponent,
+    ConfigActivitiesComponent, AcquisitionsComponent, 
+    PerfilHomeComponent, LegalAgreementComponent
+
+    ,ResponsibilitiesComponent
+
     ],
     exports:[
     ],
