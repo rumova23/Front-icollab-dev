@@ -27,7 +27,7 @@ export class SharedSidebarMenuComponent{
 	) {
 		let app   = globalService.app;
 		this.menu = securityService.getMenu(app.name);
-		if(this.menu == undefined){
+		if(this.menu == undefined || app.name == "Compliance"){
 			this.hardcode(app.name);
 		}
 	}
@@ -67,9 +67,93 @@ export class SharedSidebarMenuComponent{
 					}
 				]; 
 				break;
+			case "Compliance":
+				this.hardcodeCompliance();
+			break;
 			default:
 				break;
 		}
+	}
+	hardcodeCompliance(){
+		this.menu.push({children:[
+			{children:[],
+			  icon: "library_books",
+			  id: "2",
+			  idFather: "1",
+			  label: "legalAgreement",
+			  url: "2"}
+		   ],
+			icon: "library_books",
+			id: "1",
+			idFather: "1",
+			label: "legalAgreement",
+			url: "2"}
+			);
+		  console.dir(this.menu);
+	   
+	
+		  let temp0:menuItem;
+		  let flag0:boolean = true;
+		  while ( flag0 ){
+			flag0 = false;          
+			for (let ins=0; ins < this.menu.length -1; ins++) {
+			  if ( parseInt(this.menu[ins]['url']) > parseInt(this.menu[ins+1]['url'])){
+				temp0 = this.menu[ins]; 
+				this.menu[ins] = this.menu[ ins + 1];
+				this.menu[ins + 1] = temp0;
+				flag0 = true; 
+			  }
+			}
+		  }
+	
+		  for (let option of this.menu) {
+			if (option.children){
+			  let temp:menuItem;
+			  let flag:boolean = true;
+			  while ( flag ){
+				flag = false;          
+				for (let ins=0; ins < option.children.length -1; ins++) {
+				  if ( parseInt(option.children[ins]['url']) > parseInt(option.children[ins+1]['url'])){
+					temp = option.children[ins]; 
+					option.children[ins] = option.children[ins + 1];
+					option.children[ins + 1] = temp;
+					flag = true;
+				  }
+				  if (option.children[ins]['label']=='Cumplimiento Legal'){
+					if (!option.children[ins].children){
+					  option.children[ins].children = new Array();
+					  let childrenA:any  = {};
+					  childrenA['label'] ="Características";
+					  childrenA['icon']  ="gavel";
+					  option.children[ins].children.push(childrenA);
+					  let childrenB:any  = {};
+					  childrenB['label'] ="Planeación";
+					  childrenB['icon']  ="event_available";
+					  option.children[ins].children.push(childrenB);
+					}
+				  }
+	
+				  if (option.children[ins]['label']=='Cumplimiento Adquisiciones'){
+					if (!option.children[ins].children){
+					  option.children[ins].children = new Array();
+					  let childrenA:any  = {};
+					  childrenA['label'] ="Personal Competente";
+					  childrenA['icon']  ="person";
+					  option.children[ins].children.push(childrenA);
+					  let childrenB:any  = {};
+					  childrenB['label'] ="Proveedor Calificado";
+					  childrenB['icon']  ="perm_contact_calendar";
+					  option.children[ins].children.push(childrenB);
+					  let childrenC:any  = {};
+					  childrenC['label'] ="Dependencias y Organismos Aplicables";
+					  childrenC['icon']  ="business";
+					  option.children[ins].children.push(childrenC);
+					}
+				  }
+				}
+			  }
+			}
+		  }
 	}
 
 }

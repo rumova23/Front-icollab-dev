@@ -100,11 +100,11 @@ existApp(name: string) {
   return Validate(this.apps.filter(app => app.name === name)[0])
 }
 goCompliance() {
-  this.router.navigate(['/compliance/home']);
+  this.router.navigate(['/compliance']);
 }
 
 goSafe() {
-  this.router.navigate(['/safe/home']);
+  this.router.navigate(['/safe']);
 }
 goAdministrative_monitoring(){
   this.router.navigate(['/monitoring']);

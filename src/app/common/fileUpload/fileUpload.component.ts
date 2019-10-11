@@ -16,7 +16,7 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 })
 
 export class FileUploadComponent implements ControlValueAccessor {
-  @Input() progress;
+  @Input() progress:number=0;
   onChange: Function;
   public file: File | null = null;
 

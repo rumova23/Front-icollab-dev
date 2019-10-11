@@ -15,7 +15,9 @@ import { AcquisitionsComponent } from '../business/acquisitions/acquisitions.com
 import { PerfilHomeComponent } from '../business/perfil/home/perfilHome.component'; 
 import { SecurityService } from 'src/app/core/services/security.service';
 import { LegalAgreementComponent } from 'src/app/compliance/business/legalAgreement/legalAgreement.component';
+import { ThemeService } from 'src/app/core/globals/theme';
 
+import { Observable, timer, Subscription } from 'rxjs';
 @Component({
   selector: 'app-complianceHome',
   templateUrl: './complianceHome.component.html',
@@ -32,15 +34,31 @@ export class ComplianceHomeComponent implements OnInit {
   serviceSubscription: any;
   @ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
 
+	private subscriptions : Subscription[]     = [];
 
   constructor(private route: ActivatedRoute,
+		public  theme                    : ThemeService,
     private componentFactoryResolver: ComponentFactoryResolver,
     public globalService: GlobalService,
     private eventService: EventService
    ,private securityService: SecurityService) {
 
 		let url = `/assets/css/base/respaldo.css`;
-		document.getElementById("content_theme").setAttribute('href',url);
+    document.getElementById("content_theme").setAttribute('href',url);
+    
+
+    try{
+			this.theme.setApp("Compliance");
+			if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
+		}catch(err){
+			// Para que funcione en la .201
+			///*
+			this.globalService.plant = {id: 1, name: "AGUILA"};
+			this.globalService.app   = {id: 2, name: "Compliance"};
+			//*/
+    }
+    
+
       this.serviceSubscription = this.eventService.onChangeMainCompliance.subscribe({
         next: (event: EventMessage) => {
           switch (event.id) {
@@ -56,6 +74,7 @@ export class ComplianceHomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.subscribeOnChangePage();
     setTimeout(() => this.periodo(), 5000);
   }
 
@@ -74,6 +93,60 @@ export class ComplianceHomeComponent implements OnInit {
     this.eventService.sendMainCompliance(new EventMessage(101, null));
   }
  
+	subscribeOnChangePage(){
+		this.subscriptions.push(this.eventService.onChangePage.subscribe({
+			next: (event: EventMessage) => {
+				let option = 0;
+				let data = {};    
+				let item = event.data;
+        switch (event.data.label) {
+          case 'Inicio':
+            option = 101;
+            data = item;
+            break;
+          case 'Autoridades':
+            option = 4;
+            break;
+          case 'Categorías':
+            option = 6;
+            data = item;
+            break;  
+          case 'Características':
+            option = 8;
+            data = item;
+            break;
+  
+            case 'Personal Competente':
+              option = 10;
+              data = item;
+              break;
+            case 'legalAgreement':
+              option = 12;
+              data = item;
+              break;
+  
+  
+  
+            case 'Cumplimiento Interno':
+  
+            break;
+  
+  
+  
+          default:
+            option = 101;
+            data = item;
+        }
+  
+				  //console.log(event);
+				  //console.log(option);
+			
+				  //this.eventService.sendMainMonitoring(new EventMessage(option, data));
+
+				  this.clickMenu(new EventMessage(option, data));
+			}
+		}));
+	}
   private clickMenu(event: EventMessage): void {
     this.viewContainerRef.clear();
     let factoryComplianceTypes;

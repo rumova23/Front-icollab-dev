@@ -168,7 +168,9 @@ import { SidebarItemsComponent }               from 'src/app/common/sidebar/item
 import { SidebarComponent }                    from 'src/app/common/sidebar/sidebar/sidebar.component';
 /* ./Common */
 /* Module Monitoring */
-import { MonitoringModule } from './monitoring/monitoring.module';
+import { MonitoringModule } from 'src/app/monitoring/monitoring.module';
+import { SafeModule       } from 'src/app/safe/safe.module';
+import { ComunModule2 } from './common/comun.module';
 /* ./Module Monitoring */
 
 
@@ -177,14 +179,14 @@ registerLocaleData(localePy, 'es');
 @NgModule({
   declarations: [
     AppComponent,
-    FileUploadComponent,
-    ProgressComponent,
+    //FileUploadComponent,
+    //ProgressComponent,
     PerfilComponent,
     BehaviorComponent,
     SkillsComponent,
     LoginComponent,
     HomeComponent,
-    ComplianceHomeComponent,
+    //ComplianceHomeComponent,
     ComplianceWelcomeComponent,
     AcquisitionsComponent,
     ConfigActivitiesComponent,
@@ -200,18 +202,17 @@ registerLocaleData(localePy, 'es');
     DashboardBComponent,
     DashboardsComponent,
     ResponsibilitiesComponent,
-    ObsyCommentsComponent,
+    //ObsyCommentsComponent,
     DepartmentsComponent,
     PeriodsComponent,
     DaysTypesComponent,
     ActivitiesEditComponent,
     CompetentStaffComponent,
     ComplianceTypesComponent,
-    UploadComponent,
+    //UploadComponent,
     CalendarComponent,
     ConfirmationModalComponent,
     BreadcrumbsComponent,
-    ComplianceHomeComponent,
     ComplianceConfigurationComponent,
     ConfirmationDialogComponent,
     SecurityHomeComponent,
@@ -225,59 +226,59 @@ registerLocaleData(localePy, 'es');
     GrantsEditComponent,
     RolesGrantsComponent,
 
-    SafeHomeComponent,
-    SafeHeaderComponent,
-    SafeSidebarComponent,
-    ProductsComponent,
-    ProductsEditComponent,
+    //SafeHomeComponent,
+    //SafeHeaderComponent,
+    //SafeSidebarComponent,
+    //ProductsComponent,
+    //ProductsEditComponent,
     ChangePasswordComponent,
-    UnityProductsComponent,
-    UnityProductsEditComponent,
-    ClientsComponent,
-    ClientsEditComponent,
-    CatalogGenericComponent,
-    CatalogGenericEditComponent,
-    PmlComponent,
-    WeatherComponent,
+    //UnityProductsComponent,
+    //UnityProductsEditComponent,
+    //ClientsComponent,
+    //ClientsEditComponent,
+    //CatalogGenericComponent,
+    //CatalogGenericEditComponent,
+    //PmlComponent,
+    //WeatherComponent,
     PerfilHomeComponent,
-    PlantsComponent,
-    PlantsEditComponent,
-    FiscalRegimensSatComponent,
-    MoneysSatComponent,
-    PaymentMethodsSatComponent,
-    PaymentWaysSatComponent,
-    ProductsSatComponent,
-    RatesIvaSatComponent,
-    UnityProductsSatComponent,
-    UsesCfdiSatComponent,
-    TypesRelationSatComponent,
-    StatesComponent,
-    StatesEditComponent,
-    MoneysComponent,
-    MoneysEditComponent,
-    BranchInvoiceSeriesComponent,
-    BranchInvoiceSeriesEditComponent,
-    InvoicesEditComponent,
-    InvoicesComponent,
-    FuecdComponent,
-    FuecdEditComponent,
-    FuecdInvoiceComponent,
-    FinancialIndexesComponent,
-    InppComponent,
-    UsppiComponent,
-    CreditNotesEditComponent,
-    DebitNotesEditComponent,
-    CreditNotesComponent,
-    DebitNotesComponent,
-    WeatherEditComponent,
-    WeatherPpaComponent,
-    ChargeEditComponent,
-    ChargePpaComponent,
-    EnergyEditComponent,
-    EnergyPpaComponent,
-    ModelMarketComponent,
-    BranchCreditNoteSeriesComponent,
-    BranchCreditNoteSeriesEditComponent,
+    //PlantsComponent,
+    //PlantsEditComponent,
+    //FiscalRegimensSatComponent,
+    //MoneysSatComponent,
+    //PaymentMethodsSatComponent,
+    //PaymentWaysSatComponent,
+    //ProductsSatComponent,
+    //RatesIvaSatComponent,
+    //UnityProductsSatComponent,
+    //UsesCfdiSatComponent,
+    //TypesRelationSatComponent,
+    //StatesComponent,
+    //StatesEditComponent,
+    //MoneysComponent,
+    //MoneysEditComponent,
+    //BranchInvoiceSeriesComponent,
+    //BranchInvoiceSeriesEditComponent,
+    //InvoicesEditComponent,
+    //InvoicesComponent,
+    //FuecdComponent,
+    //FuecdEditComponent,
+    //FuecdInvoiceComponent,
+    //FinancialIndexesComponent,
+    //InppComponent,
+    //UsppiComponent,
+    //CreditNotesEditComponent,
+    //DebitNotesEditComponent,
+    //CreditNotesComponent,
+    //DebitNotesComponent,
+    //WeatherEditComponent,
+    //WeatherPpaComponent,
+    //ChargeEditComponent,
+    //ChargePpaComponent,
+    //EnergyEditComponent,
+    //EnergyPpaComponent,
+    //ModelMarketComponent,
+    //BranchCreditNoteSeriesComponent,
+    //BranchCreditNoteSeriesEditComponent,
 
 
     MockUpHomeComponent,
@@ -302,7 +303,7 @@ registerLocaleData(localePy, 'es');
     ,DetailJobsComponent
     ,MonitoringJobsComponent
     ,TwelveDigitsDirective
-    ,PpaComponent
+    //,PpaComponent
     
     ,HeaderComponent
     ,FooterComponent
@@ -334,6 +335,8 @@ registerLocaleData(localePy, 'es');
       message: Constants.LOADING_MEESSAGE
     })
     ,MonitoringModule
+    ,SafeModule
+    ,ComplianceModule
   ],
   exports:[ BrowserAnimationsModule, MatDatepickerModule, MatNativeDateModule],
   providers: [

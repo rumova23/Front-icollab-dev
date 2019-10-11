@@ -19,20 +19,20 @@ const routes: Routes = [
 
   //{ path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent, pathMatch: 'full' },
-  {
+  /*{
     path: 'compliance/home', component: ComplianceHomeComponent, pathMatch: 'full',
     canActivate: [AuthGuard],
     data: {
       app: 'Compliance'
     }
-  },
-  {
+  },//*/
+  /*{
     path: 'safe/home', component: SafeHomeComponent, pathMatch: 'full',
     canActivate: [AuthGuard],
     data: {
       app: 'Safe'
     }
-  },
+  },//*/
   /*{
     path: 'monitoring/home', component: MonitoringHomeComponent, pathMatch: 'full',
     canActivate: [AuthGuard],
