@@ -143,6 +143,7 @@ goSecurity() {
   // }, 5000);
   }
   onSubmit() {
+    this.next();
     console.log(this.loginForm.value);
     this.addBlock(1, null);
     this.submitted = true;

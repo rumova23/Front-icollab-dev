@@ -40,14 +40,14 @@ const routes: Routes = [
       app: 'Administrative_monitoring'
     }
   },//*/
-
+/*
   {
     path: 'security/home', component: SecurityHomeComponent, pathMatch: 'full',
     canActivate: [AuthGuard],
     data: {
       app: 'Security'
     }
-  },
+  },//*/
   {
     path: 'home', component: HomeComponent, pathMatch: 'full',
     canActivate: [AuthGuard],

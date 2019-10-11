@@ -45,6 +45,15 @@ import { CompetentStaffComponent } from './business/acquisitions/competentStaff/
 import { TablesLegalAgreementComponent } from './business/legalAgreement/content/tablesLegalAgreement.component';
 import { ResponsibilitiesComponent } from './business/perfil/responsibilities/responsibilities.component';
 import { EmployeesComponent } from './business/employees/employees.component';
+import { PerfilComponent } from './business/perfil/perfil.component';
+import { BehaviorComponent } from './business/perfil/behavior/behavior.component';
+import { SkillsComponent } from './business/perfil/skills/skills.component';
+import { DashboardAComponent } from './dashboards/dashboard-a/dashboard-a.component';
+import { DashboardBComponent } from './dashboards/dashboard-b/dashboard-b.component';
+import { DashboardsComponent } from './business/perfil/dashboards/dashboards.component';
+import { DepartmentsComponent } from './catalogs/departments/departments.component';
+import { PeriodsComponent } from './catalogs/periods/periods.component';
+import { DaysTypesComponent } from './catalogs/days/types/daysTypes.component';
 
 
 
@@ -67,6 +76,16 @@ import { EmployeesComponent } from './business/employees/employees.component';
     PerfilHomeComponent, LegalAgreementComponent
 ,EmployeesComponent
     ,ResponsibilitiesComponent
+
+    ,PerfilComponent
+,BehaviorComponent
+,SkillsComponent
+,DashboardAComponent
+,DashboardBComponent
+,DashboardsComponent
+,DepartmentsComponent
+,PeriodsComponent
+,DaysTypesComponent
 
     ],
     exports:[

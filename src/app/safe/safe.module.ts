@@ -94,6 +94,14 @@ import { PlannedPowersPPAFComponent } from './business/mdaPlanningProcess/planne
 import { PlannedPowersPPAGComponent } from './business/mdaPlanningProcess/plannedPowersPpaG/plannedPowersPpaG.component';
 import { PlannedPowersPPAHComponent } from './business/mdaPlanningProcess/plannedPowersPpaH/plannedPowersPpaH.component';
 import { PlannedPowersPPAIComponent } from './business/mdaPlanningProcess/plannedPowersPpaI/plannedPowersPpaI.component';
+import { SafeNewEventComponent } from './business/logBook/newEvent/safeNewEvent.component';
+import { PlannedPowersPPAComponent } from './business/mdaPlanningProcess/plannedPowersPpa/plannedPowersPpa.component';
+import { HeatRateRecordComponent } from './business/mdaPlanningProcess/heatRateRecord/heatRateRecord.component';
+import { SalesOffersComponent } from './business/mdaPlanningProcess/salesOffers/salesOffers.component';
+import { SalesOffersV2Component } from './business/mdaPlanningProcess/salesOffersV2/salesOffersV2.component';
+import { MonitoringJobsEditComponent } from './admin/monitoring/edit/monitoringJobsEdit.component';
+import { DetailJobsComponent } from './admin/monitoring/detail/detailJobs.component';
+import { MonitoringJobsComponent } from './admin/monitoring/monitoringJobs.component';
 
 
 
@@ -125,6 +133,14 @@ import { PlannedPowersPPAIComponent } from './business/mdaPlanningProcess/planne
         ModelMarketComponent, BranchCreditNoteSeriesComponent,
         BranchCreditNoteSeriesEditComponent,
         PpaComponent,
+        SafeNewEventComponent,
+        PlannedPowersPPAComponent,
+        HeatRateRecordComponent,
+        SalesOffersComponent,
+        SalesOffersV2Component,
+        MonitoringJobsEditComponent,
+DetailJobsComponent,
+MonitoringJobsComponent,
 
         PlannedPowersPpaBComponent,
         PlannedPowersPpaCComponent,
