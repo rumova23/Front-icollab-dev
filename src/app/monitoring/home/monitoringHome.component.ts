@@ -63,7 +63,7 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 	}
 	ngOnDestroy(){
 		for (const iterator in this.subscriptions) {
-		this.subscriptions[iterator].unsubscribe();
+			this.subscriptions[iterator].unsubscribe();
 		}
 		this.socketService.closeSocket();
   	}
@@ -71,80 +71,33 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 	subscribeOnChangePage(){
 		this.subscriptions.push(this.eventService.onChangePage.subscribe({
 			next: (event: EventMessage) => {
-				let option = 0;
-				let data = {};    
+				this.viewContainerRef.clear();
 				switch (event.data.label) {
 					case 'Inicio':
-					  option = 101;
-					  data = event;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(MonitoringWelcomeComponent)
+						).changeDetectorRef.detectChanges();
 					  break;
 					case 'Fase 2':
-					  option = 2;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase2Component)
+						).changeDetectorRef.detectChanges();
 					  break;
 					case 'Fase 3':
-					  option = 3;
-					  break;
-					case 'Fase 2 Mockup':
-					  option = 4;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase3Component)
+						).changeDetectorRef.detectChanges();
 					  break;
 					case 'Mm Market':
-						option = 5;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(MonitoringMmMarketComponent)
+						).changeDetectorRef.detectChanges();
 						break;
 					default:
-					  option = 101;
-					  data = event;
-				  }
-				  //console.log(event);
-				  //console.log(option);
-			
-				  //this.eventService.sendMainMonitoring(new EventMessage(option, data));
-
-				  this.clickMenu(new EventMessage(option, data));
+				}
 			}
 		}));
 	}
-	
-	clickMenu(event: EventMessage): void {
-		this.viewContainerRef.clear();
-		switch (event.id) {
-			case 2:
-				this.viewContainerRef.createComponent(
-				this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase2Component)
-				).changeDetectorRef.detectChanges();
-			break;
-			case 3:
-				this.viewContainerRef.createComponent(
-					this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase3Component)
-					).changeDetectorRef.detectChanges();
-					break;
-			/*
-			case 4:
-				this.viewContainerRef.createComponent(
-				this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase2MockupComponent)
-				).changeDetectorRef.detectChanges();
-			break;//*/
-			case 5:
-				this.viewContainerRef.createComponent(
-				this.componentFactoryResolver.resolveComponentFactory(MonitoringMmMarketComponent)
-				).changeDetectorRef.detectChanges();
-			break;
-			/*
-			case 100:
-				this.viewContainerRef.createComponent(
-					this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent)
-				).changeDetectorRef.detectChanges();
-			break;
-			//*/
-			case 101:
-				this.viewContainerRef.createComponent(
-					this.componentFactoryResolver.resolveComponentFactory(MonitoringWelcomeComponent)
-				).changeDetectorRef.detectChanges();
-			break;
-		}
-	}
-
-
-
 	
 	openSocket(){
 		if(!this.globalService.socketConnect){

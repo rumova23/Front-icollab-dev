@@ -8,9 +8,9 @@ hgroup{
 } 
 body{
     text-align    : center;
-    font-family   : Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif!important;
+    font-family   : Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif !important;
     font-weight   : 300;
-    font-size     : 14px!important;
+    font-size     : 14px !important;
 }
 #agrupar {
     width         : 100%;
@@ -35,5 +35,5 @@ body{
     padding       : 20px;
 }
 aside{
-    height     : 100%;
+    height        : 100%;
 }
