@@ -48,6 +48,8 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/home';
     
 
+    this.loadApps();
+    this.globalService.plant = this.securityService.loadPlants()[0];
 
     this.disenadores();
     this.algo();
