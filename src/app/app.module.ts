@@ -49,7 +49,7 @@ import localePy from '@angular/common/locales/es-MX';
 import { MonitoringModule } from 'src/app/monitoring/monitoring.module';
 import { SafeModule       } from 'src/app/safe/safe.module';
 import { ComplianceModule } from 'src/app/compliance/complianceModule.module';
-import { SecurityModule } from './security/security.module';
+import { SecurityModule   } from 'src/app/security/security.module';
 /* ./Modules */
 
 

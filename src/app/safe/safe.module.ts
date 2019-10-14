@@ -85,7 +85,7 @@ import { Constants } from '../core/globals/Constants';
 
 
 
-import { ComunModule2 } from '../common/comun.module';
+import { ComponentsModule } from '../common/components.module';
 import { PlannedPowersPpaBComponent } from './business/mdaPlanningProcess/planned-powers-ppa-b/planned-powers-ppa-b.component';
 import { PlannedPowersPpaCComponent } from './business/mdaPlanningProcess/planned-powers-ppa-c/planned-powers-ppa-c.component';
 import { PlannedPowersPPADComponent } from './business/mdaPlanningProcess/plannedPowersPpaD/plannedPowersPpaD.component';
@@ -163,7 +163,7 @@ MonitoringJobsComponent,
         SharedModule,
 
 
-        ComunModule2,
+        ComponentsModule,
         
         
 

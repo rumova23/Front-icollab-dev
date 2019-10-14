@@ -28,4 +28,4 @@ import { HomeComponent } from './home/home.component';
 		BrowserModule,
 	]
 })
-export class ComunModule2 { }
+export class ComponentsModule { }

@@ -7,7 +7,7 @@ import { MaterialModule              } from 'src/app/modules/material-module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { COMPLIANCE_ROUTES } from './compliance.routes';
-import { ComunModule2 } from '../common/comun.module';
+import { ComponentsModule } from '../common/components.module';
 import { UploadComponent } from './business/perfil/upload/upload.component';
 
 
@@ -98,7 +98,7 @@ import { DaysTypesComponent } from './catalogs/days/types/daysTypes.component';
         MaterialModule,
         COMPLIANCE_ROUTES,
         SharedModule,
-        ComunModule2,
+        ComponentsModule,
 
 
         

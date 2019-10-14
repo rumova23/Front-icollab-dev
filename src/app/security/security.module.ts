@@ -34,7 +34,7 @@ import { ToastrModule } from 'ng6-toastr-notifications';
 import { TreeviewModule } from 'ngx-treeview';
 import { BlockUIModule } from 'ng-block-ui';
 import { Constants } from '../core/globals/Constants';
-import { ComunModule2 } from '../common/comun.module';
+import { ComponentsModule } from '../common/components.module';
 
 
 
@@ -68,7 +68,7 @@ import { ComunModule2 } from '../common/comun.module';
 
 
         
-        ComunModule2,
+        ComponentsModule,
         
         
 
