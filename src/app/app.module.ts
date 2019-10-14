@@ -48,7 +48,7 @@ import { MonitoringModule } from 'src/app/monitoring/monitoring.module';
 import { SafeModule       } from 'src/app/safe/safe.module';
 import { ComplianceModule } from 'src/app/compliance/complianceModule.module';
 import { SecurityModule   } from 'src/app/security/security.module';
-import { MockUpModule     } from './mockUp/mockUpModule.module';
+import { MockUpModule     } from 'src/app/mockUp/mockUpModule.module';
 /* ./Modules */
 
 
