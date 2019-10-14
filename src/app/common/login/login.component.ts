@@ -38,6 +38,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    
+
+
     this.loginForm = this.formBuilder.group({
       usr: ['', Validators.required],
       pass: ['', Validators.required]
@@ -49,8 +52,23 @@ export class LoginComponent implements OnInit {
     this.globalService.plant = this.securityService.loadPlants()[0];
 
     this.disenadores();
+    this.algo();
 }
+algo(){
+  //https://codinglatte.com/posts/angular/working-with-assets-styles-and-scripts-in-angular/
+  let promise = new Promise(resolve => {
+    const scriptElement = document.createElement('script');
+    scriptElement.src = "node_modules/chart.js/dist/Chart.js";
+    scriptElement.onload = resolve;
+    document.body.appendChild(scriptElement);
+  });
 
+
+  promise.then(
+    result => {}, // shows "done!" after 1 second
+    error => {} // doesn't run
+  );
+}
 loadApps() {
   this.apps = this.securityService.loadApps();
 }

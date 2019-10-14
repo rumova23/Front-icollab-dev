@@ -34,45 +34,51 @@ export class SharedSidebarMenuComponent{
 	hardcode(name){
 		switch (name) {
 			case "Administrative_monitoring":
-				this.menu = [
-					{
-					id: 'Dashboard',
-					idFather:'',
-					icon: 'business',
-					label: 'Dashboard',
-					children: [
-						{ 
-						id: 'Fase 3',
-						idFather:'Dashboard',
-						icon:'business',
-						label:'Fase 3',
-						},
-					]
-					},//*/
-					{
-					id: 'Fase 3',
-					idFather:'',
-					icon: 'pie_chart',
-					label: 'Fase 3'
-					},{
-					id: 'Fase 2',
-					idFather:'',
-					icon: 'insert_chart',
-					label: 'Fase 2'
-					},{
-					id: 'Mm Market',
-					idFather:'',
-					icon: 'insert_chart',
-					label: 'Mm Market'
-					}
-				]; 
+				this.hardcodeAdministrative_monitoring();
 				break;
 			case "Compliance":
 				this.hardcodeCompliance();
-			break;
+				break;
+			case "Mock_Up":
+				this.hardcodemockUp();
+				break;
 			default:
 				break;
 		}
+	}
+	hardcodeAdministrative_monitoring(){
+		this.menu = [
+			{
+			id: 'Dashboard',
+			idFather:'',
+			icon: 'business',
+			label: 'Dashboard',
+			children: [
+				{ 
+				id: 'Fase 3',
+				idFather:'Dashboard',
+				icon:'business',
+				label:'Fase 3',
+				},
+			]
+			},//*/
+			{
+			id: 'Fase 3',
+			idFather:'',
+			icon: 'pie_chart',
+			label: 'Fase 3'
+			},{
+			id: 'Fase 2',
+			idFather:'',
+			icon: 'insert_chart',
+			label: 'Fase 2'
+			},{
+			id: 'Mm Market',
+			idFather:'',
+			icon: 'insert_chart',
+			label: 'Mm Market'
+			}
+		]; 
 	}
 	hardcodeCompliance(){
 		this.menu.push({children:[
@@ -154,6 +160,35 @@ export class SharedSidebarMenuComponent{
 			  }
 			}
 		  }
+	}
+	hardcodemockUp(){
+		this.menu = [
+			{
+			  id:'Link-MockUp',
+			  idFather:"",
+			  label:'Link-MockUp',
+			  icon:'/assets/images/skins/layer_7_ek1.png',
+			  children:[
+				{id:"1", idFather:"2", icon:"" ,label:"planned-powers-ppa"},
+				{id:"1", idFather:"2", icon:"" ,label:"heat-rate-record"},
+				{id:"1", idFather:"2", icon:"" ,label:"sales-offers"},
+				{id:"1", idFather:"2", icon:"" ,label:"sales-offers-V2"},
+				{id:"1", idFather:"2", icon:"" ,label:"registration-customer"},
+				{id:"1", idFather:"2", icon:"" ,label:"Legal-Compliance"},
+				{id:"1", idFather:"2", icon:"" ,label:"New Event"},
+				{id:"1", idFather:"2", icon:"" ,label:"Monitoreo nivel 2"},
+				{id:"1", idFather:"2", icon:"" ,label:"planned-powers-ppa-B"},
+				{id:"1", idFather:"2", icon:"" ,label:"planned-powers-ppa-C"},
+				{id:"1", idFather:"2", icon:"" ,label:"Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaD"},
+				{id:"1", idFather:"2", icon:"" ,label:"Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaE"},
+				{id:"1", idFather:"2", icon:"" ,label:"Planeación de variables"},
+				{id:"1", idFather:"2", icon:"" ,label:"Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaG"},
+				{id:"1", idFather:"2", icon:"" ,label:"Importación"},
+				{id:"1", idFather:"2", icon:"" ,label:"planned-powers-ppa-"}
+	
+			  ]
+			},
+		  ];
 	}
 
 }

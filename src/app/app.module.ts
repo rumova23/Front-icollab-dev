@@ -1,3 +1,5 @@
+import { AppComponent                          } from './app.component';
+import { APP_ROUTES                            } from './app-routing.module';
 import { BrowserModule                         } from '@angular/platform-browser';
 import { registerLocaleData                    } from '@angular/common';
 import { LOCALE_ID, NgModule                   } from '@angular/core';
@@ -8,37 +10,32 @@ import { MatNativeDateModule, MatPaginatorIntl } from '@angular/material';
 import { HttpClientModule, HTTP_INTERCEPTORS   } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule      } from '@angular/forms';
 
-import { BrowserAnimationsModule     } from '@angular/platform-browser/animations';
-import { MatDatepickerModule         } from '@angular/material/datepicker';
-import { NgbModule                   } from '@ng-bootstrap/ng-bootstrap';
-
-import { APP_ROUTES                  } from './app-routing.module';
-import { AppComponent                } from './app.component';
-
-import { FlatpickrModule             } from 'angularx-flatpickr';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory              } from 'angular-calendar/date-adapters/date-fns';
-import { ToastrModule                } from 'ng6-toastr-notifications';
-
-import { MaterialModule              } from './modules/material-module';
-import { ConfirmationDialogService   } from './core/services/confirmation-dialog.service';
-import { JwtInterceptor              } from './core/helpers/jwt.interceptor';
-import { ErrorInterceptor            } from './core/helpers/error.interceptor';
-import { EventService                } from './core/services/event.service';
-import { Constants                   } from './core/globals/Constants';
-import { MatPaginatorIntlSpanish     } from './core/helpers/apanishPaginatorIntl';
-import { TwelveDigitsDirective       } from './core/helpers/twelve-digits';
+import { BrowserAnimationsModule               } from '@angular/platform-browser/animations';
+import { MatDatepickerModule                   } from '@angular/material/datepicker';
+import { NgbModule                             } from '@ng-bootstrap/ng-bootstrap';
 
 
-import { TreeviewModule              } from 'ngx-treeview';
+import { FlatpickrModule                       } from 'angularx-flatpickr';
+import { CalendarModule, DateAdapter           } from 'angular-calendar';
+import { adapterFactory                        } from 'angular-calendar/date-adapters/date-fns';
+import { ToastrModule                          } from 'ng6-toastr-notifications';
 
-import { MockUpHomeComponent         } from './mockUp/home/mockUpHome.component';
-import { MockUpHeaderComponent       } from './mockUp/comun/header/mockUpHeader.component';
+import { ConfirmationDialogService             } from './core/services/confirmation-dialog.service';
+import { JwtInterceptor                        } from './core/helpers/jwt.interceptor';
+import { ErrorInterceptor                      } from './core/helpers/error.interceptor';
+import { EventService                          } from './core/services/event.service';
+import { Constants                             } from './core/globals/Constants';
+import { MatPaginatorIntlSpanish               } from './core/helpers/apanishPaginatorIntl';
+import { TwelveDigitsDirective                 } from './core/helpers/twelve-digits';
 
-import { LoginComponent              } from './common/login/login.component';
-import { ConfirmationDialogComponent } from './common/confirmationDialog/confirmationDialog.component';
-import { CalendarComponent           } from './common/calendar/calendar.component';
-import { ChangePasswordComponent     } from './common/changePassword/changePassword.component';
+
+import { TreeviewModule                        } from 'ngx-treeview';
+
+
+import { LoginComponent                        } from './common/login/login.component';
+import { ConfirmationDialogComponent           } from './common/confirmationDialog/confirmationDialog.component';
+import { CalendarComponent                     } from './common/calendar/calendar.component';
+import { ChangePasswordComponent               } from './common/changePassword/changePassword.component';
 
 
 import localePy from '@angular/common/locales/es-MX';
@@ -46,10 +43,12 @@ import localePy from '@angular/common/locales/es-MX';
 
 
 /* Modules */
+import { MaterialModule   } from './modules/material-module';
 import { MonitoringModule } from 'src/app/monitoring/monitoring.module';
 import { SafeModule       } from 'src/app/safe/safe.module';
 import { ComplianceModule } from 'src/app/compliance/complianceModule.module';
-import { SecurityModule } from './security/security.module';
+import { SecurityModule   } from 'src/app/security/security.module';
+import { MockUpModule     } from 'src/app/mockUp/mockUpModule.module';
 /* ./Modules */
 
 
@@ -62,20 +61,12 @@ registerLocaleData(localePy, 'es');
     ConfirmationDialogComponent,
     CalendarComponent,
     ChangePasswordComponent,
-    
-
-   
-
-    MockUpHomeComponent,
-    MockUpHeaderComponent
-
- 
-    ,TwelveDigitsDirective
+    TwelveDigitsDirective
 
   ],
   imports: [
-    BrowserModule,
     APP_ROUTES,
+    BrowserModule,
     HttpClientModule,
     MDBBootstrapModule.forRoot(),
     DropdownModule.forRoot(),
@@ -99,6 +90,7 @@ registerLocaleData(localePy, 'es');
     ,SafeModule
     ,ComplianceModule
     ,SecurityModule
+    ,MockUpModule
   ],
   exports: [ BrowserAnimationsModule, MatDatepickerModule, MatNativeDateModule],
   providers: [
