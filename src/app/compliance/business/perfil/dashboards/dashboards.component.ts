@@ -37,6 +37,7 @@ export class DashboardsComponent implements OnInit {
     this.charResul = [];
     this.cl_1 = ['Aciertos', 'Desacierto'];
 
+    console.log('RTC this.scalaServ.obtenCalificacion: ' + this.inIdEmpleado);
     this.scalaServ.obtenCalificacion(this.inIdEmpleado).subscribe(
       calificacion => {
 

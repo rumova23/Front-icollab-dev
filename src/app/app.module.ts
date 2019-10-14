@@ -35,7 +35,7 @@ import { SkillsComponent } from './compliance/business/perfil/skills/skills.comp
 import { ComplianceHomeComponent } from './compliance/home/complianceHome.component';
 import { AcquisitionsComponent } from './compliance/business/acquisitions/acquisitions.component';
 import { ConfigActivitiesComponent } from './compliance/catalogs/compliance/configuration/configActivities/configActivities.component';
-import { TaskPlanningComponent } from './compliance/business/task-planning/task-planning.component';
+import { TaskPlanningComponent } from './compliance/administration/task-planning/task-planning.component';
 import { LegalAgreementComponent } from './compliance/business/legalAgreement/legalAgreement.component';
 import { TablesLegalAgreementComponent } from './compliance/business/legalAgreement/content/tablesLegalAgreement.component';
 import { EmployeesComponent } from './compliance/business/employees/employees.component';

@@ -15,7 +15,7 @@ import { AcquisitionsComponent } from '../business/acquisitions/acquisitions.com
 import { PerfilHomeComponent } from '../business/perfil/home/perfilHome.component';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { LegalAgreementComponent } from 'src/app/compliance/business/legalAgreement/legalAgreement.component';
-import { TaskPlanningComponent } from 'src/app/compliance/business/task-planning/task-planning.component';
+import { TaskPlanningComponent } from 'src/app/compliance/administration/task-planning/task-planning.component';
 
 @Component({
   selector: 'app-complianceHome',

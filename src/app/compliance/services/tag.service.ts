@@ -9,18 +9,6 @@ import { OrderCatalogDTO } from '../models/OrderCatalogDTO';
 import { Observable } from 'rxjs';
 import { GlobalService } from 'src/app/core/globals/global.service';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type':  'application/json',
-    'Accept-Language': 'es-419,es;q=0.9',
-    Accept: 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    Authorization: 'authkey',
-
-    // X-TENANT-ID : 'aguila'
-  })
-};
-
 @Injectable({
     providedIn: 'root'
 })
@@ -33,20 +21,15 @@ export class TagService {
               private globalService: GlobalService) { }
 
   setXTenantId(plantSelected) {
-
     let user = JSON.parse(localStorage.getItem('user'));
     user = user.username;
-
     if (plantSelected) {
-      const p1 = new HttpParams().set('X-TENANT-ID', 'aguila')
-                               .set('user', user);
+      const p1 = new HttpParams().set('X-TENANT-ID', 'aguila').set('user', user);
       this.parameters = p1;
     } else {
-      const p2 = new HttpParams().set('X-TENANT-ID', 'sol')
-                               .set('user', user);
+      const p2 = new HttpParams().set('X-TENANT-ID', 'sol').set('user', user);
       this.parameters = p2;
     }
-
   }
 
   getlistCatalogoOrdenados(catalogos: Array<OrderCatalogDTO>) {
