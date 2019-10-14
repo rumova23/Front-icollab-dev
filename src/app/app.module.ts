@@ -1,3 +1,5 @@
+import { AppComponent                          } from './app.component';
+import { APP_ROUTES                            } from './app-routing.module';
 import { BrowserModule                         } from '@angular/platform-browser';
 import { registerLocaleData                    } from '@angular/common';
 import { LOCALE_ID, NgModule                   } from '@angular/core';
@@ -12,15 +14,12 @@ import { BrowserAnimationsModule               } from '@angular/platform-browser
 import { MatDatepickerModule                   } from '@angular/material/datepicker';
 import { NgbModule                             } from '@ng-bootstrap/ng-bootstrap';
 
-import { APP_ROUTES                            } from './app-routing.module';
-import { AppComponent                          } from './app.component';
 
 import { FlatpickrModule                       } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter           } from 'angular-calendar';
 import { adapterFactory                        } from 'angular-calendar/date-adapters/date-fns';
 import { ToastrModule                          } from 'ng6-toastr-notifications';
 
-import { MaterialModule                        } from './modules/material-module';
 import { ConfirmationDialogService             } from './core/services/confirmation-dialog.service';
 import { JwtInterceptor                        } from './core/helpers/jwt.interceptor';
 import { ErrorInterceptor                      } from './core/helpers/error.interceptor';
@@ -44,6 +43,7 @@ import localePy from '@angular/common/locales/es-MX';
 
 
 /* Modules */
+import { MaterialModule   } from './modules/material-module';
 import { MonitoringModule } from 'src/app/monitoring/monitoring.module';
 import { SafeModule       } from 'src/app/safe/safe.module';
 import { ComplianceModule } from 'src/app/compliance/complianceModule.module';
@@ -65,8 +65,8 @@ registerLocaleData(localePy, 'es');
 
   ],
   imports: [
-    BrowserModule,
     APP_ROUTES,
+    BrowserModule,
     HttpClientModule,
     MDBBootstrapModule.forRoot(),
     DropdownModule.forRoot(),
