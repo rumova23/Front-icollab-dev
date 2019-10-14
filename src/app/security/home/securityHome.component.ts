@@ -23,7 +23,7 @@ import { SecurityService } from 'src/app/core/services/security.service';
   ]
 })
 export class SecurityHomeComponent implements OnInit {
-  @Input() aside_open;
+  @Input() asideOpen;
   serviceSubscription: any;
   @ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
 
@@ -37,7 +37,7 @@ export class SecurityHomeComponent implements OnInit {
       next: (event: EventMessage) => {
         switch (event.id) {
           case 1:
-            this.aside_open = !this.aside_open;
+            this.asideOpen = !this.asideOpen;
             break;
           default:
             this.clickMenu(event);

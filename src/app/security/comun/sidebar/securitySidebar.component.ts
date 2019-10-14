@@ -10,7 +10,7 @@ import { SecurityService } from 'src/app/core/services/security.service';
   styleUrls: ['./securitySidebar.component.scss']
 })
 export class SecuritySidebarComponent implements OnInit {
-  @Input() aside_open;
+  @Input() asideOpen;
   /*
   menu = [
     {
@@ -34,7 +34,7 @@ export class SecuritySidebarComponent implements OnInit {
       next: (event: EventMessage) => {
         switch (event.id) {
           case 1:
-            this.aside_open = !this.aside_open;
+            this.asideOpen = !this.asideOpen;
             break;
         }
       }

@@ -16,7 +16,7 @@ const ELEMENT_DATA: Employee[] = [
   styleUrls: ['./employees.component.scss']
 })
 export class EmployeesComponent implements OnInit {
-  @Input() aside_open;
+  @Input() asideOpen;
   
   titulo: String = "Catálogos / Empleados";
   registros = new MatTableDataSource<Employee>(ELEMENT_DATA);

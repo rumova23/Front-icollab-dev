@@ -100,14 +100,14 @@ registerLocaleData(localePy, 'es');
     ,ComplianceModule
     ,SecurityModule
   ],
-  exports:[ BrowserAnimationsModule, MatDatepickerModule, MatNativeDateModule],
+  exports: [ BrowserAnimationsModule, MatDatepickerModule, MatNativeDateModule],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     ConfirmationDialogService,
     EventService,
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntlSpanish },
-    { provide: LOCALE_ID, useValue: 'es' } 
+    { provide: LOCALE_ID, useValue: 'es' }
   ],
   entryComponents: [ ConfirmationDialogComponent ],
   bootstrap: [AppComponent]
