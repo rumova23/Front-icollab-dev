@@ -11,7 +11,7 @@ import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 @Component({
   selector: 'app-skills',
-  templateUrl: './skillsV2.component.html',
+  templateUrl: './skills.component.html',
   styleUrls: ['./skills.component.scss']
 })
 export class SkillsComponent implements OnInit {

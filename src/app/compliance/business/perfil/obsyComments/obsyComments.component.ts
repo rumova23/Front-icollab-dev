@@ -10,7 +10,7 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 
 @Component({
   selector: 'app-obsyComments',
-  templateUrl: './obsyCommentsV2.component.html',
+  templateUrl: './obsyComments.component.html',
   styleUrls: ['./obsyComments.component.scss']
 })
 export class ObsyCommentsComponent implements OnInit {
