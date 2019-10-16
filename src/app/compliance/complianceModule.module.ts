@@ -54,6 +54,7 @@ import { DashboardsComponent } from './business/perfil/dashboards/dashboards.com
 import { DepartmentsComponent } from './catalogs/departments/departments.component';
 import { PeriodsComponent } from './catalogs/periods/periods.component';
 import { DaysTypesComponent } from './catalogs/days/types/daysTypes.component';
+import { TaskPlanningComponent } from './administration/task-planning/task-planning.component';
 
 
 
@@ -86,6 +87,7 @@ import { DaysTypesComponent } from './catalogs/days/types/daysTypes.component';
 ,DepartmentsComponent
 ,PeriodsComponent
 ,DaysTypesComponent
+,TaskPlanningComponent
 
     ],
     exports:[

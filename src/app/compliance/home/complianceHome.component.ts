@@ -16,7 +16,7 @@ import { PerfilHomeComponent } from '../business/perfil/home/perfilHome.componen
 import { SecurityService } from 'src/app/core/services/security.service';
 import { LegalAgreementComponent } from 'src/app/compliance/business/legalAgreement/legalAgreement.component';
 import { ThemeService } from 'src/app/core/globals/theme';
-import { TaskPlanningComponent } from 'src/app/compliance/business/task-planning/task-planning.component';
+import { TaskPlanningComponent } from '../administration/task-planning/task-planning.component';
 
 import { Observable, timer, Subscription } from 'rxjs';
 @Component({
