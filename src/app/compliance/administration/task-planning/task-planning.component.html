@@ -1,0 +1,63 @@
+<div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">{{titulo}}</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+
+<div class="section">
+  <div class="row pb-2">
+    <div class="col">
+      <p class="section_titulo_0">{{titulo}}</p>
+      <p class="section_subtitulo_0"> </p>
+    </div>
+  </div>
+  <hr>
+  <div class=" row mb-3">
+    <div class="col">
+      <span class="agila-cda-titulo">{{titulo}}</span>
+    </div>
+  </div>
+  <form class="mt-5" [formGroup]="filtrosForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-md-2">
+        <!-- Material input -->
+        <div class="md-form">
+          <mat-form-field>
+            <input matInput [matDatepicker]="fechaDesde" placeholder="Desde" [formControl]="fFechaInicio" >
+            <mat-datepicker-toggle matSuffix [for]="fechaDesde"></mat-datepicker-toggle>
+            <mat-datepicker #fechaDesde disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <!-- Material input -->
+        <div class="md-form">
+          <mat-form-field>
+            <input matInput [matDatepicker]="fechaHasta" placeholder="Hasta" [formControl]="fFechaFin">
+            <mat-datepicker-toggle matSuffix [for]="fechaHasta"></mat-datepicker-toggle>
+            <mat-datepicker #fechaHasta disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="md-form">
+            <label for="">Persona</label><br>
+            <mat-radio-group  formControlName="fPersona" [(ngModel)]="persona"
+                             [ngClass]="{ 'is-invalid': submitted && f.fPersona.errors }">
+              <mat-radio-button *ngFor="let data of personas; " [value]="data.value">{{data.label}}</mat-radio-button>
+            </mat-radio-group>
+            <div *ngIf="submitted && f.fPersona.errors" style="color:red">
+              <div *ngIf="f.fPersona.errors.required">Requerido</div>
+            </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="md-form">
+          <button type="submit" class="btn btn-primary btn-md">Busca empleados</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

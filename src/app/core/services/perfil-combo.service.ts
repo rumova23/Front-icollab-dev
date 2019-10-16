@@ -146,6 +146,7 @@ export class PerfilComboService {
 
 
   obtenCalificacion(empleadoId: number): Observable<any> {
+    console.log('RTC empleadoId: ' + empleadoId);
     this.setXTenantId(this.globalService.aguila);
     // return this.http.get(`${this.microexamenUrl}exam/obten/calificacion/${empleadoId}`, httpOptions);
     return this.http.get(`${this.microexamenUrl}exam/obten/calificacion/${empleadoId}`, {params : this.parameters });
@@ -177,6 +178,7 @@ export class PerfilComboService {
 
   getGraficas(examenReservacionId: number): Observable<any> {
     this.setXTenantId(this.globalService.aguila);
+    console.log('RTC examenReservacionId: ' + examenReservacionId);
     return this.http.get(`${this.microexamenUrl}exam/obten/calificacion/reservacion/${examenReservacionId}`, {params : this.parameters });
   }
 

@@ -42,16 +42,12 @@ export class PerfilHomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(  this.isViewable);
     // this.idEmpleado = this.route.snapshot.params['idEmpleado'];
-    console.log(this.idEmpleado);
     // this.tipo = this.route.snapshot.params['tipo'];
-    console.log(this.tipo);
     // this.isdisabled = this.route.snapshot.params['isdisabled'];
     if (this.idEmpleado === 0) {
       this.isViewable = false;
     }
-    console.log(  this.isViewable);
     // this.isViewable = true;
     this.addFactoryPerfil();
     this.addFactoryResponsibilitiesComponent();
