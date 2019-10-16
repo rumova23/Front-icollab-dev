@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Input  } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { Employee } from '../../models/Employee';
+import { GlobalService } from 'src/app/core/globals/global.service';
 
 
 const ELEMENT_DATA: Employee[] = [
@@ -34,7 +35,8 @@ export class EmployeesComponent implements OnInit {
   filtrobtn = { label: "buscar" };
   registros_x_pagina = [2, 5, 10, 20, 30];
 
-  constructor() { }
+  constructor(
+		public  globalService            : GlobalService) { }
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {
     this.registros.paginator = this.paginator;

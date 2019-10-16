@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
     this.globalService.plant = this.securityService.loadPlants()[0];
 
     this.disenadores();
-    this.algo();
+    //this.algo();
 }
 algo(){
   //https://codinglatte.com/posts/angular/working-with-assets-styles-and-scripts-in-angular/
