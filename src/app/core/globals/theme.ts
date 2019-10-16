@@ -82,6 +82,9 @@ export class ThemeService {
             case "Safe":
                 label ="Safe";
                 break;
+            case "Compliance":
+                label ="Compliance";
+                break;
             default:
                 label ="default";
                 break;
@@ -99,6 +102,12 @@ export class ThemeService {
                 break;
             case "Safe":
                 logo ="/assets/img/common/ico_mod/Safe-v2.png";
+                break;
+            case "Compliance":
+                logo = "/assets/img/common/ico_mod/Compliance-v2.png";
+                break;
+            case "Security":
+                logo = "/assets/img/common/ico_mod/Compliance-v2.png";
                 break;
             default:
                 logo ="default";
