@@ -134,7 +134,7 @@ export class PerfilComboService {
   getScalas(val: string) {
     this.setXTenantId(this.globalService.aguila);
     // return this.http.get(`${this.evaluacionExamenUrl}` + 'evalucionConfiguracion/get/' + val , httpOptions);
-    return this.http.get(`${this.evaluacionExamenUrl}` + 'evalucionConfiguracion/get/' + val , {params : this.parameters });
+    return this.http.get(`${this.evaluacionExamenUrl}` + 'configEva/evalucionConfiguracion/get/' + val , {params : this.parameters });
   }
 
   public getReservacionesEmpleado(calificacionId: number): Observable<any>   {

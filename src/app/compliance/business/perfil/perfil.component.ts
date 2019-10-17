@@ -216,9 +216,6 @@ export class PerfilComponent implements OnInit {
     }
   }
 
-
-
-
   get f() { return this.perfilForm.controls; }
 
   dateLessThan(fNaci: string, fStartJob: string) {
