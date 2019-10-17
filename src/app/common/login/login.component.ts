@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    
 
 
     this.loginForm = this.formBuilder.group({
@@ -121,6 +120,15 @@ goCompliance() {
   this.router.navigate(['/compliance']);
 }
 
+ngAfterViewInit() {
+  console.log(":::: ngAfterViewInit ::::");
+  
+  if(this.getgender()){
+    console.log("id genero :::"+this.getgender());
+    
+    this.next();
+  }
+}
 goSafe() {
   this.router.navigate(['/safe']);
 }
@@ -130,6 +138,13 @@ goAdministrative_monitoring(){
 goSecurity() {
   this.router.navigate(['/security']);
 }
+
+getgender() {
+  let generoId = JSON.parse(localStorage.getItem('user'));
+  generoId = generoId.generoId;
+  return generoId;
+}
+
   // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
 
