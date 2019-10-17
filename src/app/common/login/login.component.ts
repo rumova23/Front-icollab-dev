@@ -128,7 +128,7 @@ goAdministrative_monitoring(){
   this.router.navigate(['/monitoring']);
 }
 goSecurity() {
-  this.router.navigate(['/security/home']);
+  this.router.navigate(['/security']);
 }
   // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
