@@ -12,12 +12,6 @@ import {ToastrManager} from 'ng6-toastr-notifications';
   styleUrls: ['./task-planning.component.scss']
 })
 export class TaskPlanningComponent implements OnInit {
-  /**Faltaban en la vista no sin esto no puede construir para produccion  */
-  titulo="";
-  submitted=false;
-  f:any;
-  persona:any;
-  //*/
   filtrosForm: FormGroup;
   fFechaInicio = new FormControl(new Date());
   fFechaFin = new FormControl((new Date()));
