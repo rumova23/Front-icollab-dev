@@ -14,73 +14,73 @@
           </div>
         </div>
         <div class="icons">
-          <div class="rotater">
+          <div class="rotater" [ngStyle]="{filter: !existApp('Icollab') ? 'grayscale(80%)':''}">
             <div class="btn btn-icon">
               <img src="/assets/img/icollab.png" class="icon-image" />
               <p class="icon-text">ICollab</p>
             </div>
           </div>
-          <div class="rotater">
+          <div class="rotater" [ngStyle]="{filter: !existApp('Safe') ? 'grayscale(80%)':''}">
             <div class="btn btn-icon" (click)="goSafe()">
               <img src="/assets/img/safe.png" class="icon-image" />
               <p class="icon-text">Safe</p>
             </div>
           </div>
-          <div class="rotater">
+          <div class="rotater" [ngStyle]="{filter: !existApp('Compliance') ? 'grayscale(80%)':''}">
             <div class="btn btn-icon" (click)="goCompliance()">
               <img src="/assets/img/compilance.png" class="icon-image" />
               <p class="icon-text">Compilance</p>
             </div>
           </div>
-          <div class="rotater">
+          <div class="rotater" [ngStyle]="{filter: !existApp('Administrative_monitoring') ? 'grayscale(80%)':''}">
             <div class="btn btn-icon" (click)="goAdministrative_monitoring()">
               <img src="/assets/img/efh.png" class="icon-image" />
               <p class="icon-text">EFH</p>
             </div>
           </div>
-          <div class="rotater">
+          <div class="rotater" [ngStyle]="{filter: !existApp('Gate') ? 'grayscale(80%)':''}">
             <div class="btn btn-icon">
               <img src="/assets/img/gate.png" class="icon-image" />
               <p class="icon-text">Gate</p>
             </div>
           </div>
-          <div class="rotater">
+          <div class="rotater" [ngStyle]="{filter: !existApp('Lotto') ? 'grayscale(80%)':''}">
             <div class="btn btn-icon">
               <img src="/assets/img/lotto.png" class="icon-image" />
               <p class="icon-text">Lotto</p>
             </div>
           </div>
-          <div class="rotater">
+          <div class="rotater" [ngStyle]="{filter: !existApp('MA') ? 'grayscale(80%)':''}">
             <div class="btn btn-icon">
               <img src="/assets/img/ma.png" class="icon-image" />
               <p class="icon-text">MA</p>
             </div>
           </div>
-          <div class="rotater">
+          <div class="rotater" [ngStyle]="{filter: !existApp('Bits') ? 'grayscale(80%)':''}">
             <div class="btn btn-icon">
               <img src="/assets/img/bits.png" class="icon-image" />
               <p class="icon-text">Bits</p>
             </div>
           </div>
-          <div class="rotater">
+          <div class="rotater" [ngStyle]="{filter: !existApp('BP') ? 'grayscale(80%)':''}">
             <div class="btn btn-icon">
               <img src="/assets/img/bp.png" class="icon-image" />
               <p class="icon-text">BP</p>
             </div>
           </div>
-          <div class="rotater">
+          <div class="rotater" [ngStyle]="{filter: !existApp('Governance') ? 'grayscale(80%)':''}">
             <div class="btn btn-icon">
               <img src="/assets/img/governance.png" class="icon-image" />
               <p class="icon-text">Governance</p>
             </div>
           </div>
-          <div class="rotater">
+          <div class="rotater" [ngStyle]="{filter: !existApp('Roms') ? 'grayscale(80%)':''}">
             <div class="btn btn-icon">
               <img src="/assets/img/roms.png" class="icon-image" />
               <p class="icon-text">Roms</p>
             </div>
           </div>
-          <div class="rotater">
+          <div class="rotater" [ngStyle]="{filter: !existApp('Ma') ? 'grayscale(80%)':''}">
             <div class="btn btn-icon">
               <img src="/assets/img/ma.png" class="icon-image" />
               <p class="icon-text">MA</p>
@@ -93,6 +93,7 @@
         class="text"
         style="position:absolute; top:90%; width: 100%;"
         id="elaborado"
+        *ngIf="existApp('Security')"
       >
         <div style="float: right;">
           <table>

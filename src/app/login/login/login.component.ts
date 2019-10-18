@@ -10,6 +10,7 @@ import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import { Validate } from 'src/app/core/helpers/util.validator.';
 import { GlobalService }                       from 'src/app/core/globals/global.service';
 import { App } from 'src/app/security/models/App';
+import { ThemeService } from 'src/app/core/globals/theme';
 
 declare var $: any;
 @Component({
@@ -31,10 +32,22 @@ export class LoginComponent implements OnInit {
     private securityService: SecurityService,
 		public  globalService            : GlobalService,
     private eventService: EventService,
+		public  theme                    : ThemeService,
     private alertService: AlertService) {
     if (this.securityService.getCurrentUser()) {
       this.router.navigate(['/']);
     }
+
+    try{
+			this.theme.setApp("default");
+			if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
+		}catch(err){
+			// Para que funcione en la .201
+			///*
+			this.globalService.plant = {id: 1, name: "AGUILA"};
+			this.globalService.app   = {id: 2, name: "Safe"};
+			//*/
+		}
   }
 
   ngOnInit() {
@@ -46,9 +59,7 @@ export class LoginComponent implements OnInit {
     });
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/home';
     
-
     this.loadApps();
-    this.globalService.plant = this.securityService.loadPlants()[0];
 
     this.disenadores();
     //this.algo();
@@ -69,7 +80,11 @@ algo(){
   );
 }
 loadApps() {
-  this.apps = this.securityService.loadApps();
+  try{
+    this.apps = this.securityService.loadApps();
+  }catch(e){
+    this.apps = null;
+  }
 }
 disenadores(){
 
@@ -114,7 +129,12 @@ disenadores(){
 }
 
 existApp(name: string) {
-  return Validate(this.apps.filter(app => app.name === name)[0])
+  //return false;
+  let fdafdsa = this.apps;
+  if(this.apps){
+    return Validate(this.apps.filter(app => app.name === name)[0]);
+  }
+  return false;
 }
 goCompliance() {
   this.router.navigate(['/compliance']);
@@ -141,8 +161,7 @@ goSecurity() {
 
 getgender() {
   let generoId = JSON.parse(localStorage.getItem('user'));
-  generoId = generoId.generoId;
-  return generoId;
+  return generoId ? true:false;
 }
 
   // convenience getter for easy access to form fields
@@ -199,8 +218,12 @@ getgender() {
           this.loading = true;
           this.addBlock(2, null);
           //this.router.navigate([this.returnUrl]);
+          this.loadApps();
           if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
-
+          
+          
+          this.router.navigate(['/_home']);
+          
           this.next();
         },
         errorData => {

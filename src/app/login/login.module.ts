@@ -8,9 +8,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MaterialModule } from '../modules/material-module';
 import { SharedModule } from '../shared/shared.module';
 import { ComponentsModule } from '../common/components.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
+import { MatDatepickerModule, MatNativeDateModule, MatPaginatorIntl } from '@angular/material';
 import { FlatpickrModule } from 'angularx-flatpickr';
 
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -21,6 +21,10 @@ import { TreeviewModule } from 'ngx-treeview';
 import { BlockUIModule } from 'ng-block-ui';
 import { Constants } from '../core/globals/Constants';
 import { HomeComponent } from './home/home.component';
+import { EventService } from '../core/services/event.service';
+import { JwtInterceptor } from '../core/helpers/jwt.interceptor';
+import { ErrorInterceptor } from '../core/helpers/error.interceptor';
+import { MatPaginatorIntlSpanish } from '../core/helpers/apanishPaginatorIntl';
 
 
 
@@ -63,7 +67,9 @@ import { HomeComponent } from './home/home.component';
     BlockUIModule.forRoot({
       message: Constants.LOADING_MEESSAGE
     })
-    ]
+    ],
+    providers: [
+    ],
 	
 })
 export class LoginModule { }
