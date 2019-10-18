@@ -4,6 +4,7 @@ export const environment = {
   , appVersion  : 'Desarrollo V 1.0'
   , securityUrl             : hostGateway + 'security/'
   , catalogUrl              : hostGateway + 'catalog/'
+  , mastercatalog           : hostGateway + 'mastercatalog/'
   , tagsUrl                 : hostGateway + 'tags/'
   , microexamenUrl          : hostGateway + 'microexamen/'
   , evaluacionExamenUrl     : hostGateway + 'EVALUACIONEXAMEN/'
