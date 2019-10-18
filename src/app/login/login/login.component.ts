@@ -222,7 +222,6 @@ getgender() {
           if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
           
           
-          this.router.navigate(['/_home']);
           
           this.next();
         },
