@@ -8,6 +8,8 @@ import {GlobalService} from 'src/app/core/globals/global.service';
 })
 export class AdministratorComplianceService {
   private microexamenUrl = environment.microexamenUrl;
+  private mastercatalog = environment.mastercatalog;
+  private tagsUrl = environment.tagsUrl;
   parameters: any;
 
   constructor(private http: HttpClient,
@@ -24,9 +26,24 @@ export class AdministratorComplianceService {
       this.parameters = p2;
     }
   }
+  initComboTiposCumplimientos() {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ this.mastercatalog }mastercatalog/mastercatalog/TIPO_CUMPLIMIENTO`,
+        {params : this.parameters });
+  }
+
+  initComboActividades() {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ this.tagsUrl }tag/actividad/all/TODOS`);
+  }
   getPersonalCompetente(fechaInicio: number, fechaFinal: number) {
     this.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.microexamenUrl }exam/personalCompetente/competentes/${fechaInicio}/${fechaFinal}`,
+        {params : this.parameters });
+  }
+  getTasks(maestroOpcionId: number, actividadId: number) {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ this.tagsUrl }tag/actividad/${maestroOpcionId}/${actividadId}`,
         {params : this.parameters });
   }
 }

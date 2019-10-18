@@ -43,20 +43,87 @@
 
       <div class="col-md-2">
         <div class="md-form">
-            <label for="">Persona</label><br>
-            <mat-radio-group  formControlName="fPersona" [(ngModel)]="persona"
-                             [ngClass]="{ 'is-invalid': submitted && f.fPersona.errors }">
-              <mat-radio-button *ngFor="let data of personas; " [value]="data.value">{{data.label}}</mat-radio-button>
-            </mat-radio-group>
-            <div *ngIf="submitted && f.fPersona.errors" style="color:red">
-              <div *ngIf="f.fPersona.errors.required">Requerido</div>
-            </div>
+          <mat-label>Persona</mat-label>
+          <mat-select formControlName="fPersonaId"
+                      [ngClass]="{ 'is-invalid': submitted && f.fPersonaId.errors }">
+            <mat-option *ngFor="let operator of personas;" [value]="operator.value">{{operator.label}}</mat-option>
+          </mat-select>
+          <div *ngIf="submitted && f.fPersonaId.errors" style="color:red">
+            <div *ngIf="f.fPersonaId.errors.required">Requerido</div>
+          </div>
         </div>
       </div>
       <div class="col-md-2">
         <div class="md-form">
           <button type="submit" class="btn btn-primary btn-md">Busca empleados</button>
         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="md-form">
+          <mat-label>Tipo Cumplimiento</mat-label>
+          <mat-select formControlName="fTipoCumplimiento"
+                      [ngClass]="{ 'is-invalid': submitted && f.fTipoCumplimiento.errors }" (selectionChange)="getTasks()">
+            <mat-option *ngFor="let operator of tiposCumplimientos;" [value]="operator.value">{{operator.label}}</mat-option>
+          </mat-select>
+          <div *ngIf="submitted && f.fTipoCumplimiento.errors" style="color:red">
+            <div *ngIf="f.fTipoCumplimiento.errors.required">Requerido</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="md-form">
+          <mat-label>Actividad</mat-label>
+          <mat-select formControlName="fActividad"
+                      [ngClass]="{ 'is-invalid': submitted && f.fActividad.errors }"  (selectionChange)="getTasks()">
+            <mat-option *ngFor="let operator of actividades;" [value]="operator.value">{{operator.label}}</mat-option>
+          </mat-select>
+          <div *ngIf="submitted && f.fActividad.errors" style="color:red">
+            <div *ngIf="f.fActividad.errors.required">Requerido</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="md-form">
+          &nbsp;
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="md-form">
+          <button type="button" class="btn btn-primary btn-md" (click)="saveTasks()">Genera Tareas</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <table mdbTable bordered="true">
+          <thead class="grey lighten-1 black-text">
+          <tr>
+            <th *ngFor="let head of headTasks" scope="col">{{head}} </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr mdbTableCol *ngFor="let el of tagTasks; let i = index;">
+            <th scope="row">
+              <mat-checkbox [checked]="false" (click)="habilitarCheck((i))" >
+                {{i+1}}
+              </mat-checkbox>
+            </th>
+            <td>{{el.description}}</td>
+            <td><mat-checkbox [value]="tipoPerfil[0]" [checked]="false" [disabled]="checkboxDisabled[i]"
+                              (change)="armaMuneco($event)" [name]="i">
+            </mat-checkbox></td>
+            <td><mat-checkbox [value]="tipoPerfil[1]" [checked]="false" [disabled]="checkboxDisabled[i]"
+                              (change)="armaMuneco($event)" [name]="i">
+            </mat-checkbox></td>
+            <td><mat-checkbox [value]="tipoPerfil[2]" [checked]="false" [disabled]="checkboxDisabled[i]"
+                              (change)="armaMuneco($event)" [name]="i">
+            </mat-checkbox></td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </form>
