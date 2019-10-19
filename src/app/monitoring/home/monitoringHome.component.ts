@@ -42,14 +42,15 @@ export class MonitoringHomeComponent implements OnInit, OnDestroy {
 		private securityService          : SecurityService,
 		private socketService            : SocketService
 	) {
-		let url = `/assets/css/theme/content/monitoring.css`;
-		document.getElementById("content_theme").setAttribute('href',url);
 		
 		this.theme.setApp("Administrative_monitoring");
 		if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
 	}
 
 	ngOnInit() {
+		let url = `/assets/css/theme/content/monitoring.css`;
+		document.getElementById("content_theme").setAttribute('href',url);
+
 		this.globalService.page  = new EventMessage(101,{id: "Fase 3", idFather: "", icon: "pie_chart", label: "Inicio"});
 		this.openSocket();
 		this.subscribeOnChangePage();

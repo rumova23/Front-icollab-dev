@@ -44,10 +44,6 @@ export class ComplianceHomeComponent implements OnInit {
     private eventService: EventService
    ,private securityService: SecurityService) {
 
-		let url = `/assets/css/base/respaldo.css`;
-    document.getElementById("content_theme").setAttribute('href',url);
-    
-
     try{
 			this.theme.setApp("Compliance");
 			if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
@@ -75,10 +71,18 @@ export class ComplianceHomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    
+		let url = `/assets/css/base/respaldo.css`;
+    document.getElementById("content_theme").setAttribute('href',url);
+    
+
     this.subscribeOnChangePage();
-    setTimeout(() => this.periodo(), 5000);
   }
 
+	ngAfterViewInit() {
+		const factory = this.componentFactoryResolver.resolveComponentFactory(ComplianceWelcomeComponent);
+		this.viewContainerRef.createComponent(factory);
+	}
   getNameUser() {
     const name = this.securityService.getNameUser() + ' ' + this.securityService.getLastNameUser();
     return name;

@@ -39,8 +39,6 @@ export class SecurityHomeComponent implements OnInit {
 		public  theme                    : ThemeService
     ) {
       
-		let url = `/assets/css/base/respaldo.css`;
-    document.getElementById("content_theme").setAttribute('href',url);
     
 
     try{
@@ -57,6 +55,8 @@ export class SecurityHomeComponent implements OnInit {
   }
 
   ngOnInit() {
+		let url = `/assets/css/base/respaldo.css`;
+    document.getElementById("content_theme").setAttribute('href',url);
     this.subscribeOnChangePage();
 /*     this.clickMenu(new EventMessage(100, {role:{id: 1, name: 'ROLE_ADMIN',
         idApp:7}})); */

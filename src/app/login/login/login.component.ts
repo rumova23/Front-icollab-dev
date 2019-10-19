@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { environment } from 'src/environments/environment';
@@ -11,14 +11,16 @@ import { Validate } from 'src/app/core/helpers/util.validator.';
 import { GlobalService }                       from 'src/app/core/globals/global.service';
 import { App } from 'src/app/security/models/App';
 import { ThemeService } from 'src/app/core/globals/theme';
+import * as dis                           from './js/animations';
 
-declare var $: any;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./css/style.css','./css/form.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit,OnDestroy {
+
   apps: Array<App>;
   loginForm: FormGroup;
   loading = false;
@@ -61,9 +63,14 @@ export class LoginComponent implements OnInit {
     
     this.loadApps();
 
-    this.disenadores();
+    dis.disenio();
     //this.algo();
 }
+
+ngOnDestroy(): void {
+  dis.OnDestroy();
+}
+
 algo(){
   //https://codinglatte.com/posts/angular/working-with-assets-styles-and-scripts-in-angular/
   let promise = new Promise(resolve => {
@@ -86,47 +93,6 @@ loadApps() {
     this.apps = null;
   }
 }
-disenadores(){
-
-  
-  //Inicializar de una vez
-  $("body").css({ height: $(window).height() });
-  $("#container").css({ height: $(window).height() * 2 });
-  $("#world").css("display", "block");
-  $("#world").css({ bottom: -$(window).height()});
-  $("#form").css("display", "block");
-  $("#world").fadeOut();
-  $("#form").fadeOut();
-  $("#form").css("display", "none");
-  $("#menu").css("display", "none");
-  $("#title").css("display", "none");
-  $("#elaborado").css("display", "none");
-  //vete primero all mundo
-  $("html, body").animate(
-    {
-      scrollTop: $("#mundo").offset().top
-    },
-    500
-  );
-
-  setTimeout(function() {
-    $("#form").css("display", "block");
-    setTimeout(function() {
-      $("#world").fadeIn(1000);
-    }, 1000);
-  }, 1000);
-
-  //disable scrolling
-  // window.onscroll = function() {
-  //   window.scrollTo(0, $(window).height());
-  // };
-    if ($(window).width() >= 3000) {
-        $("#login").css("font-size", "35px");
-        $("#password").css("font-size", "35px");
-        $("#loginButton").css("font-size", "35px");
-        $("#formContent").css("margin-top", "-110px");
-      }
-}
 
 existApp(name: string) {
   //return false;
@@ -146,7 +112,7 @@ ngAfterViewInit() {
   if(this.getgender()){
     console.log("id genero :::"+this.getgender());
     
-    this.next();
+    dis.next();
   }
 }
 goSafe() {
@@ -167,41 +133,15 @@ getgender() {
   // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
 
-  next() {
-      
-  window.onscroll = function() {};
-  $("html, body").animate(
-    {
-      scrollTop: $("#constelacion").offset().top
-    },
-    4000
-  );
-
-  $("#menu").css("display", "block");
-  $("#menu").fadeIn(5000);
-  $("#title").css("display", "block");
-  $("#elaborado").css("display", "block");
-  $(".menu").toggleClass("active");
-  setTimeout(function() {
-    $("#form").css("display", "none");
-    $("#world").css("display", "none");
-  }, 5000);
-
-  //enable  disable scroll
-  // setTimeout(function() {
-  //   window.onscroll = function() {
-  //     window.scrollTo(0, 0);
-  //   };
-  // }, 5000);
-  }
+ 
   onSubmit() {
     //this.next();//
     console.log(this.loginForm.value);
-    this.addBlock(1, null);
+    //this.addBlock(1, null);
     this.submitted = true;
     // stop here if form is invalid
     if (this.loginForm.invalid) {
-      this.addBlock(2, null);
+      //this.addBlock(2, null);
       return;
     }
 
@@ -216,17 +156,17 @@ getgender() {
           localStorage.setItem("user", JSON.stringify(data));
           JSON.parse(localStorage.getItem("user"));
           this.loading = true;
-          this.addBlock(2, null);
+          //this.addBlock(2, null);
           //this.router.navigate([this.returnUrl]);
           this.loadApps();
           if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
           
           
           
-          this.next();
+          dis.next();
         },
         errorData => {
-          this.addBlock(2, null);
+          //this.addBlock(2, null);
           console.log(errorData);
         });
 
