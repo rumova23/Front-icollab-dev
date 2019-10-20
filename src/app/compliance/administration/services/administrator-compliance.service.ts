@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {environment} from 'src/environments/environment';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {GlobalService} from 'src/app/core/globals/global.service';
+import {Task} from "../../models/Task";
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ export class AdministratorComplianceService {
   private microexamenUrl = environment.microexamenUrl;
   private mastercatalog = environment.mastercatalog;
   private tagsUrl = environment.tagsUrl;
+  private seguimiento = environment.seguimiento;
   parameters: any;
 
   constructor(private http: HttpClient,
@@ -44,6 +46,11 @@ export class AdministratorComplianceService {
   getTasks(maestroOpcionId: number, actividadId: number) {
     this.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.tagsUrl }tag/actividad/${maestroOpcionId}/${actividadId}`,
+        {params : this.parameters });
+  }
+  guardaTask(task: Task) {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.post( `${ this.seguimiento }legal/generation/task`, task,
         {params : this.parameters });
   }
 }

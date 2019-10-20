@@ -113,13 +113,13 @@
             </th>
             <td>{{el.description}}</td>
             <td><mat-checkbox [value]="tipoPerfil[0]" [checked]="false" [disabled]="checkboxDisabled[i]"
-                              (change)="armaMuneco($event)" [name]="i">
+                              (change)="armaMuneco($event)" [name]="i" [id]="i + '_0'" >
             </mat-checkbox></td>
             <td><mat-checkbox [value]="tipoPerfil[1]" [checked]="false" [disabled]="checkboxDisabled[i]"
-                              (change)="armaMuneco($event)" [name]="i">
+                              (change)="armaMuneco($event)" [name]="i" [id]="i + '_1'">
             </mat-checkbox></td>
             <td><mat-checkbox [value]="tipoPerfil[2]" [checked]="false" [disabled]="checkboxDisabled[i]"
-                              (change)="armaMuneco($event)" [name]="i">
+                              (change)="armaMuneco($event)" [name]="i" [id]="i + '_2'">
             </mat-checkbox></td>
           </tr>
           </tbody>
