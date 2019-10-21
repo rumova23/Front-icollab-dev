@@ -1,6 +1,8 @@
 #myheader, 
 #myfooter,
+.btn, 
 .mybtn
 {
     background:#D67700;
+    color:#ffffff;
 }
