@@ -39,8 +39,9 @@ export class SharedSidebarItemsComponent {
   	itemSelected(item: menuItem) {
 		if (item.children && item.children.length) {
 			this.viewHide = !this.viewHide;
+		}else{
+			this.globalService.page = new EventMessage(parseInt(item.id),item);
+			this.eventService.sendChangePage(new EventMessage(parseInt(item.id),item));
 		}
-		this.globalService.page = new EventMessage(null,item);
-		this.eventService.sendChangePage(new EventMessage(null,item));
     }
 }
