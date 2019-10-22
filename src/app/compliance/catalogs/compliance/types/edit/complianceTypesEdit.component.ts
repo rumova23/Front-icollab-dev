@@ -227,7 +227,7 @@ export class ComplianceTypesEditComponent implements OnInit {
 
                 this.showEditClonated = this.hasCloned;
 
-                //this.eventService.sendMainCompliance(new EventMessage(4, {}));                  
+                //this.eventService.sendChangePage(new EventMessage(4, {}));                  
               }
            });
 
@@ -246,7 +246,7 @@ export class ComplianceTypesEditComponent implements OnInit {
     this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit,!this.globalService.aguila).subscribe( 
       dataBack => { 
        this.toastr.successToastr('La autoridad fue clonada con éxito.', '¡Se ha logrado!');
-       this.eventService.sendMainCompliance(new EventMessage(4, {}));
+       this.eventService.sendChangePage(new EventMessage(4, {} ,"Compliance.Autoridades"));
       }
     );
   }
@@ -256,7 +256,7 @@ export class ComplianceTypesEditComponent implements OnInit {
     this.catalogoMaestroService.setEditClonated(this.dataSubmit,!this.globalService.aguila).subscribe( 
       dataBack => {
        this.toastr.successToastr('La actualización de elementos clonados se logró con éxito.', '¡Se ha logrado!');
-       this.eventService.sendMainCompliance(new EventMessage(4, {}));
+       this.eventService.sendChangePage(new EventMessage(4, {} ,"Compliance.Autoridades"));
       }
     );
   }
@@ -356,7 +356,7 @@ export class ComplianceTypesEditComponent implements OnInit {
 
 
     
-    this.eventService.sendMainCompliance(new EventMessage(4, {}));
+    this.eventService.sendChangePage(new EventMessage(4, {} ,"Compliance.Autoridades"));
   }
 
 }

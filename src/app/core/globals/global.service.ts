@@ -13,9 +13,9 @@ export class GlobalService {
 	languge         = "es"; // solo es un parche que simulara multiples idiomas para monitoreo fase 3 
 
 	public socketConnect : boolean       = false;
-	public plant         : Plant         = { id:0 ,name:"Default" };
-	public app           : App           = { id:0 ,name:"Default" };  // Representa al modulo activo
-	public page          : EventMessage  = { id:0 ,data:{}        };
+	public plant         : Plant         = { id:0 ,name:"Default"             };
+	public app           : App           = { id:0 ,name:"Default"             };  // Representa al modulo activo
+	public page          : EventMessage  = { id:0 ,data:{}, descriptor:"none" };
 	public aside_open    : boolean       = false;
 
 	constructor(public securityService: SecurityService) {
@@ -39,5 +39,11 @@ export class GlobalService {
 	}
 	getApp():App{
 		return this.app;
+	}
+	setPage(page : EventMessage){
+		this.page = page;
+	}
+	getPage():EventMessage{
+		return this.page;
 	}
 }

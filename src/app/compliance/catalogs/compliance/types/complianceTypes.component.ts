@@ -212,7 +212,7 @@ export class ComplianceTypesComponent implements OnInit {
       break;
     }
 
-    this.eventService.sendMainCompliance(new EventMessage(5, type));
+    this.eventService.sendChangePage(new EventMessage(5 ,type ,"Compliance.Autoridades.ABC"));
   }
 
 
@@ -228,7 +228,7 @@ export class ComplianceTypesComponent implements OnInit {
                    
                    this.toastr.successToastr('El registro fue correctamente eliminado', '¡Se ha logrado!');
 
-                   this.eventService.sendMainCompliance(new EventMessage(4, {}));
+                   this.eventService.sendChangePage(new EventMessage(4, {} ,"Compliance.Autoridades"));
 
                    this.confirmationDialogService.confirm('Por favor, confirme..'
                      ,'Está seguro de eliminar los registros clonados? ')

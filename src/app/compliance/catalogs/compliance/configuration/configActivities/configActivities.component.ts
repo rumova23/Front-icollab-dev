@@ -385,7 +385,7 @@ export class ConfigActivitiesComponent implements OnInit {
   }
 
   regresar(){
-    this.eventService.sendMainCompliance(new EventMessage(8, {}));
+    this.eventService.sendChangePage(new EventMessage(8, {} ,'Compliance.Características'));
   }
 
   //Obtiene la información de un TAG

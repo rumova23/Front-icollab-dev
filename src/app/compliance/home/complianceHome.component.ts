@@ -47,7 +47,7 @@ export class ComplianceHomeComponent implements OnInit {
 
 
 	constructor(
-		private route                     : ActivatedRoute
+		private  route                    : ActivatedRoute
 		,private componentFactoryResolver : ComponentFactoryResolver
 		,public  theme                    : ThemeService
 		,public  globalService            : GlobalService
@@ -56,13 +56,13 @@ export class ComplianceHomeComponent implements OnInit {
 	) {
 		globalService.setApp("Compliance");
 	
-
+		/**Temporal falta lipiar sus componentes */
 		//this.eventService.sendMainCompliance(new EventMessage(10, {})); 
-		this.eventService.onChangeMainCompliance.subscribe({
+		this.subscriptions.push(this.eventService.onChangeMainCompliance.subscribe({
 			next: (event: EventMessage) => {
-				this.clickMenu(event);
+				//this.clickMenu(event);
 			}
-		});
+		}));
   	}
 
 	ngOnInit() {
@@ -75,72 +75,84 @@ export class ComplianceHomeComponent implements OnInit {
 	}
 
 	ngAfterViewInit() {
-		const factory = this.componentFactoryResolver.resolveComponentFactory(ComplianceWelcomeComponent);
-		this.viewContainerRef.createComponent(factory);
-	}
-	getNameUser() {
-		const name = this.securityService.getNameUser() + ' ' + this.securityService.getLastNameUser();
-		return name;
+		this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceWelcomeComponent));
 	}
 
-	getgender() {
-		let generoId = JSON.parse(localStorage.getItem('user'));
-		generoId = generoId.generoId;
-		return generoId;
+	ngOnDestroy(){
+		for (const iterator in this.subscriptions) {
+			this.subscriptions[iterator].unsubscribe();
+		}
 	}
-	
+	  	
 	subscribeOnChangePage(){
 		this.subscriptions.push(this.eventService.onChangePage.subscribe({
 			next: (event: EventMessage) => {
+				//debugger;
+				this.globalService.setPage(event);
 				this.viewContainerRef.clear();
-				debugger;
-				switch (event.data.label) {
-					case 'Inicio':
+				switch (event.descriptor) {
+					case 'Compliance.Inicio':
 						this.viewContainerRef
 							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceWelcomeComponent))
 							.changeDetectorRef
 							.detectChanges();
 						break;
-					case 'Autoridades':
+					case 'Compliance.Autoridades':
 						let refComplianceTypes = this.viewContainerRef
 							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceTypesComponent));
-
 						refComplianceTypes.instance.nombreCatalogo = 'Autoridades';
 						refComplianceTypes.changeDetectorRef.detectChanges();
 						break;
-					case 'Categorías':
+					case "Compliance.Autoridades.ABC":
+						let refComplianceTypesEdit = this.viewContainerRef
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceTypesEditComponent));
+						refComplianceTypesEdit.instance.catalogType = event.data;
+						refComplianceTypesEdit.changeDetectorRef.detectChanges();
+						break;
+					case 'Compliance.Categorías':
 						let refActivities =
 							this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(ActivitiesComponent));
-							
 						refActivities.instance.nombreCatalogo = 'Categorías';
 						refActivities.changeDetectorRef.detectChanges();
 						break;  
-					case 'Características':
+					case 'Compliance.Categorías.ABC':
+						let refActivitiesEdit = this.viewContainerRef
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ActivitiesEditComponent));
+						refActivitiesEdit.instance.catalogType = event.data;
+						refActivitiesEdit.changeDetectorRef.detectChanges();
+						break;  
+					case 'Compliance.Características': //Compliance.ConfiguracionDeCumplimientos.CumplimientoLegal.Caracteristicas
 						this.viewContainerRef
 							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceConfigurationComponent))
 							.changeDetectorRef.detectChanges();
 						break;
-					case 'Personal Competente':
+					case 'Compliance.Características.ABC': //Compliance.ConfiguracionDeCumplimientos.CumplimientoLegal.Caracteristicas.ABC
+						let refConfigActivities = this.viewContainerRef
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ConfigActivitiesComponent));
+						refConfigActivities.instance.catalogType = event.data;
+						refConfigActivities.changeDetectorRef.detectChanges();
+					break;
+					case 'Compliance.Personal Competente':
 						this.viewContainerRef
 							.createComponent(this.componentFactoryResolver.resolveComponentFactory(AcquisitionsComponent))
 							.changeDetectorRef.detectChanges();
-
 						break;
-					case 'legalAgreement':
+					case 'Compliance.legalAgreement':
 						this.viewContainerRef
 							.createComponent(this.componentFactoryResolver.resolveComponentFactory(LegalAgreementComponent))
 							.changeDetectorRef.detectChanges();
 						break;
-					case 'Cumplimiento Interno':
+					case 'Compliance.Cumplimiento Interno':
 						break;
 					default:
 				}
 			}
 		}));
 	}
+
 	private clickMenu(event: EventMessage): void {
-		this.viewContainerRef.clear();
 		debugger;
+		this.viewContainerRef.clear();
 		switch (event.id) {
 		case 101:
 			break;
@@ -148,64 +160,46 @@ export class ComplianceHomeComponent implements OnInit {
 		case 4: // Autoridades
 			break;
 		case 5: // Agregar
-			let refComplianceTypesEdit = this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceTypesEditComponent));
-			refComplianceTypesEdit.instance.catalogType = event.data;
-			refComplianceTypesEdit.changeDetectorRef.detectChanges();
 			break;
 
 
 		case 6: // Categorias
 			break;
 		case 7: // Agregar
-			const factoryActivitiesEdit =
-			this.componentFactoryResolver.resolveComponentFactory(ActivitiesEditComponent);
-			const refActivitiesEdit =
-			this.viewContainerRef.createComponent(factoryActivitiesEdit);
-			refActivitiesEdit.instance.catalogType = event.data;
-			refActivitiesEdit.changeDetectorRef.detectChanges();
 			break;
 
 
 		case 8: // Caracteristicas
 			break;
 		case 9: // Agregar
-			const factoryConfigActivities =
-			this.componentFactoryResolver.resolveComponentFactory(ConfigActivitiesComponent);
-			const refConfigActivities =
-			this.viewContainerRef.createComponent(factoryConfigActivities);
-			refConfigActivities.instance.catalogType = event.data;
-			refConfigActivities.changeDetectorRef.detectChanges();
 			break;
 
 
 		case 10: // Personal Competente
 			break;
 		case 11:
-				const factoryPerfilHome =
-				this.componentFactoryResolver.resolveComponentFactory(PerfilHomeComponent);
-				const refPerfilHome =
-				this.viewContainerRef.createComponent(factoryPerfilHome);
+				let refPerfilHome = this.viewContainerRef
+					.createComponent(this.componentFactoryResolver.resolveComponentFactory(PerfilHomeComponent));
 				refPerfilHome.instance.idEmpleado = event.data.idEmpleado;
 				refPerfilHome.instance.isViewable = true;
 				refPerfilHome.instance.isdisabled = event.data.isdisabled;
-				refPerfilHome.instance.tipo = event.data.tipo;
+				refPerfilHome.instance.tipo       = event.data.tipo;
 				refPerfilHome.changeDetectorRef.detectChanges();
 				break;
 		case 12: // Caracteristicas
 			break;
 		case 13: // TaskPlanningComponent
-			this.viewContainerRef.createComponent(
-				this.componentFactoryResolver.resolveComponentFactory(TaskPlanningComponent)).changeDetectorRef.detectChanges();
+			this.viewContainerRef
+				.createComponent(this.componentFactoryResolver.resolveComponentFactory(TaskPlanningComponent)).changeDetectorRef.detectChanges();
 			break;
 
 		case 100:
-			const factoryChangePasword =
-			this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent);
-			const refChangePasword =
-			this.viewContainerRef.createComponent(factoryChangePasword);
+			let refChangePasword = this.viewContainerRef
+				.createComponent(this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent));
 			refChangePasword.changeDetectorRef.detectChanges();
 			break;
 		}
 	}
+
 }
 

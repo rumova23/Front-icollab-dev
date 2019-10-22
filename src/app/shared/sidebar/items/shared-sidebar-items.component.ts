@@ -1,14 +1,14 @@
-import { Component }  from '@angular/core';
-import { trigger }    from '@angular/animations';
-import { state }      from '@angular/animations';
-import { style }      from '@angular/animations';
-import { transition } from '@angular/animations';
-import { animate }    from '@angular/animations';
-import { Input }      from '@angular/core';
+import { Component     } from '@angular/core';
+import { trigger       } from '@angular/animations';
+import { state         } from '@angular/animations';
+import { style         } from '@angular/animations';
+import { transition    } from '@angular/animations';
+import { animate       } from '@angular/animations';
+import { Input         } from '@angular/core';
 
-import { menuItem }      from './menuItem';
-import { EventService }  from 'src/app/core/services/event.service';
-import { EventMessage }  from 'src/app/core/models/EventMessage';
+import { menuItem      } from './menuItem';
+import { EventService  } from 'src/app/core/services/event.service';
+import { EventMessage  } from 'src/app/core/models/EventMessage';
 import { GlobalService } from 'src/app/core/globals/global.service';
 
 @Component({
@@ -40,8 +40,14 @@ export class SharedSidebarItemsComponent {
 		if (item.children && item.children.length) {
 			this.viewHide = !this.viewHide;
 		}else{
-			this.globalService.page = new EventMessage(parseInt(item.id),item);
-			this.eventService.sendChangePage(new EventMessage(parseInt(item.id),item));
+			this.globalService.setPage       ( new EventMessage(null ,item ,this.hardCodeDescriptor(item)) );
+			this.eventService.sendChangePage ( new EventMessage(null ,item ,this.hardCodeDescriptor(item)) );
 		}
-    }
+	}
+	hardCodeDescriptor(item):string{
+		let descriptor = "";
+		descriptor = this.globalService.app.name;
+		descriptor += `.${item.label}`; // debería existir otra propiedad en lugar de label para usarse aqui
+		return descriptor;
+	}
 }
