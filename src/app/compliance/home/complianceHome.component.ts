@@ -41,7 +41,6 @@ import { TaskPlanningComponent            } from '../administration/task-plannin
 	]
 })
 export class ComplianceHomeComponent implements OnInit {
-	@Input() asideOpen;
 	@ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
 	private subscriptions : Subscription[] = [];
 
