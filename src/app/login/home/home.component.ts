@@ -8,53 +8,47 @@ import { App } from 'src/app/security/models/App';
 import { Utils } from 'angular-bootstrap-md/lib/utils/utils.class';
 import { Validate } from 'src/app/core/helpers/util.validator.';
 import { GlobalService } from 'src/app/core/globals/global.service';
-
+declare var $;
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss','../login/css/style.css','../login/css/form.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  apps: Array<App>;
+	apps: Array<App>;
 
-  constructor(private securityService: SecurityService,
-		public  globalService: GlobalService,
-    public router: Router) {
-    
-  }
+	constructor(private securityService: SecurityService,
+			public  globalService: GlobalService,
+		public router: Router) {
+		
+	}
 
 
-  ngOnInit() {
-    //this.loadAllUsers();
-    this.loadApps();
-    this.globalService.plant = this.securityService.loadPlants()[0];
-  }
+	ngOnInit() {
+		window.onscroll = function() {}; 
 
-  loadApps() {
-    this.apps = this.securityService.loadApps();
-  }
-  
-  existApp(name: string) {
-    return Validate(this.apps.filter(app => app.name === name)[0])
-  }
+		$("#menu").css("display", "block");
+		$("#menu").fadeIn(5000);
+		$("#title").css("display", "block");
+		$("#elaborado").css("display", "block");
+		$(".menu").toggleClass("active");
+		//this.loadAllUsers();
+		this.loadApps();
+	}
 
-  ngOnDestroy() {
-    //this.currentUserSubscription.unsubscribe();
-  }
+	loadApps() {
+		this.apps = this.securityService.loadApps();
+	}
+	
+	existApp(name: string) {
+		return Validate(this.apps.filter(app => app.name === name)[0])
+	}
 
-  goCompliance() {
-    this.router.navigate(['/compliance/home']);
-  }
-
-  goSafe() {
-    this.router.navigate(['/safe/home']);
-  }
-  goAdministrative_monitoring(){
-    this.router.navigate(['/monitoring']);
-  }
-  goSecurity() {
-    this.router.navigate(['/security/home']);
-  }
-
+	ngOnDestroy() {
+		//this.currentUserSubscription.unsubscribe();
+	}
+	goToModule(uri){
+		this.router.navigate([uri]);
+	}
 }

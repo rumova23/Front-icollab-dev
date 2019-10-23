@@ -5,17 +5,10 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: url('/assets/img/common/bg/bg-large.png') no-repeat center center;
+    background: url('/assets/img/bg-max.png') no-repeat center center;
     background-size: cover;
 }
 .full-height {
 	height: 100vh;
 	overflow: scroll;
-}
-.panel{
-	background-color: rgba(229,228,255,.1);
-}
-hr{
-	background: #ffffff;
-	height: 1px;
 }
