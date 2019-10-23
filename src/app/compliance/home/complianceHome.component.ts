@@ -54,20 +54,12 @@ export class ComplianceHomeComponent implements OnInit {
 		,private securityService          : SecurityService
 	) {
 		globalService.setApp("Compliance");
-	
-		/**Temporal falta lipiar sus componentes */
-		//this.eventService.sendMainCompliance(new EventMessage(10, {})); 
-		this.subscriptions.push(this.eventService.onChangeMainCompliance.subscribe({
-			next: (event: EventMessage) => {
-				//this.clickMenu(event);
-			}
-		}));
   	}
 
 	ngOnInit() {
 		
 		let url = `/assets/css/base/respaldo.css`;
-		document.getElementById("content_theme").setAttribute('href',url);
+		//document.getElementById("content_theme").setAttribute('href',url);
 		
 
 		this.subscribeOnChangePage();
@@ -75,8 +67,8 @@ export class ComplianceHomeComponent implements OnInit {
 
 	ngAfterViewInit() {
 
-		this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(LegalAgreementComponent));
-		//this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceWelcomeComponent));
+		//this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(LegalAgreementComponent));
+		this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceWelcomeComponent));
 	}
 
 	ngOnDestroy(){

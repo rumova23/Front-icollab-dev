@@ -14,6 +14,7 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 @Component({
   selector: 'app-shared-sidebar-items',
   templateUrl: './shared-sidebar-items.component.html',
+  styleUrls   : ['./shared-sidebar-items.component.css'],
   animations  : [
 	 trigger('icon180', [
 	   state('hide' ,style({ transform : 'rotate(-90deg)' }))

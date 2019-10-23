@@ -10,10 +10,9 @@
 					<img *ngIf="getgender()===2" src="../../../assets/images/womenAvatar.png" alt="" class="img-user">
 				</div><br>
 				<div class="info-user" *ngIf="globalService.aside_open">
-					<p  *ngIf="getgender()===1">Bienvenido,</p>
-					<p  *ngIf="getgender()===2">Bienvenida,</p>
-					<p>{{getNameUser()}}</p>
-					<p class="f-10">No tienes tareas pendientes</p>
+					<p  *ngIf="getgender()===1">Bienvenido, {{getNameUser()}}</p>
+					<p  *ngIf="getgender()===2">Bienvenida, {{getNameUser()}}</p>
+					<p><small>No tienes tareas pendientes</small></p>
 				</div>
 				<img src="../../../assets/images/avatar-bg.png" alt="" class="bg-user">
 			</div>

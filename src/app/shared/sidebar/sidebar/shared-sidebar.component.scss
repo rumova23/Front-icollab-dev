@@ -1,3 +1,4 @@
+
 .user-panel{
     white-space: nowrap;
     overflow: hidden;
@@ -14,9 +15,7 @@
     vertical-align: middle;
     border: 0;
 } 
-.info-user{
-    line-height: 1;
-}
+
 .bg-user{
     opacity: .9;
     position: absolute;
@@ -29,4 +28,15 @@
     margin: 0;
     background-size: cover;
     vertical-align: middle;
+}
+.user-panel>.info-user>p {
+    font-weight: 300;
+    margin-bottom: 9px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #000;
+}
+.user-panel>.info-user>p small {
+    letter-spacing: 0;
+    font-size: 10px;
 }

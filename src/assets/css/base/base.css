@@ -1,5 +1,9 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:100,300,400,400i,700,900);
+body, .mat-list-item {
+    font-family   : Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif !important;
+}
 p{
-    margin: 0 !important;
+    margin: 0;
 }
 .btn,.mybtn{
     display: inline-block;
@@ -22,4 +26,34 @@ p{
     border: 1px solid transparent;
     border-radius: 4px;
     text-transform: none;
+}
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: Montserrat, sans-serif
+}
+.section_titulo_0{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+}
+
+.mat-list-base .mat-list-item {
+    font-size: 14px;
+}
+
+.mat-icon{
+    opacity: .5;
 }

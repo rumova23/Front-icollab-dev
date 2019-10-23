@@ -79,7 +79,7 @@ export class LegalAgreementComponent implements OnInit {
   filtrarCompliance() {
     let afdsfdsfds = this.fFechaInicio.value;
     let ewqewqewqq = this.fFechaFin.value;
-    debugger;
+    //debugger;
     this.limpiarTablas();
 
     this.complianceService.getCompliancePorPlantaYFechas(
