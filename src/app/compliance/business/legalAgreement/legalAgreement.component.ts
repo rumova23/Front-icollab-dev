@@ -11,9 +11,9 @@ import { TablesLegalAgreementComponent } from './content/tablesLegalAgreement.co
 import { MatAccordion } from '@angular/material';
 
 @Component({
-  selector: 'app-legalAgreement',
-  templateUrl: './legalAgreement.component.html',
-  styleUrls: ['./legalAgreement.component.scss']
+  selector    : 'app-legalAgreement',
+  templateUrl : './legalAgreement.component.html',
+  styleUrls   : ['./legalAgreement.component.scss']
 })
 export class LegalAgreementComponent implements OnInit {
   @Input() asideOpen;
@@ -77,6 +77,9 @@ export class LegalAgreementComponent implements OnInit {
   }
 
   filtrarCompliance() {
+    let afdsfdsfds = this.fFechaInicio.value;
+    let ewqewqewqq = this.fFechaFin.value;
+    debugger;
     this.limpiarTablas();
 
     this.complianceService.getCompliancePorPlantaYFechas(

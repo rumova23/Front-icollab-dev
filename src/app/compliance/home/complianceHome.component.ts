@@ -74,7 +74,9 @@ export class ComplianceHomeComponent implements OnInit {
 	}
 
 	ngAfterViewInit() {
-		this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceWelcomeComponent));
+
+		this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(LegalAgreementComponent));
+		//this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceWelcomeComponent));
 	}
 
 	ngOnDestroy(){
