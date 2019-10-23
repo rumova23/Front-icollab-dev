@@ -4,6 +4,7 @@ import { CommonModule }             from '@angular/common';
 import { ComplianceBusinessModule } from './business/complianceBusiness.module';
 import { ComplianceCatalogsModule } from './catalogs/complianceCatalogs.module';
 import { DashBoardsModule }         from './dashboards/complianceDashboards.module';
+import {TemplateEditTaskComponent} from './administration/task-planning/home-edit/template-edit-task/template-edit-task.component';
  
 @NgModule({
   imports: [
@@ -11,9 +12,10 @@ import { DashBoardsModule }         from './dashboards/complianceDashboards.modu
     ComplianceBusinessModule,
     ComplianceCatalogsModule,
     DashBoardsModule
-  ]
+  ],
+  declarations: [TemplateEditTaskComponent]
 })
-export class ComplianceModule { 
+export class ComplianceModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: ComplianceModule

@@ -8,6 +8,9 @@ import { DiagramaGant } from 'src/app/compliance/models/DiagramaGant';
 import { TagPlanta } from 'src/app/compliance/models/TagPlanta';
 import { Compliance } from 'src/app/compliance/models/Compliance';
 import { DatosGraficaGant } from 'src/app/compliance/models/datosGraficaGant';
+import {CatalogType} from '../../../models/CatalogType';
+import { EventService } from 'src/app/core/services/event.service';
+import { EventMessage } from 'src/app/core/models/EventMessage';
 
 @Component({
   selector: 'app-tablesLegalAgreement',
@@ -17,6 +20,7 @@ import { DatosGraficaGant } from 'src/app/compliance/models/datosGraficaGant';
 export class TablesLegalAgreementComponent implements OnInit {
 
   constructor(
+      private eventService: EventService
   ) { }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -202,7 +206,6 @@ ngOnInit() {}
     }
 
     this.mostarGraficas = false;
-
     this.chartDataPie = [this.datosPie.abierto, this.datosPie.cerrado, this.datosPie.abiertoFueraDeTiempo, this.datosPie.cerradoFueraDeTiempo];
     this.chartDataPie.push(this.datosPie.abierto);
     this.chartDataPie.push(this.datosPie.cerrado);
@@ -211,5 +214,22 @@ ngOnInit() {}
 
   }
 
-
+  action(option: number, id: any) {
+    let type: CatalogType = {};
+    switch(option) {
+      case 1:
+        type = {id: id, action: 'nuevo',
+          name: null}
+        break;
+      case 2:
+        type = {id: id, action: 'ver',
+          name: null}
+        break;
+      case 3:
+        type = {id: id, action: 'editar',
+          name: null}
+        break;
+    }
+    this.eventService.sendMainCompliance(new EventMessage(14, type));
+  }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {environment} from 'src/environments/environment';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {GlobalService} from 'src/app/core/globals/global.service';
-import {Task} from "../../models/Task";
+import {Task} from '../../models/Task';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +51,18 @@ export class AdministratorComplianceService {
   guardaTask(task: Task) {
     this.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.seguimiento }legal/generation/task`, task,
+        {params : this.parameters });
+  }
+
+  complianceById(complianceId: number) {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ this.seguimiento }legal/obten/complianceById/${complianceId}`,
+        {params : this.parameters });
+  }
+
+  actividadById(actividadId: number) {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ this.seguimiento }tag/actividad/obtenerActividad/${actividadId}`,
         {params : this.parameters });
   }
 }

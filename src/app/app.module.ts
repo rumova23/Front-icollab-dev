@@ -50,6 +50,7 @@ import { DepartmentsComponent } from './compliance/catalogs/departments/departme
 import { PeriodsComponent } from './compliance/catalogs/periods/periods.component';
 import { DaysTypesComponent } from './compliance/catalogs/days/types/daysTypes.component';
 import { ActivitiesEditComponent } from './compliance/catalogs/activities/edit/activitiesEdit.component';
+import { TaskEditComponent } from './compliance/administration/task-planning/home-edit/task-edit/task-edit.component';
 import { CompetentStaffComponent } from './compliance/business/acquisitions/competentStaff/competentStaff.component';
 import { UploadComponent } from './compliance/business/perfil/upload/upload.component';
 import { ComplianceConfigurationComponent } from './compliance/catalogs/compliance/configuration/complianceConfiguration.component';
@@ -206,6 +207,7 @@ registerLocaleData(localePy, 'es');
     PeriodsComponent,
     DaysTypesComponent,
     ActivitiesEditComponent,
+    TaskEditComponent,
     CompetentStaffComponent,
     ComplianceTypesComponent,
     UploadComponent,

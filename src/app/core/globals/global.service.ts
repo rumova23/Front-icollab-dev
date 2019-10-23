@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class GlobalService {
-  public socketConnect:boolean = false;
-  aguila:boolean  = true;
-  plantaDefaultId = "1";
+  public socketConnect = false;
+  aguila  = true;
+  plantaDefaultId = '1';
   constructor() { }
 }

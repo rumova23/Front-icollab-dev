@@ -3,6 +3,7 @@ import { Tag } from './Tag';
 
 export class Compliance {
 
+
     public tag: string;
     public complianceId: number;
     public tagPlantaId: number;
@@ -13,9 +14,8 @@ export class Compliance {
     public fechaRealFin: string;
     public fechaUltimaModicacion: string
     public tagDTO: Tag;
-    public complianceProcedenteDTO: Array <any>; //precedentes
-    public complianceEmpleadoDTO: Array <any>; //actores
-    
+    public complianceProcedenteDTO: Array <any>; // precedentes
+    public complianceEmpleadoDTO: Array <any>; // actores
     constructor(
         tag: string,
         complianceId: number,
