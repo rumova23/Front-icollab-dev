@@ -108,7 +108,15 @@ export class SafeHomeComponent implements OnInit {
 			this.globalService.plant = {id: 1, name: "AGUILA"};
 			this.globalService.app   = {id: 2, name: "Safe"};
 			//*/
-		}
+    }
+    
+    
+    this.serviceSubscription = this.eventService.onChangeMainSafe.subscribe({
+      next: (event: EventMessage) => {
+            this.clickMenu(event);
+        }
+      });
+      
   }
 
   ngOnInit() {
