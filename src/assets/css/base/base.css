@@ -1,5 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat:100,300,400,400i,700,900);
-body, .mat-list-item {
+body{
     font-family   : Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif !important;
 }
 p{
@@ -50,10 +50,55 @@ h6 {
     color: inherit;
 }
 
+
+/* sobreescribor estilos de material angular*/
+.mat-list-item {
+    font-family   : Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif !important;
+}
 .mat-list-base .mat-list-item {
     font-size: 14px;
 }
-
 .mat-icon{
     opacity: .5;
 }
+/*   ./sobreescribor estilos de material angular*/
+
+/* Estilos para las tablas en catalogos */
+.mat-elevation-z8{
+    box-shadow: 0 0 0 0 rgba(0,0,0,.2), 0 0 0 0 rgba(0,0,0,.14), 0 0 0 0 rgba(0,0,0,.12);
+    border: 1px solid #e6ebf5;
+    width: auto;
+    overflow: auto;
+}
+.mat-elevation-z0{
+    border: 1px solid #e6ebf5;
+    width: auto;
+    overflow: auto;
+}
+
+.table_catalogo {
+    width: 100%;
+}
+.table_catalogo tr:nth-child(even){
+    background: #F6F6F6;
+} 
+.table_catalogo th{
+    background:#6EB1D620;
+    text-align: center !important;
+}
+ 
+.table_catalogo th button{
+    margin: auto;
+}
+
+.mat-elevation-z8 td, .mat-elevation-z0 td{
+    border-right: rgba(223,223,223,1.00) solid 1px;
+    text-align: center;
+    font-size: 0.7em !important;
+}
+.tabla-responsi {
+    width: auto;
+    overflow: auto;
+}
+
+/* ./Estilos para las tablas en catalogos */
