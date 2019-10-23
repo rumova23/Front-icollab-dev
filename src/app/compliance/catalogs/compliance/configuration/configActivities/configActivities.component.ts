@@ -1,10 +1,8 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 
-import { Router } from "@angular/router";
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { Combo } from 'src/app/compliance/models/Combo';
 import { OrderCatalogDTO } from 'src/app/compliance/models/OrderCatalogDTO'; 
@@ -19,23 +17,21 @@ import { EventService } from 'src/app/core/services/event.service';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 @Component({
-  selector    : 'app-configActivities'
- ,templateUrl : './configActivities.component.html'
+  selector    : 'app-configActivities',
+  templateUrl : './configActivities.component.html'
 })
 export class ConfigActivitiesComponent implements OnInit {
-  //Simulación tuxpan
+  // Simulación tuxpan
   plantaDefault = this.globalService.plantaDefaultId; // "70"; //"Planta Tuxpan II";
 
   @Input() accion: string;
   @Input() tagId: string;
   comboActividades: Array<Combo>;
-  
   comboTipoCumplimiento: Array<Combo>;
   comboAutoridad: Array<Combo>;
   comboTipoAplicacion: Array<Combo>;
   comboPeriodoEntrega: Array<Combo>;
   comboTipoDias: Array<Combo>;
-  //comboPlanta: Array<Combo>;
   comboEstatus: Array<Combo>;
   listaCombos: Array<any>;
   
@@ -50,19 +46,18 @@ export class ConfigActivitiesComponent implements OnInit {
   data: any[] = [];
 
   configActividadesForm: FormGroup;
-  //plantas: Array<TagPlanta>
 
 
   idsTagPrecedentes;
 
-  existeTagId: boolean;   //Muestra la tabla correspondiente a los precedentes
-  tablaAgregarPrecedentes: boolean //Muestra la tabla de los precedentes para poder asignar
+  existeTagId: boolean;   // Muestra la tabla correspondiente a los precedentes
+  tablaAgregarPrecedentes: boolean // Muestra la tabla de los precedentes para poder asignar
   isPrecedentes: boolean;
 
   habilitarActividad: boolean;
   soloLectura: boolean;
   deshabiliarEstatus: boolean = true;
-  idActivo: String;
+  idActivo: string;
   catalogType: CatalogType;
   serviceSubscription: any;
 
@@ -75,21 +70,19 @@ export class ConfigActivitiesComponent implements OnInit {
   checkedActivoId;
   checkedInactivoId;
 
-  constructor(private cdRef: ChangeDetectorRef,
-    private tagService: TagService,
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    public toastr: ToastrManager,
-    private router: Router,
-    public globalService: GlobalService,
-    private eventService: EventService) {
+  constructor(
+      private cdRef: ChangeDetectorRef,
+      private tagService: TagService,
+      private formBuilder: FormBuilder,
+      public toastr: ToastrManager,
+      public globalService: GlobalService,
+      private eventService: EventService) {
 
     this.serviceSubscription = this.eventService.onChangePlant.subscribe({
       next: (event: EventMessage) => {
         switch (event.id) {
           case 100:
             this.changePlant();
-            //this.onClickPlanta();
             break;
           }
         }
@@ -118,7 +111,7 @@ export class ConfigActivitiesComponent implements OnInit {
       catalogs.forEach(element => {
         if ( element.catalog === comp ){
           element.data.forEach ( elementCatalog => {
-            let value = elementCatalog.id; 
+            let value = elementCatalog.id;
             let label = elementCatalog.code;
             combo.push(new Combo(value, label));
           })
@@ -127,9 +120,6 @@ export class ConfigActivitiesComponent implements OnInit {
 
     }
   }
-
-
-  entidadEstatus: any;
 
   @ViewChild(MatPaginator) paginatorRegisters: MatPaginator;
   @ViewChild(MatSort) sortRegisters: MatSort;
@@ -315,7 +305,7 @@ export class ConfigActivitiesComponent implements OnInit {
     let tagId = 0; //ID TAG, AUTONUMERICO
 
     if (this.configActividadesForm.controls['fIdTag'].value > 0) {
-      tagId = this.configActividadesForm.controls['fIdTag'].value
+      tagId = this.configActividadesForm.controls['fIdTag'].value;
     }
 
     /*
@@ -339,8 +329,8 @@ export class ConfigActivitiesComponent implements OnInit {
       if (this.tagPrecedentes.data != null){
         listTagPrecedentes = new Array<TagPrecedente>();
         this.tagPrecedentes.data.forEach(element => {
-          listTagPrecedentes.push(element.elementTag)
-        })
+          listTagPrecedentes.push(element.elementTag);
+        });
       }
     }
 

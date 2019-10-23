@@ -1,27 +1,25 @@
-const hostGateway = 'http://200.52.85.140:11123/';
-// const hostLocal = 'http://localhost:11123/';
-// const hostGateway = 'http://192.168.100.26:11123/';
+const hostGateway = 'http://200.52.85.140:2345/';
 export const environment = {
   production: false
   , appVersion  : 'Desarrollo V 1.0'
-  , securityUrl             : hostGateway + 'security/'
-  , catalogUrl              : hostGateway + 'catalog/'
-  , mastercatalog           : hostGateway + 'mastercatalog/'
-  , tagsUrl                 : hostGateway + 'tags/'
-  , microexamenUrl          : hostGateway + 'microexamen/'
-  , evaluacionExamenUrl     : hostGateway + 'configuration/'
-  , knowledgeUrl            : hostGateway + 'knowledge/'
-  , seguimiento             : hostGateway + 'seguimiento/'
-  , estatusmaestro          : hostGateway + 'estatusmaestro/'
-  , marketUrl               : hostGateway + 'market/'
-  , fuecdUrl                : hostGateway + 'fuecd/'
-  , weatherUrl              : hostGateway + 'weather/'
-  , ftpconsumerUrl          : hostGateway + 'ftpconsumer/'
-  , pmlUrl                  : hostGateway + 'pml/'
-  , trUrl                   : hostGateway + 'tr/'
-  , mmmercadoUrl            : hostGateway + 'mmmercado/'
-  , microuploaddbUrl        : hostGateway + 'microuploaddb/'
-  ,urlTrPi                  : 'http://200.52.85.140:1119/'  // micro Bi
+  , securityUrl             : hostGateway + 'securitydev/'
+  , catalogUrl              : hostGateway + 'catalogdev/'
+  , mastercatalog           : hostGateway + 'mastercatalogdev/'
+  , tagsUrl                 : hostGateway + 'tagsdev/'
+  , microexamenUrl          : hostGateway + 'microexamendev/'
+  , evaluacionExamenUrl     : hostGateway + 'configurationdev/'
+  , knowledgeUrl            : hostGateway + 'knowledgedev/'
+  , seguimiento             : hostGateway + 'seguimientodev/'
+  , estatusmaestro          : hostGateway + 'estatusmaestrodev /'
+  , marketUrl               : hostGateway + 'marketdev/'
+  , fuecdUrl                : hostGateway + 'fuecddev/'
+  , weatherUrl              : hostGateway + 'weatherdev/'
+  , ftpconsumerUrl          : hostGateway + 'ftpconsumerdev/'
+  , pmlUrl                  : hostGateway + 'pmldev/'
+  , trUrl                   : hostGateway + 'trdev/'
+  , mmmercadoUrl            : hostGateway + 'mmmercadodev/'
+  , microuploaddbUrl        : hostGateway + 'microuploaddbdev/'
+  , urlTrPi                 : 'http://200.52.85.140:1119/'  // micro Bi
 };
 
 /*

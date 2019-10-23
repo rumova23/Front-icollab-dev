@@ -7,6 +7,9 @@ import {PerfilComboService} from '../../../core/services/perfil-combo.service';
 import {ToastrManager} from 'ng6-toastr-notifications';
 import {Compliance} from '../../models/Compliance';
 import {DOCUMENT} from '@angular/common';
+import {CatalogType} from "../../models/CatalogType";
+import {EventMessage} from "../../../core/models/EventMessage";
+import {EventService} from "../../../core/services/event.service";
 
 @Component({
   selector: 'app-task-planning',
@@ -32,7 +35,8 @@ export class TaskPlanningComponent implements OnInit {
       private administratorComplianceService: AdministratorComplianceService,
       private formBuilder: FormBuilder,
       public  toastr: ToastrManager,
-      @Inject (DOCUMENT) document) {
+      @Inject (DOCUMENT) document,
+      private eventService: EventService) {
     this.filtrosForm = this.formBuilder.group({
       fFechaInicio: ['', Validators.required],
       fFechaFin: ['', Validators.required],
@@ -161,4 +165,19 @@ export class TaskPlanningComponent implements OnInit {
       this.toastr.errorToastr('Debe Existir  almenos una tarea seleccionada', '!Informacion Insuficiente¡');
     }
   }
+
+    action(option: number, id: any) {
+        let type: CatalogType = {};
+        switch(option) {
+            case 1:
+                type = {id: id, action: 'ver',
+                    name: null}
+                break;
+            case 2:
+                type = {id: id, action: 'editar',
+                    name: null}
+                break;
+        }
+        this.eventService.sendMainCompliance(new EventMessage(7, type));
+    }
 }
