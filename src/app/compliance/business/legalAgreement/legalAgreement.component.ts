@@ -8,6 +8,9 @@ import { TablesLegalAgreementComponent        } from './content/tablesLegalAgree
 import { Compliance                           } from '../../models/Compliance';
 import { DatosGraficaGant                     } from '../../models/datosGraficaGant';
 import { ComplianceService                    } from '../../services/compliance.service';
+import { EventService                         } from 'src/app/core/services/event.service';
+import { EventMessage } from 'src/app/core/models/EventMessage';
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 @Component({
 	selector    : 'app-legalAgreement',
@@ -61,9 +64,10 @@ export class LegalAgreementComponent implements OnInit {
 	indiceOtros = 0;
 
 	constructor(
-		private complianceService: ComplianceService,
-		public globalService: GlobalService,
-		private formBuilder: FormBuilder
+		public  globalService     : GlobalService,
+		private complianceService : ComplianceService,
+		private formBuilder       : FormBuilder,
+		private eventService      : EventService
 	) { }
 
 	ngOnInit() {
@@ -74,6 +78,7 @@ export class LegalAgreementComponent implements OnInit {
 	}
 
 	filtrarCompliance() {
+		this.addBlock(1, null);
 		let afdsfdsfds = this.fFechaInicio.value;
 		let ewqewqewqq = this.fFechaFin.value;
 		//debugger;
@@ -81,23 +86,30 @@ export class LegalAgreementComponent implements OnInit {
 
 		this.complianceService.getCompliancePorPlantaYFechas(
 			new Date(this.fFechaInicio.value),
-			new Date(this.fFechaFin.value)).subscribe(result => {
-			this.elementData = result;
-			this.asignarRegistros();
-			this.complianceService.getDiagramas(
-				new Date(this.fFechaInicio.value),
-				new Date(this.fFechaFin.value)).subscribe(resultGant => {
-				console.dir(resultGant);
-				this.elementDataGant = resultGant;
-				this.asignarRegistrosGant();
-				},
+			new Date(this.fFechaFin.value))
+			.subscribe(result => {
+				console.log(result);
+				
+				this.elementData = result;
+				this.asignarRegistros();
+				this.addBlock(2, null);
+				this.complianceService.getDiagramas(
+					new Date(this.fFechaInicio.value),
+					new Date(this.fFechaFin.value)).subscribe(resultGant => {
+						console.dir(resultGant);
+						this.elementDataGant = resultGant;
+						this.asignarRegistrosGant();
+					},
+					
+				
+				error => {
+					console.log(error as any);
+				});
+			},
 			error => {
 				console.log(error as any);
-			});
-		},
-		error => {
-			console.log(error as any);
-		});
+			}
+		);
 	}
 
 	limpiarTablas() {
@@ -313,5 +325,9 @@ export class LegalAgreementComponent implements OnInit {
 		this.childOtros.datosPie = this.elementDataGant[indiceOtros].datosPie;
 		this.childOtros.datosCumplimiento = this.elementDataGant[indiceOtros].datosCumplimiento;
 		}
+	}
+	
+	private addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
 	}
 }
