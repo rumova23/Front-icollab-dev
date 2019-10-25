@@ -14,7 +14,7 @@ import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 @Component({
 	selector    : 'app-legalAgreement',
-	templateUrl : './legalAgreement.component3.html',
+	templateUrl : './legalAgreement.component.html',
 	styleUrls   : ['./legalAgreement.component.scss']
 })
 export class LegalAgreementComponent implements OnInit {
