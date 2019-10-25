@@ -14,7 +14,7 @@ import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 @Component({
 	selector    : 'app-legalAgreement',
-	templateUrl : './legalAgreement.component.html',
+	templateUrl : './legalAgreement.component3.html',
 	styleUrls   : ['./legalAgreement.component.scss']
 })
 export class LegalAgreementComponent implements OnInit {
@@ -92,19 +92,21 @@ export class LegalAgreementComponent implements OnInit {
 				
 				this.elementData = result;
 				this.asignarRegistros();
-				this.addBlock(2, null);
 				this.complianceService.getDiagramas(
 					new Date(this.fFechaInicio.value),
-					new Date(this.fFechaFin.value)).subscribe(resultGant => {
-						console.dir(resultGant);
-						this.elementDataGant = resultGant;
-						this.asignarRegistrosGant();
-					},
-					
-				
-				error => {
-					console.log(error as any);
-				});
+					new Date(this.fFechaFin.value))
+					.subscribe(
+						resultGant => {
+							console.dir(resultGant);
+							this.elementDataGant = resultGant;
+							this.asignarRegistrosGant();
+							
+							this.addBlock(2, null);
+						},
+						error => {
+							console.log(error as any);
+						}
+					);
 			},
 			error => {
 				console.log(error as any);
