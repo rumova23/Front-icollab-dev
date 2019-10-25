@@ -32,8 +32,8 @@
                 <p class="icon-text">Compilance</p>
                 </div>
             </div>
-            <div class="rotater" [ngStyle]="{filter: !existApp('Administrative_monitoring') ? 'grayscale(80%)':''}">
-                <div class="btn btn-icon" (click)="goToModule('/monitoring')">
+            <div class="rotater" [ngStyle]="{filter: !existApp('EFH') ? 'grayscale(80%)':''}">
+                <div class="btn btn-icon">
                 <img src="/assets/img/efh.png" class="icon-image" />
                 <p class="icon-text">EFH</p>
                 </div>
@@ -50,8 +50,8 @@
                 <p class="icon-text">Lotto</p>
                 </div>
             </div>
-            <div class="rotater" [ngStyle]="{filter: !existApp('MA') ? 'grayscale(80%)':''}">
-                <div class="btn btn-icon">
+            <div class="rotater" [ngStyle]="{filter: !existApp('Administrative_monitoring') ? 'grayscale(80%)':''}">
+                <div class="btn btn-icon" (click)="goToModule('/monitoring')">
                 <img src="/assets/img/ma.png" class="icon-image" />
                 <p class="icon-text">MA</p>
                 </div>

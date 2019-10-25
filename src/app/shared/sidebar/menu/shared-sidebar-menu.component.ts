@@ -48,7 +48,7 @@ export class SharedSidebarMenuComponent{
 	}
 	hardcodeAdministrative_monitoring(){
 		this.menu = [
-			{
+			/*{
 			id: 'Dashboard',
 			idFather:'',
 			icon: 'business',

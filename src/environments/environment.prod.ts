@@ -1,4 +1,4 @@
-const hostGateway = 'http://200.52.85.140:11123/';
+const hostGateway = 'http://200.52.85.140:1234/';
 // const hostLocal = 'http://localhost:11123/';
 // const hostGateway = 'http://192.168.100.26:11123/';
 export const environment = {
