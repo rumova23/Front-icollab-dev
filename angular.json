@@ -34,7 +34,6 @@
               "node_modules/angular-bootstrap-md/scss/bootstrap/bootstrap.scss",
               "node_modules/angular-bootstrap-md/scss/mdb-free.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/assets/font/icons.css",
               "src/styles.scss"
             ],
             "scripts": [

@@ -18,7 +18,7 @@ ng build --output-path="dist/compliance" --deployUrl="compliance/" --prod
 
 ng build --output-path="dist/compliance" --deployUrl="compliance/"
 
-ng build --prod --base-href /icollab/ --output-path="dist/icollab"
+ng build --prod --base-href /integracion/ --output-path="dist/integracion"
 
 Se movió de lugar la implementación del Bootstrap; anteriormente se encontraba en el index.html
 Ahora pertenece a la carpeta modules.
@@ -37,3 +37,8 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+para insertar iconos propios 
+ "styles": [
+              "src/assets/font/icons.css",
