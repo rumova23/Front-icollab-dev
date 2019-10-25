@@ -60,8 +60,7 @@ export class ActivitiesComponent implements OnInit {
 
   ngOnInit() {
     this.titulo = 'Catálogos / ' + this.nombreCatalogo;
-
-    //this.addBlock(1, "Cargando...")
+    this.addBlock(1, null);
     this.obtenerListaActividades();
     /*
     this.securityService.loadUsers().subscribe( userResult => {
