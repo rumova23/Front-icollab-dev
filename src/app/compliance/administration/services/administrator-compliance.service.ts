@@ -15,7 +15,8 @@ export class AdministratorComplianceService {
   parameters: any;
 
   constructor(private http: HttpClient,
-              private globalService: GlobalService) { }
+              private globalService: GlobalService) {
+  }
 
   setXTenantId(plantSelected) {
     let user = JSON.parse(localStorage.getItem('user'));
@@ -41,7 +42,7 @@ export class AdministratorComplianceService {
   getPersonalCompetente(fechaInicio: number, fechaFinal: number) {
     this.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.microexamenUrl }exam/personalCompetente/competentes/${fechaInicio}/${fechaFinal}`,
-        {params : this.parameters });
+        {params : this.parameters, headers: new HttpHeaders({ timeout: `${1000000}` }) });
   }
   getTasks(maestroOpcionId: number, actividadId: number) {
     this.setXTenantId(this.globalService.aguila);

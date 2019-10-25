@@ -150,4 +150,5 @@ export class TaskEditComponent implements OnInit {
       });
     }
   }
+  get f() { return this.configActividadesForm.controls; }
 }
