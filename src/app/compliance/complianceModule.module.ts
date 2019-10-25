@@ -54,6 +54,7 @@ import { DashboardBComponent                    } from './dashboards/dashboard-b
 import { DashboardsComponent                    } from './business/perfil/dashboards/dashboards.component';
 import { TaskPlanningComponent                  } from './administration/task-planning/task-planning.component';
 import { TaskEditComponent                      } from './administration/task-planning/home-edit/task-edit/task-edit.component';
+import { TemplateEditTaskComponent } from './administration/task-planning/home-edit/template-edit-task/template-edit-task.component';
 
 
 
@@ -91,6 +92,7 @@ import { TaskEditComponent                      } from './administration/task-pl
 		,DaysTypesComponent
 		,TaskPlanningComponent
 		,TaskEditComponent
+		,TemplateEditTaskComponent
     ],
     exports:[
     ],
