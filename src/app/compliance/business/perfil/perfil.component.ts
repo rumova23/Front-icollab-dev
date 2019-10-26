@@ -268,7 +268,7 @@ export class PerfilComponent implements OnInit {
       respuesta => {
 
         this.toastr.successToastr('El empleado fue Creado con éxito.', '¡Se ha logrado!');
-        this.eventService.sendMainCompliance(new EventMessage(10, {}));
+        this.eventService.sendChangePage(new EventMessage(10, {},'Compliance.Personal Competente'));
       }
     );
   }

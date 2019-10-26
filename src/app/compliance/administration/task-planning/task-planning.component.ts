@@ -178,6 +178,6 @@ export class TaskPlanningComponent implements OnInit {
                     name: null}
                 break;
         }
-        this.eventService.sendMainCompliance(new EventMessage(7, type));
+        this.eventService.sendChangePage(new EventMessage(7, type,'Compliance.Categorías.ABC'));
     }
 }

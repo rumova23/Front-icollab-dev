@@ -20,6 +20,7 @@ import { ConfigActivitiesComponent        } from '../catalogs/compliance/configu
 import { AcquisitionsComponent            } from '../business/acquisitions/acquisitions.component';
 import { PerfilHomeComponent              } from '../business/perfil/home/perfilHome.component';
 import { TaskPlanningComponent            } from '../administration/task-planning/task-planning.component';
+import { TaskEditComponent                } from '../administration/task-planning/home-edit/task-edit/task-edit.component';
 
 @Component({
 	selector        : 'app-complianceHome',
@@ -38,6 +39,7 @@ import { TaskPlanningComponent            } from '../administration/task-plannin
 		,PerfilHomeComponent
 		,LegalAgreementComponent
 		,TaskPlanningComponent
+		,TaskEditComponent
 	]
 })
 export class ComplianceHomeComponent implements OnInit {
@@ -130,6 +132,24 @@ export class ComplianceHomeComponent implements OnInit {
 							.createComponent(this.componentFactoryResolver.resolveComponentFactory(AcquisitionsComponent))
 							.changeDetectorRef.detectChanges();
 						break;
+					
+					case 'Compliance.Personal Competente.11':
+						let refPerfilHome = this.viewContainerRef
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(PerfilHomeComponent));
+							refPerfilHome.instance.idEmpleado = event.data.idEmpleado;
+							refPerfilHome.instance.isViewable = true;
+							refPerfilHome.instance.isdisabled = event.data.isdisabled;
+							refPerfilHome.instance.tipo       = event.data.tipo;
+							refPerfilHome.changeDetectorRef.detectChanges();
+						break;
+						
+					case 'Compliance.Personal Competente.TaskEditComponent.14': // TaskEditComponent
+						const factoryTaskEdit = this.componentFactoryResolver.resolveComponentFactory(TaskEditComponent);
+						const refTaskEdit = this.viewContainerRef.createComponent(factoryTaskEdit);
+						refTaskEdit.instance.catalogType = event.data;
+						refTaskEdit.changeDetectorRef.detectChanges();
+						break;
+				
 					case 'Compliance.legalAgreement':
 						this.viewContainerRef
 							.createComponent(this.componentFactoryResolver.resolveComponentFactory(LegalAgreementComponent))
@@ -171,13 +191,6 @@ export class ComplianceHomeComponent implements OnInit {
 		case 10: // Personal Competente
 			break;
 		case 11:
-				let refPerfilHome = this.viewContainerRef
-					.createComponent(this.componentFactoryResolver.resolveComponentFactory(PerfilHomeComponent));
-				refPerfilHome.instance.idEmpleado = event.data.idEmpleado;
-				refPerfilHome.instance.isViewable = true;
-				refPerfilHome.instance.isdisabled = event.data.isdisabled;
-				refPerfilHome.instance.tipo       = event.data.tipo;
-				refPerfilHome.changeDetectorRef.detectChanges();
 				break;
 		case 12: // Caracteristicas
 			break;

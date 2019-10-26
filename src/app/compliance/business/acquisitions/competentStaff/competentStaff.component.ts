@@ -218,7 +218,7 @@ export class CompetentStaffComponent implements OnInit {
             //alert('SUCCESS!! :-)\n\n' + JSON.stringify('Eliminacion exitosa'));
             //this.cargaTabla();
 
-            this.eventService.sendMainCompliance(new EventMessage(10, {})); 
+            this.eventService.sendChangePage(new EventMessage(10, {},'Compliance.Personal Competente')); 
           }
         }
       );
@@ -234,11 +234,11 @@ export class CompetentStaffComponent implements OnInit {
 
 
   action(idEmpleado, tipo) {
-    this.eventService.sendMainCompliance(new
+    this.eventService.sendChangePage(new
       EventMessage(11, { 
         idEmpleado: idEmpleado,
         tipo: tipo
-      }));
+      },'Compliance.Personal Competente.11'));
   }
 
 	private addBlock(type, msg): void {

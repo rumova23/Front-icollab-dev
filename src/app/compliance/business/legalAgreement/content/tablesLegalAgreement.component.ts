@@ -230,6 +230,6 @@ ngOnInit() {}
           name: null}
         break;
     }
-    this.eventService.sendMainCompliance(new EventMessage(14, type));
+    this.eventService.sendChangePage(new EventMessage(14, type,'Compliance.Personal Competente.TaskEditComponent.14'));
   }
 }
