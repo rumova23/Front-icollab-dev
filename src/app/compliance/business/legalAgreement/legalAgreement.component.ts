@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators   } from '@angular/forms';
 import { MatAccordion                         } from '@angular/material';
 import { GlobalService                        } from 'src/app/core/globals/global.service';
 import { TablesLegalAgreementComponent        } from './content/tablesLegalAgreement.component';
-import { Compliance                           } from '../../models/Compliance';
+import { Compliance                           } from '../../models/Compliance';1
 import { DatosGraficaGant                     } from '../../models/datosGraficaGant';
 import { ComplianceService                    } from '../../services/compliance.service';
 import { EventService                         } from 'src/app/core/services/event.service';
@@ -14,7 +14,7 @@ import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 @Component({
 	selector    : 'app-legalAgreement',
-	templateUrl : './legalAgreement0.component.html',
+	templateUrl : './legalAgreement1.component.html',
 	styleUrls   : ['./legalAgreement.component.scss']
 })
 export class LegalAgreementComponent implements OnInit {
@@ -79,9 +79,18 @@ export class LegalAgreementComponent implements OnInit {
 
 	filtrarCompliance() {
 		this.addBlock(1, null);
-		let afdsfdsfds = this.fFechaInicio.value;
-		let ewqewqewqq = this.fFechaFin.value;
-		//debugger;
+		/*
+		let fFechaInicio = new Date(this.fFechaInicio.value);
+		let fFechaFin = new Date(this.fFechaFin.value);
+		fFechaInicio.setHours(0);
+		fFechaFin.setHours(0);
+		//*/
+		
+		///*
+		let fFechaInicio = this.fFechaInicio.value;
+		let fFechaFin = this.fFechaFin.value;
+		//*/
+//		debugger;
 		this.limpiarTablas();
 
 		this.complianceService.getCompliancePorPlantaYFechas(
@@ -93,8 +102,8 @@ export class LegalAgreementComponent implements OnInit {
 				this.elementData = result;
 				this.asignarRegistros();
 				this.complianceService.getDiagramas(
-					new Date(this.fFechaInicio.value),
-					new Date(this.fFechaFin.value))
+					new Date(fFechaInicio),
+					new Date(fFechaFin))
 					.subscribe(
 						resultGant => {
 							console.dir(resultGant);
