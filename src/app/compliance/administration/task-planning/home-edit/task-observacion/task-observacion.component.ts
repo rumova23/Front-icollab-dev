@@ -34,9 +34,8 @@ export class TaskObservacionComponent implements OnInit {
         (retorno: Array<ObservacionCompliance>) => {
           retorno.forEach(elementActual => {
             this.resuelveDS(elementActual);
-            this.resuelveDS(elementActual);
           });
-          this.toastr.successToastr('Observacion guardada satisfactoriamente.', 'Success!');
+          this.toastr.successToastr('Observaciones Encontradas, cantidad: ' + retorno.length, 'Success!');
         },
         error => {
           this.toastr.errorToastr('Hubo error al guardar la observacion. Intentelo mas tarde.', 'Oops!');
