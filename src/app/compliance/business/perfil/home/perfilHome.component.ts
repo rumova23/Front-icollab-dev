@@ -69,7 +69,7 @@ export class PerfilHomeComponent implements OnInit {
   private addFactoryResponsibilitiesComponent() {
     const factoryPerfil =
         this.componentFactoryResolver.resolveComponentFactory(ResponsibilitiesComponent);
-    const refPerfil = this.perfil.createComponent(factoryPerfil);
+    const refPerfil = this.responsibilities.createComponent(factoryPerfil);
     refPerfil.instance.inTipo = this.tipo;
     refPerfil.instance.inIdEmpleado = this.idEmpleado;
     refPerfil.changeDetectorRef.detectChanges();

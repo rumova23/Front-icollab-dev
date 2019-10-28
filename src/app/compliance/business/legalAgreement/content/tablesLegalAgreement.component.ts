@@ -216,7 +216,7 @@ ngOnInit() {}
 
   action(option: number, id: any) {
     let type: CatalogType = {};
-    switch(option) {
+    switch (option) {
       case 1:
         type = {id: id, action: 'nuevo',
           name: null}

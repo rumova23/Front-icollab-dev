@@ -8,7 +8,7 @@ import { ComplianceTypesComponent } from '../catalogs/compliance/types/complianc
 import { ComplianceTypesEditComponent } from '../catalogs/compliance/types/edit/complianceTypesEdit.component';
 import { ActivitiesComponent } from '../catalogs/activities/activities.component';
 import { ActivitiesEditComponent } from '../catalogs/activities/edit/activitiesEdit.component';
-import { TaskEditComponent } from '../administration/task-planning/home-edit/task-edit/task-edit.component';
+import { TemplateEditTaskComponent } from '../administration/task-planning/home-edit/template-edit-task/template-edit-task.component';
 import { ComplianceConfigurationComponent } from '../catalogs/compliance/configuration/complianceConfiguration.component';
 import { ConfigActivitiesComponent } from '../catalogs/compliance/configuration/configActivities/configActivities.component';
 import { ComplianceWelcomeComponent } from './welcome/complianceWelcome.component';
@@ -25,7 +25,7 @@ import { TaskPlanningComponent } from 'src/app/compliance/administration/task-pl
   entryComponents: [
     ChangePasswordComponent, ComplianceWelcomeComponent,
     ComplianceTypesComponent, ComplianceTypesEditComponent, ActivitiesComponent,
-    ActivitiesEditComponent, TaskEditComponent, ComplianceConfigurationComponent,
+    ActivitiesEditComponent, TemplateEditTaskComponent, ComplianceConfigurationComponent,
     ConfigActivitiesComponent, AcquisitionsComponent, PerfilHomeComponent, LegalAgreementComponent, TaskPlanningComponent
   ]
 })
@@ -168,10 +168,11 @@ export class ComplianceHomeComponent implements OnInit {
             this.componentFactoryResolver.resolveComponentFactory(TaskPlanningComponent)).changeDetectorRef.detectChanges();
         break;
 
-      case 14: // TaskEditComponent
-        const factoryTaskEdit = this.componentFactoryResolver.resolveComponentFactory(TaskEditComponent);
+      case 14: // TemplateEditTaskComponent
+        const factoryTaskEdit = this.componentFactoryResolver.resolveComponentFactory(TemplateEditTaskComponent);
         const refTaskEdit = this.viewContainerRef.createComponent(factoryTaskEdit);
-        refTaskEdit.instance.catalogType = event.data;
+        refTaskEdit.instance.complianceId = event.data.id;
+        refTaskEdit.instance.accion = event.data.action;
         refTaskEdit.changeDetectorRef.detectChanges();
         break;
 

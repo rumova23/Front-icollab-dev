@@ -13,10 +13,9 @@ import { OrderCatalogDTO } from 'src/app/compliance/models/OrderCatalogDTO';
   styleUrls: ['./task-edit.component.scss']
 })
 export class TaskEditComponent implements OnInit {
-  catalogType: CatalogType;
-  accion: string;
   titulo = 'Edicion Tareas';
-  @Input() complianceId: string;
+  @Input() accion: string;
+  @Input() complianceId: number;
   configActividadesForm: FormGroup;
   plantaDefault = this.globalService.plantaDefaultId;
   submitted = false;
@@ -58,6 +57,8 @@ export class TaskEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('TaskEditComponent complianceId: ' + this.complianceId);
+    console.log('TaskEditComponent accion: ' + this.accion);
     this.comboActividades = new Array<Combo>();
     this.comboTipoCumplimiento = new Array<Combo>();
     this.comboAutoridad = new Array<Combo>();
@@ -83,10 +84,7 @@ export class TaskEditComponent implements OnInit {
     ).add(() => {
       // this.addBlock(2, null);
     });
-
-    this.complianceId = this.catalogType.id;
-    this.accion = this.catalogType.action;
-    this.administratorComplianceService.complianceById(+this.complianceId).subscribe( compliance => {
+    this.administratorComplianceService.complianceById(this.complianceId).subscribe( compliance => {
       console.dir(compliance);
       this.configActividadesForm.controls.fIdTag.setValue(compliance['tagDTO'].idTag);
       this.configActividadesForm.controls.fTag.setValue(compliance['tagDTO'].tag);

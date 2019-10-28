@@ -1,14 +1,12 @@
-const hostGateway = 'http://200.52.85.140:11123/';
-// const hostLocal = 'http://localhost:11123/';
-// const hostGateway = 'http://192.168.100.26:11123/';
+const hostGateway = 'http://200.52.85.140:1234/';
 export const environment = {
   production: false
   , appVersion  : 'Desarrollo V 1.0'
   , securityUrl             : hostGateway + 'security/'
   , catalogUrl              : hostGateway + 'catalog/'
-  , mastercatalog              : hostGateway + 'mastercatalog/'
+  , mastercatalog           : hostGateway + 'mastercatalog/'
   , tagsUrl                 : hostGateway + 'tags/'
-  , microexamenUrl          : hostGateway + 'microexamen/'
+  , microexamenUrl          : hostGateway + 'exam/'
   , evaluacionExamenUrl     : hostGateway + 'configuration/'
   , knowledgeUrl            : hostGateway + 'knowledge/'
   , seguimiento             : hostGateway + 'seguimiento/'
