@@ -15,7 +15,7 @@ import { EventService } from 'src/app/core/services/event.service';
 
 @Component({
   selector: 'app-legalAgreement',
-  templateUrl: './legalAgreement0.component.html',
+  templateUrl: './legalAgreement.component.html',
   styleUrls: ['./legalAgreement.component.scss']
 })
 export class LegalAgreementComponent implements OnInit {
@@ -40,7 +40,7 @@ export class LegalAgreementComponent implements OnInit {
 	titulo = 'Cumplimiento Legal';
 	maxDate = new Date();
 	fFechaInicio = new FormControl(new Date());
-	fFechaFin = new FormControl((new Date()).toISOString());
+	fFechaFin = new FormControl((new Date()));
 	filtrosForm: FormGroup;
 
 	columnas: string[] = ['tag', 'actividad', 'elaboradoPor', 'responsable', 'supervisor',
@@ -81,18 +81,19 @@ export class LegalAgreementComponent implements OnInit {
 	}
 
 	filtrarCompliance() {
+		let fFechaInicio = new Date(this.fFechaInicio.value+"T23:00:00z");
+		let fFechaFin = new Date(this.fFechaFin.value+"T23:00:00z");
 		
 		this.addBlock(1, null);
 		this.limpiarTablas();
-
 		this.complianceService.getCompliancePorPlantaYFechas(
-			new Date(this.fFechaInicio.value),
-			new Date(this.fFechaFin.value)).subscribe(result => {
+			(fFechaInicio),
+			(fFechaFin)).subscribe(result => {
 			this.elementData = result;
 			this.asignarRegistros();
 			this.complianceService.getDiagramas(
-				new Date(this.fFechaInicio.value),
-				new Date(this.fFechaFin.value)).subscribe(resultGant => {
+				(fFechaInicio),
+				(fFechaFin)).subscribe(resultGant => {
 				console.dir(resultGant);
 				this.elementDataGant = resultGant;
 				this.asignarRegistrosGant();
@@ -100,10 +101,12 @@ export class LegalAgreementComponent implements OnInit {
 				},
 			error => {
 				console.log(error as any);
+				this.addBlock(2, null);
 			});
 		},
 		error => {
 			console.log(error as any);
+			this.addBlock(2, null);
 		});
 	}
 
