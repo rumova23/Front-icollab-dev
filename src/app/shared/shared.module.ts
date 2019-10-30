@@ -8,7 +8,8 @@ import { SharedSidebarItemsComponent } from './sidebar/items/shared-sidebar-item
 
 import { MDBBootstrapModule          } from 'angular-bootstrap-md';
 import { MaterialModule              } from 'src/app/modules/material-module';
-import { CssComponent } from './css/css.component';
+import { CssComponent                } from './css/css.component';
+import { ConnectSocketComponent      } from './socket/connectSocket.component';
 
 @NgModule({
     declarations:[
@@ -17,13 +18,15 @@ import { CssComponent } from './css/css.component';
         SharedSidebarComponent,
         SharedSidebarMenuComponent,
         SharedSidebarItemsComponent,
-        CssComponent
+        CssComponent,
+        ConnectSocketComponent
     ],
     exports:[
         SharedHeaderComponent,
         SharedFooterComponent,
         SharedSidebarComponent,
-        CssComponent
+        CssComponent,
+        ConnectSocketComponent
     ],
     imports:[
         BrowserModule,
