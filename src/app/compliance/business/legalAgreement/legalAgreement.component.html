@@ -6,16 +6,15 @@
 </div>
 	  
 <div class="section">
-	<div class="row pb-3">
+	<div class="row pb-4">
 		<div class="col">
 				<p class="section_titulo_0">{{titulo}}</p>
 				<p class="section_subtitulo_0">Aqui puedes ... </p>
 		</div>
 	</div>
-	<hr>
 	<div class=" row">
 		<div class="col-12">
-			<form class="mt-5" [formGroup]="filtrosForm" (ngSubmit)="filtrarCompliance()">
+			<form [formGroup]="filtrosForm" (ngSubmit)="filtrarCompliance()">
 				<div class="form-group row">
 					<div class="form-group col-12 col-md-6 col-lg-4">
 						<label for="fechaDesde">Desde</label>
