@@ -12,6 +12,9 @@ import { MatAccordion } from '@angular/material';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import { EventService } from 'src/app/core/services/event.service';
+import * as DEMO from './Demo';
+
+
 
 @Component({
   selector: 'app-legalAgreement',
@@ -88,15 +91,25 @@ export class LegalAgreementComponent implements OnInit {
 		this.addBlock(1, null);
 		this.limpiarTablas();
 		
+
+		
+		var result = JSON.parse(DEMO["getCompliancePorPlantaYFechas"]);
+		this.elementData = result;
+		this.asignarRegistros();
+
+		
+		var resultGant = JSON.parse(DEMO["getDiagramas"]);
+		this.elementDataGant = resultGant;
+		this.asignarRegistrosGant();
+		this.addBlock(2, null);
+		/*
 		if(localStorage.getItem("getCompliancePorPlantaYFechas")){
 			var result = JSON.parse(localStorage.getItem("getCompliancePorPlantaYFechas"));
 			this.elementData = result;
-			debugger
 			this.asignarRegistros();
 			if(localStorage.getItem("getDiagramas")){
 				var resultGant = JSON.parse(localStorage.getItem("getDiagramas"));
 				this.elementDataGant = resultGant;
-				debugger
 				this.asignarRegistrosGant();
 				this.addBlock(2, null);
 			}else{
@@ -105,6 +118,7 @@ export class LegalAgreementComponent implements OnInit {
 		}else{
 			bandera = true;
 		}
+		//*/
 		if(false){
 			this.complianceService.getCompliancePorPlantaYFechas(
 				(fFechaInicio),
