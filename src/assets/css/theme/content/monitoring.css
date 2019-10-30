@@ -21,6 +21,6 @@ hr{
     overflow: hidden;
 }
 
-.info-user{
-    color: #ffffff;
+.info-user,.info-user p{
+    color: #ffffff !important;
 }
