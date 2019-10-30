@@ -81,37 +81,62 @@ export class LegalAgreementComponent implements OnInit {
 	}
 
 	filtrarCompliance() {
+		let bandera = false;
 		let fFechaInicio = new Date(this.fFechaInicio.value+"T23:00:00z");
 		let fFechaFin = new Date(this.fFechaFin.value+"T23:00:00z");
 		
 		this.addBlock(1, null);
 		this.limpiarTablas();
-		this.complianceService.getCompliancePorPlantaYFechas(
-			(fFechaInicio),
-			(fFechaFin)).subscribe(result => {
+		
+		if(localStorage.getItem("getCompliancePorPlantaYFechas")){
+			var result = JSON.parse(localStorage.getItem("getCompliancePorPlantaYFechas"));
 			this.elementData = result;
+			debugger
 			this.asignarRegistros();
-			this.complianceService.getDiagramas(
-				(fFechaInicio),
-				(fFechaFin)).subscribe(resultGant => {
-				console.dir(resultGant);
+			if(localStorage.getItem("getDiagramas")){
+				var resultGant = JSON.parse(localStorage.getItem("getDiagramas"));
 				this.elementDataGant = resultGant;
+				debugger
 				this.asignarRegistrosGant();
 				this.addBlock(2, null);
-				},
+			}else{
+				bandera = true;
+			}
+		}else{
+			bandera = true;
+		}
+		if(false){
+			this.complianceService.getCompliancePorPlantaYFechas(
+				(fFechaInicio),
+				(fFechaFin)).subscribe(result => {
+				localStorage.setItem("getCompliancePorPlantaYFechas", JSON.stringify(result));
+				this.elementData = result;
+				this.asignarRegistros();
+
+
+				this.complianceService.getDiagramas(
+					(fFechaInicio),
+					(fFechaFin)).subscribe(resultGant => {
+						localStorage.setItem("getDiagramas", JSON.stringify(resultGant));
+
+						console.dir(resultGant);
+						this.elementDataGant = resultGant;
+						this.asignarRegistrosGant();
+						this.addBlock(2, null);
+					},
+				error => {
+					console.log(error as any);
+					this.addBlock(2, null);
+				});
+			},
 			error => {
 				console.log(error as any);
 				this.addBlock(2, null);
 			});
-		},
-		error => {
-			console.log(error as any);
-			this.addBlock(2, null);
-		});
+		}
 	}
 
 	limpiarTablas() {
-		this.accordion.closeAll();
 		this.expandCloseAll = false;
 
 		this.indicePagos = 0;

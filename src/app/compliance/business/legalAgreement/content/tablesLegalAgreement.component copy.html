@@ -29,9 +29,9 @@
     </links>  
   </mdb-navbar>
 </div>
-<br><br>
+
 <!-- CONSULTA DE TAGS -->
-<div class="mat-elevation-z0" *ngIf="verTags" >
+<div class="tabla-responsive text-nowrap mat-elevation-z0" *ngIf="verTags" >
   <mat-table [dataSource]="registros" class="table_catalogo" mdbTableScroll scrollY="true" maxHeight="500" scrollX="true" maxWidth="100%">
     <!-- Position Column -->
     <ng-container matColumnDef="tag" sticky>
