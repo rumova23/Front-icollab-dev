@@ -87,10 +87,24 @@ h6 {
     background:#6EB1D620;
     text-align: center !important;
 }
- 
 .table_catalogo th button{
     margin: auto;
 }
+
+
+td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type, th.mat-header-cell:first-of-type {
+    padding-left: 10px;
+}
+td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:last-of-type {
+    padding-right: 10px;
+}
+.mat-elevation-z8 th, .mat-elevation-z0 th,
+.mat-elevation-z8 td, .mat-elevation-z0 td{
+    /*min-width: 100px;*/
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 
 .mat-elevation-z8 td, .mat-elevation-z0 td{
     border-right: rgba(223,223,223,1.00) solid 1px;
@@ -101,5 +115,4 @@ h6 {
     width: auto;
     overflow: auto;
 }
-
 /* ./Estilos para las tablas en catalogos */
