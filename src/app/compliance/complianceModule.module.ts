@@ -56,7 +56,7 @@ import { TaskPlanningComponent                  } from './administration/task-pl
 import { TaskEditComponent                      } from './administration/task-planning/home-edit/task-edit/task-edit.component';
 import { TemplateEditTaskComponent              } from './administration/task-planning/home-edit/template-edit-task/template-edit-task.component';
 
-
+import { NgGanttEditorModule } from 'ng-gantt' 
 
 
 
@@ -101,7 +101,8 @@ import { TemplateEditTaskComponent              } from './administration/task-pl
         BrowserModule,
         SharedModule,
     	ComponentsModule,
-    
+		NgGanttEditorModule,
+		
         MDBBootstrapModule.forRoot(),
         NgbModule,
         FormsModule,
