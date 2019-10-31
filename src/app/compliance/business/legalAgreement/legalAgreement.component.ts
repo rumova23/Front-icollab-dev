@@ -436,7 +436,7 @@ export class LegalAgreementComponent implements OnInit {
 		this.limpiarTablas();
 		
 
-		/*
+		///*
 		var result = JSON.parse(DEMO["getCompliancePorPlantaYFechas"]);
 		this.elementData = result;
 		this.asignarRegistros();
@@ -469,7 +469,7 @@ export class LegalAgreementComponent implements OnInit {
 			bandera = true;
 		}
 		//*/
-		if(true){
+		if(false){
 			this.complianceService.getCompliancePorPlantaYFechas(
 				(fFechaInicio),
 				(fFechaFin)).subscribe(result => {
