@@ -157,6 +157,10 @@ export class ComplianceHomeComponent implements OnInit {
 						break;
 					case 'Compliance.Cumplimiento Interno':
 						break;
+					case 'shared.header.changePassword':
+						this.viewContainerRef
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent)).changeDetectorRef.detectChanges();
+						break;
 					default:
 				}
 			}
@@ -200,9 +204,6 @@ export class ComplianceHomeComponent implements OnInit {
 			break;
 
 		case 100:
-			let refChangePasword = this.viewContainerRef
-				.createComponent(this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent));
-			refChangePasword.changeDetectorRef.detectChanges();
 			break;
 		}
 	}

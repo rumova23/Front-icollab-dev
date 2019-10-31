@@ -409,7 +409,7 @@ export class SafeHomeComponent implements OnInit {
           this.clickMenu(new EventMessage(option, event.data));
         }
 
-      //this.clickMenu(new EventMessage(option, data));
+        this.clickMenu(new EventMessage(option, event.data));
     }
   }
   ));
