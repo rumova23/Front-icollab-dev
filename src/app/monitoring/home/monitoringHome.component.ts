@@ -10,6 +10,7 @@ import { EventService                    } from 'src/app/core/services/event.ser
 import { EventMessage                    } from 'src/app/core/models/EventMessage';
 import { SocketService                   } from 'src/app/core/services/socket.service';
 import { ConnectSocketComponent          } from 'src/app/shared/socket/connectSocket.component';
+import { ChangePasswordComponent         } from 'src/app/common/changePassword/changePassword.component';
 
 import { MonitoringWelcomeComponent      } from '../welcome/monitoring-welcome.component';
 import { MonitoringPhase2Component       } from '../boards/phase2/monitoring-phase2.component';
@@ -26,6 +27,7 @@ import { MonitoringMmMarketComponent     } from '../boards/mmMarket/monitoringMm
 		,MonitoringPhase2Component
 		,MonitoringPhase3Component
 		,MonitoringMmMarketComponent
+		,ChangePasswordComponent
 	]
 })
 export class MonitoringHomeComponent extends ConnectSocketComponent implements OnInit, OnDestroy {
@@ -48,7 +50,7 @@ export class MonitoringHomeComponent extends ConnectSocketComponent implements O
 		let url = `/assets/css/theme/content/monitoring.css`;
 		document.getElementById("content_theme").setAttribute('href',url);
 		
-		this.globalService.page  = new EventMessage(101,{id: "Fase 3", idFather: "", icon: "pie_chart", label: "Inicio"});
+		this.globalService.page  = new EventMessage(0,null,'Administrative_monitoring.Inicio');
 		this.openSocket();
 		this.subscribeOnChangePage();
 	}
@@ -68,26 +70,30 @@ export class MonitoringHomeComponent extends ConnectSocketComponent implements O
 		this.subscriptions.push(this.eventService.onChangePage.subscribe({
 			next: (event: EventMessage) => {
 				this.viewContainerRef.clear();
-				switch (event.data.label) {
-					case 'Inicio':
+				switch (event.descriptor) {
+					case 'Administrative_monitoring.Inicio':
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(MonitoringWelcomeComponent)
 						).changeDetectorRef.detectChanges();
 					  break;
-					case 'Fase 2':
+					case 'Administrative_monitoring.Fase 2':
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase2Component)
 						).changeDetectorRef.detectChanges();
 					  break;
-					case 'Fase 3':
+					case 'Administrative_monitoring.Fase 3':
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase3Component)
 						).changeDetectorRef.detectChanges();
 					  break;
-					case 'Mm Market':
+					case 'Administrative_monitoring.Mm Market':
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(MonitoringMmMarketComponent)
 						).changeDetectorRef.detectChanges();
+						break;
+					case 'shared.header.changePassword':
+						this.viewContainerRef
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent)).changeDetectorRef.detectChanges();
 						break;
 					default:
 				}
