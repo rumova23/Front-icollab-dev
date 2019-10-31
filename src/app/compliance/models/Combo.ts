@@ -5,7 +5,7 @@ export class Combo {
 
     constructor(
         value: string,
-        label: string,
+        label: string
     ) {
         this.value = value;
         this.label = label;

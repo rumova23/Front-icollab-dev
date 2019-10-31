@@ -3,6 +3,7 @@ import {environment} from 'src/environments/environment';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {GlobalService} from 'src/app/core/globals/global.service';
 import {Task} from '../../models/Task';
+import {Comentario} from '../../../core/models/comentario';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,18 @@ export class AdministratorComplianceService {
   actividadById(actividadId: number) {
     this.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.seguimiento }tag/actividad/obtenerActividad/${actividadId}`,
+        {params : this.parameters });
+  }
+
+  guardaObservacion(complianceId: number, observacion: string) {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.post( `${ this.seguimiento }legal/guarda/observacion/${complianceId}/${observacion}`,
+        {params : this.parameters });
+  }
+
+  obtenObservaciones(complianceId: number) {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ this.seguimiento }legal/obten/observaciones/${complianceId}`,
         {params : this.parameters });
   }
 }

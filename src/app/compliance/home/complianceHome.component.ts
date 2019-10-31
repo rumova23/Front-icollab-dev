@@ -21,6 +21,7 @@ import { AcquisitionsComponent            } from '../business/acquisitions/acqui
 import { PerfilHomeComponent              } from '../business/perfil/home/perfilHome.component';
 import { TaskPlanningComponent            } from '../administration/task-planning/task-planning.component';
 import { TaskEditComponent                } from '../administration/task-planning/home-edit/task-edit/task-edit.component';
+import { TemplateEditTaskComponent        } from '../administration/task-planning/home-edit/template-edit-task/template-edit-task.component';
 
 @Component({
 	selector        : 'app-complianceHome',
@@ -40,6 +41,7 @@ import { TaskEditComponent                } from '../administration/task-plannin
 		,LegalAgreementComponent
 		,TaskPlanningComponent
 		,TaskEditComponent
+		,TemplateEditTaskComponent
 	]
 })
 export class ComplianceHomeComponent implements OnInit {
@@ -144,9 +146,15 @@ export class ComplianceHomeComponent implements OnInit {
 						break;
 						
 					case 'Compliance.Personal Competente.TaskEditComponent.14': // TaskEditComponent
+						const _refTaskEdit = this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(TemplateEditTaskComponent));
+						_refTaskEdit.instance.complianceId = event.data.id;
+						_refTaskEdit.instance.accion = event.data.action;
+						_refTaskEdit.changeDetectorRef.detectChanges();
+						break;
+					case 'Compliance.Personal Competente.TaskEditComponent.14.hijo': // TaskEditComponent
 						const factoryTaskEdit = this.componentFactoryResolver.resolveComponentFactory(TaskEditComponent);
 						const refTaskEdit = this.viewContainerRef.createComponent(factoryTaskEdit);
-						refTaskEdit.instance.catalogType = event.data;
+						//refTaskEdit.instance.catalogType = event.data;
 						refTaskEdit.changeDetectorRef.detectChanges();
 						break;
 				
