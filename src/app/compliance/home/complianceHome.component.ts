@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild     } from '@angular/core';
 import { ComponentFactoryResolver         } from '@angular/core';
 import { ViewContainerRef, Input          } from '@angular/core';
 import { ActivatedRoute                   } from '@angular/router';
-import { Observable, timer, Subscription  } from 'rxjs';
+import { Subscription                     } from 'rxjs';
 import { SecurityService                  } from 'src/app/core/services/security.service';
 import { LegalAgreementComponent          } from 'src/app/compliance/business/legalAgreement/legalAgreement.component';
 import { ThemeService                     } from 'src/app/core/globals/theme';
@@ -48,7 +48,6 @@ export class ComplianceHomeComponent implements OnInit {
 	@ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
 	private subscriptions : Subscription[] = [];
 
-
 	constructor(
 		private  route                    : ActivatedRoute
 		,private componentFactoryResolver : ComponentFactoryResolver
@@ -61,11 +60,8 @@ export class ComplianceHomeComponent implements OnInit {
   	}
 
 	ngOnInit() {
-		
-		let url = `/assets/css/base/respaldo.css`;
+		//let url = `/assets/css/base/respaldo.css`;
 		//document.getElementById("content_theme").setAttribute('href',url);
-		
-
 		this.subscribeOnChangePage();
 	}
 
@@ -174,47 +170,5 @@ export class ComplianceHomeComponent implements OnInit {
 			}
 		}));
 	}
-
-	private clickMenu(event: EventMessage): void {
-		debugger;
-		this.viewContainerRef.clear();
-		switch (event.id) {
-		case 101:
-			break;
-
-		case 4: // Autoridades
-			break;
-		case 5: // Agregar
-			break;
-
-
-		case 6: // Categorias
-			break;
-		case 7: // Agregar
-			break;
-
-
-		case 8: // Caracteristicas
-			break;
-		case 9: // Agregar
-			break;
-
-
-		case 10: // Personal Competente
-			break;
-		case 11:
-				break;
-		case 12: // Caracteristicas
-			break;
-		case 13: // TaskPlanningComponent
-			this.viewContainerRef
-				.createComponent(this.componentFactoryResolver.resolveComponentFactory(TaskPlanningComponent)).changeDetectorRef.detectChanges();
-			break;
-
-		case 100:
-			break;
-		}
-	}
-
 }
 
