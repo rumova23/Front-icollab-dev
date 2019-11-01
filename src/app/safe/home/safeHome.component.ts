@@ -170,6 +170,7 @@ export class SafeHomeComponent implements OnInit {
 				let typeWeather: string = "";
 				let typeCharge: string = "";
 				let typeEnergy: string = "";
+				let item = event.data;
 				switch (event.data.label) {
 				case 'Servicios':
 					option = 3;
@@ -385,18 +386,16 @@ export class SafeHomeComponent implements OnInit {
 					break;
 				}
 				if (option == 9) {
-				this.clickMenu(new EventMessage(option, catalog));
+				  this.eventService.sendMainSafe(new EventMessage(option, catalog));
 				} else if (option == 32) {
-				this.clickMenu(new EventMessage(option, typeWeather));
+				  this.eventService.sendMainSafe(new EventMessage(option, typeWeather));
 				} else if (option == 34) {
-				this.clickMenu(new EventMessage(option, typeCharge));
+				  this.eventService.sendMainSafe(new EventMessage(option, typeCharge));
 				} else if (option == 36) {
-				this.clickMenu(new EventMessage(option, typeEnergy));  
+				  this.eventService.sendMainSafe(new EventMessage(option, typeEnergy));  
 				} else {
-				this.clickMenu(new EventMessage(option, event.data));
+				  this.eventService.sendMainSafe(new EventMessage(option, item));
 				}
-
-				this.clickMenu(new EventMessage(option, event.data));
     		}
 		}));
 	}
