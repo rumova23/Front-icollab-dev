@@ -1,89 +1,99 @@
-<div class="row pb-5">
-  <div class="col">
-    <span class="agila-cda-titulo">{{getTitle()}}</span>
-  </div>
-</div>
 <div class="row">
-  <div class="col">
-    <form [formGroup]="unityProductForm" (ngSubmit)="save(unityProductForm.value)">
-      <div class="row">
-        <div class="col-md-4">
-          <div class="md-form">
-            <mat-form-field class="w-100">
-              <input matInput placeholder="Código" formControlName="code">
-              <mat-error *ngIf="!unityProductForm.controls['code'].valid 
-                    && unityProductForm.controls['code'].touched">
-                Requerido
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="md-form">
-            <mat-form-field class="w-100">
-              <input matInput placeholder="Descripción" 
-              formControlName="description">
-              <mat-error *ngIf="!unityProductForm.controls['description'].valid 
-                      && unityProductForm.controls['description'].touched">
-                Requerido
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
-          <mat-form-field>
-            <mat-label>Unidad de Producto Sat</mat-label>
-            <mat-select formControlName="unityProductSat" [compareWith]="compareObjects"> 
-              <mat-option *ngFor="let unityProductSat of unityProductsSat" [value]="unityProductSat">
-                {{ unityProductSat.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-error *ngIf="!unityProductForm.controls['unityProductSat'].valid 
-                        && unityProductForm.controls['unityProductSat'].touched">
-            Requerido
-          </mat-error>
-        </div>
-      </div>
-      <div class="row">
-          <div class="col-md-4">
-            <mat-checkbox id="active" class="active" color="primary" formControlName="active">Activo
-            </mat-checkbox>
-            <mat-error *ngIf="!unityProductForm.controls['active'].valid 
-                        && unityProductForm.controls['active'].touched">
-              Requerido
-            </mat-error>
-          </div>
-       </div>
-       <div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+    <mdb-breadcrumb-item>Catálogos</mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">{{getTitle()}}</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+
+<div class="section">
+  <div class="row pb-2">
+    <div class="col">
+      <span class="agila-cda-titulo">{{getTitle()}}</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <form [formGroup]="unityProductForm" (ngSubmit)="save(unityProductForm.value)">
+        <div class="row">
           <div class="col-md-4">
             <div class="md-form">
               <mat-form-field class="w-100">
-                <input matInput placeholder="Orden" formControlName="order" 
-                    type="number">
-                <mat-error *ngIf="!unityProductForm.controls['order'].valid 
-                          && unityProductForm.controls['order'].touched">
+                <input matInput placeholder="Código" formControlName="code">
+                <mat-error *ngIf="!unityProductForm.controls['code'].valid 
+                      && unityProductForm.controls['code'].touched">
                   Requerido
                 </mat-error>
               </mat-form-field>
             </div>
           </div>
         </div>
-      <div class="row">
-        <div class="col-md-4"></div>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="d-flex justify-content-end" *ngIf="!entity.readOnly">
-            <button type="submit" class="btn" [disabled]="!unityProductForm.valid"
-              [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">Guardar</button>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="md-form">
+              <mat-form-field class="w-100">
+                <input matInput placeholder="Descripción" 
+                formControlName="description">
+                <mat-error *ngIf="!unityProductForm.controls['description'].valid 
+                        && unityProductForm.controls['description'].touched">
+                  Requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
           </div>
         </div>
-      </div>
-    </form>
+        <div class="row">
+          <div class="col-md-4">
+            <mat-form-field>
+              <mat-label>Unidad de Producto Sat</mat-label>
+              <mat-select formControlName="unityProductSat" [compareWith]="compareObjects"> 
+                <mat-option *ngFor="let unityProductSat of unityProductsSat" [value]="unityProductSat">
+                  {{ unityProductSat.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-error *ngIf="!unityProductForm.controls['unityProductSat'].valid 
+                          && unityProductForm.controls['unityProductSat'].touched">
+              Requerido
+            </mat-error>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+              <mat-checkbox id="active" class="active" color="primary" formControlName="active">Activo
+              </mat-checkbox>
+              <mat-error *ngIf="!unityProductForm.controls['active'].valid 
+                          && unityProductForm.controls['active'].touched">
+                Requerido
+              </mat-error>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+              <div class="md-form">
+                <mat-form-field class="w-100">
+                  <input matInput placeholder="Orden" formControlName="order" 
+                      type="number">
+                  <mat-error *ngIf="!unityProductForm.controls['order'].valid 
+                            && unityProductForm.controls['order'].touched">
+                    Requerido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        <div class="row">
+          <div class="col-md-4"></div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="d-flex justify-content-end" *ngIf="!entity.readOnly">
+              <button type="submit" class="btn" [disabled]="!unityProductForm.valid"
+                [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

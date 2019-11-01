@@ -374,9 +374,9 @@ export class SafeHomeComponent implements OnInit {
 				case 'Regímenes Fiscales SAT':
 					option = 201;
 					break;
-				case 'Monedas SAT':
+				/*case 'Monedas SAT':
 					option = 202;
-					break;
+					break;//*/
 				case 'Métodos de Pago SAT':
 					option = 203;
 					break;

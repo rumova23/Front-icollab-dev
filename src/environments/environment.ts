@@ -1,4 +1,4 @@
-const hostGateway = 'http://192.168.1.76:1234/';
+const hostGateway = 'http://localhost:1234/';
 export const environment = {
   production: false
   , appVersion  : 'Desarrollo V 1.0'
