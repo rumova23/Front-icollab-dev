@@ -165,6 +165,20 @@ export class SafeHomeComponent implements OnInit {
 	subscribeOnChangePage(){
 		this.subscriptions.push(this.eventService.onChangePage.subscribe({
 			next: (event: EventMessage) => {
+				let banderaTemporal = false;
+				
+				this.viewContainerRef.clear();
+				switch(event.descriptor){
+					case 'Safe.Monedas SAT':
+						// 202;
+						banderaTemporal = true;
+						
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(MoneysSatComponent)
+						).changeDetectorRef.detectChanges();
+						break;
+				}
+				if(banderaTemporal) return;
 				let option = 0;
 				let catalog: string = "";
 				let typeWeather: string = "";
@@ -749,11 +763,6 @@ export class SafeHomeComponent implements OnInit {
 			refFiscalRegimensSat.changeDetectorRef.detectChanges();
 			break;
 		case 202:
-			const factoryMoneysSat =
-			this.componentFactoryResolver.resolveComponentFactory(MoneysSatComponent);
-			const refMoneysSat =
-			this.viewContainerRef.createComponent(factoryMoneysSat);
-			refMoneysSat.changeDetectorRef.detectChanges();
 			break;
 		case 203:
 			const factoryPaymentMethodsSat =
