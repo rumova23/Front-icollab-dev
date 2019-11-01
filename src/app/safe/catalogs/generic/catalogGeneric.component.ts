@@ -49,7 +49,15 @@ export class CatalogGenericComponent implements OnInit {
   }
 
   private loadData() {
-    if (!this.catalog.includes("status")) {
+    let catalogos = this.catalog;
+    let fdsfds = false;
+    let error = false;
+    try{
+      fdsfds = catalogos.includes('status');
+    }catch(e){
+      error = true;
+    }
+    if (!fdsfds && !error) {
       this.catalogService.get(this.catalog)
         .subscribe(
           data => {
@@ -163,8 +171,15 @@ export class CatalogGenericComponent implements OnInit {
   }
 
   visible() {
+    let catalogos = this.catalog;
+    let fdsfds = false;
+    try{
+      fdsfds = catalogos.includes('status');
+    }catch(e){
+      
+    }
     return this.catalog !== "typesMem" 
-    && !this.catalog.includes('status');
+    && !fdsfds;
   }
 
   newEntity() {
