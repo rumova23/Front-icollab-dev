@@ -58,6 +58,9 @@ import { TemplateEditTaskComponent              } from './administration/task-pl
 
 import { NgGanttEditorModule                    } from 'ng-gantt' 
 import { TaskObservacionComponent               } from './administration/task-planning/home-edit/task-observacion/task-observacion.component';
+import { TaskEstatusComponent                   } from './administration/task-planning/home-edit/task-estatus/task-estatus.component';
+import { TaskGanttComponent                     } from './administration/task-planning/home-edit/task-gantt/task-gantt.component';
+import { TaskFilesComponent                     } from './administration/task-planning/home-edit/task-files/task-files.component';
 
 
 
@@ -95,6 +98,9 @@ import { TaskObservacionComponent               } from './administration/task-pl
 		,TaskEditComponent
 		,TemplateEditTaskComponent
 		,TaskObservacionComponent
+		,TaskEstatusComponent
+		,TaskGanttComponent
+		,TaskFilesComponent
     ],
     exports:[
     ],
