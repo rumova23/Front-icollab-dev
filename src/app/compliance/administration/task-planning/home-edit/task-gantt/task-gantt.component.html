@@ -1,0 +1,43 @@
+<div class="tabla-responsive text-nowrap mat-elevation-z0">
+  <table mdbTableScroll scrollY="true" maxHeight="500" scrollX="true" maxWidth="1100">
+  <thead>
+  <tr>
+    <th rowspan="4" colspan="1">TAG</th>
+    <th rowspan="4" colspan="1">Actividad</th>
+    <th *ngFor="let anio of datosGanttDTO.listaAnios" [colSpan]=anio.cellSpacing scope="col" >{{anio.valor}}</th>
+  </tr>
+  <tr>
+    <th mdbTableCol *ngFor="let mes of datosGanttDTO.listaMeses" [colSpan]=mes.cellSpacing scope="col">{{mes.valor}}</th>
+  </tr>
+  <tr>
+    <th mdbTableCol *ngFor="let nombreDias of datosGanttDTO.listaNombreDias" [colSpan]=nombreDias.cellSpacing scope="col">{{nombreDias.valor}}</th>
+  </tr>
+  <tr>
+    <th mdbTableCol *ngFor="let numeroDias of datosGanttDTO.listaNumeroDias" [colSpan]=numeroDias.cellSpacing scope="col">{{numeroDias.valor}}</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td colSpan="1" scope="col">{{datosGanttDTO.tag}}</td>
+    <td colSpan="1" scope="col">{{datosGanttDTO.actividad}}</td>
+    <td *ngFor="let diaGantt of datosGanttDTO.ganttProgramado" colSpan="1" scope="col" [ngSwitch]="diaGantt.caseOption">
+      <div class="verde" *ngSwitchCase="'G'">&nbsp;{{diaGantt.fechaString}}</div>
+      <div class="amarillo" *ngSwitchCase="'Y'">&nbsp;{{diaGantt.fechaString}}</div>
+      <div class="anaranjado" *ngSwitchCase="'O'">&nbsp;{{diaGantt.fechaString}}</div>
+      <div class="rojo" *ngSwitchCase="'R'">&nbsp;{{diaGantt.fechaString}}</div>
+    </td>
+  </tr>
+  </tbody>
+    <tr>
+      <td colSpan="1" scope="col">{{datosGanttDTO.tag}}</td>
+      <td colSpan="1" scope="col">{{datosGanttDTO.actividad}}</td>
+      <td *ngFor="let diaGantt of datosGanttDTO.ganttReal" colSpan="1" scope="col" [ngSwitch]="diaGantt.caseOption">
+        <div class="verde" *ngSwitchCase="'G'">&nbsp;</div>
+        <div class="amarillo" *ngSwitchCase="'Y'">&nbsp;</div>
+        <div class="anaranjado" *ngSwitchCase="'O'">&nbsp;</div>
+        <div class="rojo" *ngSwitchCase="'R'">&nbsp;</div>
+      </td>
+    </tr>
+    </tbody>
+</table>
+</div>

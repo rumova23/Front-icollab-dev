@@ -87,7 +87,6 @@ export class LegalAgreementComponent implements OnInit {
           this.complianceService.getDiagramas(
             new Date(this.fFechaInicio.value),
             new Date(this.fFechaFin.value)).subscribe(resultGant => {
-              console.dir(resultGant);
               this.elementDataGant = resultGant;
               this.asignarRegistrosGant();
             },
@@ -208,7 +207,6 @@ export class LegalAgreementComponent implements OnInit {
   }
 
   asignarRegistrosGant() {
-
     let indicePagos = -1;
     let indiceNotificaciones = -1;
     let indiceAnalisis = -1;

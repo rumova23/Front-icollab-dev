@@ -52,6 +52,7 @@ import { DaysTypesComponent } from './compliance/catalogs/days/types/daysTypes.c
 import { ActivitiesEditComponent } from './compliance/catalogs/activities/edit/activitiesEdit.component';
 import { TaskEditComponent } from './compliance/administration/task-planning/home-edit/task-edit/task-edit.component';
 import { TemplateEditTaskComponent } from './compliance/administration/task-planning/home-edit/template-edit-task/template-edit-task.component';
+import { TaskEstatusComponent} from './compliance/administration/task-planning/home-edit/task-estatus/task-estatus.component';
 import { CompetentStaffComponent } from './compliance/business/acquisitions/competentStaff/competentStaff.component';
 import { UploadComponent } from './compliance/business/perfil/upload/upload.component';
 import { ComplianceConfigurationComponent } from './compliance/catalogs/compliance/configuration/complianceConfiguration.component';
@@ -172,7 +173,9 @@ import { MonitoringSidebarComponent } from 'src/app/monitoring/common/sidebar/mo
 import { MonitoringMenuItemsComponent } from 'src/app/monitoring/common/menuItems/monitoringMenuItems.component';
 import { MonitoringPhase3Component } from 'src/app/monitoring/boards/phase3/monitoringPhase3.component';
 import { MonitoringPhase2Component } from 'src/app/monitoring/boards/phase2/monitoringPhase2.component';
-import {TaskObservacionComponent} from "./compliance/administration/task-planning/home-edit/task-observacion/task-observacion.component";
+import {TaskObservacionComponent} from './compliance/administration/task-planning/home-edit/task-observacion/task-observacion.component';
+import {TaskFilesComponent} from './compliance/administration/task-planning/home-edit/task-files/task-files.component';
+import {TaskGanttComponent} from "./compliance/administration/task-planning/home-edit/task-gantt/task-gantt.component";
 /* ./Module Monitoring */
 
 
@@ -212,6 +215,9 @@ registerLocaleData(localePy, 'es');
     TaskEditComponent,
     TaskObservacionComponent,
     TemplateEditTaskComponent,
+    TaskEstatusComponent,
+    TaskFilesComponent,
+    TaskGanttComponent,
     CompetentStaffComponent,
     ComplianceTypesComponent,
     UploadComponent,

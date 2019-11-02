@@ -4,6 +4,8 @@ import {ToastrManager} from 'ng6-toastr-notifications';
 import {AdministratorComplianceService} from '../../../services/administrator-compliance.service';
 import {Comentario} from '../../../../../core/models/comentario';
 import {ObservacionCompliance} from '../../../../models/ObservacionCompliance';
+import {Documents} from '../../../../models/Documents';
+import {CarasDocument} from '../../../../models/CarasDocument';
 
 @Component({
   selector: 'app-task-observacion',
@@ -19,8 +21,21 @@ export class TaskObservacionComponent implements OnInit {
   headObservaciones = ['#', 'Observaciones', 'Fecha de ultima modificación'];
   observacioes: Array<any>;
 
-  constructor(private formBuildier: FormBuilder, public toastr: ToastrManager, private administratorComplianceService: AdministratorComplianceService) {
+  typeDocuments = ['Documentos', 'Registros', 'Referencias'];
+  titleDocument: Array<any>;
+
+  constructor(
+      private formBuildier: FormBuilder,
+      public toastr: ToastrManager,
+      private administratorComplianceService: AdministratorComplianceService) {
     this.observacioes = [];
+    this.titleDocument = [];
+    this.administratorComplianceService.accion.subscribe(accion => {
+      this.titleDocument = [];
+      if (accion === 'upload') {
+        this.getDocumentos();
+      }
+    });
   }
 
   ngOnInit() {
@@ -28,6 +43,7 @@ export class TaskObservacionComponent implements OnInit {
       fObserva: [{ value: '', disabled: this.isdisabled }, Validators.required]
     });
     this.obtieneObservaciones();
+    this.getDocumentos();
   }
   obtieneObservaciones() {
     this.administratorComplianceService.obtenObservaciones(this.complianceId).subscribe(
@@ -59,4 +75,22 @@ export class TaskObservacionComponent implements OnInit {
         });
   }
   get f() { return this.obsForm.controls; }
+
+  getDocumentos() {
+    for (let i = 0; i < this.typeDocuments.length; i++) {
+      let documents: Documents;
+      let carasDocumnts: Array<CarasDocument>;
+      carasDocumnts =  [];
+      this.administratorComplianceService.obtenDocumentos(this.complianceId, this.typeDocuments[i]).subscribe(docto => {
+        for (let j = 0; j < docto.length; j++) {
+          carasDocumnts.push(new CarasDocument(docto[j].fileName, 'png', docto[j].fileId));
+        }
+      });
+      documents = new Documents(this.typeDocuments[i], carasDocumnts);
+      this.titleDocument.push(documents);
+    }
+  }
+
+  downloadFile(fileId: number) {
+  }
 }

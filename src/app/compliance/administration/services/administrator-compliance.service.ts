@@ -4,13 +4,18 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {GlobalService} from 'src/app/core/globals/global.service';
 import {Task} from '../../models/Task';
 import {Comentario} from '../../../core/models/comentario';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdministratorComplianceService {
+
+  accion: BehaviorSubject<string> = new BehaviorSubject<string>('no aplica');
+
   private microexamenUrl = environment.microexamenUrl;
   private mastercatalog = environment.mastercatalog;
+  private estatusmaestro = environment.estatusmaestro;
   private tagsUrl = environment.tagsUrl;
   private seguimiento = environment.seguimiento;
   parameters: any;
@@ -78,5 +83,31 @@ export class AdministratorComplianceService {
     this.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.seguimiento }legal/obten/observaciones/${complianceId}`,
         {params : this.parameters });
+  }
+
+  obtenEstatusMaestro(entidad: string) {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ this.estatusmaestro }status/obten/catalogo/${entidad}`,
+        {params : this.parameters });
+  }
+
+  upload(fileObj: File, idCompliance: number, typeDocument: number) {
+    let user = JSON.parse(localStorage.getItem('user'));
+    user = user.username;
+    this.setXTenantId(this.globalService.aguila);
+    const file: FormData = new FormData();
+    file.append('file', fileObj);
+    return this.http.post(`${ this.seguimiento }legal/guardarArchivos?idCompliance=` +
+        idCompliance + `&typeDocument=` + typeDocument + `&username=` + user , file);
+  }
+
+  obtenDocumentos(complianceId: number, typeDocument: string): Observable<any> {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.get(`${this.seguimiento}legal/obten/documents/${complianceId}/${typeDocument}`, {params : this.parameters });
+  }
+
+  obtenGantt(complianceId: number): Observable<any> {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.get(`${this.seguimiento}legal/obten/gantt/${complianceId}`, {params : this.parameters });
   }
 }

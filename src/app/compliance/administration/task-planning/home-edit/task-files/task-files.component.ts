@@ -1,10 +1,10 @@
-import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
-import { GlobalService } from 'src/app/core/globals/global.service';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {GlobalService} from '../../../../../core/globals/global.service';
+import {AdministratorComplianceService} from '../../../services/administrator-compliance.service';
 
 @Component({
-  selector: 'app-upload',
+  selector: 'app-task-files',
   template: `
               <div class="container">
                 <form [formGroup]="formGroup">
@@ -23,45 +23,37 @@ import { GlobalService } from 'src/app/core/globals/global.service';
                 </form>
               </div>
             `,
-  styleUrls: ['./upload.component.scss']
+  styleUrls: ['./task-files.component.scss']
 })
-export class UploadComponent implements OnInit {
-  @Input() inTipo: string;
-  @Input() inIdEmpleado: number;
+export class TaskFilesComponent implements OnInit {
   @Input() typeDocument: number;
-  @Input() calificacionId: number;
-  formGroup: FormGroup;
-  isdisabled: boolean = false;
+  @Input() complianceId: number;
 
-  file: any;
-  fileName: any;
-  valid: boolean = false;
+  formGroup: FormGroup;
   progress;
   selectedFiles: FileList;
   currentFile: File;
 
-  constructor(private fb: FormBuilder, private cargar: PerfilComboService, private cd: ChangeDetectorRef, public globalService: GlobalService) {
-  }
+  constructor(private fb: FormBuilder,
+              private cd: ChangeDetectorRef,
+              public globalService: GlobalService,
+              private administratorComplianceService: AdministratorComplianceService) { }
 
   ngOnInit() {
-    if (this.inTipo === 'ver') {
-      this.isdisabled = true;
-    }
     this.formGroup = this.fb.group({
       file: [null, Validators.required]
     });
   }
-
   selectFile(event) {
     this.selectedFiles = event.target.files;
   }
 
   upload() {
     this.currentFile = this.selectedFiles.item(0);
-    this.cargar.upload(this.currentFile, this.calificacionId, this.typeDocument).subscribe(
+    this.administratorComplianceService.upload(this.currentFile, this.complianceId, this.typeDocument).subscribe(
         respuesta => {
-          console.log('llego');
+          console.log('exito: archivo guardado');
+          this.administratorComplianceService.accion.next('upload');
         });
-    this.cargar.accion.next('upload');
   }
 }

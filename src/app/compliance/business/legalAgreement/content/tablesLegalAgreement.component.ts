@@ -13,7 +13,7 @@ import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 
 @Component({
-  selector: 'app-tablesLegalAgreement',
+  selector: 'app-tablesLegalAgreement ',
   templateUrl: './tablesLegalAgreement.component.html',
   styleUrls: ['./tablesLegalAgreement.component.scss']
 })
