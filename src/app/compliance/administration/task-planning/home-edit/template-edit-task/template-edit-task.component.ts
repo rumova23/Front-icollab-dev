@@ -1,6 +1,15 @@
 import {Component, ComponentFactoryResolver, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {TaskEditComponent} from 'src/app/compliance/administration/task-planning/home-edit/task-edit/task-edit.component';
 import {TaskObservacionComponent} from '../task-observacion/task-observacion.component';
+import {TaskEstatusComponent} from '../task-estatus/task-estatus.component';
+import {AdministratorComplianceService} from '../../../services/administrator-compliance.service';
+import {TagService} from '../../../../services/tag.service';
+import {OrderCatalogDTO} from '../../../../models/OrderCatalogDTO';
+import {Combo} from '../../../../models/Combo';
+import {ComplianceDTO} from '../../../../models/compliance-dto';
+import {EntidadEstausDTO} from '../../../../models/entidad-estaus-dto';
+import {TaskFilesComponent} from '../task-files/task-files.component';
+import {TaskGanttComponent} from "../task-gantt/task-gantt.component";
 
 @Component({
   selector: 'app-template-edit-task',
@@ -8,39 +17,136 @@ import {TaskObservacionComponent} from '../task-observacion/task-observacion.com
   styleUrls: ['./template-edit-task.component.scss'],
   entryComponents: [
     TaskEditComponent,
-    TaskObservacionComponent]
+    TaskObservacionComponent,
+    TaskEstatusComponent, TaskGanttComponent]
 })
 export class TemplateEditTaskComponent implements OnInit {
   complianceId: string;
   accion: string;
   @ViewChild('taskComponent', { read: ViewContainerRef }) taskComponent: ViewContainerRef;
   @ViewChild('taskObservacion', { read: ViewContainerRef }) taskObservacion: ViewContainerRef;
+  @ViewChild('taskEstatus', { read: ViewContainerRef }) taskEstatus: ViewContainerRef;
+  @ViewChild('taskGantt', { read: ViewContainerRef }) taskGantt: ViewContainerRef;
 
+  compliance: ComplianceDTO;
+  comboTipoCumplimiento: Array<Combo>;
+  comboAutoridad: Array<Combo>;
+  comboTipoAplicacion: Array<Combo>;
+  comboPeriodoEntrega: Array<Combo>;
+  comboTipoDias: Array<Combo>;
+  comboEstatus: Array<Combo>;
+  comboEstatusInterno: Array<Combo>;
+  listaCombos: Array<any>;
   constructor(
-      private componentFactoryResolver: ComponentFactoryResolver) { }
+      private componentFactoryResolver: ComponentFactoryResolver,
+      private administratorComplianceService: AdministratorComplianceService,
+      private tagService: TagService) {
+
+    this.comboTipoCumplimiento = new Array<Combo>();
+    this.comboAutoridad = new Array<Combo>();
+    this.comboTipoAplicacion = new Array<Combo>();
+    this.comboPeriodoEntrega = new Array<Combo>();
+    this.comboTipoDias = new Array<Combo>();
+    this.listaCombos = Array<OrderCatalogDTO>();
+    this.listaCombos.push( new OrderCatalogDTO('typeCompliance', 1, 1));
+    this.listaCombos.push( new OrderCatalogDTO('authority', 1, 1));
+    this.listaCombos.push( new OrderCatalogDTO('typeApplication', 1, 1));
+    this.listaCombos.push( new OrderCatalogDTO('deliveryPeriod', 1, 1));
+    this.listaCombos.push( new OrderCatalogDTO('typeDay', 1, 1));
+    this.tagService.getlistCatalogoOrdenados(this.listaCombos).subscribe(
+        poRespuesta => {
+          console.dir(poRespuesta);
+          this.resuelveDS(poRespuesta, this.comboTipoCumplimiento, 'typeCompliance');
+          this.resuelveDS(poRespuesta, this.comboAutoridad, 'authority');
+          this.resuelveDS(poRespuesta, this.comboTipoAplicacion, 'typeApplication');
+          this.resuelveDS(poRespuesta, this.comboPeriodoEntrega, 'deliveryPeriod');
+          this.resuelveDS(poRespuesta, this.comboTipoDias, 'typeDay');
+        }
+    );
+    this.comboEstatus = new Array<Combo>();
+    this.comboEstatusInterno = new Array<Combo>();
+    this.administratorComplianceService.obtenEstatusMaestro('CAT_SEGUIMIENTO_ESTATUS').subscribe(
+        (responseValue: Array<EntidadEstausDTO>) => {
+          this.resuelveMaestro(responseValue, this.comboEstatus);
+        }
+    );
+    this.administratorComplianceService.obtenEstatusMaestro('CAT_SEGUIMIENTO_ESTATUS_INTERNO').subscribe(
+        (responseValue: Array<EntidadEstausDTO>) => {
+          this.resuelveMaestro(responseValue, this.comboEstatusInterno);
+        }
+    );
+  }
 
   ngOnInit() {
-    console.log('complianceId: ' + this.complianceId);
-    console.log('accion: ' + this.accion);
-    this.addFactoryTask();
-    this.addFactoryObservacion();
+    this.administratorComplianceService.complianceById(+this.complianceId).subscribe( (responseValue: ComplianceDTO) => {
+      this.compliance = responseValue;
+      this.addFactoryTask();
+      this.addFactoryObservacion();
+      this.addFactoryEstatus();
+      this.addFactoryGantt();
+    });
   }
 
   private addFactoryTask() {
-    const factoryTask =
-        this.componentFactoryResolver.resolveComponentFactory(TaskEditComponent);
-    const refTask = this.taskComponent.createComponent(factoryTask);
+    const refTask = this.taskComponent.createComponent(this.componentFactoryResolver.resolveComponentFactory(TaskEditComponent));
     refTask.instance.accion = this.accion;
-    refTask.instance.complianceId = +this.complianceId
+    refTask.instance.compliance = this.compliance;
+    refTask.instance.comboTipoCumplimiento = this.comboTipoCumplimiento;
+    refTask.instance.comboAutoridad = this.comboAutoridad;
+    refTask.instance.comboTipoAplicacion = this.comboTipoAplicacion;
+    refTask.instance.comboPeriodoEntrega = this.comboPeriodoEntrega;
+    refTask.instance.comboTipoDias = this.comboTipoDias;
+    refTask.instance.comboEstatus = this.comboEstatus;
     refTask.changeDetectorRef.detectChanges();
   }
 
   private addFactoryObservacion() {
-    const factoryObservacion =
-        this.componentFactoryResolver.resolveComponentFactory(TaskObservacionComponent);
-    const refObservacion = this.taskObservacion.createComponent(factoryObservacion);
+    const refObservacion = this.taskObservacion.createComponent(this.componentFactoryResolver.resolveComponentFactory(TaskObservacionComponent));
     refObservacion.instance.accion = this.accion;
-    refObservacion.instance.complianceId = +this.complianceId
+    refObservacion.instance.complianceId = +this.complianceId;
     refObservacion.changeDetectorRef.detectChanges();
+  }
+
+  private addFactoryEstatus() {
+    const refEstatus = this.taskEstatus.createComponent(this.componentFactoryResolver.resolveComponentFactory(TaskEstatusComponent));
+    refEstatus.instance.accion = this.accion;
+    refEstatus.instance.compliance = this.compliance;
+    refEstatus.instance.comboPeriodoEntrega = this.comboPeriodoEntrega;
+    refEstatus.instance.comboTipoDias = this.comboTipoDias;
+    refEstatus.instance.comboEstatus = this.comboEstatus;
+    refEstatus.instance.comboEstatusInterno = this.comboEstatusInterno;
+    refEstatus.changeDetectorRef.detectChanges();
+  }
+
+  private addFactoryGantt() {
+    const refGantt = this.taskGantt.createComponent(this.componentFactoryResolver.resolveComponentFactory(TaskGanttComponent));
+    refGantt.instance.complianceId = +this.complianceId;
+    refGantt.changeDetectorRef.detectChanges();
+  }
+
+  resuelveDS(poRespuesta: any, combo: Array<any>, comp: string) {
+    if (!poRespuesta) {
+      console.log('El back no responde');
+    } else {
+      let catalogs: any;
+      catalogs = poRespuesta;
+      catalogs.forEach(element => {
+        if ( element.catalog === comp ) {
+          element.data.forEach ( elementCatalog => {
+            combo.push(new Combo(elementCatalog.id, elementCatalog.code));
+          });
+        }
+      });
+    }
+  }
+
+  resuelveMaestro(responseValue: Array<EntidadEstausDTO>, combo: Array<any>) {
+    if (!responseValue) {
+      console.log('El back no responde');
+    } else {
+      responseValue.forEach((element: EntidadEstausDTO) => {
+        combo.push(new Combo('' + element.entidadEstatusId, element.estatus.nombre));
+      });
+    }
   }
 }

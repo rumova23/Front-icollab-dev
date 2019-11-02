@@ -43,7 +43,7 @@
     </mdb-card-body>
   </mdb-card>
   <!-- Documentos -->
-  <!--div *ngFor="let item of titleDocument">
+  <div *ngFor="let item of titleDocument">
     <div class="row">
       <div class="col">
         <mdb-card>
@@ -59,7 +59,7 @@
                   </div>
                 </div>
                 <div class="col-6">
-                  <app-upload [inTipo]='inTipo' [typeDocument]='item.titleDocument' [inIdEmpleado]='inIdEmpleado' [calificacionId]='calificacionId'></app-upload>
+                  <app-task-files [typeDocument]='item.titleDocument' [complianceId]='complianceId'></app-task-files>
                 </div>
               </div>
             </div>
@@ -67,6 +67,6 @@
         </mdb-card>
       </div>
     </div>
-  </div-->
+  </div>
 </div>
 

@@ -16,7 +16,7 @@ import { GanttEditorComponent, GanttEditorOptions } from 'ng-gantt';
 
 
 @Component({
-  selector: 'app-tablesLegalAgreement',
+  selector: 'app-tablesLegalAgreement ',
   templateUrl: './tablesLegalAgreement.component.html',
   styleUrls: ['./tablesLegalAgreement.component.scss']
 })

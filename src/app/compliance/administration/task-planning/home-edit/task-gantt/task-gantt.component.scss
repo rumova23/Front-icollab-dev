@@ -1,0 +1,89 @@
+
+.agila-cda-titulo{
+  font-size: 10px;
+  font-weight: bold;
+}
+
+table {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+tr:nth-child(even){
+  height: 12px;
+  //background: rgb(176, 182, 207);
+  text-align: center;
+  text-justify: auto;
+  //border: rgb(200, 200, 200) solid 1px;
+}
+
+tr{
+  max-height: 12px;
+  text-align: center;
+  text-justify: auto;
+}
+
+th{
+  border: rgb(200, 200, 200) solid 1px;
+  height: 12px;
+  //background:rgb(99, 136, 170);
+  text-align: center;
+  text-justify: auto;
+  padding:4px;
+  flex: 1;
+}
+
+tr:first-child{
+  border: rgb(200, 200, 200) solid 1px;
+  background:rgb(232, 237, 241);
+}
+
+td:last-child{
+  border-right: none;
+}
+td:first-child{
+  border-right: rgb(200, 200, 200) solid 1px;
+}
+
+td{
+  border: rgb(200, 200, 200) solid 1px;
+  text-align: center;
+  text-justify: auto;
+  padding:0px;
+  flex: 1;
+  background-attachment: fixed;
+}
+
+div.verde{
+  background-color: rgb(118, 224, 77);
+  text-align: center;
+  text-justify: auto;
+  padding:-10px;
+  flex: 1;
+  background-attachment: fixed;
+}
+div.amarillo{
+  background-color: rgb(229, 240, 85);
+  text-align: center;
+  text-justify: auto;
+  padding:0px;
+  flex: 1;
+  background-attachment: fixed;
+}
+div.anaranjado{
+  background-color: rgb(240, 121, 42);
+  text-align: center;
+  text-justify: auto;
+  padding:0px;
+  flex: 1;
+  background-attachment: fixed;
+}
+div.rojo{
+  background-color: rgb(231, 60, 54);
+  text-align: center;
+  text-justify: auto;
+  padding:0px;
+  flex: 1;
+  background-attachment: fixed;
+}

@@ -19,19 +19,19 @@ const httpOptions = {
 })
 export class ComplianceService {
 
-  private baseMicroComplianceUrl = environment.seguimiento;
+  private urlSeguimiento = environment.seguimiento;
 
   constructor(private http: HttpClient) { }
 
   getAllCompliance() {
-    return this.http.get( `${ this.baseMicroComplianceUrl }legal/obten/complianceActividad`, httpOptions);
+    return this.http.get( `${ this.urlSeguimiento }legal/obten/complianceActividad`, httpOptions);
   }
 
     getCompliancePorPlantaYFechas(fechaInicio: Date, fechaFin: Date) {
-      return this.http.get( `${ this.baseMicroComplianceUrl }legal/obten/complianceActividad/${fechaInicio}/${fechaFin}`, httpOptions);
+      return this.http.get( `${ this.urlSeguimiento }legal/obten/complianceActividad/${fechaInicio}/${fechaFin}`, httpOptions);
   }
 
   getDiagramas(fechaInicio: Date, fechaFin: Date) {
-    return this.http.get( `${ this.baseMicroComplianceUrl }legal/obten/obtenDiagramas/${fechaInicio}/${fechaFin}`, httpOptions);
+    return this.http.get( `${ this.urlSeguimiento }legal/obten/obtenDiagramas/${fechaInicio}/${fechaFin}`, httpOptions);
   }
 }
