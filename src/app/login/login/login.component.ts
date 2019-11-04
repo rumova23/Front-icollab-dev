@@ -115,19 +115,12 @@ export class LoginComponent implements OnInit,OnDestroy {
 		.subscribe(
 			data => {
 				localStorage.setItem("user", JSON.stringify(data));
-				JSON.parse(localStorage.getItem("user"));
 				this.loading = true;
-				//this.addBlock(2, null);
-				//this.router.navigate([this.returnUrl]);
 				this.loadApps();
-				//if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
-				
-				
-				
+				this.globalService.setPlant(this.securityService.loadPlants()[0]);
 				dis.next();
 			},
 			errorData => {
-				//this.addBlock(2, null);
 				console.log(errorData);
 			});
 
