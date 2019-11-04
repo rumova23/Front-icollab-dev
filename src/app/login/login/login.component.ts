@@ -120,7 +120,7 @@ export class LoginComponent implements OnInit,OnDestroy {
 				//this.addBlock(2, null);
 				//this.router.navigate([this.returnUrl]);
 				this.loadApps();
-				if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
+				//if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
 				
 				
 				

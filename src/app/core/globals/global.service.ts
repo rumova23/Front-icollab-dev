@@ -19,7 +19,6 @@ export class GlobalService {
 	public aside_open    : boolean       = false;
 
 	constructor(public securityService: SecurityService) {
-		if(this.plant.id == 0) this.plant = this.securityService.loadPlants()[0];
 	}
 
 	setPlant(plant:Plant):void{
