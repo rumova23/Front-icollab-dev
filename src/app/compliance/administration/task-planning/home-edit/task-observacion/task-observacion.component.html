@@ -1,7 +1,14 @@
-<div class="container-fluid">
-  <mdb-card>
-    <mdb-card-header><h3>Observaciones y/o Comentarios</h3></mdb-card-header>
-    <mdb-card-body>
+
+<div class="section">
+
+  <div class="row pb-2">
+      <div class="col">
+          <p class="section_titulo_0">Observaciones y/o Comentarios</p>
+          <p class="section_subtitulo_0"> </p>
+      </div>
+  </div>
+
+
       <!-- Text area para observaciones -->
       <form [formGroup]="obsForm" (ngSubmit)="onSubmit()">
         <div class="row" >
@@ -40,15 +47,24 @@
           </table>
         </div>
       </div>
-    </mdb-card-body>
-  </mdb-card>
+</div>
   <!-- Documentos -->
-  <div *ngFor="let item of titleDocument">
+
+
+
+  <div class="section" *ngFor="let item of titleDocument">
+
+    <div class="row pb-2">
+        <div class="col">
+            <p class="section_titulo_0">{{item.titleDocument}}</p>
+            <p class="section_subtitulo_0"> </p>
+        </div>
+    </div>
+  
+
     <div class="row">
       <div class="col">
-        <mdb-card>
-          <mdb-card-header>{{item.titleDocument}}</mdb-card-header>
-          <mdb-card-body>
+
             <div class="container-fluid">
               <div class="row">
                 <div class="col-6"  >
@@ -63,10 +79,8 @@
                 </div>
               </div>
             </div>
-          </mdb-card-body>
-        </mdb-card>
+
       </div>
     </div>
   </div>
-</div>
 
