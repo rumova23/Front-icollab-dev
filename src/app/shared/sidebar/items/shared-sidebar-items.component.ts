@@ -41,7 +41,7 @@ export class SharedSidebarItemsComponent {
 		if (item.children && item.children.length) {
 			this.viewHide = !this.viewHide;
 		}else{
-			this.globalService.aside_open = !this.globalService.aside_open ;
+			//this.globalService.aside_open = !this.globalService.aside_open ;
 			this.globalService.setPage       ( new EventMessage(null ,item ,this.hardCodeDescriptor(item)) );
 			this.eventService.sendChangePage ( new EventMessage(null ,item ,this.hardCodeDescriptor(item)) );
 		}
