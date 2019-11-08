@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, ViewEncapsulation} from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { environment } from  'src/environments/environment';
 import { MonitoringPhase3Service }   from '../../services/monitoringPhase3.service';
 import { EventService } from 'src/app/core/services/event.service';
@@ -24,6 +24,7 @@ import * as M3 from './config';
 import { DateAdapter } from 'angular-calendar';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { ThemeService } from 'src/app/core/globals/theme';
+import { InteractiveImageTurbineCT1Component } from './components/interactive-image-turbine-ct1/interactive-image-turbine-ct1.component';
 
 @Component({
   selector: 'app-monitoring-phase3',
@@ -31,6 +32,7 @@ import { ThemeService } from 'src/app/core/globals/theme';
   styleUrls: ['./monitoring-phase3.component.scss']
 })
 export class MonitoringPhase3Component implements OnInit, OnDestroy {
+	@ViewChild('modal_turbine_ct_1') modal_turbine_ct_1: InteractiveImageTurbineCT1Component;
   private subscriptions : Subscription[] = [];
   private everySecond   : Observable<number>;
   private timeRequest   : Observable<number>;
@@ -211,7 +213,9 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 			this.subscrubeChangeGraphUpdateTimeRest();
 		}
 	}
-	
+	openModalCt_1(){
+		this.modal_turbine_ct_1.openModalCt_1();
+	}
 	onChartClick(clickEvt:MouseEvent,activeElems:Array<any>){
 		//if click was on a bar, we don't care (we want clicks on labels)
 		let dafasfa = this.chart_01.options.scales;

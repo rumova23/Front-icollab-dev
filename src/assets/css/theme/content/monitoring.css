@@ -24,3 +24,56 @@ hr{
 .info-user,.info-user p{
     color: #ffffff !important;
 }
+
+
+
+/*MODAL*/
+
+*[_ngcontent-ruw-c7] {
+    color: #000 !important;
+}
+.modal-xxl .modal-xl {
+    max-width: 90%;
+}
+.show{
+	display: block;
+}
+.modal-backdrop{
+	background-color:#ccc;
+}
+.modal-content{
+	background: #000;
+	/*border:solid 1px #ffffff;*/
+}
+.modal-title{
+	color:#fff;
+	margin: 0;
+}
+.modal-header {
+	padding: 8px;
+	border-bottom: none;
+}
+.modal-header .close > span{
+	color:#ffffff;
+}
+.modal-footer{
+	border-top:none;
+}
+.chart-container {
+	position: relative;
+	margin: auto;
+	height: 300px;
+	width: 100%;
+}
+
+.mytooltip .tooltip-inner {
+	background-color: darkgreen !important;
+	font-size: 12px !important;
+}
+.mytooltip .arrow::before {
+	border-top-color: darkgreen !important;
+}
+.my-popup-info{
+    color: #fff;
+}
+/*./MODAL*/

@@ -13,8 +13,8 @@ export class InteractiveImageTurbineCT1Component implements OnInit {
 	ngOnInit() {
 	}
 
-	tester(){
-		$('#exampleModalLong').modal('show');
+	openModalCt_1(){
+		$('#ModalTurbineCT1').modal('show');
 	}
 	animar(){
 		let element = document.getElementById('my-popup-info');

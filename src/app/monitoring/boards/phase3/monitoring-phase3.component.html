@@ -546,7 +546,7 @@
               </div>
           </div>
           <div class="row">
-              <div class="col text-center" (click)="openModal_01([],'CT-1')">
+              <div class="col text-center" (click)="openModalCt_1()">
                   <video src="/assets/monitoring/phase3/turbina_gas_02.mp4"  type="video/webm" autoplay loop *ngIf="calltags['getCTUnoRPM'] > 10" width="320">
                   </video>
                   <video src="/assets/monitoring/phase3/turbina_gas_02.mp4"  type="video/webm" *ngIf="calltags['getCTUnoRPM'] <= 10" width="320">
@@ -1074,7 +1074,7 @@
 </div>
 
   
-<app-interactive-image-turbine-ct1></app-interactive-image-turbine-ct1>
+<app-interactive-image-turbine-ct1 #modal_turbine_ct_1></app-interactive-image-turbine-ct1>
 
 
 <!-- Modal -->
