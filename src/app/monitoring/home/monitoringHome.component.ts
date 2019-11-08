@@ -16,7 +16,6 @@ import { MonitoringWelcomeComponent      } from '../welcome/monitoring-welcome.c
 import { MonitoringPhase2Component       } from '../boards/phase2/monitoring-phase2.component';
 import { MonitoringPhase3Component       } from '../boards/phase3/monitoring-phase3.component';
 import { MonitoringMmMarketComponent     } from '../boards/mmMarket/monitoringMmMarket.component';
-import { InteractiveImageComponent       } from '../boards/phase3/components/interactive-image/interactive-image.component';
 
 
 @Component({
@@ -29,7 +28,6 @@ import { InteractiveImageComponent       } from '../boards/phase3/components/int
 		,MonitoringPhase3Component
 		,MonitoringMmMarketComponent
 		,ChangePasswordComponent
-		,InteractiveImageComponent
 	]
 })
 export class MonitoringHomeComponent extends ConnectSocketComponent implements OnInit, OnDestroy {
@@ -58,8 +56,7 @@ export class MonitoringHomeComponent extends ConnectSocketComponent implements O
 	}
 	ngAfterViewInit() {
 		//const factory = this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase2Component);
-		const factory = this.componentFactoryResolver.resolveComponentFactory(InteractiveImageComponent);
-		//const factory = this.componentFactoryResolver.resolveComponentFactory(MonitoringWelcomeComponent);
+		const factory = this.componentFactoryResolver.resolveComponentFactory(MonitoringWelcomeComponent);
 		this.viewContainerRef.createComponent(factory);
 	}
 	ngOnDestroy(){

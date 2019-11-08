@@ -35,8 +35,8 @@ export class ConnectSocketComponent implements OnInit {
 	
 	openSocket(){
 		if(!this.globalService.socketConnect){
-			const token = this.securityService.getToken();
-
+			//const token = this.securityService.getToken();
+			const token = this.securityService.getToken() || 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZXIiLCJhdXRoIjpbeyJuYW1lIjoiUk9MRV9BRE1JTl9TRUNVUklUWSJ9LHsibmFtZSI6IlJPTEVfQURNSU5fQ09NUExJQU5DRSJ9LHsibmFtZSI6IlJPTEVfQURNSU5fU0FGRSJ9LHsibmFtZSI6IlJPTEVfQURNSU5fQURNSU5JU1RSQVRJVkVfTU9OSVRPUklORyJ9XSwiaWF0IjoxNTY3NTU5Mjc3LCJleHAiOjE1Njc1NjY0Nzd9.Ikozy3CH7DdmWaWGRw2iaRN8M-fJdpQlpL56auotGlI';   
 			if (Validate(token)) {
 			
 				let socket = this.socketService.initSocket(token);

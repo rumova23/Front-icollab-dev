@@ -1,0 +1,59 @@
+<button  type="button" class="btn btn-primary" (click)="tester()">Otro</button>
+<!-- Button trigger modal -->
+<!--button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+Launch demo modal
+</button-->
+<!-- Modal -->
+<div class="modal scroll_design fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style="overflow-x: auto; " class="container scroll_design">
+                    <div class="image-phase3" style="width: 937px; height: 527px; position: relative; overflow: hidden; margin: auto;">
+                        <div class="tags" style="position: absolute;z-index: 2; width: 100%; height: 100%;">
+                            <div class="tag1" style="
+                                z-index: 3;
+                                color:red;
+                                text-align: center; 
+                                position: absolute; left: 130px; top: 185px;">
+                                <ng-template style="min-width: 900px;" #tip_getTemperaturaAmbiente>
+                                    <b>Hola mundo mundial</b>
+                                    <div>TAG</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs" tooltipClass="mytooltip" [ngbTooltip]="tip_getTemperaturaAmbiente" (click)="animar()"></i>
+                            </div>
+                            <div class="tag1" style="
+                                z-index: 3;
+                                color:red;
+                                text-align: center; 
+                                position: absolute; left: 600px; top: 130px;">
+                                <ng-template style="min-width: 900px;" #tip_getTemperaturaAmbiente>
+                                    <b>Hola mundo mundial</b>
+                                    <div>TAG</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs" tooltipClass="mytooltip" [ngbTooltip]="tip_getTemperaturaAmbiente" (click)="animar()"></i>
+                            </div>
+						</div>
+						<video src="/assets/monitoring/phase3/turbina_gas_02.mp4"  type="video/webm" 
+						autoplay loop 
+						style="position: absolute;z-index: 1; width: 100%; top: 0;"
+						></video>
+                    </div>
+                </div>
+                <div id="my-popup-info" class="my-popup-info animated flipOutX" style="width: 100%;
+                    padding: 14px; ">
+                    hola mundo
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

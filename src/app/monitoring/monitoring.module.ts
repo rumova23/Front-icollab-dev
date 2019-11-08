@@ -14,7 +14,7 @@ import { MaterialModule              } from 'src/app/modules/material-module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MonitoringBaseSocketOnComponent } from './class/monitoringBaseSocketOn.component';
-import { InteractiveImageComponent } from './boards/phase3/components/interactive-image/interactive-image.component';
+import { InteractiveImageTurbineCT1Component } from './boards/phase3/components/interactive-image-turbine-ct1/interactive-image-turbine-ct1.component';
 
 @NgModule({
     declarations:[
@@ -25,7 +25,7 @@ import { InteractiveImageComponent } from './boards/phase3/components/interactiv
         MonitoringChartsControlsComponent,
         MonitoringMmMarketComponent,
         MonitoringBaseSocketOnComponent,
-        InteractiveImageComponent
+        InteractiveImageTurbineCT1Component
     ],
     exports:[
     ],
