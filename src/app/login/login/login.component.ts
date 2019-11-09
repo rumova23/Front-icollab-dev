@@ -21,7 +21,7 @@ import * as dis                                        from './js/animations';
 })
 export class LoginComponent implements OnInit,OnDestroy {
 	private subscriptions        : Subscription[]     = [];
-	public loginForm            : FormGroup;
+	public  loginForm            : FormGroup;
 	public  apps                 : Array<App>;
 
 	constructor(

@@ -49,7 +49,9 @@ export function next() {
       {
         scrollTop: $("#constelacion").offset().top
       },
-      4000
+      4000,()=>{
+        window.onscroll = function() {}; 
+      }
     );
   
     $("#menu").css("display", "block");
