@@ -6,11 +6,6 @@
     </div>
   </div>
   <hr>
-  <div class=" row mb-3">
-    <div class="col">
-      <span class="agila-cda-titulo">{{titulo}}</span>
-    </div>
-  </div>
   <form class="mt-5" [formGroup]="estatusForm" (ngSubmit)="onSubmit()">
     <div class="row">
       <div class="col-12 col-xl-4">
@@ -30,7 +25,7 @@
         <!-- Material input -->
         <div class="md-form">
           <mat-form-field>
-            <input matInput [matDatepicker]="fechaInicioProgramada"  placeholder="Fecha Inicio Programada" [formControl]="fFechaInicioProgramada">
+            <input matInput formControlName="fFechaInicioProgramada" [matDatepicker]="fechaInicioProgramada"  placeholder="Fecha Inicio Programada" [formControl]="fFechaInicioProgramada">
             <mat-datepicker-toggle matSuffix [for]="fechaInicioProgramada"></mat-datepicker-toggle>
             <mat-datepicker #fechaInicioProgramada disabled="false"></mat-datepicker>
           </mat-form-field>
@@ -40,7 +35,7 @@
         <!-- Material input -->
         <div class="md-form">
           <mat-form-field>
-            <input matInput [matDatepicker]="fechaFinProgramada" placeholder="Fecha Fin Programada" [formControl]="fFechaFinProgramada">
+            <input matInput formControlName="fFechaFinProgramada" [matDatepicker]="fechaFinProgramada" placeholder="Fecha Fin Programada" [formControl]="fFechaFinProgramada">
             <mat-datepicker-toggle matSuffix [for]="fechaFinProgramada"></mat-datepicker-toggle>
             <mat-datepicker #fechaFinProgramada disabled="false"></mat-datepicker>
           </mat-form-field>
@@ -65,7 +60,7 @@
         <!-- Material input -->
         <div class="md-form">
           <mat-form-field>
-            <input matInput [matDatepicker]="fechaInicioReal" placeholder="Fecha Inicio Real" [formControl]="fFechaInicioReal">
+            <input matInput formControlName="fFechaInicioReal" [matDatepicker]="fechaInicioReal" placeholder="Fecha Inicio Real" [formControl]="fFechaInicioReal">
             <mat-datepicker-toggle matSuffix [for]="fechaInicioReal"></mat-datepicker-toggle>
             <mat-datepicker #fechaInicioReal disabled="false"></mat-datepicker>
           </mat-form-field>
@@ -75,7 +70,7 @@
         <!-- Material input -->
         <div class="md-form">
           <mat-form-field>
-            <input matInput [matDatepicker]="fechaFinReal" placeholder="Fecha Fin Real" [formControl]="fFechaFinReal">
+            <input matInput formControlName="fFechaFinReal" [matDatepicker]="fechaFinReal" placeholder="Fecha Fin Real" [formControl]="fFechaFinReal">
             <mat-datepicker-toggle matSuffix [for]="fechaFinReal"></mat-datepicker-toggle>
             <mat-datepicker #fechaFinReal disabled="false"></mat-datepicker>
           </mat-form-field>
@@ -113,10 +108,22 @@
         <!-- Material input -->
         <div class="md-form">
           <mat-form-field>
-            <input matInput [matDatepicker]="fechaUltimaModificacion" placeholder="Fecha ultima Modificacion" [formControl]="fFechaUltimaModificacion">
+            <input matInput formControlName="fFechaUltimaModificacion" [matDatepicker]="fechaUltimaModificacion" placeholder="Fecha ultima Modificacion" [formControl]="fFechaUltimaModificacion">
             <mat-datepicker-toggle matSuffix [for]="fechaUltimaModificacion"></mat-datepicker-toggle>
             <mat-datepicker #fechaUltimaModificacion disabled="false"></mat-datepicker>
           </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="md-form">
+          <button type="button" (click)="guardaTarea()" class="btn btn-primary btn-md">Guarda Tarea</button>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="md-form">
+          <button type="button" (click)="liberaTarea()"  class="btn btn-primary btn-md">Liberar Tarea</button>
         </div>
       </div>
     </div>

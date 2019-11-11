@@ -52,7 +52,7 @@ export class BehaviorComponent implements OnInit {
 
         this.examenReservacionId = reservacion.examenReservacionId;
 
-        if (reservacion.entidadEstatusId === 2) {
+        if (reservacion.entidadEstatusId === 22) {
             this.isdisabled = true;
             this.isdisabledFinishBehavior = true;
         }

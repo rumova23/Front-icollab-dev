@@ -39,7 +39,7 @@ export class SkillsComponent implements OnInit {
   }
 
   ngOnInit() {
-          this.terminadoId = 2;
+          this.terminadoId = 22;
 
           if (this.inTipo === 'ver') {
             this.isdisabled = true;
@@ -48,12 +48,13 @@ export class SkillsComponent implements OnInit {
           this.temas = [];
           this.idTemas = [ 'DEFAULT' ];
           this.preguntas.obtenPreguntasExamen('DEFAULT', this.inIdEmpleado).subscribe(reservacion => {
+              console.dir(reservacion);
             let jj = -1;
             this.pregs = [];
 
             this.examenReservacionId = reservacion.examenReservacionId;
 
-            if (reservacion.entidadEstatusId === 2) {
+            if (reservacion.entidadEstatusId === 22) {
               this.isdisabledFinish = true;
               this.isdisabled = true;
             }
