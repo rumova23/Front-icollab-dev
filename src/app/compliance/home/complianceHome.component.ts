@@ -161,6 +161,11 @@ export class ComplianceHomeComponent implements OnInit {
 						break;
 					case 'Compliance.Cumplimiento Interno':
 						break;
+					case 'Compliance.Planeación':
+						this.viewContainerRef
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(TaskPlanningComponent))
+							.changeDetectorRef.detectChanges();
+						break;
 					case 'shared.header.changePassword':
 						this.viewContainerRef
 							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent)).changeDetectorRef.detectChanges();
