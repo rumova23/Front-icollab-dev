@@ -51,7 +51,7 @@ export class LegalAgreementComponent implements OnInit {
                         'registros', 'requisitoLegal', 'observaciones',
                         'fechaInicioEventoProgramada', 'fechaFinEventoProgramada', 'periodoProgramado',
                         'fechaInicioEventoReal', 'fechaFinEventoReal', 'periodoReal',
-                        'estatus', 'estatusInterno', 'ver', 'modificar', 'eliminar'];
+                        'estatus', 'estatusInterno', 'ver', 'modificar'];
   columnasGant: string[] = ['datosGant'];
 
   registros = new MatTableDataSource<Compliance>();

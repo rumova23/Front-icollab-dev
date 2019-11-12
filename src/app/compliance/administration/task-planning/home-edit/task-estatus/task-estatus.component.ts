@@ -59,10 +59,20 @@ export class TaskEstatusComponent implements OnInit {
       this.fFechaUltimaModificacion = new FormControl(new Date(this.compliance.fechaUltimaModicacion));
     }
 
-    console.dir(this.compliance.entidadEstatus);
-    console.dir(this.comboEstatus);
     this.estatusForm.controls.fEstatusTarea.setValue('' + this.compliance.entidadEstatus.entidadEstatusId);
     this.estatusForm.controls.fEstatusInterno.setValue('' + this.compliance.estatusInterno.entidadEstatusId);
+
+    if (this.accion === 'ver') {
+     this.estatusForm.disable();
+    }
+
+    if (this.accion === 'editar') {
+      this.estatusForm.controls.fEstatusTarea.disable();
+      this.estatusForm.controls.fEstatusInterno.disable();
+      this.estatusForm.controls.fFechaInicioReal.disable();
+      this.estatusForm.controls.fFechaFinReal.disable();
+      this.estatusForm.controls.fFechaUltimaModificacion.disable();
+    }
   }
 
   onSubmit() {
@@ -75,4 +85,17 @@ export class TaskEstatusComponent implements OnInit {
     console.log(combo1 && combo2 && combo1 === combo2);
     return combo1 && combo2 && combo1 === combo2;
   }
+
+  guardaTarea() {
+    this.compliance.tagDTO.deliveryPeriod.id = this.estatusForm.controls.fPeriodoEntrega.value;
+    this.compliance.tagDTO.daysType.id = this.estatusForm.controls.fTipoDias.value;
+    this.compliance.fechaProgramadaInicio =  new Date(this.fFechaInicioProgramada.value);
+    this.compliance.fechaProgramadaFinal =  new Date(this.fFechaFinProgramada.value);
+    console.dir( this.compliance.fechaProgramadaInicio);
+  }
+
+  liberaTarea() {
+
+  }
+
 }
