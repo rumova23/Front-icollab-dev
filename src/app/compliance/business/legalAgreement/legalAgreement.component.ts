@@ -93,7 +93,7 @@ export class LegalAgreementComponent implements OnInit {
 		this.limpiarTablas();
 		
 
-		///*
+		/*
 		var result = JSON.parse(DEMO["getCompliancePorPlantaYFechas"]);
 		this.elementData = result;
 		this.asignarRegistros();
@@ -108,8 +108,7 @@ export class LegalAgreementComponent implements OnInit {
 		this.childPagos.disparador();
 		this.childNotificaciones.elementData = this.elementData;
 		this.childNotificaciones.disparador2();
-//*/
-		/*
+
 		if(localStorage.getItem("getCompliancePorPlantaYFechas")){
 			var result = JSON.parse(localStorage.getItem("getCompliancePorPlantaYFechas"));
 			this.elementData = result;
@@ -126,7 +125,7 @@ export class LegalAgreementComponent implements OnInit {
 			bandera = true;
 		}
 		//*/
-		if(false){
+		if(1){
         this.limpiarTablas();
 
         this.complianceService.getCompliancePorPlantaYFechas(
@@ -139,13 +138,23 @@ export class LegalAgreementComponent implements OnInit {
                 new Date(this.fFechaFin.value)).subscribe(resultGant => {
                   this.elementDataGant = resultGant;
                   this.asignarRegistrosGant();
+                  
+                  
+                  this.childPagos.elementData = this.elementData;
+                  this.childPagos.disparador();
+                  this.childNotificaciones.elementData = this.elementData;
+                  this.childNotificaciones.disparador2();
+    
+                  this.addBlock(2, null);
                 },
               error => {
                 console.log(error as any);
+                this.addBlock(2, null);
               });
           },
           error => {
             console.log(error as any);
+            this.addBlock(2, null);
           });
 
     }
