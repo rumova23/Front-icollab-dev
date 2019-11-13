@@ -39,7 +39,19 @@ export class SecurityHomeComponent implements OnInit {
 		public  theme                    : ThemeService
     ) {
       
-    
+      this.serviceSubscription = this.eventService.onChangeMainSecurity.subscribe({
+        next: (event: EventMessage) => {
+          switch (event.id) {
+            case 1:
+              this.asideOpen = !this.asideOpen;
+              break;
+            default:
+              this.clickMenu(event);
+  
+              break;
+          }
+        }
+      });
 
     try{
 			this.theme.setApp("Security");
