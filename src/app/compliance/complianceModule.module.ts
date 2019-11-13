@@ -61,6 +61,7 @@ import { TaskObservacionComponent               } from './administration/task-pl
 import { TaskEstatusComponent                   } from './administration/task-planning/home-edit/task-estatus/task-estatus.component';
 import { TaskGanttComponent                     } from './administration/task-planning/home-edit/task-gantt/task-gantt.component';
 import { TaskFilesComponent                     } from './administration/task-planning/home-edit/task-files/task-files.component';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -123,6 +124,7 @@ import { TaskFilesComponent                     } from './administration/task-pl
 		FlatpickrModule.forRoot(),
 		ToastrModule.forRoot(),
 		BlockUIModule.forRoot({message: Constants.LOADING_MEESSAGE})
-    ]
+    ],
+	providers:[DatePipe]
 })
 export class ComplianceModule{}

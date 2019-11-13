@@ -13,15 +13,48 @@
     </div>
   </div>
   <hr>
-  <div class=" row mb-3">
-    <div class="col">
-      <span class="agila-cda-titulo">{{titulo}}</span>
-    </div>
-  </div>
-  <form class="mt-5" [formGroup]="filtrosForm" (ngSubmit)="onSubmit()">
+
+  	<form class="mt-5" [formGroup]="filtrosForm" (ngSubmit)="onSubmit()">
+    
+		<div class="form-group row">
+			<div class="form-group col-12 col-md-6 col-lg-4">
+				<label for="fechaDesde">Desde</label>
+				<input type="date" class="form-control" id="fechaDesde" [formControl]="fFechaInicio"  [(ngModel)]="fFechaInicioModel">
+			</div>
+			<div class="form-group col-12 col-md-6 col-lg-4">
+				<label for="fechaHasta">Hasta</label>
+				<input type="date" class="form-control" id="fechaHasta" [formControl]="fFechaFin">
+			</div>
+			
+			
+			<div class="form-group col-12 col-md-6 col-lg-4">
+				<label>Persona</label>
+				<select class="form-control"
+						formControlName="fPersonaId"
+						[ngClass]="{ 'is-invalid': submitted && f.fPersonaId.errors }"
+				>
+					<option
+							*ngFor="let operator of personas;"
+							[value]="operator.value"
+					>
+					{{operator.label}}
+					</option>
+				</select>
+				<div *ngIf="submitted && f.fPersonaId.errors" style="color:red">
+					<div *ngIf="f.fPersonaId.errors.required">Requerido</div>
+				</div>
+			</div>
+
+			<div class="form-group col-12 text-right align-self-end">
+				<button type="submit" class="btn" id="fechaHassta">
+					<i class="ti-search"></i> &nbsp;
+					Buscar
+				</button>
+			</div>
+		</div>
+		<!--
     <div class="row">
       <div class="col-md-2">
-        <!-- Material input -->
         <div class="md-form">
           <mat-form-field>
             <input matInput [matDatepicker]="fechaDesde" placeholder="Desde" [formControl]="fFechaInicio" >
@@ -31,7 +64,6 @@
         </div>
       </div>
       <div class="col-md-2">
-        <!-- Material input -->
         <div class="md-form">
           <mat-form-field>
             <input matInput [matDatepicker]="fechaHasta" placeholder="Hasta" [formControl]="fFechaFin">
@@ -39,7 +71,8 @@
             <mat-datepicker #fechaHasta disabled="false"></mat-datepicker>
           </mat-form-field>
         </div>
-      </div>
+	  </div>
+
 
       <div class="col-md-2">
         <div class="md-form">
@@ -55,11 +88,63 @@
       </div>
       <div class="col-md-2">
         <div class="md-form">
-          <button type="submit" class="btn btn-primary btn-md">Busca empleados</button>
+          <button type="submit" class="btn">Busca empleados</button>
         </div>
-      </div>
+	  </div>
+	  
+	  
     </div>
-    <div class="row">
+-->
+
+		<div class="row">
+
+				<div class="form-group col-12 col-md-6 col-lg-4">
+					<label>Tipo Cumplimiento</label>
+					<select class="form-control"
+							formControlName="fTipoCumplimiento"
+							[ngClass]="{ 'is-invalid': submitted && f.fTipoCumplimiento.errors }"
+							(selectionChange)="getTasks()"
+					>
+						<option
+								*ngFor="let operator of tiposCumplimientos;"
+								[value]="operator.value"
+						>
+						{{operator.label}}
+						</option>
+					</select>
+					<div *ngIf="submitted && f.fTipoCumplimiento.errors" style="color:red">
+						<div *ngIf="f.fTipoCumplimiento.errors.required">Requerido</div>
+					</div>
+				</div>
+				<div class="form-group col-12 col-md-6 col-lg-4">
+					<label>Actividad</label>
+					<select class="form-control"
+							formControlName="fActividad"
+							[ngClass]="{ 'is-invalid': submitted && f.fActividad.errors }"
+							(selectionChange)="getTasks()"
+					>
+						<option
+								*ngFor="let operator of actividades;"
+								[value]="operator.value"
+						>
+						{{operator.label}}
+						</option>
+					</select>
+					<div *ngIf="submitted && f.fActividad.errors" style="color:red">
+						<div *ngIf="f.fActividad.errors.required">Requerido</div>
+					</div>
+				</div>
+	
+				<div class="form-group col-12 text-right align-self-end">
+					<button type="button" class="btn" (click)="saveTasks()">
+						<i class="ti-tag"></i> &nbsp;
+						Genera Tareas
+					</button>
+				</div>
+
+		</div>
+<!--
+	<div class="row">
       <div class="col-md-2">
         <div class="md-form">
           <mat-label>Tipo Cumplimiento</mat-label>
@@ -95,11 +180,12 @@
           <button type="button" class="btn btn-primary btn-md" (click)="saveTasks()">Genera Tareas</button>
         </div>
       </div>
-    </div>
+	</div>
+-->
     <div class="row">
       <div class="col">
-        <table mdbTable bordered="true">
-          <thead class="grey lighten-1 black-text">
+        <table mdbTable bordered="true" class="table_catalogo">
+          <thead class=" ">
           <tr>
             <th *ngFor="let head of headTasks" scope="col">{{head}} </th>
           </tr>
