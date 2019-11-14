@@ -5,6 +5,7 @@ import {GlobalService} from 'src/app/core/globals/global.service';
 import {Task} from '../../models/Task';
 import {Comentario} from '../../../core/models/comentario';
 import {BehaviorSubject, Observable} from 'rxjs';
+import {ComplianceDTO} from '../../models/compliance-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -61,6 +62,17 @@ export class AdministratorComplianceService {
         {params : this.parameters });
   }
 
+  updateTask(complianceDTO: ComplianceDTO) {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.post( `${ this.seguimiento }legal/update/compliance`, complianceDTO,
+        {params : this.parameters });
+  }
+
+  freeTask(complianceId: number) {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.post( `${ this.seguimiento }legal/libera/compliance/`, complianceId, { params : this.parameters });
+  }
+
   complianceById(complianceId: number) {
     this.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.seguimiento }legal/obten/complianceById/${complianceId}`,
@@ -87,7 +99,7 @@ export class AdministratorComplianceService {
 
   obtenEstatusMaestro(entidad: string) {
     this.setXTenantId(this.globalService.aguila);
-    return this.http.get( `${ this.estatusmaestro }status/obten/catalogo/${entidad}`,
+    return this.http.get( `${ this.mastercatalog }mastercatalog/mastercatalog/${entidad}`,
         {params : this.parameters });
   }
 
@@ -110,4 +122,9 @@ export class AdministratorComplianceService {
     this.setXTenantId(this.globalService.aguila);
     return this.http.get(`${this.seguimiento}legal/obten/gantt/${complianceId}`, {params : this.parameters });
   }
+
+    acceptTask(complianceId: number) {
+      this.setXTenantId(this.globalService.aguila);
+      return this.http.post( `${ this.seguimiento }legal/accept/responsible/compliance/`, complianceId, { params : this.parameters });
+    }
 }

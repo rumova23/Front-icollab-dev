@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Combo} from '../../../../models/Combo';
 import {AdministratorComplianceService} from '../../../services/administrator-compliance.service';
 import {ComplianceDTO} from '../../../../models/compliance-dto';
+import {ToastrManager} from 'ng6-toastr-notifications';
 
 @Component({
   selector: 'app-task-estatus',
@@ -26,7 +27,14 @@ export class TaskEstatusComponent implements OnInit {
   fFechaUltimaModificacion = new FormControl(new Date());
   estatusForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private administratorComplianceService: AdministratorComplianceService) {
+  hiddenDivButtonFreeTask = false;
+
+  hiddenDivButtonAcceptTask = false;
+
+  constructor(
+      private formBuilder: FormBuilder,
+      private administratorComplianceService: AdministratorComplianceService,
+      public  toastr: ToastrManager) {
     this.estatusForm = this.formBuilder.group({
       fFechaInicioProgramada: ['', Validators.required],
       fFechaFinProgramada: ['', Validators.required],
@@ -59,8 +67,8 @@ export class TaskEstatusComponent implements OnInit {
       this.fFechaUltimaModificacion = new FormControl(new Date(this.compliance.fechaUltimaModicacion));
     }
 
-    this.estatusForm.controls.fEstatusTarea.setValue('' + this.compliance.entidadEstatus.entidadEstatusId);
-    this.estatusForm.controls.fEstatusInterno.setValue('' + this.compliance.estatusInterno.entidadEstatusId);
+    this.estatusForm.controls.fEstatusTarea.setValue('' + this.compliance.entidadEstatus.maestroOpcionId);
+    this.estatusForm.controls.fEstatusInterno.setValue('' + this.compliance.estatusInterno.maestroOpcionId);
 
     if (this.accion === 'ver') {
      this.estatusForm.disable();
@@ -72,6 +80,16 @@ export class TaskEstatusComponent implements OnInit {
       this.estatusForm.controls.fFechaInicioReal.disable();
       this.estatusForm.controls.fFechaFinReal.disable();
       this.estatusForm.controls.fFechaUltimaModificacion.disable();
+
+      if ( this.compliance.estatusInterno.opcion.codigo.toString() === 'Pendiente Aceptar Responsable' ) {
+        this.hiddenDivButtonFreeTask = true;
+        this.hiddenDivButtonAcceptTask = false;
+      }
+
+      if ( this.compliance.estatusInterno.opcion.codigo.toString() === 'Pendiente Cerrar Responsable' ) {
+        this.hiddenDivButtonFreeTask = true;
+        this.hiddenDivButtonAcceptTask = true;
+      }
     }
   }
 
@@ -91,11 +109,26 @@ export class TaskEstatusComponent implements OnInit {
     this.compliance.tagDTO.daysType.id = this.estatusForm.controls.fTipoDias.value;
     this.compliance.fechaProgramadaInicio =  new Date(this.fFechaInicioProgramada.value);
     this.compliance.fechaProgramadaFinal =  new Date(this.fFechaFinProgramada.value);
-    console.dir( this.compliance.fechaProgramadaInicio);
+    console.dir(this.compliance);
+    this.administratorComplianceService.updateTask(this.compliance).subscribe(
+        response => {
+          this.toastr.successToastr('Tarea Actualizada.', '¡Se ha logrado!');
+    });
   }
 
   liberaTarea() {
-
+    this.administratorComplianceService.freeTask(this.compliance.complianceId).subscribe(
+        response => {
+          this.toastr.successToastr('Tarea Liberada.', '¡Se ha logrado!');
+          this.ngOnInit();
+        });
   }
 
+  acceptTask() {
+    this.administratorComplianceService.acceptTask(this.compliance.complianceId).subscribe(
+        response => {
+          this.toastr.successToastr('Tarea Aceptada.', '¡Se ha logrado!');
+          this.ngOnInit();
+        });
+  }
 }

@@ -39,6 +39,7 @@ export class PerfilComboService {
   private microexamenUrl = environment.microexamenUrl;
   private evaluacionExamenUrl = environment.evaluacionExamenUrl;
   private microuploaddbUrl = environment.microuploaddbUrl;
+  private estatusmaestro = environment.estatusmaestro;
 
   parameters: any;
   user: any;
@@ -88,7 +89,7 @@ export class PerfilComboService {
   }
 
 
-  generaExamen(empleadoIdentifier: number, config: String): Observable<any> {
+  generaExamen(empleadoIdentifier: number, config: string): Observable<any> {
     this.setXTenantId(this.globalService.aguila);
     const RequestBody = {
        empleadoId    : empleadoIdentifier
@@ -169,10 +170,10 @@ export class PerfilComboService {
         {params : this.parameters });
   }
 
-
-  obtenEstatusTerminado(entidad: string, estatus: string): Observable<any> {
+  obtenEstatusTerminado(entidad: string, estatus: string) {
     this.setXTenantId(this.globalService.aguila);
-    return null;
+    return this.http.get( `${ this.estatusmaestro }status/${entidad}/${estatus}`,
+          {params : this.parameters });
   }
 
 

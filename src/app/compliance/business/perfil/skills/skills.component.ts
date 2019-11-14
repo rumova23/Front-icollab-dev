@@ -7,6 +7,8 @@ import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
+import {EntidadEstausDTO} from '../../../models/entidad-estaus-dto';
+import {Entidad} from '../../../models/Entidad';
 
 @Component({
   selector: 'app-skills',
@@ -16,6 +18,8 @@ import { EventBlocked } from 'src/app/core/models/EventBlocked';
 export class SkillsComponent implements OnInit {
   @Input() inIdEmpleado: number;
   @Input() inTipo: string;
+  @Input() entidadEstausTerminado: EntidadEstausDTO;
+
   temas: Array<any>;
   idTemas: Array<any>;
   pregs: Array<any>;
@@ -35,11 +39,9 @@ export class SkillsComponent implements OnInit {
               private preguntas: PerfilComboService,
               public  toastr: ToastrManager,
               private eventService: EventService) {
-
   }
 
   ngOnInit() {
-          this.terminadoId = 22;
 
           if (this.inTipo === 'ver') {
             this.isdisabled = true;
@@ -54,7 +56,7 @@ export class SkillsComponent implements OnInit {
 
             this.examenReservacionId = reservacion.examenReservacionId;
 
-            if (reservacion.entidadEstatusId === 22) {
+            if (reservacion.entidadEstatusId === this.entidadEstausTerminado.entidadEstatusId) {
               this.isdisabledFinish = true;
               this.isdisabled = true;
             }
