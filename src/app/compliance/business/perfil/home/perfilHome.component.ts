@@ -6,6 +6,8 @@ import { BehaviorComponent } from '../behavior/behavior.component';
 import { SkillsComponent } from '../skills/skills.component';
 import { DashboardsComponent } from '../dashboards/dashboards.component';
 import { ObsyCommentsComponent } from '../obsyComments/obsyComments.component';
+import {EntidadEstausDTO} from '../../../models/entidad-estaus-dto';
+import {PerfilComboService} from '../../../../core/services/perfil-combo.service';
 
 
 @Component({
@@ -27,6 +29,8 @@ export class PerfilHomeComponent implements OnInit {
   isViewable = true;
   isdisabled = false;
 
+  entidadEstausTerminado: EntidadEstausDTO;
+
   @ViewChild('perfil', { read: ViewContainerRef }) perfil: ViewContainerRef;
   @ViewChild('responsibilities', { read: ViewContainerRef }) responsibilities: ViewContainerRef;
   @ViewChild('behavior', { read: ViewContainerRef }) behavior: ViewContainerRef;
@@ -36,22 +40,25 @@ export class PerfilHomeComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute,
-              private componentFactoryResolver: ComponentFactoryResolver, ) {
+              private componentFactoryResolver: ComponentFactoryResolver,
+              private perfilComboService: PerfilComboService) {
+
   }
 
   ngOnInit() {
-    // this.idEmpleado = this.route.snapshot.params['idEmpleado'];
-    // this.tipo = this.route.snapshot.params['tipo'];
-    // this.isdisabled = this.route.snapshot.params['isdisabled'];
-    if (this.idEmpleado === 0) {
-      this.isViewable = false;
-    }
-    // this.isViewable = true;
-    this.addFactoryPerfil();
-    this.addFactoryBehavior();
-    this.addFactorySkills();
-    this.addFactoryDashboards();
-    this.addFactoryObsyComments();
+    this.perfilComboService.obtenEstatusTerminado('TX_EXAMEN_RESERVACION', 'Terminado').subscribe(
+        (entidadEstatus: EntidadEstausDTO) => {
+          this.entidadEstausTerminado = entidadEstatus;
+          if (this.idEmpleado === 0) {
+            this.isViewable = false;
+          }
+          // this.isViewable = true;
+          this.addFactoryPerfil();
+          this.addFactoryBehavior();
+          this.addFactorySkills();
+          this.addFactoryDashboards();
+          this.addFactoryObsyComments();
+        });
   }
 
   private addFactoryPerfil() {
@@ -72,6 +79,7 @@ export class PerfilHomeComponent implements OnInit {
     const refBehavior = this.perfil.createComponent(factoryBehavior);
     refBehavior.instance.inTipo = this.tipo;
     refBehavior.instance.inIdEmpleado = this.idEmpleado;
+    refBehavior.instance.entidadEstausTerminado = this.entidadEstausTerminado;
     refBehavior.changeDetectorRef.detectChanges();
   }
 
@@ -85,6 +93,7 @@ export class PerfilHomeComponent implements OnInit {
     const refSkills = this.perfil.createComponent(factorySkills);
     refSkills.instance.inTipo = this.tipo;
     refSkills.instance.inIdEmpleado = this.idEmpleado;
+    refSkills.instance.entidadEstausTerminado = this.entidadEstausTerminado;
     refSkills.changeDetectorRef.detectChanges();
   }
 

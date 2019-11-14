@@ -9,7 +9,8 @@ import {Combo} from '../../../../models/Combo';
 import {ComplianceDTO} from '../../../../models/compliance-dto';
 import {EntidadEstausDTO} from '../../../../models/entidad-estaus-dto';
 import {TaskFilesComponent} from '../task-files/task-files.component';
-import {TaskGanttComponent} from "../task-gantt/task-gantt.component";
+import {TaskGanttComponent} from '../task-gantt/task-gantt.component';
+import {MaestroOpcionDTO} from '../../../../models/maestro-opcion-dto';
 
 @Component({
   selector: 'app-template-edit-task',
@@ -53,6 +54,8 @@ export class TemplateEditTaskComponent implements OnInit {
     this.listaCombos.push( new OrderCatalogDTO('typeApplication', 1, 1));
     this.listaCombos.push( new OrderCatalogDTO('deliveryPeriod', 1, 1));
     this.listaCombos.push( new OrderCatalogDTO('typeDay', 1, 1));
+    this.comboEstatus = new Array<Combo>();
+    this.comboEstatusInterno = new Array<Combo>();
     this.tagService.getlistCatalogoOrdenados(this.listaCombos).subscribe(
         poRespuesta => {
           console.dir(poRespuesta);
@@ -61,18 +64,16 @@ export class TemplateEditTaskComponent implements OnInit {
           this.resuelveDS(poRespuesta, this.comboTipoAplicacion, 'typeApplication');
           this.resuelveDS(poRespuesta, this.comboPeriodoEntrega, 'deliveryPeriod');
           this.resuelveDS(poRespuesta, this.comboTipoDias, 'typeDay');
-        }
-    );
-    this.comboEstatus = new Array<Combo>();
-    this.comboEstatusInterno = new Array<Combo>();
-    this.administratorComplianceService.obtenEstatusMaestro('CAT_SEGUIMIENTO_ESTATUS').subscribe(
-        (responseValue: Array<EntidadEstausDTO>) => {
-          this.resuelveMaestro(responseValue, this.comboEstatus);
-        }
-    );
-    this.administratorComplianceService.obtenEstatusMaestro('CAT_SEGUIMIENTO_ESTATUS_INTERNO').subscribe(
-        (responseValue: Array<EntidadEstausDTO>) => {
-          this.resuelveMaestro(responseValue, this.comboEstatusInterno);
+          this.administratorComplianceService.obtenEstatusMaestro('CAT_SEGUIMIENTO_ESTATUS').subscribe(
+              (combos: Array<MaestroOpcionDTO>) => {
+                this.resuelveMaestro(combos, this.comboEstatus);
+              }
+          );
+          this.administratorComplianceService.obtenEstatusMaestro('CAT_SEGUIMIENTO_ESTATUS_INTERNO').subscribe(
+              (combos: Array<MaestroOpcionDTO>) => {
+                this.resuelveMaestro(combos, this.comboEstatusInterno);
+              }
+          );
         }
     );
   }
@@ -140,12 +141,12 @@ export class TemplateEditTaskComponent implements OnInit {
     }
   }
 
-  resuelveMaestro(responseValue: Array<EntidadEstausDTO>, combo: Array<any>) {
+  resuelveMaestro(responseValue: Array<MaestroOpcionDTO>, combo: Array<any>) {
     if (!responseValue) {
       console.log('El back no responde');
     } else {
-      responseValue.forEach((element: EntidadEstausDTO) => {
-        combo.push(new Combo('' + element.entidadEstatusId, element.estatus.nombre));
+      responseValue.forEach((element: MaestroOpcionDTO) => {
+        combo.push(new Combo( element.maestroOpcionId.toString(), '' + element.opcion.codigo));
       });
     }
   }

@@ -29,9 +29,7 @@ export class SecurityService {
   private currentUser;
 
   parameters:any;
-  constructor(private http: HttpClient,
-    private router: Router) {
-   
+  constructor(private http: HttpClient, private router: Router) {
   }
 
 

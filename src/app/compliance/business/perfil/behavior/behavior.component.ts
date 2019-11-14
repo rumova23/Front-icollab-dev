@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Respuesta } from 'src/app/compliance/models/Respuesta';
 import { Tema } from 'src/app/compliance/models/Tema';
 import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
+import {EntidadEstausDTO} from '../../../models/entidad-estaus-dto';
 
 
 @Component({
@@ -15,6 +16,7 @@ import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
 export class BehaviorComponent implements OnInit {
   @Input() inIdEmpleado: number;
   @Input() inTipo: string;
+  @Input() entidadEstausTerminado: EntidadEstausDTO;
   temas: Array<any>;
   idTemas: Array<any>;
   examenReservacionId: number;
@@ -47,12 +49,14 @@ export class BehaviorComponent implements OnInit {
       this.totalPreg = [];
       this.idTemas = [ 'PSICOMETRICO DEFAULT'];
 
+
+
       this.preguntas.obtenPreguntasExamen('PSICOMETRICO DEFAULT', this.inIdEmpleado).subscribe(
       reservacion => {
 
         this.examenReservacionId = reservacion.examenReservacionId;
 
-        if (reservacion.entidadEstatusId === 22) {
+        if (reservacion.entidadEstatusId === this.entidadEstausTerminado.entidadEstatusId) {
             this.isdisabled = true;
             this.isdisabledFinishBehavior = true;
         }

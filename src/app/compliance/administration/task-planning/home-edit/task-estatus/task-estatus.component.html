@@ -115,7 +115,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row" [hidden]="hiddenDivButtonFreeTask">
       <div class="col-md-2">
         <div class="md-form">
           <button type="button" (click)="guardaTarea()" class="btn btn-primary btn-md">Guarda Tarea</button>
@@ -124,6 +124,13 @@
       <div class="col-md-2">
         <div class="md-form">
           <button type="button" (click)="liberaTarea()"  class="btn btn-primary btn-md">Liberar Tarea</button>
+        </div>
+      </div>
+    </div>
+    <div class="row" [hidden]="hiddenDivButtonAcceptTask">
+      <div class="col-md-2">
+        <div class="md-form">
+          <button type="button" (click)="acceptTask()" class="btn btn-primary btn-md">Acepta Tarea</button>
         </div>
       </div>
     </div>
