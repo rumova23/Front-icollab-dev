@@ -42,7 +42,7 @@ export function disenio(){
     }
   });
 }
-export function next() {
+export function next(callback) {
   $(document).ready(function() {
     window.onscroll = function() {};
     $("html, body").animate(
@@ -51,6 +51,7 @@ export function next() {
       },
       4000,()=>{
         window.onscroll = function() {}; 
+        callback();
       }
     );
   

@@ -12,6 +12,9 @@ body, #container   {
   background-size: 100% 200%;
 }
 
+.mydisabled{
+  filter:grayscale(80%);
+}
 .absolute-center,
 .menu,
 .menu .btn .fa,

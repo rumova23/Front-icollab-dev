@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit,OnDestroy {
 	private subscriptions        : Subscription[]     = [];
 	public  loginForm            : FormGroup;
 	public  apps                 : Array<App>;
+	public  appsIsActivate       : boolean = false;
 
 	constructor(
 		private formBuilder     : FormBuilder,
@@ -83,9 +84,23 @@ export class LoginComponent implements OnInit,OnDestroy {
 		}
 		return false;
 	}
-	goToModule(uri){
+	activateApp(){
+		this.appsIsActivate = true;
+		let selectores:any = document.getElementsByClassName("rotater");
+		for (const ref of selectores) {
+			if(this.existApp(ref.id)){
+				ref.classList.remove("mydisabled");
+			}else{
+				//ref.classList.add("mydisabled");
+			}
+		}
+	}
+	goToModule(id, uri){
 		window.onscroll = function() {}; 
-		this.router.navigate([uri]);
+		if(this.appsIsActivate && this.existApp(id)){
+			window.onscroll = function() {}; 
+			this.router.navigate([uri]);
+		}
 	}
 	onSubmit() {
 		//this.addBlock(1, null); //cargando
@@ -104,7 +119,9 @@ export class LoginComponent implements OnInit,OnDestroy {
 					localStorage.setItem("user", JSON.stringify(data));
 					this.loadApps();
 					this.globalService.setPlant(this.securityService.loadPlants()[0]);
-					dis.next();
+					dis.next(()=>{
+						this.activateApp();
+					});
 				},
 				errorData => {
 					console.log(errorData);

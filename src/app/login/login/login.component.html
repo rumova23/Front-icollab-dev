@@ -15,73 +15,73 @@
 			</div>
 			</div>
 			<div class="icons">
-			<div class="rotater" [ngStyle]="{filter: !existApp('Icollab') ? 'grayscale(80%)':''}">
+			<div class="rotater mydisabled" id="icollab">
 				<div class="btn btn-icon">
 				<img src="/assets/img/icollab.png" class="icon-image" />
 				<p class="icon-text">ICollab</p>
 				</div>
 			</div>
-			<div class="rotater" [ngStyle]="{filter: !existApp('Safe') ? 'grayscale(80%)':''}">
-				<div class="btn btn-icon" (click)="goToModule('/safe')">
+			<div class="rotater mydisabled" id="Safe">
+				<div class="btn btn-icon" (click)="goToModule('Safe','/safe')">
 				<img src="/assets/img/safe.png" class="icon-image" />
 				<p class="icon-text">Safe</p>
 				</div>
 			</div>
-			<div class="rotater" [ngStyle]="{filter: !existApp('Compliance') ? 'grayscale(80%)':''}">
-				<div class="btn btn-icon" (click)="goToModule('/compliance')">
+			<div class="rotater mydisabled" id="Compliance">
+				<div class="btn btn-icon" (click)="goToModule('Compliance','/compliance')">
 				<img src="/assets/img/compilance.png" class="icon-image" />
 				<p class="icon-text">Compilance</p>
 				</div>
 			</div>
-			<div class="rotater" [ngStyle]="{filter: !existApp('EFH') ? 'grayscale(80%)':''}">
-				<div class="btn btn-icon" (click)="goToModule('/monitoring')">
+			<div class="rotater mydisabled" id="Efh">
+				<div class="btn btn-icon" (click)="goToModule('Efh','/monitoring')">
 				<img src="/assets/img/efh2.png" class="icon-image" />
 				<p class="icon-text">EFH</p>
 				</div>
 			</div>
-			<div class="rotater" [ngStyle]="{filter: !existApp('Gate') ? 'grayscale(80%)':''}">
+			<div class="rotater mydisabled" id="Gate">
 				<div class="btn btn-icon">
 				<img src="/assets/img/gate2.png" class="icon-image" />
 				<p class="icon-text">Gate</p>
 				</div>
 			</div>
-			<div class="rotater" [ngStyle]="{filter: !existApp('Lotto') ? 'grayscale(80%)':''}">
+			<div class="rotater mydisabled" id="Lotto">
 				<div class="btn btn-icon">
 				<img src="/assets/img/lotto.png" class="icon-image" />
 				<p class="icon-text">Lotto</p>
 				</div>
 			</div>
-			<div class="rotater" [ngStyle]="{filter: !existApp('Administrative_monitoring') ? 'grayscale(80%)':''}">
-				<div class="btn btn-icon" (click)="goToModule('/monitoring')">
+			<div class="rotater mydisabled" id="Administrative_monitoring">
+				<div class="btn btn-icon" (click)="goToModule('Administrative_monitoring','/monitoring')">
 				<img src="/assets/img/ma.png" class="icon-image" />
 				<p class="icon-text">Monitoreo</p>
 				</div>
 			</div>
-			<div class="rotater" [ngStyle]="{filter: !existApp('Bits') ? 'grayscale(80%)':''}">
+			<div class="rotater mydisabled" id="Bits">
 				<div class="btn btn-icon">
 				<img src="/assets/img/bits.png" class="icon-image" />
 				<p class="icon-text">Bits</p>
 				</div>
 			</div>
-			<div class="rotater" [ngStyle]="{filter: !existApp('BP') ? 'grayscale(80%)':''}">
+			<div class="rotater mydisabled" id="Bp">
 				<div class="btn btn-icon">
 				<img src="/assets/img/bp.png" class="icon-image" />
 				<p class="icon-text">BP</p>
 				</div>
 			</div>
-			<div class="rotater" [ngStyle]="{filter: !existApp('Governance') ? 'grayscale(80%)':''}">
+			<div class="rotater mydisabled" id="Governance">
 				<div class="btn btn-icon">
 				<img src="/assets/img/governance.png" class="icon-image" />
 				<p class="icon-text">Governance</p>
 				</div>
 			</div>
-			<div class="rotater" [ngStyle]="{filter: !existApp('Roms') ? 'grayscale(80%)':''}">
+			<div class="rotater mydisabled" id="Roms">
 				<div class="btn btn-icon">
 				<img src="/assets/img/roms.png" class="icon-image" />
 				<p class="icon-text">Roms</p>
 				</div>
 			</div>
-			<div class="rotater" [ngStyle]="{filter: !existApp('Ma') ? 'grayscale(80%)':''}">
+			<div class="rotater mydisabled" id="MA">
 				<div class="btn btn-icon">
 				<img src="/assets/img/ma.png" class="icon-image" />
 				<p class="icon-text">MA</p>
@@ -113,7 +113,7 @@
 			<table>
 				<tr>
 				<th>
-					<img src="/assets/img/admin.png" class="icon-image"  (click)="goToModule('/security')" />
+					<img src="/assets/img/admin.png" class="icon-image"  (click)="goToModule('','/security')" />
 				</th>
 				</tr>
 				<tr>
