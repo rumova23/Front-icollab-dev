@@ -97,13 +97,12 @@
 -->
 
 		<div class="row">
-
 				<div class="form-group col-12 col-md-6 col-lg-4">
 					<label>Tipo Cumplimiento</label>
 					<select class="form-control"
 							formControlName="fTipoCumplimiento"
 							[ngClass]="{ 'is-invalid': submitted && f.fTipoCumplimiento.errors }"
-							(selectionChange)="getTasks()"
+							(change)="getTasks()"
 					>
 						<option
 								*ngFor="let operator of tiposCumplimientos;"
@@ -121,7 +120,7 @@
 					<select class="form-control"
 							formControlName="fActividad"
 							[ngClass]="{ 'is-invalid': submitted && f.fActividad.errors }"
-							(selectionChange)="getTasks()"
+							(change)="getTasks()"
 					>
 						<option
 								*ngFor="let operator of actividades;"
