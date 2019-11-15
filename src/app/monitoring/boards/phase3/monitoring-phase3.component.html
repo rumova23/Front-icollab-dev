@@ -548,8 +548,11 @@
           <div class="row">
               <div class="col text-center" (click)="openModalCt_1()">
                   <img src="/assets/monitoring/phase3/turbina-gas-desarmada.png" style="width: 100%;" *ngIf="!globalService.aguila">
-                  <video src="/assets/monitoring/phase3/turbina-gas-animada.mp4"  type="video/webm" autoplay loop width="320" *ngIf="globalService.aguila">
-                  </video>
+                  <img src="/assets/monitoring/phase3/turbina-gas.png" style="width: 100%;" *ngIf="globalService.aguila">
+                  <!--video src="/assets/monitoring/phase3/turbina-gas-animada.mp4"  type="video/webm" autoplay loop width="320" *ngIf="globalService.aguila">
+                  </video-->
+
+                  
                   <!--
                     <video src="/assets/monitoring/phase3/turbina-gas-animada.mp4"  type="video/webm" autoplay loop *ngIf="calltags['getCTUnoRPM'] > 10" width="320">
                     </video>
@@ -826,7 +829,7 @@
           </div>
           <!-- Imagen de turbina -->
           <div class="row">
-              <div class="col text-center" (click)="openModal_01([],'CT-2')">
+              <div class="col text-center" (click)="openModalCt_1()">
                 
                 <img src="/assets/monitoring/phase3/turbina-gas-desarmada.png" style="width: 100%;" *ngIf="!globalService.aguila">
                 <img src="/assets/monitoring/phase3/turbina-gas.png" style="width: 100%;" *ngIf="globalService.aguila">
@@ -1081,66 +1084,6 @@
 
   
 <app-interactive-image-turbine-ct1 #modal_turbine_ct_1 [lstTags]="calltagsObj"></app-interactive-image-turbine-ct1>
-
-
-<!-- Modal -->
-<div class="modal-backdrop fade show" *ngIf="showModal"></div>
-<div class="modal fade " 
-      id="exampleModalLong" 
-      tabindex="-1" 
-      role="dialog" 
-      aria-modal="true"
-      [ngClass]="{'show':showModal}"
-      style="overflow-y: auto;"
-      >
-  <div class="modal-dialog modal-xl" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">{{titleModal}}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal_01()">
-              <span aria-hidden="true">&times;</span>
-          </button>
-          </div>
-          <div class="modal-body pt-1 pb-1">
-              <div class="container-fluid">
-                  <div class="row">
-                      <div class="col text-center">
-                          <video src="/assets/monitoring/phase3/turbina_gas_02.mp4"  type="video/webm" autoplay loop *ngIf="calltags['getCTDosRPM'] > 10" width="320">
-                          </video>
-                          <video src="/assets/monitoring/phase3/turbina_gas_02.mp4"  type="video/webm" *ngIf="calltags['getCTDosRPM'] <= 10" width="320">
-                          </video>
-                      </div>
-                  </div>
-                  <div class="row mt-3">
-                      <div class="col">
-                          <canvas id="chart_rt" class="grafica_modal" ></canvas>
-                      </div>
-                      <div class="col">
-                              <canvas id="chart_rpm" class="grafica_modal" ></canvas>
-                      </div>
-                      <div class="col">
-                          <canvas id="chart_mw" class="grafica_modal" ></canvas>
-                          <!--div class="chart-container">
-                              <canvas id="canvas_modal"></canvas>
-                          </div-->
-                      </div>
-                  </div>
-                  <div class="row mt-5">
-                      <div class="col">
-                          <canvas id="chart_rt_t1" class="grafica_modal" ></canvas>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="modal-footer mb-1">
-              <button type="button" class="btn mybtn" (click)="closeModal_01()"
-                  [style.background]="theme.getBackgroundColor()">{{language('CERRAR')}}
-
-          </button>
-          </div>
-      </div>
-  </div>
-</div>
 
     
     <!-- Modal -->
