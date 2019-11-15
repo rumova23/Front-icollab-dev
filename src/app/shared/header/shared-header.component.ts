@@ -50,6 +50,8 @@ export class SharedHeaderComponent implements OnInit {
 	  	this.securityService.logout();
 	}
 	changePlant(plant){
+		
+		this.globalService.aguila = ! this.globalService.aguila;
 		let plants = this.securityService.loadPlants();
 		for(let i = 0; i < plants.length;i++){
 			if(plants[i].name == plant){
