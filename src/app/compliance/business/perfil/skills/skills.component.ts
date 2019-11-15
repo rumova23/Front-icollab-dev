@@ -4,6 +4,7 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 import { Respuesta } from 'src/app/compliance/models/Respuesta';
 import { Tema } from 'src/app/compliance/models/Tema';
 import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
+import { GlobalService } from 'src/app/core/globals/global.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
@@ -35,6 +36,7 @@ export class SkillsComponent implements OnInit {
   isdisabledFinish = false;
 
   constructor(private cdRef: ChangeDetectorRef,
+		public  globalService            : GlobalService,
               private ruteo: ActivatedRoute,
               private preguntas: PerfilComboService,
               public  toastr: ToastrManager,

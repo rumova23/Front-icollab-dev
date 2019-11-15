@@ -10,7 +10,7 @@ import {EntidadEstausDTO} from '../../../models/entidad-estaus-dto';
 
 @Component({
   selector: 'app-behavior',
-  templateUrl: './behavior.component.html',
+  templateUrl: './behaviorV2.component.html',
   styleUrls: ['./behavior.component.scss']
 })
 export class BehaviorComponent implements OnInit {

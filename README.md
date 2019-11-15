@@ -18,20 +18,13 @@ ng build --output-path="dist/compliance" --deployUrl="compliance/" --prod
 
 ng build --output-path="dist/compliance" --deployUrl="compliance/"
 
-ng build --prod --base-href /icollab/
+ng build --prod --base-href="/integracion/" --output-path="dist/integracion"
 
-and set in src\environments\environment.ts
-```
-export const environment = {
-  production: false
-  ,mnUrl      : 'http://201.149.85.14:8383/catalogomaestro/'  /**micro catalago maestro port:1155*/
-  ,sgUrl      : 'http://localhost:8400/'  /**seguridad port:8400*/
-  ,pgUrl      : 'http://201.149.85.14:8383/microexamen/'  /**micro examen port:1144*/ 
-  ,cnUrl      : 'http://201.149.85.14:8383/evaluacionexamen/' /**evaluacion port:1122*/ 
-  ,mtUrl      : 'http://201.149.85.14:8383/tags/'  /**micro tag port:1188*/ 
-  ,appVersion : 'Desarrollo V 0.0.0.1'
-};
-```
+Se movió de lugar la implementación del Bootstrap; anteriormente se encontraba en el index.html
+Ahora pertenece a la carpeta modules.
+Se uso el siguiente comando para instalarlo y se agregaron las siguientes referencias en el angular.json
+npm install bootstrap jquery popper.js --save
+
 
 ## Running unit tests
 
@@ -44,3 +37,8 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+para insertar iconos propios 
+ "styles": [
+              "src/assets/font/icons.css",

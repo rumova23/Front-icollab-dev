@@ -217,7 +217,7 @@ export class ActivitiesEditComponent implements OnInit {
             this.deshabiliarEstatus = true;
             this.disabledSave = true;
             this.showEditClonated = true;
-            //this.eventService.sendMainCompliance(new EventMessage(6, {}));
+            //this.eventService.sendChangePage(new EventMessage(6, {} ,'Compliance.Categorías'));
           }
 
           
@@ -251,7 +251,7 @@ export class ActivitiesEditComponent implements OnInit {
           this.toastr.successToastr('La actividad fue Clonada con éxito.', '¡Se ha logrado!');
         }
 
-        this.eventService.sendMainCompliance(new EventMessage(6, {})); 
+        this.eventService.sendChangePage(new EventMessage(6, {} ,'Compliance.Categorías')); 
       }
     )
   }
@@ -285,7 +285,7 @@ export class ActivitiesEditComponent implements OnInit {
         this.deshabiliarEstatus = true;
         this.disabledSave = true;                
         this.showEditClonated = true;
-        //this.eventService.sendMainCompliance(new EventMessage(6, {}));
+        //this.eventService.sendChangePage(new EventMessage(6, {} ,'Compliance.Categorías'));
         //this.addBlock(2, null)
       },
       error => {
@@ -298,7 +298,7 @@ export class ActivitiesEditComponent implements OnInit {
     this.tagService.setEditClonated(this.actividad,!this.globalService.aguila).subscribe( 
       dataBack => { 
         this.toastr.successToastr('La actualización de elementos clonados se logró con éxito.', '¡Se ha logrado!');
-        this.eventService.sendMainCompliance(new EventMessage(6, {}));
+        this.eventService.sendChangePage(new EventMessage(6, {} ,'Compliance.Categorías'));
       }
     );
   }  
@@ -369,7 +369,7 @@ export class ActivitiesEditComponent implements OnInit {
         })
     }
 
-    this.eventService.sendMainCompliance(new EventMessage(6, {}));
+    this.eventService.sendChangePage(new EventMessage(6, {} ,'Compliance.Categorías'));
   }  
 
 

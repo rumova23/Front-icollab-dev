@@ -20,6 +20,9 @@ import { PlannedPowersPPAFComponent } from 'src/app/safe/business/mdaPlanningPro
 import { PlannedPowersPPAGComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaG/plannedPowersPpaG.component';
 import { PlannedPowersPPAHComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaH/plannedPowersPpaH.component';
 import { PlannedPowersPPAIComponent } from 'src/app/safe/business/mdaPlanningProcess/plannedPowersPpaI/plannedPowersPpaI.component';
+import { ThemeService } from 'src/app/core/globals/theme';
+import { SecurityService } from 'src/app/core/services/security.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-mockUpHome',
   templateUrl: './mockUpHome.component.html',
@@ -32,32 +35,8 @@ import { PlannedPowersPPAIComponent } from 'src/app/safe/business/mdaPlanningPro
   ]
 })
 export class MockUpHomeComponent implements OnInit {
-    menu = [
-        {
-          id:'Link-MockUp',
-          label:'Link-MockUp',
-          icon:'/assets/images/skins/layer_7_ek1.png',
-          children:[
-            {label:'planned-powers-ppa'},
-            {label:'heat-rate-record'},
-            {label:'sales-offers'},
-            {label:'sales-offers-V2'},
-            {label:'registration-customer'},
-            {label:'Legal-Compliance'},
-            {label:'New Event'},
-            {label:'Monitoreo nivel 2'},
-            {label:'planned-powers-ppa-B'},
-            {label:'planned-powers-ppa-C'},
-            {label:'Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaD'},
-            {label:'Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaE'},
-            {label:'Planeación de variables'},
-            {label:'Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaG'},
-            {label:'Importación'},
-            {label:'planned-powers-ppa-I'}
 
-          ]
-        },
-      ];
+	private subscriptions : Subscription[]     = [];
       
   @Input() asideOpen;
   public serviceSubscription: any;
@@ -65,27 +44,117 @@ export class MockUpHomeComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     public globalService: GlobalService,
+		public  theme                    : ThemeService,
     private componentFactoryResolver: ComponentFactoryResolver,
+    private securityService: SecurityService,
     private eventService: EventService) {
-    this.serviceSubscription = this.eventService.onChangeMainLinkMockUp.subscribe({
-      next: (event: EventMessage) => {
-        console.log(event);
-        switch (event.id) {
-          case 1:
-            this.asideOpen = !this.asideOpen;
-            break;
-          default:
-            this.clickMenu(event);
-            break;
-        }
-      }
-    });
+
+      
+    try{
+			this.theme.setApp("Mock_Up");
+			if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
+		}catch(err){
+			// Para que funcione en la .201
+			///*
+			this.globalService.plant = {id: 1, name: "AGUILA"};
+			this.globalService.app   = {id: 2, name: "Compliance"};
+			//*/
+    }
+    
+
+
   }
 
   ngOnInit() {
 
   }
   
+	subscribeOnChangePage(){
+		this.subscriptions.push(this.eventService.onChangePage.subscribe({
+			next: (event: EventMessage) => {
+        this.viewContainerRef.clear();
+				switch (event.data.label) {
+          case 'Link-MockUp':
+              this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAComponent)).changeDetectorRef.detectChanges();
+              break;
+          case 'planned-powers-ppa':
+              this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAComponent)).changeDetectorRef.detectChanges();
+              break;  
+          case 'heat-rate-record':
+              this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(HeatRateRecordComponent)).changeDetectorRef.detectChanges();
+              break;  
+          case 'sales-offers':
+              this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(SalesOffersComponent)).changeDetectorRef.detectChanges();
+              break;  
+          case 'registration-customer':
+              this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(ClientsComponent)).changeDetectorRef.detectChanges();
+              break;  
+          case 'Legal-Compliance':
+              this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(LegalAgreementComponent)).changeDetectorRef.detectChanges();
+              break;  
+          case 'New Event':
+              this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(SafeNewEventComponent)).changeDetectorRef.detectChanges();
+              break;  
+          case 'Monitoreo nivel 2':
+              this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(DashboardAComponent)).changeDetectorRef.detectChanges();
+              break;  
+          case 'sales-offers-V2':
+              this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(SalesOffersV2Component)).changeDetectorRef.detectChanges();
+              break;  
+          case 'planned-powers-ppa-B':
+              this.viewContainerRef.createComponent(
+                this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPpaBComponent)
+              ).changeDetectorRef.detectChanges();
+              break;  
+          case 'planned-powers-ppa-C':
+              
+              this.viewContainerRef.createComponent(
+                this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPpaCComponent)
+              ).changeDetectorRef.detectChanges();
+              break;  
+          case 'Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaD':
+              this.viewContainerRef.createComponent(
+                this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPADComponent)
+              ).changeDetectorRef.detectChanges();
+              break;  
+              
+          case 'Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaE':
+            
+            this.viewContainerRef.createComponent(
+              this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAEComponent)
+            ).changeDetectorRef.detectChanges();
+            break;  
+  
+          case 'Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaG':
+            
+            this.viewContainerRef.createComponent(
+              this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAGComponent)
+            ).changeDetectorRef.detectChanges();
+            break;  
+          case 'Planeación de variables':
+            
+            this.viewContainerRef.createComponent(
+              this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAFComponent)
+            ).changeDetectorRef.detectChanges();
+            break; 
+          case 'Importación':
+            
+            this.viewContainerRef.createComponent(
+              this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAHComponent)
+            ).changeDetectorRef.detectChanges();
+            break; 
+    
+          case 'planned-powers-ppa-I':
+            
+            this.viewContainerRef.createComponent(
+              this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAIComponent)
+            ).changeDetectorRef.detectChanges();
+            break;     
+				}
+			}
+		}));
+	}
+	
   toggleMenu() {
     this.eventService.sendLinkMockUp(new EventMessage(1, null));
   }
@@ -93,182 +162,10 @@ export class MockUpHomeComponent implements OnInit {
     console.log(item);
     let option = 0;
     let data = {};
-    switch (item.label) {
-        case 'Link-MockUp':
-            option = 3;
-            data = item;
-            break;
-        case 'planned-powers-ppa':
-            option = 3;
-            data = item;
-            break;  
-        case 'heat-rate-record':
-            option = 4;
-            data = item;
-            break;  
-        case 'sales-offers':
-            option = 5;
-            data = item;
-            break;  
-        case 'registration-customer':
-            option = 6;
-            data = item;
-            break;  
-        case 'Legal-Compliance':
-            option = 7;
-            data = item;
-            break;  
-        case 'New Event':
-            option = 8;
-            data = item;
-            break;  
-        case 'Monitoreo nivel 2':
-            option = 9;
-            data = item;
-            break;  
-        case 'sales-offers-V2':
-            option = 10;
-            data = item;
-            break;  
-        case 'planned-powers-ppa-B':
-            option = 11;
-            data = item;
-            break;  
-        case 'planned-powers-ppa-C':
-            option = 12;
-            data = item;
-            break;  
-        case 'Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaD':
-            option = 13;
-            data = item;
-            break;  
-            
-        case 'Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaE':
-          option = 14;
-          data = item;
-          break;  
-
-        case 'Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaG':
-          option = 16;
-          data = item;
-          break;  
-        case 'Planeación de variables':
-          option = 17;
-          data = item;
-          break; 
-        case 'Importación':
-          option = 18;
-          data = item;
-          break; 
-  
-        case 'planned-powers-ppa-I':
-          option = 19;
-          data = item;
-          break;         
+    switch (item.label) {    
     }
     //this.clickMenu(new EventMessage(option, data));
     this.eventService.sendLinkMockUp(new EventMessage(option, data));
     
   }
-  private clickMenu(event: EventMessage): void {
-    this.viewContainerRef.clear();
-    switch (event.id) {
-        case 3:
-            const factoryProducts = this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAComponent);
-            const refProducts =
-            this.viewContainerRef.createComponent(factoryProducts);
-            refProducts.changeDetectorRef.detectChanges();
-            break;
-        case 4:
-            const factoryHeatRateRecord = this.componentFactoryResolver.resolveComponentFactory(HeatRateRecordComponent);
-            const refHeatRateRecord =
-            this.viewContainerRef.createComponent(factoryHeatRateRecord);
-            refHeatRateRecord.changeDetectorRef.detectChanges();
-            break;
-        case 5:
-            const factorySalesOffers = this.componentFactoryResolver.resolveComponentFactory(SalesOffersComponent);
-            const refSalesOffers =
-            this.viewContainerRef.createComponent(factorySalesOffers);
-            refSalesOffers.changeDetectorRef.detectChanges();
-            break;
-        case 6:
-            const factoryRegistrationCustomer = this.componentFactoryResolver.resolveComponentFactory(ClientsComponent);
-            const refRegistrationCustomer =
-            this.viewContainerRef.createComponent(factoryRegistrationCustomer);
-            refRegistrationCustomer.changeDetectorRef.detectChanges();
-            break;
- 
-        case 7:
-          const factoryLegalCompliance = this.componentFactoryResolver.resolveComponentFactory(LegalAgreementComponent);
-          const refLegalCompliance =
-          this.viewContainerRef.createComponent(factoryLegalCompliance);
-          refLegalCompliance.changeDetectorRef.detectChanges();
-          break;
-        case 8:
-          const factoryNewEvent = this.componentFactoryResolver.resolveComponentFactory(SafeNewEventComponent);
-          const refNewEvent =
-          this.viewContainerRef.createComponent(factoryNewEvent);
-          refNewEvent.changeDetectorRef.detectChanges();
-          break;
-        case 9:
-          const factoryDashboard = this.componentFactoryResolver.resolveComponentFactory(DashboardAComponent);
-          const refDashboard =
-          this.viewContainerRef.createComponent(factoryDashboard);
-          refDashboard.changeDetectorRef.detectChanges();
-          break;
-          
-        case 10:
-          const factorySalesOffersV2 = this.componentFactoryResolver.resolveComponentFactory(SalesOffersV2Component);
-          const refSalesOffersV2 =
-          this.viewContainerRef.createComponent(factorySalesOffersV2);
-          refSalesOffersV2.changeDetectorRef.detectChanges();
-          break;
-        case 11:
-          this.viewContainerRef.createComponent(
-            this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPpaBComponent)
-            ).changeDetectorRef.detectChanges();
-          break;
-        case 12:
-          this.viewContainerRef.createComponent(
-            this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPpaCComponent)
-            ).changeDetectorRef.detectChanges();
-          break;
-        case 13:
-          this.viewContainerRef.createComponent(
-            this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPADComponent)
-            ).changeDetectorRef.detectChanges();
-          break;
-        case 14:
-          this.viewContainerRef.createComponent(
-            this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAEComponent)
-            ).changeDetectorRef.detectChanges();
-          break;
-        case 16:
-          this.viewContainerRef.createComponent(
-            this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAGComponent)
-            ).changeDetectorRef.detectChanges();
-          break;
-          
-        case 17:
-          this.viewContainerRef.createComponent(
-            this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAFComponent)
-            ).changeDetectorRef.detectChanges();
-          break;
-          
-        case 18:
-          this.viewContainerRef.createComponent(
-            this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAHComponent)
-            ).changeDetectorRef.detectChanges();
-          break;
-          
-        case 19:
-          this.viewContainerRef.createComponent(
-            this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAIComponent)
-            ).changeDetectorRef.detectChanges();
-          break;
-            
-    }
-  }
-
-  
 }

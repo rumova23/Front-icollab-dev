@@ -1,7 +1,25 @@
-#columna{
-	background: rgb(52, 58, 64);
-    color: #fff;
+:host{
+    top:0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
 }
-.info-user{
-    color: #fff;   
+#body{
+    min-height: 88vh;
 }
+
+// #columna{
+// 	background: rgb(68, 73, 78);
+//     color: #fff;
+// }
+// .info-user{
+//     color: #fff;   
+// }
+// #seccion{
+//     /*background: rgb(14, 18, 22);*/
+//     background:#000000;
+// }
+// hr{
+// 	background: #ffffff;
+// 	height: 1px;
+// }

@@ -1,0 +1,59 @@
+<div class="section">
+    <div class="row pb-3">
+        <div class="col">
+            <p class="section_titulo_0">Comportamiento Personal</p>
+        </div>
+    </div>
+    <hr>
+    <br>
+  <!--<div class="row">
+    <div class="col-12" style="background: grey; color: white"><h3>Comportamiento Personal</h3></div>
+  </div>-->
+  
+          <form (ngSubmit)="onSubmit()">
+            <div class="row" >
+              <div class="col-md-6" *ngFor="let item of temas; let i = index;" >
+                <div class="col " style="text-align: center;">
+                  <h4 class="mt-3 mb-3">{{item.label}}</h4>
+                  <hr>
+                </div> 
+                <div class="row justify-content-between" style="width: 100%;" >
+                  <div class="col-6" *ngFor="let preg of item.pregu; let j = index; let c = count;">
+                    <div class="row justify-content-between">
+                      <div class="col">
+                        <mat-label style="padding-right: 16px;" >{{preg.label}}
+                        </mat-label>
+                      </div>
+  
+                      <div class="col">
+                        <mat-radio-group [disabled]="isdisabled" [(ngModel)]="grupOpc[i][j]" [ngModelOptions]="{standalone: true}">
+                          <div class="row">
+                            <div class="col"  *ngFor="let opc of preg.pregu">
+                              <mat-radio-button  [checked]="opc.label!='No'" [value]="opc.value">{{opc.label}}
+                              </mat-radio-button>
+                            </div>
+                          </div>
+                        </mat-radio-group>
+  
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>  
+            </div>
+            <div class="row">
+                <div class="col-12 text-right">
+                  <!--
+                    <button type="submit" class="btn btn-primary btn-md" [disabled]="(this.entidadEstatusId === this.terminadoId) ? true:false" >Guardar</button>
+                    <button class="btn btn-primary btn-md" (click)="terminaExamen()" [disabled]="(this.entidadEstatusId === this.terminadoId) ? true:false">Termina Examen</button>
+                  -->
+                    <button class="btn" (click)="terminaExamen()" [disabled]="isdisabled">
+                      <i class="ti-save"></i>&nbsp;
+                      Termina Examen
+                    </button>
+                </div>
+            </div>  
+          </form>
+
+  </div>
+  

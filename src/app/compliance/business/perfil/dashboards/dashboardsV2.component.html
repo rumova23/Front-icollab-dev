@@ -1,0 +1,77 @@
+
+<div class="section">
+    <div class="row pb-3">
+        <div class="col">
+            <p class="section_titulo_0">Calificaciones</p>
+            <p class="section_subtitulo_0"></p>
+        </div>
+    </div>
+    <hr style="border-top: 1.5px solid rgba(0, 0, 0, 0.1);">
+    <br>
+    <div class="row">
+        <div class="col">
+
+            <div *ngFor="let gr of charResul; let l = index;">
+                <div class="row">
+                    <div class="col-4">
+                        <canvas mdbChart
+                        [chartType]="gr.chartType"
+                        [datasets]="gr.cd_1"
+                        [labels]="gr.cl_1"
+                        [colors]="gr.cc_1"
+                        [options]="gr.border"
+                        [legend]="gr.respon"
+                        (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)">
+                        </canvas>
+                    </div>
+                    <div class="col-8">
+                        <div class="row">
+                        <div class="col-12">
+                                <p class="section_titulo_0" *ngIf="(gr.cd_1[0].label == 'DEFAULT')">
+                                    Evaluación de Conocimiento General 
+                                </p>
+                                <p class="section_titulo_0" *ngIf="(gr.cd_1[0].label == 'PSICOMETRICO DEFAULT')">
+                                    Evaluación de Aptitudes y Valores
+                                </p>
+                        </div> 
+                        </div>
+                        <div class="row center" >
+                            <div class="col-6" >
+                                <div class="form-group">
+                                    <label>Total de Reactivos</label>
+                                    <input mdbInput class="form-control"  
+                                    type="text" id="form1"[value]="gr.totRea" disabled>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Puntuación</label>
+                                    <input mdbInput type="text" id="form1" class="form-control" [value]="gr.puntua" disabled>
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Porcentaje</label>
+                                    <input mdbInput type="text" id="form1" class="form-control" [value]="gr.porcen" disabled>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>  
+            </div> 
+            <div class="row">
+                <div *ngFor="let scala of scalas; let l = index;">
+                    <div class="col">
+                        <span >{{scala.label}}</span>
+                        <span [ngStyle]="{ 'color':'white', 'background-color': scala.rango.color}" >{{scala.rango.max}}{{scala.rango.menssa}}{{scala.rango.min}}</span>
+                        </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+    

@@ -9,6 +9,12 @@ import { ComplianceService } from '../../services/compliance.service';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { TablesLegalAgreementComponent } from './content/tablesLegalAgreement.component';
 import { MatAccordion } from '@angular/material';
+import { EventMessage } from 'src/app/core/models/EventMessage';
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
+import { EventService } from 'src/app/core/services/event.service';
+import * as DEMO from './Demo';
+
+
 
 @Component({
   selector: 'app-legalAgreement',
@@ -66,7 +72,8 @@ export class LegalAgreementComponent implements OnInit {
   constructor(
     private complianceService: ComplianceService,
     public globalService: GlobalService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+		private eventService: EventService
   ) { }
 
   ngOnInit() {
@@ -77,30 +84,84 @@ export class LegalAgreementComponent implements OnInit {
   }
 
   filtrarCompliance() {
-    this.limpiarTablas();
+    
+		let bandera = false;
+		let fFechaInicio = new Date(this.fFechaInicio.value+"T23:00:00z");
+		let fFechaFin = new Date(this.fFechaFin.value+"T23:00:00z");
+		
+		this.addBlock(1, null);
+		this.limpiarTablas();
+		
 
-    this.complianceService.getCompliancePorPlantaYFechas(
-        new Date(this.fFechaInicio.value),
-        new Date(this.fFechaFin.value)).subscribe(result => {
-          this.elementData = result;
-          this.asignarRegistros();
-          this.complianceService.getDiagramas(
+		/*
+		var result = JSON.parse(DEMO["getCompliancePorPlantaYFechas"]);
+		this.elementData = result;
+		this.asignarRegistros();
+
+		
+		var resultGant = JSON.parse(DEMO["getDiagramas"]);
+		this.elementDataGant = resultGant;
+		this.asignarRegistrosGant();
+		this.addBlock(2, null);
+
+		this.childPagos.elementData = this.elementData;
+		this.childPagos.disparador();
+		this.childNotificaciones.elementData = this.elementData;
+		this.childNotificaciones.disparador2();
+
+		if(localStorage.getItem("getCompliancePorPlantaYFechas")){
+			var result = JSON.parse(localStorage.getItem("getCompliancePorPlantaYFechas"));
+			this.elementData = result;
+			this.asignarRegistros();
+			if(localStorage.getItem("getDiagramas")){
+				var resultGant = JSON.parse(localStorage.getItem("getDiagramas"));
+				this.elementDataGant = resultGant;
+				this.asignarRegistrosGant();
+				this.addBlock(2, null);
+			}else{
+				bandera = true;
+			}
+		}else{
+			bandera = true;
+		}
+		//*/
+		if(1){
+        this.limpiarTablas();
+
+        this.complianceService.getCompliancePorPlantaYFechas(
             new Date(this.fFechaInicio.value),
-            new Date(this.fFechaFin.value)).subscribe(resultGant => {
-              this.elementDataGant = resultGant;
-              this.asignarRegistrosGant();
-            },
+            new Date(this.fFechaFin.value)).subscribe(result => {
+              this.elementData = result;
+              this.asignarRegistros();
+              this.complianceService.getDiagramas(
+                new Date(this.fFechaInicio.value),
+                new Date(this.fFechaFin.value)).subscribe(resultGant => {
+                  this.elementDataGant = resultGant;
+                  this.asignarRegistrosGant();
+                  
+                  
+                  this.childPagos.elementData = this.elementData;
+                  this.childPagos.disparador();
+                  this.childNotificaciones.elementData = this.elementData;
+                  this.childNotificaciones.disparador2();
+    
+                  this.addBlock(2, null);
+                },
+              error => {
+                console.log(error as any);
+                this.addBlock(2, null);
+              });
+          },
           error => {
             console.log(error as any);
+            this.addBlock(2, null);
           });
-      },
-      error => {
-        console.log(error as any);
-      });
+
+    }
   }
 
   limpiarTablas() {
-    this.accordion.closeAll();
+    //this.accordion.closeAll();
     this.expandCloseAll = false;
 
     this.indicePagos = 0;
@@ -312,4 +373,9 @@ export class LegalAgreementComponent implements OnInit {
       this.childOtros.datosCumplimiento = this.elementDataGant[indiceOtros].datosCumplimiento;
     }
   }
+
+  
+	private addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+	}
 }

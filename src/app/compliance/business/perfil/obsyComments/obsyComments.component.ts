@@ -6,7 +6,7 @@ import { Documents } from 'src/app/compliance/models/Documents';
 import { CarasDocument } from 'src/app/compliance/models/CarasDocument';
 import { Comentario } from 'src/app/core/models/comentario';
 import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
-
+import { GlobalService } from 'src/app/core/globals/global.service';
 
 @Component({
   selector: 'app-obsyComments',
@@ -28,6 +28,7 @@ export class ObsyCommentsComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   constructor(
     private comentarios: PerfilComboService,
+    public globalService: GlobalService,
     private formBuildier: FormBuilder, public toastr: ToastrManager) {
     this.observacioes = [];
     this.titleDocument = [];

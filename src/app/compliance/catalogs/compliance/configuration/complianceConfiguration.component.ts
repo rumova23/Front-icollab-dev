@@ -201,7 +201,7 @@ export class ComplianceConfigurationComponent implements OnInit {
         name: null};
        break;
     }
-    this.eventService.sendMainCompliance(new EventMessage(9, type));
+    this.eventService.sendChangePage(new EventMessage(9, type ,'Compliance.Características.ABC'));
  }
 
   // Loadin

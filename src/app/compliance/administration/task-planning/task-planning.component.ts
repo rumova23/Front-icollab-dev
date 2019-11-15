@@ -6,7 +6,7 @@ import {Task} from '../../models/Task';
 import {PerfilComboService} from '../../../core/services/perfil-combo.service';
 import {ToastrManager} from 'ng6-toastr-notifications';
 import {Compliance} from '../../models/Compliance';
-import {DOCUMENT} from '@angular/common';
+import { DOCUMENT, DatePipe } from '@angular/common';
 import {CatalogType} from "../../models/CatalogType";
 import {EventMessage} from "../../../core/models/EventMessage";
 import {EventService} from "../../../core/services/event.service";
@@ -19,6 +19,7 @@ import {EventService} from "../../../core/services/event.service";
 export class TaskPlanningComponent implements OnInit {
   filtrosForm: FormGroup;
   fFechaInicio = new FormControl(new Date());
+  fFechaInicioModel;
   fFechaFin = new FormControl((new Date()));
   personas: Array<any>;
   munecoTasks: Array<Task>;
@@ -36,6 +37,7 @@ export class TaskPlanningComponent implements OnInit {
       private formBuilder: FormBuilder,
       public  toastr: ToastrManager,
       @Inject (DOCUMENT) document,
+      private datePipe: DatePipe,
       private eventService: EventService) {
     this.filtrosForm = this.formBuilder.group({
       fFechaInicio: ['', Validators.required],
@@ -44,6 +46,9 @@ export class TaskPlanningComponent implements OnInit {
       fTipoCumplimiento: [{ value: '', disabled: false }, Validators.required],
       fActividad: [{ value: '', disabled: false }, Validators.required]
     });
+
+    let yesterday = new Date();
+    this.fFechaInicioModel =  this.datePipe.transform(yesterday, 'yyyy-MM-dd');
   }
   ngOnInit() {
     this.personas = [];
@@ -178,6 +183,6 @@ export class TaskPlanningComponent implements OnInit {
                     name: null}
                 break;
         }
-        this.eventService.sendMainCompliance(new EventMessage(7, type));
+        this.eventService.sendChangePage(new EventMessage(7, type,'Compliance.Categorías.ABC'));
     }
 }

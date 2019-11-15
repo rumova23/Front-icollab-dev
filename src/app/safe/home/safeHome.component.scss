@@ -1,4 +1,15 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900);
+:host{
+    top:0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+#body{
+    min-height: 88vh;
+}
+
+
 
 $color1: #C8DAE6;
 $color2: white;

@@ -1,0 +1,14 @@
+:host{
+    color:#fff;
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url('/assets/img/bg-max.png') no-repeat center center;
+    background-size: cover;
+}
+.full-height {
+	height: 100vh;
+	overflow: scroll;
+}

@@ -1,17 +1,26 @@
-<div class="p-5">
-  <!-- Titulo -->
-  <div class=" row">
-    <div class="col">
-      <span class="agila-cda-titulo">Unidad de Productos</span>
-    </div>
+<div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+    <mdb-breadcrumb-item>Catálogos</mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">Unidad de Productos</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+
+<div class="section">
+  <div class="row pb-2">
+      <div class="col">
+          <p class="section_titulo_0">Unidad de Productos</p>
+          <p class="section_subtitulo_0"> </p>
+      </div>
   </div>
-  <div class="row mb-3 mt-5">
-    <div class="col">
-      <button type="button" class="btn" [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
+  <hr>  
+  <div class="row mb-3 mt-3">
+    <div class="col text-right">
+      <button type="button" class="btn mybtn"
         (click)="newEntity()"><i class="fas fa-user-plus"></i>&nbsp;Agregar</button>
     </div>
   </div>
-  <div class="row mt-4">
+  <div class="row mb-3 mt-3">
     <div class="col">
       <div class="tabla-responsi mat-elevation-z8">
         <table mat-table [dataSource]="unityProducts" class="table_catalogo">

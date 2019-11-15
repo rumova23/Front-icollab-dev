@@ -1,24 +1,24 @@
-<div class="container-fluid mt-5 mb-5">
-    <mdb-card>
-        <mdb-card-header><h3>Conocimiento y Habilidades</h3></mdb-card-header>
-        <mdb-card-body> 
-                    
-            <!--<div class="row">
-                <div class="col-12" style="background: grey; color: white">
-                <h3></h3>
-                </div>
-            </div>-->
+	  
+<div class="section">
+	<div class="row pb-4">
+		<div class="col">
+				<p class="section_titulo_0">Conocimiento y Habilidades</p>
+				<p class="section_subtitulo_0">Aqui puedes ... </p>
+		</div>
+	</div>
+	<div class=" row">
+		<div class="col-12">
             <form (ngSubmit)="onSubmit()">
               <div *ngFor = "let tema of temas; let i = index;" >
-                <div class="row text-blue" >
+                <div class="row text-blue mb-3" >
                     <div class="col-12" [ngStyle]="{ 'color':'white', 'background-color': tema.color}">
-                        <h4>{{tema.label}}</h4>
+                        <p class="py-3">{{tema.label}}</p>
                     </div>
                 </div>
                 <div *ngFor = "let preg of tema.pregu; let j = index; let c = count;">
                     <div class="form-row" style="background: white;">
                             <div class="col-6">
-                                <h5>{{preg.label}}</h5>
+                                <p>{{preg.label}}</p>
                                 <input type="hidden" [(ngModel)]="grupPregSkill[i][j]" [ngModelOptions]="{standalone: true}" />
                             </div>
                             <div class="col-6" style="text-align-last: right" >
@@ -39,8 +39,7 @@
                 </div>                     
             </div>
             <div class="row">
-                    <div class="col-10"></div>
-                    <div class="col-2">
+                    <div class="col-12 text-right">
                         
                        <!--
                         <button type="submit" class="btn btn-primary btn-md" 
@@ -51,14 +50,19 @@
                         </button>                        
                        -->
 
-                        <button type="submit" class="btn btn-primary btn-md" [disabled]="isdisabled">Guardar</button>
-                        <button type="button" class="btn btn-primary btn-md" (click)="terminaExamen()" [disabled]="isdisabledFinish">Termina Examen
+                        <button type="submit" class="btn" [disabled]="isdisabled">
+                            <i class="ti-bookmark-alt"></i>&nbsp;
+                            Guardar
+                        </button>
+                        <button type="button" class="btn" (click)="terminaExamen()" [disabled]="isdisabledFinish">
+                            <i class="ti-save"></i>&nbsp;
+                            Termina Examen
                         </button>
                     </div>
                 </div>    
             </form>
 
     
-        </mdb-card-body>
-    </mdb-card>
+        </div>
+    </div>
 </div>

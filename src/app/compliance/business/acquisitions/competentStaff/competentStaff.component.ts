@@ -7,6 +7,7 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { GlobalService } from 'src/app/core/globals/global.service';
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 
 export interface Personalcompetente {
@@ -154,7 +155,8 @@ export class CompetentStaffComponent implements OnInit {
   }
 
   cargaTabla() {
-
+    
+		this.addBlock(1, null);
     this.elementData = [];
     this.personal.getEmpleados().subscribe(
       resul => {
@@ -193,6 +195,9 @@ export class CompetentStaffComponent implements OnInit {
           this.registros = new MatTableDataSource<Personalcompetente>(this.elementData);
           this.registros.paginator = this.paginator;
           this.registros.sort = this.sort;
+
+          
+				  this.addBlock(2, null);
         } else {
           console.log(resul['mensaje']);
         }
@@ -213,7 +218,7 @@ export class CompetentStaffComponent implements OnInit {
             //alert('SUCCESS!! :-)\n\n' + JSON.stringify('Eliminacion exitosa'));
             //this.cargaTabla();
 
-            this.eventService.sendMainCompliance(new EventMessage(10, {})); 
+            this.eventService.sendChangePage(new EventMessage(10, {},'Compliance.Personal Competente')); 
           }
         }
       );
@@ -229,11 +234,14 @@ export class CompetentStaffComponent implements OnInit {
 
 
   action(idEmpleado, tipo) {
-    this.eventService.sendMainCompliance(new
+    this.eventService.sendChangePage(new
       EventMessage(11, { 
         idEmpleado: idEmpleado,
         tipo: tipo
-      }));
+      },'Compliance.Personal Competente.11'));
   }
 
+	private addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+	}
 }

@@ -1,163 +1,137 @@
 <div class="row">
-  <mdb-breadcrumb customClass="white" class="w-100">
-    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
-    <mdb-breadcrumb-item class="active">{{titulo}}</mdb-breadcrumb-item>
-  </mdb-breadcrumb>
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{titulo}}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+	  
+<div class="section">
+	<div class="row pb-4">
+		<div class="col">
+				<p class="section_titulo_0">{{titulo}}</p>
+				<p class="section_subtitulo_0">Aqui puedes ... </p>
+		</div>
+	</div>
+	<div class=" row">
+		<div class="col-12">
+			<form [formGroup]="filtrosForm" (ngSubmit)="filtrarCompliance()">
+				<div class="form-group row">
+					<div class="form-group col-12 col-md-6 col-lg-4">
+						<label for="fechaDesde">Desde</label>
+						<input type="date" class="form-control" id="fechaDesde" [formControl]="fFechaInicio">
+					</div>
+					<div class="form-group col-12 col-md-6 col-lg-4">
+						<label for="fechaHasta">Hasta</label>
+						<input type="date" class="form-control" id="fechaHasta" [formControl]="fFechaFin">
+					</div>
+					<div class="form-group col-12 col-md-12 col-lg-4 text-right align-self-end">
+						<button type="submit" class="btn" id="fechaHassta">
+							<i class="ti-search"></i> &nbsp;
+							Buscar
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
 
 <div class="section">
-
-	<div class="row pb-2">
+	<div class="row pb-3">
 		<div class="col">
-			<p class="section_titulo_0">{{titulo}}</p>
-			<p class="section_subtitulo_0"> </p>
+			<p class="section_titulo_0">Pagos</p>
+			<p class="section_subtitulo_0">Aqui puedes ...</p>
 		</div>
 	</div>
-	<hr>
-	<div class=" row mb-3">
-		<div class="col">
-			<span class="agila-cda-titulo">{{titulo}}</span>
-		</div>
-	</div>
-
-	<form class="mt-5" [formGroup]="filtrosForm" (ngSubmit)="filtrarCompliance()">
-		<div class="row">
-		<div class="col-md-2">
-			<!-- Material input -->
-			<div class="md-form">
-			<mat-form-field>
-				<input matInput [matDatepicker]="fechaDesde" placeholder="Desde" [formControl]="fFechaInicio" >
-				<mat-datepicker-toggle matSuffix [for]="fechaDesde"></mat-datepicker-toggle>
-				<mat-datepicker #fechaDesde disabled="false"></mat-datepicker>
-			</mat-form-field>
-			</div>
-		</div>
-		<div class="col-md-2">
-			<!-- Material input -->
-			<div class="md-form">
-			<mat-form-field>
-				<input matInput [matDatepicker]="fechaHasta" placeholder="Hasta" [formControl]="fFechaFin">
-				<mat-datepicker-toggle matSuffix [for]="fechaHasta"></mat-datepicker-toggle>
-				<mat-datepicker #fechaHasta disabled="false"></mat-datepicker>
-			</mat-form-field>
-			</div>
-		</div>
-
-		<div class="col-md-8">
-			<!-- Material input -->
-			<div class="md-form">
-				<button type="submit" class="btn btn-md" [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}" >Buscar</button>
-			</div>
-		</div>
-		</div>
-	</form>
-		
-	<!-- Accordion -->
-	<div class="row">
-		<div class="col">
-		<button type="button" class="btn btn-md" [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}" (click)="accordion.openAll()" *ngIf="expandCloseAll">Expandir Todas</button>
-		<button type="button" class="btn btn-md" [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}" (click)="accordion.closeAll()" *ngIf="expandCloseAll">Cerrar Todas</button>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col">
-			<mat-accordion [displayMode]="displayMode" [multi]="multi" class="mat-expansion-demo-width">
-				<!-- Pestaña 1-->
-				<!--mat-expansion-panel [disabled]="!(indicePagos>0)"-->
-				<mat-expansion-panel>
-				<mat-expansion-panel-header>
-					<mat-panel-title>
-						<mdb-icon fas icon="plus" class="mr-2"></mdb-icon> Pagos
-					</mat-panel-title>
-				</mat-expansion-panel-header>
-				<app-tablesLegalAgreement #pagos></app-tablesLegalAgreement>
-				</mat-expansion-panel>
-				
-				<!-- Pestaña 2 -->
-				<mat-expansion-panel [disabled]="!(indiceNotificaciones>0)" >
-				<mat-expansion-panel-header>
-					<mat-panel-title>
-						<mdb-icon fas icon="plus" class="mr-2"></mdb-icon> Notificaciones
-					</mat-panel-title>
-				</mat-expansion-panel-header>
-				<app-tablesLegalAgreement #notificaciones></app-tablesLegalAgreement>
-				</mat-expansion-panel>
-				
-				<!-- Pestaña 3 -->
-				<mat-expansion-panel [disabled]="!(indiceAnalisis>0)" >
-				<mat-expansion-panel-header>
-					<mat-panel-title>
-						<mdb-icon fas icon="plus" class="mr-2"></mdb-icon> Análisis
-					</mat-panel-title>
-				</mat-expansion-panel-header>
-				<app-tablesLegalAgreement #analisis></app-tablesLegalAgreement>
-				</mat-expansion-panel>
-
-				<!-- Pestaña 4 -->
-				<mat-expansion-panel [disabled]="!(indiceReportes>0)">
-				<mat-expansion-panel-header>
-					<mat-panel-title>
-						<mdb-icon fas icon="plus" class="mr-2"></mdb-icon> Reportes
-					</mat-panel-title>
-				</mat-expansion-panel-header>
-				<app-tablesLegalAgreement #reportes></app-tablesLegalAgreement>
-				</mat-expansion-panel>
-
-				<!-- Pestaña 5 -->
-				<mat-expansion-panel [disabled]="!(indiceActividades>0)">
-				<mat-expansion-panel-header>
-					<mat-panel-title>
-						<mdb-icon fas icon="plus" class="mr-2"></mdb-icon> Actividades
-					</mat-panel-title>
-				</mat-expansion-panel-header>
-				<app-tablesLegalAgreement #actividades></app-tablesLegalAgreement>
-				</mat-expansion-panel>
-
-				<!-- Pestaña 6 -->
-				<mat-expansion-panel [disabled]="!(indiceCompromisos>0)">
-				<mat-expansion-panel-header>
-					<mat-panel-title>
-						<mdb-icon fas icon="plus" class="mr-2"></mdb-icon> Compromisos Contractuales
-					</mat-panel-title>
-				</mat-expansion-panel-header>
-				<app-tablesLegalAgreement #compromisos></app-tablesLegalAgreement>
-
-				</mat-expansion-panel>
-
-				<!-- Pestaña 7 -->
-				<mat-expansion-panel [disabled]="!(indiceCertificados>0)">
-				<mat-expansion-panel-header>
-					<mat-panel-title>
-						<mdb-icon fas icon="plus" class="mr-2"></mdb-icon> Certificados
-					</mat-panel-title>
-				</mat-expansion-panel-header>
-				<app-tablesLegalAgreement #certificados></app-tablesLegalAgreement>
-				</mat-expansion-panel>
-
-				<!-- Pestaña 8 -->
-				<mat-expansion-panel [disabled]="!(indiceActualizaciones>0)">
-				<mat-expansion-panel-header>
-					<mat-panel-title>
-						<mdb-icon fas icon="plus" class="mr-2"></mdb-icon> Actualizaciones
-					</mat-panel-title>
-				</mat-expansion-panel-header>
-				<app-tablesLegalAgreement #actualizaciones></app-tablesLegalAgreement>
-				</mat-expansion-panel>
-
-				<!-- Pestaña 9 -->
-				<mat-expansion-panel [disabled]="!(indiceOtros>0)">
-				<mat-expansion-panel-header>
-					<mat-panel-title>
-						<mdb-icon fas icon="plus" class="mr-2"></mdb-icon> Otros
-					</mat-panel-title>
-				</mat-expansion-panel-header>
-				<app-tablesLegalAgreement #otros></app-tablesLegalAgreement>
-				</mat-expansion-panel>
-
-			</mat-accordion>                        
-		</div>
-	</div>
-
+	<app-tablesLegalAgreement #pagos *ngIf="true || indicePagos>0"></app-tablesLegalAgreement>
 </div>
-          
+				
+<div class="section">
+	<div class="row pb-3">
+		<div class="col">
+			<p class="section_titulo_0">Notificaciones</p>
+			<p class="section_subtitulo_0">Aqui puedes ...</p>
+		</div>
+	</div>
+	<app-tablesLegalAgreement #notificaciones *ngIf="true || indiceNotificaciones>0"></app-tablesLegalAgreement>
+</div>
+				
+<div class="section">
+	<div class="row pb-3">
+		<div class="col">
+			<p class="section_titulo_0">Análisis</p>
+			<p class="section_subtitulo_0">Aqui puedes ...</p>
+		</div>
+	</div>
+	<app-tablesLegalAgreement #analisis *ngIf="indiceAnalisis>0"></app-tablesLegalAgreement>
+</div>
+				
+<div class="section">
+	<div class="row pb-3">
+		<div class="col">
+			<p class="section_titulo_0">Reportes</p>
+			<p class="section_subtitulo_0">Aqui puedes ...</p>
+		</div>
+	</div>
+	<app-tablesLegalAgreement #reportes *ngIf="indiceReportes>0"></app-tablesLegalAgreement>
+</div>
+				
+<div class="section">
+	<div class="row pb-3">
+		<div class="col">
+			<p class="section_titulo_0">Actividades</p>
+			<p class="section_subtitulo_0">Aqui puedes ...</p>
+		</div>
+	</div>
+	<app-tablesLegalAgreement #actividades *ngIf="indiceActividades>0"></app-tablesLegalAgreement>
+</div>
+				
+<div class="section">
+	<div class="row pb-3">
+		<div class="col">
+			<p class="section_titulo_0">Compromisos Contractuales</p>
+			<p class="section_subtitulo_0">Aqui puedes ...</p>
+		</div>
+	</div>
+	<app-tablesLegalAgreement #compromisos *ngIf="indiceCompromisos>0"></app-tablesLegalAgreement>
+</div>
+				
+<div class="section">
+	<div class="row pb-3">
+		<div class="col">
+			<p class="section_titulo_0">Certificados</p>
+			<p class="section_subtitulo_0">Aqui puedes ...</p>
+		</div>
+	</div>
+	<app-tablesLegalAgreement #certificados *ngIf="indiceCertificados>0"></app-tablesLegalAgreement>
+</div>
+				
+<div class="section">
+	<div class="row pb-3">
+		<div class="col">
+			<p class="section_titulo_0">Actualizaciones</p>
+			<p class="section_subtitulo_0">Aqui puedes ...</p>
+		</div>
+	</div>
+	<app-tablesLegalAgreement #actualizaciones *ngIf="indiceActualizaciones>0"></app-tablesLegalAgreement>
+</div>
+				
+<div class="section">
+	<div class="row pb-3">
+		<div class="col">
+			<p class="section_titulo_0">Otros</p>
+			<p class="section_subtitulo_0">Aqui puedes ...</p>
+		</div>
+	</div>
+	<app-tablesLegalAgreement #otros *ngIf="indiceOtros>0"></app-tablesLegalAgreement>
+</div>
+		
+			
+		
+		
+		
+		
+		
+		
+					
+					

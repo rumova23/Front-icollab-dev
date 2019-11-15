@@ -1,103 +1,101 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { EventMessage } from 'src/app/core/models/EventMessage';
-import { EventService } from 'src/app/core/services/event.service';
-import { ChangePasswordComponent } from 'src/app/common/changePassword/changePassword.component';
-import { GlobalService } from 'src/app/core/globals/global.service';
-import { SecurityService } from 'src/app/core/services/security.service';
-import { MonitoringPhase3Component } from '../boards/phase3/monitoringPhase3.component';
-import { MonitoringPhase2Component } from '../boards/phase2/monitoringPhase2.component';
- 
-import { MonitoringSoService } from '../services/monitoringSo.service';
-import { EventSocket } from 'src/app/core/models/EventSocket';
+import { Component, OnInit, OnDestroy    } from '@angular/core';
+import { ComponentFactoryResolver        } from '@angular/core';
+import { ViewContainerRef, ViewChild     } from '@angular/core';
+import { Subscription                    } from 'rxjs';
+
+import { GlobalService                   } from 'src/app/core/globals/global.service';
+import { ThemeService                    } from 'src/app/core/globals/theme';
+import { SecurityService                 } from 'src/app/core/services/security.service';
+import { EventService                    } from 'src/app/core/services/event.service';
+import { EventMessage                    } from 'src/app/core/models/EventMessage';
+import { SocketService                   } from 'src/app/core/services/socket.service';
+import { ConnectSocketComponent          } from 'src/app/shared/socket/connectSocket.component';
+import { ChangePasswordComponent         } from 'src/app/common/changePassword/changePassword.component';
+
+import { MonitoringWelcomeComponent      } from '../welcome/monitoring-welcome.component';
+import { MonitoringPhase2Component       } from '../boards/phase2/monitoring-phase2.component';
+import { MonitoringPhase3Component       } from '../boards/phase3/monitoring-phase3.component';
+import { MonitoringMmMarketComponent     } from '../boards/mmMarket/monitoringMmMarket.component';
+
 
 @Component({
-  selector: 'app-monitoringHome',
-  templateUrl: './monitoringHome.component.html',
-  styleUrls: ['./monitoringHome.component.scss'],
-  entryComponents: [
-    ChangePasswordComponent, MonitoringPhase3Component, MonitoringPhase2Component
-  ]
+	selector    : 'app-monitoringHome',
+	templateUrl : './monitoringHome.component.html',
+	styleUrls   : ['./monitoringHome.component.scss'],
+	entryComponents: [
+		 MonitoringWelcomeComponent
+		,MonitoringPhase2Component
+		,MonitoringPhase3Component
+		,MonitoringMmMarketComponent
+		,ChangePasswordComponent
+	]
 })
-export class MonitoringHomeComponent implements OnInit {
-  @Input() asideOpen;
-  serviceSubscription: any;
-  @ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
+export class MonitoringHomeComponent extends ConnectSocketComponent implements OnInit, OnDestroy {
+	@ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
+	public subscriptions                 : Subscription[]     = [];
 
+	constructor(
+		public  globalService            : GlobalService,
+		public  theme                    : ThemeService,
+		public  eventService             : EventService,
+		public  securityService          : SecurityService,
+		public  socketService            : SocketService,
+		private componentFactoryResolver : ComponentFactoryResolver
+	) {
+		super(globalService,securityService,socketService,eventService);
+	}
 
-  constructor(private route: ActivatedRoute,
-    private componentFactoryResolver: ComponentFactoryResolver,
-    public globalService: GlobalService,
-    private eventService: EventService
-   ,private securityService: SecurityService
-   ,private socketService: MonitoringSoService,
-   ) {
-
-      this.serviceSubscription = this.eventService.onChangeMainMonitoring.subscribe({
-        next: (event: EventMessage) => {
-
-          switch (event.id) {
-            case 1:
-              this.asideOpen = !this.asideOpen;
-              break;
-            default:
-              this.clickMenu(event);
-              break;
-          }
-        }
-      });
-      
-  }
-  
-  ngOnInit() {
-    //setTimeout(() => this.periodo(), 1000);
-  }
-
-  getNameUser() {
-    let name = this.securityService.getNameUser() +" "+ this.securityService.getLastNameUser();
-    return name;
-  }
-  
-  getgender(){
-    let generoId = JSON.parse(localStorage.getItem('user'));
-
-    generoId = generoId['generoId'];
-
-    return generoId;
-  }
-  private periodo(){
-    this.eventService.sendMainMonitoring(new EventMessage(3, null));
-  }
- 
-  private clickMenu(event: EventMessage): void {
-
-    this.viewContainerRef.clear();
-    let factoryComplianceTypes;
-    let refComplianceTypes;
-    let factoryComplianceTypesEdit;
-    let refComplianceTypesEdit;
-
-    switch (event.id) {
-
-      case 2:
-        this.viewContainerRef.createComponent(
-          this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase2Component)
-        ).changeDetectorRef.detectChanges();
-        break;
-      case 3:
-        this.viewContainerRef.createComponent(
-          this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase3Component)
-        ).changeDetectorRef.detectChanges();
-        break;
-
-      case 100:
-          this.viewContainerRef.createComponent(
-            this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent)
-          ).changeDetectorRef.detectChanges();
-        break;
-
-
-    }
-  }
+	ngOnInit() {
+		let url = `/assets/css/theme/content/monitoring.css`;
+		document.getElementById("content_theme").setAttribute('href',url);
+		
+		this.globalService.page  = new EventMessage(0,null,'Administrative_monitoring.Inicio');
+		this.openSocket();
+		this.subscribeOnChangePage();
+	}
+	ngAfterViewInit() {
+		//const factory = this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase2Component);
+		const factory = this.componentFactoryResolver.resolveComponentFactory(MonitoringWelcomeComponent);
+		this.viewContainerRef.createComponent(factory);
+	}
+	ngOnDestroy(){
+		for (const iterator in this.subscriptions) {
+			this.subscriptions[iterator].unsubscribe();
+		}
+		this.socketService.closeSocket();
+  	}
+	subscribeOnChangePage(){
+		this.subscriptions.push(this.eventService.onChangePage.subscribe({
+			next: (event: EventMessage) => {
+				this.viewContainerRef.clear();
+				switch (event.descriptor) {
+					case 'Administrative_monitoring.Inicio':
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(MonitoringWelcomeComponent)
+						).changeDetectorRef.detectChanges();
+					  break;
+					case 'Administrative_monitoring.Fase 2':
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase2Component)
+						).changeDetectorRef.detectChanges();
+					  break;
+					case 'Administrative_monitoring.Fase 3':
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase3Component)
+						).changeDetectorRef.detectChanges();
+					  break;
+					case 'Administrative_monitoring.Mm Market':
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(MonitoringMmMarketComponent)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'shared.header.changePassword':
+						this.viewContainerRef
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent)).changeDetectorRef.detectChanges();
+						break;
+					default:
+				}
+			}
+		}));
+	}
 }
-

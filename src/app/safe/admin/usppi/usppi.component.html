@@ -1,32 +1,42 @@
-<!-- Titulo -->
-<div class="row pb-5">
-    <div class="col">
-        <span class="agila-cda-titulo">USPPI</span>
-    </div>
-</div>
-<div class="row mb-3">
-    <div class="col">
+<div class="row">
+    <mdb-breadcrumb customClass="white" class="w-100">
+      <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+      <mdb-breadcrumb-item>Administración</mdb-breadcrumb-item>
+      <mdb-breadcrumb-item class="active">USPPI</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
+  </div>
 
-        <form [formGroup]="conexionForm" (ngSubmit)="onSubmit(conexionForm.value)">
-            <div class="row">
-                <div class="col">
-                    <mat-form-field>
-                        <input matInput placeholder="Año inicio" formControlName="yearInit" type="number">
-                    </mat-form-field>
-                </div>
-                <div class="col">
-                    <mat-form-field>
-                        <input matInput placeholder="Año Fin" formControlName="yearEnd" type="number">
-                    </mat-form-field>
-                </div>
-                <div class="col">
-                    <button type="submit" class="btn btn-success" [disabled]="!conexionForm.valid">Buscar</button>
-                </div>
-            </div>
-        </form>
+  <div class="section">
+    <div class="row pb-2">
+        <div class="col">
+            <p class="section_titulo_0">Monedas</p>
+            <p class="section_subtitulo_0"> </p>
+        </div>
     </div>
-</div>
-<div class="row mb-5">
+    <hr>
+    <div class="row mb-3 mt-3">
+        <div class="col">
+
+            <form [formGroup]="conexionForm" (ngSubmit)="onSubmit(conexionForm.value)">
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field>
+                            <input matInput placeholder="Año inicio" formControlName="yearInit" type="number">
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field>
+                            <input matInput placeholder="Año Fin" formControlName="yearEnd" type="number">
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="mybtn btn" [disabled]="!conexionForm.valid">Buscar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row mb-3 mt-3">
     <div class="col">
         <div class="mat-elevation-z8">
             <table mat-table [dataSource]="dataSource" style="width: 100%;">

@@ -12,7 +12,6 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import { DatePipe } from '@angular/common';
 
-import { menuItem }   from '../../comun/menu-items/menuItem';
 
 @Component({
   selector: 'app-activities',
@@ -39,7 +38,7 @@ export class ActivitiesComponent implements OnInit {
   filtrobtn = {label:"buscar"};
   registros_x_pagina = [50,100,250,500];
 
-  menu : menuItem[];
+  menu : any[];
   showAdd    : boolean = false;
   showView   : boolean = false;
   showUpdate : boolean = false;
@@ -61,8 +60,7 @@ export class ActivitiesComponent implements OnInit {
 
   ngOnInit() {
     this.titulo = 'Catálogos / ' + this.nombreCatalogo;
-
-    //this.addBlock(1, "Cargando...")
+    this.addBlock(1, null);
     this.obtenerListaActividades();
     /*
     this.securityService.loadUsers().subscribe( userResult => {
@@ -228,7 +226,7 @@ export class ActivitiesComponent implements OnInit {
         name: null}
        break;
     }
-    this.eventService.sendMainCompliance(new EventMessage(7, type));
+    this.eventService.sendChangePage(new EventMessage(7, type, "Compliance.Categorías.ABC"));
  }
 
   //Loadin

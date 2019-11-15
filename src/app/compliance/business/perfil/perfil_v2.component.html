@@ -6,256 +6,258 @@
         </div>
     </div>
     <hr> 
-    <div class="container-fluid">
-        <form [formGroup]="perfilForm" (ngSubmit)="onSubmit()">
-            <div class="row">
-                <div class="col-3 text-center" >
-                    <img src="../../../assets/img/foto.png" width="110" height="110">
-                </div>
-                <div class="col-9" >
-                    <div class="row">
-                        <div class="col-3">
-                        <div class="form-group">
-                            <label>Numero de Empleado</label>
-                            <input mdbInput class="form-control" formControlName="fNumEmpo"
-                            [ngClass]="{ 'is-invalid': submitted && f.fNumEmpo.errors }"
-                            >
-                            <div *ngIf="submitted && f.fNumEmpo.errors" style="color:red">
-                                <div *ngIf="f.fNumEmpo.errors.required">Requerido</div>
-                            </div>
-                        </div>
-                        </div>
+    <div class=" row">
+        <div class="col-12">
+            <form [formGroup]="perfilForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-3 text-center" >
+                        <img src="../../../assets/img/foto.png" width="110" height="110">
                     </div>
-                    <div class="row">
-                        <div class="col">
-                                    <div class="form-group">
-                            <label>Nombre(s)</label>
-                            <input mdbInput class="form-control" formControlName="fNombres"
-                            [ngClass]="{ 'is-invalid': submitted && f.fNombres.errors }"
-                            >
-                            <div *ngIf="submitted && f.fNombres.errors" style="color:red">
-                                <div *ngIf="f.fNombres.errors.required">Requerido</div>
+                    <div class="col-9" >
+                        <div class="row">
+                            <div class="col-3">
+                            <div class="form-group">
+                                <label>Numero de Empleado</label>
+                                <input mdbInput class="form-control" formControlName="fNumEmpo"
+                                [ngClass]="{ 'is-invalid': submitted && f.fNumEmpo.errors }"
+                                >
+                                <div *ngIf="submitted && f.fNumEmpo.errors" style="color:red">
+                                    <div *ngIf="f.fNumEmpo.errors.required">Requerido</div>
+                                </div>
+                            </div>
                             </div>
                         </div>
-                        </div>
-                        <div class="col-4">
-                        <div class="form-group">
-                            <label>Apellido Paterno</label>
-                            <input mdbInput class="form-control" formControlName="fAPaterno"
-                            [ngClass]="{ 'is-invalid': submitted && f.fAPaterno.errors }"
-                            >
-                            <div *ngIf="submitted && f.fAPaterno.errors" style="color:red">
-                                <div *ngIf="f.fAPaterno.errors.required">Requerido</div>
+                        <div class="row">
+                            <div class="col">
+                                        <div class="form-group">
+                                <label>Nombre(s)</label>
+                                <input mdbInput class="form-control" formControlName="fNombres"
+                                [ngClass]="{ 'is-invalid': submitted && f.fNombres.errors }"
+                                >
+                                <div *ngIf="submitted && f.fNombres.errors" style="color:red">
+                                    <div *ngIf="f.fNombres.errors.required">Requerido</div>
+                                </div>
                             </div>
-                        </div>
-                        </div>
-                        <div class="col-4">
-                        <div class="form-group">
-                            <label>Apellido Materno</label>
-                            <input mdbInput class="form-control" formControlName="fAMaterno"
-                            [ngClass]="{ 'is-invalid': submitted && f.fAMaterno.errors }"
-                            >
-                            <div *ngIf="submitted && f.fAMaterno.errors" style="color:red">
-                                <div *ngIf="f.fAMaterno.errors.required">Requerido</div>
                             </div>
-                        </div>
-                        </div>
-                        <div class="col-4">
-                        <div class="form-group">
-                            <label>Género</label><br>
-                            <mat-radio-group formControlName="fGenero" [(ngModel)]="gender"
-                                [ngClass]="{ 'is-invalid': submitted && f.fGenero.errors }">
-                                <mat-radio-button *ngFor="let data of generos; " [value]="data.value">{{data.label}}</mat-radio-button>
-                            </mat-radio-group>
-                            <div *ngIf="submitted && f.fGenero.errors" style="color:red">
-                                <div *ngIf="f.fGenero.errors.required">Requerido</div>
-                            </div> 
-                        </div>
-                        </div>
-                        <div class="col-4">
-                        <div class="form-group">
-                            <label>Fecha de nacimiento</label>
-                            <input mdbInput class="form-control" formControlName="fNaci"
+                            <div class="col-4">
+                            <div class="form-group">
+                                <label>Apellido Paterno</label>
+                                <input mdbInput class="form-control" formControlName="fAPaterno"
+                                [ngClass]="{ 'is-invalid': submitted && f.fAPaterno.errors }"
+                                >
+                                <div *ngIf="submitted && f.fAPaterno.errors" style="color:red">
+                                    <div *ngIf="f.fAPaterno.errors.required">Requerido</div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="col-4">
+                            <div class="form-group">
+                                <label>Apellido Materno</label>
+                                <input mdbInput class="form-control" formControlName="fAMaterno"
+                                [ngClass]="{ 'is-invalid': submitted && f.fAMaterno.errors }"
+                                >
+                                <div *ngIf="submitted && f.fAMaterno.errors" style="color:red">
+                                    <div *ngIf="f.fAMaterno.errors.required">Requerido</div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="col-4">
+                            <div class="form-group">
+                                <label>Género</label><br>
+                                <mat-radio-group formControlName="fGenero" [(ngModel)]="gender"
+                                    [ngClass]="{ 'is-invalid': submitted && f.fGenero.errors }">
+                                    <mat-radio-button *ngFor="let data of generos; " [value]="data.value">{{data.label}}</mat-radio-button>
+                                </mat-radio-group>
+                                <div *ngIf="submitted && f.fGenero.errors" style="color:red">
+                                    <div *ngIf="f.fGenero.errors.required">Requerido</div>
+                                </div> 
+                            </div>
+                            </div>
+                            <div class="col-4">
+                            <div class="form-group">
+                                <label>Fecha de nacimiento</label>
+                                <input mdbInput class="form-control" formControlName="fNaci"
+                                    type="date"
+                                >
+                                <div *ngIf="submitted && f.fNaci.errors" style="color:red">
+                                    <div *ngIf="f.fNaci.errors.required">Requerido</div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="col-4">
+                            <div class="form-group">
+                                <label>Grados de Estudio</label>
+                                <select class="browser-default custom-select"
+                                formControlName="fGrado" [(ngModel)]="educationLevel"
+                                >
+                                    <option *ngFor="let operator of grados;" 
+                                    [value]="operator.value">
+                                        {{operator.label}}
+                                    </option>
+                                </select>
+                                
+                                <div *ngIf="submitted && f.fGrado.errors" style="color:red">
+                                    <div *ngIf="f.fGrado.errors.required">Requerido</div>
+                                </div> 
+                            </div>
+                            </div>
+                            <div class="col-4">
+                            <div class="form-group">
+                                <label>Carrera</label>
+                                <input mdbInput class="form-control" formControlName="fCarrera"
+                                [ngClass]="{ 'is-invalid': submitted && f.fCarrera.errors }"
+                                >
+                                <div *ngIf="submitted && f.fCarrera.errors" style="color:red">
+                                    <div *ngIf="f.fCarrera.errors.required">Requerido</div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="col-4">
+                            <div class="form-group">
+                                <label>Posición</label>
+                                <select class="browser-default custom-select"
+                                formControlName="fPosicion" [(ngModel)]="position"
+                                [ngClass]="{ 'is-invalid': submitted && f.fPosicion.errors }"
+                                >
+                                    <option *ngFor="let operator of posiciones;" [value]="operator.value">
+                                        {{operator.label}}
+                                    </option>
+                                </select>
+                                <div *ngIf="submitted && f.fPosicion.errors" style="color:red">
+                                    <div *ngIf="f.fPosicion.errors.required">Requerido</div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="col-4">
+                            <div class="form-group">
+                                <label>Departamento</label>
+                                <select class="browser-default custom-select"
+                                formControlName="fDepto" [(ngModel)]="department"
+                                [ngClass]="{ 'is-invalid': submitted && f.fDepto.errors }"
+                                >
+                                    <option *ngFor="let operator of departamentos;" [value]="operator.value">
+                                        {{operator.label}}
+                                    </option>
+                                </select>
+                                <div *ngIf="submitted && f.fDepto.errors" style="color:red">
+                                    <div *ngIf="f.fDepto.errors.required">Requerido</div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="col-4">
+                            <div class="form-group">
+                                <label>Puesto de trabajo</label>
+                                
+                                <select class="browser-default custom-select"
+                                formControlName="fPueTrab" [(ngModel)]="workstation"
+                                [ngClass]="{ 'is-invalid': submitted && f.fPueTrab.errors }"
+                                >
+                                    <option *ngFor="let operator of puestoTrabs;" [value]="operator.value">
+                                        {{operator.label}}
+                                    </option>
+                                </select>
+                                <div *ngIf="submitted && f.fPueTrab.errors" style="color:red">
+                                    <div *ngIf="f.fPueTrab.errors.required">Requerido</div>
+                                </div>
+                                
+                            </div>
+                            </div>
+                            <div class="col-4">
+                            <div class="form-group">
+                                <label>Jefe Inmediato</label>
+                                <select class="browser-default custom-select"
+                                formControlName="fJefInm" [(ngModel)]="employeeBoss"
+                                [ngClass]="{ 'is-invalid': submitted && f.fJefInm.errors }"
+                                >
+                                    <option *ngFor="let operator of jefes;" [value]="operator.value">
+                                        {{operator.label}}
+                                    </option>
+                                </select>
+                                <div *ngIf="submitted && f.fJefInm.errors" style="color:red">
+                                    <div *ngIf="f.fJefInm.errors.required">Requerido</div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="col-4">
+                            <div class="form-group">
+                                <label>Horario de Trabajo</label>
+                                <select class="browser-default custom-select"
+                                formControlName="fHorTrab" [(ngModel)]="workingHour"
+                                [ngClass]="{ 'is-invalid': submitted && f.fHorTrab.errors }"
+                                >
+                                    <option *ngFor="let operator of horarios;" [value]="operator.value">
+                                        {{operator.label}}
+                                    </option>
+                                </select>
+                                <div *ngIf="submitted && f.fHorTrab.errors" style="color:red">
+                                    <div *ngIf="f.fHorTrab.errors.required">Requerido</div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="col-4">
+                            <div class="form-group">
+                                <label>Lugar de Trabajo</label>
+                                <select class="browser-default custom-select"
+                                formControlName="fLugTrab" [(ngModel)]="employeePlace"
+                                [ngClass]="{ 'is-invalid': submitted && f.fLugTrab.errors }"
+                                >
+                                    <option *ngFor="let operator of lugares;" [value]="operator.value">
+                                        {{operator.label}}
+                                    </option>
+                                </select>
+                                <div *ngIf="submitted && f.fLugTrab.errors" style="color:red">
+                                    <div *ngIf="f.fLugTrab.errors.required">Requerido</div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="col-4">
+                            <div class="form-group">
+                                <label>Fecha de Inicio laboral</label>
+                                <input mdbInput class="form-control" formControlName="fStartJob"
+                                [ngClass]="{ 'is-invalid': submitted && f.fStartJob.errors }"
                                 type="date"
-                            >
-                            <div *ngIf="submitted && f.fNaci.errors" style="color:red">
-                                <div *ngIf="f.fNaci.errors.required">Requerido</div>
+                                >
+                                <div *ngIf="submitted && f.fStartJob.errors" style="color:red">
+                                    <div *ngIf="f.fStartJob.errors.required">Requerido</div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="col-4">
+                            <div class="form-group">
+                                <label>¿Tiene personal a su cargo?</label><br>
+                                <mat-radio-group formControlName="fPerCarg" [(ngModel)]="employeeDependent"
+                                arial-label="Seleccion"  [ngClass]="{ 'is-invalid': submitted && f.fPerCarg.errors }">
+                                <mat-radio-button *ngFor="let data of personas" [value]="data.value">{{data.label}}</mat-radio-button>
+                                </mat-radio-group>
+                                <div *ngIf="submitted && f.fPerCarg.errors" style="color:red">
+                                    <div *ngIf="f.fPerCarg.errors.required">Requerido</div>
+                                </div>
+                            </div>
                             </div>
                         </div>
-                        </div>
-                        <div class="col-4">
-                        <div class="form-group">
-                            <label>Grados de Estudio</label>
-                            <select class="browser-default custom-select"
-                            formControlName="fGrado" [(ngModel)]="educationLevel"
-                            >
-                                <option *ngFor="let operator of grados;" 
-                                [value]="operator.value">
-                                    {{operator.label}}
-                                </option>
-                            </select>
-                            
-                            <div *ngIf="submitted && f.fGrado.errors" style="color:red">
-                                <div *ngIf="f.fGrado.errors.required">Requerido</div>
-                            </div> 
-                        </div>
-                        </div>
-                        <div class="col-4">
-                        <div class="form-group">
-                            <label>Carrera</label>
-                            <input mdbInput class="form-control" formControlName="fCarrera"
-                            [ngClass]="{ 'is-invalid': submitted && f.fCarrera.errors }"
-                            >
-                            <div *ngIf="submitted && f.fCarrera.errors" style="color:red">
-                                <div *ngIf="f.fCarrera.errors.required">Requerido</div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="col-4">
-                        <div class="form-group">
-                            <label>Posición</label>
-                            <select class="browser-default custom-select"
-                            formControlName="fPosicion" [(ngModel)]="position"
-                            [ngClass]="{ 'is-invalid': submitted && f.fPosicion.errors }"
-                            >
-                                <option *ngFor="let operator of posiciones;" [value]="operator.value">
-                                    {{operator.label}}
-                                </option>
-                            </select>
-                            <div *ngIf="submitted && f.fPosicion.errors" style="color:red">
-                                <div *ngIf="f.fPosicion.errors.required">Requerido</div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="col-4">
-                        <div class="form-group">
-                            <label>Departamento</label>
-                            <select class="browser-default custom-select"
-                            formControlName="fDepto" [(ngModel)]="department"
-                            [ngClass]="{ 'is-invalid': submitted && f.fDepto.errors }"
-                            >
-                                <option *ngFor="let operator of departamentos;" [value]="operator.value">
-                                    {{operator.label}}
-                                </option>
-                            </select>
-                            <div *ngIf="submitted && f.fDepto.errors" style="color:red">
-                                <div *ngIf="f.fDepto.errors.required">Requerido</div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="col-4">
-                        <div class="form-group">
-                            <label>Puesto de trabajo</label>
-                            
-                            <select class="browser-default custom-select"
-                            formControlName="fPueTrab" [(ngModel)]="workstation"
-                            [ngClass]="{ 'is-invalid': submitted && f.fPueTrab.errors }"
-                            >
-                                <option *ngFor="let operator of puestoTrabs;" [value]="operator.value">
-                                    {{operator.label}}
-                                </option>
-                            </select>
-                            <div *ngIf="submitted && f.fPueTrab.errors" style="color:red">
-                                <div *ngIf="f.fPueTrab.errors.required">Requerido</div>
-                            </div>
-                            
-                        </div>
-                        </div>
-                        <div class="col-4">
-                        <div class="form-group">
-                            <label>Jefe Inmediato</label>
-                            <select class="browser-default custom-select"
-                            formControlName="fJefInm" [(ngModel)]="employeeBoss"
-                            [ngClass]="{ 'is-invalid': submitted && f.fJefInm.errors }"
-                            >
-                                <option *ngFor="let operator of jefes;" [value]="operator.value">
-                                    {{operator.label}}
-                                </option>
-                            </select>
-                            <div *ngIf="submitted && f.fJefInm.errors" style="color:red">
-                                <div *ngIf="f.fJefInm.errors.required">Requerido</div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="col-4">
-                        <div class="form-group">
-                            <label>Horario de Trabajo</label>
-                            <select class="browser-default custom-select"
-                            formControlName="fHorTrab" [(ngModel)]="workingHour"
-                            [ngClass]="{ 'is-invalid': submitted && f.fHorTrab.errors }"
-                            >
-                                <option *ngFor="let operator of horarios;" [value]="operator.value">
-                                    {{operator.label}}
-                                </option>
-                            </select>
-                            <div *ngIf="submitted && f.fHorTrab.errors" style="color:red">
-                                <div *ngIf="f.fHorTrab.errors.required">Requerido</div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="col-4">
-                        <div class="form-group">
-                            <label>Lugar de Trabajo</label>
-                            <select class="browser-default custom-select"
-                            formControlName="fLugTrab" [(ngModel)]="employeePlace"
-                            [ngClass]="{ 'is-invalid': submitted && f.fLugTrab.errors }"
-                            >
-                                <option *ngFor="let operator of lugares;" [value]="operator.value">
-                                    {{operator.label}}
-                                </option>
-                            </select>
-                            <div *ngIf="submitted && f.fLugTrab.errors" style="color:red">
-                                <div *ngIf="f.fLugTrab.errors.required">Requerido</div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="col-4">
-                        <div class="form-group">
-                            <label>Fecha de Inicio laboral</label>
-                            <input mdbInput class="form-control" formControlName="fStartJob"
-                            [ngClass]="{ 'is-invalid': submitted && f.fStartJob.errors }"
-                            type="date"
-                            >
-                            <div *ngIf="submitted && f.fStartJob.errors" style="color:red">
-                                <div *ngIf="f.fStartJob.errors.required">Requerido</div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="col-4">
-                        <div class="form-group">
-                            <label>¿Tiene personal a su cargo?</label><br>
-                            <mat-radio-group formControlName="fPerCarg" [(ngModel)]="employeeDependent"
-                            arial-label="Seleccion"  [ngClass]="{ 'is-invalid': submitted && f.fPerCarg.errors }">
-                            <mat-radio-button *ngFor="let data of personas" [value]="data.value">{{data.label}}</mat-radio-button>
-                            </mat-radio-group>
-                            <div *ngIf="submitted && f.fPerCarg.errors" style="color:red">
-                                <div *ngIf="f.fPerCarg.errors.required">Requerido</div>
-                            </div>
-                        </div>
+                    </div> 
+                </div>
+                <div class="row mb-4">
+                    <div class="col">
+                        <label>Descripción del puesto</label>
+                        <textarea formControlName="fDescGralPust" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.fDescGralPust.errors }" >
+                        </textarea>
+                        <div *ngIf="submitted && f.fDescGralPust.errors" style="color:red">
+                            <div *ngIf="f.fDescGralPust.errors.required">Requerido</div>
                         </div>
                     </div>
-                </div> 
-            </div>
-            <div class="row mb-4">
-                <div class="col">
-                    <label>Descripción del puesto</label>
-                    <textarea formControlName="fDescGralPust" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.fDescGralPust.errors }" >
-                    </textarea>
-                    <div *ngIf="submitted && f.fDescGralPust.errors" style="color:red">
-                        <div *ngIf="f.fDescGralPust.errors.required">Requerido</div>
+                </div>
+                <div class="row">
+                    <div class="col text-right">
+                        <button type="submit" [disabled]="isdisabled" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                        <i class="ti-pencil"></i>&nbsp;
+                        <!--{{labBotAcep}}-->Guardar / Actualizar
+                        </button>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col text-right">
-                    <button type="submit" [disabled]="isdisabled" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-                    <i class="ti-pencil"></i>&nbsp;
-                    <!--{{labBotAcep}}-->Guardar / Actualizar
-                    </button>
-                </div>
-            </div>
-        </form>  
+            </form>  
+        </div>
     </div>
 </div>
     

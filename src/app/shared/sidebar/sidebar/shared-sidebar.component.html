@@ -1,0 +1,23 @@
+
+<aside id="columna" 
+    [ngStyle]="{'width':globalService.aside_open ? '230px' : minwidth }">
+	<div>
+	<div class="row">
+		<div class="col p-0">
+			<div class="user-panel">
+				<div class="image">
+					<img *ngIf="getgender()===1" src="../../../assets/images/avatar2.png" alt="" class="img-user">
+					<img *ngIf="getgender()===2" src="../../../assets/images/womenAvatar.png" alt="" class="img-user">
+				</div><br>
+				<div class="info-user" *ngIf="globalService.aside_open">
+					<p  *ngIf="getgender()===1">Bienvenido, {{getNameUser()}}</p>
+					<p  *ngIf="getgender()===2">Bienvenida, {{getNameUser()}}</p>
+					<p><small>No tienes tareas pendientes</small></p>
+				</div>
+				<img src="../../../assets/images/avatar-bg.png" alt="" class="bg-user">
+			</div>
+		</div>
+	</div>
+	<app-shared-sidebar-menu></app-shared-sidebar-menu>
+	</div>
+</aside>

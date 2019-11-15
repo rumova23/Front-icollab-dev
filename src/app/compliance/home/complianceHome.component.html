@@ -1,42 +1,16 @@
+<app-css></app-css>
 <div id="agrupar">
-  <app-complianceHeader></app-complianceHeader>
-
+  <app-shared-header></app-shared-header>
   <div id="body">
-    <aside id="columna" 
-         [ngStyle]="{'width':asideOpen ? '230px' : '60px' }">
-      <div>
-        <div class="row">
-            <div class="col p-0">
-                <div class="user-panel">
-                    <div class="image">
-                      <img *ngIf="getgender()===1" src="../../../assets/images/avatar2.png" alt="" class="img-user">
-                      <img *ngIf="getgender()===2" src="../../../assets/images/womenAvatar.png" alt="" class="img-user">
-                    </div><br>
-                    <div class="info-user" *ngIf="asideOpen">
-                        <p  *ngIf="getgender()===1">Bienvenido,</p>
-                        <p  *ngIf="getgender()===2">Bienvenida,</p>
-                        <p>{{getNameUser()}}</p>
-                        <p class="f-10">No tienes tareas pendientes</p>
-                    </div>
-                    <img src="../../../assets/images/avatar-bg.png" alt="" class="bg-user">
-                </div>
-            </div>
-        </div>
-        <app-complianceSidebar [asideOpen]='asideOpen'>
-        </app-complianceSidebar>
+      <app-shared-sidebar></app-shared-sidebar>
+      
+      <div id="seccion" [ngStyle]="{'width':globalService.aside_open ? 'calc(100% - 230px)' : 'calc(100% - 60px)' }">
+          <div class="container-fluid">
+              <ng-template #container></ng-template>
+          </div>
       </div>
-    </aside>
- 
-    <section id="seccion" 
-        [ngStyle]="{'width':asideOpen ? 'calc(100% - 230px)' : 'calc(100% - 60px)' }">
-      <!--  CUERPO DEL COMPONENTE -->
-      <div class="container-fluid">
-        <ng-template #container></ng-template>
-      </div>
-    </section>
+      
   </div>
-
-  <footer id="pie" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-    Derechos Reservados &copy;
-  </footer>
+  <app-shared-footer></app-shared-footer>
 </div>
+  

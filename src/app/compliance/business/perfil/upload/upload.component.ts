@@ -16,7 +16,8 @@ import { GlobalService } from 'src/app/core/globals/global.service';
                     <div class="col txt-r">
                       <button [disabled]="!selectedFiles" (click)="upload()" class="btn right"
                               [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-                        <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+                        <i class="ti-cloud-up"></i>&nbsp;
+                        Importar
                       </button>
                     </div>
                   </div>

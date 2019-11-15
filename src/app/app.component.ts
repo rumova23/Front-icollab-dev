@@ -6,44 +6,44 @@ import { EventBlocked } from './core/models/EventBlocked';
 import { Validate } from './core/helpers/util.validator.';
 
 
+
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+	selector    : 'app-root',
+	templateUrl : './app.component.html',
+	styleUrls   : ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'bla-bla';
-  serviceSubscription: any;
-  @BlockUI() blockUI: NgBlockUI;
-  constructor(
-    private eventService: EventService
-  ) {
-    this.serviceSubscription = this.eventService.onChangeApp.subscribe({
-      next: (event: EventMessage) => {
-        switch (event.id) {
-          case 1:
-            this.blocked(event.data as EventBlocked);
-            break;
-        }
-      }
-    });
-  }
+	@BlockUI() blockUI  : NgBlockUI;
+	serviceSubscription : any;
 
-  private blocked(event: EventBlocked): void {
-    switch (event.id) {
-      case 1:
-        if (Validate(event.msg)) {
-          this.blockUI.stop();
-          this.blockUI.start(event.msg);
-        } else {
-          this.blockUI.stop();
-          this.blockUI.start();
-        }
-        break;
-      case 2:
-        this.blockUI.stop();
-        break;
-    }
-  }
+	constructor(
+		private eventService             : EventService,
+	) {
+		this.serviceSubscription = this.eventService.onChangeApp.subscribe({
+			next: (event: EventMessage) => {
+				switch (event.id) {
+					case 1:
+					this.blocked(event.data as EventBlocked);
+					break;
+				}
+			}
+		});
+	}
 
+	private blocked(event: EventBlocked): void {
+		switch (event.id) {
+			case 1:
+				if (Validate(event.msg)) {
+					this.blockUI.stop();
+					this.blockUI.start(event.msg);
+				} else {
+					this.blockUI.stop();
+					this.blockUI.start();
+				}
+				break;
+			case 2:
+				this.blockUI.stop();
+				break;
+		}
+	}
 }

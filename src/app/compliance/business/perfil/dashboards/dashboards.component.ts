@@ -4,11 +4,11 @@ import { Rango } from 'src/app/compliance/models/Rango';
 import { Grafica } from 'src/app/compliance/models/Grafica';
 import { ExamenReservacion } from 'src/app/compliance/models/examen-reservacion';
 import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
-
+import { GlobalService } from 'src/app/core/globals/global.service';
 
 @Component({
   selector: 'app-dashboards',
-  templateUrl: './dashboards.component.html',
+  templateUrl: './dashboardsV2.component.html',
   styleUrls: ['./dashboards.component.scss']
 })
 export class DashboardsComponent implements OnInit {
@@ -24,6 +24,7 @@ export class DashboardsComponent implements OnInit {
 
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
+
 
   constructor(private scalaServ: PerfilComboService) {
     this.scalaServ.accion.subscribe(accion => {

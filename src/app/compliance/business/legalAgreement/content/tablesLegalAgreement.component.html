@@ -1,38 +1,15 @@
-<div class="tabla-responsive text-nowrap mat-elevation-z0">
-  <!--Navbar-->
-  <mdb-navbar SideClass="navbar navbar-expand-lg grey darken-2" [containerInside]="false">
-    <mdb-navbar-brand><a class="navbar-brand" href="#"></a></mdb-navbar-brand>
-    <links>
-      <ul class="navbar-nav ml-auto nav-flex-icons">
-        <li class="nav-item">
-          <a class="nav-link">
-            <img src="http://www.ehu.eus/asignaturasKO/PM/Gestion/gespro11.gif" height="30" width="40" alt="Gantt" (click)="mostrarTagGant()">
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link">
-            <img src="http://www.objectplanet.com/easycharts/gallery4/images/overlay2.png" height="30" width="40" alt="Generar Gráficas" (click)="generarGraficas()">
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link">
-            <!--mdb-icon fab icon="google-plus"></mdb-icon-->
-            <img src="https://t1.uc.ltmcdn.com/images/4/1/4/img_como_escribir_en_un_pdf_19414_orig.jpg" height="30" width="40" alt="Exportar a PDF">
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link">
-            <img src="https://img.elcomercio.pe/files/ec_article_multimedia_gallery/uploads/2017/10/17/59e669dad2be3.jpeg" height="30" width="40" alt="Exportar a Excel">            
-          </a>
-        </li>
-      </ul>
-    </links>  
-  </mdb-navbar>
+<div class="row">
+	<div class="col-12 text-right" *ngIf="registros">
+		<a  (click)="mostrarTagGant()"><i class="fas fa-tasks"></i></a>&nbsp;
+		<a (click)="generarGraficas()"><i class="fas fa-chart-pie"></i></a>&nbsp;
+		<a><i class="fas fa-file-pdf"></i></a>&nbsp;
+		<a><i class="fas fa-file-excel"></i></a>
+	</div>
 </div>
-
+<br>
 <!-- CONSULTA DE TAGS -->
-<div class="tabla-responsive text-nowrap mat-elevation-z0" *ngIf="verTags" >
-  <mat-table [dataSource]="registros" class="table_catalogo" mdbTableScroll scrollY="true" maxHeight="500" scrollX="true" maxWidth="100%">
+<div class="mat-elevation-z0" *ngIf="registros" >
+  <table mat-table [dataSource]="registros" class="table_catalogo" mdbTableScroll scrollY="true" maxHeight="500" scrollX="true" maxWidth="100%">
     <!-- Position Column -->
     <ng-container matColumnDef="tag" sticky>
       <th mat-header-cell *matHeaderCellDef   class="text-center"> TAG </th>
@@ -186,14 +163,15 @@
 
     <tr mat-header-row *matHeaderRowDef="columnas"></tr>
     <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
-  </mat-table>
+  </table>
 </div>
 
 
 
+<ng-gantt [options]="editorOptions" [data]="data" #editor></ng-gantt>
 <!-- DIAGRAMA DE GANT -->
 <!--div class="tabla-responsive text-nowrap mat-elevation-z0" *ngIf="verGraficaGant"-->
-<div class="tabla-responsive text-nowrap mat-elevation-z0" *ngIf="verGraficaGant">
+<div class="tabla-responsive text-nowrap mat-elevation-z0 gantt" *ngIf="verGraficaGant">
   <table mdbTableScroll scrollY="true" maxHeight="500" scrollX="true" maxWidth="1100">
       <thead>
       <tr>

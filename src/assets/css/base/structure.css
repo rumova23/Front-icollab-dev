@@ -1,0 +1,38 @@
+html, body{
+    width         : 100%;
+    height        : 100%;
+}
+header, section, footer, aside, nav, article, figure, figcaption,
+hgroup{
+    display       : block;
+} 
+body{
+    /*text-align    : center;*/
+    font-weight   : 300;
+    font-size     : 14px !important;
+}
+#agrupar {
+    width         : 100%;
+    min-height    : 100%;
+    text-align    : left;
+}
+#body{
+    display       : flex;
+}
+#columna {
+    float         : left;
+    overflow-x    : hidden;
+    transition    : 0.5s;
+}
+#seccion {
+    float         : left;
+    transition    : 0.5s;
+}
+#myfooter {
+    clear         : both; 
+    text-align    : center;
+    padding       : 20px;
+}
+aside{
+    height        : 100%;
+}

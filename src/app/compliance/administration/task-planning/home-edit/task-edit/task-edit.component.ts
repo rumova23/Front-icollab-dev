@@ -94,6 +94,9 @@ export class TaskEditComponent implements OnInit {
 
   onSubmit() {
   }
+  asignarNombreTag(e){
+
+  }
   // Compara valores del combo para seleccionar la opción correspondiente
   compareFn(combo1: number, combo2: number) {
     console.log(combo1 && combo2 && combo1 === combo2);
