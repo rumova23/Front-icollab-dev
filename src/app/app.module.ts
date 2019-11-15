@@ -30,7 +30,8 @@ import { ComplianceModule          } from 'src/app/compliance/complianceModule.m
 import { SecurityModule            } from 'src/app/security/security.module';
 import { RomsModule                } from 'src/app/roms/roms.module';
 import { MockUpModule              } from 'src/app/mockUp/mockUpModule.module';
-import { GateModule                } from './gate/gate.module';
+import { GateModule                } from 'src/app/gate/gate.module';
+import { BitsModule                } from 'src/app/bits/bits.module';
 /* ./Modules */
 import  localePy                     from '@angular/common/locales/es-MX';
 
@@ -51,6 +52,7 @@ registerLocaleData(localePy, 'es');
 		,SecurityModule
 		,RomsModule
 		,GateModule
+		,BitsModule
 		,MockUpModule
 		,LoginModule // poner siempre al final
 	],
