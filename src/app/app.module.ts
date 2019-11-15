@@ -28,6 +28,7 @@ import { MonitoringModule          } from 'src/app/monitoring/monitoring.module'
 import { SafeModule                } from 'src/app/safe/safe.module';
 import { ComplianceModule          } from 'src/app/compliance/complianceModule.module';
 import { SecurityModule            } from 'src/app/security/security.module';
+import { RomsModule                } from 'src/app/roms/roms.module';
 import { MockUpModule              } from 'src/app/mockUp/mockUpModule.module';
 /* ./Modules */
 import  localePy                     from '@angular/common/locales/es-MX';
@@ -47,6 +48,7 @@ registerLocaleData(localePy, 'es');
 		,SafeModule
 		,ComplianceModule
 		,SecurityModule
+		,RomsModule
 		,MockUpModule
 		,LoginModule // poner siempre al final
 	],

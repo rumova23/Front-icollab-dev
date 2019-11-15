@@ -130,8 +130,6 @@ export class SafeHomeComponent implements OnInit {
 		,private securityService          : SecurityService
 		,public  theme                    : ThemeService
 	){
-		globalService.setApp("Safe");
-
 		this.subscriptions.push(this.eventService.onChangeMainSafe.subscribe({
 		next: (event: EventMessage) => {
 				this.clickMenu(event);
