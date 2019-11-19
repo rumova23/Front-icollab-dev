@@ -19,9 +19,15 @@ export class GlobalService {
 	public aside_open    : boolean       = false;
 
 	constructor(public securityService: SecurityService) {
+		try{
+			this.plant = JSON.parse(localStorage.getItem('plant'));
+		}catch(e){
+
+		}
 	}
 
 	setPlant(plant:Plant):void{
+		localStorage.setItem("plant", JSON.stringify(plant));
 		this.plant = plant;
 	}
 	getPlant():Plant{
