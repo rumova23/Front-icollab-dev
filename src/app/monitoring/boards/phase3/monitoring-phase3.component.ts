@@ -246,7 +246,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		
 		this.subscribeSocketOnStatus();
 		this.subscribeSocket();
-		console.log(Chart);
+		//console.log(Chart);
 		
 		this.ScaleClass = Chart.helpers.extend({
 
@@ -350,10 +350,10 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 	}
 	chartInit(){
 		this.chart_01    = new Chart('canvas1'     , this.chart_config_1);
-		this.chart_rt    = new Chart('chart_rt'    , M3.chart_config_rt);
-		this.chart_rpm   = new Chart('chart_rpm'   , M3.chart_config_rpm);
-		this.chart_mw    = new Chart('chart_mw'    , M3.chart_config_mw);
-		this.chart_rt_t1 = new Chart('chart_rt_t1' , M3.chart_config_rt_t1);
+		//this.chart_rt    = new Chart('chart_rt'    , M3.chart_config_rt);
+		//this.chart_rpm   = new Chart('chart_rpm'   , M3.chart_config_rpm);
+		//this.chart_mw    = new Chart('chart_mw'    , M3.chart_config_mw);
+		//this.chart_rt_t1 = new Chart('chart_rt_t1' , M3.chart_config_rt_t1);
 		//this.chart_modal = new Chart('canvas_modal',this.chart_modal_config);
 	}
 	subscribeFechaYHora(){
@@ -409,7 +409,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 				.subscribe((errorChannel:any)=>{
 					//console.log("back-pi-isrun-isrun::",errorChannel);
 				});
-			if(this.globalService.plant.name === "AGUILA"){
+			if(this.globalService.plant.name === "AGUILA"  ||  this.globalService.plant.name === "Default"){
 				let channelPiAguila = this.socketService.suscribeChannel("pi-aguila");
 				this.subscriptions['pi-aguila-error'] = this.socketService.onChannelError(channelPiAguila - 1)
 				.subscribe((errorChannel: any) => {console.log("pi-aguila-error",errorChannel);});
@@ -493,6 +493,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		//*/
 	}
 	dataAdapter(data){
+		console.log(data);
 		
 		let checkTime = function(i) {
 			if (i < 10) {
@@ -507,7 +508,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 			let mydata = null;
 	
 			const tagconf  = M3.lstTags[calltag];
-			const webID    = (this.globalService.plant.name === "AGUILA")?tagconf.webId_EAT:tagconf.webId_EST;
+			const webID    = (this.globalService.plant.name === "AGUILA"  ||  this.globalService.plant.name === "Default")?tagconf.webId_EAT:tagconf.webId_EST;
 			
 			for(let tag of data.data[0]['Items']){
 			  if(tag.WebId == webID){
@@ -533,10 +534,12 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 			  this.calltagsObj[tagconf.calltags]       = mydata;
 			  
 			  this.addDataset(mydata, tagconf,tagconf.calltags,datoprocesado);
+			  /*
 			  this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt');
 			  this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRPM','getCTDosRPM','getTVRPM'],'chart_rpm');
 			  this.addDatasetRT ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoMW','getCTDosMW','getTVMW'],'chart_mw');
 			  this.addDatasetLine ( tagconf, tagconf.calltags, this.calltags[tagconf.calltags],['getCTUnoRT','getCTDosRT','getTVRT'],'chart_rt_t1');
+			  //*/
 			  
 			  if(tagconf.calltags=='getPresionAtmosferica')this.wifi = true;
 	
