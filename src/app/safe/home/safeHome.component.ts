@@ -175,6 +175,14 @@ export class SafeHomeComponent implements OnInit {
 							this.componentFactoryResolver.resolveComponentFactory(MoneysSatComponent)
 						).changeDetectorRef.detectChanges();
 						break;
+					case 'Safe.Consulta Clima':
+						//33
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								WeatherPpaComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
 				}
 				if(banderaTemporal) return;
 				let option = 0;

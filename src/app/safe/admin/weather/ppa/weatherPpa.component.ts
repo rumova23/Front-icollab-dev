@@ -126,7 +126,7 @@ export class WeatherPpaComponent implements OnInit {
   }
 
   dateChange(event) {
-    this.date = event.value;
+    this.date = new Date(event.target.value);
     this.loadData();
   }
 

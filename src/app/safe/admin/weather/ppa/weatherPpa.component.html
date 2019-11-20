@@ -15,26 +15,15 @@
     </div>
     <hr>
     <div class="row mb-3 mt-3">
-    <div class="col">
-      <div class="filtros mt-2 row">
-        <div class="col-12 col-sm-12 col-md-12 col-lg-10">
-          <div class="row">
-            <div class="col-md-auto">
-              <mat-form-field>
-                <input matInput [matDatepicker]="De" placeholder="De" [(ngModel)]="date"
-                (dateChange)="dateChange($event)">
-                <mat-datepicker-toggle matSuffix [for]="De"></mat-datepicker-toggle>
-                <mat-datepicker #De></mat-datepicker>
-              </mat-form-field>
-            </div>
+      <div class="col">
+        <div class="form-group row">
+          <div class="form-group col-12 col-md-6 col-lg-4">
+            <label for="De">De</label>
+            <input type="date" class="form-control" id="De" 
+            (change)="dateChange($event)">
           </div>
         </div>
-      <!--   <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
-          <div>
-            <button type="button" class="btn btn-primary">Buscar</button>
-          </div>
-        </div> -->
-      </div>
+
     </div>
   </div>
 
