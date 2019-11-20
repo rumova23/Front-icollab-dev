@@ -17,7 +17,7 @@ import * as dis                                        from './js/animations';
 @Component({
 	selector    : 'app-login',
 	templateUrl : './login.component.html',
-	styleUrls   : ['./css/style.css','./css/form.css']
+	styleUrls   : ['./login.component.scss','./css/style.css','./css/form.css']
 })
 export class LoginComponent implements OnInit,OnDestroy {
 	private subscriptions        : Subscription[]     = [];
