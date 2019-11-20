@@ -9,8 +9,9 @@ declare var $: any;
   styleUrls   : ['./interactive-image-turbine-ct1.component.scss']
 })
 export class InteractiveImageTurbineCT1Component implements OnInit {
-	@Input() lstTags: any;
-	public Tag_info = "";
+	@Input() data:any;
+	public tooltip = [];
+	public Tag_info = {Name:"",Value:""};
 	constructor() { }
 
 	ngOnInit() {
@@ -89,6 +90,7 @@ export class InteractiveImageTurbineCT1Component implements OnInit {
 				}
 			}
 		});
+		this.tooltip["DAA08103"]={Name:"caos",Value:0};
 	}
 
 	openModalCt_1(){
@@ -137,8 +139,14 @@ export class InteractiveImageTurbineCT1Component implements OnInit {
 	tag(idElement){
 		this.animar(idElement);
 		this.aplicarCheck(idElement);
-		console.log(this.lstTags);
+		console.log("this.data::::", this.data);
 		
+		
+	}
+	gettooltip(){
+		for(let tag of this.data.data[0]['Items']){
+			this.tooltip[tag.Name]={Name:tag.Name,Value:tag.Value.Value};
+		}
 	}
 	aplicarCheck(idElement:any){
 		let selectores:any = document.getElementsByClassName("tagpoint");
@@ -150,11 +158,11 @@ export class InteractiveImageTurbineCT1Component implements OnInit {
 	setInfo(idElement){
 		switch (idElement) {
 			case 'tag_0':
-					this.Tag_info = "Hola mundo";
+					this.Tag_info = {Name:this.tooltip['DAA08103']['Name'],Value:this.tooltip['DAA08206']['Value']};
 				break;
 		
 			case 'tag_1':
-					this.Tag_info = "tag 1";
+					this.Tag_info = {Name:this.tooltip['DAA08206']['Name'],Value:this.tooltip['DAA08206']['Value']};
 				break;
 			default:
 				break;

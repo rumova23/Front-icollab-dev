@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ViewEncapsulation, ViewChild, ElementRef, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
 import { environment } from  'src/environments/environment';
 import { MonitoringPhase3Service }   from '../../services/monitoringPhase3.service';
 import { EventService } from 'src/app/core/services/event.service';
@@ -29,10 +29,13 @@ import { InteractiveImageTurbineCT1Component } from './components/interactive-im
 @Component({
   selector: 'app-monitoring-phase3',
   templateUrl: './monitoring-phase3.component.html',
-  styleUrls: ['./monitoring-phase3.component.scss']
+  styleUrls: ['./monitoring-phase3.component.scss'],
+  entryComponents:[InteractiveImageTurbineCT1Component]
 })
 export class MonitoringPhase3Component implements OnInit, OnDestroy {
 	@ViewChild('modal_turbine_ct_1') modal_turbine_ct_1: InteractiveImageTurbineCT1Component;
+	@ViewChild('modal_turbine_ct_12', { read: ViewContainerRef }) modal_turbine_ct_12: ViewContainerRef;
+	
   private subscriptions : Subscription[] = [];
   private everySecond   : Observable<number>;
   private timeRequest   : Observable<number>;
@@ -42,11 +45,6 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
   calltags    = [];
   calltagsObj=[];
   chart_01    : Chart;
-  chart_modal : Chart;
-  chart_rt    : Chart;
-  chart_rpm   : Chart;
-  chart_mw    : Chart;
-  chart_rt_t1 : Chart;
 
   dataset_main = [];
   yAxes_main   = [];
@@ -200,6 +198,7 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
     ,private securityService    : SecurityService
     ,private socketService      : SocketService
     ,private eventService       : EventService
+	,private componentFactoryResolver: ComponentFactoryResolver
     ) {
 		
 		
@@ -493,6 +492,13 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 		//*/
 	}
 	dataAdapter(data){
+		this.modal_turbine_ct_1.data = data;
+		this.modal_turbine_ct_1.gettooltip();
+
+		
+
+
+
 		console.log(data);
 		
 		let checkTime = function(i) {
@@ -923,43 +929,6 @@ export class MonitoringPhase3Component implements OnInit, OnDestroy {
 
 	
 
-	addDatasetModal(label,calltag,data){
-		let existDataset = function (tag) {
-		return (tag.id === calltag);
-		};
-
-		
-		let tag = this.chart_modal.data.datasets.find(existDataset);
-		if(tag == undefined){
-
-		var newColor = M3.generateColorHEX(calltag);
-	
-		var newDatasetModal = {
-			id:calltag,
-			label: calltag,
-			backgroundColor: newColor,
-			borderColor: newColor,
-			data: [data],
-			fill: false,
-			hidden:true
-		};
-		this.chart_modal.data.datasets.push(newDatasetModal);
-
-		this.dataset_modal[calltag] = this.chart_modal.data.datasets[this.chart_modal.data.datasets.length-1];
-		this.yAxes_modal[calltag]   = this.chart_modal.config.options.scales.yAxes[this.chart_modal.config.options.scales.yAxes.length-1];
-		
-
-		}else{
-		(tag.data as number[])=[data];
-		//tag.data.push(data);
-		/*if(tag.data.length >= this.chart_modal.data.labels.length+1){
-			tag.data.shift();
-		}//*/
-		}
-		//console.log("data",this.chart_01.data.datasets);
-		//console.log("y ",this.chart_01.config.options.scales.yAxes);
-		this.chart_modal.update();
-	}
 	obtenerValor(po_textoHTML):string{
 		/*
 		if(!this.wsPI.conexiondirectaPI){
