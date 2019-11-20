@@ -202,7 +202,7 @@ disparador2(){
     let list = [];
     this.elementData.forEach(element => {
       element.forEach(tag => {
-        console.log(tag);
+        console.log("tag::::::",tag);
         list.push({
           
           'pID': tag.complianceId,
