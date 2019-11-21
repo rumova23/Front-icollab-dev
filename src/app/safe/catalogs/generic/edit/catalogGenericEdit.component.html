@@ -17,7 +17,17 @@
       <form [formGroup]="genericForm" (ngSubmit)="save(genericForm.value)">
         <div class="row">
           <div class="col-md-4">
-            <div class="md-form">
+              <div class="form-group">
+                <label>Código</label>
+                <input formControlName="code" class="form-control">
+                <div *ngIf="!genericForm.controls['code'].valid 
+                && genericForm.controls['code'].touched" style="color:red">
+                  <div *ngIf="!genericForm.controls['code'].valid 
+                  && genericForm.controls['code'].touched">Requerido</div>
+                </div>
+              </div>
+
+            <!--div class="md-form">
               <mat-form-field class="w-100">
                 <input matInput placeholder="Código" formControlName="code">
                 <mat-error *ngIf="!genericForm.controls['code'].valid 
@@ -25,12 +35,26 @@
                   Requerido
                 </mat-error>
               </mat-form-field>
-            </div>
+            </div-->
           </div>
         </div>
         <div class="row">
           <div class="col-md-4">
-            <div class="md-form">
+
+            
+          <div class="form-group">
+            <label>Descripción</label>
+            <textarea formControlName="description" class="form-control">
+            </textarea>
+            <div *ngIf="!genericForm.controls['description'].valid 
+            && genericForm.controls['description'].touched" style="color:red">
+              <div *ngIf="!genericForm.controls['description'].valid 
+              && genericForm.controls['description'].touched">Requerido</div>
+            </div>
+          </div>
+
+
+            <!--div class="md-form">
               <mat-form-field class="w-100">
                 <input matInput placeholder="Descripción" formControlName="description">
                 <mat-error *ngIf="!genericForm.controls['description'].valid 
@@ -38,7 +62,7 @@
                   Requerido
                 </mat-error>
               </mat-form-field>
-            </div>
+            </div-->
           </div>
         </div>
         <div class="row">
@@ -53,7 +77,15 @@
         </div>
         <div class="row">
           <div class="col-md-4">
-            <div class="md-form">
+            
+              <div class="form-group">
+                  <label>Orden</label>
+                  <input type="number"  formControlName="order"
+                  class="form-control" name="order" min="1">
+              </div>
+
+
+            <!--div class="md-form">
               <mat-form-field class="w-100">
                 <input matInput placeholder="Orden" formControlName="order" type="number">
                 <mat-error *ngIf="!genericForm.controls['order'].valid 
@@ -61,7 +93,7 @@
                   Requerido
                 </mat-error>
               </mat-form-field>
-            </div>
+            </div-->
           </div>
         </div>
         <div class="row">

@@ -20,7 +20,7 @@
       <div class="col-4">
         <div class="form-group">
           <label>Tag</label>
-          <input mdbInput formControlName="fTag" disabled="true" class="form-control"
+          <input formControlName="fTag" disabled="true" class="form-control"
           [ngClass]="{ 'is-invalid': submitted && f.fTag.errors }">
           <div *ngIf="submitted && f.fTag.errors" style="color:red">
             <div *ngIf="f.fTag.errors.required">Requerido</div>
@@ -67,7 +67,7 @@
           <textarea formControlName="fRequisitoLegal" class="form-control"
             [ngClass]="{ 'is-invalid': submitted && f.fRequisitoLegal.errors }">
           </textarea>
-          <!--input mdbInput formControlName="fRequisitoLegal" class="form-control"
+          <!--input formControlName="fRequisitoLegal" class="form-control"
           [ngClass]="{ 'is-invalid': submitted && f.fRequisitoLegal.errors }" -->
           <div *ngIf="submitted && f.fRequisitoLegal.errors" style="color:red">
             <div *ngIf="f.fRequisitoLegal.errors.required">Requerido</div>
@@ -84,7 +84,7 @@
           <textarea rows="4"  formControlName="fDescripcion" class="form-control"
             [ngClass]="{ 'is-invalid': submitted && f.fDescripcion.errors }">
           </textarea>
-          <!--input mdbInput class="form-control" formControlName="fDescripcion" [readonly]="soloLectura"
+          <!--input class="form-control" formControlName="fDescripcion" [readonly]="soloLectura"
           [ngClass]="{ 'is-invalid': submitted && f.fDescripcion.errors }"-->
           <div *ngIf="submitted && f.fDescripcion.errors" style="color:red">
             <div *ngIf="f.fDescripcion.errors.required">Requerido</div>
@@ -121,7 +121,7 @@
           <textarea formControlName="fClasificacionActividad" class="form-control"
             [ngClass]="{ 'is-invalid': submitted && f.fClasificacionActividad.errors }">
           </textarea>
-          <!--input mdbInput class="form-control" formControlName="fClasificacionActividad"
+          <!--input class="form-control" formControlName="fClasificacionActividad"
                 [ngClass]="{ 'is-invalid': submitted && f.fClasificacionActividad.errors }"-->
           <div *ngIf="submitted && f.fClasificacionActividad.errors" style="color:red">
             <div *ngIf="f.fClasificacionActividad.errors.required">Requerido</div>
@@ -300,7 +300,7 @@
             <div class="tabla-responsi mat-elevation-z0">
               <div class="form-group mt-3 mb-3">
                 <label>Escriba palaba a filtrar</label>
-                <input mdbInput class="form-control" 
+                <input class="form-control" 
                 (keyup)="applyFilter($event.target.value)" 
                 >
               </div>
@@ -364,7 +364,7 @@
                 <div class="tabla-responsi mat-elevation-z0">
                   <div class="form-group mt-3 mb-3">
                     <label>Escriba palaba a filtrar</label>
-                    <input mdbInput class="form-control" 
+                    <input class="form-control" 
                     (keyup)="applyFilter1($event.target.value)" 
                     >
                   </div>
