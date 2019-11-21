@@ -1,6 +1,15 @@
 {
-    "shared.header.tools.language" : "Idioma"
-    ,"shared.header.tools.spanish" : "Español"
-    ,"shared.header.tools.english" : "Inglés"
-    ,"shared.header.tools.japanese" : "Japonés"
+    "shared":{
+        "header.tools"                : "Herramientas"
+       ,"header.tools.changePassword" : "Cambiar contraseña"
+       ,"header.tools.language"       : "Idioma"
+       ,"header.tools.spanish"        : "Español"
+       ,"header.tools.english"        : "Inglés"
+       ,"header.tools.japanese"       : "Japonés"
+       ,"header.tools.getOut"         : "Salir"
+    },
+    "_general":{
+        "body.welcome"               : "Bienvenido"
+       ,"body.developingSystem"      : "Sistema en desarrollo"
+    }
 }

@@ -1,6 +1,15 @@
 {
-    "shared.header.tools.language" : "言語"
-    ,"shared.header.tools.spanish" : "スペイン語"
-    ,"shared.header.tools.english" : "英語"
-    ,"shared.header.tools.japanese" : "日本人"
+    "shared":{
+        "header.tools"                : "道具"
+       ,"header.tools.changePassword" : "パスワードを変更する"
+       ,"header.tools.language"       : "言語"
+       ,"header.tools.spanish"        : "スペイン語"
+       ,"header.tools.english"        : "英語"
+       ,"header.tools.japanese"       : "日本人"
+       ,"header.tools.getOut"         : "出口"
+    },
+    "_general":{
+         "body.welcome"                : "ようこそ"
+        ,"body.developingSystem"      : "開発システム"
+    }
 }

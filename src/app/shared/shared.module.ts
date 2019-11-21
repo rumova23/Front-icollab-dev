@@ -37,7 +37,8 @@ import { HttpClient, HttpClientModule     } from '@angular/common/http';
         SharedSidebarComponent,
         CssComponent,
         ConnectSocketComponent,
-        TranslationComponent
+        TranslationComponent,
+        TranslateModule
     ],
     imports:[
         BrowserModule

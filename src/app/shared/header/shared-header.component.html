@@ -36,13 +36,13 @@
 				<mdb-icon fas icon="tools" dropdownToggle style="color: #ccc;"></mdb-icon>
 				<div class="dropdown-menu dropdown-menu-right">
 					<div class="col">
-					<p class="dropdownMenuheader">Herramientas</p>
+					<p class="dropdownMenuheader">{{ 'shared.header.tools' | translate }}</p>
 					</div>
 					<a class="dropdown-item" (click)="changePassword()">
 					<table>
 						<tr>
 						<td><span class="lnr lnr-lock"></span>&nbsp;&nbsp;&nbsp;</td>
-						<td><h4>Cambiar Contraseña</h4></td>
+						<td><h4>{{ 'shared.header.tools.changePassword' | translate }}</h4></td>
 						</tr>
 					</table>
 					</a>
@@ -58,7 +58,7 @@
 							<span class="lnr lnr-power-switch"></span>&nbsp;&nbsp;&nbsp;
 						</td>
 						<td>
-							<h4>Salir</h4>
+							<h4>{{ 'shared.header.tools.getOut' | translate }}</h4>
 						</td>
 						</tr>
 					</table>
