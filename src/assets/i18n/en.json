@@ -28,4 +28,11 @@
         ,"online"                     : "On Line"
         ,"offline"                    : "Off Line"
     }
+
+    ,"Fase 3" : "Phase 3"
+    ,"Fase 2" : "Phase 2"
+    ,"legalAgreement" : "Legal agreement"
+    ,"Catálogos" : "Catalogs"
+    ,"Inicio" : "Home"
+    ,"Configuración de   Cumplimientos":"Compliance Settings"
 }

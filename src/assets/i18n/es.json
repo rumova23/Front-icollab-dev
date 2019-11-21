@@ -27,4 +27,12 @@
         ,"online"                     : "Conectado"
         ,"offline"                    : "Desconectado"
     }
+
+    
+    ,"Fase 3" : "Fase 3"
+    ,"Fase 2" : "Fase 2"
+    ,"legalAgreement" : "Acuerdo legal"
+    ,"Catálogos" : "Catálogos"
+    ,"Inicio" : "Inicio"
+    ,"Configuración de   Cumplimientos":"Configuración de Cumplimientos"
 }
