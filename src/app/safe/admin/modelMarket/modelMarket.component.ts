@@ -21,7 +21,8 @@ export class ModelMarketComponent implements OnInit {
   cols: any[];
   colsGroup: any [];
   date: Date;
-
+  submitted= false;
+  f:any={};
   modelMarketForm: FormGroup;
   hour = 0;
   dateDespatch: string = "";
@@ -30,10 +31,9 @@ export class ModelMarketComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   constructor(private marketService: MarketService,
     public globalService: GlobalService,
-    private fb: FormBuilder,
+    public fb: FormBuilder,
     private toastr: ToastrManager) {
   }
-
   ngOnInit() {
     this.cols = [
       'hour',
@@ -92,8 +92,10 @@ export class ModelMarketComponent implements OnInit {
     //this.date.setDate(this.date.getDate() + 1);
     //this.loadData();
     this.colsGroup = ['-', '--', '1', '2', '3', '4', '5','6','7','8','9','10','11'];
-
+    
   }
+ 
+ 
 
   private loadData() {
     this.marketService.getModelMarket(this.date.getTime())
