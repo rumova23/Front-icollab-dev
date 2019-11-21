@@ -7,9 +7,24 @@
        ,"header.tools.english"        : "Inglés"
        ,"header.tools.japanese"       : "Japonés"
        ,"header.tools.getOut"         : "Salir"
+       ,"header.emails"               : "Correos"
+       ,"header.mail"                 : "Correo"
+       ,"header.notifications"        : "Notificaciones"
+
+       ,"sidebar.infoUser.youHaveNoPendingTasks" : "No tienes tareas pendientes"
+    },
+    "monitoring":{
+         "phase3.environmentalConditions"    : "Condiciones ambientales"
+        ,"phase3.mainParametersOfGeneration" : "Parámetros principales de generación"
+        ,"phase3.netPower"                   : "Potencia Neta"
+        ,"phase3.powerCCDV"                  : "Potencia CCDV"
+        ,"phase3.heatRate"                   : "Régimen Térmico"
     },
     "_general":{
-        "body.welcome"               : "Bienvenido"
-       ,"body.developingSystem"      : "Sistema en desarrollo"
+         "body.welcome"               : "Bienvenido"
+        ,"body.welcome2"              : "Bienvenida"
+        ,"body.developingSystem"      : "Sistema en desarrollo"
+        ,"online"                     : "Conectado"
+        ,"offline"                    : "Desconectado"
     }
 }

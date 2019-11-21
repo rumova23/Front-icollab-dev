@@ -7,9 +7,24 @@
        ,"header.tools.english"        : "英語"
        ,"header.tools.japanese"       : "日本人"
        ,"header.tools.getOut"         : "出口"
+       ,"header.emails"               : "メール"
+       ,"header.mail"                 : "郵便物"
+       ,"header.notifications"        : "通知"
+
+       ,"sidebar.infoUser.youHaveNoPendingTasks" : "保留中のタスクはありません"
+    },
+    "monitoring":{
+         "phase3.environmentalConditions"    : "外部環境"
+        ,"phase3.mainParametersOfGeneration" : "発電主要パラメーター"
+        ,"phase3.netPower"                   : "純電力"
+        ,"phase3.powerCCDV"                  : "PPA補正出力"
+        ,"phase3.heatRate"                   : "ヒートレート"
     },
     "_general":{
-         "body.welcome"                : "ようこそ"
+         "body.welcome"               : "ようこそ"
+        ,"body.welcome2"              : "ようこそ"
         ,"body.developingSystem"      : "開発システム"
+        ,"online"                     : "オンライン"
+        ,"offline"                    : "オフライン"
     }
 }
