@@ -204,8 +204,7 @@ export class ModelMarketComponent implements OnInit {
   }
 
   dateChange(event) {
-    console.log(event);
-    this.date = event.value;
+    this.date = new Date(event.target.value);
     this.loadData();
   }
 

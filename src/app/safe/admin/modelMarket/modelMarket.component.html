@@ -1,7 +1,7 @@
 <div class="row">
     <mdb-breadcrumb customClass="white" class="w-100">
       <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
-      <mdb-breadcrumb-item>Modelo de Mercado ffffff</mdb-breadcrumb-item>
+      <mdb-breadcrumb-item>Modelo de Mercado</mdb-breadcrumb-item>
       <mdb-breadcrumb-item class="active">{{title}}</mdb-breadcrumb-item>
     </mdb-breadcrumb>
   </div>
@@ -20,16 +20,15 @@
     <div class="col">
       <div class="filtros mt-2 row">
         <div class="col-12 col-sm-12 col-md-12 col-lg-10">
-          <div class="row">
-            <div class="col-md-auto">
-              <mat-form-field>
-                <input matInput [matDatepicker]="De" placeholder="De" [(ngModel)]="date"
-                  (dateChange)="dateChange($event)">
-                <mat-datepicker-toggle matSuffix [for]="De"></mat-datepicker-toggle>
-                <mat-datepicker #De></mat-datepicker>
-              </mat-form-field>
+          
+          <div class="form-group row">
+            <div class="form-group col-12 col-md-6 col-lg-4">
+              <label for="De">De</label>
+              <input type="date" class="form-control" id="De" 
+              (change)="dateChange($event)">
             </div>
           </div>
+
         </div>
         <!--   <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
           <div>
@@ -44,10 +43,23 @@
     <div class="row">
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="megawatt1" 
-            placeholder="MW incremental 1">
-          </mat-form-field>
+
+          
+					  	<div class="form-group">
+                <label>MW incremental 1</label>
+                <input class="form-control" formControlName="megawatt1"
+                  oninput="this.value = this.value.toUpperCase()"
+                  maxlength="30">
+         
+                <div *ngIf="submitted && f.megawatt1.errors" style="color:red">
+                  <div *ngIf="f.megawatt1.errors.required">Requerido</div>
+                </div>
+              </div>
+
+              <!--mat-form-field class="full-width">
+                <input matInput formControlName="megawatt1" 
+                placeholder="MW incremental 1">
+              </mat-form-field-->
         </div>
         <div class="col-md-4">
 
@@ -55,10 +67,20 @@
       </div>
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="priceMegawatt1" 
-            placeholder="$/MWh incremental 1">
-          </mat-form-field>
+					  	<div class="form-group">
+                <label>$/MWh incremental 1</label>
+                <input class="form-control" formControlName="priceMegawatt1"
+                  oninput="this.value = this.value.toUpperCase()"
+                  >
+          
+                <div *ngIf="submitted && f.priceMegawatt1.errors" style="color:red">
+                  <div *ngIf="f.priceMegawatt1.errors.required">Requerido</div>
+                </div>
+              </div>
+              <!--mat-form-field class="full-width">
+                <input matInput formControlName="priceMegawatt1" 
+                placeholder="$/MWh incremental 1">
+              </mat-form-field-->
         </div>
         <div class="col-md-4">
 
@@ -66,9 +88,20 @@
       </div>
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="megawatt2" placeholder="MW incremental 2">
-          </mat-form-field>
+            <div class="form-group">
+              <label>MW incremental 2</label>
+              <input class="form-control" formControlName="megawatt2"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.megawatt2.errors" style="color:red">
+                <div *ngIf="f.megawatt2.errors.required">Requerido</div>
+              </div>
+            </div>
+
+            <!--mat-form-field class="full-width">
+              <input matInput formControlName="megawatt2" placeholder="MW incremental 2">
+            </mat-form-field-->
         </div>
         <div class="col-md-4">
 
@@ -76,9 +109,22 @@
       </div>
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="priceMegawatt2" placeholder="$/MWh incremental 2">
-          </mat-form-field>
+
+          
+            <div class="form-group">
+              <label>$/MWh incremental 2</label>
+              <input class="form-control" formControlName="priceMegawatt2"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.priceMegawatt2.errors" style="color:red">
+                <div *ngIf="f.priceMegawatt2.errors.required">Requerido</div>
+              </div>
+            </div>
+
+            <!--mat-form-field class="full-width">
+              <input matInput formControlName="priceMegawatt2" placeholder="$/MWh incremental 2">
+            </mat-form-field-->
         </div>
         <div class="col-md-4">
         </div>
@@ -87,9 +133,23 @@
     <div class="row">
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="megawatt3" placeholder="MW incremental 3" >
-          </mat-form-field>
+
+          
+            <div class="form-group">
+              <label>MW incremental 3</label>
+              <input class="form-control" formControlName="megawatt3"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.megawatt3.errors" style="color:red">
+                <div *ngIf="f.megawatt3.errors.required">Requerido</div>
+              </div>
+            </div>
+
+
+            <!--mat-form-field class="full-width">
+              <input matInput formControlName="megawatt3" placeholder="MW incremental 3" >
+            </mat-form-field-->
         </div>
         <div class="col-md-4">
 
@@ -97,9 +157,22 @@
       </div>
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="priceMegawatt3" placeholder="$/MWh incremental 3">
-          </mat-form-field>
+          
+            <div class="form-group">
+              <label>$/MWh incremental 3</label>
+              <input class="form-control" formControlName="priceMegawatt3"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.priceMegawatt3.errors" style="color:red">
+                <div *ngIf="f.priceMegawatt3.errors.required">Requerido</div>
+              </div>
+            </div>
+
+              
+            <!--mat-form-field class="full-width">
+              <input matInput formControlName="priceMegawatt3" placeholder="$/MWh incremental 3">
+            </mat-form-field-->
         </div>
         <div class="col-md-4">
 
@@ -107,9 +180,23 @@
       </div>
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="megawatt4" placeholder="MW incremental 4">
-          </mat-form-field>
+
+          
+            <div class="form-group">
+              <label>MW incremental 4</label>
+              <input class="form-control" formControlName="megawatt4"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.megawatt4.errors" style="color:red">
+                <div *ngIf="f.megawatt4.errors.required">Requerido</div>
+              </div>
+            </div>
+
+              
+            <!--mat-form-field class="full-width">
+              <input matInput formControlName="megawatt4" placeholder="MW incremental 4">
+            </mat-form-field-->
         </div>
         <div class="col-md-4">
 
@@ -117,9 +204,22 @@
       </div>
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="priceMegawatt4" placeholder="$/MWh incremental 4">
-          </mat-form-field>
+          
+            <div class="form-group">
+              <label>$/MWh incremental 4</label>
+              <input class="form-control" formControlName="priceMegawatt4"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.priceMegawatt4.errors" style="color:red">
+                <div *ngIf="f.priceMegawatt4.errors.required">Requerido</div>
+              </div>
+            </div>
+
+
+            <!--mat-form-field class="full-width">
+              <input matInput formControlName="priceMegawatt4" placeholder="$/MWh incremental 4">
+            </mat-form-field-->
         </div>
         <div class="col-md-4">
         </div>
@@ -129,9 +229,22 @@
     <div class="row">
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="megawatt5" placeholder="MW incremental 5">
-          </mat-form-field>
+          
+            <div class="form-group">
+              <label>MW incremental 5</label>
+              <input class="form-control" formControlName="megawatt5"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.megawatt5.errors" style="color:red">
+                <div *ngIf="f.megawatt5.errors.required">Requerido</div>
+              </div>
+            </div>
+
+              
+            <!--mat-form-field class="full-width">
+              <input matInput formControlName="megawatt5" placeholder="MW incremental 5">
+            </mat-form-field-->
         </div>
         <div class="col-md-4">
 
@@ -139,9 +252,23 @@
       </div>
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="priceMegawatt5" placeholder="$/MWh incremental 5">
-          </mat-form-field>
+          
+            <div class="form-group">
+              <label>$/MWh incremental 5</label>
+              <input class="form-control" formControlName="priceMegawatt5"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.priceMegawatt5.errors" style="color:red">
+                <div *ngIf="f.priceMegawatt5.errors.required">Requerido</div>
+              </div>
+            </div>
+
+              
+
+            <!--mat-form-field class="full-width">
+              <input matInput formControlName="priceMegawatt5" placeholder="$/MWh incremental 5">
+            </mat-form-field-->
         </div>
         <div class="col-md-4">
 
@@ -149,9 +276,21 @@
       </div>
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
-          <mat-form-field class="full-width">
+          
+            <div class="form-group">
+              <label>MW incremental 6</label>
+              <input class="form-control" formControlName="megawatt6"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.megawatt6.errors" style="color:red">
+                <div *ngIf="f.megawatt6.errors.required">Requerido</div>
+              </div>
+            </div>
+
+          <!--mat-form-field class="full-width">
             <input matInput formControlName="megawatt6" placeholder="MW incremental 6">
-          </mat-form-field>
+          </mat-form-field-->
         </div>
         <div class="col-md-4">
 
@@ -159,9 +298,20 @@
       </div>
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="priceMegawatt6" placeholder="$/MWh incremental 6">
-          </mat-form-field>
+            <div class="form-group">
+              <label>$/MWh incremental 6</label>
+              <input class="form-control" formControlName="priceMegawatt6"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.priceMegawatt6.errors" style="color:red">
+                <div *ngIf="f.priceMegawatt6.errors.required">Requerido</div>
+              </div>
+            </div>
+
+            <!--mat-form-field class="full-width">
+              <input matInput formControlName="priceMegawatt6" placeholder="$/MWh incremental 6">
+            </mat-form-field-->
         </div>
         <div class="col-md-4">
         </div>
@@ -171,9 +321,22 @@
     <div class="row">
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="megawatt7" placeholder="MW incremental 7">
-          </mat-form-field>
+            <div class="form-group">
+              <label>MW incremental 7</label>
+              <input class="form-control" formControlName="megawatt7"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.megawatt7.errors" style="color:red">
+                <div *ngIf="f.megawatt7.errors.required">Requerido</div>
+              </div>
+            </div>
+
+
+
+            <!--mat-form-field class="full-width">
+              <input matInput formControlName="megawatt7" placeholder="MW incremental 7">
+            </mat-form-field-->
         </div>
         <div class="col-md-4">
 
@@ -181,9 +344,22 @@
       </div>
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="priceMegawatt7" placeholder="$/MWh incremental 7">
-          </mat-form-field>
+            <div class="form-group">
+              <label>$/MWh incremental 7</label>
+              <input class="form-control" formControlName="priceMegawatt7"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.priceMegawatt7.errors" style="color:red">
+                <div *ngIf="f.priceMegawatt7.errors.required">Requerido</div>
+              </div>
+            </div>
+
+
+
+            <!--mat-form-field class="full-width">
+              <input matInput formControlName="priceMegawatt7" placeholder="$/MWh incremental 7">
+            </mat-form-field-->
         </div>
         <div class="col-md-4">
 
@@ -191,9 +367,22 @@
       </div>
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
-          <mat-form-field class="full-width">
+            <div class="form-group">
+              <label>MW incremental 8</label>
+              <input class="form-control" formControlName="megawatt8"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.megawatt8.errors" style="color:red">
+                <div *ngIf="f.megawatt8.errors.required">Requerido</div>
+              </div>
+            </div>
+
+
+
+          <!--mat-form-field class="full-width">
             <input matInput formControlName="megawatt8" placeholder="MW incremental 8">
-          </mat-form-field>
+          </mat-form-field-->
         </div>
         <div class="col-md-4">
 
@@ -201,51 +390,21 @@
       </div>
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="priceMegawatt8" placeholder="$/MWh incremental 8">
-          </mat-form-field>
-        </div>
-        <div class="col-md-4">
-        </div>
-      </div>
-    </div>
+            <div class="form-group">
+              <label>$/MWh incremental 8</label>
+              <input class="form-control" formControlName="priceMegawatt8"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.priceMegawatt8.errors" style="color:red">
+                <div *ngIf="f.priceMegawatt8.errors.required">Requerido</div>
+              </div>
+            </div>
 
-    <div class="row">
-      <div class="col-md-auto col-md-6 col-lg-3">
-        <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="megawatt9" placeholder="MW incremental 9">
-          </mat-form-field>
-        </div>
-        <div class="col-md-4">
 
-        </div>
-      </div>
-      <div class="col-md-auto col-md-6 col-lg-3">
-        <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="priceMegawatt9" placeholder="$/MWh incremental 9">
-          </mat-form-field>
-        </div>
-        <div class="col-md-4">
-
-        </div>
-      </div>
-      <div class="col-md-auto col-md-6 col-lg-3">
-        <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="megawatt10" placeholder="MW incremental 10">
-          </mat-form-field>
-        </div>
-        <div class="col-md-4">
-
-        </div>
-      </div>
-      <div class="col-md-auto col-md-6 col-lg-3">
-        <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="priceMegawatt10" placeholder="$/MWh incremental 10">
-          </mat-form-field>
+            <!--mat-form-field class="full-width">
+              <input matInput formControlName="priceMegawatt8" placeholder="$/MWh incremental 8">
+            </mat-form-field-->
         </div>
         <div class="col-md-4">
         </div>
@@ -255,9 +414,21 @@
     <div class="row">
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="megawatt11" placeholder="MW incremental 11">
-          </mat-form-field>
+            <div class="form-group">
+              <label>MW incremental 9</label>
+              <input class="form-control" formControlName="megawatt9"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.megawatt9.errors" style="color:red">
+                <div *ngIf="f.megawatt9.errors.required">Requerido</div>
+              </div>
+            </div>
+
+
+            <!--mat-form-field class="full-width">
+              <input matInput formControlName="megawatt9" placeholder="MW incremental 9">
+            </mat-form-field-->
         </div>
         <div class="col-md-4">
 
@@ -265,9 +436,108 @@
       </div>
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input matInput formControlName="priceMegawatt11" placeholder="$/MWh incremental 11">
-          </mat-form-field>
+            <div class="form-group">
+              <label>$/MWh incremental 9</label>
+              <input class="form-control" formControlName="priceMegawatt9"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.priceMegawatt9.errors" style="color:red">
+                <div *ngIf="f.priceMegawatt9.errors.required">Requerido</div>
+              </div>
+            </div>
+
+            <!--mat-form-field class="full-width">
+              <input matInput formControlName="priceMegawatt9" placeholder="$/MWh incremental 9">
+            </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+            <div class="form-group">
+              <label>MW incremental 10</label>
+              <input class="form-control" formControlName="megawatt10"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.megawatt10.errors" style="color:red">
+                <div *ngIf="f.megawatt10.errors.required">Requerido</div>
+              </div>
+            </div>
+
+            <!--mat-form-field class="full-width">
+              <input matInput formControlName="megawatt10" placeholder="MW incremental 10">
+            </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+            <div class="form-group">
+              <label>$/MWh incremental 10</label>
+              <input class="form-control" formControlName="priceMegawatt10"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.priceMegawatt10.errors" style="color:red">
+                <div *ngIf="f.priceMegawatt10.errors.required">Requerido</div>
+              </div>
+            </div>
+
+            <!--mat-form-field class="full-width">
+              <input matInput formControlName="priceMegawatt10" placeholder="$/MWh incremental 10">
+            </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+            <div class="form-group">
+              <label>MW incremental 11</label>
+              <input class="form-control" formControlName="megawatt11"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.megawatt11.errors" style="color:red">
+                <div *ngIf="f.megawatt11.errors.required">Requerido</div>
+              </div>
+            </div>
+
+
+            <!--mat-form-field class="full-width">
+              <input matInput formControlName="megawatt11" placeholder="MW incremental 11">
+            </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+            <div class="form-group">
+              <label>$/MWh incremental 11</label>
+              <input class="form-control" formControlName="priceMegawatt11"
+                oninput="this.value = this.value.toUpperCase()"
+                >
+        
+              <div *ngIf="submitted && f.priceMegawatt11.errors" style="color:red">
+                <div *ngIf="f.priceMegawatt11.errors.required">Requerido</div>
+              </div>
+            </div>
+
+
+            <!--mat-form-field class="full-width">
+              <input matInput formControlName="priceMegawatt11" placeholder="$/MWh incremental 11">
+            </mat-form-field-->
         </div>
         <div class="col-md-4">
 
