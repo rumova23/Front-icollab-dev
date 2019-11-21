@@ -25,6 +25,11 @@ hr{
     color: #ffffff !important;
 }
 
+.sidebar_item:hover, .sidebar_item.itemActive{
+    background-color : #cfd8dc!important;
+    color            : Black!important;
+}
+
 
 
 /*MODAL*/
