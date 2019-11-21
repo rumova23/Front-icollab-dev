@@ -12,11 +12,13 @@ export class TranslationComponent implements OnInit {
 	  	private translate: TranslateService
 	){
 		this.translate.setDefaultLang(this.activeLang);
+		localStorage.setItem("activeLang", this.activeLang);
 	}
 	ngOnInit() {
 	}
 
 	public cambiarLenguaje(lang) {
+		localStorage.setItem("activeLang", lang);
 		this.activeLang = lang;
 		this.translate.use(lang);
 	}
