@@ -67,19 +67,20 @@ export class MonitoringHomeComponent extends ConnectSocketComponent implements O
 	subscribeOnChangePage(){
 		this.subscriptions.push(this.eventService.onChangePage.subscribe({
 			next: (event: EventMessage) => {
+				debugger
 				this.viewContainerRef.clear();
 				switch (event.descriptor) {
-					case 'Administrative_monitoring.Inicio':
+					case 'Administrative_monitoring.MonitoringWelcomeComponent':
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(MonitoringWelcomeComponent)
 						).changeDetectorRef.detectChanges();
 					  break;
-					case 'Administrative_monitoring.Fase 2':
+					case 'Administrative_monitoring.MonitoringPhase2Component':
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase2Component)
 						).changeDetectorRef.detectChanges();
 					  break;
-					case 'Administrative_monitoring.Fase 3':
+					case 'Administrative_monitoring.MonitoringPhase3Component':
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase3Component)
 						).changeDetectorRef.detectChanges();
@@ -93,7 +94,6 @@ export class MonitoringHomeComponent extends ConnectSocketComponent implements O
 						this.viewContainerRef
 							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent)).changeDetectorRef.detectChanges();
 						break;
-					default:
 				}
 			}
 		}));

@@ -28,9 +28,9 @@
         ,"online"                     : "On Line"
         ,"offline"                    : "Off Line"
     }
-
-    ,"Fase 3" : "Phase 3"
-    ,"Fase 2" : "Phase 2"
+    ,"home"    : "Home"
+    ,"phase 3" : "Phase 3"
+    ,"phase 2" : "Phase 2"
     ,"legalAgreement" : "Legal agreement"
     ,"Catálogos" : "Catalogs"
     ,"Inicio" : "Home"

@@ -27,10 +27,9 @@
         ,"online"                     : "Conectado"
         ,"offline"                    : "Desconectado"
     }
-
-    
-    ,"Fase 3" : "Fase 3"
-    ,"Fase 2" : "Fase 2"
+    ,"home"    : "Inicio"
+    ,"phase 3" : "Fase 3"
+    ,"phase 2" : "Fase 2"
     ,"legalAgreement" : "Acuerdo legal"
     ,"Catálogos" : "Catálogos"
     ,"Inicio" : "Inicio"

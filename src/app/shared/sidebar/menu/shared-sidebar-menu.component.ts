@@ -27,7 +27,7 @@ export class SharedSidebarMenuComponent{
 	) {
 		let app   = globalService.app;
 		this.menu = securityService.getMenu(app.name);
-		if(this.menu == undefined || app.name == "Compliance"){
+		if(this.menu == undefined || app.name == "Compliance" || app.name == "Administrative_monitoring"){
 			this.hardcode(app.name);
 		}
 	}
@@ -47,8 +47,8 @@ export class SharedSidebarMenuComponent{
 		}
 	}
 	hardcodeAdministrative_monitoring(){
-		this.menu = [
-			/*{
+		/*this.menu = [
+			{
 			id: 'Dashboard',
 			idFather:'',
 			icon: 'business',
@@ -61,7 +61,7 @@ export class SharedSidebarMenuComponent{
 				label:'Fase 3',
 				},
 			]
-			},//*/
+			},
 			{
 			id: 'Fase 3',
 			idFather:'',
@@ -81,7 +81,14 @@ export class SharedSidebarMenuComponent{
 			label: 'Mm Market',
 			url: 'Mm Market'
 			}
-		]; 
+		]; //*/
+		this.menu.push({
+			id: 'Mm Market',
+			idFather:'',
+			icon: 'insert_chart',
+			label: 'Mm Market',
+			url: 'Mm Market'
+		});
 	}
 	hardcodeCompliance(){
 		this.menu.push({children:[
