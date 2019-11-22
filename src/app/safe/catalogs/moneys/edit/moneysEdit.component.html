@@ -105,9 +105,6 @@
                                 class="form-control"
                                 formControlName="moneySat"
                                 [compareWith]="compareObjects"
-                                [ngClass]="{
-                                    'is-invalid': submitted && f.moneySat.errors
-                                }"
                             >
                                 <option
                                     *ngFor="let moneySat of moneysSat"
