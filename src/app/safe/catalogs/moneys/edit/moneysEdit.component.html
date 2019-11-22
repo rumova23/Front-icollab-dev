@@ -1,34 +1,51 @@
 <div class="row">
-  <mdb-breadcrumb customClass="white" class="w-100">
-    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
-    <mdb-breadcrumb-item>Catálogos</mdb-breadcrumb-item>
-    <mdb-breadcrumb-item class="active">{{getTitle()}}</mdb-breadcrumb-item>
-  </mdb-breadcrumb>
+    <mdb-breadcrumb customClass="white" class="w-100">
+        <mdb-breadcrumb-item class=""
+            ><mdb-icon fas icon="cog"></mdb-icon
+        ></mdb-breadcrumb-item>
+        <mdb-breadcrumb-item>Catálogos</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item class="active">{{
+            getTitle()
+        }}</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
 </div>
 
 <div class="section">
-  <div class="row pb-2">
-    <div class="col">
-      <span class="agila-cda-titulo">{{getTitle()}}</span>
+    <div class="row pb-2">
+        <div class="col">
+            <span class="agila-cda-titulo">{{ getTitle() }}</span>
+        </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <form [formGroup]="moneyForm" (ngSubmit)="save(moneyForm.value)">
-        <div class="row">
-          <div class="col-md-4">
-            
-              <div class="form-group">
-                <label>Código</label>
-                <input formControlName="code" class="form-control">
-                <div *ngIf="!moneyForm.controls['code'].valid 
-                && moneyForm.controls['code'].touched" style="color:red">
-                  <div *ngIf="!moneyForm.controls['code'].valid 
-                  && moneyForm.controls['code'].touched">Requerido</div>
-                </div>
-              </div>
+    <div class="row">
+        <div class="col">
+            <form [formGroup]="moneyForm" (ngSubmit)="save(moneyForm.value)">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Código</label>
+                            <input
+                                formControlName="code"
+                                class="form-control"
+                            />
+                            <div
+                                *ngIf="
+                                    !moneyForm.controls['code'].valid &&
+                                    moneyForm.controls['code'].touched
+                                "
+                                style="color:red"
+                            >
+                                <div
+                                    *ngIf="
+                                        !moneyForm.controls['code'].valid &&
+                                        moneyForm.controls['code'].touched
+                                    "
+                                >
+                                    Requerido
+                                </div>
+                            </div>
+                        </div>
 
-            <!--div class="md-form">
+                        <!--div class="md-form">
               <mat-form-field class="w-100">
                 <input matInput placeholder="Código" formControlName="code">
                 <mat-error *ngIf="!moneyForm.controls['code'].valid 
@@ -37,26 +54,38 @@
                 </mat-error>
               </mat-form-field>
             </div-->
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Descripción</label>
+                            <textarea
+                                formControlName="description"
+                                class="form-control"
+                            >
+                            </textarea>
+                            <div
+                                *ngIf="
+                                    !moneyForm.controls['description'].valid &&
+                                    moneyForm.controls['description'].touched
+                                "
+                                style="color:red"
+                            >
+                                <div
+                                    *ngIf="
+                                        !moneyForm.controls['description']
+                                            .valid &&
+                                        moneyForm.controls['description']
+                                            .touched
+                                    "
+                                >
+                                    Requerido
+                                </div>
+                            </div>
+                        </div>
 
-            
-            <div class="form-group">
-              <label>Descripción</label>
-              <textarea formControlName="description" class="form-control">
-              </textarea>
-              <div *ngIf="!moneyForm.controls['description'].valid 
-              && moneyForm.controls['description'].touched" style="color:red">
-                <div *ngIf="!moneyForm.controls['description'].valid 
-                && moneyForm.controls['description'].touched">Requerido</div>
-              </div>
-            </div>
-
-            
-
-            <!--div class="md-form">
+                        <!--div class="md-form">
               <mat-form-field class="w-100">
                 <input matInput placeholder="Descripción" 
                 formControlName="description">
@@ -66,37 +95,46 @@
                 </mat-error>
               </mat-form-field>
             </div-->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Moneda SAT</label>
+                            <select
+                                class="form-control"
+                                formControlName="moneySat"
+                                [compareWith]="compareObjects"
+                                [ngClass]="{
+                                    'is-invalid': submitted && f.moneySat.errors
+                                }"
+                            >
+                                <option
+                                    *ngFor="let moneySat of moneysSat"
+                                    [value]="moneySat"
+                                >
+                                    {{ moneySat.name }}
+                                </option>
+                            </select>
+                            <div
+                                *ngIf="
+                                    !moneyForm.controls['moneySat'].valid &&
+                                    moneyForm.controls['moneySat'].touched
+                                "
+                                style="color:red"
+                            >
+                                <div
+                                    *ngIf="
+                                        !moneyForm.controls['moneySat'].valid &&
+                                        moneyForm.controls['moneySat'].touched
+                                    "
+                                >
+                                    Requerido
+                                </div>
+                            </div>
+                        </div>
 
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4">
-
-
-            
-          <div class="form-group">
-            <label>Moneda SAT</label>
-            <select class="form-control" 
-              formControlName="moneySat" 
-              [compareWith]="compareObjects"
-              [ngClass]="{ 'is-invalid': submitted && f.moneySat.errors }"
-              >
-              <option
-              *ngFor="let moneySat of moneysSat" [value]="moneySat"
-              >
-              {{ moneySat.name }}
-              </option>
-            </select>
-            <div  *ngIf="!moneyForm.controls['moneySat'].valid 
-            && moneyForm.controls['moneySat'].touched" style="color:red">
-              <div  *ngIf="!moneyForm.controls['moneySat'].valid 
-              && moneyForm.controls['moneySat'].touched">Requerido</div>
-            </div>
-          </div>
-
-
-
-            <!--mat-form-field>
+                        <!--mat-form-field>
               <mat-label>Moneda SAT</mat-label>
               <mat-select formControlName="moneySat" [compareWith]="compareObjects"> 
                 <mat-option *ngFor="let moneySat of moneysSat" [value]="moneySat">
@@ -108,33 +146,41 @@
                           && moneyForm.controls['moneySat'].touched">
               Requerido
             </mat-error-->
-
-
-          </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-              <mat-checkbox id="active" class="active" color="primary" formControlName="active">Activo
-              </mat-checkbox>
-              <mat-error *ngIf="!moneyForm.controls['active'].valid 
-                          && moneyForm.controls['active'].touched">
-                Requerido
-              </mat-error>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-
-              
-                <div class="form-group">
-                    <label>Orden</label>
-                    <input type="number"  formControlName="order"
-                    class="form-control" name="order" min="1">
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-checkbox
+                            id="active"
+                            class="active"
+                            color="primary"
+                            formControlName="active"
+                            >Activo
+                        </mat-checkbox>
+                        <mat-error
+                            *ngIf="
+                                !moneyForm.controls['active'].valid &&
+                                moneyForm.controls['active'].touched
+                            "
+                        >
+                            Requerido
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Orden</label>
+                            <input
+                                type="number"
+                                formControlName="order"
+                                class="form-control"
+                                name="order"
+                                min="1"
+                            />
+                        </div>
 
-                
-
-              <!--div class="md-form">
+                        <!--div class="md-form">
                 <mat-form-field class="w-100">
                   <input matInput placeholder="Orden" formControlName="order" 
                       type="number">
@@ -144,21 +190,28 @@
                   </mat-error>
                 </mat-form-field>
               </div-->
-
-
-            </div>
-          </div>
-        <div class="row">
-          <div class="col-md-4"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div
+                            class="d-flex justify-content-end"
+                            *ngIf="!entity.readOnly"
+                        >
+                            <button
+                                type="submit"
+                                class="btn"
+                                [disabled]="!moneyForm.valid"
+                            >
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="d-flex justify-content-end" *ngIf="!entity.readOnly">
-              <button type="submit" class="btn" [disabled]="!moneyForm.valid">Guardar</button>
-            </div>
-          </div>
-        </div>
-      </form>
     </div>
-  </div>
 </div>

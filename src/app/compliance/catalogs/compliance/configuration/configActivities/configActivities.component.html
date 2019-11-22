@@ -1,226 +1,324 @@
 <div class="row">
     <mdb-breadcrumb customClass="white" class="w-100">
-      <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
-      <mdb-breadcrumb-item class="active">{{titulo}}</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item class=""
+            ><mdb-icon fas icon="cog"></mdb-icon
+        ></mdb-breadcrumb-item>
+        <mdb-breadcrumb-item class="active">{{ titulo }}</mdb-breadcrumb-item>
     </mdb-breadcrumb>
 </div>
 
 <div class="section">
-  <div class="row pb-3">
-      <div class="col">
-          <p class="section_titulo_0">Configuración de {{titulo}}</p>
-          <p class="section_subtitulo_0">Aqui puedes {{titulo}}.</p>
-      </div>
-  </div>
+    <div class="row pb-3">
+        <div class="col">
+            <p class="section_titulo_0">Configuración de {{ titulo }}</p>
+            <p class="section_subtitulo_0">Aqui puedes {{ titulo }}.</p>
+        </div>
+    </div>
 
-  <form  [formGroup]="configActividadesForm" (ngSubmit)="onSubmit()">
-    <input type="hidden" formControlName="fIdTag" placeholder="Id Tag">
-    <!--  Tag  -->
-    <div class="row">
-      <div class="col-4">
-        <div class="form-group">
-          <label>Tag</label>
-          <input formControlName="fTag" disabled="true" class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.fTag.errors }">
-          <div *ngIf="submitted && f.fTag.errors" style="color:red">
-            <div *ngIf="f.fTag.errors.required">Requerido</div>
-          </div>
+    <form [formGroup]="configActividadesForm" (ngSubmit)="onSubmit()">
+        <input type="hidden" formControlName="fIdTag" placeholder="Id Tag" />
+        <!--  Tag  -->
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label>Tag</label>
+                    <input
+                        formControlName="fTag"
+                        disabled="true"
+                        class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.fTag.errors }"
+                    />
+                    <div *ngIf="submitted && f.fTag.errors" style="color:red">
+                        <div *ngIf="f.fTag.errors.required">Requerido</div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4" *ngIf="false">
-        <div>
-          <button type="button" class="btn" [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
-            (click)="obtenerActividad()">Buscar</button>
-          <button type="button" class="btn" [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
-            (click)="limpiarFormulario()"> Nuevo </button>
+        <div class="row">
+            <div class="col-md-4" *ngIf="false">
+                <div>
+                    <button
+                        type="button"
+                        class="btn"
+                        [ngClass]="{
+                            blue: globalService.aguila,
+                            orange: !globalService.aguila
+                        }"
+                        (click)="obtenerActividad()"
+                    >
+                        Buscar
+                    </button>
+                    <button
+                        type="button"
+                        class="btn"
+                        [ngClass]="{
+                            blue: globalService.aguila,
+                            orange: !globalService.aguila
+                        }"
+                        (click)="limpiarFormulario()"
+                    >
+                        Nuevo
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <!--  Tipo de Cumplimiento  -->
-      <div class="col-md-6">
-        <div class="form-group">
-          <label>Tipo de Cumplimiento</label>
-          <select class="form-control" 
-            formControlName="fTipoCumplimiento" 
-            [compareWith]="compareFn"
-            [ngClass]="{ 'is-invalid': submitted && f.fTipoCumplimiento.errors }"
-            >
-            <option
-              *ngFor="let operator of comboTipoCumplimiento;" 
-              [value]="operator.value"
-            >
-              {{operator.label}}
-            </option>
-          </select>
-          <div *ngIf="submitted && f.fTipoCumplimiento.errors" style="color:red">
-            <div *ngIf="f.fTipoCumplimiento.errors.required">Requerido</div>
-          </div>
-        </div>
-      </div>
-      <!--  Requisito Legal  -->
-      <div class="col-md-6">
-        <div class="form-group">
-          <label>Requisito Legal</label>
-          <textarea formControlName="fRequisitoLegal" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.fRequisitoLegal.errors }">
-          </textarea>
-          <!--input formControlName="fRequisitoLegal" class="form-control"
+        <div class="row">
+            <!--  Tipo de Cumplimiento  -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Tipo de Cumplimiento</label>
+                    <select
+                        class="form-control"
+                        formControlName="fTipoCumplimiento"
+                        [compareWith]="compareFn"
+                        [ngClass]="{
+                            'is-invalid':
+                                submitted && f.fTipoCumplimiento.errors
+                        }"
+                    >
+                        <option
+                            *ngFor="let operator of comboTipoCumplimiento"
+                            [value]="operator.value"
+                        >
+                            {{ operator.label }}
+                        </option>
+                    </select>
+                    <div
+                        *ngIf="submitted && f.fTipoCumplimiento.errors"
+                        style="color:red"
+                    >
+                        <div *ngIf="f.fTipoCumplimiento.errors.required">
+                            Requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  Requisito Legal  -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Requisito Legal</label>
+                    <textarea
+                        formControlName="fRequisitoLegal"
+                        class="form-control"
+                        [ngClass]="{
+                            'is-invalid': submitted && f.fRequisitoLegal.errors
+                        }"
+                    >
+                    </textarea>
+                    <!--input formControlName="fRequisitoLegal" class="form-control"
           [ngClass]="{ 'is-invalid': submitted && f.fRequisitoLegal.errors }" -->
-          <div *ngIf="submitted && f.fRequisitoLegal.errors" style="color:red">
-            <div *ngIf="f.fRequisitoLegal.errors.required">Requerido</div>
-          </div>
+                    <div
+                        *ngIf="submitted && f.fRequisitoLegal.errors"
+                        style="color:red"
+                    >
+                        <div *ngIf="f.fRequisitoLegal.errors.required">
+                            Requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <!--  Descripción  -->
-    <div class="row">
-      <div class="col-md-12">
-        <div class="form-group">
-          <label>Descripción</label>
-          
-          <textarea rows="4"  formControlName="fDescripcion" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.fDescripcion.errors }">
-          </textarea>
-          <!--input class="form-control" formControlName="fDescripcion" [readonly]="soloLectura"
+        <!--  Descripción  -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Descripción</label>
+
+                    <textarea
+                        rows="4"
+                        formControlName="fDescripcion"
+                        class="form-control"
+                        [ngClass]="{
+                            'is-invalid': submitted && f.fDescripcion.errors
+                        }"
+                    >
+                    </textarea>
+                    <!--input class="form-control" formControlName="fDescripcion" [readonly]="soloLectura"
           [ngClass]="{ 'is-invalid': submitted && f.fDescripcion.errors }"-->
-          <div *ngIf="submitted && f.fDescripcion.errors" style="color:red">
-            <div *ngIf="f.fDescripcion.errors.required">Requerido</div>
-          </div>
+                    <div
+                        *ngIf="submitted && f.fDescripcion.errors"
+                        style="color:red"
+                    >
+                        <div *ngIf="f.fDescripcion.errors.required">
+                            Requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div class="row">
-      <!-- Categoría -->
-      <div class="col-md-6">
-        <div class="form-group">
-          <label>Categoría</label>
-          <select class="form-control" 
-            formControlName="fActividad" 
-            [compareWith]="compareFn"
-            (change)="asignarNombreTag($event.target.value)" 
-            [ngClass]="{ 'is-invalid': submitted && f.fActividad.errors }"
-          >
-            <option
-            *ngFor="let operator of comboActividades;"
-            [value]="operator.value"
-            >
-                {{operator.label}}
-            </option>
-          </select>
-        </div>
-      </div>
-      <!-- Nombre del Cumplimiento -->
-      <div class="col-md-6">
-        <div class="form-group">
-          <label>Nombre del Cumplimiento</label>
-          
-          <textarea formControlName="fClasificacionActividad" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.fClasificacionActividad.errors }">
-          </textarea>
-          <!--input class="form-control" formControlName="fClasificacionActividad"
+        <div class="row">
+            <!-- Categoría -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Categoría</label>
+                    <select
+                        class="form-control"
+                        formControlName="fActividad"
+                        [compareWith]="compareFn"
+                        (change)="asignarNombreTag($event.target.value)"
+                        [ngClass]="{
+                            'is-invalid': submitted && f.fActividad.errors
+                        }"
+                    >
+                        <option
+                            *ngFor="let operator of comboActividades"
+                            [value]="operator.value"
+                        >
+                            {{ operator.label }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <!-- Nombre del Cumplimiento -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Nombre del Cumplimiento</label>
+
+                    <textarea
+                        formControlName="fClasificacionActividad"
+                        class="form-control"
+                        [ngClass]="{
+                            'is-invalid':
+                                submitted && f.fClasificacionActividad.errors
+                        }"
+                    >
+                    </textarea>
+                    <!--input class="form-control" formControlName="fClasificacionActividad"
                 [ngClass]="{ 'is-invalid': submitted && f.fClasificacionActividad.errors }"-->
-          <div *ngIf="submitted && f.fClasificacionActividad.errors" style="color:red">
-            <div *ngIf="f.fClasificacionActividad.errors.required">Requerido</div>
-          </div>
+                    <div
+                        *ngIf="submitted && f.fClasificacionActividad.errors"
+                        style="color:red"
+                    >
+                        <div *ngIf="f.fClasificacionActividad.errors.required">
+                            Requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div class="row">
-      <!--  Autoridad  -->
-      <div class="col-md-6">
-        <div class="form-group">
-          <label>Autoridad</label>
-          <select class="form-control" 
-            [compareWith]="compareFn" 
-            formControlName="fAutoridad"
-            [ngClass]="{ 'is-invalid': submitted && f.fAutoridad.errors }"
-          >
-            <option
-              *ngFor="let operator of comboAutoridad;" 
-              [value]="operator.value"
-            >
-                {{operator.label}}
-            </option>
-          </select>
-          <div *ngIf="submitted && f.fAutoridad.errors" style="color:red">
-            <div *ngIf="f.fAutoridad.errors.required">Requerido</div>
-          </div>
+        <div class="row">
+            <!--  Autoridad  -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Autoridad</label>
+                    <select
+                        class="form-control"
+                        [compareWith]="compareFn"
+                        formControlName="fAutoridad"
+                        [ngClass]="{
+                            'is-invalid': submitted && f.fAutoridad.errors
+                        }"
+                    >
+                        <option
+                            *ngFor="let operator of comboAutoridad"
+                            [value]="operator.value"
+                        >
+                            {{ operator.label }}
+                        </option>
+                    </select>
+                    <div
+                        *ngIf="submitted && f.fAutoridad.errors"
+                        style="color:red"
+                    >
+                        <div *ngIf="f.fAutoridad.errors.required">
+                            Requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  Tipo de Aplicación  -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Tipo de Aplicación</label>
+                    <select
+                        class="form-control"
+                        [compareWith]="compareFn"
+                        formControlName="fTipoAplicacion"
+                        [ngClass]="{
+                            'is-invalid': submitted && f.fTipoAplicacion.errors
+                        }"
+                    >
+                        <option
+                            *ngFor="let operator of comboTipoAplicacion"
+                            [value]="operator.value"
+                        >
+                            {{ operator.label }}
+                        </option>
+                    </select>
+                    <div
+                        *ngIf="submitted && f.fTipoAplicacion.errors"
+                        style="color:red"
+                    >
+                        <div *ngIf="f.fTipoAplicacion.errors.required">
+                            Requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <!--  Tipo de Aplicación  -->
-      <div class="col-md-6">
-        <div class="form-group">
-          <label>Tipo de Aplicación</label>
-          <select class="form-control" 
-            [compareWith]="compareFn" 
-            formControlName="fTipoAplicacion"
-            [ngClass]="{ 'is-invalid': submitted && f.fTipoAplicacion.errors }"
-          >
-            <option
-              *ngFor="let operator of comboTipoAplicacion;" 
-              [value]="operator.value"
-            >
-              {{operator.label}}
-            </option>
-          </select>
-          <div *ngIf="submitted && f.fTipoAplicacion.errors" style="color:red">
-            <div *ngIf="f.fTipoAplicacion.errors.required">Requerido</div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="row">
-      <!--  Período de entrega  -->
-      <div class="col-md-6">
-        <div class="form-group">
-          <label>Período de entrega</label>
-          <select class="form-control" 
-          [compareWith]="compareFn" 
-          formControlName="fPeriodoEntrega"
-          [ngClass]="{ 'is-invalid': submitted && f.fPeriodoEntrega.errors }"
-          >
-            <option
-              *ngFor="let operator of comboPeriodoEntrega;" 
-              [value]="operator.value"
-            >
-              {{operator.label}}
-            </option>
-          </select>
-          <div *ngIf="submitted && f.fPeriodoEntrega.errors" style="color:red">
-            <div *ngIf="f.fPeriodoEntrega.errors.required">Requerido</div>
-          </div>
+        <div class="row">
+            <!--  Período de entrega  -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Período de entrega</label>
+                    <select
+                        class="form-control"
+                        [compareWith]="compareFn"
+                        formControlName="fPeriodoEntrega"
+                        [ngClass]="{
+                            'is-invalid': submitted && f.fPeriodoEntrega.errors
+                        }"
+                    >
+                        <option
+                            *ngFor="let operator of comboPeriodoEntrega"
+                            [value]="operator.value"
+                        >
+                            {{ operator.label }}
+                        </option>
+                    </select>
+                    <div
+                        *ngIf="submitted && f.fPeriodoEntrega.errors"
+                        style="color:red"
+                    >
+                        <div *ngIf="f.fPeriodoEntrega.errors.required">
+                            Requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  Tipo de días  -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Tipo de días</label>
+                    <select
+                        class="form-control"
+                        [compareWith]="compareFn"
+                        formControlName="fTipoDias"
+                        [ngClass]="{
+                            'is-invalid': submitted && f.fTipoDias.errors
+                        }"
+                    >
+                        <option
+                            *ngFor="let operator of comboTipoDias"
+                            [value]="operator.value"
+                        >
+                            {{ operator.label }}
+                        </option>
+                    </select>
+                    <div
+                        *ngIf="submitted && f.fTipoDias.errors"
+                        style="color:red"
+                    >
+                        <div *ngIf="f.fTipoDias.errors.required">Requerido</div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <!--  Tipo de días  -->
-      <div class="col-md-6">
-        <div class="form-group">
-          <label>Tipo de días</label>
-          <select class="form-control" 
-            [compareWith]="compareFn" 
-            formControlName="fTipoDias"
-            [ngClass]="{ 'is-invalid': submitted && f.fTipoDias.errors }"
-          >
-            <option
-              *ngFor="let operator of comboTipoDias;" 
-              [value]="operator.value"
-            >
-              {{operator.label}}
-            </option>
-          </select>
-          <div *ngIf="submitted && f.fTipoDias.errors" style="color:red">
-            <div *ngIf="f.fTipoDias.errors.required">Requerido</div>
-          </div>
-        </div>
-      </div>
-    </div>
-      
-    <!--
+
+        <!--
       <div class="row">
         <div class="col-md-12">
           <div class="md-form">
@@ -239,177 +337,353 @@
         </div>
       </div>
     -->
-    <!--  Estado del elemento:  -->
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label>Estado del elemento:</label><br>
-          <mat-checkbox class="active" color="primary" 
-            (change)="chanceCheck();"
-            [checked]="checkedEstatus"
-            [disabled]="deshabiliarEstatus">
-            <mat-label>Activo</mat-label>
-          </mat-checkbox>
-        </div>
-      </div>
-    </div>
-    <!--  Botones  -->
-    <div class="row" >
-      <div class="col-md-12">
-        <div class="d-flex justify-content-end">
-          <button type="submit" class="btn btn-md"
-            [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-            *ngIf="!soloLectura">
-            <i class="ti-pencil" ></i>
-            Guardar / Actualizar
-          </button>
-          <button type="button" class="btn btn-md" 
-            [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-            (click)="regresar()">
-            <i class="ti-angle-double-left"></i>
-            Regresar
-          </button>
-        </div>
-      </div>
-    </div>
-  </form>
-  <br>
-  <hr>
-  <br>
-  <div class="row" *ngIf="existeTagId">
-    <div class="col text-right" *ngIf="!soloLectura">
-        <button type="button" class="btn"
-        [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-        (click)="mostrarPrecedentes()">Mostrar Precedentes</button>
-    </div>
-  </div>
-  <div class="row" *ngIf="existeTagId">
-      <div class="col-md-12">
-        
-        <div class="row" *ngIf="tablaAgregarPrecedentes">
-          <div class="col">
-            <p class="section_titulo_0">
-                Lista de actividades disponibles para asiganar como procedentes
-            </p>
-          </div>
-        </div>
-
-        <!-- LISTA DE PRECEDENTES PARA ASIGNAR -->
-        <div class="row mt-4">
-          <div class="col" *ngIf="tablaAgregarPrecedentes">
-            <div class="tabla-responsi mat-elevation-z0">
-              <div class="form-group mt-3 mb-3">
-                <label>Escriba palaba a filtrar</label>
-                <input class="form-control" 
-                (keyup)="applyFilter($event.target.value)" 
-                >
-              </div>
-              <table matSort mat-table [dataSource]="registrosParaAsignar" class="table_catalogo">
-                <!-- orden Column -->
-                <ng-container matColumnDef="tagId">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center" > TAG ID </th>
-                  <td mat-cell *matCellDef="let element">{{element.tagId}} </td>
-                </ng-container>
-                <!-- orden Column -->
-                <ng-container matColumnDef="tag">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> ACTIVIDAD </th>
-                  <td mat-cell *matCellDef="let element"> {{element.tag}} </td>
-                </ng-container>
-                <!-- nombre Column -->
-                <ng-container matColumnDef="descripcion">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> DESCRIPCION </th>
-                  <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
-                </ng-container>
-                <ng-container matColumnDef="assignPrecedent">
-                  <th mat-header-cell *matHeaderCellDef class="txt-center">ASIGNAR PRECEDENTE </th>
-                  <td mat-cell *matCellDef="let element" class="p-2 border-none">
-                    <u><i>
-                      <!--mdb-checkbox (change)="agregarQuitarId( element.tag )"></mdb-checkbox-->
-                      <mat-checkbox class="active" color="primary" (change)="agregarQuitarId( element.tag )"></mat-checkbox>
-                    </i></u>
-                  </td>
-                </ng-container>
-                <!-- header -->
-                <tr mat-header-row *matHeaderRowDef="columnas"></tr>
-                <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
-              </table>
-              <mat-paginator [pageSizeOptions]="registros_x_pagina" showFirstLastButtons></mat-paginator>
-            </div>
-            <p></p>
-            <div class="row" *ngIf="tablaAgregarPrecedentes && !soloLectura">
-              <div class="col text-right">
-                <button type="button" class="btn"
-                  [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-                  (click)="agregarPrecedentes()">Agregar Precedentes</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- LISTA DE PRECEDENTES PARA ASIGNAR -->
-        <br>
-        <hr>
-        <br>
-        <!-- SECCIÓN DE LOS PRECEDENTES -->
-        <div class="row" *ngIf="existeTagId">
-          <div class="col-md-12">
-            <!-- LISTA DE PRECEDENTES ASIGNADOS -->
-            <div class="row" *ngIf="existeTagId">
-              <div class="col">
-                <p class="section_titulo_0">Lista de procedentes asignados</p>
-              </div>
-            </div>
-            
-            <div class="row mt-4" *ngIf="existeTagId">
-              <div class="col-md-12">
-                <div class="tabla-responsi mat-elevation-z0">
-                  <div class="form-group mt-3 mb-3">
-                    <label>Escriba palaba a filtrar</label>
-                    <input class="form-control" 
-                    (keyup)="applyFilter1($event.target.value)" 
+        <!--  Estado del elemento:  -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Estado del elemento:</label><br />
+                    <mat-checkbox
+                        class="active"
+                        color="primary"
+                        (change)="chanceCheck()"
+                        [checked]="checkedEstatus"
+                        [disabled]="deshabiliarEstatus"
                     >
-                  </div>
-                  <table matSort mat-table [dataSource]="tagPrecedentes" class="table_catalogo">
-                    <!-- orden Column -->
-                    <ng-container matColumnDef="tagId">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> TAG ID </th>
-                      <td mat-cell *matCellDef="let element">{{element.tagId}} </td>
-                    </ng-container>
-                    <!-- orden Column -->
-                    <ng-container matColumnDef="tagPadre">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> TAG PADRE </th>
-                      <td mat-cell *matCellDef="let element"> {{element.tagPadre}} </td>
-                    </ng-container>
-                    <!-- nombre Column -->
-                    <ng-container matColumnDef="tagHijo">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> TAG HIJO </th>
-                      <td mat-cell *matCellDef="let element"> {{element.tagHijo}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="tagHijoNombreCumplimiento">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Nombre del Cumplimiento </th>
-                        <td mat-cell *matCellDef="let element"> {{element.tagHijoNombreCumplimiento}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="opcion">
-                      <th mat-header-cell *matHeaderCellDef class="txt-center">OPCIÓN </th>
-                      <td mat-cell *matCellDef="let element" class="p-2 border-none">
-                        <u><i>
-                          <a (click)="eliminarPrecedente(element.elementTag)">
-                              <img src="assets/images/skins/ico_Borrar.png" alt="eliminar">
-                          </a>
-                        </i></u>
-                      </td>
-                    </ng-container>
-                    <!-- header -->
-                    <tr mat-header-row *matHeaderRowDef="cabeceraTagPrecedentes"></tr>
-                    <tr mat-row *matRowDef="let row; columns: cabeceraTagPrecedentes;"></tr>
-                  </table>
-                  <mat-paginator [pageSizeOptions]="registros_x_pagina1" showFirstLastButtons></mat-paginator>
+                        <mat-label>Activo</mat-label>
+                    </mat-checkbox>
                 </div>
-              </div>
             </div>
-            <!-- LISTA DE PRECEDENTES ASIGNADOS -->
-          </div>
         </div>
-  </div>
-  </div>
+        <!--  Botones  -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-end">
+                    <button
+                        type="submit"
+                        class="btn btn-md"
+                        [ngClass]="{
+                            myblue: globalService.aguila,
+                            myorange: !globalService.aguila
+                        }"
+                        *ngIf="!soloLectura"
+                    >
+                        <i class="ti-pencil"></i>
+                        Guardar / Actualizar
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-md"
+                        [ngClass]="{
+                            myblue: globalService.aguila,
+                            myorange: !globalService.aguila
+                        }"
+                        (click)="regresar()"
+                    >
+                        <i class="ti-angle-double-left"></i>
+                        Regresar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <br />
+    <hr />
+    <br />
+    <div class="row" *ngIf="existeTagId">
+        <div class="col text-right" *ngIf="!soloLectura">
+            <button
+                type="button"
+                class="btn"
+                [ngClass]="{
+                    myblue: globalService.aguila,
+                    myorange: !globalService.aguila
+                }"
+                (click)="mostrarPrecedentes()"
+            >
+                Mostrar Precedentes
+            </button>
+        </div>
+    </div>
+    <div class="row" *ngIf="existeTagId">
+        <div class="col-md-12">
+            <div class="row" *ngIf="tablaAgregarPrecedentes">
+                <div class="col">
+                    <p class="section_titulo_0">
+                        Lista de actividades disponibles para asiganar como
+                        procedentes
+                    </p>
+                </div>
+            </div>
+
+            <!-- LISTA DE PRECEDENTES PARA ASIGNAR -->
+            <div class="row mt-4">
+                <div class="col" *ngIf="tablaAgregarPrecedentes">
+                    <div class="tabla-responsi mat-elevation-z0">
+                        <div class="form-group mt-3 mb-3">
+                            <label>Escriba palaba a filtrar</label>
+                            <input
+                                class="form-control"
+                                (keyup)="applyFilter($event.target.value)"
+                            />
+                        </div>
+                        <table
+                            matSort
+                            mat-table
+                            [dataSource]="registrosParaAsignar"
+                            class="table_catalogo"
+                        >
+                            <!-- orden Column -->
+                            <ng-container matColumnDef="tagId">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    mat-sort-header
+                                    class="txt-center"
+                                >
+                                    TAG ID
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.tagId }}
+                                </td>
+                            </ng-container>
+                            <!-- orden Column -->
+                            <ng-container matColumnDef="tag">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    mat-sort-header
+                                    class="txt-center"
+                                >
+                                    ACTIVIDAD
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.tag }}
+                                </td>
+                            </ng-container>
+                            <!-- nombre Column -->
+                            <ng-container matColumnDef="descripcion">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    mat-sort-header
+                                    class="txt-center"
+                                >
+                                    DESCRIPCION
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.descripcion }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="assignPrecedent">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="txt-center"
+                                >
+                                    ASIGNAR PRECEDENTE
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="let element"
+                                    class="p-2 border-none"
+                                >
+                                    <u
+                                        ><i>
+                                            <!--mdb-checkbox (change)="agregarQuitarId( element.tag )"></mdb-checkbox-->
+                                            <mat-checkbox
+                                                class="active"
+                                                color="primary"
+                                                (change)="
+                                                    agregarQuitarId(element.tag)
+                                                "
+                                            ></mat-checkbox> </i
+                                    ></u>
+                                </td>
+                            </ng-container>
+                            <!-- header -->
+                            <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+                            <tr
+                                mat-row
+                                *matRowDef="let row; columns: columnas"
+                            ></tr>
+                        </table>
+
+                        <mat-paginator
+                            [pageSizeOptions]="registros_x_pagina"
+                            showFirstLastButtons
+                        ></mat-paginator>
+                    </div>
+                    <p></p>
+                    <div
+                        class="row"
+                        *ngIf="tablaAgregarPrecedentes && !soloLectura"
+                    >
+                        <div class="col text-right">
+                            <button
+                                type="button"
+                                class="btn"
+                                [ngClass]="{
+                                    myblue: globalService.aguila,
+                                    myorange: !globalService.aguila
+                                }"
+                                (click)="agregarPrecedentes()"
+                            >
+                                Agregar Precedentes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- LISTA DE PRECEDENTES PARA ASIGNAR -->
+            <br />
+            <hr />
+            <br />
+            <!-- SECCIÓN DE LOS PRECEDENTES -->
+            <div class="row" *ngIf="existeTagId">
+                <div class="col-md-12">
+                    <!-- LISTA DE PRECEDENTES ASIGNADOS -->
+                    <div class="row" *ngIf="existeTagId">
+                        <div class="col">
+                            <p class="section_titulo_0">
+                                Lista de procedentes asignados
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4" *ngIf="existeTagId">
+                        <div class="col-md-12">
+                            <div class="tabla-responsi mat-elevation-z0">
+                                <div class="form-group mt-3 mb-3">
+                                    <label>Escriba palaba a filtrar</label>
+                                    <input
+                                        class="form-control"
+                                        (keyup)="
+                                            applyFilter1($event.target.value)
+                                        "
+                                    />
+                                </div>
+                                <table
+                                    matSort
+                                    mat-table
+                                    [dataSource]="tagPrecedentes"
+                                    class="table_catalogo"
+                                >
+                                    <!-- orden Column -->
+                                    <ng-container matColumnDef="tagId">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            mat-sort-header
+                                            class="txt-center"
+                                        >
+                                            TAG ID
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{ element.tagId }}
+                                        </td>
+                                    </ng-container>
+                                    <!-- orden Column -->
+                                    <ng-container matColumnDef="tagPadre">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            mat-sort-header
+                                            class="txt-center"
+                                        >
+                                            TAG PADRE
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{ element.tagPadre }}
+                                        </td>
+                                    </ng-container>
+                                    <!-- nombre Column -->
+                                    <ng-container matColumnDef="tagHijo">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            mat-sort-header
+                                            class="txt-center"
+                                        >
+                                            TAG HIJO
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{ element.tagHijo }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container
+                                        matColumnDef="tagHijoNombreCumplimiento"
+                                    >
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            mat-sort-header
+                                            class="txt-center"
+                                        >
+                                            Nombre del Cumplimiento
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{
+                                                element.tagHijoNombreCumplimiento
+                                            }}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="opcion">
+                                        <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            class="txt-center"
+                                        >
+                                            OPCIÓN
+                                        </th>
+                                        <td
+                                            mat-cell
+                                            *matCellDef="let element"
+                                            class="p-2 border-none"
+                                        >
+                                            <u
+                                                ><i>
+                                                    <a
+                                                        (click)="
+                                                            eliminarPrecedente(
+                                                                element.elementTag
+                                                            )
+                                                        "
+                                                    >
+                                                        <img
+                                                            src="assets/images/skins/ico_Borrar.png"
+                                                            alt="eliminar"
+                                                        />
+                                                    </a> </i
+                                            ></u>
+                                        </td>
+                                    </ng-container>
+                                    <!-- header -->
+                                    <tr
+                                        mat-header-row
+                                        *matHeaderRowDef="
+                                            cabeceraTagPrecedentes
+                                        "
+                                    ></tr>
+                                    <tr
+                                        mat-row
+                                        *matRowDef="
+                                            let row;
+                                            columns: cabeceraTagPrecedentes
+                                        "
+                                    ></tr>
+                                </table>
+
+                                <mat-paginator
+                                    [pageSizeOptions]="registros_x_pagina1"
+                                    showFirstLastButtons
+                                ></mat-paginator>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- LISTA DE PRECEDENTES ASIGNADOS -->
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
