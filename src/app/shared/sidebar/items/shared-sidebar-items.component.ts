@@ -57,7 +57,7 @@ export class SharedSidebarItemsComponent {
 	hardCodeDescriptor(item):string{
 		let descriptor = "";
 		descriptor = this.globalService.app.name;
-		descriptor += `.${item.label}`; // debería existir otra propiedad en lugar de label para usarse aqui
+		descriptor += `.${item.url}`;
 		return descriptor;
 	}
 }

@@ -66,17 +66,20 @@ export class SharedSidebarMenuComponent{
 			id: 'Fase 3',
 			idFather:'',
 			icon: 'pie_chart',
-			label: 'Fase 3'
+			label: 'Fase 3',
+			url: 'Fase 3'
 			},{
 			id: 'Fase 2',
 			idFather:'',
 			icon: 'insert_chart',
-			label: 'Fase 2'
+			label: 'Fase 2',
+			url: 'Fase 2'
 			},{
 			id: 'Mm Market',
 			idFather:'',
 			icon: 'insert_chart',
-			label: 'Mm Market'
+			label: 'Mm Market',
+			url: 'Mm Market'
 			}
 		]; 
 	}
@@ -87,13 +90,13 @@ export class SharedSidebarMenuComponent{
 			  id: "2",
 			  idFather: "1",
 			  label: "legalAgreement",
-			  url: "2"}
+			  url: "legalAgreement"}
 		   ],
 			icon: "library_books",
 			id: "1",
 			idFather: "1",
 			label: "legalAgreement",
-			url: "2"}
+			url: "legalAgreement"}
 			);
 		  console.dir(this.menu);
 	   
@@ -131,9 +134,11 @@ export class SharedSidebarMenuComponent{
 					  let childrenA:any  = {};
 					  childrenA['label'] ="Características";
 					  childrenA['icon']  ="gavel";
+					  childrenA['url']  ="Características";
 					  option.children[ins].children.push(childrenA);
 					  let childrenB:any  = {};
 					  childrenB['label'] ="Planeación";
+					  childrenB['url'] ="Planeación";
 					  childrenB['icon']  ="event_available";
 					  option.children[ins].children.push(childrenB);
 					}
@@ -144,14 +149,17 @@ export class SharedSidebarMenuComponent{
 					  option.children[ins].children = new Array();
 					  let childrenA:any  = {};
 					  childrenA['label'] ="Personal Competente";
+					  childrenA['url'] ="Personal Competente";
 					  childrenA['icon']  ="person";
 					  option.children[ins].children.push(childrenA);
 					  let childrenB:any  = {};
 					  childrenB['label'] ="Proveedor Calificado";
+					  childrenB['url'] ="Proveedor Calificado";
 					  childrenB['icon']  ="perm_contact_calendar";
 					  option.children[ins].children.push(childrenB);
 					  let childrenC:any  = {};
 					  childrenC['label'] ="Dependencias y Organismos Aplicables";
+					  childrenC['url'] ="Dependencias y Organismos Aplicables";
 					  childrenC['icon']  ="business";
 					  option.children[ins].children.push(childrenC);
 					}
