@@ -67,7 +67,6 @@ export class MonitoringHomeComponent extends ConnectSocketComponent implements O
 	subscribeOnChangePage(){
 		this.subscriptions.push(this.eventService.onChangePage.subscribe({
 			next: (event: EventMessage) => {
-				debugger
 				this.viewContainerRef.clear();
 				switch (event.descriptor) {
 					case 'Administrative_monitoring.MonitoringWelcomeComponent':
