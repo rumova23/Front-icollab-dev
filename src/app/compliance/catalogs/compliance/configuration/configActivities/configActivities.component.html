@@ -40,10 +40,6 @@
                     <button
                         type="button"
                         class="btn"
-                        [ngClass]="{
-                            blue: globalService.aguila,
-                            orange: !globalService.aguila
-                        }"
                         (click)="obtenerActividad()"
                     >
                         Buscar
@@ -51,10 +47,6 @@
                     <button
                         type="button"
                         class="btn"
-                        [ngClass]="{
-                            blue: globalService.aguila,
-                            orange: !globalService.aguila
-                        }"
                         (click)="limpiarFormulario()"
                     >
                         Nuevo
@@ -361,10 +353,6 @@
                     <button
                         type="submit"
                         class="btn btn-md"
-                        [ngClass]="{
-                            myblue: globalService.aguila,
-                            myorange: !globalService.aguila
-                        }"
                         *ngIf="!soloLectura"
                     >
                         <i class="ti-pencil"></i>
@@ -373,10 +361,6 @@
                     <button
                         type="button"
                         class="btn btn-md"
-                        [ngClass]="{
-                            myblue: globalService.aguila,
-                            myorange: !globalService.aguila
-                        }"
                         (click)="regresar()"
                     >
                         <i class="ti-angle-double-left"></i>
@@ -394,10 +378,6 @@
             <button
                 type="button"
                 class="btn"
-                [ngClass]="{
-                    myblue: globalService.aguila,
-                    myorange: !globalService.aguila
-                }"
                 (click)="mostrarPrecedentes()"
             >
                 Mostrar Precedentes
@@ -522,10 +502,6 @@
                             <button
                                 type="button"
                                 class="btn"
-                                [ngClass]="{
-                                    myblue: globalService.aguila,
-                                    myorange: !globalService.aguila
-                                }"
                                 (click)="agregarPrecedentes()"
                             >
                                 Agregar Precedentes
