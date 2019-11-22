@@ -18,7 +18,7 @@ ng build --output-path="dist/compliance" --deployUrl="compliance/" --prod
 
 ng build --output-path="dist/compliance" --deployUrl="compliance/"
 
-ng build --prod --base-href="/integracion/" --output-path="dist/integracion"
+ng build --prod --base-href="/icollab/" --output-path="dist/icollab"
 
 Se movió de lugar la implementación del Bootstrap; anteriormente se encontraba en el index.html
 Ahora pertenece a la carpeta modules.
