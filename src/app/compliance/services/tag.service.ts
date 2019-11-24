@@ -15,6 +15,8 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 export class TagService {
   private baseCatalagoUrl = environment.catalogUrl;
   private baseMicroTagUrl = environment.tagsUrl;
+  private seguimientoUrl = environment.seguimientoUrl;
+  private mastercatalog = environment.mastercatalog;
   parameters: any;
 
   constructor(private http: HttpClient,
@@ -79,9 +81,14 @@ export class TagService {
     return this.http.post( `${ this.baseMicroTagUrl }tag/eliminarPrecedente`, tagPrecedente, {params : this.parameters });
   }
 
-  obtenTagPorFiltros(plantaId): Observable<any> {
+  obtenTagPorFiltros(anio: number): Observable<any> {
     this.setXTenantId(this.globalService.aguila);
-    return this.http.get( `${ this.baseMicroTagUrl }tag/All`, {params : this.parameters });
+    return this.http.get( `${ this.seguimientoUrl }legal/obten/matriz/${anio}`, {params : this.parameters });
+  }
+
+  obtenMatriz(anio: number, a: number, b: number): Observable<any> {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ this.seguimientoUrl }legal/obten/matriz/${anio}/${a}/${b}`, {params : this.parameters });
   }
   /*
   obtenTagPorFiltros(plantaId) : Observable<any> {
@@ -130,5 +137,11 @@ export class TagService {
   outCatalogItemCloned(referenceclone: string) {
     this.setXTenantId(!this.globalService.aguila);
     return this.http.get( `${ this.baseMicroTagUrl }tag/actividad/deleteclonated/${referenceclone}`, {params : this.parameters });
+  }
+
+  comboUnitPeriod() {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ this.mastercatalog }mastercatalog/mastercatalog/UNIT_PERIOD`,
+        {params : this.parameters });
   }
 }

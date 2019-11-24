@@ -15,6 +15,7 @@ import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
+import {MaestroOpcionDTO} from '../../../../models/maestro-opcion-dto';
 
 @Component({
   selector    : 'app-configActivities',
@@ -30,7 +31,7 @@ export class ConfigActivitiesComponent implements OnInit {
   comboTipoCumplimiento: Array<Combo>;
   comboAutoridad: Array<Combo>;
   comboTipoAplicacion: Array<Combo>;
-  comboPeriodoEntrega: Array<Combo>;
+  comboUnitPeriod: Array<Combo>;
   comboTipoDias: Array<Combo>;
   comboEstatus: Array<Combo>;
   listaCombos: Array<any>;
@@ -142,7 +143,7 @@ export class ConfigActivitiesComponent implements OnInit {
     this.comboTipoCumplimiento = new Array<Combo>();
     this.comboAutoridad = new Array<Combo>();
     this.comboTipoAplicacion = new Array<Combo>();
-    this.comboPeriodoEntrega = new Array<Combo>();
+    this.comboUnitPeriod = new Array<Combo>();
     this.comboTipoDias = new Array<Combo>();
     //this.comboPlanta = new Array<Combo>();
     //this.plantas = new Array<TagPlanta>();
@@ -168,7 +169,6 @@ export class ConfigActivitiesComponent implements OnInit {
         this.resuelveDS(poRespuesta, this.comboTipoCumplimiento, 'typeCompliance');
         this.resuelveDS(poRespuesta, this.comboAutoridad, 'authority');
         this.resuelveDS(poRespuesta, this.comboTipoAplicacion, 'typeApplication');
-        this.resuelveDS(poRespuesta, this.comboPeriodoEntrega, 'deliveryPeriod');
         this.resuelveDS(poRespuesta, this.comboTipoDias, 'typeDay');
         //this.resuelveDS(poRespuesta, this.comboPlanta, 'legalRequirement');
       }
@@ -232,6 +232,8 @@ export class ConfigActivitiesComponent implements OnInit {
       this.addBlock(2, null);
     });
 
+    this.initComboUnitPeriod();
+
     this.configActividadesForm = this.formBuilder.group({
       fIdTag: ['', ''],
       fTag: ['', Validators.required],
@@ -242,7 +244,8 @@ export class ConfigActivitiesComponent implements OnInit {
       fRequisitoLegal: ['', Validators.required],
       fAutoridad: ['', Validators.required],
       fTipoAplicacion: ['', Validators.required],
-      fPeriodoEntrega: ['', Validators.required],
+      fPeriodoEntregaCantidad: ['', Validators.required],
+      fPeriodoEntregaUnidad: ['', Validators.required],
       fTipoDias: ['', Validators.required],
       //fPlanta: ['', Validators.required],
       
@@ -344,7 +347,8 @@ export class ConfigActivitiesComponent implements OnInit {
       this.configActividadesForm.controls['fRequisitoLegal'].value,
       this.configActividadesForm.controls['fAutoridad'].value,
       this.configActividadesForm.controls['fTipoAplicacion'].value,
-      this.configActividadesForm.controls['fPeriodoEntrega'].value,
+      this.configActividadesForm.controls['fPeriodoEntregaCantidad'].value,
+        this.configActividadesForm.controls['fPeriodoEntregaUnidad'].value,
       this.configActividadesForm.controls['fTipoDias'].value,
       this.checkedEstatus,
       //this.plantas,
@@ -396,7 +400,8 @@ export class ConfigActivitiesComponent implements OnInit {
           this.configActividadesForm.controls['fTipoCumplimiento'].patchValue(tagActividad.idTypeCompliance);
           this.configActividadesForm.controls['fAutoridad'].patchValue(tagActividad.idAuthority);
           this.configActividadesForm.controls['fTipoAplicacion'].patchValue(tagActividad.idApplicationType);
-          this.configActividadesForm.controls['fPeriodoEntrega'].patchValue(tagActividad.idDeliveryPeriod);
+          this.configActividadesForm.controls['fPeriodoEntregaCantidad'].patchValue(tagActividad.period);
+          this.configActividadesForm.controls['fPeriodoEntregaUnidad'].patchValue(tagActividad.unitPeriod);
           this.configActividadesForm.controls['fTipoDias'].patchValue(tagActividad.idDaysType);
           
           this.valueActiveStatus = tagActividad.active;
@@ -447,7 +452,8 @@ export class ConfigActivitiesComponent implements OnInit {
             this.configActividadesForm.controls['fRequisitoLegal'].disable();
             this.configActividadesForm.controls['fAutoridad'].disable();
             this.configActividadesForm.controls['fTipoAplicacion'].disable();
-            this.configActividadesForm.controls['fPeriodoEntrega'].disable();
+            this.configActividadesForm.controls['fPeriodoEntregaCantidad'].disable();
+            this.configActividadesForm.controls['fPeriodoEntregaUnidad'].disable();
             this.configActividadesForm.controls['fTipoDias'].disable();
             this.habilitarActividad = false;
             this.existeTagId = true;
@@ -457,7 +463,8 @@ export class ConfigActivitiesComponent implements OnInit {
             this.configActividadesForm.controls['fActividad'].disable();
             this.configActividadesForm.controls['fAutoridad'].disable();
             this.configActividadesForm.controls['fTipoAplicacion'].disable();
-            this.configActividadesForm.controls['fPeriodoEntrega'].disable();
+            this.configActividadesForm.controls['fPeriodoEntregaCantidad'].disable();
+            this.configActividadesForm.controls['fPeriodoEntregaUnidad'].disable();
             this.configActividadesForm.controls['fTipoDias'].disable();
             this.configActividadesForm.controls['fTipoCumplimiento'].disable();
 
@@ -511,7 +518,8 @@ export class ConfigActivitiesComponent implements OnInit {
       fTipoCumplimiento: { value: '', disabled: false },
       fAutoridad: { value: '', disabled: false },
       fTipoAplicacion: { value: '', disabled: false },
-      fPeriodoEntrega: { value: '', disabled: false },
+      fPeriodoEntregaCantidad: { value: '', disabled: false },
+      fPeriodoEntregaUnidad: { value: '', disabled: false },
       fTipoDias: { value: '', disabled: false },
       //fPlanta: { value: arreglo, disabled: false },
       //fCheckStatus: { checked:true }
@@ -746,6 +754,16 @@ export class ConfigActivitiesComponent implements OnInit {
             this.ordenar(numberTable);
           });
   }
+
+  initComboUnitPeriod() {
+    this.tagService.comboUnitPeriod().subscribe(
+        (lista: Array<MaestroOpcionDTO>) => {
+          lista.forEach((elemento: MaestroOpcionDTO) => {
+            this.comboUnitPeriod.push(new Combo(elemento.maestroOpcionId.toString(), elemento.opcion.codigo));
+          });
+        });
+  }
+
 /*
   async delayStatus(ms: number) {
     await new Promise(

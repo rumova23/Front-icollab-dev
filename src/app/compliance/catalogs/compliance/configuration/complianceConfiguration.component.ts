@@ -13,6 +13,11 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import { DatePipe } from '@angular/common';
+import {Combo} from '../../../models/Combo';
+import {AdministratorComplianceService} from '../../../administration/services/administrator-compliance.service';
+import {User} from '../../../../security/models/User';
+import {MatrizCumplimientoDTO} from '../../../models/matriz-cumplimiento-dto';
+import {TagOutDTO} from '../../../models/tag-out-dto';
 
 @Component({
   selector: 'app-complianceConfiguration',
@@ -21,12 +26,18 @@ import { DatePipe } from '@angular/common';
   , providers: [DatePipe]
 })
 export class ComplianceConfigurationComponent implements OnInit {
-  titulo: String = 'Características';
+  titulo = 'Matriz Cumplimiento';
   registros;
+  administradores;
   data: any[] = [];
   userResult;
+  tiposCumplimientos: Array<any>;
+  actividades: Array<any>;
+  anios: Array<any>;
+  isSupervisor = false;
 
-  columnas: string[] = ['order', 'tag', 'nombre', 'clasificacion', 'cumplimiento_legal', 'autoridad', 'tipo_aplicacion', 'userUpdated', 'dateUpdated', 'estatus', 'ver', 'modificar', 'eliminar'];
+  columnas: string[] = ['order', 'tag', 'nombre', 'clasificacion', 'cumplimiento_legal', 'periodo_entrega', 'autoridad', 'tipo_aplicacion', 'userUpdated', 'dateUpdated', 'estatus', 'ver', 'modificar', 'eliminar'];
+  columnasResponsabilidad: string[] = ['order', 'admin', 'responsabilidad'];
   filtros = [
     {label: 'TAG', inputtype: 'text'},
     {label: 'Nombre', inputtype: 'text'},
@@ -52,14 +63,15 @@ export class ComplianceConfigurationComponent implements OnInit {
     private router: Router,
     private confirmationDialogService: ConfirmationDialogService,
     public globalService: GlobalService,
-    private eventService: EventService
-   , private datePipe: DatePipe) {
+    private eventService: EventService,
+    private datePipe: DatePipe,
+    private administratorComplianceService: AdministratorComplianceService) {
 
     this.serviceSubscription = this.eventService.onChangePlant.subscribe({
       next: (event: EventMessage) => {
         switch (event.id) {
           case 100:
-            this.obtenerListaTags();
+            this.obtenerListaTags((new Date()).getFullYear());
             break;
         }
       }
@@ -71,19 +83,32 @@ export class ComplianceConfigurationComponent implements OnInit {
 
   ngOnInit() {
 
+      const user = JSON.parse(localStorage.getItem('user'));
+      console.dir(user);
+      user.roles.forEach( role => {
+          if (role.name === 'ROLE_ADMIN_CUMPLIMIENTO_COMPLIANCE') {
+              this.isSupervisor = true;
+          }
+      })
+
     this.addBlock(1, 'Cargando...');
 
     this.filtrosForm = this.formBuilder.group({
-      fTag: ['', ''],
-      fNombre: ['', '']
+        fTipoCumplimiento: [{ value: '', disabled: false }, Validators.required],
+        fActividad: [{ value: '', disabled: false }, Validators.required],
+        fAnio: [{ value: '', disabled: false }, Validators.required]
     });
+
 
     /*
     this.securityService.loadUsers().subscribe( userResult => {
       this.addBlock(2, null);
       this.userResult = userResult;
     */
-    this.obtenerListaTags();
+      const currentYear = (new Date()).getFullYear();
+      this.filtrosForm.controls.fAnio.setValue(currentYear);
+      this.obtenerListaTags(currentYear);
+
     /*
     },
     error =>{
@@ -91,58 +116,23 @@ export class ComplianceConfigurationComponent implements OnInit {
       this.toastr.errorToastr('Error al cargar lista de usuarios.', 'Lo siento,');
     });
     */
-
+    this.tiposCumplimientos = [];
+    this.actividades = [];
+    this.anios = [];
+    this.initCombos();
   }
 
   get f() { return this.filtrosForm.controls; }
 
-  obtenerListaTags() {
+  obtenerListaTags(anio: number) {
     this.addBlock(1, 'Cargando...');
     this.data = [];
-    this.tagService.obtenTagPorFiltros(this.globalService.plantaDefaultId).subscribe( data => {
-
-        const listObj = [];
-        let i = 0;
-        let userDetail;
-        for (const element of data) {
-          i += 1;
-          const obj                   = {};
-          obj['order']              = i;
-          obj['tag']                = element.tag;
-          obj['nombre']             = element.classificationActivity;
-          if (element.activity) {
-            obj['clasificacion']      = element.activity.name;
-          }
-          obj['cumplimiento_legal'] = element.typeCompliance.code;
-
-          if (element.authority != null) {
-            obj['autoridad']          = element.authority.code;
-          }
-          obj['tipo_aplicacion']    = element.applicationType.code;
-          obj['periodo_entrega']    = element.deliveryPeriod.code;
-          // obj['estatus']            = element['']estatusGenerico;
-          obj['estatus']            = (element.active) ? 'Activo' : 'Inactivo';
-
-          obj['userUpdated'] = element.userUpdated == undefined ? element.userCreated : element.userUpdated;
-          const dateUpdated = element.dateUpdated == undefined ? element.dateCreated : element.dateUpdated;
-
-          obj['dateUpdated'] = '.';
-          if (dateUpdated) {
-            obj['dateUpdated'] = dateUpdated; // this.datePipe.transform(new Date(dateUpdated) ,'dd-MM-yyyy HH:mm')
-          }
-
-
-          obj['see']                = 'sys_see';
-          obj['edit']               = 'sys_edit';
-          obj['delete']             = 'sys_delete';
-          obj['element']            = element;
-          listObj.push(obj);
-        }
-
-        this.registros =  new MatTableDataSource<any>(listObj);
+    this.tagService.obtenTagPorFiltros(anio).subscribe( (data: MatrizCumplimientoDTO) => {
+        console.dir(data.matriz);
+        this.registros =  new MatTableDataSource<any>(data.matriz);
+        this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
         this.registros.paginator = this.paginator;
         this.registros.sort = this.sort;
-
         this.addBlock(2, null);
       },
       error => {
@@ -170,8 +160,8 @@ export class ComplianceConfigurationComponent implements OnInit {
         this.addBlock(2, null);
         let res: any;
         res = respuesta;
-        if ( res.clave == 0 ) {
-          this.obtenerListaTags();
+        if ( res.clave === 0 ) {
+          this.obtenerListaTags((new Date()).getFullYear());
           this.toastr.successToastr(res.mensaje, '¡Se ha logrado!');
         } else {
           this.toastr.errorToastr(res.mensaje, 'Lo siento,');
@@ -201,7 +191,7 @@ export class ComplianceConfigurationComponent implements OnInit {
         name: null};
        break;
     }
-    this.eventService.sendChangePage(new EventMessage(9, type ,'Compliance.Características.ABC'));
+    this.eventService.sendChangePage(new EventMessage(9, type , 'Compliance.Características.ABC'));
  }
 
   // Loadin
@@ -209,4 +199,61 @@ export class ComplianceConfigurationComponent implements OnInit {
     this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 
+    initCombos() {
+        this.administratorComplianceService.initComboTiposCumplimientos().subscribe(
+            (respuesta: Array<any>) => {
+                this.tiposCumplimientos = [];
+                respuesta.forEach(elementActual => {
+                        const value = elementActual.maestroOpcionId;
+                        const label = elementActual.opcion.codigo;
+                        this.tiposCumplimientos.push(new Combo(value, label));
+                    }
+                );
+            }
+        );
+
+        this.administratorComplianceService.initComboActividades().subscribe(
+            (respuesta: Array<any>) => {
+                this.actividades = [];
+                respuesta.forEach(elementActual => {
+                        const value = elementActual.idActivity;
+                        const label = elementActual.name;
+                        this.actividades.push(new Combo(value, label));
+                    }
+                );
+            }
+        );
+        const currentYear = (new Date()).getFullYear();
+        const nextYear = currentYear + 1;
+        this.anios.push(new Combo(currentYear.toString(), currentYear.toString()));
+        this.anios.push(new Combo(nextYear.toString(), nextYear.toString()));
+    }
+
+    aprobarMatriz() {
+
+    }
+
+    liberarMatriz() {
+
+    }
+    getTasks() {
+        if (this.filtrosForm.controls.fTipoCumplimiento.value > 0 && this.filtrosForm.controls.fActividad.value > 0) {
+            this.administratorComplianceService.getTasks(
+                this.filtrosForm.controls.fAnio.value,
+                this.filtrosForm.controls.fTipoCumplimiento.value,
+                this.filtrosForm.controls.fActividad.value).subscribe(
+                (data: MatrizCumplimientoDTO) => {
+                    this.registros =  new MatTableDataSource<any>(data.matriz);
+                    this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
+                    this.registros.paginator = this.paginator;
+                    this.registros.sort = this.sort;
+                    this.addBlock(2, null);
+                }
+            );
+        }
+    }
+
+    obtenMatrizCumplimiento() {
+        this.obtenerListaTags(this.filtrosForm.controls.fAnio.value);
+    }
 }

@@ -8,7 +8,7 @@ import { MonitoringBaseSocketOnComponent } from 'src/app/monitoring/class/monito
 import { ChartControl }                    from 'src/app/monitoring/models/ChartControl';
 import * as TAGS                           from 'src/app/monitoring/boards/phase2/config';
 import * as BasChart                       from 'src/app/monitoring/helpers/monitoringBaseChart.component';
-import { MonitoringTrService } 			   from 'src/app/monitoring/services/MonitoringTr.service';
+import { MonitoringTrService } from '../../services/monitoringTr.service';
 import { TrService } 					   from 'src/app/safe/services/tr.service';
 
 
@@ -667,4 +667,3 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		return img;
 	}
 }
-  

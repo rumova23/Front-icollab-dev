@@ -9,7 +9,7 @@ export const environment = {
   , microexamenUrl          : hostGateway + 'exam/'
   , evaluacionExamenUrl     : hostGateway + 'configuration/'
   , knowledgeUrl            : hostGateway + 'knowledge/'
-  , seguimiento             : hostGateway + 'seguimiento/'
+  , seguimientoUrl             : hostGateway + 'seguimiento/'
   , estatusmaestro          : hostGateway + 'estatusmaestro/'
   , marketUrl               : hostGateway + 'market/'
   , fuecdUrl                : hostGateway + 'fuecd/'

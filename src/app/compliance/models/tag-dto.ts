@@ -15,6 +15,7 @@ export class TagDTO {
     public applicationType: CatalogDTO;
     public authority: CatalogDTO;
     public daysType: CatalogDTO;
-    public deliveryPeriod: CatalogDTO;
+    public period: number;
+    public unitPeriod: CatalogDTO;
     public typeCompliance: CatalogDTO;
 }

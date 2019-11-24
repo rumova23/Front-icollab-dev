@@ -33,13 +33,10 @@ export class SecurityService {
   }
 
 
-  setUserId(){
-
+  setUserId() {
     let user = JSON.parse(localStorage.getItem('user'));
     user = user['username'];
-
-    this.parameters = new HttpParams().set("user",user);
-     
+    this.parameters = new HttpParams().set('user', user);
   }
 
 
@@ -180,7 +177,7 @@ export class SecurityService {
 
   loadPlants() {
     return JSON.parse(localStorage.getItem('user')).plants;
-    //return this.http.get(environment.securityUrl + 'plant/list');
+    // return this.http.get(environment.securityUrl + 'plant/list');
   }
 
   getPlant(idPlant): Observable<any> {
@@ -189,7 +186,7 @@ export class SecurityService {
 
   loadApps() {
     return JSON.parse(localStorage.getItem('user')).apps;
-    //return this.http.get(environment.securityUrl + 'app/list');
+    // return this.http.get(environment.securityUrl + 'app/list');
   }
 
   loadParameters(): Observable<any> {
@@ -228,5 +225,4 @@ export class SecurityService {
   saveRoleGrants(roleGrant: RoleGrant): Observable<any> {
     return this.http.post(environment.securityUrl + 'grant/role/save', roleGrant);
   }
-
 }

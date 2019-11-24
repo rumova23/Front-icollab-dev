@@ -12,7 +12,8 @@ export class Tag {
     public requisitoLegal: string;
     public idAuthority: number;
     public idApplicationType: number;
-    public idDeliveryPeriod: number;
+    public unitPeriod: number;
+    public period: number;
     public idDaysType: number;
     public active: boolean;
     public precedents: Array<TagPrecedente>;
@@ -26,7 +27,8 @@ export class Tag {
         requisitoLegal: string,
         idAuthority: number,
         idApplicationType: number,
-        idDeliveryPeriod: number,
+        unitPeriod: number,
+        period: number,
         idDaysType: number,
         active: boolean,
         precedents: Array<TagPrecedente>
@@ -40,7 +42,8 @@ export class Tag {
         this.requisitoLegal = requisitoLegal;
         this.idAuthority = idAuthority;
         this.idApplicationType = idApplicationType;
-        this.idDeliveryPeriod = idDeliveryPeriod;
+        this.unitPeriod = unitPeriod;
+        this.period = period;
         this.idDaysType = idDaysType;
         this.active = active;
         this.precedents = precedents;

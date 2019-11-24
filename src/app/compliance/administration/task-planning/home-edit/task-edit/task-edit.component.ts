@@ -63,7 +63,7 @@ export class TaskEditComponent implements OnInit {
     this.configActividadesForm.controls.fRequisitoLegal.setValue(this.compliance.tagDTO.legalRequirement);
     this.configActividadesForm.controls.fAutoridad.setValue(this.compliance.tagDTO.authority.id);
     this.configActividadesForm.controls.fTipoAplicacion.setValue(this.compliance.tagDTO.applicationType.id);
-    this.configActividadesForm.controls.fPeriodoEntrega.setValue(this.compliance.tagDTO.deliveryPeriod.id);
+    this.configActividadesForm.controls.fPeriodoEntrega.setValue(this.compliance.tagDTO.unitPeriod.id);
     this.configActividadesForm.controls.fTipoDias.setValue(this.compliance.tagDTO.daysType.id);
 
     let statusConsultActivity = 'ACTIVOS';

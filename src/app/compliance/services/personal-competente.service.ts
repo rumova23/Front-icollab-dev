@@ -22,7 +22,7 @@ const httpOptions = {
 export class PersonalCompetenteService {
   private baseUrl2 = environment.microexamenUrl;
   private baseUrl = environment.tagsUrl;
-  private microSeguimiento = environment.seguimiento;
+  private microSeguimiento = environment.seguimientoUrl;
 
   parameters: any;
 

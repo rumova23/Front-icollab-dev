@@ -19,7 +19,7 @@ const httpOptions = {
 })
 export class ComplianceService {
 
-  private urlSeguimiento = environment.seguimiento;
+  private urlSeguimiento = environment.seguimientoUrl;
 
   constructor(private http: HttpClient) { }
 

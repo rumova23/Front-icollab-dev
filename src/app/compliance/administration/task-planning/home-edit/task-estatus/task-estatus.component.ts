@@ -49,7 +49,7 @@ export class TaskEstatusComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.estatusForm.controls.fPeriodoEntrega.setValue(this.compliance.tagDTO.deliveryPeriod.id);
+    this.estatusForm.controls.fPeriodoEntrega.setValue(this.compliance.tagDTO.unitPeriod.id);
     this.estatusForm.controls.fTipoDias.setValue(this.compliance.tagDTO.daysType.id);
     if (this.compliance.fechaProgramadaInicio) {
       this.fFechaInicioProgramada = new FormControl(new Date(this.compliance.fechaProgramadaInicio));
@@ -105,7 +105,7 @@ export class TaskEstatusComponent implements OnInit {
   }
 
   guardaTarea() {
-    this.compliance.tagDTO.deliveryPeriod.id = this.estatusForm.controls.fPeriodoEntrega.value;
+    this.compliance.tagDTO.unitPeriod.id = this.estatusForm.controls.fPeriodoEntrega.value;
     this.compliance.tagDTO.daysType.id = this.estatusForm.controls.fTipoDias.value;
     this.compliance.fechaProgramadaInicio =  new Date(this.fFechaInicioProgramada.value);
     this.compliance.fechaProgramadaFinal =  new Date(this.fFechaFinProgramada.value);

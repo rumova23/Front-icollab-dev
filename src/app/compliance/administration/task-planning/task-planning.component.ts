@@ -104,6 +104,7 @@ export class TaskPlanningComponent implements OnInit {
     if (this.filtrosForm.controls.fTipoCumplimiento.value > 0 && this.filtrosForm.controls.fActividad.value > 0) {
       this.administratorComplianceService.getTasks(
           this.filtrosForm.controls.fTipoCumplimiento.value,
+          this.filtrosForm.controls.fTipoCumplimiento.value,
           this.filtrosForm.controls.fActividad.value).subscribe(
           (respuesta: Array<any>) => {
             this.tagTasks = respuesta;
