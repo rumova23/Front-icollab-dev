@@ -4,10 +4,12 @@
           <div>
               <i class="fas fa-wifi fa-2x " [ngClass]="{'icon-verde':wifi,'icon-rojo':!wifi}"></i>
           </div>
-          <span *ngIf="!wifi"[ngClass]="{'icon-verde':wifi,'icon-rojo':!wifi}">
-              {{language('OFFLINE')}}</span>
-          <span *ngIf="wifi" [ngClass]="{'icon-verde':wifi,'icon-rojo':!wifi}">
-              {{language('ONLINE')}}</span>
+            <span *ngIf="!wifi"[ngClass]="{'icon-verde':wifi,'icon-rojo':!wifi}">
+                {{ "_general.offline" | translate }}
+            </span>
+            <span *ngIf="wifi" [ngClass]="{'icon-verde':wifi,'icon-rojo':!wifi}">
+                {{ "_general.online" | translate }}
+            </span>
       </div>
   </div>
   <div class="row">
@@ -15,9 +17,8 @@
       <div class="col-md-auto">
           <div class="txtcenter mb-4">
               <strong class="nameplanta">
-                  {{language('TITULO_CONDICIONES')}}
+                    {{ "monitoring.phase3.environmentalConditions" | translate }}
               </strong>
-              <!--{{ "PANEL.TITULO_CONDICIONES" | translate }}-->
           </div>
           <!--div class="row">
               <div class="col">
@@ -161,15 +162,7 @@
       <div class="border-r d-none d-lg-block"></div>
       <div class="col" style="width: 70% !important;">
           <div class="txtcenter mb-4">
-              <strong class="nameplanta">{{language('TITULO_PARAMETROS_GRALES')}}</strong>
-              <!--{{ "PANEL.TITULO_PARAMETROS_GRALES" | translate }} -->
-              <!--div class="col">
-                  <h1 class="txtcenter">
-                      <div id="detecci_n_y_correcci_2" >
-                              PARAMETROS PRINCIPALES DE GENERACIÓN 
-                      </div>
-                  </h1>
-              </div-->
+              <strong class="nameplanta">{{ "monitoring.phase3.mainParametersOfGeneration" | translate }}</strong>
           </div>
           <div class="row">
               <ng-template #tip_getPotenciaNeta><b>{{calltagsObj['getPotenciaNeta']['Name']}}</b></ng-template>    
@@ -184,7 +177,7 @@
                   >&nbsp;</span>
                   <br>
                   <span class="mydatatxt font-weight-bold">
-                      {{language('TITULO_POTENCIA')}}
+                        {{ "monitoring.phase3.netPower" | translate }}
                   </span>
                   <br>
                   <span class="mydatatxt">
@@ -209,8 +202,7 @@
                   >&nbsp;</span>
                   <br>
                   <span class="mydatatxt font-weight-bold">
-                      <!--{{ "PANEL.TITULO_POTENCIA_CCDV" | translate }}-->
-                      {{language('TITULO_POTENCIA_CCDV')}}
+                      {{ "monitoring.phase3.powerCCDV" | translate }}
                   </span>
                   <br>
                   <span class="mydatatxt">
@@ -235,8 +227,7 @@
                   >&nbsp;</span>
                   <br>
                   <span class="mydatatxt font-weight-bold">
-                      <!--{{ "PANEL.TITULO_VELOCIDAD_CALENTAMIENTO" | translate }}-->
-                      {{language('TITULO_VELOCIDAD_CALENTAMIENTO')}}
+                      {{ "monitoring.phase3.heatRate" | translate }}
                   </span>
                   <br>
                   <span class="mydatatxt">
@@ -1083,7 +1074,7 @@
 </div>
 
   
-<app-interactive-image-turbine-ct1 #modal_turbine_ct_1 [lstTags]="calltagsObj"></app-interactive-image-turbine-ct1>
+<app-interactive-image-turbine-ct1 #modal_turbine_ct_1 ></app-interactive-image-turbine-ct1>
 
     
     <!-- Modal -->

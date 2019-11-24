@@ -175,6 +175,24 @@ export class SafeHomeComponent implements OnInit {
 							this.componentFactoryResolver.resolveComponentFactory(MoneysSatComponent)
 						).changeDetectorRef.detectChanges();
 						break;
+					case 'Safe.Consulta Clima':
+						//33
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								WeatherPpaComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.Modelo Matemático - Mercado':
+						//38
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								ModelMarketComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
 				}
 				if(banderaTemporal) return;
 				let option = 0;
@@ -664,11 +682,6 @@ export class SafeHomeComponent implements OnInit {
 			refWeatherEdit.changeDetectorRef.detectChanges();
 			break;
 		case 33:
-			const factoryWeatherPpa =
-			this.componentFactoryResolver.resolveComponentFactory(WeatherPpaComponent);
-			const refWeatherPpa =
-			this.viewContainerRef.createComponent(factoryWeatherPpa);
-			refWeatherPpa.changeDetectorRef.detectChanges();
 			break;
 		case 34:
 			const factoryChargeEdit =
@@ -706,11 +719,6 @@ export class SafeHomeComponent implements OnInit {
 			refEnergyPpa.changeDetectorRef.detectChanges();
 			break;
 		case 38:
-			const factoryModelMarket =
-			this.componentFactoryResolver.resolveComponentFactory(ModelMarketComponent);
-			const refModelMarket =
-			this.viewContainerRef.createComponent(factoryModelMarket);
-			refModelMarket.changeDetectorRef.detectChanges();
 			break;
 
 		case 39:

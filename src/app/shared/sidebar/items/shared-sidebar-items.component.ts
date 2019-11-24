@@ -44,12 +44,20 @@ export class SharedSidebarItemsComponent {
 			//this.globalService.aside_open = !this.globalService.aside_open ;
 			this.globalService.setPage       ( new EventMessage(null ,item ,this.hardCodeDescriptor(item)) );
 			this.eventService.sendChangePage ( new EventMessage(null ,item ,this.hardCodeDescriptor(item)) );
+			this.activateItem(item);
 		}
+	}
+	activateItem(item){
+		let list = document.getElementsByClassName('sidebar_item');
+		for (var i = 0; i < list.length; i++) {
+			list[i].classList.remove("itemActive");
+		}
+		document.getElementById(item.id).classList.add("itemActive");
 	}
 	hardCodeDescriptor(item):string{
 		let descriptor = "";
 		descriptor = this.globalService.app.name;
-		descriptor += `.${item.label}`; // debería existir otra propiedad en lugar de label para usarse aqui
+		descriptor += `.${item.url}`;
 		return descriptor;
 	}
 }

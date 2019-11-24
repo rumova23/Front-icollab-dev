@@ -202,7 +202,7 @@ disparador2(){
     let list = [];
     this.elementData.forEach(element => {
       element.forEach(tag => {
-        console.log(tag);
+        
         list.push({
           
           'pID': tag.complianceId,
@@ -221,6 +221,26 @@ disparador2(){
           'pCaption': '',
           'pNotes': ''
         });
+        if(tag.fechaRealFin == null && new Date(tag.fechaProgramadaFinal) < new Date(Date.now()) ){
+            list.push({
+              
+              'pID': tag.complianceId+99,
+              'pName': tag.tag,
+              'pStart': tag.fechaProgramadaInicio,
+              'pEnd': Date.now(),
+              'pClass': 'gtaskred',
+              'pLink': '',
+              'pMile': 0,
+              'pRes': '',
+              'pComp': 60,
+              'pGroup': 0,
+              'pParent': 0,
+              'pOpen': 1,
+              'pDepend': '',
+              'pCaption': '',
+              'pNotes': ''
+            });
+        } 
       });
     });
     return list;

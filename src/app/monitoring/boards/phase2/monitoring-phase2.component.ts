@@ -18,14 +18,14 @@ import { TrService } 					   from 'src/app/safe/services/tr.service';
   styleUrls: ['./monitoring-phase2.component.scss']
 })
 export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent implements OnInit,OnDestroy  {
-	calltags  = []; 
+	calltags  = [];
 	charts    : Array<Chart> = [];
-	dataSets  : [] = []; // para poder conoce los colores de cada dataset 
+	dataSets  : [] = []; // para poder conoce los colores de cada dataset
 
-	
-	
+
+
 	calltagsObj=[];
-	
+
 	weather:any;
 	date = new Date();
 	dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -45,7 +45,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 	predictionOptions = { weekday: 'long' };
 	predictions = [];
 
-  
+
 	constructor(
 		public globalService        : GlobalService ,
 		public theme                : ThemeService  ,
@@ -57,14 +57,14 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		super(globalService,eventService,socketService);
 
 		/**
-		 * el icono de conectado tendra que tener la siguiente condicion 
+		 * el icono de conectado tendra que tener la siguiente condicion
 		 * if(globalService.socketConnect && this.PiIsRun)
 		 */
 	}
-	  
+
 	ngOnInit() {
-		
-		this.stringDate = this.date.toLocaleDateString("es-ES", this.dateOptions);   
+
+		this.stringDate = this.date.toLocaleDateString("es-ES", this.dateOptions);
 
 		this.initializeAt0();
 		this.chartInit();
@@ -75,7 +75,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 
 		//this.restGetWeather(this.trService);
 		console.log(this.globalService.plant);
-		
+
 		this.monitoringTrService.getStreamsetsInterpolated("plantId=2&webId=F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz&startTime=*-24h&endTime=*&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value")
 		.subscribe(
 			data => {
@@ -107,7 +107,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		);
 
 
-		
+
 		this.monitoringTrService.getStreamsetsInterpolated("plantId=1&webId=P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY&startTime=*-24h&endTime=*&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value")
 		.subscribe(
 			data => {
@@ -180,7 +180,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 				this.calltags[local_tag_key+'-aguila']   = 0;
 				this.calltags[local_tag_key+'-sol']      = 0;
 				this.calltags[local_tag_key+'-overview'] = 0;
-				
+
 				this.calltagsObj[local_tag_key+'-aguila']   = {Name:""};
 				this.calltagsObj[local_tag_key+'-sol']      = {Name:""};
 				this.calltagsObj[local_tag_key+'-overview'] = {Name:""};
@@ -193,7 +193,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 				this.createChart(idChart);
 			}
 		}
-	}	
+	}
 	subscribeSocketChanels(){
 		if(this.globalService.socketConnect){
 			this.subscribeSocketChanelbackPiIsRun();
@@ -216,7 +216,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		  });
 	  }
 	createChart(idChart){
-		
+
 		TAGS.listCharts[idChart]['controls'] = {
 			idChart        : idChart,
 			type_graph     : 'line',
@@ -239,14 +239,14 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 			case "doughnut_completo":
 					this.charts[idChart]= new Chart(idChart, BasChart.doughnutCompletoConfig() );
 				break;
-		
+
 			default:
 					this.charts[idChart]= new Chart(idChart, BasChart.chartCreateConfig(TAGS.listCharts[idChart]['controls']));
 				break;
 		}
-		
+
 	}
-	
+
 	datasetToggleChart(idchart,idDataset){
 		let chartDatasets = this.charts[idchart].data.datasets;
 		let chartYAxis = this.charts[idchart].config.options.scales.yAxes;
@@ -258,7 +258,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					dataset.hidden = !dataset.hidden;
 				}
 			}
-	
+
 			for (let index = 0; index < chartYAxis.length; index++) {
 				const element = chartYAxis[index];
 				if (element.id == idDataset) {
@@ -283,7 +283,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 			checkTime(this.timeCurrent.getHours()) + ":" + checkTime(this.timeCurrent.getMinutes()) + ":" + checkTime(this.timeCurrent.getSeconds())
 			,data
 		);
-		
+
 		if(data.name == "weather"){
 			this.weather = data.data;
 			this.loadWeatherData();
@@ -332,11 +332,11 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		}
 	}
 	updateLocalTagOverView(){
-		
+
 		for (const local_tag_key in TAGS.lstTags) {
 			if (TAGS.lstTags.hasOwnProperty(local_tag_key)) {
 				const local_tag  = TAGS.lstTags[local_tag_key];
-				
+
 				if(["PowerOutput","HeatRate","HeatRateCorreg"].includes(local_tag_key)){
 					const aguila     = local_tag.aguila[0]['WebTag'] ? local_tag.aguila[0]['WebTag']["Value"]["Value"] : 0;
 					const sol        = local_tag.sol[0]['WebTag']    ? local_tag.sol[0]['WebTag']["Value"]["Value"]    : 0;
@@ -351,8 +351,8 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					this.calltags[local_tag_key+'-aguila']   = aguila;
 					this.calltags[local_tag_key+'-sol']      = sol;
 					this.calltags[local_tag_key+'-overview'] = overview;
-					
-					
+
+
 					const aguila2     = local_tag.aguila[0]['WebTag'] ? local_tag.aguila[0]['WebTag'] : {Name:"¿?"};
 					const sol2        = local_tag.sol[0]['WebTag']    ? local_tag.sol[0]['WebTag']    : {Name:"¿?"};
 					this.calltagsObj[local_tag_key+'-aguila']   = aguila2;
@@ -398,20 +398,20 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					let aguila_temp           = {Value:{Timestamp: "2019-09-19T00:08:22.8810119Z",Value: aguila_value}}
 					local_tag.aguila[0]['WebTag']= aguila_temp;
 
-					
+
 					let sol_HeatRateCorreg = TAGS.lstTags['HeatRateCorreg']['sol'][0]['WebTag']["Value"]["Value"];
 					let sol_HeatRate       = TAGS.lstTags['HeatRate']['sol'][0]['WebTag']["Value"]["Value"];
 					let sol_value          = (((sol_HeatRateCorreg-sol_HeatRate) * 0.00004764) /  20.03);
 					//sol_value = sol_value + (Math.random() * (0.0000000000000000927 - 0.0000000000000000100) + 0.0000000000000000100);
-					
+
 					let sol_temp           = {Value:{Timestamp: "2019-09-19T00:08:22.8810119Z",Value: sol_value}}
 					local_tag.sol[0]['WebTag']= sol_temp;
-					
-					
+
+
 					//console.log("Fuel Gain / Lost (Sol):: (HeatRateCorreg::",sol_HeatRateCorreg,")(HeatRate::",sol_HeatRate,") ->(  ( (HeatRateCorreg - HeatRate)*0.00004764 ) / 20.03 ) = (",sol_value,")");
 
 
-					
+
 
 					const aguila     = local_tag.aguila[0]['WebTag'] ? local_tag.aguila[0]['WebTag']["Value"]["Value"] : 0;
 					const sol        = local_tag.sol[0]['WebTag']    ? local_tag.sol[0]['WebTag']["Value"]["Value"]    : 0;
@@ -424,7 +424,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					this.calltags[local_tag_key+'-sol']      = sol;
 					this.calltags[local_tag_key+'-overview'] = overview;
 				}
-		
+
 			}
 		}
 	}
@@ -456,11 +456,11 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 			let tagconf    = TAGS.lstTags[chartTag.calltags];
 
 			if(datasetTag == undefined){
-		
+
 				var hex  = tagconf.color;
 				let rgba = BasChart.hexToRGB(tagconf.color,0.3);
-				
-				
+
+
 				var newDataset = {
 					id:chartTag.calltags,
 					rgba:rgba,
@@ -472,13 +472,13 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 						"#7f8182",
 					]
 				};
-			
-				
+
+
 				this.charts[idChart].data.datasets.push(newDataset);
 				//console.log(this.charts[chart].data.datasets);
-				
+
 			}else{
-				
+
 				/**Para la grafica tipo  line , bar*/
 				/*
 				(datasetTag.data as number[]).push(chartTag.value());
@@ -491,7 +491,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 				/**Para la grafica tipo  horizontalBar*/
 				(datasetTag.data as number[])=chartTag.value();
 			}
-			
+
 		}
 		this.charts[idChart].update();
 		//console.log(this.charts);
@@ -504,10 +504,10 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 			let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets, chartTag.calltags);
 			let tagconf    = TAGS.lstTags[chartTag.calltags];
 			if(datasetTag == undefined){
-		
+
 				var hex  = tagconf.color;
 				let rgba = BasChart.hexToRGB(tagconf.color,0.3);
-		
+
 				var newDataset = {
 					id:chartTag.calltags,
 					rgba:rgba,
@@ -536,12 +536,12 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 						display: false,
 					},
 				};
-				
+
 				this.charts[idChart].data.datasets.push(newDataset);
 				this.charts[idChart].config.options.scales.yAxes.push(newYaxis);
 				this.dataSets[idChart+"-"+chartTag.calltags] = newDataset;
 			}else{
-				
+
 				/**Para la grafica tipo  line , bar*/
 				///*
 				(datasetTag.data as number[]).push(chartTag.value());
@@ -554,7 +554,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 				/**Para la grafica tipo  horizontalBar*/
 				//(datasetTag.data as number[])=[chartTag.value];
 			}
-			
+
 			if(bandera){// regimen termico
 				bandera = false;
 				this.charts[idChart].data.labels.push(this.getTime());
@@ -567,7 +567,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		//console.log(this.charts);
 		//console.log(this.charts['chart_est_power_01'].data);
 	}
-	
+
 	addDatasetLine2(idChart, values, labels){
 		let chart = TAGS.listCharts[idChart];
 		let bandera = true;
@@ -575,10 +575,10 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 			let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets, chartTag.calltags);
 			let tagconf    = TAGS.lstTags[chartTag.calltags];
 			if(datasetTag == undefined){
-		
+
 				var hex  = tagconf.color;
 				let rgba = BasChart.hexToRGB(tagconf.color,0.3);
-		
+
 				var newDataset = {
 					id:chartTag.calltags,
 					rgba:rgba,
@@ -605,17 +605,17 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 						color:"rgb(52, 58, 64)",
 						display: false,
 					},
-					
+
 				};
-				
+
 				this.charts[idChart].data.datasets.push(newDataset);
 				this.charts[idChart].config.options.scales.yAxes.push(newYaxis);
 				this.dataSets[idChart+"-"+chartTag.calltags] = newDataset;
 			}else{
 			}
-			
+
 			this.charts[idChart].data.labels = labels;
-				
+
 		}
 		this.charts[idChart].update();
 		//console.log(this.charts);
@@ -658,7 +658,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		this.windSpeed = this.weather.Wind.Speed.Metric.Value;
 		this.visibility = this.weather.Visibility.Metric.Value;
 	  }
-	  
+
 	getUrlWeather() {
 		let img = "assets/icons/conditions/";
 			img = img + this.weather.WeatherIcon;

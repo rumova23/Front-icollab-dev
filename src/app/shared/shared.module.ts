@@ -5,11 +5,20 @@ import { SharedFooterComponent       } from './footer/shared-footer.component';
 import { SharedSidebarComponent      } from './sidebar/sidebar/shared-sidebar.component';
 import { SharedSidebarMenuComponent  } from './sidebar/menu/shared-sidebar-menu.component';
 import { SharedSidebarItemsComponent } from './sidebar/items/shared-sidebar-items.component';
+import { CssComponent                } from './css/css.component';
+import { ConnectSocketComponent      } from './socket/connectSocket.component';
+import { TranslationComponent        } from './translation/translation.component';
 
 import { MDBBootstrapModule          } from 'angular-bootstrap-md';
 import { MaterialModule              } from 'src/app/modules/material-module';
-import { CssComponent                } from './css/css.component';
-import { ConnectSocketComponent      } from './socket/connectSocket.component';
+
+
+/* translate */
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader              } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule     } from '@angular/common/http';
+/*./translate */
+
 
 @NgModule({
     declarations:[
@@ -19,19 +28,34 @@ import { ConnectSocketComponent      } from './socket/connectSocket.component';
         SharedSidebarMenuComponent,
         SharedSidebarItemsComponent,
         CssComponent,
-        ConnectSocketComponent
+        ConnectSocketComponent,
+        TranslationComponent
     ],
     exports:[
         SharedHeaderComponent,
         SharedFooterComponent,
         SharedSidebarComponent,
         CssComponent,
-        ConnectSocketComponent
+        ConnectSocketComponent,
+        TranslationComponent,
+        TranslateModule
     ],
     imports:[
-        BrowserModule,
-        MDBBootstrapModule.forRoot(),
-        MaterialModule,
+        BrowserModule
+        
+        ,HttpClientModule
+        ,TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (http: HttpClient) => {
+                    return new TranslateHttpLoader(http);
+                },
+                deps: [ HttpClient ]
+            }
+        })
+
+        ,MDBBootstrapModule.forRoot()
+        ,MaterialModule
     ]
 
 })

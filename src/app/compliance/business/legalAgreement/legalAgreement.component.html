@@ -9,7 +9,7 @@
 	<div class="row pb-4">
 		<div class="col">
 				<p class="section_titulo_0">{{titulo}}</p>
-				<p class="section_subtitulo_0">Aqui puedes ... </p>
+				<p class="section_subtitulo_0"></p>
 		</div>
 	</div>
 	<div class=" row">
@@ -36,96 +36,130 @@
 	</div>
 </div>
 
-<div class="section">
-	<div class="row pb-3">
-		<div class="col">
-			<p class="section_titulo_0">Pagos</p>
-			<p class="section_subtitulo_0">Aqui puedes ...</p>
-		</div>
+
+
+
+<div class="accordion mb-5" id="accordionCumplimientoLegal">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+			<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" aria-controls="collapse_1"  [disabled]="indicePagos<=0">
+				Pagos
+			</button>
+        </div>
+        <div id="collapse_1" class="collapse" aria-labelledby="headingOne" data-parent="#accordionCumplimientoLegal">
+            <div class="card-body">
+				<app-tablesLegalAgreement #pagos></app-tablesLegalAgreement>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+			<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_2" aria-expanded="false" aria-controls="collapse_2" [disabled]="indiceNotificaciones<=0">
+				Notificaciones
+			</button>
+        </div>
+        <div id="collapse_2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionCumplimientoLegal">
+            <div class="card-body">
+                <app-tablesLegalAgreement #notificaciones></app-tablesLegalAgreement>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header" id="headingThree">
+			<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_3" aria-expanded="false" aria-controls="collapse_3" [disabled]="indiceAnalisis<=0">
+				Análisis
+			</button>
+        </div>
+        <div id="collapse_3" class="collapse" aria-labelledby="headingThree" data-parent="#accordionCumplimientoLegal">
+            <div class="card-body">
+				<app-tablesLegalAgreement #analisis *ngIf="indiceAnalisis>0"></app-tablesLegalAgreement>
+            </div>
+        </div>
 	</div>
-	<app-tablesLegalAgreement #pagos *ngIf="true || indicePagos>0"></app-tablesLegalAgreement>
-</div>
-				
-<div class="section">
-	<div class="row pb-3">
-		<div class="col">
-			<p class="section_titulo_0">Notificaciones</p>
-			<p class="section_subtitulo_0">Aqui puedes ...</p>
-		</div>
+	
+
+    <div class="card">
+        <div class="card-header" id="headingThree">
+			<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_4" aria-expanded="false" aria-controls="collapse_4" [disabled]="indiceReportes<=0">
+				Reportes
+			</button>
+        </div>
+        <div id="collapse_4" class="collapse" aria-labelledby="headingThree" data-parent="#accordionCumplimientoLegal">
+            <div class="card-body">
+				<app-tablesLegalAgreement #reportes *ngIf="indiceReportes>0"></app-tablesLegalAgreement>
+            </div>
+        </div>
 	</div>
-	<app-tablesLegalAgreement #notificaciones *ngIf="true || indiceNotificaciones>0"></app-tablesLegalAgreement>
-</div>
-				
-<div class="section">
-	<div class="row pb-3">
-		<div class="col">
-			<p class="section_titulo_0">Análisis</p>
-			<p class="section_subtitulo_0">Aqui puedes ...</p>
-		</div>
+	
+    <div class="card">
+        <div class="card-header" id="headingThree">
+			<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_5" aria-expanded="false" aria-controls="collapse_5" [disabled]="indiceReportes<=0">
+				Actividades
+			</button>
+        </div>
+        <div id="collapse_5" class="collapse" aria-labelledby="headingThree" data-parent="#accordionCumplimientoLegal">
+            <div class="card-body">
+				<app-tablesLegalAgreement #actividades *ngIf="indiceActividades>0"></app-tablesLegalAgreement>
+            </div>
+        </div>
 	</div>
-	<app-tablesLegalAgreement #analisis *ngIf="indiceAnalisis>0"></app-tablesLegalAgreement>
-</div>
-				
-<div class="section">
-	<div class="row pb-3">
-		<div class="col">
-			<p class="section_titulo_0">Reportes</p>
-			<p class="section_subtitulo_0">Aqui puedes ...</p>
-		</div>
+	
+    <div class="card">
+        <div class="card-header" id="headingThree">
+			<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_6" aria-expanded="false" aria-controls="collapse_6" [disabled]="indiceCompromisos<=0">
+				Compromisos Contractuales
+			</button>
+        </div>
+        <div id="collapse_6" class="collapse" aria-labelledby="headingThree" data-parent="#accordionCumplimientoLegal">
+            <div class="card-body">
+				<app-tablesLegalAgreement #compromisos *ngIf="indiceCompromisos>0"></app-tablesLegalAgreement>
+            </div>
+        </div>
 	</div>
-	<app-tablesLegalAgreement #reportes *ngIf="indiceReportes>0"></app-tablesLegalAgreement>
-</div>
-				
-<div class="section">
-	<div class="row pb-3">
-		<div class="col">
-			<p class="section_titulo_0">Actividades</p>
-			<p class="section_subtitulo_0">Aqui puedes ...</p>
-		</div>
+    <div class="card">
+        <div class="card-header" id="headingThree">
+			<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_7" aria-expanded="false" aria-controls="collapse_7" [disabled]="indiceCertificados<=0">
+				Certificados
+			</button>
+        </div>
+        <div id="collapse_7" class="collapse" aria-labelledby="headingThree" data-parent="#accordionCumplimientoLegal">
+            <div class="card-body">
+				<app-tablesLegalAgreement #certificados *ngIf="indiceCertificados>0"></app-tablesLegalAgreement>
+            </div>
+        </div>
 	</div>
-	<app-tablesLegalAgreement #actividades *ngIf="indiceActividades>0"></app-tablesLegalAgreement>
-</div>
-				
-<div class="section">
-	<div class="row pb-3">
-		<div class="col">
-			<p class="section_titulo_0">Compromisos Contractuales</p>
-			<p class="section_subtitulo_0">Aqui puedes ...</p>
-		</div>
+	
+	
+    <div class="card">
+        <div class="card-header" id="headingThree">
+			<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_8" aria-expanded="false" aria-controls="collapse_8" [disabled]="indiceActualizaciones<=0">
+				Actualizaciones
+			</button>
+        </div>
+        <div id="collapse_8" class="collapse" aria-labelledby="headingThree" data-parent="#accordionCumplimientoLegal">
+            <div class="card-body">
+				<app-tablesLegalAgreement #actualizaciones *ngIf="indiceActualizaciones>0"></app-tablesLegalAgreement>
+            </div>
+        </div>
 	</div>
-	<app-tablesLegalAgreement #compromisos *ngIf="indiceCompromisos>0"></app-tablesLegalAgreement>
-</div>
-				
-<div class="section">
-	<div class="row pb-3">
-		<div class="col">
-			<p class="section_titulo_0">Certificados</p>
-			<p class="section_subtitulo_0">Aqui puedes ...</p>
-		</div>
+	
+	
+    <div class="card">
+        <div class="card-header" id="headingThree">
+			<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_9" aria-expanded="false" aria-controls="collapse_9" [disabled]="indiceOtros<=0">
+				Actualizaciones
+			</button>
+        </div>
+        <div id="collapse_9" class="collapse" aria-labelledby="headingThree" data-parent="#accordionCumplimientoLegal">
+            <div class="card-body">
+				<app-tablesLegalAgreement #otros *ngIf="indiceOtros>0"></app-tablesLegalAgreement>
+            </div>
+        </div>
 	</div>
-	<app-tablesLegalAgreement #certificados *ngIf="indiceCertificados>0"></app-tablesLegalAgreement>
+	
+	
 </div>
-				
-<div class="section">
-	<div class="row pb-3">
-		<div class="col">
-			<p class="section_titulo_0">Actualizaciones</p>
-			<p class="section_subtitulo_0">Aqui puedes ...</p>
-		</div>
-	</div>
-	<app-tablesLegalAgreement #actualizaciones *ngIf="indiceActualizaciones>0"></app-tablesLegalAgreement>
-</div>
-				
-<div class="section">
-	<div class="row pb-3">
-		<div class="col">
-			<p class="section_titulo_0">Otros</p>
-			<p class="section_subtitulo_0">Aqui puedes ...</p>
-		</div>
-	</div>
-	<app-tablesLegalAgreement #otros *ngIf="indiceOtros>0"></app-tablesLegalAgreement>
-</div>
-		
+
 			
 		
 		

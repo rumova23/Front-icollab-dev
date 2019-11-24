@@ -1,0 +1,38 @@
+{
+    "shared":{
+        "header.tools"                : "Tools"
+       ,"header.tools.changePassword" : "Change Password"
+       ,"header.tools.language"       : "Language"
+       ,"header.tools.spanish"        : "Spanish"
+       ,"header.tools.english"        : "English"
+       ,"header.tools.japanese"       : "Japanese"
+       ,"header.tools.getOut"         : "Get out"
+       ,"header.emails"               : "Emails"
+       ,"header.mail"                 : "Mail"
+       ,"header.notifications"        : "Notifications"
+
+       ,"sidebar.infoUser.youHaveNoPendingTasks" : "You have no pending tasks"
+    },
+    "monitoring":{
+         "phase3.environmentalConditions"    : "Environmental conditions"
+        ,"phase3.mainParametersOfGeneration" : "Main parameters of generation"
+        ,"phase3.netPower"                   : "Net Power"
+        ,"phase3.powerCCDV"                  : "Power CCDV"
+        ,"phase3.heatRate"                   : "Heat rate"
+
+    },
+    "_general":{
+         "body.welcome"               : "Welcome"
+        ,"body.welcome2"              : "Welcome"
+        ,"body.developingSystem"      : "Developing system"
+        ,"online"                     : "On Line"
+        ,"offline"                    : "Off Line"
+    }
+    ,"home"    : "Home"
+    ,"phase 3" : "Phase 3"
+    ,"phase 2" : "Phase 2"
+    ,"legalAgreement" : "Legal agreement"
+    ,"Catálogos" : "Catalogs"
+    ,"Inicio" : "Home"
+    ,"Configuración de   Cumplimientos":"Compliance Settings"
+}

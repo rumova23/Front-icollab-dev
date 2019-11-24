@@ -1,0 +1,37 @@
+{
+    "shared":{
+        "header.tools"                : "Herramientas"
+       ,"header.tools.changePassword" : "Cambiar contraseña"
+       ,"header.tools.language"       : "Idioma"
+       ,"header.tools.spanish"        : "Español"
+       ,"header.tools.english"        : "Inglés"
+       ,"header.tools.japanese"       : "Japonés"
+       ,"header.tools.getOut"         : "Salir"
+       ,"header.emails"               : "Correos"
+       ,"header.mail"                 : "Correo"
+       ,"header.notifications"        : "Notificaciones"
+
+       ,"sidebar.infoUser.youHaveNoPendingTasks" : "No tienes tareas pendientes"
+    },
+    "monitoring":{
+         "phase3.environmentalConditions"    : "Condiciones ambientales"
+        ,"phase3.mainParametersOfGeneration" : "Parámetros principales de generación"
+        ,"phase3.netPower"                   : "Potencia Neta"
+        ,"phase3.powerCCDV"                  : "Potencia CCDV"
+        ,"phase3.heatRate"                   : "Régimen Térmico"
+    },
+    "_general":{
+         "body.welcome"               : "Bienvenido"
+        ,"body.welcome2"              : "Bienvenida"
+        ,"body.developingSystem"      : "Sistema en desarrollo"
+        ,"online"                     : "Conectado"
+        ,"offline"                    : "Desconectado"
+    }
+    ,"home"    : "Inicio"
+    ,"phase 3" : "Fase 3"
+    ,"phase 2" : "Fase 2"
+    ,"legalAgreement" : "Acuerdo legal"
+    ,"Catálogos" : "Catálogos"
+    ,"Inicio" : "Inicio"
+    ,"Configuración de   Cumplimientos":"Configuración de Cumplimientos"
+}

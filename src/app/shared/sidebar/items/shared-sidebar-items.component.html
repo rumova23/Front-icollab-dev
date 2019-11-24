@@ -1,9 +1,9 @@
-<a mat-list-item (click)="itemSelected(item)" class="sidebar_item"
+<a mat-list-item (click)="itemSelected(item)" class="sidebar_item" id="{{item.id}}"
     [ngStyle]="{'padding-left': (deep * indent) + units}">
   <mat-icon class="itemIcon" *ngIf="deep===0 || item.children">{{item.icon}}
   </mat-icon>
   <div class=" col-10 pl-2">
-    <span *ngIf="globalService.aside_open">{{item.label}}
+    <span *ngIf="globalService.aside_open">{{item.label | translate}}
     </span>
   </div>
   <span fxFlex *ngIf="item.children && item.children.length && globalService.aside_open" class="aside_icon_expand_right">
@@ -14,7 +14,9 @@
     </mat-icon>
   </span>
 </a>
-<div *ngIf="viewHide && globalService.aside_open">
-  <app-shared-sidebar-items *ngFor="let itemIn of item.children" [item]="itemIn" [deep]="deep + 1">
+
+<!--div *ngIf="viewHide && globalService.aside_open"-->
+<div>
+  <app-shared-sidebar-items *ngFor="let itemIn of item.children" [item]="itemIn" [deep]="deep + 1" [ngStyle]="{'display':viewHide && globalService.aside_open ? '' : 'none' }">
   </app-shared-sidebar-items>
 </div>
