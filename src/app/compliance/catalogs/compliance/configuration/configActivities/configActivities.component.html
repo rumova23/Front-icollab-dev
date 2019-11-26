@@ -251,125 +251,127 @@
             </div>
         </div>
 
-    <div class="row">
-      <!--  Período de entrega  -->
-      <div class="col-md-6">
-        <label>Período de entrega</label>
-        <div layout="row" layout-align="center center">
-          <div>
-            <div class="col-md-2">
-              <input type="number"
-                     class="form-control"
-                     [ngClass]="{ 'is-invalid': submitted && f.fPeriodoEntregaCantidad.errors }" matInput name="value" placeholder="Cantidad"
-                     formControlName="fPeriodoEntregaCantidad">
-              <div *ngIf="submitted && f.fPeriodoEntregaCantidad.errors" style="color:red">
-                <div *ngIf="f.fPeriodoEntregaCantidad.errors.required">Requerido</div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="col-md-6">
-              <select class="form-control"
-                      [compareWith]="compareFn"
-                      formControlName="fPeriodoEntregaUnidad"
-                      [ngClass]="{'is-invalid': submitted && f.fPeriodoEntregaUnidad.errors }">
-                <option
-                        *ngFor="let operator of comboUnitPeriod;"
-                        [value]="operator.value">
-                  {{operator.label}}
-                </option>
-              </select>
-              <div *ngIf="submitted && f.fPeriodoEntregaUnidad.errors" style="color:red">
-                <div *ngIf="f.fPeriodoEntregaUnidad.errors.required">Requerido</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--  Tipo de días  -->
-      <div class="col-md-6">
-        <div class="form-group">
-          <label>Tipo de días</label>
-          <select class="form-control"
-            [compareWith]="compareFn"
-            formControlName="fTipoDias"
-            [ngClass]="{ 'is-invalid': submitted && f.fTipoDias.errors }"
-          >
-            <option
-              *ngFor="let operator of comboTipoDias;"
-              [value]="operator.value"
-            >
-              {{operator.label}}
-            </option>
-          </select>
-          <div *ngIf="submitted && f.fTipoDias.errors" style="color:red">
-            <div *ngIf="f.fTipoDias.errors.required">Requerido</div>
-          </div>
-        </div>
-
-        <!--
-      <div class="row">
-        <div class="col-md-12">
-          <div class="md-form">
-            <mat-form-field class="w-100">
-              <mat-label>Planta</mat-label>
-              <mat-select [multiple]="true" (click)="onClickPlanta()" [disabled]="soloLectura" [compareWith]="compareFn"
-                formControlName="fPlanta" [ngClass]="{ 'is-invalid': submitted && f.fPlanta.errors }">
-                <mat-option *ngFor="let operator of comboPlanta" [disabled]="operator.value == plantaDefault"
-                  [value]="operator.value">{{operator.label}}</mat-option>
-              </mat-select>
-              <div *ngIf="submitted && f.fPlanta.errors" style="color:red">
-                <div *ngIf="f.fPlanta.errors.required">Requerido</div>
-              </div>
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-    -->
-        <!--  Estado del elemento:  -->
         <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Estado del elemento:</label><br />
-                    <mat-checkbox
-                        class="active"
-                        color="primary"
-                        (change)="chanceCheck()"
-                        [checked]="checkedEstatus"
-                        [disabled]="deshabiliarEstatus"
-                    >
-                        <mat-label>Activo</mat-label>
-                    </mat-checkbox>
+        <!--  Período de entrega  -->
+        <div class="col-md-6">
+            <label>Período de entrega</label>
+            <div layout="row" layout-align="center center">
+            <div>
+                <div class="col-md-2">
+                <input type="number"
+                        class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.fPeriodoEntregaCantidad.errors }" matInput name="value" placeholder="Cantidad"
+                        formControlName="fPeriodoEntregaCantidad">
+                <div *ngIf="submitted && f.fPeriodoEntregaCantidad.errors" style="color:red">
+                    <div *ngIf="f.fPeriodoEntregaCantidad.errors.required">Requerido</div>
+                </div>
                 </div>
             </div>
+            <div>
+                <div class="col-md-6">
+                <select class="form-control"
+                        [compareWith]="compareFn"
+                        formControlName="fPeriodoEntregaUnidad"
+                        [ngClass]="{'is-invalid': submitted && f.fPeriodoEntregaUnidad.errors }">
+                    <option
+                            *ngFor="let operator of comboUnitPeriod;"
+                            [value]="operator.value">
+                    {{operator.label}}
+                    </option>
+                </select>
+                <div *ngIf="submitted && f.fPeriodoEntregaUnidad.errors" style="color:red">
+                    <div *ngIf="f.fPeriodoEntregaUnidad.errors.required">Requerido</div>
+                </div>
+                </div>
+            </div>
+            </div>
         </div>
-        <!--  Botones  -->
+        <!--  Tipo de días  -->
+        <div class="col-md-6">
+            <div class="form-group">
+            <label>Tipo de días</label>
+            <select class="form-control"
+                [compareWith]="compareFn"
+                formControlName="fTipoDias"
+                [ngClass]="{ 'is-invalid': submitted && f.fTipoDias.errors }"
+            >
+                <option
+                *ngFor="let operator of comboTipoDias;"
+                [value]="operator.value"
+                >
+                {{operator.label}}
+                </option>
+            </select>
+            <div *ngIf="submitted && f.fTipoDias.errors" style="color:red">
+                <div *ngIf="f.fTipoDias.errors.required">Requerido</div>
+            </div>
+            </div>
+
+            <!--
         <div class="row">
             <div class="col-md-12">
-                <div class="d-flex justify-content-end">
-                    <button
-                        type="submit"
-                        class="btn btn-md"
-                        *ngIf="!soloLectura"
-                    >
-                        <i class="ti-pencil"></i>
-                        Guardar / Actualizar
-                    </button>
-                    <button
-                        type="button"
-                        class="btn btn-md"
-                        (click)="regresar()"
-                    >
-                        <i class="ti-angle-double-left"></i>
-                        Regresar
-                    </button>
+            <div class="md-form">
+                <mat-form-field class="w-100">
+                <mat-label>Planta</mat-label>
+                <mat-select [multiple]="true" (click)="onClickPlanta()" [disabled]="soloLectura" [compareWith]="compareFn"
+                    formControlName="fPlanta" [ngClass]="{ 'is-invalid': submitted && f.fPlanta.errors }">
+                    <mat-option *ngFor="let operator of comboPlanta" [disabled]="operator.value == plantaDefault"
+                    [value]="operator.value">{{operator.label}}</mat-option>
+                </mat-select>
+                <div *ngIf="submitted && f.fPlanta.errors" style="color:red">
+                    <div *ngIf="f.fPlanta.errors.required">Requerido</div>
+                </div>
+                </mat-form-field>
+            </div>
+            </div>
+        </div>
+        -->
+            <!--  Estado del elemento:  -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Estado del elemento:</label><br />
+                        <mat-checkbox
+                            class="active"
+                            color="primary"
+                            (change)="chanceCheck()"
+                            [checked]="checkedEstatus"
+                            [disabled]="deshabiliarEstatus"
+                        >
+                            <mat-label>Activo</mat-label>
+                        </mat-checkbox>
+                    </div>
+                </div>
+            </div>
+            <!--  Botones  -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-end">
+                        <button
+                            type="submit"
+                            class="btn btn-md"
+                            *ngIf="!soloLectura"
+                        >
+                            <i class="ti-pencil"></i>
+                            Guardar / Actualizar
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-md"
+                            (click)="regresar()"
+                        >
+                            <i class="ti-angle-double-left"></i>
+                            Regresar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
+        </div>
     </form>
-    <br />
-    <hr />
-    <br />
+    <br>
+    <hr>
+    <br>
     <div class="row" *ngIf="existeTagId">
         <div class="col text-right" *ngIf="!soloLectura">
             <button
@@ -658,6 +660,5 @@
                 </div>
             </div>
         </div>
-  </div>
   </div>
 </div>
