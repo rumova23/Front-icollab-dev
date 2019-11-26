@@ -28,6 +28,12 @@
         ,"online"                     : "On Line"
         ,"offline"                    : "Off Line"
     }
+    ,"paginator.items_per_page":"Items per page:"
+    ,"paginator.next_page":"Next page"
+    ,"paginator.previous_page":"Previous page"
+    ,"paginator.of":"of"
+    ,"paginator.last_page":"Last page"
+    ,"paginator.first_page":"First page"
     ,"home"    : "Home"
     ,"phase 3" : "Phase 3"
     ,"phase 2" : "Phase 2"

@@ -27,7 +27,12 @@
         ,"online"                     : "オンライン"
         ,"offline"                    : "オフライン"
     }
-
+    ,"paginator.items_per_page":"ページごとのアイテム:"
+    ,"paginator.next_page":"次のページ"
+    ,"paginator.previous_page":"前のページ"
+    ,"paginator.of":"の"
+    ,"paginator.last_page":"最後のページ"
+    ,"paginator.first_page":"最初のページ"
     ,"home"    : "始める"
     ,"phase 3" : "フェーズ3"
     ,"phase 2" : "フェーズ2"

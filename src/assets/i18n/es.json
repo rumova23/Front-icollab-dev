@@ -27,6 +27,12 @@
         ,"online"                     : "Conectado"
         ,"offline"                    : "Desconectado"
     }
+    ,"paginator.items_per_page":"Registros por página:"
+    ,"paginator.next_page":"Página siguiente"
+    ,"paginator.previous_page":"Página anterior"
+    ,"paginator.of":"de"
+    ,"paginator.last_page":"Última página"
+    ,"paginator.first_page":"Primera página"
     ,"home"    : "Inicio"
     ,"phase 3" : "Fase 3"
     ,"phase 2" : "Fase 2"
