@@ -34,6 +34,7 @@
     ,"add"     : "Add"
     ,"authorities":"Authorities"
     ,"categories":"Categories"
+    ,"Category":"Category"
     ,"Name":"Name"
     ,"Description":"Description"
     ,"User Updated": "User Updated"
@@ -44,6 +45,8 @@
     ,"Delete":"Delete"
     ,"Save / Update":"Save / Update"
     ,"To return":"To return"
+    ,"Prefix":"Prefix"
+    ,"Item Status":"Item Status"
 
     ,"legalAgreement" : "Legal agreement"
     ,"Catálogos" : "Catalogs"

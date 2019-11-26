@@ -34,6 +34,7 @@
     ,"add"     : "加える"
     ,"authorities":"当局"
     ,"categories":"カテゴリー"
+    ,"Category":"カテゴリア"
     ,"Name":"名"
     ,"Description":"説明"
     ,"User Updated": "ユーザーが変更しました"
@@ -44,6 +45,8 @@
     ,"Delete":"削除する"
     ,"Save / Update":"保存/更新"
     ,"To return":"戻る"
+    ,"Prefix":"プレフィックス"
+    ,"Item Status":"アイテムのステータス"
 
     ,"legalAgreement" : "法的契約"
     ,"Catálogos" : "カタログ"

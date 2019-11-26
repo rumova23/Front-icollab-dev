@@ -33,6 +33,7 @@
     ,"add"     : "Agregar"
     ,"authorities":"Autoridades"
     ,"categories":"Categorías"
+    ,"Category":"Categoría"
     ,"Name":"Nombre"
     ,"Description":"Descripción"
     ,"User Updated": "Usuario Modificó"
@@ -43,6 +44,8 @@
     ,"Delete":"Eliminar"
     ,"Save / Update":"Guardar / Actualizar"
     ,"To return":"Regresar"
+    ,"Prefix":"Prefijo"
+    ,"Item Status":"Estado del elemento"
 
     ,"legalAgreement" : "Acuerdo legal"
     ,"Catálogos" : "Catálogos"
