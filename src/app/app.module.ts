@@ -32,6 +32,7 @@ import { RomsModule                } from 'src/app/roms/roms.module';
 import { MockUpModule              } from 'src/app/mockUp/mockUpModule.module';
 import { GateModule                } from 'src/app/gate/gate.module';
 import { BitsModule                } from 'src/app/bits/bits.module';
+import { EfhModule				   } from './efh/efh.module';
 /* ./Modules */
 import  localePy                     from '@angular/common/locales/es-MX';
 
@@ -49,6 +50,7 @@ registerLocaleData(localePy, 'es');
 		,MonitoringModule
 		,SafeModule
 		,ComplianceModule
+		,EfhModule
 		,SecurityModule
 		,RomsModule
 		,GateModule

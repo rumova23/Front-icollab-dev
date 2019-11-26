@@ -1,0 +1,412 @@
+<div class="section">
+  <div class="row pb-3">
+    <div class="col">
+      <p class="section_titulo_0">Configuración de Eventos</p>
+    </div>
+  </div>
+  <div class="row pb-3">
+    <div class="col">
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn"
+                [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
+                [disabled]="disabledSave" *ngIf="accion != 'ver'">
+          <i class="ti-pencil"></i>
+          Guardar / Actualizar
+        </button>
+        <button type="button" class="btn"
+                [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
+                (click)="regresar()">
+          <i class="ti-angle-double-left"></i>
+          Regresar
+        </button>
+      </div>
+    </div>
+  </div>
+  <form [formGroup]="eventForm">
+    <div class="row"> <!-- Combos encabezado -->
+      <div class="col-md-3">
+        <div class="form-group">
+          <small class="form-text text-muted text-left">Tipo de Evento:</small>
+          <select class="custom-select col-md-11 custom-select-sm" formControlName="eventTypeControl">
+            <option class="custom-option" [ngValue]="event" *ngFor="let event of eventTypesArr">{{event.name}}</option>
+          </select>
+          <div class="arrow1">
+            <span><i class="fas fas fa-angle-down"></i></span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <small class="form-text text-muted text-left">Unidad:</small>
+          <select class="custom-select col-md-11 custom-select-sm" formControlName="unitControl">
+            <option class="custom-option" [ngValue]="unit" *ngFor="let unit of unitsArr">{{unit.name}}</option>
+          </select>
+          <div class="arrow1">
+            <span><i class="fas fas fa-angle-down"></i></span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <small class="form-text text-muted text-left">Tipo de combustible:</small>
+          <select class="custom-select col-md-11 custom-select-sm" formControlName="fuelTypeControl">
+            <option class="custom-option" [ngValue]="fuel" *ngFor="let fuel of fuelTypesArr">{{fuel.name}}</option>
+          </select>
+          <div class="arrow1">
+            <span><i class="fas fas fa-angle-down"></i></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <br/>
+    <div style="border-style: groove"><!-- Section Disparo -->
+      <div class="row">
+        <div class="col">
+          <br/>
+          <label style="color: #0F5787; font-weight: bold; margin-left: 2%">Disparo</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Fecha Pérdida de Flama (Flame Off):</small>
+            <span class="input input--input_circular_entrada">
+                <input class="input__field input__field--input_circular_entrada" type="date" id="input-1" style="text-align: center"/>
+                <label class="input__label input__label--input_circular_entrada" for="input-1">
+                    <span class="input__label-content input__label-content--input_circular_entrada"></span>
+                </label>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Hora Pérdida de Flama (Flame Off):</small>
+            <span class="input input--input_circular_entrada">
+                <input class="input__field input__field--input_circular_entrada" type="time" min="00:00:00" max="23:59:59" id="input-2" step="1" style="text-align: center"/>
+                <label class="input__label input__label--input_circular_entrada" for="input-2">
+                    <span class="input__label-content input__label-content--input_circular_entrada"></span>
+                </label>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Fecha Velocidad Plena sin Carga (FSNL):</small>
+            <span class="input input--input_circular_entrada">
+                <input class="input__field input__field--input_circular_entrada" type="date" id="input-3" style="text-align: center"/>
+                <label class="input__label input__label--input_circular_entrada" for="input-3">
+                    <span class="input__label-content input__label-content--input_circular_entrada"></span>
+                </label>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Hora Velocidad Plena sin Carga (FSNL):</small>
+            <span class="input input--input_circular_entrada">
+                <input class="input__field input__field--input_circular_entrada" type="time" min="00:00:00" max="23:59:59" id="input-4" step="1" style="text-align: center"/>
+                <label class="input__label input__label--input_circular_entrada" for="input-4">
+                    <span class="input__label-content input__label-content--input_circular_entrada"></span>
+                </label>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Carga antes del disparo(MW):</small>
+            <span class="input input--input_circular_entrada">
+					<input class="input__field input__field--input_circular_entrada" type="text" id="input-5" />
+					<label class="input__label input__label--input_circular_entrada" for="input-5">
+						<span class="input__label-content input__label-content--input_circular_entrada"></span>
+					</label>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <div style="border-style: groove"><!-- Section Rechazo Carga -->
+      <div class="row">
+        <div class="col">
+          <br/>
+          <label style="color: #0F5787; font-weight: bold; margin-left: 2%">Rechazo de Carga</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Fecha Rechazo de Carga:</small>
+            <span class="input input--input_circular_entrada">
+                <input class="input__field input__field--input_circular_entrada" type="date" id="input-6" style="text-align: center"/>
+                <label class="input__label input__label--input_circular_entrada" for="input-6">
+                    <span class="input__label-content input__label-content--input_circular_entrada"></span>
+                </label>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Hora Rechazo de Carga:</small>
+            <span class="input input--input_circular_entrada">
+                <input class="input__field input__field--input_circular_entrada" type="time" min="00:00:00" max="23:59:59" id="input-7" step="1" style="text-align: center"/>
+                <label class="input__label input__label--input_circular_entrada" for="input-7">
+                    <span class="input__label-content input__label-content--input_circular_entrada"></span>
+                </label>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Carga antes del rechazo(MW):</small>
+            <span class="input input--input_circular_entrada">
+					<input class="input__field input__field--input_circular_entrada" type="text" id="input-8" />
+					<label class="input__label input__label--input_circular_entrada" for="input-8">
+						<span class="input__label-content input__label-content--input_circular_entrada"></span>
+					</label>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <div style="border-style: groove"><!-- Section Runback -->
+      <div class="row">
+        <div class="col">
+          <br/>
+          <label style="color: #0F5787; font-weight: bold; margin-left: 2%">Runback</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Fecha Inicio del runback:</small>
+            <span class="input input--input_circular_entrada">
+                <input class="input__field input__field--input_circular_entrada" type="date" id="input-9" style="text-align: center"/>
+                <label class="input__label input__label--input_circular_entrada" for="input-9">
+                    <span class="input__label-content input__label-content--input_circular_entrada"></span>
+                </label>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Hora Inicio del runback:</small>
+            <span class="input input--input_circular_entrada">
+                <input class="input__field input__field--input_circular_entrada" type="time" min="00:00:00" max="23:59:59" id="input-10" step="1" style="text-align: center"/>
+                <label class="input__label input__label--input_circular_entrada" for="input-10">
+                    <span class="input__label-content input__label-content--input_circular_entrada"></span>
+                </label>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Fecha Fin del runback:</small>
+            <span class="input input--input_circular_entrada">
+                <input class="input__field input__field--input_circular_entrada" type="date" id="input-11" style="text-align: center"/>
+                <label class="input__label input__label--input_circular_entrada" for="input-11">
+                    <span class="input__label-content input__label-content--input_circular_entrada"></span>
+                </label>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Hora Fin del runback:</small>
+            <span class="input input--input_circular_entrada">
+                <input class="input__field input__field--input_circular_entrada" type="time" min="00:00:00" max="23:59:59" id="input-12" step="1" style="text-align: center"/>
+                <label class="input__label input__label--input_circular_entrada" for="input-12">
+                    <span class="input__label-content input__label-content--input_circular_entrada"></span>
+                </label>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Carga antes del runback(MW):</small>
+            <span class="input input--input_circular_entrada">
+					<input class="input__field input__field--input_circular_entrada" type="text" id="input-13" />
+					<label class="input__label input__label--input_circular_entrada" for="input-13">
+						<span class="input__label-content input__label-content--input_circular_entrada"></span>
+					</label>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Carga después del runback(MW):</small>
+            <span class="input input--input_circular_entrada">
+					<input class="input__field input__field--input_circular_entrada" type="text" id="input-14" />
+					<label class="input__label input__label--input_circular_entrada" for="input-14">
+						<span class="input__label-content input__label-content--input_circular_entrada"></span>
+					</label>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <div style="border-style: groove"><!-- Section Paro -->
+      <div class="row">
+        <div class="col">
+          <br/>
+          <label style="color: #0F5787; font-weight: bold; margin-left: 2%">Paro</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Fecha Pérdida de Flama (Flame Off):</small>
+            <span class="input input--input_circular_entrada">
+                <input class="input__field input__field--input_circular_entrada" type="date" id="input-15" style="text-align: center"/>
+                <label class="input__label input__label--input_circular_entrada" for="input-15">
+                    <span class="input__label-content input__label-content--input_circular_entrada"></span>
+                </label>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Hora Pérdida de Flama (Flame Off):</small>
+            <span class="input input--input_circular_entrada">
+                <input class="input__field input__field--input_circular_entrada" type="time" min="00:00:00" max="23:59:59" id="input-16" step="1" style="text-align: center"/>
+                <label class="input__label input__label--input_circular_entrada" for="input-16">
+                    <span class="input__label-content input__label-content--input_circular_entrada"></span>
+                </label>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Fecha Velocidad Plena sin Carga (FSNL):</small>
+            <span class="input input--input_circular_entrada">
+                <input class="input__field input__field--input_circular_entrada" type="date" id="input-17" style="text-align: center"/>
+                <label class="input__label input__label--input_circular_entrada" for="input-17">
+                    <span class="input__label-content input__label-content--input_circular_entrada"></span>
+                </label>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Hora Velocidad Plena sin Carga (FSNL):</small>
+            <span class="input input--input_circular_entrada">
+                <input class="input__field input__field--input_circular_entrada" type="time" min="00:00:00" max="23:59:59" id="input-18" step="1" style="text-align: center"/>
+                <label class="input__label input__label--input_circular_entrada" for="input-18">
+                    <span class="input__label-content input__label-content--input_circular_entrada"></span>
+                </label>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Carga antes del paro(MW):</small>
+            <span class="input input--input_circular_entrada">
+					<input class="input__field input__field--input_circular_entrada" type="text" id="input-19" />
+					<label class="input__label input__label--input_circular_entrada" for="input-19">
+						<span class="input__label-content input__label-content--input_circular_entrada"></span>
+					</label>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <div style="border-style: groove"><!-- Section Diesel -->
+      <div class="row">
+        <div class="col">
+          <br/>
+          <label style="color: #0F5787; font-weight: bold; margin-left: 2%">Operación en Diesel</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Fecha Inicio Operación en Diesel:</small>
+            <span class="input input--input_circular_entrada">
+                <input class="input__field input__field--input_circular_entrada" type="date" id="input-20" style="text-align: center"/>
+                <label class="input__label input__label--input_circular_entrada" for="input-20">
+                    <span class="input__label-content input__label-content--input_circular_entrada"></span>
+                </label>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Hora Inicio Operación en Diesel:</small>
+            <span class="input input--input_circular_entrada">
+                <input class="input__field input__field--input_circular_entrada" type="time" min="00:00:00" max="23:59:59" id="input-21" step="1" style="text-align: center"/>
+                <label class="input__label input__label--input_circular_entrada" for="input-21">
+                    <span class="input__label-content input__label-content--input_circular_entrada"></span>
+                </label>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Fecha Fin Operación en Diesel:</small>
+            <span class="input input--input_circular_entrada">
+                <input class="input__field input__field--input_circular_entrada" type="date" id="input-22" style="text-align: center"/>
+                <label class="input__label input__label--input_circular_entrada" for="input-22">
+                    <span class="input__label-content input__label-content--input_circular_entrada"></span>
+                </label>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <small class="form-text text-muted" style="margin-left: 15%">Hora Fin Operación en Diesel:</small>
+            <span class="input input--input_circular_entrada">
+                <input class="input__field input__field--input_circular_entrada" type="time" min="00:00:00" max="23:59:59" id="input-23" step="1" style="text-align: center"/>
+                <label class="input__label input__label--input_circular_entrada" for="input-23">
+                    <span class="input__label-content input__label-content--input_circular_entrada"></span>
+                </label>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <div class="col-md-12">
+      <div class="form-group">
+        <small class="form-text text-muted">Descripción:</small>
+        <textarea rows="4" style="width: 100%" ></textarea>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="form-group">
+        <small class="form-text text-muted">Observaciones:</small>
+        <textarea rows="4" style="width: 100%" ></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-4">
+        <ng-container>
+          <div class="form-group">
+            <label>Estado del elemento:</label><br>
+            <mat-checkbox class="active" color="primary"
+                          (change)="changeCheck();"
+                          [checked]="checkedEstatus"
+                          [disabled]="deshabiliarEstatus">
+              <mat-label>Activo</mat-label>
+            </mat-checkbox>
+          </div>
+        </ng-container>
+      </div><div class="col-md-6 col-lg-4">
+      <ng-container>
+        <div class="form-group">
+          <label>Evidencia:</label><br>
+          <input type="file">
+        </div>
+      </ng-container>
+    </div>
+    </div>
+  </form>
+</div>

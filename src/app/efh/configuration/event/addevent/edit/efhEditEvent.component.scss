@@ -1,0 +1,192 @@
+*, *:after, *:before { -webkit-box-sizing: border-box; box-sizing: border-box; }
+.clearfix:before, .clearfix:after { content: ''; display: table; }
+.clearfix:after { clear: both; }
+
+/*inputs*/
+
+
+.input {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+
+  /*max-width: 500px;*/
+  width: calc(100% - 2em);
+  vertical-align: top;
+}
+
+.input__field {
+  position: relative;
+  display: block;
+  float: right;
+  width: 60%;
+  border: none;
+  border-radius: 0;
+  background: #f0f0f0;
+  color: #535d92;
+
+  -webkit-appearance: none;
+}
+
+.input__field:focus {
+  outline: none;
+}
+
+.input__label {
+  display: inline-block;
+  float: right;
+
+  width: 40%;
+  color: #535d92;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.input__label-content {
+  position: relative;
+  display: block;
+
+  width: 100%;
+}
+
+/* input_circular_entrada */
+.input--input_circular_entrada {
+  z-index: auto;
+}
+
+.input__field--input_circular_entrada, .custom-select, .dropdown-toggle {
+  padding: 0.4em 1.5em;
+  width: 90%;
+  border-radius: 2em;
+  background: #e8e8e8;
+  color: #535d92;
+}
+
+.input__label--input_circular_entrada, .custom-select {
+  z-index: 0;
+  padding: 0 0 0 2em;
+  width: 90%;
+  text-align: left;
+
+}
+
+.input__label--input_circular_entrada::after {
+  /*content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  background: rgba(11, 43, 205, 0.6);
+  opacity: 0;
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+  pointer-events: none;*/
+}
+
+.input__label-content--input_circular_entrada {
+  padding: 0.5em 0;
+
+
+}
+
+.input__field--input_circular_entrada:focus,
+.input__field--input_circular_entrada:focus +  .input__label--input_circular_entrada .input__label-content--input_circular_entrada {
+  z-index: 10000;
+
+}
+
+.input__field--input_circular_entrada:focus + .input__label--input_circular_entrada {
+  color: #fff;
+}
+
+.input__field--input_circular_entrada:focus + .input__label--input_circular_entrada::after {
+  opacity: 1;
+}
+
+/* select_option */
+.input--select_option {
+  /*margin: 1.1em;*/
+}
+
+.input__field--select_option {
+  width: 100%;
+  background: transparent;
+  color: #7A7593;
+}
+
+.input__label--select_option {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: #7A7593;
+  text-align: left;
+  cursor: text;
+}
+
+.input__label-content--select_option {
+  -webkit-transform-origin: 0% 50%;
+  transform-origin: 0% 50%;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+}
+
+.graphic--select_option {
+  -webkit-transform: scale3d(1, -1, 1);
+  transform: scale3d(1, -1, 1);
+  -webkit-transition: stroke-dashoffset 0.3s;
+  transition: stroke-dashoffset 0.3s;
+  pointer-events: none;
+
+  stroke: #7A7593;
+  stroke-width: 4px;
+  stroke-dasharray: 962;
+  stroke-dashoffset: 558;
+}
+
+.input__field--select_option:focus + .input__label--select_option,
+.input--filled .input__label--select_option {
+  cursor: default;
+  pointer-events: none;
+}
+
+.input__field--select_option:focus + .input__label--select_option .graphic--select_option,
+.input--filled .graphic--select_option {
+  stroke-dashoffset: 0;
+}
+
+.input__field--select_option:focus + .input__label--select_option .input__label-content--select_option,
+.input--filled .input__label-content--select_option {
+  -webkit-transform: scale3d(0.81, 0.81, 1) translate3d(0, 4em, 0);
+  transform: scale3d(0.81, 0.81, 1) translate3d(0, 4em, 0);
+}
+
+.custom-select {
+  position: relative;
+}
+
+.arrow1{
+  position: absolute;
+  color: #7A7593;
+  right:60px;
+  bottom:20px;
+  font-size:15px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: rgba(0, 0, 0, 0);
+  opacity: 1;
+  display: block;
+  background: url('/assets/img/icon_calendar.png') no-repeat;
+  width: 20px;
+  height: 20px;
+  border-width: thin;
+}

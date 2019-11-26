@@ -85,6 +85,9 @@ export class ThemeService {
             case "Compliance":
                 label ="Compliance";
                 break;
+            case "Efh":
+                label ="EFH";
+                break;
             default:
                 label ="default";
                 break;
@@ -108,6 +111,9 @@ export class ThemeService {
                 break;
             case "Security":
                 logo = "/assets/img/common/ico_mod/Compliance-v2.png";
+                break;
+            case "Efh":
+                logo = "/assets/img/common/ico_mod/EFH.png";
                 break;
             default:
                 logo ="default";
