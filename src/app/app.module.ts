@@ -32,8 +32,10 @@ import { RomsModule                } from 'src/app/roms/roms.module';
 import { MockUpModule              } from 'src/app/mockUp/mockUpModule.module';
 import { GateModule                } from 'src/app/gate/gate.module';
 import { BitsModule                } from 'src/app/bits/bits.module';
+import { EfhModule				   } from './efh/efh.module';
 /* ./Modules */
 import  localePy                     from '@angular/common/locales/es-MX';
+import { TranslateService } from '@ngx-translate/core';
 
 
 registerLocaleData(localePy, 'es');
@@ -49,6 +51,7 @@ registerLocaleData(localePy, 'es');
 		,MonitoringModule
 		,SafeModule
 		,ComplianceModule
+		,EfhModule
 		,SecurityModule
 		,RomsModule
 		,GateModule
@@ -62,7 +65,16 @@ registerLocaleData(localePy, 'es');
 		EventService,
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor,   multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-		{ provide: MatPaginatorIntl,  useClass: MatPaginatorIntlSpanish },
+		//{ provide: MatPaginatorIntl,  useClass: MatPaginatorIntlSpanish },
+		{
+			provide: MatPaginatorIntl,
+			useFactory: (translate) => {
+			  const service = new MatPaginatorIntlSpanish();
+			  service.injectTranslateService(translate);
+			  return service;
+			},
+			deps: [TranslateService]
+		},
 		{ provide: LOCALE_ID, useValue: 'es' }
 	],
 	entryComponents: [],

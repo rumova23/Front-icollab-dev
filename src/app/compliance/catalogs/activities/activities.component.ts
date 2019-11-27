@@ -59,7 +59,7 @@ export class ActivitiesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
-    this.titulo = 'Catálogos / ' + this.nombreCatalogo;
+    this.titulo =  this.nombreCatalogo;
     this.addBlock(1, null);
     this.obtenerListaActividades();
     /*

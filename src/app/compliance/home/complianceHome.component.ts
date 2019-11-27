@@ -89,9 +89,10 @@ export class ComplianceHomeComponent implements OnInit {
 							.detectChanges();
 						break;
 					case 'Compliance.Autoridades':
+					case 'Compliance.ComplianceTypesComponent':
 						let refComplianceTypes = this.viewContainerRef
 							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceTypesComponent));
-						refComplianceTypes.instance.nombreCatalogo = 'Autoridades';
+						refComplianceTypes.instance.nombreCatalogo = 'authorities';
 						refComplianceTypes.changeDetectorRef.detectChanges();
 						break;
 					case "Compliance.Autoridades.ABC":
@@ -103,7 +104,7 @@ export class ComplianceHomeComponent implements OnInit {
 					case 'Compliance.Categorías':
 						let refActivities =
 							this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(ActivitiesComponent));
-						refActivities.instance.nombreCatalogo = 'Categorías';
+						refActivities.instance.nombreCatalogo = 'categories';
 						refActivities.changeDetectorRef.detectChanges();
 						break;  
 					case 'Compliance.Categorías.ABC':

@@ -30,7 +30,7 @@
 		  <div class="row">
 			<div class="col-md-4">
 					<div class="form-group">
-						<label>Prefijo</label>
+						<label>{{'Prefix' | translate}}</label>
 						<input mdbInput class="form-control" formControlName="fPrefijo"
 								#code maxlength="30">
 						<small class="form-text text-muted text-right">
@@ -46,7 +46,7 @@
 		  <div class="row">
 		  <div class="col-md-12">
 				<div class="form-group">
-					<label>Categoría</label>
+					<label>  {{'Category' | translate}}  </label>
             		<input mdbInput class="form-control" formControlName="fActividad"
 						   #categoria maxlength="100">
 					<small class="form-text text-muted text-right">{{categoria.value?.length || 0}}/100</small>
@@ -120,12 +120,12 @@
             <div class="col">
               <ng-container>
 					<div class="form-group">
-						<label>Estado del elemento:</label><br>
+						<label>{{'Item Status' | translate}}:</label><br>
 						<mat-checkbox class="active" color="primary" 
 							(change)="chanceCheck();"
 							[checked]="checkedEstatus"
 							[disabled]="deshabiliarEstatus">
-							<mat-label>Activo</mat-label>
+							<mat-label>{{'Active' | translate}} </mat-label>
 						</mat-checkbox>
                     </div>
               </ng-container>
@@ -139,16 +139,15 @@
             <div class="col-md-12">
               <div class="d-flex justify-content-end">
                 <button type="submit" class="btn"
-                  [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
                   [disabled]="disabledSave" *ngIf="!soloLectura">
                   <i class="ti-pencil"></i>
-                  Guardar / Actualizar
+			              {{'Save / Update' | translate}}
                   </button>
                   <button type="button" class="btn"
-                  [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
                   (click)="regresar()" >
                   <i class="ti-angle-double-left"></i>
-                  Regresar</button>
+                  {{'To return' |translate}}
+                  </button>
                 </div>
             </div>
           </div>
@@ -178,7 +177,6 @@
         </div>
         <div style="text-align: right;" *ngIf="showClone">
           <button type="button" class="btn"
-            [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
             (click)="clonar()"
             [disabled]="!checkedClone">Clonar
           </button>
@@ -203,7 +201,6 @@
         </div>
         <div style="text-align: right;" *ngIf="showEditClonated && !cloned">
           <button type="button" class="btn"
-            [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
             (click)="editClonated()"
             [disabled]="!checkedEditClonated">Actualizar elementos clonados
           </button>
