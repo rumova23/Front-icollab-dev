@@ -52,6 +52,8 @@
     ,"To return":"Regresar"
     ,"Prefix":"Prefijo"
     ,"Item Status":"Estado del elemento"
+    ,"Inactive":"Inactivo"
+    ,"Active":"Activo"
 
     ,"legalAgreement" : "Acuerdo legal"
     ,"Catálogos" : "Catálogos"
@@ -59,6 +61,9 @@
     ,"Configuración de   Cumplimientos":"Configuración de Cumplimientos"
     ,"Inactivo":"Inactivo"
     ,"Activo":"Activo"
-    ,"Inactive":"Inactivo"
-    ,"Active":"Activo"
+    ,"General":"General"
+    ,"Administración":"Administración"
+    ,"Monitoreo":"Monitoreo"
+    ,"Catálogos SAT":"Catálogos SAT"
+    ,"Modelo de Mercado":"Modelo de Mercado"
 }

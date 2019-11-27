@@ -53,6 +53,8 @@
     ,"To return":"To return"
     ,"Prefix":"Prefix"
     ,"Item Status":"Item Status"
+    ,"Inactive":"Inactive"
+    ,"Active":"Active"
 
     ,"legalAgreement" : "Legal agreement"
     ,"Catálogos" : "Catalogs"
@@ -60,6 +62,9 @@
     ,"Configuración de   Cumplimientos":"Compliance Settings"
     ,"Inactivo":"Inactive"
     ,"Activo":"Active"
-    ,"Inactive":"Inactive"
-    ,"Active":"Active"
+    ,"General":"General"
+    ,"Administración":"Administration"
+    ,"Monitoreo":"Monitoring"
+    ,"Catálogos SAT":"SAT Catalogs"
+    ,"Modelo de Mercado":"Market Model"
 }

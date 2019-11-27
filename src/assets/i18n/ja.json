@@ -52,6 +52,8 @@
     ,"To return":"戻る"
     ,"Prefix":"プレフィックス"
     ,"Item Status":"アイテムのステータス"
+    ,"Inactive":"アイドル状態"
+    ,"Active":"アクティブ"
 
     ,"legalAgreement" : "法的契約"
     ,"Catálogos" : "カタログ"
@@ -59,6 +61,9 @@
     ,"Configuración de   Cumplimientos":"コンプライアンス設定"
     ,"Inactivo":"アイドル状態"
     ,"Activo":"アクティブ"
-    ,"Inactive":"アイドル状態"
-    ,"Active":"アクティブ"
+    ,"General":"全般"
+    ,"Administración":"運営"
+    ,"Monitoreo":"モニタリング"
+    ,"Catálogos SAT":"SATカタログ"
+    ,"Modelo de Mercado":"市場モデル"
 }
