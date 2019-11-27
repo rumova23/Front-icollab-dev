@@ -41,6 +41,17 @@ export class AdministratorComplianceService {
     return this.http.get( `${ this.mastercatalog }mastercatalog/mastercatalog/TIPO_CUMPLIMIENTO`,
         {params : this.parameters });
   }
+  apruebaMatrizCumplimiento(anio: number) {
+    let user = JSON.parse(localStorage.getItem('user'));
+    user = user.username;
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.post( `${ this.seguimientoUrl }legal/aprobar/matriz/${anio}`, user, {params : this.parameters });
+  }
+
+   liberaMatrizCumplimiento(anio: number) {
+    this.setXTenantId(this.globalService.aguila);
+    return this.http.post( `${ this.seguimientoUrl }legal/libera/matriz`, anio, {params : this.parameters });
+  }
 
   initComboActividades() {
     this.setXTenantId(this.globalService.aguila);

@@ -139,16 +139,12 @@ export class ConfigActivitiesComponent implements OnInit {
     this.habilitarActividad = false;
 
     this.comboActividades = new Array<Combo>();
-    
     this.comboTipoCumplimiento = new Array<Combo>();
     this.comboAutoridad = new Array<Combo>();
     this.comboTipoAplicacion = new Array<Combo>();
     this.comboUnitPeriod = new Array<Combo>();
     this.comboTipoDias = new Array<Combo>();
-    //this.comboPlanta = new Array<Combo>();
-    //this.plantas = new Array<TagPlanta>();
     this.comboEstatus = new Array<Combo>();
-    
     let statusConsult: string = null;
     if ( this.accion === 'edit' || 'ver' ){
       statusConsult = 'TODOS'
@@ -158,50 +154,17 @@ export class ConfigActivitiesComponent implements OnInit {
     this.listaCombos.push( new OrderCatalogDTO('typeCompliance', 1, 1));
     this.listaCombos.push( new OrderCatalogDTO('authority', 1, 1));
     this.listaCombos.push( new OrderCatalogDTO('typeApplication',1, 1));
-    this.listaCombos.push( new OrderCatalogDTO('deliveryPeriod', 1, 1));
     this.listaCombos.push( new OrderCatalogDTO('typeDay', 1, 1));
-    //this.listaCombos.push( new OrderCatalogDTO('legalRequirement', 1, 1)); 
-    
-    //this.addBlock(1, "Cargando...");
-     
     this.tagService.getlistCatalogoOrdenados(this.listaCombos).subscribe(
       poRespuesta => {
         this.resuelveDS(poRespuesta, this.comboTipoCumplimiento, 'typeCompliance');
         this.resuelveDS(poRespuesta, this.comboAutoridad, 'authority');
         this.resuelveDS(poRespuesta, this.comboTipoAplicacion, 'typeApplication');
         this.resuelveDS(poRespuesta, this.comboTipoDias, 'typeDay');
-        //this.resuelveDS(poRespuesta, this.comboPlanta, 'legalRequirement');
       }
     ).add(() => {
       this.addBlock(2, null);
     });
-    
-    //this.addBlock(1, "Cargando...");
-    /*
-    this.tagService.getEstatusMaestroOpcion().subscribe(
-      catalogoResult => {
-        console.log(catalogoResult)
-        this.entidadEstatus = catalogoResult;
-        this.entidadEstatus.forEach(element => {
-          if ( element.estatus.nombre === 'Activo' ){
-            this.checkedActivoId = element.estatus.estatusId;
-          }
-
-          if ( element.estatus.nombre === 'Inactivo' ){
-            this.checkedInactivoId = element.estatus.estatusId;
-          }
-          //this.addBlock(2, null);
-        });
-      },
-      error => {
-        console.log("Error al obtener catalgo de estatus.");
-        console.log(<any>error)
-        //this.addBlock(2, null);
-        this.toastr.errorToastr('Error al cargar estatus maestro.', 'Lo siento,');
-      }
-    ).add(() => {
-      this.addBlock(2, null);
-    });*/
 
     this.addBlock(1, "Cargando...");
     let statusConsultActivity = 'ACTIVOS';
@@ -246,20 +209,16 @@ export class ConfigActivitiesComponent implements OnInit {
       fTipoAplicacion: ['', Validators.required],
       fPeriodoEntregaCantidad: ['', Validators.required],
       fPeriodoEntregaUnidad: ['', Validators.required],
-      fTipoDias: ['', Validators.required],
-      //fPlanta: ['', Validators.required],
-      
+      fTipoDias: ['', Validators.required]
     });
-
-    
     this.idsTagPrecedentes = [];
 
     if (this.accion === 'edit') {
       this.deshabiliarEstatus = false;
-      this.titulo = "Editar / Configuración de Cumplimiento";
+      this.titulo = 'Editar / Configuración de Cumplimiento';
     } else if (this.accion === 'ver') {
       this.deshabiliarEstatus = true;
-      this.titulo = "Consultar / Configuración de Cumplimiento";
+      this.titulo = 'Consultar / Configuración de Cumplimiento';
     } else {
       this.checkedEstatus = true;
       this.deshabiliarEstatus = false;
@@ -277,16 +236,11 @@ export class ConfigActivitiesComponent implements OnInit {
 
   submitted = false;
   onSubmit() {
-
-    //this.onClickPlanta();
-
     this.submitted = true;
     // stop here if form is invalid
     if (this.configActividadesForm.invalid) {
       console.log('Error!! :-)\n\n' + JSON.stringify(this.configActividadesForm.value));
-
       this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Lo siento,');
-      //alert("Todos los campos son obligatorios, verifique");
       return;
     }
 
@@ -294,15 +248,13 @@ export class ConfigActivitiesComponent implements OnInit {
 
   }
 
-  chanceCheck(){
+  chanceCheck() {
     if (this.checkedEstatus)
       this.checkedEstatus = false;
     else{
       this.checkedEstatus = true;
     }
   }
-
-  //Guarda o Actualiza un TAG
   guardarConfiguracionActividad() {
 
     let tagId = 0; //ID TAG, AUTONUMERICO
@@ -712,34 +664,6 @@ export class ConfigActivitiesComponent implements OnInit {
 
   }
 
-  /*
-  onClickPlanta() {
-
-    let plantasSeleccionadas = new Array<String>();
-    if (this.configActividadesForm.controls['fPlanta'].value != null && this.configActividadesForm.controls['fPlanta'].value != "") {
-      this.configActividadesForm.controls['fPlanta'].value.forEach(element => {
-        let planta: TagPlanta
-        planta = new TagPlanta(element)
-        plantasSeleccionadas.push(planta.plantaId.toString())
-      });
-    }
-
-    let arreglo: Array<String>;
-    arreglo = new Array<String>();
-    this.comboPlanta.forEach(element => {
-      if (element.value == this.plantaDefault) {
-        arreglo.push(element.value.toString())
-      }
-    });
-
-    plantasSeleccionadas.forEach(element => {
-      arreglo.push(element)
-    });
-
-
-    this.configActividadesForm.controls['fPlanta'].patchValue(arreglo);
-  }
-  */
 
   //Loadin
   private addBlock(type, msg): void {

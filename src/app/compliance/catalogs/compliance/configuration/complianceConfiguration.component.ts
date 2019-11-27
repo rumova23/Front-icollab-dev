@@ -18,6 +18,7 @@ import {AdministratorComplianceService} from '../../../administration/services/a
 import {User} from '../../../../security/models/User';
 import {MatrizCumplimientoDTO} from '../../../models/matriz-cumplimiento-dto';
 import {TagOutDTO} from '../../../models/tag-out-dto';
+import {GenerigResponseDTO} from '../../../models/GenerigResponseDTO';
 
 @Component({
   selector: 'app-complianceConfiguration',
@@ -230,11 +231,19 @@ export class ComplianceConfigurationComponent implements OnInit {
     }
 
     aprobarMatriz() {
-
+        this.administratorComplianceService.apruebaMatrizCumplimiento(this.filtrosForm.controls.fAnio.value).subscribe(
+            response => {
+                this.toastr.successToastr('Se aprobo correctamente la matriz de cumplimiento', '¡Se ha logrado!');
+                this.obtenerListaTags(this.filtrosForm.controls.fAnio.value);
+            });
     }
 
     liberarMatriz() {
-
+        this.administratorComplianceService.liberaMatrizCumplimiento(this.filtrosForm.controls.fAnio.value).subscribe(
+            (responseLiberacion: GenerigResponseDTO) => {
+                this.toastr.successToastr(responseLiberacion.mensaje, '¡Se ha logrado!');
+                this.obtenerListaTags(this.filtrosForm.controls.fAnio.value);
+            });
     }
     getTasks() {
         if (this.filtrosForm.controls.fTipoCumplimiento.value > 0 && this.filtrosForm.controls.fActividad.value > 0) {

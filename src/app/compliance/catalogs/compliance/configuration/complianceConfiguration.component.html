@@ -8,10 +8,10 @@
   <form class="mt-5" [formGroup]="filtrosForm">
     <div class="row" *ngIf="isSupervisor">
       <div class="form-group col-12 col-md-6 col-lg-4">
-        <button type="button" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" (click)="aprobarLiberarMatriz()">Aprobar Matriz Cumplimiento</button>
+        <button type="button" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" (click)="aprobarMatriz()">Aprobar Matriz Cumplimiento</button>
       </div>
       <div class="form-group col-12 col-md-6 col-lg-4">
-        <button type="button" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" (click)="aprobarLiberarMatriz()">Liberar Matriz Cumplimiento</button>
+        <button type="button" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" (click)="liberarMatriz()">Liberar Matriz Cumplimiento</button>
       </div>
     </div>
     <div class="row" *ngIf="isSupervisor">
