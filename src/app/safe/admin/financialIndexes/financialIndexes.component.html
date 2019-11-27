@@ -21,20 +21,30 @@
             <form [formGroup]="conexionForm" (ngSubmit)="onSubmit(conexionForm.value)">
                 <div class="row">
                     <div class="col">
-                        <mat-form-field>
+                        
+					    <div class="form-group">
+                            <label for="dateInit">Fecha Inicio</label>
+                            <input type="date" class="form-control" id="dateInit" formControlName="dateInit" [(ngModel)]="search.dateInit">
+                        </div>
+                        <!--mat-form-field>
                             <input matInput [matDatepicker]="dateInit" [(ngModel)]="search.dateInit"
                                 formControlName="dateInit" ngDefaultControl placeholder="Fecha Inicio">
                             <mat-datepicker-toggle matSuffix [for]="dateInit"></mat-datepicker-toggle>
                             <mat-datepicker #dateInit></mat-datepicker>
-                        </mat-form-field>
+                        </mat-form-field-->
                     </div>
                     <div class="col">
-                        <mat-form-field>
+                        
+					    <div class="form-group">
+                            <label for="dateEnd">Fecha fin</label>
+                            <input type="date" class="form-control" id="dateEnd" formControlName="dateEnd" [(ngModel)]="search.dateEnd">
+                        </div>
+                        <!--mat-form-field>
                             <input matInput [matDatepicker]="dateEnd" [(ngModel)]="search.dateEnd" formControlName="dateEnd"
                                 ngDefaultControl placeholder="Fecha fin">
                             <mat-datepicker-toggle matSuffix [for]="dateEnd"></mat-datepicker-toggle>
                             <mat-datepicker #dateEnd></mat-datepicker>
-                        </mat-form-field>
+                        </mat-form-field-->
                     </div>
                     <div class="col text-right">
                         <button type="submit" class="btn mybtn" [disabled]="!conexionForm.valid">Buscar</button>
@@ -46,7 +56,7 @@
     <div class="row mb-3 mt-3">
     <div class="col">
         <div class="mat-elevation-z8">
-            <table mat-table [dataSource]="dataSource" style="width: 100%;">
+            <table mat-table [dataSource]="dataSource" class="table_catalogo">
 
                 <!--- Note that these columns can be defined in any order.
                                 The actual rendered columns are set as a property on the row definition" -->

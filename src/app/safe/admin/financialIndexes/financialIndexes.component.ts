@@ -59,8 +59,8 @@ export class FinancialIndexesComponent implements OnInit {
 
   onSubmit(value:any){
     this.loadData({
-      dateInit: this.formatDate(value.dateInit),
-      dateEnd: this.formatDate(value.dateEnd),
+      dateInit: this.formatDate( new Date(value.dateInit)),
+      dateEnd: this.formatDate( new Date(value.dateEnd)),
       limit: 4000,
       process: value.process
     })
