@@ -12,10 +12,12 @@ export class InteractiveImageTurbineCT1Component implements OnInit {
 	@Input() data:any;
 	public tooltip = [];
 	public Tag_info = {Name:"",Value:""};
+	public chart_rt2 : Chart;
+	public chart_rt22 : Chart;
 	constructor() { }
 
 	ngOnInit() {
-		var myChart = new Chart('chart_rt5', {
+		this.chart_rt2 = new Chart('chart_rt5', {
 			type: 'line',
 			data: {
 				labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
@@ -45,7 +47,7 @@ export class InteractiveImageTurbineCT1Component implements OnInit {
 				scales: {
 					yAxes: [{
 						ticks: {
-							beginAtZero: true
+							beginAtZero: false
 						},
 						position: 'right',
 					}]
@@ -54,7 +56,7 @@ export class InteractiveImageTurbineCT1Component implements OnInit {
 		});
 		
 		
-		var myChart = new Chart('chart_rt2', {
+		this.chart_rt22 = new Chart('chart_rt2', {
 			type: 'bar',
 			data: {
 				labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
@@ -142,6 +144,15 @@ export class InteractiveImageTurbineCT1Component implements OnInit {
 		console.log("this.data::::", this.data);
 		
 		
+	}
+	dataAdapter(){
+		let data = this.data.data[0]['Items'][0]['Value']['Value'];
+		let _data = this.chart_rt2.data.datasets[0].data;
+		_data.push(data);
+		if (_data.length >= 5) {
+			_data.shift();
+		}
+		this.chart_rt2.update();
 	}
 	gettooltip(){
 		for(let tag of this.data.data[0]['Items']){

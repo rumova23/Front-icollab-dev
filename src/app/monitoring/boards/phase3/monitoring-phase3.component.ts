@@ -501,7 +501,8 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 	dataAdapter(data) {
 		this.modal_turbine_ct_1.data = data;
 		this.modal_turbine_ct_1.gettooltip();
-
+		this.modal_turbine_ct_1.dataAdapter();
+		
 
 
 
