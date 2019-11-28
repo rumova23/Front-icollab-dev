@@ -20,6 +20,7 @@ export const environment = {
   , mmmercadoUrl            : hostGateway + 'mmmercado/'
   , microuploaddbUrl        : hostGateway + 'microuploaddb/'
   , urlTrPi                 : 'http://200.52.85.140:1119/'  // micro Bi
+  , efhUrl                  : hostGateway + 'efh/'
 };
 
 /*
