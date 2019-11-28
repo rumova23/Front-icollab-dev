@@ -35,7 +35,7 @@ import { MonitoringBaseSocketOnComponent } from 'src/app/monitoring/class/monito
 })
 export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent implements OnInit, OnDestroy {
 	@ViewChild('modal_turbine_ct_1') modal_turbine_ct_1: InteractiveImageTurbineCT1Component;
-	@ViewChild('modal_turbine_ct_12', { read: ViewContainerRef }) modal_turbine_ct_12: ViewContainerRef;
+	@ViewChild('modal_turbine_ct_12') modal_turbine_ct_12: InteractiveImageTurbineCT1Component;
 
 	private everySecond: Observable<number>;
 	private timeRequest: Observable<number>;
@@ -325,6 +325,9 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 
 	openModalCt_1() {
 		this.modal_turbine_ct_1.openModalCt_1();
+	}
+	openModalCt_2() {
+		this.modal_turbine_ct_12.openModalCt_1();
 	}
 	onChartClick(clickEvt: MouseEvent, activeElems: Array<any>) {
 		//if click was on a bar, we don't care (we want clicks on labels)

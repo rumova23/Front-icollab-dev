@@ -14,31 +14,22 @@ export class InteractiveImageTurbineCT1Component implements OnInit {
 	public Tag_info = {Name:"",Value:""};
 	public chart_rt2 : Chart;
 	public chart_rt22 : Chart;
+	public fechaActual:Date;
 	constructor() { }
 
 	ngOnInit() {
 		this.chart_rt2 = new Chart('chart_rt5', {
 			type: 'line',
 			data: {
-				labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+				labels: [],
 				datasets: [{
-					label: '# of Votes',
-					data: [12, 19, 3, 5, 2, 3],
+					label: 'ss',
+					data: [],
 					backgroundColor: [
-						'rgba(255, 99, 132, 0.2)',
-						'rgba(54, 162, 235, 0.2)',
-						'rgba(255, 206, 86, 0.2)',
-						'rgba(75, 192, 192, 0.2)',
-						'rgba(153, 102, 255, 0.2)',
-						'rgba(255, 159, 64, 0.2)'
+						'rgba(255, 99, 132, 0.2)'
 					],
 					borderColor: [
-						'rgba(255, 99, 132, 1)',
-						'rgba(54, 162, 235, 1)',
-						'rgba(255, 206, 86, 1)',
-						'rgba(75, 192, 192, 1)',
-						'rgba(153, 102, 255, 1)',
-						'rgba(255, 159, 64, 1)'
+						'rgba(255, 99, 132, 1)'
 					],
 					borderWidth: 1
 				}]
@@ -146,11 +137,24 @@ export class InteractiveImageTurbineCT1Component implements OnInit {
 		
 	}
 	dataAdapter(){
+		
+		let checkTime = function (i) {
+			if (i < 10) {
+				i = "0" + i;
+			}
+			return i;
+		}
+
 		let data = this.data.data[0]['Items'][0]['Value']['Value'];
 		let _data = this.chart_rt2.data.datasets[0].data;
+		let _data_ = this.chart_rt2.data;
 		_data.push(data);
-		if (_data.length >= 5) {
+		this.fechaActual = new Date();
+		let time3 = checkTime(this.fechaActual.getHours()) + ":" + checkTime(this.fechaActual.getMinutes()) + ":" + checkTime(this.fechaActual.getSeconds());
+		_data_.labels.push(time3);
+		if (_data.length >= 50) {
 			_data.shift();
+			_data_.labels.shift();
 		}
 		this.chart_rt2.update();
 	}
