@@ -7,6 +7,7 @@ import {EventMessage                        } from '../../../../../core/models/E
 import { EventService                       } from 'src/app/core/services/event.service';
 import {ToastrManager                       } from 'ng6-toastr-notifications';
 import {GlobalService                       } from '../../../../../core/globals/global.service';
+import {Constants} from '../../../../../core/globals/Constants';
 
 @Component({
   selector: 'app-efh-edit-event',
@@ -18,6 +19,7 @@ export class EfhEditEventComponent implements OnInit {
   @Input() accion: string;
   catalogType: CatalogType;
   eventForm: FormGroup;
+  resultService;
   eventTypesArr = [];
   unitsArr = [];
   fuelTypesArr = [];
@@ -25,7 +27,17 @@ export class EfhEditEventComponent implements OnInit {
   deshabiliarEstatus = false;
   disabledSave = false;
   checkedClonar = false;
-  checkedEditClonated = false;
+  checkedEditClonated = true;
+  isShotSectionVisible = true;
+  isRejectSectionVisible = true;
+  isRunbackSectionVisible = true;
+  isStopSectionVisible = true;
+  isDieselSectionVisible = true;
+  shotControlsDisabled = true;
+  rejectControlsDisabled = false;
+  runbackControlsDisabled = false;
+  stopControlsDisabled = false;
+  dieselControlsDisabled = false;
 
   constructor(
       private catalogoMaestroService: CatalogoMaestroService,
@@ -38,45 +50,75 @@ export class EfhEditEventComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.eventForm = this.formBuilder.group({
-      eventTypeControl: [null, [Validators.required]],
-      unitControl: [ null, [Validators.required]],
-      fuelTypeControl: [ null, [Validators.required]]
-    });
     this.getCatalogs();
   }
 
   getCatalogs() {
-    this.eventTypesArr = [
-      {
-        id: 1,
-        name: 'Disparo'
-      },
-      {
-        id: 2,
-        name: 'Rechazo de Carga'
-      }
-    ];
-    this.unitsArr = [
-      {
-        id: 1,
-        name: 'TG1'
-      },
-      {
-        id: 2,
-        name: 'TG2'
-      }
-    ];
-    this.fuelTypesArr = [
-      {
-        id: 1,
-        name: 'Gas'
-      },
-      {
-        id: 2,
-        name: 'Diesel'
-      }
-    ];
+    this.catalogoMaestroService.getCatalogoIndividual('typeEvent')
+        .subscribe(
+            data => {
+              this.resultService = data;
+              let i = 0;
+              for (let element of this.resultService) {
+                if (element.active === true) {
+                  i += 1;
+                  let obj            = {};
+                  obj['order']       = i;
+                  obj['id']          = element.id;
+                  obj['name']        = element.code;
+                  obj['description'] = element.description;
+                  this.eventTypesArr.push(obj);
+                }
+              }
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+            }
+        );
+
+    this.catalogoMaestroService.getCatalogoIndividual('typeFuel')
+        .subscribe(
+            data => {
+              this.resultService = data;
+              let i = 0;
+              for (let element of this.resultService) {
+                if (element.active === true) {
+                  i += 1;
+                  let obj            = {};
+                  obj['order']       = i;
+                  obj['id']          = element.id;
+                  obj['name']        = element.code;
+                  obj['description'] = element.description;
+                  this.fuelTypesArr.push(obj);
+                }
+              }
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+            }
+        );
+
+    this.catalogoMaestroService.getCatalogoIndividual('unit')
+        .subscribe(
+            data => {
+              this.resultService = data;
+              let i = 0;
+              for (let element of this.resultService) {
+                if (element.active === true) {
+                  i += 1;
+                  let obj            = {};
+                  obj['order']       = i;
+                  obj['id']          = element.id;
+                  obj['name']        = element.code;
+                  obj['description'] = element.description;
+                  this.unitsArr.push(obj);
+                }
+              }
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+            }
+        );
   }
 
   changeCheck() {

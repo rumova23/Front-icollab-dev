@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { ToastrManager                  } from 'ng6-toastr-notifications';
 import { CatalogoMaestroService         } from 'src/app/core/services/catalogo-maestro.service';
@@ -45,10 +45,109 @@ export class EfhAddEventComponent implements OnInit {
       private eventService: EventService,
       private datePipe: DatePipe,
       private securityService: SecurityService) {
-    this.menu = securityService.getMenu('EFH');
+      this.menu = securityService.getMenu('Efh');
   }
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   ngOnInit() {
+    this.title = 'Eventos configurados';
+    this.getDataSource();
+    //debugger;
+    for (let option of this.menu) {
+      if (option.children) {
+        let flag:boolean = true;
+        while ( flag ) {
+          flag = false;
+          for(let ins=0; ins < option.children.length; ins++) {
+            if (option.children[ins]['label'] == this.nombreCatalogo) {
+              option.children[ins].actions.push('CREAR', 'VER', 'EDITAR', 'BORRAR');
+              if (option.children[ins].actions) {
+                for(let action = 0; action < option.children[ins].actions.length ; action++) {
+
+                  if (option.children[ins].actions[action] == 'CREAR') {
+                    this.showAdd = true;
+                  }
+                  if (option.children[ins].actions[action] == 'VER') {
+                    this.showView = true;
+                  }
+                  if (option.children[ins].actions[action] == 'EDITAR') {
+                    this.showUpdate = true;
+                  }
+                  if (option.children[ins].actions[action] == 'BORRAR') {
+                    this.showDelete = true;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  getDataSource() {
+    this.addBlock(1, 'Cargando...');
+    this.data = [];
+    this.catalogoMaestroService.getCatalogoIndividual(EfhAddEventComponent.mainCatalog).subscribe(
+        dataBack => {
+          this.result = dataBack;
+          let i = 0;
+
+          for (let element of this.result) {
+            i += 1;
+            let obj            = {};
+            obj['order']       = i;
+            obj['id']          = element.id;
+            obj['date']        = element.code;
+            obj['unit']        = element.code;
+            obj['typeEvent']        = element.code;
+            obj['typeFuel'] = element.description;
+            obj['userUpdated'] = element.userUpdated == undefined ? element.userCreated : element.userUpdated;
+            let dateUpdated = element.dateUpdated == undefined ? element.dateCreated : element.dateUpdated;
+            obj['dateUpdated'] = '.';
+            if (dateUpdated) {
+              obj['dateUpdated'] = this.datePipe.transform(new Date(dateUpdated) ,'dd/MM/yyyy HH:mm');
+            }
+            obj['status']      = element.active == true ? 'Activo' : 'Inactivo';
+            obj['element']     = element; //Al Eliminar se usa
+            this.data.push(obj);
+          }
+
+          this.displayedColumnsOrder = [
+            {key: 'order', label: '#'}
+            , {key: 'date', label: 'Fecha'}
+            , {key: 'unit', label: 'Unidad'}
+            , {key: 'typeEvent', label: 'Tipo de evento'}
+            , {key: 'typeFuel', label: 'Combustible'}
+            , {key: 'userUpdated', label: 'Usuario Modificó'}
+            , {key: 'dateUpdated', label: 'Fecha y Hora última modificación'}
+            , {key: 'status', label: 'Estatus'}
+          ];
+
+          this.displayedColumnsActions = [];
+          this.columnsToDisplay = [ 'order', 'date', 'unit', 'typeEvent', 'typeFuel', 'userUpdated', 'dateUpdated', 'status'];
+
+          if (this.showView) {
+            this.displayedColumnsActions.push({key: 'sys_see', label: 'Ver'});
+            this.columnsToDisplay.push('sys_see');
+          }
+          if (this.showUpdate) {
+            this.displayedColumnsActions.push({key: 'sys_edit', label: 'Editar'});
+            this.columnsToDisplay.push('sys_edit');
+          }
+          if (this.showUpdate) {
+            this.displayedColumnsActions.push({key: 'sys_delete', label: 'Eliminar'});
+            this.columnsToDisplay.push('sys_delete');
+          }
+          this.dataSource = new MatTableDataSource<any>(this.data);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
+    ).add(() => {
+      this.addBlock(2, null);
+    });
   }
 
   action(option: number, id: any) {
@@ -77,7 +176,7 @@ export class EfhAddEventComponent implements OnInit {
         }
         break;
     }
-    this.eventService.sendChangePage(new EventMessage(5 , type, 'EFH.Tipo de Evento.ABC'));
+    this.eventService.sendChangePage(new EventMessage(5 , type, 'Efh.Agregar eventos.ABC'));
   }
 
   eliminarRegistro(maestroOpcion: any) {
