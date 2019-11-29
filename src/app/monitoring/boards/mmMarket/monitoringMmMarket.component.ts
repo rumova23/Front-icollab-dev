@@ -8,6 +8,7 @@ import { MonitoringBaseSocketOnComponent } from 'src/app/monitoring/class/monito
 import { ChartControl }                    from 'src/app/monitoring/models/ChartControl';
 import * as TAGS                           from 'src/app/monitoring/boards/mmMarket/config';
 import * as BasChart                       from 'src/app/monitoring/helpers/monitoringBaseChart.component';
+import { MonitoringTrService } from '../../services/monitoringTr.service';
 
 
 @Component({
@@ -26,9 +27,10 @@ export class MonitoringMmMarketComponent extends MonitoringBaseSocketOnComponent
 		public globalService        : GlobalService ,
 		public theme                : ThemeService  ,
 		public eventService         : EventService  ,
-		public socketService        : SocketService
+		public socketService        : SocketService ,
+		public monitoringTrService  : MonitoringTrService
 	) {
-		super(globalService,eventService,socketService);
+		super(globalService,eventService,socketService,monitoringTrService);
 
 		/**
 		 * el icono de conectado tendra que tener la siguiente condicion 

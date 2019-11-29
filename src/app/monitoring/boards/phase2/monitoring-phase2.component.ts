@@ -1,16 +1,17 @@
-import { Component, OnInit, OnDestroy }    from '@angular/core';
-import { Chart }                           from 'chart.js';
-import { GlobalService }                   from 'src/app/core/globals/global.service';
-import { ThemeService }                    from 'src/app/core/globals/theme';
-import { EventService }                    from 'src/app/core/services/event.service';
-import { SocketService }                   from 'src/app/core/services/socket.service';
+import { Component, OnInit, OnDestroy    } from '@angular/core';
+import { Chart                           } from 'chart.js';
+import { GlobalService                   } from 'src/app/core/globals/global.service';
+import { ThemeService                    } from 'src/app/core/globals/theme';
+import { EventService                    } from 'src/app/core/services/event.service';
+import { SocketService                   } from 'src/app/core/services/socket.service';
 import { MonitoringBaseSocketOnComponent } from 'src/app/monitoring/class/monitoringBaseSocketOn.component';
-import { ChartControl }                    from 'src/app/monitoring/models/ChartControl';
+import { ChartControl                    } from 'src/app/monitoring/models/ChartControl';
+import { MonitoringTrService             } from '../../services/monitoringTr.service';
+import { TrService                       } from 'src/app/safe/services/tr.service';
+import { PiServerBox                     } from '../../models/piServer/piServerBox';
+
 import * as TAGS                           from 'src/app/monitoring/boards/phase2/config';
 import * as BasChart                       from 'src/app/monitoring/helpers/monitoringBaseChart.component';
-import { MonitoringTrService } from '../../services/monitoringTr.service';
-import { TrService } 					   from 'src/app/safe/services/tr.service';
-
 
 @Component({
   selector: 'app-monitoring-phase2',
@@ -54,7 +55,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		private trService           : TrService     ,
 		public monitoringTrService  : MonitoringTrService
 	) {
-		super(globalService,eventService,socketService);
+		super(globalService,eventService,socketService,monitoringTrService);
 
 		/**
 		 * el icono de conectado tendra que tener la siguiente condicion
@@ -75,10 +76,11 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 
 		//this.restGetWeather(this.trService);
 		console.log(this.globalService.plant);
-
-		this.monitoringTrService.getStreamsetsInterpolated("plantId=2&webId=F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz&startTime=*-24h&endTime=*&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value")
+///*
+		this.monitoringTrService.getStreamsetsInterpolated("plantId=2&webId=F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4&webId=F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz&startTime=*-24h&endTime=*&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value")
 		.subscribe(
-			data => {
+			(data:PiServerBox) => {
+				console.log("data ::::::::",data);
 				//this.dataAdapter(data);
 				let values = [];
 				let labels = [];
@@ -106,12 +108,13 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 			}
 		);
 
-
+///*
 
 		this.monitoringTrService.getStreamsetsInterpolated("plantId=1&webId=P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY&startTime=*-24h&endTime=*&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value")
 		.subscribe(
 			data => {
 				//this.dataAdapter(data);
+				
 				let values = [];
 				let labels = [];
 				let fd = data;
@@ -131,12 +134,14 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					}
 				}
 				this.addDatasetLine2("chart_eat_item01_col03", values, labels)
+	
 				//debugger;
 			},
 			errorData => {
 			//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
 			}
 		);
+					//*/
 		/*
 		var myChart = new Chart('mychart',{
 			type: 'doughnut',
@@ -272,7 +277,8 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		return TAGS.listCharts[idChart]?TAGS.listCharts[idChart]['controls'] : {idChart:false};
 	}
 
-	dataAdapter(data){
+	dataAdapter(data:PiServerBox){
+	
 		let checkTime = function(i) {
 			if (i < 10) {
 			  i = "0" + i;
@@ -292,6 +298,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 			this.updateLocalTagOverView();
 			this.addDataToChart();
 		}
+		//*/
 	}
 	updateLocalTagValue(data){
 		//let ii = Object.keys(TAGS.lstTags).length;

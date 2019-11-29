@@ -26,6 +26,7 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { ThemeService } from 'src/app/core/globals/theme';
 import { InteractiveImageTurbineCT1Component } from './components/interactive-image-turbine-ct1/interactive-image-turbine-ct1.component';
 import { MonitoringBaseSocketOnComponent } from 'src/app/monitoring/class/monitoringBaseSocketOn.component';
+import { MonitoringTrService } from '../../services/monitoringTr.service';
 
 @Component({
 	selector: 'app-monitoring-phase3',
@@ -199,9 +200,10 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 		, public socketService: SocketService
 		, public eventService: EventService
 		, private componentFactoryResolver: ComponentFactoryResolver
+		, public monitoringTrService : MonitoringTrService
 	) {
 
-		super(globalService, eventService, socketService);
+		super(globalService, eventService, socketService,monitoringTrService);
 
 		for (const calltag in M3.lstTags) {
 			if (M3.lstTags.hasOwnProperty(calltag)) {
