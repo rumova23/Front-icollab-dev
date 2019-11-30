@@ -44,16 +44,18 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 		});
 	}
 	subscribeSocketOnStatus(){
-		this.subscriptions['onChangeSocketConnect'] = this.eventService.onChangeSocketConnect.subscribe({
-			next: (event: EventMessage) => {
-				if(event.id === 0){
-					this.unsubscribeSocketChanels();
-					this.whenLosingConnection()
-				}else if(event.id === 1){
-					this.subscribeSocketChanels();
+		this.subscriptions['onChangeSocketConnect'] = this.eventService.onChangeSocketConnect
+			.subscribe({
+				next: (event: EventMessage) => {
+					if(event.id === 0){
+						this.unsubscribeSocketChanels();
+						this.whenLosingConnection();
+					}else if(event.id === 1){
+						this.subscribeSocketChanels();
+					}
 				}
 			}
-		});
+		);
 	}
 	unsubscribeSocketChanels(){
 		for (const event of this.subscriptionsPerChannel) {
@@ -229,21 +231,5 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 	dataAdapter(data){
 
 	}
-	
-
-	/* REST REQUEST */
-	
-	restGetWeather(Service) {
-		Service.getWeather(this.timeCurrent.getTime())
-		.subscribe(
-			data => {
-				this.dataAdapter(data);
-			},
-			errorData => {
-			//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
-			}
-		);
-	}
-
 	
 }

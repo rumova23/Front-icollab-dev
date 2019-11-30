@@ -77,7 +77,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		//this.restGetWeather(this.trService);
 		console.log(this.globalService.plant);
 ///*
-		this.monitoringTrService.getStreamsetsInterpolated("plantId=2&webId=F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4&webId=F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz&startTime=*-24h&endTime=*&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value")
+		this.monitoringTrService.getStreamsetsInterpolated("plantId=2&webId=F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz&startTime=*-24h&endTime=*&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value")
 		.subscribe(
 			(data:PiServerBox) => {
 				console.log("data ::::::::",data);
@@ -120,7 +120,8 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 				let fd = data;
 				if( ! data.data[0]['error_response'] ){
 					for (const item of data.data[0]['Items'][0]['Items']) {
-						values.push(item['Value']);
+						//debugger;
+						values.push(item.Value.Value);
 						let date = new Date(item['Timestamp']);
 						let checkTime = function(i) {
 							if (i < 10) {

@@ -4,10 +4,11 @@ export class PiServerValue  implements Deserializable {
     
     public Name      ?: string = null;
     public Timestamp ?: string = null;
-    public Value      : string = null;
+    public Value      : number = null;
   
     deserialize(input: any): this {
-      return Object.assign(this, input);
+      Object.assign(this, input);
+      return this;
     }
 
 }
