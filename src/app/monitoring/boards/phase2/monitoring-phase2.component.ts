@@ -12,7 +12,6 @@ import { PiServerBox                     } from '../../models/piServer/piServerB
 
 import * as TAGS                           from 'src/app/monitoring/boards/phase2/config';
 import * as BasChart                       from 'src/app/monitoring/helpers/monitoringBaseChart.component';
-
 @Component({
   selector: 'app-monitoring-phase2',
   templateUrl: './monitoring-phase2.component.html',
@@ -64,7 +63,6 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 	}
 
 	ngOnInit() {
-
 		this.stringDate = this.date.toLocaleDateString("es-ES", this.dateOptions);
 
 		this.initializeAt0();
@@ -76,8 +74,8 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 
 		//this.restGetWeather(this.trService);
 		console.log(this.globalService.plant);
-///*
-		this.monitoringTrService.getStreamsetsInterpolated("plantId=2&webId=F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz&startTime=*-24h&endTime=*&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value")
+/*
+		this.monitoringTrService.getStreamsetsInterpolatedLast24Hours('2',['F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz'])
 		.subscribe(
 			(data:PiServerBox) => {
 				console.log("data ::::::::",data);
@@ -107,14 +105,13 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 			//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
 			}
 		);
-
+//*/
 ///*
-
-		this.monitoringTrService.getStreamsetsInterpolated("plantId=1&webId=P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY&startTime=*-24h&endTime=*&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value")
+		this.monitoringTrService.getStreamsetsInterpolatedLast24Hours('1',['P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY','P0uQAgHoBd0ku7P3cWOJL6IgGSUAAAU0VSVklET1JfUElcREFBMDgxMDQ'])
 		.subscribe(
 			data => {
 				//this.dataAdapter(data);
-				
+				//debugger
 				let values = [];
 				let labels = [];
 				let fd = data;
@@ -130,7 +127,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 							return i;
 						  }
 						let miahora = checkTime(date.getHours()) + ":" + checkTime(date.getMinutes()) + ":" + checkTime(date.getSeconds());
-						labels.push(checkTime(date.getHours()) + ":" + checkTime(date.getMinutes()) + ":" + checkTime(date.getSeconds()));
+						labels.push  (checkTime(date.getHours()) + ":" + checkTime(date.getMinutes()) + ":" + checkTime(date.getSeconds()));
 						//labels.push(item['Timestamp']);
 					}
 				}
@@ -279,7 +276,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 	}
 
 	dataAdapter(data:PiServerBox){
-	
+		//debugger
 		let checkTime = function(i) {
 			if (i < 10) {
 			  i = "0" + i;
@@ -365,7 +362,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					const sol2        = local_tag.sol[0]['WebTag']    ? local_tag.sol[0]['WebTag']    : {Name:"¿?"};
 					this.calltagsObj[local_tag_key+'-aguila']   = aguila2;
 					this.calltagsObj[local_tag_key+'-sol']      = sol2;
-
+//debugger;
 				}else if(["CapacityFactor"].includes(local_tag_key)){
 					let algo = TAGS.lstTags['CTUnoDiesel'];
 					let aguila_diesel_01 = TAGS.lstTags['CTUnoDiesel']['aguila'][0]['WebTag']["Value"]["Value"];
