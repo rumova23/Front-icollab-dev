@@ -57,18 +57,18 @@ export class AdministratorComplianceService {
     this.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.tagsUrl }tag/actividad/all/TODOS`);
   }
-  getPersonalCompetente(fechaInicio: number, fechaFinal: number) {
+  getPersonalCompetente() {
     this.setXTenantId(this.globalService.aguila);
-    return this.http.get( `${ this.microexamenUrl }exam/personalCompetente/competentes/${fechaInicio}/${fechaFinal}`,
+    return this.http.get( `${ this.microexamenUrl }exam/personalCompetente/competentes`,
         {params : this.parameters, headers: new HttpHeaders({ timeout: `${1000000}` }) });
   }
   getTasks(anio: number, maestroOpcionId: number, actividadId: number) {
     this.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.seguimientoUrl }legal/obten/matriz/${anio}/${maestroOpcionId}/${actividadId}`, {params : this.parameters });
   }
-  guardaTask(task: Task) {
+  guardaListTask(tasks: Array<Task>) {
     this.setXTenantId(this.globalService.aguila);
-    return this.http.post( `${ this.seguimientoUrl }legal/generation/task`, task,
+    return this.http.post( `${ this.seguimientoUrl }legal/generation/list/task`, tasks,
         {params : this.parameters });
   }
 

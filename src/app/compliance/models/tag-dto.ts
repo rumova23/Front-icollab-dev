@@ -9,6 +9,7 @@ export class TagDTO {
     public dateUpdated: Date;
     public description: string;
     public legalRequirement: string;
+    public requisitoLegal: string;
     public precedents: null;
     public tag: string;
     public activity: ActivityDTO;

@@ -13,9 +13,9 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import { EventService } from 'src/app/core/services/event.service';
 import * as DEMO from './Demo';
-
-
-
+import {MatrizCumplimientoDTO} from '../../models/matriz-cumplimiento-dto';
+import {Combo} from '../../models/Combo';
+import {ComplianceDTO} from '../../models/compliance-dto';
 @Component({
   selector: 'app-legalAgreement',
   templateUrl: './legalAgreement.component.html',
@@ -39,11 +39,8 @@ export class LegalAgreementComponent implements OnInit {
   displayMode = 'default';
   multi = true;
   expandCloseAll = false;
-
+  anios: Array<any>;
   titulo = 'Cumplimiento Legal';
-  maxDate = new Date();
-  fFechaInicio = new FormControl(new Date());
-  fFechaFin = new FormControl((new Date()).toISOString());
   filtrosForm: FormGroup;
 
   columnas: string[] = ['tag', 'actividad', 'elaboradoPor', 'responsable', 'supervisor',
@@ -54,7 +51,7 @@ export class LegalAgreementComponent implements OnInit {
                         'estatus', 'estatusInterno', 'ver', 'modificar'];
   columnasGant: string[] = ['datosGant'];
 
-  registros = new MatTableDataSource<Compliance>();
+  registros = new MatTableDataSource<ComplianceDTO>();
   registrosGant = new MatTableDataSource<DatosGraficaGant>();
   elementData: any;
   elementDataGant: any;
@@ -73,84 +70,28 @@ export class LegalAgreementComponent implements OnInit {
     private complianceService: ComplianceService,
     public globalService: GlobalService,
     private formBuilder: FormBuilder,
-		private eventService: EventService
-  ) { }
+    private eventService: EventService) {
+    this.anios = [];
+  }
 
   ngOnInit() {
     this.filtrosForm = this.formBuilder.group({
-      fFechaInicio: ['', Validators.required],
-      fFechaFin: ['', Validators.required]
+      fAnio: ['', Validators.required]
     });
+    this.listaMatriz();
   }
 
   filtrarCompliance() {
-    
-		let bandera = false;
-		let fFechaInicio = new Date(this.fFechaInicio.value+"T23:00:00z");
-		let fFechaFin = new Date(this.fFechaFin.value+"T23:00:00z");
-		
-		this.addBlock(1, null);
-		this.limpiarTablas();
-		
+    const bandera = false;
 
-		/*
-		var result = JSON.parse(DEMO["getCompliancePorPlantaYFechas"]);
-		this.elementData = result;
-		this.asignarRegistros();
-
-		
-		var resultGant = JSON.parse(DEMO["getDiagramas"]);
-		this.elementDataGant = resultGant;
-		this.asignarRegistrosGant();
-		this.addBlock(2, null);
-
-		this.childPagos.elementData = this.elementData;
-		this.childPagos.disparador();
-		this.childNotificaciones.elementData = this.elementData;
-		this.childNotificaciones.disparador2();
-
-		if(localStorage.getItem("getCompliancePorPlantaYFechas")){
-			var result = JSON.parse(localStorage.getItem("getCompliancePorPlantaYFechas"));
-			this.elementData = result;
-			this.asignarRegistros();
-			if(localStorage.getItem("getDiagramas")){
-				var resultGant = JSON.parse(localStorage.getItem("getDiagramas"));
-				this.elementDataGant = resultGant;
-				this.asignarRegistrosGant();
-				this.addBlock(2, null);
-			}else{
-				bandera = true;
-			}
-		}else{
-			bandera = true;
-		}
-		//*/
-		if(1){
+    //  this.addBlock(1, null);
+    this.limpiarTablas();
+    if (1) {
         this.limpiarTablas();
-
-        this.complianceService.getCompliancePorPlantaYFechas(
-            new Date(this.fFechaInicio.value),
-            new Date(this.fFechaFin.value)).subscribe(result => {
+        this.complianceService.getCompliancePorPlantaYFechas(this.filtrosForm.controls.fAnio.value).subscribe(result => {
               this.elementData = result;
+              console.dir(this.elementData);
               this.asignarRegistros();
-              this.complianceService.getDiagramas(
-                new Date(this.fFechaInicio.value),
-                new Date(this.fFechaFin.value)).subscribe(resultGant => {
-                  this.elementDataGant = resultGant;
-                  this.asignarRegistrosGant();
-                  
-                  
-                  this.childPagos.elementData = this.elementData;
-                  this.childPagos.disparador();
-                  this.childNotificaciones.elementData = this.elementData;
-                  this.childNotificaciones.disparador2();
-    
-                  this.addBlock(2, null);
-                },
-              error => {
-                console.log(error as any);
-                this.addBlock(2, null);
-              });
           },
           error => {
             console.log(error as any);
@@ -160,8 +101,16 @@ export class LegalAgreementComponent implements OnInit {
     }
   }
 
+  listaMatriz() {
+    this.complianceService.getListMatrizCumplimiento().subscribe((lista: Array<MatrizCumplimientoDTO>) => {
+      console.dir(lista);
+      lista.forEach((cumplimiento: MatrizCumplimientoDTO) => {
+        this.anios.push(new Combo(cumplimiento.anio.toString(), cumplimiento.anio.toString()));
+      });
+    });
+  }
   limpiarTablas() {
-    //this.accordion.closeAll();
+    // this.accordion.closeAll();
     this.expandCloseAll = false;
 
     this.indicePagos = 0;
@@ -176,7 +125,6 @@ export class LegalAgreementComponent implements OnInit {
   }
 
   asignarRegistros() {
-
     this.indicePagos = 0;
     this.indiceNotificaciones = 0;
     this.indiceAnalisis = 0;
@@ -188,7 +136,6 @@ export class LegalAgreementComponent implements OnInit {
     this.indiceOtros = 0;
 
     for (let indice = 0; indice < this.elementData.length; indice++ ) {
-
       if ( this.elementData[indice].length > 0 && this.elementData[indice][0].actividad === 'Pago') {
         this.indicePagos = indice;
         this.expandCloseAll = true;
@@ -220,48 +167,48 @@ export class LegalAgreementComponent implements OnInit {
     }
     if ( this.indicePagos > 0 ) {
       this.childPagos.columnas = this.columnas;
-      this.registros = new MatTableDataSource<Compliance>(this.elementData[this.indicePagos]);
+      this.registros = new MatTableDataSource<ComplianceDTO>(this.elementData[this.indicePagos]);
       this.childPagos.registros = this.registros;
       this.childPagos.registros.sort = this.sort;
     }
     if ( this.indiceNotificaciones > 0 ) {
       this.childNotificaciones.columnas = this.columnas;
-      this.registros = new MatTableDataSource<Compliance>(this.elementData[this.indiceNotificaciones]);
+      this.registros = new MatTableDataSource<ComplianceDTO>(this.elementData[this.indiceNotificaciones]);
       this.childNotificaciones.registros = this.registros;
     }
     if ( this.indiceReportes > 0 ) {
       this.childReportes.columnas = this.columnas;
-      this.registros = new MatTableDataSource<Compliance>(this.elementData[this.indiceReportes]);
+      this.registros = new MatTableDataSource<ComplianceDTO>(this.elementData[this.indiceReportes]);
       this.childReportes.registros = this.registros;
     }
     if ( this.indiceAnalisis > 0 ) {
       this.childAnalisis.columnas = this.columnas;
-      this.registros = new MatTableDataSource<Compliance>(this.elementData[this.indiceAnalisis]);
+      this.registros = new MatTableDataSource<ComplianceDTO>(this.elementData[this.indiceAnalisis]);
       this.childAnalisis.registros = this.registros;
     }
     if ( this.indiceActividades > 0 ) {
       this.childActividades.columnas = this.columnas;
-      this.registros = new MatTableDataSource<Compliance>(this.elementData[this.indiceActividades]);
+      this.registros = new MatTableDataSource<ComplianceDTO>(this.elementData[this.indiceActividades]);
       this.childActividades.registros = this.registros;
     }
     if ( this.indiceCompromisos > 0 ) {
       this.childCompromisos.columnas = this.columnas;
-      this.registros = new MatTableDataSource<Compliance>(this.elementData[this.indiceCompromisos]);
+      this.registros = new MatTableDataSource<ComplianceDTO>(this.elementData[this.indiceCompromisos]);
       this.childCompromisos.registros = this.registros;
     }
     if ( this.indiceCertificados > 0 ) {
       this.childCertificados.columnas = this.columnas;
-      this.registros = new MatTableDataSource<Compliance>(this.elementData[this.indiceCertificados]);
+      this.registros = new MatTableDataSource<ComplianceDTO>(this.elementData[this.indiceCertificados]);
       this.childCertificados.registros = this.registros;
     }
     if ( this.indiceActualizaciones > 0 ) {
       this.childActualizaciones.columnas = this.columnas;
-      this.registros = new MatTableDataSource<Compliance>(this.elementData[this.indiceActualizaciones]);
+      this.registros = new MatTableDataSource<ComplianceDTO>(this.elementData[this.indiceActualizaciones]);
       this.childActualizaciones.registros = this.registros;
     }
     if ( this.indiceOtros > 0 ) {
       this.childOtros.columnas = this.columnas;
-      this.registros = new MatTableDataSource<Compliance>(this.elementData[this.indiceOtros]);
+      this.registros = new MatTableDataSource<ComplianceDTO>(this.elementData[this.indiceOtros]);
       this.childOtros.registros = this.registros;
     }
 
@@ -279,32 +226,24 @@ export class LegalAgreementComponent implements OnInit {
     let indiceOtros = -1;
 
     for (let indice = 0; indice < this.elementDataGant.length; indice++ ) {
-      if ( this.elementDataGant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 &&
-          this.elementDataGant[indice].actividad === 'Pago') {
+      if (this.elementDataGant[indice].actividad === 'Pago') {
         indicePagos = indice;
-      } else if ( this.elementDataGant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 &&
-          this.elementDataGant[indice].actividad === 'NOTIFICACIONES') {
+      } else if (this.elementDataGant[indice].actividad === 'NOTIFICACIONES') {
         indiceNotificaciones = indice;
-      } else if ( this.elementDataGant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 &&
-          this.elementDataGant[indice].actividad === 'ANALISIS') {
+      } else if (this.elementDataGant[indice].actividad === 'ANALISIS') {
         indiceAnalisis = indice;
-      } else if ( this.elementDataGant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 &&
-          this.elementDataGant[indice].actividad === 'REPORTES') {
+      } else if (this.elementDataGant[indice].actividad === 'REPORTES') {
         indiceReportes = indice;
-      } else if ( this.elementDataGant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 &&
-          this.elementDataGant[indice].actividad === 'ACTIVIDADES') {
+      } else if (this.elementDataGant[indice].actividad === 'ACTIVIDADES') {
         indiceActividades = indice;
-      } else if ( this.elementDataGant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 &&
-          this.elementDataGant[indice].actividad === 'COMPROMISOS CONTRACTUALES') {
+      } else if (this.elementDataGant[indice].actividad === 'COMPROMISOS CONTRACTUALES') {
         indiceCompromisos = indice;
-      } else if ( this.elementDataGant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 &&
-          this.elementDataGant[indice].actividad === 'CERTIFICADOS') {
+      } else if (this.elementDataGant[indice].actividad === 'CERTIFICADOS') {
         indiceCertificados = indice;
-      } else if ( this.elementDataGant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 &&
+      } else if (
           this.elementDataGant[indice].actividad === 'ACTUALIZACIONES') {
         indiceActualizaciones = indice;
-      } else if ( this.elementDataGant[indice].datosGraficaGantDTO.listaDatoslineaDeTiempo.length > 0 &&
-          this.elementDataGant[indice].actividad === 'OTROS') {
+      } else if (this.elementDataGant[indice].actividad === 'OTROS') {
         indiceOtros = indice;
       }
     }
@@ -373,9 +312,7 @@ export class LegalAgreementComponent implements OnInit {
       this.childOtros.datosCumplimiento = this.elementDataGant[indiceOtros].datosCumplimiento;
     }
   }
-
-  
-	private addBlock(type, msg): void {
-		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
-	}
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
 }

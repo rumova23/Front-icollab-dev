@@ -27,11 +27,16 @@ export class ComplianceService {
     return this.http.get( `${ this.urlSeguimiento }legal/obten/complianceActividad`, httpOptions);
   }
 
-    getCompliancePorPlantaYFechas(fechaInicio: Date, fechaFin: Date) {
-      return this.http.get( `${ this.urlSeguimiento }legal/obten/complianceActividad/${fechaInicio}/${fechaFin}`, httpOptions);
+  getListMatrizCumplimiento() {
+    return this.http.get( `${ this.urlSeguimiento }legal/obten/list/matriz`, httpOptions);
   }
 
-  getDiagramas(fechaInicio: Date, fechaFin: Date) {
-    return this.http.get( `${ this.urlSeguimiento }legal/obten/obtenDiagramas/${fechaInicio}/${fechaFin}`, httpOptions);
+
+  getCompliancePorPlantaYFechas(anio: number) {
+      return this.http.get( `${ this.urlSeguimiento }legal/obten/complianceActividad/${anio}`, httpOptions);
+  }
+
+  getDiagramas(anio: number) {
+    return this.http.get( `${ this.urlSeguimiento }legal/obten/obtenDiagramas/${anio}`, httpOptions);
   }
 }

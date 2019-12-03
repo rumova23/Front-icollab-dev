@@ -66,8 +66,6 @@
           <textarea formControlName="fRequisitoLegal" class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f.fRequisitoLegal.errors }">
           </textarea>
-          <!--input mdbInput formControlName="fRequisitoLegal" class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.fRequisitoLegal.errors }" -->
           <div *ngIf="submitted && f.fRequisitoLegal.errors" style="color:red">
             <div *ngIf="f.fRequisitoLegal.errors.required">Requerido</div>
           </div>
@@ -176,22 +174,58 @@
     <div class="row">
       <!--  Período de entrega  -->
       <div class="col-md-6">
-        <div class="form-group">
-          <label>Período de entrega</label>
-          <select class="form-control"
-                  [compareWith]="compareFn"
-                  formControlName="fPeriodoEntrega"
-                  [ngClass]="{ 'is-invalid': submitted && f.fPeriodoEntrega.errors }"
-          >
-            <option
-                    *ngFor="let operator of comboPeriodoEntrega;"
-                    [value]="operator.value"
-            >
-              {{operator.label}}
-            </option>
-          </select>
-          <div *ngIf="submitted && f.fPeriodoEntrega.errors" style="color:red">
-            <div *ngIf="f.fPeriodoEntrega.errors.required">Requerido</div>
+        <label>Período de entrega</label>
+        <div layout="row" layout-align="center center">
+          <div>
+            <div class="col-md-2">
+              <input
+                      type="number"
+                      class="form-control"
+                      [ngClass]="{'is-invalid': submitted && f.fPeriod.errors}"
+                      matInput
+                      name="value"
+                      placeholder="Cantidad"
+                      formControlName="fPeriod"/>
+              <div *ngIf="submitted && f.fPeriod.errors" style="color:red">
+                <div *ngIf="f.fPeriod.errors.required">
+                  Requerido
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="col-md-6">
+              <select class="form-control"
+                      [compareWith]="compareFn"
+                      formControlName="fUnitPeriod"
+                      [ngClass]="{
+                                    'is-invalid':
+                                        submitted &&
+                                        f.fUnitPeriod.errors
+                                }"
+              >
+                <option
+                        *ngFor="let operator of comboUnitPeriod"
+                        [value]="operator.value"
+                >
+                  {{ operator.label }}
+                </option>
+              </select>
+              <div
+                      *ngIf="
+                                    submitted && f.fUnitPeriod.errors
+                                "
+                      style="color:red"
+              >
+                <div
+                        *ngIf="
+                                        f.fUnitPeriod.errors.required
+                                    "
+                >
+                  Requerido
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

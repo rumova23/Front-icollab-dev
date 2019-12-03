@@ -265,29 +265,16 @@
                             <input
                                 type="number"
                                 class="form-control"
-                                [ngClass]="{
-                                    'is-invalid':
-                                        submitted &&
-                                        f.fPeriodoEntregaCantidad.errors
-                                }"
+                                [ngClass]="{'is-invalid': submitted && f.fPeriodoEntregaCantidad.errors}"
                                 matInput
                                 name="value"
                                 placeholder="Cantidad"
-                                formControlName="fPeriodoEntregaCantidad"
-                            />
+                                formControlName="fPeriodoEntregaCantidad"/>
                             <div
-                                *ngIf="
-                                    submitted &&
-                                    f.fPeriodoEntregaCantidad.errors
-                                "
-                                style="color:red"
-                            >
+                                *ngIf="submitted && f.fPeriodoEntregaCantidad.errors"
+                                style="color:red">
                                 <div
-                                    *ngIf="
-                                        f.fPeriodoEntregaCantidad.errors
-                                            .required
-                                    "
-                                >
+                                    *ngIf="f.fPeriodoEntregaCantidad.errors.required">
                                     Requerido
                                 </div>
                             </div>

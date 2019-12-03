@@ -3,13 +3,14 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AdministratorComplianceService} from '../services/administrator-compliance.service';
 import {Combo} from '../../models/Combo';
 import {Task} from '../../models/Task';
-import {PerfilComboService} from '../../../core/services/perfil-combo.service';
 import {ToastrManager} from 'ng6-toastr-notifications';
-import {Compliance} from '../../models/Compliance';
 import { DOCUMENT, DatePipe } from '@angular/common';
-import {CatalogType} from "../../models/CatalogType";
-import {EventMessage} from "../../../core/models/EventMessage";
-import {EventService} from "../../../core/services/event.service";
+import {CatalogType} from '../../models/CatalogType';
+import {EventMessage} from '../../../core/models/EventMessage';
+import {EventService} from '../../../core/services/event.service';
+import {MatrizCumplimientoDTO} from '../../models/matriz-cumplimiento-dto';
+import {TagOutDTO} from '../../models/tag-out-dto';
+import {trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-task-planning',
@@ -18,20 +19,20 @@ import {EventService} from "../../../core/services/event.service";
 })
 export class TaskPlanningComponent implements OnInit {
   filtrosForm: FormGroup;
-  fFechaInicio = new FormControl(new Date());
-  fFechaInicioModel;
-  fFechaFin = new FormControl((new Date()));
+  tagsActorPerfil: any = [];
+  anios: Array<any>;
   personas: Array<any>;
   munecoTasks: Array<Task>;
   persona: any;
-  titulo = 'Planeacion Tareas';
+  titulo = 'Asignacion Tareas';
   submitted = false;
   tiposCumplimientos: Array<any>;
   actividades: Array<any>;
-  tagTasks: Array<any>;
+  tagTasks: Array<TagOutDTO>;
   checkboxDisabled: Array<any>;
   headTasks = ['#', 'Tarea', 'Ejecutor', 'Responsable', 'Supervisor'];
   tipoPerfil = ['Ejecutor', 'Responsable', 'Supervisor'];
+  matrizCumplimiento: MatrizCumplimientoDTO;
   constructor(
       private administratorComplianceService: AdministratorComplianceService,
       private formBuilder: FormBuilder,
@@ -39,16 +40,12 @@ export class TaskPlanningComponent implements OnInit {
       @Inject (DOCUMENT) document,
       private datePipe: DatePipe,
       private eventService: EventService) {
-    this.filtrosForm = this.formBuilder.group({
-      fFechaInicio: ['', Validators.required],
-      fFechaFin: ['', Validators.required],
+      this.filtrosForm = this.formBuilder.group({
+        fAnio: ['', Validators.required],
       fPersonaId: [{ value: '', disabled: false }, Validators.required],
       fTipoCumplimiento: [{ value: '', disabled: false }, Validators.required],
       fActividad: [{ value: '', disabled: false }, Validators.required]
     });
-
-    let yesterday = new Date();
-    this.fFechaInicioModel =  this.datePipe.transform(yesterday, 'yyyy-MM-dd');
   }
   ngOnInit() {
     this.personas = [];
@@ -57,26 +54,19 @@ export class TaskPlanningComponent implements OnInit {
     this.tagTasks = [];
     this.checkboxDisabled = [];
     this.munecoTasks = [];
+    this.anios = [];
     this.initCombos();
   }
 
   onSubmit() {
-    this.administratorComplianceService.getPersonalCompetente( new Date(this.fFechaInicio.value).getTime(),
-        new Date(this.fFechaFin.value).getTime()).subscribe(
-        (respuesta: Array<any>) => {
-          this.personas = [];
-          respuesta.forEach(elementActual => {
-            const value = elementActual.empleadoId;
-            const label = elementActual.nombres + ' ' + elementActual.paterno + ' ' + elementActual.materno;
-            this.personas.push(new Combo(value, label));
-          }
-        );
-          this.toastr.successToastr('Numero de personas disponibles en el periodo seleccionado: .' + this.personas.length, '¡Se ha logrado!');
-        }
-    );
   }
   initCombos() {
-    this.administratorComplianceService.initComboTiposCumplimientos().subscribe(
+      const currentYear = (new Date()).getFullYear();
+      const nextYear = currentYear + 1;
+      this.anios.push(new Combo(currentYear.toString(), currentYear.toString()));
+      this.anios.push(new Combo(nextYear.toString(), nextYear.toString()));
+
+      this.administratorComplianceService.initComboTiposCumplimientos().subscribe(
         (respuesta: Array<any>) => {
           this.tiposCumplimientos = [];
           respuesta.forEach(elementActual => {
@@ -88,7 +78,7 @@ export class TaskPlanningComponent implements OnInit {
         }
     );
 
-    this.administratorComplianceService.initComboActividades().subscribe(
+      this.administratorComplianceService.initComboActividades().subscribe(
         (respuesta: Array<any>) => {
           this.actividades = [];
           respuesta.forEach(elementActual => {
@@ -99,18 +89,33 @@ export class TaskPlanningComponent implements OnInit {
           );
         }
     );
+
+      this.administratorComplianceService.getPersonalCompetente().subscribe(
+          (respuesta: Array<any>) => {
+              this.personas = [];
+              respuesta.forEach(elementActual => {
+                  console.log('elementActual.empleadoId: ' + elementActual.empleadoId);
+                  const value = elementActual.empleadoId;
+                  const label = elementActual.nombres + ' ' + elementActual.paterno + ' ' + elementActual.materno;
+                  this.personas.push(new Combo(value, label));
+                  }
+              );
+          }
+      );
   }
   getTasks() {
     if (this.filtrosForm.controls.fTipoCumplimiento.value > 0 && this.filtrosForm.controls.fActividad.value > 0) {
       this.administratorComplianceService.getTasks(
-          this.filtrosForm.controls.fTipoCumplimiento.value,
+          this.filtrosForm.controls.fAnio.value,
           this.filtrosForm.controls.fTipoCumplimiento.value,
           this.filtrosForm.controls.fActividad.value).subscribe(
-          (respuesta: Array<any>) => {
-            this.tagTasks = respuesta;
-            this.toastr.successToastr('Numero de tareas encontradas: ' + this.tagTasks.length, '¡Se ha logrado!');
-            respuesta.forEach(elementActual => {
-              this.checkboxDisabled.push(true);
+          (matrizCumplimiento: MatrizCumplimientoDTO) => {
+              this.matrizCumplimiento = matrizCumplimiento;
+              this.tagTasks = matrizCumplimiento.matriz;
+              this.toastr.successToastr('Numero de tareas encontradas: ' + this.tagTasks.length, '¡Se ha logrado!');
+              this.tagTasks.forEach((elementActual: TagOutDTO) => {
+                  this.tagsActorPerfil.push({tagId: elementActual.idTag, ejecutor: [], responsable: [], supervisor: []});
+                  this.checkboxDisabled.push(true);
                 }
             );
           }
@@ -118,72 +123,80 @@ export class TaskPlanningComponent implements OnInit {
     }
   }
 
-  habilitarCheck(index) {
-    this.checkboxDisabled[index] =  !this.checkboxDisabled[index];
-  }
 
-  armaMuneco(triger) {
-      if (triger.checked) {
-          let index = 0;
-          let asignado = false;
-          for (index = 0; index <  this.munecoTasks.length; ++index) {
-              if (this.munecoTasks[index].tagId === this.tagTasks[+triger.source.name].idTag) {
-                  asignado = true;
-                  break;
-              }
-          }
-          if (asignado) {
-              this.toastr.errorToastr('Solo un Rol por Actividad', '!Informacion¡');
-          } else {
-              this.munecoTasks.push(new Task(
-                  new Date(this.fFechaInicio.value).getTime(),
-                  new Date(this.fFechaFin.value).getTime(),
-                  this.filtrosForm.controls.fPersonaId.value,
-                  this.filtrosForm.controls.fTipoCumplimiento.value,
-                  this.filtrosForm.controls.fActividad.value,
-                  this.tagTasks[+triger.source.name].idTag,
-                  triger.source.value)
-              );
-          }
-        }
-      if (!triger.checked) {
-      let index = 0;
-      for (index = 0; index <  this.munecoTasks.length; ++index) {
-        if (this.munecoTasks[index].tagId === this.tagTasks[+triger.source.name].idTag) {
-          break;
-        }
-      }
-      this.munecoTasks.splice(index, 1);
-    }
-      console.dir(this.munecoTasks);
-  }
   get f() { return this.filtrosForm.controls; }
 
-  saveTasks() {
-    if (this.munecoTasks.length > 0) {
-      this.munecoTasks.forEach((task: Task) => {
-        this.administratorComplianceService.guardaTask(task).subscribe(
-            (respuesta: Array<any>) => {
-              this.toastr.successToastr('Tarea generada con exito.', '¡Se ha logrado!');
-            });
+  asignaTarea() {
+      let tasks: Array<Task>;
+      tasks = [];
+      let task = null;
+      this.tagTasks.forEach((elementActual: TagOutDTO) => {
+          task = new Task();
+          task.complianceId = elementActual.complianceId;
+          task.ejecutores = this.actorSeleccionado('ejecutor_' + elementActual.idTag);
+          task.supervisores = this.actorSeleccionado('supervisor_' + elementActual.idTag);
+          task.responsables = this.actorSeleccionado('responsable_' + elementActual.idTag);
+          tasks.push(task);
       });
-    } else {
-      this.toastr.errorToastr('Debe Existir  almenos una tarea seleccionada', '!Informacion Insuficiente¡');
-    }
+      this.administratorComplianceService.guardaListTask(tasks).subscribe( a => {
+          this.toastr.successToastr('Asignacion de tareas: correctamente ' + this.tagTasks.length, '¡Se ha logrado!');
+      },
+          error => {
+              this.toastr.errorToastr('No esta disponible la asignacion de tareas. Intentelo mas tarde. ' + this.tagTasks.length, '¡Error!');
+          });
+  }
+  actorSeleccionado(selectId) {
+      const actores = [];
+      const select = document.getElementById(selectId) as HTMLSelectElement;
+      for (let i = 0; i < select.options.length; i++) {
+          if (select.options[i].selected) {
+              actores.push(select.options[i].value);
+          }
+      }
+      return actores;
   }
 
     action(option: number, id: any) {
         let type: CatalogType = {};
-        switch(option) {
+        switch (option) {
             case 1:
-                type = {id: id, action: 'ver',
-                    name: null}
+                type = {id, action: 'ver',
+                    name: null
+                };
                 break;
             case 2:
-                type = {id: id, action: 'editar',
-                    name: null}
+                type = {id, action: 'editar',
+                    name: null
+                };
                 break;
         }
-        this.eventService.sendChangePage(new EventMessage(7, type,'Compliance.Categorías.ABC'));
+        this.eventService.sendChangePage(new EventMessage(7, type, 'Compliance.Categorías.ABC'));
+    }
+
+    agregarActor(nameCharge) {
+        const select = document.getElementById(nameCharge) as HTMLSelectElement;
+        const tagIdActor = nameCharge.split('_');
+        const tagId = tagIdActor[1];
+        if (tagIdActor[0] === 'ejecutor') {
+            this.habilitarDesHabilitarOpcion('responsable_' + tagId, nameCharge);
+            this.habilitarDesHabilitarOpcion('supervisor_' + tagId, nameCharge);
+        }
+        if (tagIdActor[0] === 'responsable') {
+            this.habilitarDesHabilitarOpcion('ejecutor_' + tagId, nameCharge);
+            this.habilitarDesHabilitarOpcion('supervisor_' + tagId, nameCharge);
+        }
+        if (tagIdActor[0] === 'supervisor') {
+            this.habilitarDesHabilitarOpcion('ejecutor_' + tagId, nameCharge);
+            this.habilitarDesHabilitarOpcion('responsable_' + tagId, nameCharge);
+        }
+    }
+    habilitarDesHabilitarOpcion(selectId: string, nameCharge: string ) {
+        const select = document.getElementById(nameCharge) as HTMLSelectElement;
+        const selectAfectado = document.getElementById(selectId) as HTMLSelectElement;
+        for (let i = 0; i < select.options.length; i++) {
+            if (!select.options[i].disabled) {
+                selectAfectado.options[i].disabled = select.options[i].selected;
+            }
+        }
     }
 }

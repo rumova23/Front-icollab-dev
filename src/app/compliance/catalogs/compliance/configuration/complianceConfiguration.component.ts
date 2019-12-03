@@ -90,11 +90,9 @@ export class ComplianceConfigurationComponent implements OnInit {
           if (role.name === 'ROLE_ADMIN_CUMPLIMIENTO_COMPLIANCE') {
               this.isSupervisor = true;
           }
-      })
-
-    this.addBlock(1, 'Cargando...');
-
-    this.filtrosForm = this.formBuilder.group({
+      });
+      this.addBlock(1, 'Cargando...');
+      this.filtrosForm = this.formBuilder.group({
         fTipoCumplimiento: [{ value: '', disabled: false }, Validators.required],
         fActividad: [{ value: '', disabled: false }, Validators.required],
         fAnio: [{ value: '', disabled: false }, Validators.required]
@@ -117,10 +115,10 @@ export class ComplianceConfigurationComponent implements OnInit {
       this.toastr.errorToastr('Error al cargar lista de usuarios.', 'Lo siento,');
     });
     */
-    this.tiposCumplimientos = [];
-    this.actividades = [];
-    this.anios = [];
-    this.initCombos();
+      this.tiposCumplimientos = [];
+      this.actividades = [];
+      this.anios = [];
+      this.initCombos();
   }
 
   get f() { return this.filtrosForm.controls; }
@@ -252,6 +250,7 @@ export class ComplianceConfigurationComponent implements OnInit {
                 this.filtrosForm.controls.fTipoCumplimiento.value,
                 this.filtrosForm.controls.fActividad.value).subscribe(
                 (data: MatrizCumplimientoDTO) => {
+                    console.dir(data);
                     this.registros =  new MatTableDataSource<any>(data.matriz);
                     this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
                     this.registros.paginator = this.paginator;
