@@ -40,13 +40,14 @@ import * as BasChart                       from 'src/app/monitoring/helpers/moni
 export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent implements OnInit, OnDestroy {
 	@ViewChild('modal_turbine_ct_1') modal_turbine_ct_1: InteractiveImageTurbineCT1Component;
 	@ViewChild('modal_turbine_ct_12') modal_turbine_ct_12: InteractiveImageTurbineCT1Component;
+	charts      : Array<Chart> = [];
+	dataSets    : [] = []; // para poder conoce los colores de cada dataset
 	calltags    = [];
 	calltagsObj = [];
-	charts    : Array<Chart> = [];
-	dataSets  : [] = []; // para poder conoce los colores de cada dataset
 	dataset_main=[];
 
 	wifi = false;
+	anyConfig = [];
 
 	constructor(
 		public globalService        : GlobalService ,
@@ -104,11 +105,18 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 			if (TAGS.lstTags.hasOwnProperty(local_tag_key)) {
 				this.calltags[local_tag_key]    = 0;
 				this.calltagsObj[local_tag_key] = {Name:""};
+				this.anyConfig[local_tag_key] = {
+					scale_min: TAGS.lstTags[local_tag_key]['min'],
+					scale_max: TAGS.lstTags[local_tag_key]['max'],
+					type: "linear",
+					stepSize: 0,
+				}
 			}
 			for (const webid of TAGS.lstTags[local_tag_key][this.globalService.plant.name.toLowerCase()]) {
 				if(webid.WebId != null) lst.push(webid.WebId);
 			}
 		}
+		debugger;
 		return lst;
 	}
 	
@@ -136,26 +144,6 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 					this.dataAdapter(box);
 
 					
-				let values = [];
-				let labels = [];
-				let fd = box;
-				if( ! box.data[0]['error_response'] ){
-					for (const item of box.data[0]['Items'][0]['Items']) {
-						//debugger;
-						values.push(item.Value.Value);
-						let date = new Date(item['Timestamp']);
-						let checkTime = function(i) {
-							if (i < 10) {
-							  i = "0" + i;
-							}
-							return i;
-						  }
-						let miahora = checkTime(date.getHours()) + ":" + checkTime(date.getMinutes()) + ":" + checkTime(date.getSeconds());
-						labels.push  (checkTime(date.getHours()) + ":" + checkTime(date.getMinutes()) + ":" + checkTime(date.getSeconds()));
-						//labels.push(item['Timestamp']);
-					}
-				}
-				this.addDatasetLine2("mychart", values, labels)
 
 				},
 				errorData => {
@@ -177,19 +165,45 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 		}
 
 	}
-	setStreamInLocalTags(box:PiServerBox){
+	setStreamIn(box:PiServerBox){
 		for (const data of box.data) {
 			if(!data.error_response){
 				for (const tag of data.Items) {
-					for (const local_tag_key in TAGS.lstTags) {
-						if (TAGS.lstTags.hasOwnProperty(local_tag_key)) {
-							for (const localtag of TAGS.lstTags[local_tag_key][this.globalService.plant.name.toLowerCase()]) {
-								if(localtag.WebId == tag.WebId){
-									localtag.data = tag;
-								} 
-							}
-						}
+					this.setStreamInLocalTags(tag);
+				}
+			}
+		}
+	}
+	setStreamTagItemsInChart(tag,local_tag_key){
+
+		let values = [];
+		let labels = [];
+			for (const item of tag.Items) {
+				//debugger;
+				values.push(item.Value.Value);
+				let date = new Date(item['Timestamp']);
+				let checkTime = function(i) {
+					if (i < 10) {
+					  i = "0" + i;
 					}
+					return i;
+				  }
+				let miahora = checkTime(date.getHours()) + ":" + checkTime(date.getMinutes()) + ":" + checkTime(date.getSeconds());
+				labels.push  (checkTime(date.getHours()) + ":" + checkTime(date.getMinutes()) + ":" + checkTime(date.getSeconds()));
+				//labels.push(item['Timestamp']);
+			}
+		//this.addDatasetLine2("mychart", values, labels)
+	}
+	setStreamInLocalTags(tag){
+		for (const local_tag_key in TAGS.lstTags) {
+			if (TAGS.lstTags.hasOwnProperty(local_tag_key)) {
+				for (const localtag of TAGS.lstTags[local_tag_key][this.globalService.plant.name.toLowerCase()]) {
+					if(localtag.WebId == tag.WebId){
+						localtag.data = tag;
+					}
+					if(localtag.active){
+						this.setStreamTagItemsInChart(tag,local_tag_key);
+					} 
 				}
 			}
 		}
@@ -247,5 +261,12 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 		this.charts[idChart].update();
 		//console.log(this.charts);
 		//console.log(this.charts['chart_est_power_01'].data);
+	}
+
+	language(re){
+		return "";
+	}
+	datasetToggleChartMain(ds){
+
 	}
 }
