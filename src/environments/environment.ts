@@ -19,7 +19,7 @@ export const environment = {
   , trUrl                   : hostGateway + 'tr/'
   , mmmercadoUrl            : hostGateway + 'mmmercado/'
   , microuploaddbUrl        : hostGateway + 'microuploaddb/'
-  , urlTrPi                 : 'http://localhost:1119/'  // micro Bi
+  , urlTrPi                 : 'http://172.20.141.110:1119/'  // micro Bi
   , efhUrl                  : hostGateway + 'efh/'
 };
 
