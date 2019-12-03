@@ -30,7 +30,9 @@ import { MonitoringTrService } from '../../services/monitoringTr.service';
 import { TrService } from 'src/app/safe/services/tr.service';
 import { PiServerBox } from '../../models/piServer/piServerBox';
 import * as BasChart                       from 'src/app/monitoring/helpers/monitoringBaseChart.component';
-
+import { PiServerItem } from '../../models/piServer/piServerItem';
+import { checkDigitTime } from 'src/app/core/helpers/util.general';
+import { getMyDateFormat } from 'src/app/core/helpers/util.general';
 @Component({
 	selector: 'app-monitoring-phase3',
 	templateUrl: './monitoring-phase3.component.html',
@@ -171,26 +173,8 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 			}
 		}
 	}
-	setStreamTagItemsInChart(tag,local_tag_key){
-		let values = [];
-		let labels = [];
-			for (const item of tag.Items) {
-				//debugger;
-				values.push(item.Value.Value);
-				let date = new Date(item['Timestamp']);
-				let checkTime = function(i) {
-					if (i < 10) {
-					  i = "0" + i;
-					}
-					return i;
-				}
-				let miahora = checkTime(date.getHours()) + ":" + checkTime(date.getMinutes()) + ":" + checkTime(date.getSeconds());
-				labels.push  (checkTime(date.getHours()) + ":" + checkTime(date.getMinutes()) + ":" + checkTime(date.getSeconds()));
-				//labels.push(item['Timestamp']);
-			}
-		this.addDatasetLine2("canvas1", values, labels,local_tag_key);
-	}
-	setStreamInLocalTags(tag){
+	
+	setStreamInLocalTags(tag:PiServerItem){
 		for (const local_tag_key in TAGS.lstTags) {
 			if (TAGS.lstTags.hasOwnProperty(local_tag_key)) {
 				for (const localtag of TAGS.lstTags[local_tag_key][this.globalService.plant.name.toLowerCase()]) {
@@ -204,8 +188,63 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 			}
 		}
 	}
+	setStreamTagItemsInChart(tag:PiServerItem, local_tag_key:string){
+		let values = [];
+		let labels = [];
+		for (const item of tag.Items) {
+			values.push(item.Value.Value);
+			labels.push(getMyDateFormat(new Date(item.Timestamp)));
+		}
+		this.addDatasetLine2("canvas1", values, labels, local_tag_key);
+	}
 
 	addDatasetLine2(idChart, values, labels,local_tag_key){
+		let existDataset = function (tag) {
+			return (tag.id === local_tag_key);
+		};
+		let hiddenDataset = function () {
+			switch (local_tag_key) {
+				case "getPotenciaNeta":
+				case "getPotenciaCCDV":
+				case "getRegimenTermico":
+					return false;
+				default:
+					return true;
+			}
+		}
+		let displayYAxis = function () {
+			//return false;
+			switch (local_tag_key) {
+				case "getPotenciaNeta":
+				case "getPotenciaCCDV":
+				case "getRegimenTermico":
+					return true;
+				default:
+					return false;
+			}
+		}
+		let hexToRGB = function (h, a) {
+			let r = "0";
+			let g = "0";
+			let b = "0";
+
+			// 3 digits
+			if (h.length == 4) {
+				r = "0x" + h[1] + h[1];
+				g = "0x" + h[2] + h[2];
+				b = "0x" + h[3] + h[3];
+
+				// 6 digits
+			} else if (h.length == 7) {
+				r = "0x" + h[1] + h[2];
+				g = "0x" + h[3] + h[4];
+				b = "0x" + h[5] + h[6];
+			}
+
+			return "rgb(" + +r + "," + +g + "," + +b + "," + a + ")";
+		}
+		let tag = this.charts[idChart].data.datasets.find(existDataset);
+		debugger
 		let chart = TAGS.listCharts[idChart];
 
 			//let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets, chartTag.calltags);
