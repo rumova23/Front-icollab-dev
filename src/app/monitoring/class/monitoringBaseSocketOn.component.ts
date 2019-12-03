@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Subscription, Observable, timer } from 'rxjs';
-import { EventService } from 'src/app/core/services/event.service';
-import { EventMessage } from 'src/app/core/models/EventMessage';
-import { SocketService } from 'src/app/core/services/socket.service';
-import { GlobalService } from 'src/app/core/globals/global.service';
+import { Component, OnInit   } from '@angular/core';
+import { Subscription, timer } from 'rxjs';
+import { EventService        } from 'src/app/core/services/event.service';
+import { EventMessage        } from 'src/app/core/models/EventMessage';
+import { SocketService       } from 'src/app/core/services/socket.service';
+import { GlobalService       } from 'src/app/core/globals/global.service';
+import { MonitoringTrService } from '../services/monitoringTr.service';
+import { PiServerBox         } from '../models/piServer/piServerBox';
 
 @Component({
   selector: 'app-base-socket',
@@ -18,9 +20,10 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 
 
 	constructor(
-		public globalService      : GlobalService ,
-		public eventService       : EventService,
-		public socketService      : SocketService
+		public globalService       : GlobalService ,
+		public eventService        : EventService,
+		public socketService       : SocketService,
+		public monitoringTrService : MonitoringTrService
 	) { }
 
 	ngOnInit() {
@@ -41,16 +44,18 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 		});
 	}
 	subscribeSocketOnStatus(){
-		this.subscriptions['onChangeSocketConnect'] = this.eventService.onChangeSocketConnect.subscribe({
-			next: (event: EventMessage) => {
-				if(event.id === 0){
-					this.unsubscribeSocketChanels();
-					this.whenLosingConnection()
-				}else if(event.id === 1){
-					this.subscribeSocketChanels();
+		this.subscriptions['onChangeSocketConnect'] = this.eventService.onChangeSocketConnect
+			.subscribe({
+				next: (event: EventMessage) => {
+					if(event.id === 0){
+						this.unsubscribeSocketChanels();
+						this.whenLosingConnection();
+					}else if(event.id === 1){
+						this.subscribeSocketChanels();
+					}
 				}
 			}
-		});
+		);
 	}
 	unsubscribeSocketChanels(){
 		for (const event of this.subscriptionsPerChannel) {
@@ -66,9 +71,8 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 		this.addSubscriptionsPerChannel(['back-pi-isrun','back-pi-isrun-error']);
 		this.addChanels(["back-pi-isrun"]);
 
-		let channelBackPiIsRun = this.socketService.suscribeChannel("back-pi-isrun");
 
-		this.subscriptions['back-pi-isrun'] = this.socketService.onChannelWatch(channelBackPiIsRun-1)
+		this.subscriptions['back-pi-isrun'] = this.monitoringTrService.getSocketChanelbackPiIsRun()
 			.subscribe((data:any)=>{
 				if(data.isrun == 0){
 					this.PiIsRun = false;
@@ -80,7 +84,7 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 				}
 				//console.log("back-pi-isrun::",data);
 			});
-		this.subscriptions['back-pi-isrun-error'] = this.socketService.onChannelError(channelBackPiIsRun-1)
+		this.subscriptions['back-pi-isrun-error'] = this.monitoringTrService.getSocketChanelbackPiIsRunError()
 			.subscribe((errorChannel:any)=>{
 				//console.log("errorChannel back-pi-isrun-isrun::",errorChannel);
 			});
@@ -89,12 +93,12 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 		if(this.globalService.plant.name === "AGUILA"){
 			this.addSubscriptionsPerChannel(['pi-aguila','pi-aguila-error',]);
 			this.addChanels(["pi-aguila"]);
-			let channelPiAguila = this.socketService.suscribeChannel("pi-aguila");
-			this.subscriptions['pi-aguila-error'] = this.socketService.onChannelError(channelPiAguila - 1)
+
+			this.subscriptions['pi-aguila-error'] = this.monitoringTrService.getSocketPiAguilaError()
 			.subscribe((errorChannel: any) => {console.log("pi-aguila-error",errorChannel);});
 
-			this.subscriptions['pi-aguila'] = this.socketService.onChannelWatch(channelPiAguila - 1)
-			.subscribe((data: any) => {
+			this.subscriptions['pi-aguila'] = this.monitoringTrService.getSocketPiAguila()
+			.subscribe((data: PiServerBox) => {
 				this.dataAdapter(data);
 			});
 		}
@@ -103,12 +107,12 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 		if(this.globalService.plant.name === "SOL"){
 			this.addSubscriptionsPerChannel(['pi-sol','pi-sol-error']);
 			this.addChanels(["pi-sol"]);
-			let channelPiSol = this.socketService.suscribeChannel("pi-sol");
-			this.subscriptions['pi-sol-error'] = this.socketService.onChannelError(channelPiSol - 1)
+
+			this.subscriptions['pi-sol-error'] = this.monitoringTrService.getSocketPiSolError()
 			.subscribe((errorChannel: any) => {/*console.log("pi-sol-error",errorChannel);*/});
 
-			this.subscriptions['pi-sol'] = this.socketService.onChannelWatch(channelPiSol - 1)
-			.subscribe((data: any) => {
+			this.subscriptions['pi-sol'] = this.monitoringTrService.getSocketPiSol()
+			.subscribe((data: PiServerBox) => {
 				this.dataAdapter(data);
 			});
 		}
@@ -116,12 +120,12 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 	subscribeSocketChanelPiServers(){
 		this.addSubscriptionsPerChannel(['pi-servers','pi-servers-error']);
 		this.addChanels(["pi-servers"]);
-		let channel = this.socketService.suscribeChannel("pi-servers");
-		this.subscriptions['pi-servers-error'] = this.socketService.onChannelError(channel - 1)
+
+		this.subscriptions['pi-servers-error'] = this.monitoringTrService.getSocketPiServersError()
 		.subscribe((errorChannel: any) => {console.log("pi-servers-error",errorChannel);});
 
-		this.subscriptions['pi-servers'] = this.socketService.onChannelWatch(channel - 1)
-		.subscribe((data: any) => {
+		this.subscriptions['pi-servers'] = this.monitoringTrService.getSocketPiServers()
+		.subscribe((data: PiServerBox) => {
 			this.dataAdapter(data);
 		});
 	}
@@ -227,21 +231,5 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 	dataAdapter(data){
 
 	}
-	
-
-	/* REST REQUEST */
-	
-	restGetWeather(Service) {
-		Service.getWeather(this.timeCurrent.getTime())
-		.subscribe(
-			data => {
-				this.dataAdapter(data);
-			},
-			errorData => {
-			//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
-			}
-		);
-	}
-
 	
 }

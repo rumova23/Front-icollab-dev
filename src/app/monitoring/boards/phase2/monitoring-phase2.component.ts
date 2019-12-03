@@ -1,17 +1,17 @@
-import { Component, OnInit, OnDestroy }    from '@angular/core';
-import { Chart }                           from 'chart.js';
-import { GlobalService }                   from 'src/app/core/globals/global.service';
-import { ThemeService }                    from 'src/app/core/globals/theme';
-import { EventService }                    from 'src/app/core/services/event.service';
-import { SocketService }                   from 'src/app/core/services/socket.service';
+import { Component, OnInit, OnDestroy    } from '@angular/core';
+import { Chart                           } from 'chart.js';
+import { GlobalService                   } from 'src/app/core/globals/global.service';
+import { ThemeService                    } from 'src/app/core/globals/theme';
+import { EventService                    } from 'src/app/core/services/event.service';
+import { SocketService                   } from 'src/app/core/services/socket.service';
 import { MonitoringBaseSocketOnComponent } from 'src/app/monitoring/class/monitoringBaseSocketOn.component';
-import { ChartControl }                    from 'src/app/monitoring/models/ChartControl';
+import { ChartControl                    } from 'src/app/monitoring/models/ChartControl';
+import { MonitoringTrService             } from '../../services/monitoringTr.service';
+import { TrService                       } from 'src/app/safe/services/tr.service';
+import { PiServerBox                     } from '../../models/piServer/piServerBox';
+
 import * as TAGS                           from 'src/app/monitoring/boards/phase2/config';
 import * as BasChart                       from 'src/app/monitoring/helpers/monitoringBaseChart.component';
-import { MonitoringTrService } from '../../services/monitoringTr.service';
-import { TrService } 					   from 'src/app/safe/services/tr.service';
-
-
 @Component({
   selector: 'app-monitoring-phase2',
   templateUrl: './monitoring-phase2.component.html',
@@ -54,7 +54,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		private trService           : TrService     ,
 		public monitoringTrService  : MonitoringTrService
 	) {
-		super(globalService,eventService,socketService);
+		super(globalService,eventService,socketService,monitoringTrService);
 
 		/**
 		 * el icono de conectado tendra que tener la siguiente condicion
@@ -63,7 +63,6 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 	}
 
 	ngOnInit() {
-
 		this.stringDate = this.date.toLocaleDateString("es-ES", this.dateOptions);
 
 		this.initializeAt0();
@@ -75,10 +74,11 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 
 		//this.restGetWeather(this.trService);
 		console.log(this.globalService.plant);
-
-		this.monitoringTrService.getStreamsetsInterpolated("plantId=2&webId=F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz&startTime=*-24h&endTime=*&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value")
+/*
+		this.monitoringTrService.getStreamsetsInterpolatedLast24Hours('2',['F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz'])
 		.subscribe(
-			data => {
+			(data:PiServerBox) => {
+				console.log("data ::::::::",data);
 				//this.dataAdapter(data);
 				let values = [];
 				let labels = [];
@@ -105,19 +105,20 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 			//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
 			}
 		);
-
-
-
-		this.monitoringTrService.getStreamsetsInterpolated("plantId=1&webId=P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY&startTime=*-24h&endTime=*&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value")
+//*/
+///*
+		this.monitoringTrService.getStreamsetsInterpolatedLast24Hours('1',['P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY','P0uQAgHoBd0ku7P3cWOJL6IgGSUAAAU0VSVklET1JfUElcREFBMDgxMDQ'])
 		.subscribe(
 			data => {
 				//this.dataAdapter(data);
+				//debugger
 				let values = [];
 				let labels = [];
 				let fd = data;
 				if( ! data.data[0]['error_response'] ){
 					for (const item of data.data[0]['Items'][0]['Items']) {
-						values.push(item['Value']);
+						//debugger;
+						values.push(item.Value.Value);
 						let date = new Date(item['Timestamp']);
 						let checkTime = function(i) {
 							if (i < 10) {
@@ -126,17 +127,19 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 							return i;
 						  }
 						let miahora = checkTime(date.getHours()) + ":" + checkTime(date.getMinutes()) + ":" + checkTime(date.getSeconds());
-						labels.push(checkTime(date.getHours()) + ":" + checkTime(date.getMinutes()) + ":" + checkTime(date.getSeconds()));
+						labels.push  (checkTime(date.getHours()) + ":" + checkTime(date.getMinutes()) + ":" + checkTime(date.getSeconds()));
 						//labels.push(item['Timestamp']);
 					}
 				}
 				this.addDatasetLine2("chart_eat_item01_col03", values, labels)
+	
 				//debugger;
 			},
 			errorData => {
 			//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
 			}
 		);
+					//*/
 		/*
 		var myChart = new Chart('mychart',{
 			type: 'doughnut',
@@ -272,7 +275,8 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 		return TAGS.listCharts[idChart]?TAGS.listCharts[idChart]['controls'] : {idChart:false};
 	}
 
-	dataAdapter(data){
+	dataAdapter(data:PiServerBox){
+		//debugger
 		let checkTime = function(i) {
 			if (i < 10) {
 			  i = "0" + i;
@@ -292,6 +296,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 			this.updateLocalTagOverView();
 			this.addDataToChart();
 		}
+		//*/
 	}
 	updateLocalTagValue(data){
 		//let ii = Object.keys(TAGS.lstTags).length;
@@ -357,7 +362,7 @@ export class MonitoringPhase2Component extends MonitoringBaseSocketOnComponent i
 					const sol2        = local_tag.sol[0]['WebTag']    ? local_tag.sol[0]['WebTag']    : {Name:"¿?"};
 					this.calltagsObj[local_tag_key+'-aguila']   = aguila2;
 					this.calltagsObj[local_tag_key+'-sol']      = sol2;
-
+//debugger;
 				}else if(["CapacityFactor"].includes(local_tag_key)){
 					let algo = TAGS.lstTags['CTUnoDiesel'];
 					let aguila_diesel_01 = TAGS.lstTags['CTUnoDiesel']['aguila'][0]['WebTag']["Value"]["Value"];
