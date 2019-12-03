@@ -15,99 +15,27 @@
   <hr>
 
   	<form class="mt-5" [formGroup]="filtrosForm" (ngSubmit)="onSubmit()">
-    
-		<div class="form-group row">
-			<div class="form-group col-12 col-md-6 col-lg-4">
-				<label for="fechaDesde">Desde</label>
-				<input type="date" class="form-control" id="fechaDesde" [formControl]="fFechaInicio"  [(ngModel)]="fFechaInicioModel">
-			</div>
-			<div class="form-group col-12 col-md-6 col-lg-4">
-				<label for="fechaHasta">Hasta</label>
-				<input type="date" class="form-control" id="fechaHasta" [formControl]="fFechaFin">
-			</div>
-			
-			
-			<div class="form-group col-12 col-md-6 col-lg-4">
-				<label>Persona</label>
+		<div class="row">
+			<div class="form-group col-12 col-md-2 col-lg-2">
+				<label>Año</label>
 				<select class="form-control"
-						formControlName="fPersonaId"
-						[ngClass]="{ 'is-invalid': submitted && f.fPersonaId.errors }"
-				>
+						formControlName="fAnio">
 					<option
-							*ngFor="let operator of personas;"
-							[value]="operator.value"
-					>
-					{{operator.label}}
+							*ngFor="let operator of anios;"
+							[value]="operator.value">
+						{{operator.label}}
 					</option>
 				</select>
-				<div *ngIf="submitted && f.fPersonaId.errors" style="color:red">
-					<div *ngIf="f.fPersonaId.errors.required">Requerido</div>
-				</div>
 			</div>
-
-			<div class="form-group col-12 text-right align-self-end">
-				<button type="submit" class="btn" id="fechaHassta">
-					<i class="ti-search"></i> &nbsp;
-					Buscar
-				</button>
-			</div>
-		</div>
-		<!--
-    <div class="row">
-      <div class="col-md-2">
-        <div class="md-form">
-          <mat-form-field>
-            <input matInput [matDatepicker]="fechaDesde" placeholder="Desde" [formControl]="fFechaInicio" >
-            <mat-datepicker-toggle matSuffix [for]="fechaDesde"></mat-datepicker-toggle>
-            <mat-datepicker #fechaDesde disabled="false"></mat-datepicker>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="col-md-2">
-        <div class="md-form">
-          <mat-form-field>
-            <input matInput [matDatepicker]="fechaHasta" placeholder="Hasta" [formControl]="fFechaFin">
-            <mat-datepicker-toggle matSuffix [for]="fechaHasta"></mat-datepicker-toggle>
-            <mat-datepicker #fechaHasta disabled="false"></mat-datepicker>
-          </mat-form-field>
-        </div>
-	  </div>
-
-
-      <div class="col-md-2">
-        <div class="md-form">
-          <mat-label>Persona</mat-label>
-          <mat-select formControlName="fPersonaId"
-                      [ngClass]="{ 'is-invalid': submitted && f.fPersonaId.errors }">
-            <mat-option *ngFor="let operator of personas;" [value]="operator.value">{{operator.label}}</mat-option>
-          </mat-select>
-          <div *ngIf="submitted && f.fPersonaId.errors" style="color:red">
-            <div *ngIf="f.fPersonaId.errors.required">Requerido</div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-2">
-        <div class="md-form">
-          <button type="submit" class="btn">Busca empleados</button>
-        </div>
-	  </div>
-	  
-	  
-    </div>
--->
-
-		<div class="row">
 				<div class="form-group col-12 col-md-6 col-lg-4">
 					<label>Tipo Cumplimiento</label>
 					<select class="form-control"
 							formControlName="fTipoCumplimiento"
 							[ngClass]="{ 'is-invalid': submitted && f.fTipoCumplimiento.errors }"
-							(change)="getTasks()"
-					>
+							(change)="getTasks()">
 						<option
 								*ngFor="let operator of tiposCumplimientos;"
-								[value]="operator.value"
-						>
+								[value]="operator.value">
 						{{operator.label}}
 						</option>
 					</select>
@@ -120,12 +48,10 @@
 					<select class="form-control"
 							formControlName="fActividad"
 							[ngClass]="{ 'is-invalid': submitted && f.fActividad.errors }"
-							(change)="getTasks()"
-					>
+							(change)="getTasks()">
 						<option
 								*ngFor="let operator of actividades;"
-								[value]="operator.value"
-						>
+								[value]="operator.value">
 						{{operator.label}}
 						</option>
 					</select>
@@ -135,52 +61,12 @@
 				</div>
 	
 				<div class="form-group col-12 text-right align-self-end">
-					<button type="button" class="btn" (click)="saveTasks()">
+					<button type="button" class="btn" (click)="asignaTarea()">
 						<i class="ti-tag"></i> &nbsp;
-						Genera Tareas
+						Asignar Tareas
 					</button>
 				</div>
-
 		</div>
-<!--
-	<div class="row">
-      <div class="col-md-2">
-        <div class="md-form">
-          <mat-label>Tipo Cumplimiento</mat-label>
-          <mat-select formControlName="fTipoCumplimiento"
-                      [ngClass]="{ 'is-invalid': submitted && f.fTipoCumplimiento.errors }" (selectionChange)="getTasks()">
-            <mat-option *ngFor="let operator of tiposCumplimientos;" [value]="operator.value">{{operator.label}}</mat-option>
-          </mat-select>
-          <div *ngIf="submitted && f.fTipoCumplimiento.errors" style="color:red">
-            <div *ngIf="f.fTipoCumplimiento.errors.required">Requerido</div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-2">
-        <div class="md-form">
-          <mat-label>Actividad</mat-label>
-          <mat-select formControlName="fActividad"
-                      [ngClass]="{ 'is-invalid': submitted && f.fActividad.errors }"  (selectionChange)="getTasks()">
-            <mat-option *ngFor="let operator of actividades;" [value]="operator.value">{{operator.label}}</mat-option>
-          </mat-select>
-          <div *ngIf="submitted && f.fActividad.errors" style="color:red">
-            <div *ngIf="f.fActividad.errors.required">Requerido</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-2">
-        <div class="md-form">
-          &nbsp;
-        </div>
-      </div>
-      <div class="col-md-2">
-        <div class="md-form">
-          <button type="button" class="btn btn-primary btn-md" (click)="saveTasks()">Genera Tareas</button>
-        </div>
-      </div>
-	</div>
--->
     <div class="row">
       <div class="col">
         <table mdbTable bordered="true" class="table_catalogo">
@@ -191,21 +77,64 @@
           </thead>
           <tbody>
           <tr mdbTableCol *ngFor="let el of tagTasks; let i = index;">
-            <th scope="row">
-              <mat-checkbox [checked]="false" (click)="habilitarCheck((i))" >
-                {{i+1}}
-              </mat-checkbox>
-            </th>
+			  <th scope="row">{{i+1}}</th>
             <td>{{el.description}}</td>
-            <td><mat-checkbox [value]="tipoPerfil[0]" [checked]="false" [disabled]="checkboxDisabled[i]"
-                              (change)="armaMuneco($event)" [name]="i" [id]="i + '_0'" >
-            </mat-checkbox></td>
-            <td><mat-checkbox [value]="tipoPerfil[1]" [checked]="false" [disabled]="checkboxDisabled[i]"
-                              (change)="armaMuneco($event)" [name]="i" [id]="i + '_1'">
-            </mat-checkbox></td>
-            <td><mat-checkbox [value]="tipoPerfil[2]" [checked]="false" [disabled]="checkboxDisabled[i]"
-                              (change)="armaMuneco($event)" [name]="i" [id]="i + '_2'">
-            </mat-checkbox></td>
+            <td>
+				<div class="form-group col-12">
+				<select class="form-control"
+						multiple
+						[id]="'ejecutor_' + el.idTag"
+						(change)="agregarActor('ejecutor_' + el.idTag)"
+						[ngClass]="{ 'is-invalid': submitted && f.fPersonaId.errors }">
+					<option *ngFor="let operator of personas;"
+							[value]="operator.value">{{operator.label}}
+					</option>
+				</select>
+				<div *ngIf="submitted && f.fPersonaId.errors" style="color:red">
+					<div *ngIf="f.fPersonaId.errors.required">Requerido</div>
+				</div>
+			</div>
+			</td>
+            <td>
+				<div class="form-group">
+					<select class="form-control"
+							[id]="'responsable_' + el.idTag"
+							multiple
+							[name]="'responsable_' + el.idTag"
+							(change)="agregarActor('responsable_' + el.idTag)"
+							[ngClass]="{ 'is-invalid': submitted && f.fPersonaId.errors }">
+
+						<option
+								*ngFor="let operator of personas;"
+								[value]="operator.value">
+							{{operator.label}}
+						</option>
+					</select>
+					<div *ngIf="submitted && f.fPersonaId.errors" style="color:red">
+						<div *ngIf="f.fPersonaId.errors.required">Requerido</div>
+					</div>
+				</div>
+			</td>
+            <td>
+				<div class="form-group col-12">
+					<select class="form-control"
+							multiple
+							[id]="'supervisor_' + el.idTag"
+							[name]="'supervisor_' + el.idTag"
+							(change)="agregarActor('supervisor_' + el.idTag)"
+							[ngClass]="{ 'is-invalid': submitted && f.fPersonaId.errors }">
+
+						<option
+								*ngFor="let operator of personas;"
+								[value]="operator.value">
+							{{operator.label}}
+						</option>
+					</select>
+					<div *ngIf="submitted && f.fPersonaId.errors" style="color:red">
+						<div *ngIf="f.fPersonaId.errors.required">Requerido</div>
+					</div>
+				</div>
+			</td>
           </tr>
           </tbody>
         </table>

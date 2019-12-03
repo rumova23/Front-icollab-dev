@@ -28,6 +28,7 @@ export class TaskEditComponent implements OnInit {
   @Input() comboPeriodoEntrega: Array<Combo>;
   @Input() comboTipoDias: Array<Combo>;
   @Input() comboEstatus: Array<Combo>;
+  @Input() comboUnitPeriod: Array<Combo>;
   listaCombos: Array<any>;
   constructor(
       private formBuilder: FormBuilder,
@@ -47,32 +48,37 @@ export class TaskEditComponent implements OnInit {
         fRequisitoLegal: ['', Validators.required],
         fAutoridad: ['', Validators.required],
         fTipoAplicacion: ['', Validators.required],
-        fPeriodoEntrega: ['', Validators.required],
+        fPeriod: ['', Validators.required],
+        fUnitPeriod: ['', Validators.required],
         fTipoDias: ['', Validators.required],
       });
     }
 
   ngOnInit() {
-    this.comboActividades = new Array<Combo>();
-    this.configActividadesForm.controls.fIdTag.setValue(this.compliance.tagDTO.idTag);
-    this.configActividadesForm.controls.fTag.setValue(this.compliance.tagDTO.tag);
-    this.configActividadesForm.controls.fDescripcion.setValue(this.compliance.tagDTO.description);
-    this.configActividadesForm.controls.fActividad.setValue(this.compliance.tagDTO.activity.idActivity);
-    this.configActividadesForm.controls.fClasificacionActividad.setValue(this.compliance.tagDTO.classificationActivity);
-    this.configActividadesForm.controls.fTipoCumplimiento.setValue(this.compliance.tagDTO.typeCompliance.id);
-    this.configActividadesForm.controls.fRequisitoLegal.setValue(this.compliance.tagDTO.legalRequirement);
-    this.configActividadesForm.controls.fAutoridad.setValue(this.compliance.tagDTO.authority.id);
-    this.configActividadesForm.controls.fTipoAplicacion.setValue(this.compliance.tagDTO.applicationType.id);
-    this.configActividadesForm.controls.fPeriodoEntrega.setValue(this.compliance.tagDTO.unitPeriod.id);
-    this.configActividadesForm.controls.fTipoDias.setValue(this.compliance.tagDTO.daysType.id);
+      console.log('RTC');
+      console.dir(this.compliance);
+      console.log('RTC');
+      this.comboActividades = new Array<Combo>();
+      this.configActividadesForm.controls.fIdTag.setValue(this.compliance.tagDTO.idTag);
+      this.configActividadesForm.controls.fTag.setValue(this.compliance.tagDTO.tag);
+      this.configActividadesForm.controls.fDescripcion.setValue(this.compliance.tagDTO.description);
+      this.configActividadesForm.controls.fActividad.setValue(this.compliance.tagDTO.activity.idActivity);
+      this.configActividadesForm.controls.fClasificacionActividad.setValue(this.compliance.tagDTO.classificationActivity);
+      this.configActividadesForm.controls.fTipoCumplimiento.setValue(this.compliance.tagDTO.typeCompliance.id);
+      this.configActividadesForm.controls.fRequisitoLegal.setValue(this.compliance.tagDTO.requisitoLegal);
+      this.configActividadesForm.controls.fAutoridad.setValue(this.compliance.tagDTO.authority.id);
+      this.configActividadesForm.controls.fTipoAplicacion.setValue(this.compliance.tagDTO.applicationType.id);
+      this.configActividadesForm.controls.fPeriod.setValue(this.compliance.tagDTO.period);
+      this.configActividadesForm.controls.fUnitPeriod.setValue(this.compliance.tagDTO.unitPeriod.id);
+      this.configActividadesForm.controls.fTipoDias.setValue(this.compliance.tagDTO.daysType.id);
 
-    let statusConsultActivity = 'ACTIVOS';
-    if ( this.accion === 'edit' || this.accion === 'ver' ) {
+      let statusConsultActivity = 'ACTIVOS';
+      if ( this.accion === 'edit' || this.accion === 'ver' ) {
       statusConsultActivity = 'TODOS';
     } else if ( this.accion === 'nuevo') {
       statusConsultActivity = 'ACTIVOS';
     }
-    this.tagService.getCatalogoActividades(statusConsultActivity).subscribe(
+      this.tagService.getCatalogoActividades(statusConsultActivity).subscribe(
         catalogoResult => {
           console.log(catalogoResult);
           let actividad: any;
@@ -89,12 +95,12 @@ export class TaskEditComponent implements OnInit {
     ).add(() => {
       // this.addBlock(2, null);
     });
-    this.configActividadesForm.disable();
+      this.configActividadesForm.disable();
   }
 
   onSubmit() {
   }
-  asignarNombreTag(e){
+  asignarNombreTag(e) {
 
   }
   // Compara valores del combo para seleccionar la opción correspondiente

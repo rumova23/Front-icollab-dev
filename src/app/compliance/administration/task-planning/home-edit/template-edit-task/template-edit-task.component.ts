@@ -33,7 +33,7 @@ export class TemplateEditTaskComponent implements OnInit {
   comboTipoCumplimiento: Array<Combo>;
   comboAutoridad: Array<Combo>;
   comboTipoAplicacion: Array<Combo>;
-  comboPeriodoEntrega: Array<Combo>;
+  comboUnitPeriod: Array<Combo>;
   comboTipoDias: Array<Combo>;
   comboEstatus: Array<Combo>;
   comboEstatusInterno: Array<Combo>;
@@ -46,13 +46,12 @@ export class TemplateEditTaskComponent implements OnInit {
     this.comboTipoCumplimiento = new Array<Combo>();
     this.comboAutoridad = new Array<Combo>();
     this.comboTipoAplicacion = new Array<Combo>();
-    this.comboPeriodoEntrega = new Array<Combo>();
+    this.comboUnitPeriod = new Array<Combo>();
     this.comboTipoDias = new Array<Combo>();
     this.listaCombos = Array<OrderCatalogDTO>();
     this.listaCombos.push( new OrderCatalogDTO('typeCompliance', 1, 1));
     this.listaCombos.push( new OrderCatalogDTO('authority', 1, 1));
     this.listaCombos.push( new OrderCatalogDTO('typeApplication', 1, 1));
-    this.listaCombos.push( new OrderCatalogDTO('deliveryPeriod', 1, 1));
     this.listaCombos.push( new OrderCatalogDTO('typeDay', 1, 1));
     this.comboEstatus = new Array<Combo>();
     this.comboEstatusInterno = new Array<Combo>();
@@ -62,7 +61,6 @@ export class TemplateEditTaskComponent implements OnInit {
           this.resuelveDS(poRespuesta, this.comboTipoCumplimiento, 'typeCompliance');
           this.resuelveDS(poRespuesta, this.comboAutoridad, 'authority');
           this.resuelveDS(poRespuesta, this.comboTipoAplicacion, 'typeApplication');
-          this.resuelveDS(poRespuesta, this.comboPeriodoEntrega, 'deliveryPeriod');
           this.resuelveDS(poRespuesta, this.comboTipoDias, 'typeDay');
           this.administratorComplianceService.obtenEstatusMaestro('CAT_SEGUIMIENTO_ESTATUS').subscribe(
               (combos: Array<MaestroOpcionDTO>) => {
@@ -72,6 +70,12 @@ export class TemplateEditTaskComponent implements OnInit {
           this.administratorComplianceService.obtenEstatusMaestro('CAT_SEGUIMIENTO_ESTATUS_INTERNO').subscribe(
               (combos: Array<MaestroOpcionDTO>) => {
                 this.resuelveMaestro(combos, this.comboEstatusInterno);
+              }
+          );
+
+          this.administratorComplianceService.obtenEstatusMaestro('UNIT_PERIOD').subscribe(
+              (combos: Array<MaestroOpcionDTO>) => {
+                this.resuelveMaestro(combos, this.comboUnitPeriod);
               }
           );
         }
@@ -95,7 +99,7 @@ export class TemplateEditTaskComponent implements OnInit {
     refTask.instance.comboTipoCumplimiento = this.comboTipoCumplimiento;
     refTask.instance.comboAutoridad = this.comboAutoridad;
     refTask.instance.comboTipoAplicacion = this.comboTipoAplicacion;
-    refTask.instance.comboPeriodoEntrega = this.comboPeriodoEntrega;
+    refTask.instance.comboUnitPeriod = this.comboUnitPeriod;
     refTask.instance.comboTipoDias = this.comboTipoDias;
     refTask.instance.comboEstatus = this.comboEstatus;
     refTask.changeDetectorRef.detectChanges();
@@ -112,7 +116,7 @@ export class TemplateEditTaskComponent implements OnInit {
     const refEstatus = this.taskEstatus.createComponent(this.componentFactoryResolver.resolveComponentFactory(TaskEstatusComponent));
     refEstatus.instance.accion = this.accion;
     refEstatus.instance.compliance = this.compliance;
-    refEstatus.instance.comboPeriodoEntrega = this.comboPeriodoEntrega;
+    refEstatus.instance.comboUnitPeriod = this.comboUnitPeriod;
     refEstatus.instance.comboTipoDias = this.comboTipoDias;
     refEstatus.instance.comboEstatus = this.comboEstatus;
     refEstatus.instance.comboEstatusInterno = this.comboEstatusInterno;
