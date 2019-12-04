@@ -141,7 +141,6 @@ export class TagService {
 
   comboUnitPeriod() {
     this.setXTenantId(this.globalService.aguila);
-    return this.http.get( `${ this.mastercatalog }mastercatalog/mastercatalog/UNIT_PERIOD`,
-        {params : this.parameters });
+    return this.http.get( `${ this.mastercatalog }mastercatalog/mastercatalog/UNIT_PERIOD`, {params : this.parameters });
   }
 }

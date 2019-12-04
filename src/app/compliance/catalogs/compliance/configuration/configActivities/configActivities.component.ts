@@ -299,8 +299,8 @@ export class ConfigActivitiesComponent implements OnInit {
       this.configActividadesForm.controls['fRequisitoLegal'].value,
       this.configActividadesForm.controls['fAutoridad'].value,
       this.configActividadesForm.controls['fTipoAplicacion'].value,
-      this.configActividadesForm.controls['fPeriodoEntregaCantidad'].value,
         this.configActividadesForm.controls['fPeriodoEntregaUnidad'].value,
+        this.configActividadesForm.controls['fPeriodoEntregaCantidad'].value,
       this.configActividadesForm.controls['fTipoDias'].value,
       this.checkedEstatus,
       //this.plantas,
@@ -682,6 +682,7 @@ export class ConfigActivitiesComponent implements OnInit {
   initComboUnitPeriod() {
     this.tagService.comboUnitPeriod().subscribe(
         (lista: Array<MaestroOpcionDTO>) => {
+          console.dir(lista);
           lista.forEach((elemento: MaestroOpcionDTO) => {
             this.comboUnitPeriod.push(new Combo(elemento.maestroOpcionId.toString(), elemento.opcion.codigo));
           });

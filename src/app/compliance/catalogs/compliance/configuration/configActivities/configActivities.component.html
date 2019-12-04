@@ -264,30 +264,13 @@
                                 class="form-control"
                                 [compareWith]="compareFn"
                                 formControlName="fPeriodoEntregaUnidad"
-                                [ngClass]="{
-                                    'is-invalid':
-                                        submitted &&
-                                        f.fPeriodoEntregaUnidad.errors
-                                }"
-                            >
-                                <option
-                                    *ngFor="let operator of comboUnitPeriod"
-                                    [value]="operator.value"
-                                >
+                                [ngClass]="{'is-invalid': submitted && f.fPeriodoEntregaUnidad.errors}">
+                                <option *ngFor="let operator of comboUnitPeriod" [value]="operator.value">
                                     {{ operator.label }}
                                 </option>
                             </select>
-                            <div
-                                *ngIf="
-                                    submitted && f.fPeriodoEntregaUnidad.errors
-                                "
-                                style="color:red"
-                            >
-                                <div
-                                    *ngIf="
-                                        f.fPeriodoEntregaUnidad.errors.required
-                                    "
-                                >
+                            <div *ngIf="submitted && f.fPeriodoEntregaUnidad.errors" style="color:red">
+                                <div *ngIf="f.fPeriodoEntregaUnidad.errors.required">
                                     Requerido
                                 </div>
                             </div>
