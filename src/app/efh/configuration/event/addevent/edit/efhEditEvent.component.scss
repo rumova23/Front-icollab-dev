@@ -13,6 +13,10 @@ input[type="time"]:enabled {
   background-position: calc(100% - 45px) center;
 }
 
+mat-select:disabled {
+  color: #8c92a3;
+}
+
 .disabled {
   color: #8c92a3;
 }

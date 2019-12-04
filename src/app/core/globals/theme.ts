@@ -113,7 +113,7 @@ export class ThemeService {
                 logo = "/assets/img/common/ico_mod/Compliance-v2.png";
                 break;
             case "Efh":
-                logo = "/assets/img/common/ico_mod/EFH.png";
+                logo = "/assets/img/efh2.png";
                 break;
             default:
                 logo ="default";

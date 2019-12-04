@@ -10,6 +10,9 @@ import { EventMessage                   } from 'src/app/core/models/EventMessage
 import { DatePipe                       } from '@angular/common';
 import { SecurityService                } from 'src/app/core/services/security.service';
 import { EventBlocked                   } from 'src/app/core/models/EventBlocked';
+import { EfhService                     } from 'src/app/core/services/efh.service';
+import {Constants} from '../../../../core/globals/Constants';
+import {EventType} from '../../../models/EventType';
 
 @Component({
   selector: 'app-efh-add-event',
@@ -24,10 +27,10 @@ export class EfhAddEventComponent implements OnInit {
   title: String;
   menu: any[];
   catalogType: CatalogType;
-  showAdd: boolean = false;
-  showView: boolean = false;
-  showUpdate: boolean = false;
-  showDelete: boolean = false;
+  showAdd = false;
+  showView = false;
+  showUpdate = false;
+  showDelete = false;
   dataSource;
   data: any[] = [];
   displayedColumnsOrder: any[] = [];
@@ -36,6 +39,10 @@ export class EfhAddEventComponent implements OnInit {
   rowPerPage = [50, 100, 250, 500];
   listaCombos: Array<any>;
   result;
+  resultService;
+  eventTypesArr = [];
+  unitsArr = [];
+  fuelTypesArr = [];
 
   constructor(
       private catalogoMaestroService: CatalogoMaestroService,
@@ -44,7 +51,8 @@ export class EfhAddEventComponent implements OnInit {
       public toastr: ToastrManager,
       private eventService: EventService,
       private datePipe: DatePipe,
-      private securityService: SecurityService) {
+      private securityService: SecurityService,
+      private efhService: EfhService) {
       this.menu = securityService.getMenu('Efh');
   }
 
@@ -53,18 +61,18 @@ export class EfhAddEventComponent implements OnInit {
 
   ngOnInit() {
     this.title = 'Eventos configurados';
+    this.getCatalogs();
     this.getDataSource();
-    //debugger;
-    for (let option of this.menu) {
+    for (const option of this.menu) {
       if (option.children) {
-        let flag:boolean = true;
+        let flag = true;
         while ( flag ) {
           flag = false;
-          for(let ins=0; ins < option.children.length; ins++) {
-            if (option.children[ins]['label'] == this.nombreCatalogo) {
-              option.children[ins].actions.push('CREAR', 'VER', 'EDITAR', 'BORRAR');
+          for (let ins = 0; ins < option.children.length; ins++) {
+            if (option.children[ins].label == this.nombreCatalogo) {
+              // option.children[ins].actions.push('CREAR', 'VER', 'EDITAR', 'BORRAR');
               if (option.children[ins].actions) {
-                for(let action = 0; action < option.children[ins].actions.length ; action++) {
+                for (let action = 0; action < option.children[ins].actions.length ; action++) {
 
                   if (option.children[ins].actions[action] == 'CREAR') {
                     this.showAdd = true;
@@ -90,34 +98,37 @@ export class EfhAddEventComponent implements OnInit {
   getDataSource() {
     this.addBlock(1, 'Cargando...');
     this.data = [];
-    this.catalogoMaestroService.getCatalogoIndividual(EfhAddEventComponent.mainCatalog).subscribe(
+    this.efhService.getEventsConfigurated().subscribe(
         dataBack => {
           this.result = dataBack;
           let i = 0;
-
-          for (let element of this.result) {
+          for (const element of this.result) {
             i += 1;
-            let obj            = {};
-            obj['order']       = i;
-            obj['id']          = element.id;
-            obj['date']        = element.code;
-            obj['unit']        = element.code;
-            obj['typeEvent']        = element.code;
-            obj['typeFuel'] = element.description;
-            obj['userUpdated'] = element.userUpdated == undefined ? element.userCreated : element.userUpdated;
-            let dateUpdated = element.dateUpdated == undefined ? element.dateCreated : element.dateUpdated;
+            const obj            = {};
+            obj['id'] = element.id;
+            // obj['idtypeevent'] = element.idtypeevent;
+            obj['typeEvent'] = this.eventTypesArr.find(x => x.id === element.idtypeevent).code;
+            // obj['idtypefuel'] = element.idtypefuel;
+            obj['typeFuel'] = this.fuelTypesArr.find(x => x.id === element.idtypefuel).code;
+            // obj['idunit'] = element.idunit;
+            obj['unit'] = this.unitsArr.find(x => x.id === element.idunit).code;
+            obj['dateInit'] = this.datePipe.transform(new Date(element.dateinit) , 'dd/MM/yyyy HH:mm');
+            obj['order'] = i;
+            obj['userUpdated'] = element.userUpdated === undefined ? element.userCreated : element.userUpdated;
+            const dateUpdated = element.dateUpdated === undefined ? element.dateCreated : element.dateUpdated;
             obj['dateUpdated'] = '.';
             if (dateUpdated) {
-              obj['dateUpdated'] = this.datePipe.transform(new Date(dateUpdated) ,'dd/MM/yyyy HH:mm');
+              obj['dateUpdated'] = this.datePipe.transform(new Date(dateUpdated) , 'dd/MM/yyyy HH:mm');
             }
-            obj['status']      = element.active == true ? 'Activo' : 'Inactivo';
-            obj['element']     = element; //Al Eliminar se usa
+            obj['status']      = element.active === true ? 'Activo' : 'Inactivo';
+            obj['element']     = element;
+
             this.data.push(obj);
           }
 
           this.displayedColumnsOrder = [
             {key: 'order', label: '#'}
-            , {key: 'date', label: 'Fecha'}
+            , {key: 'dateInit', label: 'Fecha'}
             , {key: 'unit', label: 'Unidad'}
             , {key: 'typeEvent', label: 'Tipo de evento'}
             , {key: 'typeFuel', label: 'Combustible'}
@@ -127,7 +138,7 @@ export class EfhAddEventComponent implements OnInit {
           ];
 
           this.displayedColumnsActions = [];
-          this.columnsToDisplay = [ 'order', 'date', 'unit', 'typeEvent', 'typeFuel', 'userUpdated', 'dateUpdated', 'status'];
+          this.columnsToDisplay = [ 'order', 'dateInit', 'unit', 'typeEvent', 'typeFuel', 'userUpdated', 'dateUpdated', 'status'];
 
           if (this.showView) {
             this.displayedColumnsActions.push({key: 'sys_see', label: 'Ver'});
@@ -150,33 +161,117 @@ export class EfhAddEventComponent implements OnInit {
     });
   }
 
-  action(option: number, id: any) {
-    let type: CatalogType = {};
+  action(option: number, id: any, section: any) {
+    let type: EventType = {};
 
     switch (option) {
       case 1:
         type = {
-          id: id
+          id
           , action: 'nuevo'
-          , name: this.nombreCatalogo
-        }
+          , section
+        };
         break;
       case 2:
         type = {
-          id: id
+          id
           , action: 'ver'
-          , name: this.nombreCatalogo
-        }
+          , section
+        };
         break;
       case 3:
         type = {
-          id: id
+          id
           , action: 'editar'
-          , name: this.nombreCatalogo
-        }
+          , section
+        };
         break;
     }
     this.eventService.sendChangePage(new EventMessage(5 , type, 'Efh.Agregar eventos.ABC'));
+  }
+
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
+
+  getCatalogs() {
+    this.catalogoMaestroService.getCatalogoIndividual('typeEvent')
+        .subscribe(
+            data => {
+              this.resultService = data;
+              let i = 0;
+              for (const element of this.resultService) {
+                if (element.active === true && element.code !== 'VACÍO') {
+                  i += 1;
+                  const obj            = {};
+                  // @ts-ignore
+                  obj.order       = i;
+                  // @ts-ignore
+                  obj.id          = element.id;
+                  // @ts-ignore
+                  obj.name        = element.code;
+                  // @ts-ignore
+                  obj.description = element.description;
+                  this.eventTypesArr.push(obj);
+                }
+              }
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+            }
+        );
+
+    this.catalogoMaestroService.getCatalogoIndividual('typeFuel')
+        .subscribe(
+            data => {
+              this.resultService = data;
+              let i = 0;
+              for (const element of this.resultService) {
+                if (element.active === true) {
+                  i += 1;
+                  const obj            = {};
+                  // @ts-ignore
+                  obj.order       = i;
+                  // @ts-ignore
+                  obj.id          = element.id;
+                  // @ts-ignore
+                  obj.name        = element.code;
+                  // @ts-ignore
+                  obj.description = element.description;
+                  this.fuelTypesArr.push(obj);
+                }
+              }
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+            }
+        );
+
+    this.catalogoMaestroService.getCatalogoIndividual('unit')
+        .subscribe(
+            data => {
+              this.resultService = data;
+              let i = 0;
+              for (const element of this.resultService) {
+                if (element.active === true) {
+                  i += 1;
+                  const obj            = {};
+                  // @ts-ignore
+                  obj.order       = i;
+                  // @ts-ignore
+                  obj.id          = element.id;
+                  // @ts-ignore
+                  obj.name        = element.code;
+                  // @ts-ignore
+                  obj.description = element.description;
+                  this.unitsArr.push(obj);
+                }
+              }
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+            }
+        );
   }
 
   eliminarRegistro(maestroOpcion: any) {
@@ -184,38 +279,19 @@ export class EfhAddEventComponent implements OnInit {
         'Está seguro de eliminar el registro?')
         .then((confirmed) => {
           if (confirmed) {
-            this.catalogoMaestroService.outCatalogoItem(EfhAddEventComponent.mainCatalog
-                , maestroOpcion.id).subscribe(
-                data => {
-                  this.toastr.successToastr('El registro fue correctamente eliminado', '¡Se ha logrado!');
-                  this.eventService.sendChangePage(new EventMessage(4, {} , 'EFH.Tipo de Evento'));
-                  this.confirmationDialogService.confirm('Por favor, confirme..'
-                      , 'Está seguro de eliminar los registros clonados? ')
-                      .then((confirmed) => {
-                            if (confirmed) {
-                              this.catalogoMaestroService.outCatalogItemCloned(EfhAddEventComponent.mainCatalog
-                                  , maestroOpcion['referenceclone']).subscribe(
-                                  data => {
-                                    this.toastr.successToastr('Los registros clonados fueron correctamente eliminados', '¡Se ha logrado!');
-                                  }
-                              );
-                            }
-                          }
-                      )
-                      .catch(() => console.log('Cancelo eliminar clones'));
-
-                }
-                , error => {
-                  this.toastr.errorToastr(error.error['text'], 'Lo siento,');
-                },
-            );
+            this.efhService.deleteEvent(maestroOpcion.id)
+                .subscribe(
+                    data => {
+                      this.toastr.successToastr('El registro fue correctamente eliminado', '¡Se ha logrado!');
+                      this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.Agregar eventos'));
+                    }
+                    , error => {
+                      this.toastr.errorToastr(error.error['text'], 'Lo siento,');
+                    },
+                );
           }
         })
         .catch(() => console.log('Canceló eliminar'));
-  }
-
-  private addBlock(type, msg): void {
-    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 
 }

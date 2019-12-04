@@ -80,7 +80,6 @@ export class EfhEventTypeEditComponent implements OnInit {
     });
 
     this.accion = this.catalogType.action;
-    debugger;
     if (this.accion === 'editar') {
       this.deshabiliarEstatus = false;
       this.disabledSave = true;
