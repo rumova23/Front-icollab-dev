@@ -17,6 +17,7 @@ export class TaskEstatusComponent implements OnInit {
   @Input() comboTipoDias: Array<any>;
   @Input() comboEstatus: Array<any>;
   @Input() comboEstatusInterno: Array<any>;
+  @Input() comboUnitPeriod: Array<any>;
 
   titulo = 'Control de la Tarea';
   submitted = false;

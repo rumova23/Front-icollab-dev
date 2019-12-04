@@ -1,5 +1,5 @@
 export var listCharts = {
-  mychart:{
+  canvas1:{
       type:"line",
       controls:{},
       tags:[

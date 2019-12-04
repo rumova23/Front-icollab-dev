@@ -13,6 +13,7 @@ import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 
 import { GanttEditorComponent, GanttEditorOptions } from 'ng-gantt';
+import {ComplianceDTO} from '../../../models/compliance-dto';
 
 
 @Component({
@@ -33,7 +34,7 @@ export class TablesLegalAgreementComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   @Input() columnas: string[];
-  @Input() registros: MatTableDataSource<Compliance>;
+  @Input() registros: MatTableDataSource<ComplianceDTO>;
 
   @Input() columnasGant: string[];
   @Input() semanasPorMes: Array<SemanasPorMes>;
