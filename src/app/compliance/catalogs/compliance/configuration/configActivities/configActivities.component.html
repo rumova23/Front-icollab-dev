@@ -257,29 +257,7 @@
             </div>
           </div>
           <div>
-            <div class="col-md-6">
-                <label>Período de entrega</label>
                 <div layout="row" layout-align="center center">
-                    <div>
-                        <div class="col-md-2">
-                            <input
-                                type="number"
-                                class="form-control"
-                                [ngClass]="{'is-invalid': submitted && f.fPeriodoEntregaCantidad.errors}"
-                                matInput
-                                name="value"
-                                placeholder="Cantidad"
-                                formControlName="fPeriodoEntregaCantidad"/>
-                            <div
-                                *ngIf="submitted && f.fPeriodoEntregaCantidad.errors"
-                                style="color:red">
-                                <div
-                                    *ngIf="f.fPeriodoEntregaCantidad.errors.required">
-                                    Requerido
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div>
                         <div class="col-md-6">
                             <select
@@ -316,7 +294,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
           </div>
         </div>
       </div>
