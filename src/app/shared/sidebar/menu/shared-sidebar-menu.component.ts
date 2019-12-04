@@ -106,10 +106,12 @@ export class SharedSidebarMenuComponent{
 			url: "legalAgreement"}
 			);
 		  console.dir(this.menu);
-	   
+		
+		  
 	
 		  let temp0:menuItem;
 		  let flag0:boolean = true;
+		  /*
 		  while ( flag0 ){
 			flag0 = false;          
 			for (let ins=0; ins < this.menu.length -1; ins++) {
@@ -120,23 +122,26 @@ export class SharedSidebarMenuComponent{
 				flag0 = true; 
 			  }
 			}
-		  }
-	
+		  }//*/
+		  
 		  for (let option of this.menu) {
 			if (option.children){
 			  let temp:menuItem;
 			  let flag:boolean = true;
 			  while ( flag ){
+				
 				flag = false;          
-				for (let ins=0; ins < option.children.length -1; ins++) {
+				for (let ins=0; ins < option.children.length; ins++) {
+					/*
 				  if ( parseInt(option.children[ins]['url']) > parseInt(option.children[ins+1]['url'])){
 					temp = option.children[ins]; 
 					option.children[ins] = option.children[ins + 1];
 					option.children[ins + 1] = temp;
 					flag = true;
-				  }
+				  }//*/
 				  if (option.children[ins]['label']=='Cumplimiento Legal'){
 					if (!option.children[ins].children){
+						
 					  option.children[ins].children = new Array();
 					  let childrenA:any  = {};
 					  childrenA['label'] ="Características";
@@ -150,8 +155,9 @@ export class SharedSidebarMenuComponent{
 					  option.children[ins].children.push(childrenB);
 					}
 				  }
-	
+				  
 				  if (option.children[ins]['label']=='Cumplimiento Adquisiciones'){
+					
 					if (!option.children[ins].children){
 					  option.children[ins].children = new Array();
 					  let childrenA:any  = {};
