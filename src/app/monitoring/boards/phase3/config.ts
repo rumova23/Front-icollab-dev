@@ -24,7 +24,11 @@ export const generateColorHEX = function(calltag){
 }
 export const lstTags = [];
 
-lstTags['getTemperaturaAmbiente']         = {  label: 'Temperatura ambiente'          ,min:0  ,max:590     ,color:'#c5f327'  
+lstTags['getTemperaturaAmbiente']         = {  
+  label: 'Temperatura ambiente'          
+  ,min:0  
+  ,max:590     
+  ,color:'#c5f327'  
   ,aguila   : [{WebId:'P0uQAgHoBd0ku7P3cWOJL6IglyQAAAU0VSVklET1JfUElcUDJBMDgyMTE',data:null, active:true}]
   ,sol      : [{WebId:'F1DP4rhZAwFMREKDf7s8vylUqgxwMAAAUElUVlxULkNFQS4yMjQ1'     ,data:null, active:true}]
   ,overview : [{value:null,timestamp:null}]

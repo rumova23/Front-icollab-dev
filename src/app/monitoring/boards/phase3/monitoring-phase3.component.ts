@@ -19,7 +19,7 @@ declare var $: any;
 
 
 
-
+import { RelWebIdLocalId } from '../../models/rel_webId_localId/rel_webId_localId';
 import * as TAGS from './config';
 import { DateAdapter } from 'angular-calendar';
 import { EventMessage } from 'src/app/core/models/EventMessage';
@@ -42,8 +42,10 @@ import { getMyDateFormat } from 'src/app/core/helpers/util.general';
 export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent implements OnInit, OnDestroy {
 	@ViewChild('modal_turbine_ct_1') modal_turbine_ct_1: InteractiveImageTurbineCT1Component;
 	@ViewChild('modal_turbine_ct_12') modal_turbine_ct_12: InteractiveImageTurbineCT1Component;
-	charts      : Array<Chart> = [];
-	dataSets    : [] = []; // para poder conoce los colores de cada dataset
+	private charts            : Array<Chart> = [];
+	private dataSets          : [] = []; // para poder conoce los colores de cada dataset
+	private rel_webId_localId : Array<RelWebIdLocalId> = [];
+
 	calltags    = [];
 	calltagsObj = [];
 	dataset_main=[];
@@ -152,7 +154,7 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 			)
 		);
 	}
-	dataAdapter(box:PiServerBox){
+	dataAdapter___(box:PiServerBox){
 		switch (box.name) {
 			case "getStreamsetsInterpolatedLast24Hours":
 				this.setStreamIn(box);
@@ -160,9 +162,37 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 			case "pi-aguila":
 			case "pi-sol":
 			
+				this.setStreamIn(box);
 				break;
 		}
 
+	}
+	dataAdapter(box:PiServerBox){
+		for (const idChart in TAGS.listCharts) {
+			if (TAGS.listCharts.hasOwnProperty(idChart)) {
+				switch (box.name) {
+					case "getStreamsetsInterpolatedLast24Hours":
+						this.setStreamIn(box);
+						break;
+					case "pi-aguila":
+					case "pi-sol":
+						if(this.check_time_refreseh_data(
+							TAGS.listCharts[idChart]['controls']['time_refreseh'],
+							TAGS.listCharts[idChart]['controls']['timePast']
+						)){
+							this.charts[idChart].data.labels.push(this.getTime());
+							//if(this.charts[idChart].data.labels.length > chart.controls.data_per_graph){
+							if(this.charts[idChart].data.labels.length > 24){
+								this.charts[idChart].data.labels.shift();
+							}
+							this.setStreamIn(box);
+							
+						}
+						break;
+				}
+
+			}
+		}
 	}
 	setStreamIn(box:PiServerBox){
 		for (const data of box.data) {
@@ -179,11 +209,12 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 			if (TAGS.lstTags.hasOwnProperty(local_tag_key)) {
 				for (const localtag of TAGS.lstTags[local_tag_key][this.globalService.plant.name.toLowerCase()]) {
 					if(localtag.WebId == tag.WebId){
-						localtag.data = tag;
+						this.rel_webId_localId[tag.WebId] = new RelWebIdLocalId(tag.WebId, local_tag_key, localtag.active);
+						//localtag.data = tag;
+						if(localtag.active){
+							this.setStreamTagItemsInChart(tag,local_tag_key);
+						} 
 					}
-					if(localtag.active){
-						this.setStreamTagItemsInChart(tag,local_tag_key);
-					} 
 				}
 			}
 		}
@@ -191,14 +222,25 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 	setStreamTagItemsInChart(tag:PiServerItem, local_tag_key:string){
 		let values = [];
 		let labels = [];
-		for (const item of tag.Items) {
-			values.push(item.Value.Value);
-			labels.push(getMyDateFormat(new Date(item.Timestamp)));
+		if(tag.Items.length>0){
+			for (const item of tag.Items) {
+				values.push(item.Value.Value);
+				labels.push(getMyDateFormat(new Date(item.Timestamp)));
+			}
+		}else if(tag.Value != null){
+			values.push(tag.Value.Value);
+			labels.push(getMyDateFormat(new Date(tag.Value.Timestamp)));
 		}
 		this.addDatasetLine2("canvas1", values, labels, local_tag_key);
 	}
 
 	addDatasetLine2(idChart, values, labels,local_tag_key){
+		if(! Array.isArray(values)){
+			values = [values];
+		}
+		if(! Array.isArray(labels)){
+			labels = [labels];
+		}
 		let existDataset = function (tag) {
 			return (tag.id === local_tag_key);
 		};
@@ -244,40 +286,49 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 			return "rgb(" + +r + "," + +g + "," + +b + "," + a + ")";
 		}
 		let tag = this.charts[idChart].data.datasets.find(existDataset);
-		debugger
-		let chart = TAGS.listCharts[idChart];
-
+		if (tag == undefined) {
 			//let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets, chartTag.calltags);
 			let tagconf    = TAGS.lstTags[local_tag_key];
 			//if(datasetTag == undefined){
 
 				var hex  = tagconf.color;
 				let rgba = BasChart.hexToRGB(tagconf.color,0.3);
-
 				var newDataset = {
-					id:local_tag_key,
-					rgba:rgba,
-					label: tagconf.label,
-					backgroundColor: hex,
+					id: local_tag_key,
+					rgba: rgba,
+					label: TAGS.lstTags[local_tag_key].label,
+					backgroundColor: rgba,
 					borderColor: hex,
 					data: values,
+					//fill: false,
 					fill: false,
-					hidden:false,
-					yAxisID: local_tag_key
+					yAxisID: local_tag_key,
+					//yAxisID: 'my887896',
+					hidden: hiddenDataset()
 				};
 				var newYaxis = {
 					id: local_tag_key,
-					display: true,
+					type: 'linear', //'myScale','linear'
+					display: displayYAxis(),
 					position: 'left',
-					ticks:{
-						fontColor:hex,
-						fontSize:12,
+					scaleLabel: {
+						display: false,
+						labelString: 'Y',
+						fontFamily: 'Lato',
+						fontSize: 14,
+					},
+					afterUpdate: function (axis) {
+
+					},
+					ticks: {
+						fontColor: hex,
+						fontSize: 12,
 						//min: tagconf.min,
 						//max: tagconf.max,
-						//beginAtZero: false
+						beginAtZero: false
 					},
-					gridLines:{
-						color:"rgb(52, 58, 64)",
+					gridLines: {
+						color: "rgb(52, 58, 64)",
 						display: false,
 					},
 
@@ -286,8 +337,20 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 				this.charts[idChart].data.datasets.push(newDataset);
 				this.charts[idChart].config.options.scales.yAxes.push(newYaxis);
 				this.dataSets[idChart+"-"+local_tag_key] = newDataset;
-			//}
-			this.charts[idChart].data.labels = labels;
+				
+				this.charts[idChart].data.labels = labels;
+			}else{
+				///*
+				for (const data of values) {
+					(tag.data as number[]).push(data);
+					//tag.data.push(data);
+					if (tag.data.length >= 24) {
+						tag.data.shift();
+					}
+				}
+
+				//*/
+			}
 	
 		this.charts[idChart].update();
 		//console.log(this.charts);
