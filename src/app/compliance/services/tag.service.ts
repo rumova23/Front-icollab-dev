@@ -26,11 +26,9 @@ export class TagService {
     let user = JSON.parse(localStorage.getItem('user'));
     user = user.username;
     if (plantSelected) {
-      const p1 = new HttpParams().set('X-TENANT-ID', 'aguila').set('user', user);
-      this.parameters = p1;
+      this.parameters = new HttpParams().set('X-TENANT-ID', 'aguila').set('user', user);
     } else {
-      const p2 = new HttpParams().set('X-TENANT-ID', 'sol').set('user', user);
-      this.parameters = p2;
+      this.parameters = new HttpParams().set('X-TENANT-ID', 'sol').set('user', user);
     }
   }
 
@@ -102,6 +100,7 @@ export class TagService {
 
   // Actividades
   getCatalogoActividades(status): Observable<any> {
+    console.log(this.globalService.aguila ? 'aguila' : 'sol');
     this.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.baseMicroTagUrl }tag/actividad/all/${status}`, {params : this.parameters });
   }
