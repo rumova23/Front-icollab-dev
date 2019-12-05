@@ -340,6 +340,10 @@ export class ActivitiesEditComponent implements OnInit {
     }
 
     editClonated() {
+		/**
+		 * 
+		 * Colocar un For para clonar en varias plantas 
+		 */
         this.tagService
             .setEditClonated(this.actividad, !this.globalService.aguila)
             .subscribe(dataBack => {
