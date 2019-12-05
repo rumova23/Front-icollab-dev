@@ -25,33 +25,33 @@ export class TagService {
 
 
   getlistCatalogoOrdenados(catalogos: Array<OrderCatalogDTO>) {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     // return this.http.post( `${ this.baseCatalagoUrl }catalog/list`, catalogos, httpOptions);
     return this.http.post( `${ this.baseCatalagoUrl }catalog/list`, catalogos, {params : this.parameters });
   }
 
   getCatalogo(nameCat: Array<any>) {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get(`${ this.baseCatalagoUrl }catalog/listCatalogos/${nameCat}`, {params : this.parameters });
   }
 
   getEstatusMaestroOpcion() {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${ this.baseCatalagoUrl }catalog/getEstatusMaestroOpcion`, {params : this.parameters });
   }
 
   save(tag: Tag): Observable<any> {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.post( `${ this.baseMicroTagUrl }tag/guardar`, tag, {params : this.parameters });
   }
 
   getActividadPorTag(actividad: string) {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${ this.baseMicroTagUrl }tag/${actividad}`, {params : this.parameters });
   }
 
   getActividadesPrecedentes(padre): Observable<any> {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${ this.baseMicroTagUrl }tag/getActividadesPrecedentes/${padre}`, {params : this.parameters });
   }
 
@@ -62,22 +62,22 @@ export class TagService {
   */
 
   agregarPrecedentes(tag, tags): Observable<any> {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${ this.baseMicroTagUrl }tag/agregarPrecedentes/${tag}/${tags}`, {params : this.parameters });
   }
 
   eliminarPrecedente(tagPrecedente): Observable<any> {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.post( `${ this.baseMicroTagUrl }tag/eliminarPrecedente`, tagPrecedente, {params : this.parameters });
   }
 
   obtenTagPorFiltros(anio: number): Observable<any> {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${ this.seguimientoUrl }legal/obten/matriz/${anio}`, {params : this.parameters });
   }
 
   obtenMatriz(anio: number, a: number, b: number): Observable<any> {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${ this.seguimientoUrl }legal/obten/matriz/${anio}/${a}/${b}`, {params : this.parameters });
   }
   /*
@@ -86,7 +86,7 @@ export class TagService {
   }*/
 
   eliminarTag(tagId: number): Observable<any> {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${ this.baseMicroTagUrl }tag/eliminar/${tagId}`, {params : this.parameters });
   }
 
@@ -98,22 +98,22 @@ export class TagService {
   }
 
   getPrefijoConsecutivo(actividadId: number) {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${ this.baseMicroTagUrl }tag/actividad/obtenerConsecutivo/${actividadId}`, {params : this.parameters });
   }
 
   getActividad(actividadId: number) {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${ this.baseMicroTagUrl }tag/actividad/obtenerActividad/${actividadId}`, {params : this.parameters });
   }
 
   crearActividad(actividad: TagActividadInDTO, selectedPlant) {
-    this.parameters = this.globalService.setXTenantId(selectedPlant);
+    this.parameters = this.globalService.setXTenantId_Plant(selectedPlant);
     return this.http.post( `${ this.baseMicroTagUrl }tag/actividad/crear`, actividad, {params : this.parameters });
   }
 
   editarActividad(actividad: TagActividadInDTO) {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.post( `${ this.baseMicroTagUrl }tag/actividad/editar`, actividad, {params : this.parameters });
   }
   setEditClonated(actividad, plantSelected) {
@@ -122,7 +122,7 @@ export class TagService {
   }
 
   eliminarActividad(idActivity: number) {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${ this.baseMicroTagUrl }tag/actividad/eliminar/${idActivity}`, {params : this.parameters });
   }
   outCatalogItemCloned(referenceclone: string) {
@@ -131,7 +131,7 @@ export class TagService {
   }
 
   comboUnitPeriod() {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${ this.mastercatalog }mastercatalog/mastercatalog/UNIT_PERIOD`, {params : this.parameters });
   }
 }

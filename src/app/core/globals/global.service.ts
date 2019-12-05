@@ -53,6 +53,13 @@ export class GlobalService {
 		return this.page;
 	}
 	setXTenantId(si) {
+		/**
+		 * ¡¡¡ !!!
+		 * 
+		 * Deprecated : no se debe seguir usando ya que puede haber n plantas  
+		 * ahora se debe usar la función setXTenantId_Plant
+		 * 
+		 */
 		let user = JSON.parse(localStorage.getItem('user')).username;
 		return si ? new HttpParams().set('X-TENANT-ID', 'aguila').set('user', user) : new HttpParams().set('X-TENANT-ID', 'sol').set('user', user);
 	}
