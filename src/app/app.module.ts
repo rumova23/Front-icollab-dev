@@ -20,6 +20,7 @@ import { JwtInterceptor            } from './core/helpers/jwt.interceptor';
 import { ErrorInterceptor          } from './core/helpers/error.interceptor';
 import { MatPaginatorIntlSpanish   } from './core/helpers/apanishPaginatorIntl';
 import { TwelveDigitsDirective     } from './core/helpers/twelve-digits';
+import { NumbersOnlyDirective	   } from './core/helpers/numbers-only';
 
 
 /* Modules */
@@ -43,6 +44,7 @@ registerLocaleData(localePy, 'es');
 	declarations: [
 		 AppComponent
 		,TwelveDigitsDirective  //  ¿¿ ??
+		,NumbersOnlyDirective
 	],
 	imports: [
 		APP_ROUTES
@@ -59,7 +61,7 @@ registerLocaleData(localePy, 'es');
 		,MockUpModule
 		,LoginModule // poner siempre al final
 	],
-	exports: [ BrowserAnimationsModule, MatDatepickerModule, MatNativeDateModule],
+	exports: [BrowserAnimationsModule, MatDatepickerModule, MatNativeDateModule, NumbersOnlyDirective],
 	providers: [
 		ConfirmationDialogService,
 		EventService,

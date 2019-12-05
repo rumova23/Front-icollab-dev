@@ -64,7 +64,7 @@ export class EfhFuelTypeComponent implements OnInit {
           flag = false;
           for(let ins=0; ins < option.children.length; ins++) {
             if (option.children[ins]['label'] == this.nombreCatalogo) {
-              option.children[ins].actions.push('CREAR', 'VER', 'EDITAR', 'BORRAR');
+              // option.children[ins].actions.push('CREAR', 'VER', 'EDITAR', 'BORRAR');
               if (option.children[ins].actions) {
                 for(let action = 0; action < option.children[ins].actions.length ; action++) {
 
