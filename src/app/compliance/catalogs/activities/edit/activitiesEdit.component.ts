@@ -60,7 +60,9 @@ export class ActivitiesEditComponent implements OnInit {
     private router: Router,
     public globalService: GlobalService,
     private eventService: EventService 
-    ,private datePipe: DatePipe) { 
+    ,private datePipe: DatePipe) {
+
+    console.log(this.globalService.aguila);
 
   }
 
@@ -241,7 +243,7 @@ export class ActivitiesEditComponent implements OnInit {
       1);
 
 
-    this.tagService.crearActividad(this.actividad, !this.globalService.aguila).subscribe(
+    this.tagService.crearActividad(this.actividad, this.globalService.aguila).subscribe(
       result => {
         let generigResponseDTO : any;
         generigResponseDTO = result;
