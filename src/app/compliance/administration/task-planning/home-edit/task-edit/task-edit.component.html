@@ -175,16 +175,13 @@
       <!--  Período de entrega  -->
       <div class="col-md-6">
         <label>Período de entrega</label>
-        <div layout="row" layout-align="center center">
-          <div>
-            <div class="col-md-2">
+        <div class="row">
+            <div class="col-2">
               <input
                       type="number"
                       class="form-control"
                       [ngClass]="{'is-invalid': submitted && f.fPeriod.errors}"
-                      matInput
                       name="value"
-                      placeholder="Cantidad"
                       formControlName="fPeriod"/>
               <div *ngIf="submitted && f.fPeriod.errors" style="color:red">
                 <div *ngIf="f.fPeriod.errors.required">
@@ -192,9 +189,7 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div>
-            <div class="col-md-6">
+            <div class="col-10">
               <select class="form-control"
                       [compareWith]="compareFn"
                       formControlName="fUnitPeriod"
@@ -226,7 +221,6 @@
                 </div>
               </div>
             </div>
-          </div>
         </div>
       </div>
       <!--  Tipo de días  -->
