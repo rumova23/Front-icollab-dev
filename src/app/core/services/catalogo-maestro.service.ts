@@ -6,92 +6,49 @@ import { MaestroOpcion } from '../models/maestro-opcion';
 import { OrderCatalogDTO } from '../../compliance/models/OrderCatalogDTO';
 import { GlobalService } from 'src/app/core/globals/global.service';
 
-/*
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Accept-Language': 'es-419,es;q=0.9',
-    'Accept': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Authorization': 'authkey',
-    'X-TENANT-ID':'aguila'
-  })
-};
-*/
-
-const httpOptions = new HttpHeaders({
-  'Content-Type': 'application/json',
-  'Accept-Language': 'es-419,es;q=0.9',
-  'Accept': 'application/json',
-  'Access-Control-Allow-Origin': '*',
-  'Authorization': 'authkey',
-  'X-TENANT-ID':'aguila'
-  });
 
 @Injectable({
   providedIn: 'root'
 })
 export class CatalogoMaestroService {
-
-  headers = new HttpHeaders().set("X-TENANT-ID","aguila");
-  
   parameters:any;
-  user :any;
 
   private microCatalagoMaestro = environment.catalogUrl;
 
   constructor(private http: HttpClient
              ,public globalService: GlobalService) { }
 
-  setXTenantId(plantSelected){
-    let user = JSON.parse(localStorage.getItem('user'));
-    user = user['username'];
 
-    if (plantSelected){
-      let p1 = new HttpParams().set("X-TENANT-ID","aguila")
-                               .set("user",user);
-      this.parameters = p1;
-    } 
-    else{
-      let p2 = new HttpParams().set("X-TENANT-ID","sol")
-                               .set("user",user);
-      this.parameters = p2;
-    }
-    
-  }
 
   getCatalogoIndividual(catalogo){
-    this.setXTenantId(this.globalService.aguila);
-    //return this.http.get( `${ this.microCatalagoMaestro }catalog/get/` + catalogo ,httpOptions);
-    //return this.http.get( `${ this.microCatalagoMaestro }catalog/get/` + catalogo , {headers:httpOptions});
-    //return this.http.get( `${ this.microCatalagoMaestro }catalog/get/` + catalogo , {headers : this.headers });
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.microCatalagoMaestro }catalog/get/` + catalogo , {params : this.parameters });
   }
   
   setCatalogoIndividual(catalogo, plantSelected){
-    this.setXTenantId(plantSelected);
+    this.parameters = this.globalService.setXTenantId(plantSelected);
     return this.http.post( `${ this.microCatalagoMaestro }catalog/save` , catalogo, {params : this.parameters });
   }
   setEditClonated(catalogo, plantSelected){
-    this.setXTenantId(plantSelected);
+    this.parameters = this.globalService.setXTenantId(plantSelected);
     return this.http.post( `${ this.microCatalagoMaestro }catalog/editedclonated` , catalogo, {params : this.parameters });
   }
   hasClonated(catalogo, plantSelected){
-    this.setXTenantId(plantSelected);
+    this.parameters = this.globalService.setXTenantId(plantSelected);
     return this.http.post( `${ this.microCatalagoMaestro }catalog/hasclonated` , catalogo, {params : this.parameters });
   }  
 
   outCatalogoItem(catalogName:string ,id:number){
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.delete( `${ this.microCatalagoMaestro }catalog/delete/` + catalogName + "/" + id, {params : this.parameters });    
   }
   outCatalogItemCloned(catalogName:string ,referenceclone:string){
-    this.setXTenantId(!this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(!this.globalService.aguila);
     return this.http.delete( `${ this.microCatalagoMaestro }catalog/deleteclonated/` + catalogName + "/" + referenceclone, {params : this.parameters });
   } 
 
   getlistCatalogoOrdenados(catalogos: Array<OrderCatalogDTO>) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.microCatalagoMaestro }catalog/list`, catalogos, {params : this.parameters });   
   }
 
@@ -100,32 +57,39 @@ export class CatalogoMaestroService {
 
 
   getCatalogo(nameCat): Observable<any> {
-    //return this.http.get(`${this.microCatalagoMaestro}admin/catalogo/${nameCat}`, httpOptions);
-    return this.http.get(`${this.microCatalagoMaestro}admin/catalogo/${nameCat}`, {headers:httpOptions});
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(`${this.microCatalagoMaestro}admin/catalogo/${nameCat}`, {params : this.parameters });
   }
 
   getOpcion(idOpcion: string): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     // @ts-ignore
     // @ts-ignore
-    return this.http.get(`${this.microCatalagoMaestro}catalogoOpcion/id/${idOpcion}`, httpOptions);
+    return this.http.get(`${this.microCatalagoMaestro}catalogoOpcion/id/${idOpcion}`, {params : this.parameters });
   }
   // tslint:disable-next-line:max-line-length
   salvarOpcion(opcionNombre: string, opcionDescripcion: string, estatus: string, orden: string, maestroNombre: string): Observable<MaestroOpcion> {
+    
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     // @ts-ignore
     // tslint:disable-next-line:max-line-length
-    return this.http.post(`${this.microCatalagoMaestro}catalogoOpcion/catalogo/` + maestroNombre + `/` + opcionNombre + `/` + opcionDescripcion + `/` + estatus + `/` + orden, httpOptions);
+    return this.http.post(`${this.microCatalagoMaestro}catalogoOpcion/catalogo/` + maestroNombre + `/` + opcionNombre + `/` + opcionDescripcion + `/` + estatus + `/` + orden, {params : this.parameters });
   }
 
   updateOpcion(opcionNombre: string, opcionDescripcion: string, estatus: string, orden: string, maestroOpcionId: string) {
+    
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     // tslint:disable-next-line:max-line-length
-    return this.http.post(`${this.microCatalagoMaestro}catalogoOpcion/catalogo/update/` + `/` + opcionNombre + `/` + opcionDescripcion + `/` + estatus + `/` + orden + `/` + maestroOpcionId, httpOptions);
+    return this.http.post(`${this.microCatalagoMaestro}catalogoOpcion/catalogo/update/` + `/` + opcionNombre + `/` + opcionDescripcion + `/` + estatus + `/` + orden + `/` + maestroOpcionId, {params : this.parameters });
   }
 
   updateEstatus(maestroOpcionId: string) {
-    return this.http.post(`${this.microCatalagoMaestro}catalogoOpcion/catalogo/update/estatus/` + maestroOpcionId, httpOptions);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.post(`${this.microCatalagoMaestro}catalogoOpcion/catalogo/update/estatus/` + maestroOpcionId, {params : this.parameters });
   }
 
   borrarEstatus(maestroOpcionId: string) {
-    return this.http.post(`${this.microCatalagoMaestro}catalogoOpcion/catalogo/delete/` + maestroOpcionId, httpOptions);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.post(`${this.microCatalagoMaestro}catalogoOpcion/catalogo/delete/` + maestroOpcionId, {params : this.parameters });
   }
 }
