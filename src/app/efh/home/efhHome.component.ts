@@ -128,7 +128,7 @@ export class EfhHomeComponent implements OnInit {
           case 'Efh.Agregar eventos.ABC':
             const refEventEdit = this.viewContainerRef
                 .createComponent(this.componentFactoryResolver.resolveComponentFactory(EfhEditEventComponent));
-            refEventEdit.instance.catalogType = event.data;
+            refEventEdit.instance.eventType = event.data;
             refEventEdit.changeDetectorRef.detectChanges();
             break;
           case 'shared.header.changePassword':

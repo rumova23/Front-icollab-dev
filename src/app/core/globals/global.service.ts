@@ -3,6 +3,7 @@ import { App             } from 'src/app/core/models/App';
 import { EventMessage    } from '../models/EventMessage';
 import { Plant           } from 'src/app/security/models/Plant';
 import { SecurityService } from 'src/app/core/services/security.service';
+import { HttpParams      } from '@angular/common/http';
 
 @Injectable({
   	providedIn: 'root'
@@ -51,4 +52,14 @@ export class GlobalService {
 	getPage():EventMessage{
 		return this.page;
 	}
+	/*
+	setXTenantId() {
+		let user = JSON.parse(localStorage.getItem('user')).username;
+		return new HttpParams().set('X-TENANT-ID', this.plant.name.toLowerCase()).set('user', user);
+	}//*/
+	setXTenantId(si) {
+		let user = JSON.parse(localStorage.getItem('user')).username;
+		return si ? new HttpParams().set('X-TENANT-ID', 'aguila').set('user', user) : new HttpParams().set('X-TENANT-ID', 'sol').set('user', user);
+	}
+	
 }

@@ -49,48 +49,34 @@ export class PerfilComboService {
   constructor(private http: HttpClient,
               private globalService: GlobalService) { }
 
-  setXTenantId(plantSelected) {
-      this.user = JSON.parse(localStorage.getItem('user'));
-      this.user = this.user.username;
-
-      if (plantSelected) {
-      const p1 = new HttpParams().set('X-TENANT-ID', 'aguila')
-                               .set('user', this.user);
-      this.parameters = p1;
-    } else {
-      const p2 = new HttpParams().set('X-TENANT-ID', 'sol')
-                               .set('user', this.user);
-      this.parameters = p2;
-    }
-  }
 
   getlistCatalogoOrdenados(nameCatalogs: Array<any>) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     // return this.http.post( `${ this.catalogUrl }catalog/list`, nameCat, httpOptions);
     return this.http.post( `${ this.catalogUrl }catalog/list`, nameCatalogs, {params : this.parameters });
   }
 
   getSave(empleado: Empleado) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     // return this.http.put( `${ this.microexamenUrl }exam/actualizaEmpleado`, empleado, httpOptions);
     return this.http.put( `${ this.microexamenUrl }exam/actualizaEmpleado`, empleado, {params : this.parameters });
   }
 
   getEmpleado(id: number) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     // return this.http.get( `${ this.microexamenUrl }exam/empleado/${id}`, httpOptions);
     return this.http.get( `${ this.microexamenUrl }exam/empleado/${id}`, {params : this.parameters });
   }
 
   getEmpleadoDetalles(id: number) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     // return this.http.get( `${ this.microexamenUrl }exam/empleadoDetalle/${id}`, httpOptions);
     return this.http.get( `${ this.microexamenUrl }exam/empleadoDetalle/${id}`, {params : this.parameters });
   }
 
 
   generaExamen(empleadoIdentifier: number, config: string): Observable<any> {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     const RequestBody = {
        empleadoId    : empleadoIdentifier
       , configuracion : config
@@ -102,13 +88,13 @@ export class PerfilComboService {
   }
 
   obtenPreguntasExamen(configuracionExamen: string, empleadoId: number): Observable<any> {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(`${this.microexamenUrl}exam/preguntas/${configuracionExamen}/${empleadoId}`, httpOptions);
   }
 
 
   respuestaExamen(examenReservacionId: number, resulta: Array<Respuesta>) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     // return this.http.post( `${ this.microexamenUrl }exam/guardaexamen?examenReservacionId=` + examenReservacionId, resulta, httpOptions);
     return this.http.post( `${ this.microexamenUrl }exam/guardaexamen?examenReservacionId=` + examenReservacionId,
         resulta, {params : this.parameters });
@@ -116,14 +102,14 @@ export class PerfilComboService {
 
 
   getValoresAptitudes(examenReservacionId: number, preguntaId: number) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.microexamenUrl }exam/valorRespuesta?examenReservacionId=` + examenReservacionId
                              + `&preguntaId=` + preguntaId, {}, {params : this.parameters });
   }
 
 
   postValoresHabilidades(idEmpleado: number, resulta: Array<any>) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     // return this.http.post( `${ this.microexamenUrl }exam/guardarSicometricoEmpleado?idEmpleado=` + idEmpleado, resulta, httpOptions);
     return this.http.post( `${ this.microexamenUrl }exam/guardarSicometricoEmpleado?idEmpleado=` + idEmpleado,
         resulta, {params : this.parameters });
@@ -133,13 +119,13 @@ export class PerfilComboService {
 
 
   getScalas(val: string) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     // return this.http.get(`${this.evaluacionExamenUrl}` + 'evalucionConfiguracion/get/' + val , httpOptions);
     return this.http.get(`${this.evaluacionExamenUrl}` + 'configEva/evalucionConfiguracion/get/' + val , {params : this.parameters });
   }
 
   public getReservacionesEmpleado(calificacionId: number): Observable<any>   {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     // return this.http.get(`${this.microexamenUrl}exam/obten/reservacion/${calificacionId}`, httpOptions);
     return this.http.get(`${this.microexamenUrl}exam/obten/reservacion/${calificacionId}`, {params : this.parameters });
   }
@@ -148,57 +134,57 @@ export class PerfilComboService {
 
   obtenCalificacion(empleadoId: number): Observable<any> {
     console.log('RTC empleadoId: ' + empleadoId);
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     // return this.http.get(`${this.microexamenUrl}exam/obten/calificacion/${empleadoId}`, httpOptions);
     return this.http.get(`${this.microexamenUrl}exam/obten/calificacion/${empleadoId}`, {params : this.parameters });
   }
 
   obtenCatalogoDocumentos() {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(`${this.microexamenUrl}exam/catalogo/documents/`, {params : this.parameters });
   }
 
   obtenDocumentos(calificacionId: number, typeDocument: string): Observable<any> {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(`${this.microexamenUrl}exam/obten/documents/${calificacionId}/${typeDocument}`, {params : this.parameters });
   }
 
   terminaExamen(examenReservacionId: number): Observable<any>  {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     // return this.http.post(`${this.microexamenUrl}exam/terminaExamen?examenReservacionId=` + examenReservacionId , httpOptions);
     return this.http.post(`${this.microexamenUrl}exam/terminaExamen?examenReservacionId=` + examenReservacionId + '&user=' + this.user,
         {params : this.parameters });
   }
 
   obtenEstatusTerminado(entidad: string, estatus: string) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.estatusmaestro }status/${entidad}/${estatus}`,
           {params : this.parameters });
   }
 
 
   getGraficas(examenReservacionId: number): Observable<any> {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     console.log('RTC examenReservacionId: ' + examenReservacionId);
     return this.http.get(`${this.microexamenUrl}exam/obten/calificacion/reservacion/${examenReservacionId}`, {params : this.parameters });
   }
 
 
   getComentarios(calificacionId: number): Observable<any>  {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     // return this.http.get(`${this.microexamenUrl}exam/getObservaciones/${calificacionId}`, httpOptions);
     return this.http.get(`${this.microexamenUrl}exam/getObservaciones/${calificacionId}`, {params : this.parameters });
   }
 
 
   postObservaciones(calificacionId: number, observacion: string): Observable<any> {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.microexamenUrl }exam/guardaObservacion/${calificacionId}/${observacion}`, {params : this.parameters });
   }
 
 
   upload(fileObj: File, idCalificacion: number, typeDocument: number) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     const file: FormData = new FormData();
     file.append('file', fileObj);
     return this.http.post(`${ this.microexamenUrl }exam/guardarArchivos?idCalificacion=` +
@@ -206,7 +192,7 @@ export class PerfilComboService {
   }
 
   downloadFile(fileId: number) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(`${ this.microuploaddbUrl }downloadFile/` + fileId, {params : this.parameters });
   }
 }

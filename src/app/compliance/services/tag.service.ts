@@ -22,44 +22,36 @@ export class TagService {
   constructor(private http: HttpClient,
               private globalService: GlobalService) { }
 
-  setXTenantId(plantSelected) {
-    let user = JSON.parse(localStorage.getItem('user'));
-    user = user.username;
-    if (plantSelected) {
-      this.parameters = new HttpParams().set('X-TENANT-ID', 'aguila').set('user', user);
-    } else {
-      this.parameters = new HttpParams().set('X-TENANT-ID', 'sol').set('user', user);
-    }
-  }
+
 
   getlistCatalogoOrdenados(catalogos: Array<OrderCatalogDTO>) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     // return this.http.post( `${ this.baseCatalagoUrl }catalog/list`, catalogos, httpOptions);
     return this.http.post( `${ this.baseCatalagoUrl }catalog/list`, catalogos, {params : this.parameters });
   }
 
   getCatalogo(nameCat: Array<any>) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(`${ this.baseCatalagoUrl }catalog/listCatalogos/${nameCat}`, {params : this.parameters });
   }
 
   getEstatusMaestroOpcion() {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.baseCatalagoUrl }catalog/getEstatusMaestroOpcion`, {params : this.parameters });
   }
 
   save(tag: Tag): Observable<any> {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.baseMicroTagUrl }tag/guardar`, tag, {params : this.parameters });
   }
 
   getActividadPorTag(actividad: string) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.baseMicroTagUrl }tag/${actividad}`, {params : this.parameters });
   }
 
   getActividadesPrecedentes(padre): Observable<any> {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.baseMicroTagUrl }tag/getActividadesPrecedentes/${padre}`, {params : this.parameters });
   }
 
@@ -70,22 +62,22 @@ export class TagService {
   */
 
   agregarPrecedentes(tag, tags): Observable<any> {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.baseMicroTagUrl }tag/agregarPrecedentes/${tag}/${tags}`, {params : this.parameters });
   }
 
   eliminarPrecedente(tagPrecedente): Observable<any> {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.baseMicroTagUrl }tag/eliminarPrecedente`, tagPrecedente, {params : this.parameters });
   }
 
   obtenTagPorFiltros(anio: number): Observable<any> {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.seguimientoUrl }legal/obten/matriz/${anio}`, {params : this.parameters });
   }
 
   obtenMatriz(anio: number, a: number, b: number): Observable<any> {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.seguimientoUrl }legal/obten/matriz/${anio}/${a}/${b}`, {params : this.parameters });
   }
   /*
@@ -94,52 +86,51 @@ export class TagService {
   }*/
 
   eliminarTag(tagId: number): Observable<any> {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.baseMicroTagUrl }tag/eliminar/${tagId}`, {params : this.parameters });
   }
 
   // Actividades
   getCatalogoActividades(status): Observable<any> {
-    console.log(this.globalService.aguila ? 'aguila' : 'sol');
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.baseMicroTagUrl }tag/actividad/all/${status}`, {params : this.parameters });
   }
 
   getPrefijoConsecutivo(actividadId: number) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.baseMicroTagUrl }tag/actividad/obtenerConsecutivo/${actividadId}`, {params : this.parameters });
   }
 
   getActividad(actividadId: number) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.baseMicroTagUrl }tag/actividad/obtenerActividad/${actividadId}`, {params : this.parameters });
   }
 
   crearActividad(actividad: TagActividadInDTO, selectedPlant) {
-    this.setXTenantId(selectedPlant);
+    this.parameters = this.globalService.setXTenantId(selectedPlant);
     return this.http.post( `${ this.baseMicroTagUrl }tag/actividad/crear`, actividad, {params : this.parameters });
   }
 
   editarActividad(actividad: TagActividadInDTO) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.baseMicroTagUrl }tag/actividad/editar`, actividad, {params : this.parameters });
   }
   setEditClonated(actividad, plantSelected) {
-    this.setXTenantId(plantSelected);
+    this.parameters = this.globalService.setXTenantId(plantSelected);
     return this.http.post( `${ this.baseMicroTagUrl }tag/actividad/editedclonated` , actividad, {params : this.parameters });
   }
 
   eliminarActividad(idActivity: number) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.baseMicroTagUrl }tag/actividad/eliminar/${idActivity}`, {params : this.parameters });
   }
   outCatalogItemCloned(referenceclone: string) {
-    this.setXTenantId(!this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(!this.globalService.aguila);
     return this.http.get( `${ this.baseMicroTagUrl }tag/actividad/deleteclonated/${referenceclone}`, {params : this.parameters });
   }
 
   comboUnitPeriod() {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.mastercatalog }mastercatalog/mastercatalog/UNIT_PERIOD`, {params : this.parameters });
   }
 }
