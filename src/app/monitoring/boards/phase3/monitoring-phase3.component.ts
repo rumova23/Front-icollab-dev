@@ -364,6 +364,13 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 		BasChart.chart_update          ( this.charts[event.idChart] );
 	}
 	updateChart(myform, localTagId){}
-	openModalCt_1(){}
+	openModalCt_1(){
+		/*
+		this.modal_turbine_ct_1.data = data;
+		this.modal_turbine_ct_1.gettooltip();
+		this.modal_turbine_ct_1.dataAdapter();
+		//*/
+		this.modal_turbine_ct_1.openModalCt_1();
+	}
 	openModalCt_2(){}
 }
