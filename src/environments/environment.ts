@@ -5,7 +5,7 @@ export const environment = {
   , securityUrl             : hostGateway + 'security/'
   , catalogUrl              : hostGateway + 'catalog/'
   , mastercatalog           : hostGateway + 'mastercatalog/'
-  , tagsUrl                 : hostGateway + 'tags/'
+  , tagsUrl                 : hostGateway + 'tags/tags/'
   , microexamenUrl          : hostGateway + 'exam/'
   , evaluacionExamenUrl     : hostGateway + 'configuration/'
   , knowledgeUrl            : hostGateway + 'knowledge/'

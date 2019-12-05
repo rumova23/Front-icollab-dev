@@ -44,7 +44,7 @@ export class AdministratorComplianceService {
 
   initComboActividades() {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get( `${ this.tagsUrl }tag/actividad/all/TODOS`);
+    return this.http.get( `${ this.tagsUrl }actividad/all/TODOS`, {params : this.parameters });
   }
   getPersonalCompetente() {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
@@ -80,7 +80,7 @@ export class AdministratorComplianceService {
 
   actividadById(actividadId: number) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get( `${ this.seguimientoUrl }tag/actividad/obtenerActividad/${actividadId}`,
+    return this.http.get( `${ this.seguimientoUrl }actividad/obtenerActividad/${actividadId}`,
         {params : this.parameters });
   }
 
