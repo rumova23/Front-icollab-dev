@@ -92,7 +92,8 @@ export class TagService {
 
   // Actividades
   getCatalogoActividades(status): Observable<any> {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+
     return this.http.get( `${ this.baseMicroTagUrl }tag/actividad/all/${status}`, {params : this.parameters });
   }
 

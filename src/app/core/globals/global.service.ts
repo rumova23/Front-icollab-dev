@@ -52,14 +52,13 @@ export class GlobalService {
 	getPage():EventMessage{
 		return this.page;
 	}
-	/*
-	setXTenantId() {
-		let user = JSON.parse(localStorage.getItem('user')).username;
-		return new HttpParams().set('X-TENANT-ID', this.plant.name.toLowerCase()).set('user', user);
-	}//*/
 	setXTenantId(si) {
 		let user = JSON.parse(localStorage.getItem('user')).username;
 		return si ? new HttpParams().set('X-TENANT-ID', 'aguila').set('user', user) : new HttpParams().set('X-TENANT-ID', 'sol').set('user', user);
+	}
+	setXTenantId_Plant(plantSelectedName: string) {
+		let user = JSON.parse(localStorage.getItem('user')).username;
+		return new HttpParams().set('X-TENANT-ID', plantSelectedName.toLowerCase()).set('user', user);
 	}
 	
 }
