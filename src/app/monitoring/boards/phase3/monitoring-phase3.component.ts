@@ -50,7 +50,6 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 	tagName     = [];
 
 
-	dataset_main=[];
 
 	wifi = false;
 	anyConfig = [];
@@ -64,11 +63,6 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 		public monitoringTrService  : MonitoringTrService
 	) {
 		super(globalService,eventService,socketService,monitoringTrService);
-
-		/**
-		 * el icono de conectado tendra que tener la siguiente condicion
-		 * if(globalService.socketConnect && this.PiIsRun)
-		 */
 	}
 
 	ngOnInit() {
@@ -78,13 +72,12 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 		this.subscribeSocketOnStatus();
 		this.getStreamsetsInterpolatedLast24Hours(lstTags);
 	}
-
 	initializeAt0(){
 		let lst = [];
 		for (const local_tag_key in TAGS.lstTags) {
 			if (TAGS.lstTags.hasOwnProperty(local_tag_key)) {
 				this.tagValue[local_tag_key] = 0;
-				this.tagName[local_tag_key]  = "";
+				this.tagName [local_tag_key] = "";
 
 				this.anyConfig[local_tag_key] = {
 					scale_min: TAGS.lstTags[local_tag_key]['min'],
@@ -98,41 +91,6 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 			}
 		}
 		return lst;
-	}
-	
-	chartInit(data_per_graph = 25){
-		for (const idChart in TAGS.listCharts) {
-			if (TAGS.listCharts.hasOwnProperty(idChart)) {
-				
-				TAGS.listCharts[idChart]['controls'] = {
-					idChart        : idChart,
-					type_graph     : 'line',
-					type_scale     : 'dynamic',
-					fill           : 'false',
-					data_per_graph : data_per_graph,
-					point_radius   : 3,
-					time_refreseh  : 3,
-					displayLegend  : false,
-					timePast       : new Date()
-				};
-
-				this.charts[idChart]= new Chart(idChart, BasChart.chartCreateConfig(TAGS.listCharts[idChart]['controls']));
-			}
-		}
-	}
-
-	subscribeSocketChanels(){
-		if(this.globalService.socketConnect){
-			this.subscribeSocketChanelbackPiIsRun();
-			switch (this.globalService.plant.id) {
-				case 1:
-					this.subscribeSocketChanelAguila();
-					break;
-				case 2:
-					this.subscribeSocketChanelSol();
-					break;
-			}
-		}
 	}
 	getStreamsetsInterpolatedLast24Hours(webids){
 		this.subscriptions.push(
@@ -174,11 +132,9 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 						)){
 							TAGS.listCharts[idChart]['controls']['timePast'] = new Date();
 							this.charts[idChart].data.labels.push(this.getTime());
-							//if(this.charts[idChart].data.labels.length > chart.controls.data_per_graph){
 							if(this.charts[idChart].data.labels.length > TAGS.listCharts[idChart].controls.data_per_graph){
 								this.charts[idChart].data.labels.shift();
 							}
-							
 							for (const data of box.data) {
 								if(!data.error_response){
 									for (const tag of data.Items) {
@@ -186,16 +142,45 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 									}
 								}
 							}
-							
 						}
 						break;
 				}
-
 			}
 		}
 	}
+	chartInit(data_per_graph = 25){
+		for (const idChart in TAGS.listCharts) {
+			if (TAGS.listCharts.hasOwnProperty(idChart)) {
+				
+				TAGS.listCharts[idChart]['controls'] = {
+					idChart        : idChart,
+					type_graph     : 'line',
+					type_scale     : 'dynamic',
+					fill           : 'false',
+					data_per_graph : data_per_graph,
+					point_radius   : 3,
+					time_refreseh  : 3,
+					displayLegend  : false,
+					timePast       : new Date()
+				};
 
-	
+				this.charts[idChart]= new Chart(idChart, BasChart.chartCreateConfig(TAGS.listCharts[idChart]['controls']));
+			}
+		}
+	}
+	subscribeSocketChanels(){
+		if(this.globalService.socketConnect){
+			this.subscribeSocketChanelbackPiIsRun();
+			switch (this.globalService.plant.id) {
+				case 1:
+					this.subscribeSocketChanelAguila();
+					break;
+				case 2:
+					this.subscribeSocketChanelSol();
+					break;
+			}
+		}
+	}
 	createRelwebIdLocalId(tag:PiServerItem){
 		for (const local_tag_key in TAGS.lstTags) {
 			if (TAGS.lstTags.hasOwnProperty(local_tag_key)) {
@@ -232,7 +217,6 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 			this.addDatasetLine2("canvas1", values, labels, rel_tag_local.localId );
 		}
 	}
-
 	addDatasetLine2(idChart, values, labels,local_tag_key){
 		if(! Array.isArray(values)){
 			values = [values];
@@ -286,9 +270,7 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 		}
 		let tag = this.charts[idChart].data.datasets.find(existDataset);
 		if (tag == undefined) {
-			//let datasetTag = BasChart.getDatasetTag(this.charts[idChart].data.datasets, chartTag.calltags);
 			let tagconf    = TAGS.lstTags[local_tag_key];
-			//if(datasetTag == undefined){
 
 				var hex  = tagconf.color;
 				let rgba = BasChart.hexToRGB(tagconf.color,0.3);
@@ -339,7 +321,6 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 				
 				this.charts[idChart].data.labels = labels;
 			}else{
-				///*
 				for (const data of values) {
 					(tag.data as number[]).push(data);
 					//tag.data.push(data);
@@ -347,13 +328,9 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 						tag.data.shift();
 					}
 				}
-
-				//*/
 			}
 	
 		this.charts[idChart].update();
-		//console.log(this.charts);
-		//console.log(this.charts['chart_est_power_01'].data);
 	}
 	whenLosingConnection(){
 		this.wifi = false;
@@ -372,11 +349,9 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 			}
 		}
 	}
-	
 	getchartControl(idChart){
 		return TAGS.listCharts[idChart]?TAGS.listCharts[idChart]['controls'] : {idChart:false};
 	}
-	
 	modifyChart(event){
 		// event es de tipo ChartControl
 		TAGS.listCharts[event.idChart]['controls'] = event;
@@ -388,9 +363,7 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 		BasChart.change_type_scale     ( this.charts[event.idChart], TAGS.listCharts[event.idChart], TAGS.lstTags );
 		BasChart.chart_update          ( this.charts[event.idChart] );
 	}
-	updateChart(myform, localTagId){
-
-	}
+	updateChart(myform, localTagId){}
 	openModalCt_1(){}
 	openModalCt_2(){}
 }
