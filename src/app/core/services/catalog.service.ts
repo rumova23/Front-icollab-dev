@@ -30,25 +30,6 @@ export class CatalogService {
               public globalService: GlobalService) {
   }
 
-  setXTenantId(plantSelected){
-
-
-    let user = JSON.parse(localStorage.getItem('user'));
-    user = user['username'];
-
-    if (plantSelected){
-      let p1 = new HttpParams().set("X-TENANT-ID","aguila")
-          .set("user",user);
-      this.parameters = p1;
-    }
-    else{
-      let p2 = new HttpParams().set("X-TENANT-ID","sol")
-          .set("user",user);
-      this.parameters = p2;
-    }
-
-  }
-
   list(catalogs: Array<CatalogOrder>): Observable<any> {
     return this.http.post(environment.catalogUrl + 'catalog/list', catalogs);
   }
@@ -66,7 +47,7 @@ export class CatalogService {
   }
 
   saveGeneric(generic: CatalogGeneric) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post(environment.catalogUrl +  'catalog/save', generic,{params : this.parameters } );
   }
 

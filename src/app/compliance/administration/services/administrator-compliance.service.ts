@@ -25,90 +25,79 @@ export class AdministratorComplianceService {
               private globalService: GlobalService) {
   }
 
-  setXTenantId(plantSelected) {
-    let user = JSON.parse(localStorage.getItem('user'));
-    user = user.username;
-    if (plantSelected) {
-      const p1 = new HttpParams().set('X-TENANT-ID', 'aguila').set('user', user);
-      this.parameters = p1;
-    } else {
-      const p2 = new HttpParams().set('X-TENANT-ID', 'sol').set('user', user);
-      this.parameters = p2;
-    }
-  }
   initComboTiposCumplimientos() {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.mastercatalog }mastercatalog/mastercatalog/TIPO_CUMPLIMIENTO`,
         {params : this.parameters });
   }
   apruebaMatrizCumplimiento(anio: number) {
     let user = JSON.parse(localStorage.getItem('user'));
     user = user.username;
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.seguimientoUrl }legal/aprobar/matriz/${anio}`, user, {params : this.parameters });
   }
 
    liberaMatrizCumplimiento(anio: number) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.seguimientoUrl }legal/libera/matriz`, anio, {params : this.parameters });
   }
 
   initComboActividades() {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.tagsUrl }tag/actividad/all/TODOS`);
   }
   getPersonalCompetente() {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.microexamenUrl }exam/personalCompetente/competentes`,
         {params : this.parameters, headers: new HttpHeaders({ timeout: `${1000000}` }) });
   }
   getTasks(anio: number, maestroOpcionId: number, actividadId: number) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.seguimientoUrl }legal/obten/matriz/${anio}/${maestroOpcionId}/${actividadId}`, {params : this.parameters });
   }
   guardaListTask(tasks: Array<Task>) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.seguimientoUrl }legal/generation/list/task`, tasks,
         {params : this.parameters });
   }
 
   updateTask(complianceDTO: ComplianceDTO) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.seguimientoUrl }legal/update/compliance`, complianceDTO,
         {params : this.parameters });
   }
 
   freeTask(complianceId: number) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.seguimientoUrl }legal/libera/compliance/`, complianceId, { params : this.parameters });
   }
 
   complianceById(complianceId: number) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.seguimientoUrl }legal/obten/complianceById/${complianceId}`,
         {params : this.parameters });
   }
 
   actividadById(actividadId: number) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.seguimientoUrl }tag/actividad/obtenerActividad/${actividadId}`,
         {params : this.parameters });
   }
 
   guardaObservacion(complianceId: number, observacion: string) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.seguimientoUrl }legal/guarda/observacion/${complianceId}/${observacion}`,
         {params : this.parameters });
   }
 
   obtenObservaciones(complianceId: number) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.seguimientoUrl }legal/obten/observaciones/${complianceId}`,
         {params : this.parameters });
   }
 
   obtenEstatusMaestro(entidad: string) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.mastercatalog }mastercatalog/mastercatalog/${entidad}`,
         {params : this.parameters });
   }
@@ -116,7 +105,7 @@ export class AdministratorComplianceService {
   upload(fileObj: File, idCompliance: number, typeDocument: number) {
     let user = JSON.parse(localStorage.getItem('user'));
     user = user.username;
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     const file: FormData = new FormData();
     file.append('file', fileObj);
     return this.http.post(`${ this.seguimientoUrl }legal/guardarArchivos?idCompliance=` +
@@ -124,17 +113,17 @@ export class AdministratorComplianceService {
   }
 
   obtenDocumentos(complianceId: number, typeDocument: string): Observable<any> {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(`${this.seguimientoUrl}legal/obten/documents/${complianceId}/${typeDocument}`, {params : this.parameters });
   }
 
   obtenGantt(complianceId: number): Observable<any> {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(`${this.seguimientoUrl}legal/obten/gantt/${complianceId}`, {params : this.parameters });
   }
 
     acceptTask(complianceId: number) {
-      this.setXTenantId(this.globalService.aguila);
+      this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
       return this.http.post( `${ this.seguimientoUrl }legal/accept/responsible/compliance/`, complianceId, { params : this.parameters });
     }
 }
