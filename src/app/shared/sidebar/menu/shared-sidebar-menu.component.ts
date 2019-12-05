@@ -125,6 +125,12 @@ export class SharedSidebarMenuComponent{
 		  }//*/
 		  
 		  for (let option of this.menu) {
+			  if(option.label == "Catálogos"){
+				  let temporal = option.children[0];
+				  option.children[0] = option.children[1];
+				  option.children[1] = temporal;
+			  }
+
 			if (option.children){
 			  let temp:menuItem;
 			  let flag:boolean = true;
@@ -139,6 +145,7 @@ export class SharedSidebarMenuComponent{
 					option.children[ins + 1] = temp;
 					flag = true;
 				  }//*/
+				  
 				  if (option.children[ins]['label']=='Cumplimiento Legal'){
 					if (!option.children[ins].children){
 						
