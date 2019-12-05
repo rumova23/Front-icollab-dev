@@ -358,8 +358,19 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 	whenLosingConnection(){
 		this.wifi = false;
 	}
-	datasetToggleChartMain(ds){
+	datasetToggleChart(idChart,localKeyTag) {
+		if (this.dataSets[`${idChart}-${localKeyTag}`] !== undefined) {
+			this.dataSets[`${idChart}-${localKeyTag}`].hidden = !this.dataSets[`${idChart}-${localKeyTag}`].hidden;
 
+			for (let index = 0; index < this.charts[idChart].config.options.scales.yAxes.length; index++) {
+				const element = this.charts[idChart].config.options.scales.yAxes[index];
+				if (element.id == localKeyTag) {
+					//this.yAxes_main[localKeyTag].display = !this.dataSets[`${idChart}-${localKeyTag}`].hidden;
+					this.charts[idChart].config.options.scales.yAxes[index].display = !this.dataSets[`${idChart}-${localKeyTag}`].hidden;
+					this.charts[idChart].update();
+				}
+			}
+		}
 	}
 	
 	getchartControl(idChart){

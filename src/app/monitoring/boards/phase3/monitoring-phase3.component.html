@@ -37,8 +37,8 @@
                       <div mdbDropdownToggle mdbWavesEffect class="dropdown-toggle hiddenDropdownAfter">
                           <span class="badge badge-pill" 
                                 style="vertical-align:super;font-size: .3rem; "
-                                [ngStyle]="{'background-color':dataset_main['getTemperaturaAmbiente'].borderColor}"
-                                *ngIf="(dataset_main['getTemperaturaAmbiente'] !== undefined) && !dataset_main['getTemperaturaAmbiente'].hidden"
+                                [ngStyle]="{'background-color':dataSets['canvas1-getTemperaturaAmbiente'].borderColor}"
+                                *ngIf="(dataSets['canvas1-getTemperaturaAmbiente'] !== undefined) && !dataSets['canvas1-getTemperaturaAmbiente'].hidden"
                           >&nbsp;</span>&nbsp;
                           <span class="myicon">
                               <i class="fas"
@@ -64,11 +64,11 @@
                           <div class="divider dropdown-divider"></div>
                           <a class="dropdown-item" 
                           <ng-template #tip_getTemperaturaAmbiente><b>{{tagName['getTemperaturaAmbiente']['Name']}}</b></ng-template>    
-                          (click)="datasetToggleChartMain('getTemperaturaAmbiente')  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTemperaturaAmbiente""
+                          (click)="datasetToggleChart('canvas1','getTemperaturaAmbiente')  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTemperaturaAmbiente""
                               [ngStyle]="{'background-color':
-                              (dataset_main['getTemperaturaAmbiente'] !== undefined) && (!dataset_main['getTemperaturaAmbiente'].hidden)
+                              (dataSets['canvas1-getTemperaturaAmbiente'] !== undefined) && (!dataSets['canvas1-getTemperaturaAmbiente'].hidden)
                                   ? 
-                                  dataset_main['getTemperaturaAmbiente'].borderColor:''}"
+                                  dataSets['canvas1-getTemperaturaAmbiente'].borderColor:''}"
                                
                           >
                               Grafica principal
@@ -94,7 +94,7 @@
                     >
                     <div
                         (click)="
-                            datasetToggleChartMain('getTemperaturaAmbiente')
+                            datasetToggleChart('canvas1','getTemperaturaAmbiente')
                         "
                         placement="top"
                         tooltipClass="mytooltip"
@@ -105,13 +105,13 @@
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{
                                 'background-color':
-                                    dataset_main['getTemperaturaAmbiente']
+                                    dataSets['canvas1-getTemperaturaAmbiente']
                                         .borderColor
                             }"
                             *ngIf="
-                                dataset_main['getTemperaturaAmbiente'] !==
+                                dataSets['canvas1-getTemperaturaAmbiente'] !==
                                     undefined &&
-                                !dataset_main['getTemperaturaAmbiente'].hidden
+                                !dataSets['canvas1-getTemperaturaAmbiente'].hidden
                             "
                             >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                         >&nbsp;
@@ -158,7 +158,7 @@
                     >
                     <div
                         (click)="
-                            datasetToggleChartMain('getPresionAtmosferica')
+                            datasetToggleChart('canvas1','getPresionAtmosferica')
                         "
                         placement="top"
                         tooltipClass="mytooltip"
@@ -169,13 +169,13 @@
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{
                                 'background-color':
-                                    dataset_main['getPresionAtmosferica']
+                                    dataSets['canvas1-getPresionAtmosferica']
                                         .borderColor
                             }"
                             *ngIf="
-                                dataset_main['getPresionAtmosferica'] !==
+                                dataSets['canvas1-getPresionAtmosferica'] !==
                                     undefined &&
-                                !dataset_main['getPresionAtmosferica'].hidden
+                                !dataSets['canvas1-getPresionAtmosferica'].hidden
                             "
                             >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                         >&nbsp;
@@ -210,7 +210,7 @@
                         }}</b></ng-template
                     >
                     <div
-                        (click)="datasetToggleChartMain('gethumedad')"
+                        (click)="datasetToggleChart('canvas1','gethumedad')"
                         placement="top"
                         tooltipClass="mytooltip"
                         [ngbTooltip]="tip_gethumedad"
@@ -220,11 +220,11 @@
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{
                                 'background-color':
-                                    dataset_main['gethumedad'].borderColor
+                                    dataSets['canvas1-gethumedad'].borderColor
                             }"
                             *ngIf="
-                                dataset_main['gethumedad'] !== undefined &&
-                                !dataset_main['gethumedad'].hidden
+                                dataSets['canvas1-gethumedad'] !== undefined &&
+                                !dataSets['canvas1-gethumedad'].hidden
                             "
                             >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                         >&nbsp;
@@ -271,7 +271,7 @@
                 >
                 <div
                     class="col text-center"
-                    (click)="datasetToggleChartMain('getPotenciaNeta')"
+                    (click)="datasetToggleChart('canvas1','getPotenciaNeta')"
                     placement="top"
                     tooltipClass="mytooltip"
                     [ngbTooltip]="tip_getPotenciaNeta"
@@ -280,13 +280,13 @@
                         class="badge badge-pill myicon"
                         [ngClass]="{
                             'eclipse-azul':
-                                dataset_main['getPotenciaNeta'] !== undefined &&
-                                !dataset_main['getPotenciaNeta'].hidden,
+                                dataSets['canvas1-getPotenciaNeta'] !== undefined &&
+                                !dataSets['canvas1-getPotenciaNeta'].hidden,
                             'eclipse-gris':
-                                dataset_main['getPotenciaNeta'] !== undefined &&
-                                dataset_main['getPotenciaNeta'].hidden,
+                                dataSets['canvas1-getPotenciaNeta'] !== undefined &&
+                                dataSets['canvas1-getPotenciaNeta'].hidden,
                             'eclipse-rojo':
-                                dataset_main['getPotenciaNeta'] == undefined ||
+                                dataSets['canvas1-getPotenciaNeta'] == undefined ||
                                 tagValue['getPotenciaNeta'] == 0
                         }"
                         >&nbsp;</span
@@ -313,7 +313,7 @@
                 >
                 <div
                     class="col text-center"
-                    (click)="datasetToggleChartMain('getPotenciaCCDV')"
+                    (click)="datasetToggleChart('canvas1','getPotenciaCCDV')"
                     placement="top"
                     tooltipClass="mytooltip"
                     [ngbTooltip]="tip_getPotenciaCCDV"
@@ -322,13 +322,13 @@
                         class="badge badge-pill myicon"
                         [ngClass]="{
                             'eclipse-morado':
-                                dataset_main['getPotenciaCCDV'] !== undefined &&
-                                !dataset_main['getPotenciaCCDV'].hidden,
+                                dataSets['canvas1-getPotenciaCCDV'] !== undefined &&
+                                !dataSets['canvas1-getPotenciaCCDV'].hidden,
                             'eclipse-gris':
-                                dataset_main['getPotenciaCCDV'] !== undefined &&
-                                dataset_main['getPotenciaCCDV'].hidden,
+                                dataSets['canvas1-getPotenciaCCDV'] !== undefined &&
+                                dataSets['canvas1-getPotenciaCCDV'].hidden,
                             'eclipse-rojo':
-                                dataset_main['getPotenciaCCDV'] == undefined ||
+                                dataSets['canvas1-getPotenciaCCDV'] == undefined ||
                                 tagValue['getPotenciaCCDV'] == 0
                         }"
                         >&nbsp;</span
@@ -355,7 +355,7 @@
                 >
                 <div
                     class="col text-center"
-                    (click)="datasetToggleChartMain('getRegimenTermico')"
+                    (click)="datasetToggleChart('canvas1','getRegimenTermico')"
                     placement="top"
                     tooltipClass="mytooltip"
                     [ngbTooltip]="tip_getRegimenTermico"
@@ -364,14 +364,14 @@
                         class="badge badge-pill myicon"
                         [ngClass]="{
                             'eclipse-verde':
-                                dataset_main['getRegimenTermico'] !==
+                                dataSets['canvas1-getRegimenTermico'] !==
                                     undefined &&
-                                !dataset_main['getRegimenTermico'].hidden &&
+                                !dataSets['canvas1-getRegimenTermico'].hidden &&
                                 tagValue['getRegimenTermico'] != 0,
                             'eclipse-gris':
-                                dataset_main['getRegimenTermico'] !==
+                                dataSets['canvas1-getRegimenTermico'] !==
                                     undefined &&
-                                dataset_main['getRegimenTermico'].hidden &&
+                                dataSets['canvas1-getRegimenTermico'].hidden &&
                                 tagValue['getRegimenTermico'] != 0,
                             'eclipse-rojo': tagValue['getRegimenTermico'] == 0
                         }"
@@ -451,7 +451,7 @@
                                 style="margin:auto"
                             >
                                 &nbsp;
-                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTUnoGas'].borderColor}"></i-->
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTUnoGas'].borderColor}"></i-->
                             </a>
                             <div
                                 class="dropdown-menu dropdown-menu-right"
@@ -509,17 +509,17 @@
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{
                                 'background-color':
-                                    dataset_main['getCTUnoGas'].borderColor
+                                    dataSets['canvas1-getCTUnoGas'].borderColor
                             }"
                             *ngIf="
-                                dataset_main['getCTUnoGas'] !== undefined &&
-                                !dataset_main['getCTUnoGas'].hidden
+                                dataSets['canvas1-getCTUnoGas'] !== undefined &&
+                                !dataSets['canvas1-getCTUnoGas'].hidden
                             "
                             >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                         >&nbsp;
                         <span
                             class="myicon"
-                            (click)="datasetToggleChartMain('getCTUnoGas')"
+                            (click)="datasetToggleChart('canvas1','getCTUnoGas')"
                         >
                             <i
                                 class="fab fa-gripfire"
@@ -532,20 +532,20 @@
                         </span>
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getCTUnoGas')"
+                            (click)="datasetToggleChart('canvas1','getCTUnoGas')"
                         >
                             {{ 'Gas' | translate }}
                         </span>
                         <br />
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getCTUnoGas')"
+                            (click)="datasetToggleChart('canvas1','getCTUnoGas')"
                         >
                             {{ tagValue["getCTUnoGas"] | number: "5.0-0" }}
                         </span>
                         <span
                             class="sub"
-                            (click)="datasetToggleChartMain('getCTUnoGas')"
+                            (click)="datasetToggleChart('canvas1','getCTUnoGas')"
                         >
                             NM3/h
                         </span>
@@ -572,7 +572,7 @@
                                 style="margin:auto"
                             >
                                 &nbsp;
-                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTUnoDiesel'].borderColor}"></i-->
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTUnoDiesel'].borderColor}"></i-->
                             </a>
                             <div
                                 class="dropdown-menu dropdown-menu-right"
@@ -630,17 +630,17 @@
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{
                                 'background-color':
-                                    dataset_main['getCTUnoDiesel'].borderColor
+                                    dataSets['canvas1-getCTUnoDiesel'].borderColor
                             }"
                             *ngIf="
-                                dataset_main['getCTUnoDiesel'] !== undefined &&
-                                !dataset_main['getCTUnoDiesel'].hidden
+                                dataSets['canvas1-getCTUnoDiesel'] !== undefined &&
+                                !dataSets['canvas1-getCTUnoDiesel'].hidden
                             "
                             >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                         >&nbsp;
                         <span
                             class="myicon"
-                            (click)="datasetToggleChartMain('getCTUnoDiesel')"
+                            (click)="datasetToggleChart('canvas1','getCTUnoDiesel')"
                         >
                             <i
                                 class="fas fa-gas-pump"
@@ -653,20 +653,20 @@
                         </span>
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getCTUnoDiesel')"
+                            (click)="datasetToggleChart('canvas1','getCTUnoDiesel')"
                         >
                             {{ 'Diesel' | translate }}
                         </span>
                         <br />
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getCTUnoDiesel')"
+                            (click)="datasetToggleChart('canvas1','getCTUnoDiesel')"
                         >
                             {{ tagValue["getCTUnoDiesel"] | number: "1.1-2" }}
                         </span>
                         <span
                             class="sub"
-                            (click)="datasetToggleChartMain('getCTUnoDiesel')"
+                            (click)="datasetToggleChart('canvas1','getCTUnoDiesel')"
                         >
                             T/h
                         </span>
@@ -691,7 +691,7 @@
                                 style="margin:auto"
                             >
                                 &nbsp;
-                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTUnoRT'].borderColor}"></i-->
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTUnoRT'].borderColor}"></i-->
                             </a>
                             <div
                                 class="dropdown-menu dropdown-menu-right"
@@ -749,17 +749,17 @@
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{
                                 'background-color':
-                                    dataset_main['getCTUnoRT'].borderColor
+                                    dataSets['canvas1-getCTUnoRT'].borderColor
                             }"
                             *ngIf="
-                                dataset_main['getCTUnoRT'] !== undefined &&
-                                !dataset_main['getCTUnoRT'].hidden
+                                dataSets['canvas1-getCTUnoRT'] !== undefined &&
+                                !dataSets['canvas1-getCTUnoRT'].hidden
                             "
                             >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                         >&nbsp;
                         <span
                             class="myicon"
-                            (click)="datasetToggleChartMain('getCTUnoRT')"
+                            (click)="datasetToggleChart('canvas1','getCTUnoRT')"
                         >
                             <i
                                 class="fas fa-chart-line"
@@ -771,20 +771,20 @@
                         </span>
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getCTUnoRT')"
+                            (click)="datasetToggleChart('canvas1','getCTUnoRT')"
                         >
                             {{ 'HR' | translate }}
                         </span>
                         <br />
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getCTUnoRT')"
+                            (click)="datasetToggleChart('canvas1','getCTUnoRT')"
                         >
                             {{ tagValue["getCTUnoRT"] | number: "4.0-0" }}
                         </span>
                         <span
                             class="sub"
-                            (click)="datasetToggleChartMain('getCTUnoRT')"
+                            (click)="datasetToggleChart('canvas1','getCTUnoRT')"
                         >
                             KJ/KWh
                         </span>
@@ -809,7 +809,7 @@
                                 style="margin:auto"
                             >
                                 &nbsp;
-                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTUnoMW'].borderColor}"></i-->
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTUnoMW'].borderColor}"></i-->
                             </a>
                             <div
                                 class="dropdown-menu dropdown-menu-right"
@@ -867,17 +867,17 @@
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{
                                 'background-color':
-                                    dataset_main['getCTUnoMW'].borderColor
+                                    dataSets['canvas1-getCTUnoMW'].borderColor
                             }"
                             *ngIf="
-                                dataset_main['getCTUnoMW'] !== undefined &&
-                                !dataset_main['getCTUnoMW'].hidden
+                                dataSets['canvas1-getCTUnoMW'] !== undefined &&
+                                !dataSets['canvas1-getCTUnoMW'].hidden
                             "
                             >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                         >&nbsp;
                         <span
                             class="myicon"
-                            (click)="datasetToggleChartMain('getCTUnoMW')"
+                            (click)="datasetToggleChart('canvas1','getCTUnoMW')"
                         >
                             <i
                                 class="fas fa-bolt"
@@ -891,19 +891,19 @@
                         </span>
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getCTUnoMW')"
+                            (click)="datasetToggleChart('canvas1','getCTUnoMW')"
                             >{{ 'Power' | translate }}
                         </span>
                         <br />
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getCTUnoMW')"
+                            (click)="datasetToggleChart('canvas1','getCTUnoMW')"
                         >
                             {{ tagValue["getCTUnoMW"] | number: "3.2-2" }}
                         </span>
                         <span
                             class="sub"
-                            (click)="datasetToggleChartMain('getCTUnoMW')"
+                            (click)="datasetToggleChart('canvas1','getCTUnoMW')"
                         >
                             MW
                         </span>
@@ -953,7 +953,7 @@
                             style="margin:auto"
                         >
                             &nbsp;
-                            <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTUnoRPM'].borderColor}"></i-->
+                            <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTUnoRPM'].borderColor}"></i-->
                         </a>
                         <div
                             class="dropdown-menu dropdown-menu-right"
@@ -1009,17 +1009,17 @@
                         style="vertical-align:super;font-size: .3rem; "
                         [ngStyle]="{
                             'background-color':
-                                dataset_main['getCTUnoRPM'].borderColor
+                                dataSets['canvas1-getCTUnoRPM'].borderColor
                         }"
                         *ngIf="
-                            dataset_main['getCTUnoRPM'] !== undefined &&
-                            !dataset_main['getCTUnoRPM'].hidden
+                            dataSets['canvas1-getCTUnoRPM'] !== undefined &&
+                            !dataSets['canvas1-getCTUnoRPM'].hidden
                         "
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                     >&nbsp;
                     <span
                         class="myicon"
-                        (click)="datasetToggleChartMain('getCTUnoRPM')"
+                        (click)="datasetToggleChart('canvas1','getCTUnoRPM')"
                     >
                         <i
                             class="fas fa-running icon-verde running"
@@ -1033,13 +1033,13 @@
                     <br />
                     <span
                         class="mydatatxt"
-                        (click)="datasetToggleChartMain('getCTUnoRPM')"
+                        (click)="datasetToggleChart('canvas1','getCTUnoRPM')"
                     >
                         {{ tagValue["getCTUnoRPM"] | number: "4.0-0" }}
                     </span>
                     <span
                         class="sub"
-                        (click)="datasetToggleChartMain('getCTUnoRPM')"
+                        (click)="datasetToggleChart('canvas1','getCTUnoRPM')"
                     >
                         {{ 'RPM' | translate }}
                     </span>
@@ -1079,7 +1079,7 @@
                                 style="margin:auto"
                             >
                                 &nbsp;
-                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTDosGas'].borderColor}"></i-->
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTDosGas'].borderColor}"></i-->
                             </a>
                             <div
                                 class="dropdown-menu dropdown-menu-right"
@@ -1137,17 +1137,17 @@
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{
                                 'background-color':
-                                    dataset_main['getCTDosGas'].borderColor
+                                    dataSets['canvas1-getCTDosGas'].borderColor
                             }"
                             *ngIf="
-                                dataset_main['getCTDosGas'] !== undefined &&
-                                !dataset_main['getCTDosGas'].hidden
+                                dataSets['canvas1-getCTDosGas'] !== undefined &&
+                                !dataSets['canvas1-getCTDosGas'].hidden
                             "
                             >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                         >&nbsp;
                         <span
                             class="myicon"
-                            (click)="datasetToggleChartMain('getCTDosGas')"
+                            (click)="datasetToggleChart('canvas1','getCTDosGas')"
                         >
                             <i
                                 class="fab fa-gripfire"
@@ -1160,19 +1160,19 @@
                         </span>
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getCTDosGas')"
+                            (click)="datasetToggleChart('canvas1','getCTDosGas')"
                             >{{ 'Gas' | translate }}
                         </span>
                         <br />
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getCTDosGas')"
+                            (click)="datasetToggleChart('canvas1','getCTDosGas')"
                         >
                             {{ tagValue["getCTDosGas"] | number: "5.0-0" }}
                         </span>
                         <span
                             class="sub"
-                            (click)="datasetToggleChartMain('getCTDosGas')"
+                            (click)="datasetToggleChart('canvas1','getCTDosGas')"
                         >
                             NM3/h
                         </span>
@@ -1198,7 +1198,7 @@
                                 style="margin:auto"
                             >
                                 &nbsp;
-                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTDosDiesel'].borderColor}"></i-->
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTDosDiesel'].borderColor}"></i-->
                             </a>
                             <div
                                 class="dropdown-menu dropdown-menu-right"
@@ -1256,17 +1256,17 @@
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{
                                 'background-color':
-                                    dataset_main['getCTDosDiesel'].borderColor
+                                    dataSets['canvas1-getCTDosDiesel'].borderColor
                             }"
                             *ngIf="
-                                dataset_main['getCTDosDiesel'] !== undefined &&
-                                !dataset_main['getCTDosDiesel'].hidden
+                                dataSets['canvas1-getCTDosDiesel'] !== undefined &&
+                                !dataSets['canvas1-getCTDosDiesel'].hidden
                             "
                             >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                         >&nbsp;
                         <span
                             class="myicon"
-                            (click)="datasetToggleChartMain('getCTDosDiesel')"
+                            (click)="datasetToggleChart('canvas1','getCTDosDiesel')"
                         >
                             <i
                                 class="fas fa-gas-pump"
@@ -1279,7 +1279,7 @@
                         </span>
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getCTDosDiesel')"
+                            (click)="datasetToggleChart('canvas1','getCTDosDiesel')"
                             >{{ 'Diesel' | translate }}
 
                             <!--{{ "PANEL.TITULO_DIESEL" | translate }} -->
@@ -1287,13 +1287,13 @@
                         <br />
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getCTDosDiesel')"
+                            (click)="datasetToggleChart('canvas1','getCTDosDiesel')"
                         >
                             {{ tagValue["getCTDosDiesel"] | number: "1.1-2" }}
                         </span>
                         <span
                             class="sub"
-                            (click)="datasetToggleChartMain('getCTDosDiesel')"
+                            (click)="datasetToggleChart('canvas1','getCTDosDiesel')"
                         >
                             T/h
                         </span>
@@ -1318,7 +1318,7 @@
                                 style="margin:auto"
                             >
                                 &nbsp;
-                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTDosRT'].borderColor}"></i-->
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTDosRT'].borderColor}"></i-->
                             </a>
                             <div
                                 class="dropdown-menu dropdown-menu-right"
@@ -1376,17 +1376,17 @@
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{
                                 'background-color':
-                                    dataset_main['getCTDosRT'].borderColor
+                                    dataSets['canvas1-getCTDosRT'].borderColor
                             }"
                             *ngIf="
-                                dataset_main['getCTDosRT'] !== undefined &&
-                                !dataset_main['getCTDosRT'].hidden
+                                dataSets['canvas1-getCTDosRT'] !== undefined &&
+                                !dataSets['canvas1-getCTDosRT'].hidden
                             "
                             >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                         >&nbsp;
                         <span
                             class="myicon"
-                            (click)="datasetToggleChartMain('getCTDosRT')"
+                            (click)="datasetToggleChart('canvas1','getCTDosRT')"
                         >
                             <i
                                 class="fas fa-chart-line"
@@ -1398,20 +1398,20 @@
                         </span>
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getCTDosRT')"
+                            (click)="datasetToggleChart('canvas1','getCTDosRT')"
                             >{{ 'HR' | translate }}
 
                         </span>
                         <br />
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getCTDosRT')"
+                            (click)="datasetToggleChart('canvas1','getCTDosRT')"
                         >
                             {{ tagValue["getCTDosRT"] | number: "4.0-0" }}
                         </span>
                         <span
                             class="sub"
-                            (click)="datasetToggleChartMain('getCTDosRT')"
+                            (click)="datasetToggleChart('canvas1','getCTDosRT')"
                         >
                             KJ/KWh
                         </span>
@@ -1436,7 +1436,7 @@
                                 style="margin:auto"
                             >
                                 &nbsp;
-                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTDosMW'].borderColor}"></i-->
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTDosMW'].borderColor}"></i-->
                             </a>
                             <div
                                 class="dropdown-menu dropdown-menu-right"
@@ -1494,17 +1494,17 @@
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{
                                 'background-color':
-                                    dataset_main['getCTDosMW'].borderColor
+                                    dataSets['canvas1-getCTDosMW'].borderColor
                             }"
                             *ngIf="
-                                dataset_main['getCTDosMW'] !== undefined &&
-                                !dataset_main['getCTDosMW'].hidden
+                                dataSets['canvas1-getCTDosMW'] !== undefined &&
+                                !dataSets['canvas1-getCTDosMW'].hidden
                             "
                             >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                         >&nbsp;
                         <span
                             class="myicon"
-                            (click)="datasetToggleChartMain('getCTDosMW')"
+                            (click)="datasetToggleChart('canvas1','getCTDosMW')"
                         >
                             <i
                                 class="fas fa-bolt"
@@ -1518,19 +1518,19 @@
                         </span>
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getCTDosMW')"
+                            (click)="datasetToggleChart('canvas1','getCTDosMW')"
                             >{{ 'Power' | translate }}
                         </span>
                         <br />
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getCTDosMW')"
+                            (click)="datasetToggleChart('canvas1','getCTDosMW')"
                         >
                             {{ tagValue["getCTDosMW"] | number: "3.2-2" }}
                         </span>
                         <span
                             class="sub"
-                            (click)="datasetToggleChartMain('getCTDosMW')"
+                            (click)="datasetToggleChart('canvas1','getCTDosMW')"
                         >
                             MW
                         </span>
@@ -1581,7 +1581,7 @@
                             style="margin:auto"
                         >
                             &nbsp;
-                            <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getCTDosRPM'].borderColor}"></i-->
+                            <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTDosRPM'].borderColor}"></i-->
                         </a>
                         <div
                             class="dropdown-menu dropdown-menu-right"
@@ -1637,17 +1637,17 @@
                         style="vertical-align:super;font-size: .3rem; "
                         [ngStyle]="{
                             'background-color':
-                                dataset_main['getCTDosRPM'].borderColor
+                                dataSets['canvas1-getCTDosRPM'].borderColor
                         }"
                         *ngIf="
-                            dataset_main['getCTDosRPM'] !== undefined &&
-                            !dataset_main['getCTDosRPM'].hidden
+                            dataSets['canvas1-getCTDosRPM'] !== undefined &&
+                            !dataSets['canvas1-getCTDosRPM'].hidden
                         "
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                     >&nbsp;
                     <span
                         class="myicon"
-                        (click)="datasetToggleChartMain('getCTDosRPM')"
+                        (click)="datasetToggleChart('canvas1','getCTDosRPM')"
                     >
                         <i
                             class="fas fa-running icon-verde running"
@@ -1660,18 +1660,18 @@
                     </span>
                     <span
                         class="mydatatxt"
-                        (click)="datasetToggleChartMain('getCTDosRPM')"
+                        (click)="datasetToggleChart('canvas1','getCTDosRPM')"
                     ></span>
                     <br />
                     <span
                         class="mydatatxt"
-                        (click)="datasetToggleChartMain('getCTDosRPM')"
+                        (click)="datasetToggleChart('canvas1','getCTDosRPM')"
                     >
                         {{ tagValue["getCTDosRPM"] | number: "4.0-0" }}
                     </span>
                     <span
                         class="sub"
-                        (click)="datasetToggleChartMain('getCTDosRPM')"
+                        (click)="datasetToggleChart('canvas1','getCTDosRPM')"
                     >
                     {{ 'RPM' | translate }}
                     </span>
@@ -1712,7 +1712,7 @@
                                 style="margin:auto"
                             >
                                 &nbsp;
-                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getTVRT'].borderColor}"></i-->
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getTVRT'].borderColor}"></i-->
                             </a>
                             <div
                                 class="dropdown-menu dropdown-menu-right"
@@ -1768,17 +1768,17 @@
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{
                                 'background-color':
-                                    dataset_main['getTVRT'].borderColor
+                                    dataSets['canvas1-getTVRT'].borderColor
                             }"
                             *ngIf="
-                                dataset_main['getTVRT'] !== undefined &&
-                                !dataset_main['getTVRT'].hidden
+                                dataSets['canvas1-getTVRT'] !== undefined &&
+                                !dataSets['canvas1-getTVRT'].hidden
                             "
                             >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                         >&nbsp;
                         <span
                             class="myicon"
-                            (click)="datasetToggleChartMain('getTVRT')"
+                            (click)="datasetToggleChart('canvas1','getTVRT')"
                         >
                             <i
                                 class="fas fa-chart-line"
@@ -1790,19 +1790,19 @@
                         </span>
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getTVRT')"
+                            (click)="datasetToggleChart('canvas1','getTVRT')"
                             >{{ 'HR' | translate }}
                         </span>
                         <br />
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getTVRT')"
+                            (click)="datasetToggleChart('canvas1','getTVRT')"
                         >
                             {{ tagValue["getTVRT"] | number: "4.0-0" }}
                         </span>
                         <span
                             class="sub"
-                            (click)="datasetToggleChartMain('getTVRT')"
+                            (click)="datasetToggleChart('canvas1','getTVRT')"
                         >
                             KJ/KWh
                         </span>
@@ -1827,7 +1827,7 @@
                                 style="margin:auto"
                             >
                                 &nbsp;
-                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getTVMW'].borderColor}"></i-->
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getTVMW'].borderColor}"></i-->
                             </a>
                             <div
                                 class="dropdown-menu dropdown-menu-right"
@@ -1883,17 +1883,17 @@
                             style="vertical-align:super;font-size: .3rem; "
                             [ngStyle]="{
                                 'background-color':
-                                    dataset_main['getTVMW'].borderColor
+                                    dataSets['canvas1-getTVMW'].borderColor
                             }"
                             *ngIf="
-                                dataset_main['getTVMW'] !== undefined &&
-                                !dataset_main['getTVMW'].hidden
+                                dataSets['canvas1-getTVMW'] !== undefined &&
+                                !dataSets['canvas1-getTVMW'].hidden
                             "
                             >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                         >&nbsp;
                         <span
                             class="myicon"
-                            (click)="datasetToggleChartMain('getTVMW')"
+                            (click)="datasetToggleChart('canvas1','getTVMW')"
                         >
                             <i
                                 class="fas fa-bolt"
@@ -1906,19 +1906,19 @@
                         </span>
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getTVMW')"
+                            (click)="datasetToggleChart('canvas1','getTVMW')"
                             >{{ 'Power' | translate }}
                         </span>
                         <br />
                         <span
                             class="mydatatxt"
-                            (click)="datasetToggleChartMain('getTVMW')"
+                            (click)="datasetToggleChart('canvas1','getTVMW')"
                         >
                             {{ tagValue["getTVMW"] | number: "3.2-2" }}
                         </span>
                         <span
                             class="sub"
-                            (click)="datasetToggleChartMain('getTVMW')"
+                            (click)="datasetToggleChart('canvas1','getTVMW')"
                         >
                             MW
                         </span>
@@ -1969,7 +1969,7 @@
                             style="margin:auto"
                         >
                             &nbsp;
-                            <!--i class="fa-cog fas" [ngStyle]="{'color':dataset_main['getTVRPM'].borderColor}"></i-->
+                            <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getTVRPM'].borderColor}"></i-->
                         </a>
                         <div
                             class="dropdown-menu dropdown-menu-right"
@@ -2021,17 +2021,17 @@
                         style="vertical-align:super;font-size: .3rem; "
                         [ngStyle]="{
                             'background-color':
-                                dataset_main['getTVRPM'].borderColor
+                                dataSets['canvas1-getTVRPM'].borderColor
                         }"
                         *ngIf="
-                            dataset_main['getTVRPM'] !== undefined &&
-                            !dataset_main['getTVRPM'].hidden
+                            dataSets['canvas1-getTVRPM'] !== undefined &&
+                            !dataSets['canvas1-getTVRPM'].hidden
                         "
                         >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
                     >&nbsp;
                     <span
                         class="myicon"
-                        (click)="datasetToggleChartMain('getTVRPM')"
+                        (click)="datasetToggleChart('canvas1','getTVRPM')"
                     >
                         <i
                             class="fas fa-running icon-verde running"
@@ -2048,13 +2048,13 @@
                     <br />
                     <span
                         class="mydatatxt"
-                        (click)="datasetToggleChartMain('getTVRPM')"
+                        (click)="datasetToggleChart('canvas1','getTVRPM')"
                     >
                         {{ tagValue["getTVRPM"] | number: "4.0-0" }}
                     </span>
                     <span
                         class="sub"
-                        (click)="datasetToggleChartMain('getTVRPM')"
+                        (click)="datasetToggleChart('canvas1','getTVRPM')"
                     >
                     {{ 'RPM' | translate }}
                     </span>
