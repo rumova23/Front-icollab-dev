@@ -332,34 +332,6 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Tipo de días</label>
-                            <select
-                                class="form-control"
-                                [compareWith]="compareFn"
-                                formControlName="fTipoDias"
-                                [ngClass]="{
-                                    'is-invalid':
-                                        submitted && f.fTipoDias.errors
-                                }"
-                            >
-                                <option
-                                    *ngFor="let operator of comboTipoDias"
-                                    [value]="operator.value"
-                                >
-                                    {{ operator.label }}
-                                </option>
-                            </select>
-                            <div
-                                *ngIf="submitted && f.fTipoDias.errors"
-                                style="color:red"
-                            >
-                                <div *ngIf="f.fTipoDias.errors.required">
-                                    Requerido
-                                </div>
-                            </div>
-                        </div>
-
                         <!--
         <div class="row">
             <div class="col-md-12">

@@ -272,8 +272,10 @@ export class ActivitiesEditComponent implements OnInit {
             1
         );
 
+        const planta = (this.globalService.plant.name === 'SOL') ? 'AGUILA' : 'SOL';
+        console.log('despues de configurar para clonar: ' + planta);
         this.tagService
-            .crearActividad(this.actividad, this.globalService.plant.name)
+            .crearActividad(this.actividad, planta)
             .subscribe(result => {
                 let generigResponseDTO: any;
                 generigResponseDTO = result;

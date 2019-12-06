@@ -5,12 +5,11 @@ export const environment = {
   , securityUrl             : hostGateway + 'security/'
   , catalogUrl              : hostGateway + 'catalog/'
   , mastercatalog           : hostGateway + 'mastercatalog/'
-  , tagsUrl                 : hostGateway + 'tags/'
+  , tagsUrl                 : hostGateway + 'tags/tags/'
   , microexamenUrl          : hostGateway + 'exam/'
   , evaluacionExamenUrl     : hostGateway + 'configuration/'
   , knowledgeUrl            : hostGateway + 'knowledge/'
   , seguimientoUrl          : hostGateway + 'seguimiento/'
-  , seguimiento             : hostGateway + 'seguimiento/'
   , estatusmaestro          : hostGateway + 'estatusmaestro/'
   , marketUrl               : hostGateway + 'market/'
   , fuecdUrl                : hostGateway + 'fuecd/'
@@ -20,6 +19,6 @@ export const environment = {
   , trUrl                   : hostGateway + 'tr/'
   , mmmercadoUrl            : hostGateway + 'mmmercado/'
   , microuploaddbUrl        : hostGateway + 'microuploaddb/'
-  , urlTrPi                  : 'http://200.52.85.140:1119/'  // micro Bi
+  , urlTrPi                 : 'http://172.20.141.110:1119/'  // micro Bi
   , efhUrl                  : hostGateway + 'efh/'
 };

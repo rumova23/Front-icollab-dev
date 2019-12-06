@@ -27,6 +27,7 @@ import {GenerigResponseDTO} from '../../../models/GenerigResponseDTO';
   , providers: [DatePipe]
 })
 export class ComplianceConfigurationComponent implements OnInit {
+    nombreCatalogo = 'Configuración de   Cumplimientos';
   titulo = 'Matriz Cumplimiento';
   registros;
   administradores;
@@ -36,8 +37,13 @@ export class ComplianceConfigurationComponent implements OnInit {
   actividades: Array<any>;
   anios: Array<any>;
   isSupervisor = false;
+  menu: any[];
+  showAdd    : boolean = false;
+    showView   : boolean = false;
+    showUpdate : boolean = false;
+    showDelete : boolean = false;
 
-  columnas: string[] = ['order', 'tag', 'nombre', 'clasificacion', 'cumplimiento_legal', 'periodo_entrega', 'autoridad', 'tipo_aplicacion', 'userUpdated', 'dateUpdated', 'estatus', 'ver', 'modificar', 'eliminar'];
+  columnas: string[] = ['order', 'tag', 'nombre', 'clasificacion', 'cumplimiento_legal', 'periodo_entrega', 'autoridad', 'tipo_aplicacion', 'userUpdated', 'dateUpdated', 'estatus'];
   columnasResponsabilidad: string[] = ['order', 'admin', 'responsabilidad'];
   filtros = [
     {label: 'TAG', inputtype: 'text'},
@@ -66,7 +72,9 @@ export class ComplianceConfigurationComponent implements OnInit {
     public globalService: GlobalService,
     private eventService: EventService,
     private datePipe: DatePipe,
-    private administratorComplianceService: AdministratorComplianceService) {
+    private administratorComplianceService: AdministratorComplianceService,
+    private securityService: SecurityService) {
+      this.menu = securityService.getMenu('Compliance');
 
     this.serviceSubscription = this.eventService.onChangePlant.subscribe({
       next: (event: EventMessage) => {
@@ -83,6 +91,37 @@ export class ComplianceConfigurationComponent implements OnInit {
    @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
+console.dir(this.menu);
+      for (let option of this.menu) {
+          if (option.children){
+              let flag:boolean = true;
+              while ( flag ){
+                  flag = false;
+                  for (let ins=0; ins < option.children.length; ins++) {
+                      //if (option.children[ins]['label']=="Categorías"){
+                      if (option.children[ins]['label']==this.nombreCatalogo){
+                          if (option.children[ins].actions){
+                              for (let action=0; action < option.children[ins].actions.length ; action++) {
+                                  if (option.children[ins].actions[action] == "CREAR"){
+                                      this.showAdd = true;
+                                  }
+                                  if (option.children[ins].actions[action] == "VER"){
+                                      this.showView = true;
+                                  }
+                                  if (option.children[ins].actions[action] == "EDITAR"){
+                                      this.showUpdate = true;
+                                  }
+                                  if (option.children[ins].actions[action] == "BORRAR"){
+                                      this.showDelete = true;
+                                  }
+                              }
+                          }
+                      }
+
+                  }
+              }
+          }
+      }
 
       const user = JSON.parse(localStorage.getItem('user'));
       console.dir(user);
@@ -127,12 +166,27 @@ export class ComplianceConfigurationComponent implements OnInit {
     this.addBlock(1, 'Cargando...');
     this.data = [];
     this.tagService.obtenTagPorFiltros(anio).subscribe( (data: MatrizCumplimientoDTO) => {
+        console.log('RTC');
         console.dir(data.matriz);
+        console.log('RTC');
         this.registros =  new MatTableDataSource<any>(data.matriz);
         this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
         this.registros.paginator = this.paginator;
         this.registros.sort = this.sort;
         this.addBlock(2, null);
+
+            if (this.showView){
+                //this.displayedColumnsActions.push({key:'see',label:'Ver'});
+                this.columnas.push('ver');
+            }
+            if (this.showUpdate){
+                //this.displayedColumnsActions.push({key:'update',label:'Editar'});
+                this.columnas.push('modificar');
+            }
+            if (this.showUpdate){
+                //this.displayedColumnsActions.push({key:'delete',label:'Eliminar'});
+                this.columnas.push('eliminar');
+            }
       },
       error => {
         this.addBlock(2, null);
@@ -146,7 +200,8 @@ export class ComplianceConfigurationComponent implements OnInit {
     this.confirmationDialogService.confirm('Por favor, confirme..',
           'Está seguro de eliminar el Cumplimiento? ' + tag.tag)
     .then((confirmed) => {
-        if (confirmed) {
+        console.log(confirmed);
+        if ( confirmed ) {
           this.eliminarTagConfirm(tag);
         }
       })
