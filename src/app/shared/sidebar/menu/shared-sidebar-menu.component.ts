@@ -91,21 +91,25 @@ export class SharedSidebarMenuComponent{
 		});
 	}
 	hardcodeCompliance(){
-		this.menu.push({children:[
-			{children:[],
-			  icon: "library_books",
-			  id: "2",
-			  idFather: "1",
-			  label: "legalAgreement",
-			  url: "legalAgreement"}
-		   ],
-			icon: "library_books",
-			id: "1",
-			idFather: "1",
-			label: "legalAgreement",
-			url: "legalAgreement"}
-			);
-		  console.dir(this.menu);
+		/*this.menu.push(
+			{
+				icon: "library_books",
+				id: "1",
+				idFather: "1",
+				label: "legalAgreement",
+				url: "legalAgreement",
+				children:[
+					{
+						children:[],
+						icon: "library_books",
+						id: "2",
+						idFather: "1",
+						label: "legalAgreement",
+						url: "legalAgreement"
+					}
+				],
+			}
+		);//*/
 		
 		  
 	
@@ -123,7 +127,10 @@ export class SharedSidebarMenuComponent{
 			  }
 			}
 		  }//*/
-		  
+		  let mytemporalinicio = this.menu[2];
+		  this.menu[2] = this.menu[1];
+		  this.menu[1] = this.menu[0];
+		  this.menu[0] = mytemporalinicio;
 		  for (let option of this.menu) {
 			  if(option.label == "Catálogos"){
 				  let temporal = option.children[0];
@@ -159,7 +166,7 @@ export class SharedSidebarMenuComponent{
 					  childrenB['label'] ="Planeación";
 					  childrenB['url'] ="Planeación";
 					  childrenB['icon']  ="event_available";
-					  option.children[ins].children.push(childrenB);
+					  //option.children[ins].children.push(childrenB);
 					}
 				  }
 				  
