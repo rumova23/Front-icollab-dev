@@ -39,7 +39,7 @@ export class ComplianceConfigurationComponent implements OnInit {
   isSupervisor = false;
   menu: any[];
   showAdd    : boolean = false;
-    showView   : boolean = false;
+    showView   : boolean = true;
     showUpdate : boolean = false;
     showDelete : boolean = false;
 
