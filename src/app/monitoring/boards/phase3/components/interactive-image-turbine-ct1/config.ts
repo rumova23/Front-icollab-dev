@@ -1,5 +1,5 @@
 export var listCharts = {
-    canvas1: {
+    chart_rt2: {
         type: "line",
         controls: {},
         tags: []
@@ -8,7 +8,8 @@ export var listCharts = {
 
 export const lstTags = [];
 lstTags["getTemperaturaAireSalidaCompresor-ct1"] = {
-    label: "Temperatura ambiente",
+    categoria:"ct1",
+    label: "Temperatura Aire Salida Compresor",
     min: 0,
     max: 590,
     color: "#c5f327",
@@ -23,7 +24,8 @@ lstTags["getTemperaturaAireSalidaCompresor-ct1"] = {
     overview: [{ value: null, timestamp: null }]
 };
 lstTags["getTemperaturaAireSalidaCompresor-ct2"] = {
-    label: "Temperatura ambiente",
+    categoria:"ct2",
+    label: "Temperatura Aire Salida Compresor",
     min: 0,
     max: 590,
     color: "#c5f327",
