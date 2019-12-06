@@ -55,6 +55,13 @@
     ,"Inactive":"アイドル状態"
     ,"Active":"アクティブ"
     ,"Cancel":"取り消す"
+    ,"CT":"ガスタービン"
+    ,"Gas":"ガス"
+    ,"Diesel":"ディーゼル"
+    ,"HR":"ヒートレート"
+    ,"Power":"効能"
+    ,"TV":"蒸気タービン"
+    ,"RPM":"RPM"
 
     ,"legalAgreement" : "法的契約"
     ,"Catálogos" : "カタログ"

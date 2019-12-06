@@ -186,7 +186,7 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 		}
 	}
 
-	check_time_refreseh_data(time_refreseh_data, timePast){
+	check_time_refreseh_data(time_refreseh_data_seconds:number, timePast:Date){
 		// se le resta 1 porque elsimple echo de esperar al siguiente cambio y evaluacion tarda un segundo 
 		// esto es porque usamos this.fechaActual
 			/*
@@ -196,7 +196,7 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 			var seconds = (this.timeCurrent.getTime() - timePast.getTime()) / 1000;
 			console.log("fechaActual - Anterior seconds ::: ",seconds);//*/
 
-		return (time_refreseh_data -1) < ( ( this.timeCurrent.getTime() - timePast.getTime() ) / 1000) ;
+		return (time_refreseh_data_seconds -1) < ( ( this.timeCurrent.getTime() - timePast.getTime() ) / 1000) ;
 	}
 	addSubscriptionsPerChannel(channels:Array<string>){
 		for (const channel of channels) {

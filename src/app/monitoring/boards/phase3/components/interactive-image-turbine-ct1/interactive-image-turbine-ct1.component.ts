@@ -10,6 +10,11 @@ declare var $: any;
 })
 export class InteractiveImageTurbineCT1Component implements OnInit {
 	@Input() data:any;
+
+	
+	@Input() tagValue    = [];
+	@Input() tagName     = [];
+
 	public tooltip = [];
 	public Tag_info = {Name:"",Value:""};
 	public chart_rt2 : Chart;
@@ -173,11 +178,11 @@ export class InteractiveImageTurbineCT1Component implements OnInit {
 	setInfo(idElement){
 		switch (idElement) {
 			case 'tag_0':
-					this.Tag_info = {Name:this.tooltip['DAA08103']['Name'],Value:this.tooltip['DAA08206']['Value']};
+					this.Tag_info = {Name:"unos",Value:"lslsl"};
 				break;
 		
 			case 'tag_1':
-					this.Tag_info = {Name:this.tooltip['DAA08206']['Name'],Value:this.tooltip['DAA08206']['Value']};
+					this.Tag_info = {Name:"dos",Value:"lslsl"};
 				break;
 			default:
 				break;

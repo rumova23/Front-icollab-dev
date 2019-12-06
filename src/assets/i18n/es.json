@@ -55,6 +55,13 @@
     ,"Inactive":"Inactivo"
     ,"Active":"Activo"
     ,"Cancel":"Cancelar"
+    ,"CT":"CT"
+    ,"Gas":"Gas"
+    ,"Diesel":"Diesel"
+    ,"HR":"RT"
+    ,"Power":"Potencia"
+    ,"TV":"TV"
+    ,"RPM":"RPM"
 
     ,"legalAgreement" : "Acuerdo legal"
     ,"Catálogos" : "Catálogos"
