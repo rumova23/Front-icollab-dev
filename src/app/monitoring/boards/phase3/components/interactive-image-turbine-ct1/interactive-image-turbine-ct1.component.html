@@ -29,8 +29,8 @@ Launch demo modal
                                 position: absolute; left: 600px; top: 130px;"
                                 (click)="tag('tag_1')">
                                 <ng-template style="min-width: 900px;" #tip_DAA08206>
-                                    <b>{{tooltip['DAA08206']['Name']}}</b>
-                                    <div>{{tooltip['DAA08206']['Value']}}</div>
+                                    <b>{{ tagName["getRegimenTermico"] }}</b>
+                                    <div>{{ tagValue["getRegimenTermico"] | number: "4.0-0" }}</div>
                                 </ng-template>
                                 <i class="fas fa-crosshairs tagpoint" id="tag_1" tooltipClass="mytooltip" [ngbTooltip]="tip_DAA08206"></i>
                             </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { element } from 'protractor';
 import { Chart } from 'chart.js';
+import { PiServerBox } from '../../../../models/piServer/piServerBox';
 declare var $: any;
 
 @Component({
@@ -11,11 +12,10 @@ declare var $: any;
 export class InteractiveImageTurbineCT1Component implements OnInit {
 	@Input() data:any;
 
-	
+	@Input() ct          = 1;
 	@Input() tagValue    = [];
 	@Input() tagName     = [];
 
-	public tooltip = [];
 	public Tag_info = {Name:"",Value:""};
 	public chart_rt2 : Chart;
 	public chart_rt22 : Chart;
@@ -88,7 +88,6 @@ export class InteractiveImageTurbineCT1Component implements OnInit {
 				}
 			}
 		});
-		this.tooltip["DAA08103"]={Name:"caos",Value:0};
 	}
 
 	openModalCt_1(){
@@ -141,7 +140,49 @@ export class InteractiveImageTurbineCT1Component implements OnInit {
 		
 		
 	}
-	dataAdapter(){
+	dataAdapter(box:PiServerBox){
+		/*
+		for (const idChart in TAGS.listCharts) {
+			if (TAGS.listCharts.hasOwnProperty(idChart)) {
+				switch (box.name) {
+					case "getStreamsetsInterpolatedLast24Hours":
+						this.chartInit(box.data[0].Items[0].Items.length);
+						this.subscribeSocketChanels();
+						for (const data of box.data) {
+							if(!data.error_response){
+								for (const tag of data.Items) {
+									this.createRelwebIdLocalId(tag);
+									this.setStreamTagItemsInChart(tag);
+								}
+							}
+						}
+						break;
+					case "pi-aguila":
+					case "pi-sol":
+						if(this.check_time_refreseh_data(
+							TAGS.listCharts[idChart]['controls']['time_refreseh'],
+							TAGS.listCharts[idChart]['controls']['timePast']
+						)){
+							TAGS.listCharts[idChart]['controls']['timePast'] = new Date();
+							this.charts[idChart].data.labels.push(this.getTime());
+							if(this.charts[idChart].data.labels.length > TAGS.listCharts[idChart].controls.data_per_graph){
+								this.charts[idChart].data.labels.shift();
+							}
+							for (const data of box.data) {
+								if(!data.error_response){
+									for (const tag of data.Items) {
+										this.setStreamTagItemsInChart(tag);
+									}
+								}
+							}
+						}
+						break;
+				}
+			}
+		}
+		//*/
+	}
+	dataAdapter_(){
 		
 		let checkTime = function (i) {
 			if (i < 10) {
@@ -162,11 +203,6 @@ export class InteractiveImageTurbineCT1Component implements OnInit {
 			_data_.labels.shift();
 		}
 		this.chart_rt2.update();
-	}
-	gettooltip(){
-		for(let tag of this.data.data[0]['Items']){
-			this.tooltip[tag.Name]={Name:tag.Name,Value:tag.Value.Value};
-		}
 	}
 	aplicarCheck(idElement:any){
 		let selectores:any = document.getElementsByClassName("tagpoint");

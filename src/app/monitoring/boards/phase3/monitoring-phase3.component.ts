@@ -147,6 +147,8 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 				}
 			}
 		}
+		
+		this.modal_turbine_ct_1.dataAdapter(box);
 	}
 	chartInit(data_per_graph = 25){
 		for (const idChart in TAGS.listCharts) {
@@ -197,11 +199,11 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 	}
 	setStreamTagItemsInChart(tag:PiServerItem){
 		let rel_tag_local : RelWebIdLocalId = this.rel_webId_localId[tag.WebId]?this.rel_webId_localId[tag.WebId]:null;
+		let values = [];
+		let labels = [];
+		let webId = null;
 
 		if ( rel_tag_local != null && rel_tag_local.active ){
-
-			let values = [];
-			let labels = [];
 			if(tag.Items.length>0){
 				for (const item of tag.Items) {
 					values.push(item.Value.Value);
@@ -216,6 +218,7 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
 
 			this.addDatasetLine2("canvas1", values, labels, rel_tag_local.localId );
 		}
+
 	}
 	addDatasetLine2(idChart, values, labels,local_tag_key){
 		if(! Array.isArray(values)){
