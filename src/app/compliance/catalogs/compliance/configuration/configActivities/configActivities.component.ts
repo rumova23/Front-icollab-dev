@@ -207,7 +207,7 @@ export class ConfigActivitiesComponent implements OnInit {
       fRequisitoLegal: ['', Validators.required],
       fAutoridad: ['', Validators.required],
       fTipoAplicacion: ['', Validators.required],
-      fPeriodoEntregaCantidad: ['', Validators.required],
+      fPeriodoEntregaCantidad: ['', Validators.min(1)],
       fPeriodoEntregaUnidad: ['', Validators.required],
       fTipoDias: ['', Validators.required]
     });
@@ -239,7 +239,6 @@ export class ConfigActivitiesComponent implements OnInit {
     this.submitted = true;
     // stop here if form is invalid
     if (this.configActividadesForm.invalid) {
-      console.log('Error!! :-)\n\n' + JSON.stringify(this.configActividadesForm.value));
       this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Lo siento,');
       return;
     }
@@ -256,29 +255,11 @@ export class ConfigActivitiesComponent implements OnInit {
     }
   }
   guardarConfiguracionActividad() {
-
     let tagId = 0; //ID TAG, AUTONUMERICO
 
     if (this.configActividadesForm.controls['fIdTag'].value > 0) {
       tagId = this.configActividadesForm.controls['fIdTag'].value;
     }
-
-    /*
-    this.plantas = new Array<TagPlanta>();
-    this.configActividadesForm.controls['fPlanta'].value.forEach(element => {
-      let planta: TagPlanta
-      planta = new TagPlanta(element)
-      this.plantas.push(planta)
-    });
-
-    let idStatus;
-    if (this.checkedEstatus){
-      idStatus = this.checkedActivoId;
-    }else{
-      idStatus = this.checkedInactivoId;
-    }
-    */
-
     let listTagPrecedentes = [];
     if (this.tagPrecedentes != null){
       if (this.tagPrecedentes.data != null){

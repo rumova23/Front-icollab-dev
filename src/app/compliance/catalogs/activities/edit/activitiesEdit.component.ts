@@ -193,7 +193,6 @@ export class ActivitiesEditComponent implements OnInit {
     }
 
     crearActividad() {
-		debugger;
         if (this.checkedEstatus) {
             //this.idStatus = this.checkedActivoId;
             this.idStatus = true;
@@ -273,7 +272,6 @@ export class ActivitiesEditComponent implements OnInit {
         );
 
         const planta = (this.globalService.plant.name === 'SOL') ? 'AGUILA' : 'SOL';
-        console.log('despues de configurar para clonar: ' + planta);
         this.tagService
             .crearActividad(this.actividad, planta)
             .subscribe(result => {

@@ -27,7 +27,7 @@ import {GenerigResponseDTO} from '../../../models/GenerigResponseDTO';
   , providers: [DatePipe]
 })
 export class ComplianceConfigurationComponent implements OnInit {
-    nombreCatalogo = 'Configuración de   Cumplimientos';
+    nombreCatalogo = 'Cumplimiento Legal';
   titulo = 'Matriz Cumplimiento';
   registros;
   administradores;

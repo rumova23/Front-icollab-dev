@@ -108,8 +108,6 @@ export class TagService {
 
   crearActividad(actividad: TagActividadInDTO, selectedPlant) {
     this.parameters = this.globalService.setXTenantId_Plant(selectedPlant);
-    debugger
-    console.dir(this.parameters);
     return this.http.post( `${ this.baseMicroTagUrl }actividad/crear`, actividad, {params : this.parameters });
   }
 
