@@ -3,11 +3,11 @@
 Launch demo modal
 </button-->
 <!-- Modal -->
-<div class="modal scroll_design fade" id="ModalTurbineCT1" tabindex="-1" role="dialog" aria-labelledby="ModalTurbineCT1Title" aria-hidden="true">
+<div class="modal scroll_design fade" #modalturbuna tabindex="-1" role="dialog" aria-labelledby="ModalTurbineCT1Title" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="ModalTurbineCT1Title">Modal title</h5>
+                <h5 class="modal-title" id="ModalTurbineCT1Title">{{title}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -18,21 +18,21 @@ Launch demo modal
                         <div class="tags" style="position: absolute;z-index: 2; width: 100%; height: 100%;">
                             <div style="
                                 position: absolute; left: 207px; top: 324px;"
-                                (click)="tag('tag_0')">
+                                (click)="tag(tag_0)">
                                 <ng-template style="min-width: 900px;" #tip_DAA08103>
-                                    <b>{{ tagName["getRegimenTermico"] }}</b>
-                                    <div>{{ tagValue["getRegimenTermico"] | number: "4.0-0" }}</div>
+                                    <b>{{ tagName["getTemperaturaAireSalidaCompresor"] }}</b>
+                                    <div>{{ tagValue["getTemperaturaAireSalidaCompresor"] | number: "4.0-0" }}</div>
                                 </ng-template>
-                                <i class="fas fa-crosshairs tagpoint" id="tag_0"  tooltipClass="mytooltip" [ngbTooltip]="tip_DAA08103"></i>
+                                <i class="fas fa-crosshairs tagpoint" #tag_0  tooltipClass="mytooltip" [ngbTooltip]="tip_DAA08103"></i>
                             </div>
                             <div style="
                                 position: absolute; left: 600px; top: 130px;"
-                                (click)="tag('tag_1')">
+                                (click)="tag(tag_1)">
                                 <ng-template style="min-width: 900px;" #tip_DAA08206>
-                                    <b>{{ tagName["getRegimenTermico"] }}</b>
-                                    <div>{{ tagValue["getRegimenTermico"] | number: "4.0-0" }}</div>
+                                    <b>{{ tagName["getTemperaturaAireSalidaCompresor"] }}</b>
+                                    <div>{{ tagValue["getTemperaturaAireSalidaCompresor"] | number: "4.0-0" }}</div>
                                 </ng-template>
-                                <i class="fas fa-crosshairs tagpoint" id="tag_1" tooltipClass="mytooltip" [ngbTooltip]="tip_DAA08206"></i>
+                                <i class="fas fa-crosshairs tagpoint" #tag_1 tooltipClass="mytooltip" [ngbTooltip]="tip_DAA08206"></i>
                             </div>
 						</div>
 						<video src="/assets/monitoring/phase3/turbina-gas-animada.mp4"  type="video/webm" 
@@ -44,12 +44,12 @@ Launch demo modal
                         </div>
                     </div>
                 </div>
-                <div id="my-popup-info" class="my-popup-info animated zoomOut" style="width: 100%;
+                <div  #my_popup_info class="my-popup-info animated zoomOut" style="width: 100%;
                     padding: 14px; ">
                     <div class="row">
                         <div class="col">
                             <div style="width: 100%; min-height: 200px;">
-                                <canvas id="chart_rt2" ></canvas>
+                                <canvas #chart_info ></canvas>
                             </div>
                         </div>
                         <div class="col">

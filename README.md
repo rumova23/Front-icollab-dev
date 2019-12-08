@@ -14,11 +14,10 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-ng build --output-path="dist/compliance" --deployUrl="compliance/" --prod
-
-ng build --output-path="dist/compliance" --deployUrl="compliance/"
-
 ng build --prod --base-href="/icollab/" --output-path="dist/icollab"
+
+node --max-old-space-size=8192 ./node_modules/@angular/cli/bin/ng build --prod --base-href="/icollab/" --output-path="dist/icollab" #increase to 8gb
+ 
 
 Se movió de lugar la implementación del Bootstrap; anteriormente se encontraba en el index.html
 Ahora pertenece a la carpeta modules.
