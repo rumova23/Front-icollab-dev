@@ -112,9 +112,10 @@ export class SharedSidebarMenuComponent{
 		);//*/
 		
 		  
-	
+	/*
 		  let temp0:menuItem;
 		  let flag0:boolean = true;
+		  //*/
 		  /*
 		  while ( flag0 ){
 			flag0 = false;          
@@ -127,10 +128,19 @@ export class SharedSidebarMenuComponent{
 			  }
 			}
 		  }//*/
-		  let mytemporalinicio = this.menu[2];
-		  this.menu[2] = this.menu[1];
-		  this.menu[1] = this.menu[0];
-		  this.menu[0] = mytemporalinicio;
+		  	let item0 = null;
+			let item1 = null;
+			let item2 = null;
+		  for (let option of this.menu) {
+			  if(option.label=="Inicio")item0=option;
+			  if(option.label=="Catálogos")item1=option;
+			  if(option.label=="Configuración de   Cumplimientos")item2=option;
+		  }
+
+		  this.menu[0] = item0;
+		  this.menu[1] = item1;
+		  this.menu[2] = item2;
+
 		  for (let option of this.menu) {
 			  if(option.label == "Catálogos"){
 				  let temporal = option.children[0];
