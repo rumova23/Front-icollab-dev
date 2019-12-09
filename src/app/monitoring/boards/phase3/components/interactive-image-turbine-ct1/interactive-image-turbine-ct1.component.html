@@ -3,11 +3,11 @@
 Launch demo modal
 </button-->
 <!-- Modal -->
-<div class="modal scroll_design fade" id="ModalTurbineCT1" tabindex="-1" role="dialog" aria-labelledby="ModalTurbineCT1Title" aria-hidden="true">
+<div class="modal scroll_design fade" #modalturbuna tabindex="-1" role="dialog" aria-labelledby="ModalTurbineCT1Title" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="ModalTurbineCT1Title">Modal title</h5>
+                <h5 class="modal-title" id="ModalTurbineCT1Title">{{title}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -15,49 +15,236 @@ Launch demo modal
             <div class="modal-body">
                 <div style="overflow-x: auto; " class="container scroll_design">
                     <div class="image-phase3" style="width: 937px; height: 577px; position: relative; overflow: hidden; margin: auto;">
-                        <div class="tags" style="position: absolute;z-index: 2; width: 100%; height: 100%;">
+                        <!-- TAGS PARA TURBINA TV -->
+                        <div class="tags" *ngIf="ct == 'tv'" style="position: absolute;z-index: 2; width: 100%; height: 100%;">
                             <div style="
-                                position: absolute; left: 207px; top: 324px;"
-                                (click)="tag('tag_0')">
-                                <ng-template style="min-width: 900px;" #tip_DAA08103>
-                                    <b>{{ tagName["getRegimenTermico"] }}</b>
-                                    <div>{{ tagValue["getRegimenTermico"] | number: "4.0-0" }}</div>
+                                position: absolute; left: 135px; top: 377px;"
+                                (click)="tag(tag_getGobernadoraizquierda,'chart_info','getGobernadoraizquierda')">
+                                <ng-template style="min-width: 900px;" #getGobernadoraizquierda>
+                                    <div>{{ taglabel["getGobernadoraizquierda"] }}</div>
+                                    <b>{{ tagName["getGobernadoraizquierda"] }}</b>
+                                    <div>{{ tagValue["getGobernadoraizquierda"] | number }}</div>
                                 </ng-template>
-                                <i class="fas fa-crosshairs tagpoint" id="tag_0"  tooltipClass="mytooltip" [ngbTooltip]="tip_DAA08103"></i>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getGobernadoraizquierda  tooltipClass="mytooltip" [ngbTooltip]="getGobernadoraizquierda"></i>
                             </div>
                             <div style="
-                                position: absolute; left: 600px; top: 130px;"
-                                (click)="tag('tag_1')">
-                                <ng-template style="min-width: 900px;" #tip_DAA08206>
-                                    <b>{{tooltip['DAA08206']['Name']}}</b>
-                                    <div>{{tooltip['DAA08206']['Value']}}</div>
+                                position: absolute; left: 209px; top: 359px;"
+                                (click)="tag(tag_getGobernadoraderecha,'chart_info','getGobernadoraderecha')">
+                                <ng-template style="min-width: 900px;" #getGobernadoraderecha>
+                                    <div>{{ taglabel["getGobernadoraderecha"] }}</div>
+                                    <b>{{ tagName["getGobernadoraderecha"] }}</b>
+                                    <div>{{ tagValue["getGobernadoraderecha"] | number }}</div>
                                 </ng-template>
-                                <i class="fas fa-crosshairs tagpoint" id="tag_1" tooltipClass="mytooltip" [ngbTooltip]="tip_DAA08206"></i>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getGobernadoraderecha  tooltipClass="mytooltip" [ngbTooltip]="getGobernadoraderecha"></i>
                             </div>
-						</div>
-						<video src="/assets/monitoring/phase3/turbina-gas-animada.mp4"  type="video/webm" 
+                            <div style="
+                                position: absolute; left: 321px; top: 189px;"
+                                (click)="tag(tag_getPosiciondeentrada,'chart_info','getPosiciondeentrada')">
+                                <ng-template style="min-width: 900px;" #getPosiciondeentrada>
+                                    <div>{{ taglabel["getPosiciondeentrada"] }}</div>
+                                    <b>{{ tagName["getPosiciondeentrada"] }}</b>
+                                    <div>{{ tagValue["getPosiciondeentrada"] | number }}</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getPosiciondeentrada  tooltipClass="mytooltip" [ngbTooltip]="getPosiciondeentrada"></i>
+                            </div>
+                            <div style="
+                                position: absolute; left: 197px; top: 189px;"
+                                (click)="tag(tag_getAltapresion,'chart_info','getAltapresion')">
+                                <ng-template style="min-width: 900px;" #getAltapresion>
+                                    <div>{{ taglabel["getAltapresion"] }}</div>
+                                    <b>{{ tagName["getAltapresion"] }}</b>
+                                    <div>{{ tagValue["getAltapresion"] | number }}</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getAltapresion  tooltipClass="mytooltip" [ngbTooltip]="getAltapresion"></i>
+                            </div>
+                            <div style="
+                                position: absolute; left: 627px; top: 41px;"
+                                (click)="tag(tag_getbajapresion,'chart_info','getbajapresion')">
+                                <ng-template style="min-width: 900px;" #getbajapresion>
+                                    <div>{{ taglabel["getbajapresion"] }}</div>
+                                    <b>{{ tagName["getbajapresion"] }}</b>
+                                    <div>{{ tagValue["getbajapresion"] | number }}</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getbajapresion  tooltipClass="mytooltip" [ngbTooltip]="getbajapresion"></i>
+                            </div>
+                            <div style="
+                                position: absolute; left: 709px; top: 279px;"
+                                (click)="tag(tag_getSalidadebajapresion,'chart_info','getSalidadebajapresion')">
+                                <ng-template style="min-width: 900px;" #getSalidadebajapresion>
+                                    <div>{{ taglabel["getSalidadebajapresion"] }}</div>
+                                    <b>{{ tagName["getSalidadebajapresion"] }}</b>
+                                    <div>{{ tagValue["getSalidadebajapresion"] | number }}</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getSalidadebajapresion  tooltipClass="mytooltip" [ngbTooltip]="getSalidadebajapresion"></i>
+                            </div>
+                            <div style="
+                                position: absolute; left: 309px; top: 251px;"
+                                (click)="tag(tag_gettvRpm,'chart_info','gettvRpm')">
+                                <ng-template style="min-width: 900px;" #gettvRpm>
+                                    <div>{{ taglabel["gettvRpm"] }}</div>
+                                    <b>{{ tagName["gettvRpm"] }}</b>
+                                    <div>{{ tagValue["gettvRpm"] | number }}</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs tagpoint" #tag_gettvRpm  tooltipClass="mytooltip" [ngbTooltip]="gettvRpm"></i>
+                            </div>
+                            <div style="
+                                position: absolute; left: 535px; top: 20px;"
+                                (click)="tag(tag_getTemperaturaentradadeVaporBajaPreson,'chart_info','getTemperaturaentradadeVaporBajaPreson')">
+                                <ng-template style="min-width: 900px;" #getTemperaturaentradadeVaporBajaPreson>
+                                    <div>{{ taglabel["getTemperaturaentradadeVaporBajaPreson"] }}</div>
+                                    <b>{{ tagName["getTemperaturaentradadeVaporBajaPreson"] }}</b>
+                                    <div>{{ tagValue["getTemperaturaentradadeVaporBajaPreson"] | number }}</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getTemperaturaentradadeVaporBajaPreson  tooltipClass="mytooltip" [ngbTooltip]="getTemperaturaentradadeVaporBajaPreson"></i>
+                            </div>
+                            <div style="
+                                position: absolute; left: 135px; top: 320px;"
+                                (click)="tag(tag_getTemperaturaentradaAltapresion,'chart_info','getTemperaturaentradaAltapresion')">
+                                <ng-template style="min-width: 900px;" #getTemperaturaentradaAltapresion>
+                                    <div>{{ taglabel["getTemperaturaentradaAltapresion"] }}</div>
+                                    <b>{{ tagName["getTemperaturaentradaAltapresion"] }}</b>
+                                    <div>{{ tagValue["getTemperaturaentradaAltapresion"] | number }}</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getTemperaturaentradaAltapresion  tooltipClass="mytooltip" [ngbTooltip]="getTemperaturaentradaAltapresion"></i>
+                            </div>
+                            <div style="
+                                position: absolute; left: 303px; top: 287px;"
+                                (click)="tag(tag_getTemperaturadevaporintermedia,'chart_info','getTemperaturadevaporintermedia')">
+                                <ng-template style="min-width: 900px;" #getTemperaturadevaporintermedia>
+                                    <div>{{ taglabel["getTemperaturadevaporintermedia"] }}</div>
+                                    <b>{{ tagName["getTemperaturadevaporintermedia"] }}</b>
+                                    <div>{{ tagValue["getTemperaturadevaporintermedia"] | number }}</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getTemperaturadevaporintermedia  tooltipClass="mytooltip" [ngbTooltip]="getTemperaturadevaporintermedia"></i>
+                            </div>
+                            <div style="
+                                position: absolute; left: 287px; top: 358px;"
+                                (click)="tag(tag_getinterceptora,'chart_info','getinterceptora')">
+                                <ng-template style="min-width: 900px;" #getinterceptora>
+                                    <div>{{ taglabel["getinterceptora"] }}</div>
+                                    <b>{{ tagName["getinterceptora"] }}</b>
+                                    <div>{{ tagValue["getinterceptora"] | number }}</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getinterceptora  tooltipClass="mytooltip" [ngbTooltip]="getinterceptora"></i>
+                            </div>
+                            <div style="
+                                position: absolute; left: 583px; top: 0px;"
+                                (click)="tag(tag_getValvuladecontrolbajapresion,'chart_info','getValvuladecontrolbajapresion')">
+                                <ng-template style="min-width: 900px;" #getValvuladecontrolbajapresion>
+                                    <div>{{ taglabel["getValvuladecontrolbajapresion"] }}</div>
+                                    <b>{{ tagName["getValvuladecontrolbajapresion"] }}</b>
+                                    <div>{{ tagValue["getValvuladecontrolbajapresion"] | number }}</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getValvuladecontrolbajapresion  tooltipClass="mytooltip" [ngbTooltip]="getValvuladecontrolbajapresion"></i>
+                            </div>
+                        </div>
+                        <!-- TAGS PARA TURBINAS CT 1 Y 2 -->
+                        <div class="tags" *ngIf="ct != 'tv'" style="position: absolute;z-index: 2; width: 100%; height: 100%;">
+                            <div style="
+                                position: absolute; left: 418px; top: 172px;"
+                                (click)="tag(tag_getTemperaturaAireSalidaCompresor,'chart_info','getTemperaturaAireSalidaCompresor')">
+                                <ng-template style="min-width: 900px;" #getTemperaturaAireSalidaCompresor>
+                                    <div>{{ taglabel["getTemperaturaAireSalidaCompresor"] }}</div>
+                                    <b>{{ tagName["getTemperaturaAireSalidaCompresor"] }}</b>
+                                    <div>{{ tagValue["getTemperaturaAireSalidaCompresor"] | number }}</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getTemperaturaAireSalidaCompresor  tooltipClass="mytooltip" [ngbTooltip]="getTemperaturaAireSalidaCompresor"></i>
+                            </div>
+                            <div style="
+                                position: absolute; left: 794px; top: 260px;"
+                                (click)="tag(tag_getTemperaturaGasDeEscape,'chart_info','getTemperaturaGasDeEscape')">
+                                <ng-template style="min-width: 900px;" #getTemperaturaGasDeEscape>
+                                    <div>{{ taglabel["getTemperaturaGasDeEscape"] }}</div>
+                                    <b>{{ tagName["getTemperaturaGasDeEscape"] }}</b>
+                                    <div>{{ tagValue["getTemperaturaGasDeEscape"] | number }}</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getTemperaturaGasDeEscape tooltipClass="mytooltip" [ngbTooltip]="getTemperaturaGasDeEscape"></i>
+                            </div>
+                            <div style="
+                                position: absolute; left: 661px; top: 238px;"
+                                (click)="tag(tag_getvibracionchumacera_1,'chart_info','getvibracionchumacera_1')">
+                                <ng-template style="min-width: 900px;" #getvibracionchumacera_1>
+                                    <div>{{ taglabel["getvibracionchumacera_1"] }}</div>
+                                    <b>{{ tagName["getvibracionchumacera_1"] }}</b>
+                                    <div>{{ tagValue["getvibracionchumacera_1"] | number }}</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getvibracionchumacera_1 tooltipClass="mytooltip" [ngbTooltip]="getvibracionchumacera_1"></i>
+                            </div>
+                            <div style="
+                                position: absolute; left: 344px; top: 222px;"
+                                (click)="tag(tag_getrpm,'chart_info','getrpm')">
+                                <ng-template style="min-width: 900px;" #getrpm>
+                                    <div>{{ taglabel["getrpm"] }}</div>
+                                    <b>{{ tagName["getrpm"] }}</b>
+                                    <div>{{ tagValue["getrpm"] | number }}</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getrpm tooltipClass="mytooltip" [ngbTooltip]="getrpm"></i>
+                            </div>
+                            <div style="
+                                position: absolute; left: 45px; top: 377px;"
+                                (click)="tag(tag_getposicionigb,'chart_info','getposicionigb')">
+                                <ng-template style="min-width: 900px;" #getposicionigb>
+                                    <div>{{ taglabel["getposicionigb"] }}</div>
+                                    <b>{{ tagName["getposicionigb"] }}</b>
+                                    <div>{{ tagValue["getposicionigb"] | number }}</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getposicionigb tooltipClass="mytooltip" [ngbTooltip]="getposicionigb"></i>
+                            </div>
+                            <div style="
+                                position: absolute; left: 45px; top: 168px;"
+                                (click)="tag(tag_getTemperaturaDelAire,'chart_info','getTemperaturaDelAire')">
+                                <ng-template style="min-width: 900px;" #getTemperaturaDelAire>
+                                    <div>{{ taglabel["getTemperaturaDelAire"] }}</div>
+                                    <b>{{ tagName["getTemperaturaDelAire"] }}</b>
+                                    <div>{{ tagValue["getTemperaturaDelAire"] | number }}</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getTemperaturaDelAire tooltipClass="mytooltip" [ngbTooltip]="getTemperaturaDelAire"></i>
+                            </div>
+                            <div style="
+                                position: absolute; left: 745px; top: 99px;"
+                                (click)="tag(tag_getNox,'chart_info','getNox')">
+                                <ng-template style="min-width: 900px;" #getNox>
+                                    <div>{{ taglabel["getNox"] }}</div>
+                                    <b>{{ tagName["getNox"] }}</b>
+                                    <div>{{ tagValue["getNox"] | number }}</div>
+                                </ng-template>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getNox tooltipClass="mytooltip" [ngbTooltip]="getNox"></i>
+                            </div>
+                        </div>
+                        
+						<video 
+                        *ngIf="ct != 'tv'"
+                        src="/assets/monitoring/phase3/turbina-gas-animada.mp4"  type="video/webm" 
 						autoplay loop 
 						style="position: absolute;z-index: 1; width: 100%; top: 0;"
                         ></video>
+                        
+                        <video 
+                        *ngIf="ct == 'tv'"
+                        src="/assets/monitoring/phase3/vapor-efectos_02.mp4"  type="video/webm" 
+						autoplay loop 
+						style="position: absolute;z-index: 1; width: 100%; top: 0;"
+                        ></video>
+
                         <div class="chart" style="z-index: 2;min-height: 200px;width: 500px; position: absolute;bottom: 0;right: 0;">
                             <canvas id="chart_rt5" ></canvas>
                         </div>
                     </div>
                 </div>
-                <div id="my-popup-info" class="my-popup-info animated zoomOut" style="width: 100%;
+                <div  #my_popup_info class="my-popup-info animated zoomOut" style="width: 100%;
                     padding: 14px; ">
                     <div class="row">
                         <div class="col">
                             <div style="width: 100%; min-height: 200px;">
-                                <canvas id="chart_rt2" ></canvas>
+                                <canvas #chart_info ></canvas>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col" >
                             <p>
-                                Name:  {{Tag_info.Name}}
+                                Name: {{Tag_info.name}}
                             </p>
                             <p>
-                                Value:  {{Tag_info.Value}}
+                                Value:  {{tagValue[Tag_info.localId]||'_'}}
                             </p>
                             
                         </div>
