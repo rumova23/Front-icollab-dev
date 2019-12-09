@@ -15,6 +15,29 @@ Launch demo modal
             <div class="modal-body">
                 <div style="overflow-x: auto; " class="container scroll_design">
                     <div class="image-phase3" style="width: 937px; height: 577px; position: relative; overflow: hidden; margin: auto;">
+                        <div style="color:aliceblue; position: absolute;z-index: 2; width: 100%; height: 100%;">
+                            <p>
+                                <i
+                                    class="fas fa-chart-line"
+                                    [ngClass]="{
+                                        'icon-rojo': tagValue['getrt'] < 1000,
+                                        'icon-verde': tagValue['getrt'] >= 1000
+                                    }"
+                                ></i>
+                                Rt: {{tagValue["getrt"] | number}} KJ/KWh
+                            </p>
+                            <p>
+                                <i
+                                    class="fas fa-bolt"
+                                    [ngClass]="{
+                                        'icon-rojo': tagValue['getpotencia'] <= 10,
+                                        'icon-amarillo': tagValue['getpotencia'] > 10,
+                                        'icon-verde': tagValue['getpotencia'] >= 80
+                                    }"
+                                ></i>
+                                Potencia: {{tagValue["getpotencia"] | number}} MW
+                            </p>
+                        </div>
                         <!-- TAGS PARA TURBINA TV -->
                         <div class="tags" *ngIf="ct == 'tv'" style="position: absolute;z-index: 2; width: 100%; height: 100%;">
                             <div style="
