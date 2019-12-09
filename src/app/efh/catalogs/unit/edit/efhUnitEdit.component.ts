@@ -49,14 +49,9 @@ export class EfhUnitEditComponent implements OnInit {
   registroExistente:boolean = false;
   disabledSave:boolean = false;
   result;
-  verClonar        : boolean = false;
-  showEditClonated : boolean = false;
-  checkedClonar : boolean = false;
-  checkedEditClonated : boolean = false;
   dataSubmit = {}
   origen: string;
   cloned: boolean = false;
-  hasCloned: boolean = false;
 
   constructor(private catalogoMaestroService: CatalogoMaestroService,
               private formBuilder: FormBuilder,
@@ -80,7 +75,6 @@ export class EfhUnitEditComponent implements OnInit {
     });
 
     this.accion = this.catalogType.action;
-
     if (this.accion === 'editar') {
       this.deshabiliarEstatus = false;
       this.disabledSave = true;
@@ -101,7 +95,6 @@ export class EfhUnitEditComponent implements OnInit {
         this.unitForm.controls['opcionDescripcion'].disable();
       } else {
         this.unitForm.controls['nombreOpcion'].disable();
-        this.unitForm.controls['opcionDescripcion'].disable();
         this.soloLectura = false;
       }
       this.obtenerDatosTiposEvento(true);
@@ -129,32 +122,19 @@ export class EfhUnitEditComponent implements OnInit {
             }
 
             if (!putData) {
-              if (this.unitForm.controls['nombreOpcion'].value === element.code
-                  || this.unitForm.controls['opcionDescripcion'].value === element.description) {
+              if (this.unitForm.controls['nombreOpcion'].value === element.code) {
                 this.registroExistente = true;
               }
             }
           }
 
           if (this.registroExistente && this.accion === 'nuevo') {
-            this.toastr.errorToastr('El nombre o la descripción ya existe, favor de modificar.', 'Lo siento,');
+            this.toastr.errorToastr('El nombre ya existe, favor de modificar.', 'Lo siento,');
             this.registroExistente = false;
             return;
           }
 
-          if (putData) {
-            if (!this.cloned) {
-              this.dataSubmit['catalog']        = 'unit';
-              this.dataSubmit['referenceclone'] = this.origen;
-              this.dataSubmit['code']           = this.unitForm.controls['nombreOpcion'].value;
-              this.dataSubmit['description']    = this.unitForm.controls['opcionDescripcion'].value;
-              this.dataSubmit['save']           = false;
-              this.catalogoMaestroService.hasClonated(this.dataSubmit, !this.globalService.aguila).subscribe(
-                  response => {
-                    this.hasCloned = response['success'];
-                  });
-            }
-          } else {
+          if (!putData) {
             this.dataSubmit['code'] = this.unitForm.controls['nombreOpcion'].value;
             this.dataSubmit['description'] = this.unitForm.controls['opcionDescripcion'].value;
             this.dataSubmit['active'] = this.checkedEstatus;
@@ -162,21 +142,14 @@ export class EfhUnitEditComponent implements OnInit {
 
             if (this.accion === 'nuevo') {
               this.dataSubmit['save'] = true;
-              this.origen = this.datePipe.transform(new Date() ,'ddMMyyyyHHmmssSSS');
-              this.dataSubmit['referenceclone'] = this.origen;
+              this.dataSubmit['referenceclone'] = 'NO_CLONADO';
               this.dataSubmit['cloned'] = 0;
             }
             if (this.accion === 'editar') {
               this.dataSubmit['id'] = this.catalogType.id;
               this.dataSubmit['order'] = this.catalogType.id;
               this.dataSubmit['save'] = false;
-
-              if (this.cloned) {
-                this.dataSubmit['referenceclone'] = 'DESLIGADO';
-              } else {
-                this.dataSubmit['referenceclone'] = this.origen;
-              }
-
+              this.dataSubmit['referenceclone'] = this.origen;
               this.dataSubmit['cloned'] = this.cloned;
             }
 
@@ -195,36 +168,13 @@ export class EfhUnitEditComponent implements OnInit {
                     this.unitForm.controls['opcionDescripcion'].disable();
                     this.deshabiliarEstatus = true;
                     this.disabledSave = true;
-                    this.verClonar = true;
                   } else {
                     this.deshabiliarEstatus = true;
+                    this.unitForm.controls['opcionDescripcion'].disable();
                     this.disabledSave = true;
-                    this.showEditClonated = this.hasCloned;
                   }
                 });
           }
-        }
-    ).add(() => {
-      //this.addBlock(2, null);
-    });
-  }
-
-  clonar() {
-    this.dataSubmit['cloned'] = 1;
-    this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit, !this.globalService.aguila).subscribe(
-        dataBack => {
-          this.toastr.successToastr('La unidad fue clonada con éxito.', '¡Se ha logrado!');
-          this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.Unidad'));
-        }
-    );
-  }
-
-  editClonated() {
-    this.dataSubmit['cloned'] = 1;
-    this.catalogoMaestroService.setEditClonated(this.dataSubmit, !this.globalService.aguila).subscribe(
-        dataBack => {
-          this.toastr.successToastr('La actualización de elementos clonados se logró con éxito.', '¡Se ha logrado!');
-          this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.Unidad'));
         }
     );
   }
@@ -251,10 +201,6 @@ export class EfhUnitEditComponent implements OnInit {
     this.obtenerDatosTiposEvento(false);
   }
 
-  compareFn(combo1: number, combo2: number) {
-    return combo1 && combo2 && combo1 === combo2;
-  }
-
   changeCheck() {
     if (this.checkedEstatus) {
       this.checkedEstatus = false;
@@ -266,39 +212,13 @@ export class EfhUnitEditComponent implements OnInit {
     }
   }
 
-  changeClonar() {
-    this.checkedClonar = !this.checkedClonar;
-  }
-
-  changeEditClonated() {
-    this.checkedEditClonated = !this.checkedEditClonated;
+  changeDescription() {
+    if (this.accion === 'editar') {
+      this.disabledSave = false;
+    }
   }
 
   regresar() {
-    if ( (this.accion === 'nuevo' || this.accion === 'editar')
-        && !this.checkedClonar) {
-      this.catalogoMaestroService.getCatalogoIndividual('unit').subscribe(
-          dataBack => {
-            this.result = dataBack;
-
-            for (let element of this.result) {
-              if (element.code === this.unitForm.controls['nombreOpcion'].value) {
-                this.dataSubmit['id'] = element.id;
-              }
-            }
-
-            this.dataSubmit['save'] = false;
-            if (this.accion === 'nuevo') {
-              this.dataSubmit['referenceclone'] = 'NO_CLONADO';
-            } else {
-              this.dataSubmit['referenceclone'] = this.datePipe.transform(new Date() ,'ddMMyyyyHHmmssSSS');
-            }
-            this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit, this.globalService.aguila).subscribe(
-                dataBack => {
-                });
-
-          });
-    }
     this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.Unidad'));
   }
 

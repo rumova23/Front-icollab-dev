@@ -38,7 +38,7 @@
           <div class="col-md-12">
             <div class="form-group">
               <label>Descripción</label>
-              <input mdbInput class="form-control" formControlName="opcionDescripcion"
+              <input mdbInput class="form-control" formControlName="opcionDescripcion" (keydown)="changeDescription();"
                      #description maxlength="100">
               <small class="form-text text-muted text-right">{{description.value?.length || 0}}/100</small>
               <div *ngIf="submitted && f.opcionDescripcion.errors" style="color:red">
@@ -83,67 +83,6 @@
       </form>
       <div class="" style="text-align: right;">
       </div>
-
-
-      <div class="row" *ngIf="verClonar">
-        <div class="col">
-          <ng-container>
-            <div class="form-group">
-              <label>Clonar elemento en:</label><br>
-              <mat-checkbox class="active" color="primary"
-                            (change)="changeClonar();"
-                            [checked]="checkedClonar">
-                <mat-label  *ngIf="globalService.aguila">Sol</mat-label>
-                <mat-label  *ngIf="!globalService.aguila">Aguila</mat-label>
-              </mat-checkbox>
-            </div>
-          </ng-container>
-        </div>
-      </div>
-      <div style="text-align: right;" *ngIf="verClonar">
-        <button type="button" class="btn"
-                [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-                (click)="clonar()"
-                [disabled]="!checkedClonar">Clonar
-        </button>
-      </div>
-
-
-      <div class="row" *ngIf="showEditClonated && !cloned && origen!='NO_CLONADO'">
-        <div class="col">
-          <ng-container>
-            <div class="form-group">
-              <label>Actualizar elemento en:</label><br>
-              <mat-checkbox class="active" color="primary"
-                            (change)="changeEditClonated();"
-                            [checked]="checkedEditClonated">
-                <mat-label  *ngIf="globalService.aguila">Sol</mat-label>
-                <mat-label  *ngIf="!globalService.aguila">Aguila</mat-label>
-              </mat-checkbox>
-            </div>
-          </ng-container>
-        </div>
-      </div>
-      <div style="text-align: right;" *ngIf="showEditClonated && !cloned && origen!='NO_CLONADO'">
-        <button type="button" class="btn"
-                [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-                (click)="editClonated()"
-                [disabled]="!checkedEditClonated">Actualizar elementos clonados
-        </button>
-      </div>
-
     </div>
   </div>
-
-  <div *ngIf="cloned && origen!='DESLIGADO'">
-    Elemento clonado
-  </div>
-  <div *ngIf="cloned && origen=='DESLIGADO'">
-    Elemento desligado
-  </div>
-
-  <div *ngIf="accion!='nuevo' && !cloned && origen!='NO_CLONADO' && this.hasCloned">
-    Elemento con clones
-  </div>
-
 </div>
