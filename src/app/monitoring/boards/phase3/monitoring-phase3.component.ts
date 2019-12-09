@@ -41,6 +41,7 @@ import { FinalsDataToChart } from "../../models/chart/finals-data-to-chart";
 export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent implements OnInit, OnDestroy {
     @ViewChild("modal_turbine_ct_1") modal_turbine_ct_1: InteractiveImageTurbineCT1Component;
     @ViewChild("modal_turbine_ct_2") modal_turbine_ct_2: InteractiveImageTurbineCT1Component;
+    @ViewChild("modal_turbine_ct_3") modal_turbine_ct_3: InteractiveImageTurbineCT1Component;
     private charts   : Array<Chart> = [];
     private rel_webId_localId: Array<any> = [];
     public dataSets : [] = []; // para poder conoce los colores de cada dataset
@@ -383,16 +384,13 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
     }
     updateChart(myform, localTagId) {}
     openModalCt_1() {
-        /*
-		this.modal_turbine_ct_1.data = data;
-		this.modal_turbine_ct_1.gettooltip();
-		this.modal_turbine_ct_1.dataAdapter();
-		//*/
         this.modal_turbine_ct_1.openModalCt_1();
     }
     openModalCt_2() {
-        
         this.modal_turbine_ct_2.openModalCt_1();
+    }
+    openModalCt_3(){
+        this.modal_turbine_ct_3.openModalCt_1();
     }
     tester() {
         let lstTags = this.initializeAt0();

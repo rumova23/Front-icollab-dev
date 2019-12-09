@@ -911,7 +911,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col text-center" (click)="openModalCt_1()">
+                <div class="col text-center" (click)="openModalCt_1()" style="padding: 17%;padding-top: 7%;">
                     <img
                         src="/assets/monitoring/phase3/turbina-gas-desarmada.png"
                         style="width: 100%;"
@@ -1540,7 +1540,7 @@
             </div>
             <!-- Imagen de turbina -->
             <div class="row">
-                <div class="col text-center"  (click)="openModalCt_2()">
+                <div class="col text-center"  (click)="openModalCt_2()" style="padding: 17%;padding-top: 7%;">
                     <img
                         src="/assets/monitoring/phase3/turbina-gas-desarmada.png"
                         style="width: 100%;"
@@ -1932,7 +1932,7 @@
             </div>
             <!-- Imagen de turbina -->
             <div class="row">
-                <div class="col text-center">
+                <div class="col text-center" (click)="openModalCt_3()">
                     <img
                         src="/assets/monitoring/phase3/turbina-vapor-desarmada.png"
                         style="width: 100%;"
@@ -2071,4 +2071,7 @@
 ></app-interactive-image-turbine-ct1>
 <app-interactive-image-turbine-ct1 [ct]="'ct2'" [timeCurrent]="timeCurrent"
     #modal_turbine_ct_2
+></app-interactive-image-turbine-ct1>
+<app-interactive-image-turbine-ct1 [ct]="'tv'" [timeCurrent]="timeCurrent"
+    #modal_turbine_ct_3
 ></app-interactive-image-turbine-ct1>

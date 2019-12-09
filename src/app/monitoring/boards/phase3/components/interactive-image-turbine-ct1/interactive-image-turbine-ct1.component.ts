@@ -32,15 +32,22 @@ export class InteractiveImageTurbineCT1Component extends MonitoringBaseSocketOnC
     @Input() ct = "ii";
     tagValue = [];
     tagName = [];
+    taglabel=[];
     title="";
     @ViewChild('modalturbuna') modalturbuna:ElementRef;
     @ViewChild('my_popup_info') my_popup_info:ElementRef;
     @ViewChild('chart_info') chart_info:ElementRef;
     
     public subscriptions: Subscription[] = []; // almacena las todos los observables
+    public vistafinalsDataToChart :Array<FinalsDataToChart>=[];
 
-
-    public Tag_info = { Name: "", Value: "" };
+    public Tag_info:FinalsDataToChart={webId  : null,
+        localId: "",
+        idChart: "",
+        values : [],
+        labels : [],
+        chart_tags_tag:{},
+        name:""};
     public chart_rt2: Chart;
     public chart_rt22: Chart;
     public fechaActual: Date;
@@ -125,10 +132,12 @@ export class InteractiveImageTurbineCT1Component extends MonitoringBaseSocketOnC
 
         node.addEventListener("animationend", handleAnimationEnd);
     }
-    tag(element) {
+    tag(element,idChart,localid) {
 
         this.animar();
         this.aplicarCheck(element);
+        this.datasetUniqueShowChart(idChart, localid);
+        this.setInfo(localid);
     }
     aplicarCheck(element: any) {
         let selectores: any = document.getElementsByClassName("tagpoint");
@@ -137,18 +146,8 @@ export class InteractiveImageTurbineCT1Component extends MonitoringBaseSocketOnC
         }
         element.classList.add("active");
     }
-    setInfo(idElement) {
-        switch (idElement) {
-            case "tag_0":
-                this.Tag_info = { Name: "unos", Value: "lslsl" };
-                break;
-
-            case "tag_1":
-                this.Tag_info = { Name: "dos", Value: "lslsl" };
-                break;
-            default:
-                break;
-        }
+    setInfo(localId) {
+        this.Tag_info = this.vistafinalsDataToChart[localId];
     }
 
 
@@ -164,7 +163,6 @@ export class InteractiveImageTurbineCT1Component extends MonitoringBaseSocketOnC
                     if (webid.WebId != null && webid.categoria == this.ct) lst.push(webid.WebId);
                 }
         }
-        debugger
         return lst;
     }
     getStreamsetsInterpolatedLast24Hours(webids) {
@@ -204,7 +202,7 @@ export class InteractiveImageTurbineCT1Component extends MonitoringBaseSocketOnC
                                     finalsDataToChart.idChart = idChart;
                                     finalsDataToChart.localId = chart_tags_tag.localId;
                                     finalsDataToChart.chart_tags_tag = chart_tags_tag;
-
+                                    this.vistafinalsDataToChart[chart_tags_tag.localId]=finalsDataToChart;
                                     this.setStreamTagItemsInChart(finalsDataToChart);
                                 }
                             }
@@ -214,10 +212,12 @@ export class InteractiveImageTurbineCT1Component extends MonitoringBaseSocketOnC
                 break;
             case "pi-aguila":
             case "pi-sol":
+              
                 for (const idChart in TAGS.listCharts) {
                     if(this.charts[idChart] == undefined) break;
-                    if (this.check_time_refreseh_data(TAGS.listCharts[idChart]["controls"]["time_refreseh"], TAGS.listCharts[idChart]["controls"]["timePast"])) {
-                        
+
+                    //if (this.check_time_refreseh_data(TAGS.listCharts[idChart]["controls"]["time_refreseh"], TAGS.listCharts[idChart]["controls"]["timePast"])) {
+                    if(1){    
                         TAGS.listCharts[idChart]["controls"]["timePast"] = new Date();
                         this.charts[idChart].data.labels.push(this.getTime());
 
@@ -236,7 +236,7 @@ export class InteractiveImageTurbineCT1Component extends MonitoringBaseSocketOnC
                                         finalsDataToChart.idChart = idChart;
                                         finalsDataToChart.localId = chart_tags_tag.localId;
                                         finalsDataToChart.chart_tags_tag = chart_tags_tag;
-
+                                        this.vistafinalsDataToChart[chart_tags_tag.localId]=finalsDataToChart;
                                         this.addStreamTagItemsInChart(finalsDataToChart);
                                     }
                                 }
@@ -318,6 +318,7 @@ export class InteractiveImageTurbineCT1Component extends MonitoringBaseSocketOnC
             for (const iterator of this.rel_webId_localId[FinalsDataToChart.webId]) {
                 this.tagValue[iterator.localId] = FinalsDataToChart.values[FinalsDataToChart.values.length - 1];
                 this.tagName[iterator.localId] = FinalsDataToChart.name;
+                this.taglabel[iterator.localId] = TAGS.lstTags[iterator.localId].label;
             }
         }
     }
@@ -418,5 +419,28 @@ export class InteractiveImageTurbineCT1Component extends MonitoringBaseSocketOnC
         }
 
         this.charts[idChart].update();
+    }
+
+    //editado , oculta todos y deja solo el que se dio click 
+    datasetUniqueShowChart(idChart, localKeyTag) {
+        this.dataSets
+        if (this.dataSets[`${idChart}-${localKeyTag}`] !== undefined) {
+            for (const local_tag_key in this.dataSets) {
+                //this.dataSets[local_tag_key].hidden = true;
+                this.dataSets[`${local_tag_key}`].hidden = true;
+            }
+            this.dataSets[`${idChart}-${localKeyTag}`].hidden = false;
+
+            for (let index = 0; index < this.charts[idChart].config.options.scales.yAxes.length; index++) {
+                const element = this.charts[idChart].config.options.scales.yAxes[index];
+                if (element.id == localKeyTag) {
+                    //this.yAxes_main[localKeyTag].display = !this.dataSets[`${idChart}-${localKeyTag}`].hidden;
+                    this.charts[idChart].config.options.scales.yAxes[index].display = true;
+                }else{
+                    this.charts[idChart].config.options.scales.yAxes[index].display = false;
+                }
+            }
+            this.charts[idChart].update();
+        }
     }
 }
