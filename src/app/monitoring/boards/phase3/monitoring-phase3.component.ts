@@ -164,6 +164,7 @@ export class MonitoringPhase3Component extends MonitoringBaseSocketOnComponent i
                 }
 				this.modal_turbine_ct_1.dataAdapter(box);
 				this.modal_turbine_ct_2.dataAdapter(box);
+				this.modal_turbine_ct_3.dataAdapter(box);
                 break;
         }
     }

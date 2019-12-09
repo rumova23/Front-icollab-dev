@@ -26,8 +26,17 @@ export var listCharts = {
             
             
         ]
+    },
+    chartontheturbine: {
+        type: "line",
+        controls: {},
+        tags: [
+            {localId:"getrpm", initHiddenInChart:false},
+        ]
     }
 };
+
+
 
 export const lstTags = [];
 lstTags["getTemperaturaAireSalidaCompresor"] = {
@@ -116,6 +125,12 @@ lstTags["getrpm"] = {
             data: null,
             active: true,
             categoria:"ct2",
+        },
+        {
+            WebId: "P0uQAgHoBd0ku7P3cWOJL6IgSiIAAAU0VSVklET1JfUElcRUhBMDg3MDE",
+            data: null,
+            active: true,
+            categoria:"tv",
         }
     ],
     sol: [{ WebId: null, data: null, active: false }],

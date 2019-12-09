@@ -37,6 +37,7 @@ export class InteractiveImageTurbineCT1Component extends MonitoringBaseSocketOnC
     @ViewChild('modalturbuna') modalturbuna:ElementRef;
     @ViewChild('my_popup_info') my_popup_info:ElementRef;
     @ViewChild('chart_info') chart_info:ElementRef;
+    @ViewChild('chartontheturbine') chartontheturbine:ElementRef;
     
     public subscriptions: Subscription[] = []; // almacena las todos los observables
     public vistafinalsDataToChart :Array<FinalsDataToChart>=[];
@@ -66,34 +67,6 @@ export class InteractiveImageTurbineCT1Component extends MonitoringBaseSocketOnC
         let lstTags = this.initializeAt0();
         this.getStreamsetsInterpolatedLast24Hours(lstTags);
         this.title = this.ct;
-
-        this.chart_rt2 = new Chart("chart_rt5", {
-            type: "line",
-            data: {
-                labels: [],
-                datasets: [
-                    {
-                        label: "ss",
-                        data: [],
-                        backgroundColor: ["rgba(255, 99, 132, 0.2)"],
-                        borderColor: ["rgba(255, 99, 132, 1)"],
-                        borderWidth: 1
-                    }
-                ]
-            },
-            options: {
-                scales: {
-                    yAxes: [
-                        {
-                            ticks: {
-                                beginAtZero: false
-                            },
-                            position: "right"
-                        }
-                    ]
-                }
-            }
-        });
 
     }
     openModalCt_1() {
@@ -212,7 +185,6 @@ export class InteractiveImageTurbineCT1Component extends MonitoringBaseSocketOnC
                 break;
             case "pi-aguila":
             case "pi-sol":
-              
                 for (const idChart in TAGS.listCharts) {
                     if(this.charts[idChart] == undefined) break;
 
@@ -423,11 +395,15 @@ export class InteractiveImageTurbineCT1Component extends MonitoringBaseSocketOnC
 
     //editado , oculta todos y deja solo el que se dio click 
     datasetUniqueShowChart(idChart, localKeyTag) {
-        this.dataSets
         if (this.dataSets[`${idChart}-${localKeyTag}`] !== undefined) {
             for (const local_tag_key in this.dataSets) {
                 //this.dataSets[local_tag_key].hidden = true;
-                this.dataSets[`${local_tag_key}`].hidden = true;
+                
+                var arrayDeCadenas = local_tag_key.split('-');
+                if("chartontheturbine" != arrayDeCadenas[0]){ // para que no altere esta grafica
+                    this.dataSets[`${local_tag_key}`].hidden = true;
+
+                }
             }
             this.dataSets[`${idChart}-${localKeyTag}`].hidden = false;
 
