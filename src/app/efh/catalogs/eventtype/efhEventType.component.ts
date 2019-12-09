@@ -96,7 +96,6 @@ export class EfhEventTypeComponent implements OnInit {
         dataBack => {
           this.result = dataBack;
           let i = 0;
-
           for (let element of this.result) {
             i += 1;
             let obj            = {};
@@ -186,30 +185,20 @@ export class EfhEventTypeComponent implements OnInit {
                 , maestroOpcion.id).subscribe(
                 data => {
                   this.toastr.successToastr('El registro fue correctamente eliminado', '¡Se ha logrado!');
-                  this.eventService.sendChangePage(new EventMessage(4, {} , 'EFH.Tipo de Evento'));
-                  this.confirmationDialogService.confirm('Por favor, confirme..'
-                      , 'Está seguro de eliminar los registros clonados? ')
-                      .then((confirmed) => {
-                            if (confirmed) {
-                              this.catalogoMaestroService.outCatalogItemCloned(EfhEventTypeComponent.mainCatalog
-                                  , maestroOpcion['referenceclone']).subscribe(
-                                  data => {
-                                    this.toastr.successToastr('Los registros clonados fueron correctamente eliminados', '¡Se ha logrado!');
-                                  }
-                              );
-                            }
-                          }
-                      )
-                      .catch(() => console.log('Cancelo eliminar clones'));
-
+                  this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.Tipo de evento'));
                 }
                 , error => {
-                  this.toastr.errorToastr(error.error['text'], 'Lo siento,');
+                  if (error.error['text'] === 'Ok') {
+                    this.toastr.successToastr('El registro fue correctamente eliminado', '¡Se ha logrado!');
+                    this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.Tipo de evento'));
+                  } else {
+                    this.toastr.errorToastr(error.error['text'], 'Lo siento,');
+                  }
                 },
             );
           }
         })
-        .catch(() => console.log('Canceló eliminar'));
+        .catch(() => console.log('Canceló eliminar tipo de evento'));
   }
 
   private addBlock(type, msg): void {

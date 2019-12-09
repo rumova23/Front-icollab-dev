@@ -38,7 +38,7 @@
           <div class="col-md-12">
             <div class="form-group">
               <label>Descripción</label>
-              <input mdbInput class="form-control" formControlName="opcionDescripcion"
+              <input mdbInput class="form-control" formControlName="opcionDescripcion" (keydown)="changeDescription();"
                      #description maxlength="100">
               <small class="form-text text-muted text-right">{{description.value?.length || 0}}/100</small>
               <div *ngIf="submitted && f.opcionDescripcion.errors" style="color:red">

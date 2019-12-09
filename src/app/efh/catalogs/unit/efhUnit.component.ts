@@ -96,7 +96,6 @@ export class EfhUnitComponent implements OnInit {
         dataBack => {
           this.result = dataBack;
           let i = 0;
-
           for (let element of this.result) {
             i += 1;
             let obj            = {};
@@ -187,29 +186,19 @@ export class EfhUnitComponent implements OnInit {
                 data => {
                   this.toastr.successToastr('El registro fue correctamente eliminado', '¡Se ha logrado!');
                   this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.Unidad'));
-                  this.confirmationDialogService.confirm('Por favor, confirme..'
-                      , 'Está seguro de eliminar los registros clonados? ')
-                      .then((confirmed) => {
-                            if (confirmed) {
-                              this.catalogoMaestroService.outCatalogItemCloned(EfhUnitComponent.mainCatalog
-                                  , maestroOpcion['referenceclone']).subscribe(
-                                  data => {
-                                    this.toastr.successToastr('Los registros clonados fueron correctamente eliminados', '¡Se ha logrado!');
-                                  }
-                              );
-                            }
-                          }
-                      )
-                      .catch(() => console.log('Cancelo eliminar clones'));
-
                 }
                 , error => {
-                  this.toastr.errorToastr(error.error['text'], 'Lo siento,');
+                    if (error.error['text'] === 'Ok') {
+                        this.toastr.successToastr('El registro fue correctamente eliminado', '¡Se ha logrado!');
+                        this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.Unidad'));
+                    } else {
+                        this.toastr.errorToastr(error.error['text'], 'Lo siento,');
+                    }
                 },
             );
           }
         })
-        .catch(() => console.log('Canceló eliminar'));
+        .catch(() => console.log('Canceló eliminar el tipo de unidad'));
   }
 
   private addBlock(type, msg): void {
