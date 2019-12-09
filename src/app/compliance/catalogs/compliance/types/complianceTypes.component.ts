@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { MatPaginator, MatTableDataSource, MatSort } from "@angular/material";
+import { MatPaginator, MatTableDataSource, MatSort, Sort } from "@angular/material";
 import { ToastrManager } from "ng6-toastr-notifications";
 
 import { CatalogoMaestroService } from "src/app/core/services/catalogo-maestro.service";
@@ -129,7 +129,10 @@ export class ComplianceTypesComponent implements OnInit {
         for (const iterator in this.subscriptions) {
             this.subscriptions[iterator].unsubscribe();
         }
-	}
+    }
+    sortData(sort: Sort) {
+        
+    }
 	translateTable(){
 		
 		for (const dat of this.data) {
@@ -259,6 +262,12 @@ export class ComplianceTypesComponent implements OnInit {
                 }
                 this.dataSource = new MatTableDataSource<any>(this.data);
                 this.dataSource.paginator = this.paginator;
+                this.dataSource.sortingDataAccessor = (item, property) => {
+                    switch(property) {
+                        case 'name': return item.name;
+                        default: return item[property];
+                      }
+                }
                 this.dataSource.sort = this.sort;
             })
             .add(() => {

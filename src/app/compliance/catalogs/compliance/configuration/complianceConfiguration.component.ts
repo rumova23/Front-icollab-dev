@@ -75,7 +75,6 @@ export class ComplianceConfigurationComponent implements OnInit {
     private administratorComplianceService: AdministratorComplianceService,
     private securityService: SecurityService) {
       this.menu = securityService.getMenu('Compliance');
-
     this.serviceSubscription = this.eventService.onChangePlant.subscribe({
       next: (event: EventMessage) => {
         switch (event.id) {

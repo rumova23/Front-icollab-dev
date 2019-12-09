@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Input } from '@angular/core';
-import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatSort, Sort } from '@angular/material';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { ToastrManager } from 'ng6-toastr-notifications'
 import { SecurityService } from 'src/app/core/services/security.service';
@@ -109,6 +109,9 @@ export class ActivitiesComponent implements OnInit {
   }
 
   
+  sortData(sort: Sort) {
+        //debugger;
+  }
   obtenerListaActividades(){
     this.data = [];
     this.tagService.getCatalogoActividades("TODOS").subscribe( data => {
@@ -155,6 +158,12 @@ export class ActivitiesComponent implements OnInit {
 
         this.registros =  new MatTableDataSource<any>(listObj);
         this.registros.paginator = this.paginator;
+        this.registros.sortingDataAccessor = (item, property) => {
+            switch(property) {
+                case 'prefix': return item.prefix;
+                default: return item[property];
+              }
+        }
         this.registros.sort = this.matSort;
 
         this.addBlock(2, null);
