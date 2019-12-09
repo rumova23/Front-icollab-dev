@@ -106,11 +106,12 @@ export class InteractiveImageTurbineCT1Component extends MonitoringBaseSocketOnC
         node.addEventListener("animationend", handleAnimationEnd);
     }
     tag(element,idChart,localid) {
-
-        this.animar();
-        this.aplicarCheck(element);
-        this.datasetUniqueShowChart(idChart, localid);
-        this.setInfo(localid);
+        if(this.globalService.socketConnect){
+            this.animar();
+            this.aplicarCheck(element);
+            this.datasetUniqueShowChart(idChart, localid);
+            this.setInfo(localid);
+        }
     }
     aplicarCheck(element: any) {
         let selectores: any = document.getElementsByClassName("tagpoint");
