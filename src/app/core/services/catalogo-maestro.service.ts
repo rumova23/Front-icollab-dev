@@ -24,8 +24,8 @@ export class CatalogoMaestroService {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.microCatalagoMaestro }catalog/get/` + catalogo , {params : this.parameters });
   }
-  
-  setCatalogoIndividual(catalogo, plantSelected){
+
+  setCatalogoIndividual(catalogo, plantSelected) {
     this.parameters = this.globalService.setXTenantId(plantSelected);
     return this.http.post( `${ this.microCatalagoMaestro }catalog/save` , catalogo, {params : this.parameters });
   }

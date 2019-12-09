@@ -38,10 +38,10 @@ export class ComplianceConfigurationComponent implements OnInit {
   anios: Array<any>;
   isSupervisor = false;
   menu: any[];
-  showAdd    : boolean = false;
-    showView   : boolean = true;
-    showUpdate : boolean = false;
-    showDelete : boolean = false;
+  showAdd: boolean = false;
+  showView: boolean = false;
+  showUpdate: boolean = false;
+  showDelete: boolean = false;
 
   columnas: string[] = ['order', 'tag', 'nombre', 'clasificacion', 'cumplimiento_legal', 'periodo_entrega', 'autoridad', 'tipo_aplicacion', 'userUpdated', 'dateUpdated', 'estatus'];
   columnasResponsabilidad: string[] = ['order', 'admin', 'responsabilidad'];
@@ -165,9 +165,6 @@ console.dir(this.menu);
     this.addBlock(1, 'Cargando...');
     this.data = [];
     this.tagService.obtenTagPorFiltros(anio).subscribe( (data: MatrizCumplimientoDTO) => {
-        console.log('RTC');
-        console.dir(data.matriz);
-        console.log('RTC');
         this.registros =  new MatTableDataSource<any>(data.matriz);
         this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
         this.registros.paginator = this.paginator;

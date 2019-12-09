@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrManager } from 'ng6-toastr-notifications';
-import { Router } from '@angular/router';
 import { CatalogoMaestroService } from 'src/app/core/services/catalogo-maestro.service';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { Combo } from 'src/app/compliance/models/Combo';
@@ -10,6 +8,7 @@ import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { DatePipe } from '@angular/common';
+import {ResponseVO} from '../../../../models/response-vo';
 
 export interface Inputs {
   label: string;
@@ -19,17 +18,16 @@ export interface Inputs {
   disabled?: boolean;
 }
 @Component({
-  selector: 'app-complianceTypesEdit'
- ,templateUrl: './complianceTypesEdit.component.html'
- ,providers: [DatePipe]
+  selector: 'app-complianceTypesEdit',
+  templateUrl: './complianceTypesEdit.component.html',
+  providers: [DatePipe]
 })
 export class ComplianceTypesEditComponent implements OnInit {
 
   @Input() maestroOpcionId: string;
-
   @Input() accion: string;
   @Input() nombreCatalogo: string;
-  titulo: string;  
+  titulo: string;
   autoridadesForm: FormGroup;
   soloLectura: boolean;
   estatus: string;
@@ -39,47 +37,36 @@ export class ComplianceTypesEditComponent implements OnInit {
   editarEstatusActivo = true;
   catalogType: CatalogType;
   comboEstatus = new Array<Combo>();
-
   checkedEstatus = false;
   checkedActivoId;
   checkedInactivoId;
-  deshabiliarEstatus: boolean = true;
+  deshabiliarEstatus = true;
   valueActiveStatus;
-
   submitted = false;
-
   nRow = 0;
   nMax = this.nRow;
-  registroExistente:boolean = false;
-  disabledSave:boolean = false;
+  registroExistente = false;
+  disabledSave = false;
   result;
- 
-  verClonar        : boolean = false;
-  showEditClonated : boolean = false;
-
-  checkedClonar : boolean = false;
-  checkedEditClonated : boolean = false;
-
+  verClonar = false;
+  showEditClonated = false;
+  checkedClonar = false;
+  checkedEditClonated = false;
   dataSubmit = {}
-  origen:string;
-  cloned:boolean =false;
-  hasCloned:boolean = false;
-
+  origen: string;
+  cloned = false;
+  hasCloned = false;
   constructor(
     private catalogoMaestroService: CatalogoMaestroService,
     private formBuilder: FormBuilder,
     public  toastr: ToastrManager,
     public  globalService: GlobalService,
-    private eventService: EventService
-   ,private datePipe: DatePipe) {
-
+    private eventService: EventService,
+    private datePipe: DatePipe) {
       this.autoridadesForm = this.formBuilder.group({});
   }
 
-
   get f() { return this.autoridadesForm.controls; }
-
-  
   ngOnInit() {
     this.submitted = false;
 
@@ -121,21 +108,16 @@ export class ComplianceTypesEditComponent implements OnInit {
 
     }
   }
-
-
-
-  obtenerDatosAutoridad(putData){
+  obtenerDatosAutoridad(putData) {
     this.catalogoMaestroService.getCatalogoIndividual('authority').subscribe(
       dataBack => {
         this.result = dataBack;
-
         this.nRow = 0;
         for (let element of this.result) {
           this.nRow = element.id;
-          if (this.nRow > this.nMax){
-            this.nMax = this.nRow; 
+          if (this.nRow > this.nMax) {
+            this.nMax = this.nRow;
           }
-
           if (this.catalogType.id === element.id && putData){
             this.autoridadesForm.controls['nombreOpcion'].setValue(element.code);
             this.autoridadesForm.controls['opcionDescripcion'].setValue(element.description);
@@ -149,7 +131,7 @@ export class ComplianceTypesEditComponent implements OnInit {
              || this.autoridadesForm.controls['opcionDescripcion'].value === element.description){
               this.registroExistente = true;
             }
-          }          
+          }
         }
 
         if (this.registroExistente && this.accion === 'nuevo'){
@@ -159,19 +141,18 @@ export class ComplianceTypesEditComponent implements OnInit {
         }
 
         //ngOnInit() -- accion === 'editar' || this.accion === 'ver'
-        if (putData){
-          if (!this.cloned){
+        if (putData) {
+          if (!this.cloned) {
             this.dataSubmit['catalog']        = 'authority';
             this.dataSubmit['referenceclone'] = this.origen;
             this.dataSubmit['code']           = this.autoridadesForm.controls['nombreOpcion'].value;
-            this.dataSubmit['description']    = this.autoridadesForm.controls['opcionDescripcion'].value;        
+            this.dataSubmit['description']    = this.autoridadesForm.controls['opcionDescripcion'].value;
             this.dataSubmit['save']           = false;
-            this.catalogoMaestroService.hasClonated(this.dataSubmit,!this.globalService.aguila).subscribe( 
-              response => {    
+            this.catalogoMaestroService.hasClonated(this.dataSubmit,!this.globalService.aguila).subscribe(
+              response => {
                 this.hasCloned = response["success"];
-                
              });
-          }          
+          }
         }
         else { //onSubmit() -- accion === 'editar' || this.accion === 'ver'
 
@@ -202,12 +183,14 @@ export class ComplianceTypesEditComponent implements OnInit {
 
             this.dataSubmit['cloned'] = this.cloned;
           }
-    
-          //alert("-------");
-           this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit,this.globalService.aguila).subscribe( 
-             dataBack => { 
-              if (this.accion === 'nuevo') {
-                this.toastr.successToastr('La autoridad fue creada con éxito.', '¡Se ha logrado!');
+          this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit, this.globalService.aguila).subscribe(
+               (responseVo: ResponseVO) => {
+                 if (this.accion === 'nuevo') {
+                if (responseVo.success) {
+                  this.toastr.successToastr('La autoridad fue creada con éxito.', '¡Se ha logrado!');
+                } else {
+                  this.toastr.errorToastr(responseVo.message, '¡Error codigo: ' + responseVo.code + '!');
+                }
               }
               if (this.accion === 'editar') {
                 this.toastr.successToastr('La autoridad fue actualizada con éxito.', '¡Se ha logrado!');
@@ -220,33 +203,30 @@ export class ComplianceTypesEditComponent implements OnInit {
                 this.deshabiliarEstatus = true;
                 this.disabledSave = true;
                 this.verClonar = true;
-              }
-              else{
+              } else {
                 this.deshabiliarEstatus = true;
                 this.disabledSave = true;
 
                 this.showEditClonated = this.hasCloned;
-
-                //this.eventService.sendChangePage(new EventMessage(4, {}));                  
               }
            });
-
         }
-              
       }
     ).add(() => {
       //this.addBlock(2, null);
     });
 
   }
-  
-
-  clonar(){
+  clonar() {
     this.dataSubmit['cloned'] = 1;
-    this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit,!this.globalService.aguila).subscribe( 
-      dataBack => { 
-       this.toastr.successToastr('La autoridad fue clonada con éxito.', '¡Se ha logrado!');
-       this.eventService.sendChangePage(new EventMessage(4, {} ,"Compliance.Autoridades"));
+    this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit,!this.globalService.aguila).subscribe(
+        (responseVo: ResponseVO) => {
+          if (responseVo.success) {
+            this.toastr.successToastr('La autoridad fue clonada con éxito.', '¡Se ha logrado!');
+            this.eventService.sendChangePage(new EventMessage(4, {}, 'Compliance.Autoridades'));
+          } else {
+            this.toastr.errorToastr(responseVo.message, '¡Error codigo: ' + responseVo.code + '!');
+          }
       }
     );
   }
@@ -261,8 +241,6 @@ export class ComplianceTypesEditComponent implements OnInit {
     );
   }
 
-
-
   async delay(ms: number) {
     await new Promise(
       resolve => setTimeout(() => resolve(), ms)).then(() => { this.validStatus(); });
@@ -275,8 +253,6 @@ export class ComplianceTypesEditComponent implements OnInit {
       this.checkedEstatus = false;
     }
   }
-
-
 
   onSubmit() {
     this.submitted = true;
@@ -302,12 +278,10 @@ export class ComplianceTypesEditComponent implements OnInit {
     }
     return option;
   }
-
-
-  changeCheck(){
+  changeCheck() {
     if (this.checkedEstatus)
       this.checkedEstatus = false;
-    else{
+    else {
       this.checkedEstatus = true;
     }
 
@@ -315,18 +289,12 @@ export class ComplianceTypesEditComponent implements OnInit {
       this.disabledSave = false;
     }
   }
-
-  changeClonar(){
+  changeClonar() {
     this.checkedClonar = !this.checkedClonar;
   }
-
-  changeEditClonated(){
+  changeEditClonated() {
     this.checkedEditClonated = !this.checkedEditClonated;
   }
-
-
-
-
   regresar(){
     if ( (this.accion === 'nuevo' || this.accion === 'editar') 
         && !this.checkedClonar){
@@ -358,5 +326,4 @@ export class ComplianceTypesEditComponent implements OnInit {
     
     this.eventService.sendChangePage(new EventMessage(4, {} ,"Compliance.Autoridades"));
   }
-
 }
