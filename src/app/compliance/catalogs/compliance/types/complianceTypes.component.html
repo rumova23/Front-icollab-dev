@@ -29,7 +29,7 @@
     <div class="row mt-4 mb-4">
       <div class="col">
         <div class="mat-elevation-z0">
-          <table matSort mat-table [dataSource]="dataSource" class="table_catalogo">
+          <table matSort (matSortChange)="sortData($event)" mat-table [dataSource]="dataSource" class="table_catalogo"  matSortActive="name" matSortDirection="asc" matSortDisableClear>
             <ng-container [matColumnDef]="column.key" *ngFor="let column of displayedColumnsOrder">
               <th mat-header-cell *matHeaderCellDef mat-sort-header > {{column.label | translate}} </th>
               <td mat-cell *matCellDef="let element">{{element[column.key]}}</td>

@@ -26,8 +26,17 @@ export var listCharts = {
             
             
         ]
+    },
+    chartontheturbine: {
+        type: "line",
+        controls: {},
+        tags: [
+            {localId:"getrpm", initHiddenInChart:false},
+        ]
     }
 };
+
+
 
 export const lstTags = [];
 lstTags["getTemperaturaAireSalidaCompresor"] = {
@@ -116,6 +125,70 @@ lstTags["getrpm"] = {
             data: null,
             active: true,
             categoria:"ct2",
+        },
+        {
+            WebId: "P0uQAgHoBd0ku7P3cWOJL6IgSiIAAAU0VSVklET1JfUElcRUhBMDg3MDE",
+            data: null,
+            active: true,
+            categoria:"tv",
+        }
+    ],
+    sol: [{ WebId: null, data: null, active: false }],
+    overview: [{ value: null, timestamp: null }]
+};
+
+lstTags["getrt"] = {
+    label: "RT.",
+    min: 0,
+    max: 590,
+    color: 'rgba(255, 206, 86, 1)',
+    aguila: [
+        {
+            WebId: "P0uQAgHoBd0ku7P3cWOJL6IgGyUAAAU0VSVklET1JfUElcREFBMDgxMDY",
+            data: null,
+            active: true,
+            categoria:"ct1",
+        },
+        {
+            WebId: "P0uQAgHoBd0ku7P3cWOJL6IgHCUAAAU0VSVklET1JfUElcREFBMDgxMDc",
+            data: null,
+            active: true,
+            categoria:"ct2",
+        },
+        {
+            WebId: "P0uQAgHoBd0ku7P3cWOJL6IgGiUAAAU0VSVklET1JfUElcREFBMDgxMDU",
+            data: null,
+            active: true,
+            categoria:"tv",
+        }
+    ],
+    sol: [{ WebId: null, data: null, active: false }],
+    overview: [{ value: null, timestamp: null }]
+};
+
+lstTags["getpotencia"] = {
+    label: "RPM.",
+    min: 0,
+    max: 590,
+    color: 'rgba(255, 206, 86, 1)',
+    aguila: [
+        {
+            WebId: "P0uQAgHoBd0ku7P3cWOJL6Igmh8AAAU0VSVklET1JfUElcRzFBMDgwMzA",
+            data: null,
+            active: true,
+            categoria:"ct1",
+        },
+        {
+            WebId: "P0uQAgHoBd0ku7P3cWOJL6IgDSAAAAU0VSVklET1JfUElcRzJBMDgwNDY",
+            data: null,
+            active: true,
+            categoria:"ct2",
+        },
+        {
+            WebId: "P0uQAgHoBd0ku7P3cWOJL6Ig4h4AAAU0VSVklET1JfUElcRUhBMDgwMTk",
+            data: null,
+            active: true,
+            categoria:"tv",
         }
     ],
     sol: [{ WebId: null, data: null, active: false }],

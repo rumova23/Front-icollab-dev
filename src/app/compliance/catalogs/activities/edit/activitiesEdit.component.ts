@@ -277,7 +277,8 @@ export class ActivitiesEditComponent implements OnInit {
             .subscribe(result => {
                 let generigResponseDTO: any;
                 generigResponseDTO = result;
-                if (generigResponseDTO.clave == 99) {
+                console.dir(generigResponseDTO);
+                if (generigResponseDTO.clave === 99) {
                     this.toastr.errorToastr(
                         "El nombre del CATÁLOGO o del PREFIJO a Clonar ya existe, favor de modificar.",
                         "Lo siento,"
