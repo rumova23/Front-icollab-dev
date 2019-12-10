@@ -17,13 +17,21 @@ export class TagService {
   private baseMicroTagUrl = environment.tagsUrl;
   private seguimientoUrl = environment.seguimientoUrl;
   private mastercatalog = environment.mastercatalog;
+  private estatusmaestro = environment.estatusmaestro;
   parameters: any;
 
   constructor(private http: HttpClient,
               private globalService: GlobalService) { }
 
 
-
+  getEntidadEstatus(entidad: string, estatus: string): Observable<any> {
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    return this.http.get(`${this.estatusmaestro}entidadEstatus/${entidad}/${estatus}`, {params : this.parameters });
+  }
+  obtenCatalogoOpcion(maestro: string, opcion: string) {
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    return this.http.get( `${ this.baseCatalagoUrl }mastercatalog/mastercatalog/${maestro}/${opcion}`, {params : this.parameters });
+  }
   getlistCatalogoOrdenados(catalogos: Array<OrderCatalogDTO>) {
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     // return this.http.post( `${ this.baseCatalagoUrl }catalog/list`, catalogos, httpOptions);

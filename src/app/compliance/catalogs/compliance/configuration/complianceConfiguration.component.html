@@ -10,7 +10,7 @@
       <div class="form-group col-12 col-md-6 col-lg-4">
         <button type="button" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" (click)="aprobarMatriz()">Aprobar Matriz Cumplimiento</button>
       </div>
-      <div class="form-group col-12 col-md-6 col-lg-4">
+      <div class="form-group col-12 col-md-6 col-lg-4" *ngIf="idMatrizFree">
         <button type="button" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" (click)="liberarMatriz()">Liberar Matriz Cumplimiento</button>
       </div>
     </div>

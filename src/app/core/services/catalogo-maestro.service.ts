@@ -36,16 +36,16 @@ export class CatalogoMaestroService {
   hasClonated(catalogo, plantSelected){
     this.parameters = this.globalService.setXTenantId(plantSelected);
     return this.http.post( `${ this.microCatalagoMaestro }catalog/hasclonated` , catalogo, {params : this.parameters });
-  }  
-
-  outCatalogoItem(catalogName:string ,id:number){
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.delete( `${ this.microCatalagoMaestro }catalog/delete/` + catalogName + "/" + id, {params : this.parameters });    
   }
-  outCatalogItemCloned(catalogName:string ,referenceclone:string){
+
+  outCatalogoItem(catalogName: string , id: number) {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.delete( `${ this.microCatalagoMaestro }catalog/delete/${catalogName}/${id}`, {params : this.parameters });
+  }
+  outCatalogItemCloned(catalogName: string, referenceclone: string) {
     this.parameters = this.globalService.setXTenantId(!this.globalService.aguila);
-    return this.http.delete( `${ this.microCatalagoMaestro }catalog/deleteclonated/` + catalogName + "/" + referenceclone, {params : this.parameters });
-  } 
+    return this.http.delete( `${ this.microCatalagoMaestro }catalog/deleteclonated//${catalogName}/${referenceclone}`, {params : this.parameters });
+  }
 
   getlistCatalogoOrdenados(catalogos: Array<OrderCatalogDTO>) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);

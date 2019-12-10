@@ -1,29 +1,30 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { MatPaginator, MatTableDataSource, MatSort, Sort } from "@angular/material";
-import { ToastrManager } from "ng6-toastr-notifications";
+import { MatPaginator, MatTableDataSource, MatSort, Sort } from '@angular/material';
+import { ToastrManager } from 'ng6-toastr-notifications';
 
-import { CatalogoMaestroService } from "src/app/core/services/catalogo-maestro.service";
-import { ConfirmationDialogService } from "src/app/core/services/confirmation-dialog.service";
-import { GlobalService } from "src/app/core/globals/global.service";
-import { EventService } from "src/app/core/services/event.service";
-import { CatalogType } from "src/app/compliance/models/CatalogType";
-import { EventMessage } from "src/app/core/models/EventMessage";
-import { DatePipe } from "@angular/common";
-import { SecurityService } from "src/app/core/services/security.service";
-import { EventBlocked } from "src/app/core/models/EventBlocked";
+import { CatalogoMaestroService } from 'src/app/core/services/catalogo-maestro.service';
+import { ConfirmationDialogService } from 'src/app/core/services/confirmation-dialog.service';
+import { GlobalService } from 'src/app/core/globals/global.service';
+import { EventService } from 'src/app/core/services/event.service';
+import { CatalogType } from 'src/app/compliance/models/CatalogType';
+import { EventMessage } from 'src/app/core/models/EventMessage';
+import { DatePipe } from '@angular/common';
+import { SecurityService } from 'src/app/core/services/security.service';
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
-import { TranslateService } from "@ngx-translate/core";
-import { Subscription } from "rxjs";
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
+import {ResponseVO} from '../../../models/response-vo';
 
 @Component({
-    selector: "app-complianceTypes",
-    templateUrl: "./complianceTypes.component.html",
-    styleUrls: ["./complianceTypes.component.scss"],
+    selector: 'app-complianceTypes',
+    templateUrl: './complianceTypes.component.html',
+    styleUrls: ['./complianceTypes.component.scss'],
     providers: [DatePipe]
 })
 export class ComplianceTypesComponent implements OnInit {
     // tslint:disable-next-line:variable-name
-    public static mainCatalog = "authority";
+    public static mainCatalog = 'authority';
     public subscriptions: Subscription[] = [];
 
     @Input() nombreCatalogo: string;
@@ -60,7 +61,7 @@ export class ComplianceTypesComponent implements OnInit {
 		private translate: TranslateService,
         private securityService: SecurityService
     ) {
-        this.menu = securityService.getMenu("Compliance");
+        this.menu = securityService.getMenu('Compliance');
     }
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -79,9 +80,9 @@ export class ComplianceTypesComponent implements OnInit {
                 while (flag) {
                     flag = false;
                     for (let ins = 0; ins < option.children.length; ins++) {
-                        //if (option.children[ins]['label']=="Autoridades"){
+                        //if (option.children[ins]['label']=='Autoridades'){
                         if (
-                            option.children[ins]["label"] == this.nombreCatalogo
+                            option.children[ins]['label'] == this.nombreCatalogo
                         ) {
                             if (option.children[ins].actions) {
                                 for (
@@ -92,25 +93,25 @@ export class ComplianceTypesComponent implements OnInit {
                                 ) {
                                     if (
                                         option.children[ins].actions[action] ==
-                                        "CREAR"
+                                        'CREAR'
                                     ) {
                                         this.showAdd = true;
                                     }
                                     if (
                                         option.children[ins].actions[action] ==
-                                        "VER"
+                                        'VER'
                                     ) {
                                         this.showView = true;
                                     }
                                     if (
                                         option.children[ins].actions[action] ==
-                                        "EDITAR"
+                                        'EDITAR'
                                     ) {
                                         this.showUpdate = true;
                                     }
                                     if (
                                         option.children[ins].actions[action] ==
-                                        "BORRAR"
+                                        'BORRAR'
                                     ) {
                                         this.showDelete = true;
                                     }
@@ -162,7 +163,7 @@ export class ComplianceTypesComponent implements OnInit {
 		);
 	}
     private loadUsers() {
-        this.addBlock(1, "Cargando...");
+        this.addBlock(1, 'Cargando...');
         /*
     this.securityService.loadUsers()
       .subscribe(
@@ -189,11 +190,11 @@ export class ComplianceTypesComponent implements OnInit {
                 for (let element of this.result) {
                     i += 1;
                     let obj = {};
-                    obj["order"] = i;
-                    obj["id"] = element.id;
-                    obj["name"] = element.code;
-                    obj["description"] = element.description;
-                    obj["userUpdated"] =
+                    obj['order'] = i;
+                    obj['id'] = element.id;
+                    obj['name'] = element.code;
+                    obj['description'] = element.description;
+                    obj['userUpdated'] =
                         element.userUpdated == undefined
                             ? element.userCreated
                             : element.userUpdated;
@@ -201,64 +202,64 @@ export class ComplianceTypesComponent implements OnInit {
                         element.dateUpdated == undefined
                             ? element.dateCreated
                             : element.dateUpdated;
-                    obj["dateUpdated"] = ".";
+                    obj['dateUpdated'] = '.';
                     if (dateUpdated) {
-                        obj["dateUpdated"] = this.datePipe.transform(
+                        obj['dateUpdated'] = this.datePipe.transform(
                             new Date(dateUpdated),
-                            "dd/MM/yyyy HH:mm"
+                            'dd/MM/yyyy HH:mm'
                         );
                     }
 
-                    obj["status"] =
-                        element.active == true ? "Active" : "Inactive";
-					obj["statusForTranslate"] =
-						element.active == true ? "Active" : "Inactive";
-                    obj["element"] = element; //Al Eliminar se usa
+                    obj['status'] =
+                        element.active == true ? 'Active' : 'Inactive';
+					obj['statusForTranslate'] =
+						element.active == true ? 'Active' : 'Inactive';
+                    obj['element'] = element; //Al Eliminar se usa
                     this.data.push(obj);
                 }
 				this.translateTable();
                 this.displayedColumnsOrder = [
-                    { key: "order", label: "#" },
-                    { key: "name", label: "Name" },
-                    { key: "description", label: "Description" },
-                    { key: "userUpdated", label: "User Updated" },
+                    { key: 'order', label: '#' },
+                    { key: 'name', label: 'Name' },
+                    { key: 'description', label: 'Description' },
+                    { key: 'userUpdated', label: 'User Updated' },
                     {
-                        key: "dateUpdated",
-                        label: "Date and Time last modified"
+                        key: 'dateUpdated',
+                        label: 'Date and Time last modified'
                     },
-                    { key: "status", label: "Status" }
+                    { key: 'status', label: 'Status' }
                 ];
 
                 this.displayedColumnsActions = [];
                 this.columnsToDisplay = [
-                    "order",
-                    "name",
-                    "description",
-                    "userUpdated",
-                    "dateUpdated",
-                    "status"
+                    'order',
+                    'name',
+                    'description',
+                    'userUpdated',
+                    'dateUpdated',
+                    'status'
                 ];
 
                 if (this.showView) {
                     this.displayedColumnsActions.push({
-                        key: "sys_see",
-                        label: "See"
+                        key: 'sys_see',
+                        label: 'See'
                     });
-                    this.columnsToDisplay.push("sys_see");
+                    this.columnsToDisplay.push('sys_see');
                 }
                 if (this.showUpdate) {
                     this.displayedColumnsActions.push({
-                        key: "sys_edit",
-                        label: "Edit"
+                        key: 'sys_edit',
+                        label: 'Edit'
                     });
-                    this.columnsToDisplay.push("sys_edit");
+                    this.columnsToDisplay.push('sys_edit');
                 }
                 if (this.showUpdate) {
                     this.displayedColumnsActions.push({
-                        key: "sys_delete",
-                        label: "Delete"
+                        key: 'sys_delete',
+                        label: 'Delete'
                     });
-                    this.columnsToDisplay.push("sys_delete");
+                    this.columnsToDisplay.push('sys_delete');
                 }
                 this.dataSource = new MatTableDataSource<any>(this.data);
                 this.dataSource.paginator = this.paginator;
@@ -283,99 +284,58 @@ export class ComplianceTypesComponent implements OnInit {
             case 1:
                 type = {
                     id: id,
-                    action: "nuevo",
+                    action: 'nuevo',
                     name: this.nombreCatalogo
                 };
                 break;
             case 2:
                 type = {
                     id: id,
-                    action: "ver",
+                    action: 'ver',
                     name: this.nombreCatalogo
                 };
                 break;
             case 3:
                 type = {
                     id: id,
-                    action: "editar",
+                    action: 'editar',
                     name: this.nombreCatalogo
                 };
                 break;
         }
 
         this.eventService.sendChangePage(
-            new EventMessage(5, type, "Compliance.Autoridades.ABC")
+            new EventMessage(5, type, 'Compliance.Autoridades.ABC')
         );
     }
 
     eliminarRegistro(maestroOpcion: any) {
-        this.confirmationDialogService
-            .confirm(
-                "Por favor, confirme..",
-                "Está seguro de eliminar el registro? "
-            )
-            .then(confirmed => {
-                if (confirmed) {
-                    this.catalogoMaestroService
-                        .outCatalogoItem(
-                            ComplianceTypesComponent.mainCatalog,
-                            maestroOpcion.id
-                        )
-                        .subscribe(
-                            data => {
-                                this.toastr.successToastr(
-                                    "El registro fue correctamente eliminado",
-                                    "¡Se ha logrado!"
-                                );
-
-                                this.eventService.sendChangePage(
-                                    new EventMessage(
-                                        4,
-                                        {},
-                                        "Compliance.Autoridades"
-                                    )
-                                );
-
-                                this.confirmationDialogService
-                                    .confirm(
-                                        "Por favor, confirme..",
-                                        "Está seguro de eliminar los registros clonados? "
-                                    )
-                                    .then(confirmed => {
-                                        if (confirmed) {
-                                            this.catalogoMaestroService
-                                                .outCatalogItemCloned(
-                                                    ComplianceTypesComponent.mainCatalog,
-                                                    maestroOpcion[
-                                                        "referenceclone"
-                                                    ]
-                                                )
-                                                .subscribe(data => {
-                                                    this.toastr.successToastr(
-                                                        "Los registros clonados fueron correctamente eliminados",
-                                                        "¡Se ha logrado!"
-                                                    );
-                                                });
-                                        }
-                                    })
-                                    .catch(() =>
-                                        console.log("Cancelo eliminar clones")
-                                    );
-                            },
-                            error => {
-                                this.toastr.errorToastr(
-                                    error.error["text"],
-                                    "Lo siento,"
-                                );
-                            }
-                        );
+        this.confirmationDialogService.confirm('Por favor, confirme..', 'Está seguro de eliminar el registro?').then(confirmed => {
+            if (confirmed) {
+                this.catalogoMaestroService.outCatalogoItem(ComplianceTypesComponent.mainCatalog, maestroOpcion.id).subscribe((response: ResponseVO) => {
+                    if (response.success) {
+                        console.log('RTC: response.code = ' + response.code);
+                        this.toastr.successToastr('El registro fue correctamente eliminado', '¡Se ha logrado!');
+                        //if (response.code === 210) {
+                            this.confirmationDialogService.confirm('Por favor, confirme..', 'Está seguro de eliminar los registros clonados? ').then( confirmedClone => {
+                                if (confirmedClone) {
+                                    this.catalogoMaestroService.outCatalogItemCloned(ComplianceTypesComponent.mainCatalog, maestroOpcion['referenceclone']).subscribe(data => {
+                                        this.toastr.successToastr('Los registros clonados fueron correctamente eliminados', '¡Se ha logrado!');
+                                    });
+                                }
+                            });
+                        //}
+                    } else {
+                        this.toastr.errorToastr(response.message, '¡Error!, codigo: ' + response.code);
+                    }
+                    this.eventService.sendChangePage(new EventMessage(4, {}, 'Compliance.Autoridades'));
+                });
                 }
-            })
-            .catch(() => console.log("Cancelo eliminar"));
+            });
     }
 
     cargaDatos() {
-        this.addBlock(1, "Cargando...");
+        this.addBlock(1, 'Cargando...');
         this.data = [];
         this.catalogoMaestroService.getCatalogo(this.nombreCatalogo).subscribe(
             data => {
@@ -384,57 +344,57 @@ export class ComplianceTypesComponent implements OnInit {
                 for (let element of data) {
                     i += 1;
                     let obj = {};
-                    obj["order"] = i;
-                    obj["id"] = element.maestroOpcionId;
-                    obj["name"] = element.opcion.codigo;
-                    obj["description"] = element.opcion.descripcion;
+                    obj['order'] = i;
+                    obj['id'] = element.maestroOpcionId;
+                    obj['name'] = element.opcion.codigo;
+                    obj['description'] = element.opcion.descripcion;
                     //obj['user']         = element.opcion.userUpdated || element.opcion.userCreated;
                     //obj['user']         = element.opcion.fullNameUpdated;
 
                     userDetail = this.listUsers.find(
                         user => user.user === element.userUpdated
                     );
-                    obj["user"] =
+                    obj['user'] =
                         userDetail == undefined
-                            ? "system"
-                            : userDetail.name + " " + userDetail.lastName;
-                    obj["dateup"] = element.dateUpdated
+                            ? 'system'
+                            : userDetail.name + ' ' + userDetail.lastName;
+                    obj['dateup'] = element.dateUpdated
                         ? this.datePipe.transform(
                               new Date(element.dateUpdated),
-                              "dd-MM-yyyy h:mm a"
+                              'dd-MM-yyyy h:mm a'
                           )
-                        : "";
-					obj["status"] =
+                        : '';
+					obj['status'] =
 						element.entidadEstatusId == this.entidadEstatusId
-							? "Activo"
-							: "Inactivo";
-					obj["statusForTranslate"] =
+							? 'Activo'
+							: 'Inactivo';
+					obj['statusForTranslate'] =
 						element.entidadEstatusId == this.entidadEstatusId
-							? "Activo"
-							: "Inactivo";
-                    obj["see"] = "sys_see";
-                    obj["edit"] = "sys_edit";
-                    obj["delete"] = "sys_delete";
-                    obj["element"] = element;
+							? 'Activo'
+							: 'Inactivo';
+                    obj['see'] = 'sys_see';
+                    obj['edit'] = 'sys_edit';
+                    obj['delete'] = 'sys_delete';
+                    obj['element'] = element;
 
                     this.data.push(obj);
                 }
 				this.translateTable();
                 this.displayedColumnsOrder = [
-                    { key: "name", label: "Nombre" },
-                    { key: "description", label: "Descripción" }
+                    { key: 'name', label: 'Nombre' },
+                    { key: 'description', label: 'Descripción' }
                 ];
                 this.displayedColumnsActions = [
-                    { key: "see", label: "Ver" },
-                    { key: "edit", label: "Editar" },
-                    { key: "delete", label: "Eliminar" }
+                    { key: 'see', label: 'Ver' },
+                    { key: 'edit', label: 'Editar' },
+                    { key: 'delete', label: 'Eliminar' }
                 ];
                 this.columnsToDisplay = [
-                    "name",
-                    "description",
-                    "see",
-                    "edit",
-                    "delete"
+                    'name',
+                    'description',
+                    'see',
+                    'edit',
+                    'delete'
                 ];
 
                 this.dataSource = new MatTableDataSource<any>(this.data);
@@ -445,8 +405,8 @@ export class ComplianceTypesComponent implements OnInit {
             error => {
                 this.addBlock(2, null);
                 this.toastr.errorToastr(
-                    "Error al cargar catalogo.",
-                    "Lo siento,"
+                    'Error al cargar catalogo.',
+                    'Lo siento,'
                 );
             }
         );

@@ -19,6 +19,8 @@ import {User} from '../../../../security/models/User';
 import {MatrizCumplimientoDTO} from '../../../models/matriz-cumplimiento-dto';
 import {TagOutDTO} from '../../../models/tag-out-dto';
 import {GenerigResponseDTO} from '../../../models/GenerigResponseDTO';
+import {MaestroOpcionDTO} from '../../../models/maestro-opcion-dto';
+import {EntidadEstausDTO} from '../../../models/entidad-estaus-dto';
 
 @Component({
   selector: 'app-complianceConfiguration',
@@ -37,6 +39,8 @@ export class ComplianceConfigurationComponent implements OnInit {
   actividades: Array<any>;
   anios: Array<any>;
   isSupervisor = false;
+  isFree = false;
+  idMatrizFree: number;
   menu: any[];
   showAdd: boolean = false;
   showView: boolean = false;
@@ -75,7 +79,7 @@ export class ComplianceConfigurationComponent implements OnInit {
     private administratorComplianceService: AdministratorComplianceService,
     private securityService: SecurityService) {
       this.menu = securityService.getMenu('Compliance');
-    this.serviceSubscription = this.eventService.onChangePlant.subscribe({
+      this.serviceSubscription = this.eventService.onChangePlant.subscribe({
       next: (event: EventMessage) => {
         switch (event.id) {
           case 100:
@@ -84,13 +88,14 @@ export class ComplianceConfigurationComponent implements OnInit {
         }
       }
     });
-
    }
    @ViewChild(MatPaginator) paginator: MatPaginator;
    @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
-console.dir(this.menu);
+      this.tagService.getEntidadEstatus('TX_MATRIZ_CUMPLIMIENTO', 'Aprobada').subscribe( (data: EntidadEstausDTO) => {
+        this.idMatrizFree = data.entidadEstatusId;
+      });
       for (let option of this.menu) {
           if (option.children){
               let flag:boolean = true;
@@ -165,13 +170,16 @@ console.dir(this.menu);
     this.addBlock(1, 'Cargando...');
     this.data = [];
     this.tagService.obtenTagPorFiltros(anio).subscribe( (data: MatrizCumplimientoDTO) => {
+        if (data.entidadEstatusId === this.idMatrizFree) {
+            this.isFree = true;
+        }
         this.registros =  new MatTableDataSource<any>(data.matriz);
         this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
         this.registros.paginator = this.paginator;
         this.registros.sort = this.sort;
         this.addBlock(2, null);
 
-            if (this.showView){
+            if (this.showView) {
                 //this.displayedColumnsActions.push({key:'see',label:'Ver'});
                 this.columnas.push('ver');
             }
@@ -286,7 +294,6 @@ console.dir(this.menu);
                 this.obtenerListaTags(this.filtrosForm.controls.fAnio.value);
             });
     }
-
     liberarMatriz() {
         this.administratorComplianceService.liberaMatrizCumplimiento(this.filtrosForm.controls.fAnio.value).subscribe(
             (responseLiberacion: GenerigResponseDTO) => {

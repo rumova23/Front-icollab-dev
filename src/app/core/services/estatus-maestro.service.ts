@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import {GlobalService} from '../globals/global.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -22,12 +23,16 @@ export class EstatusMaestroService {
   private estatusmaestro = environment.estatusmaestro;
   private catalog = environment.catalogUrl
 
-  constructor(private http: HttpClient) { }
+  parameters: any;
+
+  constructor(private http: HttpClient,
+              private globalService: GlobalService) { }
 
   getEntidadEstatus(entidad: string, estatus: string): Observable<any> {
-    return this.http.get(`${this.estatusmaestro}entidadEstatus/${entidad}/${estatus}`, httpOptions);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    return this.http.get(`${this.estatusmaestro}entidadEstatus/${entidad}/${estatus}`, {params : this.parameters });
   }
   getEstatusMaestroOpcion() {
-    return this.http.get(`${this.catalog}getEstatusMaestroOpcion`, httpOptions);
+    return this.http.get(`${this.catalog}getEstatusMaestroOpcion`, {params : this.parameters });
   }
 }
