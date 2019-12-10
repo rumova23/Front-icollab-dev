@@ -34,7 +34,7 @@ export const generateColorHEX = function(calltag){
 }
 export const chartCreateConfigDemo = function(s){
 	return{
-		type: 'bar',
+		type: 'bar', 
 		data: {
 			labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
 			datasets: [{
