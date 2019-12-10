@@ -94,7 +94,6 @@ export class EfhFuelTypeComponent implements OnInit {
     this.data = [];
     this.catalogoMaestroService.getCatalogoIndividual(EfhFuelTypeComponent.mainCatalog).subscribe(
         dataBack => {
-          debugger;
           this.result = dataBack;
           let i = 0;
 
