@@ -42,10 +42,10 @@ export class ComplianceConfigurationComponent implements OnInit {
   isFree = false;
   idMatrizFree: number;
   menu: any[];
-  showAdd: boolean = false;
-  showView: boolean = false;
-  showUpdate: boolean = false;
-  showDelete: boolean = false;
+  showAdd = false;
+  showView = false;
+  showUpdate = false;
+  showDelete = false;
 
   columnas: string[] = ['order', 'tag', 'nombre', 'clasificacion', 'cumplimiento_legal', 'periodo_entrega', 'autoridad', 'tipo_aplicacion', 'userUpdated', 'dateUpdated', 'estatus'];
   columnasResponsabilidad: string[] = ['order', 'admin', 'responsabilidad'];
@@ -96,26 +96,25 @@ export class ComplianceConfigurationComponent implements OnInit {
       this.tagService.getEntidadEstatus('TX_MATRIZ_CUMPLIMIENTO', 'Aprobada').subscribe( (data: EntidadEstausDTO) => {
         this.idMatrizFree = data.entidadEstatusId;
       });
-      for (let option of this.menu) {
-          if (option.children){
-              let flag:boolean = true;
-              while ( flag ){
+      for (const option of this.menu) {
+          if (option.children) {
+              let flag = true;
+              while ( flag ) {
                   flag = false;
-                  for (let ins=0; ins < option.children.length; ins++) {
-                      //if (option.children[ins]['label']=="Categorías"){
-                      if (option.children[ins]['label']==this.nombreCatalogo){
-                          if (option.children[ins].actions){
-                              for (let action=0; action < option.children[ins].actions.length ; action++) {
-                                  if (option.children[ins].actions[action] == "CREAR"){
+                  for (let ins = 0; ins < option.children.length; ins++) {
+                      if (option.children[ins]['label'] === this.nombreCatalogo) {
+                          if (option.children[ins].actions) {
+                              for (let action = 0; action < option.children[ins].actions.length ; action++) {
+                                  if (option.children[ins].actions[action] === 'CREAR') {
                                       this.showAdd = true;
                                   }
-                                  if (option.children[ins].actions[action] == "VER"){
+                                  if (option.children[ins].actions[action] === 'VER') {
                                       this.showView = true;
                                   }
-                                  if (option.children[ins].actions[action] == "EDITAR"){
+                                  if (option.children[ins].actions[action] === 'EDITAR') {
                                       this.showUpdate = true;
                                   }
-                                  if (option.children[ins].actions[action] == "BORRAR"){
+                                  if (option.children[ins].actions[action] === 'BORRAR') {
                                       this.showDelete = true;
                                   }
                               }
@@ -164,9 +163,7 @@ export class ComplianceConfigurationComponent implements OnInit {
       this.initCombos();
   }
 
-  sortData(sort: Sort) {
-        
-  }
+  sortData(sort: Sort) {}
   get f() { return this.filtrosForm.controls; }
 
   obtenerListaTags(anio: number) {
@@ -176,22 +173,22 @@ export class ComplianceConfigurationComponent implements OnInit {
         if (data.entidadEstatusId === this.idMatrizFree) {
             this.isFree = true;
         }
-        this.registros =  new MatTableDataSource<any>(data.matriz);
+        this.registros =  new MatTableDataSource<TagOutDTO>(data.matriz);
         this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
         this.registros.paginator = this.paginator;
         this.registros.sort = this.sort;
         this.addBlock(2, null);
 
             if (this.showView) {
-                //this.displayedColumnsActions.push({key:'see',label:'Ver'});
+                // this.displayedColumnsActions.push({key:'see',label:'Ver'});
                 this.columnas.push('ver');
             }
-            if (this.showUpdate){
-                //this.displayedColumnsActions.push({key:'update',label:'Editar'});
+            if (this.showUpdate) {
+                // this.displayedColumnsActions.push({key:'update',label:'Editar'});
                 this.columnas.push('modificar');
             }
-            if (this.showUpdate){
-                //this.displayedColumnsActions.push({key:'delete',label:'Eliminar'});
+            if (this.showUpdate) {
+                // this.displayedColumnsActions.push({key:'delete',label:'Eliminar'});
                 this.columnas.push('eliminar');
             }
       },

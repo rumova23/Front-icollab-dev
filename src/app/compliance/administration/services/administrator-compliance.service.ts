@@ -34,6 +34,7 @@ export class AdministratorComplianceService {
     let user = JSON.parse(localStorage.getItem('user'));
     user = user.username;
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    console.dir(this.parameters);
     return this.http.post( `${ this.seguimientoUrl }legal/aprobar/matriz/${anio}`, user, {params : this.parameters });
   }
 

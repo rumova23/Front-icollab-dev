@@ -134,7 +134,7 @@ export class SharedSidebarMenuComponent{
 		  for (let option of this.menu) {
 			  if(option.label=="Inicio")item0=option;
 			  if(option.label=="Catálogos")item1=option;
-			  if(option.label=="Configuración de   Cumplimientos")item2=option;
+			  if(option.label=="Configuración de Cumplimientos")item2=option;
 		  }
 
 		  this.menu[0] = item0;
@@ -235,5 +235,4 @@ export class SharedSidebarMenuComponent{
 			},
 		  ];
 	}
-
 }
