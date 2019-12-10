@@ -32,7 +32,7 @@
         <!-- Inputs -->
         <ng-container *ngFor="let formControl of formControls">
             <div class="row">
-                <div class="col dividerSection" style="color: #000;">
+                <div class="col dividerSection bg-secondary text-white">
                     <b>{{ formControl.section }}</b>
                 </div>
             </div>
@@ -297,7 +297,7 @@
     <!-- CUENTAS DEL CLIENTE -->
     <form [formGroup]="accountForm" (ngSubmit)="saveAccount(accountForm.value)">
         <div class="row">
-            <div class="col dividerSection" style="color: #000;">
+            <div class="col dividerSection bg-secondary text-white">
                 <b>Cuentas de Cliente</b>
             </div>
         </div>
@@ -515,7 +515,7 @@
     <!-- CONTACTOS DEL CLIENTE -->
     <form [formGroup]="contactForm" (ngSubmit)="saveContact(contactForm.value)">
         <div class="row">
-            <div class="col dividerSection" style="color: #000;">
+            <div class="col dividerSection bg-secondary text-white">
                 <b>Contactos de Cliente</b>
             </div>
         </div>
@@ -733,7 +733,7 @@
     <form [formGroup]="productForm" (ngSubmit)="saveProduct(productForm.value)">
         <div class="row">
             <div
-                class="col dividerSection" style="color: #000;"
+                class="col dividerSection bg-secondary text-white"
             >
                 <b> Códigos para Addenda Productos del Cliente </b>
             </div>

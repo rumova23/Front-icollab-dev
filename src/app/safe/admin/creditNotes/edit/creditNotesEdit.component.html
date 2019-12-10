@@ -33,7 +33,7 @@
         <!-- Inputs -->
         <ng-container *ngFor="let formControl of formControls">
             <div class="row">
-                <div class="col dividerSection colortheme">
+                <div class="col dividerSection bg-secondary text-white">
                     <b>{{ formControl.section | translate }}</b>
                 </div>
             </div>
@@ -96,17 +96,6 @@
                                                 }}"
                                             />
                                         </div>
-
-                                        <!--mat-form-field class="full-width">
-                                            <input
-                                                type="time"
-                                                matInput
-                                                formControlName="{{
-                                                    in.formControlName
-                                                }}"
-                                                placeholder="{{ in.label }}"
-                                            />
-                                        </mat-form-field-->
                                     </div>
                                     <div class="col-md-4">
                                         <div
@@ -515,7 +504,7 @@
     <!-- PRODUCTOS PARA LA NOTA DE CŔEDITO -->
     <form [formGroup]="productForm" (ngSubmit)="saveProduct(productForm.value)">
         <div class="row">
-            <div class="col dividerSection colortheme">
+            <div class="col dividerSection bg-secondary text-white">
                 <b> Productos </b>
             </div>
         </div>
@@ -535,16 +524,6 @@
                                             }}"
                                         />
                                     </div>
-
-                                    <!--mat-form-field class="full-width">
-                                        <input
-                                            matInput
-                                            formControlName="{{
-                                                in.formControlName
-                                            }}"
-                                            placeholder="{{ in.label }}"
-                                        />
-                                    </mat-form-field-->
                                 </div>
                                 <div class="col-md-4">
                                     <div
@@ -699,7 +678,7 @@
         </div>
     </form>
     <br><br><br>
-    <div class="table-container mat-elevation-z8">
+    <div class="table-container mat-elevation-z0">
         <table
             matSort
             mat-table

@@ -412,6 +412,7 @@ export class InvoicesEditComponent implements OnInit {
   }
 
   onSelect(value, input) {
+    value = this.invoiceForm.value[input.formControlName];
     switch (input.formControlName) {
       case 'client':
         this.getProductsByClient(value.id);
