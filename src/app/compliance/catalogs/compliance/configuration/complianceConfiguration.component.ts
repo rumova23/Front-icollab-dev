@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatSort, Sort } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -164,6 +164,9 @@ export class ComplianceConfigurationComponent implements OnInit {
       this.initCombos();
   }
 
+  sortData(sort: Sort) {
+        
+  }
   get f() { return this.filtrosForm.controls; }
 
   obtenerListaTags(anio: number) {
