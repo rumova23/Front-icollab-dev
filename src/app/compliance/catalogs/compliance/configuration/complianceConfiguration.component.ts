@@ -163,14 +163,13 @@ export class ComplianceConfigurationComponent implements OnInit {
       this.initCombos();
   }
 
-  sortData(sort: Sort) {debugger}
+  sortData(sort: Sort) {}
   get f() { return this.filtrosForm.controls; }
 
   obtenerListaTags(anio: number) {
     this.addBlock(1, 'Cargando...');
     this.data = [];
     this.tagService.obtenTagPorFiltros(anio).subscribe( (data: MatrizCumplimientoDTO) => {
-        //localStorage.setItem('obtenTagPorFiltros', JSON.stringify(data));
         if (data.entidadEstatusId === this.idMatrizFree) {
             this.isFree = true;
         }
@@ -178,19 +177,20 @@ export class ComplianceConfigurationComponent implements OnInit {
         this.registros =  new MatTableDataSource<TagOutDTO>(data.matriz);
         this.registros.paginator = this.paginator;
         let dateUpdated = null;
+        let autoridad = null;
         this.registros.sortingDataAccessor = (item, property) => {
-          if(property != 'tag' && property!= 'clasificacion')debugger;
           switch(property) {
               case 'tag': return item.tag;
               case 'nombre': return item.classificationActivity;
               case 'clasificacion': return item.activity.name;
               case 'cumplimiento_legal': return item.typeCompliance.code;
-              case 'periodo_entrega':return item.period + ' ' + item.unitPeriod?item.unitPeriod.code:'';
-              case 'autoridad':return item.authority?item.authority.code:'';
+              case 'periodo_entrega':return item.period + ' ' + (item.unitPeriod && item.unitPeriod.code)?item.unitPeriod.code:'';
+              case 'autoridad':return (item.authority && item.authority.code)?item.authority.code:'';
               case 'tipo_aplicacion': return item.applicationType.code;
-
-              case 'dateUpdatedds' : dateUpdated = ((item.element.dateUpdated != null) ? item.element.dateUpdated : item.element.dateCreated);
+              case 'estatus': return item.active;
+              case 'dateUpdated' : dateUpdated = ((item.dateUpdated != null) ? item.dateUpdated : item.dateCreated);
                   return new Date(dateUpdated).getTime();
+              case 'userUpdated': return (item.userUpdated) ? item.userUpdated : item.userCreated;
               default: return item[property];
             }
       }
