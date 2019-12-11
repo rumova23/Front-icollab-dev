@@ -20,7 +20,7 @@ export class CatalogoMaestroService {
 
 
 
-  getCatalogoIndividual(catalogo){
+  getCatalogoIndividual(catalogo) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.microCatalagoMaestro }catalog/get/` + catalogo , {params : this.parameters });
   }

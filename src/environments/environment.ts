@@ -10,7 +10,7 @@ export const environment = {
   , evaluacionExamenUrl     : hostGateway + 'configuration/'
   , knowledgeUrl            : hostGateway + 'knowledge/'
   , seguimientoUrl          : hostGateway + 'seguimiento/'
-  , estatusmaestro          : hostGateway + 'estatusmaestro/'
+  , estatusmaestro          : hostGateway + 'estatusmaestro/status/'
   , marketUrl               : hostGateway + 'market/'
   , fuecdUrl                : hostGateway + 'fuecd/'
   , weatherUrl              : hostGateway + 'weather/'

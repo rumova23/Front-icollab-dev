@@ -27,7 +27,7 @@ export class TagService {
 
   getEntidadEstatus(entidad: string, estatus: string): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
-    return this.http.get(`${this.estatusmaestro}entidadEstatus/${entidad}/${estatus}`, {params : this.parameters });
+    return this.http.get(`${this.estatusmaestro}${entidad}/${estatus}`, {params : this.parameters });
   }
   obtenCatalogoOpcion(maestro: string, opcion: string) {
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);

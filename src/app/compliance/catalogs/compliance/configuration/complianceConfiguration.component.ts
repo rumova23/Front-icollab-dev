@@ -188,7 +188,7 @@ export class ComplianceConfigurationComponent implements OnInit {
               case 'periodo_entrega':return item.period + ' ' + item.unitPeriod?item.unitPeriod.code:'';
               case 'autoridad':return item.authority?item.authority.code:'';
               case 'tipo_aplicacion': return item.applicationType.code;
-              
+
               case 'dateUpdatedds' : dateUpdated = ((item.element.dateUpdated != null) ? item.element.dateUpdated : item.element.dateCreated);
                   return new Date(dateUpdated).getTime();
               default: return item[property];
