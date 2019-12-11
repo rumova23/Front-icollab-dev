@@ -8,6 +8,7 @@ import { TagActividadInDTO } from '../models/TagActividadInDTO';
 import { OrderCatalogDTO } from '../models/OrderCatalogDTO';
 import { Observable } from 'rxjs';
 import { GlobalService } from 'src/app/core/globals/global.service';
+import { of } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -81,6 +82,9 @@ export class TagService {
 
   obtenTagPorFiltros(anio: number): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    if(localStorage.getItem('obtenTagPorFiltros')){
+      return of(JSON.parse(localStorage.getItem('obtenTagPorFiltros')));
+    }
     return this.http.get( `${ this.seguimientoUrl }legal/obten/matriz/${anio}`, {params : this.parameters });
   }
 

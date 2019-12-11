@@ -163,19 +163,37 @@ export class ComplianceConfigurationComponent implements OnInit {
       this.initCombos();
   }
 
-  sortData(sort: Sort) {}
+  sortData(sort: Sort) {debugger}
   get f() { return this.filtrosForm.controls; }
 
   obtenerListaTags(anio: number) {
     this.addBlock(1, 'Cargando...');
     this.data = [];
     this.tagService.obtenTagPorFiltros(anio).subscribe( (data: MatrizCumplimientoDTO) => {
+        //localStorage.setItem('obtenTagPorFiltros', JSON.stringify(data));
         if (data.entidadEstatusId === this.idMatrizFree) {
             this.isFree = true;
         }
-        this.registros =  new MatTableDataSource<TagOutDTO>(data.matriz);
         this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
+        this.registros =  new MatTableDataSource<TagOutDTO>(data.matriz);
         this.registros.paginator = this.paginator;
+        let dateUpdated = null;
+        this.registros.sortingDataAccessor = (item, property) => {
+          if(property != 'tag' && property!= 'clasificacion')debugger;
+          switch(property) {
+              case 'tag': return item.tag;
+              case 'nombre': return item.classificationActivity;
+              case 'clasificacion': return item.activity.name;
+              case 'cumplimiento_legal': return item.typeCompliance.code;
+              case 'periodo_entrega':return item.period + ' ' + item.unitPeriod?item.unitPeriod.code:'';
+              case 'autoridad':return item.authority?item.authority.code:'';
+              case 'tipo_aplicacion': return item.applicationType.code;
+              
+              case 'dateUpdatedds' : dateUpdated = ((item.element.dateUpdated != null) ? item.element.dateUpdated : item.element.dateCreated);
+                  return new Date(dateUpdated).getTime();
+              default: return item[property];
+            }
+      }
         this.registros.sort = this.sort;
         this.addBlock(2, null);
 
