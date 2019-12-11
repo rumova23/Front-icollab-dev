@@ -7,8 +7,8 @@
 		<div class="mybrand">
 			<img src="{{theme.getLogo()}}" height="35" width="45" alt="" />
 			<strong class="nameplanta mr-4 ml-3">{{theme.getNameLabel()}}</strong>
-			<a class="navbar-brand" *ngIf="globalService.plant.name == 'AGUILA'" ><mdb-icon fas icon="exchange-alt" class="mr-2" (click)="changePlant('SOL')"></mdb-icon></a>
-			<a class="navbar-brand" *ngIf="globalService.plant.name == 'SOL'"><mdb-icon fas icon="exchange-alt" class="mr-2" (click)="changePlant('AGUILA')"></mdb-icon></a>
+			<a class="navbar-brand" *ngIf="!disableChangePlant && globalService.plant.name == 'AGUILA'" ><mdb-icon fas icon="exchange-alt" class="mr-2" (click)="changePlant('SOL')"></mdb-icon></a>
+			<a class="navbar-brand" *ngIf="!disableChangePlant && globalService.plant.name == 'SOL'"><mdb-icon fas icon="exchange-alt" class="mr-2" (click)="changePlant('AGUILA')"></mdb-icon></a>
 		</div>	
 		<mdb-icon fas icon="bars" (click)="toggleMenu()" class="myicobarstoggle"></mdb-icon>
 		</mdb-navbar-brand>

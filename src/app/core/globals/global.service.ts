@@ -10,14 +10,13 @@ import { HttpParams      } from '@angular/common/http';
 })
 export class GlobalService {
 	aguila  = true; // no se debe seguir usando ya que puede haber n plantas  ahora se debe usar la variable plant
-	plantaDefaultId = '1';  // ahora se debe usar la variable plant
-	languge         = 'es'; // solo es un parche que simulara multiples idiomas para monitoreo fase 3
+	plantaDefaultId = '1';  // ahora se debe usar la variable plant el default es la primera planta que llega
 
 	public socketConnect       = false;
-	public plant: Plant         = { id: 0 , name: 'Default'             };
-	public app: App           = { id: 0 , name: 'Default'             };  // Representa al modulo activo
+	public plant: Plant        = { id: 0 , name: 'Default'             };
+	public app: App            = { id: 0 , name: 'Default'             };  // Representa al modulo activo
 	public page: EventMessage  = { id: 0 , data: {}, descriptor: 'none' };
-	public aside_open       = false;
+	public aside_open          = false;
 
 	constructor(public securityService: SecurityService) {
 		try {
