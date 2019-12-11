@@ -16,7 +16,6 @@ export class AdministratorComplianceService {
 
   private microexamenUrl = environment.microexamenUrl;
   private mastercatalog = environment.mastercatalog;
-  private estatusmaestro = environment.estatusmaestro;
   private tagsUrl = environment.tagsUrl;
   private seguimientoUrl = environment.seguimientoUrl;
   parameters: any;

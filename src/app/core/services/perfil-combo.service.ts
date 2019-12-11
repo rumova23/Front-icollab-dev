@@ -158,7 +158,7 @@ export class PerfilComboService {
 
   obtenEstatusTerminado(entidad: string, estatus: string) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get( `${ this.estatusmaestro }status/${entidad}/${estatus}`,
+    return this.http.get( `${ this.estatusmaestro }${entidad}/${estatus}`,
           {params : this.parameters });
   }
 

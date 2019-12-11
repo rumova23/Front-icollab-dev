@@ -173,15 +173,13 @@ export class ComplianceTypesEditComponent implements OnInit {
             this.dataSubmit['id'] = this.catalogType.id;
             this.dataSubmit['order'] = this.catalogType.id;
             this.dataSubmit['save'] = false;
-
-            if (this.cloned){
+            if (this.cloned) {
               this.dataSubmit['referenceclone'] = "DESLIGADO";
-            }
-            else {
+            } else {
               this.dataSubmit['referenceclone'] = this.origen;
             }
-
             this.dataSubmit['cloned'] = this.cloned;
+            this.dataSubmit['active'] = this.checkedEstatus;
           }
           this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit, this.globalService.aguila).subscribe(
                (responseVo: ResponseVO) => {
