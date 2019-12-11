@@ -33,7 +33,7 @@
         <!-- Inputs -->
         <ng-container *ngFor="let formControl of formControls">
             <div class="row">
-                <div class="col dividerSection colortheme">
+                <div class="col dividerSection bg-secondary text-white">
                     <b>{{ formControl.section }}</b>
                 </div>
             </div>
@@ -266,7 +266,7 @@
     <!-- CUENTAS DE LA PLANTA -->
     <form [formGroup]="accountForm" (ngSubmit)="saveAccount(accountForm.value)">
         <div class="row">
-            <div class="col dividerSection colortheme">
+            <div class="col dividerSection bg-secondary text-white">
                 <b>Cuentas de la Planta</b>
             </div>
         </div>
@@ -494,7 +494,7 @@
         (ngSubmit)="saveDirection(directionForm.value)"
     >
         <div class="row">
-            <div class="col dividerSection colortheme colortheme">
+            <div class="col dividerSection bg-secondary text-white">
                 <b>Direcciones de la Planta</b>
             </div>
         </div>
@@ -749,7 +749,7 @@
         (ngSubmit)="saveCertificate(certificateForm.value)"
     >
         <div class="row">
-            <div class="col dividerSection colortheme colortheme">
+            <div class="col dividerSection bg-secondary text-white">
                 <b>Certificados de la Planta</b>
             </div>
         </div>
@@ -1039,7 +1039,7 @@
     <!-- SUCURSALES DE LA PLANTA -->
     <form [formGroup]="branchForm" (ngSubmit)="saveBranch(branchForm.value)">
         <div class="row">
-            <div class="col dividerSection colortheme">
+            <div class="col dividerSection bg-secondary text-white">
                 <b>Sucursales de la Planta</b>
             </div>
         </div>

@@ -33,9 +33,7 @@
         <ng-container *ngFor="let formControl of formControls">
             <div class="row">
                 <div
-                    class="col dividerSection"
-                    style="color:#000;background: #878787;"
-                >
+                    class="col dividerSection bg-secondary text-white">
                     <b>{{ formControl.section }}</b>
                 </div>
             </div>
@@ -511,8 +509,7 @@
     <form [formGroup]="productForm" (ngSubmit)="saveProduct(productForm.value)">
         <div class="row">
             <div
-                class="col dividerSection"
-                style="color: #000; background: #787878;"
+                class="col dividerSection bg-secondary text-white"
             >
                 <b> Productos </b>
             </div>

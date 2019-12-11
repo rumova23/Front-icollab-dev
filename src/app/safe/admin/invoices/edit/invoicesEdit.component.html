@@ -1,4 +1,4 @@
-<div class="row">
+    <div class="row">
     <mdb-breadcrumb customClass="white" class="w-100">
         <mdb-breadcrumb-item class=""
             ><mdb-icon fas icon="cog"></mdb-icon
@@ -33,11 +33,7 @@
         <ng-container *ngFor="let formControl of formControls">
             <div class="row">
                 <div
-                    class="col dividerSection"
-                    [ngClass]="{
-                        blue: globalService.aguila,
-                        orange: !globalService.aguila
-                    }"
+                    class="col dividerSection bg-secondary text-white"
                 >
                     <b>{{ formControl.section }}</b>
                 </div>
@@ -49,18 +45,19 @@
                             <div class="col-md-auto col-md-6 col-lg-4">
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
-                                        <mat-form-field class="full-width">
+                                        
+                                        <div class="form-group">
+                                            <label>{{ in.label }}</label>
                                             <input
-                                                matInput
+                                                class="form-control"
                                                 formControlName="{{
                                                     in.formControlName
                                                 }}"
-                                                placeholder="{{ in.label }}"
                                             />
-                                        </mat-form-field>
+                                        </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <mat-error
+                                        <div
                                             *ngIf="
                                                 !invoiceForm.controls[
                                                     in.formControlName
@@ -71,7 +68,7 @@
                                             "
                                         >
                                             Requerido
-                                        </mat-error>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -80,19 +77,19 @@
                             <div class="col-md-auto col-md-6 col-lg-4">
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
-                                        <mat-form-field class="full-width">
+                                        <div class="form-group">
+                                            <label>{{ in.label }}</label>
                                             <input
+                                                class="form-control"
                                                 type="time"
-                                                matInput
                                                 formControlName="{{
                                                     in.formControlName
                                                 }}"
-                                                placeholder="{{ in.label }}"
                                             />
-                                        </mat-form-field>
+                                        </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <mat-error
+                                        <div
                                             *ngIf="
                                                 !invoiceForm.controls[
                                                     in.formControlName
@@ -103,7 +100,7 @@
                                             "
                                         >
                                             Requerido
-                                        </mat-error>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -112,39 +109,38 @@
                             <div class="col-md-auto col-md-6 col-lg-4">
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
-                                        <mat-form-field class="full-width">
-                                            <mat-label>{{
-                                                in.label
-                                            }}</mat-label>
-                                            <mat-select
+                                        <div class="form-group">
+                                            <label>{{ in.label }}</label>
+                                            <select
+                                                class="form-control"
                                                 formControlName="{{
                                                     in.formControlName
                                                 }}"
-                                                (selectionChange)="
-                                                    onSelect($event.value, in)
+                                                (change)="
+                                                    onSelect($event, in)
                                                 "
                                             >
-                                                <mat-option
-                                                    *ngFor="
-                                                        let option of in.options
-                                                    "
-                                                    [value]="option"
-                                                >
-                                                    {{
-                                                        option.description !=
-                                                        null
-                                                            ? option.description
-                                                            : option.name !=
-                                                              null
-                                                            ? option.name
-                                                            : option.tradename
-                                                    }}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
+                                                <option
+                                                *ngFor="
+                                                    let option of in.options
+                                                "
+                                                [value]="option.id"
+                                            >
+                                                {{
+                                                    option.description !=
+                                                    null
+                                                        ? option.description
+                                                        : option.name !=
+                                                          null
+                                                        ? option.name
+                                                        : option.tradename
+                                                }}
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <mat-error
+                                        <div
                                             *ngIf="
                                                 !invoiceForm.controls[
                                                     in.formControlName
@@ -155,7 +151,7 @@
                                             "
                                         >
                                             Requerido
-                                        </mat-error>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -164,35 +160,34 @@
                             <div class="col-md-auto col-md-6 col-lg-4">
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
-                                        <mat-form-field class="full-width">
-                                            <mat-label>{{
-                                                in.label
-                                            }}</mat-label>
-                                            <mat-select
+                                        <div class="form-group">
+                                            <label>{{ in.label }}</label>
+                                            <select
+                                                class="form-control"
                                                 formControlName="{{
                                                     in.formControlName
                                                 }}"
-                                                (selectionChange)="
+                                                (change)="
                                                     onSelect($event.value, in)
                                                 "
                                             >
-                                                <mat-option
-                                                    *ngFor="
-                                                        let option of in.options
-                                                    "
-                                                    [value]="option"
-                                                >
-                                                    {{
-                                                        getPlantDirection(
-                                                            option
-                                                        )
-                                                    }}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
+                                                <option
+                                                *ngFor="
+                                                    let option of in.options
+                                                "
+                                                [value]="option"
+                                            >
+                                                {{
+                                                    getPlantDirection(
+                                                        option
+                                                    )
+                                                }}
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <mat-error
+                                        <div
                                             *ngIf="
                                                 !invoiceForm.controls[
                                                     in.formControlName
@@ -203,7 +198,7 @@
                                             "
                                         >
                                             Requerido
-                                        </mat-error>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -212,35 +207,34 @@
                             <div class="col-md-auto col-md-6 col-lg-4">
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
-                                        <mat-form-field class="full-width">
-                                            <mat-label>{{
-                                                in.label
-                                            }}</mat-label>
-                                            <mat-select
+                                        <div class="form-group">
+                                            <label>{{ in.label }}</label>
+                                            <select
+                                                class="form-control"
                                                 formControlName="{{
                                                     in.formControlName
                                                 }}"
-                                                (selectionChange)="
+                                                (change)="
                                                     onSelect($event.value, in)
                                                 "
                                             >
-                                                <mat-option
-                                                    *ngFor="
-                                                        let option of in.options
-                                                    "
-                                                    [value]="option"
-                                                >
-                                                    {{
-                                                        getPlantBranchOffice(
-                                                            option
-                                                        )
-                                                    }}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
+                                                <option
+                                                *ngFor="
+                                                    let option of in.options
+                                                "
+                                                [value]="option"
+                                            >
+                                                {{
+                                                    getPlantBranchOffice(
+                                                        option
+                                                    )
+                                                }}
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <mat-error
+                                        <div
                                             *ngIf="
                                                 !invoiceForm.controls[
                                                     in.formControlName
@@ -251,7 +245,7 @@
                                             "
                                         >
                                             Requerido
-                                        </mat-error>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -260,20 +254,22 @@
                             <div class="col-md-auto col-md-6 col-lg-4">
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
-                                        <mat-checkbox
-                                            class="active"
-                                            color="primary"
-                                            formControlName="{{
-                                                in.formControlName
-                                            }}"
-                                        >
-                                            <mat-label>{{
-                                                in.label
-                                            }}</mat-label>
-                                        </mat-checkbox>
+                                        <div class="form-group">
+                                            <label>{{ in.label }}</label>
+                                            <input
+                                                class="form-control active"
+                                                type="checkbox"
+                                                formControlName="{{
+                                                    in.formControlName
+                                                }}"
+                                                style="
+                                                height: auto;
+                                                width: auto;"
+                                            />
+                                        </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <mat-error
+                                        <div
                                             *ngIf="
                                                 !invoiceForm.controls[
                                                     in.formControlName
@@ -284,7 +280,7 @@
                                             "
                                         >
                                             Requerido
-                                        </mat-error>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -293,19 +289,20 @@
                             <div class="col-md-auto col-md-6 col-lg-4">
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 12 }}">
-                                        <mat-form-field class="full-width">
+                                        <div class="form-group">
+                                            <label>{{ in.label }}</label>
                                             <textarea
-                                                matInput
+                                                class="form-control"
                                                 cdkTextareaAutosize
                                                 #autosize="cdkTextareaAutosize"
                                                 formControlName="{{
                                                     in.formControlName
                                                 }}"
-                                                placeholder="{{ in.label }}"
-                                            ></textarea>
-                                        </mat-form-field>
+                                            >
+                                            </textarea>
+                                        </div>
                                         <div class="col-md-4">
-                                            <mat-error
+                                            <div
                                                 *ngIf="
                                                     !invoiceForm.controls[
                                                         in.formControlName
@@ -316,7 +313,7 @@
                                                 "
                                             >
                                                 Requerido
-                                            </mat-error>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
@@ -331,11 +328,7 @@
     <form [formGroup]="productForm" (ngSubmit)="saveProduct(productForm.value)">
         <div class="row">
             <div
-                class="col dividerSection"
-                [ngClass]="{
-                    blue: globalService.aguila,
-                    orange: !globalService.aguila
-                }"
+                class="col dividerSection bg-secondary text-white"
             >
                 <b> Productos </b>
             </div>
@@ -347,18 +340,18 @@
                         <div class="col-md-auto col-md-6 col-lg-4">
                             <div class="row">
                                 <div class="col-md-{{ in.col || 8 }}">
-                                    <mat-form-field class="full-width">
+                                    <div class="form-group">
+                                        <label>{{ in.label }}</label>
                                         <input
-                                            matInput
+                                            class="form-control"
                                             formControlName="{{
                                                 in.formControlName
                                             }}"
-                                            placeholder="{{ in.label }}"
                                         />
-                                    </mat-form-field>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <mat-error
+                                    <div
                                         *ngIf="
                                             !productForm.controls[
                                                 in.formControlName
@@ -369,7 +362,7 @@
                                         "
                                     >
                                         Requerido
-                                    </mat-error>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -378,30 +371,31 @@
                         <div class="col-md-auto col-md-6 col-lg-4">
                             <div class="row">
                                 <div class="col-md-{{ in.col || 8 }}">
-                                    <mat-form-field class="full-width">
-                                        <mat-label>{{ in.label }}</mat-label>
-                                        <mat-select
+                                    <div class="form-group">
+                                        <label>{{ in.label }}</label>
+                                        <select
+                                            class="form-control"
                                             formControlName="{{
                                                 in.formControlName
                                             }}"
                                         >
-                                            <mat-option
-                                                *ngFor="
-                                                    let option of in.options
-                                                "
-                                                [value]="option"
-                                            >
-                                                {{
-                                                    option.description != null
-                                                        ? option.description
-                                                        : option.name
-                                                }}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
+                                            <option
+                                            *ngFor="
+                                                let option of in.options
+                                            "
+                                            [value]="option"
+                                        >
+                                            {{
+                                                option.description != null
+                                                    ? option.description
+                                                    : option.name
+                                            }}
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <mat-error
+                                    <div
                                         *ngIf="
                                             !productForm.controls[
                                                 in.formControlName
@@ -412,7 +406,7 @@
                                         "
                                     >
                                         Requerido
-                                    </mat-error>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -421,18 +415,22 @@
                         <div class="col-md-auto col-md-6 col-lg-4">
                             <div class="row">
                                 <div class="col-md-{{ in.col || 8 }}">
-                                    <mat-checkbox
-                                        class="active"
-                                        color="primary"
-                                        formControlName="{{
-                                            in.formControlName
-                                        }}"
-                                    >
-                                        <mat-label>{{ in.label }}</mat-label>
-                                    </mat-checkbox>
+                                    <div class="form-group">
+                                        <label>{{ in.label }}</label>
+                                        <input
+                                            class="form-control active"
+                                            type="checkbox"
+                                            formControlName="{{
+                                                in.formControlName
+                                            }}"
+                                            style="
+                                            height: auto;
+                                            width: auto;"
+                                        />
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <mat-error
+                                    <div
                                         *ngIf="
                                             !productForm.controls[
                                                 in.formControlName
@@ -443,7 +441,7 @@
                                         "
                                     >
                                         Requerido
-                                    </mat-error>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -456,10 +454,6 @@
                 type="button"
                 class="btn right"
                 (click)="cancelProduct()"
-                [ngClass]="{
-                    blue: globalService.aguila,
-                    orange: !globalService.aguila
-                }"
             >
                 Cancelar
             </button>
@@ -467,17 +461,14 @@
                 type="submit"
                 class="btn right"
                 [disabled]="!productForm.valid"
-                [ngClass]="{
-                    blue: globalService.aguila,
-                    orange: !globalService.aguila
-                }"
             >
                 Agregar
             </button>
         </div>
     </form>
-    <div class="table-container mat-elevation-z8">
-        <table matSort mat-table [dataSource]="productsDatasource">
+    <div class="table-container mat-elevation-z0">
+        <table matSort mat-table [dataSource]="productsDatasource"
+        class="table_catalogo">
             <ng-container matColumnDef="product">
                 <th mat-header-cell *matHeaderCellDef>Servicio</th>
                 <td mat-cell *matCellDef="let element" class="p-2 border-none">

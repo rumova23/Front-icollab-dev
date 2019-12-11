@@ -14,20 +14,23 @@ import { DOCUMENT } from '@angular/common';
   styleUrls   : ['./shared-header.component.scss']
 })
 export class SharedHeaderComponent implements OnInit {
+	disableChangePlant = false;
+	constructor(
+		@Inject(DOCUMENT) private _document,
+		public globalService    : GlobalService,
+		public theme            : ThemeService,
+		private eventService    : EventService,
+		private securityService : SecurityService,
+		private router          : Router
+	) { 
+	}
 
-  constructor(
-	  @Inject(DOCUMENT) private _document,
-      public globalService    : GlobalService,
-      public theme            : ThemeService,
-      private eventService    : EventService,
-      private securityService : SecurityService,
-      private router          : Router
-  ) { 
-  }
-
-  ngOnInit() {
-  }
-
+	ngOnInit() {
+	}
+	checkdisableChangePlanta(){
+		let plants = this.securityService.loadPlants();
+		if(plants.length <= 1) this.disableChangePlant = true;
+	}
 	getNameUser() {
 		let name = this.securityService.getNameUser() +" "+ this.securityService.getLastNameUser();
 		return name;
@@ -55,7 +58,7 @@ export class SharedHeaderComponent implements OnInit {
 		let plants = this.securityService.loadPlants();
 		for(let i = 0; i < plants.length;i++){
 			if(plants[i].name == plant){
-				this.globalService.plant = plants[i];
+				this.globalService.setPlant(plants[i]);
 				break;
 			}
 		}
@@ -63,9 +66,5 @@ export class SharedHeaderComponent implements OnInit {
 		
 		let url = `assets/css/theme/${plant.toLowerCase()}/default.css`;
 		this._document.getElementById("plant_theme").setAttribute('href',url);
-	}
-	changeLangage(languge){
-		this.globalService.languge = languge;
-		this.eventService.sendChangePage(this.globalService.page);
 	}
 }

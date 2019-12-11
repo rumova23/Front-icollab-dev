@@ -158,9 +158,12 @@ export class ActivitiesComponent implements OnInit {
 
         this.registros =  new MatTableDataSource<any>(listObj);
         this.registros.paginator = this.paginator;
+        let dateUpdated = null;
         this.registros.sortingDataAccessor = (item, property) => {
             switch(property) {
                 case 'prefix': return item.prefix;
+                case 'dateUpdated' : dateUpdated = ((item.element.dateUpdated != null) ? item.element.dateUpdated : item.element.dateCreated);
+                    return new Date(dateUpdated).getTime();
                 default: return item[property];
               }
         }

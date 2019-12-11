@@ -263,11 +263,14 @@ export class ComplianceTypesComponent implements OnInit {
                 }
                 this.dataSource = new MatTableDataSource<any>(this.data);
                 this.dataSource.paginator = this.paginator;
+                let dateUpdated = null;
                 this.dataSource.sortingDataAccessor = (item, property) => {
                     switch(property) {
-                        case 'name': return item.name;
-                        default: return item[property];
-                      }
+                        case 'name'        : return item.name;
+                        case 'dateUpdated' : dateUpdated = ((item.element.dateUpdated != null) ? item.element.dateUpdated : item.element.dateCreated);
+                            return new Date(dateUpdated).getTime();
+                        default            : return item[property];
+                    }
                 }
                 this.dataSource.sort = this.sort;
             })
