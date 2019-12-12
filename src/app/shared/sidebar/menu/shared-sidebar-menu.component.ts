@@ -72,7 +72,6 @@ export class SharedSidebarMenuComponent {
 				],
 			}
 		);//*/
-
         let item0 = null;
         let item1 = null;
         let item2 = null;
@@ -83,13 +82,13 @@ export class SharedSidebarMenuComponent {
             else if (option.label == "Configuración de Cumplimientos") item2 = option;
             else array.push(option);
         }
+        this.menu = [];
         this.menu[0] = item0;
         this.menu[1] = item1;
         this.menu[2] = item2;
         for (const iterator of array) {
             this.menu.push(iterator);
         }
-
         for (let option of this.menu) {
             if (option.children) {
                 for (let ins = 0; ins < option.children.length; ins++) {

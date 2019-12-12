@@ -82,9 +82,6 @@ export class TagService {
 
   obtenTagPorFiltros(anio: number): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
-    if(localStorage.getItem('obtenTagPorFiltros')){
-      return of(JSON.parse(localStorage.getItem('obtenTagPorFiltros')));
-    }
     return this.http.get( `${ this.seguimientoUrl }legal/obten/matriz/${anio}`, {params : this.parameters });
   }
 
