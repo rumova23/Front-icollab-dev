@@ -181,33 +181,42 @@ export class ComplianceTypesEditComponent implements OnInit {
             this.dataSubmit['cloned'] = this.cloned;
             this.dataSubmit['active'] = this.checkedEstatus;
           }
-          this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit, this.globalService.aguila).subscribe(
-               (responseVo: ResponseVO) => {
-                 if (this.accion === 'nuevo') {
-                if (responseVo.success) {
-                  this.toastr.successToastr('La autoridad fue creada con éxito.', '¡Se ha logrado!');
-                } else {
-                  this.toastr.errorToastr(responseVo.message, '¡Error codigo: ' + responseVo.code + '!');
-                }
-              }
-              if (this.accion === 'editar') {
-                this.toastr.successToastr('La autoridad fue actualizada con éxito.', '¡Se ha logrado!');
-              }
+          if (this.accion === 'editar') {
+            this.catalogoMaestroService.updateIndividual(this.dataSubmit, this.globalService.aguila).subscribe(
+                (responseVo: ResponseVO) => {
+                  if (responseVo.success) {
+                    this.toastr.successToastr('La autoridad fue actualizada con éxito.', '¡Se ha logrado!');
+                  } else {
+                    this.toastr.errorToastr(responseVo.message, '¡Error codigo: ' + responseVo.code + '!');
+                  }
+                });
+          } else {
+            this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit, this.globalService.aguila).subscribe(
+                (responseVo: ResponseVO) => {
+                  if (this.accion === 'nuevo') {
+                    if (responseVo.success) {
+                      this.toastr.successToastr('La autoridad fue creada con éxito.', '¡Se ha logrado!');
+                    } else {
+                      this.toastr.errorToastr(responseVo.message, '¡Error codigo: ' + responseVo.code + '!');
+                    }
+                  }
 
-              if (this.accion === 'nuevo') {
-                this.soloLectura = true;
-                this.autoridadesForm.controls['nombreOpcion'].disable();
-                this.autoridadesForm.controls['opcionDescripcion'].disable();
-                this.deshabiliarEstatus = true;
-                this.disabledSave = true;
-                this.verClonar = true;
-              } else {
-                this.deshabiliarEstatus = true;
-                this.disabledSave = true;
 
-                this.showEditClonated = this.hasCloned;
-              }
-           });
+                  if (this.accion === 'nuevo') {
+                    this.soloLectura = true;
+                    this.autoridadesForm.controls['nombreOpcion'].disable();
+                    this.autoridadesForm.controls['opcionDescripcion'].disable();
+                    this.deshabiliarEstatus = true;
+                    this.disabledSave = true;
+                    this.verClonar = true;
+                  } else {
+                    this.deshabiliarEstatus = true;
+                    this.disabledSave = true;
+
+                    this.showEditClonated = this.hasCloned;
+                  }
+                });
+          }
         }
       }
     ).add(() => {
@@ -229,7 +238,7 @@ export class ComplianceTypesEditComponent implements OnInit {
     );
   }
 
-  editClonated(){
+  editClonated() {
     this.dataSubmit['cloned'] = 1;
     this.catalogoMaestroService.setEditClonated(this.dataSubmit,!this.globalService.aguila).subscribe( 
       dataBack => {
@@ -259,9 +268,7 @@ export class ComplianceTypesEditComponent implements OnInit {
       return;
     }
     this.obtenerDatosAutoridad(false);
-
   }
-  
   // Compara valores del combo para seleccionar la opción correspondiente
   compareFn(combo1: number, combo2: number) {
     return combo1 && combo2 && combo1 === combo2;

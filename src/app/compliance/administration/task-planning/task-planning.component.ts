@@ -176,6 +176,7 @@ export class TaskPlanningComponent implements OnInit {
     agregarActor(nameCharge) {
         const select = document.getElementById(nameCharge) as HTMLSelectElement;
         const tagIdActor = nameCharge.split('_');
+        console.log(tagIdActor[1] + ' : ' + tagIdActor[0]);
         const tagId = tagIdActor[1];
         if (tagIdActor[0] === 'ejecutor') {
             this.habilitarDesHabilitarOpcion('responsable_' + tagId, nameCharge);
