@@ -22,7 +22,14 @@ export var listCharts = {
         {localId:"getTVMW", initHiddenInChart:true},
         {localId:"getTVRPM", initHiddenInChart:true},
       ]
-  }
+  },
+  /*
+  canvas2tester: {
+    type:"line",
+    tags: [
+      {localId:"getTemperaturaAmbiente", initHiddenInChart:false},
+    ]
+  }//*/
 }
 
 export const lstTags = [];

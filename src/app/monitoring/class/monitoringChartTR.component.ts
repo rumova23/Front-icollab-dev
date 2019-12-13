@@ -8,6 +8,8 @@ import { MonitoringBaseSocketOnComponent } from './monitoringBaseSocketOn.compon
 import { MonitoringTrService             } from '../services/monitoringTr.service';
 import { PiServerItem                    } from '../models/piServer/piServerItem';
 import { FinalsDataToChart               } from '../models/chart/finalsDataToChart';
+import { RelWebIdLocalId                 } from '../models/rel_webId_localId/rel_webId_localId';
+import { RelWebIdChartId                 } from '../models/rel_webId_localId/rel_webId_charId';
 
 import * as BasChart from "src/app/monitoring/helpers/monitoringBaseChart.component";
 import { MyChart } from '../models/chart/myChart';
@@ -17,11 +19,13 @@ import { MyChart } from '../models/chart/myChart';
 	template: `NO UI TO BE FOUND HERE!`
 })
 export class MonitoringChartTR extends MonitoringBaseSocketOnComponent {
+    public webIds            : Array<string>  = [];
     public charts            : Array<Chart>   = [];
 	public myDefCharts       : Array<MyChart> = [];
 	public dataSets          : [] = []; // para poder conoce los colores de cada dataset
 
-	public rel_webId_localId : Array<any> = [];
+    public rel_webId_localId : Array<Array<RelWebIdLocalId>> = [];
+    public rel_webId_CharId  : Array<Array<RelWebIdChartId>> = [];
 	
     public tagValue          = [];
     public tagName           = [];
@@ -105,16 +109,34 @@ export class MonitoringChartTR extends MonitoringBaseSocketOnComponent {
     getchartControl(idChart) {
         return this.myDefCharts[idChart] ? this.myDefCharts[idChart]["controls"] : { idChart: false };
     }
-    createRelwebIdLocalId(tag: PiServerItem, localLstTags) {
+    createRelwebIdLocalId(tag: PiServerItem, localLstTags, localLstCharts, plants = this.globalService.plant.name.toLowerCase()) {
+        if( ! Array.isArray(plants) )plants = [plants];
         for (const local_tag_key in localLstTags) {
-            if (localLstTags.hasOwnProperty(local_tag_key)) {
-                for (const localtag of localLstTags[local_tag_key][this.globalService.plant.name.toLowerCase()]) {
+            for (const plant of plants) {
+                for (const localtag of localLstTags[local_tag_key][plant]) {
                     if (localtag.WebId == tag.WebId) {
+                        for(let idChart in localLstCharts){
+                            for (const chartTag of localLstCharts[idChart].tags) {
+                                if(chartTag.localId == local_tag_key){
+                                    if(this.rel_webId_CharId[tag.WebId] === undefined) {
+                                        this.rel_webId_CharId[tag.WebId] = [];
+                                    }
+                                    if (this.rel_webId_CharId[tag.WebId].find((obj:RelWebIdChartId) => obj.charId == idChart) === undefined) {
+                                        this.rel_webId_CharId[tag.WebId].push({
+                                            //WebId: tag.WebId,
+                                            charId: idChart,
+                                            chartTag
+                                        });
+                                    } else {
+                                    }
+                                }
+                            }
+                        }
                         // crear relaciones
                         if (this.rel_webId_localId[tag.WebId] === undefined) {
                             this.rel_webId_localId[tag.WebId] = [];
                         }
-                        if (this.rel_webId_localId[tag.WebId].find(obj => obj.localId == local_tag_key) === undefined) {
+                        if (this.rel_webId_localId[tag.WebId].find((obj:RelWebIdLocalId) => obj.localId == local_tag_key) === undefined) {
                             this.rel_webId_localId[tag.WebId].push({
                                 //WebId: tag.WebId,
                                 localId: local_tag_key,
@@ -122,14 +144,20 @@ export class MonitoringChartTR extends MonitoringBaseSocketOnComponent {
                             });
                         } else {
                         }
-
+    
                         //localtag.data = tag;
                     }
                 }
             }
         }
+
 	}
-	
+	getIdsCahrtByWebId(WebId):Array<RelWebIdChartId>{
+        return this.rel_webId_CharId[WebId];
+    }
+	getIdsLocalTagByWebId(WebId):Array<RelWebIdLocalId>{
+        return this.rel_webId_localId[WebId];
+    }
 	setStreamTagItemsInChart(finaleFataToChart: FinalsDataToChart, localLstTags) {
         let local_tag_key = finaleFataToChart.localId;
         let idChart = finaleFataToChart.idChart;

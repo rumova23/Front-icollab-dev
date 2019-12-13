@@ -1,20 +1,22 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { PiServerBox } from "../../../../models/piServer/piServerBox";
-import { GlobalService } from "src/app/core/globals/global.service";
+import { PiServerBox         } from "../../../../models/piServer/piServerBox";
+import { GlobalService       } from "src/app/core/globals/global.service";
 import { MonitoringTrService } from "../../../../services/monitoringTr.service";
-import { FinalsDataToChart } from '../../../../models/chart/finalsDataToChart';
-import { ThemeService } from 'src/app/core/globals/theme';
-import { EventService } from 'src/app/core/services/event.service';
-import { SocketService } from 'src/app/core/services/socket.service';
-import { TrService } from 'src/app/safe/services/tr.service';
-import { MonitoringChartTR } from '../../../../class/monitoringChartTR.component';
-declare var $: any;
+import { FinalsDataToChart   } from '../../../../models/chart/finalsDataToChart';
+import { ThemeService        } from 'src/app/core/globals/theme';
+import { EventService        } from 'src/app/core/services/event.service';
+import { SocketService       } from 'src/app/core/services/socket.service';
+import { MonitoringChartTR   } from '../../../../class/monitoringChartTR.component';
+
 import * as TAGS from "./config";
 
+declare var $: any;
+
+
 @Component({
-    selector: "app-interactive-image-turbine-ct1",
-    templateUrl: "./interactive-image-turbine-ct1.component.html",
-    styleUrls: ["./interactive-image-turbine-ct1.component.scss"]
+    selector    : "app-interactive-image-turbine-ct1",
+    templateUrl : "./interactive-image-turbine-ct1.component.html",
+    styleUrls   : ["./interactive-image-turbine-ct1.component.scss"]
 })
 export class InteractiveImageTurbineCT1Component extends MonitoringChartTR implements OnInit {
     @Input() timeCurrent;   //esto para reutilizar el del padre u no suscribirnos de nuevo 
@@ -39,21 +41,20 @@ export class InteractiveImageTurbineCT1Component extends MonitoringChartTR imple
         name:""};
     public fechaActual: Date;
     constructor(
-        public globalService: GlobalService,
-        public theme: ThemeService,
-        public eventService: EventService,
-        public socketService: SocketService,
-        private trService: TrService,
-        public monitoringTrService: MonitoringTrService
+        public globalService       : GlobalService,
+        public theme               : ThemeService,
+        public eventService        : EventService,
+        public socketService       : SocketService,
+        public monitoringTrService : MonitoringTrService
     ) {
         super(globalService, eventService, socketService, monitoringTrService);
     }
 
     ngOnInit() {
-        this.title = this.ct;
-        let lstTags = this.initializeAt0();
-        if(lstTags.length > 0){
-            this.getStreamsetsInterpolatedLast24Hours(lstTags);
+        this.title  = this.ct;
+        this.webIds = this.initializeAt0();
+        if(this.webIds.length > 0){
+            this.getStreamsetsInterpolatedLast24Hours(this.webIds);
         }
 
     }
@@ -115,7 +116,8 @@ export class InteractiveImageTurbineCT1Component extends MonitoringChartTR imple
         let lst = [];
         for (const local_tag_key in TAGS.lstTags) {
                 this.tagValue[local_tag_key] = 0;
-                this.tagName[local_tag_key] = "";
+                this.tagName [local_tag_key] = "";
+                this.taglabel[local_tag_key] = TAGS.lstTags[local_tag_key]["label"];
 
                 for (const webid of TAGS.lstTags[local_tag_key][
                     this.globalService.plant.name.toLowerCase()
@@ -133,7 +135,7 @@ export class InteractiveImageTurbineCT1Component extends MonitoringChartTR imple
                 for (const data of box.data) {
                     if (!data.error_response) {
                         for (const tag of data.Items) {
-                            this.createRelwebIdLocalId(tag, TAGS.lstTags);
+                            this.createRelwebIdLocalId(tag, TAGS.lstTags, TAGS.listCharts);
                             let finalsDataToChart = this.extractDataFromTheBox(tag);
                             this.setPublicVariables(finalsDataToChart);
 

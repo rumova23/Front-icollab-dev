@@ -1,18 +1,15 @@
-import { Component, OnInit, Input, OnDestroy, ViewEncapsulation, ViewChild, ElementRef, ViewContainerRef, ComponentFactoryResolver } from "@angular/core";
-import { EventService } from "src/app/core/services/event.service";
-import { GlobalService } from "src/app/core/globals/global.service";
-import { SocketService } from "src/app/core/services/socket.service";
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from "@angular/core";
+import { EventService                        } from "src/app/core/services/event.service";
+import { GlobalService                       } from "src/app/core/globals/global.service";
+import { SocketService                       } from "src/app/core/services/socket.service";
 
-import { ThemeService } from "src/app/core/globals/theme";
+import { ThemeService                        } from "src/app/core/globals/theme";
 import { InteractiveImageTurbineCT1Component } from "./components/interactive-image-turbine-ct1/interactive-image-turbine-ct1.component";
-import { MonitoringTrService } from "../../services/monitoringTr.service";
-import { TrService } from "src/app/safe/services/tr.service";
-import { PiServerBox } from "../../models/piServer/piServerBox";
-import { PiServerItem } from "../../models/piServer/piServerItem";
-import { FinalsDataToChart } from "../../models/chart/finalsDataToChart";
-import { MonitoringChartTR } from '../../class/monitoringChartTR.component';
+import { MonitoringTrService                 } from "../../services/monitoringTr.service";
+import { PiServerBox                         } from "../../models/piServer/piServerBox";
+import { MonitoringChartTR                   } from '../../class/monitoringChartTR.component';
 
-import * as TAGS from "./config";
+import * as TAGS     from "./config";
 import * as BasChart from "src/app/monitoring/helpers/monitoringBaseChart.component";
 
 declare var $: any;
@@ -29,6 +26,7 @@ export class MonitoringPhase3Component extends MonitoringChartTR implements OnIn
     @ViewChild("modal_turbine_ct_3") modal_turbine_ct_3: InteractiveImageTurbineCT1Component;
 
     @ViewChild('canvas1') canvas1:ElementRef;
+    @ViewChild('canvas2tester') canvas2tester:ElementRef;
 
 
 
@@ -36,29 +34,31 @@ export class MonitoringPhase3Component extends MonitoringChartTR implements OnIn
     public anyConfig = [];
 
     constructor(
-        public globalService: GlobalService,
-        public theme: ThemeService,
-        public eventService: EventService,
-        public socketService: SocketService,
-        private trService: TrService,
-        public monitoringTrService: MonitoringTrService
+        public globalService       : GlobalService,
+        public theme               : ThemeService,
+        public eventService        : EventService,
+        public socketService       : SocketService,
+        public monitoringTrService : MonitoringTrService
     ) {
         super(globalService, eventService, socketService, monitoringTrService);
     }
 
     ngOnInit() {
-        let lstTags = this.initializeAt0();
+        this.webIds = this.initializeAt0();
+        if(this.webIds.length > 0){
+            this.subscribeEverySecond();
+            this.subscribeSocketOnStatus();
+            this.getStreamsetsInterpolatedLast24Hours(this.webIds);
+        }
 
-        this.subscribeEverySecond();
-        this.subscribeSocketOnStatus();
-        this.getStreamsetsInterpolatedLast24Hours(lstTags);
     }
     initializeAt0() {
         let lst = [];
         for (const local_tag_key in TAGS.lstTags) {
             if (TAGS.lstTags.hasOwnProperty(local_tag_key)) {
                 this.tagValue[local_tag_key] = 0;
-                this.tagName[local_tag_key] = "";
+                this.tagName [local_tag_key] = "";
+                this.taglabel[local_tag_key] = TAGS.lstTags[local_tag_key]["label"];
 
                 this.anyConfig[local_tag_key] = {
                     scale_min: TAGS.lstTags[local_tag_key]["min"],
@@ -79,54 +79,54 @@ export class MonitoringPhase3Component extends MonitoringChartTR implements OnIn
             case "getStreamsetsInterpolatedLast24Hours":
                 this.chartInit(TAGS.listCharts, box.data[0].Items[0].Items.length);
                 this.subscribeSocketChanels();
+
                 for (const data of box.data) {
                     if (!data.error_response) {
                         for (const tag of data.Items) {
-                            this.createRelwebIdLocalId(tag, TAGS.lstTags);
+
+                            this.createRelwebIdLocalId(tag, TAGS.lstTags, TAGS.listCharts);
                             let finalsDataToChart = this.extractDataFromTheBox(tag);
                             this.setPublicVariables(finalsDataToChart);
 
-                            for (const idChart in this.myDefCharts) {
-                                // en esta grafica se puede pintar este tag
-                                let chart_tags_tag = this.matchedTagIntoChart(tag, idChart);
-                                if (undefined != chart_tags_tag) {
-                                    finalsDataToChart.idChart = idChart;
-                                    finalsDataToChart.localId = chart_tags_tag.localId;
-                                    finalsDataToChart.chart_tags_tag = chart_tags_tag;
-
-                                    this.setStreamTagItemsInChart(finalsDataToChart, TAGS.lstTags);
-                                }
+                            for (const refChartPerTag of this.getIdsCahrtByWebId(tag.WebId)) {
+                                finalsDataToChart.idChart = refChartPerTag.charId;
+                                finalsDataToChart.localId = refChartPerTag.chartTag.localId;
+                                finalsDataToChart.chart_tags_tag = refChartPerTag.chartTag;
+                                this.setStreamTagItemsInChart(finalsDataToChart, TAGS.lstTags);
                             }
+                    
                         }
                     }
                 }
                 break;
             case "pi-aguila":
             case "pi-sol":
-                for (const idChart in this.myDefCharts) {
-                    if(this.charts[idChart] == undefined) break;
-                    if (this.check_time_refreseh_data(this.myDefCharts[idChart]["controls"]["time_refreseh"], this.myDefCharts[idChart]["controls"]["timePast"])) {
-                        this.myDefCharts[idChart]["controls"]["timePast"] = new Date();
-                        this.charts[idChart].data.labels.push(this.getTime());
+                if(this.charts.length == 0) break;
 
-                        if (this.charts[idChart].data.labels.length > this.myDefCharts[idChart].controls.data_per_graph) {
-                            this.charts[idChart].data.labels.shift();
-                        }
-                        for (const data of box.data) {
-                            if (!data.error_response) {
-                                for (const tag of data.Items) {
-                                    let finalsDataToChart = this.extractDataFromTheBox(tag);
-                                    this.setPublicVariables(finalsDataToChart);
+                for (const data of box.data) {
+                    if (!data.error_response) {
+                        for (const tag of data.Items) {
 
-                                    // en esta grafica se puede pintar este tag
-                                    let chart_tags_tag = this.matchedTagIntoChart(tag, idChart);
-                                    if (undefined != chart_tags_tag) {
-                                        finalsDataToChart.idChart = idChart;
-                                        finalsDataToChart.localId = chart_tags_tag.localId;
-                                        finalsDataToChart.chart_tags_tag = chart_tags_tag;
+                            let finalsDataToChart = this.extractDataFromTheBox(tag);
+                            this.setPublicVariables(finalsDataToChart);
 
-                                        this.addStreamTagItemsInChart(finalsDataToChart);
+                            for (const refChartPerTag of this.getIdsCahrtByWebId(tag.WebId)) {
+                                if (this.check_time_refreseh_data(
+                                     this.myDefCharts[refChartPerTag.charId]["controls"]["time_refreseh"]
+                                    ,this.myDefCharts[refChartPerTag.charId]["controls"]["timePast"])
+                                ) {
+                                    this.myDefCharts[refChartPerTag.charId]["controls"]["timePast"] = new Date();
+                                    this.charts[refChartPerTag.charId].data.labels.push(this.getTime());
+                                    
+                                    if (this.charts[refChartPerTag.charId].data.labels.length > this.myDefCharts[refChartPerTag.charId].controls.data_per_graph) {
+                                        this.charts[refChartPerTag.charId].data.labels.shift();
                                     }
+
+                                    finalsDataToChart.idChart = refChartPerTag.charId;
+                                    finalsDataToChart.localId =  refChartPerTag.chartTag.localId;
+                                    finalsDataToChart.chart_tags_tag = refChartPerTag.chartTag;
+
+                                    this.addStreamTagItemsInChart(finalsDataToChart);
                                 }
                             }
                         }
