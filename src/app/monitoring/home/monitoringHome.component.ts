@@ -32,7 +32,6 @@ import { MonitoringMmMarketComponent     } from '../boards/mmMarket/monitoringMm
 })
 export class MonitoringHomeComponent extends ConnectSocketComponent implements OnInit, OnDestroy {
 	@ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
-	public subscriptions                 : Subscription[]     = [];
 
 	constructor(
 		public  globalService            : GlobalService,

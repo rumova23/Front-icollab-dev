@@ -1,8 +1,8 @@
 export var listCharts = {
-  canvas1:{
-      type:"line",
-      controls:{},
-      tags:[
+  canvas1: class{
+      type="line";
+      controls={};
+      tags= [
         {localId:"getTemperaturaAmbiente", initHiddenInChart:true},
         {localId:"getPresionAtmosferica", initHiddenInChart:true},
         {localId:"gethumedad", initHiddenInChart:true},
@@ -22,7 +22,7 @@ export var listCharts = {
         {localId:"getTVRT", initHiddenInChart:true},
         {localId:"getTVMW", initHiddenInChart:true},
         {localId:"getTVRPM", initHiddenInChart:true},
-      ],
+      ];
   }
 }
 export const generateColorHEX = function(calltag){
