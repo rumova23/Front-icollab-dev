@@ -156,14 +156,22 @@ export class MonitoringPhase3Component extends MonitoringChartTR implements OnIn
     }
     modifyChart(event) {
         // event es de tipo ChartControl
-        TAGS.listCharts[event.idChart]["controls"] = event;
+        //TAGS.listCharts[event.idChart]["controls"] = event;
+        this.myDefCharts[event.idChart].controls = event;
 
-        BasChart.change_data_per_graph(this.charts[event.idChart], TAGS.listCharts[event.idChart]);
-        BasChart.change_typa_chart(this.charts[event.idChart], TAGS.listCharts[event.idChart]);
-        BasChart.changeFill(this.charts[event.idChart], TAGS.listCharts[event.idChart]);
-        BasChart.change_point_radius(this.charts[event.idChart], TAGS.listCharts[event.idChart]);
-        BasChart.change_type_scale(this.charts[event.idChart], TAGS.listCharts[event.idChart], TAGS.lstTags);
-        BasChart.chart_update(this.charts[event.idChart]);
+        // BasChart.change_data_per_graph(this.charts[event.idChart], TAGS.listCharts[event.idChart]);
+        // BasChart.change_typa_chart(this.charts[event.idChart], TAGS.listCharts[event.idChart]);
+        // BasChart.changeFill(this.charts[event.idChart], TAGS.listCharts[event.idChart]);
+        // BasChart.change_point_radius(this.charts[event.idChart], TAGS.listCharts[event.idChart]);
+        // BasChart.change_type_scale(this.charts[event.idChart], TAGS.listCharts[event.idChart], TAGS.lstTags);
+        // BasChart.chart_update(this.charts[event.idChart]);
+        
+        BasChart.change_data_per_graph (this.charts[event.idChart], this.myDefCharts[event.idChart]);
+        BasChart.change_typa_chart     (this.charts[event.idChart], this.myDefCharts[event.idChart]);
+        BasChart.changeFill            (this.charts[event.idChart], this.myDefCharts[event.idChart]);
+        BasChart.change_point_radius   (this.charts[event.idChart], this.myDefCharts[event.idChart]);
+        BasChart.change_type_scale     (this.charts[event.idChart], this.myDefCharts[event.idChart], TAGS.lstTags);
+        BasChart.chart_update          (this.charts[event.idChart]);
     }
     updateChart(myform, localTagId) {}
     openModalCt_1() {
