@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { PiServerBox } from "../../../../models/piServer/piServerBox";
 import { GlobalService } from "src/app/core/globals/global.service";
 import { MonitoringTrService } from "../../../../services/monitoringTr.service";
-import { FinalsDataToChart } from '../../../../models/chart/finals-data-to-chart';
+import { FinalsDataToChart } from '../../../../models/chart/finalsDataToChart';
 import { ThemeService } from 'src/app/core/globals/theme';
 import { EventService } from 'src/app/core/services/event.service';
 import { SocketService } from 'src/app/core/services/socket.service';

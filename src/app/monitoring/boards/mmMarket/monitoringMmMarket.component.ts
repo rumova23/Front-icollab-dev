@@ -5,7 +5,7 @@ import { ThemeService }                    from 'src/app/core/globals/theme';
 import { EventService }                    from 'src/app/core/services/event.service';
 import { SocketService }                   from 'src/app/core/services/socket.service';
 import { MonitoringBaseSocketOnComponent } from 'src/app/monitoring/class/monitoringBaseSocketOn.component';
-import { ChartControl }                    from 'src/app/monitoring/models/ChartControl';
+import { ChartControl }                    from 'src/app/monitoring/models/chart/ChartControl';
 import * as TAGS                           from 'src/app/monitoring/boards/mmMarket/config';
 import * as BasChart                       from 'src/app/monitoring/helpers/monitoringBaseChart.component';
 import { MonitoringTrService } from '../../services/monitoringTr.service';

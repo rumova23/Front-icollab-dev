@@ -7,17 +7,18 @@ import { getMyDateFormat                 } from 'src/app/core/helpers/util.gener
 import { MonitoringBaseSocketOnComponent } from './monitoringBaseSocketOn.component';
 import { MonitoringTrService             } from '../services/monitoringTr.service';
 import { PiServerItem                    } from '../models/piServer/piServerItem';
-import { FinalsDataToChart               } from '../models/chart/finals-data-to-chart';
+import { FinalsDataToChart               } from '../models/chart/finalsDataToChart';
 
 import * as BasChart from "src/app/monitoring/helpers/monitoringBaseChart.component";
+import { MyChart } from '../models/chart/myChart';
 
 @Component({
 	selector: 'app-monitoring-chart-tr',
 	template: `NO UI TO BE FOUND HERE!`
 })
 export class MonitoringChartTR extends MonitoringBaseSocketOnComponent {
-    public charts            : Array<Chart> = [];
-	public myDefCharts       : Array<any> = [];
+    public charts            : Array<Chart>   = [];
+	public myDefCharts       : Array<MyChart> = [];
 	public dataSets          : [] = []; // para poder conoce los colores de cada dataset
 
 	public rel_webId_localId : Array<any> = [];
@@ -80,19 +81,24 @@ export class MonitoringChartTR extends MonitoringBaseSocketOnComponent {
 	
     chartInit(OBJlistChartsCLASS, data_per_graph = 25) {
         for (const idChart in OBJlistChartsCLASS) {
-            this.myDefCharts[idChart] = new OBJlistChartsCLASS[idChart];
-            this.myDefCharts[idChart].controls = {
-                idChart: idChart,
-                type_graph: "line",
-                type_scale: "dynamic",
-                fill: "false",
-                data_per_graph: data_per_graph,
-                point_radius: 3,
-                time_refreseh: 3,
-                displayLegend: false,
-                timePast: new Date()
-            };
-            this.charts[idChart] = new Chart(this[idChart].nativeElement, BasChart.chartCreateConfig(this.myDefCharts[idChart].controls));
+            if(this[idChart]){
+                //this.myDefCharts[idChart] = new OBJlistChartsCLASS[idChart];
+                this.myDefCharts[idChart]          = new MyChart();
+                this.myDefCharts[idChart].tags     = OBJlistChartsCLASS[idChart].tags;
+                this.myDefCharts[idChart].type     = OBJlistChartsCLASS[idChart].type;
+                this.myDefCharts[idChart].controls = {
+                    idChart: idChart,
+                    type_graph: "line",
+                    type_scale: "dynamic",
+                    fill: "false",
+                    data_per_graph: data_per_graph,
+                    point_radius: 3,
+                    time_refreseh: 3,
+                    displayLegend: false,
+                    timePast: new Date()
+                };
+                this.charts[idChart] = new Chart(this[idChart].nativeElement, BasChart.chartCreateConfig(this.myDefCharts[idChart].controls));
+            }
         }
 	}
 	

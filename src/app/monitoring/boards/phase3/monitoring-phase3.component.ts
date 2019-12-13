@@ -9,7 +9,7 @@ import { MonitoringTrService } from "../../services/monitoringTr.service";
 import { TrService } from "src/app/safe/services/tr.service";
 import { PiServerBox } from "../../models/piServer/piServerBox";
 import { PiServerItem } from "../../models/piServer/piServerItem";
-import { FinalsDataToChart } from "../../models/chart/finals-data-to-chart";
+import { FinalsDataToChart } from "../../models/chart/finalsDataToChart";
 import { MonitoringChartTR } from '../../class/monitoringChartTR.component';
 
 import * as TAGS from "./config";
