@@ -185,7 +185,19 @@ export class MonitoringBaseSocketOnComponent implements OnInit {
 			this.subscribeSocketChanelSol();
 		}
 	}
-
+    getStreamsetsInterpolatedLast24Hours(webids) {
+        this.subscriptions.push(
+            this.monitoringTrService.getStreamsetsInterpolatedLast24Hours(this.globalService.plant.id, webids).subscribe(
+                (box: PiServerBox) => {
+                    box.name = "getStreamsetsInterpolatedLast24Hours";
+                    this.dataAdapter(box);
+                },
+                errorData => {
+                    //this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
+                }
+            )
+        );
+    }
 	check_time_refreseh_data(time_refreseh_data_seconds:number, timePast:Date){
 		// se le resta 1 porque elsimple echo de esperar al siguiente cambio y evaluacion tarda un segundo 
 		// esto es porque usamos this.fechaActual

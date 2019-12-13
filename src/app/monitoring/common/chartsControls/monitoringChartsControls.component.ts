@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
-import { ChartControl } from 'src/app/monitoring/models/ChartControl';
+import { ChartControl } from 'src/app/monitoring/models/chart/ChartControl';
 import { ThemeService } from 'src/app/core/globals/theme';
 declare var $: any;
 
