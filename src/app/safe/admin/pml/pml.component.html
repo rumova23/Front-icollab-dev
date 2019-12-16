@@ -20,31 +20,37 @@
             <form [formGroup]="conexionForm" (ngSubmit)="onSubmit(conexionForm.value)">
                 <div class="row">
                     <div class="col">
-                        <mat-form-field>
-                            <input matInput [matDatepicker]="dateInit" [(ngModel)]="search.dateInit"
-                                formControlName="dateInit" ngDefaultControl placeholder="Fecha Inicio">
-                            <mat-datepicker-toggle matSuffix [for]="dateInit"></mat-datepicker-toggle>
-                            <mat-datepicker #dateInit></mat-datepicker>
-                        </mat-form-field>
+                        
+                        <div class="form-group">
+                            <label for="De">Fecha Inicio</label>
+                            <input type="date" class="form-control"
+                            [(ngModel)]="search.dateInit"
+                            formControlName="dateInit"
+                        >
+                        </div>
+
                     </div>
                     <div class="col">
-                        <mat-form-field>
-                            <input matInput [matDatepicker]="dateEnd" [(ngModel)]="search.dateEnd" formControlName="dateEnd"
-                                ngDefaultControl placeholder="Fecha fin">
-                            <mat-datepicker-toggle matSuffix [for]="dateEnd"></mat-datepicker-toggle>
-                            <mat-datepicker #dateEnd></mat-datepicker>
-                        </mat-form-field>
+                        
+                        <div class="form-group">
+                            <label for="De">Fecha fin</label>
+                            <input type="date" class="form-control"
+                            [(ngModel)]="search.dateEnd"
+                            formControlName="dateEnd"
+                        >
+                        </div>
                     </div>
 
                     <div class="col">
-                        <mat-form-field>
-                            <mat-label>Seleccione proceso:</mat-label>
-                            <mat-select [(ngModel)]="search.process" formControlName="process" ngDefaultControl>
-                                <mat-option *ngFor="let proces of process" [value]="proces.key">
-                                    {{proces.value}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                        <div class="form-group">
+                            <label>Seleccione proceso:</label>
+                            <select class="form-control" [(ngModel)]="search.process" formControlName="process">
+                                <option
+                                *ngFor="let proces of process" [value]="proces.key">
+                                        {{proces.value}}
+                                </option>
+                            </select>
+                        </div>
                     </div>
                     <div class="col text-right">
                         <button type="submit" class="btn mybtn" [disabled]="!conexionForm.valid">Buscar</button>
@@ -55,8 +61,8 @@
     </div>
     <div class="row mb-3 mt-3">
     <div class="col">
-        <div class="mat-elevation-z8">
-            <table mat-table [dataSource]="dataSource" style="width: 100%;">
+        <div class="mat-elevation-z0">
+            <table mat-table [dataSource]="dataSource" style="width: 100%;"  class="table_catalogo">
 
                 <!--- Note that these columns can be defined in any order.
                                 The actual rendered columns are set as a property on the row definition" -->

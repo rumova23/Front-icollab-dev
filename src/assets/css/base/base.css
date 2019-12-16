@@ -151,3 +151,17 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
     background: #d4d4d4;
 }
 /***/
+.form-control{
+    font-size: 14px;
+    line-height: 1.5;
+    color: #212529;
+    font-family: Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif ;
+    font-weight: 300;
+}
+option {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #212529;
+    font-family: Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif ;
+    font-weight: 300;
+}
