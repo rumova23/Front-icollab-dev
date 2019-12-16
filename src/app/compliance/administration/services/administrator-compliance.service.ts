@@ -57,8 +57,7 @@ export class AdministratorComplianceService {
   }
   guardaListTask(tasks: Array<Task>) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post( `${ this.seguimientoUrl }legal/generation/list/task`, tasks,
-        {params : this.parameters });
+    return this.http.post( `${ this.seguimientoUrl }legal/generation/list/task`, tasks, {params : this.parameters });
   }
 
   updateTask(complianceDTO: ComplianceDTO) {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
+import {GlobalService} from '../../core/globals/global.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -20,23 +21,29 @@ const httpOptions = {
 export class ComplianceService {
 
   private urlSeguimiento = environment.seguimientoUrl;
+  parameters: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private globalService: GlobalService) { }
 
   getAllCompliance() {
-    return this.http.get( `${ this.urlSeguimiento }legal/obten/complianceActividad`, httpOptions);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ this.urlSeguimiento }legal/obten/complianceActividad`, {params : this.parameters });
   }
 
   getListMatrizCumplimiento() {
-    return this.http.get( `${ this.urlSeguimiento }legal/obten/list/matriz`, httpOptions);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ this.urlSeguimiento }legal/obten/list/matriz`, {params : this.parameters });
   }
 
 
   getCompliancePorPlantaYFechas(anio: number) {
-      return this.http.get( `${ this.urlSeguimiento }legal/obten/complianceActividad/${anio}`, httpOptions);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ this.urlSeguimiento }legal/obten/complianceActividad/${anio}`, {params : this.parameters });
   }
 
   getDiagramas(anio: number) {
-    return this.http.get( `${ this.urlSeguimiento }legal/obten/obtenDiagramas/${anio}`, httpOptions);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ this.urlSeguimiento }legal/obten/obtenDiagramas/${anio}`, {params : this.parameters });
   }
 }

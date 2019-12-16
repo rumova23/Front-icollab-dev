@@ -83,7 +83,6 @@ export class LegalAgreementComponent implements OnInit {
 
   filtrarCompliance() {
     const bandera = false;
-
     //  this.addBlock(1, null);
     this.limpiarTablas();
     if (1) {

@@ -30,7 +30,7 @@ export class TaskPlanningComponent implements OnInit {
   actividades: Array<any>;
   tagTasks: Array<TagOutDTO>;
   checkboxDisabled: Array<any>;
-  headTasks = ['#', 'Tarea', 'Ejecutor', 'Responsable', 'Supervisor'];
+  headTasks = ['#', 'Tarea', 'Periodo', 'Cantidad', 'Ejecutor', 'Responsable', 'Supervisor'];
   tipoPerfil = ['Ejecutor', 'Responsable', 'Supervisor'];
   matrizCumplimiento: MatrizCumplimientoDTO;
   constructor(
@@ -110,6 +110,9 @@ export class TaskPlanningComponent implements OnInit {
           this.filtrosForm.controls.fTipoCumplimiento.value,
           this.filtrosForm.controls.fActividad.value).subscribe(
           (matrizCumplimiento: MatrizCumplimientoDTO) => {
+              console.log('RTC');
+              console.dir(matrizCumplimiento);
+              console.log('RTC');
               this.matrizCumplimiento = matrizCumplimiento;
               this.tagTasks = matrizCumplimiento.matriz;
               this.toastr.successToastr('Numero de tareas encontradas: ' + this.tagTasks.length, '¡Se ha logrado!');

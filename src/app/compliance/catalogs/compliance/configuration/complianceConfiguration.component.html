@@ -13,6 +13,9 @@
       <div class="form-group col-12 col-md-6 col-lg-4" *ngIf="isFree">
         <button type="button" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" (click)="liberarMatriz()">Liberar Matriz Cumplimiento</button>
       </div>
+      <div class="form-group col-12 col-md-6 col-lg-4" *ngIf="!isFree">
+        <label>Estatus Matriz de cumplimiento: {{statusMatriz}}</label>
+      </div>
     </div>
     <div class="row" *ngIf="isSupervisor">
 
@@ -126,6 +129,10 @@
             <ng-container matColumnDef="periodo_entrega">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Período de Entrega </th>
               <td mat-cell *matCellDef="let element"> {{element.period + ' ' + element.unitPeriod?.code }} </td>
+            </ng-container>
+            <ng-container matColumnDef="countTasks">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Generados </th>
+              <td mat-cell *matCellDef="let element"> {{element.countCompliance }} </td>
             </ng-container>
             <ng-container matColumnDef="estatus">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Estatus </th>

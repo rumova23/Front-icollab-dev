@@ -41,13 +41,14 @@ export class ComplianceConfigurationComponent implements OnInit {
   isSupervisor = false;
   isFree = false;
   idMatrizFree: number;
+    statusMatriz: string;
   menu: any[];
   showAdd = false;
   showView = false;
   showUpdate = false;
   showDelete = false;
 
-  columnas: string[] = ['order', 'tag', 'nombre', 'clasificacion', 'cumplimiento_legal', 'periodo_entrega', 'autoridad', 'tipo_aplicacion', 'userUpdated', 'dateUpdated', 'estatus'];
+  columnas: string[] = ['order', 'tag', 'nombre', 'clasificacion', 'cumplimiento_legal', 'periodo_entrega', 'countTasks', 'autoridad', 'tipo_aplicacion', 'userUpdated', 'dateUpdated', 'estatus'];
   columnasResponsabilidad: string[] = ['order', 'admin', 'responsabilidad'];
   filtros = [
     {label: 'TAG', inputtype: 'text'},
@@ -170,7 +171,9 @@ export class ComplianceConfigurationComponent implements OnInit {
     this.addBlock(1, 'Cargando...');
     this.data = [];
     this.tagService.obtenTagPorFiltros(anio).subscribe( (data: MatrizCumplimientoDTO) => {
-        if (data.entidadEstatusId === this.idMatrizFree) {
+
+        this.statusMatriz = data.entidadEstatus.estatus.nombre;
+        if (data.entidadEstatus.entidadEstatusId === this.idMatrizFree) {
             this.isFree = true;
         }
         this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
@@ -184,12 +187,12 @@ export class ComplianceConfigurationComponent implements OnInit {
               case 'nombre': return item.classificationActivity;
               case 'clasificacion': return item.activity.name;
               case 'cumplimiento_legal': return item.typeCompliance.code;
-              case 'periodo_entrega':return item.period + ' ' + (item.unitPeriod && item.unitPeriod.code)?item.unitPeriod.code:'';
-              case 'autoridad':return (item.authority && item.authority.code)?item.authority.code:'';
+              case 'periodo_entrega': return item.period + ' ' + (item.unitPeriod && item.unitPeriod.code) ? item.unitPeriod.code : '';
+              case 'autoridad': return (item.authority && item.authority.code) ? item.authority.code : '';
               case 'tipo_aplicacion': return item.applicationType.code;
               case 'estatus': return item.active;
               case 'dateUpdated' : dateUpdated = ((item.dateUpdated != null) ? item.dateUpdated : item.dateCreated);
-                  return new Date(dateUpdated).getTime();
+                                   return new Date(dateUpdated).getTime();
               case 'userUpdated': return (item.userUpdated) ? item.userUpdated : item.userCreated;
               default: return item[property];
             }
@@ -313,10 +316,12 @@ export class ComplianceConfigurationComponent implements OnInit {
             });
     }
     liberarMatriz() {
+        this.addBlock(1, 'Cargando...');
         this.administratorComplianceService.liberaMatrizCumplimiento(this.filtrosForm.controls.fAnio.value).subscribe(
             (responseLiberacion: GenerigResponseDTO) => {
                 this.toastr.successToastr(responseLiberacion.mensaje, '¡Se ha logrado!');
                 this.obtenerListaTags(this.filtrosForm.controls.fAnio.value);
+                this.addBlock(2, null);
             });
     }
     getTasks() {

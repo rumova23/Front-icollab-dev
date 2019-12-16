@@ -1,12 +1,13 @@
 import {TagOutDTO} from './tag-out-dto';
 import {Deserializable} from './deserializable';
 import {CumplimientoIntegranteDTO} from './cumplimiento-integrante-dto';
+import {EntidadEstausDTO} from './entidad-estaus-dto';
 
 export class MatrizCumplimientoDTO implements Deserializable  {
 
     public  matrizCumplimientoId: number;
     public  anio: number;
-    public  entidadEstatusId: number;
+    public  entidadEstatus: EntidadEstausDTO;
     public  matriz: Array<TagOutDTO>;
     public  cumplimientoIntegrantes: Array<CumplimientoIntegranteDTO>;
 

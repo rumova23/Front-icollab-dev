@@ -79,6 +79,8 @@
           <tr mdbTableCol *ngFor="let el of tagTasks; let i = index;">
 			  <th scope="row">{{i+1}}</th>
             <td>{{el.description}}</td>
+			  <td>{{el.period + ' '+ el.unitPeriod.code}}</td>
+			  <td>{{el.countCompliance}}</td>
             <td>
 				<div class="form-group col-12">
 				<select class="form-control"

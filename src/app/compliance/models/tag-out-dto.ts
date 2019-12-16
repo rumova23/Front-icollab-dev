@@ -18,6 +18,7 @@ export class TagOutDTO implements Deserializable  {
     public authority: CatalogDTO;
     public period: number;
     public unitPeriod: CatalogDTO;
+    public countCompliance: number;
 
 
     public userCreated: string;
