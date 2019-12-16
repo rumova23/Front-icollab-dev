@@ -21,6 +21,12 @@ export class MonitoringTrService {
 		url += '&startTime=*-24h&endTime=*&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value';
 		return this.getStreamsetsInterpolated(url);
 	}
+	getStreamsetsInterpolatedFromTo(plant,tags,startTime,endTime,interval): Observable<PiServerBox> {
+		let url:string = "plantId="+plant;
+		for(let tag of tags){url += `&webId=${tag}`;}
+		url += `&startTime=${startTime}&endTime=${endTime}&interval=${interval}&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value`;
+		return this.getStreamsetsInterpolated(url);
+	}
 	getStreamsetsInterpolated(params): Observable<PiServerBox> {
 		// tslint:disable-next-line:max-line-length
 		// https://192.168.1.175/piwebapi/streamsets/interpolated?webId=P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM&webId=P0uQAgHoBd0ku7P3cWOJL6IglyQAAAU0VSVklET1JfUElcUDJBMDgyMTE&

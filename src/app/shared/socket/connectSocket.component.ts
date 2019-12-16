@@ -17,7 +17,7 @@ export class ConnectSocketComponent implements OnInit {
 	public time_to_reconnect_socket     : Observable<number> = timer(0,8000);
 
 	constructor(
-		public  globalService            : GlobalService,
+		public globalService            : GlobalService,
 		public securityService          : SecurityService,
 		public socketService            : SocketService,
 		public eventService             : EventService

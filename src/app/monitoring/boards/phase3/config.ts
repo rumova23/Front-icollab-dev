@@ -1,8 +1,7 @@
 export var listCharts = {
-  canvas1:{
+  canvas1: {
       type:"line",
-      controls:{},
-      tags:[
+      tags: [
         {localId:"getTemperaturaAmbiente", initHiddenInChart:true},
         {localId:"getPresionAtmosferica", initHiddenInChart:true},
         {localId:"gethumedad", initHiddenInChart:true},
@@ -22,25 +21,17 @@ export var listCharts = {
         {localId:"getTVRT", initHiddenInChart:true},
         {localId:"getTVMW", initHiddenInChart:true},
         {localId:"getTVRPM", initHiddenInChart:true},
-      ],
-  }
+      ]
+  },
+  /*
+  canvas2tester: {
+    type:"line",
+    tags: [
+      {localId:"getTemperaturaAmbiente", initHiddenInChart:false},
+    ]
+  }//*/
 }
-export const generateColorHEX = function(calltag){
-    let generarLetra = function(){
-        var letras = ["a","b","c","d","e","f","0","1","2","3","4","5","6","7","8","9"];
-        var numero = (Math.random()*15).toFixed(0);
-        return letras[numero];
-    }
-    switch(calltag) {
-        
-        default:
-        var coolor = "";
-        for(var i=0;i<6;i++){
-            coolor = coolor + generarLetra() ;
-        }
-        return "#" + coolor;
-    }
-}
+
 export const lstTags = [];
 
 lstTags['getTemperaturaAmbiente']         = {  
