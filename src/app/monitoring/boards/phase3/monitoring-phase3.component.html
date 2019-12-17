@@ -910,17 +910,23 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col text-center" (click)="openModalCt_1()" style="padding: 7%;
+                min-height: 229px;
+                padding-top: 124px;
+                           "
+                *ngIf="!globalService.aguila">
+                <img
+                src="/assets/monitoring/phase3/turbina-gas-desarmada2.png"
+                style="width: 100%;"
+                />
+                </div>
                 <div class="col text-center" (click)="openModalCt_1()" style="padding: 17%;padding-top: 7%;
-                min-height: 237px;">
-                    <img
-                        src="/assets/monitoring/phase3/turbina-gas-desarmada.png"
-                        style="width: 100%;"
-                        *ngIf="!globalService.aguila"
-                    />
+                min-height: 237px;"
+                        *ngIf="globalService.aguila">
+                    
                     <img
                         src="/assets/monitoring/phase3/turbina-gas.png"
                         style="width: 100%;"
-                        *ngIf="globalService.aguila"
                     />
                     <!--video src="/assets/monitoring/phase3/turbina-gas-animada.mp4"  type="video/webm" autoplay loop width="320" *ngIf="globalService.aguila">
                   </video-->
@@ -1540,17 +1546,25 @@
             </div>
             <!-- Imagen de turbina -->
             <div class="row">
+                
+                <div class="col text-center" (click)="openModalCt_1()" style="padding: 7%;
+                min-height: 229px;
+                padding-top: 124px;
+                           "
+                *ngIf="!globalService.aguila">
+
+                <img
+                src="/assets/monitoring/phase3/turbina-gas-desarmada2.png"
+                style="width: 100%;"
+            />
+
+                </div>
                 <div class="col text-center"  (click)="openModalCt_2()" style="padding: 17%;padding-top: 7%;
-                min-height: 229px;">
-                    <img
-                        src="/assets/monitoring/phase3/turbina-gas-desarmada.png"
-                        style="width: 100%;"
-                        *ngIf="!globalService.aguila"
-                    />
+                min-height: 229px;"
+                        *ngIf="globalService.aguila">
                     <img
                         src="/assets/monitoring/phase3/turbina-gas.png"
                         style="width: 100%;"
-                        *ngIf="globalService.aguila"
                     />
                     <!--video src="/assets/monitoring/phase3/turbina-gas-animada.mp4"  type="video/webm" autoplay loop width="320" *ngIf="globalService.aguila">
                 </video>-->

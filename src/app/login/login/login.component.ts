@@ -135,4 +135,11 @@ export class LoginComponent implements OnInit,OnDestroy {
 	private addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
 	}
+	logout() {
+		localStorage.removeItem('user');
+		localStorage.clear();
+		this.router.navigate(['/']);
+		
+		dis.disenio();
+	}
 }
