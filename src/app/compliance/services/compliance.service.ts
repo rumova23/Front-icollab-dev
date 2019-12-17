@@ -26,6 +26,7 @@ export class ComplianceService {
   constructor(private http: HttpClient,
               private globalService: GlobalService) { }
 
+
   getAllCompliance() {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.urlSeguimiento }legal/obten/complianceActividad`, {params : this.parameters });

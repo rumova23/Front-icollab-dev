@@ -171,7 +171,6 @@ export class ComplianceConfigurationComponent implements OnInit {
     this.addBlock(1, 'Cargando...');
     this.data = [];
     this.tagService.obtenTagPorFiltros(anio).subscribe( (data: MatrizCumplimientoDTO) => {
-
         this.statusMatriz = data.entidadEstatus.estatus.nombre;
         if (data.entidadEstatus.entidadEstatusId === this.idMatrizFree) {
             this.isFree = true;
