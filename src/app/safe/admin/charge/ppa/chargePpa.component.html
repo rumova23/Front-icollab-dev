@@ -21,12 +21,14 @@
         <div class="col-12 col-sm-12 col-md-12 col-lg-10">
           <div class="row">
             <div class="col-md-auto">
-              <mat-form-field>
-                <input matInput [matDatepicker]="De" placeholder="De" [(ngModel)]="date"
-                (dateChange)="dateChange($event)">
-                <mat-datepicker-toggle matSuffix [for]="De"></mat-datepicker-toggle>
-                <mat-datepicker #De></mat-datepicker>
-              </mat-form-field>
+              <div class="form-group">
+                  <label for="De">De</label>
+                  <input type="date" class="form-control"
+                  [(ngModel)]="date"
+                  formControlName="date"
+                  (change)="dateChange($event)"
+              >
+              </div>
             </div>
           </div>
         </div>
@@ -44,47 +46,62 @@
         <div class="col-md-auto col-md-6 col-lg-4">
           <div class="row">
             <div class="col-md-8">
-              <mat-form-field class="full-width">
-                <input matInput formControlName="fixed" type="number" placeholder="Cargo Fijo">
-              </mat-form-field>
+              
+              <div class="form-group">
+                <label>Cargo Fijo</label>
+                <input
+                    class="form-control"
+                    type="number"
+                    formControlName="fixed"
+                />
+              </div>
+
             </div>
             <div class="col-md-4">
-              <mat-error *ngIf="!chargeForm.controls['fixed'].valid 
+              <div *ngIf="!chargeForm.controls['fixed'].valid 
                                 && chargeForm.controls['fixed'].touched">
                 Requerido
-              </mat-error>
+            </div>
             </div>
           </div>
         </div>
         <div class="col-md-auto col-md-6 col-lg-4">
           <div class="row">
             <div class="col-md-8">
-              <mat-form-field class="full-width">
-                <input matInput formControlName="variable" type="number"
-                 placeholder="Cargo Variable">
-              </mat-form-field>
+              <div class="form-group">
+                  <label>Cargo Variable</label>
+                  <input
+                      class="form-control"
+                      type="number"
+                      formControlName="variable"
+                  />
+              </div>
             </div>
             <div class="col-md-4">
-              <mat-error *ngIf="!chargeForm.controls['variable'].valid 
+              <div *ngIf="!chargeForm.controls['variable'].valid 
                                   && chargeForm.controls['variable'].touched">
                 Requerido
-              </mat-error>
+            </div>
             </div>
           </div>
         </div>
         <div class="col-md-auto col-md-6 col-lg-4">
           <div class="row">
             <div class="col-md-8">
-              <mat-form-field class="full-width">
-                <input matInput formControlName="gas" type="number" 
-                placeholder="Gas">
-              </mat-form-field>
+              <div class="form-group">
+                  <label>Gas</label>
+                  <input
+                      class="form-control"
+                      type="number"
+                      formControlName="gas"
+                  />
+              </div>
             </div>
             <div class="col-md-4">
-              <mat-error *ngIf="!chargeForm.controls['gas'].valid 
+              <div *ngIf="!chargeForm.controls['gas'].valid 
                                   && chargeForm.controls['gas'].touched">
                 Requerido
-              </mat-error>
+            </div>
             </div>
           </div>
         </div>
@@ -92,16 +109,20 @@
         <div class="col-md-auto col-md-6 col-lg-4">
           <div class="row">
             <div class="col-md-8">
-              <mat-form-field class="full-width">
-                <input matInput formControlName="hr" type="number" 
-                placeholder="HR / MW">
-              </mat-form-field>
+              <div class="form-group">
+                  <label>HR / MW</label>
+                  <input
+                      class="form-control"
+                      type="number"
+                      formControlName="hr"
+                  />
+              </div>
             </div>
             <div class="col-md-4">
-              <mat-error *ngIf="!chargeForm.controls['hr'].valid 
+              <div *ngIf="!chargeForm.controls['hr'].valid 
                                   && chargeForm.controls['hr'].touched">
                 Requerido
-              </mat-error>
+            </div>
             </div>
           </div>
         </div>
@@ -109,16 +130,20 @@
         <div class="col-md-auto col-md-6 col-lg-4">
           <div class="row">
             <div class="col-md-8">
-              <mat-form-field class="full-width">
-                <input matInput formControlName="margin" type="number" 
-                placeholder="Margen x MM">
-              </mat-form-field>
+              <div class="form-group">
+                  <label>Margen x MM</label>
+                  <input
+                      class="form-control"
+                      type="number"
+                      formControlName="margin"
+                  />
+              </div>
             </div>
             <div class="col-md-4">
-              <mat-error *ngIf="!chargeForm.controls['margin'].valid 
+              <div *ngIf="!chargeForm.controls['margin'].valid 
                                   && chargeForm.controls['margin'].touched">
                 Requerido
-              </mat-error>
+            </div>
             </div>
           </div>
         </div>
@@ -126,16 +151,20 @@
         <div class="col-md-auto col-md-6 col-lg-4">
           <div class="row">
             <div class="col-md-8">
-              <mat-form-field class="full-width">
-                <input matInput formControlName="others" type="number" 
-                placeholder="Otros">
-              </mat-form-field>
+              <div class="form-group">
+                  <label>Otros</label>
+                  <input
+                      class="form-control"
+                      type="number"
+                      formControlName="others"
+                  />
+              </div>
             </div>
             <div class="col-md-4">
-              <mat-error *ngIf="!chargeForm.controls['others'].valid 
+              <div *ngIf="!chargeForm.controls['others'].valid 
                                   && chargeForm.controls['others'].touched">
                 Requerido
-              </mat-error>
+            </div>
             </div>
           </div>
         </div>

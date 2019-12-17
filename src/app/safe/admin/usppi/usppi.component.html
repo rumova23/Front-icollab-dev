@@ -20,16 +20,27 @@
             <form [formGroup]="conexionForm" (ngSubmit)="onSubmit(conexionForm.value)">
                 <div class="row">
                     <div class="col">
-                        <mat-form-field>
-                            <input matInput placeholder="Año inicio" formControlName="yearInit" type="number">
-                        </mat-form-field>
+                        
+                        <div class="form-group">
+                            <label>Año inicio</label>
+                            <input
+                                class="form-control"
+                                type="number"
+                                formControlName="yearInit"
+                            />
+                        </div>
                     </div>
                     <div class="col">
-                        <mat-form-field>
-                            <input matInput placeholder="Año Fin" formControlName="yearEnd" type="number">
-                        </mat-form-field>
+                        <div class="form-group">
+                            <label>Año Fin</label>
+                            <input
+                                class="form-control"
+                                type="number"
+                                formControlName="yearEnd"
+                            />
+                        </div>
                     </div>
-                    <div class="col">
+                    <div class="col text-right">
                         <button type="submit" class="mybtn btn" [disabled]="!conexionForm.valid">Buscar</button>
                     </div>
                 </div>
@@ -38,8 +49,8 @@
     </div>
     <div class="row mb-3 mt-3">
     <div class="col">
-        <div class="mat-elevation-z8">
-            <table mat-table [dataSource]="dataSource" style="width: 100%;">
+        <div class="mat-elevation-z0">
+            <table mat-table [dataSource]="dataSource" style="width: 100%;" class="table_catalogo">
 
                 <!--- Note that these columns can be defined in any order.
                                 The actual rendered columns are set as a property on the row definition" -->

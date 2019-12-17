@@ -288,7 +288,7 @@
                         <ng-container *ngSwitchCase="'textarea'">
                             <div class="col-md-auto col-md-6 col-lg-4">
                                 <div class="row">
-                                    <div class="col-md-{{ in.col || 12 }}">
+                                    <div class="col-md-{{ in.col || 8 }}">
                                         <div class="form-group">
                                             <label>{{ in.label }}</label>
                                             <textarea
@@ -466,7 +466,8 @@
             </button>
         </div>
     </form>
-    <div class="table-container mat-elevation-z0">
+    <br><br>
+    <div class="table-container mat-elevation-z0 mt-5">
         <table matSort mat-table [dataSource]="productsDatasource"
         class="table_catalogo">
             <ng-container matColumnDef="product">

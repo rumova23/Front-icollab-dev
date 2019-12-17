@@ -18,7 +18,7 @@
     </div>
     <!--Botones-->
     <form [formGroup]="clientForm" (ngSubmit)="save(clientForm.value)">
-        <div class="row mt-5 mb-5">
+        <div class="row my-3">
             <div class="col">
                 <button
                     type="submit"
@@ -245,16 +245,17 @@
                         <ng-container *ngSwitchCase="'textarea'">
                             <div class="col-md-auto col-md-6 col-lg-4">
                                 <div class="row">
-                                    <div class="col-md-{{ in.col || 12 }}">
+                                    <div class="col-md-{{ in.col || 8 }}">
                                         <div class="form-group">
                                             <label>{{ in.label }}</label>
-                                            <textarea
+                                            <textarea 
                                                 class="form-control"
                                                 cdkTextareaAutosize
                                                 #autosize="cdkTextareaAutosize"
                                                 formControlName="{{
                                                     in.formControlName
                                                 }}"
+                                                style="height: 40px;"
                                             >
                                             </textarea>
                                         </div>
@@ -436,7 +437,7 @@
         </div>
     </form>
 <br><br>
-    <div class="table-container mat-elevation-z8">
+    <div class="table-container mat-elevation-z0 my-4">
         <table
             matSort
             mat-table
@@ -567,7 +568,7 @@
                     <ng-container *ngSwitchCase="'textarea'">
                         <div class="col-md-auto col-md-6 col-lg-4">
                             <div class="row">
-                                <div class="col-md-{{ in.col || 12 }}">
+                                <div class="col-md-{{ in.col || 8 }}">
                                     <div class="form-group">
                                         <label>{{ in.label }}</label>
                                         <textarea
@@ -577,6 +578,7 @@
                                             formControlName="{{
                                                 in.formControlName
                                             }}"
+                                            style="height: 40px;"
                                         >
                                         </textarea>
                                     </div>
@@ -632,7 +634,7 @@
         </div>
 	</form>
 	<br><br>
-    <div class="table-container mat-elevation-z8">
+    <div class="table-container mat-elevation-z0 my-4">
         <table
             matSort
             mat-table
@@ -908,7 +910,7 @@
         </div>
 	</form>
 	<br><br>
-    <div class="table-container mat-elevation-z8">
+    <div class="table-container mat-elevation-z0 my-4">
         <table
             matSort
             mat-table

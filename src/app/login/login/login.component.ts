@@ -124,6 +124,7 @@ export class LoginComponent implements OnInit,OnDestroy {
 					});
 				},
 				errorData => {
+					this.toastr.errorToastr(errorData.error.message, '');
 					console.log(errorData);
 				}
 			)
