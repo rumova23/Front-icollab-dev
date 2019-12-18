@@ -17,6 +17,7 @@ import { EventService } from 'src/app/core/services/event.service';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import {MaestroOpcionDTO} from '../../../../models/maestro-opcion-dto';
 
+
 @Component({
   selector    : 'app-configActivities',
   templateUrl : './configActivities.component.html'
@@ -24,7 +25,7 @@ import {MaestroOpcionDTO} from '../../../../models/maestro-opcion-dto';
 export class ConfigActivitiesComponent implements OnInit {
   // Simulación tuxpan
   plantaDefault = this.globalService.plantaDefaultId; // "70"; //"Planta Tuxpan II";
-
+  a326:number=1;
   @Input() accion: string;
   @Input() tagId: string;
   comboActividades: Array<Combo>;
@@ -94,7 +95,12 @@ export class ConfigActivitiesComponent implements OnInit {
     this.registrosParaAsignar.filter = filterValue.trim().toLowerCase();
   }
 
-
+  isnumeric(link){
+    if( isNaN( Number(this.a326)) || 0 == Number(this.a326) ){
+      this.a326 = 1;
+      link.value = 1;
+    }
+  }
   applyFilter1(filterValue1: string) {
     this.tagPrecedentes.filter = filterValue1.trim().toLowerCase();
   }
