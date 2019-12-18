@@ -52,14 +52,14 @@
                                     placeholder="Código"
                                     formControlName="code"
                                 />
-                                <mat-error
+                                <div
                                     *ngIf="
                                         !stateForm.controls['code'].valid &&
                                         stateForm.controls['code'].touched
                                     "
                                 >
                                     Requerido
-                                </mat-error>
+                                </div>
                             </mat-form-field>
                         </div-->
                     </div>
@@ -100,7 +100,7 @@
                                     placeholder="Descripción"
                                     formControlName="description"
                                 />
-                                <mat-error
+                                <div
                                     *ngIf="
                                         !stateForm.controls['description']
                                             .valid &&
@@ -109,7 +109,7 @@
                                     "
                                 >
                                     Requerido
-                                </mat-error>
+                                </div>
                             </mat-form-field>
                         </div-->
                     </div>
@@ -162,33 +162,46 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-error
+                        <div
                             *ngIf="
                                 !stateForm.controls['country'].valid &&
                                 stateForm.controls['country'].touched
                             "
                         >
                             Requerido
-                        </mat-error-->
+                        </div-->
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <mat-checkbox
+                        <div class="form-group">
+                            <label>Activo</label>
+                            <input
+                                class="form-control active"
+                                type="checkbox"
+                                formControlName="active"
+                                id="active"
+                                color="primary"
+                                style="
+                                height: auto;
+                                width: auto;"
+                            />
+                        </div>
+                        <!--mat-checkbox
                             id="active"
                             class="active"
                             color="primary"
                             formControlName="active"
                             >Activo
-                        </mat-checkbox>
-                        <mat-error
+                        </mat-checkbox-->
+                        <div
                             *ngIf="
                                 !stateForm.controls['active'].valid &&
                                 stateForm.controls['active'].touched
                             "
                         >
                             Requerido
-                        </mat-error>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -212,14 +225,14 @@
                                     formControlName="order"
                                     type="number"
                                 />
-                                <mat-error
+                                <div
                                     *ngIf="
                                         !stateForm.controls['order'].valid &&
                                         stateForm.controls['order'].touched
                                     "
                                 >
                                     Requerido
-                                </mat-error>
+                                </div>
                             </mat-form-field>
                         </div-->
                     </div>

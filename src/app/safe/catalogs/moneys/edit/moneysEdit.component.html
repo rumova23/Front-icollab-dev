@@ -48,10 +48,10 @@
                         <!--div class="md-form">
               <mat-form-field class="w-100">
                 <input matInput placeholder="Código" formControlName="code">
-                <mat-error *ngIf="!moneyForm.controls['code'].valid 
+                <div *ngIf="!moneyForm.controls['code'].valid 
                       && moneyForm.controls['code'].touched">
                   Requerido
-                </mat-error>
+                </div>
               </mat-form-field>
             </div-->
                     </div>
@@ -89,10 +89,10 @@
               <mat-form-field class="w-100">
                 <input matInput placeholder="Descripción" 
                 formControlName="description">
-                <mat-error *ngIf="!moneyForm.controls['description'].valid 
+                <div *ngIf="!moneyForm.controls['description'].valid 
                         && moneyForm.controls['description'].touched">
                   Requerido
-                </mat-error>
+                </div>
               </mat-form-field>
             </div-->
                     </div>
@@ -139,29 +139,42 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <mat-error *ngIf="!moneyForm.controls['moneySat'].valid 
+            <div *ngIf="!moneyForm.controls['moneySat'].valid 
                           && moneyForm.controls['moneySat'].touched">
               Requerido
-            </mat-error-->
+            </div-->
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <mat-checkbox
+                        <div class="form-group">
+                            <label>Activo</label>
+                            <input
+                                class="form-control active"
+                                type="checkbox"
+                                formControlName="active"
+                                id="active"
+                                color="primary"
+                                style="
+                                height: auto;
+                                width: auto;"
+                            />
+                        </div>
+                        <!--mat-checkbox
                             id="active"
                             class="active"
                             color="primary"
                             formControlName="active"
                             >Activo
-                        </mat-checkbox>
-                        <mat-error
+                        </mat-checkbox-->
+                        <div
                             *ngIf="
                                 !moneyForm.controls['active'].valid &&
                                 moneyForm.controls['active'].touched
                             "
                         >
                             Requerido
-                        </mat-error>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -181,10 +194,10 @@
                 <mat-form-field class="w-100">
                   <input matInput placeholder="Orden" formControlName="order" 
                       type="number">
-                  <mat-error *ngIf="!moneyForm.controls['order'].valid 
+                  <div *ngIf="!moneyForm.controls['order'].valid 
                             && moneyForm.controls['order'].touched">
                     Requerido
-                  </mat-error>
+                  </div>
                 </mat-form-field>
               </div-->
                     </div>

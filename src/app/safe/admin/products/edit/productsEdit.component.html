@@ -55,14 +55,14 @@
                                     placeholder="Id de Producto"
                                     formControlName="code"
                                 />
-                                <mat-error
+                                <div
                                     *ngIf="
                                         !productForm.controls['code'].valid &&
                                         productForm.controls['code'].touched
                                     "
                                 >
                                     Requerido
-                                </mat-error>
+                                </div>
                             </mat-form-field>
                         </div-->
                     </div>
@@ -99,14 +99,14 @@
                                     placeholder="Nombre"
                                     formControlName="name"
                                 />
-                                <mat-error
+                                <div
                                     *ngIf="
                                         !productForm.controls['name'].valid &&
                                         productForm.controls['name'].touched
                                     "
                                 >
                                     Requerido
-                                </mat-error>
+                                </div>
                             </mat-form-field>
                         </div-->
                     </div>
@@ -148,7 +148,7 @@
                                     placeholder="Descripción en factura"
                                     formControlName="description"
                                 />
-                                <mat-error
+                                <div
                                     *ngIf="
                                         !productForm.controls['description']
                                             .valid &&
@@ -157,7 +157,7 @@
                                     "
                                 >
                                     Requerido
-                                </mat-error>
+                                </div>
                             </mat-form-field>
                         </div-->
                     </div>
@@ -213,14 +213,14 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-error
+                        <div
                             *ngIf="
                                 !productForm.controls['typeProduct'].valid &&
                                 productForm.controls['typeProduct'].touched
                             "
                         >
                             Requerido
-                        </mat-error-->
+                        </div-->
                     </div>
                 </div>
                 <div class="row">
@@ -274,14 +274,14 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-error
+                        <div
                             *ngIf="
                                 !productForm.controls['unityProduct'].valid &&
                                 productForm.controls['unityProduct'].touched
                             "
                         >
                             Requerido
-                        </mat-error-->
+                        </div-->
                     </div>
                 </div>
                 <div class="row">
@@ -334,14 +334,14 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-error
+                        <div
                             *ngIf="
                                 !productForm.controls['productSat'].valid &&
                                 productForm.controls['productSat'].touched
                             "
                         >
                             Requerido
-                        </mat-error-->
+                        </div-->
                     </div>
                 </div>
                 <div class="row">
@@ -394,14 +394,14 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-error
+                        <div
                             *ngIf="
                                 !productForm.controls['rateIvaSat'].valid &&
                                 productForm.controls['rateIvaSat'].touched
                             "
                         >
                             Requerido
-                        </mat-error-->
+                        </div-->
                     </div>
                 </div>
                 <div class="row">
@@ -479,34 +479,40 @@
                                 type="number"
                             />
                         </mat-form-field>
-                        <mat-error
+                        <div
                             *ngIf="
                                 !productForm.controls['price'].valid &&
                                 productForm.controls['price'].touched
                             "
                         >
                             Requerido
-                        </mat-error-->
+                        </div-->
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-4">
-                        <mat-checkbox
-                            id="active"
-                            class="active"
-                            color="primary"
-                            formControlName="active"
-                            >Activo
-                        </mat-checkbox>
-                        <mat-error
+                        <div class="form-group">
+                            <label>Activo</label>
+                            <input
+                                class="form-control active"
+                                type="checkbox"
+                                formControlName="active"
+                                id="active"
+                                color="primary"
+                                style="
+                                height: auto;
+                                width: auto;"
+                            />
+                        </div>
+                        <div
                             *ngIf="
                                 !productForm.controls['active'].valid &&
                                 productForm.controls['active'].touched
                             "
                         >
                             Requerido
-                        </mat-error>
+                        </div>
                     </div>
                 </div>
                 <div class="row">

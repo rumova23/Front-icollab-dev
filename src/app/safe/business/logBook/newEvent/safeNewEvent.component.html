@@ -38,10 +38,10 @@
                                 <div class="col-md-{{in.col || 8}}">
                                     <mat-form-field class="full-width">
                                         <input matInput formControlName="{{in.formControlName}}" placeholder="{{in.label}}">
-                                        <mat-error *ngIf="!newEventtForm.controls[in.formControlName].valid 
+                                        <div *ngIf="!newEventtForm.controls[in.formControlName].valid 
                                         && newEventtForm.controls[in.formControlName].touched">
                                         Requerido
-                                        </mat-error>
+                                        </div>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-4">
@@ -55,10 +55,10 @@
                                 <div class="col-md-{{in.col || 8}}">
                                     <mat-form-field class="full-width">
                                         <input type="time" matInput formControlName="{{in.formControlName}}" placeholder="{{in.label}}">
-                                        <mat-error *ngIf="!newEventtForm.controls[in.formControlName].valid 
+                                        <div *ngIf="!newEventtForm.controls[in.formControlName].valid 
                                         && newEventtForm.controls[in.formControlName].touched">
                                         Requerido
-                                        </mat-error>
+                                        </div>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-4">
@@ -73,10 +73,10 @@
                                         <mat-form-field class="full-width">
                                             <input type="date" matInput formControlName="{{in.formControlName}}" placeholder="{{in.label}}">
                                         
-                                            <mat-error *ngIf="!newEventtForm.controls[in.formControlName].valid 
+                                            <div *ngIf="!newEventtForm.controls[in.formControlName].valid 
                                             && newEventtForm.controls[in.formControlName].touched">
                                             Requerido
-                                            </mat-error>
+                                            </div>
                                         </mat-form-field>
                                     </div>
                                     </div>
@@ -86,14 +86,21 @@
                                     <div class="col-md-auto col-md-6 col-lg-4">
                                         <div class="row">
                                         <div class="col-md-{{in.col || 8}}">
-                                            <mat-form-field class="full-width">
-                                                <input type="number" matInput formControlName="{{in.formControlName}}" placeholder="{{in.label}}">
-                                            
-                                                <mat-error *ngIf="!newEventtForm.controls[in.formControlName].valid 
-                                                && newEventtForm.controls[in.formControlName].touched">
-                                                Requerido
-                                                </mat-error>
-                                            </mat-form-field>
+
+
+                                            <div class="form-group">
+                                              <label>{{in.label}}</label>
+                                              <input
+                                                  class="form-control"
+                                                  type="number"
+                                                  formControlName="{{in.formControlName}}"
+                                              />
+                                              <div *ngIf="!newEventtForm.controls[in.formControlName].valid 
+                                              && newEventtForm.controls[in.formControlName].touched">
+                                              Requerido
+                                              </div>
+                                            </div>
+
                                         </div>
                                         </div>
                                     </div>
@@ -110,10 +117,10 @@
                                             {{option.name}}
                                             </mat-option>
                                         </mat-select>
-                                        <mat-error *ngIf="!newEventtForm.controls[in.formControlName].valid 
+                                        <div *ngIf="!newEventtForm.controls[in.formControlName].valid 
                                         && newEventtForm.controls[in.formControlName].touched">
                                         Requerido
-                                        </mat-error>
+                                        </div>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-4">
@@ -125,13 +132,27 @@
                             <div class="col-md-auto col-md-6 col-lg-4">
                                 <div class="row">
                                 <div class="col-md-{{in.col || 8}}">
-                                    <mat-checkbox class="active" color="primary" formControlName="{{in.formControlName}}">
+                                    <div class="form-group">
+                                        <label>{{ in.label }}</label>
+                                        <input
+                                            class="form-control active"
+                                            type="checkbox"
+                                            formControlName="{{
+                                                in.formControlName
+                                            }}"
+                                            color="primary" 
+                                            style="
+                                            height: auto;
+                                            width: auto;"
+                                        />
+                                    </div>
+                                    <!--mat-checkbox class="active" color="primary" formControlName="{{in.formControlName}}">
                                     <mat-label>{{in.label}}</mat-label>
-                                    </mat-checkbox>
-                                    <mat-error *ngIf="!newEventtForm.controls[in.formControlName].valid 
+                                    </mat-checkbox-->
+                                    <div *ngIf="!newEventtForm.controls[in.formControlName].valid 
                                     && newEventtForm.controls[in.formControlName].touched">
                                     Requerido
-                                    </mat-error>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
                                 </div>
@@ -145,10 +166,10 @@
                                     <mat-form-field class="full-width">
                                     <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize"
                                         formControlName="{{in.formControlName}}" placeholder="{{in.label}}"></textarea>
-                                        <mat-error *ngIf="!observationsForm.controls[in.formControlName].valid 
+                                        <div *ngIf="!observationsForm.controls[in.formControlName].valid 
                                                 && observationsForm.controls[in.formControlName].touched">
                                             Requerido
-                                        </mat-error>
+                                        </div>
                                     </mat-form-field>
                                     <div class="col-md-4">
                                     </div>
@@ -184,10 +205,10 @@
                                     formControlName="{{in.formControlName}}" placeholder="{{in.label}}"></textarea>
                                 </mat-form-field>
                                 <div class="col-md-4">
-                                <mat-error *ngIf="!observationsForm.controls[in.formControlName].valid 
+                                <div *ngIf="!observationsForm.controls[in.formControlName].valid 
                                                 && observationsForm.controls[in.formControlName].touched">
                                     Requerido
-                                </mat-error>
+                                </div>
                                 </div>
                             </div>
                             </div>
@@ -278,10 +299,10 @@
                                 <div class="col-md-{{in.col || 8}}">
                                     <mat-form-field class="full-width">
                                         <input matInput formControlName="{{in.formControlName}}" placeholder="{{in.label}}">
-                                        <mat-error *ngIf="!otherForm.controls[in.formControlName].valid 
+                                        <div *ngIf="!otherForm.controls[in.formControlName].valid 
                                         && otherForm.controls[in.formControlName].touched">
                                         Requerido
-                                        </mat-error>
+                                        </div>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-4">
@@ -295,10 +316,10 @@
                                 <div class="col-md-{{in.col || 8}}">
                                     <mat-form-field class="full-width">
                                         <input type="time" matInput formControlName="{{in.formControlName}}" placeholder="{{in.label}}">
-                                        <mat-error *ngIf="!otherForm.controls[in.formControlName].valid 
+                                        <div *ngIf="!otherForm.controls[in.formControlName].valid 
                                         && otherForm.controls[in.formControlName].touched">
                                         Requerido
-                                        </mat-error>
+                                        </div>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-4">
@@ -313,10 +334,10 @@
                                         <mat-form-field class="full-width">
                                             <input type="date" matInput formControlName="{{in.formControlName}}" placeholder="{{in.label}}">
                                         
-                                            <mat-error *ngIf="!otherForm.controls[in.formControlName].valid 
+                                            <div *ngIf="!otherForm.controls[in.formControlName].valid 
                                             && otherForm.controls[in.formControlName].touched">
                                             Requerido
-                                            </mat-error>
+                                            </div>
                                         </mat-form-field>
                                     </div>
                                     </div>
@@ -326,14 +347,21 @@
                                     <div class="col-md-auto col-md-6 col-lg-4">
                                         <div class="row">
                                         <div class="col-md-{{in.col || 8}}">
-                                            <mat-form-field class="full-width">
-                                                <input type="number" matInput formControlName="{{in.formControlName}}" placeholder="{{in.label}}">
+
                                             
-                                                <mat-error *ngIf="!otherForm.controls[in.formControlName].valid 
+                                            <div class="form-group">
+                                                <label>{{in.label}}</label>
+                                                <input
+                                                    class="form-control"
+                                                    type="number"
+                                                    formControlName="{{in.formControlName}}"
+                                                />
+                                                <div *ngIf="!otherForm.controls[in.formControlName].valid 
                                                 && otherForm.controls[in.formControlName].touched">
                                                 Requerido
-                                                </mat-error>
-                                            </mat-form-field>
+                                                </div>
+                                              </div>
+                                              
                                         </div>
                                         </div>
                                     </div>
@@ -350,10 +378,10 @@
                                             {{option.name}}
                                             </mat-option>
                                         </mat-select>
-                                        <mat-error *ngIf="!otherForm.controls[in.formControlName].valid 
+                                        <div *ngIf="!otherForm.controls[in.formControlName].valid 
                                         && otherForm.controls[in.formControlName].touched">
                                         Requerido
-                                        </mat-error>
+                                        </div>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-4">
@@ -365,13 +393,27 @@
                             <div class="col-md-auto col-md-6 col-lg-4">
                                 <div class="row">
                                 <div class="col-md-{{in.col || 8}}">
-                                    <mat-checkbox class="active" color="primary" formControlName="{{in.formControlName}}">
+                                    <div class="form-group">
+                                        <label>{{ in.label }}</label>
+                                        <input
+                                            class="form-control active"
+                                            type="checkbox"
+                                            formControlName="{{
+                                                in.formControlName
+                                            }}"
+                                            color="primary" 
+                                            style="
+                                            height: auto;
+                                            width: auto;"
+                                        />
+                                    </div>
+                                    <!--mat-checkbox class="active" color="primary" formControlName="{{in.formControlName}}">
                                     <mat-label>{{in.label}}</mat-label>
-                                    </mat-checkbox>
-                                    <mat-error *ngIf="!otherForm.controls[in.formControlName].valid 
+                                    </mat-checkbox-->
+                                    <div *ngIf="!otherForm.controls[in.formControlName].valid 
                                     && otherForm.controls[in.formControlName].touched">
                                     Requerido
-                                    </mat-error>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
                                 </div>
@@ -385,10 +427,10 @@
                                     <mat-form-field class="full-width">
                                     <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize"
                                         formControlName="{{in.formControlName}}" placeholder="{{in.label}}"></textarea>
-                                        <mat-error *ngIf="!observationsForm.controls[in.formControlName].valid 
+                                        <div *ngIf="!observationsForm.controls[in.formControlName].valid 
                                                 && observationsForm.controls[in.formControlName].touched">
                                             Requerido
-                                        </mat-error>
+                                        </div>
                                     </mat-form-field>
                                     <div class="col-md-4">
                                     </div>

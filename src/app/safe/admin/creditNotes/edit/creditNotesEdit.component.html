@@ -16,9 +16,10 @@
             <span class="agila-cda-titulo">{{ getTitle() }}</span>
         </div>
     </div>
+    <hr>
     <!--Botones-->
     <form [formGroup]="creditNoteForm" (ngSubmit)="save(creditNoteForm.value)">
-        <div class="row mt-5 mb-5">
+        <div class="row mb-5">
             <div class="col">
                 <button
                     type="submit"
@@ -419,7 +420,24 @@
                             <div class="col-md-auto col-md-6 col-lg-4">
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
-                                        <mat-checkbox
+                                        
+                                        <div class="form-group">
+                                            <label>{{
+                                                in.label
+                                            }}</label>
+                                            <input
+                                                class="form-control active"
+                                                type="checkbox"
+                                                formControlName="{{
+                                                    in.formControlName
+                                                }}"
+                                                color="primary"
+                                                style="
+                                                height: auto;
+                                                width: auto;"
+                                            />
+                                        </div>
+                                        <!--mat-checkbox
                                             class="active"
                                             color="primary"
                                             formControlName="{{
@@ -429,7 +447,7 @@
                                             <mat-label>{{
                                                 in.label
                                             }}</mat-label>
-                                        </mat-checkbox>
+                                        </mat-checkbox-->
                                     </div>
                                     <div class="col-md-4">
                                         <div
@@ -452,7 +470,7 @@
                         <ng-container *ngSwitchCase="'textarea'">
                             <div class="col-md-auto col-md-6 col-lg-4">
                                 <div class="row">
-                                    <div class="col-md-{{ in.col || 12 }}">
+                                    <div class="col-md-{{ in.col || 8 }}">
                                         <div class="form-group">
                                             <label>{{ in.label }}</label>
                                             <textarea

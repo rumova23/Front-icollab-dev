@@ -1,45 +1,50 @@
 <div class="row">
     <mdb-breadcrumb customClass="white" class="w-100">
-      <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
-      <mdb-breadcrumb-item>Modelo de Mercado</mdb-breadcrumb-item>
-      <mdb-breadcrumb-item class="active">{{title}}</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+        <mdb-breadcrumb-item>Modelo de Mercado</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item class="active">{{ title }}</mdb-breadcrumb-item>
     </mdb-breadcrumb>
-  </div>
-  <div class="section">
+</div>
+<div class="section">
     <div class="row pb-2">
         <div class="col">
-            <p class="section_titulo_0">{{title}}</p>
-            <p class="section_subtitulo_0"> </p>
+            <p class="section_titulo_0">{{ title }}</p>
+            <p class="section_subtitulo_0"></p>
         </div>
     </div>
-    
-    <hr>
-  
+
+    <hr />
+
     <div class="row mb-3 mt-3">
-    <div class="col">
-      <div class="filtros mt-2 row">
-        <div class="col-12 col-sm-12 col-md-12 col-lg-10">
-          <div class="row">
-            <div class="col-md-auto">
-              <mat-form-field>
+        <div class="col">
+            <div class="filtros mt-2 row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-10">
+                    <div class="row">
+                        <div class="col-md-auto">
+                            <div class="form-group">
+                                <label for="De">De</label>
+                                <input type="date" class="form-control" [(ngModel)]="date" formControlName="date" (change)="dateChange($event)" />
+                            </div>
+
+                            <!--mat-form-field>
                 <input matInput [matDatepicker]="De" placeholder="De" [(ngModel)]="date"
                 (dateChange)="dateChange($event)">
                 <mat-datepicker-toggle matSuffix [for]="De"></mat-datepicker-toggle>
                 <mat-datepicker #De></mat-datepicker>
-              </mat-form-field>
-            </div>
-          </div>
-        </div>
-      <!--   <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
+              </mat-form-field-->
+                        </div>
+                    </div>
+                </div>
+                <!--   <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
           <div>
             <button type="button" class="btn btn-primary">Buscar</button>
           </div>
         </div> -->
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-<!--   <div class="row justify-content-between mb-2 mt-2 f25">
+    <!--   <div class="row justify-content-between mb-2 mt-2 f25">
     <div class="col">
       <i class="fas fa-arrow-circle-left"></i>
     </div>
@@ -49,94 +54,83 @@
   </div>
  -->
     <form [formGroup]="energyForm" (ngSubmit)="addEnergy(energyForm.value)">
-      <div class="row">
-        <div class="col-md-auto col-md-6 col-lg-4">
-          <div class="row">
-            <div class="col-md-8">
-              <mat-form-field class="full-width">
-                <input matInput formControlName="indoorCalorificValue"  type="number"
-                placeholder="Poder Calorifíco Inferior">
-              </mat-form-field>
+        <div class="row">
+            <div class="col-md-auto col-md-6 col-lg-4">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label>Poder Calorifíco Inferior</label>
+                            <input [min]="1" type="number" class="form-control" formControlName="indoorCalorificValue" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div *ngIf="!energyForm.controls['indoorCalorificValue'].valid && energyForm.controls['indoorCalorificValue'].touched">
+                            Requerido
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4">
-              <mat-error *ngIf="!energyForm.controls['indoorCalorificValue'].valid 
-                                && energyForm.controls['indoorCalorificValue'].touched">
-                Requerido
-              </mat-error>
+            <div class="col-md-auto col-md-6 col-lg-4">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label>Factor de Potencia</label>
+                            <input [min]="1" type="number" class="form-control" formControlName="powerFactor" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div *ngIf="!energyForm.controls['powerFactor'].valid && energyForm.controls['powerFactor'].touched">
+                            Requerido
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="col-md-auto col-md-6 col-lg-4">
-          <div class="row">
-            <div class="col-md-8">
-              <mat-form-field class="full-width">
-                <input matInput formControlName="powerFactor" type="number"
-                placeholder="Factor de Potencia">
-              </mat-form-field>
-            </div>
-            <div class="col-md-4">
-              <mat-error *ngIf="!energyForm.controls['powerFactor'].valid 
-                                  && energyForm.controls['powerFactor'].touched">
-                Requerido
-              </mat-error>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-          <button type="button" class="btn right" (click)="cancelEnergy()"
-            [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-            Cancelar
-          </button>
-          <button type="submit" class="btn right" 
-          [disabled]="!energyForm.valid || hour === 0"
-            [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-            Agregar
-          </button>
+        <div class="col">
+            <button type="button" class="btn right" (click)="cancelEnergy()" [ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }">
+                Cancelar
+            </button>
+            <button type="submit" class="btn right" [disabled]="!energyForm.valid || hour === 0" [ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }">
+                Agregar
+            </button>
         </div>
     </form>
-<br>
-  <div class="mat-elevation-z0">
-    <table matSort mat-table [dataSource]="dataSource" class="table_catalogo">
+    <br />
+    <div class="mat-elevation-z0">
+        <table matSort mat-table [dataSource]="dataSource" class="table_catalogo">
+            <ng-container matColumnDef="hour">
+                <th mat-header-cell *matHeaderCellDef class="txt-center">Hora</th>
+                <td mat-cell *matCellDef="let element">{{ element.hour }}</td>
+            </ng-container>
 
-      <ng-container matColumnDef="hour">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">Hora</th>
-        <td mat-cell *matCellDef="let element"> {{element.hour}} </td>
-      </ng-container>
+            <ng-container matColumnDef="indoorCalorificValue">
+                <th mat-header-cell *matHeaderCellDef class="txt-center">Poder Calorifíco Inferior</th>
+                <td mat-cell *matCellDef="let element">{{ element.indoorCalorificValue }}</td>
+            </ng-container>
 
-      <ng-container matColumnDef="indoorCalorificValue">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">Poder Calorifíco Inferior</th>
-        <td mat-cell *matCellDef="let element"> {{element.indoorCalorificValue}} </td>
-      </ng-container>
+            <ng-container matColumnDef="powerFactor">
+                <th mat-header-cell *matHeaderCellDef class="txt-center">Factor de Potencia</th>
+                <td mat-cell *matCellDef="let element">{{ element.powerFactor }}</td>
+            </ng-container>
 
-      <ng-container matColumnDef="powerFactor">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">Factor de Potencia</th>
-        <td mat-cell *matCellDef="let element"> {{element.powerFactor}} </td>
-      </ng-container>
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef class="txt-center">Modificar</th>
+                <td mat-cell *matCellDef="let element">
+                    <a (click)="editEnergy(element)">
+                        <img src="assets/images/skins/ico_Editar.png" alt="Visualizar" />
+                    </a>
+                </td>
+            </ng-container>
 
-      <ng-container matColumnDef="edit">
-        <th mat-header-cell *matHeaderCellDef class="txt-center"> Modificar </th>
-        <td mat-cell *matCellDef="let element">
-          <a (click)="editEnergy(element)">
-            <img src="assets/images/skins/ico_Editar.png" alt="Visualizar">
-          </a>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="cols"></tr>
-      <tr mat-row *matRowDef="let row; columns: cols;" 
-      [ngClass]="{'make-edit': row.edit === true}" ></tr>
-    </table>
-  </div>
-  <div class="row mt-5  justify-content-end">
-
-    <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
-      <div>
-        <button type="button" class="btn"  [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-        (click)="save2()">Guardar</button>
-      </div>
+            <tr mat-header-row *matHeaderRowDef="cols"></tr>
+            <tr mat-row *matRowDef="let row; columns: cols" [ngClass]="{ 'make-edit': row.edit === true }"></tr>
+        </table>
     </div>
-
-  </div>
-
+    <div class="row mt-5  justify-content-end">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
+            <div>
+                <button type="button" class="btn" [ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }" (click)="save2()">Guardar</button>
+            </div>
+        </div>
+    </div>
 </div>
