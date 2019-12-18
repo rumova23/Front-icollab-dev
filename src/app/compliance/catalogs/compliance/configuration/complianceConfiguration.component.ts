@@ -224,18 +224,18 @@ export class ComplianceConfigurationComponent implements OnInit {
     this.confirmationDialogService.confirm('Por favor, confirme..',
           'Está seguro de eliminar el Cumplimiento? ' + tag.tag)
     .then((confirmed) => {
-        console.log(confirmed);
         if ( confirmed ) {
-          this.eliminarTagConfirm(tag);
+            this.eliminarTagConfirm(tag);
+            console.log('RTC regreso de invocar servicio para borrar');
         }
       })
     .catch(() => console.log('Cancelo'));
   }
 
   eliminarTagConfirm(tag: any) {
-    this.tagService.eliminarTag(tag.element.idTag).subscribe(
+      this.tagService.eliminarTag(tag.idTag).subscribe(
       respuesta => {
-        this.addBlock(2, null);
+        // this.addBlock(2, null);
         let res: any;
         res = respuesta;
         if ( res.clave === 0 ) {
@@ -246,7 +246,7 @@ export class ComplianceConfigurationComponent implements OnInit {
         }
       },
       error => {
-        this.addBlock(2, null);
+        // this.addBlock(2, null);
         this.toastr.errorToastr('Error al eliminar el tag.', 'Lo siento,');
       }
     );

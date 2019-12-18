@@ -94,7 +94,8 @@ export class TagService {
     return this.http.get( `${ this.baseMicroTagUrl }obtenTagPorFiltros/${plantaId}`, httpOptions);
   }*/
 
-  eliminarTag(tagId: number): Observable<any> {
+  eliminarTag(tagId: number) {
+    console.log('eliminarTag(tagId: number): ' + tagId);
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${ this.baseMicroTagUrl }eliminar/${tagId}`, {params : this.parameters });
   }
