@@ -248,8 +248,10 @@
                 <div class="row">
                     <div class="col-2">
                         <input
-                                [min]="1"
+                            #periodoEntregaNumero
+                            [min]="1"
                             type="number"
+                            [(ngModel)] = "a326"  
                             class="form-control"
                             [ngClass]="{
                                 'is-invalid':
@@ -258,6 +260,7 @@
                             }"
                             name="value"
                             formControlName="fPeriodoEntregaCantidad"
+                            (ngModelChange)="isnumeric(periodoEntregaNumero)"
                         />
                         <div
                             *ngIf="

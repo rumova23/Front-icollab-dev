@@ -11,10 +11,10 @@
           <div class="md-form">
             <mat-form-field class="w-100">
               <input matInput placeholder="Serie" formControlName="serie">
-              <mat-error *ngIf="!branchInvoiceSeriesForm.controls['serie'].valid 
+              <div *ngIf="!branchInvoiceSeriesForm.controls['serie'].valid 
                     && branchInvoiceSeriesForm.controls['serie'].touched">
                 Requerido
-              </mat-error>
+              </div>
             </mat-form-field>
           </div>
         </div>
@@ -29,10 +29,10 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-error *ngIf="!branchInvoiceSeriesForm.controls['plantBranchOffice'].valid 
+          <div *ngIf="!branchInvoiceSeriesForm.controls['plantBranchOffice'].valid 
                         && branchInvoiceSeriesForm.controls['plantBranchOffice'].touched">
             Requerido
-          </mat-error>
+          </div>
         </div>
       </div>
 
@@ -46,21 +46,33 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-error *ngIf="!branchInvoiceSeriesForm.controls['sys'].valid 
+          <div *ngIf="!branchInvoiceSeriesForm.controls['sys'].valid 
                           && branchInvoiceSeriesForm.controls['sys'].touched">
             Requerido
-          </mat-error>
+          </div>
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-4">
-          <mat-checkbox id="active" class="active" color="primary" formControlName="active">Activo
-          </mat-checkbox>
-          <mat-error *ngIf="!branchInvoiceSeriesForm.controls['active'].valid 
+          
+          <div class="form-group">
+            <label>Activo</label>
+            <input
+                class="form-control active"
+                type="checkbox"
+                formControlName="active"
+                style="
+                height: auto;
+                width: auto;"
+            />
+          </div>
+          <!--mat-checkbox id="active" class="active" color="primary" formControlName="active">Activo
+          </mat-checkbox-->
+          <div *ngIf="!branchInvoiceSeriesForm.controls['active'].valid 
                         && branchInvoiceSeriesForm.controls['active'].touched">
             Requerido
-          </mat-error>
+          </div>
         </div>
       </div>
       <div class="row">

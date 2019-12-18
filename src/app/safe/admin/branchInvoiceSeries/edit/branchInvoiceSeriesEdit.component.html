@@ -65,7 +65,7 @@
                                     placeholder="Serie"
                                     formControlName="serie"
                                 />
-                                <mat-error
+                                <div
                                     *ngIf="
                                         !branchInvoiceSeriesForm.controls[
                                             'serie'
@@ -76,7 +76,7 @@
                                     "
                                 >
                                     Requerido
-                                </mat-error>
+                                </div>
                             </mat-form-field>
                         </div-->
                     </div>
@@ -99,7 +99,7 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-error
+                        <div
                             *ngIf="
                                 !branchInvoiceSeriesForm.controls[
                                     'plantBranchOffice'
@@ -110,7 +110,7 @@
                             "
                         >
                             Requerido
-                        </mat-error>
+                        </div>
                     </div>
                 </div>
 
@@ -130,7 +130,7 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-error
+                        <div
                             *ngIf="
                                 !branchInvoiceSeriesForm.controls['sys']
                                     .valid &&
@@ -138,20 +138,32 @@
                             "
                         >
                             Requerido
-                        </mat-error>
+                        </div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-4">
-                        <mat-checkbox
+                        <div class="form-group">
+                          <label>Activo</label>
+                          <input
+                              class="form-control active"
+                              type="checkbox"
+                              formControlName="active"
+                              color="primary"
+                              style="
+                              height: auto;
+                              width: auto;"
+                          />
+                        </div>
+                        <!--mat-checkbox
                             id="active"
                             class="active"
                             color="primary"
                             formControlName="active"
                             >Activo
-                        </mat-checkbox>
-                        <mat-error
+                        </mat-checkbox-->
+                        <div
                             *ngIf="
                                 !branchInvoiceSeriesForm.controls['active']
                                     .valid &&
@@ -160,7 +172,7 @@
                             "
                         >
                             Requerido
-                        </mat-error>
+                        </div>
                     </div>
                 </div>
                 <div class="row">

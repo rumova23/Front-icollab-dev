@@ -11,10 +11,10 @@
           <div class="md-form">
             <mat-form-field class="w-100">
               <input matInput placeholder="Nombre" formControlName="name">
-              <mat-error *ngIf="!grantForm.controls['name'].valid 
+              <div *ngIf="!grantForm.controls['name'].valid 
                   && grantForm.controls['name'].touched">
                 Requerido
-              </mat-error>
+              </div>
             </mat-form-field>
           </div>
         </div>
@@ -24,10 +24,10 @@
           <div class="md-form">
             <mat-form-field class="w-100">
               <input matInput placeholder="Label" formControlName="label">
-              <mat-error *ngIf="!grantForm.controls['label'].valid 
+              <div *ngIf="!grantForm.controls['label'].valid 
                   && grantForm.controls['label'].touched">
                 Requerido
-              </mat-error>
+              </div>
             </mat-form-field>
           </div>
         </div>
@@ -37,10 +37,10 @@
           <div class="md-form">
             <mat-form-field class="w-100">
               <input matInput placeholder="Icono" formControlName="icon">
-              <mat-error *ngIf="!grantForm.controls['icon'].valid 
+              <div *ngIf="!grantForm.controls['icon'].valid 
                   && grantForm.controls['icon'].touched">
                 Requerido
-              </mat-error>
+              </div>
             </mat-form-field>
           </div>
         </div>
@@ -50,10 +50,10 @@
           <div class="md-form">
             <mat-form-field class="w-100">
               <input matInput placeholder="Url" formControlName="url">
-              <mat-error *ngIf="!grantForm.controls['url'].valid 
+              <div *ngIf="!grantForm.controls['url'].valid 
                   && grantForm.controls['url'].touched">
                 Requerido
-              </mat-error>
+              </div>
             </mat-form-field>
           </div>
         </div>
@@ -70,21 +70,35 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-error *ngIf="!grantForm.controls['app'].valid 
+          <div *ngIf="!grantForm.controls['app'].valid 
                         && grantForm.controls['app'].touched">
             Requerido
-          </mat-error>
+          </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-4">
-          <mat-checkbox id="isFather" (change)="changeFather($event)" class="active" color="primary"
+          <div class="form-group">
+              <label>Es padre</label>
+              <input
+                  class="form-control active"
+                  type="checkbox"
+                  formControlName="isFather"
+                  id="isFather"
+                  color="primary"
+                  (change)="changeFather($event)"
+                  style="
+                  height: auto;
+                  width: auto;"
+              />
+          </div>
+          <!--mat-checkbox id="isFather" (change)="changeFather($event)" class="active" color="primary"
             formControlName="isFather">Es padre
-          </mat-checkbox>
-          <mat-error *ngIf="!grantForm.controls['isFather'].valid 
+          </mat-checkbox-->
+          <div *ngIf="!grantForm.controls['isFather'].valid 
                       && grantForm.controls['isFather'].touched">
             Requerido
-          </mat-error>
+          </div>
         </div>
       </div>
       <div class="row" *ngIf="!isFather">
@@ -97,10 +111,10 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-error *ngIf="!grantForm.controls['father'].valid 
+          <div *ngIf="!grantForm.controls['father'].valid 
                         && grantForm.controls['father'].touched">
             Requerido
-          </mat-error>
+          </div>
         </div>
       </div>
       <div class="row">

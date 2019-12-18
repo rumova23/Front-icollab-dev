@@ -212,7 +212,23 @@
                             <div class="col-md-auto col-md-6 col-lg-4">
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
-                                        <mat-checkbox
+                                        <div class="form-group">
+                                          <label>{{
+                                            in.label
+                                        }}</label>
+                                          <input
+                                              class="form-control active"
+                                              type="checkbox"
+                                              formControlName="{{
+                                                in.formControlName
+                                            }}"
+                                            color="primary"
+                                              style="
+                                              height: auto;
+                                              width: auto;"
+                                          />
+                                        </div>
+                                        <!--mat-checkbox
                                             class="active"
                                             color="primary"
                                             formControlName="{{
@@ -222,7 +238,7 @@
                                             <mat-label>{{
                                                 in.label
                                             }}</mat-label>
-                                        </mat-checkbox>
+                                        </mat-checkbox-->
                                     </div>
                                     <div class="col-md-4">
                                         <div
@@ -859,7 +875,21 @@
                         <div class="col-md-auto col-md-6 col-lg-4">
                             <div class="row">
                                 <div class="col-md-{{ in.col || 8 }}">
-                                    <mat-checkbox
+                                    <div class="form-group">
+                                        <label>{{ in.label }}</label>
+                                        <input
+                                            class="form-control active"
+                                            type="checkbox"
+                                            formControlName="{{
+                                                in.formControlName
+                                            }}"
+                                            color="primary"
+                                            style="
+                                            height: auto;
+                                            width: auto;"
+                                        />
+                                    </div>
+                                    <!--mat-checkbox
                                         class="active"
                                         color="primary"
                                         formControlName="{{
@@ -867,7 +897,7 @@
                                         }}"
                                     >
                                         <mat-label>{{ in.label }}</mat-label>
-                                    </mat-checkbox>
+                                    </mat-checkbox-->
                                 </div>
                                 <div class="col-md-4">
                                     <div

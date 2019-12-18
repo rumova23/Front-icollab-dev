@@ -75,6 +75,8 @@ export class SharedSidebarMenuComponent {
         let item0 = null;
         let item1 = null;
         let item2 = null;
+        let autoridades= null;
+        let categorias = null;
         let array = [];
         for (let option of this.menu) {
             if (option.label == "Inicio") item0 = option;
@@ -88,6 +90,21 @@ export class SharedSidebarMenuComponent {
         this.menu[2] = item2;
         for (const iterator of array) {
             this.menu.push(iterator);
+        }
+        
+        for (let option of this.menu) {
+            if (option.label == "Catálogos") {
+                for (let cat of option.children) {
+                    if (cat.label == "authorities") {
+                        autoridades = cat;
+                    }else if (cat.label == "categories") {
+                        categorias =cat;
+                    }
+                }
+                option.children=[];
+                option.children.push(autoridades);
+                option.children.push(categorias);
+            }
         }
         for (let option of this.menu) {
             if (option.children) {
