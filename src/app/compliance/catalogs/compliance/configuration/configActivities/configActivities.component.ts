@@ -37,7 +37,7 @@ export class ConfigActivitiesComponent implements OnInit {
   comboEstatus: Array<Combo>;
   listaCombos: Array<any>;
   
-  cabeceraTagPrecedentes: string[] = ['tagId', 'tagPadre', 'tagHijo', 'tagHijoNombreCumplimiento', 'opcion'];
+  cabeceraTagPrecedentes: string[] = ['tagHijo', 'tagHijoNombreCumplimiento', 'opcion'];
   columnas: string[] = ['tagId', 'tag', 'descripcion', 'assignPrecedent'];
   titulo: String;
 
@@ -369,6 +369,7 @@ export class ConfigActivitiesComponent implements OnInit {
               obj['tagId']          = element.idTagPrecedent;
               obj['tagPadre']       = element.tagPadre.tag;
               obj['tagHijo']        = element.tagHijo.tag;
+              obj['tagHijoNombreCumplimiento']  = element.tagHijo.classificationActivity;
               obj['elementTag']     = element;
               listObj.push(obj);
             }

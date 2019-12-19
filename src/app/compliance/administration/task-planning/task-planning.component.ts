@@ -11,6 +11,7 @@ import {EventService} from '../../../core/services/event.service';
 import {MatrizCumplimientoDTO} from '../../models/matriz-cumplimiento-dto';
 import {TagOutDTO} from '../../models/tag-out-dto';
 import {trigger} from '@angular/animations';
+import {ComplianceService} from '../../services/compliance.service';
 
 @Component({
   selector: 'app-task-planning',
@@ -34,6 +35,7 @@ export class TaskPlanningComponent implements OnInit {
   tipoPerfil = ['Ejecutor', 'Responsable', 'Supervisor'];
   matrizCumplimiento: MatrizCumplimientoDTO;
   constructor(
+      private complianceService: ComplianceService,
       private administratorComplianceService: AdministratorComplianceService,
       private formBuilder: FormBuilder,
       public  toastr: ToastrManager,
@@ -61,10 +63,12 @@ export class TaskPlanningComponent implements OnInit {
   onSubmit() {
   }
   initCombos() {
-      const currentYear = (new Date()).getFullYear();
-      const nextYear = currentYear + 1;
-      this.anios.push(new Combo(currentYear.toString(), currentYear.toString()));
-      this.anios.push(new Combo(nextYear.toString(), nextYear.toString()));
+
+      this.complianceService.getListMatrizCumplimiento().subscribe((lista: Array<MatrizCumplimientoDTO>) => {
+          lista.forEach((cumplimiento: MatrizCumplimientoDTO) => {
+              this.anios.push(new Combo(cumplimiento.anio.toString(), cumplimiento.anio.toString()));
+          });
+      });
 
       this.administratorComplianceService.initComboTiposCumplimientos().subscribe(
         (respuesta: Array<any>) => {
