@@ -95,7 +95,6 @@ export class TagService {
   }*/
 
   eliminarTag(tagId: number) {
-    console.log('eliminarTag(tagId: number): ' + tagId);
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${ this.baseMicroTagUrl }eliminar/${tagId}`, {params : this.parameters });
   }

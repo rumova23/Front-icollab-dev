@@ -226,7 +226,6 @@ export class ComplianceConfigurationComponent implements OnInit {
     .then((confirmed) => {
         if ( confirmed ) {
             this.eliminarTagConfirm(tag);
-            console.log('RTC regreso de invocar servicio para borrar');
         }
       })
     .catch(() => console.log('Cancelo'));
