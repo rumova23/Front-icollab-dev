@@ -120,6 +120,11 @@ export class TagService {
     return this.http.post( `${ this.baseMicroTagUrl }actividad/crear`, actividad, {params : this.parameters });
   }
 
+  actualizarPorClonacion(actividadId: number, referenceclone: string) {
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    return this.http.post( `${ this.baseMicroTagUrl }actividad/edit/fatherclone/${actividadId}/${referenceclone}`, null, {params : this.parameters });
+  }
+
   editarActividad(actividad: TagActividadInDTO) {
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.post( `${ this.baseMicroTagUrl }actividad/editar`, actividad, {params : this.parameters });
