@@ -97,8 +97,55 @@ export class ConfigActivitiesComponent implements OnInit {
 
   isnumeric(link){
     if( isNaN( Number(this.a326)) || 0 == Number(this.a326) ){
+      // para no permitir letras, que en firefox si permite insertarlas
       this.a326 = 1;
       link.value = 1;
+      this.formatPeriodo_entrega(false);
+    }else if( Number(this.a326) > 1){
+      this.formatPeriodo_entrega(true);    
+    }else if( Number(this.a326) <= 1){
+      this.formatPeriodo_entrega(false);
+    }
+  }
+  
+  formatPeriodo_entrega(plural){
+    for (const period of this.comboUnitPeriod) {
+      if(plural){
+        switch (period.label) {
+            case "DIA":
+            case "AÑO":
+            case "SEMANA":
+            case "HORA":
+              period.label = period.label+"S"
+              break;
+            case "MES":
+              period.label = "MESES"
+              break;
+          default:
+            break;
+        }
+      }else{
+        
+        switch (period.label) {
+          case "DIAS":
+            period.label = "DIA"
+            break;
+          case "AÑOS":
+            period.label = "AÑO"
+            break;
+          case "SEMANAS":
+            period.label = "SEMANA"
+            break;
+          case "HORAS":
+            period.label = "HORA"
+            break;
+          case "MESES":
+            period.label = "MES"
+            break;
+        default:
+          break;
+      }
+      }
     }
   }
   applyFilter1(filterValue1: string) {
