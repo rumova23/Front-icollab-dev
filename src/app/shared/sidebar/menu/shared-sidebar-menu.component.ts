@@ -123,7 +123,7 @@ export class SharedSidebarMenuComponent {
                             childrenB["url"] = "Planeación";
                             childrenB["icon"] = "event_available";
                             childrenA["id"] = 104;
-                            option.children[ins].children.push(childrenB);
+                            //option.children[ins].children.push(childrenB);
                         }
                     }
 
