@@ -10,7 +10,7 @@ import { GlobalService                               } from 'src/app/core/global
 import { ThemeService                                } from 'src/app/core/globals/theme';
 import { Validate                                    } from 'src/app/core/helpers/util.validator.';
 import { App                                         } from 'src/app/security/models/App';
-import { Subscription                                } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { ToastrManager                               } from 'ng6-toastr-notifications';
 import * as dis                                        from './js/animations';
 
@@ -95,6 +95,14 @@ export class LoginComponent implements OnInit,OnDestroy {
 			}
 		}
 	}
+	
+	mytimeout(): any {
+		return new Observable(observer => {
+			   setTimeout(() => {
+				   observer.next();
+			   }, 2000);
+		});
+	}
 	goToModule(id, uri){
 		window.onscroll = function() {}; 
 		if(this.appsIsActivate && this.existApp(id)){
@@ -120,7 +128,11 @@ export class LoginComponent implements OnInit,OnDestroy {
 					this.loadApps();
 					this.globalService.setPlant(this.securityService.loadPlants()[0]);
 					dis.next(()=>{
-						this.activateApp();
+						
+						this.mytimeout().subscribe(() => {
+							this.activateApp();
+						});
+
 					});
 				},
 				errorData => {

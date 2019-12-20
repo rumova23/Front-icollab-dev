@@ -110,7 +110,7 @@
             <div style="float: left; margin-top: 0px; margin-left: 45px;">
                 <table>
                     <tr>
-                        <th>
+                        <th *ngIf="existApp('Security')">
                             <img src="/assets/img/admin.png" class="icon-image"  (click)="goToModule('/security')" />
                         </th>
                         <th>
@@ -118,7 +118,7 @@
                         </th>
                     </tr>
                     <tr>
-                        <th class="texto-ral">
+                        <th class="texto-ral" *ngIf="existApp('Security')">
                             Admin
                         </th>
                         <th class="texto-ral">
