@@ -29,7 +29,7 @@ import {EntidadEstausDTO} from '../../../models/entidad-estaus-dto';
   , providers: [DatePipe]
 })
 export class ComplianceConfigurationComponent implements OnInit {
-    nombreCatalogo = 'Cumplimiento Legal';
+    nombreCatalogo = 'Características';
   titulo = 'Matriz Cumplimiento';
   registros;
   administradores;
@@ -104,6 +104,8 @@ export class ComplianceConfigurationComponent implements OnInit {
               while ( flag ) {
                   flag = false;
                   for (let ins = 0; ins < option.children.length; ins++) {
+
+                      console.dir("nombres: " + option.children[ins]['label']);
                       if (option.children[ins]['label'] === this.nombreCatalogo) {
                           if (option.children[ins].actions) {
                               for (let action = 0; action < option.children[ins].actions.length ; action++) {
@@ -122,7 +124,6 @@ export class ComplianceConfigurationComponent implements OnInit {
                               }
                           }
                       }
-
                   }
               }
           }
