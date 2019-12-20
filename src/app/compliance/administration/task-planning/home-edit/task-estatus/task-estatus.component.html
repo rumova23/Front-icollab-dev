@@ -8,16 +8,32 @@
   <hr>
   <form class="mt-5" [formGroup]="estatusForm" (ngSubmit)="onSubmit()">
     <div class="row">
-      <div class="col-12 col-xl-4">
-        <div class="md-form">
-          <mat-label>Periodo de entrega</mat-label>
-          <mat-select formControlName="fPeriodoEntrega"
-                      [compareWith]="compareFn"
-                      [ngClass]="{ 'is-invalid': submitted && f.fPeriodoEntrega.errors }">
-            <mat-option *ngFor="let operator of comboPeriodoEntrega;" [value]="operator.value">{{operator.label}}</mat-option>
-          </mat-select>
-          <div *ngIf="submitted && f.fPeriodoEntrega.errors" style="color:red">
-            <div *ngIf="f.fPeriodoEntrega.errors.required">Requerido</div>
+      <div class="col-md-6">
+        <label>Período de entrega</label>
+        <div class="row">
+          <div class="col-2">
+            <input #periodoEntregaNumero [min]="1" type="number"
+                   [(ngModel)] = "a326" class="form-control" [ngClass]="{'is-invalid':submitted && f.fPeriodoEntregaCantidad.errors }"
+                   name="value" formControlName="fPeriodoEntregaCantidad" (ngModelChange)="isnumeric(periodoEntregaNumero)" />
+            <div *ngIf="submitted && f.fPeriodoEntregaCantidad.errors" style="color:red">
+              <div *ngIf="f.fPeriodoEntregaCantidad.errors.required">
+                Requerido
+              </div>
+            </div>
+          </div>
+
+          <div class="col-10">
+            <select class="form-control" [compareWith]="compareFn" formControlName="fPeriodoEntregaUnidad"
+                    [ngClass]="{ 'is-invalid': submitted && f.fPeriodoEntregaUnidad.errors}">
+              <option *ngFor="let operator of comboUnitPeriod" [value]="operator.value" >
+                {{ operator.label }}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.fPeriodoEntregaUnidad.errors" style="color:red" >
+              <div *ngIf="f.fPeriodoEntregaUnidad.errors.required" >
+                Requerido
+              </div>
+            </div>
           </div>
         </div>
       </div>

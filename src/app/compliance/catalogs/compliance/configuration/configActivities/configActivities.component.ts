@@ -25,7 +25,7 @@ import {MaestroOpcionDTO} from '../../../../models/maestro-opcion-dto';
 export class ConfigActivitiesComponent implements OnInit {
   // Simulación tuxpan
   plantaDefault = this.globalService.plantaDefaultId; // "70"; //"Planta Tuxpan II";
-  a326:number=1;
+  a326 = 1;
   @Input() accion: string;
   @Input() tagId: string;
   comboActividades: Array<Combo>;
@@ -36,10 +36,9 @@ export class ConfigActivitiesComponent implements OnInit {
   comboTipoDias: Array<Combo>;
   comboEstatus: Array<Combo>;
   listaCombos: Array<any>;
-  
   cabeceraTagPrecedentes: string[] = ['tagHijo', 'tagHijoNombreCumplimiento', 'opcion'];
-  columnas: string[] = ['tagId', 'tag', 'descripcion', 'assignPrecedent'];
-  titulo: String;
+  columnas: string[] = ['tag', 'descripcion', 'assignPrecedent'];
+  titulo: string;
 
   tagPrecedentes: MatTableDataSource<any>;
   registrosParaAsignar: MatTableDataSource<any>;
@@ -58,7 +57,7 @@ export class ConfigActivitiesComponent implements OnInit {
 
   habilitarActividad: boolean;
   soloLectura: boolean;
-  deshabiliarEstatus: boolean = true;
+  deshabiliarEstatus = true;
   idActivo: string;
   catalogType: CatalogType;
   serviceSubscription: any;
@@ -95,52 +94,51 @@ export class ConfigActivitiesComponent implements OnInit {
     this.registrosParaAsignar.filter = filterValue.trim().toLowerCase();
   }
 
-  isnumeric(link){
-    if( isNaN( Number(this.a326)) || 0 == Number(this.a326) ){
+  isnumeric(link) {
+    if ( isNaN( Number(this.a326)) || 0 === Number(this.a326) ) {
       // para no permitir letras, que en firefox si permite insertarlas
       this.a326 = 1;
       link.value = 1;
       this.formatPeriodo_entrega(false);
-    }else if( Number(this.a326) > 1){
-      this.formatPeriodo_entrega(true);    
-    }else if( Number(this.a326) <= 1){
+    } else if ( Number(this.a326) > 1) {
+      this.formatPeriodo_entrega(true);
+    } else if( Number(this.a326) <= 1) {
       this.formatPeriodo_entrega(false);
     }
   }
-  
-  formatPeriodo_entrega(plural){
+
+  formatPeriodo_entrega(plural) {
     for (const period of this.comboUnitPeriod) {
-      if(plural){
+      if (plural) {
         switch (period.label) {
-            case "DIA":
-            case "AÑO":
-            case "SEMANA":
-            case "HORA":
-              period.label = period.label+"S"
+            case 'DIA':
+            case 'AÑO':
+            case 'SEMANA':
+            case 'HORA':
+              period.label = period.label + 'S';
               break;
-            case "MES":
-              period.label = "MESES"
+            case 'MES':
+              period.label = 'MESES';
               break;
           default:
             break;
         }
-      }else{
-        
+      } else {
         switch (period.label) {
-          case "DIAS":
-            period.label = "DIA"
+          case 'DIAS':
+            period.label = 'DIA';
             break;
-          case "AÑOS":
-            period.label = "AÑO"
+          case 'AÑOS':
+            period.label = 'AÑO';
             break;
-          case "SEMANAS":
-            period.label = "SEMANA"
+          case 'SEMANAS':
+            period.label = 'SEMANA';
             break;
-          case "HORAS":
-            period.label = "HORA"
+          case 'HORAS':
+            period.label = 'HORA';
             break;
-          case "MESES":
-            period.label = "MES"
+          case 'MESES':
+            period.label = 'MES';
             break;
         default:
           break;
@@ -156,22 +154,21 @@ export class ConfigActivitiesComponent implements OnInit {
     this.plantaDefault = this.globalService.plantaDefaultId;
   }
 
-  resuelveDS(poRespuesta: Object, combo: Array<any>, comp: string) {
+  resuelveDS(poRespuesta: object, combo: Array<any>, comp: string) {
     if (!poRespuesta) {
-      console.log("El back no responde");
+      console.log('El back no responde');
     } else {
-      let catalogs : any;
+      let catalogs: any;
       catalogs = poRespuesta;
       catalogs.forEach(element => {
-        if ( element.catalog === comp ){
+        if ( element.catalog === comp ) {
           element.data.forEach ( elementCatalog => {
             let value = elementCatalog.id;
             let label = elementCatalog.code;
             combo.push(new Combo(value, label));
-          })
+          });
         }
       });
-
     }
   }
 
@@ -182,7 +179,7 @@ export class ConfigActivitiesComponent implements OnInit {
 
   ngOnInit() {
 
-    this.addBlock(1, "Cargando...");
+    this.addBlock(1, 'Cargando...');
 
     this.accion = this.catalogType.action;
     this.existeTagId = false;
@@ -199,8 +196,8 @@ export class ConfigActivitiesComponent implements OnInit {
     this.comboTipoDias = new Array<Combo>();
     this.comboEstatus = new Array<Combo>();
     let statusConsult: string = null;
-    if ( this.accion === 'edit' || 'ver' ){
-      statusConsult = 'TODOS'
+    if ( this.accion === 'edit' || 'ver' ) {
+      statusConsult = 'TODOS';
     }
 
     this.listaCombos = Array<OrderCatalogDTO>();
@@ -219,12 +216,12 @@ export class ConfigActivitiesComponent implements OnInit {
       this.addBlock(2, null);
     });
 
-    this.addBlock(1, "Cargando...");
+    this.addBlock(1, 'Cargando...');
     let statusConsultActivity = 'ACTIVOS';
-    if ( this.accion === 'edit' || this.accion === 'ver' ){
-      statusConsultActivity = 'TODOS'
-    }else if ( this.accion === 'nuevo'){
-      statusConsultActivity = 'ACTIVOS'
+    if ( this.accion === 'edit' || this.accion === 'ver' ) {
+      statusConsultActivity = 'TODOS';
+    } else if ( this.accion === 'nuevo') {
+      statusConsultActivity = 'ACTIVOS';
     }
     this.tagService.getCatalogoActividades(statusConsultActivity).subscribe(
       catalogoResult => {
@@ -239,8 +236,7 @@ export class ConfigActivitiesComponent implements OnInit {
         this.addBlock(2, null);
       },
       error => {
-        console.log("Error al obtener catalgo de actividades.");
-        console.log(<any>error)
+        console.log('Error al obtener catalgo de actividades.');
         this.addBlock(2, null);
         this.toastr.errorToastr('Error al cargar catálogo de actividades.', 'Lo siento,');
       }
@@ -275,7 +271,7 @@ export class ConfigActivitiesComponent implements OnInit {
     } else {
       this.checkedEstatus = true;
       this.deshabiliarEstatus = false;
-      this.titulo = "Agregar / Configuración de Cumplimiento";
+      this.titulo = 'Agregar / Configuración de Cumplimiento';
       this.configActividadesForm.controls['fTag'].disable();
     }
 
@@ -301,9 +297,9 @@ export class ConfigActivitiesComponent implements OnInit {
   }
 
   chanceCheck() {
-    if (this.checkedEstatus)
+    if ( this.checkedEstatus )
       this.checkedEstatus = false;
-    else{
+    else {
       this.checkedEstatus = true;
     }
   }
@@ -314,8 +310,8 @@ export class ConfigActivitiesComponent implements OnInit {
       tagId = this.configActividadesForm.controls['fIdTag'].value;
     }
     let listTagPrecedentes = [];
-    if (this.tagPrecedentes != null){
-      if (this.tagPrecedentes.data != null){
+    if (this.tagPrecedentes != null) {
+      if (this.tagPrecedentes.data != null) {
         listTagPrecedentes = new Array<TagPrecedente>();
         this.tagPrecedentes.data.forEach(element => {
           listTagPrecedentes.push(element.elementTag);
@@ -343,39 +339,34 @@ export class ConfigActivitiesComponent implements OnInit {
 
     this.tagService.save(actividad).subscribe(
       respuesta => {
-        if ( respuesta.clave == 0){
+        if ( respuesta.clave === 0) {
           this.idsTagPrecedentes = [];
           this.habilitarActividad = true;
           this.configActividadesForm.controls['fIdTag'].setValue(respuesta.entity.idTag);
           this.existeTagId = true;
 
           this.toastr.successToastr('Configuración de actividad guardada con éxito.', '¡Se ha logrado!');
-        }else{
+        } else {
           this.toastr.errorToastr('Ya existe una actividad con los mismos datos capturados.', '¡Lo siento!');
         }
-       
       },
       error => {
-        console.log(<any>error);
         this.existeTagId = false;
         this.toastr.errorToastr('Error al guardar la configuración de actividad.', 'Lo siento,');
-        
       }
     );
   }
 
-  regresar(){
-    this.eventService.sendChangePage(new EventMessage(8, {} ,'Compliance.Características'));
+  regresar() {
+    this.eventService.sendChangePage(new EventMessage(8, {} , 'Compliance.Características'));
   }
 
-  //Obtiene la información de un TAG
+  // Obtiene la información de un TAG
   obtenerActividadurl() {
-    this.addBlock(1, "Cargando...");
+    this.addBlock(1, 'Cargando...');
     this.tagId = this.catalogType.id;
     this.tagService.getActividadPorTag(this.tagId).subscribe(
-      respuesta => {
-        let tagActividad: Tag
-        tagActividad = <Tag>respuesta;
+        (tagActividad: Tag) => {
         if (tagActividad != null && tagActividad.idTag) {
           this.configActividadesForm.controls['fTag'].setValue(tagActividad.tag);
           this.configActividadesForm.controls['fIdTag'].setValue(tagActividad.idTag);
@@ -389,7 +380,6 @@ export class ConfigActivitiesComponent implements OnInit {
           this.configActividadesForm.controls['fPeriodoEntregaCantidad'].patchValue(tagActividad.period);
           this.configActividadesForm.controls['fPeriodoEntregaUnidad'].patchValue(tagActividad.unitPeriod);
           this.configActividadesForm.controls['fTipoDias'].patchValue(tagActividad.idDaysType);
-          
           this.valueActiveStatus = tagActividad.active;
           this.checkedEstatus = tagActividad.active;
           /*
@@ -420,15 +410,13 @@ export class ConfigActivitiesComponent implements OnInit {
               obj['elementTag']     = element;
               listObj.push(obj);
             }
-  
             this.tagPrecedentes = new MatTableDataSource<any>(listObj);
             this.tagPrecedentes.paginator = this.paginatorTagPrecedentes;
             this.tagPrecedentes.sort = this.sortTagPrecedentes;
-            this.existeTagId = true; 
+            this.existeTagId = true;
           }
 
           this.idsTagPrecedentes = [];
-          
           if (this.accion === 'ver') {
             this.soloLectura = true;
             this.configActividadesForm.controls['fTag'].disable();
@@ -455,13 +443,12 @@ export class ConfigActivitiesComponent implements OnInit {
             this.configActividadesForm.controls['fTipoDias'].disable();
             this.configActividadesForm.controls['fTipoCumplimiento'].disable();
 
-            this.configActividadesForm.controls['fDescripcion'].enable();            
+            this.configActividadesForm.controls['fDescripcion'].enable();
             this.configActividadesForm.controls['fClasificacionActividad'].enable();
             this.configActividadesForm.controls['fRequisitoLegal'].enable();
             this.tablaAgregarPrecedentes=false;
             this.existeTagId = true;
             //this.habilitarActividad = false;
-            
           }
 
 
@@ -469,23 +456,21 @@ export class ConfigActivitiesComponent implements OnInit {
           this.limpiarFormulario();
           this.existeTagId = false;
           this.toastr.infoToastr('No se encontró información del Tag buscado.', 'Lo siento,');
-          //alert("No se encontró información del Tag buscado")
         }
 
         this.addBlock(2, null);
       },
       error => {
-        console.log(<any>error);
         this.addBlock(2, null);
         this.toastr.errorToastr('Error al cargar detalles de la actividad.', 'Lo siento,');
       }
-    )/*.add(() => {
+    )/* .add(() => {
       this.delay(1000, 2);
       this.delayStatus(500);
-    });*/
+    }); */
   }
 
-  //Compara valores del combo para seleccionar la opción correspondiente
+  // Compara valores del combo para seleccionar la opción correspondiente
   compareFn(combo1: number, combo2: number) {
     console.log(combo1 && combo2 && combo1 === combo2);
     return combo1 && combo2 && combo1 === combo2;
@@ -498,7 +483,7 @@ export class ConfigActivitiesComponent implements OnInit {
 
     this.configActividadesForm.reset({
       fIdTag: '', fDescripcion: '',
-      //fTag: { value: '' },
+      // fTag: { value: '' },
       fClasificacionActividad: '',
       fRequisitoLegal: '',
       fActividad: { value: '', disabled: false },
@@ -508,24 +493,23 @@ export class ConfigActivitiesComponent implements OnInit {
       fPeriodoEntregaCantidad: { value: '', disabled: false },
       fPeriodoEntregaUnidad: { value: '', disabled: false },
       fTipoDias: { value: '', disabled: false },
-      //fPlanta: { value: arreglo, disabled: false },
-      //fCheckStatus: { checked:true }
+      // fPlanta: { value: arreglo, disabled: false },
+      // fCheckStatus: { checked:true }
     });
-    
-    //this.tagPrecedentes = null;
+    // this.tagPrecedentes = null;
     this.idsTagPrecedentes = [];
     this.existeTagId = false;
   }
 
-  ordenar(numberTable: number){
-    console.log("ORDENAR TABLA NO. " + numberTable)
-    if ( numberTable == 1){
-      if (this.registrosParaAsignar != null){
+  ordenar(numberTable: number) {
+    console.log('ORDENAR TABLA NO. ' + numberTable)
+    if ( numberTable === 1) {
+      if (this.registrosParaAsignar != null) {
         this.registrosParaAsignar.paginator = this.paginatorRegisters;
         this.registrosParaAsignar.sort = this.sortRegisters;
       }
-    }else{
-      if ( this.tagPrecedentes != null ){
+    } else {
+      if ( this.tagPrecedentes != null ) {
         this.tagPrecedentes.paginator = this.paginatorTagPrecedentes;
         this.tagPrecedentes.sort = this.sortTagPrecedentes;
       }
@@ -533,9 +517,9 @@ export class ConfigActivitiesComponent implements OnInit {
     this.addBlock(2, null);
   }
 
-  //Muestra las actividades que pueden ser agregadas como precedentes
+  // Muestra las actividades que pueden ser agregadas como precedentes
   mostrarPrecedentes() {
-    this.addBlock(1, "Cargando...");
+    this.addBlock(1, 'Cargando...');
     let tag = this.configActividadesForm.controls['fTag'].value;
     this.tagService.getActividadesPrecedentes(tag).subscribe(
       data => {
@@ -565,7 +549,6 @@ export class ConfigActivitiesComponent implements OnInit {
         }
       },
       error => {
-        console.log(<any>error);
         this.addBlock(2, null);
         this.toastr.errorToastr('Error al cargar lista de precedentes.', 'Lo siento,');
       }
@@ -575,14 +558,14 @@ export class ConfigActivitiesComponent implements OnInit {
     });*/
   }
 
-  //Agrega las actividades precedentes a la actividad actual
+  // Agrega las actividades precedentes a la actividad actual
   agregarPrecedentes() {
     let tag = this.configActividadesForm.controls['fTag'].value;
     if (this.idsTagPrecedentes.length > 0) {
-      this.addBlock(1, "Cargando...");
+      this.addBlock(1, 'Cargando...');
       this.tagService.agregarPrecedentes(tag, this.idsTagPrecedentes).subscribe(
         respuesta => {
-          console.log("======================>" + respuesta);
+          console.log('======================>' + respuesta);
           console.log(respuesta);
 
           let listObj = [];
@@ -603,10 +586,8 @@ export class ConfigActivitiesComponent implements OnInit {
           this.isPrecedentes = false;
           this.tablaAgregarPrecedentes = false;
           this.addBlock(2, null);
-        
         },
         error => {
-          console.log(<any>error);
           this.addBlock(2, null);
           this.toastr.errorToastr('Error al agregar precedentes.', 'Lo siento,');
         }
@@ -615,11 +596,11 @@ export class ConfigActivitiesComponent implements OnInit {
         //this.addBlock(2, null);
       });*/
 
-    }else{
+    } else {
       this.toastr.errorToastr('Debe seleccionar por lo menos 1 tag a asignar.', 'Lo siento,');
     }
 
-    console.log("agregarPrecedente: tagPrecedentes");
+    console.log('agregarPrecedente: tagPrecedentes');
     console.log(this.tagPrecedentes);
 
   }
@@ -632,14 +613,14 @@ export class ConfigActivitiesComponent implements OnInit {
       this.idsTagPrecedentes.splice(this.idsTagPrecedentes.indexOf(tag), 1);
     }
 
-    console.log("Agregar/Quitar ID");
+    console.log('Agregar/Quitar ID');
     console.log(this.idsTagPrecedentes);
 
   }
 
   eliminarPrecedente(tagPrecedente: any) {
     if (!this.soloLectura) {
-      this.addBlock(1, "Cargando...");
+      this.addBlock(1, 'Cargando...');
       this.tagService.eliminarPrecedente(tagPrecedente).subscribe(
         result => {
           console.log(result);
@@ -660,18 +641,15 @@ export class ConfigActivitiesComponent implements OnInit {
             this.tagPrecedentes = new MatTableDataSource<any>(listObj);
             this.tagPrecedentes.paginator = this.paginatorTagPrecedentes;
             this.tagPrecedentes.sort = this.sortTagPrecedentes;
-            
-          }else{
-            this.tagPrecedentes=null;
+          } else {
+            this.tagPrecedentes = null;
           }
 
           this.isPrecedentes = false;
           this.tablaAgregarPrecedentes = false;
-          
           this.addBlock(2, null);
         },
         error => {
-          console.log(<any>error);
           this.addBlock(2, null);
           this.toastr.errorToastr('Error al eliminar precedente.', 'Lo siento,');
         })/*.add(() => {
@@ -681,33 +659,28 @@ export class ConfigActivitiesComponent implements OnInit {
     }
   }
 
-  
-
-  //Asigna el nombre del tag con base en el catalogo de actividades y un consecutivo
+  // Asigna el nombre del tag con base en el catalogo de actividades y un consecutivo
   asignarNombreTag(actividadId: any) {
     this.tagService.getPrefijoConsecutivo(actividadId).subscribe(
-      respuesta => {
-        let tagActividadDTO: TagActividadDTO;
-        tagActividadDTO = <TagActividadDTO>respuesta;
+        (tagActividadDTO: TagActividadDTO) => {
         console.log(tagActividadDTO.siguienteCodigoTag);
         this.configActividadesForm.controls['fTag'].setValue(tagActividadDTO.siguienteCodigoTag);
       },
       error => {
-        console.log(" Error al asignar nombre de TAG");
+        console.log(' Error al asignar nombre de TAG');
       }
     );
-
   }
 
 
-  //Loadin
+  // Loadin
   private addBlock(type, msg): void {
     this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 
   async delay(ms: number, numberTable: number) {
     await new Promise(
-      resolve => 
+      resolve =>
         setTimeout(()=>
           resolve(), ms)).then(() => {
             this.ordenar(numberTable);
