@@ -47,6 +47,7 @@ export class ComplianceConfigurationComponent implements OnInit {
   showView = false;
   showUpdate = false;
   showDelete = false;
+  plural = "";
 
   columnas: string[] = ['order', 'tag', 'nombre', 'clasificacion', 'cumplimiento_legal', 'periodo_entrega', 'countTasks', 'autoridad', 'tipo_aplicacion', 'userUpdated', 'dateUpdated', 'estatus'];
   columnasResponsabilidad: string[] = ['order', 'admin', 'responsabilidad'];
@@ -163,7 +164,11 @@ export class ComplianceConfigurationComponent implements OnInit {
       this.anios = [];
       this.initCombos();
   }
-
+  formatPeriodo_entrega(period, code){
+    period > 1 ? this.plural="S" :this.plural="";
+    if(code == "MES" && period > 1)this.plural="ES"
+    return period + ' ' + code + this.plural;
+  }
   sortData(sort: Sort) {}
   get f() { return this.filtrosForm.controls; }
 

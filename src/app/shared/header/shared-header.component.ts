@@ -53,8 +53,6 @@ export class SharedHeaderComponent implements OnInit {
 	  	this.securityService.logout();
 	}
 	changePlant(plant){
-		
-		this.globalService.aguila = ! this.globalService.aguila;
 		let plants = this.securityService.loadPlants();
 		for(let i = 0; i < plants.length;i++){
 			if(plants[i].name == plant){
@@ -63,8 +61,5 @@ export class SharedHeaderComponent implements OnInit {
 			}
 		}
 		this.eventService.sendChangePage(this.globalService.page);
-		
-		let url = `assets/css/theme/${plant.toLowerCase()}/default.css`;
-		this._document.getElementById("plant_theme").setAttribute('href',url);
 	}
 }
