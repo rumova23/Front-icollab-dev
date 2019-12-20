@@ -247,61 +247,25 @@
                 <label>Período de entrega</label>
                 <div class="row">
                     <div class="col-2">
-                        <input
-                            #periodoEntregaNumero
-                            [min]="1"
-                            type="number"
-                            [(ngModel)] = "a326"  
-                            class="form-control"
-                            [ngClass]="{
-                                'is-invalid':
-                                    submitted &&
-                                    f.fPeriodoEntregaCantidad.errors
-                            }"
-                            name="value"
-                            formControlName="fPeriodoEntregaCantidad"
-                            (ngModelChange)="isnumeric(periodoEntregaNumero)"
-                        />
-                        <div
-                            *ngIf="
-                                submitted && f.fPeriodoEntregaCantidad.errors
-                            "
-                            style="color:red"
-                        >
-                            <div
-                                *ngIf="
-                                    f.fPeriodoEntregaCantidad.errors.required
-                                "
-                            >
+                        <input #periodoEntregaNumero [min]="1" type="number"
+                            [(ngModel)] = "a326" class="form-control" [ngClass]="{'is-invalid':submitted && f.fPeriodoEntregaCantidad.errors }"
+                            name="value" formControlName="fPeriodoEntregaCantidad" (ngModelChange)="isnumeric(periodoEntregaNumero)" />
+                        <div *ngIf="submitted && f.fPeriodoEntregaCantidad.errors" style="color:red">
+                            <div *ngIf="f.fPeriodoEntregaCantidad.errors.required">
                                 Requerido
                             </div>
                         </div>
                     </div>
 
                     <div class="col-10">
-                        <select
-                            class="form-control"
-                            [compareWith]="compareFn"
-                            formControlName="fPeriodoEntregaUnidad"
-                            [ngClass]="{
-                                'is-invalid':
-                                    submitted && f.fPeriodoEntregaUnidad.errors
-                            }"
-                        >
-                            <option
-                                *ngFor="let operator of comboUnitPeriod"
-                                [value]="operator.value"
-                            >
+                        <select class="form-control" [compareWith]="compareFn" formControlName="fPeriodoEntregaUnidad"
+                            [ngClass]="{ 'is-invalid': submitted && f.fPeriodoEntregaUnidad.errors}">
+                            <option *ngFor="let operator of comboUnitPeriod" [value]="operator.value" >
                                 {{ operator.label }}
                             </option>
                         </select>
-                        <div
-                            *ngIf="submitted && f.fPeriodoEntregaUnidad.errors"
-                            style="color:red"
-                        >
-                            <div
-                                *ngIf="f.fPeriodoEntregaUnidad.errors.required"
-                            >
+                        <div *ngIf="submitted && f.fPeriodoEntregaUnidad.errors" style="color:red" >
+                            <div *ngIf="f.fPeriodoEntregaUnidad.errors.required" >
                                 Requerido
                             </div>
                         </div>
