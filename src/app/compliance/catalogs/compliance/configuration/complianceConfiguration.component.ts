@@ -176,6 +176,7 @@ export class ComplianceConfigurationComponent implements OnInit {
             this.isFree = true;
         }
         this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
+        console.dir(data.matriz);
         this.registros =  new MatTableDataSource<TagOutDTO>(data.matriz);
         this.registros.paginator = this.paginator;
         let dateUpdated = null;
