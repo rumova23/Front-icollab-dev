@@ -109,23 +109,7 @@ export class SharedSidebarMenuComponent {
         for (let option of this.menu) {
             if (option.children) {
                 for (let ins = 0; ins < option.children.length; ins++) {
-                    if (option.children[ins]["label"] == "Cumplimiento Legal") {
-                        if (!option.children[ins].children) {
-                            option.children[ins].children = new Array();
-                            let childrenA: any = {};
-                            childrenA["label"] = "Características";
-                            childrenA["icon"] = "gavel";
-                            childrenA["url"] = "Características";
-                            childrenA["id"] = 105;
-                            option.children[ins].children.push(childrenA);
-                            let childrenB: any = {};
-                            childrenB["label"] = "Planeación";
-                            childrenB["url"] = "Planeación";
-                            childrenB["icon"] = "event_available";
-                            childrenA["id"] = 104;
-                            //option.children[ins].children.push(childrenB);
-                        }
-                    }
+                    
 
                     if (option.children[ins]["label"] == "Cumplimiento Adquisiciones") {
                         if (!option.children[ins].children) {
