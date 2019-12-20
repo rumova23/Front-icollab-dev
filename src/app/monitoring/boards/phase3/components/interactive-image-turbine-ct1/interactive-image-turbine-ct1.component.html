@@ -13,8 +13,8 @@ Launch demo modal
                 </button>
             </div>
             <div class="modal-body">
-                <div style="overflow-x: auto; " class="container scroll_design">
-                    <div class="image-phase3" style="width: 937px; height: 577px; position: relative; overflow: hidden; margin: auto;">
+                <div style="/*overflow-x: auto;*/" class="container scroll_design">
+                    <div class="image-phase3" style="width: 937px; height: 577px; position: relative; /*overflow: hidden;*/ margin: auto;">
                         <div style="color:aliceblue; position: absolute;z-index: 2; width: 100%; height: 100%;">
                             <p>
                                 <i
@@ -41,7 +41,7 @@ Launch demo modal
                         <!-- TAGS PARA TURBINA TV -->
                         <div class="tags" *ngIf="ct == 'tv'" style="position: absolute;z-index: 2; width: 100%; height: 100%;">
                             <div style="
-                                position: absolute; left: 135px; top: 377px;"
+                                position: absolute; left: 203px; top: 228px;"
                                 (click)="tag(tag_getGobernadoraizquierda,'chart_info','getGobernadoraizquierda')">
                                 <ng-template style="min-width: 900px;" #getGobernadoraizquierda>
                                     <div>{{ taglabel["getGobernadoraizquierda"] }}</div>
@@ -51,7 +51,7 @@ Launch demo modal
                                 <i class="fas fa-crosshairs tagpoint" #tag_getGobernadoraizquierda  tooltipClass="mytooltip" [ngbTooltip]="getGobernadoraizquierda"></i>
                             </div>
                             <div style="
-                                position: absolute; left: 209px; top: 359px;"
+                                position: absolute; left: 267px; top: 228px;"
                                 (click)="tag(tag_getGobernadoraderecha,'chart_info','getGobernadoraderecha')">
                                 <ng-template style="min-width: 900px;" #getGobernadoraderecha>
                                     <div>{{ taglabel["getGobernadoraderecha"] }}</div>
@@ -61,17 +61,17 @@ Launch demo modal
                                 <i class="fas fa-crosshairs tagpoint" #tag_getGobernadoraderecha  tooltipClass="mytooltip" [ngbTooltip]="getGobernadoraderecha"></i>
                             </div>
                             <div style="
-                                position: absolute; left: 321px; top: 189px;"
-                                (click)="tag(tag_getPosiciondeentrada,'chart_info','getPosiciondeentrada')">
-                                <ng-template style="min-width: 900px;" #getPosiciondeentrada>
-                                    <div>{{ taglabel["getPosiciondeentrada"] }}</div>
-                                    <b>{{ tagName["getPosiciondeentrada"] }}</b>
-                                    <div>{{ tagValue["getPosiciondeentrada"] | number }}</div>
+                                position: absolute; left: 327px; top: 75px;"
+                                (click)="tag(tag_getPresiondeentrada,'chart_info','getPresiondeentrada')">
+                                <ng-template style="min-width: 900px;" #getPresiondeentrada>
+                                    <div>{{ taglabel["getPresiondeentrada"] }}</div>
+                                    <b>{{ tagName["getPresiondeentrada"] }}</b>
+                                    <div>{{ tagValue["getPresiondeentrada"] | number }}</div>
                                 </ng-template>
-                                <i class="fas fa-crosshairs tagpoint" #tag_getPosiciondeentrada  tooltipClass="mytooltip" [ngbTooltip]="getPosiciondeentrada"></i>
+                                <i class="fas fa-crosshairs tagpoint" #tag_getPresiondeentrada  tooltipClass="mytooltip" [ngbTooltip]="getPresiondeentrada"></i>
                             </div>
                             <div style="
-                                position: absolute; left: 197px; top: 189px;"
+                                position: absolute; left: 204px; top: 81px;"
                                 (click)="tag(tag_getAltapresion,'chart_info','getAltapresion')">
                                 <ng-template style="min-width: 900px;" #getAltapresion>
                                     <div>{{ taglabel["getAltapresion"] }}</div>
@@ -81,7 +81,7 @@ Launch demo modal
                                 <i class="fas fa-crosshairs tagpoint" #tag_getAltapresion  tooltipClass="mytooltip" [ngbTooltip]="getAltapresion"></i>
                             </div>
                             <div style="
-                                position: absolute; left: 627px; top: 41px;"
+                                position: absolute; left: 631px; top: 8px;"
                                 (click)="tag(tag_getbajapresion,'chart_info','getbajapresion')">
                                 <ng-template style="min-width: 900px;" #getbajapresion>
                                     <div>{{ taglabel["getbajapresion"] }}</div>
@@ -91,7 +91,7 @@ Launch demo modal
                                 <i class="fas fa-crosshairs tagpoint" #tag_getbajapresion  tooltipClass="mytooltip" [ngbTooltip]="getbajapresion"></i>
                             </div>
                             <div style="
-                                position: absolute; left: 709px; top: 279px;"
+                                position: absolute; left: 747px; top: 135px;"
                                 (click)="tag(tag_getSalidadebajapresion,'chart_info','getSalidadebajapresion')">
                                 <ng-template style="min-width: 900px;" #getSalidadebajapresion>
                                     <div>{{ taglabel["getSalidadebajapresion"] }}</div>
@@ -101,7 +101,7 @@ Launch demo modal
                                 <i class="fas fa-crosshairs tagpoint" #tag_getSalidadebajapresion  tooltipClass="mytooltip" [ngbTooltip]="getSalidadebajapresion"></i>
                             </div>
                             <div style="
-                                position: absolute; left: 309px; top: 251px;"
+                                position: absolute; left: 479px; top: 105px;"
                                 (click)="tag(tag_gettvRpm,'chart_info','gettvRpm')">
                                 <ng-template style="min-width: 900px;" #gettvRpm>
                                     <div>{{ taglabel["gettvRpm"] }}</div>
@@ -111,7 +111,7 @@ Launch demo modal
                                 <i class="fas fa-crosshairs tagpoint" #tag_gettvRpm  tooltipClass="mytooltip" [ngbTooltip]="gettvRpm"></i>
                             </div>
                             <div style="
-                                position: absolute; left: 535px; top: 20px;"
+                                position: absolute; left: 597px; top: 39px;"
                                 (click)="tag(tag_getTemperaturaentradadeVaporBajaPreson,'chart_info','getTemperaturaentradadeVaporBajaPreson')">
                                 <ng-template style="min-width: 900px;" #getTemperaturaentradadeVaporBajaPreson>
                                     <div>{{ taglabel["getTemperaturaentradadeVaporBajaPreson"] }}</div>
@@ -121,7 +121,7 @@ Launch demo modal
                                 <i class="fas fa-crosshairs tagpoint" #tag_getTemperaturaentradadeVaporBajaPreson  tooltipClass="mytooltip" [ngbTooltip]="getTemperaturaentradadeVaporBajaPreson"></i>
                             </div>
                             <div style="
-                                position: absolute; left: 135px; top: 320px;"
+                                position: absolute; left: 194px; top: 136px;"
                                 (click)="tag(tag_getTemperaturaentradaAltapresion,'chart_info','getTemperaturaentradaAltapresion')">
                                 <ng-template style="min-width: 900px;" #getTemperaturaentradaAltapresion>
                                     <div>{{ taglabel["getTemperaturaentradaAltapresion"] }}</div>
@@ -131,7 +131,7 @@ Launch demo modal
                                 <i class="fas fa-crosshairs tagpoint" #tag_getTemperaturaentradaAltapresion  tooltipClass="mytooltip" [ngbTooltip]="getTemperaturaentradaAltapresion"></i>
                             </div>
                             <div style="
-                                position: absolute; left: 303px; top: 287px;"
+                                position: absolute; left: 347px; top: 123px;"
                                 (click)="tag(tag_getTemperaturadevaporintermedia,'chart_info','getTemperaturadevaporintermedia')">
                                 <ng-template style="min-width: 900px;" #getTemperaturadevaporintermedia>
                                     <div>{{ taglabel["getTemperaturadevaporintermedia"] }}</div>
@@ -141,7 +141,7 @@ Launch demo modal
                                 <i class="fas fa-crosshairs tagpoint" #tag_getTemperaturadevaporintermedia  tooltipClass="mytooltip" [ngbTooltip]="getTemperaturadevaporintermedia"></i>
                             </div>
                             <div style="
-                                position: absolute; left: 287px; top: 358px;"
+                                position: absolute; left: 403px; top: 205px;"
                                 (click)="tag(tag_getinterceptora,'chart_info','getinterceptora')">
                                 <ng-template style="min-width: 900px;" #getinterceptora>
                                     <div>{{ taglabel["getinterceptora"] }}</div>
