@@ -89,7 +89,7 @@ export class PerfilComboService {
 
   obtenPreguntasExamen(configuracionExamen: string, empleadoId: number): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get(`${this.microexamenUrl}exam/preguntas/${configuracionExamen}/${empleadoId}`, httpOptions);
+    return this.http.get(`${this.microexamenUrl}exam/preguntas/${configuracionExamen}/${empleadoId}`, {params : this.parameters });
   }
 
 
@@ -133,7 +133,6 @@ export class PerfilComboService {
 
 
   obtenCalificacion(empleadoId: number): Observable<any> {
-    console.log('RTC empleadoId: ' + empleadoId);
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     // return this.http.get(`${this.microexamenUrl}exam/obten/calificacion/${empleadoId}`, httpOptions);
     return this.http.get(`${this.microexamenUrl}exam/obten/calificacion/${empleadoId}`, {params : this.parameters });
@@ -152,7 +151,7 @@ export class PerfilComboService {
   terminaExamen(examenReservacionId: number): Observable<any>  {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     // return this.http.post(`${this.microexamenUrl}exam/terminaExamen?examenReservacionId=` + examenReservacionId , httpOptions);
-    return this.http.post(`${this.microexamenUrl}exam/terminaExamen?examenReservacionId=` + examenReservacionId + '&user=' + this.user,
+    return this.http.post(`${this.microexamenUrl}exam/terminaExamen?examenReservacionId=` + examenReservacionId + '&user=' + this.user, null,
         {params : this.parameters });
   }
 
@@ -165,7 +164,6 @@ export class PerfilComboService {
 
   getGraficas(examenReservacionId: number): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    console.log('RTC examenReservacionId: ' + examenReservacionId);
     return this.http.get(`${this.microexamenUrl}exam/obten/calificacion/reservacion/${examenReservacionId}`, {params : this.parameters });
   }
 
@@ -179,7 +177,7 @@ export class PerfilComboService {
 
   postObservaciones(calificacionId: number, observacion: string): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post( `${ this.microexamenUrl }exam/guardaObservacion/${calificacionId}/${observacion}`, {params : this.parameters });
+    return this.http.post( `${ this.microexamenUrl }exam/guardaObservacion/${calificacionId}/${observacion}`, null, {params : this.parameters });
   }
 
 
@@ -188,7 +186,7 @@ export class PerfilComboService {
     const file: FormData = new FormData();
     file.append('file', fileObj);
     return this.http.post(`${ this.microexamenUrl }exam/guardarArchivos?idCalificacion=` +
-        idCalificacion + `&typeDocument=` + typeDocument, file);
+        idCalificacion + `&typeDocument=` + typeDocument, file, {params : this.parameters });
   }
 
   downloadFile(fileId: number) {

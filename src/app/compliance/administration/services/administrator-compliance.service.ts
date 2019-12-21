@@ -33,7 +33,6 @@ export class AdministratorComplianceService {
     let user = JSON.parse(localStorage.getItem('user'));
     user = user.username;
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    console.dir(this.parameters);
     return this.http.post( `${ this.seguimientoUrl }legal/aprobar/matriz/${anio}`, user, {params : this.parameters });
   }
 
@@ -85,14 +84,12 @@ export class AdministratorComplianceService {
 
   guardaObservacion(complianceId: number, observacion: string) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post( `${ this.seguimientoUrl }legal/guarda/observacion/${complianceId}/${observacion}`,
-        {params : this.parameters });
+    return this.http.post( `${ this.seguimientoUrl }legal/guarda/observacion/${complianceId}/${observacion}`, null, {params : this.parameters });
   }
 
   obtenObservaciones(complianceId: number) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get( `${ this.seguimientoUrl }legal/obten/observaciones/${complianceId}`,
-        {params : this.parameters });
+    return this.http.get( `${ this.seguimientoUrl }legal/obten/observaciones/${complianceId}`, {params : this.parameters });
   }
 
   obtenEstatusMaestro(entidad: string) {
@@ -102,13 +99,14 @@ export class AdministratorComplianceService {
   }
 
   upload(fileObj: File, idCompliance: number, typeDocument: number) {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     let user = JSON.parse(localStorage.getItem('user'));
     user = user.username;
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     const file: FormData = new FormData();
     file.append('file', fileObj);
     return this.http.post(`${ this.seguimientoUrl }legal/guardarArchivos?idCompliance=` +
-        idCompliance + `&typeDocument=` + typeDocument + `&username=` + user , file);
+        idCompliance + `&typeDocument=` + typeDocument + `&username=` + user , file, {params : this.parameters });
   }
 
   obtenDocumentos(complianceId: number, typeDocument: string): Observable<any> {

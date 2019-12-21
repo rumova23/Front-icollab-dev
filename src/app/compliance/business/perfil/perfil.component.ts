@@ -18,8 +18,6 @@ import { DatePipe } from '@angular/common';
     providers: [DatePipe]
 })
 export class PerfilComponent implements OnInit {
-
-
   @Input() inIdEmpleado: number;
   @Input() inTipo: string;
   @Input() isViewable: string;

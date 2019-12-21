@@ -41,22 +41,22 @@ export class EfhService {
   }
 
   getEventsConfigurated() {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.microEfh }event/list`, { params : this.parameters });
   }
 
   getEvent(id) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.microEfh }event/get/` + id, { params : this.parameters });
   }
 
   setEvent(event, plantSelected) {
-    this.setXTenantId(plantSelected);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.microEfh }event/save` , event, {params : this.parameters });
   }
 
   deleteEvent(id) {
-    this.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.delete( `${ this.microEfh }event/delete/` + id, {params : this.parameters });
   }
 
