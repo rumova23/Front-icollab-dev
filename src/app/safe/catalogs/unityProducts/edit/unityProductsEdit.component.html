@@ -25,7 +25,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Código</label>
+                            <label class="form-text text-left">Código</label>
                             <input
                                 formControlName="code"
                                 class="form-control"
@@ -57,7 +57,7 @@
                                     placeholder="Código"
                                     formControlName="code"
                                 />
-                                <mat-error
+                                <div
                                     *ngIf="
                                         !unityProductForm.controls['code']
                                             .valid &&
@@ -66,7 +66,7 @@
                                     "
                                 >
                                     Requerido
-                                </mat-error>
+                                </div>
                             </mat-form-field>
                         </div-->
                     </div>
@@ -74,7 +74,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Descripción</label>
+                            <label class="form-text text-left">Descripción</label>
                             <textarea
                                 formControlName="description"
                                 class="form-control"
@@ -110,7 +110,7 @@
                                     placeholder="Descripción"
                                     formControlName="description"
                                 />
-                                <mat-error
+                                <div
                                     *ngIf="
                                         !unityProductForm.controls[
                                             'description'
@@ -120,7 +120,7 @@
                                     "
                                 >
                                     Requerido
-                                </mat-error>
+                                </div>
                             </mat-form-field>
                         </div-->
                     </div>
@@ -128,21 +128,11 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Unidad de Producto Sat</label>
-                            <select
-                                class="form-control"
-                                formControlName="unityProductSat"
-                                [compareWith]="compareObjects"
-                            >
-                                <option
-                                    *ngFor="
-                                        let unityProductSat of unityProductsSat
-                                    "
-                                    [value]="unityProductSat"
-                                >
-                                    {{ unityProductSat.name }}
-                                </option>
-                            </select>
+                            
+                            <label class="form-text text-left">Unidad de Producto Sat:</label>
+                            <mat-select class="form-control" formControlName="unityProductSat" [compareWith]="compareObjects">
+                              <mat-option class="form-control" *ngFor="let unityProductSat of unityProductsSat" [value]="unityProductSat">{{ unityProductSat.name }}</mat-option>
+                            </mat-select>
                             <div
                                 *ngIf="
                                     !unityProductForm.controls[
@@ -167,58 +157,44 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!--mat-form-field>
-                            <mat-label>Unidad de Producto Sat</mat-label>
-                            <mat-select
-                                formControlName="unityProductSat"
-                                [compareWith]="compareObjects"
-                            >
-                                <mat-option
-                                    *ngFor="
-                                        let unityProductSat of unityProductsSat
-                                    "
-                                    [value]="unityProductSat"
-                                >
-                                    {{ unityProductSat.name }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-error
-                            *ngIf="
-                                !unityProductForm.controls['unityProductSat']
-                                    .valid &&
-                                unityProductForm.controls['unityProductSat']
-                                    .touched
-                            "
-                        >
-                            Requerido
-                        </mat-error-->
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <mat-checkbox
+                        <div class="form-group">
+                            <label class="form-text text-left">Activo</label>
+                            <input
+                                class="form-control active"
+                                type="checkbox"
+                                formControlName="active"
+                                id="active"
+                                color="primary"
+                                style="
+                                height: auto;
+                                width: auto;"
+                            />
+                        </div>
+                        <!--mat-checkbox
                             id="active"
                             class="active"
                             color="primary"
                             formControlName="active"
                             >Activo
-                        </mat-checkbox>
-                        <mat-error
+                        </mat-checkbox-->
+                        <div
                             *ngIf="
                                 !unityProductForm.controls['active'].valid &&
                                 unityProductForm.controls['active'].touched
                             "
                         >
                             Requerido
-                        </mat-error>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Orden</label>
+                            <label class="form-text text-left">Orden</label>
                             <input
                                 type="number"
                                 formControlName="order"
@@ -236,7 +212,7 @@
                                     formControlName="order"
                                     type="number"
                                 />
-                                <mat-error
+                                <div
                                     *ngIf="
                                         !unityProductForm.controls['order']
                                             .valid &&
@@ -245,7 +221,7 @@
                                     "
                                 >
                                     Requerido
-                                </mat-error>
+                                </div>
                             </mat-form-field>
                         </div-->
                     </div>

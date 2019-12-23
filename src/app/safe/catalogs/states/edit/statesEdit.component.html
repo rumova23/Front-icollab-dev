@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Código</label>
+                            <label class="form-text text-left">Código</label>
                             <input
                                 formControlName="code"
                                 class="form-control"
@@ -52,14 +52,14 @@
                                     placeholder="Código"
                                     formControlName="code"
                                 />
-                                <mat-error
+                                <div
                                     *ngIf="
                                         !stateForm.controls['code'].valid &&
                                         stateForm.controls['code'].touched
                                     "
                                 >
                                     Requerido
-                                </mat-error>
+                                </div>
                             </mat-form-field>
                         </div-->
                     </div>
@@ -67,7 +67,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Descripción</label>
+                            <label class="form-text text-left">Descripción</label>
                             <textarea
                                 formControlName="description"
                                 class="form-control"
@@ -100,7 +100,7 @@
                                     placeholder="Descripción"
                                     formControlName="description"
                                 />
-                                <mat-error
+                                <div
                                     *ngIf="
                                         !stateForm.controls['description']
                                             .valid &&
@@ -109,7 +109,7 @@
                                     "
                                 >
                                     Requerido
-                                </mat-error>
+                                </div>
                             </mat-form-field>
                         </div-->
                     </div>
@@ -117,19 +117,11 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>País</label>
-                            <select
-                                class="form-control"
-                                formControlName="country"
-                                [compareWith]="compareObjects"
-                            >
-                                <option
-                                    *ngFor="let country of countries"
-                                    [value]="country"
-                                >
-                                    {{ country.description }}
-                                </option>
-                            </select>
+                            
+                            <label class="form-text text-left">País:</label>
+                            <mat-select class="form-control" formControlName="country" [compareWith]="compareObjects">
+                              <mat-option class="form-control" *ngFor="let country of countries" [value]="country">{{ country.description }}</mat-option>
+                            </mat-select>
                             <div
                                 *ngIf="
                                     !stateForm.controls['country'].valid &&
@@ -147,54 +139,44 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!--mat-form-field>
-                            <mat-label>País</mat-label>
-                            <mat-select
-                                formControlName="country"
-                                [compareWith]="compareObjects"
-                            >
-                                <mat-option
-                                    *ngFor="let country of countries"
-                                    [value]="country"
-                                >
-                                    {{ country.description }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-error
-                            *ngIf="
-                                !stateForm.controls['country'].valid &&
-                                stateForm.controls['country'].touched
-                            "
-                        >
-                            Requerido
-                        </mat-error-->
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <mat-checkbox
+                        <div class="form-group">
+                            <label class="form-text text-left">Activo</label>
+                            <input
+                                class="form-control active"
+                                type="checkbox"
+                                formControlName="active"
+                                id="active"
+                                color="primary"
+                                style="
+                                height: auto;
+                                width: auto;"
+                            />
+                        </div>
+                        <!--mat-checkbox
                             id="active"
                             class="active"
                             color="primary"
                             formControlName="active"
                             >Activo
-                        </mat-checkbox>
-                        <mat-error
+                        </mat-checkbox-->
+                        <div
                             *ngIf="
                                 !stateForm.controls['active'].valid &&
                                 stateForm.controls['active'].touched
                             "
                         >
                             Requerido
-                        </mat-error>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Orden</label>
+                            <label class="form-text text-left">Orden</label>
                             <input
                                 type="number"
                                 formControlName="order"
@@ -212,14 +194,14 @@
                                     formControlName="order"
                                     type="number"
                                 />
-                                <mat-error
+                                <div
                                     *ngIf="
                                         !stateForm.controls['order'].valid &&
                                         stateForm.controls['order'].touched
                                     "
                                 >
                                     Requerido
-                                </mat-error>
+                                </div>
                             </mat-form-field>
                         </div-->
                     </div>

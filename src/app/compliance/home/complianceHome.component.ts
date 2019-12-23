@@ -55,7 +55,9 @@ export class ComplianceHomeComponent implements OnInit {
 		,public  globalService            : GlobalService
 		,private eventService             : EventService
 		,private securityService          : SecurityService
-	) {}
+	) {
+		globalService.setApp('Compliance');
+	}
 
 	ngOnInit() {
 		//let url = `/assets/css/base/respaldo.css`;

@@ -83,14 +83,14 @@ export class LegalAgreementComponent implements OnInit {
 
   filtrarCompliance() {
     const bandera = false;
-    //  this.addBlock(1, null);
+    this.addBlock(1, null);
     this.limpiarTablas();
     if (1) {
         this.limpiarTablas();
         this.complianceService.getCompliancePorPlantaYFechas(this.filtrosForm.controls.fAnio.value).subscribe(result => {
               this.elementData = result;
-              console.dir(this.elementData);
               this.asignarRegistros();
+              this.addBlock(2, null);
           },
           error => {
             console.log(error as any);
@@ -102,12 +102,12 @@ export class LegalAgreementComponent implements OnInit {
 
   listaMatriz() {
     this.complianceService.getListMatrizCumplimiento().subscribe((lista: Array<MatrizCumplimientoDTO>) => {
-      console.dir(lista);
       lista.forEach((cumplimiento: MatrizCumplimientoDTO) => {
         this.anios.push(new Combo(cumplimiento.anio.toString(), cumplimiento.anio.toString()));
       });
     });
   }
+
   limpiarTablas() {
     // this.accordion.closeAll();
     this.expandCloseAll = false;

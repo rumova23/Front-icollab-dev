@@ -94,7 +94,7 @@ export class TagService {
     return this.http.get( `${ this.baseMicroTagUrl }obtenTagPorFiltros/${plantaId}`, httpOptions);
   }*/
 
-  eliminarTag(tagId: number): Observable<any> {
+  eliminarTag(tagId: number) {
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${ this.baseMicroTagUrl }eliminar/${tagId}`, {params : this.parameters });
   }
@@ -118,6 +118,11 @@ export class TagService {
   crearActividad(actividad: TagActividadInDTO, selectedPlant) {
     this.parameters = this.globalService.setXTenantId_Plant(selectedPlant);
     return this.http.post( `${ this.baseMicroTagUrl }actividad/crear`, actividad, {params : this.parameters });
+  }
+
+  actualizarPorClonacion(actividadId: number, referenceclone: string) {
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    return this.http.post( `${ this.baseMicroTagUrl }actividad/edit/fatherclone/${actividadId}/${referenceclone}`, null, {params : this.parameters });
   }
 
   editarActividad(actividad: TagActividadInDTO) {

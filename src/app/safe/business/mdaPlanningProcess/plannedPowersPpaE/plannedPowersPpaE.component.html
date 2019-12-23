@@ -15,11 +15,23 @@
             <div class="col-12 col-sm-12 col-md-12 col-lg-10">
               <div class="row">
                 <div class="col-md-auto">
-                  <mat-form-field>
+                  
+                  <div class="form-group">
+                    <label class="form-text text-left" for="De">De</label>
+                    <mat-form-field class="form-control">
+                        <input matInput 
+                        formControlName="De"
+                        [matDatepicker]="De">
+                        <mat-datepicker-toggle matSuffix [for]="De"></mat-datepicker-toggle>
+                        <mat-datepicker #De></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+
+                  <!--mat-form-field>
                     <input matInput [matDatepicker]="De" placeholder="De">
                     <mat-datepicker-toggle matSuffix [for]="De"></mat-datepicker-toggle>
                     <mat-datepicker #De></mat-datepicker>
-                  </mat-form-field>
+                  </mat-form-field-->
                 </div> 
               </div>
             </div>

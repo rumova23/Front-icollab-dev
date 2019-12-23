@@ -21,14 +21,19 @@
       <div class="filtros mt-2 row">
         <div class="col-12 col-sm-12 col-md-12 col-lg-10">
           
-          <div class="form-group row">
-            <div class="form-group col-12 col-md-6 col-lg-4">
-              <label for="De">De</label>
-              <input type="date" class="form-control" id="De" 
-              (change)="dateChange($event)">
-            </div>
+          <div class="form-group">
+            <label class="form-text text-left" for="mydate">De</label>
+            <mat-form-field class="form-control">
+                <input matInput 
+                formControlName="date"
+                [matDatepicker]="mydate"
+                [(ngModel)]="date"
+                (dateChange)="dateChange($event)">
+                <mat-datepicker-toggle matSuffix [for]="mydate"></mat-datepicker-toggle>
+                <mat-datepicker #mydate></mat-datepicker>
+            </mat-form-field>
           </div>
-
+          
         </div>
         <!--   <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
           <div>
@@ -46,7 +51,7 @@
 
           
 					  	<div class="form-group">
-                <label>MW incremental 1</label>
+                <label class="form-text text-left">MW incremental 1</label>
                 <input class="form-control" formControlName="megawatt1"
                   oninput="this.value = this.value.toUpperCase()"
                   maxlength="30">
@@ -68,7 +73,7 @@
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
 					  	<div class="form-group">
-                <label>$/MWh incremental 1</label>
+                <label class="form-text text-left">$/MWh incremental 1</label>
                 <input class="form-control" formControlName="priceMegawatt1"
                   oninput="this.value = this.value.toUpperCase()"
                   >
@@ -89,7 +94,7 @@
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
             <div class="form-group">
-              <label>MW incremental 2</label>
+              <label class="form-text text-left">MW incremental 2</label>
               <input class="form-control" formControlName="megawatt2"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -112,7 +117,7 @@
 
           
             <div class="form-group">
-              <label>$/MWh incremental 2</label>
+              <label class="form-text text-left">$/MWh incremental 2</label>
               <input class="form-control" formControlName="priceMegawatt2"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -136,7 +141,7 @@
 
           
             <div class="form-group">
-              <label>MW incremental 3</label>
+              <label class="form-text text-left">MW incremental 3</label>
               <input class="form-control" formControlName="megawatt3"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -159,7 +164,7 @@
         <div class="col-md-8">
           
             <div class="form-group">
-              <label>$/MWh incremental 3</label>
+              <label class="form-text text-left">$/MWh incremental 3</label>
               <input class="form-control" formControlName="priceMegawatt3"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -183,7 +188,7 @@
 
           
             <div class="form-group">
-              <label>MW incremental 4</label>
+              <label class="form-text text-left">MW incremental 4</label>
               <input class="form-control" formControlName="megawatt4"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -206,7 +211,7 @@
         <div class="col-md-8">
           
             <div class="form-group">
-              <label>$/MWh incremental 4</label>
+              <label class="form-text text-left">$/MWh incremental 4</label>
               <input class="form-control" formControlName="priceMegawatt4"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -231,7 +236,7 @@
         <div class="col-md-8">
           
             <div class="form-group">
-              <label>MW incremental 5</label>
+              <label class="form-text text-left">MW incremental 5</label>
               <input class="form-control" formControlName="megawatt5"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -254,7 +259,7 @@
         <div class="col-md-8">
           
             <div class="form-group">
-              <label>$/MWh incremental 5</label>
+              <label class="form-text text-left">$/MWh incremental 5</label>
               <input class="form-control" formControlName="priceMegawatt5"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -278,7 +283,7 @@
         <div class="col-md-8">
           
             <div class="form-group">
-              <label>MW incremental 6</label>
+              <label class="form-text text-left">MW incremental 6</label>
               <input class="form-control" formControlName="megawatt6"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -299,7 +304,7 @@
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
             <div class="form-group">
-              <label>$/MWh incremental 6</label>
+              <label class="form-text text-left">$/MWh incremental 6</label>
               <input class="form-control" formControlName="priceMegawatt6"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -322,7 +327,7 @@
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
             <div class="form-group">
-              <label>MW incremental 7</label>
+              <label class="form-text text-left">MW incremental 7</label>
               <input class="form-control" formControlName="megawatt7"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -345,7 +350,7 @@
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
             <div class="form-group">
-              <label>$/MWh incremental 7</label>
+              <label class="form-text text-left">$/MWh incremental 7</label>
               <input class="form-control" formControlName="priceMegawatt7"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -368,7 +373,7 @@
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
             <div class="form-group">
-              <label>MW incremental 8</label>
+              <label class="form-text text-left">MW incremental 8</label>
               <input class="form-control" formControlName="megawatt8"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -391,7 +396,7 @@
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
             <div class="form-group">
-              <label>$/MWh incremental 8</label>
+              <label class="form-text text-left">$/MWh incremental 8</label>
               <input class="form-control" formControlName="priceMegawatt8"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -415,7 +420,7 @@
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
             <div class="form-group">
-              <label>MW incremental 9</label>
+              <label class="form-text text-left">MW incremental 9</label>
               <input class="form-control" formControlName="megawatt9"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -437,7 +442,7 @@
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
             <div class="form-group">
-              <label>$/MWh incremental 9</label>
+              <label class="form-text text-left">$/MWh incremental 9</label>
               <input class="form-control" formControlName="priceMegawatt9"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -458,7 +463,7 @@
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
             <div class="form-group">
-              <label>MW incremental 10</label>
+              <label class="form-text text-left">MW incremental 10</label>
               <input class="form-control" formControlName="megawatt10"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -479,7 +484,7 @@
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
             <div class="form-group">
-              <label>$/MWh incremental 10</label>
+              <label class="form-text text-left">$/MWh incremental 10</label>
               <input class="form-control" formControlName="priceMegawatt10"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -502,7 +507,7 @@
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
             <div class="form-group">
-              <label>MW incremental 11</label>
+              <label class="form-text text-left">MW incremental 11</label>
               <input class="form-control" formControlName="megawatt11"
                 oninput="this.value = this.value.toUpperCase()"
                 >
@@ -524,7 +529,7 @@
       <div class="col-md-auto col-md-6 col-lg-3">
         <div class="col-md-8">
             <div class="form-group">
-              <label>$/MWh incremental 11</label>
+              <label class="form-text text-left">$/MWh incremental 11</label>
               <input class="form-control" formControlName="priceMegawatt11"
                 oninput="this.value = this.value.toUpperCase()"
                 >

@@ -11,56 +11,66 @@
           <div class="md-form">
             <mat-form-field class="w-100">
               <input matInput placeholder="Serie" formControlName="serie">
-              <mat-error *ngIf="!branchInvoiceSeriesForm.controls['serie'].valid 
+              <div *ngIf="!branchInvoiceSeriesForm.controls['serie'].valid 
                     && branchInvoiceSeriesForm.controls['serie'].touched">
                 Requerido
-              </mat-error>
+              </div>
             </mat-form-field>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-4">
-          <mat-form-field>
-            <mat-label>Sucursal</mat-label>
-            <mat-select formControlName="plantBranchOffice" [compareWith]="compareObjects">
-              <mat-option *ngFor="let plantBranchOffice of plantBranches" [value]="plantBranchOffice">
-                {{ plantBranchOffice.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-error *ngIf="!branchInvoiceSeriesForm.controls['plantBranchOffice'].valid 
+          
+        <div class="form-group">
+          <label class="form-text text-left">Sucursal:</label>
+          <mat-select class="form-control" formControlName="plantBranchOffice" [compareWith]="compareObjects">
+            <mat-option class="form-control" *ngFor="let plantBranchOffice of plantBranches" [value]="plantBranchOffice">{{ plantBranchOffice.name }}</mat-option>
+          </mat-select>
+          <div *ngIf="!branchInvoiceSeriesForm.controls['plantBranchOffice'].valid 
                         && branchInvoiceSeriesForm.controls['plantBranchOffice'].touched">
             Requerido
-          </mat-error>
+          </div>
+        </div>
+
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-4">
-          <mat-form-field>
-            <mat-label>Sistema</mat-label>
-            <mat-select formControlName="sys" [compareWith]="compareObjects">
-              <mat-option *ngFor="let sys of systems" [value]="sys">
-                {{ sys.description }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-error *ngIf="!branchInvoiceSeriesForm.controls['sys'].valid 
+          <div class="form-group">              
+              <label class="form-text text-left">Sistema:</label>
+              <mat-select class="form-control" formControlName="sys" [compareWith]="compareObjects">
+                <mat-option class="form-control" *ngFor="let sys of systems" [value]="sys">{{ sys.description }}</mat-option>
+              </mat-select>
+          </div>
+          <div *ngIf="!branchInvoiceSeriesForm.controls['sys'].valid 
                           && branchInvoiceSeriesForm.controls['sys'].touched">
             Requerido
-          </mat-error>
+          </div>
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-4">
-          <mat-checkbox id="active" class="active" color="primary" formControlName="active">Activo
-          </mat-checkbox>
-          <mat-error *ngIf="!branchInvoiceSeriesForm.controls['active'].valid 
+          
+          <div class="form-group">
+            <label class="form-text text-left">Activo</label>
+            <input
+                class="form-control active"
+                type="checkbox"
+                formControlName="active"
+                style="
+                height: auto;
+                width: auto;"
+            />
+          </div>
+          <!--mat-checkbox id="active" class="active" color="primary" formControlName="active">Activo
+          </mat-checkbox-->
+          <div *ngIf="!branchInvoiceSeriesForm.controls['active'].valid 
                         && branchInvoiceSeriesForm.controls['active'].touched">
             Requerido
-          </mat-error>
+          </div>
         </div>
       </div>
       <div class="row">

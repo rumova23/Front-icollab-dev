@@ -13,7 +13,7 @@ export var listCharts = {
 
             {localId:"getGobernadoraizquierda", initHiddenInChart:true},
             {localId:"getGobernadoraderecha", initHiddenInChart:true},
-            {localId:"getPosiciondeentrada", initHiddenInChart:true},
+            {localId:"getPresiondeentrada", initHiddenInChart:true},
             {localId:"getAltapresion", initHiddenInChart:true},
             {localId:"getbajapresion", initHiddenInChart:true},
             {localId:"getSalidadebajapresion", initHiddenInChart:true},
@@ -298,7 +298,7 @@ lstTags["getGobernadoraderecha"] = {
     sol: [{ WebId: null, data: null, active: false }],
     overview: [{ value: null, timestamp: null }]
 };
-lstTags["getPosiciondeentrada"] = {
+lstTags["getPresiondeentrada"] = {
     label: "Presión de entrada.",
     min: 0,
     max: 590,

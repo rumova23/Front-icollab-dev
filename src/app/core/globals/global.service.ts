@@ -1,9 +1,11 @@
 import { Injectable      } from '@angular/core';
+import { Inject          } from '@angular/core';
 import { App             } from 'src/app/core/models/App';
 import { EventMessage    } from '../models/EventMessage';
 import { Plant           } from 'src/app/security/models/Plant';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { HttpParams      } from '@angular/common/http';
+import { DOCUMENT        } from '@angular/common';
 
 @Injectable({
 	providedIn: 'root'
@@ -18,9 +20,10 @@ export class GlobalService {
 	public page: EventMessage  = { id: 0 , data: {}, descriptor: 'none' };
 	public aside_open          = false;
 
-	constructor(public securityService: SecurityService) {
+	constructor(@Inject(DOCUMENT) private _document,public securityService: SecurityService) {
 		try {
-			this.plant = JSON.parse(localStorage.getItem('plant'));
+			//para desarrollo, si entra sin pasar por login, que cargue la planta por defecto
+			this.setPlant(JSON.parse(localStorage.getItem('plant')));
 		} catch (e) {
 
 		}
@@ -29,9 +32,16 @@ export class GlobalService {
 	setPlant(plant: Plant): void {
 		localStorage.setItem('plant', JSON.stringify(plant));
 		this.plant = plant;
+		this.setTheme();
 	}
 	getPlant(): Plant {
 		return this.plant;
+	}
+	setTheme(){
+		this.aguila = (this.plant.name=="AGUILA") ? true : false;   // no se debe seguir usando ya que puede haber n plantas  ahora se debe usar la variable plant
+		let url = `assets/css/theme/${this.plant.name.toLowerCase()}/default.css`;
+		let element = this._document.getElementById("plant_theme");
+		if(element) element.setAttribute('href',url);
 	}
 	setApp(name): void {
         const apps = this.securityService.loadApps();

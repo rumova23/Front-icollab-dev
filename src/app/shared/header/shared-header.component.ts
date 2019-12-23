@@ -6,7 +6,9 @@ import { GlobalService     } from 'src/app/core/globals/global.service';
 import { SecurityService   } from 'src/app/core/services/security.service';
 import { EventService      } from 'src/app/core/services/event.service';
 import { EventMessage      } from 'src/app/core/models/EventMessage';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT          } from '@angular/common';
+import { EventBlocked      } from 'src/app/core/models/EventBlocked';
+import { Observable        } from 'rxjs';
 
 @Component({
   selector    : 'app-shared-header',
@@ -53,18 +55,30 @@ export class SharedHeaderComponent implements OnInit {
 	  	this.securityService.logout();
 	}
 	changePlant(plant){
-		
-		this.globalService.aguila = ! this.globalService.aguila;
 		let plants = this.securityService.loadPlants();
 		for(let i = 0; i < plants.length;i++){
 			if(plants[i].name == plant){
+				this.addBlock(1,"");
+
 				this.globalService.setPlant(plants[i]);
+				
+				this.mytimeout().subscribe(() => {
+					this.addBlock(2, "");
+				});
 				break;
 			}
 		}
 		this.eventService.sendChangePage(this.globalService.page);
-		
-		let url = `assets/css/theme/${plant.toLowerCase()}/default.css`;
-		this._document.getElementById("plant_theme").setAttribute('href',url);
+	}
+	
+	addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+	}
+	mytimeout(): any {
+		return new Observable(observer => {
+			   setTimeout(() => {
+				   observer.next();
+			   }, 1300);
+		});
 	}
 }

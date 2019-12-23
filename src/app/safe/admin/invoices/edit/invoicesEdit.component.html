@@ -18,7 +18,7 @@
     </div>
     <!--Botones-->
     <form [formGroup]="invoiceForm" (ngSubmit)="save(invoiceForm.value)">
-        <div class="row mt-5 mb-5">
+        <div class="row mb-5">
             <div class="col">
                 <button
                     type="submit"
@@ -47,7 +47,7 @@
                                     <div class="col-md-{{ in.col || 8 }}">
                                         
                                         <div class="form-group">
-                                            <label>{{ in.label }}</label>
+                                            <label class="form-text text-left">{{ in.label }}</label>
                                             <input
                                                 class="form-control"
                                                 formControlName="{{
@@ -78,7 +78,7 @@
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
                                         <div class="form-group">
-                                            <label>{{ in.label }}</label>
+                                            <label class="form-text text-left">{{ in.label }}</label>
                                             <input
                                                 class="form-control"
                                                 type="time"
@@ -110,22 +110,10 @@
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
                                         <div class="form-group">
-                                            <label>{{ in.label }}</label>
-                                            <select
-                                                class="form-control"
-                                                formControlName="{{
-                                                    in.formControlName
-                                                }}"
-                                                (change)="
-                                                    onSelect($event, in)
-                                                "
-                                            >
-                                                <option
-                                                *ngFor="
-                                                    let option of in.options
-                                                "
-                                                [value]="option.id"
-                                            >
+                                            <label class="form-text text-left">{{in.label}}:</label>
+                                            <mat-select class="form-control" formControlName="{{in.formControlName}}" 
+                                            (selectionChange)="onSelect($event.value, in)">
+                                            <mat-option class="form-control" *ngFor="let option of in.options" [value]="option.id">
                                                 {{
                                                     option.description !=
                                                     null
@@ -134,9 +122,8 @@
                                                           null
                                                         ? option.name
                                                         : option.tradename
-                                                }}
-                                                </option>
-                                            </select>
+                                                }}</mat-option>
+                                            </mat-select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -161,29 +148,16 @@
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
                                         <div class="form-group">
-                                            <label>{{ in.label }}</label>
-                                            <select
-                                                class="form-control"
-                                                formControlName="{{
-                                                    in.formControlName
-                                                }}"
-                                                (change)="
-                                                    onSelect($event.value, in)
-                                                "
-                                            >
-                                                <option
-                                                *ngFor="
-                                                    let option of in.options
-                                                "
-                                                [value]="option"
-                                            >
+                                            <label class="form-text text-left">{{in.label}}:</label>
+                                            <mat-select class="form-control" formControlName="{{in.formControlName}}" 
+                                            (selectionChange)="onSelect($event.value, in)">
+                                            <mat-option class="form-control" *ngFor="let option of in.options" [value]="option">
                                                 {{
                                                     getPlantDirection(
                                                         option
                                                     )
-                                                }}
-                                                </option>
-                                            </select>
+                                                }}</mat-option>
+                                            </mat-select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -208,29 +182,18 @@
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
                                         <div class="form-group">
-                                            <label>{{ in.label }}</label>
-                                            <select
-                                                class="form-control"
-                                                formControlName="{{
-                                                    in.formControlName
-                                                }}"
-                                                (change)="
-                                                    onSelect($event.value, in)
-                                                "
-                                            >
-                                                <option
-                                                *ngFor="
-                                                    let option of in.options
-                                                "
-                                                [value]="option"
-                                            >
+                                            <label class="form-text text-left">{{in.label}}:</label>
+                                            <mat-select class="form-control" formControlName="{{in.formControlName}}"
+                                            (selectionChange)="
+                                                onSelect($event.value, in)
+                                            ">
+                                            <mat-option class="form-control" *ngFor="let option of in.options" [value]="option">
                                                 {{
                                                     getPlantBranchOffice(
                                                         option
                                                     )
-                                                }}
-                                                </option>
-                                            </select>
+                                                }}</mat-option>
+                                            </mat-select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -255,7 +218,7 @@
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
                                         <div class="form-group">
-                                            <label>{{ in.label }}</label>
+                                            <label class="form-text text-left">{{ in.label }}</label>
                                             <input
                                                 class="form-control active"
                                                 type="checkbox"
@@ -290,7 +253,7 @@
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
                                         <div class="form-group">
-                                            <label>{{ in.label }}</label>
+                                            <label class="form-text text-left">{{ in.label }}</label>
                                             <textarea
                                                 class="form-control"
                                                 cdkTextareaAutosize
@@ -341,7 +304,7 @@
                             <div class="row">
                                 <div class="col-md-{{ in.col || 8 }}">
                                     <div class="form-group">
-                                        <label>{{ in.label }}</label>
+                                        <label class="form-text text-left">{{ in.label }}</label>
                                         <input
                                             class="form-control"
                                             formControlName="{{
@@ -372,26 +335,15 @@
                             <div class="row">
                                 <div class="col-md-{{ in.col || 8 }}">
                                     <div class="form-group">
-                                        <label>{{ in.label }}</label>
-                                        <select
-                                            class="form-control"
-                                            formControlName="{{
-                                                in.formControlName
-                                            }}"
-                                        >
-                                            <option
-                                            *ngFor="
-                                                let option of in.options
-                                            "
-                                            [value]="option"
-                                        >
+                                        <label class="form-text text-left">{{in.label}}:</label>
+                                        <mat-select class="form-control" formControlName="{{in.formControlName}}">
+                                        <mat-option class="form-control" *ngFor="let option of in.options" [value]="option">
                                             {{
                                                 option.description != null
                                                     ? option.description
                                                     : option.name
-                                            }}
-                                            </option>
-                                        </select>
+                                            }}</mat-option>
+                                        </mat-select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -416,7 +368,7 @@
                             <div class="row">
                                 <div class="col-md-{{ in.col || 8 }}">
                                     <div class="form-group">
-                                        <label>{{ in.label }}</label>
+                                        <label class="form-text text-left">{{ in.label }}</label>
                                         <input
                                             class="form-control active"
                                             type="checkbox"

@@ -42,6 +42,7 @@ export class MonitoringHomeComponent extends ConnectSocketComponent implements O
 		private componentFactoryResolver : ComponentFactoryResolver
 	) {
 		super(globalService,securityService,socketService,eventService);
+		globalService.setApp('Administrative_monitoring');
 	}
 
 	ngOnInit() {

@@ -33,6 +33,7 @@ export class EstatusMaestroService {
     return this.http.get(`${this.estatusmaestro}entidadEstatus/${entidad}/${estatus}`, {params : this.parameters });
   }
   getEstatusMaestroOpcion() {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(`${this.catalog}getEstatusMaestroOpcion`, {params : this.parameters });
   }
 }

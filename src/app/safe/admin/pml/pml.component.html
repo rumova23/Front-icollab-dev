@@ -20,36 +20,43 @@
             <form [formGroup]="conexionForm" (ngSubmit)="onSubmit(conexionForm.value)">
                 <div class="row">
                     <div class="col">
-                        
+
                         <div class="form-group">
-                            <label for="De">Fecha Inicio</label>
-                            <input type="date" class="form-control"
-                            [(ngModel)]="search.dateInit"
-                            formControlName="dateInit"
-                        >
+                            <label class="form-text text-left" for="dateInit">Fecha Inicio</label>
+                            <mat-form-field class="form-control">
+                                <input matInput 
+                                formControlName="dateInit"
+                                [matDatepicker]="dateInit"
+                                [(ngModel)]="search.dateInit"
+                                (dateChange)="dateChange($event)">
+                                <mat-datepicker-toggle matSuffix [for]="dateInit"></mat-datepicker-toggle>
+                                <mat-datepicker #dateInit></mat-datepicker>
+                            </mat-form-field>
                         </div>
 
                     </div>
-                    <div class="col">
-                        
+                    <div class="col">                        
                         <div class="form-group">
-                            <label for="De">Fecha fin</label>
-                            <input type="date" class="form-control"
-                            [(ngModel)]="search.dateEnd"
-                            formControlName="dateEnd"
-                        >
+                            <label class="form-text text-left" for="dateEnd">Fecha fin</label>
+                            <mat-form-field class="form-control">
+
+                                <input matInput 
+                                formControlName="dateEnd"
+                                [matDatepicker]="dateEnd"
+                                [(ngModel)]="search.dateEnd">
+
+                                <mat-datepicker-toggle matSuffix [for]="dateEnd"></mat-datepicker-toggle>
+                                <mat-datepicker #dateEnd></mat-datepicker>
+                            </mat-form-field>
                         </div>
                     </div>
 
                     <div class="col">
                         <div class="form-group">
-                            <label>Seleccione proceso:</label>
-                            <select class="form-control" [(ngModel)]="search.process" formControlName="process">
-                                <option
-                                *ngFor="let proces of process" [value]="proces.key">
-                                        {{proces.value}}
-                                </option>
-                            </select>
+                            <label class="form-text text-left">Seleccione proceso:</label>
+                            <mat-select class="form-control" formControlName="process" [(ngModel)]="search.process">
+                              <mat-option class="form-control" *ngFor="let proces of process" [value]="proces.key">{{ proces.value }}</mat-option>
+                            </mat-select>
                         </div>
                     </div>
                     <div class="col text-right">

@@ -108,18 +108,24 @@
             </table>
             </div>
             <div style="float: left; margin-top: 0px; margin-left: 45px;">
-            <table>
-                <tr>
-                <th>
-                    <img src="/assets/img/admin.png" class="icon-image"  (click)="goToModule('/security')" />
-                </th>
-                </tr>
-                <tr>
-                <th class="texto-ral">
-                    Admin
-                </th>
-                </tr>
-            </table>
+                <table>
+                    <tr>
+                        <th *ngIf="existApp('Security')">
+                            <img src="/assets/img/admin.png" class="icon-image"  (click)="goToModule('/security')" />
+                        </th>
+                        <th>
+                            <img src="/assets/img/logout-icon-png-26.png" class="icon-image" style="width: 50px;" (click)="logout()" />
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="texto-ral" *ngIf="existApp('Security')">
+                            Admin
+                        </th>
+                        <th class="texto-ral">
+                            Salir
+                        </th>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

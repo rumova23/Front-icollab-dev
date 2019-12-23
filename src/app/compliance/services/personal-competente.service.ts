@@ -34,21 +34,27 @@ export class PersonalCompetenteService {
     return this.http.get(`${this.baseUrl2}exam/personalCompetente/empleados`, {params : this.parameters });
   }
   deleteEliminar(idEmpleado: number) {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.delete(`${this.baseUrl2}exam/personalCompetente/empleados?idEmpleado=` + idEmpleado, {params : this.parameters });
   }
   getTagsAsignacion(idEmpleado: number): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(`${this.microSeguimiento}legal/personalCompetente/tags/ASIGNACION/${idEmpleado}`, {params : this.parameters });
   }
   getTagsAsignado(idEmpleado: number): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(`${this.microSeguimiento}legal/personalCompetente/tags/ASIGNADO/${idEmpleado}`, {params : this.parameters });
   }
   salvarTags(listtags: Array<string>, empleadoId: number): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post(`${this.microSeguimiento}legal/tags/empleados?empleadoId=` + empleadoId, listtags, {params : this.parameters });
   }
   getPlantaPerfil(): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(`${this.microSeguimiento}legal/tags/perfilActor`, {params : this.parameters });
   }
   salvarPlantaPerfilEmpleado(lista: Array<any>) {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post(`${this.microSeguimiento}legal//tags/perfilActor`, lista, {params : this.parameters });
   }
 

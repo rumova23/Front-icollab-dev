@@ -75,11 +75,13 @@ export class SharedSidebarMenuComponent {
         let item0 = null;
         let item1 = null;
         let item2 = null;
+        let autoridades= null;
+        let categorias = null;
         let array = [];
         for (let option of this.menu) {
             if (option.label == "Inicio") item0 = option;
             else if (option.label == "Catálogos") item1 = option;
-            else if (option.label == "Configuración de Cumplimientos") item2 = option;
+            else if (option.label == "Configuración de Cumplimientos Legales") item2 = option;
             else array.push(option);
         }
         this.menu = [];
@@ -89,26 +91,25 @@ export class SharedSidebarMenuComponent {
         for (const iterator of array) {
             this.menu.push(iterator);
         }
+        
+        for (let option of this.menu) {
+            if (option.label == "Catálogos") {
+                for (let cat of option.children) {
+                    if (cat.label == "authorities") {
+                        autoridades = cat;
+                    }else if (cat.label == "categories") {
+                        categorias =cat;
+                    }
+                }
+                option.children=[];
+                option.children.push(autoridades);
+                option.children.push(categorias);
+            }
+        }
         for (let option of this.menu) {
             if (option.children) {
                 for (let ins = 0; ins < option.children.length; ins++) {
-                    if (option.children[ins]["label"] == "Cumplimiento Legal") {
-                        if (!option.children[ins].children) {
-                            option.children[ins].children = new Array();
-                            let childrenA: any = {};
-                            childrenA["label"] = "Características";
-                            childrenA["icon"] = "gavel";
-                            childrenA["url"] = "Características";
-                            childrenA["id"] = 105;
-                            option.children[ins].children.push(childrenA);
-                            let childrenB: any = {};
-                            childrenB["label"] = "Planeación";
-                            childrenB["url"] = "Planeación";
-                            childrenB["icon"] = "event_available";
-                            childrenA["id"] = 104;
-                            option.children[ins].children.push(childrenB);
-                        }
-                    }
+                    
 
                     if (option.children[ins]["label"] == "Cumplimiento Adquisiciones") {
                         if (!option.children[ins].children) {

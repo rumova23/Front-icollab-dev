@@ -14,18 +14,29 @@
             <div class="col-12 col-sm-12 col-md-12 col-lg-10">
               <div class="row">
                 <div class="col-md-auto">
-                  <mat-form-field>
-                    <input matInput [matDatepicker]="Desde" placeholder="Desde">
-                    <mat-datepicker-toggle matSuffix [for]="Desde"></mat-datepicker-toggle>
-                    <mat-datepicker #Desde></mat-datepicker>
-                  </mat-form-field>
+                  
+                  <div class="form-group">
+                    <label class="form-text text-left" for="Desde">Desde</label>
+                    <mat-form-field class="form-control">
+                        <input matInput 
+                        formControlName="Desde"
+                        [matDatepicker]="Desde">
+                        <mat-datepicker-toggle matSuffix [for]="Desde"></mat-datepicker-toggle>
+                        <mat-datepicker #Desde></mat-datepicker>
+                    </mat-form-field>
+                  </div>
                 </div> 
                 <div class="col-md-auto">
-                  <mat-form-field>
-                    <input matInput [matDatepicker]="Hasta" placeholder="Hasta">
-                    <mat-datepicker-toggle matSuffix [for]="Hasta"></mat-datepicker-toggle>
-                    <mat-datepicker #Hasta></mat-datepicker>
-                  </mat-form-field>
+                  <div class="form-group">
+                    <label class="form-text text-left" for="Hasta">Hasta</label>
+                    <mat-form-field class="form-control">
+                        <input matInput 
+                        formControlName="Hasta"
+                        [matDatepicker]="Hasta">
+                        <mat-datepicker-toggle matSuffix [for]="Hasta"></mat-datepicker-toggle>
+                        <mat-datepicker #Hasta></mat-datepicker>
+                    </mat-form-field>
+                  </div>
                 </div> 
               </div>
             </div>

@@ -29,7 +29,7 @@ import {EntidadEstausDTO} from '../../../models/entidad-estaus-dto';
   , providers: [DatePipe]
 })
 export class ComplianceConfigurationComponent implements OnInit {
-    nombreCatalogo = 'Cumplimiento Legal';
+    nombreCatalogo = 'Características';
   titulo = 'Matriz Cumplimiento';
   registros;
   administradores;
@@ -47,6 +47,7 @@ export class ComplianceConfigurationComponent implements OnInit {
   showView = false;
   showUpdate = false;
   showDelete = false;
+  plural = "";
 
   columnas: string[] = ['order', 'tag', 'nombre', 'clasificacion', 'cumplimiento_legal', 'periodo_entrega', 'countTasks', 'autoridad', 'tipo_aplicacion', 'userUpdated', 'dateUpdated', 'estatus'];
   columnasResponsabilidad: string[] = ['order', 'admin', 'responsabilidad'];
@@ -103,6 +104,8 @@ export class ComplianceConfigurationComponent implements OnInit {
               while ( flag ) {
                   flag = false;
                   for (let ins = 0; ins < option.children.length; ins++) {
+
+                      console.dir("nombres: " + option.children[ins]['label']);
                       if (option.children[ins]['label'] === this.nombreCatalogo) {
                           if (option.children[ins].actions) {
                               for (let action = 0; action < option.children[ins].actions.length ; action++) {
@@ -121,7 +124,6 @@ export class ComplianceConfigurationComponent implements OnInit {
                               }
                           }
                       }
-
                   }
               }
           }
@@ -163,7 +165,11 @@ export class ComplianceConfigurationComponent implements OnInit {
       this.anios = [];
       this.initCombos();
   }
-
+  formatPeriodo_entrega(period, code){
+    period > 1 ? this.plural="S" :this.plural="";
+    if(code == "MES" && period > 1)this.plural="ES"
+    return period + ' ' + code + this.plural;
+  }
   sortData(sort: Sort) {}
   get f() { return this.filtrosForm.controls; }
 
@@ -171,12 +177,12 @@ export class ComplianceConfigurationComponent implements OnInit {
     this.addBlock(1, 'Cargando...');
     this.data = [];
     this.tagService.obtenTagPorFiltros(anio).subscribe( (data: MatrizCumplimientoDTO) => {
-
         this.statusMatriz = data.entidadEstatus.estatus.nombre;
         if (data.entidadEstatus.entidadEstatusId === this.idMatrizFree) {
             this.isFree = true;
         }
         this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
+        console.dir(data.matriz);
         this.registros =  new MatTableDataSource<TagOutDTO>(data.matriz);
         this.registros.paginator = this.paginator;
         let dateUpdated = null;
@@ -225,18 +231,17 @@ export class ComplianceConfigurationComponent implements OnInit {
     this.confirmationDialogService.confirm('Por favor, confirme..',
           'Está seguro de eliminar el Cumplimiento? ' + tag.tag)
     .then((confirmed) => {
-        console.log(confirmed);
         if ( confirmed ) {
-          this.eliminarTagConfirm(tag);
+            this.eliminarTagConfirm(tag);
         }
       })
     .catch(() => console.log('Cancelo'));
   }
 
   eliminarTagConfirm(tag: any) {
-    this.tagService.eliminarTag(tag.element.idTag).subscribe(
+      this.tagService.eliminarTag(tag.idTag).subscribe(
       respuesta => {
-        this.addBlock(2, null);
+        // this.addBlock(2, null);
         let res: any;
         res = respuesta;
         if ( res.clave === 0 ) {
@@ -247,7 +252,7 @@ export class ComplianceConfigurationComponent implements OnInit {
         }
       },
       error => {
-        this.addBlock(2, null);
+        // this.addBlock(2, null);
         this.toastr.errorToastr('Error al eliminar el tag.', 'Lo siento,');
       }
     );

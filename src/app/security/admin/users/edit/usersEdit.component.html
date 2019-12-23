@@ -11,10 +11,10 @@
           <div class="md-form">
             <mat-form-field class="w-100">
               <input matInput placeholder="Nombre de Usuario" formControlName="username">
-              <mat-error *ngIf="!userForm.controls['username'].valid 
+              <div *ngIf="!userForm.controls['username'].valid 
                   && userForm.controls['username'].touched">
                 Requerido
-              </mat-error>
+              </div>
             </mat-form-field>
           </div>
         </div>
@@ -24,10 +24,10 @@
           <div class="md-form">
             <mat-form-field class="w-100">
               <input matInput placeholder="Contraseña del usuario" formControlName="password">
-              <mat-error *ngIf="!userForm.controls['password'].valid 
+              <div *ngIf="!userForm.controls['password'].valid 
                   && userForm.controls['password'].touched">
                 Requerido
-              </mat-error>
+              </div>
             </mat-form-field>
           </div>
         </div>
@@ -37,10 +37,10 @@
           <div class="md-form">
             <mat-form-field class="w-100">
               <input matInput placeholder="Nombre de la persona" formControlName="name">
-              <mat-error *ngIf="!userForm.controls['name'].valid 
+              <div *ngIf="!userForm.controls['name'].valid 
                   && userForm.controls['name'].touched">
                 Requerido
-              </mat-error>
+              </div>
             </mat-form-field>
           </div>
         </div>
@@ -50,10 +50,10 @@
           <div class="md-form">
             <mat-form-field class="w-100">
               <input matInput placeholder="Apellido Paterno" formControlName="lastName">
-              <mat-error *ngIf="!userForm.controls['lastName'].valid 
+              <div *ngIf="!userForm.controls['lastName'].valid 
                   && userForm.controls['lastName'].touched">
                 Requerido
-              </mat-error>
+              </div>
             </mat-form-field>
           </div>
         </div>
@@ -63,10 +63,10 @@
           <div class="md-form">
             <mat-form-field class="w-100">
               <input matInput placeholder="Apellido Materno" formControlName="maidenName">
-              <mat-error *ngIf="!userForm.controls['maidenName'].valid 
+              <div *ngIf="!userForm.controls['maidenName'].valid 
                     && userForm.controls['maidenName'].touched">
                 Requerido
-              </mat-error>
+              </div>
             </mat-form-field>
           </div>
         </div>
@@ -76,22 +76,35 @@
           <div class="md-form">
             <mat-form-field class="w-100">
               <input matInput placeholder="Email" formControlName="email">
-              <mat-error *ngIf="!userForm.controls['email'].valid 
+              <div *ngIf="!userForm.controls['email'].valid 
                     && userForm.controls['email'].touched">
                 Requerido
-              </mat-error>
+              </div>
             </mat-form-field>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-4">
-          <mat-checkbox id="active" class="active" color="primary" formControlName="active">Activo
-          </mat-checkbox>
-          <mat-error *ngIf="!userForm.controls['active'].valid 
+          <div class="form-group">
+              <label>Activo</label>
+              <input
+                  class="form-control active"
+                  type="checkbox"
+                  formControlName="active"
+                  id="active"
+                  color="primary"
+                  style="
+                  height: auto;
+                  width: auto;"
+              />
+          </div>
+          <!--mat-checkbox id="active" class="active" color="primary" formControlName="active">Activo
+          </mat-checkbox-->
+          <div *ngIf="!userForm.controls['active'].valid 
                       && userForm.controls['active'].touched">
             Requerido
-          </mat-error>
+          </div>
         </div>
       </div>
       <div class="row">

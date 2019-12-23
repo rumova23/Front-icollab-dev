@@ -51,4 +51,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 	goToModule(uri){
 		this.router.navigate([uri]);
 	}
+	logout() {
+		this.securityService.logout();
+  }
 }

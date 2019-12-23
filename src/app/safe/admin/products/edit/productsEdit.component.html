@@ -25,7 +25,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Id de Producto</label>
+                            <label class="form-text text-left">Id de Producto</label>
                             <input
                                 formControlName="code"
                                 class="form-control"
@@ -55,14 +55,14 @@
                                     placeholder="Id de Producto"
                                     formControlName="code"
                                 />
-                                <mat-error
+                                <div
                                     *ngIf="
                                         !productForm.controls['code'].valid &&
                                         productForm.controls['code'].touched
                                     "
                                 >
                                     Requerido
-                                </mat-error>
+                                </div>
                             </mat-form-field>
                         </div-->
                     </div>
@@ -70,7 +70,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Nombre</label>
+                            <label class="form-text text-left">Nombre</label>
                             <input
                                 formControlName="name"
                                 class="form-control"
@@ -99,14 +99,14 @@
                                     placeholder="Nombre"
                                     formControlName="name"
                                 />
-                                <mat-error
+                                <div
                                     *ngIf="
                                         !productForm.controls['name'].valid &&
                                         productForm.controls['name'].touched
                                     "
                                 >
                                     Requerido
-                                </mat-error>
+                                </div>
                             </mat-form-field>
                         </div-->
                     </div>
@@ -114,7 +114,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Descripción en factura</label>
+                            <label class="form-text text-left">Descripción en factura</label>
                             <textarea
                                 formControlName="description"
                                 class="form-control"
@@ -148,7 +148,7 @@
                                     placeholder="Descripción en factura"
                                     formControlName="description"
                                 />
-                                <mat-error
+                                <div
                                     *ngIf="
                                         !productForm.controls['description']
                                             .valid &&
@@ -157,27 +157,20 @@
                                     "
                                 >
                                     Requerido
-                                </mat-error>
+                                </div>
                             </mat-form-field>
                         </div-->
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
+
                         <div class="form-group">
-                            <label>Tipo de Producto</label>
-                            <select
-                                class="form-control"
-                                formControlName="typeProduct"
-                                [compareWith]="compareObjects"
-                            >
-                                <option
-                                    *ngFor="let typeProduct of typesProduct"
-                                    [value]="typeProduct"
-                                >
-                                    {{ typeProduct.code }}
-                                </option>
-                            </select>
+                            <label class="form-text text-left">Tipo de Product:</label>
+                            <mat-select class="form-control" formControlName="typeProduct" [compareWith]="compareObjects">
+                              <mat-option class="form-control" *ngFor="let typeProduct of typesProduct" [value]="typeProduct">{{ typeProduct.code }}</mat-option>
+                            </mat-select>
+               
                             <div
                                 *ngIf="
                                     !productForm.controls['typeProduct']
@@ -213,32 +206,24 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-error
+                        <div
                             *ngIf="
                                 !productForm.controls['typeProduct'].valid &&
                                 productForm.controls['typeProduct'].touched
                             "
                         >
                             Requerido
-                        </mat-error-->
+                        </div-->
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
+                        
                         <div class="form-group">
-                            <label>Unidad de Producto</label>
-                            <select
-                                class="form-control"
-                                formControlName="unityProduct"
-                                [compareWith]="compareObjects"
-                            >
-                                <option
-                                    *ngFor="let unityProduct of unityProducts"
-                                    [value]="unityProduct"
-                                >
-                                    {{ unityProduct.description }}
-                                </option>
-                            </select>
+                            <label class="form-text text-left">Unidad de Producto:</label>
+                            <mat-select class="form-control" formControlName="unityProduct" [compareWith]="compareObjects">
+                              <mat-option class="form-control" *ngFor="let unityProduct of unityProducts" [value]="unityProduct">{{ unityProduct.description }}</mat-option>
+                            </mat-select>
                             <div
                                 *ngIf="
                                     !productForm.controls['unityProduct']
@@ -274,32 +259,23 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-error
+                        <div
                             *ngIf="
                                 !productForm.controls['unityProduct'].valid &&
                                 productForm.controls['unityProduct'].touched
                             "
                         >
                             Requerido
-                        </mat-error-->
+                        </div-->
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Clave SAT</label>
-                            <select
-                                class="form-control"
-                                formControlName="productSat"
-                                [compareWith]="compareObjects"
-                            >
-                                <option
-                                    *ngFor="let productSat of productsSat"
-                                    [value]="productSat"
-                                >
-                                    {{ productSat.code }}
-                                </option>
-                            </select>
+                            <label class="form-text text-left">Clave SAT:</label>
+                            <mat-select class="form-control" formControlName="productSat" [compareWith]="compareObjects">
+                              <mat-option class="form-control" *ngFor="let productSat of productsSat" [value]="productSat">{{ productSat.code }}</mat-option>
+                            </mat-select>
                             <div
                                 *ngIf="
                                     !productForm.controls['productSat'].valid &&
@@ -334,32 +310,23 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-error
+                        <div
                             *ngIf="
                                 !productForm.controls['productSat'].valid &&
                                 productForm.controls['productSat'].touched
                             "
                         >
                             Requerido
-                        </mat-error-->
+                        </div-->
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Tasa Iva Trasladado</label>
-                            <select
-                                class="form-control"
-                                formControlName="rateIvaSat"
-                                [compareWith]="compareObjects"
-                            >
-                                <option
-                                    *ngFor="let rateIvaSat of ratesIvaSat"
-                                    [value]="rateIvaSat"
-                                >
-                                    {{ rateIvaSat.percentageIva }}
-                                </option>
-                            </select>
+                            <label class="form-text text-left">Tasa Iva Trasladado:</label>
+                            <mat-select class="form-control" formControlName="rateIvaSat" [compareWith]="compareObjects">
+                              <mat-option class="form-control" *ngFor="let rateIvaSat of ratesIvaSat" [value]="rateIvaSat">{{ rateIvaSat.percentageIva }}</mat-option>
+                            </mat-select>
                             <div
                                 *ngIf="
                                     !productForm.controls['rateIvaSat'].valid &&
@@ -394,31 +361,24 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-error
+                        <div
                             *ngIf="
                                 !productForm.controls['rateIvaSat'].valid &&
                                 productForm.controls['rateIvaSat'].touched
                             "
                         >
                             Requerido
-                        </mat-error-->
+                        </div-->
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Sistemas</label>
-                            <select
-                                class="form-control"
-                                formControlName="systems"
-                                [compareWith]="compareObjects"
-                            >
-                                <option
-                                    *ngFor="let system of systems"
-                                    [value]="system"
-                                    >{{ system.code }}
-                                </option>
-                            </select>
+                            
+                            <label class="form-text text-left">Sistemas:</label>
+                            <mat-select class="form-control" formControlName="systems" [compareWith]="compareObjects">
+                              <mat-option class="form-control" *ngFor="let system of systems" [value]="system">{{ system.code }}</mat-option>
+                            </mat-select>
                             <div
                                 *ngIf="
                                     !productForm.controls['systems'].valid &&
@@ -459,7 +419,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Precio Público</label>
+                            <label class="form-text text-left">Precio Público</label>
                             <input
                                 type="number"
                                 formControlName="price"
@@ -479,34 +439,40 @@
                                 type="number"
                             />
                         </mat-form-field>
-                        <mat-error
+                        <div
                             *ngIf="
                                 !productForm.controls['price'].valid &&
                                 productForm.controls['price'].touched
                             "
                         >
                             Requerido
-                        </mat-error-->
+                        </div-->
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-4">
-                        <mat-checkbox
-                            id="active"
-                            class="active"
-                            color="primary"
-                            formControlName="active"
-                            >Activo
-                        </mat-checkbox>
-                        <mat-error
+                        <div class="form-group">
+                            <label class="form-text text-left">Activo</label>
+                            <input
+                                class="form-control active"
+                                type="checkbox"
+                                formControlName="active"
+                                id="active"
+                                color="primary"
+                                style="
+                                height: auto;
+                                width: auto;"
+                            />
+                        </div>
+                        <div
                             *ngIf="
                                 !productForm.controls['active'].valid &&
                                 productForm.controls['active'].touched
                             "
                         >
                             Requerido
-                        </mat-error>
+                        </div>
                     </div>
                 </div>
                 <div class="row">

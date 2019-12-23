@@ -165,3 +165,16 @@ option {
     font-family: Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif ;
     font-weight: 300;
 }
+.mat-input-underline {
+    display: none;
+}
+.mat-form-field-underline {
+    display: none;
+}
+.mat-form-field-infix{
+    padding: 0 !important;
+    border-top: 0;
+}
+.mat-form-field-flex{
+    align-items: normal !important;
+}
