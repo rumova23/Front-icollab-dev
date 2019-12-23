@@ -22,7 +22,7 @@
                     <div class="col">
                         
                         <div class="form-group">
-                            <label for="De">Fecha Inicio</label>
+                            <label class="form-text text-left" for="De">Fecha Inicio</label>
                             <input type="date" class="form-control"
                             [(ngModel)]="search.dateInit"
                             formControlName="dateInit"
@@ -33,7 +33,7 @@
                     <div class="col">
                         
                         <div class="form-group">
-                            <label for="De">Fecha fin</label>
+                            <label class="form-text text-left" for="De">Fecha fin</label>
                             <input type="date" class="form-control"
                             [(ngModel)]="search.dateEnd"
                             formControlName="dateEnd"
@@ -43,13 +43,10 @@
 
                     <div class="col">
                         <div class="form-group">
-                            <label>Seleccione proceso:</label>
-                            <select class="form-control" [(ngModel)]="search.process" formControlName="process">
-                                <option
-                                *ngFor="let proces of process" [value]="proces.key">
-                                        {{proces.value}}
-                                </option>
-                            </select>
+                            <label class="form-text text-left">Seleccione proceso:</label>
+                            <mat-select class="form-control" formControlName="process" [(ngModel)]="search.process">
+                              <mat-option class="form-control" *ngFor="let proces of process" [value]="proces.key">{{ proces.value }}</mat-option>
+                            </mat-select>
                         </div>
                     </div>
                     <div class="col text-right">

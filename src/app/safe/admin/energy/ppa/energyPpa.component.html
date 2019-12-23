@@ -22,7 +22,7 @@
                     <div class="row">
                         <div class="col-md-auto">
                             <div class="form-group">
-                                <label for="De">De</label>
+                                <label class="form-text text-left" for="De">De</label>
                                 <input type="date" class="form-control" [(ngModel)]="date" formControlName="date" (change)="dateChange($event)" />
                             </div>
 
@@ -59,7 +59,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="form-group">
-                            <label>Poder Calorifíco Inferior</label>
+                            <label class="form-text text-left">Poder Calorifíco Inferior</label>
                             <input [min]="1" type="number" class="form-control" formControlName="indoorCalorificValue" />
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="form-group">
-                            <label>Factor de Potencia</label>
+                            <label class="form-text text-left">Factor de Potencia</label>
                             <input [min]="1" type="number" class="form-control" formControlName="powerFactor" />
                         </div>
                     </div>

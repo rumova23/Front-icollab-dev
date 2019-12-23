@@ -21,31 +21,29 @@
       </div>
       <div class="row">
         <div class="col-md-4">
-          <mat-form-field>
-            <mat-label>Sucursal</mat-label>
-            <mat-select formControlName="plantBranchOffice" [compareWith]="compareObjects">
-              <mat-option *ngFor="let plantBranchOffice of plantBranches" [value]="plantBranchOffice">
-                {{ plantBranchOffice.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          
+        <div class="form-group">
+          <label class="form-text text-left">Sucursal:</label>
+          <mat-select class="form-control" formControlName="plantBranchOffice" [compareWith]="compareObjects">
+            <mat-option class="form-control" *ngFor="let plantBranchOffice of plantBranches" [value]="plantBranchOffice">{{ plantBranchOffice.name }}</mat-option>
+          </mat-select>
           <div *ngIf="!branchInvoiceSeriesForm.controls['plantBranchOffice'].valid 
                         && branchInvoiceSeriesForm.controls['plantBranchOffice'].touched">
             Requerido
           </div>
         </div>
+
+        </div>
       </div>
 
       <div class="row">
         <div class="col-md-4">
-          <mat-form-field>
-            <mat-label>Sistema</mat-label>
-            <mat-select formControlName="sys" [compareWith]="compareObjects">
-              <mat-option *ngFor="let sys of systems" [value]="sys">
-                {{ sys.description }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          <div class="form-group">              
+              <label class="form-text text-left">Sistema:</label>
+              <mat-select class="form-control" formControlName="sys" [compareWith]="compareObjects">
+                <mat-option class="form-control" *ngFor="let sys of systems" [value]="sys">{{ sys.description }}</mat-option>
+              </mat-select>
+          </div>
           <div *ngIf="!branchInvoiceSeriesForm.controls['sys'].valid 
                           && branchInvoiceSeriesForm.controls['sys'].touched">
             Requerido
@@ -57,7 +55,7 @@
         <div class="col-md-4">
           
           <div class="form-group">
-            <label>Activo</label>
+            <label class="form-text text-left">Activo</label>
             <input
                 class="form-control active"
                 type="checkbox"
