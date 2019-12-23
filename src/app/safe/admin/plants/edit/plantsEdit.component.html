@@ -735,29 +735,18 @@
                 <div class="col-md-auto col-md-6 col-lg-4">
                     <div class="row">
                         <div class="col-md-8">
+                            
                             <div class="form-group">
-                                <label class="form-text text-left" for="fechaDesde">Fecha de Carga</label>
-                                <input
-                                    type="date"
-                                    class="form-control"
-                                    id="fechaDesde"
+                                <label class="form-text text-left" for="mydateUpload">Fecha de Carga</label>
+                                <mat-form-field class="form-control">
+                                    <input matInput 
                                     formControlName="dateUpload"
-                                />
+                                    [matDatepicker]="mydateUpload">
+                                    <mat-datepicker-toggle matSuffix [for]="mydateUpload"></mat-datepicker-toggle>
+                                    <mat-datepicker #mydateUpload></mat-datepicker>
+                                </mat-form-field>
                             </div>
 
-                            <!--mat-form-field class="full-width">
-                                <input
-                                    matInput
-                                    [matDatepicker]="dateUpload"
-                                    placeholder="Fecha de Carga"
-                                    formControlName="dateUpload"
-                                />
-                                <mat-datepicker-toggle
-                                    matSuffix
-                                    [for]="dateUpload"
-                                ></mat-datepicker-toggle>
-                                <mat-datepicker #dateUpload></mat-datepicker>
-                            </mat-form-field-->
                         </div>
                         <div class="col-md-4">
                             <div
@@ -779,32 +768,17 @@
                 <div class="col-md-auto col-md-6 col-lg-4">
                     <div class="row">
                         <div class="col-md-8">
+                            
                             <div class="form-group">
-                                <label class="form-text text-left" for="fechaDesde"
-                                    >Fecha de Expiración</label
-                                >
-                                <input
-                                    type="date"
-                                    class="form-control"
-                                    id="fechaDesde"
+                                <label class="form-text text-left" for="mydateExpiration">Fecha de Expiración</label>
+                                <mat-form-field class="form-control">
+                                    <input matInput 
                                     formControlName="dateExpiration"
-                                />
+                                    [matDatepicker]="mydateExpiration">
+                                    <mat-datepicker-toggle matSuffix [for]="mydateExpiration"></mat-datepicker-toggle>
+                                    <mat-datepicker #mydateExpiration></mat-datepicker>
+                                </mat-form-field>
                             </div>
-                            <!--mat-form-field class="full-width">
-                                <input
-                                    matInput
-                                    [matDatepicker]="dateExpiration"
-                                    placeholder="Fecha de Expiración"
-                                    formControlName="dateExpiration"
-                                />
-                                <mat-datepicker-toggle
-                                    matSuffix
-                                    [for]="dateExpiration"
-                                ></mat-datepicker-toggle>
-                                <mat-datepicker
-                                    #dateExpiration
-                                ></mat-datepicker>
-                            </mat-form-field-->
                         </div>
                         <div class="col-md-4">
                             <div

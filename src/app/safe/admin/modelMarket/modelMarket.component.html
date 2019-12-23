@@ -21,14 +21,19 @@
       <div class="filtros mt-2 row">
         <div class="col-12 col-sm-12 col-md-12 col-lg-10">
           
-          <div class="form-group row">
-            <div class="form-group col-12 col-md-6 col-lg-4">
-              <label class="form-text text-left" for="De">De</label>
-              <input type="date" class="form-control" id="De" 
-              (change)="dateChange($event)">
-            </div>
+          <div class="form-group">
+            <label class="form-text text-left" for="mydate">De</label>
+            <mat-form-field class="form-control">
+                <input matInput 
+                formControlName="date"
+                [matDatepicker]="mydate"
+                [(ngModel)]="date"
+                (dateChange)="dateChange($event)">
+                <mat-datepicker-toggle matSuffix [for]="mydate"></mat-datepicker-toggle>
+                <mat-datepicker #mydate></mat-datepicker>
+            </mat-form-field>
           </div>
-
+          
         </div>
         <!--   <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
           <div>
