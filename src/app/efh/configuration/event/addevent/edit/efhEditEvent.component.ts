@@ -10,6 +10,7 @@ import { Constants} from '../../../../../core/globals/Constants';
 import { EventType} from '../../../../models/EventType';
 import { EfhService} from '../../../../../core/services/efh.service';
 import {ConfirmationDialogService} from '../../../../../core/services/confirmation-dialog.service';
+import {Comment} from '../../../../models/Comment';
 
 @Component({
   selector: 'app-efh-edit-event',
@@ -26,18 +27,25 @@ export class EfhEditEventComponent implements OnInit {
   resultService;
   result;
   eventTypesArr = [];
+  eventTypesArrForSelect = [];
   unitsArr = [];
   fuelTypesArr = [];
   dataSubmit = {};
+  dataObservationSumbit = {};
   checkedEstatus = false;
   deshabiliarEstatus = false;
   checkedEditClonated = true;
+  headObservaciones = ['#', 'Nombre', 'Observaciones', 'Fecha de ultima modificación'];
+  observationsArr: Array<any>;
+  isAddObvsDisabled = false;
 
-  isShotSectionVisible = true;
-  isRejectSectionVisible = true;
-  isRunbackSectionVisible = true;
-  isStopSectionVisible = true;
+  isShotSectionVisible = false;
+  isRejectSectionVisible = false;
+  isRunbackSectionVisible = false;
+  isStopSectionVisible = false;
   isDieselSectionVisible = false;
+  isDefaultSectionsVisible = false;
+  isNormalOperationSectionVisible = false;
 
   optionsSelectEnabled = true;
 
@@ -46,9 +54,10 @@ export class EfhEditEventComponent implements OnInit {
   isRunbackControlsEnabled = true;
   isStopControlsEnabled = true;
   isDieselControlsEnabled = true;
+  isNormalOperationControlsEnabled = true;
 
   isDefaultControlsEnabled = true;
-  disabledSave = false;
+  disabledSave = true;
   submittedData = false;
 
   flameOffDate;
@@ -62,6 +71,10 @@ export class EfhEditEventComponent implements OnInit {
   endDate;
   endTime;
 
+  selectedEventType;
+  selectedUnit;
+  selectedFuelType
+
   constructor(
       private catalogoMaestroService: CatalogoMaestroService,
       private efhService: EfhService,
@@ -72,7 +85,10 @@ export class EfhEditEventComponent implements OnInit {
       private eventService: EventService,
       private datePipe: DatePipe) {
     this.eventForm = this.formBuilder.group({});
+    this.observationsArr = [];
   }
+
+  get f() { return this.eventForm.controls; }
 
   ngOnInit() {
       this.submittedData = false;
@@ -80,31 +96,35 @@ export class EfhEditEventComponent implements OnInit {
           eventTypeControl: [null, null],
           unitControl: [ null, null],
           fuelTypeControl: [ null, null],
-          flameOffDateShot: [null, null],
-          flameOffTimeShot: [null, null],
-          fsnlDateShot: [null, null],
-          fsnlTimeShot: [null, null],
-          chargeShot: [null , null],
-          dateReject: [null, null],
-          timeReject: [null, null],
-          chargeReject: [null, null],
-          startDateRunback: [null, null],
-          startTimeRunback: [null, null],
-          endDateRunback: [null, null],
-          endTimeRunback: [null, null],
-          chargeBeforeRunback: [null, null],
-          chargeAfterRunback: [null, null],
-          flameOffDateStop: [null, null],
-          flameOffTimeStop: [null, null],
-          fsnlDateStop: [null, null],
-          fsnlTimeStop: [null, null],
-          chargeStop: [null, null],
-          startDateDiesel: [null, null],
-          startTimeDiesel: [null, null],
-          endDateDiesel: [null, null],
-          endTimeDiesel: [null, null],
-          description: [null, null],
-          observations: [null, null]
+          flameOffDateShot: ['', Validators.required],
+          flameOffTimeShot: ['', Validators.required],
+          fsnlDateShot: ['', Validators.required],
+          fsnlTimeShot: ['', Validators.required],
+          chargeShot: ['', Validators.required],
+          dateReject: ['', Validators.required],
+          timeReject: ['', Validators.required],
+          chargeReject: ['', Validators.required],
+          startDateRunback: ['', Validators.required],
+          startTimeRunback: ['', Validators.required],
+          endDateRunback: ['', Validators.required],
+          endTimeRunback: ['', Validators.required],
+          chargeBeforeRunback: ['', Validators.required],
+          chargeAfterRunback: ['', Validators.required],
+          flameOffDateStop: ['', Validators.required],
+          flameOffTimeStop: ['', Validators.required],
+          fsnlDateStop: ['', Validators.required],
+          fsnlTimeStop: ['', Validators.required],
+          chargeStop: ['', Validators.required],
+          startDateDiesel: ['', Validators.required],
+          startTimeDiesel: ['', Validators.required],
+          endDateDiesel: ['', Validators.required],
+          endTimeDiesel: ['', Validators.required],
+          startDateNormal: ['', Validators.required],
+          startTimeNormal: ['', Validators.required],
+          endDateNormal: ['', Validators.required],
+          endTimeNormal: ['', Validators.required],
+          description: ['', Validators.required],
+          observations: [{ value: '', disabled: this.isAddObvsDisabled }, Validators.required]
       });
       this.selectControlsEnabled(false);
       this.shotControlsEnabled(false);
@@ -112,18 +132,27 @@ export class EfhEditEventComponent implements OnInit {
       this.runbackConstrolsEnabled(false);
       this.stopControlsEnabled(false);
       this.dieselControlsEnabled(false);
+      this.normalOperationControlsEnabled(false);
       this.defaultConstrolsEnabled(false);
       this.getCatalogs();
+
+      this.selectedEventType = undefined;
+      this.selectedUnit = undefined;
+      this.selectedFuelType = undefined;
 
       this.accion = this.eventType.action;
       this.seccion = this.eventType.section;
 
       if (this.accion === 'editar') {
+          this.eventForm.controls.eventTypeControl.disable();
+          this.selectControlsEnabled(true);
           this.deshabiliarEstatus = false;
           this.disabledSave = true;
           this.titulo = 'Editar / Configuración de Eventos';
       } else if (this.accion === 'ver') {
           this.deshabiliarEstatus = true;
+          this.isAddObvsDisabled = true;
+          this.eventForm.controls.eventTypeControl.disable();
           this.titulo = 'Consultar / Configuración de Eventos';
       } else {
           this.checkedEstatus = true;
@@ -137,57 +166,75 @@ export class EfhEditEventComponent implements OnInit {
               case 'DISPARO': this.shotControlsEnabled(this.accion === 'ver' ? false : true);
                               this.defaultConstrolsEnabled(this.accion === 'ver' ? false : true);
                               this.isShotSectionVisible = true;
+                              this.isDefaultSectionsVisible = true;
                               break;
-              case 'RECHAZO': this.rejectControlsEnabled(this.accion === 'ver' ? false : true);
+              case 'RECHAZO DE CARGA': this.rejectControlsEnabled(this.accion === 'ver' ? false : true);
                               this.defaultConstrolsEnabled(this.accion === 'ver' ? false : true);
                               this.isRejectSectionVisible = true;
+                              this.isDefaultSectionsVisible = true;
                               break;
               case 'RUNBACK': this.runbackConstrolsEnabled(this.accion === 'ver' ? false : true);
                               this.defaultConstrolsEnabled(this.accion === 'ver' ? false : true);
                               this.isRunbackSectionVisible = true;
+                              this.isDefaultSectionsVisible = true;
                               break;
               case 'PARO': this.stopControlsEnabled(this.accion === 'ver' ? false : true);
                            this.defaultConstrolsEnabled(this.accion === 'ver' ? false : true);
                            this.isStopSectionVisible = true;
+                           this.isDefaultSectionsVisible = true;
                            break;
               case 'DIESEL': this.dieselControlsEnabled(this.accion === 'ver' ? false : true);
                              this.defaultConstrolsEnabled(this.accion === 'ver' ? false : true);
                              this.isDieselSectionVisible = true;
+                             this.isDefaultSectionsVisible = true;
                              break;
+              case 'OPERACIÓN NORMAL': this.normalOperationControlsEnabled(this.accion === 'ver' ? false : true);
+                                       this.defaultConstrolsEnabled(this.accion === 'ver' ? false : true);
+                                       this.isNormalOperationSectionVisible = true;
+                                       this.isDefaultSectionsVisible = true;
+                                       break;
           }
           this.obtenerDatosConfiguracionEvento(true, this.eventType.id);
       }
   }
 
   obtenerDatosConfiguracionEvento(putData, id) {
-      // if (id !== 0) {
+       if (id !== 0) {
           this.efhService.getEvent(id)
               .subscribe(
                   dataBack => {
                       this.result = dataBack;
+
                       for (let element of this.result) {
                           if (this.eventType.id === element.id && putData) {
+                              this.selectedEventType = this.eventTypesArr.find(x => x.id === element.idtypeevent).id;
+                              this.selectedUnit = this.unitsArr.find(x => x.id === element.idunit).id;
+                              this.selectedFuelType = this.fuelTypesArr.find(x => x.id === element.idtypefuel).id;
+
+                              debugger;
+                              this.getObservations(this.eventType.id);
+
                               switch (element.idtypeevent) {
-                                  case 1: this.flameOffDate = this.datePipe.transform(new Date(element.dateinit) , 'dd/MM/yyyy');
-                                      this.flameOffTime = this.datePipe.transform(new Date(element.dateinit) , 'HH:mm:ss');
-                                      this.fsnlDate = this.datePipe.transform(new Date(element.datefsnl) , 'dd/MM/yyyy');
-                                      this.fsnlTime = this.datePipe.transform(new Date(element.datefsnl) , 'HH:mm:ss');
-                                      this.eventForm.controls['flameOffDateShot'].setValue(this.flameOffDate);
+                                  case 1: this.flameOffDate = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
+                                      this.flameOffTime = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
+                                      this.fsnlDate = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
+                                      this.fsnlTime = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'HH:mm:ss');
+                                      this.eventForm.controls['flameOffDateShot'].setValue(this.flameOffDate)
                                       this.eventForm.controls['flameOffTimeShot'].setValue(this.flameOffTime);
                                       this.eventForm.controls['fsnlDateShot'].setValue(this.fsnlDate);
                                       this.eventForm.controls['fsnlTimeShot'].setValue(this.fsnlTime);
                                       this.eventForm.controls['chargeShot'].setValue(element.chargebeforeshot);
                                       break;
-                                  case 952: this.rejectDate = this.datePipe.transform(new Date(element.dateinit) , 'dd/MM/yyyy');
-                                      this.rejectTime = this.datePipe.transform(new Date(element.dateinit) , 'HH:mm:ss');
+                                  case 952: this.rejectDate = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
+                                      this.rejectTime = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
                                       this.eventForm.controls['dateReject'].setValue(this.rejectDate);
                                       this.eventForm.controls['timeReject'].setValue(this.rejectTime);
                                       this.eventForm.controls['chargeReject'].setValue(element.chargebeforereject);
                                       break;
-                                  case 953: this.startDate = this.datePipe.transform(new Date(element.dateinit) , 'dd/MM/yyyy');
-                                      this.startTime = this.datePipe.transform(new Date(element.dateinit) , 'HH:mm:ss');
-                                      this.endDate = this.datePipe.transform(new Date(element.dateend) , 'dd/MM/yyyy');
-                                      this.endTime = this.datePipe.transform(new Date(element.dateend) , 'HH:mm:ss');
+                                  case 953: this.startDate = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
+                                      this.startTime = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
+                                      this.endDate = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
+                                      this.endTime = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'HH:mm:ss');
                                       this.eventForm.controls['startDateRunback'].setValue(this.startDate);
                                       this.eventForm.controls['startTimeRunback'].setValue(this.startTime);
                                       this.eventForm.controls['endDateRunback'].setValue(this.endDate);
@@ -195,24 +242,33 @@ export class EfhEditEventComponent implements OnInit {
                                       this.eventForm.controls['chargeBeforeRunback'].setValue(element.chargebeforerunback);
                                       this.eventForm.controls['chargeAfterRunback'].setValue(element.chargeafterrunback);
                                       break;
-                                  case 954: this.flameOffDate = this.datePipe.transform(new Date(element.dateinit) , 'dd/MM/yyyy');
-                                      this.flameOffTime = this.datePipe.transform(new Date(element.dateinit) , 'HH:mm:ss');
-                                      this.fsnlDate = this.datePipe.transform(new Date(element.datefsnl) , 'dd/MM/yyyy');
-                                      this.fsnlTime = this.datePipe.transform(new Date(element.datefsnl) , 'HH:mm:ss');
+                                  case 954: this.flameOffDate = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
+                                      this.flameOffTime = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
+                                      this.fsnlDate = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
+                                      this.fsnlTime = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'HH:mm:ss');
                                       this.eventForm.controls['flameOffDateStop'].setValue(this.flameOffDate);
                                       this.eventForm.controls['flameOffTimeStop'].setValue(this.flameOffTime);
                                       this.eventForm.controls['fsnlDateStop'].setValue(this.fsnlDate);
                                       this.eventForm.controls['fsnlTimeStop'].setValue(this.fsnlTime);
                                       this.eventForm.controls['chargeStop'].setValue(element.chargebeforestop);
                                       break;
-                                  case 955: this.startDate = this.datePipe.transform(new Date(element.dateinit) , 'dd/MM/yyyy');
-                                      this.startTime = this.datePipe.transform(new Date(element.dateinit) , 'HH:mm:ss');
-                                      this.endDate = this.datePipe.transform(new Date(element.dateend) , 'dd/MM/yyyy');
-                                      this.endTime = this.datePipe.transform(new Date(element.dateend) , 'HH:mm:ss');
+                                  case 955: this.startDate = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
+                                      this.startTime = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
+                                      this.endDate = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
+                                      this.endTime = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'HH:mm:ss');
                                       this.eventForm.controls['startDateDiesel'].setValue(this.startDate);
                                       this.eventForm.controls['startTimeDiesel'].setValue(this.startTime);
                                       this.eventForm.controls['endDateDiesel'].setValue(this.endDate);
                                       this.eventForm.controls['endTimeDiesel'].setValue(this.endTime);
+                                      break;
+                                  case 956: this.startDate = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
+                                      this.startTime = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
+                                      this.endDate = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
+                                      this.endTime = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'HH:mm:ss');
+                                      this.eventForm.controls['startDateNormal'].setValue(this.startDate);
+                                      this.eventForm.controls['startTimeNormal'].setValue(this.startTime);
+                                      this.eventForm.controls['endDateNormal'].setValue(this.endDate);
+                                      this.eventForm.controls['endTimeNormal'].setValue(this.endTime);
                                       break;
                               }
                               this.eventForm.controls['description'].setValue(element.description);
@@ -221,110 +277,145 @@ export class EfhEditEventComponent implements OnInit {
                           }
                       }
 
-                      this.dataSubmit['idtypeevent'] = this.eventForm.controls['idtypeevent'].value;
-                      this.dataSubmit['idtypefuel'] = this.eventForm.controls['idtypefuel'].value;
-                      this.dataSubmit['idunit'] = this.eventForm.controls['idunit'].value;
-                      this.dataSubmit['description'] = this.eventForm.controls['description'].value;
-                      this.dataSubmit['observations'] = this.eventForm.controls['observations'].value;
+                      if (!putData) {
 
-                      switch (this.eventForm.controls['idtypeevent'].value) {
-                          case 1: this.flameOffDate = this.eventForm.controls['flameOffDateShot'].value;
-                              this.flameOffTime = this.eventForm.controls['flameOffTimeShot'].value;
-                              this.fsnlDate = this.eventForm.controls['fsnlDateShot'].value;
-                              this.fsnlTime = this.eventForm.controls['fsnlTimeShot'].value;
-                              this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.flameOffDate + 'T' + this.flameOffTime), 'ddMMyyyyHHmmssSSS');
-                              this.dataSubmit['datefsnl'] = this.datePipe.transform(new Date(this.fsnlDate + 'T' + this.fsnlTime), 'ddMMyyyyHHmmssSSS');
-                              this.dataSubmit['chargebeforeshot'] = this.eventForm.controls['chargeShot'].value;
-                              break;
-                          case 952: this.rejectDate = this.eventForm.controls['dateReject'].value;
-                              this.rejectTime = this.eventForm.controls['timeReject'].value;
-                              this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.rejectDate + 'T' + this.rejectTime), 'ddMMyyyyHHmmssSSS');
-                              this.dataSubmit['chargebeforereject'] = this.eventForm.controls['chargeReject'].value;
-                              break;
-                          case 953: this.startDate = this.eventForm.controls['startDateRunback'].value;
-                              this.startTime = this.eventForm.controls['startTimeRunback'].value;
-                              this.endDate = this.eventForm.controls['endDateRunback'].value;
-                              this.endTime = this.eventForm.controls['endTimeRunback'].value;
-                              this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.startDate + 'T' + this.startTime), 'ddMMyyyyHHmmssSSS');
-                              this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.endDate + 'T' + this.endTime), 'ddMMyyyyHHmmssSSS');
-                              this.dataSubmit['chargebeforerunback'] = this.eventForm.controls['chargeBeforeRunback'].value;
-                              this.dataSubmit['chargeafterrunback'] = this.eventForm.controls['chargeAfterRunback'].value;
-                              break;
-                          case 954: this.flameOffDate = this.eventForm.controls['flameOffDateStop'].value;
-                              this.flameOffTime = this.eventForm.controls['flameOffTimeStop'].value;
-                              this.fsnlDate = this.eventForm.controls['fsnlDateStop'].value;
-                              this.fsnlTime = this.eventForm.controls['fsnlTimeStop'].value;
-                              this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.flameOffDate + 'T' + this.flameOffTime), 'ddMMyyyyHHmmssSSS');
-                              this.dataSubmit['datefsnl'] = this.datePipe.transform(new Date(this.fsnlDate + 'T' + this.fsnlTime), 'ddMMyyyyHHmmssSSS');
-                              this.dataSubmit['chargebeforestop'] = this.eventForm.controls['chargeStop'].value;
-                              break;
-                          case 955: this.startDate = this.eventForm.controls['startDateDiesel'].value;
-                              this.startTime = this.eventForm.controls['startTimeDiesel'].value;
-                              this.endDate = this.eventForm.controls['endDateDiesel'].value;
-                              this.endTime = this.eventForm.controls['endTimeDiesel'].value;
-                              this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.startDate + 'T' + this.startTime), 'ddMMyyyyHHmmssSSS');
-                              this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.endDate + 'T' + this.endTime), 'ddMMyyyyHHmmssSSS');
-                              break;
-                      }
+                          debugger;
+                          if (this.eventForm.controls['eventTypeControl'].value === null) {
+                              this.dataSubmit['idtypeevent'] = this.selectedEventType;
+                          } else {
+                              this.dataSubmit['idtypeevent'] = this.eventForm.controls['eventTypeControl'].value;
+                          }
 
-                      this.dataSubmit['active'] = this.checkedEstatus;
+                          if (this.eventForm.controls['fuelTypeControl'].value === null) {
+                              this.dataSubmit['idtypefuel'] = this.selectedFuelType;
+                          } else {
+                              this.dataSubmit['idtypefuel'] = this.eventForm.controls['fuelTypeControl'].value;
+                          }
 
-                      /*
-                      if (this.accion === 'nuevo') {
-                          this.dataSubmit['save'] = true;
-                      } */
-                      if (this.accion === 'editar') {
+                          if (this.eventForm.controls['unitControl'].value === null) {
+                              this.dataSubmit['idunit'] = this.selectedUnit;
+                          } else {
+                              this.dataSubmit['idunit'] = this.eventForm.controls['unitControl'].value;
+                          }
+
+                          this.dataSubmit['description'] = this.eventForm.controls['description'].value;
+                          this.dataSubmit['observations'] = this.eventForm.controls['observations'].value;
+
+                          switch (this.dataSubmit['idtypeevent']) {
+                              case 1: this.flameOffDate = this.eventForm.controls['flameOffDateShot'].value;
+                                  this.flameOffTime = this.eventForm.controls['flameOffTimeShot'].value;
+                                  this.fsnlDate = this.eventForm.controls['fsnlDateShot'].value;
+                                  this.fsnlTime = this.eventForm.controls['fsnlTimeShot'].value;
+                                  this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.flameOffDate + 'T' + this.flameOffTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+                                  this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.fsnlDate + 'T' + this.fsnlTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+                                  this.dataSubmit['chargebeforeshot'] = this.eventForm.controls['chargeShot'].value;
+                                  break;
+                              case 952: this.rejectDate = this.eventForm.controls['dateReject'].value;
+                                  this.rejectTime = this.eventForm.controls['timeReject'].value;
+                                  this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.rejectDate + 'T' + this.rejectTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+                                  this.dataSubmit['dateend'] = this.dataSubmit['dateinit'];
+                                  this.dataSubmit['chargebeforereject'] = this.eventForm.controls['chargeReject'].value;
+                                  break;
+                              case 953: this.startDate = this.eventForm.controls['startDateRunback'].value;
+                                  this.startTime = this.eventForm.controls['startTimeRunback'].value;
+                                  this.endDate = this.eventForm.controls['endDateRunback'].value;
+                                  this.endTime = this.eventForm.controls['endTimeRunback'].value;
+                                  this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.startDate + 'T' + this.startTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+                                  this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.endDate + 'T' + this.endTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+                                  this.dataSubmit['chargebeforerunback'] = this.eventForm.controls['chargeBeforeRunback'].value;
+                                  this.dataSubmit['chargeafterrunback'] = this.eventForm.controls['chargeAfterRunback'].value;
+                                  break;
+                              case 954: this.flameOffDate = this.eventForm.controls['flameOffDateStop'].value;
+                                  this.flameOffTime = this.eventForm.controls['flameOffTimeStop'].value;
+                                  this.fsnlDate = this.eventForm.controls['fsnlDateStop'].value;
+                                  this.fsnlTime = this.eventForm.controls['fsnlTimeStop'].value;
+                                  this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.flameOffDate + 'T' + this.flameOffTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+                                  this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.fsnlDate + 'T' + this.fsnlTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+                                  this.dataSubmit['chargebeforestop'] = this.eventForm.controls['chargeStop'].value;
+                                  break;
+                              case 955: this.startDate = this.eventForm.controls['startDateDiesel'].value;
+                                  this.startTime = this.eventForm.controls['startTimeDiesel'].value;
+                                  this.endDate = this.eventForm.controls['endDateDiesel'].value;
+                                  this.endTime = this.eventForm.controls['endTimeDiesel'].value;
+                                  this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.startDate + 'T' + this.startTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+                                  this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.endDate + 'T' + this.endTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+                                  break;
+                              case 956: this.startDate = this.eventForm.controls['startDateNormal'].value;
+                                  this.startTime = this.eventForm.controls['startTimeNormal'].value;
+                                  this.endDate = this.eventForm.controls['endDateNormal'].value;
+                                  this.endTime = this.eventForm.controls['endTimeNormal'].value;
+                                  this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.startDate + 'T' + this.startTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+                                  this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.endDate + 'T' + this.endTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+                                  break;
+                          }
+
+                          this.dataSubmit['active'] = this.checkedEstatus;
                           this.dataSubmit['id'] = this.eventType.id;
                           this.dataSubmit['order'] = this.eventType.id;
                           this.dataSubmit['save'] = false;
-                      }
 
-                      this.efhService.setEvent(this.dataSubmit, this.globalService.aguila)
-                          .subscribe(
-                              dataBack => {
-                                  if (this.accion === 'nuevo') {
-                                      this.toastr.successToastr('El evento fue creada con éxito.', '¡Se ha logrado!');
+                          this.efhService.setEvent(this.dataSubmit)
+                              .subscribe(
+                                  dataBack => {
+                                      debugger;
+                                      if (this.accion === 'nuevo') {
+                                          this.toastr.successToastr('El evento fue creada con éxito.', '¡Se ha logrado!');
+                                      }
+                                      if (this.accion === 'editar') {
+                                          this.toastr.successToastr('El evento fue actualizado con éxito.', '¡Se ha logrado!');
+                                      }
+                                      for (const comment of this.observationsArr) {
+                                          if (comment.saved === false) {
+                                              this.dataObservationSumbit['ideventconfig'] = this.eventType.id;
+                                              this.dataObservationSumbit['observation'] = comment.observacion;
+                                              this.dataObservationSumbit['dateobservation'] = comment.fecha_modificacion;
+                                              this.efhService.saveObservation(this.dataObservationSumbit).subscribe(
+                                                  dataBack => {
+                                                      const status = 'exito';
+                                                  }
+                                              );
+                                          }
+                                      }
+                                  },
+                                  errorData => {
+                                      this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
                                   }
-                                  if (this.accion === 'editar') {
-                                      this.toastr.successToastr('El evento fue actualizado con éxito.', '¡Se ha logrado!');
-                                  }
-                              }
-                          );
+                              );
+                      }
                   },
                   errorData => {
                       this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
                   }
               );
-      //} else {
-/*
-          debugger;
-          this.dataSubmit['idtypeevent'] = this.eventForm.controls['idtypeevent'].value;
-          this.dataSubmit['idtypefuel'] = this.eventForm.controls['idtypefuel'].value;
-          this.dataSubmit['idunit'] = this.eventForm.controls['idunit'].value;
-          this.dataSubmit['description'] = this.eventForm.controls['description'].value;
-          this.dataSubmit['observations'] = this.eventForm.controls['observations'].value;
-          this.dataSubmit['active'] = this.checkedEstatus;
+      } else {
+           this.dataSubmit['idtypeevent'] = this.eventForm.controls['eventTypeControl'].value;
+           this.dataSubmit['idtypefuel'] = this.eventForm.controls['fuelTypeControl'].value;
+           this.dataSubmit['idunit'] = this.eventForm.controls['unitControl'].value;
+           this.dataSubmit['description'] = this.eventForm.controls['description'].value;
+           this.dataSubmit['active'] = this.checkedEstatus;
 
-          if (this.isShotSectionVisible) {
+           if (this.isShotSectionVisible) {
               this.flameOffDate = this.eventForm.controls['flameOffDateShot'].value;
               this.flameOffTime = this.eventForm.controls['flameOffTimeShot'].value;
               this.fsnlDate = this.eventForm.controls['fsnlDateShot'].value;
               this.fsnlTime = this.eventForm.controls['fsnlTimeShot'].value;
-              this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.flameOffDate + 'T' + this.flameOffTime), 'ddMMyyyyHHmmssSSS');
-              this.dataSubmit['datefsnl'] = this.datePipe.transform(new Date(this.fsnlDate + 'T' + this.fsnlTime), 'ddMMyyyyHHmmssSSS');
-              this.dataSubmit['chargebeforeshot'] = this.eventForm.controls['chargeShot'].value;
+              this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.flameOffDate + ' ' + this.flameOffTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+              this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.fsnlDate + ' ' + this.fsnlTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+              this.dataSubmit['chargebeforeshot'] = parseFloat(this.eventForm.controls['chargeShot'].value);
+
           } else if (this.isRejectSectionVisible) {
               this.rejectDate = this.eventForm.controls['dateReject'].value;
               this.rejectTime = this.eventForm.controls['timeReject'].value;
-              this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.rejectDate + 'T' + this.rejectTime), 'ddMMyyyyHHmmssSSS');
-              this.dataSubmit['chargebeforereject'] = this.eventForm.controls['chargeReject'].value;
+              this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.rejectDate + 'T' + this.rejectTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+              this.dataSubmit['dateend'] = this.dataSubmit['dateinit'];
+              this.dataSubmit['chargebeforereject'] = parseFloat(this.eventForm.controls['chargeReject'].value);
           } else if (this.isRunbackSectionVisible) {
               this.startDate = this.eventForm.controls['startDateRunback'].value;
               this.startTime = this.eventForm.controls['startTimeRunback'].value;
               this.endDate = this.eventForm.controls['endDateRunback'].value;
               this.endTime = this.eventForm.controls['endTimeRunback'].value;
-              this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.startDate + 'T' + this.startTime), 'ddMMyyyyHHmmssSSS');
-              this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.endDate + 'T' + this.endTime), 'ddMMyyyyHHmmssSSS');
+              this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.startDate + 'T' + this.startTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+              this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.endDate + 'T' + this.endTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
               this.dataSubmit['chargebeforerunback'] = this.eventForm.controls['chargeBeforeRunback'].value;
               this.dataSubmit['chargeafterrunback'] = this.eventForm.controls['chargeAfterRunback'].value;
           } else if (this.isStopSectionVisible) {
@@ -332,37 +423,61 @@ export class EfhEditEventComponent implements OnInit {
               this.flameOffTime = this.eventForm.controls['flameOffTimeStop'].value;
               this.fsnlDate = this.eventForm.controls['fsnlDateStop'].value;
               this.fsnlTime = this.eventForm.controls['fsnlTimeStop'].value;
-              this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.flameOffDate + 'T' + this.flameOffTime), 'ddMMyyyyHHmmssSSS');
-              this.dataSubmit['datefsnl'] = this.datePipe.transform(new Date(this.fsnlDate + 'T' + this.fsnlTime), 'ddMMyyyyHHmmssSSS');
+              this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.flameOffDate + 'T' + this.flameOffTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+              this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.fsnlDate + 'T' + this.fsnlTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
               this.dataSubmit['chargebeforestop'] = this.eventForm.controls['chargeStop'].value;
           } else if (this.isDieselSectionVisible) {
-              this.startDate = this.eventForm.controls['startDateDiesel'].value;
-              this.startTime = this.eventForm.controls['startTimeDiesel'].value;
-              this.endDate = this.eventForm.controls['endDateDiesel'].value;
-              this.endTime = this.eventForm.controls['endTimeDiesel'].value;
-              this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.startDate + 'T' + this.startTime), 'ddMMyyyyHHmmssSSS');
-              this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.endDate + 'T' + this.endTime), 'ddMMyyyyHHmmssSSS');
+               this.startDate = this.eventForm.controls['startDateDiesel'].value;
+               this.startTime = this.eventForm.controls['startTimeDiesel'].value;
+               this.endDate = this.eventForm.controls['endDateDiesel'].value;
+               this.endTime = this.eventForm.controls['endTimeDiesel'].value;
+               this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.startDate + 'T' + this.startTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+               this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.endDate + 'T' + this.endTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+          } else if (this.isNormalOperationSectionVisible) {
+               this.startDate = this.eventForm.controls['startDateNormal'].value;
+               this.startTime = this.eventForm.controls['startTimeNormal'].value;
+               this.endDate = this.eventForm.controls['endDateNormal'].value;
+               this.endTime = this.eventForm.controls['endTimeNormal'].value;
+               this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.startDate + 'T' + this.startTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+               this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.endDate + 'T' + this.endTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
           }
 
-          if (this.accion === 'nuevo') {
+           if (this.accion === 'nuevo') {
               this.dataSubmit['save'] = true;
           }
 
-          this.efhService.setEvent(this.dataSubmit, this.globalService.aguila)
+           this.efhService.setEvent(this.dataSubmit)
               .subscribe(
                   dataBack => {
+                      debugger;
                       if (this.accion === 'nuevo') {
                           this.toastr.successToastr('El evento fue creada con éxito.', '¡Se ha logrado!');
                       }
                       if (this.accion === 'editar') {
                           this.toastr.successToastr('El evento fue actualizado con éxito.', '¡Se ha logrado!');
                       }
+                      const idEvent = dataBack['code'];
+                      for (const comment of this.observationsArr) {
+                          this.dataObservationSumbit['ideventconfig'] = idEvent;
+                          this.dataObservationSumbit['observation'] = comment.observacion;
+                          this.dataObservationSumbit['dateobservation'] = comment.fecha_modificacion;
+                          this.efhService.saveObservation(this.dataSubmit).subscribe(
+                              data => {
+                                  debugger;
+                                  const response = 'exito';
+                              },
+                              error => {
+                                  debugger;
+                                  this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
+                              }
+                          );
+                      }
                   },
                   errorData => {
                       this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
                   }
               );
-      }*/
+      }
   }
 
   getCatalogs() {
@@ -383,6 +498,9 @@ export class EfhEditEventComponent implements OnInit {
                   obj.name        = element.code;
                   // @ts-ignore
                   obj.description = element.description;
+                  /*if (element.code !== 'OPERACIÓN CON DIESEL' && this.globalService.aguila) {
+                    this.eventTypesArrForSelect.push(obj);
+                  }*/
                   this.eventTypesArr.push(obj);
                 }
               }
@@ -409,9 +527,6 @@ export class EfhEditEventComponent implements OnInit {
                   obj.name        = element.code;
                   // @ts-ignore
                   obj.description = element.description;
-                  if (element.code === 'DIESEL') {
-                        this.isDieselSectionVisible = true;
-                   }
                   this.fuelTypesArr.push(obj);
                 }
               }
@@ -462,19 +577,38 @@ export class EfhEditEventComponent implements OnInit {
 
   enableControls(selected) {
       this.selectControlsEnabled(true);
-      this.defaultConstrolsEnabled(true);
-      this.disableSections();
+      this.resetSections();
       // console.log(selected.value.id + ' | ' + selected.value.name)
-      switch (selected.value.id) {
+      switch (selected.value) {
           case 1: this.shotControlsEnabled(true);
+                  this.defaultConstrolsEnabled(true);
+                  this.isShotSectionVisible = true;
+                  this.isDefaultSectionsVisible = true;
                   break;
           case 952: this.rejectControlsEnabled(true);
+                    this.defaultConstrolsEnabled(true);
+                    this.isRejectSectionVisible = true;
+                    this.isDefaultSectionsVisible = true;
                     break;
           case 953: this.runbackConstrolsEnabled(true);
+                    this.defaultConstrolsEnabled(true);
+                    this.isRunbackSectionVisible = true;
+                    this.isDefaultSectionsVisible = true;
                     break;
           case 954: this.stopControlsEnabled(true);
+                    this.defaultConstrolsEnabled(true);
+                    this.isStopSectionVisible = true;
+                    this.isDefaultSectionsVisible = true;
                     break;
           case 955: this.dieselControlsEnabled(true);
+                    this.defaultConstrolsEnabled(true);
+                    this.isDieselSectionVisible = true;
+                    this.isDefaultSectionsVisible = true;
+                    break;
+          case 956: this.normalOperationControlsEnabled(true);
+                    this.defaultConstrolsEnabled(true);
+                    this.isNormalOperationSectionVisible = true;
+                    this.isDefaultSectionsVisible = true;
                     break;
       }
 
@@ -486,12 +620,15 @@ export class EfhEditEventComponent implements OnInit {
       this.isRunbackSectionVisible = false;
       this.isStopSectionVisible = false;
       this.isDieselSectionVisible = false;
-
+      this.isNormalOperationSectionVisible = false;
+      this.isDefaultSectionsVisible = false;
       this.shotControlsEnabled(false);
       this.rejectControlsEnabled(false);
       this.stopControlsEnabled(false);
       this.runbackConstrolsEnabled(false);
       this.dieselControlsEnabled(false);
+      this.normalOperationControlsEnabled(false);
+      this.defaultConstrolsEnabled(false);
   }
 
   disableSections() {
@@ -500,6 +637,8 @@ export class EfhEditEventComponent implements OnInit {
       this.stopControlsEnabled(false);
       this.runbackConstrolsEnabled(false);
       this.dieselControlsEnabled(false);
+      this.normalOperationControlsEnabled(false);
+      this.defaultConstrolsEnabled(false);
   }
 
   regresar() {
@@ -508,11 +647,81 @@ export class EfhEditEventComponent implements OnInit {
 
   onSubmit() {
       this.submittedData = true;
-      if (this.eventForm.invalid) {
+      if ((this.isShotSectionVisible && this.eventForm.controls['chargeShot'].invalid)
+          || (this.isShotSectionVisible && this.eventForm.controls['flameOffDateShot'].invalid)
+          || (this.isShotSectionVisible && this.eventForm.controls['flameOffTimeShot'].invalid)
+          || (this.isShotSectionVisible && this.eventForm.controls['fsnlDateShot'].invalid)
+          || (this.isShotSectionVisible && this.eventForm.controls['fsnlTimeShot'].invalid)
+          || (this.isRejectSectionVisible && this.eventForm.controls['chargeReject'].invalid)
+          || (this.isRejectSectionVisible && this.eventForm.controls['dateReject'].invalid)
+          || (this.isRejectSectionVisible && this.eventForm.controls['timeReject'].invalid)
+          || (this.isRunbackSectionVisible && this.eventForm.controls['startDateRunback'].invalid)
+          || (this.isRunbackSectionVisible && this.eventForm.controls['startTimeRunback'].invalid)
+          || (this.isRunbackSectionVisible && this.eventForm.controls['endDateRunback'].invalid)
+          || (this.isRunbackSectionVisible && this.eventForm.controls['endTimeRunback'].invalid)
+          || (this.isRunbackSectionVisible && this.eventForm.controls['chargeBeforeRunback'].invalid)
+          || (this.isRunbackSectionVisible && this.eventForm.controls['chargeAfterRunback'].invalid)
+          || (this.isStopSectionVisible && this.eventForm.controls['flameOffDateStop'].invalid)
+          || (this.isStopSectionVisible && this.eventForm.controls['flameOffTimeStop'].invalid)
+          || (this.isStopSectionVisible && this.eventForm.controls['fsnlDateStop'].invalid)
+          || (this.isStopSectionVisible && this.eventForm.controls['fsnlTimeStop'].invalid)
+          || (this.isStopSectionVisible && this.eventForm.controls['chargeStop'].invalid)
+          || (this.isDieselSectionVisible && this.eventForm.controls['startDateDiesel'].invalid)
+          || (this.isDieselSectionVisible && this.eventForm.controls['startTimeDiesel'].invalid)
+          || (this.isDieselSectionVisible && this.eventForm.controls['endDateDiesel'].invalid)
+          || (this.isDieselSectionVisible && this.eventForm.controls['endTimeDiesel'].invalid)
+          || (this.isNormalOperationSectionVisible && this.eventForm.controls['startDateNormal'].invalid)
+          || (this.isNormalOperationSectionVisible && this.eventForm.controls['startTimeNormal'].invalid)
+          || (this.isNormalOperationSectionVisible && this.eventForm.controls['endDateNormal'].invalid)
+          || (this.isNormalOperationSectionVisible && this.eventForm.controls['endTimeNormal'].invalid)
+          || this.eventForm.controls['description'].invalid
+          || this.eventForm.controls['observations'].invalid) {
           this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Lo siento,');
           return;
       }
-      this.obtenerDatosConfiguracionEvento(false, 0);
+
+      if (this.isShotSectionVisible
+          && this.compareDate(this.datePipe.transform(new Date(this.eventForm.controls['flameOffDateShot'].value + ' ' + this.eventForm.controls['flameOffTimeShot'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'),
+              this.datePipe.transform(new Date(this.eventForm.controls['fsnlDateShot'].value + ' ' + this.eventForm.controls['fsnlTimeShot'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
+          this.toastr.errorToastr('Fecha-Hora FlameOff debe ser menor a Fecha-Hora Fsnl, verifique', 'Lo siento,');
+          return;
+      }
+
+      if (this.isRunbackSectionVisible
+          && this.compareDate(this.datePipe.transform(new Date(this.eventForm.controls['startDateRunback'].value + ' ' + this.eventForm.controls['startTimeRunback'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'),
+              this.datePipe.transform(new Date(this.eventForm.controls['endDateRunback'].value + ' ' + this.eventForm.controls['endTimeRunback'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
+          this.toastr.errorToastr('Fecha-Hora Inicio debe ser menor a Fecha-Hora Fin, verifique', 'Lo siento,');
+          return;
+      }
+
+      if (this.isStopSectionVisible
+          && this.compareDate(this.datePipe.transform(new Date(this.eventForm.controls['flameOffDateStop'].value + ' ' + this.eventForm.controls['flameOffTimeStop'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'),
+              this.datePipe.transform(new Date(this.eventForm.controls['fsnlDateStop'].value + ' ' + this.eventForm.controls['fsnlTimeStop'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
+          this.toastr.errorToastr('Fecha-Hora FlameOff debe ser menor a Fecha-Hora Fsnl, verifique', 'Lo siento,');
+          return;
+      }
+
+      if (this.isDieselSectionVisible
+          && this.compareDate(this.datePipe.transform(new Date(this.eventForm.controls['startDateDiesel'].value + ' ' + this.eventForm.controls['startTimeDiesel'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'),
+              this.datePipe.transform(new Date(this.eventForm.controls['endDateDiesel'].value + ' ' + this.eventForm.controls['endTimeDiesel'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
+          this.toastr.errorToastr('Fecha-Hora Inicio debe ser menor a Fecha-Hora Fin, verifique', 'Lo siento,');
+          return;
+      }
+
+      if (this.isNormalOperationSectionVisible
+          && this.compareDate(this.datePipe.transform(new Date(this.eventForm.controls['startDateNormal'].value + ' ' + this.eventForm.controls['startTimeNormal'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'),
+              this.datePipe.transform(new Date(this.eventForm.controls['endDateNormal'].value + ' ' + this.eventForm.controls['endTimeNormal'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
+          this.toastr.errorToastr('Fecha-Hora Inicio debe ser menor a Fecha-Hora Fin, verifique', 'Lo siento,');
+          return;
+      }
+
+      debugger;
+
+      if (this.accion === 'editar') {
+          this.obtenerDatosConfiguracionEvento(false, this.eventType.id);
+      } else {
+          this.obtenerDatosConfiguracionEvento(false, 0);
+      }
   }
 
   shotControlsEnabled(flag) {
@@ -607,6 +816,21 @@ export class EfhEditEventComponent implements OnInit {
       }
   }
 
+  normalOperationControlsEnabled(flag) {
+      this.isNormalOperationControlsEnabled = flag;
+      if (flag) {
+          this.eventForm.controls.startDateNormal.enable();
+          this.eventForm.controls.startTimeNormal.enable();
+          this.eventForm.controls.endDateNormal.enable();
+          this.eventForm.controls.endTimeNormal.enable();
+      } else {
+          this.eventForm.controls.startDateNormal.disable();
+          this.eventForm.controls.startTimeNormal.disable();
+          this.eventForm.controls.endDateNormal.disable();
+          this.eventForm.controls.endTimeNormal.disable();
+      }
+  }
+
   defaultConstrolsEnabled(flag) {
       this.isDefaultControlsEnabled = flag;
       if (flag) {
@@ -630,5 +854,66 @@ export class EfhEditEventComponent implements OnInit {
       this.endDate = null;
       this.endTime = null;
   }
+
+  compareDate(date1: string, date2: string): boolean {
+      let d1 = new Date(date1);
+      let d2 = new Date(date2);
+
+      // Check if the dates are equal
+      let same = d1.getTime() === d2.getTime();
+
+      if (same) { return false; }
+
+        // Check if the first is greater than second
+      if (d1 > d2) { return true; }
+
+        // Check if the first is less than second
+      if (d1 < d2) { return false; }
+
+  }
+
+  getTimeLocale(dateString: string): Date {
+      const toConvertDate = new Date(dateString);
+      const offsetTimeZone = toConvertDate.getTimezoneOffset() * 60000;
+      return new Date(toConvertDate.getTime() + offsetTimeZone);
+  }
+
+  enableSaveButton() {
+      this.disabledSave = false;
+  }
+
+  resuelveDS(comenta) {
+      this.observationsArr.push(
+            new Comment(comenta.idUsr, comenta.nombre, comenta.observacion, comenta.fecha_modificacion, true));
+  }
+
+  getObservations(idEventConfig: number) {
+      this.efhService.getObservations(idEventConfig).subscribe(
+          data => {
+              debugger;
+              this.resultService = data;
+              let i = 0;
+              for (const element of this.resultService) {
+                  this.observationsArr.push(new Comment(element.id, 'tester', element.observation, new Date(element.dateobservation), true));
+              }
+          }
+      );
+  }
+
+  addObservation() {
+      const obser = this.eventForm.controls.observations.value;
+      this.eventForm.controls.observations.setValue('');
+      this.observationsArr.push(new Comment('1', 'tester', obser, new Date(), false));
+  }
+
+  /*
+  saveObservation(idEventConfig: number) {
+      const obser = this.eventForm.controls.observations.value;
+      this.efhService.saveObservation(idEventConfig, obser).subscribe(
+          comenta => {
+              this.observationsArr.push(new Comentario(comenta.idUsr, comenta.nombre, comenta.observacion, comenta.fecha_modificacion));
+          }
+      );
+  }*/
 
 }

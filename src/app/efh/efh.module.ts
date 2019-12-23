@@ -24,9 +24,12 @@ import { EfhUnitComponent                       } from './catalogs/unit/efhUnit.
 import { EfhUnitEditComponent                   } from './catalogs/unit/edit/efhUnitEdit.component';
 import { EfhAddEventComponent                   } from './configuration/event/addevent/efhAddEvent.component';
 import { EfhEditEventComponent                  } from './configuration/event/addevent/edit/efhEditEvent.component';
+import { EfhCommentsComponent } from './comments/efh-comments.component';
+import { EfhUploadComponent } from './upload/efh-upload.component';
+import { EfhUploadCommonComponent } from './upload/efh-upload-common/efh-upload-common.component';
 
 @NgModule({
-  declarations: [EfhHomeComponent, EfhWelcomeComponent, EfhEventTypeComponent, EfhEventTypeEditComponent, EfhFuelTypeComponent, EfhFuelTypeEditComponent, EfhUnitComponent, EfhUnitEditComponent, EfhAddEventComponent, EfhEditEventComponent],
+  declarations: [EfhHomeComponent, EfhWelcomeComponent, EfhEventTypeComponent, EfhEventTypeEditComponent, EfhFuelTypeComponent, EfhFuelTypeEditComponent, EfhUnitComponent, EfhUnitEditComponent, EfhAddEventComponent, EfhEditEventComponent, EfhCommentsComponent, EfhUploadComponent, EfhUploadCommonComponent ],
   imports: [
     EFH_ROUTES,
     BrowserModule,
