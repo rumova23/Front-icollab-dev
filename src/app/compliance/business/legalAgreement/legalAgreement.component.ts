@@ -88,6 +88,9 @@ export class LegalAgreementComponent implements OnInit {
     if (1) {
         this.limpiarTablas();
         this.complianceService.getCompliancePorPlantaYFechas(this.filtrosForm.controls.fAnio.value).subscribe(result => {
+              console.log('RTC');
+          console.dir(result);
+              console.log('RTC');
               this.elementData = result;
               this.asignarRegistros();
               this.addBlock(2, null);
@@ -112,29 +115,30 @@ export class LegalAgreementComponent implements OnInit {
     // this.accordion.closeAll();
     this.expandCloseAll = false;
 
-    this.indicePagos = 0;
-    this.indiceNotificaciones = 0;
-    this.indiceAnalisis = 0;
-    this.indiceReportes = 0;
-    this.indiceActividades = 0;
-    this.indiceCompromisos = 0;
-    this.indiceCertificados = 0;
-    this.indiceActualizaciones = 0;
-    this.indiceOtros = 0;
+    this.indicePagos = -1;
+    this.indiceNotificaciones = -1;
+    this.indiceAnalisis = -1;
+    this.indiceReportes = -1;
+    this.indiceActividades = -1;
+    this.indiceCompromisos = -1;
+    this.indiceCertificados =  -1;
+    this.indiceActualizaciones = -1;
+    this.indiceOtros = -1;
   }
 
   asignarRegistros() {
-    this.indicePagos = 0;
-    this.indiceNotificaciones = 0;
-    this.indiceAnalisis = 0;
-    this.indiceReportes = 0;
-    this.indiceActividades = 0;
-    this.indiceCompromisos = 0;
-    this.indiceCertificados = 0;
-    this.indiceActualizaciones = 0;
-    this.indiceOtros = 0;
+    this.indicePagos = -1;
+    this.indiceNotificaciones = -1;
+    this.indiceAnalisis = -1;
+    this.indiceReportes = -1;
+    this.indiceActividades = -1;
+    this.indiceCompromisos = -1;
+    this.indiceCertificados =  -1;
+    this.indiceActualizaciones = -1;
+    this.indiceOtros = -1;
 
     for (let indice = 0; indice < this.elementData.length; indice++ ) {
+      console.log(this.elementData[indice][0].actividad);
       if ( this.elementData[indice].length > 0 && this.elementData[indice][0].actividad === 'Pago') {
         this.indicePagos = indice;
         this.expandCloseAll = true;
@@ -164,48 +168,50 @@ export class LegalAgreementComponent implements OnInit {
         this.expandCloseAll = true;
       }
     }
-    if ( this.indicePagos > 0 ) {
+
+    console.log(this.indicePagos);
+    if ( this.indicePagos >= 0 ) {
       this.childPagos.columnas = this.columnas;
       this.registros = new MatTableDataSource<ComplianceDTO>(this.elementData[this.indicePagos]);
       this.childPagos.registros = this.registros;
       this.childPagos.registros.sort = this.sort;
     }
-    if ( this.indiceNotificaciones > 0 ) {
+    if ( this.indiceNotificaciones >= 0 ) {
       this.childNotificaciones.columnas = this.columnas;
       this.registros = new MatTableDataSource<ComplianceDTO>(this.elementData[this.indiceNotificaciones]);
       this.childNotificaciones.registros = this.registros;
     }
-    if ( this.indiceReportes > 0 ) {
+    if ( this.indiceReportes >= 0 ) {
       this.childReportes.columnas = this.columnas;
       this.registros = new MatTableDataSource<ComplianceDTO>(this.elementData[this.indiceReportes]);
       this.childReportes.registros = this.registros;
     }
-    if ( this.indiceAnalisis > 0 ) {
+    if ( this.indiceAnalisis >= 0 ) {
       this.childAnalisis.columnas = this.columnas;
       this.registros = new MatTableDataSource<ComplianceDTO>(this.elementData[this.indiceAnalisis]);
       this.childAnalisis.registros = this.registros;
     }
-    if ( this.indiceActividades > 0 ) {
+    if ( this.indiceActividades >= 0 ) {
       this.childActividades.columnas = this.columnas;
       this.registros = new MatTableDataSource<ComplianceDTO>(this.elementData[this.indiceActividades]);
       this.childActividades.registros = this.registros;
     }
-    if ( this.indiceCompromisos > 0 ) {
+    if ( this.indiceCompromisos >= 0 ) {
       this.childCompromisos.columnas = this.columnas;
       this.registros = new MatTableDataSource<ComplianceDTO>(this.elementData[this.indiceCompromisos]);
       this.childCompromisos.registros = this.registros;
     }
-    if ( this.indiceCertificados > 0 ) {
+    if ( this.indiceCertificados >= 0 ) {
       this.childCertificados.columnas = this.columnas;
       this.registros = new MatTableDataSource<ComplianceDTO>(this.elementData[this.indiceCertificados]);
       this.childCertificados.registros = this.registros;
     }
-    if ( this.indiceActualizaciones > 0 ) {
+    if ( this.indiceActualizaciones >= 0 ) {
       this.childActualizaciones.columnas = this.columnas;
       this.registros = new MatTableDataSource<ComplianceDTO>(this.elementData[this.indiceActualizaciones]);
       this.childActualizaciones.registros = this.registros;
     }
-    if ( this.indiceOtros > 0 ) {
+    if ( this.indiceOtros >= 0 ) {
       this.childOtros.columnas = this.columnas;
       this.registros = new MatTableDataSource<ComplianceDTO>(this.elementData[this.indiceOtros]);
       this.childOtros.registros = this.registros;
@@ -246,6 +252,8 @@ export class LegalAgreementComponent implements OnInit {
         indiceOtros = indice;
       }
     }
+
+
 
     if ( indicePagos >= 0 ) {
       this.childPagos.columnasGant = this.columnasGant;
