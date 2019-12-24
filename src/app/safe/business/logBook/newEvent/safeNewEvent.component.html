@@ -70,14 +70,19 @@
                                 <div class="col-md-auto col-md-6 col-lg-4">
                                     <div class="row">
                                     <div class="col-md-{{in.col || 8}}">
-                                        <mat-form-field class="full-width">
-                                            <input type="date" matInput formControlName="{{in.formControlName}}" placeholder="{{in.label}}">
+
                                         
-                                            <div *ngIf="!newEventtForm.controls[in.formControlName].valid 
-                                            && newEventtForm.controls[in.formControlName].touched">
-                                            Requerido
-                                            </div>
-                                        </mat-form-field>
+                                        <div class="form-group">
+                                            <label class="form-text text-left" for="mydate">De</label>
+                                            <mat-form-field class="form-control">
+                                                <input matInput 
+                                                formControlName="{{in.formControlName}}"
+                                                [matDatepicker]="mydate">
+                                                <mat-datepicker-toggle matSuffix [for]="mydate"></mat-datepicker-toggle>
+                                                <mat-datepicker #mydate></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+
                                     </div>
                                     </div>
                                 </div>
@@ -89,7 +94,7 @@
 
 
                                             <div class="form-group">
-                                              <label>{{in.label}}</label>
+                                              <label class="form-text text-left">{{in.label}}</label>
                                               <input
                                                   class="form-control"
                                                   type="number"
@@ -109,19 +114,19 @@
                             <div class="col-md-auto col-md-6 col-lg-4">
                                 <div class="row">
                                 <div class="col-md-{{in.col || 8}}">
-                                    <mat-form-field class="full-width">
-                                        <mat-label>{{in.label}}</mat-label>
-                                        <mat-select formControlName="{{in.formControlName}}"
-                                            (selectionChange)="onSelect($event.value, in)">
-                                            <mat-option *ngFor="let option of in.options" [value]="option">
-                                            {{option.name}}
-                                            </mat-option>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-text text-left">{{in.label}}:</label>
+                                        <mat-select class="form-control" formControlName="{{in.formControlName}}">
+                                        <mat-option class="form-control" *ngFor="let option of in.options" [value]="option">{{ option.name }}</mat-option>
                                         </mat-select>
+
                                         <div *ngIf="!newEventtForm.controls[in.formControlName].valid 
                                         && newEventtForm.controls[in.formControlName].touched">
                                         Requerido
                                         </div>
-                                    </mat-form-field>
+                                    </div>
+                               
                                 </div>
                                 <div class="col-md-4">
                                 </div>
@@ -133,7 +138,7 @@
                                 <div class="row">
                                 <div class="col-md-{{in.col || 8}}">
                                     <div class="form-group">
-                                        <label>{{ in.label }}</label>
+                                        <label class="form-text text-left">{{ in.label }}</label>
                                         <input
                                             class="form-control active"
                                             type="checkbox"
@@ -331,14 +336,18 @@
                                 <div class="col-md-auto col-md-6 col-lg-4">
                                     <div class="row">
                                     <div class="col-md-{{in.col || 8}}">
-                                        <mat-form-field class="full-width">
-                                            <input type="date" matInput formControlName="{{in.formControlName}}" placeholder="{{in.label}}">
                                         
-                                            <div *ngIf="!otherForm.controls[in.formControlName].valid 
-                                            && otherForm.controls[in.formControlName].touched">
-                                            Requerido
-                                            </div>
-                                        </mat-form-field>
+                                        <div class="form-group">
+                                            <label class="form-text text-left" for="mydate">{{in.label}}</label>
+                                            <mat-form-field class="form-control">
+                                                <input matInput 
+                                                formControlName="{{in.formControlName}}"
+                                                [matDatepicker]="mydate">
+                                                <mat-datepicker-toggle matSuffix [for]="mydate"></mat-datepicker-toggle>
+                                                <mat-datepicker #mydate></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+
                                     </div>
                                     </div>
                                 </div>
@@ -350,7 +359,7 @@
 
                                             
                                             <div class="form-group">
-                                                <label>{{in.label}}</label>
+                                                <label class="form-text text-left">{{in.label}}</label>
                                                 <input
                                                     class="form-control"
                                                     type="number"
@@ -370,19 +379,21 @@
                             <div class="col-md-auto col-md-6 col-lg-4">
                                 <div class="row">
                                 <div class="col-md-{{in.col || 8}}">
-                                    <mat-form-field class="full-width">
-                                        <mat-label>{{in.label}}</mat-label>
-                                        <mat-select formControlName="{{in.formControlName}}"
-                                            (selectionChange)="onSelect($event.value, in)">
-                                            <mat-option *ngFor="let option of in.options" [value]="option">
-                                            {{option.name}}
-                                            </mat-option>
+
+                                    
+                                    <div class="form-group">
+                                        <label class="form-text text-left">{{in.label}}:</label>
+                                        <mat-select class="form-control" formControlName="{{in.formControlName}}" 
+                                        (selectionChange)="onSelect($event.value, in)">
+                                        <mat-option class="form-control" *ngFor="let option of in.options" [value]="option">{{ option.name }}</mat-option>
                                         </mat-select>
+
                                         <div *ngIf="!otherForm.controls[in.formControlName].valid 
                                         && otherForm.controls[in.formControlName].touched">
                                         Requerido
                                         </div>
-                                    </mat-form-field>
+                                    </div>
+                                   
                                 </div>
                                 <div class="col-md-4">
                                 </div>
@@ -394,7 +405,7 @@
                                 <div class="row">
                                 <div class="col-md-{{in.col || 8}}">
                                     <div class="form-group">
-                                        <label>{{ in.label }}</label>
+                                        <label class="form-text text-left">{{ in.label }}</label>
                                         <input
                                             class="form-control active"
                                             type="checkbox"

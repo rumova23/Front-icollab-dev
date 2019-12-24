@@ -46,7 +46,7 @@
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
                                         <div class="form-group">
-                                            <label>{{ in.label }}</label>
+                                            <label class="form-text text-left">{{ in.label }}</label>
                                             <input
                                                 class="form-control"
                                                 formControlName="{{
@@ -88,7 +88,7 @@
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
                                         <div class="form-group">
-                                            <label>{{ in.label }}</label>
+                                            <label class="form-text text-left">{{ in.label }}</label>
                                             <input
                                                 class="form-control"
                                                 type="time"
@@ -121,65 +121,21 @@
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
                                         <div class="form-group">
-                                            <label>{{ in.label }}</label>
-                                            <select
-                                                class="form-control"
-                                                formControlName="{{
-                                                    in.formControlName
-                                                }}"
-                                                (selectionChange)="
-                                                    onSelect($event.value, in)
-                                                "
-                                            >
-                                                <option
-                                                    *ngFor="
-                                                        let option of in.options
-                                                    "
-                                                    [value]="option"
-                                                >
-                                                    {{
-                                                        option.description !=
-                                                        null
-                                                            ? option.description
-                                                            : option.name !=
-                                                              null
-                                                            ? option.name
-                                                            : option.tradename
-                                                    }}
-                                                </option>
-                                            </select>
-                                        </div>
-
-                                        <!--mat-form-field class="full-width">
-                                            <mat-label>{{
-                                                in.label
-                                            }}</mat-label>
-                                            <mat-select
-                                                formControlName="{{
-                                                    in.formControlName
-                                                }}"
-                                                (selectionChange)="
-                                                    onSelect($event.value, in)
-                                                "
-                                            >
-                                                <mat-option
-                                                    *ngFor="
-                                                        let option of in.options
-                                                    "
-                                                    [value]="option"
-                                                >
-                                                    {{
-                                                        option.description !=
-                                                        null
-                                                            ? option.description
-                                                            : option.name !=
-                                                              null
-                                                            ? option.name
-                                                            : option.tradename
-                                                    }}
-                                                </mat-option>
+                                            <label class="form-text text-left">{{in.label}}:</label>
+                                            <mat-select class="form-control" formControlName="{{in.formControlName}}" 
+                                            (selectionChange)="onSelect($event.value, in)">
+                                            <mat-option class="form-control" *ngFor="let option of in.options" [value]="option">
+                                                {{
+                                                    option.description !=
+                                                    null
+                                                        ? option.description
+                                                        : option.name !=
+                                                          null
+                                                        ? option.name
+                                                        : option.tradename
+                                                }}</mat-option>
                                             </mat-select>
-                                        </mat-form-field-->
+                                        </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div
@@ -204,49 +160,13 @@
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
                                         <div class="form-group">
-                                            <label>{{ in.label }}</label>
-                                            <select
-                                                class="form-control"
-                                                formControlName="{{
-                                                    in.formControlName
-                                                }}"
-                                                (selectionChange)="
-                                                    onSelect($event.value, in)
-                                                "
-                                            >
-                                                <option
-                                                    *ngFor="
-                                                        let option of in.options
-                                                    "
-                                                    [value]="option"
-                                                >
-                                                    {{ getInvoice(option) }}
-                                                </option>
-                                            </select>
-                                        </div>
-
-                                        <!--mat-form-field class="full-width">
-                                            <mat-label>{{
-                                                in.label
-                                            }}</mat-label>
-                                            <mat-select
-                                                formControlName="{{
-                                                    in.formControlName
-                                                }}"
-                                                (selectionChange)="
-                                                    onSelect($event.value, in)
-                                                "
-                                            >
-                                                <mat-option
-                                                    *ngFor="
-                                                        let option of in.options
-                                                    "
-                                                    [value]="option"
-                                                >
-                                                    {{ getInvoice(option) }}
-                                                </mat-option>
+                                            <label class="form-text text-left">{{in.label}}:</label>
+                                            <mat-select class="form-control" formControlName="{{in.formControlName}}" 
+                                            (selectionChange)="onSelect($event.value, in)">
+                                            <mat-option class="form-control" *ngFor="let option of in.options" [value]="option">
+                                                {{ getInvoice(option) }}</mat-option>
                                             </mat-select>
-                                        </mat-form-field-->
+                                        </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div
@@ -271,57 +191,17 @@
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
                                         <div class="form-group">
-                                            <label>{{ in.label }}</label>
-                                            <select
-                                                class="form-control"
-                                                formControlName="{{
-                                                    in.formControlName
-                                                }}"
-                                                (selectionChange)="
-                                                    onSelect($event.value, in)
-                                                "
-                                            >
-                                                <option
-                                                    *ngFor="
-                                                        let option of in.options
-                                                    "
-                                                    [value]="option"
-                                                >
-                                                    {{
-                                                        getPlantDirection(
-                                                            option
-                                                        )
-                                                    }}
-                                                </option>
-                                            </select>
-                                        </div>
-
-                                        <!--mat-form-field class="full-width">
-                                            <mat-label>{{
-                                                in.label
-                                            }}</mat-label>
-                                            <mat-select
-                                                formControlName="{{
-                                                    in.formControlName
-                                                }}"
-                                                (selectionChange)="
-                                                    onSelect($event.value, in)
-                                                "
-                                            >
-                                                <mat-option
-                                                    *ngFor="
-                                                        let option of in.options
-                                                    "
-                                                    [value]="option"
-                                                >
-                                                    {{
-                                                        getPlantDirection(
-                                                            option
-                                                        )
-                                                    }}
-                                                </mat-option>
+                                            <label class="form-text text-left">{{in.label}}:</label>
+                                            <mat-select class="form-control" formControlName="{{in.formControlName}}" 
+                                            (selectionChange)="onSelect($event.value, in)">
+                                            <mat-option class="form-control" *ngFor="let option of in.options" [value]="option">
+                                                {{
+                                                    getPlantDirection(
+                                                        option
+                                                    )
+                                                }}</mat-option>
                                             </mat-select>
-                                        </mat-form-field-->
+                                        </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div
@@ -346,57 +226,18 @@
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
                                         <div class="form-group">
-                                            <label>{{ in.label }}</label>
-                                            <select
-                                                class="form-control"
-                                                formControlName="{{
-                                                    in.formControlName
-                                                }}"
-                                                (selectionChange)="
-                                                    onSelect($event.value, in)
-                                                "
-                                            >
-                                                <option
-                                                    *ngFor="
-                                                        let option of in.options
-                                                    "
-                                                    [value]="option"
-                                                >
-                                                    {{
-                                                        getPlantBranchOffice(
-                                                            option
-                                                        )
-                                                    }}
-                                                </option>
-                                            </select>
-                                        </div>
-
-                                        <!--mat-form-field class="full-width">
-                                            <mat-label>{{
-                                                in.label
-                                            }}</mat-label>
-                                            <mat-select
-                                                formControlName="{{
-                                                    in.formControlName
-                                                }}"
-                                                (selectionChange)="
-                                                    onSelect($event.value, in)
-                                                "
-                                            >
-                                                <mat-option
-                                                    *ngFor="
-                                                        let option of in.options
-                                                    "
-                                                    [value]="option"
-                                                >
-                                                    {{
-                                                        getPlantBranchOffice(
-                                                            option
-                                                        )
-                                                    }}
-                                                </mat-option>
+                                            
+                                            <label class="form-text text-left">{{in.label}}:</label>
+                                            <mat-select class="form-control" formControlName="{{in.formControlName}}" 
+                                            (selectionChange)="onSelect($event.value, in)">
+                                            <mat-option class="form-control" *ngFor="let option of in.options" [value]="option">
+                                                {{
+                                                    getPlantBranchOffice(
+                                                        option
+                                                    )
+                                                }}</mat-option>
                                             </mat-select>
-                                        </mat-form-field-->
+                                        </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div
@@ -422,7 +263,7 @@
                                     <div class="col-md-{{ in.col || 8 }}">
                                         
                                         <div class="form-group">
-                                            <label>{{
+                                            <label class="form-text text-left">{{
                                                 in.label
                                             }}</label>
                                             <input
@@ -472,7 +313,7 @@
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
                                         <div class="form-group">
-                                            <label>{{ in.label }}</label>
+                                            <label class="form-text text-left">{{ in.label }}</label>
                                             <textarea
                                                 class="form-control"
                                                 cdkTextareaAutosize
@@ -534,7 +375,7 @@
                             <div class="row">
                                 <div class="col-md-{{ in.col || 8 }}">
                                     <div class="form-group">
-                                        <label>{{ in.label }}</label>
+                                        <label class="form-text text-left">{{ in.label }}</label>
                                         <input
                                             class="form-control"
                                             formControlName="{{
@@ -566,49 +407,16 @@
                             <div class="row">
                                 <div class="col-md-{{ in.col || 8 }}">
                                     <div class="form-group">
-                                        <label>{{ in.label }}</label>
-                                        <select
-                                            class="form-control"
-                                            formControlName="{{
-                                                in.formControlName
-                                            }}"
-                                        >
-                                            <option
-                                                *ngFor="
-                                                    let option of in.options
-                                                "
-                                                [value]="option"
-                                            >
-                                                {{
-                                                    option.description != null
-                                                        ? option.description
-                                                        : option.name
-                                                }}
-                                            </option>
-                                        </select>
-                                    </div>
-
-                                    <!--mat-form-field class="full-width">
-                                        <mat-label>{{ in.label }}</mat-label>
-                                        <mat-select
-                                            formControlName="{{
-                                                in.formControlName
-                                            }}"
-                                        >
-                                            <mat-option
-                                                *ngFor="
-                                                    let option of in.options
-                                                "
-                                                [value]="option"
-                                            >
-                                                {{
-                                                    option.description != null
-                                                        ? option.description
-                                                        : option.name
-                                                }}
-                                            </mat-option>
+                                        <label class="form-text text-left">{{in.label}}:</label>
+                                        <mat-select class="form-control" formControlName="{{in.formControlName}}">
+                                        <mat-option class="form-control" *ngFor="let option of in.options" [value]="option">
+                                            {{
+                                                option.description != null
+                                                    ? option.description
+                                                    : option.name
+                                            }}</mat-option>
                                         </mat-select>
-                                    </mat-form-field-->
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div
@@ -633,7 +441,7 @@
                             <div class="row">
                                 <div class="col-md-{{ in.col || 8 }}">
                                     <div class="form-group">
-                                        <label>{{ in.label }}</label>
+                                        <label class="form-text text-left">{{ in.label }}</label>
                                         <input
                                             class="form-control active"
                                             type="checkbox"

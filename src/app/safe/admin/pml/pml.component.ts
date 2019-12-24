@@ -46,7 +46,8 @@ export class PmlComponent implements OnInit {
       process:'MDA'
     };
   }
-
+  dateChange(event){
+  }
   private loadData(data: any) {
     this.addBlock(1, null);
     this.marketService.getPmls(data).subscribe(

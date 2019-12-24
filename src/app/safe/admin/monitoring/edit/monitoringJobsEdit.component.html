@@ -22,35 +22,35 @@
   
       <div class="row">
         <div class="col-md-4">
-          <mat-form-field>
-            <mat-label>Nombre de la Aplicación</mat-label>
-            <mat-select formControlName="applicationName" [compareWith]="compareObjects">
-              <mat-option *ngFor="let appName of applicationNames" [value]="appName">
-                {{ appName.value }}
-              </mat-option>
+
+          <div class="form-group">
+            <label class="form-text text-left">Nombre de la Aplicación:</label>
+            <mat-select class="form-control" formControlName="applicationName" [compareWith]="compareObjects">
+              <mat-option class="form-control" *ngFor="let appName of applicationNames" [value]="appName">{{ appName.value }}</mat-option>
             </mat-select>
-          </mat-form-field>
-          <div *ngIf="!ftpConnectionForm.controls['applicationName'].valid 
-                        && ftpConnectionForm.controls['applicationName'].touched">
-            Requerido
+              <div *ngIf="!ftpConnectionForm.controls['applicationName'].valid 
+                            && ftpConnectionForm.controls['applicationName'].touched">
+                Requerido
+              </div>
           </div>
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-4">
-          <mat-form-field>
-            <mat-label>Tipo</mat-label>
-            <mat-select formControlName="type" [compareWith]="compareObjects">
-              <mat-option *ngFor="let type of types" [value]="type">
-                {{ type.value }}
-              </mat-option>
+          
+          <div class="form-group">
+            <label class="form-text text-left">Tipo:</label>
+            <mat-select class="form-control" formControlName="type" [compareWith]="compareObjects">
+              <mat-option class="form-control" *ngFor="let type of types" [value]="type">{{ type.value }}</mat-option>
             </mat-select>
-          </mat-form-field>
-          <div *ngIf="!ftpConnectionForm.controls['type'].valid 
-                        && ftpConnectionForm.controls['type'].touched">
-            Requerido
+
+            <div *ngIf="!ftpConnectionForm.controls['type'].valid 
+                          && ftpConnectionForm.controls['type'].touched">
+              Requerido
+            </div>
           </div>
+
         </div>
       </div>
 
@@ -183,7 +183,7 @@
       <div class="row">
         <div class="col-md-4">
           <div class="form-group">
-              <label>Activo</label>
+              <label class="form-text text-left">Activo</label>
               <input
                   class="form-control active"
                   type="checkbox"

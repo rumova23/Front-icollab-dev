@@ -25,7 +25,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Código</label>
+                            <label class="form-text text-left">Código</label>
                             <input
                                 formControlName="code"
                                 class="form-control"
@@ -74,7 +74,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Descripción</label>
+                            <label class="form-text text-left">Descripción</label>
                             <textarea
                                 formControlName="description"
                                 class="form-control"
@@ -128,21 +128,11 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Unidad de Producto Sat</label>
-                            <select
-                                class="form-control"
-                                formControlName="unityProductSat"
-                                [compareWith]="compareObjects"
-                            >
-                                <option
-                                    *ngFor="
-                                        let unityProductSat of unityProductsSat
-                                    "
-                                    [value]="unityProductSat"
-                                >
-                                    {{ unityProductSat.name }}
-                                </option>
-                            </select>
+                            
+                            <label class="form-text text-left">Unidad de Producto Sat:</label>
+                            <mat-select class="form-control" formControlName="unityProductSat" [compareWith]="compareObjects">
+                              <mat-option class="form-control" *ngFor="let unityProductSat of unityProductsSat" [value]="unityProductSat">{{ unityProductSat.name }}</mat-option>
+                            </mat-select>
                             <div
                                 *ngIf="
                                     !unityProductForm.controls[
@@ -167,39 +157,12 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!--mat-form-field>
-                            <mat-label>Unidad de Producto Sat</mat-label>
-                            <mat-select
-                                formControlName="unityProductSat"
-                                [compareWith]="compareObjects"
-                            >
-                                <mat-option
-                                    *ngFor="
-                                        let unityProductSat of unityProductsSat
-                                    "
-                                    [value]="unityProductSat"
-                                >
-                                    {{ unityProductSat.name }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <div
-                            *ngIf="
-                                !unityProductForm.controls['unityProductSat']
-                                    .valid &&
-                                unityProductForm.controls['unityProductSat']
-                                    .touched
-                            "
-                        >
-                            Requerido
-                        </div-->
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Activo</label>
+                            <label class="form-text text-left">Activo</label>
                             <input
                                 class="form-control active"
                                 type="checkbox"
@@ -231,7 +194,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Orden</label>
+                            <label class="form-text text-left">Orden</label>
                             <input
                                 type="number"
                                 formControlName="order"

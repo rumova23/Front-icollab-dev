@@ -18,7 +18,7 @@
         <div class="row">
           <div class="col-md-4">
               <div class="form-group">
-                <label>Código</label>
+                <label class="form-text text-left">Código</label>
                 <input formControlName="code" class="form-control">
                 <div *ngIf="!genericForm.controls['code'].valid 
                 && genericForm.controls['code'].touched" style="color:red">
@@ -43,7 +43,7 @@
 
             
           <div class="form-group">
-            <label>Descripción</label>
+            <label class="form-text text-left">Descripción</label>
             <textarea formControlName="description" class="form-control">
             </textarea>
             <div *ngIf="!genericForm.controls['description'].valid 
@@ -68,7 +68,7 @@
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-                <label>Activo</label>
+                <label class="form-text text-left">Activo</label>
                 <input
                     class="form-control active"
                     type="checkbox"
@@ -92,7 +92,7 @@
           <div class="col-md-4">
             
               <div class="form-group">
-                  <label>Orden</label>
+                  <label class="form-text text-left">Orden</label>
                   <input type="number"  formControlName="order"
                   class="form-control" name="order" min="1">
               </div>

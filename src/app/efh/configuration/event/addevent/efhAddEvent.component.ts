@@ -106,16 +106,15 @@ export class EfhAddEventComponent implements OnInit {
             i += 1;
             const obj            = {};
             obj['id'] = element.id;
-            // obj['idtypeevent'] = element.idtypeevent;
-            obj['typeEvent'] = this.eventTypesArr.find(x => x.id === element.idtypeevent).code;
+            obj['typeEvent'] = this.eventTypesArr.find(x => x.id === element.idtypeevent).name;
             // obj['idtypefuel'] = element.idtypefuel;
-            obj['typeFuel'] = this.fuelTypesArr.find(x => x.id === element.idtypefuel).code;
+            obj['typeFuel'] = this.fuelTypesArr.find(x => x.id === element.idtypefuel).name;
             // obj['idunit'] = element.idunit;
-            obj['unit'] = this.unitsArr.find(x => x.id === element.idunit).code;
-            obj['dateInit'] = this.datePipe.transform(new Date(element.dateinit) , 'dd/MM/yyyy HH:mm');
+            obj['unit'] = this.unitsArr.find(x => x.id === element.idunit).name;
+            obj['dateInit'] = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'dd/MM/yyyy HH:mm');
             obj['order'] = i;
-            obj['userUpdated'] = element.userUpdated === undefined ? element.userCreated : element.userUpdated;
-            const dateUpdated = element.dateUpdated === undefined ? element.dateCreated : element.dateUpdated;
+            obj['userUpdated'] = element.userUpdated === null ? element.userCreated : element.userUpdated;
+            const dateUpdated = element.dateUpdated === null ? element.dateCreated : element.dateUpdated;
             obj['dateUpdated'] = '.';
             if (dateUpdated) {
               obj['dateUpdated'] = this.datePipe.transform(new Date(dateUpdated) , 'dd/MM/yyyy HH:mm');
@@ -292,6 +291,13 @@ export class EfhAddEventComponent implements OnInit {
           }
         })
         .catch(() => console.log('Canceló eliminar'));
+  }
+
+  getTimeLocale(dateString: string): Date {
+      //debugger;
+      const toConvertDate = new Date(dateString);
+      const offsetTimeZone = toConvertDate.getTimezoneOffset() * 60000;
+      return new Date(toConvertDate.getTime() + offsetTimeZone);
   }
 
 }
