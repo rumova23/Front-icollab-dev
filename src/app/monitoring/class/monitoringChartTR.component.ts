@@ -118,6 +118,13 @@ export class MonitoringChartTR extends MonitoringBaseSocketOnComponent {
                ) {
                     defChart.write             = true;
                     defChart.controls.timePast = new Date();
+                
+                    /* Actualizar valor de label eje x  */
+                    this.charts[key].data.labels.push(this.getTime());
+                    if (this.charts[key].data.labels.length > defChart.controls.data_per_graph) {
+                        this.charts[key].data.labels.shift();
+                    }
+                    /* ./Actualizar valor de label eje x  */
                }
             }
         }
@@ -287,12 +294,6 @@ export class MonitoringChartTR extends MonitoringBaseSocketOnComponent {
                         for (const refChartPerTag of this.getIdsCahrtByWebId(tag.WebId)) {
                             
                             if (this.myDefCharts[refChartPerTag.charId].write){
-                                
-                                this.charts[refChartPerTag.charId].data.labels.push(this.getTime());
-                                
-                                if (this.charts[refChartPerTag.charId].data.labels.length > this.myDefCharts[refChartPerTag.charId].controls.data_per_graph) {
-                                    this.charts[refChartPerTag.charId].data.labels.shift();
-                                }
 
                                 finalsDataToChart.idChart = refChartPerTag.charId;
                                 finalsDataToChart.localId =  refChartPerTag.chartTag.localId;
@@ -368,5 +369,26 @@ export class MonitoringChartTR extends MonitoringBaseSocketOnComponent {
                 }
             }
         }
+    }
+
+    
+    modifyChart(event) {
+        // event es de tipo ChartControl
+        //TAGS.listCharts[event.idChart]["controls"] = event;
+        this.myDefCharts[event.idChart].controls = event;
+
+        // BasChart.change_data_per_graph(this.charts[event.idChart], TAGS.listCharts[event.idChart]);
+        // BasChart.change_typa_chart(this.charts[event.idChart], TAGS.listCharts[event.idChart]);
+        // BasChart.changeFill(this.charts[event.idChart], TAGS.listCharts[event.idChart]);
+        // BasChart.change_point_radius(this.charts[event.idChart], TAGS.listCharts[event.idChart]);
+        // BasChart.change_type_scale(this.charts[event.idChart], TAGS.listCharts[event.idChart], TAGS.lstTags);
+        // BasChart.chart_update(this.charts[event.idChart]);
+        
+        BasChart.change_data_per_graph (this.charts[event.idChart], this.myDefCharts[event.idChart]);
+        BasChart.change_typa_chart     (this.charts[event.idChart], this.myDefCharts[event.idChart]);
+        BasChart.changeFill            (this.charts[event.idChart], this.myDefCharts[event.idChart]);
+        BasChart.change_point_radius   (this.charts[event.idChart], this.myDefCharts[event.idChart]);
+        //BasChart.change_type_scale     (this.charts[event.idChart], this.myDefCharts[event.idChart], TAGS.lstTags);
+        BasChart.chart_update          (this.charts[event.idChart]);
     }
 }
