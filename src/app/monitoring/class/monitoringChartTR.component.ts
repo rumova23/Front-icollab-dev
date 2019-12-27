@@ -13,6 +13,7 @@ import { RelWebIdChartId                 } from '../models/rel_webId_localId/rel
 
 import * as BasChart from "src/app/monitoring/helpers/monitoringBaseChart.component";
 import { MyChart } from '../models/chart/myChart';
+import { PiServerBox } from '../models/piServer/piServerBox';
 
 @Component({
 	selector: 'app-monitoring-chart-tr',
@@ -26,7 +27,9 @@ export class MonitoringChartTR extends MonitoringBaseSocketOnComponent {
 
     public rel_webId_localId : Array<Array<RelWebIdLocalId>> = [];
     public rel_webId_CharId  : Array<Array<RelWebIdChartId>> = [];
-	
+    
+    public vistafinalsDataToChart :Array<FinalsDataToChart>=[];
+
     public tagValue          = [];
     public tagName           = [];
 	public taglabel          = [];
@@ -105,7 +108,32 @@ export class MonitoringChartTR extends MonitoringBaseSocketOnComponent {
             }
         }
 	}
-	
+	chartOpen(){
+        for (const key in this.myDefCharts) {
+            if (this.myDefCharts.hasOwnProperty(key)) {
+                const defChart = this.myDefCharts[key];
+                if (this.check_time_refreseh_data(
+                    defChart["controls"]["time_refreseh"]
+                   ,defChart["controls"]["timePast"])
+               ) {
+                    defChart.write             = true;
+                    defChart.controls.timePast = new Date();
+               }
+            }
+        }
+    }
+    chartClose(){
+        for (const key in this.myDefCharts) {
+            if (this.myDefCharts.hasOwnProperty(key)) {
+                const defChart = this.myDefCharts[key];
+                defChart.write = false;
+            }
+        }
+    }
+    chartEnableWrite(){
+        this.chartClose();
+        this.chartOpen();
+    }
     getchartControl(idChart) {
         return this.myDefCharts[idChart] ? this.myDefCharts[idChart]["controls"] : { idChart: false };
     }
@@ -153,10 +181,33 @@ export class MonitoringChartTR extends MonitoringBaseSocketOnComponent {
 
 	}
 	getIdsCahrtByWebId(WebId):Array<RelWebIdChartId>{
-        return this.rel_webId_CharId[WebId];
+        return Object.keys(this.rel_webId_CharId).includes(WebId) ? this.rel_webId_CharId[WebId] : [];
     }
 	getIdsLocalTagByWebId(WebId):Array<RelWebIdLocalId>{
         return this.rel_webId_localId[WebId];
+    }
+    setStreamsetsInterpolatedInChart(box: PiServerBox, TAGS){
+        
+        this.chartInit(TAGS.listCharts, box.data[0].Items[0].Items.length);
+        for (const data of box.data) {
+            if (!data.error_response) {
+                for (const tag of data.Items) {
+
+                    this.createRelwebIdLocalId(tag, TAGS.lstTags, TAGS.listCharts);
+                    let finalsDataToChart = this.extractDataFromTheBox(tag);
+                    this.setPublicVariables(finalsDataToChart);
+
+                    for (const refChartPerTag of this.getIdsCahrtByWebId(tag.WebId)) {
+                        finalsDataToChart.idChart = refChartPerTag.charId;
+                        finalsDataToChart.localId = refChartPerTag.chartTag.localId;
+                        finalsDataToChart.chart_tags_tag = refChartPerTag.chartTag;
+                        this.vistafinalsDataToChart[finalsDataToChart.chart_tags_tag.localId]=finalsDataToChart;
+                        this.setStreamTagItemsInChart(finalsDataToChart, TAGS.lstTags);
+                    }
+            
+                }
+            }
+        }
     }
 	setStreamTagItemsInChart(finaleFataToChart: FinalsDataToChart, localLstTags) {
         let local_tag_key = finaleFataToChart.localId;
@@ -222,6 +273,39 @@ export class MonitoringChartTR extends MonitoringBaseSocketOnComponent {
 
         this.charts[idChart].update();
         //*/
+    }
+    addStreamsetsValueInChart(box: PiServerBox){
+        if(Object.keys(this.charts).length > 0){
+            this.chartEnableWrite();
+            for (const data of box.data) {
+                if (!data.error_response) {
+                    for (const tag of data.Items) {
+
+                        let finalsDataToChart = this.extractDataFromTheBox(tag);
+                        this.setPublicVariables(finalsDataToChart);
+
+                        for (const refChartPerTag of this.getIdsCahrtByWebId(tag.WebId)) {
+                            
+                            if (this.myDefCharts[refChartPerTag.charId].write){
+                                
+                                this.charts[refChartPerTag.charId].data.labels.push(this.getTime());
+                                
+                                if (this.charts[refChartPerTag.charId].data.labels.length > this.myDefCharts[refChartPerTag.charId].controls.data_per_graph) {
+                                    this.charts[refChartPerTag.charId].data.labels.shift();
+                                }
+
+                                finalsDataToChart.idChart = refChartPerTag.charId;
+                                finalsDataToChart.localId =  refChartPerTag.chartTag.localId;
+                                finalsDataToChart.chart_tags_tag = refChartPerTag.chartTag;
+                                this.vistafinalsDataToChart[finalsDataToChart.chart_tags_tag.localId]=finalsDataToChart;
+                                
+                                this.addStreamTagItemsInChart(finalsDataToChart);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 	addStreamTagItemsInChart(finaleFataToChart: FinalsDataToChart) {
         let local_tag_key = finaleFataToChart.localId;
