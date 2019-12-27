@@ -11,6 +11,7 @@ import { MonitoringChartTR                   } from '../../class/monitoringChart
 
 import * as TAGS     from "./config";
 import * as BasChart from "src/app/monitoring/helpers/monitoringBaseChart.component";
+import { log } from 'util';
 
 declare var $: any;
 
@@ -74,6 +75,8 @@ export class MonitoringPhase3Component extends MonitoringChartTR implements OnIn
         return lst;
     }
     dataAdapter(box: PiServerBox) {
+        
+        
         this.wifi = true;
         switch (box.name) {
             case "getStreamsetsInterpolatedLast24Hours":
@@ -101,8 +104,10 @@ export class MonitoringPhase3Component extends MonitoringChartTR implements OnIn
                 break;
             case "pi-aguila":
             case "pi-sol":
-                if(this.charts.length == 0) break;
-
+             
+                
+                if(Object.keys(this.charts).length == 0) break;
+        
                 for (const data of box.data) {
                     if (!data.error_response) {
                         for (const tag of data.Items) {
