@@ -923,13 +923,13 @@
                 <div class="col text-center" (click)="openModalCt_1()" style="padding: 17%;padding-top: 7%;
                 min-height: 237px;"
                         *ngIf="globalService.aguila">
-                    
+                    <!--
                     <img
                         src="/assets/monitoring/phase3/turbina-gas.png"
                         style="width: 100%;"
-                    />
-                    <!--video src="/assets/monitoring/phase3/turbina-gas-animada.mp4"  type="video/webm" autoplay loop width="320" *ngIf="globalService.aguila">
-                  </video-->
+                    />-->
+                    <video style="width: 100%;" src="/assets/monitoring/phase3/turbina-gas-animada.mp4"  type="video/webm" autoplay loop width="320" *ngIf="globalService.aguila">
+                  </video>
 
                     <!--
                     <video src="/assets/monitoring/phase3/turbina-gas-animada.mp4"  type="video/webm" autoplay loop *ngIf="tagValue['getCTUnoRPM'] > 10" width="320">
@@ -1562,12 +1562,13 @@
                 <div class="col text-center"  (click)="openModalCt_2()" style="padding: 17%;padding-top: 7%;
                 min-height: 229px;"
                         *ngIf="globalService.aguila">
+                        <!--
                     <img
                         src="/assets/monitoring/phase3/turbina-gas.png"
                         style="width: 100%;"
-                    />
-                    <!--video src="/assets/monitoring/phase3/turbina-gas-animada.mp4"  type="video/webm" autoplay loop width="320" *ngIf="globalService.aguila">
-                </video>-->
+                    />-->
+                    <video style="width: 100%;" src="/assets/monitoring/phase3/turbina-gas-animada.mp4"  type="video/webm" autoplay loop width="320" *ngIf="globalService.aguila">
+                </video>
                     <!--
                   <video src="/assets/monitoring/phase3/turbina_gas_02.mp4"  type="video/webm" autoplay loop *ngIf="tagValue['getCTDosRPM'] > 10" width="320">
                   </video>
@@ -1948,21 +1949,21 @@
             <!-- Imagen de turbina -->
             <div class="row">
                 <div class="col text-center" (click)="openModalCt_3()" style="
-                min-height: 245px;">
+                min-height: 245px; padding-top: 46px;">
                     <img
                         src="/assets/monitoring/phase3/turbina-vapor-desarmada.png"
                         style="width: 100%;"
                         *ngIf="!globalService.aguila"
-                    />
+                    /><!--
                     <img
                         src="/assets/monitoring/phase3/turbina-vapor.png"
                         style="width: 100%;"
                         *ngIf="globalService.aguila"
-                    />
-                    <!--
-                    <video src="/assets/monitoring/phase3/vapor-efectos_02.mp4"  type="video/webm" autoplay loop *ngIf="tagValue['getCTDosRPM'] > 10" width="320">
+                    />-->
+                    <video *ngIf="globalService.aguila" style="width: 100%;" src="/assets/monitoring/phase3/vapor-efectos_02.mp4"  type="video/webm" autoplay loop  width="320">
                     </video>
-                -->
+<!--   condicion para el video *ngIf="tagValue['getCTDosRPM'] > 10"   -->
+
                     <!--img id="layer_31" src="/assets/monitoring/phase3/turbina_vapor_1.png" name="layer_31" style="width: 320px; height:180px;" /-->
                 </div>
             </div>
