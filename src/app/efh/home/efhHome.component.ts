@@ -18,6 +18,7 @@ import { EfhUnitComponent                 } from '../catalogs/unit/efhUnit.compo
 import { EfhUnitEditComponent             } from '../catalogs/unit/edit/efhUnitEdit.component';
 import { EfhAddEventComponent              } from '../configuration/event/addevent/efhAddEvent.component';
 import { EfhEditEventComponent             } from '../configuration/event/addevent/edit/efhEditEvent.component';
+import {EfhUploadCommonComponent} from '../upload/efh-upload-common/efh-upload-common.component';
 
 @Component({
   selector: 'app-efh-home',
@@ -33,7 +34,8 @@ import { EfhEditEventComponent             } from '../configuration/event/addeve
     EfhUnitComponent,
     EfhUnitEditComponent,
     EfhAddEventComponent,
-    EfhEditEventComponent
+    EfhEditEventComponent,
+    EfhUploadCommonComponent
   ]
 })
 export class EfhHomeComponent implements OnInit {
