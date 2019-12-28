@@ -17,7 +17,7 @@ export const environment = {
   , ftpconsumerUrl          : hostGateway + 'ftpconsumer/'
   , pmlUrl                  : hostGateway + 'pml/'
   , trUrl                   : hostGateway + 'tr/'
-  , mmmercadoUrl            : hostGateway + 'mmmercado/'
+  , mmmercadoUrl            : hostGateway + 'mmmercado/mmmercado/'
   , microuploaddbUrl        : hostGateway + 'microuploaddb/'
   , urlTrPi                 : 'http://172.20.141.110:1119/'  // micro Bi
   , efhUrl                  : hostGateway + 'efh/'
