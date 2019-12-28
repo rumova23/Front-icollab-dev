@@ -13,7 +13,7 @@ import {ConfirmationDialogService} from '../../../../../core/services/confirmati
 import {Comment} from '../../../../models/Comment';
 import {Documents} from '../../../../../compliance/models/Documents';
 import {CarasDocument} from '../../../../../compliance/models/CarasDocument';
-import {error} from 'util';
+import {FileSupport} from '../../../../models/FileSupport';
 
 @Component({
   selector: 'app-efh-edit-event',
@@ -35,12 +35,15 @@ export class EfhEditEventComponent implements OnInit {
   fuelTypesArr = [];
   dataSubmit = {};
   dataObservationSumbit = {};
+  dataFileSubmit = {};
   checkedEstatus = false;
   deshabiliarEstatus = false;
   checkedEditClonated = true;
   headObservaciones = ['#', 'Nombre', 'Observaciones', 'Fecha de ultima modificación'];
+  headFiles = ['#', 'Nombre', 'Fecha de ultima modificación'];
   observationsArr: Array<any>;
-  isAddObvsDisabled = false;
+  isAddObvsDisabled = true;
+  defaultCharge = 0.0;
 
   isShotSectionVisible = false;
   isRejectSectionVisible = false;
@@ -77,19 +80,6 @@ export class EfhEditEventComponent implements OnInit {
   selectedEventType;
   selectedUnit;
   selectedFuelType;
-
-  /*
-  * Variables para subir archivos
-  */
-  titleDocument: Array<any>;
-  typeDocuments = ['Documentos', 'Registros', 'Referencias'];
-  file: any;
-  fileName: any;
-  valid: boolean = false;
-  progress;
-  selectedFiles: FileList;
-  currentFile: File;
-  typeDocument: number;
 
   constructor(
       private catalogoMaestroService: CatalogoMaestroService,
@@ -164,7 +154,7 @@ export class EfhEditEventComponent implements OnInit {
           this.eventForm.controls.eventTypeControl.disable();
           this.selectControlsEnabled(true);
           this.deshabiliarEstatus = false;
-          this.disabledSave = true;
+          this.disabledSave = false;
           this.titulo = 'Editar / Configuración de Eventos';
       } else if (this.accion === 'ver') {
           this.deshabiliarEstatus = true;
@@ -241,12 +231,14 @@ export class EfhEditEventComponent implements OnInit {
                                       this.eventForm.controls['fsnlTimeShot'].setValue(this.fsnlTime);
                                       this.eventForm.controls['chargeShot'].setValue(element.chargebeforeshot);
                                       break;
+                                  case 2:
                                   case 952: this.rejectDate = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
                                       this.rejectTime = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
                                       this.eventForm.controls['dateReject'].setValue(this.rejectDate);
                                       this.eventForm.controls['timeReject'].setValue(this.rejectTime);
                                       this.eventForm.controls['chargeReject'].setValue(element.chargebeforereject);
                                       break;
+                                  case -46:
                                   case 953: this.startDate = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
                                       this.startTime = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
                                       this.endDate = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
@@ -258,6 +250,7 @@ export class EfhEditEventComponent implements OnInit {
                                       this.eventForm.controls['chargeBeforeRunback'].setValue(element.chargebeforerunback);
                                       this.eventForm.controls['chargeAfterRunback'].setValue(element.chargeafterrunback);
                                       break;
+                                  case -45:
                                   case 954: this.flameOffDate = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
                                       this.flameOffTime = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
                                       this.fsnlDate = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
@@ -277,6 +270,7 @@ export class EfhEditEventComponent implements OnInit {
                                       this.eventForm.controls['endDateDiesel'].setValue(this.endDate);
                                       this.eventForm.controls['endTimeDiesel'].setValue(this.endTime);
                                       break;
+                                  case -44:
                                   case 956: this.startDate = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
                                       this.startTime = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
                                       this.endDate = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
@@ -325,12 +319,14 @@ export class EfhEditEventComponent implements OnInit {
                                   this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.fsnlDate + 'T' + this.fsnlTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                                   this.dataSubmit['chargebeforeshot'] = this.eventForm.controls['chargeShot'].value;
                                   break;
+                              case 2:
                               case 952: this.rejectDate = this.eventForm.controls['dateReject'].value;
                                   this.rejectTime = this.eventForm.controls['timeReject'].value;
                                   this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.rejectDate + 'T' + this.rejectTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                                   this.dataSubmit['dateend'] = this.dataSubmit['dateinit'];
                                   this.dataSubmit['chargebeforereject'] = this.eventForm.controls['chargeReject'].value;
                                   break;
+                              case -46:
                               case 953: this.startDate = this.eventForm.controls['startDateRunback'].value;
                                   this.startTime = this.eventForm.controls['startTimeRunback'].value;
                                   this.endDate = this.eventForm.controls['endDateRunback'].value;
@@ -340,6 +336,7 @@ export class EfhEditEventComponent implements OnInit {
                                   this.dataSubmit['chargebeforerunback'] = this.eventForm.controls['chargeBeforeRunback'].value;
                                   this.dataSubmit['chargeafterrunback'] = this.eventForm.controls['chargeAfterRunback'].value;
                                   break;
+                              case -45:
                               case 954: this.flameOffDate = this.eventForm.controls['flameOffDateStop'].value;
                                   this.flameOffTime = this.eventForm.controls['flameOffTimeStop'].value;
                                   this.fsnlDate = this.eventForm.controls['fsnlDateStop'].value;
@@ -355,6 +352,7 @@ export class EfhEditEventComponent implements OnInit {
                                   this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.startDate + 'T' + this.startTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                                   this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.endDate + 'T' + this.endTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                                   break;
+                              case -44:
                               case 956: this.startDate = this.eventForm.controls['startDateNormal'].value;
                                   this.startTime = this.eventForm.controls['startTimeNormal'].value;
                                   this.endDate = this.eventForm.controls['endDateNormal'].value;
@@ -512,6 +510,7 @@ export class EfhEditEventComponent implements OnInit {
                       this.disabledSave = true;
 
                       const idEvent = dataBack['code'];
+                      // Saving Observations
                       for (const comment of this.observationsArr) {
                           this.dataObservationSumbit['ideventconfig'] = idEvent;
                           this.dataObservationSumbit['observation'] = comment.observacion;
@@ -635,16 +634,19 @@ export class EfhEditEventComponent implements OnInit {
                   this.isShotSectionVisible = true;
                   this.isDefaultSectionsVisible = true;
                   break;
+          case 2:
           case 952: this.rejectControlsEnabled(true);
                     this.defaultConstrolsEnabled(true);
                     this.isRejectSectionVisible = true;
                     this.isDefaultSectionsVisible = true;
                     break;
+          case -46:
           case 953: this.runbackConstrolsEnabled(true);
                     this.defaultConstrolsEnabled(true);
                     this.isRunbackSectionVisible = true;
                     this.isDefaultSectionsVisible = true;
                     break;
+          case -45:
           case 954: this.stopControlsEnabled(true);
                     this.defaultConstrolsEnabled(true);
                     this.isStopSectionVisible = true;
@@ -655,6 +657,7 @@ export class EfhEditEventComponent implements OnInit {
                     this.isDieselSectionVisible = true;
                     this.isDefaultSectionsVisible = true;
                     break;
+          case -44:
           case 956: this.normalOperationControlsEnabled(true);
                     this.defaultConstrolsEnabled(true);
                     this.isNormalOperationSectionVisible = true;
@@ -725,7 +728,9 @@ export class EfhEditEventComponent implements OnInit {
           || (this.isNormalOperationSectionVisible && this.eventForm.controls['endDateNormal'].invalid)
           || (this.isNormalOperationSectionVisible && this.eventForm.controls['endTimeNormal'].invalid)
           || this.eventForm.controls['description'].invalid
-          || this.observationsArr.length === 0) {
+          || this.observationsArr.length === 0
+          || (this.selectedUnit === undefined || this.selectedUnit === null)
+          || (this.selectedFuelType === undefined || this.selectedFuelType === null)) {
           this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Lo siento,');
           return;
       }
@@ -928,6 +933,7 @@ export class EfhEditEventComponent implements OnInit {
 
   enableSaveButton() {
       this.disabledSave = false;
+      this.isAddObvsDisabled = false;
   }
 
   resuelveDS(comenta) {
@@ -953,47 +959,15 @@ export class EfhEditEventComponent implements OnInit {
       } else {
           this.eventForm.controls.observations.setValue('');
           this.observationsArr.push(new Comment('1', 'tester', obser, new Date(), false));
+          this.isAddObvsDisabled = true;
       }
   }
 
-  getDocumentos(idEventConfig: number) {
-    for (let i = 0; i < this.typeDocuments.length; i++) {
-        let documents: Documents;
-        let carasDocumnts: Array<CarasDocument>;
-        carasDocumnts =  [];
-
-        this.efhService.getDocuments(idEventConfig, this.typeDocuments[i]).subscribe(docto => {
-            for (let j = 0; j < docto.length; j++) {
-                carasDocumnts.push(new CarasDocument(docto[j].fileName, 'png', docto[j].fileId));
-            }
-        });
-        documents = new Documents(this.typeDocuments[i], carasDocumnts);
-        this.titleDocument.push(documents);
+  isNumeric(link) {
+    if ( isNaN( Number(this.defaultCharge)) || 0 === Number(this.defaultCharge) ) {
+        this.defaultCharge = 0.0;
+        link.value = 0.0;
     }
-  }
-
-  downloadFile(fileId: number) {
-    this.efhService.downloadFile(fileId).subscribe(
-        result => {
-        });
-  }
-
-  selectFile(event) {
-      debugger;
-      this.selectedFiles = event.target.files;
-  }
-
-  addFile(idEventConfig: number) {
-    this.currentFile = this.selectedFiles.item(0);
-    this.efhService.upload(this.currentFile, idEventConfig, this.typeDocument).subscribe(
-        respuesta => {
-            console.log('llego');
-        });
-    this.efhService.accion.next('upload');
-  }
-
-  upload() {
-
   }
 
 }

@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col">
                 Carga de Soportes<br>
-                <app-file-upload formControlName="file" [progress]="progress" (change)="selectFile($event)"></app-file-upload>
+                <app-file-upload [disabled]="isdisabled" formControlName="file" [progress]="progress" (change)="selectFile($event)"></app-file-upload>
             </div>
             <div class="col txt-r">
                 <button [disabled]="!selectedFiles" (click)="upload()" class="btn right"

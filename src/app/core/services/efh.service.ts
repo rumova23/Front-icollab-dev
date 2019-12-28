@@ -17,7 +17,7 @@ export class EfhService {
               public globalService: GlobalService) { }
 
   getEventsConfigurated() {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${ this.microEfh }event/list`, { params : this.parameters });
   }
 
@@ -46,22 +46,19 @@ export class EfhService {
     return this.http.post( `${ this.microEfh }event/saveObservation`, observation, {params : this.parameters });
   }
 
-  upload(fileObj: File, eventConfigId: number, typeDocument: number) {
+  upload(fileObj) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    const file: FormData = new FormData();
-    file.append('file', fileObj);
-    return this.http.post(`${ this.microEfh }event/saveFile?idEventConfig=` +
-        eventConfigId + `&typeDocument=` + typeDocument, file);
+    return this.http.post(`${ this.microEfh }event/saveFile`, fileObj, {params : this.parameters });
   }
 
   downloadFile(fileId: number) {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get(`${ this.microEfh }event/downloadFile/` + fileId, {params : this.parameters });
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    return this.http.get<Blob>(`${ this.microEfh }event/downloadFile/` + fileId, {params : this.parameters, responseType: 'blob' as 'json' });
   }
 
   getDocuments(eventConfigId: number, typeDocument: string): Observable<any> {
-    this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get(`${this.microEfh}event/listFile/${eventConfigId}`, {params : this.parameters });
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    return this.http.get(`${this.microEfh}event/listFiles/${eventConfigId}`, {params : this.parameters });
   }
 
 }

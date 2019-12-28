@@ -14,8 +14,8 @@ import {EfhService} from '../../core/services/efh.service';
 })
 export class EfhUploadComponent implements OnInit {
   @Input() inIdEventConfig: number;
-  @Input() inTipo: string;
-  typeDocuments = ['Documentos', 'Registros', 'Referencias'];
+  @Input() inAccion: string;
+  typeDocuments = ['Documentos'];
   titleDocument: Array<any>;
   submitted = false;
   isdisabled = false;
@@ -24,10 +24,18 @@ export class EfhUploadComponent implements OnInit {
               private efhService: EfhService,
               public toastr: ToastrManager) {
     this.titleDocument = [];
+    this.efhService.accion.subscribe(
+        accion => {
+            this.titleDocument = [];
+            if (accion === 'upload') {
+                this.ngOnInit();
+            }
+        }
+    );
   }
 
   ngOnInit() {
-    if (this.inTipo === 'ver') {
+    if (this.inAccion === 'ver') {
       this.isdisabled = true;
     }
     this.getDocumentos();
@@ -39,19 +47,34 @@ export class EfhUploadComponent implements OnInit {
       let carasDocumnts: Array<CarasDocument>;
       carasDocumnts =  [];
 
-      this.efhService.getDocuments(this.inIdEventConfig, this.typeDocuments[i]).subscribe(docto => {
-        for (let j = 0; j < docto.length; j++) {
-          carasDocumnts.push(new CarasDocument(docto[j].fileName, 'png', docto[j].fileId));
-        }
-      });
+      this.efhService.getDocuments(this.inIdEventConfig, this.typeDocuments[i]).subscribe(
+          docto => {
+                  for (let j = 0; j < docto.length; j++) {
+                    carasDocumnts.push(new CarasDocument(docto[j].fileName, docto[j].fileType, docto[j].fileId));
+                  }
+                },
+          error => {
+                  const error1 = error;
+                }
+      );
       documents = new Documents(this.typeDocuments[i], carasDocumnts);
       this.titleDocument.push(documents);
     }
   }
 
-  downloadFile(fileId: number) {
+  downloadFile(fileId: number, fileName: string) {
     this.efhService.downloadFile(fileId).subscribe(
         result => {
+            let dataType = result.type;
+            let binaryData = [];
+            binaryData.push(result);
+            let downloadLink = document.createElement('a');
+            downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: dataType}));
+            downloadLink.setAttribute('download', fileName);
+            downloadLink.click();
+        },
+        error => {
+            const error1 = error;
         });
   }
 

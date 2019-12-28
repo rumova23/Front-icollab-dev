@@ -1,5 +1,5 @@
 <div class="file-drop-area">
-  <span class="fake-btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+  <span class="fake-btn" [ngClass]="{'myblueSpan': globalService.aguila,'myorangeSpan': !globalService.aguila}">
     Seleccionar Archivo
   </span>
   <span class="file-msg">{{file ? file.name : 'Ningún archivo seleccionado.' }}</span>
