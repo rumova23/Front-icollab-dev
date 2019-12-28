@@ -53,17 +53,20 @@ export class SharedSidebarMenuComponent {
         let item0 = null;
         let item1 = null;
         let item2 = null;
+        let item3 = null;
         let array = [];
         for (let option of this.menu) {
-            if (option.label == "PPA") item0 = option;
-            else if (option.label == "Market") item1 = option;
-            else if (option.label == "Configuration") item2 = option;
+            if (option.label == "Home") item0 = option;
+            else if (option.label == "PPA") item1 = option;
+            else if (option.label == "Market") item2 = option;
+            else if (option.label == "Configuration") item3 = option;
             else array.push(option);
         }
         this.menu = [];
         this.menu[0] = item0;
         this.menu[1] = item1;
         this.menu[2] = item2;
+        this.menu[3] = item3;
         for (const iterator of array) {
             this.menu.push(iterator);
         }
