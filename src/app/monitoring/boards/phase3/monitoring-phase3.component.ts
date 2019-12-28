@@ -11,7 +11,6 @@ import { MonitoringChartTR                   } from '../../class/monitoringChart
 
 import * as TAGS     from "./config";
 import * as BasChart from "src/app/monitoring/helpers/monitoringBaseChart.component";
-import { log } from 'util';
 
 declare var $: any;
 
@@ -80,63 +79,16 @@ export class MonitoringPhase3Component extends MonitoringChartTR implements OnIn
         this.wifi = true;
         switch (box.name) {
             case "getStreamsetsInterpolatedLast24Hours":
-                this.chartInit(TAGS.listCharts, box.data[0].Items[0].Items.length);
                 this.subscribeSocketChanels();
 
-                for (const data of box.data) {
-                    if (!data.error_response) {
-                        for (const tag of data.Items) {
+                this.setStreamsetsInterpolatedInChart(box,TAGS);
 
-                            this.createRelwebIdLocalId(tag, TAGS.lstTags, TAGS.listCharts);
-                            let finalsDataToChart = this.extractDataFromTheBox(tag);
-                            this.setPublicVariables(finalsDataToChart);
-
-                            for (const refChartPerTag of this.getIdsCahrtByWebId(tag.WebId)) {
-                                finalsDataToChart.idChart = refChartPerTag.charId;
-                                finalsDataToChart.localId = refChartPerTag.chartTag.localId;
-                                finalsDataToChart.chart_tags_tag = refChartPerTag.chartTag;
-                                this.setStreamTagItemsInChart(finalsDataToChart, TAGS.lstTags);
-                            }
-                    
-                        }
-                    }
-                }
                 break;
             case "pi-aguila":
             case "pi-sol":
              
+                this.addStreamsetsValueInChart(box);
                 
-                if(Object.keys(this.charts).length == 0) break;
-        
-                for (const data of box.data) {
-                    if (!data.error_response) {
-                        for (const tag of data.Items) {
-
-                            let finalsDataToChart = this.extractDataFromTheBox(tag);
-                            this.setPublicVariables(finalsDataToChart);
-
-                            for (const refChartPerTag of this.getIdsCahrtByWebId(tag.WebId)) {
-                                if (this.check_time_refreseh_data(
-                                     this.myDefCharts[refChartPerTag.charId]["controls"]["time_refreseh"]
-                                    ,this.myDefCharts[refChartPerTag.charId]["controls"]["timePast"])
-                                ) {
-                                    this.myDefCharts[refChartPerTag.charId]["controls"]["timePast"] = new Date();
-                                    this.charts[refChartPerTag.charId].data.labels.push(this.getTime());
-                                    
-                                    if (this.charts[refChartPerTag.charId].data.labels.length > this.myDefCharts[refChartPerTag.charId].controls.data_per_graph) {
-                                        this.charts[refChartPerTag.charId].data.labels.shift();
-                                    }
-
-                                    finalsDataToChart.idChart = refChartPerTag.charId;
-                                    finalsDataToChart.localId =  refChartPerTag.chartTag.localId;
-                                    finalsDataToChart.chart_tags_tag = refChartPerTag.chartTag;
-
-                                    this.addStreamTagItemsInChart(finalsDataToChart);
-                                }
-                            }
-                        }
-                    }
-                }
 				this.modal_turbine_ct_1.dataAdapter(box);
 				this.modal_turbine_ct_2.dataAdapter(box);
 				this.modal_turbine_ct_3.dataAdapter(box);
