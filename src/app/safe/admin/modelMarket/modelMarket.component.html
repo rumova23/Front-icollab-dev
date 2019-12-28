@@ -25,7 +25,6 @@
             <label class="form-text text-left" for="mydate">De</label>
             <mat-form-field class="form-control">
                 <input matInput 
-                formControlName="date"
                 [matDatepicker]="mydate"
                 [(ngModel)]="date"
                 (dateChange)="dateChange($event)">

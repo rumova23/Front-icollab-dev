@@ -11,6 +11,9 @@ import { EventType} from '../../../../models/EventType';
 import { EfhService} from '../../../../../core/services/efh.service';
 import {ConfirmationDialogService} from '../../../../../core/services/confirmation-dialog.service';
 import {Comment} from '../../../../models/Comment';
+import {Documents} from '../../../../../compliance/models/Documents';
+import {CarasDocument} from '../../../../../compliance/models/CarasDocument';
+import {error} from 'util';
 
 @Component({
   selector: 'app-efh-edit-event',
@@ -73,7 +76,20 @@ export class EfhEditEventComponent implements OnInit {
 
   selectedEventType;
   selectedUnit;
-  selectedFuelType
+  selectedFuelType;
+
+  /*
+  * Variables para subir archivos
+  */
+  titleDocument: Array<any>;
+  typeDocuments = ['Documentos', 'Registros', 'Referencias'];
+  file: any;
+  fileName: any;
+  valid: boolean = false;
+  progress;
+  selectedFiles: FileList;
+  currentFile: File;
+  typeDocument: number;
 
   constructor(
       private catalogoMaestroService: CatalogoMaestroService,
@@ -97,34 +113,35 @@ export class EfhEditEventComponent implements OnInit {
           unitControl: [ null, null],
           fuelTypeControl: [ null, null],
           flameOffDateShot: ['', Validators.required],
-          flameOffTimeShot: ['', Validators.required],
+          flameOffTimeShot: ['00:00:00', Validators.required],
           fsnlDateShot: ['', Validators.required],
-          fsnlTimeShot: ['', Validators.required],
+          fsnlTimeShot: ['00:00:00', Validators.required],
           chargeShot: ['', Validators.required],
           dateReject: ['', Validators.required],
-          timeReject: ['', Validators.required],
+          timeReject: ['00:00:00', Validators.required],
           chargeReject: ['', Validators.required],
           startDateRunback: ['', Validators.required],
-          startTimeRunback: ['', Validators.required],
+          startTimeRunback: ['00:00:00', Validators.required],
           endDateRunback: ['', Validators.required],
-          endTimeRunback: ['', Validators.required],
+          endTimeRunback: ['00:00:00', Validators.required],
           chargeBeforeRunback: ['', Validators.required],
           chargeAfterRunback: ['', Validators.required],
           flameOffDateStop: ['', Validators.required],
-          flameOffTimeStop: ['', Validators.required],
+          flameOffTimeStop: ['00:00:00', Validators.required],
           fsnlDateStop: ['', Validators.required],
-          fsnlTimeStop: ['', Validators.required],
+          fsnlTimeStop: ['00:00:00', Validators.required],
           chargeStop: ['', Validators.required],
           startDateDiesel: ['', Validators.required],
-          startTimeDiesel: ['', Validators.required],
+          startTimeDiesel: ['00:00:00', Validators.required],
           endDateDiesel: ['', Validators.required],
-          endTimeDiesel: ['', Validators.required],
+          endTimeDiesel: ['00:00:00', Validators.required],
           startDateNormal: ['', Validators.required],
-          startTimeNormal: ['', Validators.required],
+          startTimeNormal: ['00:00:00', Validators.required],
           endDateNormal: ['', Validators.required],
-          endTimeNormal: ['', Validators.required],
+          endTimeNormal: ['00:00:00', Validators.required],
           description: ['', Validators.required],
-          observations: [{ value: '', disabled: this.isAddObvsDisabled }, Validators.required]
+          observations: [{ value: '', disabled: this.isAddObvsDisabled }, Validators.required],
+          file: [null, Validators.required]
       });
       this.selectControlsEnabled(false);
       this.shotControlsEnabled(false);
@@ -211,7 +228,6 @@ export class EfhEditEventComponent implements OnInit {
                               this.selectedUnit = this.unitsArr.find(x => x.id === element.idunit).id;
                               this.selectedFuelType = this.fuelTypesArr.find(x => x.id === element.idtypefuel).id;
 
-                              debugger;
                               this.getObservations(this.eventType.id);
 
                               switch (element.idtypeevent) {
@@ -279,7 +295,6 @@ export class EfhEditEventComponent implements OnInit {
 
                       if (!putData) {
 
-                          debugger;
                           if (this.eventForm.controls['eventTypeControl'].value === null) {
                               this.dataSubmit['idtypeevent'] = this.selectedEventType;
                           } else {
@@ -357,13 +372,33 @@ export class EfhEditEventComponent implements OnInit {
                           this.efhService.setEvent(this.dataSubmit)
                               .subscribe(
                                   dataBack => {
-                                      debugger;
                                       if (this.accion === 'nuevo') {
                                           this.toastr.successToastr('El evento fue creada con éxito.', '¡Se ha logrado!');
                                       }
                                       if (this.accion === 'editar') {
                                           this.toastr.successToastr('El evento fue actualizado con éxito.', '¡Se ha logrado!');
                                       }
+
+                                      if (this.isShotSectionVisible) {
+                                          this.shotControlsEnabled(false);
+                                      } else if (this.isRejectSectionVisible) {
+                                          this.rejectControlsEnabled(false);
+                                      } else if (this.isRunbackSectionVisible) {
+                                          this.runbackConstrolsEnabled(false);
+                                      } else if (this.isStopSectionVisible) {
+                                          this.stopControlsEnabled(false);
+                                      } else if (this.isDieselSectionVisible) {
+                                          this.dieselControlsEnabled(false);
+                                      } else if (this.isNormalOperationSectionVisible) {
+                                          this.normalOperationControlsEnabled(false);
+                                      }
+
+                                      this.selectControlsEnabled(false);
+                                      this.defaultConstrolsEnabled(false);
+                                      this.deshabiliarEstatus = true;
+                                      this.isAddObvsDisabled = true;
+                                      this.disabledSave = true;
+
                                       for (const comment of this.observationsArr) {
                                           if (comment.saved === false) {
                                               this.dataObservationSumbit['ideventconfig'] = this.eventType.id;
@@ -449,26 +484,41 @@ export class EfhEditEventComponent implements OnInit {
            this.efhService.setEvent(this.dataSubmit)
               .subscribe(
                   dataBack => {
-                      debugger;
                       if (this.accion === 'nuevo') {
                           this.toastr.successToastr('El evento fue creada con éxito.', '¡Se ha logrado!');
                       }
                       if (this.accion === 'editar') {
                           this.toastr.successToastr('El evento fue actualizado con éxito.', '¡Se ha logrado!');
                       }
+
+                      if (this.isShotSectionVisible) {
+                          this.shotControlsEnabled(false);
+                      } else if (this.isRejectSectionVisible) {
+                          this.rejectControlsEnabled(false);
+                      } else if (this.isRunbackSectionVisible) {
+                          this.runbackConstrolsEnabled(false);
+                      } else if (this.isStopSectionVisible) {
+                          this.stopControlsEnabled(false);
+                      } else if (this.isDieselSectionVisible) {
+                          this.dieselControlsEnabled(false);
+                      } else if (this.isNormalOperationSectionVisible) {
+                          this.normalOperationControlsEnabled(false);
+                      }
+
+                      this.selectControlsEnabled(false);
+                      this.defaultConstrolsEnabled(false);
+                      this.deshabiliarEstatus = true;
+                      this.isAddObvsDisabled = true;
+                      this.disabledSave = true;
+
                       const idEvent = dataBack['code'];
                       for (const comment of this.observationsArr) {
                           this.dataObservationSumbit['ideventconfig'] = idEvent;
                           this.dataObservationSumbit['observation'] = comment.observacion;
                           this.dataObservationSumbit['dateobservation'] = comment.fecha_modificacion;
-                          this.efhService.saveObservation(this.dataSubmit).subscribe(
+                          this.efhService.saveObservation(this.dataObservationSumbit).subscribe(
                               data => {
-                                  debugger;
                                   const response = 'exito';
-                              },
-                              error => {
-                                  debugger;
-                                  this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
                               }
                           );
                       }
@@ -675,7 +725,7 @@ export class EfhEditEventComponent implements OnInit {
           || (this.isNormalOperationSectionVisible && this.eventForm.controls['endDateNormal'].invalid)
           || (this.isNormalOperationSectionVisible && this.eventForm.controls['endTimeNormal'].invalid)
           || this.eventForm.controls['description'].invalid
-          || this.eventForm.controls['observations'].invalid) {
+          || this.observationsArr.length === 0) {
           this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Lo siento,');
           return;
       }
@@ -714,8 +764,6 @@ export class EfhEditEventComponent implements OnInit {
           this.toastr.errorToastr('Fecha-Hora Inicio debe ser menor a Fecha-Hora Fin, verifique', 'Lo siento,');
           return;
       }
-
-      debugger;
 
       if (this.accion === 'editar') {
           this.obtenerDatosConfiguracionEvento(false, this.eventType.id);
@@ -890,9 +938,7 @@ export class EfhEditEventComponent implements OnInit {
   getObservations(idEventConfig: number) {
       this.efhService.getObservations(idEventConfig).subscribe(
           data => {
-              debugger;
               this.resultService = data;
-              let i = 0;
               for (const element of this.resultService) {
                   this.observationsArr.push(new Comment(element.id, 'tester', element.observation, new Date(element.dateobservation), true));
               }
@@ -902,18 +948,52 @@ export class EfhEditEventComponent implements OnInit {
 
   addObservation() {
       const obser = this.eventForm.controls.observations.value;
-      this.eventForm.controls.observations.setValue('');
-      this.observationsArr.push(new Comment('1', 'tester', obser, new Date(), false));
+      if (obser === null || obser === '') {
+          this.toastr.errorToastr('No se puede agregar una observación vacía', 'Lo siento,');
+      } else {
+          this.eventForm.controls.observations.setValue('');
+          this.observationsArr.push(new Comment('1', 'tester', obser, new Date(), false));
+      }
   }
 
-  /*
-  saveObservation(idEventConfig: number) {
-      const obser = this.eventForm.controls.observations.value;
-      this.efhService.saveObservation(idEventConfig, obser).subscribe(
-          comenta => {
-              this.observationsArr.push(new Comentario(comenta.idUsr, comenta.nombre, comenta.observacion, comenta.fecha_modificacion));
-          }
-      );
-  }*/
+  getDocumentos(idEventConfig: number) {
+    for (let i = 0; i < this.typeDocuments.length; i++) {
+        let documents: Documents;
+        let carasDocumnts: Array<CarasDocument>;
+        carasDocumnts =  [];
+
+        this.efhService.getDocuments(idEventConfig, this.typeDocuments[i]).subscribe(docto => {
+            for (let j = 0; j < docto.length; j++) {
+                carasDocumnts.push(new CarasDocument(docto[j].fileName, 'png', docto[j].fileId));
+            }
+        });
+        documents = new Documents(this.typeDocuments[i], carasDocumnts);
+        this.titleDocument.push(documents);
+    }
+  }
+
+  downloadFile(fileId: number) {
+    this.efhService.downloadFile(fileId).subscribe(
+        result => {
+        });
+  }
+
+  selectFile(event) {
+      debugger;
+      this.selectedFiles = event.target.files;
+  }
+
+  addFile(idEventConfig: number) {
+    this.currentFile = this.selectedFiles.item(0);
+    this.efhService.upload(this.currentFile, idEventConfig, this.typeDocument).subscribe(
+        respuesta => {
+            console.log('llego');
+        });
+    this.efhService.accion.next('upload');
+  }
+
+  upload() {
+
+  }
 
 }

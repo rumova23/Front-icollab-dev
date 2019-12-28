@@ -285,7 +285,12 @@ export class EfhAddEventComponent implements OnInit {
                       this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.Agregar eventos'));
                     }
                     , error => {
-                      this.toastr.errorToastr(error.error['text'], 'Lo siento,');
+                        if (error.error['text'] === 'OK') {
+                            this.toastr.successToastr('El registro fue correctamente eliminado', '¡Se ha logrado!');
+                            this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.Agregar eventos'));
+                        } else {
+                            this.toastr.errorToastr(error.error['text'], 'Lo siento,');
+                        }
                     },
                 );
           }

@@ -249,6 +249,23 @@ Launch demo modal
 						style="position: absolute;z-index: 1; width: 100%; top: 0;"
                         ></video>
 
+                        <div class="chart" style="z-index: 3;color:#ffffff;min-height: 200px;width: 500px; position: absolute;bottom: 0;right: 0;">
+                            
+                            <div class="row justify-content-end">
+                                <div class="col-4  text-right">
+                                    
+                                    <app-monitoringChartsControls
+                                    [chartsControl]="
+                                        getchartControl(
+                                            'chartontheturbine'
+                                        )
+                                    "
+                                    (chartsControlOutPut)="modifyChart($event)"
+                                ></app-monitoringChartsControls>
+                                </div>
+                            </div>
+
+                        </div>
                         <div class="chart" style="z-index: 2;min-height: 200px;width: 500px; position: absolute;bottom: 0;right: 0;">
                             <canvas #chartontheturbine ></canvas>
                         </div>
@@ -256,6 +273,20 @@ Launch demo modal
                 </div>
                 <div  #my_popup_info class="my-popup-info animated zoomOut" style="width: 100%;
                     padding: 14px; ">
+                    
+                    <div class="row">
+                        <div class="col-6  text-right">
+                            
+                            <app-monitoringChartsControls
+                            [chartsControl]="
+                                getchartControl(
+                                    'chart_info'
+                                )
+                            "
+                            (chartsControlOutPut)="modifyChart($event)"
+                        ></app-monitoringChartsControls>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col">
                             <div style="width: 100%; min-height: 200px;">
