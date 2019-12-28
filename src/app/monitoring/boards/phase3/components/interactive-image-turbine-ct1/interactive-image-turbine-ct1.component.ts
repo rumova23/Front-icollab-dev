@@ -30,7 +30,6 @@ export class InteractiveImageTurbineCT1Component extends MonitoringChartTR imple
     title="";
 
 
-    public vistafinalsDataToChart :Array<FinalsDataToChart>=[];
 
     public Tag_info:FinalsDataToChart={webId  : null,
         localId: "",
@@ -131,14 +130,25 @@ export class InteractiveImageTurbineCT1Component extends MonitoringChartTR imple
 
         switch (box.name) {
             case "getStreamsetsInterpolatedLast24Hours":
+                
+                this.setStreamsetsInterpolatedInChart(box,TAGS);
+/*
                 this.chartInit(TAGS.listCharts, box.data[0].Items[0].Items.length);
                 for (const data of box.data) {
                     if (!data.error_response) {
                         for (const tag of data.Items) {
+
                             this.createRelwebIdLocalId(tag, TAGS.lstTags, TAGS.listCharts);
                             let finalsDataToChart = this.extractDataFromTheBox(tag);
                             this.setPublicVariables(finalsDataToChart);
 
+                            for (const refChartPerTag of this.getIdsCahrtByWebId(tag.WebId)) {
+                                finalsDataToChart.idChart = refChartPerTag.charId;
+                                finalsDataToChart.localId = refChartPerTag.chartTag.localId;
+                                finalsDataToChart.chart_tags_tag = refChartPerTag.chartTag;
+                                this.setStreamTagItemsInChart(finalsDataToChart, TAGS.lstTags);
+                            }
+                            /*
                             for (const idChart in this.myDefCharts) {
                                 // en esta grafica se puede pintar este tag
                                 let chart_tags_tag = this.matchedTagIntoChart(tag, idChart);
@@ -152,41 +162,11 @@ export class InteractiveImageTurbineCT1Component extends MonitoringChartTR imple
                             }
                         }
                     }
-                }
+                }//*/
                 break;
             case "pi-aguila":
             case "pi-sol":
-                for (const idChart in this.myDefCharts) {
-                    if(this.charts[idChart] == undefined) break;
-
-                    //if (this.check_time_refreseh_data(this.myDefCharts[idChart]["controls"]["time_refreseh"], this.myDefCharts[idChart]["controls"]["timePast"])) {
-                    if(1){    
-                        this.myDefCharts[idChart]["controls"]["timePast"] = new Date();
-                        this.charts[idChart].data.labels.push(this.getTime());
-
-                        if (this.charts[idChart].data.labels.length > this.myDefCharts[idChart].controls.data_per_graph) {
-                            this.charts[idChart].data.labels.shift();
-                        }
-                        for (const data of box.data) {
-                            if (!data.error_response) {
-                                for (const tag of data.Items) {
-                                    let finalsDataToChart = this.extractDataFromTheBox(tag);
-                                    this.setPublicVariables(finalsDataToChart);
-
-                                    // en esta grafica se puede pintar este tag
-                                    let chart_tags_tag = this.matchedTagIntoChart(tag, idChart);
-                                    if (undefined != chart_tags_tag) {
-                                        finalsDataToChart.idChart = idChart;
-                                        finalsDataToChart.localId = chart_tags_tag.localId;
-                                        finalsDataToChart.chart_tags_tag = chart_tags_tag;
-                                        this.vistafinalsDataToChart[chart_tags_tag.localId]=finalsDataToChart;
-                                        this.addStreamTagItemsInChart(finalsDataToChart);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                this.addStreamsetsValueInChart(box);
                 break;
         }
     }

@@ -193,6 +193,14 @@ export class SafeHomeComponent implements OnInit {
 							)
 						).changeDetectorRef.detectChanges();
 						break;
+					case 'Safe.Home':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								WeatherComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
 				}
 				if(banderaTemporal) return;
 				let option = 0;

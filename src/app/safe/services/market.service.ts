@@ -274,17 +274,17 @@ export class MarketService {
 
   getModelMarket(time): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get(environment.mmmercadoUrl + "raws/prediction/planning/" + time, {params : this.parameters });
+    return this.http.get(environment.mmmercadoUrl + "prediction/planning/" + time, {params : this.parameters });
   }
 
   saveModelMarket(data): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(environment.mmmercadoUrl + "raws/prediction/updaterow", data, {params : this.parameters });
+    return this.http.post(environment.mmmercadoUrl + "prediction/updaterow", data, {params : this.parameters });
   }
 
   downloadModelMarket(time): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get(environment.mmmercadoUrl + 'raws/download/' + time, {params : this.parameters });
+    return this.http.get(environment.mmmercadoUrl + 'download/' + time, {params : this.parameters });
   }
 
   getConfigWeather(): Observable<any> {
