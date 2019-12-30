@@ -84,7 +84,7 @@ export class ComplianceHomeComponent implements OnInit {
 				this.globalService.setPage(event);
 				this.viewContainerRef.clear();
 				switch (event.descriptor) {
-					case 'Compliance.Inicio':
+					case 'Compliance.Home':
 						this.viewContainerRef
 							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceWelcomeComponent))
 							.changeDetectorRef

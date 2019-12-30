@@ -71,6 +71,35 @@ export class SharedSidebarMenuComponent {
             this.menu.push(iterator);
         }
         
+        for (let option of this.menu) {
+            if (option.label == "Market") {
+                for (let cat of option.children) {
+                    if (cat.label == "Billing") {
+                        let facturas = null;
+                        let notasdecredito = null;
+                        let notasdedebito = null;
+                        let estadosdecuenta = null;
+                        for (let cat3 of cat.children) {
+                            if (cat3.label == "Facturas") {
+                                facturas = cat3;
+                            }else if(cat3.label == "Notas de Crédito"){
+                                notasdecredito = cat3;
+                            }else if(cat3.label == "Notas de Débito"){
+                                notasdedebito = cat3;
+                            }else if(cat3.label == "Account statements"){
+                                estadosdecuenta = cat3;
+                            }
+
+                        }
+                        cat.children=[];
+                        cat.children.push(facturas);
+                        cat.children.push(notasdecredito);
+                        cat.children.push(notasdedebito);
+                        cat.children.push(estadosdecuenta);
+                    }
+                }
+            }
+        }
     }
     hardcodeAdministrative_monitoring() {
         this.menu.push({
@@ -82,25 +111,6 @@ export class SharedSidebarMenuComponent {
         });
     }
     hardcodeCompliance() {
-        /*this.menu.push(
-			{
-				icon: "library_books",
-				id: "1",
-				idFather: "1",
-				label: "legalAgreement",
-				url: "legalAgreement",
-				children:[
-					{
-						children:[],
-						icon: "library_books",
-						id: "2",
-						idFather: "1",
-						label: "legalAgreement",
-						url: "legalAgreement"
-					}
-				],
-			}
-		);//*/
         let item0 = null;
         let item1 = null;
         let item2 = null;
@@ -108,7 +118,7 @@ export class SharedSidebarMenuComponent {
         let categorias = null;
         let array = [];
         for (let option of this.menu) {
-            if (option.label == "Inicio") item0 = option;
+            if (option.label == "Home") item0 = option;
             else if (option.label == "Catálogos") item1 = option;
             else if (option.label == "Configuración de Cumplimientos Legales") item2 = option;
             else array.push(option);
@@ -135,37 +145,7 @@ export class SharedSidebarMenuComponent {
                 option.children.push(categorias);
             }
         }
-        for (let option of this.menu) {
-            if (option.children) {
-                for (let ins = 0; ins < option.children.length; ins++) {
-                    
 
-                    if (option.children[ins]["label"] == "Cumplimiento Adquisiciones") {
-                        if (!option.children[ins].children) {
-                            option.children[ins].children = new Array();
-                            let childrenA: any = {};
-                            childrenA["label"] = "Personal Competente";
-                            childrenA["url"] = "Personal Competente";
-                            childrenA["icon"] = "person";
-                            childrenA["id"] = 6;
-                            option.children[ins].children.push(childrenA);
-                            let childrenB: any = {};
-                            childrenB["label"] = "Proveedor Calificado";
-                            childrenB["url"] = "Proveedor Calificado";
-                            childrenB["icon"] = "perm_contact_calendar";
-                            childrenA["id"] = 106;
-                            option.children[ins].children.push(childrenB);
-                            let childrenC: any = {};
-                            childrenC["label"] = "Dependencias y Organismos Aplicables";
-                            childrenC["url"] = "Dependencias y Organismos Aplicables";
-                            childrenC["icon"] = "business";
-                            childrenA["id"] = 107;
-                            option.children[ins].children.push(childrenC);
-                        }
-                    }
-                }
-            }
-        }
     }
     hardcodemockUp() {
         this.menu = [
