@@ -136,10 +136,12 @@
                             ></i>
                         </span>
                         &nbsp;
-                        <span class="mydatatxt">
+                        <span class="mydatatxt"
+                            [attr.real_value]='tagValue["getTemperaturaAmbiente"]'
+                        >
                             {{
                                 tagValue["getTemperaturaAmbiente"]
-                                    | number: "1.1-1"
+                                    | number: "1.2-2"
                             }}
                         </span>
                         <span class="sub">
@@ -190,10 +192,12 @@
                             </i>
                         </span>
                         &nbsp;
-                        <span class="mydatatxt">
+                        <span class="mydatatxt"
+                            [attr.real_value]='tagValue["getPresionAtmosferica"]'
+                        >
                             {{
                                 tagValue["getPresionAtmosferica"]
-                                    | number: "1.1-1"
+                                    | number: "1.2-2"
                             }}
                         </span>
                         <span class="sub">
@@ -241,8 +245,10 @@
                                 />
                             </svg>
                         </span>
-                        <span class="mydatatxt">
-                            {{ tagValue["gethumedad"] | number: "1.1-1" }}
+                        <span class="mydatatxt"
+                            [attr.real_value]='tagValue["gethumedad"]'
+                        >
+                            {{ tagValue["gethumedad"] | number: "1.2-2" }}
                         </span>
                         <span class="sub">
                             %
@@ -296,7 +302,9 @@
                         {{ "monitoring.phase3.netPower" | translate }}
                     </span>
                     <br />
-                    <span class="mydatatxt">
+                    <span class="mydatatxt"
+                            [attr.real_value]='tagValue["getPotenciaNeta"]'
+                    >
                         {{ tagValue["getPotenciaNeta"] | number: "3.2-2" }}
                     </span>
                     <span class="sub">MW</span>
@@ -338,7 +346,9 @@
                         {{ "monitoring.phase3.powerCCDV" | translate }}
                     </span>
                     <br />
-                    <span class="mydatatxt">
+                    <span class="mydatatxt"
+                            [attr.real_value]='tagValue["getPotenciaCCDV"]'
+                    >
                         {{ tagValue["getPotenciaCCDV"] | number: "3.2-2" }}
                     </span>
                     <span class="sub">MW</span>
@@ -382,7 +392,9 @@
                         {{ "monitoring.phase3.heatRate" | translate }}
                     </span>
                     <br />
-                    <span class="mydatatxt">
+                    <span class="mydatatxt"
+                            [attr.real_value]='tagValue["getRegimenTermico"]'
+                    >
                         {{ tagValue["getRegimenTermico"] | number: "4.0-0" }}
                     </span>
                     <span class="sub">KJ/KWh</span>
@@ -539,6 +551,7 @@
                         <span
                             class="mydatatxt"
                             (click)="datasetToggleChart('canvas1','getCTUnoGas')"
+                            [attr.real_value]='tagValue["getCTUnoGas"]'                    
                         >
                             {{ tagValue["getCTUnoGas"] | number: "5.0-0" }}
                         </span>
@@ -660,6 +673,7 @@
                         <span
                             class="mydatatxt"
                             (click)="datasetToggleChart('canvas1','getCTUnoDiesel')"
+                            [attr.real_value]='tagValue["getCTUnoDiesel"]'                    
                         >
                             {{ tagValue["getCTUnoDiesel"] | number: "1.1-2" }}
                         </span>
@@ -778,6 +792,7 @@
                         <span
                             class="mydatatxt"
                             (click)="datasetToggleChart('canvas1','getCTUnoRT')"
+                            [attr.real_value]='tagValue["getCTUnoRT"]'                    
                         >
                             {{ tagValue["getCTUnoRT"] | number: "4.0-0" }}
                         </span>
@@ -897,6 +912,7 @@
                         <span
                             class="mydatatxt"
                             (click)="datasetToggleChart('canvas1','getCTUnoMW')"
+                            [attr.real_value]='tagValue["getCTUnoMW"]'                    
                         >
                             {{ tagValue["getCTUnoMW"] | number: "3.2-2" }}
                         </span>
@@ -1040,6 +1056,7 @@
                     <span
                         class="mydatatxt"
                         (click)="datasetToggleChart('canvas1','getCTUnoRPM')"
+                            [attr.real_value]='tagValue["getCTUnoRPM"]'                    
                     >
                         {{ tagValue["getCTUnoRPM"] | number: "4.0-0" }}
                     </span>
@@ -1173,6 +1190,7 @@
                         <span
                             class="mydatatxt"
                             (click)="datasetToggleChart('canvas1','getCTDosGas')"
+                            [attr.real_value]='tagValue["getCTDosGas"]'                    
                         >
                             {{ tagValue["getCTDosGas"] | number: "5.0-0" }}
                         </span>
@@ -1294,6 +1312,7 @@
                         <span
                             class="mydatatxt"
                             (click)="datasetToggleChart('canvas1','getCTDosDiesel')"
+                            [attr.real_value]='tagValue["getCTDosDiesel"]'                    
                         >
                             {{ tagValue["getCTDosDiesel"] | number: "1.1-2" }}
                         </span>
@@ -1412,6 +1431,7 @@
                         <span
                             class="mydatatxt"
                             (click)="datasetToggleChart('canvas1','getCTDosRT')"
+                            [attr.real_value]='tagValue["getCTDosRT"]'                    
                         >
                             {{ tagValue["getCTDosRT"] | number: "4.0-0" }}
                         </span>
@@ -1531,6 +1551,7 @@
                         <span
                             class="mydatatxt"
                             (click)="datasetToggleChart('canvas1','getCTDosMW')"
+                            [attr.real_value]='tagValue["getCTDosMW"]'                    
                         >
                             {{ tagValue["getCTDosMW"] | number: "3.2-2" }}
                         </span>
@@ -1682,6 +1703,7 @@
                     <span
                         class="mydatatxt"
                         (click)="datasetToggleChart('canvas1','getCTDosRPM')"
+                        [attr.real_value]='tagValue["getCTDosRPM"]'                    
                     >
                         {{ tagValue["getCTDosRPM"] | number: "4.0-0" }}
                     </span>
@@ -1813,6 +1835,7 @@
                         <span
                             class="mydatatxt"
                             (click)="datasetToggleChart('canvas1','getTVRT')"
+                            [attr.real_value]='tagValue["getTVRT"]'
                         >
                             {{ tagValue["getTVRT"] | number: "4.0-0" }}
                         </span>
@@ -1929,6 +1952,7 @@
                         <span
                             class="mydatatxt"
                             (click)="datasetToggleChart('canvas1','getTVMW')"
+                            [attr.real_value]='tagValue["getTVMW"]'                    
                         >
                             {{ tagValue["getTVMW"] | number: "3.2-2" }}
                         </span>
@@ -2066,6 +2090,7 @@
                     <span
                         class="mydatatxt"
                         (click)="datasetToggleChart('canvas1','getTVRPM')"
+                        [attr.real_value]='tagValue["getTVRPM"]'                    
                     >
                         {{ tagValue["getTVRPM"] | number: "4.0-0" }}
                     </span>
