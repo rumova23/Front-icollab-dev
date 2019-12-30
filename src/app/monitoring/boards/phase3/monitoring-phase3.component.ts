@@ -45,6 +45,7 @@ export class MonitoringPhase3Component extends MonitoringChartTR implements OnIn
 
     ngOnInit() {
         this.webIds = this.initializeAt0();
+        if(this.globalService.plant.name == "SOL")return;
         if(this.webIds.length > 0){
             this.subscribeEverySecond();
             this.subscribeSocketOnStatus();
