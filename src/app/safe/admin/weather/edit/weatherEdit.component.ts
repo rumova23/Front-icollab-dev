@@ -29,19 +29,19 @@ export class WeatherEditComponent implements OnInit {
   file: any;
   fileName: any;
   typeWeather: string;
-  valid: boolean = false;
+  valid = false;
   title;
   progress;
-  constructor(public globalService: GlobalService,
-    private marketService: MarketService,
-    private fb: FormBuilder,
-    private confirmationDialogService: ConfirmationDialogService,
-    private toastr: ToastrManager) { }
+  constructor(
+      public globalService: GlobalService,
+      private marketService: MarketService,
+      private fb: FormBuilder,
+      private confirmationDialogService: ConfirmationDialogService,
+      private toastr: ToastrManager) { }
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {
     this.temperatureForm = this.fb.group({
-      'file': new FormControl(null, [Validators.required, requiredFileType('xlsx')])
-      //'date':new FormControl('', Validators.required)
+      file: new FormControl(null, [Validators.required, requiredFileType('xlsx')])
     });
   }
 
