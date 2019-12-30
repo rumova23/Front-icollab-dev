@@ -65,7 +65,7 @@ lstTags['getPotenciaCCDV']        = {  calltags:'getPotenciaCCDV'         ,typad
 };
 lstTags['getRegimenTermico']      = {  calltags:'getRegimenTermico'       ,typadata:'int'    ,label: 'Régimen térmico'       ,min:0  ,max:14000  ,color:'#4cc900'   
   ,aguila   : [{WebId:'P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM' ,data:null, active:true}]
-  ,sol      : [{WebId:'F1DP4rhZAwFMREKDf7s8vylUqgkgYAAAUElUVlxULkxHUy5DRUEuNDY'   ,data:null, active:true}]
+  ,sol      : [{WebId:'F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4'   ,data:null, active:true}]
   ,overview : [{value:null,timestamp:null}]
 };
 lstTags['getCTUnoGas']            = {  calltags:'getCTUnoGas'             ,typadata:'int'    ,label: 'RT-1 - Gas'            ,min:0  ,max:50000  ,color:'#CCFF00'   
