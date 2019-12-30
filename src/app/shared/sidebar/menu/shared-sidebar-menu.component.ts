@@ -118,7 +118,7 @@ export class SharedSidebarMenuComponent {
         let categorias = null;
         let array = [];
         for (let option of this.menu) {
-            if (option.label == "Inicio") item0 = option;
+            if (option.label == "Home") item0 = option;
             else if (option.label == "Catálogos") item1 = option;
             else if (option.label == "Configuración de Cumplimientos Legales") item2 = option;
             else array.push(option);
