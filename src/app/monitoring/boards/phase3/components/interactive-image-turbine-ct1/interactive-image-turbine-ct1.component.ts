@@ -95,7 +95,7 @@ export class InteractiveImageTurbineCT1Component extends MonitoringChartTR imple
     }
     tag(element,idChart,localid) {
         if(this.globalService.socketConnect){
-            this.animar();
+            //this.animar();
             this.aplicarCheck(element);
             this.datasetUniqueShowChart(idChart, localid);
             this.setInfo(localid);
