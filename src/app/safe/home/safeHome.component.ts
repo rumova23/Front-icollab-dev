@@ -333,11 +333,11 @@ export class SafeHomeComponent implements OnInit {
 				case 'Notas de Débito':
 					option = 30;
 					break;
-				case 'Humedad':
+				case 'Carga Humedad':
 					option = 32;
 					typeWeather = "Humedad";
 					break;
-				case 'Presión Barométrica':
+				case 'Carga Presión Barométrica':
 					option = 32;
 					typeWeather = "Presión Barométrica";
 					break;

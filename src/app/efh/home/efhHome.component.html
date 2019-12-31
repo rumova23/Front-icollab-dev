@@ -4,7 +4,8 @@
   <div id="body">
     <app-shared-sidebar></app-shared-sidebar>
 
-    <div id="seccion" [ngStyle]="{'width':globalService.aside_open ? 'calc(100% - 230px)' : 'calc(100% - 60px)' }">
+    <!--<div id="seccion" [ngStyle]="{'width':globalService.aside_open ? 'calc(100% - 230px)' : 'calc(100% - 60px)' }">-->
+    <div id="seccion" [ngStyle]="{'margin-left':globalService.aside_open ? '233px' : '60px' }">
       <div class="container-fluid">
         <ng-template #container></ng-template>
       </div>

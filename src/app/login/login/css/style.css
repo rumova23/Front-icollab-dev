@@ -10,6 +10,8 @@ html,
 body, #container   {
   background-image: url("../../../../assets/img/bg-max.png");
   background-size: 100% 200%;
+  background-size: cover;
+  background-position: center;
 }
 
 .mydisabled{

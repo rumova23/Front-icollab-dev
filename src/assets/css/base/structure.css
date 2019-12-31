@@ -23,15 +23,26 @@ body{
     float         : left;
     overflow-x    : hidden;
     transition    : 0.5s;
+
+    position: fixed;
+    background: #ffffff;
+    z-index: 3;
+    overflow-y: scroll;
+    max-height: calc(100% - 57px);
+	padding-bottom: 80px;
 }
+
 #seccion {
-    float         : left;
+    float         : right;
+    width         : 100%;
     transition    : 0.5s;
 }
 #myfooter {
     clear         : both; 
     text-align    : center;
     padding       : 20px;
+    position      : relative;
+    z-index       : 4;
 }
 aside{
     height        : 100%;
