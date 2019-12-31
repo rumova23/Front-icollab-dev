@@ -8,11 +8,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-width: thin;
 }
 
-input[type="time"]:enabled {
-  background: url('/assets/img/icon_watch.png') no-repeat;
-  background-position: calc(100% - 45px) center;
-}
-
 mat-select:disabled {
   color: #8c92a3;
 }
