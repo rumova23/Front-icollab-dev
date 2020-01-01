@@ -5,24 +5,6 @@
         <p class="section_titulo_0">{{titulo}}</p>
       </div>
     </div>
-    <div class="row pb-3">
-      <div class="col">
-        <div class="d-flex justify-content-end">
-          <button type="submit" class="btn"
-                  [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-                  [disabled]="disabledSave" *ngIf="accion != 'ver'">
-            <i class="ti-pencil"></i>
-            Guardar / Actualizar
-          </button>
-          <button type="button" class="btn"
-                  [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-                  (click)="regresar()">
-            <i class="ti-angle-double-left"></i>
-            Regresar
-          </button>
-        </div>
-      </div>
-    </div>
     <div class="row"> <!-- Combos encabezado -->
       <div class="col-md-3">
         <div class="form-group">
@@ -105,7 +87,7 @@
         <div class="col-md-3">
           <div class="form-group">
             <small class="form-text text-muted" >Carga antes del disparo(MW):</small>
-            <input #cargaDisparo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="chargeShot" (ngModelChange)="isNumeric(cargaDisparo)"/>
+            <input #cargaDisparo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="chargeShot" (ngModelChange)="isNumeric(cargaDisparo)" min="0" max="200"/>
           </div>
           <div *ngIf="submittedData && isShotSectionVisible && f.chargeShot.errors" style="color:red">
             <div *ngIf="f.chargeShot.errors.required">Requerido</div>
@@ -136,7 +118,7 @@
         <div class="col-md-3">
           <div class="form-group">
             <small class="form-text text-muted" >Carga antes del rechazo(MW):</small>
-            <input #cargaAntesRechazo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="chargeReject" (ngModelChange)="isNumeric(cargaAntesRechazo)"/>
+            <input #cargaAntesRechazo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="chargeReject" (ngModelChange)="isNumeric(cargaAntesRechazo)" min="0" max="200"/>
           </div>
           <div *ngIf="submittedData && isRejectSectionVisible && f.chargeReject.errors" style="color:red">
             <div *ngIf="f.chargeReject.errors.required">Requerido</div>
@@ -181,7 +163,7 @@
         <div class="col-md-3">
           <div class="form-group">
             <small class="form-text text-muted" >Carga antes del runback(MW):</small>
-            <input #cargaAntesRunback [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="chargeBeforeRunback" (ngModelChange)="isNumeric(cargaAntesRunback)"/>
+            <input #cargaAntesRunback [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="chargeBeforeRunback" (ngModelChange)="isNumeric(cargaAntesRunback)" min="0" max="200"/>
           </div>
           <div *ngIf="submittedData && isRunbackSectionVisible && f.chargeBeforeRunback.errors" style="color:red">
             <div *ngIf="f.chargeBeforeRunback.errors.required">Requerido</div>
@@ -190,7 +172,7 @@
         <div class="col-md-3">
           <div class="form-group">
             <small class="form-text text-muted" >Carga después del runback(MW):</small>
-            <input #cargaDespuesRunback [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="chargeAfterRunback" (ngModelChange)="isNumeric(cargaDespuesRunback)"/>
+            <input #cargaDespuesRunback [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="chargeAfterRunback" (ngModelChange)="isNumeric(cargaDespuesRunback)" min="0" max="200"/>
           </div>
           <div *ngIf="submittedData && isRunbackSectionVisible && f.chargeAfterRunback.errors" style="color:red">
             <div *ngIf="f.chargeAfterRunback.errors.required">Requerido</div>
@@ -235,7 +217,7 @@
         <div class="col-md-3">
           <div class="form-group">
             <small class="form-text text-muted" >Carga antes del paro(MW):</small>
-            <input #cargaAntesParo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="chargeStop" (ngModelChange)="isNumeric(cargaAntesParo)"/>
+            <input #cargaAntesParo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="chargeStop" (ngModelChange)="isNumeric(cargaAntesParo)" min="0" max="200"/>
           </div>
           <div *ngIf="submittedData && isStopSectionVisible && f.chargeStop.errors" style="color:red">
             <div *ngIf="f.chargeStop.errors.required">Requerido</div>
@@ -315,8 +297,9 @@
     <div *ngIf="isDefaultSectionsVisible">
       <div class="col-md-12">
         <div class="form-group">
-          <small class="form-text text-muted">Descripción:</small>
-          <textarea rows="4" style="width: 100%" formControlName="description" (keydown)="enableSaveButton();"></textarea>
+          <label>Descripción</label>
+          <input mdbInput class="form-control" formControlName="description" (keydown)="enableSaveButton();" #description maxlength="1000">
+          <small class="form-text text-muted text-right">{{description.value?.length || 0}}/1000</small>
         </div>
         <div *ngIf="submittedData && f.description.errors" style="color:red">
           <div *ngIf="f.description.errors.required">Requerido</div>
@@ -325,78 +308,98 @@
     </div>
   </div>
       <!-- Aqui van la sección de observaciones -->
-  <div class="section">
-    <div class="row">
-      <div class="col">
-        <p class="section_titulo_0">Observaciones</p>
-        <p class="section_subtitulo_0"></p>
-      </div>
-    </div>
-    <hr>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="form-group">
-          <small class="form-text text-muted">Observación:</small>
-          <textarea rows="4" style="width: 100%" formControlName="observations" (keydown)="enableSaveButton();"></textarea>
+  <div *ngIf="isDefaultSectionsVisible">
+      <div class="section">
+        <div class="row">
+          <div class="col">
+            <p class="section_titulo_0">Observaciones</p>
+            <p class="section_subtitulo_0"></p>
+          </div>
         </div>
-        <div *ngIf="submittedData && this.observationsArr.length == 0" style="color:red">
-          <div>Requerido</div>
+        <hr>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Observación</label>
+              <input mdbInput class="form-control" formControlName="observations" (keydown)="enableSaveButton();" #description maxlength="1000">
+              <small class="form-text text-muted text-right">{{description.value?.length || 0}}/1000</small>
+            </div>
+            <div *ngIf="submittedData && this.observationsArr.length == 0" style="color:red">
+              <div>Requerido</div>
+            </div>
+            <div class="row justify-content-end mb-5">
+              <div class="col-md-auto">
+                <button type="button" (click)="addObservation();" class="btn" [disabled]="isAddObvsDisabled">
+                  <i class="ti-bookmark-alt"></i>&nbsp;
+                  Agregar observación
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="row justify-content-end mb-5">
-          <div class="col-md-auto">
-            <button type="button" (click)="addObservation();" class="btn" [disabled]="isAddObvsDisabled">
-              <i class="ti-bookmark-alt"></i>&nbsp;
-              Agregar observación
-            </button>
+        <!-- Lista de observaciones -->
+        <div class="row">
+          <div class="col">
+            <div class="mat-elevation-z0">
+              <table mdbTable class="table_catalogo">
+                <thead>
+                <tr><th colspan="4">Historial de observaciones</th></tr>
+                <tr>
+                  <th *ngFor="let head of headObservaciones" scope="col">{{head}} </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr mdbTableCol *ngFor="let el of observationsArr; let i = index;">
+                  <th scope="row">{{i+1}}</th>
+                  <td>{{el.nombre}}</td>
+                  <td>{{el.observacion}}</td>
+                  <td>{{el.fecha_modificacion | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
+  </div>
+  <!-- Observaciones -->
+    <div *ngIf="isDefaultSectionsVisible && (accion == 'ver' || accion=='editar')">
+      <app-efh-upload [inIdEventConfig]="eventType.id" [inAccion]="accion"></app-efh-upload>
     </div>
-    <!-- Lista de observaciones -->
-    <div class="row">
-      <div class="col">
-        <div class="mat-elevation-z0">
-          <table mdbTable class="table_catalogo">
-            <thead>
-            <tr><th colspan="4">Historial de observaciones</th></tr>
-            <tr>
-              <th *ngFor="let head of headObservaciones" scope="col">{{head}} </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr mdbTableCol *ngFor="let el of observationsArr; let i = index;">
-              <th scope="row">{{i+1}}</th>
-              <td>{{el.nombre}}</td>
-              <td>{{el.observacion}}</td>
-              <td>{{el.fecha_modificacion | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
-            </tr>
-            </tbody>
-          </table>
+    <div class="section" *ngIf="isDefaultSectionsVisible">
+      <div class="row">
+        <div class="col-md-6 col-lg-4">
+          <ng-container>
+            <div class="form-group">
+              <label>Estado del elemento:</label><br>
+              <mat-checkbox class="active" color="primary"
+                            (change)="changeCheck();"
+                            [checked]="checkedEstatus"
+                            [disabled]="deshabiliarEstatus">
+                <mat-label>Activo</mat-label>
+              </mat-checkbox>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="row pb-3">
+        <div class="col">
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn"
+                        [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
+                        [disabled]="disabledSave" *ngIf="accion != 'ver'">
+                    <i class="ti-pencil"></i>
+                    Guardar / Actualizar
+                </button>
+                <button type="button" class="btn"
+                        [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
+                        (click)="regresar()">
+                    <i class="ti-angle-double-left"></i>
+                    Regresar
+                </button>
+            </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- Observaciones -->
 </form>
-<div *ngIf="isDefaultSectionsVisible && (accion == 'ver' || accion=='editar')">
-  <app-efh-upload [inIdEventConfig]="eventType.id" [inAccion]="accion"></app-efh-upload>
-</div>
-<div class="section" *ngIf="isDefaultSectionsVisible">
-  <div class="row">
-    <div class="col-md-6 col-lg-4">
-      <ng-container>
-        <div class="form-group">
-          <label>Estado del elemento:</label><br>
-          <mat-checkbox class="active" color="primary"
-                        (change)="changeCheck();"
-                        [checked]="checkedEstatus"
-                        [disabled]="deshabiliarEstatus">
-            <mat-label>Activo</mat-label>
-          </mat-checkbox>
-        </div>
-      </ng-container>
-    </div>
-  </div>
-</div>
-
 

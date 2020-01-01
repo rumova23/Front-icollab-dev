@@ -13,6 +13,7 @@ import { EventBlocked                   } from 'src/app/core/models/EventBlocked
 import { EfhService                     } from 'src/app/core/services/efh.service';
 import {Constants} from '../../../../core/globals/Constants';
 import {EventType} from '../../../models/EventType';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-efh-add-event',
@@ -62,6 +63,7 @@ export class EfhAddEventComponent implements OnInit {
   ngOnInit() {
     this.title = 'Eventos configurados';
     this.getCatalogs();
+    this.delay(1000);
     this.getDataSource();
     for (const option of this.menu) {
       if (option.children) {
@@ -93,6 +95,10 @@ export class EfhAddEventComponent implements OnInit {
         }
       }
     }
+  }
+
+  async delay(ms: number) {
+      await new Promise(resolve => setTimeout(() => resolve(), ms)).then(() => console.log("sleep finished"));
   }
 
   getDataSource() {
@@ -197,80 +203,83 @@ export class EfhAddEventComponent implements OnInit {
     this.catalogoMaestroService.getCatalogoIndividual('typeEvent')
         .subscribe(
             data => {
-              this.resultService = data;
-              let i = 0;
-              for (const element of this.resultService) {
-                if (element.active === true && element.code !== 'VACÍO') {
-                  i += 1;
-                  const obj            = {};
-                  // @ts-ignore
-                  obj.order       = i;
-                  // @ts-ignore
-                  obj.id          = element.id;
-                  // @ts-ignore
-                  obj.name        = element.code;
-                  // @ts-ignore
-                  obj.description = element.description;
-                  this.eventTypesArr.push(obj);
+                this.resultService = data;
+                let i = 0;
+                for (const element of this.resultService) {
+                    if (element.active === true && element.code !== 'VACÍO') {
+                        i += 1;
+                        const obj            = {};
+                        // @ts-ignore
+                        obj.order       = i;
+                        // @ts-ignore
+                        obj.id          = element.id;
+                        // @ts-ignore
+                        obj.name        = element.code;
+                        // @ts-ignore
+                        obj.description = element.description;
+                        /*if (element.code !== 'OPERACIÓN CON DIESEL' && this.globalService.aguila) {
+                          this.eventTypesArrForSelect.push(obj);
+                        }*/
+                        this.eventTypesArr.push(obj);
+                    }
                 }
-              }
             },
             errorData => {
-              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+                this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
             }
         );
 
     this.catalogoMaestroService.getCatalogoIndividual('typeFuel')
-        .subscribe(
-            data => {
-              this.resultService = data;
-              let i = 0;
-              for (const element of this.resultService) {
-                if (element.active === true) {
-                  i += 1;
-                  const obj            = {};
-                  // @ts-ignore
-                  obj.order       = i;
-                  // @ts-ignore
-                  obj.id          = element.id;
-                  // @ts-ignore
-                  obj.name        = element.code;
-                  // @ts-ignore
-                  obj.description = element.description;
-                  this.fuelTypesArr.push(obj);
-                }
+          .subscribe(
+              data1 => {
+                  this.resultService = data1;
+                  let j = 0;
+                  for (const element of this.resultService) {
+                      if (element.active === true) {
+                          j += 1;
+                          const obj            = {};
+                          // @ts-ignore
+                          obj.order       = j;
+                          // @ts-ignore
+                          obj.id          = element.id;
+                          // @ts-ignore
+                          obj.name        = element.code;
+                          // @ts-ignore
+                          obj.description = element.description;
+                          this.fuelTypesArr.push(obj);
+                      }
+                  }
+              },
+              errorData => {
+                  this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
               }
-            },
-            errorData => {
-              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-            }
-        );
+          );
 
-    this.catalogoMaestroService.getCatalogoIndividual('unit')
-        .subscribe(
-            data => {
-              this.resultService = data;
-              let i = 0;
-              for (const element of this.resultService) {
-                if (element.active === true) {
-                  i += 1;
-                  const obj            = {};
-                  // @ts-ignore
-                  obj.order       = i;
-                  // @ts-ignore
-                  obj.id          = element.id;
-                  // @ts-ignore
-                  obj.name        = element.code;
-                  // @ts-ignore
-                  obj.description = element.description;
-                  this.unitsArr.push(obj);
-                }
+      this.catalogoMaestroService.getCatalogoIndividual('unit')
+          .subscribe(
+              data2 => {
+                  this.resultService = data2;
+                  let k = 0;
+                  for (const element of this.resultService) {
+                      if (element.active === true) {
+                          k += 1;
+                          const obj            = {};
+                          // @ts-ignore
+                          obj.order       = k;
+                          // @ts-ignore
+                          obj.id          = element.id;
+                          // @ts-ignore
+                          obj.name        = element.code;
+                          // @ts-ignore
+                          obj.description = element.description;
+                          this.unitsArr.push(obj);
+                      }
+                  }
+              },
+              errorData => {
+                  this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
               }
-            },
-            errorData => {
-              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-            }
-        );
+          );
   }
 
   eliminarRegistro(maestroOpcion: any) {

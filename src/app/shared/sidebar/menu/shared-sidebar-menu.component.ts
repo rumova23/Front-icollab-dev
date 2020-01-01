@@ -27,7 +27,8 @@ export class SharedSidebarMenuComponent {
         if (this.menu == undefined 
             || app.name == "Compliance" 
             || app.name == "Administrative_monitoring"
-            || app.name == "Safe") {
+            || app.name == "Safe"
+            || app.name == "Efh") {
             this.hardcode(app.name);
         }
     }
@@ -44,6 +45,9 @@ export class SharedSidebarMenuComponent {
                 break;
             case "Safe":
                 this.hardcodeSafe();
+                break;
+            case "Efh":
+                this.hardcodeEfh();
                 break;
             default:
                 break;
@@ -70,7 +74,28 @@ export class SharedSidebarMenuComponent {
         for (const iterator of array) {
             this.menu.push(iterator);
         }
-        
+
+    }
+    hardcodeEfh() {
+        let item0 = null;
+        let item1 = null;
+        let item2 = null;
+        let array = [];
+        for (let option of this.menu) {
+            if (option.label == "Inicio") item0 = option;
+            else if (option.label == "Catálogos") item1 = option;
+            else if (option.label == "Configuración de eventos") item2 = option;
+            else array.push(option);
+        }
+        this.menu = [];
+        this.menu[0] = item0;
+        this.menu[1] = item1;
+        this.menu[2] = item2;
+        for (const iterator of array) {
+            this.menu.push(iterator);
+        }
+
+
         for (let option of this.menu) {
             if (option.label == "Market") {
                 for (let cat of option.children) {

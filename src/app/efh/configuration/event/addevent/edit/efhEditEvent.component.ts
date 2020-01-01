@@ -1,4 +1,4 @@
-import {Component, Input, OnInit            } from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CatalogoMaestroService              } from '../../../../../core/services/catalogo-maestro.service';
 import { DatePipe                            } from '@angular/common';
@@ -11,9 +11,6 @@ import { EventType} from '../../../../models/EventType';
 import { EfhService} from '../../../../../core/services/efh.service';
 import {ConfirmationDialogService} from '../../../../../core/services/confirmation-dialog.service';
 import {Comment} from '../../../../models/Comment';
-import {Documents} from '../../../../../compliance/models/Documents';
-import {CarasDocument} from '../../../../../compliance/models/CarasDocument';
-import {FileSupport} from '../../../../models/FileSupport';
 
 @Component({
   selector: 'app-efh-edit-event',
@@ -30,20 +27,17 @@ export class EfhEditEventComponent implements OnInit {
   resultService;
   result;
   eventTypesArr = [];
-  eventTypesArrForSelect = [];
   unitsArr = [];
   fuelTypesArr = [];
+  fuelTypesForSelect = [];
   dataSubmit = {};
   dataObservationSumbit = {};
-  dataFileSubmit = {};
   checkedEstatus = false;
   deshabiliarEstatus = false;
-  checkedEditClonated = true;
   headObservaciones = ['#', 'Nombre', 'Observaciones', 'Fecha de ultima modificación'];
-  headFiles = ['#', 'Nombre', 'Fecha de ultima modificación'];
   observationsArr: Array<any>;
   isAddObvsDisabled = true;
-  defaultCharge = 0.0;
+  defaultCharge;
 
   isShotSectionVisible = false;
   isRejectSectionVisible = false;
@@ -190,11 +184,11 @@ export class EfhEditEventComponent implements OnInit {
                            this.isStopSectionVisible = true;
                            this.isDefaultSectionsVisible = true;
                            break;
-              case 'DIESEL': this.dieselControlsEnabled(this.accion === 'ver' ? false : true);
-                             this.defaultConstrolsEnabled(this.accion === 'ver' ? false : true);
-                             this.isDieselSectionVisible = true;
-                             this.isDefaultSectionsVisible = true;
-                             break;
+              case 'OPERACIÓN CON DIESEL': this.dieselControlsEnabled(this.accion === 'ver' ? false : true);
+                                           this.defaultConstrolsEnabled(this.accion === 'ver' ? false : true);
+                                           this.isDieselSectionVisible = true;
+                                           this.isDefaultSectionsVisible = true;
+                                           break;
               case 'OPERACIÓN NORMAL': this.normalOperationControlsEnabled(this.accion === 'ver' ? false : true);
                                        this.defaultConstrolsEnabled(this.accion === 'ver' ? false : true);
                                        this.isNormalOperationSectionVisible = true;
@@ -205,9 +199,13 @@ export class EfhEditEventComponent implements OnInit {
       }
   }
 
+  async delay(ms: number) {
+      await new Promise(resolve => setTimeout(() => resolve(), ms)).then(() => console.log("sleep finished"));
+  }
+
   obtenerDatosConfiguracionEvento(putData, id) {
        if (id !== 0) {
-          this.efhService.getEvent(id)
+           this.efhService.getEvent(id)
               .subscribe(
                   dataBack => {
                       this.result = dataBack;
@@ -533,81 +531,82 @@ export class EfhEditEventComponent implements OnInit {
     this.catalogoMaestroService.getCatalogoIndividual('typeEvent')
         .subscribe(
             data => {
-              this.resultService = data;
-              let i = 0;
-              for (const element of this.resultService) {
-                if (element.active === true && element.code !== 'VACÍO') {
-                  i += 1;
-                  const obj            = {};
-                  // @ts-ignore
-                  obj.order       = i;
-                  // @ts-ignore
-                  obj.id          = element.id;
-                  // @ts-ignore
-                  obj.name        = element.code;
-                  // @ts-ignore
-                  obj.description = element.description;
-                  /*if (element.code !== 'OPERACIÓN CON DIESEL' && this.globalService.aguila) {
-                    this.eventTypesArrForSelect.push(obj);
-                  }*/
-                  this.eventTypesArr.push(obj);
+                this.resultService = data;
+                let i = 0;
+                for (const element of this.resultService) {
+                    if (element.active === true && element.code !== 'VACÍO') {
+                        i += 1;
+                        const obj            = {};
+                        // @ts-ignore
+                        obj.order       = i;
+                        // @ts-ignore
+                        obj.id          = element.id;
+                        // @ts-ignore
+                        obj.name        = element.code;
+                        // @ts-ignore
+                        obj.description = element.description;
+                        /*if (element.code !== 'OPERACIÓN CON DIESEL' && this.globalService.aguila) {
+                          this.eventTypesArrForSelect.push(obj);
+                        }*/
+                        this.eventTypesArr.push(obj);
+                    }
                 }
-              }
             },
             errorData => {
-              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+                this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
             }
         );
 
     this.catalogoMaestroService.getCatalogoIndividual('typeFuel')
         .subscribe(
-            data => {
-              this.resultService = data;
-              let i = 0;
-              for (const element of this.resultService) {
-                if (element.active === true) {
-                  i += 1;
-                  const obj            = {};
-                  // @ts-ignore
-                  obj.order       = i;
-                  // @ts-ignore
-                  obj.id          = element.id;
-                  // @ts-ignore
-                  obj.name        = element.code;
-                  // @ts-ignore
-                  obj.description = element.description;
-                  this.fuelTypesArr.push(obj);
+            data1 => {
+                this.resultService = data1;
+                let j = 0;
+                for (const element of this.resultService) {
+                    if (element.active === true) {
+                        j += 1;
+                        const obj            = {};
+                        // @ts-ignore
+                        obj.order       = j;
+                        // @ts-ignore
+                        obj.id          = element.id;
+                        // @ts-ignore
+                        obj.name        = element.code;
+                        // @ts-ignore
+                        obj.description = element.description;
+                        this.fuelTypesArr.push(obj);
+                    }
                 }
-              }
+                this.fuelTypesForSelect = this.fuelTypesArr;
             },
             errorData => {
-              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+                this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
             }
         );
 
     this.catalogoMaestroService.getCatalogoIndividual('unit')
         .subscribe(
-            data => {
-              this.resultService = data;
-              let i = 0;
-              for (const element of this.resultService) {
-                if (element.active === true) {
-                  i += 1;
-                  const obj            = {};
-                  // @ts-ignore
-                  obj.order       = i;
-                  // @ts-ignore
-                  obj.id          = element.id;
-                  // @ts-ignore
-                  obj.name        = element.code;
-                  // @ts-ignore
-                  obj.description = element.description;
-                  this.unitsArr.push(obj);
+            data2 => {
+                this.resultService = data2;
+                let k = 0;
+                for (const element of this.resultService) {
+                    if (element.active === true) {
+                        k += 1;
+                        const obj            = {};
+                        // @ts-ignore
+                        obj.order       = k;
+                        // @ts-ignore
+                        obj.id          = element.id;
+                        // @ts-ignore
+                        obj.name        = element.code;
+                        // @ts-ignore
+                        obj.description = element.description;
+                        this.unitsArr.push(obj);
+                    }
                 }
-              }
             },
             errorData => {
-              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+                this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
             }
         );
   }
@@ -627,6 +626,7 @@ export class EfhEditEventComponent implements OnInit {
   enableControls(selected) {
       this.selectControlsEnabled(true);
       this.resetSections();
+      this.fuelTypesArr = this.fuelTypesForSelect;
       // console.log(selected.value.id + ' | ' + selected.value.name)
       switch (selected.value) {
           case 1: this.shotControlsEnabled(true);
@@ -656,12 +656,16 @@ export class EfhEditEventComponent implements OnInit {
                     this.defaultConstrolsEnabled(true);
                     this.isDieselSectionVisible = true;
                     this.isDefaultSectionsVisible = true;
+                    this.fuelTypesArr = [];
+                    this.fuelTypesArr.push(this.fuelTypesForSelect.find(x => x.name === 'DIESEL'));
                     break;
           case -44:
           case 956: this.normalOperationControlsEnabled(true);
                     this.defaultConstrolsEnabled(true);
                     this.isNormalOperationSectionVisible = true;
                     this.isDefaultSectionsVisible = true;
+                    this.fuelTypesArr = [];
+                    this.fuelTypesArr.push(this.fuelTypesForSelect.find(x => x.name === 'GAS'));
                     break;
       }
 
@@ -915,7 +919,7 @@ export class EfhEditEventComponent implements OnInit {
       // Check if the dates are equal
       let same = d1.getTime() === d2.getTime();
 
-      if (same) { return false; }
+      if (same) { return true; }
 
         // Check if the first is greater than second
       if (d1 > d2) { return true; }
@@ -964,10 +968,14 @@ export class EfhEditEventComponent implements OnInit {
   }
 
   isNumeric(link) {
-    if ( isNaN( Number(this.defaultCharge)) || 0 === Number(this.defaultCharge) ) {
-        this.defaultCharge = 0.0;
-        link.value = 0.0;
-    }
+      if ( isNaN( Number(this.defaultCharge)) || 0 === Number(this.defaultCharge) ) {
+        link.value = this.defaultCharge;
+      }
+      if (link.value < 0) {
+        link.value = 0;
+      }
+      if (link.value > 200) {
+        link.value = 200;
+      }
   }
-
 }

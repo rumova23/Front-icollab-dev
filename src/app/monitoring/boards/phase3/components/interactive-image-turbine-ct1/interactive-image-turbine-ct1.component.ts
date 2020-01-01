@@ -94,6 +94,7 @@ export class InteractiveImageTurbineCT1Component extends MonitoringChartTR imple
         node.addEventListener("animationend", handleAnimationEnd);
     }
     tag(element,idChart,localid) {
+        if(this.globalService.plant.name == "SOL")return 0;
         if(this.globalService.socketConnect){
             //this.animar();
             this.aplicarCheck(element);

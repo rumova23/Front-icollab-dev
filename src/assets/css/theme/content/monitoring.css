@@ -30,7 +30,9 @@ hr{
     color            : Black!important;
 }
 
-
+.user-panel{
+	background: rgb(68, 73, 78);
+}
 
 /*MODAL*/
 
