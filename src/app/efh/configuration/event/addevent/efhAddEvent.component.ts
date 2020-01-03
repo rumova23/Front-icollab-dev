@@ -62,7 +62,7 @@ export class EfhAddEventComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
-    this.title = 'Eventos configurados';
+    this.title = 'Configuración de Eventos / Eventos configurados';
     this.getCatalogs();
     for (const option of this.menu) {
       if (option.children) {
