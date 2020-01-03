@@ -49,6 +49,7 @@ export class WeatherEditComponent implements OnInit {
     this.marketService.downloadWeather(this.getTypeWeather())
       .subscribe(
         data => {
+          console.dir(data);
           let blob = new Blob([this.base64toBlob(data.file,
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')], {});
           saveAs(blob, data.name);
