@@ -14,6 +14,7 @@ import { EfhService                     } from 'src/app/core/services/efh.servic
 import {Constants} from '../../../../core/globals/Constants';
 import {EventType} from '../../../models/EventType';
 import {Observable} from 'rxjs';
+import {mergeMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-efh-add-event',
@@ -63,8 +64,6 @@ export class EfhAddEventComponent implements OnInit {
   ngOnInit() {
     this.title = 'Eventos configurados';
     this.getCatalogs();
-    this.delay(1000);
-    this.getDataSource();
     for (const option of this.menu) {
       if (option.children) {
         let flag = true;
@@ -97,12 +96,7 @@ export class EfhAddEventComponent implements OnInit {
     }
   }
 
-  async delay(ms: number) {
-      await new Promise(resolve => setTimeout(() => resolve(), ms)).then(() => console.log("sleep finished"));
-  }
-
   getDataSource() {
-    this.addBlock(1, 'Cargando...');
     this.data = [];
     this.efhService.getEventsConfigurated().subscribe(
         dataBack => {
@@ -175,6 +169,9 @@ export class EfhAddEventComponent implements OnInit {
           id
           , action: 'nuevo'
           , section
+          , eventTypesArr: this.eventTypesArr
+          , fuelTypesArr: this.fuelTypesArr
+          , unitsArr: this.unitsArr
         };
         break;
       case 2:
@@ -182,6 +179,9 @@ export class EfhAddEventComponent implements OnInit {
           id
           , action: 'ver'
           , section
+          , eventTypesArr: this.eventTypesArr
+          , fuelTypesArr: this.fuelTypesArr
+          , unitsArr: this.unitsArr
         };
         break;
       case 3:
@@ -189,6 +189,9 @@ export class EfhAddEventComponent implements OnInit {
           id
           , action: 'editar'
           , section
+          , eventTypesArr: this.eventTypesArr
+          , fuelTypesArr: this.fuelTypesArr
+          , unitsArr: this.unitsArr
         };
         break;
     }
@@ -200,6 +203,7 @@ export class EfhAddEventComponent implements OnInit {
   }
 
   getCatalogs() {
+    this.addBlock(1, 'Cargando...');
     this.catalogoMaestroService.getCatalogoIndividual('typeEvent')
         .subscribe(
             data => {
@@ -223,63 +227,63 @@ export class EfhAddEventComponent implements OnInit {
                         this.eventTypesArr.push(obj);
                     }
                 }
+                this.catalogoMaestroService.getCatalogoIndividual('typeFuel')
+                    .subscribe(
+                        data1 => {
+                            this.resultService = data1;
+                            let j = 0;
+                            for (const element of this.resultService) {
+                                if (element.active === true) {
+                                    j += 1;
+                                    const obj            = {};
+                                    // @ts-ignore
+                                    obj.order       = j;
+                                    // @ts-ignore
+                                    obj.id          = element.id;
+                                    // @ts-ignore
+                                    obj.name        = element.code;
+                                    // @ts-ignore
+                                    obj.description = element.description;
+                                    this.fuelTypesArr.push(obj);
+                                }
+                            }
+                            this.catalogoMaestroService.getCatalogoIndividual('unit')
+                                .subscribe(
+                                    data2 => {
+                                        this.resultService = data2;
+                                        let k = 0;
+                                        for (const element of this.resultService) {
+                                            if (element.active === true) {
+                                                k += 1;
+                                                const obj            = {};
+                                                // @ts-ignore
+                                                obj.order       = k;
+                                                // @ts-ignore
+                                                obj.id          = element.id;
+                                                // @ts-ignore
+                                                obj.name        = element.code;
+                                                // @ts-ignore
+                                                obj.description = element.description;
+                                                this.unitsArr.push(obj);
+                                            }
+                                        }
+                                        this.getDataSource();
+                                    },
+                                    errorData => {
+                                        this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+                                    }
+                                );
+                        },
+                        errorData => {
+                            this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+                        }
+                    );
+
             },
             errorData => {
                 this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
             }
         );
-
-    this.catalogoMaestroService.getCatalogoIndividual('typeFuel')
-          .subscribe(
-              data1 => {
-                  this.resultService = data1;
-                  let j = 0;
-                  for (const element of this.resultService) {
-                      if (element.active === true) {
-                          j += 1;
-                          const obj            = {};
-                          // @ts-ignore
-                          obj.order       = j;
-                          // @ts-ignore
-                          obj.id          = element.id;
-                          // @ts-ignore
-                          obj.name        = element.code;
-                          // @ts-ignore
-                          obj.description = element.description;
-                          this.fuelTypesArr.push(obj);
-                      }
-                  }
-              },
-              errorData => {
-                  this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-              }
-          );
-
-      this.catalogoMaestroService.getCatalogoIndividual('unit')
-          .subscribe(
-              data2 => {
-                  this.resultService = data2;
-                  let k = 0;
-                  for (const element of this.resultService) {
-                      if (element.active === true) {
-                          k += 1;
-                          const obj            = {};
-                          // @ts-ignore
-                          obj.order       = k;
-                          // @ts-ignore
-                          obj.id          = element.id;
-                          // @ts-ignore
-                          obj.name        = element.code;
-                          // @ts-ignore
-                          obj.description = element.description;
-                          this.unitsArr.push(obj);
-                      }
-                  }
-              },
-              errorData => {
-                  this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-              }
-          );
   }
 
   eliminarRegistro(maestroOpcion: any) {
