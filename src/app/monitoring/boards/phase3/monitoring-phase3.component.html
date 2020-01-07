@@ -987,14 +987,20 @@
             </div>
             <!-- Imagen de turbina -->
             <div class="row">
-
+<!--
                 <div class="col text-center" (click)="openModalCt_1()" style="padding: 20%;
     min-height: 229px;
     padding-top: 51px;
     padding-bottom: 5px;" *ngIf="!globalService.aguila">
 
                     <img src="/assets/monitoring/phase3/turbina-gas.png" style="width: 100%;" />
-
+            -->
+            
+            <div class="col text-center" (click)="openModalCt_1()" style="padding: 19%;padding-top: 12%;
+            min-height: 237px;" *ngIf="!globalService.aguila">
+                    <video style="width: 100%;" src="/assets/monitoring/phase3/turbina-gas-animada.mp4"
+                        type="video/webm" autoplay loop width="320">
+                    </video>
                 </div>
                 <div class="col text-center" (click)="openModalCt_2()" style="padding: 17%;padding-top: 7%;
                 min-height: 229px;" *ngIf="globalService.aguila">
