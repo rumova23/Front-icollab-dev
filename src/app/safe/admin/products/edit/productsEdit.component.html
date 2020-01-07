@@ -376,7 +376,7 @@
                         <div class="form-group">
                             
                             <label class="form-text text-left">Sistemas:</label>
-                            <mat-select class="form-control" formControlName="systems" [compareWith]="compareObjects">
+                            <mat-select class="form-control" formControlName="systems" [compareWith]="compareObjects" multiple>
                               <mat-option class="form-control" *ngFor="let system of systems" [value]="system">{{ system.code }}</mat-option>
                             </mat-select>
                             <div

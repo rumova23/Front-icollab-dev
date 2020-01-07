@@ -101,7 +101,7 @@ export class BranchInvoiceSeriesComponent implements OnInit {
 
   newEntity() {
     this.eventService.sendMainSafe(new
-      EventMessage(4, { readOnly: false, edit: false, new: true, user: {} }));
+      EventMessage(19, { readOnly: false, edit: false, new: true, user: {} }));
   }
 
   getStatus(entity: Product) {
