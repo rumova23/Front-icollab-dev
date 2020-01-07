@@ -19,8 +19,4 @@ export class Comment {
         this.fecha_modificacion = fecha_modificacion;
         this.saved = saved;
     }
-
-
-
-
 }
