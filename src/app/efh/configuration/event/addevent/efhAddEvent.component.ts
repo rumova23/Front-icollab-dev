@@ -113,6 +113,8 @@ export class EfhAddEventComponent implements OnInit {
             obj['unit'] = this.unitsArr.find(x => x.id === element.idunit).name;
             obj['dateInit'] = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'dd/MM/yyyy HH:mm');
             obj['order'] = i;
+            // debugger;
+            obj['spliced'] = element.spliced;
             obj['userUpdated'] = element.userUpdated === null ? element.userCreated : element.userUpdated;
             const dateUpdated = element.dateUpdated === null ? element.dateCreated : element.dateUpdated;
             obj['dateUpdated'] = '.';
@@ -282,6 +284,7 @@ export class EfhAddEventComponent implements OnInit {
             },
             errorData => {
                 this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+                this.addBlock(2, null);
             }
         );
   }

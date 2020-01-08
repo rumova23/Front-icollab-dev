@@ -34,7 +34,7 @@ export class EfhEditEventComponent implements OnInit {
   dataObservationSumbit = {};
   checkedEstatus = false;
   deshabiliarEstatus = false;
-  headObservaciones = ['#', 'Nombre', 'Observaciones', 'Fecha de ultima modificación'];
+  headObservaciones = ['#', 'Nombre', 'Observaciones', 'Fecha de ultima modificación', 'Visible', 'Editar', 'Eliminar'];
   observationsArr: Array<any>;
   isAddObvsDisabled = true;
   defaultCharge;
@@ -124,7 +124,7 @@ export class EfhEditEventComponent implements OnInit {
           endDateNormal: ['', Validators.required],
           endTimeNormal: ['00:00:00', Validators.required],
           description: ['', Validators.required],
-          observations: [{ value: '', disabled: this.isAddObvsDisabled }, Validators.required],
+          // observations: [{ value: '', disabled: this.isAddObvsDisabled }, Validators.required],
           file: [null, Validators.required]
       });
       this.selectControlsEnabled(false);
@@ -137,8 +137,11 @@ export class EfhEditEventComponent implements OnInit {
       this.defaultConstrolsEnabled(false);
 
       this.eventTypesArr = this.eventType.eventTypesArr;
+      this.eventTypesArr.sort((a, b) => a.name.localeCompare(b.name));
       this.unitsArr = this.eventType.unitsArr;
+      this.unitsArr.sort((a, b) => a.name.localeCompare(b.name));
       this.fuelTypesArr = this.eventType.fuelTypesArr;
+      this.fuelTypesArr.sort((a, b) => a.name.localeCompare(b.name));
       this.fuelTypesForSelect = this.fuelTypesArr;
 
       // debugger;
@@ -223,7 +226,7 @@ export class EfhEditEventComponent implements OnInit {
                               this.selectedUnit = this.unitsArr.find(x => x.id === element.idunit).id;
                               this.selectedFuelType = this.fuelTypesArr.find(x => x.id === element.idtypefuel).id;
 
-                              this.getObservations(this.eventType.id);
+                              // this.getObservations(this.eventType.id);
 
                               switch (element.idtypeevent) {
                                   case 1: this.flameOffDate = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
@@ -287,7 +290,7 @@ export class EfhEditEventComponent implements OnInit {
                                       break;
                               }
                               this.eventForm.controls['description'].setValue(element.description);
-                              this.eventForm.controls['observations'].setValue(element.observations);
+                              // this.eventForm.controls['observations'].setValue(element.observations);
                               this.checkedEstatus = element.active;
                           }
                       }
@@ -313,7 +316,7 @@ export class EfhEditEventComponent implements OnInit {
                           }
 
                           this.dataSubmit['description'] = this.eventForm.controls['description'].value;
-                          this.dataSubmit['observations'] = this.eventForm.controls['observations'].value;
+                          // this.dataSubmit['observations'] = this.eventForm.controls['observations'].value;
 
                           switch (this.dataSubmit['idtypeevent']) {
                               case 1: this.flameOffDate = this.eventForm.controls['flameOffDateShot'].value;
@@ -402,6 +405,7 @@ export class EfhEditEventComponent implements OnInit {
                                       this.isAddObvsDisabled = true;
                                       this.disabledSave = true;
 
+                                      /*
                                       for (const comment of this.observationsArr) {
                                           if (comment.saved === false) {
                                               this.dataObservationSumbit['ideventconfig'] = this.eventType.id;
@@ -413,7 +417,7 @@ export class EfhEditEventComponent implements OnInit {
                                                   }
                                               );
                                           }
-                                      }
+                                      } */
                                   },
                                   errorData => {
                                       this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
@@ -515,7 +519,11 @@ export class EfhEditEventComponent implements OnInit {
                       this.disabledSave = true;
 
                       const idEvent = dataBack['code'];
+                      this.efhService.accionComments.next('savenewcommentsevent|' + idEvent);
+
+                      this.eventType.id = idEvent;
                       // Saving Observations
+                      /*
                       for (const comment of this.observationsArr) {
                           this.dataObservationSumbit['ideventconfig'] = idEvent;
                           this.dataObservationSumbit['observation'] = comment.observacion;
@@ -525,97 +533,16 @@ export class EfhEditEventComponent implements OnInit {
                                   const response = 'exito';
                               }
                           );
-                      }
+                      }*/
+
+                      // Saving Files
+                      // this.efhService.accionFiles.next('savenewfilesevent|' + idEvent);
                   },
                   errorData => {
                       this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
                   }
               );
       }
-  }
-
-  getCatalogs() {
-    this.catalogoMaestroService.getCatalogoIndividual('typeEvent')
-        .subscribe(
-            data => {
-                this.resultService = data;
-                let i = 0;
-                for (const element of this.resultService) {
-                    if (element.active === true && element.code !== 'VACÍO') {
-                        i += 1;
-                        const obj            = {};
-                        // @ts-ignore
-                        obj.order       = i;
-                        // @ts-ignore
-                        obj.id          = element.id;
-                        // @ts-ignore
-                        obj.name        = element.code;
-                        // @ts-ignore
-                        obj.description = element.description;
-                        /*if (element.code !== 'OPERACIÓN CON DIESEL' && this.globalService.aguila) {
-                          this.eventTypesArrForSelect.push(obj);
-                        }*/
-                        this.eventTypesArr.push(obj);
-                    }
-                }
-            },
-            errorData => {
-                this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-            }
-        );
-
-    this.catalogoMaestroService.getCatalogoIndividual('typeFuel')
-        .subscribe(
-            data1 => {
-                this.resultService = data1;
-                let j = 0;
-                for (const element of this.resultService) {
-                    if (element.active === true) {
-                        j += 1;
-                        const obj            = {};
-                        // @ts-ignore
-                        obj.order       = j;
-                        // @ts-ignore
-                        obj.id          = element.id;
-                        // @ts-ignore
-                        obj.name        = element.code;
-                        // @ts-ignore
-                        obj.description = element.description;
-                        this.fuelTypesArr.push(obj);
-                    }
-                }
-                this.fuelTypesForSelect = this.fuelTypesArr;
-            },
-            errorData => {
-                this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-            }
-        );
-
-    this.catalogoMaestroService.getCatalogoIndividual('unit')
-        .subscribe(
-            data2 => {
-                this.resultService = data2;
-                let k = 0;
-                for (const element of this.resultService) {
-                    if (element.active === true) {
-                        k += 1;
-                        const obj            = {};
-                        // @ts-ignore
-                        obj.order       = k;
-                        // @ts-ignore
-                        obj.id          = element.id;
-                        // @ts-ignore
-                        obj.name        = element.code;
-                        // @ts-ignore
-                        obj.description = element.description;
-                        this.unitsArr.push(obj);
-                    }
-                }
-            },
-            errorData => {
-                this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-            }
-        );
   }
 
   changeCheck() {
@@ -741,7 +668,7 @@ export class EfhEditEventComponent implements OnInit {
           || (this.isNormalOperationSectionVisible && this.eventForm.controls['endDateNormal'].invalid)
           || (this.isNormalOperationSectionVisible && this.eventForm.controls['endTimeNormal'].invalid)
           || this.eventForm.controls['description'].invalid
-          || this.observationsArr.length === 0
+          // || this.observationsArr.length === 0
           || (this.selectedUnit === undefined || this.selectedUnit === null)
           || (this.selectedFuelType === undefined || this.selectedFuelType === null)) {
           this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Lo siento,');
@@ -901,10 +828,10 @@ export class EfhEditEventComponent implements OnInit {
       this.isDefaultControlsEnabled = flag;
       if (flag) {
           this.eventForm.controls.description.enable();
-          this.eventForm.controls.observations.enable();
+          // this.eventForm.controls.observations.enable();
       } else {
           this.eventForm.controls.description.disable();
-          this.eventForm.controls.observations.disable();
+          // this.eventForm.controls.observations.disable();
       }
   }
 
@@ -948,18 +875,13 @@ export class EfhEditEventComponent implements OnInit {
       this.disabledSave = false;
       this.isAddObvsDisabled = false;
   }
-
-  resuelveDS(comenta) {
-      this.observationsArr.push(
-            new Comment(comenta.idUsr, comenta.nombre, comenta.observacion, comenta.fecha_modificacion, true));
-  }
-
+/*
   getObservations(idEventConfig: number) {
       this.efhService.getObservations(idEventConfig).subscribe(
           data => {
               this.resultService = data;
               for (const element of this.resultService) {
-                  this.observationsArr.push(new Comment(element.id, 'tester', element.observation, new Date(element.dateobservation), true));
+                  this.observationsArr.push(new Comment(element.id, '', 'tester', element.observation, new Date(element.dateobservation), true, true));
               }
           }
       );
@@ -971,11 +893,11 @@ export class EfhEditEventComponent implements OnInit {
           this.toastr.errorToastr('No se puede agregar una observación vacía', 'Lo siento,');
       } else {
           this.eventForm.controls.observations.setValue('');
-          this.observationsArr.push(new Comment('1', 'tester', obser, new Date(), false));
+          this.observationsArr.push(new Comment('1', '', 'tester', obser, new Date(), true, false));
           this.isAddObvsDisabled = true;
       }
   }
-
+*/
   isNumeric(link) {
       if ( isNaN( Number(this.defaultCharge)) || 0 === Number(this.defaultCharge) ) {
         link.value = this.defaultCharge;
@@ -986,5 +908,9 @@ export class EfhEditEventComponent implements OnInit {
       if (link.value > 200) {
         link.value = 200;
       }
+  }
+
+  dummy() {
+
   }
 }

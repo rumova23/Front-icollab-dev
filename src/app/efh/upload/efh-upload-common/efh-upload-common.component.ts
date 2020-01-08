@@ -1,9 +1,10 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PerfilComboService} from '../../../core/services/perfil-combo.service';
 import {GlobalService} from '../../../core/globals/global.service';
 import {EfhService} from '../../../core/services/efh.service';
 import {ToastrManager} from 'ng6-toastr-notifications';
+import {EfhUploadComponent} from '../efh-upload.component';
 
 @Component({
   selector: 'app-efh-upload-common',
@@ -25,7 +26,8 @@ export class EfhUploadCommonComponent implements OnInit {
   currentFile: File;
   dataFileSubmit = {};
 
-  constructor(private fb: FormBuilder, private efhService: EfhService, public  toastr: ToastrManager, private cd: ChangeDetectorRef, public globalService: GlobalService) { }
+  constructor(private fb: FormBuilder, private efhService: EfhService, public  toastr: ToastrManager, private cd: ChangeDetectorRef, public globalService: GlobalService) {
+  }
 
   ngOnInit() {
     if (this.inAccion === 'ver') {
@@ -38,7 +40,7 @@ export class EfhUploadCommonComponent implements OnInit {
 
   selectFile(event) {
     if (!this.isdisabled) {
-      this.selectedFiles = event.target.files;
+        this.selectedFiles = event.target.files;
     }
   }
 
@@ -47,19 +49,19 @@ export class EfhUploadCommonComponent implements OnInit {
     this.currentFile = this.selectedFiles.item(0);
 
     fileReader.onloadend = (e) => {
-      this.dataFileSubmit['eventConfigId'] = this.inIdEventConfig;
-      this.dataFileSubmit['fileName'] = this.currentFile.name;
-      this.dataFileSubmit['fileType'] = this.currentFile.name.substr(this.currentFile.name.lastIndexOf('.') + 1);
-      this.dataFileSubmit['fileContentType'] = this.currentFile.type;
-      this.dataFileSubmit['fileSize'] = this.currentFile.size;
-      this.dataFileSubmit['fileData'] = fileReader.result;
-      this.dataFileSubmit['fileData'] = this.dataFileSubmit['fileData'].replace(/^data:(.*;base64,)?/, '');
-      this.dataFileSubmit['fileData'] = this.dataFileSubmit['fileData'].trim();
-      this.efhService.upload(this.dataFileSubmit).subscribe(
-          respuesta => {
-            this.toastr.successToastr('Documento guardado con éxito.', '¡Se ha logrado!');
-            this.efhService.accion.next('upload');
-          });
+        this.dataFileSubmit['eventConfigId'] = this.inIdEventConfig;
+        this.dataFileSubmit['fileName'] = this.currentFile.name;
+        this.dataFileSubmit['fileType'] = this.currentFile.name.substr(this.currentFile.name.lastIndexOf('.') + 1);
+        this.dataFileSubmit['fileContentType'] = this.currentFile.type;
+        this.dataFileSubmit['fileSize'] = this.currentFile.size;
+        this.dataFileSubmit['fileData'] = fileReader.result;
+        this.dataFileSubmit['fileData'] = this.dataFileSubmit['fileData'].replace(/^data:(.*;base64,)?/, '');
+        this.dataFileSubmit['fileData'] = this.dataFileSubmit['fileData'].trim();
+        this.efhService.upload(this.dataFileSubmit).subscribe(
+            respuesta => {
+                this.toastr.successToastr('Documento guardado con éxito.', '¡Se ha logrado!');
+                this.efhService.accion.next('upload');
+            });
     }
     fileReader.readAsDataURL(this.currentFile);
   }

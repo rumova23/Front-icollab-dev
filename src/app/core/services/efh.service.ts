@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import {GlobalService} from '../globals/global.service';
 import {BehaviorSubject, Observable} from 'rxjs';
+import {__values} from 'tslib';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,8 @@ import {BehaviorSubject, Observable} from 'rxjs';
 export class EfhService {
 
   accion: BehaviorSubject<string> = new BehaviorSubject<string>('no aplica');
+  accionComments: BehaviorSubject<string> = new BehaviorSubject<string>('no aplica');
+
   parameters: any;
   private microEfh = environment.efhUrl;
 
@@ -44,6 +47,11 @@ export class EfhService {
   saveObservation(observation): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.microEfh }event/saveObservation`, observation, {params : this.parameters });
+  }
+
+  deleteObservation(id): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.delete( `${ this.microEfh }event/deleteObservation/` + id, {params : this.parameters });
   }
 
   upload(fileObj) {
