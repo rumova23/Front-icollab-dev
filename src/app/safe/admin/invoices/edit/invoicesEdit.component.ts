@@ -240,6 +240,7 @@ export class InvoicesEditComponent implements OnInit {
     this.marketService.getClients(3)
       .subscribe(
         data => {
+            console.dir(data);
           this.clients = data;
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
@@ -413,10 +414,11 @@ export class InvoicesEditComponent implements OnInit {
 
   onSelect(value, input) {
     value = this.invoiceForm.value[input.formControlName];
+    console.dir(value);
     switch (input.formControlName) {
       case 'client':
-        this.getProductsByClient(value.id);
-        this.getClient(value.id);
+        this.getProductsByClient(value);
+        this.getClient(value);
         break;
       case 'sys':
         this.setSysVaue(value.id);

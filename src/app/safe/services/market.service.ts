@@ -11,6 +11,7 @@ import { CreditNote } from '../models/CreditNote';
 import { DebitNote } from '../models/DebitNote';
 import { BranchOfficeCreditNoteSerie } from '../models/BranchOfficeCreditNoteSerie';
 import {GlobalService} from '../../core/globals/global.service';
+import {ProductInDTO} from '../models/product-in-dto';
 
 const httpOptions = {
   headers: new HttpHeaders({

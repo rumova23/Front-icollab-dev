@@ -71,11 +71,8 @@ export class BranchInvoiceSeriesEditComponent implements OnInit {
         data => {
           this.plantBranches = data;
           if (this.entity.readOnly) {
-            this.branchOfficeInvoiceSerieSelected.plantBranchOffice 
-            = this.plantBranches.filter(entity =>
-              entity.id ===   this.branchOfficeInvoiceSerieSelected.idPlantBranchOffice)[0];
-            this.branchOfficeInvoiceSerieSelected.sys 
-            = this.systems.filter(entity =>
+            this.branchOfficeInvoiceSerieSelected.plantBranchOffice = this.plantBranches.filter(entity => entity.id ===   this.branchOfficeInvoiceSerieSelected.idPlantBranchOffice)[0];
+            this.branchOfficeInvoiceSerieSelected.sys = this.systems.filter(entity =>
               entity.id ===   this.branchOfficeInvoiceSerieSelected.idSys)[0];
           } else {
             this.branchOfficeInvoiceSerie = {} as BranchOfficeInvoiceSerie;
@@ -92,8 +89,7 @@ export class BranchInvoiceSeriesEditComponent implements OnInit {
 
   save(value) {
     this.branchOfficeInvoiceSerie = value;
-    this.branchOfficeInvoiceSerie.idPlantBranchOffice = 
-            this.branchOfficeInvoiceSerie.plantBranchOffice.id;
+    this.branchOfficeInvoiceSerie.idPlantBranchOffice = this.branchOfficeInvoiceSerie.plantBranchOffice.id;
     this.branchOfficeInvoiceSerie.idSys = this.branchOfficeInvoiceSerie.sys.id;
     this.marketService.saveBranchOfficeInvoiceSerie(this.branchOfficeInvoiceSerie)
       .subscribe(
