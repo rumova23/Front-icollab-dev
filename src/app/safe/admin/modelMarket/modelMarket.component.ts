@@ -89,14 +89,10 @@ export class ModelMarketComponent implements OnInit {
       'megawatt11': new FormControl('', Validators.nullValidator),
       'priceMegawatt11': new FormControl('', Validators.nullValidator)
     });
-    //this.date.setDate(this.date.getDate() + 1);
-    //this.loadData();
-    this.colsGroup = ['-', '--', '1', '2', '3', '4', '5','6','7','8','9','10','11'];
-    
+    // this.date.setDate(this.date.getDate() + 1);
+    // this.loadData();
+    this.colsGroup = ['-', '--', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
   }
- 
- 
-
   private loadData() {
     this.marketService.getModelMarket(this.date.getTime())
       .subscribe(
