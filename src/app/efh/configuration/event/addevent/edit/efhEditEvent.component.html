@@ -314,7 +314,7 @@
       </div>
     </div>
   </div>
-      <!-- Aqui van la sección de observaciones -->
+  <!-- Aqui van la sección de observaciones
   <div *ngIf="isDefaultSectionsVisible">
       <div class="section">
         <div class="row">
@@ -343,14 +343,14 @@
               </div>
             </div>
           </div>
-        </div>
-        <!-- Lista de observaciones -->
+        </div> -->
+        <!-- Lista de observaciones
         <div class="row">
           <div class="col">
             <div class="mat-elevation-z0">
               <table mdbTable class="table_catalogo">
                 <thead>
-                <tr><th colspan="4">Historial de observaciones</th></tr>
+                <tr><th colspan="7">Historial de observaciones</th></tr>
                 <tr>
                   <th *ngFor="let head of headObservaciones" scope="col">{{head}} </th>
                 </tr>
@@ -361,6 +361,24 @@
                   <td>{{el.nombre}}</td>
                   <td>{{el.observacion}}</td>
                   <td>{{el.fecha_modificacion | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                  <td>
+                      <mat-checkbox class="active" color="primary"
+                                    (change)="dummy();"
+                                    [checked]="isAddObvsDisabled"
+                                    [disabled]="accion == 'ver'">
+                          <mat-label></mat-label>
+                      </mat-checkbox>
+                  </td>
+                  <td>
+                      <a (click)="dummy()" [ngClass]="{'linkDisabled': accion == 'ver'}">
+                          <img src="assets/images/skins/ico_Editar.png" alt="Editar">
+                      </a>
+                  </td>
+                  <td>
+                      <a (click)="dummy()" [ngClass]="{'linkDisabled': accion == 'ver'}">
+                          <img src="assets/images/skins/ico_Borrar.png" alt="Eliminar">
+                      </a>
+                  </td>
                 </tr>
                 </tbody>
               </table>
@@ -368,9 +386,14 @@
           </div>
         </div>
       </div>
-  </div>
+  </div> -->
   <!-- Observaciones -->
-    <div *ngIf="isDefaultSectionsVisible && (accion == 'ver' || accion=='editar')">
+  <!-- Test -->
+  <div *ngIf="isDefaultSectionsVisible">
+    <app-efh-comments [inIdEventConfig]="eventType.id" [inAction]="accion"></app-efh-comments>
+  </div>
+  <!-- End Test -->
+    <div *ngIf="isDefaultSectionsVisible && eventType.id != 0">
       <app-efh-upload [inIdEventConfig]="eventType.id" [inAccion]="accion"></app-efh-upload>
     </div>
     <div class="section" *ngIf="isDefaultSectionsVisible">

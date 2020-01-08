@@ -1,77 +1,238 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PerfilComboService} from '../../core/services/perfil-combo.service';
 import {GlobalService} from '../../core/globals/global.service';
 import {ToastrManager} from 'ng6-toastr-notifications';
 import {Comentario} from '../../core/models/comentario';
+import {Comment} from '../models/Comment';
+import {EfhService} from '../../core/services/efh.service';
+import {EventMessage} from '../../core/models/EventMessage';
+import {ConfirmationDialogService} from '../../core/services/confirmation-dialog.service';
+import {first} from 'rxjs/operators';
+import {debug} from 'util';
+import {EventBlocked} from '../../core/models/EventBlocked';
+import {EventService} from '../../core/services/event.service';
 
 @Component({
   selector: 'app-efh-comments',
   templateUrl: './efh-comments.component.html',
   styleUrls: ['./efh-comments.component.scss']
 })
-export class EfhCommentsComponent implements OnInit {
+export class EfhCommentsComponent implements OnInit, OnDestroy {
   @Input() inIdEventConfig: number;
+  @Input() inAction: string;
   calificacionId: number;
-  headObservaciones = ['#', 'Nombre', 'Observaciones', 'Fecha de ultima modificación'];
-  typeDocuments = ['Documentos', 'Registros', 'Referencias'];
-  observacioes: Array<any>;
-  titleDocument: Array<any>;
+  headObservaciones = ['#', 'Nombre', 'Observaciones', 'Fecha de ultima modificación', 'Visible', 'Editar', 'Eliminar'];
+  observationsArr: Array<any>;
+  dataObservationSumbit = {};
   obsForm: FormGroup;
   submitted = false;
   isdisabled = false;
+  resultService;
+  isAddObvsDisabled = true;
+  checkedEstatus = true;
+  currentComment: any;
+  obvsSaved = false;
+  subscription;
 
-  constructor(private comentarios: PerfilComboService,
+  constructor(public efhService: EfhService,
               public globalService: GlobalService,
+              private eventService: EventService,
+              private confirmationDialogService: ConfirmationDialogService,
               private formBuildier: FormBuilder, public toastr: ToastrManager) {
-    this.observacioes = [];
+    this.observationsArr = [];
+    this.subscription = this.efhService.accionComments.subscribe(
+        accion => {
+          if (accion.includes('savenewcommentsevent|') && this.observationsArr.length !== 0) {
+            const idEvent = Number((accion.split('|')[1]));
+            this.saveObservations(idEvent);
+            this.inIdEventConfig = idEvent;
+            this.ngOnInit();
+          }
+          if (accion === 'updatecommentscomponent') {
+            this.observationsArr = [];
+            this.ngOnInit();
+          }
+        }
+    );
   }
 
   ngOnInit() {
     this.obsForm = this.formBuildier.group({
-      fObserva: [{ value: '', disabled: this.isdisabled }, Validators.required]
+      observations: [{ value: '', disabled: this.isdisabled }, Validators.required]
     });
-    this.getObservations();
+    if (this.inAction === 'ver') {
+      this.isAddObvsDisabled = true;
+    }
+    this.getObservations(this.inIdEventConfig);
+  }
+
+  ngOnDestroy(): void {
+      this.subscription.unsubscribe();
   }
 
   get f() { return this.obsForm.controls; }
 
-  onSubmit() {
-    this.submitted = true;
-    if (this.obsForm.invalid) {
-      this.toastr.errorToastr('Error, Debe de escribir un comentario.', 'Oops!');
-      return;
+  getObservations(idEventConfig: number) {
+    this.addBlock(1, 'Cargando...');
+    this.efhService.getObservations(idEventConfig).subscribe(
+        data => {
+            debugger;
+          this.resultService = data;
+          for (const element of this.resultService) {
+            this.observationsArr.push(new Comment(element.id, element.ideventconfig, 'tester', element.observation, new Date(element.dateobservation), element.active, true));
+          }
+        }
+    ).add(() => {
+        this.addBlock(2, null);
+    });
+  }
+
+  private addBlock(type, msg): void {
+      this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
+
+  saveObservations(idEventConfig: number) {
+    const observationsArrAux = this.observationsArr;
+    for (const comment of observationsArrAux) {
+      this.dataObservationSumbit = {};
+      this.dataObservationSumbit['ideventconfig'] = idEventConfig;
+      this.dataObservationSumbit['observation'] = comment.observacion;
+      this.dataObservationSumbit['dateobservation'] = comment.fecha_modificacion;
+      this.dataObservationSumbit['active'] = comment.active;
+      this.dataObservationSumbit['save'] = true;
+      this.efhService.saveObservation(this.dataObservationSumbit).subscribe(
+          data => {
+              console.log('exito obs');
+          },
+          error => {
+              console.log('error obs');
+          }
+      );
     }
-    this.saveObservation();
-    this.toastr.successToastr('Observacion enviada satisfactoriamente.', 'Success!');
+     this.isAddObvsDisabled = true;
+     this.observationsArr = [];
   }
 
-  resuelveDS(comenta) {
-    this.observacioes.push(
-        new Comentario(comenta.idUsr, comenta.nombre, comenta.observacion, comenta.fecha_modificacion));
+  saveObservation(idEventConfig: number, comment: string) {
+    this.dataObservationSumbit = {};
+    this.dataObservationSumbit['ideventconfig'] = idEventConfig;
+    this.dataObservationSumbit['observation'] = comment;
+    this.dataObservationSumbit['dateobservation'] = new Date();
+    this.dataObservationSumbit['active'] = true;
+    this.dataObservationSumbit['save'] = true;
+    this.efhService.saveObservation(this.dataObservationSumbit).subscribe(
+        data => {
+          this.toastr.successToastr('La observación fue registrada con éxito.', '¡Se ha logrado!');
+          this.efhService.accionComments.next('updatecommentscomponent');
+        },
+        error => {
+          this.toastr.errorToastr(error.error['text'], 'Lo siento,');
+        }
+    );
   }
 
-  getObservations() {
-    this.comentarios.obtenCalificacion(this.inIdEventConfig).subscribe(
-        calificacion => {
-          this.comentarios.getComentarios(calificacion.calificacionId).subscribe(
-              data => {
-                data.comentario.forEach(comenta => {
-                  this.resuelveDS(comenta);
-                });
-              });
-        });
+  updateObservation(comment: any) {
+    this.dataObservationSumbit = {};
+    this.dataObservationSumbit['id'] = comment.id;
+    this.dataObservationSumbit['ideventconfig'] = comment.ideventconfig;
+    this.dataObservationSumbit['observation'] = comment.observacion;
+    this.dataObservationSumbit['dateobservation'] = comment.fecha_modificacion;
+    this.dataObservationSumbit['active'] = comment.active;
+    this.dataObservationSumbit['save'] = false;
+    this.efhService.saveObservation(this.dataObservationSumbit).subscribe(
+        data => {
+          this.toastr.successToastr('La observación fue actualizada con éxito.', '¡Se ha logrado!');
+          this.efhService.accionComments.next('updatecommentscomponent');
+        },
+        error => {
+          this.toastr.errorToastr(error.error['text'], 'Lo siento, no fue posible eliminar la observación');
+        }
+    );
   }
 
-  saveObservation() {
-    const obsva = this.obsForm.controls.fObserva.value;
-    this.comentarios.obtenCalificacion(this.inIdEventConfig).subscribe(
-        calificacion => {
-          this.comentarios.postObservaciones(calificacion.calificacionId, obsva).subscribe(comenta => {
-            this.observacioes.push(
-                new Comentario(comenta.idUsr, comenta.nombre, comenta.observacion, comenta.fecha_modificacion));
-          });
-        });
+  visibleObservation(comment: any) {
+    this.dataObservationSumbit = {};
+    this.dataObservationSumbit['id'] = comment.id;
+    this.dataObservationSumbit['ideventconfig'] = comment.ideventconfig;
+    this.dataObservationSumbit['observation'] = comment.observacion;
+    this.dataObservationSumbit['dateobservation'] = comment.fecha_modificacion;
+    this.dataObservationSumbit['active'] = !comment.active;
+    this.dataObservationSumbit['save'] = false;
+    this.efhService.saveObservation(this.dataObservationSumbit).subscribe(
+        data => {
+          this.toastr.successToastr('La observación fue actualizada con éxito.', '¡Se ha logrado!');
+          this.efhService.accionComments.next('updatecommentscomponent');
+        },
+        error => {
+          this.toastr.errorToastr(error.error['text'], 'Lo siento, no fue posible eliminar la observación');
+        }
+    );
+  }
+
+  setToEdit(comment: any) {
+    this.currentComment = comment;
+    this.obsForm.controls.observations.setValue(comment.observacion);
+  }
+
+  addObservation() {
+    if (this.inAction === 'editar') {
+      if (this.currentComment) {
+        this.currentComment.observacion = this.obsForm.controls.observations.value;
+        this.updateObservation(this.currentComment);
+        this.currentComment = null;
+      } else {
+        this.saveObservation(this.inIdEventConfig, this.obsForm.controls.observations.value);
+      }
+    } else {
+      const obser = this.obsForm.controls.observations.value;
+      if (obser === null || obser === '') {
+        this.toastr.errorToastr('No se puede agregar una observación vacía', 'Lo siento,');
+      } else {
+        this.obsForm.controls.observations.setValue('');
+        if (this.inAction === 'nuevo') {
+          this.observationsArr.push(new Comment('1', '', 'tester', obser, new Date(), true, false));
+        } else {
+          this.saveObservation(this.inIdEventConfig, obser);
+        }
+        this.isAddObvsDisabled = true;
+      }
+    }
+  }
+
+  enableSaveButton() {
+    if (this.inAction !== 'ver') {
+      this.isAddObvsDisabled = false;
+    }
+  }
+
+  eliminarRegistro(id: number) {
+    this.confirmationDialogService.confirm('Por favor, confirme..',
+        'Está seguro de eliminar la observación?')
+        .then((confirmed) => {
+          if (confirmed) {
+            this.efhService.deleteObservation(id)
+                .subscribe(
+                    data => {
+                      this.toastr.successToastr('La observación fué eliminada correctamente', '¡Se ha logrado!');
+                      this.efhService.accionComments.next('updatecommentscomponent');
+                    }
+                    , error => {
+                      if (error.error['text'] === 'OK') {
+                        this.toastr.successToastr('La observación fué eliminada correctamente', '¡Se ha logrado!');
+                        this.efhService.accionComments.next('updatecommentscomponent');
+                      } else {
+                        this.toastr.errorToastr(error.error['text'], 'Lo siento,');
+                      }
+                    },
+                );
+          }
+        })
+        .catch(() => console.log('Canceló eliminar'));
+  }
+
+  dummy() {
+
   }
 
 }
