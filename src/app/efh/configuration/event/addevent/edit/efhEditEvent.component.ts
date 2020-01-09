@@ -378,32 +378,37 @@ export class EfhEditEventComponent implements OnInit {
                           this.efhService.setEvent(this.dataSubmit)
                               .subscribe(
                                   dataBack => {
-                                      if (this.accion === 'nuevo') {
-                                          this.toastr.successToastr('El evento fue creada con éxito.', '¡Se ha logrado!');
-                                      }
-                                      if (this.accion === 'editar') {
-                                          this.toastr.successToastr('El evento fue actualizado con éxito.', '¡Se ha logrado!');
-                                      }
 
-                                      if (this.isShotSectionVisible) {
-                                          this.shotControlsEnabled(false);
-                                      } else if (this.isRejectSectionVisible) {
-                                          this.rejectControlsEnabled(false);
-                                      } else if (this.isRunbackSectionVisible) {
-                                          this.runbackConstrolsEnabled(false);
-                                      } else if (this.isStopSectionVisible) {
-                                          this.stopControlsEnabled(false);
-                                      } else if (this.isDieselSectionVisible) {
-                                          this.dieselControlsEnabled(false);
-                                      } else if (this.isNormalOperationSectionVisible) {
-                                          this.normalOperationControlsEnabled(false);
-                                      }
+                                      if (dataBack['code'] === -100) {
+                                          this.toastr.errorToastr('No es posible actualizar, existe un evento activo que se empalma', 'Lo siento,');
+                                      } else {
+                                          if (this.accion === 'nuevo') {
+                                              this.toastr.successToastr('El evento fue creada con éxito.', '¡Se ha logrado!');
+                                          }
+                                          if (this.accion === 'editar') {
+                                              this.toastr.successToastr('El evento fue actualizado con éxito.', '¡Se ha logrado!');
+                                          }
 
-                                      this.selectControlsEnabled(false);
-                                      this.defaultConstrolsEnabled(false);
-                                      this.deshabiliarEstatus = true;
-                                      this.isAddObvsDisabled = true;
-                                      this.disabledSave = true;
+                                          if (this.isShotSectionVisible) {
+                                              this.shotControlsEnabled(false);
+                                          } else if (this.isRejectSectionVisible) {
+                                              this.rejectControlsEnabled(false);
+                                          } else if (this.isRunbackSectionVisible) {
+                                              this.runbackConstrolsEnabled(false);
+                                          } else if (this.isStopSectionVisible) {
+                                              this.stopControlsEnabled(false);
+                                          } else if (this.isDieselSectionVisible) {
+                                              this.dieselControlsEnabled(false);
+                                          } else if (this.isNormalOperationSectionVisible) {
+                                              this.normalOperationControlsEnabled(false);
+                                          }
+
+                                          this.selectControlsEnabled(false);
+                                          this.defaultConstrolsEnabled(false);
+                                          this.deshabiliarEstatus = true;
+                                          this.isAddObvsDisabled = true;
+                                          this.disabledSave = true;
+                                      }
 
                                       /*
                                       for (const comment of this.observationsArr) {
