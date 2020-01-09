@@ -34,6 +34,7 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
   currentComment: any;
   obvsSaved = false;
   subscription;
+  delay = ms => new Promise(res => setTimeout(res, ms));
 
   constructor(public efhService: EfhService,
               public globalService: GlobalService,
@@ -42,11 +43,12 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
               private formBuildier: FormBuilder, public toastr: ToastrManager) {
     this.observationsArr = [];
     this.subscription = this.efhService.accionComments.subscribe(
-        accion => {
+        async accion => {
           if (accion.includes('savenewcommentsevent|') && this.observationsArr.length !== 0) {
             const idEvent = Number((accion.split('|')[1]));
             this.saveObservations(idEvent);
             this.inIdEventConfig = idEvent;
+            await this.delay(1000);
             this.ngOnInit();
           }
           if (accion === 'updatecommentscomponent') {
