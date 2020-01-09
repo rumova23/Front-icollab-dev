@@ -91,15 +91,11 @@ export class ChargeEditComponent implements OnInit {
       this.marketService.validateCharge({
         file: this.file,
         name: this.fileName, idTypeCharge: this.getTypeCharge()
-      })
-        .subscribe(
-          data => {
-
+      }).subscribe(data => {
             if (data.success) {
-              if (data.message === "ok") {
+              if (data.message === 'ok') {
                 this.save();
               } else {
-
                 this.confirmationDialogService.confirm('Confirmación', data.message)
                   .then((confirmed) => this.confirm(confirmed))
                   .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
