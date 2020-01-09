@@ -291,7 +291,8 @@ export class InvoicesEditComponent implements OnInit {
   }
 
   getInvoice() {
-    this.marketService.getInvoice(this.invoiceSelected)
+
+    this.marketService.getInvoice(this.invoiceSelected.id)
       .subscribe(
         data => {
           this.invoiceSelected = data;
@@ -336,6 +337,7 @@ export class InvoicesEditComponent implements OnInit {
                         entity.id === this.invoiceProducts[i].idProduct)[0];
                     }
                     this.productsDatasource.data = this.invoiceProducts;
+                    console.dir(this.invoiceSelected);
                     this.invoiceForm.patchValue(this.invoiceSelected);
                     this.invoiceForm.disable();
                   },
@@ -524,6 +526,10 @@ export class InvoicesEditComponent implements OnInit {
   }
 
   save(value) {
+      console.dir('RTC');
+      console.dir(value);
+      console.dir(this.plantSelected);
+      console.dir('RTC');
     if (!Validate(this.invoiceProducts)
       || this.invoiceProducts.length === 0) {
       this.toastr.errorToastr("Los productos de la factura no pueden ser vacíos",
@@ -531,16 +537,16 @@ export class InvoicesEditComponent implements OnInit {
       return;
     }
     this.invoice = value;
-    this.invoice.idSys = value.sys.id;
+    this.invoice.idSys = value.sys;
     this.invoice.idPlantBranchOffice = value.plantBranchOffice.id;
-    this.invoice.idPlantDirection = value.plantDirection.id,
-      this.invoice.idClient = value.client.id;
-    this.invoice.idMoney = value.money.id;
-    this.invoice.idPaymentMethod = value.paymentMethod.id;
-    this.invoice.idPaymentCondition = value.paymentCondition.id;
-    this.invoice.idPaymentWay = value.paymentWay.id;
-    this.invoice.idUseCfdi = value.useCfdi.id;
-    this.invoice.idTypeRelation = value.typeRelation.id;
+    this.invoice.idPlantDirection = value.plantDirection.id;
+    this.invoice.idClient = value.client;
+    this.invoice.idMoney = value.money;
+    this.invoice.idPaymentMethod = value.paymentMethod;
+    this.invoice.idPaymentCondition = value.paymentCondition;
+    this.invoice.idPaymentWay = value.paymentWay;
+    this.invoice.idUseCfdi = value.useCfdi;
+    this.invoice.idTypeRelation = value.typeRelation;
     this.invoice.idPlantFiscalData = this.plantSelected.fiscalData.id;
     this.invoice.idClientFiscalData = this.clientSelected.fiscalData.id;
     this.invoice.save = this.entity.new;

@@ -588,6 +588,7 @@ export class SafeHomeComponent implements OnInit {
 			this.componentFactoryResolver.resolveComponentFactory(InvoicesEditComponent);
 			const refInvoicesEdit =
 			this.viewContainerRef.createComponent(factoryInvoicesEdit);
+			console.dir(event);
 			refInvoicesEdit.instance.entity = event.data;
 			if (Validate(event.data.invoice)) {
 			refInvoicesEdit.instance.invoiceSelected =

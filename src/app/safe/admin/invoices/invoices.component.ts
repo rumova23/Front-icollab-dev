@@ -19,7 +19,6 @@ import { Invoice } from '../../models/Invoice';
 })
 
 export class InvoicesComponent implements OnInit {
- 
   loading: boolean;
   cols: any[];
   filters = [

@@ -75,7 +75,7 @@ export class MarketService {
 
   saveFuecd(data): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(environment.fuecdUrl + 'save', data, {params : this.parameters });
+    return this.http.post(environment.fuecdUrl + 'fuecd/save', data, {params : this.parameters });
   }
 
   saveFuecdInvoice(data): Observable<any> {
@@ -100,17 +100,17 @@ export class MarketService {
 
   getFuecds():Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get(environment.fuecdUrl + 'list', {params : this.parameters });
+    return this.http.get(environment.fuecdUrl + 'fuecd/list', {params : this.parameters });
   }
 
   getFuecd(id:number):Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get(environment.fuecdUrl + 'get/' + id, {params : this.parameters });
+    return this.http.get(environment.fuecdUrl + 'fuecd/get/' + id, {params : this.parameters });
   }
 
   validateFuecd(data): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(environment.fuecdUrl + 'validate', data, {params : this.parameters });
+    return this.http.post(environment.fuecdUrl + 'fuecd/validate', data, {params : this.parameters });
   }
 
   downloadCharge(idTypeCharge): Observable<any>  {
