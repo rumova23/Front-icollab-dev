@@ -24,7 +24,7 @@ import { ConfirmationDialogService } from 'src/app/core/services/confirmation-di
   ]
 })
 
-export class EnergyEditComponent implements OnInit {
+export class     EnergyEditComponent implements OnInit {
   energyForm: FormGroup;
   file: any;
   fileName: any;
@@ -126,6 +126,8 @@ export class EnergyEditComponent implements OnInit {
       .subscribe(
         dataS => {
           console.log(dataS);
+
+          this.toastr.successToastr(this.typeEnergy + '. Correctamente importado.', '¡Se ha logrado!');
         },
         errorDataS => {
           this.energyForm.reset();

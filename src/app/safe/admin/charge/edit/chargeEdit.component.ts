@@ -127,6 +127,7 @@ export class ChargeEditComponent implements OnInit {
       .subscribe(
         dataS => {
           console.log(dataS);
+          this.toastr.successToastr(this.typeCharge + '. Correctamente importado.', '¡Se ha logrado!');
         },
         errorDataS => {
 
