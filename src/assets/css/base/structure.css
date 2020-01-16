@@ -1,6 +1,11 @@
-html, body{
+html{
+    position      : relative;
     width         : 100%;
-    height        : 100%;
+    min-height    : 100%;
+}
+body{
+    width         : 100%;
+    min-height    : 100%;
 }
 header, section, footer, aside, nav, article, figure, figcaption,
 hgroup{
@@ -24,11 +29,11 @@ body{
     overflow-x    : hidden;
     transition    : 0.5s;
 
-    position: fixed;
-    background: #ffffff;
-    z-index: 3;
-    overflow-y: scroll;
-    max-height: calc(100% - 57px);
+    position      : fixed;
+    background    : #ffffff;
+    z-index       : 3;
+    overflow-y    : scroll;
+    max-height    : calc(100% - 57px);
 	padding-bottom: 80px;
 }
 
@@ -41,8 +46,10 @@ body{
     clear         : both; 
     text-align    : center;
     padding       : 20px;
-    position      : relative;
+    position      : absolute;
+    bottom        : 0px;
     z-index       : 4;
+    width         : 100%;
 }
 aside{
     height        : 100%;
