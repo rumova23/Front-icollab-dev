@@ -112,7 +112,10 @@ export class MarketService {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post(environment.fuecdUrl + 'fuecd/validate', data, {params : this.parameters });
   }
-
+  validateProposalAccepted(data): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.post(environment.mmmercadoUrl + 'validate', data, {params : this.parameters });
+  }
   downloadCharge(idTypeCharge): Observable<any>  {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(environment.weatherUrl + 'charge/download/' + idTypeCharge, {params : this.parameters });

@@ -45,6 +45,7 @@ import { InvoicesComponent } from './admin/invoices/invoices.component';
 import { FuecdComponent } from './admin/fuecd/fuecd.component';
 import { FuecdEditComponent } from './admin/fuecd/edit/fuecdEdit.component';
 import { FuecdInvoiceComponent } from './admin/fuecd/invoice/fuecdInvoice.component';
+import { ProposalAcceptedComponent } from './admin/modelMarket/proposal-accepted/proposalAccepted.component';
 import { FinancialIndexesComponent } from './admin/financialIndexes/financialIndexes.component';
 import { InppComponent } from './admin/inpp/inpp.component';
 import { UsppiComponent } from './admin/usppi/usppi.component';
@@ -124,7 +125,7 @@ import { MonitoringJobsComponent } from './admin/monitoring/monitoringJobs.compo
         StatesComponent, StatesEditComponent, MoneysComponent, MoneysEditComponent,
         BranchInvoiceSeriesComponent, BranchInvoiceSeriesEditComponent,
         InvoicesEditComponent, InvoicesComponent, FuecdComponent, FuecdEditComponent,
-        FuecdInvoiceComponent, FinancialIndexesComponent, InppComponent, UsppiComponent,
+        FuecdInvoiceComponent, ProposalAcceptedComponent, FinancialIndexesComponent, InppComponent, UsppiComponent,
         CreditNotesComponent, DebitNotesComponent,
         CreditNotesEditComponent, DebitNotesEditComponent,
         WeatherEditComponent, WeatherPpaComponent,
@@ -164,8 +165,6 @@ MonitoringJobsComponent,
 
 
         ComponentsModule,
-        
-        
 
     HttpClientModule,
     DropdownModule.forRoot(),

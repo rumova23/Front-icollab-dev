@@ -1,3 +1,4 @@
+/* tslint:disable:indent */
 import { Component, OnInit                        } from '@angular/core';
 import { ComponentFactoryResolver                 } from '@angular/core';
 import { ViewChild, ViewContainerRef, Input       } from '@angular/core';
@@ -59,6 +60,7 @@ import { ModelMarketComponent                     } from '../admin/modelMarket/m
 import { PpaComponent                             } from '../admin/modelMarket/ppa/ppa.component';
 import { BranchCreditNoteSeriesComponent          } from '../admin/branchCreditNoteSeries/branchCreditNoteSeries.component';
 import { BranchCreditNoteSeriesEditComponent      } from '../admin/branchCreditNoteSeries/edit/branchCreditNoteSeriesEdit.component';
+import { ProposalAcceptedComponent				  } from '../admin/modelMarket/proposal-accepted/proposalAccepted.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -66,70 +68,71 @@ import { BranchCreditNoteSeriesEditComponent      } from '../admin/branchCreditN
 	styleUrls       : ['./safeHome.component.scss'],
   	entryComponents : [
 		ProductsComponent
-		,ProductsEditComponent
-		,ChangePasswordComponent
-		,UnityProductsComponent
-		,UnityProductsEditComponent
-		,ClientsComponent
-		,ClientsEditComponent
-		,CatalogGenericComponent
-		,CatalogGenericEditComponent
-		,PmlComponent
-		,WeatherComponent
-		,PlantsEditComponent
-		,PlantsComponent
-		,FiscalRegimensSatComponent
-		,MoneysSatComponent
-		,PaymentMethodsSatComponent
-		,PaymentWaysSatComponent
-		,ProductsSatComponent
-		,RatesIvaSatComponent
-		,UnityProductsSatComponent
-		,UsesCfdiSatComponent
-		,TypesRelationSatComponent
-		,StatesComponent
-		,StatesEditComponent
-		,MoneysComponent
-		,MoneysEditComponent
-		,BranchInvoiceSeriesComponent
-		,BranchInvoiceSeriesEditComponent
-		,InvoicesEditComponent
-		,InvoicesComponent
-		,FuecdComponent
-		,FuecdEditComponent
-		,FuecdInvoiceComponent
-		,FinancialIndexesComponent
-		,InppComponent
-		,UsppiComponent
-		,CreditNotesComponent
-		,DebitNotesComponent
-		,CreditNotesEditComponent
-		,DebitNotesEditComponent
-		,WeatherEditComponent
-		,WeatherPpaComponent
-		,ChargeEditComponent
-		,ChargePpaComponent
-		,EnergyEditComponent
-		,EnergyPpaComponent
-		,ModelMarketComponent
-		,BranchCreditNoteSeriesComponent
-		,BranchCreditNoteSeriesEditComponent
-		,PpaComponent
+		, ProductsEditComponent
+		, ChangePasswordComponent
+		, UnityProductsComponent
+		, UnityProductsEditComponent
+		, ClientsComponent
+		, ClientsEditComponent
+		, CatalogGenericComponent
+		, CatalogGenericEditComponent
+		, PmlComponent
+		, WeatherComponent
+		, PlantsEditComponent
+		, PlantsComponent
+		, FiscalRegimensSatComponent
+		, MoneysSatComponent
+		, PaymentMethodsSatComponent
+		, PaymentWaysSatComponent
+		, ProductsSatComponent
+		, RatesIvaSatComponent
+		, UnityProductsSatComponent
+		, UsesCfdiSatComponent
+		, TypesRelationSatComponent
+		, StatesComponent
+		, StatesEditComponent
+		, MoneysComponent
+		, MoneysEditComponent
+		, BranchInvoiceSeriesComponent
+		, BranchInvoiceSeriesEditComponent
+		, InvoicesEditComponent
+		, InvoicesComponent
+		, FuecdComponent
+		, FuecdEditComponent
+		, FuecdInvoiceComponent
+		, FinancialIndexesComponent
+		, InppComponent
+		, UsppiComponent
+		, CreditNotesComponent
+		, DebitNotesComponent
+		, CreditNotesEditComponent
+		, DebitNotesEditComponent
+		, WeatherEditComponent
+		, WeatherPpaComponent
+		, ChargeEditComponent
+		, ChargePpaComponent
+		, EnergyEditComponent
+		, EnergyPpaComponent
+		, ModelMarketComponent
+		, BranchCreditNoteSeriesComponent
+		, BranchCreditNoteSeriesEditComponent
+		, PpaComponent
+		, ProposalAcceptedComponent
   	]
 })
 
 export class SafeHomeComponent implements OnInit {
 	@ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
-  	private subscriptions : Subscription[] = [];
+  	private subscriptions: Subscription[] = [];
 
 	constructor(
-		 private route                    : ActivatedRoute
-		,public  globalService            : GlobalService
-		,private componentFactoryResolver : ComponentFactoryResolver
-		,private eventService             : EventService
-		,private securityService          : SecurityService
-		,public  theme                    : ThemeService
-	){
+		private route: ActivatedRoute,
+		public  globalService: GlobalService,
+		private componentFactoryResolver: ComponentFactoryResolver,
+		private eventService: EventService,
+		private securityService: SecurityService,
+		public  theme: ThemeService
+	) {
 		this.subscriptions.push(this.eventService.onChangeMainSafe.subscribe({
 		next: (event: EventMessage) => {
 				this.clickMenu(event);
@@ -138,45 +141,45 @@ export class SafeHomeComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		//let url = `/assets/css/base/respaldo.css`;
-		//document.getElementById("content_theme").setAttribute('href',url);
+		// let url = `/assets/css/base/respaldo.css`;
+		// document.getElementById("content_theme").setAttribute('href',url);
 		this.subscribeOnChangePage();
-	}	
+	}
 
 	ngAfterViewInit() {
-		//this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceWelcomeComponent));
+		// this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceWelcomeComponent));
 		this.eventService.sendMainSafe(new EventMessage(101, {
 			typeEnergy: 'Factor de Potencia'
 		}));
 	}
 
-	ngOnDestroy(){
+	ngOnDestroy() {
 		for (const iterator in this.subscriptions) {
 			this.subscriptions[iterator].unsubscribe();
 		}
 	}
-	  
-  	inputHeaderComponent(event: EventMessage){
+
+  	inputHeaderComponent(event: EventMessage) {
 		this.eventService.sendMainSafe(event);
 	}
 
-	subscribeOnChangePage(){
+	subscribeOnChangePage() {
 		this.subscriptions.push(this.eventService.onChangePage.subscribe({
 			next: (event: EventMessage) => {
 				let banderaTemporal = false;
-				
+
 				this.viewContainerRef.clear();
-				switch(event.descriptor){
+				switch (event.descriptor) {
 					case 'Safe.Monedas SAT':
 						// 202;
 						banderaTemporal = true;
-						
+
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(MoneysSatComponent)
 						).changeDetectorRef.detectChanges();
 						break;
 					case 'Safe.Consulta Clima':
-						//33
+						// 33
 						banderaTemporal = true;
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(
@@ -185,7 +188,7 @@ export class SafeHomeComponent implements OnInit {
 						).changeDetectorRef.detectChanges();
 						break;
 					case 'Safe.Modelo Matemático - Mercado':
-						//38
+						// 38
 						banderaTemporal = true;
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(
@@ -202,13 +205,13 @@ export class SafeHomeComponent implements OnInit {
 						).changeDetectorRef.detectChanges();
 						break;
 				}
-				if(banderaTemporal) return;
+				if (banderaTemporal) { return; }
 				let option = 0;
-				let catalog: string = "";
-				let typeWeather: string = "";
-				let typeCharge: string = "";
-				let typeEnergy: string = "";
-				let item = event.data;
+				let catalog = '';
+				let typeWeather = '';
+				let typeCharge = '';
+				let typeEnergy = '';
+				const item = event.data;
 				switch (event.data.label) {
 				case 'Servicios':
 					option = 3;
@@ -224,73 +227,73 @@ export class SafeHomeComponent implements OnInit {
 					break;
 				case 'Sistemas':
 					option = 9;
-					catalog = "sys";
+					catalog = 'sys';
 					break;
 				case 'Tipos de Cliente':
 					option = 9;
-					catalog = "typeClient";
+					catalog = 'typeClient';
 					break;
 				case 'Tipos de Producto':
 					option = 9;
-					catalog = "typeProduct";
+					catalog = 'typeProduct';
 					break;
 				case 'Condiciones de Pago':
 					option = 9;
-					catalog = "paymentCondition";
+					catalog = 'paymentCondition';
 					break;
 				case 'Países':
 					option = 9;
-					catalog = "country";
+					catalog = 'country';
 					break;
 				case 'Bancos':
 					option = 9;
-					catalog = "bank";
+					catalog = 'bank';
 					break;
 				case 'Contrato Afectado':
 					option = 9;
-					catalog = "contractAffected";
+					catalog = 'contractAffected';
 					break;
 				case 'Equipos':
 					option = 9;
-					catalog = "listEquipment";
+					catalog = 'listEquipment';
 					break;
 				case 'Unidades de Generación':
 					option = 9;
-					catalog = "generationUnits";
+					catalog = 'generationUnits';
 					break;
 				case 'Valores de Tolerancia':
 					option = 9;
-					catalog = "valuesTolerance";
+					catalog = 'valuesTolerance';
 					break;
 				case 'Fuentes Generadoras':
 					option = 9;
-					catalog = "generatingSources";
+					catalog = 'generatingSources';
 					break;
 				case 'Tipos de Despacho':
 					option = 9;
-					catalog = "typesOffice";
+					catalog = 'typesOffice';
 					break;
 				case 'Tipos MEM':
 					option = 9;
-					catalog = "typesMem";
+					catalog = 'typesMem';
 					break;
 				case 'Estatus de Bitácora':
 					option = 9;
-					catalog = "statusBinnacle";
+					catalog = 'statusBinnacle';
 					break;
 				case 'Estatus de Factura':
 					option = 9;
-					catalog = "statusInvoice";
+					catalog = 'statusInvoice';
 					break;
 				case 'Estatus de Pago Factura':
 					option = 9;
-					catalog = "statusInvoicePayment";
+					catalog = 'statusInvoicePayment';
 					break;
 				case 'Estatus de Aprobación Bitácora':
 					option = 9;
-					catalog = "statusBinnacleApproval";
+					catalog = 'statusBinnacleApproval';
 					break;
-			
+
 				case 'Pml':
 					option = 11;
 					break;
@@ -335,56 +338,56 @@ export class SafeHomeComponent implements OnInit {
 					break;
 				case 'Carga Humedad':
 					option = 32;
-					typeWeather = "Humedad";
+					typeWeather = 'Humedad';
 					break;
 				case 'Carga Presión Barométrica':
 					option = 32;
-					typeWeather = "Presión Barométrica";
+					typeWeather = 'Presión Barométrica';
 					break;
 				case 'Carga Temperatura':
 					option = 32;
-					typeWeather = "Temperatura";
+					typeWeather = 'Temperatura';
 					break;
 				case 'Consulta Clima':
 					option = 33;
 					break;
 				case 'Carga Cargo Fijo':
 					option = 34;
-					typeCharge = "Cargo Fijo"
+					typeCharge = 'Cargo Fijo';
 					break;
 				case 'Carga Cargo Variable':
 					option = 34;
-					typeCharge = "Cargo Variable"
+					typeCharge = 'Cargo Variable';
 					break;
 				case 'Carga Gas':
 					option = 34;
-					typeCharge = "Gas"
+					typeCharge = 'Gas';
 					break;
 				case 'Carga HR / MW':
 					option = 34;
-					typeCharge = "HR / MW"
+					typeCharge = 'HR / MW';
 					break;
 				case 'Carga Margen x MM':
 					option = 34;
-					typeCharge = "Margen x MM"
+					typeCharge = 'Margen x MM';
 					break;
 				case 'Carga Otros':
 					option = 34;
-					typeCharge = "Otros"
+					typeCharge = 'Otros';
 					break;
 				case 'Consulta Cargos':
 					option = 35;
 					break;
 				case 'Carga Poder Calorífico Inferior':
 					option = 36;
-					typeEnergy = "Poder Calorífico Inferior"
+					typeEnergy = 'Poder Calorífico Inferior';
 					break;
 				case 'Carga Factor de Potencia':
 					option = 36;
-					typeEnergy = "Factor de Potencia"
+					typeEnergy = 'Factor de Potencia';
 					break;
-			
-					
+
+
 				case 'Consulta Variables Energía':
 					option = 37;
 					break;
@@ -394,7 +397,7 @@ export class SafeHomeComponent implements OnInit {
 				case 'Modelo Matemático - PPA':
 					option = 39;
 					break;
-					
+
 				case 'Regímenes Fiscales SAT':
 					option = 201;
 					break;
@@ -422,15 +425,18 @@ export class SafeHomeComponent implements OnInit {
 				case 'Tipos de Relación SAT':
 					option = 209;
 					break;
+				case 'Proposal Accepted':
+						option = 210;
+						break;
 				}
-				if (option == 9) {
+				if (option === 9) {
 				  this.eventService.sendMainSafe(new EventMessage(option, catalog));
-				} else if (option == 32) {
+				} else if (option === 32) {
 				  this.eventService.sendMainSafe(new EventMessage(option, typeWeather));
-				} else if (option == 34) {
+				} else if (option === 34) {
 				  this.eventService.sendMainSafe(new EventMessage(option, typeCharge));
-				} else if (option == 36) {
-				  this.eventService.sendMainSafe(new EventMessage(option, typeEnergy));  
+				} else if (option === 36) {
+				  this.eventService.sendMainSafe(new EventMessage(option, typeEnergy));
 				} else {
 				  this.eventService.sendMainSafe(new EventMessage(option, item));
 				}
@@ -827,6 +833,13 @@ export class SafeHomeComponent implements OnInit {
 			const refTypesRelationSat =
 			this.viewContainerRef.createComponent(factoryTypesRelationSat);
 			refTypesRelationSat.changeDetectorRef.detectChanges();
+			break;
+		case 210:
+			const factoryProposalAccepted =
+				this.componentFactoryResolver.resolveComponentFactory(ProposalAcceptedComponent);
+			const refProposalAccepted =
+				this.viewContainerRef.createComponent(factoryProposalAccepted);
+			refProposalAccepted.changeDetectorRef.detectChanges();
 			break;
 		}
 	}

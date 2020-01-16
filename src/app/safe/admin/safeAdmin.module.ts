@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ProposalAcceptedComponent } from './modelMarket/proposalAccepted/proposal-accepted.component';
 
 // import { BranchInvoiceSeriesComponent } from './branchInvoiceSeries/branchInvoiceSeries.component';
 
@@ -7,7 +8,7 @@ import { NgModule } from '@angular/core';
   ],
   declarations: [
     // BranchInvoiceSeriesComponent
-  ],
+  ProposalAcceptedComponent],
   exports: [
     // BranchInvoiceSeriesComponent
   ]

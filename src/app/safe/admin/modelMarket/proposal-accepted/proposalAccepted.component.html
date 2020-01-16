@@ -1,0 +1,39 @@
+<div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+    <mdb-breadcrumb-item>Proyeccion</mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">Estado cuenta Aceptado</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+<div class="section">
+  <div class="row pb-2">
+    <div class="col">
+      <span class="agila-cda-titulo">Importar XML - Estado de cuenta aceptado</span>
+    </div>
+  </div>
+  <ng-container>
+    <mdb-card class="mt-4">
+      <mdb-card-body>
+        <form [formGroup]="proposalAcceptedForm" (ngSubmit)="validate(proposalAcceptedForm.value)">
+          <div class="row">
+            <div class="col">
+              Carga<br>
+              <app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+              <mat-error *ngIf="!proposalAcceptedForm.controls['file'].valid
+                  && proposalAcceptedForm.controls['file'].touched">
+                Requerido
+              </mat-error>
+            </div>
+            <div class="col txt-r">
+              <button type="submit" class="btn btn-info right"
+                      [disabled]="!proposalAcceptedForm.valid"
+                      [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+                <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+              </button>
+            </div>
+          </div>
+        </form>
+      </mdb-card-body>
+    </mdb-card>
+  </ng-container>
+</div>
