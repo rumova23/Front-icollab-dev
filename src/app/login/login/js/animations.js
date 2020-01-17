@@ -1,7 +1,7 @@
 export function disenio(){
   $(document).ready(function() {
     //Inicializar de una vez
-    $("body").css({ height: $(window).height() });
+    //$("body").css({ height: $(window).height() });
     $("#container").css({ height: $(window).height() * 2 });
     $("#world").css("display", "block");
     $("#world").css({ bottom: -$(window).height() });
