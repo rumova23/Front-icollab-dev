@@ -2,7 +2,6 @@
 <aside id="columna" 
 	class="scroll_design"
     [ngStyle]="{'width':globalService.aside_open ? '233px' : minwidth }">
-	<div>
 	<div class="row">
 		<div class="col p-0">
 			<div class="user-panel" *ngIf="globalService.aside_open">
@@ -22,5 +21,4 @@
 		</div>
 	</div>
 	<app-shared-sidebar-menu></app-shared-sidebar-menu>
-	</div>
 </aside>

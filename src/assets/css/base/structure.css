@@ -34,7 +34,10 @@ body{
     z-index       : 3;
     overflow-y    : scroll;
     max-height    : calc(100% - 57px);
-	padding-bottom: 80px;
+	
+}
+.aside-menu{
+    padding-bottom: 80px;
 }
 
 #seccion {
