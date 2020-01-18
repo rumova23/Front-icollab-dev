@@ -90,7 +90,9 @@ export class ChargeEditComponent implements OnInit {
       this.fileName = value.file.name;
       this.marketService.validateCharge({
         file: this.file,
-        name: this.fileName, idTypeCharge: this.getTypeCharge()
+        name: this.fileName,
+        idTypeImport: this.getTypeCharge(),
+        nameImport: this.typeCharge
       }).subscribe(data => {
             if (data.success) {
               if (data.message === 'ok') {
@@ -122,7 +124,8 @@ export class ChargeEditComponent implements OnInit {
   private save() {
     this.marketService.saveCharge({
       file: this.file, name: this.fileName,
-      idTypeCharge: this.getTypeCharge()
+      idTypeImport: this.getTypeCharge(),
+      nameImport: this.typeCharge
     })
       .subscribe(
         dataS => {
@@ -140,22 +143,22 @@ export class ChargeEditComponent implements OnInit {
     let option: number = 0;
     switch (this.typeCharge) {
       case 'Cargo Fijo':
-        option = 1;
+        option = 6;
         break;
       case 'Cargo Variable':
-        option = 2;
+        option = 7;
         break;
       case 'Gas':
-        option = 3;
+        option = 8;
         break;
       case 'HR / MW':
-        option = 4;
+        option = 9;
         break;
       case 'Margen x MM':
-        option = 5;
+        option = 10;
         break;
       case 'Otros':
-        option = 6;
+        option = 11;
         break;
     }
     return option;

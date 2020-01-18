@@ -123,12 +123,12 @@ export class MarketService {
 
   validateCharge(data): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(environment.weatherUrl + 'charge/validate', data, {params : this.parameters });
+    return this.http.post(environment.weatherUrl + 'import/validate', data, {params : this.parameters });
   }
 
   saveCharge(data): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(environment.weatherUrl + 'charge/save', data, {params : this.parameters });
+    return this.http.post(environment.weatherUrl + 'import/save', data, {params : this.parameters });
   }
 
   listCharge(time): Observable<any> {
@@ -148,12 +148,12 @@ export class MarketService {
 
   validateWeather(data): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(environment.weatherUrl + 'validate', data, {params : this.parameters });
+    return this.http.post(environment.weatherUrl + 'import/validate', data, {params : this.parameters });
   }
 
   saveWeather(data): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(environment.weatherUrl + 'save', data, {params : this.parameters });
+    return this.http.post(environment.weatherUrl + 'import/save', data, {params : this.parameters });
   }
 
   listWeather(time): Observable<any> {
@@ -173,12 +173,12 @@ export class MarketService {
 
   validateEnergy(data): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(environment.weatherUrl + 'energy/validate', data, {params : this.parameters });
+    return this.http.post(environment.weatherUrl + 'import/validate', data, {params : this.parameters });
   }
 
   saveEnergy(data): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(environment.weatherUrl + 'energy/save', data, {params : this.parameters });
+    return this.http.post(environment.weatherUrl + 'import/save', data, {params : this.parameters });
   }
 
   listEnergy(time): Observable<any> {

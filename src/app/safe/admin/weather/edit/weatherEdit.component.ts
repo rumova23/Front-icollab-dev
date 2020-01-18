@@ -89,7 +89,8 @@ export class WeatherEditComponent implements OnInit {
       this.marketService.validateWeather({
         file: this.file,
         name: this.fileName,
-        idTypeWeather: this.getTypeWeather()
+        idTypeImport: this.getTypeWeather(),
+        nameImport: 'Temperatura'
       })
         .subscribe(
           data => {
@@ -121,8 +122,10 @@ export class WeatherEditComponent implements OnInit {
 
   private save() {
     this.marketService.saveWeather({
-      file: this.file, name: this.fileName,
-      idTypeWeather: this.getTypeWeather()
+      file: this.file,
+      name: this.fileName,
+      idTypeImport: this.getTypeWeather(),
+      nameImport: this.typeWeather
     })
       .subscribe(
         dataS => {

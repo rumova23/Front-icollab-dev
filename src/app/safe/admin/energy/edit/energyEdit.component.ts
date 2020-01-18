@@ -88,7 +88,9 @@ export class     EnergyEditComponent implements OnInit {
       this.fileName = value.file.name;
       this.marketService.validateEnergy({
         file: this.file,
-        name: this.fileName, idTypeEnergy: this.getTypeEnergy()
+        name: this.fileName,
+        idTypeImport: this.getTypeEnergy(),
+        nameImport: this.typeEnergy
       })
         .subscribe(
           data => {
@@ -121,7 +123,8 @@ export class     EnergyEditComponent implements OnInit {
   private save() {
     this.marketService.saveEnergy({
       file: this.file, name: this.fileName,
-      idTypeEnergy: this.getTypeEnergy()
+      idTypeImport: this.getTypeEnergy(),
+      nameImport: this.typeEnergy
     })
       .subscribe(
         dataS => {
@@ -139,10 +142,10 @@ export class     EnergyEditComponent implements OnInit {
     let option: number = 0;
     switch (this.typeEnergy) {
       case 'Poder Calorífico Inferior':
-        option = 1;
+        option = 4;
         break;
       case 'Factor de Potencia':
-        option = 2;
+        option = 5;
         break;
     }
     return option;
