@@ -15,6 +15,7 @@ import { MonitoringPhase2Component           } from './boards/phase2/monitoring-
 import { MonitoringPhase3Component           } from './boards/phase3/monitoring-phase3.component';
 import { InteractiveImageTurbineCT1Component } from './boards/phase3/components/interactive-image-turbine-ct1/interactive-image-turbine-ct1.component';
 import { MonitoringMmMarketComponent         } from './boards/mmMarket/monitoringMmMarket.component';
+import { DemoGraficaDosComponent } from './boards/demo-grafica-dos/demo-grafica-dos.component';
 
 @NgModule({
     declarations:[
@@ -26,7 +27,8 @@ import { MonitoringMmMarketComponent         } from './boards/mmMarket/monitorin
         MonitoringMmMarketComponent,
         MonitoringBaseSocketOnComponent,
         MonitoringChartTR,
-        InteractiveImageTurbineCT1Component
+        InteractiveImageTurbineCT1Component,
+        DemoGraficaDosComponent
     ],
     exports:[
     ],
