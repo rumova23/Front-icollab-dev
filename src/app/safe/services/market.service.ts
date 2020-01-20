@@ -291,6 +291,11 @@ export class MarketService {
     return this.http.get(environment.mmmercadoUrl + 'download/' + time, {params : this.parameters });
   }
 
+  downloadInvoice(id: number): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.marketUrl + 'invoice/download/' + id, {params : this.parameters });
+  }
+
   getConfigWeather(): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(environment.weatherUrl + 'config/', {params : this.parameters });

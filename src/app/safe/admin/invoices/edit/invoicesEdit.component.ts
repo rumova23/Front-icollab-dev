@@ -147,6 +147,8 @@ export class InvoicesEditComponent implements OnInit {
           const result = data;
           this.paymentConditions = result.filter(entity =>
             entity.catalog === 'paymentCondition')[0].data;
+            this.paymentConditions = result.filter(entity =>
+                entity.catalog === 'money')[0].data;
           this.systems = result.filter(entity =>
             entity.catalog === 'sys')[0].data;
           for (var i = 0; i < this.formControls.length; i++) {
@@ -240,7 +242,9 @@ export class InvoicesEditComponent implements OnInit {
     this.marketService.getClients(3)
       .subscribe(
         data => {
+            console.log('getClients');
             console.dir(data);
+            console.log('getClients');
           this.clients = data;
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
@@ -263,7 +267,11 @@ export class InvoicesEditComponent implements OnInit {
     this.marketService.getPlant(1)
       .subscribe(
         data => {
-          this.plantSelected = data;
+            console.log('getPlant');
+            console.dir(data);
+            console.log('getPlant');
+
+            this.plantSelected = data;
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -291,10 +299,12 @@ export class InvoicesEditComponent implements OnInit {
   }
 
   getInvoice() {
-
     this.marketService.getInvoice(this.invoiceSelected.id)
       .subscribe(
         data => {
+            console.log("getInvoice");
+            console.dir(data);
+            console.log("getInvoice");
           this.invoiceSelected = data;
           this.invoiceSelected.client = this.clients.filter(entity =>
             entity.id === this.invoiceSelected.idClient)[0];
@@ -303,16 +313,19 @@ export class InvoicesEditComponent implements OnInit {
           this.invoiceSelected.money = this.moneys.filter(entity =>
               entity.id === this.invoiceSelected.idMoney)[0];
           this.invoiceSelected.paymentMethod = this.paymentMethods.filter(entity =>
-                entity.id === this.invoiceSelected.idPaymentMethod)[0];   
+                entity.id === this.invoiceSelected.idPaymentMethod)[0];
           this.invoiceSelected.paymentWay = this.paymentWays.filter(entity =>
             entity.id === this.invoiceSelected.idPaymentWay)[0];
           this.invoiceSelected.paymentCondition = this.paymentConditions.filter(entity =>
-            entity.id === this.invoiceSelected.idPaymentCondition)[0];  
+            entity.id === this.invoiceSelected.idPaymentCondition)[0];
           this.invoiceSelected.useCfdi =  this.usesCfdi.filter(entity =>
-            entity.id === this.invoiceSelected.idUseCfdi)[0];  
+            entity.id === this.invoiceSelected.idUseCfdi)[0];
           this.marketService.getClient(this.invoiceSelected.idClient)
             .subscribe(
               dataC => {
+                  console.log("getClient");
+                  console.dir(dataC);
+                  console.log("getClient");
                 this.clientSelected = dataC;
                 this.invoiceSelected.plantBranchOffice = this.
                   plantSelected.plantBranches.filter(entity =>
@@ -324,6 +337,9 @@ export class InvoicesEditComponent implements OnInit {
                 this.marketService.getProductsByClient(this.invoiceSelected.idClient)
                 .subscribe(
                   dataP => {
+                      console.log("getProductsByClient");
+                      console.dir(dataP);
+                      console.log("getProductsByClient");
                     this.products = dataP;
                     for (var a = 0; a < this.formControlsProduct.length; a++) {
                       switch (this.formControlsProduct[a].formControlName) {
@@ -336,8 +352,7 @@ export class InvoicesEditComponent implements OnInit {
                       this.invoiceProducts[i].product = this.products.filter(entity =>
                         entity.id === this.invoiceProducts[i].idProduct)[0];
                     }
-                    this.productsDatasource.data = this.invoiceProducts;
-                    console.dir(this.invoiceSelected);
+                    this.productsDatasource = new MatTableDataSource<any>(this.invoiceProducts);
                     this.invoiceForm.patchValue(this.invoiceSelected);
                     this.invoiceForm.disable();
                   },
@@ -397,14 +412,14 @@ export class InvoicesEditComponent implements OnInit {
     this.invoiceForm.controls['total'].setValue(subtotal + amountRateIvaTransfer);
 
 
-    this.productsDatasource.data = this.invoiceProducts;
+    this.productsDatasource = new MatTableDataSource<any>(this.invoiceProducts);
     this.invoiceProducts.slice();
     this.productForm.reset();
   }
 
   deleteProduct(i) {
     this.invoiceProducts.splice(i, 1);
-    this.productsDatasource.data = this.invoiceProducts;
+    this.productsDatasource = new MatTableDataSource<any>(this.invoiceProducts);
   }
 
 
@@ -470,7 +485,7 @@ export class InvoicesEditComponent implements OnInit {
           );
           this.setSysVaue(3);
           this.invoiceProducts = [];
-          this.productsDatasource.data = this.invoiceProducts;
+          this.productsDatasource = new MatTableDataSource<any>(this.invoiceProducts);
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Client');
@@ -563,4 +578,38 @@ export class InvoicesEditComponent implements OnInit {
           this.toastr.errorToastr(Constants.ERROR_SAVE, 'Facturas');
         });
   }
+
+    download() {
+        this.marketService.downloadInvoice(
+            this.invoiceSelected.id
+        ) .subscribe(
+            dat => {
+                let blob = new Blob([this.base64toBlob(dat.base64,
+                    'application/pdf')], {});
+                saveAs(blob, dat.nameFile);
+                this.toastr.successToastr('Factura generada correctamente', 'Archivo PDF!');
+            },
+            errorData => {
+                this.toastr.errorToastr(Constants.ERROR_LOAD, 'Error al descargar archivo');
+            });
+    }
+
+    base64toBlob(base64Data, contentType) {
+        contentType = contentType || '';
+        let sliceSize = 1024;
+        let byteCharacters = atob(base64Data);
+        let bytesLength = byteCharacters.length;
+        let slicesCount = Math.ceil(bytesLength / sliceSize);
+        let byteArrays = new Array(slicesCount);
+        for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+            let begin = sliceIndex * sliceSize;
+            let end = Math.min(begin + sliceSize, bytesLength);
+            let bytes = new Array(end - begin);
+            for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+                bytes[i] = byteCharacters[offset].charCodeAt(0);
+            }
+            byteArrays[sliceIndex] = new Uint8Array(bytes);
+        }
+        return new Blob(byteArrays, { type: contentType });
+    }
 }

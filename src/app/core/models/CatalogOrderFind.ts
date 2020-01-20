@@ -30,6 +30,11 @@ export class CatalogOrderFind {
             order: 1
         },
         {
+            catalog: 'paymentMethod',
+            active: 1,
+            order: 1
+        },
+        {
             catalog: 'typeClient',
             active: 1,
             order: 1

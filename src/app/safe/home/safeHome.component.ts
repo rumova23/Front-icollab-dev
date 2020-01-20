@@ -632,7 +632,6 @@ export class SafeHomeComponent implements OnInit {
 			const refFinalcialIndexes =
 			this.viewContainerRef.createComponent(factoryFinancialIndexes);
 			refFinalcialIndexes.changeDetectorRef.detectChanges();
-			break;
 		case 26:
 			const factoryInpp =
 			this.componentFactoryResolver.resolveComponentFactory(InppComponent);
