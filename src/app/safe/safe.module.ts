@@ -103,6 +103,7 @@ import { SalesOffersV2Component } from './business/mdaPlanningProcess/salesOffer
 import { MonitoringJobsEditComponent } from './admin/monitoring/edit/monitoringJobsEdit.component';
 import { DetailJobsComponent } from './admin/monitoring/detail/detailJobs.component';
 import { MonitoringJobsComponent } from './admin/monitoring/monitoringJobs.component';
+import { AccountStatements20119Component } from './business/account-statements20119/account-statements20119.component';
 
 
 
@@ -150,7 +151,8 @@ MonitoringJobsComponent,
         PlannedPowersPPAFComponent,
         PlannedPowersPPAGComponent,
         PlannedPowersPPAHComponent,
-        PlannedPowersPPAIComponent
+        PlannedPowersPPAIComponent,
+        AccountStatements20119Component
     ],
     exports:[
     ],

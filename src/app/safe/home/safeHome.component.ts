@@ -61,6 +61,7 @@ import { PpaComponent                             } from '../admin/modelMarket/p
 import { BranchCreditNoteSeriesComponent          } from '../admin/branchCreditNoteSeries/branchCreditNoteSeries.component';
 import { BranchCreditNoteSeriesEditComponent      } from '../admin/branchCreditNoteSeries/edit/branchCreditNoteSeriesEdit.component';
 import { ProposalAcceptedComponent				  } from '../admin/modelMarket/proposal-accepted/proposalAccepted.component';
+import { AccountStatements20119Component } from '../business/account-statements20119/account-statements20119.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -118,6 +119,7 @@ import { ProposalAcceptedComponent				  } from '../admin/modelMarket/proposal-ac
 		, BranchCreditNoteSeriesEditComponent
 		, PpaComponent
 		, ProposalAcceptedComponent
+		, AccountStatements20119Component
   	]
 })
 
@@ -170,6 +172,14 @@ export class SafeHomeComponent implements OnInit {
 
 				this.viewContainerRef.clear();
 				switch (event.descriptor) {
+					case 'Safe.AccountStatements20119Component':
+
+						banderaTemporal = true;
+
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(AccountStatements20119Component)
+						).changeDetectorRef.detectChanges();
+						break;
 					case 'Safe.Monedas SAT':
 						// 202;
 						banderaTemporal = true;

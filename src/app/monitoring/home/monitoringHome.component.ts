@@ -16,6 +16,7 @@ import { MonitoringWelcomeComponent      } from '../welcome/monitoring-welcome.c
 import { MonitoringPhase2Component       } from '../boards/phase2/monitoring-phase2.component';
 import { MonitoringPhase3Component       } from '../boards/phase3/monitoring-phase3.component';
 import { MonitoringMmMarketComponent     } from '../boards/mmMarket/monitoringMmMarket.component';
+import { DemoGraficaDosComponent } from '../boards/demo-grafica-dos/demo-grafica-dos.component';
 
 
 @Component({
@@ -28,6 +29,7 @@ import { MonitoringMmMarketComponent     } from '../boards/mmMarket/monitoringMm
 		,MonitoringPhase3Component
 		,MonitoringMmMarketComponent
 		,ChangePasswordComponent
+		,DemoGraficaDosComponent
 	]
 })
 export class MonitoringHomeComponent extends ConnectSocketComponent implements OnInit, OnDestroy {
@@ -92,6 +94,11 @@ export class MonitoringHomeComponent extends ConnectSocketComponent implements O
 					case 'shared.header.changePassword':
 						this.viewContainerRef
 							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent)).changeDetectorRef.detectChanges();
+						break;
+					
+					case 'Administrative_monitoring.DemoGraficaDosComponent':
+						this.viewContainerRef
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(DemoGraficaDosComponent)).changeDetectorRef.detectChanges();
 						break;
 				}
 			}

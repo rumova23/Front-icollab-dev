@@ -48,7 +48,7 @@ body{
 #myfooter {
     clear         : both; 
     text-align    : center;
-    padding       : 20px;
+    padding       : 10px;
     position      : absolute;
     bottom        : 0px;
     z-index       : 4;
