@@ -239,9 +239,6 @@ export class InvoicesEditComponent implements OnInit {
     this.marketService.getClients(3)
       .subscribe(
         data => {
-            console.log('getClients');
-            console.dir(data);
-            console.log('getClients');
           this.clients = data;
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
@@ -264,9 +261,6 @@ export class InvoicesEditComponent implements OnInit {
     this.marketService.getPlant(1)
       .subscribe(
         data => {
-            console.log('getPlant');
-            console.dir(data);
-            console.log('getPlant');
 
             this.plantSelected = data;
           for (var i = 0; i < this.formControls.length; i++) {
@@ -285,7 +279,7 @@ export class InvoicesEditComponent implements OnInit {
           this.setData();
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Client');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.error.message);
         });
   }
 
