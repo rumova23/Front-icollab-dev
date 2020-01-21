@@ -47,7 +47,7 @@ export class SharedSidebarMenuComponent {
                 this.hardcodeSafe();
                 break;
             case "Efh":
-                this.hardcodeEfh();
+                //this.hardcodeEfh();
                 break;
             default:
                 break;
