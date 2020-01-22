@@ -113,7 +113,7 @@
                                 <div class="row">
                                     <div class="col-md-{{ in.col || 8 }}">
                                         <div class="form-group">
-                                            <label class="form-text text-left">{{in.label}} {{in.formControlName}}:</label>
+                                            <label class="form-text text-left">{{in.label}}:</label>
                                             <mat-select class="form-control" formControlName="{{in.formControlName}}" 
                                             (selectionChange)="onSelect($event.value, in)">
                                             <mat-option class="form-control" *ngFor="let option of in.options" [value]="option">

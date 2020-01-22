@@ -97,9 +97,8 @@ export class FuecdEditComponent implements OnInit {
             this.valid = true;
           },
           errorData => {
-
             this.fuecdForm.reset();
-            this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
+            this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.error.message);
           });
     }
     reader.readAsDataURL(value.file);

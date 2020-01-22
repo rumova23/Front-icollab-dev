@@ -145,12 +145,9 @@ export class InvoicesEditComponent implements OnInit {
       .subscribe(
         data => {
           const result = data;
-          this.paymentConditions = result.filter(entity =>
-            entity.catalog === 'paymentCondition')[0].data;
-            this.paymentConditions = result.filter(entity =>
-                entity.catalog === 'money')[0].data;
-          this.systems = result.filter(entity =>
-            entity.catalog === 'sys')[0].data;
+          this.paymentConditions = result.filter(entity => entity.catalog === 'paymentCondition')[0].data;
+          this.moneys = result.filter(entity => entity.catalog === 'money')[0].data;
+          this.systems = result.filter(entity => entity.catalog === 'sys')[0].data;
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
             for (var a = 0; a < inputs.length; a++) {
@@ -242,9 +239,6 @@ export class InvoicesEditComponent implements OnInit {
     this.marketService.getClients(3)
       .subscribe(
         data => {
-            console.log('getClients');
-            console.dir(data);
-            console.log('getClients');
           this.clients = data;
           for (var i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
@@ -267,9 +261,6 @@ export class InvoicesEditComponent implements OnInit {
     this.marketService.getPlant(1)
       .subscribe(
         data => {
-            console.log('getPlant');
-            console.dir(data);
-            console.log('getPlant');
 
             this.plantSelected = data;
           for (var i = 0; i < this.formControls.length; i++) {
@@ -288,7 +279,7 @@ export class InvoicesEditComponent implements OnInit {
           this.setData();
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Client');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.error.message);
         });
   }
 
@@ -337,9 +328,6 @@ export class InvoicesEditComponent implements OnInit {
                 this.marketService.getProductsByClient(this.invoiceSelected.idClient)
                 .subscribe(
                   dataP => {
-                      console.log("getProductsByClient");
-                      console.dir(dataP);
-                      console.log("getProductsByClient");
                     this.products = dataP;
                     for (var a = 0; a < this.formControlsProduct.length; a++) {
                       switch (this.formControlsProduct[a].formControlName) {
@@ -348,6 +336,9 @@ export class InvoicesEditComponent implements OnInit {
                           break;
                       }
                     }
+                      console.log("invoiceProducts");
+                      console.dir(this.invoiceProducts);
+                      console.log("invoiceProducts");
                     for(let i =0; i < this.invoiceProducts.length; i++) {
                       this.invoiceProducts[i].product = this.products.filter(entity =>
                         entity.id === this.invoiceProducts[i].idProduct)[0];
@@ -431,11 +422,13 @@ export class InvoicesEditComponent implements OnInit {
 
   onSelect(value, input) {
     value = this.invoiceForm.value[input.formControlName];
+      console.log('RTC');
     console.dir(value);
+      console.log('RTC');
     switch (input.formControlName) {
       case 'client':
-        this.getProductsByClient(value);
-        this.getClient(value);
+        this.getProductsByClient(value.id);
+        this.getClient(value.id);
         break;
       case 'sys':
         this.setSysVaue(value.id);
@@ -466,6 +459,9 @@ export class InvoicesEditComponent implements OnInit {
       .subscribe(
         data => {
           this.clientSelected = data;
+          console.log('clientSelected')
+          console.dir(data);
+          console.log('clientSelected')
           this.invoiceForm.controls['emails'].setValue(this.clientSelected.emailInvoice);
           this.invoiceForm.controls['paymentCondition'].setValue(
             this.paymentConditions.filter(entity =>
@@ -552,22 +548,28 @@ export class InvoicesEditComponent implements OnInit {
       return;
     }
     this.invoice = value;
-    this.invoice.idSys = value.sys;
+    this.invoice.idSys = value.sys.id;
     this.invoice.idPlantBranchOffice = value.plantBranchOffice.id;
     this.invoice.idPlantDirection = value.plantDirection.id;
-    this.invoice.idClient = value.client;
-    this.invoice.idMoney = value.money;
-    this.invoice.idPaymentMethod = value.paymentMethod;
-    this.invoice.idPaymentCondition = value.paymentCondition;
-    this.invoice.idPaymentWay = value.paymentWay;
-    this.invoice.idUseCfdi = value.useCfdi;
-    this.invoice.idTypeRelation = value.typeRelation;
+    this.invoice.idClient = value.client.id;
+    this.invoice.idMoney = value.money.id;
+    this.invoice.idPaymentMethod = value.paymentMethod.id;
+    this.invoice.idPaymentCondition = value.paymentCondition.id;
+    this.invoice.idPaymentWay = value.paymentWay.id;
+    this.invoice.idUseCfdi = value.useCfdi.id;
+    this.invoice.idTypeRelation = value.typeRelation.id;
     this.invoice.idPlantFiscalData = this.plantSelected.fiscalData.id;
     this.invoice.idClientFiscalData = this.clientSelected.fiscalData.id;
+
+    this.invoice.subtotal = 0;
     this.invoice.save = this.entity.new;
     for (var i = 0; i < this.invoiceProducts.length; i++) {
       this.invoiceProducts[i].idProduct = this.invoiceProducts[i].product.id;
+        this.invoice.subtotal += this.invoiceProducts[i].unitValue * this.invoiceProducts[i].quantity;
+        this.invoice.amountRateIvaTransfer += ((this.invoiceProducts[i].unitValue * this.invoiceProducts[i].quantity) * this.invoiceProducts[i].percentageIva) / 100;
     }
+    this.invoice.subtotal2 = this.invoice.subtotal;
+    this.invoice.total = this.invoice.subtotal + this.invoice.amountRateIvaTransfer;
     this.invoice.invoiceProducts = this.invoiceProducts;
     this.marketService.saveInvoice(this.invoice)
       .subscribe(
