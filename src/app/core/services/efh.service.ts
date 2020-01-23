@@ -69,4 +69,9 @@ export class EfhService {
     return this.http.get(`${this.microEfh}event/listFiles/${eventConfigId}`, {params : this.parameters });
   }
 
+  deleteFile(id): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.delete( `${ this.microEfh }event/deleteFile/` + id, {params : this.parameters });
+  }
+
 }

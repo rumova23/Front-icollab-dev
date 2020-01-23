@@ -6,6 +6,8 @@ import {Documents} from '../../compliance/models/Documents';
 import {CarasDocument} from '../../compliance/models/CarasDocument';
 import {PerfilComboService} from '../../core/services/perfil-combo.service';
 import {EfhService} from '../../core/services/efh.service';
+import {Constants} from '../../core/globals/Constants';
+import {ConfirmationDialogService} from '../../core/services/confirmation-dialog.service';
 
 @Component({
   selector: 'app-efh-upload',
@@ -23,6 +25,7 @@ export class EfhUploadComponent implements OnInit, OnDestroy {
 
   constructor(public globalService: GlobalService,
               private efhService: EfhService,
+              private confirmationDialogService: ConfirmationDialogService,
               public toastr: ToastrManager) {
     this.titleDocument = [];
     this.subscription = this.efhService.accion.subscribe(
@@ -82,6 +85,23 @@ export class EfhUploadComponent implements OnInit, OnDestroy {
           error => {
               const error1 = error;
           });
+  }
+
+  deleteFile(fileId: number) {
+      this.confirmationDialogService.confirm('Por favor, confirme..',
+          'Está seguro de eliminar el archivo?')
+          .then((confirmed) => {
+              if (confirmed) {
+                  this.efhService.deleteFile(fileId).subscribe(
+                      result => {
+                          this.toastr.successToastr('Documento eliminado con éxito.', '¡Se ha logrado!');
+                      },
+                      error => {
+                          this.toastr.errorToastr('Ocurrió un error al intentar eliminar el archivo', 'Lo siento,');
+                      });
+              }
+          })
+          .catch(() => console.log('Canceló eliminar'));
   }
 
 }

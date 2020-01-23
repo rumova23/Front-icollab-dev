@@ -70,9 +70,9 @@ export class EfhAddEventComponent implements OnInit {
         while ( flag ) {
           flag = false;
           for (let ins = 0; ins < option.children.length; ins++) {
-            if (option.children[ins].label == this.nombreCatalogo) {
+            if ((option.children[ins].label == this.nombreCatalogo) || option.children[ins].children) {
               // option.children[ins].actions.push('CREAR', 'VER', 'EDITAR', 'BORRAR');
-              if (option.children[ins].actions) {
+              if (option.children[ins].actions && option.children[ins].label == this.nombreCatalogo) {
                 for (let action = 0; action < option.children[ins].actions.length ; action++) {
 
                   if (option.children[ins].actions[action] == 'CREAR') {
@@ -89,6 +89,31 @@ export class EfhAddEventComponent implements OnInit {
                   }
                 }
               }
+              if(option.children[ins].children) {
+                  const subChildren = option.children[ins].children;
+                  for (let sub = 0; sub < subChildren.length; sub++) {
+                      if (subChildren[sub].label === this.nombreCatalogo) {
+                          if (subChildren[sub].actions) {
+                              for (let action = 0; action < subChildren[sub].actions.length ; action++) {
+
+                                  if (subChildren[sub].actions[action] == 'CREAR') {
+                                      this.showAdd = true;
+                                  }
+                                  if (subChildren[sub].actions[action] == 'VER') {
+                                      this.showView = true;
+                                  }
+                                  if (subChildren[sub].actions[action] == 'EDITAR') {
+                                      this.showUpdate = true;
+                                  }
+                                  if (subChildren[sub].actions[action] == 'BORRAR') {
+                                      this.showDelete = true;
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+
             }
           }
         }
@@ -212,22 +237,19 @@ export class EfhAddEventComponent implements OnInit {
                 this.resultService = data;
                 let i = 0;
                 for (const element of this.resultService) {
-                    if (element.active === true && element.code !== 'VACÍO') {
-                        i += 1;
-                        const obj            = {};
-                        // @ts-ignore
-                        obj.order       = i;
-                        // @ts-ignore
-                        obj.id          = element.id;
-                        // @ts-ignore
-                        obj.name        = element.code;
-                        // @ts-ignore
-                        obj.description = element.description;
-                        /*if (element.code !== 'OPERACIÓN CON DIESEL' && this.globalService.aguila) {
-                          this.eventTypesArrForSelect.push(obj);
-                        }*/
-                        this.eventTypesArr.push(obj);
-                    }
+                    i += 1;
+                    const obj            = {};
+                    // @ts-ignore
+                    obj.order       = i;
+                    // @ts-ignore
+                    obj.id          = element.id;
+                    // @ts-ignore
+                    obj.name        = element.code;
+                    // @ts-ignore
+                    obj.description = element.description;
+                    // @ts-ignore
+                    obj.active = element.active;
+                    this.eventTypesArr.push(obj);
                 }
                 this.catalogoMaestroService.getCatalogoIndividual('typeFuel')
                     .subscribe(
@@ -235,19 +257,19 @@ export class EfhAddEventComponent implements OnInit {
                             this.resultService = data1;
                             let j = 0;
                             for (const element of this.resultService) {
-                                if (element.active === true) {
-                                    j += 1;
-                                    const obj            = {};
-                                    // @ts-ignore
-                                    obj.order       = j;
-                                    // @ts-ignore
-                                    obj.id          = element.id;
-                                    // @ts-ignore
-                                    obj.name        = element.code;
-                                    // @ts-ignore
-                                    obj.description = element.description;
-                                    this.fuelTypesArr.push(obj);
-                                }
+                                j += 1;
+                                const obj            = {};
+                                // @ts-ignore
+                                obj.order       = j;
+                                // @ts-ignore
+                                obj.id          = element.id;
+                                // @ts-ignore
+                                obj.name        = element.code;
+                                // @ts-ignore
+                                obj.description = element.description;
+                                // @ts-ignore
+                                obj.active = element.active;
+                                this.fuelTypesArr.push(obj);
                             }
                             this.catalogoMaestroService.getCatalogoIndividual('unit')
                                 .subscribe(
@@ -255,19 +277,19 @@ export class EfhAddEventComponent implements OnInit {
                                         this.resultService = data2;
                                         let k = 0;
                                         for (const element of this.resultService) {
-                                            if (element.active === true) {
-                                                k += 1;
-                                                const obj            = {};
-                                                // @ts-ignore
-                                                obj.order       = k;
-                                                // @ts-ignore
-                                                obj.id          = element.id;
-                                                // @ts-ignore
-                                                obj.name        = element.code;
-                                                // @ts-ignore
-                                                obj.description = element.description;
-                                                this.unitsArr.push(obj);
-                                            }
+                                            k += 1;
+                                            const obj            = {};
+                                            // @ts-ignore
+                                            obj.order       = k;
+                                            // @ts-ignore
+                                            obj.id          = element.id;
+                                            // @ts-ignore
+                                            obj.name        = element.code;
+                                            // @ts-ignore
+                                            obj.description = element.description;
+                                            // @ts-ignore
+                                            obj.active = element.active;
+                                            this.unitsArr.push(obj);
                                         }
                                         this.getDataSource();
                                     },

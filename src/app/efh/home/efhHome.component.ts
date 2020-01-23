@@ -19,6 +19,8 @@ import { EfhUnitEditComponent             } from '../catalogs/unit/edit/efhUnitE
 import { EfhAddEventComponent              } from '../configuration/event/addevent/efhAddEvent.component';
 import { EfhEditEventComponent             } from '../configuration/event/addevent/edit/efhEditEvent.component';
 import {EfhUploadCommonComponent} from '../upload/efh-upload-common/efh-upload-common.component';
+import {EfhIndicatorComponent} from '../catalogs/indicator/efhIndicator.component';
+import {EfhIndicatorEditComponent} from '../catalogs/indicator/edit/efhIndicatorEdit.component';
 
 @Component({
   selector: 'app-efh-home',
@@ -35,7 +37,9 @@ import {EfhUploadCommonComponent} from '../upload/efh-upload-common/efh-upload-c
     EfhUnitEditComponent,
     EfhAddEventComponent,
     EfhEditEventComponent,
-    EfhUploadCommonComponent
+    EfhUploadCommonComponent,
+    EfhIndicatorComponent,
+    EfhIndicatorEditComponent
   ]
 })
 export class EfhHomeComponent implements OnInit {
@@ -75,7 +79,6 @@ export class EfhHomeComponent implements OnInit {
   subscribeOnChangePage() {
     this.subscriptions.push(this.eventService.onChangePage.subscribe({
       next: (event: EventMessage) => {
-        //debugger;
         this.globalService.setPage(event);
         this.viewContainerRef.clear();
         switch (event.descriptor) {
@@ -120,6 +123,18 @@ export class EfhHomeComponent implements OnInit {
                 .createComponent(this.componentFactoryResolver.resolveComponentFactory(EfhUnitEditComponent));
             refUnitEdit.instance.catalogType = event.data;
             refUnitEdit.changeDetectorRef.detectChanges();
+            break;
+          case 'Efh.indicadorComponent':
+            const refIndicator = this.viewContainerRef
+                .createComponent(this.componentFactoryResolver.resolveComponentFactory(EfhIndicatorComponent));
+            refIndicator.instance.nombreCatalogo = 'Tipo de Indicador';
+            refIndicator.changeDetectorRef.detectChanges();
+            break;
+          case 'Efh.Tipo de Indicador.ABC':
+            const refIndicatorEdit = this.viewContainerRef
+                .createComponent(this.componentFactoryResolver.resolveComponentFactory(EfhIndicatorEditComponent));
+            refIndicatorEdit.instance.catalogType = event.data;
+            refIndicatorEdit.changeDetectorRef.detectChanges();
             break;
           case 'Efh.Agregar eventos':
             const refEvent = this.viewContainerRef

@@ -79,7 +79,6 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
     this.addBlock(1, 'Cargando...');
     this.efhService.getObservations(idEventConfig).subscribe(
         data => {
-            debugger;
           this.resultService = data;
           for (const element of this.resultService) {
             this.observationsArr.push(new Comment(element.id, element.ideventconfig, 'tester', element.observation, new Date(element.dateobservation), element.active, true));

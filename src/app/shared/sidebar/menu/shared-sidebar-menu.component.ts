@@ -47,7 +47,7 @@ export class SharedSidebarMenuComponent {
                 this.hardcodeSafe();
                 break;
             case "Efh":
-                //this.hardcodeEfh();
+                this.hardcodeEfh();
                 break;
             default:
                 break;
@@ -84,7 +84,7 @@ export class SharedSidebarMenuComponent {
         for (let option of this.menu) {
             if (option.label == "Inicio") item0 = option;
             else if (option.label == "Catálogos") item1 = option;
-            else if (option.label == "Configuración de eventos") item2 = option;
+            else if (option.label == "Configuración") item2 = option;
             else array.push(option);
         }
         this.menu = [];
