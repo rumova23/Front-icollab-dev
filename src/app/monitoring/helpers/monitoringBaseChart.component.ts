@@ -19,7 +19,7 @@ export const hexToRGB = function(h,a) {
 	
 	return "rgb("+ +r + "," + +g + "," + +b + ","+a+")";
 }
-export const generateColorHEX = function(calltag){
+export const generateColorHEX = function(calltag = null){
     let generarLetra = function(){
         var letras = ["a","b","c","d","e","f","0","1","2","3","4","5","6","7","8","9"];
         var numero = (Math.random()*15).toFixed(0);

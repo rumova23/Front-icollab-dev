@@ -85,7 +85,105 @@ export class MonitoringMmMarketComponent extends MonitoringBaseSocketOnComponent
 		return TAGS.listCharts[idChart]?TAGS.listCharts[idChart]['controls'] : {idChart:false};
 	}
 
-	dataAdapter(data){
+	dataAdapter(data:any){
+		data.dataset = [];
+		data.newYaxis= [];
+		let numeroDeItems = 0;
+		let colHard = ['MDA Ofertada', 'MDA Aceptada', 'MDA Real',  'MTR Ofertada',  'MTR Real' ];
+		for (const key in data.data) {
+			if (data.data.hasOwnProperty(key)) {
+				const propiedad = <Array<any>> data.data[key];
+				let lstdatos = [];
+				numeroDeItems = propiedad.length;
+				for (let i = 0 ; i < numeroDeItems ; i++) {
+
+					if(key == "Capacidad Excedente"){
+
+						let CapacidadExcedente     = parseFloat(data.data['Capacidad Excedente'][i]['prediction']);
+						let PPA                    = parseFloat(data.data['PPA'][i]['prediction']);
+						let PotenciaRealDemostrada = parseFloat(data.data['Potencia Real Demostrada'][i]['prediction']);
+						if(PPA <= PotenciaRealDemostrada)CapacidadExcedente = PPA + CapacidadExcedente;
+						if(PPA > PotenciaRealDemostrada )CapacidadExcedente = PotenciaRealDemostrada + CapacidadExcedente;
+							
+						lstdatos.push(CapacidadExcedente);	
+					}else{
+
+						lstdatos.push(parseFloat(propiedad[i].prediction));	
+					}
+				}
+				let tagconf  = TAGS.lstTags[key.replace(/ /g,"")];
+				let rgba     = BasChart.hexToRGB(tagconf.color,0.3);
+				var hex      = tagconf.color;
+				data.dataset.push({
+					backgroundColor:rgba,
+					borderColor:hex,
+					data  : lstdatos,
+					yAxisID: key.replace(/ /g, "-"),
+
+					
+					id:key.replace(/ /g, "-"),
+					rgba:rgba,
+					label: tagconf.label,
+					fill: false,
+					hidden:false,
+				});
+				data.newYaxis.push({
+					id: key.replace(/ /g, "-"),
+					display: true,
+					position: 'left',
+					ticks:{
+						fontColor:hex,
+						fontSize:12,
+						suggestedMin: tagconf.min,
+						suggestedMax: tagconf.max,
+						stepSize: tagconf.stepSize
+						//beginAtZero: false
+					},
+					gridLines:{
+						color:"rgb(52, 58, 64)",
+						display: false,
+					},
+					
+				});
+
+			}
+		}
+		for (const col of colHard) {
+			let color = BasChart.generateColorHEX();
+			data.dataset.push({
+				backgroundColor:color,
+				borderColor:color,
+				data  : new Array(     numeroDeItems    ).fill(0).map((_valor,indice)=>Math.round(Math.random() * (300 - 200) + 1)),
+				yAxisID: col.replace(/ /g, "-"),
+
+				
+				id:col.replace(/ /g, "-"),
+				rgba:color,
+				label: col,
+				fill: false,
+				hidden:false,
+			});
+			data.newYaxis.push({
+				id: col.replace(/ /g, "-"),
+				display: true,
+				position: 'left',
+				ticks:{
+					fontColor:color,
+					fontSize:12,
+					suggestedMin: 0,
+					suggestedMax: 500,
+					//stepSize: tagconf.stepSize
+					//beginAtZero: false
+				},
+				gridLines:{
+					color:"rgb(52, 58, 64)",
+					display: false,
+				},
+				
+			});
+
+		}
+
 		this.data_01 = data;
 		
 		this.addDataToChart();
@@ -120,9 +218,12 @@ export class MonitoringMmMarketComponent extends MonitoringBaseSocketOnComponent
 			if (TAGS.listCharts.hasOwnProperty(idChart)) {
 			
 					TAGS.listCharts[idChart]['controls']['timePast'] = new Date();
+					/*
 					this.addDatasetLine(idChart);
 					this.addDatasetLine2(idChart);
 					this.addDatasetLine3(idChart);
+					//*/
+					this.addDatasetLine4(idChart);
 					
 			}
 		}
@@ -348,6 +449,14 @@ export class MonitoringMmMarketComponent extends MonitoringBaseSocketOnComponent
 		this.charts[idChart].update();
 		//console.log(this.charts);
 		//console.log(this.charts['chart_est_power_01'].data);
+		}
+	}
+	
+	addDatasetLine4(idChart){
+		if(this.data_01 != null){
+			this.charts[idChart].data.datasets = this.data_01.dataset;
+			this.charts[idChart].config.options.scales.yAxes = this.data_01.newYaxis;
+			this.charts[idChart].update();
 		}
 	}
 	cleanDataofCharts(){
