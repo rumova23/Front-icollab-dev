@@ -533,7 +533,7 @@ export class InvoicesEditComponent implements OnInit {
   }
 
   getPlantBranchOffice(direction) {
-    return direction.colony;
+    return direction.name;
   }
 
   save(value) {
