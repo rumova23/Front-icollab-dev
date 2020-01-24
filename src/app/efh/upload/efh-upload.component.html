@@ -13,7 +13,7 @@
           <div class="col-6">
             <div class="row">
               <div class="col" *ngFor="let itemInterno of item.carasDocuments" >
-                <a *ngIf="!isdisabled" (click)="deleteFile(itemInterno.fileId)">
+                <a *ngIf="!isdisabled" (click)="deleteFile(itemInterno.fileDownloadUri)">
                   <img matTooltip="Eliminar archivo" src="../../../../assets/img/icon_delete.png" style="width: 20px;" />
                 </a>
                 <a (click)="downloadFile(itemInterno.fileDownloadUri, itemInterno.name)">

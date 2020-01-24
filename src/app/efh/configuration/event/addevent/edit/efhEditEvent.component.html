@@ -95,7 +95,7 @@
       <div class="row">
           <div class="col-md-3">
               <div class="form-group">
-                  <small class="form-text text-muted" >Fecha Pérdida de Flama (Flame Off):</small>
+                  <small class="form-text text-muted" >Fecha de Arranque:</small>
                   <input type="date" class="form-control" min="{{initDate}}" formControlName="flameOffDateStart"/>
               </div>
               <div *ngIf="submittedData && isStartSectionVisible && f.flameOffDateStart.errors" style="color:red">
@@ -107,7 +107,7 @@
           </div>
           <div class="col-md-3">
               <div class="form-group">
-                  <small class="form-text text-muted" >Hora Pérdida de Flama (Flame Off):</small>
+                  <small class="form-text text-muted" >Hora de Arranque:</small>
                   <input type="time" class="form-control" min="00:00:00" max="23:59:59" formControlName="flameOffTimeStart" step="1"/>
               </div>
               <div *ngIf="submittedData && isStartSectionVisible && f.flameOffTimeStart.errors" style="color:red">

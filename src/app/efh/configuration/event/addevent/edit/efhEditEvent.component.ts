@@ -106,8 +106,6 @@ export class EfhEditEventComponent implements OnInit {
   get f() { return this.eventForm.controls; }
 
   ngOnInit() {
-
-      debugger;
       this.submittedData = false;
       this.eventForm = this.formBuilder.group({
           eventTypeControl: [null, null],
