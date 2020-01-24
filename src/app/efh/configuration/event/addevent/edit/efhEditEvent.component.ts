@@ -106,6 +106,8 @@ export class EfhEditEventComponent implements OnInit {
   get f() { return this.eventForm.controls; }
 
   ngOnInit() {
+
+      debugger;
       this.submittedData = false;
       this.eventForm = this.formBuilder.group({
           eventTypeControl: [null, null],
@@ -798,11 +800,9 @@ export class EfhEditEventComponent implements OnInit {
        if (flag) {
           this.eventForm.controls.flameOffDateStart.enable();
           this.eventForm.controls.flameOffTimeStart.enable();
-          this.eventForm.controls.chargeStart.enable();
        } else {
           this.eventForm.controls.flameOffDateStart.disable();
           this.eventForm.controls.flameOffTimeStart.disable();
-          this.eventForm.controls.chargeStart.disable();
        }
   }
 
