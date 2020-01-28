@@ -21,6 +21,7 @@ import { EfhEditEventComponent             } from '../configuration/event/addeve
 import {EfhUploadCommonComponent} from '../upload/efh-upload-common/efh-upload-common.component';
 import {EfhIndicatorComponent} from '../catalogs/indicator/efhIndicator.component';
 import {EfhIndicatorEditComponent} from '../catalogs/indicator/edit/efhIndicatorEdit.component';
+import {EfhAnaliticsEventComponent} from '../analysis/event/efhAnaliticsEvent.component';
 
 @Component({
   selector: 'app-efh-home',
@@ -39,7 +40,8 @@ import {EfhIndicatorEditComponent} from '../catalogs/indicator/edit/efhIndicator
     EfhEditEventComponent,
     EfhUploadCommonComponent,
     EfhIndicatorComponent,
-    EfhIndicatorEditComponent
+    EfhIndicatorEditComponent,
+    EfhAnaliticsEventComponent
   ]
 })
 export class EfhHomeComponent implements OnInit {
@@ -147,6 +149,13 @@ export class EfhHomeComponent implements OnInit {
                 .createComponent(this.componentFactoryResolver.resolveComponentFactory(EfhEditEventComponent));
             refEventEdit.instance.eventType = event.data;
             refEventEdit.changeDetectorRef.detectChanges();
+            break;
+          case 'Efh.EventosComponent':
+            const refAnalysisEvent = this.viewContainerRef
+                .createComponent(this.componentFactoryResolver.resolveComponentFactory(EfhAnaliticsEventComponent));
+            // refAnalysisEvent.instance.eventType = event.data;
+            refAnalysisEvent.instance.nombreCatalogo = 'Eventos';
+            refAnalysisEvent.changeDetectorRef.detectChanges();
             break;
           case 'shared.header.changePassword':
             this.viewContainerRef

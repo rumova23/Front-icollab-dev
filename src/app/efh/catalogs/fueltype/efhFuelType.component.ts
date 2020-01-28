@@ -96,7 +96,6 @@ export class EfhFuelTypeComponent implements OnInit {
         dataBack => {
           this.result = dataBack;
           let i = 0;
-
           for (let element of this.result) {
             i += 1;
             let obj            = {};

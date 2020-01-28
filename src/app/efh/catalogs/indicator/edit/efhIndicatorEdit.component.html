@@ -22,9 +22,9 @@
               <label>Nombre</label>
               <input mdbInput class="form-control" formControlName="nombreOpcion"
                      #code oninput="this.value = this.value.toUpperCase()"
-                     maxlength="30">
+                     maxlength="50">
               <small class="form-text text-muted text-right">
-                {{code.value?.length || 0}}/30
+                {{code.value?.length || 0}}/50
               </small>
               <div *ngIf="submitted && f.nombreOpcion.errors" style="color:red">
                 <div *ngIf="f.nombreOpcion.errors.required">Requerido</div>

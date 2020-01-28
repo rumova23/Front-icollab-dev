@@ -137,7 +137,7 @@ export class EfhIndicatorEditComponent implements OnInit {
             this.dataSubmit['code'] = this.indicatorForm.controls['nombreOpcion'].value;
             this.dataSubmit['description'] = this.indicatorForm.controls['opcionDescripcion'].value;
             this.dataSubmit['active'] = this.checkedEstatus;
-            this.dataSubmit['catalog'] = 'typeEvent';
+            this.dataSubmit['catalog'] = 'typeIndicator';
 
             if (this.accion === 'nuevo') {
               this.dataSubmit['save'] = true;

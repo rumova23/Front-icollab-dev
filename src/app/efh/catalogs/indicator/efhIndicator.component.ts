@@ -92,6 +92,7 @@ export class EfhIndicatorComponent implements OnInit {
             dataBack => {
                 this.result = dataBack;
                 let i = 0;
+                debugger;
                 for (let element of this.result) {
                     i += 1;
                     let obj            = {};

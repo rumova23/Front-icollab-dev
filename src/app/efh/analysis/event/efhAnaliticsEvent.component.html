@@ -1,0 +1,107 @@
+<div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">{{title}}</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+<form [formGroup]="analysisForm" (ngSubmit)="onSubmit()">
+  <div class="section">
+    <div class="row pb-2">
+      <div class="col">
+        <p class="section_titulo_0">{{title}}</p>
+        <p class="section_subtitulo_0"> </p>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <small class="form-text text-muted text-left">Unidad:</small>
+          <mat-select class="form-control" formControlName="unitControl">
+            <mat-option class="form-control" [value]="unit.id" *ngFor="let unit of unitsArr">{{unit.name}}</mat-option>
+          </mat-select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <small class="form-text text-muted" >Fecha a consultar:</small>
+          <input type="date" class="form-control" min="{{initDate}}" formControlName="queryDate"/>
+        </div>
+        <div *ngIf="submittedData && f.queryDate.errors" style="color:red">
+          <div *ngIf="f.queryDate.errors.required">Requerido</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn"
+                  [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+            <i class="ti-pencil"></i>
+            Consultar
+          </button>
+        </div>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+  </div>
+</form>
+<div class="section">
+  <div class="row">
+    <!--<div class="mat-elevation-z0">-->
+      <table>
+        <thead>
+        <tr><th colspan="35"><small>EFG-ES Operating Data</small></th></tr>
+        <tr>
+          <th rowspan="2"><small>Total Starts</small></th>
+          <th rowspan="2"><small>Start</small></th>
+          <th rowspan="2" style="background-color: #7c7db3"><small>Date</small></th>
+          <th rowspan="2" style="background-color: #7c7db3"><small>Start Time (FSNL)</small></th>
+          <th rowspan="2" style="background-color: #7c7db3"><small>Stop Time (Flame off)</small></th>
+          <th rowspan="2" style="background-color: #ff9d00"><small>Run AOH</small></th>
+          <th rowspan="2" style="background-color: #ff9d00"><small>Run EFHi</small></th>
+          <th rowspan="2" style="background-color: #ff9d00"><small>Run Esi</small></th>
+          <th rowspan="2" style="background-color: #ff9d00"><small>Run EFHi $</small></th>
+          <th rowspan="2" style="background-color: #7c7db3"><small>Rate EFHi $</small></th>
+          <th colspan="6" style="background-color: #ff9d00"><small>Total</small></th>
+          <th colspan="6" style="background-color: #ff9d00"><small>Since Last Planned Outage</small></th>
+          <th rowspan="2" style="background-color: #ff9d00"><small>Esi</small></th>
+          <th style="background-color: #7c7db3"><small>FF</small></th>
+          <th rowspan="2" style="background-color: #7c7db3"><small>Start</small></th>
+          <th style="background-color: #7c7db3"><small>Trip</small></th>
+          <th style="background-color: #7c7db3"><small>Load</small></th>
+          <th style="background-color: #5fbae9"><small>ESi per</small></th>
+          <th rowspan="2" style="background-color: #7c7db3"><small>Load Rejection</small></th>
+          <th style="background-color: #7c7db3"><small>Load</small></th>
+          <th style="background-color: #5fbae9"><small>ESi per</small></th>
+          <th rowspan="2" style="background-color: #7c7db3"><small>Rapid Load Change</small></th>
+          <th style="background-color: #7c7db3"><small>Change Range</small></th>
+          <th style="background-color: #7c7db3"><small>Change Rate</small></th>
+          <th style="background-color: #5fbae9"><small>ESi per</small></th>
+        </tr>
+        <tr>
+          <th style="background-color: #ff9d00"><small>Trips</small></th>
+          <th style="background-color: #ff9d00"><small>Starts</small></th>
+          <th style="background-color: #ff9d00"><small>ESi</small></th>
+          <th style="background-color: #ff9d00"><small>AOH</small></th>
+          <th style="background-color: #ff9d00"><small>EFHi</small></th>
+          <th style="background-color: #ff9d00"><small>EFHi $</small></th>
+          <th style="background-color: #ff9d00"><small>Trips</small></th>
+          <th style="background-color: #ff9d00"><small>Starts</small></th>
+          <th style="background-color: #ff9d00"><small>ESi</small></th>
+          <th style="background-color: #ff9d00"><small>AOH</small></th>
+          <th style="background-color: #ff9d00"><small>EFHi</small></th>
+          <th style="background-color: #ff9d00"><small>EFHi $</small></th>
+          <th style="background-color: #7c7db3"><small>GAS/OIL</small></th>
+          <th style="background-color: #7c7db3"></th>
+          <th style="background-color: #7c7db3"><small>MW @ Trip</small></th>
+          <th style="background-color: #5fbae9"><small>Tj</small></th>
+          <th style="background-color: #7c7db3"><small>MW @ Rej</small></th>
+          <th style="background-color: #5fbae9"><small>LRj</small></th>
+          <th style="background-color: #7c7db3"><small>% Load Yj</small></th>
+          <th style="background-color: #7c7db3"><small>%/min Xj</small></th>
+          <th style="background-color: #5fbae9"><small>LCj</small></th>
+        </tr>
+        </thead>
+      </table>
+    <!--</div>-->
+  </div>
+</div>
