@@ -29,9 +29,10 @@ import { EfhUploadComponent } from './upload/efh-upload.component';
 import { EfhUploadCommonComponent } from './upload/efh-upload-common/efh-upload-common.component';
 import { EfhIndicatorComponent } from './catalogs/indicator/efhIndicator.component';
 import { EfhIndicatorEditComponent } from './catalogs/indicator/edit/efhIndicatorEdit.component';
+import { EfhAnaliticsEventComponent } from './analysis/event/efhAnaliticsEvent.component';
 
 @NgModule({
-  declarations: [EfhHomeComponent, EfhWelcomeComponent, EfhEventTypeComponent, EfhEventTypeEditComponent, EfhFuelTypeComponent, EfhFuelTypeEditComponent, EfhUnitComponent, EfhUnitEditComponent, EfhAddEventComponent, EfhEditEventComponent, EfhCommentsComponent, EfhUploadComponent, EfhUploadCommonComponent, EfhIndicatorComponent, EfhIndicatorEditComponent ],
+  declarations: [EfhHomeComponent, EfhWelcomeComponent, EfhEventTypeComponent, EfhEventTypeEditComponent, EfhFuelTypeComponent, EfhFuelTypeEditComponent, EfhUnitComponent, EfhUnitEditComponent, EfhAddEventComponent, EfhEditEventComponent, EfhCommentsComponent, EfhUploadComponent, EfhUploadCommonComponent, EfhIndicatorComponent, EfhIndicatorEditComponent, EfhAnaliticsEventComponent ],
   imports: [
     EFH_ROUTES,
     BrowserModule,

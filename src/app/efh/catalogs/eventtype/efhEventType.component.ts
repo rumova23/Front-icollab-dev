@@ -56,7 +56,6 @@ export class EfhEventTypeComponent implements OnInit {
   ngOnInit() {
     this.title = 'Catálogos / ' + this.nombreCatalogo;
     this.getDataSource();
-    //debugger;
     for (let option of this.menu) {
       if (option.children) {
         let flag:boolean = true;
@@ -95,6 +94,7 @@ export class EfhEventTypeComponent implements OnInit {
     this.catalogoMaestroService.getCatalogoIndividual(EfhEventTypeComponent.mainCatalog).subscribe(
         dataBack => {
           this.result = dataBack;
+          debugger;
           let i = 0;
           for (let element of this.result) {
             i += 1;
