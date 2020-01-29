@@ -9,6 +9,7 @@ import { WeatherPpa } from 'src/app/safe/models/WeatherPpa';
 import { Validate } from 'src/app/core/helpers/util.validator.';
 import {requiredFileType} from "../../../../core/helpers/requiredFileType";
 import {ConfirmationDialogService} from "../../../../core/services/confirmation-dialog.service";
+import {saveAs} from 'file-saver';
 
 @Component({
   selector: 'app-weatherPppa',
@@ -31,6 +32,7 @@ export class WeatherPpaComponent implements OnInit {
   weatherForm: FormGroup;
   hour = 0;
   config: any;
+  typeWeatherhtml = '1';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -44,7 +46,8 @@ export class WeatherPpaComponent implements OnInit {
 
   ngOnInit() {
     this.temperatureForm = this.fb.group({
-      file: new FormControl(null, [Validators.required, requiredFileType('xlsx')])
+      file: new FormControl(null, [Validators.required, requiredFileType('xlsx')]),
+      typeWeatherhtml: new FormControl('', Validators.required)
     });
     this.cols = [
       'hour',
@@ -61,8 +64,6 @@ export class WeatherPpaComponent implements OnInit {
     // this.date.setDate(this.date.getDate() + 1);
     // this.loadData();
     this.getConfigWeather();
-
-
   }
 
   private loadData() {
@@ -173,7 +174,7 @@ export class WeatherPpaComponent implements OnInit {
       this.marketService.validateWeather({
         file: this.file,
         name: this.fileName,
-        idTypeImport: this.getTypeWeather(),
+        idTypeImport: this.temperatureForm.controls['typeWeatherhtml'].value,
         nameImport: 'Temperatura'
       })
           .subscribe(
@@ -202,7 +203,7 @@ export class WeatherPpaComponent implements OnInit {
     this.marketService.saveWeather({
       file: this.file,
       name: this.fileName,
-      idTypeImport: this.getTypeWeather(),
+      idTypeImport: this.temperatureForm.controls['typeWeatherhtml'].value,
       nameImport: this.typeWeather
     })
         .subscribe(
@@ -235,5 +236,38 @@ export class WeatherPpaComponent implements OnInit {
     if (confirmed) {
       this.saveImport();
     }
+  }
+
+  download() {
+    this.marketService.downloadWeather(this.temperatureForm.controls['typeWeatherhtml'].value)
+        .subscribe(
+            data => {
+              console.dir(data);
+              let blob = new Blob([this.base64toBlob(data.file,
+                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')], {});
+              saveAs(blob, data.name);
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Error al descargar archivo de temperaturas');
+            });
+  }
+
+  base64toBlob(base64Data, contentType) {
+    contentType = contentType || '';
+    let sliceSize = 1024;
+    let byteCharacters = atob(base64Data);
+    let bytesLength = byteCharacters.length;
+    let slicesCount = Math.ceil(bytesLength / sliceSize);
+    let byteArrays = new Array(slicesCount);
+    for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+      let begin = sliceIndex * sliceSize;
+      let end = Math.min(begin + sliceSize, bytesLength);
+      let bytes = new Array(end - begin);
+      for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+        bytes[i] = byteCharacters[offset].charCodeAt(0);
+      }
+      byteArrays[sliceIndex] = new Uint8Array(bytes);
+    }
+    return new Blob(byteArrays, { type: contentType });
   }
 }

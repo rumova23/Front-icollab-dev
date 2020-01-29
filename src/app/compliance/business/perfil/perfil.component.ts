@@ -121,7 +121,7 @@ export class PerfilComponent implements OnInit {
 
           this.perfilForm.controls['fNaci'].setValue(bornD);
 
-          this.gender         = respuesta[ 'generoId' ]; 
+          this.gender         = respuesta[ 'generoId' ];
           this.educationLevel = respuesta[ 'gradoEstudioId' ];
         }
       );
