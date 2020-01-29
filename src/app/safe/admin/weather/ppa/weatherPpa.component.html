@@ -6,6 +6,8 @@
     </mdb-breadcrumb>
 </div>
 
+
+
 <div class="section">
     <div class="row pb-2">
         <div class="col">
@@ -44,7 +46,6 @@
     <form [formGroup]="weatherForm" (ngSubmit)="addWeather(weatherForm.value)">
         <div class="row">
             <div class="col-md-auto col-md-6 col-lg-4">
-                <div class="row">
                     <div class="col-md-8">
                         <div class="form-group">
                             <label class="form-text text-left">temperature</label>
@@ -54,10 +55,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
             <div class="col-md-auto col-md-6 col-lg-4">
-                <div class="row">
                     <div class="col-md-8">
                         <div class="form-group">
                             <label class="form-text text-left">Presión Barométrica</label>
@@ -67,10 +66,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
             <div class="col-md-auto col-md-6 col-lg-4">
-                <div class="row">
                     <div class="col-md-8">
                         <div class="form-group">
                             <label class="form-text text-left">Humedad</label>
@@ -80,18 +77,68 @@
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
-        <div class="col text-right">
-            <button type="button" class="btn right" (click)="cancelWeather()" [ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }">
-                Cancelar
-            </button>
-            <button type="submit" class="btn right" [disabled]="!weatherForm.valid || hour === 0" [ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }">
-                Guardar
-            </button>
+        <div class="row">
+            <div class="col text-right">
+                <button type="button" class="btn right" (click)="cancelWeather()" [ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }">
+                    Cancelar
+                </button>
+                <button type="submit" class="btn right" [disabled]="!weatherForm.valid || hour === 0" [ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }">
+                    Guardar
+                </button>
+            </div>
         </div>
     </form>
+    <hr />
+    <div class="row">
+        <div class="col-md-auto col-md-6 col-lg-4">
+            <div class="md-form">
+                <mat-select  [(value)]="typeWeather">
+                    <mat-option [value]="1">Temperatura Ambiente</mat-option>
+                    <mat-option [value]="2">Presion Barometrica</mat-option>
+                    <mat-option [value]="3">Humedad Relativa</mat-option>
+                </mat-select>
+            </div>
+        </div>
+        <div class="col-md-auto col-md-6 col-lg-4">
+            <form [formGroup]="temperatureForm" (ngSubmit)="upload(temperatureForm.value)">
+                <div class="row">
+                    <div class="col txt-r">
+                        <button type="button" class="btn right" (click)="download()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                            <mdb-icon far icon="save" class="mr-1"></mdb-icon> Descarga Layout
+                        </button>
+                    </div>
+                    <div class="col">
+                        Carga de Soportes<br>
+                        <app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+                        <mat-error *ngIf="!temperatureForm.controls['file'].valid
+                && temperatureForm.controls['file'].touched">
+                            Requerido
+                        </mat-error>
+                    </div>
+                    <div class="col txt-r">
+                        <button type="submit" class="btn right"
+                                [disabled]="!temperatureForm.valid"
+                                [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                            <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+                        </button>
+                    </div>
+                </div>
+                <!--           <div class="row"></div>
+                          <div class="row">
+                            <div class="col">
+                                <mat-form-field>
+                                    <input matInput [matDatepicker]="De" placeholder="De"
+                                     formControlName="date">
+                                    <mat-datepicker-toggle matSuffix [for]="De"></mat-datepicker-toggle>
+                                    <mat-datepicker #De></mat-datepicker>
+                                  </mat-form-field>
+                            </div>
+                          </div> -->
+            </form>
+        </div>
+    </div>
 
     <div class="row mt-4 mb-4">
         <div class="col">

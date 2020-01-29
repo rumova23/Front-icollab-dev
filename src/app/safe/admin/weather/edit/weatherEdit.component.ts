@@ -28,7 +28,7 @@ export class WeatherEditComponent implements OnInit {
   temperatureForm: FormGroup;
   file: any;
   fileName: any;
-  typeWeather: string;
+  typeWeather = '1';
   valid = false;
   title;
   progress;

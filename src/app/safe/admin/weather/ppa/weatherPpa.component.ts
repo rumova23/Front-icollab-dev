@@ -7,6 +7,8 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { WeatherPpa } from 'src/app/safe/models/WeatherPpa';
 import { Validate } from 'src/app/core/helpers/util.validator.';
+import {requiredFileType} from "../../../../core/helpers/requiredFileType";
+import {ConfirmationDialogService} from "../../../../core/services/confirmation-dialog.service";
 
 @Component({
   selector: 'app-weatherPppa',
@@ -20,6 +22,12 @@ export class WeatherPpaComponent implements OnInit {
   cols: any[];
   date: Date;
 
+  temperatureForm: FormGroup;
+
+  file: any;
+  fileName: any;
+  valid = false;
+  typeWeather: string;
   weatherForm: FormGroup;
   hour = 0;
   config: any;
@@ -29,11 +37,15 @@ export class WeatherPpaComponent implements OnInit {
   constructor(private marketService: MarketService,
               public globalService: GlobalService,
               private fb: FormBuilder,
-              private toastr: ToastrManager) {
+              private toastr: ToastrManager,
+              private confirmationDialogService: ConfirmationDialogService) {
 
   }
 
   ngOnInit() {
+    this.temperatureForm = this.fb.group({
+      file: new FormControl(null, [Validators.required, requiredFileType('xlsx')])
+    });
     this.cols = [
       'hour',
       'temperature',
@@ -150,4 +162,78 @@ export class WeatherPpaComponent implements OnInit {
         });
   }
 
+  upload(value) {
+    this.valid = false;
+    let reader = new FileReader();
+    reader.onloadend = (e) => {
+      this.file = reader.result;
+      this.file = this.file.replace(/^data:(.*;base64,)?/, '');
+      this.file = this.file.trim();
+      this.fileName = value.file.name;
+      this.marketService.validateWeather({
+        file: this.file,
+        name: this.fileName,
+        idTypeImport: this.getTypeWeather(),
+        nameImport: 'Temperatura'
+      })
+          .subscribe(
+              data => {
+                if (data.success) {
+                  if (data.message === "ok") {
+                    this.saveImport();
+                  } else {
+                    this.confirmationDialogService.confirm('Confirmación', data.message)
+                        .then((confirmed) => this.confirm(confirmed))
+                        .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+                  }
+                } else {
+                  this.toastr.errorToastr(Constants.ERROR_LOAD, data.message);
+                }
+              },
+              errorData => {
+                this.temperatureForm.reset();
+                this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
+              });
+    }
+    reader.readAsDataURL(value.file);
+  }
+
+  private saveImport() {
+    this.marketService.saveWeather({
+      file: this.file,
+      name: this.fileName,
+      idTypeImport: this.getTypeWeather(),
+      nameImport: this.typeWeather
+    })
+        .subscribe(
+            dataS => {
+              this.toastr.successToastr(Constants.SAVE_SUCCESS, '');
+            },
+            errorDataS => {
+              this.temperatureForm.reset();
+              this.toastr.errorToastr(Constants.ERROR_LOAD, errorDataS);
+            });
+  }
+
+  private getTypeWeather() {
+    let option: number = 0;
+    switch (this.typeWeather) {
+      case 'Temperatura':
+        option = 1;
+        break;
+      case 'Presión Barométrica':
+        option = 2;
+        break;
+      case 'Humedad':
+        option = 3;
+        break;
+    }
+    return option;
+  }
+
+  confirm(confirmed) {
+    if (confirmed) {
+      this.saveImport();
+    }
+  }
 }
