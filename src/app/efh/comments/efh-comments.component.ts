@@ -21,6 +21,7 @@ import {EventService} from '../../core/services/event.service';
 export class EfhCommentsComponent implements OnInit, OnDestroy {
   @Input() inIdEventConfig: number;
   @Input() inAction: string;
+  @Input() inTypeConfig: number;
   calificacionId: number;
   headObservaciones = ['#', 'Nombre', 'Observaciones', 'Fecha de ultima modificación', 'Visible', 'Editar', 'Eliminar'];
   observationsArr: Array<any>;
@@ -77,11 +78,19 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
 
   getObservations(idEventConfig: number) {
     this.addBlock(1, 'Cargando...');
-    this.efhService.getObservations(idEventConfig).subscribe(
+    this.efhService.getObservations(this.inTypeConfig, idEventConfig).subscribe(
         data => {
           this.resultService = data;
           for (const element of this.resultService) {
-            this.observationsArr.push(new Comment(element.id, element.ideventconfig, 'tester', element.observation, new Date(element.dateobservation), element.active, true));
+              debugger;
+            let idConfig = '';
+            if (element.ideventconfig !== undefined && element.ideventconfig !== null) {
+                idConfig = element.ideventconfig;
+            }
+            if (element.idindicatorconfig !== undefined && element.idindicatorconfig !== null) {
+                idConfig = element.idindicatorconfig;
+            }
+            this.observationsArr.push(new Comment(element.id, idConfig, 'tester', element.observation, new Date(element.dateobservation), element.active, true));
           }
         }
     ).add(() => {
@@ -97,12 +106,16 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
     const observationsArrAux = this.observationsArr;
     for (const comment of observationsArrAux) {
       this.dataObservationSumbit = {};
-      this.dataObservationSumbit['ideventconfig'] = idEventConfig;
+      if (this.inTypeConfig === 1) {
+          this.dataObservationSumbit['ideventconfig'] = idEventConfig;
+      } else if (this.inTypeConfig === 2) {
+          this.dataObservationSumbit['idindicatorconfig'] = idEventConfig;
+      }
       this.dataObservationSumbit['observation'] = comment.observacion;
       this.dataObservationSumbit['dateobservation'] = comment.fecha_modificacion;
       this.dataObservationSumbit['active'] = comment.active;
       this.dataObservationSumbit['save'] = true;
-      this.efhService.saveObservation(this.dataObservationSumbit).subscribe(
+      this.efhService.saveObservation(this.inTypeConfig, this.dataObservationSumbit).subscribe(
           data => {
               console.log('exito obs');
           },
@@ -117,12 +130,16 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
 
   saveObservation(idEventConfig: number, comment: string) {
     this.dataObservationSumbit = {};
-    this.dataObservationSumbit['ideventconfig'] = idEventConfig;
+    if (this.inTypeConfig === 1) {
+        this.dataObservationSumbit['ideventconfig'] = idEventConfig;
+    } else if (this.inTypeConfig === 2) {
+        this.dataObservationSumbit['idindicatorconfig'] = idEventConfig;
+    }
     this.dataObservationSumbit['observation'] = comment;
     this.dataObservationSumbit['dateobservation'] = new Date();
     this.dataObservationSumbit['active'] = true;
     this.dataObservationSumbit['save'] = true;
-    this.efhService.saveObservation(this.dataObservationSumbit).subscribe(
+    this.efhService.saveObservation(this.inTypeConfig, this.dataObservationSumbit).subscribe(
         data => {
           this.toastr.successToastr('La observación fue registrada con éxito.', '¡Se ha logrado!');
           this.efhService.accionComments.next('updatecommentscomponent');
@@ -136,12 +153,17 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
   updateObservation(comment: any) {
     this.dataObservationSumbit = {};
     this.dataObservationSumbit['id'] = comment.id;
-    this.dataObservationSumbit['ideventconfig'] = comment.ideventconfig;
+    // this.dataObservationSumbit['ideventconfig'] = comment.ideventconfig;
+    if (this.inTypeConfig === 1) {
+        this.dataObservationSumbit['ideventconfig'] = comment.ideventconfig;
+    } else if (this.inTypeConfig === 2) {
+        this.dataObservationSumbit['idindicatorconfig'] = comment.ideventconfig;
+    }
     this.dataObservationSumbit['observation'] = comment.observacion;
     this.dataObservationSumbit['dateobservation'] = comment.fecha_modificacion;
     this.dataObservationSumbit['active'] = comment.active;
     this.dataObservationSumbit['save'] = false;
-    this.efhService.saveObservation(this.dataObservationSumbit).subscribe(
+    this.efhService.saveObservation(this.inTypeConfig, this.dataObservationSumbit).subscribe(
         data => {
           this.toastr.successToastr('La observación fue actualizada con éxito.', '¡Se ha logrado!');
           this.efhService.accionComments.next('updatecommentscomponent');
@@ -155,12 +177,17 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
   visibleObservation(comment: any) {
     this.dataObservationSumbit = {};
     this.dataObservationSumbit['id'] = comment.id;
-    this.dataObservationSumbit['ideventconfig'] = comment.ideventconfig;
+    // this.dataObservationSumbit['ideventconfig'] = comment.ideventconfig;
+    if (this.inTypeConfig === 1) {
+        this.dataObservationSumbit['ideventconfig'] = comment.ideventconfig;
+    } else if (this.inTypeConfig === 2) {
+        this.dataObservationSumbit['idindicatorconfig'] = comment.ideventconfig;
+    }
     this.dataObservationSumbit['observation'] = comment.observacion;
     this.dataObservationSumbit['dateobservation'] = comment.fecha_modificacion;
     this.dataObservationSumbit['active'] = !comment.active;
     this.dataObservationSumbit['save'] = false;
-    this.efhService.saveObservation(this.dataObservationSumbit).subscribe(
+    this.efhService.saveObservation(this.inTypeConfig, this.dataObservationSumbit).subscribe(
         data => {
           this.toastr.successToastr('La observación fue actualizada con éxito.', '¡Se ha logrado!');
           this.efhService.accionComments.next('updatecommentscomponent');
@@ -212,7 +239,7 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
         'Está seguro de eliminar la observación?')
         .then((confirmed) => {
           if (confirmed) {
-            this.efhService.deleteObservation(id)
+            this.efhService.deleteObservation(this.inTypeConfig, id)
                 .subscribe(
                     data => {
                       this.toastr.successToastr('La observación fué eliminada correctamente', '¡Se ha logrado!');

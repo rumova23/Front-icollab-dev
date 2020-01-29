@@ -18,6 +18,8 @@ import {EventMessage} from '../../core/models/EventMessage';
 export class EfhUploadComponent implements OnInit, OnDestroy {
   @Input() inIdEventConfig: number;
   @Input() inAccion: string;
+  @Input() inTypeConfig: number;
+
   typeDocuments = ['Documentos'];
   titleDocument: Array<any>;
   submitted = false;
@@ -57,7 +59,7 @@ export class EfhUploadComponent implements OnInit, OnDestroy {
           let documents: Documents;
           let carasDocumnts: Array<CarasDocument>;
           carasDocumnts =  [];
-          this.efhService.getDocuments(this.inIdEventConfig, this.typeDocuments[i]).subscribe(
+          this.efhService.getDocuments(this.inTypeConfig, this.inIdEventConfig, this.typeDocuments[i]).subscribe(
               docto => {
                   for (let j = 0; j < docto.length; j++) {
                       carasDocumnts.push(new CarasDocument(docto[j].fileName, docto[j].fileType, docto[j].fileId));
@@ -73,7 +75,7 @@ export class EfhUploadComponent implements OnInit, OnDestroy {
   }
 
   downloadFile(fileId: number, fileName: string) {
-      this.efhService.downloadFile(fileId).subscribe(
+      this.efhService.downloadFile(this.inTypeConfig, fileId).subscribe(
           result => {
               let dataType = result.type;
               let binaryData = [];
@@ -89,12 +91,11 @@ export class EfhUploadComponent implements OnInit, OnDestroy {
   }
 
   deleteFile(fileId: number) {
-      debugger;
       this.confirmationDialogService.confirm('Por favor, confirme..',
           'Está seguro de eliminar el archivo?')
           .then((confirmed) => {
               if (confirmed) {
-                  this.efhService.deleteFile(fileId).subscribe(
+                  this.efhService.deleteFile(this.inTypeConfig, fileId).subscribe(
                       result => {
                           this.toastr.successToastr('Documento eliminado con éxito.', '¡Se ha logrado!');
                           this.efhService.accion.next('upload');
