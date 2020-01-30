@@ -5,6 +5,47 @@
         <mdb-breadcrumb-item class="active">{{ title }}</mdb-breadcrumb-item>
     </mdb-breadcrumb>
 </div>
+
+<form [formGroup]="fileUploadForm" (ngSubmit)="upload(fileUploadForm.value)">
+    <div class="row">
+        <div class="col-md-auto col-md-12 col-lg-4">
+            <div class="md-form">
+                <select formControlName="typeVarhtml" class="browser-default custom-select" [(ngModel)]="typeVarhtml">
+                    <option [value]="4">Poder Calorífico Inferior</option>
+                    <option [value]="5">Factor de Potencia</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-auto col-md-12 col-lg-4">
+            <app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+            <mat-error *ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
+                Requerido
+            </mat-error>
+        </div>
+        <div class="col-md-auto col-md-12 col-lg-4">
+            <button type="button" class="btn right" (click)="download()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                <mdb-icon far icon="save" class="mr-1"></mdb-icon> Descarga Layout
+            </button>
+            <hr />
+            <button type="submit" class="btn right"
+                    [disabled]="!fileUploadForm.valid"
+                    [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+            </button>
+        </div>
+    </div>
+    <!--           <div class="row"></div>
+              <div class="row">
+                <div class="col">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="De" placeholder="De"
+                         formControlName="date">
+                        <mat-datepicker-toggle matSuffix [for]="De"></mat-datepicker-toggle>
+                        <mat-datepicker #De></mat-datepicker>
+                      </mat-form-field>
+                </div>
+              </div> -->
+</form>
 <div class="section">
     <div class="row pb-2">
         <div class="col">

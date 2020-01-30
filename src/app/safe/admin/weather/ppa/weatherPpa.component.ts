@@ -7,8 +7,8 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { WeatherPpa } from 'src/app/safe/models/WeatherPpa';
 import { Validate } from 'src/app/core/helpers/util.validator.';
-import {requiredFileType} from "../../../../core/helpers/requiredFileType";
-import {ConfirmationDialogService} from "../../../../core/services/confirmation-dialog.service";
+import {requiredFileType} from '../../../../core/helpers/requiredFileType';
+import {ConfirmationDialogService} from '../../../../core/services/confirmation-dialog.service';
 import {saveAs} from 'file-saver';
 
 @Component({
@@ -24,7 +24,7 @@ export class WeatherPpaComponent implements OnInit {
   date: Date;
   progress;
 
-  temperatureForm: FormGroup;
+  fileUploadForm: FormGroup;
 
   file: any;
   fileName: any;
@@ -32,7 +32,7 @@ export class WeatherPpaComponent implements OnInit {
   weatherForm: FormGroup;
   hour = 0;
   config: any;
-  typeWeatherhtml = '1';
+  typeVarhtml = '1';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -45,9 +45,9 @@ export class WeatherPpaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.temperatureForm = this.fb.group({
+    this.fileUploadForm = this.fb.group({
       file: new FormControl(null, [Validators.required, requiredFileType('xlsx')]),
-      typeWeatherhtml: new FormControl('', Validators.required)
+      typeVarhtml: new FormControl('', Validators.required)
     });
     this.cols = [
       'hour',
@@ -174,7 +174,7 @@ export class WeatherPpaComponent implements OnInit {
       this.marketService.validateWeather({
         file: this.file,
         name: this.fileName,
-        idTypeImport: this.temperatureForm.controls['typeWeatherhtml'].value,
+        idTypeImport: this.fileUploadForm.controls['typeVarhtml'].value,
         nameImport: this.getTypeWeather()
       })
           .subscribe(
@@ -192,7 +192,7 @@ export class WeatherPpaComponent implements OnInit {
                 }
               },
               errorData => {
-                this.temperatureForm.reset();
+                this.fileUploadForm.reset();
                 this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
               });
     }
@@ -203,7 +203,7 @@ export class WeatherPpaComponent implements OnInit {
     this.marketService.saveWeather({
       file: this.file,
       name: this.fileName,
-      idTypeImport: this.temperatureForm.controls['typeWeatherhtml'].value,
+      idTypeImport: this.fileUploadForm.controls['typeVarhtml'].value,
       nameImport: this.getTypeWeather()
     })
         .subscribe(
@@ -211,14 +211,14 @@ export class WeatherPpaComponent implements OnInit {
               this.toastr.successToastr(Constants.SAVE_SUCCESS, '');
             },
             errorDataS => {
-              this.temperatureForm.reset();
+              this.fileUploadForm.reset();
               this.toastr.errorToastr(Constants.ERROR_LOAD, errorDataS);
             });
   }
 
   private getTypeWeather() {
     let option = '';
-    switch (this.temperatureForm.controls['typeWeatherhtml'].value) {
+    switch (this.fileUploadForm.controls['typeVarhtml'].value) {
       case '1':
         option = 'Temperatura';
         break;
@@ -239,7 +239,7 @@ export class WeatherPpaComponent implements OnInit {
   }
 
   download() {
-    this.marketService.downloadWeather(this.temperatureForm.controls['typeWeatherhtml'].value)
+    this.marketService.downloadWeather(this.fileUploadForm.controls['typeVarhtml'].value)
         .subscribe(
             data => {
               console.dir(data);

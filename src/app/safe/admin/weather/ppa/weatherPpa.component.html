@@ -5,20 +5,19 @@
         <mdb-breadcrumb-item class="active">{{ title }}</mdb-breadcrumb-item>
     </mdb-breadcrumb>
 </div>
-<form [formGroup]="temperatureForm" (ngSubmit)="upload(temperatureForm.value)">
+<form [formGroup]="fileUploadForm" (ngSubmit)="upload(fileUploadForm.value)">
     <div class="row">
         <div class="col-md-auto col-md-12 col-lg-4">
             <div class="md-form">
-                <select formControlName="typeWeatherhtml" class="browser-default custom-select" [(ngModel)]="typeWeatherhtml">
-                    <option [value]="1">Temperatura Ambiente</option>
-                    <option [value]="2">Presion Barometrica</option>
-                    <option [value]="3">Humedad Relativa</option>
+                <select formControlName="typeVarhtml" class="browser-default custom-select" [(ngModel)]="typeVarhtml">
+                    <option [value]="4">Temperatura Ambiente</option>
+                    <option [value]="5">Presion Barometrica</option>
                 </select>
             </div>
         </div>
         <div class="col-md-auto col-md-12 col-lg-4">
             <app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
-            <mat-error *ngIf="!temperatureForm.controls['file'].valid && temperatureForm.controls['file'].touched">
+            <mat-error *ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
                 Requerido
             </mat-error>
         </div>
@@ -28,7 +27,7 @@
             </button>
             <hr />
             <button type="submit" class="btn right"
-                    [disabled]="!temperatureForm.valid"
+                    [disabled]="!fileUploadForm.valid"
                     [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
                 <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
             </button>
