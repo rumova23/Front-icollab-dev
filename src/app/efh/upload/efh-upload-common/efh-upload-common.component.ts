@@ -15,6 +15,7 @@ export class EfhUploadCommonComponent implements OnInit {
   @Input() inAccion: string;
   @Input() inIdEventConfig: number;
   @Input() typeDocument: number;
+  @Input() inTypeConfig: number;
   formGroup: FormGroup;
   isdisabled: boolean = false;
 
@@ -49,7 +50,11 @@ export class EfhUploadCommonComponent implements OnInit {
     this.currentFile = this.selectedFiles.item(0);
 
     fileReader.onloadend = (e) => {
-        this.dataFileSubmit['eventConfigId'] = this.inIdEventConfig;
+        if (this.inTypeConfig === 1) {
+            this.dataFileSubmit['eventConfigId'] = this.inIdEventConfig;
+        } else if (this.inTypeConfig === 2) {
+            this.dataFileSubmit['idindicatorconfig'] = this.inIdEventConfig;
+        }
         this.dataFileSubmit['fileName'] = this.currentFile.name;
         this.dataFileSubmit['fileType'] = this.currentFile.name.substr(this.currentFile.name.lastIndexOf('.') + 1);
         this.dataFileSubmit['fileContentType'] = this.currentFile.type;
@@ -57,7 +62,7 @@ export class EfhUploadCommonComponent implements OnInit {
         this.dataFileSubmit['fileData'] = fileReader.result;
         this.dataFileSubmit['fileData'] = this.dataFileSubmit['fileData'].replace(/^data:(.*;base64,)?/, '');
         this.dataFileSubmit['fileData'] = this.dataFileSubmit['fileData'].trim();
-        this.efhService.upload(this.dataFileSubmit).subscribe(
+        this.efhService.upload(this.inTypeConfig, this.dataFileSubmit).subscribe(
             respuesta => {
                 this.toastr.successToastr('Documento guardado con éxito.', '¡Se ha logrado!');
                 this.efhService.accion.next('upload');

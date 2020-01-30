@@ -44,39 +44,92 @@ export class EfhService {
     return this.http.delete( `${ this.microEfh }configuration/event/delete/` + id, {params : this.parameters });
   }
 
-  getObservations(idEventConfig: number): Observable<any>  {
+  getObservations(idTypeConfig: number, id: number): Observable<any>  {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get(`${this.microEfh}configuration/event/listObservations/${idEventConfig}`, {params : this.parameters });
+    if (idTypeConfig === 1) {
+      return this.http.get(`${this.microEfh}configuration/event/listObservations/${id}`, {params : this.parameters });
+    } else {
+      return this.http.get(`${this.microEfh}configuration/indicator/listObservations/${id}`, {params : this.parameters });
+    }
   }
 
-  saveObservation(observation): Observable<any> {
+  saveObservation(idTypeConfig: number, observation): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post( `${ this.microEfh }configuration/event/saveObservation`, observation, {params : this.parameters });
+    if (idTypeConfig === 1) {
+      return this.http.post( `${ this.microEfh }configuration/event/saveObservation`, observation, {params : this.parameters });
+    } else {
+      return this.http.post( `${ this.microEfh }configuration/indicator/saveObservation`, observation, {params : this.parameters });
+    }
   }
 
-  deleteObservation(id): Observable<any> {
+  deleteObservation(idTypeConfig: number, id): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.delete( `${ this.microEfh }configuration/event/deleteObservation/` + id, {params : this.parameters });
+    if (idTypeConfig === 1) {
+      return this.http.delete( `${ this.microEfh }configuration/event/deleteObservation/` + id, {params : this.parameters });
+    } else {
+      return this.http.delete( `${ this.microEfh }configuration/indicator/deleteObservation/` + id, {params : this.parameters });
+    }
   }
 
-  upload(fileObj) {
+  upload(idTypeConfig: number, fileObj) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(`${ this.microEfh }configuration/event/saveFile`, fileObj, {params : this.parameters });
+    if (idTypeConfig === 1) {
+      return this.http.post(`${this.microEfh}configuration/event/saveFile`, fileObj, {params: this.parameters});
+    } else {
+      return this.http.post(`${ this.microEfh }configuration/indicator/saveFile`, fileObj, {params : this.parameters });
+    }
   }
 
-  downloadFile(fileId: number) {
+  downloadFile(idTypeConfig: number, fileId: number) {
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
-    return this.http.get<Blob>(`${ this.microEfh }configuration/event/downloadFile/` + fileId, {params : this.parameters, responseType: 'blob' as 'json' });
+    if (idTypeConfig === 1) {
+      return this.http.get<Blob>(`${ this.microEfh }configuration/event/downloadFile/` + fileId, {params : this.parameters, responseType: 'blob' as 'json' });
+    } else {
+      return this.http.get<Blob>(`${ this.microEfh }configuration/indicator/downloadFile/` + fileId, {params : this.parameters, responseType: 'blob' as 'json' });
+    }
   }
 
-  getDocuments(eventConfigId: number, typeDocument: string): Observable<any> {
+  getDocuments(idTypeConfig: number, id: number, typeDocument: string): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
-    return this.http.get(`${this.microEfh}configuration/event/listFiles/${eventConfigId}`, {params : this.parameters });
+    if (idTypeConfig === 1) {
+      return this.http.get(`${this.microEfh}configuration/event/listFiles/${id}`, {params : this.parameters });
+    } else {
+      return this.http.get(`${this.microEfh}configuration/indicator/listFiles/${id}`, {params : this.parameters });
+    }
   }
 
-  deleteFile(id): Observable<any> {
+  deleteFile(idTypeConfig: number, id): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.delete( `${ this.microEfh }configuration/event/deleteFile/` + id, {params : this.parameters });
+    if (idTypeConfig === 1) {
+      return this.http.delete( `${ this.microEfh }configuration/event/deleteFile/` + id, {params : this.parameters });
+    } else {
+      return this.http.delete( `${ this.microEfh }configuration/indicator/deleteFile/` + id, {params : this.parameters });
+    }
+  }
+
+  getIndicatorsConfigurated() {
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    return this.http.get( `${ this.microEfh }configuration/indicator/list`, { params : this.parameters });
+  }
+
+  getIndicator(id) {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ this.microEfh }configuration/indicator/get/` + id, { params : this.parameters });
+  }
+
+  setIndicator(event) {
+        this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+        return this.http.post( `${ this.microEfh }configuration/indicator/save` , event, {params : this.parameters });
+  }
+
+  deleteIndicator(id) {
+        this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+        return this.http.delete( `${ this.microEfh }configuration/indicator/delete/` + id, {params : this.parameters });
+  }
+
+  uploadIndicator(fileObj) {
+        this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+        return this.http.post(`${ this.microEfh }configuration/indicator/saveFile`, fileObj, {params : this.parameters });
   }
 
 }

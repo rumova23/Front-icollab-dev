@@ -30,9 +30,11 @@ import { EfhUploadCommonComponent } from './upload/efh-upload-common/efh-upload-
 import { EfhIndicatorComponent } from './catalogs/indicator/efhIndicator.component';
 import { EfhIndicatorEditComponent } from './catalogs/indicator/edit/efhIndicatorEdit.component';
 import { EfhAnaliticsEventComponent } from './analysis/event/efhAnaliticsEvent.component';
+import { EfhAddIndicatorComponent } from './configuration/indicator/addindicator/efhAddIndicator.component';
+import { EfhEditIndicatorComponent } from './configuration/indicator/addindicator/edit/efhEditIndicator.component';
 
 @NgModule({
-  declarations: [EfhHomeComponent, EfhWelcomeComponent, EfhEventTypeComponent, EfhEventTypeEditComponent, EfhFuelTypeComponent, EfhFuelTypeEditComponent, EfhUnitComponent, EfhUnitEditComponent, EfhAddEventComponent, EfhEditEventComponent, EfhCommentsComponent, EfhUploadComponent, EfhUploadCommonComponent, EfhIndicatorComponent, EfhIndicatorEditComponent, EfhAnaliticsEventComponent ],
+  declarations: [EfhHomeComponent, EfhWelcomeComponent, EfhEventTypeComponent, EfhEventTypeEditComponent, EfhFuelTypeComponent, EfhFuelTypeEditComponent, EfhUnitComponent, EfhUnitEditComponent, EfhAddEventComponent, EfhEditEventComponent, EfhCommentsComponent, EfhUploadComponent, EfhUploadCommonComponent, EfhIndicatorComponent, EfhIndicatorEditComponent, EfhAnaliticsEventComponent, EfhAddIndicatorComponent, EfhEditIndicatorComponent ],
   imports: [
     EFH_ROUTES,
     BrowserModule,

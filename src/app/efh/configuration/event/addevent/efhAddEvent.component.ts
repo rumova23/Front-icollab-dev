@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import { Component, Input, OnInit, ViewChild} from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { ToastrManager                  } from 'ng6-toastr-notifications';
 import { CatalogoMaestroService         } from 'src/app/core/services/catalogo-maestro.service';
@@ -11,10 +11,8 @@ import { DatePipe                       } from '@angular/common';
 import { SecurityService                } from 'src/app/core/services/security.service';
 import { EventBlocked                   } from 'src/app/core/models/EventBlocked';
 import { EfhService                     } from 'src/app/core/services/efh.service';
-import {Constants} from '../../../../core/globals/Constants';
-import {EventType} from '../../../models/EventType';
-import {Observable} from 'rxjs';
-import {mergeMap} from 'rxjs/operators';
+import { Constants                      } from '../../../../core/globals/Constants';
+import { EventType                      } from '../../../models/EventType';
 
 @Component({
   selector: 'app-efh-add-event',
@@ -123,6 +121,7 @@ export class EfhAddEventComponent implements OnInit {
 
   getDataSource() {
     this.data = [];
+    debugger;
     this.efhService.getEventsConfigurated().subscribe(
         dataBack => {
           this.result = dataBack;

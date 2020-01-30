@@ -16,12 +16,14 @@ import { EfhFuelTypeComponent             } from '../catalogs/fueltype/efhFuelTy
 import { EfhFuelTypeEditComponent         } from '../catalogs/fueltype/edit/efhFuelTypeEdit.component';
 import { EfhUnitComponent                 } from '../catalogs/unit/efhUnit.component';
 import { EfhUnitEditComponent             } from '../catalogs/unit/edit/efhUnitEdit.component';
-import { EfhAddEventComponent              } from '../configuration/event/addevent/efhAddEvent.component';
-import { EfhEditEventComponent             } from '../configuration/event/addevent/edit/efhEditEvent.component';
-import {EfhUploadCommonComponent} from '../upload/efh-upload-common/efh-upload-common.component';
-import {EfhIndicatorComponent} from '../catalogs/indicator/efhIndicator.component';
-import {EfhIndicatorEditComponent} from '../catalogs/indicator/edit/efhIndicatorEdit.component';
-import {EfhAnaliticsEventComponent} from '../analysis/event/efhAnaliticsEvent.component';
+import { EfhAddEventComponent             } from '../configuration/event/addevent/efhAddEvent.component';
+import { EfhEditEventComponent            } from '../configuration/event/addevent/edit/efhEditEvent.component';
+import { EfhUploadCommonComponent         } from '../upload/efh-upload-common/efh-upload-common.component';
+import { EfhIndicatorComponent            } from '../catalogs/indicator/efhIndicator.component';
+import { EfhIndicatorEditComponent        } from '../catalogs/indicator/edit/efhIndicatorEdit.component';
+import { EfhAnaliticsEventComponent       } from '../analysis/event/efhAnaliticsEvent.component';
+import { EfhAddIndicatorComponent         } from '../configuration/indicator/addindicator/efhAddIndicator.component';
+import { EfhEditIndicatorComponent        } from '../configuration/indicator/addindicator/edit/efhEditIndicator.component';
 
 @Component({
   selector: 'app-efh-home',
@@ -41,7 +43,9 @@ import {EfhAnaliticsEventComponent} from '../analysis/event/efhAnaliticsEvent.co
     EfhUploadCommonComponent,
     EfhIndicatorComponent,
     EfhIndicatorEditComponent,
-    EfhAnaliticsEventComponent
+    EfhAnaliticsEventComponent,
+    EfhAddIndicatorComponent,
+    EfhEditIndicatorComponent
   ]
 })
 export class EfhHomeComponent implements OnInit {
@@ -150,10 +154,21 @@ export class EfhHomeComponent implements OnInit {
             refEventEdit.instance.eventType = event.data;
             refEventEdit.changeDetectorRef.detectChanges();
             break;
+          case 'Efh.addIndicadorComponent':
+            const refAddIndicator = this.viewContainerRef
+                .createComponent(this.componentFactoryResolver.resolveComponentFactory(EfhAddIndicatorComponent));
+            refAddIndicator.instance.nombreCatalogo = 'Agregar indicador';
+            refAddIndicator.changeDetectorRef.detectChanges();
+            break;
+          case 'Efh.addIndicadorComponent.ABC':
+            const refEditIndicator = this.viewContainerRef
+                .createComponent(this.componentFactoryResolver.resolveComponentFactory(EfhEditIndicatorComponent));
+            refEditIndicator.instance.indicatorType = event.data;
+            refEditIndicator.changeDetectorRef.detectChanges();
+            break;
           case 'Efh.EventosComponent':
             const refAnalysisEvent = this.viewContainerRef
                 .createComponent(this.componentFactoryResolver.resolveComponentFactory(EfhAnaliticsEventComponent));
-            // refAnalysisEvent.instance.eventType = event.data;
             refAnalysisEvent.instance.nombreCatalogo = 'Eventos';
             refAnalysisEvent.changeDetectorRef.detectChanges();
             break;
