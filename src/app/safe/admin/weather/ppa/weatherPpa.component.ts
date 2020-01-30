@@ -22,13 +22,13 @@ export class WeatherPpaComponent implements OnInit {
   dataSource;
   cols: any[];
   date: Date;
+  progress;
 
   temperatureForm: FormGroup;
 
   file: any;
   fileName: any;
   valid = false;
-  typeWeather: string;
   weatherForm: FormGroup;
   hour = 0;
   config: any;
@@ -175,7 +175,7 @@ export class WeatherPpaComponent implements OnInit {
         file: this.file,
         name: this.fileName,
         idTypeImport: this.temperatureForm.controls['typeWeatherhtml'].value,
-        nameImport: 'Temperatura'
+        nameImport: this.getTypeWeather()
       })
           .subscribe(
               data => {
@@ -204,7 +204,7 @@ export class WeatherPpaComponent implements OnInit {
       file: this.file,
       name: this.fileName,
       idTypeImport: this.temperatureForm.controls['typeWeatherhtml'].value,
-      nameImport: this.typeWeather
+      nameImport: this.getTypeWeather()
     })
         .subscribe(
             dataS => {
@@ -217,16 +217,16 @@ export class WeatherPpaComponent implements OnInit {
   }
 
   private getTypeWeather() {
-    let option: number = 0;
-    switch (this.typeWeather) {
-      case 'Temperatura':
-        option = 1;
+    let option = '';
+    switch (this.temperatureForm.controls['typeWeatherhtml'].value) {
+      case '1':
+        option = 'Temperatura';
         break;
-      case 'Presión Barométrica':
-        option = 2;
+      case '2':
+        option = 'Presión Barométrica';
         break;
-      case 'Humedad':
-        option = 3;
+      case '3':
+        option = 'Humedad';
         break;
     }
     return option;
