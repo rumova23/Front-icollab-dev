@@ -21,11 +21,11 @@ export class ModelMarketComponent implements OnInit {
   cols: any[];
   colsGroup: any [];
   date: Date;
-  submitted= false;
-  f:any={};
+  submitted = false;
+  f: any = {};
   modelMarketForm: FormGroup;
   hour = 0;
-  dateDespatch: string = "";
+  dateDespatch  = '';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -246,7 +246,7 @@ export class ModelMarketComponent implements OnInit {
                 numberIncrement: i
               });
             }
-          break;
+            break;
         case 4:
             if(Validate(energy.megawatt4)) {
               dat.listOffer.push({
@@ -255,7 +255,7 @@ export class ModelMarketComponent implements OnInit {
                 numberIncrement: i
               });
             }
-          break;
+            break;
         case 5:
             if(Validate(energy.megawatt5)) {
               dat.listOffer.push({
@@ -264,7 +264,7 @@ export class ModelMarketComponent implements OnInit {
                 numberIncrement: i
               });
             }
-          break;
+            break;
         case 6:
             if(Validate(energy.megawatt6)) {
               dat.listOffer.push({
@@ -273,7 +273,7 @@ export class ModelMarketComponent implements OnInit {
                 numberIncrement: i
               });
             }
-          break;
+            break;
         case 7:
             if(Validate(energy.megawatt7)) {
               dat.listOffer.push({

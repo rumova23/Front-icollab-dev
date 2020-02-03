@@ -281,6 +281,11 @@ export class MarketService {
     return this.http.get(environment.mmmercadoUrl + 'prediction/planning/' + time, {params : this.parameters });
   }
 
+  getResultadosCenace(time): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.mmmercadoUrl + 'resulted/planning/' + time, {params : this.parameters });
+  }
+
   saveModelMarket(data): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post(environment.mmmercadoUrl + 'prediction/updaterow', data, {params : this.parameters });

@@ -81,7 +81,6 @@ export class ProposalAcceptedComponent implements OnInit {
       this.marketService.validateProposalAccepted({ file: this.file, name:  this.fileName})
           .subscribe(
               data => {
-                console.dir(data);
                 if (data.success) {
                   this.toastr.successToastr(data.message, '¡Se ha logrado!');
                 }

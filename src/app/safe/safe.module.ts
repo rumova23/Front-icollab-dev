@@ -8,10 +8,6 @@ import { MDBBootstrapModule, DropdownModule          } from 'angular-bootstrap-m
 import { MaterialModule              } from 'src/app/modules/material-module';
 import { NgbModule                   } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-
-
-
 import { SafeHomeComponent                } from './home/safeHome.component';
 import { ProductsComponent                } from './admin/products/products.component';
 import { ProductsEditComponent            } from './admin/products/edit/productsEdit.component';
@@ -102,16 +98,8 @@ import { DetailJobsComponent } from './admin/monitoring/detail/detailJobs.compon
 import { MonitoringJobsComponent } from './admin/monitoring/monitoringJobs.component';
 import { AccountStatements20119Component } from './business/account-statements20119/account-statements20119.component';
 
-
-
-
-
-
-
-
 @NgModule({
     declarations:[
-
         SafeHomeComponent,
         ProductsComponent, ProductsEditComponent,
         UnityProductsComponent, UnityProductsEditComponent, ClientsComponent,
@@ -138,9 +126,8 @@ import { AccountStatements20119Component } from './business/account-statements20
         SalesOffersComponent,
         SalesOffersV2Component,
         MonitoringJobsEditComponent,
-DetailJobsComponent,
-MonitoringJobsComponent,
-
+        DetailJobsComponent,
+        MonitoringJobsComponent,
         PlannedPowersPpaBComponent,
         PlannedPowersPpaCComponent,
         PlannedPowersPPADComponent,
@@ -152,9 +139,8 @@ MonitoringJobsComponent,
         AccountStatements20119Component,
         MdaAceptadaComponent
     ],
-    exports:[
-    ],
-    imports:[
+    exports: [],
+    imports: [
         BrowserModule,
         MDBBootstrapModule.forRoot(),
         NgbModule,
@@ -162,25 +148,22 @@ MonitoringJobsComponent,
         MaterialModule,
         SAFE_ROUTES,
         SharedModule,
-
-
         ComponentsModule,
-
-    HttpClientModule,
-    DropdownModule.forRoot(),
-    BrowserAnimationsModule,
-    MatDatepickerModule,
-    MatNativeDateModule, ReactiveFormsModule,
-    FlatpickrModule.forRoot(),
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory
-    }),
-    ToastrModule.forRoot(),
-    TreeviewModule.forRoot(),
-    BlockUIModule.forRoot({
-      message: Constants.LOADING_MEESSAGE
-    })
+        HttpClientModule,
+        DropdownModule.forRoot(),
+        BrowserAnimationsModule,
+        MatDatepickerModule,
+        MatNativeDateModule, ReactiveFormsModule,
+        FlatpickrModule.forRoot(),
+        CalendarModule.forRoot({
+          provide: DateAdapter,
+          useFactory: adapterFactory
+        }),
+        ToastrModule.forRoot(),
+        TreeviewModule.forRoot(),
+        BlockUIModule.forRoot({
+          message: Constants.LOADING_MEESSAGE
+        })
     ]
 })
 export class SafeModule{}
