@@ -7,6 +7,8 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { Validate } from 'src/app/core/helpers/util.validator.';
 import { ChargePpa } from 'src/app/safe/models/ChargePpa';
+import {ConfirmationDialogService} from "../../../../core/services/confirmation-dialog.service";
+import {requiredFileType} from "../../../../core/helpers/requiredFileType";
 
 @Component({
   selector: 'app-chargePpa',
@@ -14,6 +16,14 @@ import { ChargePpa } from 'src/app/safe/models/ChargePpa';
   styleUrls: ['./chargePpa.component.scss']
 })
 export class ChargePpaComponent implements OnInit {
+
+  progress;
+  fileUploadForm: FormGroup;
+  file: any;
+  fileName: any;
+  valid = false;
+  typeVarhtml = '6';
+
   title = 'Cargos';
   data: Array<ChargePpa> = [];
   dataSource;
@@ -29,11 +39,16 @@ export class ChargePpaComponent implements OnInit {
   constructor(private marketService: MarketService,
               public globalService: GlobalService,
               private fb: FormBuilder,
-              private toastr: ToastrManager) {
+              private toastr: ToastrManager,
+              private confirmationDialogService: ConfirmationDialogService) {
 
   }
 
   ngOnInit() {
+    this.fileUploadForm = this.fb.group({
+      file: new FormControl(null, [Validators.required, requiredFileType('xlsx')]),
+      typeVarhtml: new FormControl('', Validators.required)
+    });
     this.cols = [
       'hour',
       'fixed',
@@ -152,4 +167,120 @@ export class ChargePpaComponent implements OnInit {
         });
   }
 
+  upload(value) {
+    this.valid = false;
+    let reader = new FileReader();
+    reader.onloadend = (e) => {
+      this.file = reader.result;
+      this.file = this.file.replace(/^data:(.*;base64,)?/, '');
+      this.file = this.file.trim();
+      this.fileName = value.file.name;
+      this.marketService.validateEnergy({
+        file: this.file,
+        name: this.fileName,
+        idTypeImport: this.fileUploadForm.controls['typeVarhtml'].value,
+        nameImport: this.getTypeWeather()
+      })
+          .subscribe(
+              data => {
+                if (data.success) {
+                  if (data.message === "ok") {
+                    this.saveImport();
+                  } else {
+                    this.confirmationDialogService.confirm('Confirmación', data.message)
+                        .then((confirmed) => this.confirm(confirmed))
+                        .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+                  }
+                } else {
+                  this.toastr.errorToastr(Constants.ERROR_LOAD, data.message);
+                }
+              },
+              errorData => {
+                this.fileUploadForm.reset();
+                this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
+              });
+    }
+    reader.readAsDataURL(value.file);
+  }
+
+  private saveImport() {
+    this.marketService.saveCharge({
+      file: this.file,
+      name: this.fileName,
+      idTypeImport: this.fileUploadForm.controls['typeVarhtml'].value,
+      nameImport: this.getTypeWeather()
+    })
+        .subscribe(
+            dataS => {
+              this.toastr.successToastr(Constants.SAVE_SUCCESS, '');
+            },
+            errorDataS => {
+              this.fileUploadForm.reset();
+              this.toastr.errorToastr(Constants.ERROR_LOAD, errorDataS);
+            });
+  }
+
+  private getTypeWeather() {
+    let option = '';
+    switch (this.fileUploadForm.controls['typeVarhtml'].value) {
+      case '6':
+        option = 'Cargo Fijo';
+        break;
+      case '7':
+        option = 'Cargo Variable';
+        break;
+      case '8':
+        option = 'Gas';
+        break;
+      case '9':
+        option = 'HR / MW';
+        break;
+      case '10':
+        option = 'Margen x MM';
+        break;
+      case '11':
+        option = 'Otros';
+        break;
+        break;
+    }
+    return option;
+  }
+
+  confirm(confirmed) {
+    if (confirmed) {
+      this.saveImport();
+    }
+  }
+
+  download() {
+    this.marketService.downloadCharge(this.fileUploadForm.controls['typeVarhtml'].value)
+        .subscribe(
+            data => {
+              let blob = new Blob([this.base64toBlob(data.file,
+                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')], {});
+              saveAs(blob, data.name);
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Error al descargar archivo: ' + this.getTypeWeather());
+            });
+  }
+
+  base64toBlob(base64Data, contentType) {
+    contentType = contentType || '';
+    let sliceSize = 1024;
+    let byteCharacters = atob(base64Data);
+    let bytesLength = byteCharacters.length;
+    let slicesCount = Math.ceil(bytesLength / sliceSize);
+    let byteArrays = new Array(slicesCount);
+    for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+      let begin = sliceIndex * sliceSize;
+      let end = Math.min(begin + sliceSize, bytesLength);
+      let bytes = new Array(end - begin);
+      for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+        bytes[i] = byteCharacters[offset].charCodeAt(0);
+      }
+      byteArrays[sliceIndex] = new Uint8Array(bytes);
+    }
+    return new Blob(byteArrays, { type: contentType });
+  }
 }

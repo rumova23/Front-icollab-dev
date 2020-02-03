@@ -63,10 +63,7 @@ import { ModelMarketComponent } from './admin/modelMarket/modelMarket.component'
 import { BranchCreditNoteSeriesComponent } from './admin/branchCreditNoteSeries/branchCreditNoteSeries.component';
 import { BranchCreditNoteSeriesEditComponent } from './admin/branchCreditNoteSeries/edit/branchCreditNoteSeriesEdit.component';
 import { PpaComponent } from './admin/modelMarket/ppa/ppa.component';
-
-
-
-
+import { MdaAceptadaComponent } from './admin/modelMarket/mda-aceptada/mda-aceptada.component';
 
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -152,7 +149,8 @@ MonitoringJobsComponent,
         PlannedPowersPPAGComponent,
         PlannedPowersPPAHComponent,
         PlannedPowersPPAIComponent,
-        AccountStatements20119Component
+        AccountStatements20119Component,
+        MdaAceptadaComponent
     ],
     exports:[
     ],

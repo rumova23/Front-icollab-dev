@@ -17,12 +17,12 @@ import {ConfirmationDialogService} from '../../../../core/services/confirmation-
 })
 export class EnergyPpaComponent implements OnInit {
   progress;
-fileUploadForm: FormGroup;
+  fileUploadForm: FormGroup;
   file: any;
   fileName: any;
   valid = false;
+  typeVarhtml = '4';
   config: any;
-  typeVarhtml = '1';
   title = 'Variables de Energía';
   data: Array<EnergyPpa> = [];
   dataSource;
@@ -35,9 +35,10 @@ fileUploadForm: FormGroup;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   constructor(private marketService: MarketService,
-    public globalService: GlobalService,
-    private fb: FormBuilder,
-    private toastr: ToastrManager, private confirmationDialogService: ConfirmationDialogService) {
+              public globalService: GlobalService,
+              private fb: FormBuilder,
+              private toastr: ToastrManager,
+              private confirmationDialogService: ConfirmationDialogService) {
   }
 
   ngOnInit() {
@@ -144,7 +145,7 @@ fileUploadForm: FormGroup;
       this.file = this.file.replace(/^data:(.*;base64,)?/, '');
       this.file = this.file.trim();
       this.fileName = value.file.name;
-      this.marketService.validateWeather({
+      this.marketService.validateEnergy({
         file: this.file,
         name: this.fileName,
         idTypeImport: this.fileUploadForm.controls['typeVarhtml'].value,
@@ -173,7 +174,7 @@ fileUploadForm: FormGroup;
   }
 
   private saveImport() {
-    this.marketService.saveWeather({
+    this.marketService.saveEnergy({
       file: this.file,
       name: this.fileName,
       idTypeImport: this.fileUploadForm.controls['typeVarhtml'].value,
@@ -209,16 +210,15 @@ fileUploadForm: FormGroup;
   }
 
   download() {
-    this.marketService.downloadWeather(this.fileUploadForm.controls['typeVarhtml'].value)
+    this.marketService.downloadEnergy(this.fileUploadForm.controls['typeVarhtml'].value)
         .subscribe(
             data => {
-              console.dir(data);
               let blob = new Blob([this.base64toBlob(data.file,
                   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')], {});
               saveAs(blob, data.name);
             },
             errorData => {
-              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Error al descargar archivo de temperaturas');
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Error al descargar archivo: ' + this.getTypeWeather());
             });
   }
 
@@ -240,5 +240,4 @@ fileUploadForm: FormGroup;
     }
     return new Blob(byteArrays, { type: contentType });
   }
-
 }

@@ -557,7 +557,7 @@
       </button>
       <button type="submit" class="btn right" [disabled]="!modelMarketForm.valid || hour === 0"
         [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-        Agregar
+        Aceptar
       </button>
     </div>
     <br/>
@@ -792,7 +792,7 @@
 
     <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
       <div>
-        <button type="button" class="btn" (click)="download()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">Descargar</button>
+        <button type="button" class="btn" (click)="terminarPlanning()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">Terminar</button>
       </div>
     </div>
 

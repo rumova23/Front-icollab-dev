@@ -98,12 +98,12 @@ export class MarketService {
     return this.http.get(environment.marketUrl + 'debitNote/get/' + id, {params : this.parameters });
   }
 
-  getFuecds():Observable<any> {
+  getFuecds(): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(environment.fuecdUrl + 'fuecd/list', {params : this.parameters });
   }
 
-  getFuecd(id:number):Observable<any> {
+  getFuecd(id: number): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(environment.fuecdUrl + 'fuecd/get/' + id, {params : this.parameters });
   }
@@ -228,7 +228,7 @@ export class MarketService {
 
   getPmls(data: any): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(environment.pmlUrl + "list", data, {params : this.parameters });
+    return this.http.post(environment.pmlUrl + 'list', data, {params : this.parameters });
   }
 
   getPlantBranches(idPlant: string): Observable<any> {
@@ -256,34 +256,39 @@ export class MarketService {
     return this.http.post(environment.marketUrl + 'branchOfficeCreditNoteSerie/save', branchOfficeCreditNoteSerie, {params : this.parameters });
   }
 
-  getProductsByClient(idClient) : Observable<any> {
+  getProductsByClient(idClient): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(environment.marketUrl + 'product/list/client/' + idClient, {params : this.parameters });
   }
 
   getFinalcialIndexes(data: any): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(environment.marketUrl + "financialIndex/list", data, {params : this.parameters });
+    return this.http.post(environment.marketUrl + 'financialIndex/list', data, {params : this.parameters });
   }
 
   getInpp(data: any): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(environment.marketUrl + "inpp/list", data, {params : this.parameters });
+    return this.http.post(environment.marketUrl + 'inpp/list', data, {params : this.parameters });
   }
 
   getUsppi(data: any): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(environment.marketUrl + "usppi/list", data, {params : this.parameters });
+    return this.http.post(environment.marketUrl + 'usppi/list', data, {params : this.parameters });
   }
 
   getModelMarket(time): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get(environment.mmmercadoUrl + "prediction/planning/" + time, {params : this.parameters });
+    return this.http.get(environment.mmmercadoUrl + 'prediction/planning/' + time, {params : this.parameters });
   }
 
   saveModelMarket(data): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(environment.mmmercadoUrl + "prediction/updaterow", data, {params : this.parameters });
+    return this.http.post(environment.mmmercadoUrl + 'prediction/updaterow', data, {params : this.parameters });
+  }
+
+  terminaPlannig(data): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.mmmercadoUrl + 'planning/termina/' + data, {params : this.parameters });
   }
 
   downloadModelMarket(time): Observable<any> {

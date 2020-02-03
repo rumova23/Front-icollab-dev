@@ -63,7 +63,7 @@ export class ModelMarketComponent implements OnInit {
       'priceMegawatt10',
       'megawatt11',
       'priceMegawatt11',
-      "edit"
+      'edit'
     ];
     this.modelMarketForm = this.fb.group({
       'megawatt1': new FormControl('', Validators.required),
@@ -97,7 +97,6 @@ export class ModelMarketComponent implements OnInit {
     this.marketService.getModelMarket(this.date.getTime())
       .subscribe(
         data => {
-          console.log(data);
           const rows = data.rows;
           this.dateDespatch = data.dateDespatch;
           this.data = [];
@@ -166,7 +165,14 @@ export class ModelMarketComponent implements OnInit {
 
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
+          console.log('RTC');
+          console.dir(errorData);
+          console.log('RTC');
+          if (errorData.error.message.indexOf('La Planeacion Existe') > -1) {
+            this.toastr.warningToastr(errorData.error.message, 'Warning!');
+          } else {
+            this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.error.message);
+          }
         });
   }
 
@@ -327,43 +333,16 @@ export class ModelMarketComponent implements OnInit {
         this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
       });
   }
-
-  download() {
-    if (!Validate(this.data) || this.data.length <= 0) {
-      return;
-    }
-    this.marketService.downloadModelMarket(
-      this.date.getTime()
+  terminarPlanning() {
+    this.marketService.terminaPlannig(
+        this.date.getTime()
     ) .subscribe(
         dat => {
           console.log(dat);
-          let blob = new Blob([this.base64toBlob(dat.base64,
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')], {});
-          saveAs(blob, dat.nameFile);
           this.toastr.successToastr(Constants.SAVE_SUCCESS);
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Error al descargar archivo');
+          this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.message);
         });
   }
-
-  base64toBlob(base64Data, contentType) {
-    contentType = contentType || '';
-    let sliceSize = 1024;
-    let byteCharacters = atob(base64Data);
-    let bytesLength = byteCharacters.length;
-    let slicesCount = Math.ceil(bytesLength / sliceSize);
-    let byteArrays = new Array(slicesCount);
-    for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
-      let begin = sliceIndex * sliceSize;
-      let end = Math.min(begin + sliceSize, bytesLength);
-      let bytes = new Array(end - begin);
-      for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
-        bytes[i] = byteCharacters[offset].charCodeAt(0);
-      }
-      byteArrays[sliceIndex] = new Uint8Array(bytes);
-    }
-    return new Blob(byteArrays, { type: contentType });
-  }
-
 }

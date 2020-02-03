@@ -62,6 +62,7 @@ import { BranchCreditNoteSeriesComponent          } from '../admin/branchCreditN
 import { BranchCreditNoteSeriesEditComponent      } from '../admin/branchCreditNoteSeries/edit/branchCreditNoteSeriesEdit.component';
 import { ProposalAcceptedComponent				  } from '../admin/modelMarket/proposal-accepted/proposalAccepted.component';
 import { AccountStatements20119Component } from '../business/account-statements20119/account-statements20119.component';
+import {MdaAceptadaComponent} from '../admin/modelMarket/mda-aceptada/mda-aceptada.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -120,6 +121,7 @@ import { AccountStatements20119Component } from '../business/account-statements2
 		, PpaComponent
 		, ProposalAcceptedComponent
 		, AccountStatements20119Component
+		, MdaAceptadaComponent
   	]
 })
 
@@ -197,12 +199,43 @@ export class SafeHomeComponent implements OnInit {
 							)
 						).changeDetectorRef.detectChanges();
 						break;
-					case 'Safe.Modelo Matemático - Mercado':
-						// 38
+					case 'Safe.Consulta Cargos':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								ChargePpaComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.Consulta Variables Energía':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								EnergyPpaComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.MDA':
 						banderaTemporal = true;
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(
 								ModelMarketComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.Resultados MDA CENACE':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								ProposalAcceptedComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.Oferta MDA Aceptada EAT':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								MdaAceptadaComponent
 							)
 						).changeDetectorRef.detectChanges();
 						break;
@@ -385,9 +418,6 @@ export class SafeHomeComponent implements OnInit {
 					option = 34;
 					typeCharge = 'Otros';
 					break;
-				case 'Consulta Cargos':
-					option = 35;
-					break;
 				case 'Carga Poder Calorífico Inferior':
 					option = 36;
 					typeEnergy = 'Poder Calorífico Inferior';
@@ -395,11 +425,6 @@ export class SafeHomeComponent implements OnInit {
 				case 'Carga Factor de Potencia':
 					option = 36;
 					typeEnergy = 'Factor de Potencia';
-					break;
-
-
-				case 'Consulta Variables Energía':
-					option = 37;
 					break;
 				case 'Modelo Matemático - Mercado':
 					option = 38;
@@ -435,9 +460,6 @@ export class SafeHomeComponent implements OnInit {
 				case 'Tipos de Relación SAT':
 					option = 209;
 					break;
-				case 'Proposal Accepted':
-						option = 210;
-						break;
 				}
 				if (option === 9) {
 				  this.eventService.sendMainSafe(new EventMessage(option, catalog));
@@ -468,7 +490,7 @@ export class SafeHomeComponent implements OnInit {
 			this.viewContainerRef.createComponent(factoryProductsEdit);
 			refProductsEdit.instance.entity = event.data;
 			if (Validate(event.data.product)) {
-			refProductsEdit.instance.idProduct = event.data.product.id;
+			// refProductsEdit.instance.idProduct = event.data.product.id;
 			}
 			refProductsEdit.changeDetectorRef.detectChanges();
 			break;
@@ -642,6 +664,7 @@ export class SafeHomeComponent implements OnInit {
 			const refFinalcialIndexes =
 			this.viewContainerRef.createComponent(factoryFinancialIndexes);
 			refFinalcialIndexes.changeDetectorRef.detectChanges();
+			break;
 		case 26:
 			const factoryInpp =
 			this.componentFactoryResolver.resolveComponentFactory(InppComponent);
@@ -717,13 +740,6 @@ export class SafeHomeComponent implements OnInit {
 			}
 			refChargeEdit.changeDetectorRef.detectChanges();
 			break;
-		case 35:
-			const factoryChargePpa =
-			this.componentFactoryResolver.resolveComponentFactory(ChargePpaComponent);
-			const refChargePpa =
-			this.viewContainerRef.createComponent(factoryChargePpa);
-			refChargePpa.changeDetectorRef.detectChanges();
-			break;
 		case 36:
 			const factoryEnergyEdit =
 			this.componentFactoryResolver.resolveComponentFactory(EnergyEditComponent);
@@ -733,14 +749,6 @@ export class SafeHomeComponent implements OnInit {
 			refEnergyEdit.instance.typeEnergy = event.data;
 			}
 			refEnergyEdit.changeDetectorRef.detectChanges();
-			break;
-
-		case 37:
-			const factoryEnergyPpa =
-			this.componentFactoryResolver.resolveComponentFactory(EnergyPpaComponent);
-			const refEnergyPpa =
-			this.viewContainerRef.createComponent(factoryEnergyPpa);
-			refEnergyPpa.changeDetectorRef.detectChanges();
 			break;
 		case 38:
 			break;
@@ -842,13 +850,6 @@ export class SafeHomeComponent implements OnInit {
 			const refTypesRelationSat =
 			this.viewContainerRef.createComponent(factoryTypesRelationSat);
 			refTypesRelationSat.changeDetectorRef.detectChanges();
-			break;
-		case 210:
-			const factoryProposalAccepted =
-				this.componentFactoryResolver.resolveComponentFactory(ProposalAcceptedComponent);
-			const refProposalAccepted =
-				this.viewContainerRef.createComponent(factoryProposalAccepted);
-			refProposalAccepted.changeDetectorRef.detectChanges();
 			break;
 		}
 	}

@@ -5,8 +5,50 @@
       <mdb-breadcrumb-item class="active">{{title}}</mdb-breadcrumb-item>
     </mdb-breadcrumb>
 </div>
-
-<div class="section">
+<form [formGroup]="fileUploadForm" (ngSubmit)="upload(fileUploadForm.value)">
+  <div class="row">
+    <div class="col-md-auto col-md-12 col-lg-4">
+      <div class="md-form">
+        <select formControlName="typeVarhtml" class="browser-default custom-select" [(ngModel)]="typeVarhtml">
+          <option [value]="6">Cargo Fijo</option>
+          <option [value]="7">Cargo Variable</option>
+          <option [value]="8">Precio de Gas</option>
+          <option [value]="9">HR / MW</option>
+          <option [value]="10">Margen x MM</option>
+          <option [value]="11">Otros...</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-auto col-md-12 col-lg-4">
+      <app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+      <mat-error *ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
+        Requerido
+      </mat-error>
+    </div>
+    <div class="col-md-auto col-md-12 col-lg-4">
+      <button type="button" class="btn right" (click)="download()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+        <mdb-icon far icon="save" class="mr-1"></mdb-icon> Descarga Layout
+      </button>
+      <hr />
+      <button type="submit" class="btn right"
+              [disabled]="!fileUploadForm.valid"
+              [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+        <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+      </button>
+    </div>
+  </div>
+  <!--           <div class="row"></div>
+            <div class="row">
+              <div class="col">
+                  <mat-form-field>
+                      <input matInput [matDatepicker]="De" placeholder="De"
+                       formControlName="date">
+                      <mat-datepicker-toggle matSuffix [for]="De"></mat-datepicker-toggle>
+                      <mat-datepicker #De></mat-datepicker>
+                    </mat-form-field>
+              </div>
+            </div> -->
+</form>
 
   <div class="row pb-2">
       <div class="col">
@@ -14,38 +56,23 @@
           <p class="section_subtitulo_0"> </p>
       </div>
   </div>
-  <hr>
-  <div class="row mb-3 mt-3">
-    <div class="col">
-      <div class="filtros mt-2 row">
-        <div class="col-12 col-sm-12 col-md-12 col-lg-10">
-          <div class="row">
-            <div class="col-md-auto">
-
-              <div class="form-group">
-                  <label class="form-text text-left" for="mydate">De</label>
-                  <mat-form-field class="form-control">
-                      <input matInput 
-                      [matDatepicker]="mydate"
-                      [(ngModel)]="date"
-                      (dateChange)="dateChange($event)">
-                      <mat-datepicker-toggle matSuffix [for]="mydate"></mat-datepicker-toggle>
-                      <mat-datepicker #mydate></mat-datepicker>
-                  </mat-form-field>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      <!--   <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
-          <div>
-            <button type="button" class="btn btn-primary">Buscar</button>
-          </div>
-        </div> -->
-      </div>
+<hr />
+<div class="row mb-3 mt-3">
+  <div class="col">
+    <div class="form-group">
+      <label class="form-text text-left" for="mydate">De</label>
+      <mat-form-field class="form-control">
+        <input matInput
+               [matDatepicker]="mydate"
+               [(ngModel)]="date"
+               (dateChange)="dateChange($event)">
+        <mat-datepicker-toggle matSuffix [for]="mydate"></mat-datepicker-toggle>
+        <mat-datepicker #mydate></mat-datepicker>
+      </mat-form-field>
     </div>
-  </div>
 
+  </div>
+</div>
     <form [formGroup]="chargeForm" (ngSubmit)="addCharge(chargeForm.value)">
       <div class="row">
         <div class="col-md-auto col-md-6 col-lg-4">
@@ -53,7 +80,7 @@
             <div class="col-md-8">
               
               <div class="form-group">
-                <label class="form-text text-left">Cargo Fijo</label>
+                <label class="form-text text-left">Cargo Fijo MXN</label>
                 <input
                     class="form-control"
                     type="number"
@@ -74,7 +101,7 @@
           <div class="row">
             <div class="col-md-8">
               <div class="form-group">
-                  <label class="form-text text-left">Cargo Variable</label>
+                  <label class="form-text text-left">Cargo Variable MXN</label>
                   <input
                       class="form-control"
                       type="number"
@@ -94,7 +121,7 @@
           <div class="row">
             <div class="col-md-8">
               <div class="form-group">
-                  <label class="form-text text-left">Gas</label>
+                  <label class="form-text text-left">Precio de Gas $/GJ</label>
                   <input
                       class="form-control"
                       type="number"
@@ -115,7 +142,7 @@
           <div class="row">
             <div class="col-md-8">
               <div class="form-group">
-                  <label class="form-text text-left">HR / MW</label>
+                  <label class="form-text text-left">HR-M KJ/kWh</label>
                   <input
                       class="form-control"
                       type="number"
@@ -136,7 +163,7 @@
           <div class="row">
             <div class="col-md-8">
               <div class="form-group">
-                  <label class="form-text text-left">Margen x MM</label>
+                  <label class="form-text text-left">Margen x MM MXN</label>
                   <input
                       class="form-control"
                       type="number"
@@ -255,5 +282,3 @@
     </div>
 
   </div>
-
-</div>

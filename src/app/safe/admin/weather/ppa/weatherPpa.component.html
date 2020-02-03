@@ -10,8 +10,9 @@
         <div class="col-md-auto col-md-12 col-lg-4">
             <div class="md-form">
                 <select formControlName="typeVarhtml" class="browser-default custom-select" [(ngModel)]="typeVarhtml">
-                    <option [value]="4">Temperatura Ambiente</option>
-                    <option [value]="5">Presion Barometrica</option>
+                    <option [value]="1">Temperatura Ambiente</option>
+                    <option [value]="2">Presión Barométrica</option>
+                    <option [value]="3">Humedad Relativa</option>
                 </select>
             </div>
         </div>
@@ -33,17 +34,6 @@
             </button>
         </div>
     </div>
-    <!--           <div class="row"></div>
-              <div class="row">
-                <div class="col">
-                    <mat-form-field>
-                        <input matInput [matDatepicker]="De" placeholder="De"
-                         formControlName="date">
-                        <mat-datepicker-toggle matSuffix [for]="De"></mat-datepicker-toggle>
-                        <mat-datepicker #De></mat-datepicker>
-                      </mat-form-field>
-                </div>
-              </div> -->
 </form>
     <div class="row pb-2">
         <div class="col">
@@ -68,22 +58,12 @@
             
         </div>
     </div>
-
-    <!--   <div class="row justify-content-between mb-2 mt-2 f25">
-    <div class="col">
-      <i class="fas fa-arrow-circle-left"></i>
-    </div>
-    <div class="col txt-right">
-      <i class="fas fa-arrow-alt-circle-right"></i>
-    </div>
-  </div>
- -->
     <form [formGroup]="weatherForm" (ngSubmit)="addWeather(weatherForm.value)">
         <div class="row">
             <div class="col-md-auto col-md-6 col-lg-4">
                     <div class="col-md-8">
                         <div class="form-group">
-                            <label class="form-text text-left">temperature</label>
+                            <label class="form-text text-left">Temperatura Ambiente ºC</label>
                             <input class="form-control" formControlName="temperature" type="number" />
                             <div *ngIf="!weatherForm.controls['temperature'].valid && weatherForm.controls['temperature'].touched" style="color:red">
                                 <div>Requerido</div>
@@ -94,7 +74,7 @@
             <div class="col-md-auto col-md-6 col-lg-4">
                     <div class="col-md-8">
                         <div class="form-group">
-                            <label class="form-text text-left">Presión Barométrica</label>
+                            <label class="form-text text-left">Presión Barométrica mmBar</label>
                             <input class="form-control" formControlName="pressure" type="number" />
                             <div *ngIf="!weatherForm.controls['pressure'].valid && weatherForm.controls['pressure'].touched" style="color:red">
                                 <div>Requerido</div>
@@ -105,7 +85,7 @@
             <div class="col-md-auto col-md-6 col-lg-4">
                     <div class="col-md-8">
                         <div class="form-group">
-                            <label class="form-text text-left">Humedad</label>
+                            <label class="form-text text-left">Humedad Relativa %</label>
                             <input class="form-control" formControlName="humidity" type="number" />
                             <div *ngIf="!weatherForm.controls['humidity'].valid && weatherForm.controls['humidity'].touched" style="color:red">
                                 <div>Requerido</div>

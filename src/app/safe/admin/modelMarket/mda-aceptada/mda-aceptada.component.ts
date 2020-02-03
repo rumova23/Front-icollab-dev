@@ -1,43 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {GlobalService} from '../../../../core/globals/global.service';
+import {ModelMarket} from '../../../models/ModelMarket';
+import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import {Constants} from '../../../../core/globals/Constants';
 import {MarketService} from '../../../services/market.service';
+import {FormBuilder} from '@angular/forms';
 import {ToastrManager} from 'ng6-toastr-notifications';
-import {requiredFileType} from '../../../../core/helpers/requiredFileType';
-import {ModelMarket} from '../../../models/ModelMarket';
-import {MatTableDataSource} from '@angular/material';
+import {GlobalService} from '../../../../core/globals/global.service';
+import {Validate} from '../../../../core/helpers/util.validator.';
+import {saveAs} from 'file-saver';
 
 @Component({
-  selector: 'app-proposal-accepted',
-  templateUrl: './proposalAccepted.component.html',
-  styleUrls: ['./proposalAccepted.component.scss']
+  selector: 'app-mda-aceptada',
+  templateUrl: './mda-aceptada.component.html',
+  styleUrls: ['./mda-aceptada.component.scss']
 })
-export class ProposalAcceptedComponent implements OnInit {
-
-  proposalAcceptedForm: FormGroup;
-  file: any;
-  fileName: any;
-  valid = false;
-  progress;
+export class MdaAceptadaComponent implements OnInit {
+  title = 'Oferta MDA Aceptada';
+  date: Date;
+  dateDespatch = '';
+  dataSource;
+  data: Array<ModelMarket> = [];
 
   cols: any[];
   colsGroup: any [];
-  dataSource;
-  date: Date;
-  dateDespatch = '';
-  data: Array<ModelMarket> = [];
 
-  constructor(public globalService: GlobalService,
-              private marketService: MarketService,
-              private toastr: ToastrManager,
-              private fb: FormBuilder
-  ) { }
-
+  constructor(
+      public globalService: GlobalService,
+      private marketService: MarketService,
+      private toastr: ToastrManager) { }
   ngOnInit() {
-    this.proposalAcceptedForm = this.fb.group({
-      file: new FormControl(null, [Validators.required, requiredFileType('xlsx')])
-    });
     this.cols = [
       'hour',
       'idSubInt',
@@ -69,32 +60,7 @@ export class ProposalAcceptedComponent implements OnInit {
     ];
     this.colsGroup = ['-', '--', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
   }
-  validate(value) {
-    this.valid = false;
-    const reader = new FileReader();
-    reader.onloadend = (e) => {
-      this.file = reader.result;
-      this.file = this.file.replace(/^data:(.*;base64,)?/, '');
 
-      this.file = this.file.trim();
-      this.fileName = value.file.name;
-      this.marketService.validateProposalAccepted({ file: this.file, name:  this.fileName})
-          .subscribe(
-              data => {
-                console.dir(data);
-                if (data.success) {
-                  this.toastr.successToastr(data.message, '¡Se ha logrado!');
-                }
-                if (!data.success) {
-                  this.toastr.errorToastr(data.message + '. Codigo: ' + data.code, '!Error¡');
-                }
-              },
-              errorData => {
-                this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
-              });
-    }
-    reader.readAsDataURL(value.file);
-  }
   dateChange(event) {
     this.date = new Date(event.target.value);
     this.loadData();
@@ -177,4 +143,41 @@ export class ProposalAcceptedComponent implements OnInit {
             });
   }
 
+  download() {
+    if (!Validate(this.data) || this.data.length <= 0) {
+      return;
+    }
+    this.marketService.downloadModelMarket(
+        this.date.getTime()
+    ) .subscribe(
+        dat => {
+          console.log(dat);
+          let blob = new Blob([this.base64toBlob(dat.base64,
+              'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')], {});
+          saveAs(blob, dat.nameFile);
+          this.toastr.successToastr(Constants.SAVE_SUCCESS);
+        },
+        errorData => {
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Error al descargar archivo');
+        });
+  }
+
+  base64toBlob(base64Data, contentType) {
+    contentType = contentType || '';
+    let sliceSize = 1024;
+    let byteCharacters = atob(base64Data);
+    let bytesLength = byteCharacters.length;
+    let slicesCount = Math.ceil(bytesLength / sliceSize);
+    let byteArrays = new Array(slicesCount);
+    for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+      let begin = sliceIndex * sliceSize;
+      let end = Math.min(begin + sliceSize, bytesLength);
+      let bytes = new Array(end - begin);
+      for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+        bytes[i] = byteCharacters[offset].charCodeAt(0);
+      }
+      byteArrays[sliceIndex] = new Uint8Array(bytes);
+    }
+    return new Blob(byteArrays, { type: contentType });
+  }
 }
