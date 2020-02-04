@@ -27,7 +27,6 @@ export class ProposalAcceptedComponent implements OnInit {
   date: Date;
   dateDespatch = '';
   data: Array<ModelMarket> = [];
-
   constructor(public globalService: GlobalService,
               private marketService: MarketService,
               private toastr: ToastrManager,
@@ -175,5 +174,4 @@ export class ProposalAcceptedComponent implements OnInit {
               }
             });
   }
-
 }

@@ -281,6 +281,11 @@ export class MarketService {
     return this.http.get(environment.mmmercadoUrl + 'prediction/planning/' + time, {params : this.parameters });
   }
 
+  getModelMarketAccept(time): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.mmmercadoUrl + 'planning/accept/' + time, {params : this.parameters });
+  }
+
   getResultadosCenace(time): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(environment.mmmercadoUrl + 'resulted/planning/' + time, {params : this.parameters });
@@ -295,10 +300,24 @@ export class MarketService {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(environment.mmmercadoUrl + 'planning/termina/' + data, {params : this.parameters });
   }
+  solicitaReactivarPlannig(data): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.post(environment.mmmercadoUrl + 'planning/solicita/activar', data, {params : this.parameters });
+  }
+
+  reactivarPlannig(data): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.mmmercadoUrl + 'planning/activar/' + data, {params : this.parameters });
+  }
 
   downloadModelMarket(time): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(environment.mmmercadoUrl + 'download/' + time, {params : this.parameters });
+  }
+
+  getComentariosPlanning(time): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.mmmercadoUrl + 'planning/comentarios/' + time, {params : this.parameters });
   }
 
   downloadInvoice(id: number): Observable<any> {

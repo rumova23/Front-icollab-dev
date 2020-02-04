@@ -3,11 +3,13 @@ import {ModelMarket} from '../../../models/ModelMarket';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import {Constants} from '../../../../core/globals/Constants';
 import {MarketService} from '../../../services/market.service';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ToastrManager} from 'ng6-toastr-notifications';
 import {GlobalService} from '../../../../core/globals/global.service';
 import {Validate} from '../../../../core/helpers/util.validator.';
 import {saveAs} from 'file-saver';
+import {requiredFileType} from '../../../../core/helpers/requiredFileType';
+import {Comentario} from '../../../../core/models/comentario';
 
 @Component({
   selector: 'app-mda-aceptada',
@@ -24,11 +26,30 @@ export class MdaAceptadaComponent implements OnInit {
   cols: any[];
   colsGroup: any [];
 
+  submitted = false;
+  isdisabled = false;
+  headObservaciones = ['#', 'Nombre', 'Observaciones', 'Fecha de ultima modificación'];
+  observaciones: Array<any>;
+  get f() { return this.fileUploadForm.controls; }
+
+
+  progress;
+  fileUploadForm: FormGroup;
+  file: any;
+  fileName: any;
+  valid = false;
+
   constructor(
       public globalService: GlobalService,
       private marketService: MarketService,
-      private toastr: ToastrManager) { }
+      private toastr: ToastrManager,
+      private fb: FormBuilder) { }
   ngOnInit() {
+    this.fileUploadForm = this.fb.group({
+      file: new FormControl(null, Validators.required),
+      fObserva: [{ value: '', disabled: this.isdisabled }, Validators.required]
+    });
+    this.observaciones = [];
     this.cols = [
       'hour',
       'idSubInt',
@@ -67,7 +88,7 @@ export class MdaAceptadaComponent implements OnInit {
   }
 
   private loadData() {
-    this.marketService.getModelMarket(this.date.getTime())
+    this.marketService.getModelMarketAccept(this.date.getTime())
         .subscribe(
             data => {
               const rows = data.rows;
@@ -132,7 +153,7 @@ export class MdaAceptadaComponent implements OnInit {
                 this.data.push(hour);
               }
               this.dataSource = new MatTableDataSource<any>(this.data);
-
+              this.obtieneObservaciones();
             },
             errorData => {
               if (errorData.error.message.indexOf('La Planeacion Existe') > -1) {
@@ -141,6 +162,21 @@ export class MdaAceptadaComponent implements OnInit {
                 this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.error.message);
               }
             });
+  }
+
+  obtieneObservaciones() {
+          this.marketService.getComentariosPlanning(this.date.getTime()).subscribe(
+              data => {
+                console.dir(data);
+                data.comentario.forEach(comenta => {
+                  this.resuelveDS(comenta);
+                });
+              });
+  }
+
+  resuelveDS(comenta) {
+    this.observaciones.push(
+        new Comentario(comenta.idUsr, comenta.nombre, comenta.observacion, comenta.fecha_modificacion));
   }
 
   download() {
@@ -180,4 +216,39 @@ export class MdaAceptadaComponent implements OnInit {
     }
     return new Blob(byteArrays, { type: contentType });
   }
+  solicitaReactivarPlanning(value) {
+    let reader = new FileReader();
+    reader.onloadend = (e) => {
+      this.file = reader.result;
+      console.dir(reader);
+      this.file = this.file.replace(/^data:(.*;base64,)?/, '');
+      this.file = this.file.trim();
+      this.fileName = value.file.name;
+      this.marketService.solicitaReactivarPlannig({
+        file: this.file,
+        name: this.fileName,
+        soporte: this.fileUploadForm.controls.fObserva.value,
+        date: this.date.getTime()
+      }).subscribe(
+              data => {
+                console.dir(data);
+                this.toastr.successToastr(Constants.SAVE_SUCCESS);
+              },
+              errorData => {
+                this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.error.message);
+              });
+    }
+    reader.readAsDataURL(value.file);
+  }
+
+  reactivarPlanning() {
+      this.marketService.reactivarPlannig(this.date.getTime()).subscribe(
+          data => {
+            console.dir(data);
+            this.toastr.successToastr(Constants.SAVE_SUCCESS);
+          },
+          errorData => {
+            this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.error.message);
+          });
+    }
 }

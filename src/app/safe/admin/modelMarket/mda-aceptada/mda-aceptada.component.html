@@ -31,11 +31,11 @@
           </div>
 
         </div>
-        <!--   <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
           <div>
-            <button type="button" class="btn btn-primary">Buscar</button>
+            <button type="button" class="btn btn-primary" (click)="reactivarPlanning()">Reactivar</button>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>
@@ -274,5 +274,62 @@
     </div>
 
   </div>
+</div>
+<hr/>
+<div class=" row">
+  <div class="col-12">
+    <form [formGroup]="fileUploadForm" (ngSubmit)="solicitaReactivarPlanning(fileUploadForm.value)">
+      <div class="row">
+        <div class="col-md-auto col-md-12 col-lg-4">
+          <div class="md-form">
+            <textarea matInput formControlName="fObserva" [ngClass]="{ 'is-invalid': submitted && f.fileUploadForm.errors }" placeholder="Motivo Solicitud de Activacion"></textarea>
+            <div *ngIf="submitted && f.fileUploadForm.errors" style="color:red">
+              <div *ngIf="f.fileUploadForm.errors.required">Requerido</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-auto col-md-12 col-lg-4">
+          <app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+          <mat-error *ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
+            Requerido
+          </mat-error>
+        </div>
+        <div class="col-md-auto col-md-12 col-lg-4">
+          <button type="button" class="btn right" (click)="download()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+            <mdb-icon far icon="save" class="mr-1"></mdb-icon> Descarga Layout
+          </button>
+          <hr />
+          <button type="submit" class="btn right"
+                  [disabled]="!fileUploadForm.valid"
+                  [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+            <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+          </button>
+        </div>
+      </div>
+    </form>
+    <!-- Lista de observaciones -->
+    <div class="row">
+      <div class="col">
+        <div class="mat-elevation-z0">
+          <table mdbTable class="table_catalogo">
+            <thead>
+            <tr>
+              <th *ngFor="let head of headObservaciones" scope="col">{{head}} </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr mdbTableCol *ngFor="let el of observaciones; let i = index;">
+              <th scope="row">{{i+1}}</th>
+              <td>{{el.nombre}}</td>
+              <td>{{el.observacion}}</td>
+              <td>{{el.fecha_modificacion}}</td>
+            </tr>
+            </tbody>
+          </table>
 
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
