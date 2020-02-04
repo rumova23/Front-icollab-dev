@@ -165,18 +165,17 @@ export class MdaAceptadaComponent implements OnInit {
   }
 
   obtieneObservaciones() {
-          this.marketService.getComentariosPlanning(this.date.getTime()).subscribe(
-              data => {
-                console.dir(data);
-                data.comentario.forEach(comenta => {
-                  this.resuelveDS(comenta);
-                });
-              });
+      this.marketService.getComentariosPlanning(this.date.getTime()).subscribe(
+          data => {
+            data.forEach(comenta => {
+              this.resuelveDS(comenta);
+            });
+          });
   }
 
   resuelveDS(comenta) {
     this.observaciones.push(
-        new Comentario(comenta.idUsr, comenta.nombre, comenta.observacion, comenta.fecha_modificacion));
+        new Comentario(comenta.planningSoporteId, comenta.usuarioSoporte, comenta.soporte, comenta.fechaSoporte));
   }
 
   download() {
@@ -231,7 +230,7 @@ export class MdaAceptadaComponent implements OnInit {
         date: this.date.getTime()
       }).subscribe(
               data => {
-                console.dir(data);
+                this.obtieneObservaciones();
                 this.toastr.successToastr(Constants.SAVE_SUCCESS);
               },
               errorData => {
