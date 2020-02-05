@@ -5,7 +5,6 @@
     <mdb-breadcrumb-item class="active">{{title}}</mdb-breadcrumb-item>
   </mdb-breadcrumb>
 </div>
-<div class="section">
   <div class="row pb-2">
     <div class="col">
       <p class="section_titulo_0">{{title}}</p>
@@ -274,7 +273,6 @@
     </div>
 
   </div>
-</div>
 <hr/>
 <div class=" row">
   <div class="col-12">
@@ -295,10 +293,6 @@
           </mat-error>
         </div>
         <div class="col-md-auto col-md-12 col-lg-4">
-          <button type="button" class="btn right" (click)="download()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-            <mdb-icon far icon="save" class="mr-1"></mdb-icon> Descarga Layout
-          </button>
-          <hr />
           <button type="submit" class="btn right"
                   [disabled]="!fileUploadForm.valid"
                   [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
@@ -322,7 +316,7 @@
               <th scope="row">{{i+1}}</th>
               <td>{{el.nombre}}</td>
               <td>{{el.observacion}}</td>
-              <td>{{el.fecha_modificacion}}</td>
+              <td>{{el.fecha_modificacion | date:'MM/dd/yyyy'}}</td>
             </tr>
             </tbody>
           </table>

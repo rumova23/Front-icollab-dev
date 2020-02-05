@@ -93,16 +93,19 @@ export class ProposalAcceptedComponent implements OnInit {
     }
     reader.readAsDataURL(value.file);
   }
+
+
   dateChange(event) {
     this.date = new Date(event.target.value);
     this.loadData();
   }
 
   private loadData() {
-    this.marketService.getModelMarket(this.date.getTime())
+    this.marketService.getModelMarketResultadosCenace(this.date.getTime())
         .subscribe(
             data => {
               const rows = data.rows;
+              console.dir(rows);
               this.dateDespatch = data.dateDespatch;
               this.data = [];
               for (var i = 0; i < rows.length; i++) {
@@ -173,5 +176,36 @@ export class ProposalAcceptedComponent implements OnInit {
                 this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.error.message);
               }
             });
+  }
+
+  download() {
+    this.marketService.downloadCharge('100')
+        .subscribe(
+            data => {
+              let blob = new Blob([this.base64toBlob(data.file,
+                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')], {});
+              saveAs(blob, data.name);
+            },
+            errorData => {
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'Error al descargar archivo: Potencia');
+            });
+  }
+  base64toBlob(base64Data, contentType) {
+    contentType = contentType || '';
+    let sliceSize = 1024;
+    let byteCharacters = atob(base64Data);
+    let bytesLength = byteCharacters.length;
+    let slicesCount = Math.ceil(bytesLength / sliceSize);
+    let byteArrays = new Array(slicesCount);
+    for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+      let begin = sliceIndex * sliceSize;
+      let end = Math.min(begin + sliceSize, bytesLength);
+      let bytes = new Array(end - begin);
+      for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+        bytes[i] = byteCharacters[offset].charCodeAt(0);
+      }
+      byteArrays[sliceIndex] = new Uint8Array(bytes);
+    }
+    return new Blob(byteArrays, { type: contentType });
   }
 }

@@ -24,7 +24,10 @@
                 Requerido
               </mat-error>
             </div>
-            <div class="col txt-r">
+            <div class="col txt-r"><button type="button" class="btn right" (click)="download()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+              <mdb-icon far icon="save" class="mr-1"></mdb-icon> Descarga Layout
+            </button>
+              <hr />
               <button type="submit" class="btn btn-info right"
                       [disabled]="!proposalAcceptedForm.valid"
                       [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">

@@ -1,0 +1,812 @@
+<div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+    <mdb-breadcrumb-item>Modelo de Mercado</mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">{{title}}</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+<div class="section">
+  <div class="row pb-2">
+    <div class="col">
+      <p class="section_titulo_0">{{title}}</p>
+      <p class="section_subtitulo_0"> </p>
+    </div>
+  </div>
+  <hr>
+  <div class="row mb-3 mt-3">
+    <div class="col">
+      <div class="filtros mt-2 row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-10">
+          <div class="form-group">
+            <label class="form-text text-left" for="mydate">De</label>
+            <mat-form-field class="form-control">
+              <input matInput
+                     [matDatepicker]="mydate"
+                     [(ngModel)]="date"
+                     (dateChange)="dateChange($event)">
+              <mat-datepicker-toggle matSuffix [for]="mydate"></mat-datepicker-toggle>
+              <mat-datepicker #mydate></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <form [formGroup]="proposalAcceptedForm" (ngSubmit)="validate(proposalAcceptedForm.value)">
+    <div class="row">
+      <div class="col">
+        Carga<br>
+        <app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+        <mat-error *ngIf="!proposalAcceptedForm.controls['file'].valid
+                  && proposalAcceptedForm.controls['file'].touched">
+          Requerido
+        </mat-error>
+      </div>
+      <div class="col txt-r"><button type="button" class="btn right" (click)="download()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+        <mdb-icon far icon="save" class="mr-1"></mdb-icon> Descarga Layout
+      </button>
+        <hr />
+        <button type="submit" class="btn btn-info right"
+                [disabled]="!proposalAcceptedForm.valid"
+                [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+          <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+        </button>
+      </div>
+    </div>
+  </form>
+  <hr/>
+  <form [formGroup]="modelMarketForm" (ngSubmit)="addModelMarket(modelMarketForm.value)">
+    <div class="row">
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label class="form-text text-left">MW incremental 1</label>
+            <input class="form-control" formControlName="megawatt1"
+                   oninput="this.value = this.value.toUpperCase()"
+                   maxlength="30">
+
+            <div *ngIf="submitted && f.megawatt1.errors" style="color:red">
+              <div *ngIf="f.megawatt1.errors.required">Requerido</div>
+            </div>
+          </div>
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="megawatt1"
+            placeholder="MW incremental 1">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label class="form-text text-left">$/MWh incremental 1</label>
+            <input class="form-control" formControlName="priceMegawatt1"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.priceMegawatt1.errors" style="color:red">
+              <div *ngIf="f.priceMegawatt1.errors.required">Requerido</div>
+            </div>
+          </div>
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="priceMegawatt1"
+            placeholder="$/MWh incremental 1">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label class="form-text text-left">MW incremental 2</label>
+            <input class="form-control" formControlName="megawatt2"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.megawatt2.errors" style="color:red">
+              <div *ngIf="f.megawatt2.errors.required">Requerido</div>
+            </div>
+          </div>
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="megawatt2" placeholder="MW incremental 2">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+
+
+          <div class="form-group">
+            <label class="form-text text-left">$/MWh incremental 2</label>
+            <input class="form-control" formControlName="priceMegawatt2"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.priceMegawatt2.errors" style="color:red">
+              <div *ngIf="f.priceMegawatt2.errors.required">Requerido</div>
+            </div>
+          </div>
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="priceMegawatt2" placeholder="$/MWh incremental 2">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+
+
+          <div class="form-group">
+            <label class="form-text text-left">MW incremental 3</label>
+            <input class="form-control" formControlName="megawatt3"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.megawatt3.errors" style="color:red">
+              <div *ngIf="f.megawatt3.errors.required">Requerido</div>
+            </div>
+          </div>
+
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="megawatt3" placeholder="MW incremental 3" >
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+
+          <div class="form-group">
+            <label class="form-text text-left">$/MWh incremental 3</label>
+            <input class="form-control" formControlName="priceMegawatt3"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.priceMegawatt3.errors" style="color:red">
+              <div *ngIf="f.priceMegawatt3.errors.required">Requerido</div>
+            </div>
+          </div>
+
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="priceMegawatt3" placeholder="$/MWh incremental 3">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+
+
+          <div class="form-group">
+            <label class="form-text text-left">MW incremental 4</label>
+            <input class="form-control" formControlName="megawatt4"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.megawatt4.errors" style="color:red">
+              <div *ngIf="f.megawatt4.errors.required">Requerido</div>
+            </div>
+          </div>
+
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="megawatt4" placeholder="MW incremental 4">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+
+          <div class="form-group">
+            <label class="form-text text-left">$/MWh incremental 4</label>
+            <input class="form-control" formControlName="priceMegawatt4"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.priceMegawatt4.errors" style="color:red">
+              <div *ngIf="f.priceMegawatt4.errors.required">Requerido</div>
+            </div>
+          </div>
+
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="priceMegawatt4" placeholder="$/MWh incremental 4">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+
+          <div class="form-group">
+            <label class="form-text text-left">MW incremental 5</label>
+            <input class="form-control" formControlName="megawatt5"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.megawatt5.errors" style="color:red">
+              <div *ngIf="f.megawatt5.errors.required">Requerido</div>
+            </div>
+          </div>
+
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="megawatt5" placeholder="MW incremental 5">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+
+          <div class="form-group">
+            <label class="form-text text-left">$/MWh incremental 5</label>
+            <input class="form-control" formControlName="priceMegawatt5"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.priceMegawatt5.errors" style="color:red">
+              <div *ngIf="f.priceMegawatt5.errors.required">Requerido</div>
+            </div>
+          </div>
+
+
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="priceMegawatt5" placeholder="$/MWh incremental 5">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+
+          <div class="form-group">
+            <label class="form-text text-left">MW incremental 6</label>
+            <input class="form-control" formControlName="megawatt6"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.megawatt6.errors" style="color:red">
+              <div *ngIf="f.megawatt6.errors.required">Requerido</div>
+            </div>
+          </div>
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="megawatt6" placeholder="MW incremental 6">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label class="form-text text-left">$/MWh incremental 6</label>
+            <input class="form-control" formControlName="priceMegawatt6"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.priceMegawatt6.errors" style="color:red">
+              <div *ngIf="f.priceMegawatt6.errors.required">Requerido</div>
+            </div>
+          </div>
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="priceMegawatt6" placeholder="$/MWh incremental 6">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label class="form-text text-left">MW incremental 7</label>
+            <input class="form-control" formControlName="megawatt7"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.megawatt7.errors" style="color:red">
+              <div *ngIf="f.megawatt7.errors.required">Requerido</div>
+            </div>
+          </div>
+
+
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="megawatt7" placeholder="MW incremental 7">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label class="form-text text-left">$/MWh incremental 7</label>
+            <input class="form-control" formControlName="priceMegawatt7"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.priceMegawatt7.errors" style="color:red">
+              <div *ngIf="f.priceMegawatt7.errors.required">Requerido</div>
+            </div>
+          </div>
+
+
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="priceMegawatt7" placeholder="$/MWh incremental 7">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label class="form-text text-left">MW incremental 8</label>
+            <input class="form-control" formControlName="megawatt8"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.megawatt8.errors" style="color:red">
+              <div *ngIf="f.megawatt8.errors.required">Requerido</div>
+            </div>
+          </div>
+
+
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="megawatt8" placeholder="MW incremental 8">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label class="form-text text-left">$/MWh incremental 8</label>
+            <input class="form-control" formControlName="priceMegawatt8"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.priceMegawatt8.errors" style="color:red">
+              <div *ngIf="f.priceMegawatt8.errors.required">Requerido</div>
+            </div>
+          </div>
+
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="priceMegawatt8" placeholder="$/MWh incremental 8">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label class="form-text text-left">MW incremental 9</label>
+            <input class="form-control" formControlName="megawatt9"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.megawatt9.errors" style="color:red">
+              <div *ngIf="f.megawatt9.errors.required">Requerido</div>
+            </div>
+          </div>
+
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="megawatt9" placeholder="MW incremental 9">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label class="form-text text-left">$/MWh incremental 9</label>
+            <input class="form-control" formControlName="priceMegawatt9"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.priceMegawatt9.errors" style="color:red">
+              <div *ngIf="f.priceMegawatt9.errors.required">Requerido</div>
+            </div>
+          </div>
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="priceMegawatt9" placeholder="$/MWh incremental 9">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label class="form-text text-left">MW incremental 10</label>
+            <input class="form-control" formControlName="megawatt10"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.megawatt10.errors" style="color:red">
+              <div *ngIf="f.megawatt10.errors.required">Requerido</div>
+            </div>
+          </div>
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="megawatt10" placeholder="MW incremental 10">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label class="form-text text-left">$/MWh incremental 10</label>
+            <input class="form-control" formControlName="priceMegawatt10"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.priceMegawatt10.errors" style="color:red">
+              <div *ngIf="f.priceMegawatt10.errors.required">Requerido</div>
+            </div>
+          </div>
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="priceMegawatt10" placeholder="$/MWh incremental 10">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label class="form-text text-left">MW incremental 11</label>
+            <input class="form-control" formControlName="megawatt11"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.megawatt11.errors" style="color:red">
+              <div *ngIf="f.megawatt11.errors.required">Requerido</div>
+            </div>
+          </div>
+
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="megawatt11" placeholder="MW incremental 11">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+      <div class="col-md-auto col-md-6 col-lg-3">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label class="form-text text-left">$/MWh incremental 11</label>
+            <input class="form-control" formControlName="priceMegawatt11"
+                   oninput="this.value = this.value.toUpperCase()"
+            >
+
+            <div *ngIf="submitted && f.priceMegawatt11.errors" style="color:red">
+              <div *ngIf="f.priceMegawatt11.errors.required">Requerido</div>
+            </div>
+          </div>
+
+
+          <!--mat-form-field class="full-width">
+            <input matInput formControlName="priceMegawatt11" placeholder="$/MWh incremental 11">
+          </mat-form-field-->
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col">
+      <button type="button" class="btn right" (click)="cancelModelMarket()"
+              [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+        Cancelar
+      </button>
+      <button type="submit" class="btn right" [disabled]="!modelMarketForm.valid || hour === 0"
+              [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+        Aceptar
+      </button>
+    </div>
+    <br/>
+  </form>
+
+  <div class="mat-elevation-z0">
+    <table matSort mat-table [dataSource]="dataSource" class="table_catalogo">
+
+      <ng-container matColumnDef="hour">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">Hora</th>
+        <td mat-cell *matCellDef="let element"> {{element.hour}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="idSubInt">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">ID_SUB_INT</th>
+        <td mat-cell *matCellDef="let element"> {{element.idSubInt}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="limitDispatchMax">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">Lim. Despacho máx. MW</th>
+        <td mat-cell *matCellDef="let element"> {{element.limitDispatchMax}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="limitDispatchMin">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">Lim. Despacho mín. MW</th>
+        <td mat-cell *matCellDef="let element"> {{element.limitDispatchMin}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="minimumPowerOperationCost">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">Costo de operación
+          a potencia mín. $/h</th>
+        <td mat-cell *matCellDef="let element"> {{element.minimumPowerOperationCost}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="megawatt1">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+        <td mat-cell *matCellDef="let element"> {{element.megawatt1}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="priceMegawatt1">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt1}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="megawatt2">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+        <td mat-cell *matCellDef="let element"> {{element.megawatt2}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="priceMegawatt2">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt2}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="megawatt3">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+        <td mat-cell *matCellDef="let element"> {{element.megawatt3}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="priceMegawatt3">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt3}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="megawatt4">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+        <td mat-cell *matCellDef="let element"> {{element.megawatt4}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="priceMegawatt4">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt4}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="megawatt5">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+        <td mat-cell *matCellDef="let element"> {{element.megawatt5}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="priceMegawatt5">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt5}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="megawatt6">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+        <td mat-cell *matCellDef="let element"> {{element.megawatt6}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="priceMegawatt6">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt6}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="megawatt7">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+        <td mat-cell *matCellDef="let element"> {{element.megawatt7}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="priceMegawatt7">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt7}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="megawatt8">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+        <td mat-cell *matCellDef="let element"> {{element.megawatt8}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="priceMegawatt8">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt8}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="megawatt9">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+        <td mat-cell *matCellDef="let element"> {{element.megawatt9}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="priceMegawatt9">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt9}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="megawatt10">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+        <td mat-cell *matCellDef="let element"> {{element.megawatt10}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="priceMegawatt10">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt10}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="megawatt11">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+        <td mat-cell *matCellDef="let element"> {{element.megawatt11}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="priceMegawatt11">
+        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt11}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef class="txt-center"> Modificar </th>
+        <td mat-cell *matCellDef="let element">
+          <a (click)="editModelMarket(element)">
+            <img src="assets/images/skins/ico_Editar.png" alt="Visualizar">
+          </a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="-">
+        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="--">
+        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="3">
+
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="1">
+        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+          1
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="2">
+        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+          2
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="3">
+        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+          3
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="4">
+        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+          4
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="5">
+        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+          5
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="6">
+        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+          6
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="7">
+        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+          7
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="8">
+        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+          8
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="9">
+        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+          9
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="10">
+        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+          10
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="11">
+        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+          11
+        </th>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="colsGroup"></tr>
+      <tr mat-header-row *matHeaderRowDef="cols"></tr>
+      <tr mat-row *matRowDef="let row; columns: cols;" [ngClass]="{'make-edit': row.edit === true}"></tr>
+    </table>
+  </div>
+  <div class="row mt-5  justify-content-end">
+
+    <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
+      <div>
+        <button type="button" class="btn" (click)="terminarPlanning()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">Terminar</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>

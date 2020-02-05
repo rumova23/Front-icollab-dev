@@ -1,9 +1,7 @@
 import { NgModule                    } from "@angular/core";
 import { BrowserModule               } from '@angular/platform-browser';
 import { SharedModule                } from 'src/app/shared/shared.module';
-
 import { SAFE_ROUTES                 } from './safe.routes';
-
 import { MDBBootstrapModule, DropdownModule          } from 'angular-bootstrap-md';
 import { MaterialModule              } from 'src/app/modules/material-module';
 import { NgbModule                   } from '@ng-bootstrap/ng-bootstrap';
@@ -60,25 +58,16 @@ import { BranchCreditNoteSeriesComponent } from './admin/branchCreditNoteSeries/
 import { BranchCreditNoteSeriesEditComponent } from './admin/branchCreditNoteSeries/edit/branchCreditNoteSeriesEdit.component';
 import { PpaComponent } from './admin/modelMarket/ppa/ppa.component';
 import { MdaAceptadaComponent } from './admin/modelMarket/mda-aceptada/mda-aceptada.component';
-
-
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 import { FlatpickrModule } from 'angularx-flatpickr';
-
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ToastrModule } from 'ng6-toastr-notifications';
 import { TreeviewModule } from 'ngx-treeview';
 import { BlockUIModule } from 'ng-block-ui';
 import { Constants } from '../core/globals/Constants';
-
-
-
-
-
-
 import { ComponentsModule } from '../common/components.module';
 import { PlannedPowersPpaBComponent } from './business/mdaPlanningProcess/planned-powers-ppa-b/planned-powers-ppa-b.component';
 import { PlannedPowersPpaCComponent } from './business/mdaPlanningProcess/planned-powers-ppa-c/planned-powers-ppa-c.component';
@@ -97,9 +86,10 @@ import { MonitoringJobsEditComponent } from './admin/monitoring/edit/monitoringJ
 import { DetailJobsComponent } from './admin/monitoring/detail/detailJobs.component';
 import { MonitoringJobsComponent } from './admin/monitoring/monitoringJobs.component';
 import { AccountStatements20119Component } from './business/account-statements20119/account-statements20119.component';
+import {EditMtrPlantComponent} from './admin/modelMarket/edit-mtr-plant/edit-mtr-plant.component';
 
 @NgModule({
-    declarations:[
+    declarations: [
         SafeHomeComponent,
         ProductsComponent, ProductsEditComponent,
         UnityProductsComponent, UnityProductsEditComponent, ClientsComponent,
@@ -137,7 +127,8 @@ import { AccountStatements20119Component } from './business/account-statements20
         PlannedPowersPPAHComponent,
         PlannedPowersPPAIComponent,
         AccountStatements20119Component,
-        MdaAceptadaComponent
+        MdaAceptadaComponent,
+        EditMtrPlantComponent
     ],
     exports: [],
     imports: [
