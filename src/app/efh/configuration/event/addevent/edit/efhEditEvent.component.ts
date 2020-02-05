@@ -665,7 +665,14 @@ export class EfhEditEventComponent implements OnInit {
                     this.selectedFuelType = undefined;
                     this.fuelTypesArr.push(this.fuelTypesForSelect.find(x => x.name === 'DIESEL'));
                     break;
-          case 4955:
+          case 4955: this.normalOperationControlsEnabled(true);
+                     this.defaultConstrolsEnabled(true);
+                     this.isNormalOperationSectionVisible = true;
+                     this.isDefaultSectionsVisible = true;
+                     this.fuelTypesArr = [];
+                     this.selectedFuelType = undefined;
+                     this.fuelTypesArr.push(this.fuelTypesForSelect.find(x => x.name === 'GAS'));
+                     break;
           case 956: this.normalOperationControlsEnabled(true);
                     this.defaultConstrolsEnabled(true);
                     this.isNormalOperationSectionVisible = true;
