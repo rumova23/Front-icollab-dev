@@ -16,6 +16,8 @@ import { MonitoringPhase3Component           } from './boards/phase3/monitoring-
 import { InteractiveImageTurbineCT1Component } from './boards/phase3/components/interactive-image-turbine-ct1/interactive-image-turbine-ct1.component';
 import { MonitoringMmMarketComponent         } from './boards/mmMarket/monitoringMmMarket.component';
 import { DemoGraficaDosComponent } from './boards/demo-grafica-dos/demo-grafica-dos.component';
+import { Phase2v1Component } from './boards/phase2v1/phase2v1.component';
+import {GaugesModule} from 'ng-canvas-gauges';
 
 @NgModule({
     declarations:[
@@ -28,7 +30,8 @@ import { DemoGraficaDosComponent } from './boards/demo-grafica-dos/demo-grafica-
         MonitoringBaseSocketOnComponent,
         MonitoringChartTR,
         InteractiveImageTurbineCT1Component,
-        DemoGraficaDosComponent
+        DemoGraficaDosComponent,
+        Phase2v1Component
     ],
     exports:[
     ],
@@ -39,7 +42,8 @@ import { DemoGraficaDosComponent } from './boards/demo-grafica-dos/demo-grafica-
         FormsModule,
         MaterialModule,
         MONITORING_ROUTES,
-        SharedModule
+        SharedModule,
+        GaugesModule
     ]
 })
 export class MonitoringModule{}
