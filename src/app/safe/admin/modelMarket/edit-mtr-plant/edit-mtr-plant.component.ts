@@ -203,6 +203,11 @@ export class EditMtrPlantComponent implements OnInit {
     this.saveModel(energy);
   }
 
+  cancelModelMarket() {
+    this.modelMarketForm.reset();
+    this.hour = 0;
+  }
+
   saveModel(energy) {
     let dat:any = {};
     dat.dateDespatch = this.date.getTime();
