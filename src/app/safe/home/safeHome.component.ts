@@ -61,9 +61,11 @@ import { PpaComponent                             } from '../admin/modelMarket/p
 import { BranchCreditNoteSeriesComponent          } from '../admin/branchCreditNoteSeries/branchCreditNoteSeries.component';
 import { BranchCreditNoteSeriesEditComponent      } from '../admin/branchCreditNoteSeries/edit/branchCreditNoteSeriesEdit.component';
 import { ProposalAcceptedComponent				  } from '../admin/modelMarket/proposal-accepted/proposalAccepted.component';
-import { AccountStatements20119Component } from '../business/account-statements20119/account-statements20119.component';
-import {MdaAceptadaComponent} from '../admin/modelMarket/mda-aceptada/mda-aceptada.component';
-import {EditMtrPlantComponent} from '../admin/modelMarket/edit-mtr-plant/edit-mtr-plant.component';
+import { AccountStatements20119Component          } from '../business/account-statements20119/account-statements20119.component';
+import { MdaAceptadaComponent                     } from '../admin/modelMarket/mda-aceptada/mda-aceptada.component';
+import { EditMtrPlantComponent                    } from '../admin/modelMarket/edit-mtr-plant/edit-mtr-plant.component';
+import { AgraficaComponent                        } from '../admin/agrafica/agrafica.component';
+import { HenryhubComponent                        } from '../admin/henryhub/henryhub.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -124,6 +126,8 @@ import {EditMtrPlantComponent} from '../admin/modelMarket/edit-mtr-plant/edit-mt
 		, AccountStatements20119Component
 		, MdaAceptadaComponent
 		, EditMtrPlantComponent
+		, AgraficaComponent
+		, HenryhubComponent
   	]
 })
 
@@ -258,6 +262,24 @@ export class SafeHomeComponent implements OnInit {
 							)
 						).changeDetectorRef.detectChanges();
 						break;
+					case 'Safe.HenryhubComponent':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								HenryhubComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+						
+					case 'Safe.AgraficaComponent':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								AgraficaComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+						
 					case 'Safe.Home':
 						banderaTemporal = true;
 						this.viewContainerRef.createComponent(
