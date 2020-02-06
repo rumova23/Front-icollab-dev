@@ -8,6 +8,8 @@ import { SocketService } from 'src/app/core/services/socket.service';
 import { MonitoringTrService } from 'src/app/monitoring/services/monitoringTr.service';
 import { HenryhubService } from '../../services/henryhub.service';
 import { Chart } from 'chart.js';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { DatePipe } from '@angular/common';
 
 @Component({
 	selector: 'app-henryhub',
@@ -18,6 +20,20 @@ export class HenryhubComponent extends MonitoringChartTR implements OnInit {
 	
 	@ViewChild('canvas1') canvas1: ElementRef;
 	charts = [];
+	
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+	@ViewChild(MatSort) sort: MatSort;
+	
+    dataSource;
+    data: any[] = [];
+    displayedColumnsOrder: any[] = [
+		{ key: 'fecha', label: 'fecha' },
+		{ key: 'precio', label: 'precio' }];
+    displayedColumnsActions: any[] = [];
+    columnsToDisplay: string[] = [
+		'fecha',
+		'precio'];
+    row_x_page = [50, 100, 250, 500];
 
 	constructor(
 		public globalService: GlobalService,
@@ -27,13 +43,15 @@ export class HenryhubComponent extends MonitoringChartTR implements OnInit {
 
 		public eventService: EventService,
 		public socketService: SocketService,
-		public monitoringTrService: MonitoringTrService
+		public monitoringTrService: MonitoringTrService,
+		private datePipe: DatePipe
 	) {
 		super(globalService, eventService, socketService, monitoringTrService);
 	}
 	ngOnInit() {
 		this.subscribeSocketHenryhub();
 		this.henryhubService.algo().subscribe(data=>{});
+		
 	}
 	
 	subscribeSocketHenryhub(){
@@ -52,6 +70,8 @@ export class HenryhubComponent extends MonitoringChartTR implements OnInit {
 		});
 	}
 	dataAdapter(data:any){
+		
+        this.data = [];
 		let fechas = [];
 		let chatdata = [
 			{
@@ -67,12 +87,19 @@ export class HenryhubComponent extends MonitoringChartTR implements OnInit {
 				let precio = value[1];
 				fechas.push(fecha);
 				chatdata[0].data.push(precio);
+				this.data.push({fecha, precio});
+				console.log( fecha,new Date(fecha));
+				
 			}
 		}
 		this.charts['canvas1'] = new Chart(
 			this['canvas1'].nativeElement
 		   ,this.chartCreateConfigDemo(chatdata,fechas)
-	   	);
+		);
+		   
+		   
+		this.dataSource = new MatTableDataSource<any>(this.data);
+		this.dataSource.paginator = this.paginator;
 	}
 	
 	chartCreateConfigDemo(data:any[],fechas){
