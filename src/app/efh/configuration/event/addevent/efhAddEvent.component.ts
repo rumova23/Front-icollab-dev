@@ -121,7 +121,6 @@ export class EfhAddEventComponent implements OnInit {
 
   getDataSource() {
     this.data = [];
-    debugger;
     this.efhService.getEventsConfigurated().subscribe(
         dataBack => {
           this.result = dataBack;
@@ -135,7 +134,7 @@ export class EfhAddEventComponent implements OnInit {
             obj['typeFuel'] = this.fuelTypesArr.find(x => x.id === element.idtypefuel).name;
             // obj['idunit'] = element.idunit;
             obj['unit'] = this.unitsArr.find(x => x.id === element.idunit).name;
-            obj['dateInit'] = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'dd/MM/yyyy HH:mm');
+            obj['dateInit'] = this.datePipe.transform(new Date(element.dateinit) , 'dd/MM/yyyy HH:mm');
             obj['order'] = i;
             // debugger;
             obj['spliced'] = element.spliced;
