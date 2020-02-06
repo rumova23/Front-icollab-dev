@@ -17,8 +17,7 @@ import { Constants } from 'src/app/core/globals/Constants';
   styleUrls: ['./pml.component.scss']
 })
 export class PmlComponent implements OnInit {
-  displayedColumns: string[] = ['node', 
-  'date', 'process','hour', 'pml', 'pmlEne', 'pmlPer', 'pmlCng'];
+  displayedColumns: string[] = ['node', 'date', 'process', 'hour', 'pml', 'pmlEne', 'pmlPer', 'pmlCng'];
   dataSource = new MatTableDataSource<Pml>();
   process: any[] = [
     {key: 'MDA', value: 'Mercado del Día en Adelanto'},
@@ -27,10 +26,9 @@ export class PmlComponent implements OnInit {
   conexionForm: FormGroup;
   search: any = {};
 
-  titulo:String;
-  
+  titulo: string;
   constructor(private marketService: MarketService,  public toastr: ToastrManager,
-    private eventService : EventService,
+    private eventService: EventService,
     private globalService: GlobalService, private fb: FormBuilder) { }
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {
