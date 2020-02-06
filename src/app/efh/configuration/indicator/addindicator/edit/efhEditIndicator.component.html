@@ -77,24 +77,12 @@
             <small class="form-text text-muted" >Fecha Fin Aplicación:</small>
             <input class="form-control" type="date" min="{{initDate}}" formControlName="dateEndApplication"/>
           </div>
-          <!--      <div *ngIf="submittedData && isInputSectionVisible && f.dateEndApplication.errors" style="color:red">
-                  <div *ngIf="f.dateEndApplication.errors.required">Requerido</div>
-                </div>
-                <div *ngIf="indicatorDatesValidation && isInputSectionVisible" style="color:red">
-                  <div>Validar</div>
-                </div> -->
         </div>
         <div class="col-md-3">
           <div class="form-group">
             <small class="form-text text-muted" >Hora Fin Aplicación:</small>
             <input class="form-control" type="time" min="00:00:00" max="23:59:59" step="1" formControlName="timeEndApplication"/>
           </div>
-          <!--        <div *ngIf="submittedData && isInputSectionVisible && f.timeEndApplication.errors" style="color:red">
-                    <div *ngIf="f.timeEndApplication.errors.required">Requerido</div>
-                  </div>
-                  <div *ngIf="indicatorDatesValidation && isInputSectionVisible" style="color:red">
-                    <div>Validar</div>
-                  </div> -->
         </div>
       </div>
       <div class="row" *ngIf="isEqFuelFactorSelected">

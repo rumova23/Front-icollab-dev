@@ -253,35 +253,37 @@ export class EfhEditEventComponent implements OnInit {
 
                               // this.getObservations(this.eventType.id);
 
+                              debugger;
+
                               switch (element.idtypeevent) {
-                                  case 1: this.flameOffDate = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
-                                      this.flameOffTime = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
+                                  case 1: this.flameOffDate = this.datePipe.transform(new Date(element.dateinit) , 'yyyy-MM-dd');
+                                      this.flameOffTime = this.datePipe.transform(new Date(element.dateinit) , 'HH:mm:ss');
                                       this.eventForm.controls['flameOffDateShot'].setValue(this.flameOffDate)
                                       this.eventForm.controls['flameOffTimeShot'].setValue(this.flameOffTime);
                                       this.eventForm.controls['chargeShot'].setValue(element.chargebeforeshot);
                                       break;
                                   case 4953:
-                                  case 4954: this.flameOffDate = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
-                                      this.flameOffTime = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
-                                      this.fsnlDate = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
-                                      this.fsnlTime = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'HH:mm:ss');
+                                  case 4954: this.flameOffDate = this.datePipe.transform(new Date(element.dateinit) , 'yyyy-MM-dd');
+                                      this.flameOffTime = this.datePipe.transform(new Date(element.dateinit) , 'HH:mm:ss');
+                                      this.fsnlDate = this.datePipe.transform(new Date(element.dateend) , 'yyyy-MM-dd');
+                                      this.fsnlTime = this.datePipe.transform(new Date(element.dateend) , 'HH:mm:ss');
                                       this.eventForm.controls['flameOffDateStart'].setValue(this.flameOffDate)
                                       this.eventForm.controls['flameOffTimeStart'].setValue(this.flameOffTime);
                                       this.eventForm.controls['fsnlDateStart'].setValue(this.fsnlDate);
                                       this.eventForm.controls['fsnlTimeStart'].setValue(this.fsnlTime);
                                       break;
                                   case 2:
-                                  case 952: this.rejectDate = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
-                                      this.rejectTime = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
+                                  case 952: this.rejectDate = this.datePipe.transform(new Date(element.dateinit) , 'yyyy-MM-dd');
+                                      this.rejectTime = this.datePipe.transform(new Date(element.dateinit) , 'HH:mm:ss');
                                       this.eventForm.controls['dateReject'].setValue(this.rejectDate);
                                       this.eventForm.controls['timeReject'].setValue(this.rejectTime);
                                       this.eventForm.controls['chargeReject'].setValue(element.chargebeforereject);
                                       break;
                                   case 4956:
-                                  case 953: this.startDate = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
-                                      this.startTime = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
-                                      this.endDate = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
-                                      this.endTime = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'HH:mm:ss');
+                                  case 953: this.startDate = this.datePipe.transform(new Date(element.dateinit) , 'yyyy-MM-dd');
+                                      this.startTime = this.datePipe.transform(new Date(element.dateinit) , 'HH:mm:ss');
+                                      this.endDate = this.datePipe.transform(new Date(element.dateend) , 'yyyy-MM-dd');
+                                      this.endTime = this.datePipe.transform(new Date(element.dateend) , 'HH:mm:ss');
                                       this.eventForm.controls['startDateRunback'].setValue(this.startDate);
                                       this.eventForm.controls['startTimeRunback'].setValue(this.startTime);
                                       this.eventForm.controls['endDateRunback'].setValue(this.endDate);
@@ -290,30 +292,30 @@ export class EfhEditEventComponent implements OnInit {
                                       this.eventForm.controls['chargeAfterRunback'].setValue(element.chargeafterrunback);
                                       break;
                                   case 4957:
-                                  case 954: this.flameOffDate = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
-                                      this.flameOffTime = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
-                                      this.fsnlDate = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
-                                      this.fsnlTime = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'HH:mm:ss');
+                                  case 954: this.flameOffDate = this.datePipe.transform(new Date(element.dateinit) , 'yyyy-MM-dd');
+                                      this.flameOffTime = this.datePipe.transform(new Date(element.dateinit) , 'HH:mm:ss');
+                                      this.fsnlDate = this.datePipe.transform(new Date(element.dateend) , 'yyyy-MM-dd');
+                                      this.fsnlTime = this.datePipe.transform(new Date(element.dateend) , 'HH:mm:ss');
                                       this.eventForm.controls['flameOffDateStop'].setValue(this.flameOffDate);
                                       this.eventForm.controls['flameOffTimeStop'].setValue(this.flameOffTime);
                                       this.eventForm.controls['fsnlDateStop'].setValue(this.fsnlDate);
                                       this.eventForm.controls['fsnlTimeStop'].setValue(this.fsnlTime);
                                       this.eventForm.controls['chargeStop'].setValue(element.chargebeforestop);
                                       break;
-                                  case 955: this.startDate = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
-                                      this.startTime = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
-                                      this.endDate = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
-                                      this.endTime = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'HH:mm:ss');
+                                  case 955: this.startDate = this.datePipe.transform(new Date(element.dateinit) , 'yyyy-MM-dd');
+                                      this.startTime = this.datePipe.transform(new Date(element.dateinit) , 'HH:mm:ss');
+                                      this.endDate = this.datePipe.transform(new Date(element.dateend) , 'yyyy-MM-dd');
+                                      this.endTime = this.datePipe.transform(new Date(element.dateend) , 'HH:mm:ss');
                                       this.eventForm.controls['startDateDiesel'].setValue(this.startDate);
                                       this.eventForm.controls['startTimeDiesel'].setValue(this.startTime);
                                       this.eventForm.controls['endDateDiesel'].setValue(this.endDate);
                                       this.eventForm.controls['endTimeDiesel'].setValue(this.endTime);
                                       break;
                                   case 4955:
-                                  case 956: this.startDate = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
-                                      this.startTime = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
-                                      this.endDate = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
-                                      this.endTime = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'HH:mm:ss');
+                                  case 956: this.startDate = this.datePipe.transform(new Date(element.dateinit) , 'yyyy-MM-dd');
+                                      this.startTime = this.datePipe.transform(new Date(element.dateinit) , 'HH:mm:ss');
+                                      this.endDate = this.datePipe.transform(new Date(element.dateend) , 'yyyy-MM-dd');
+                                      this.endTime = this.datePipe.transform(new Date(element.dateend) , 'HH:mm:ss');
                                       this.eventForm.controls['startDateNormal'].setValue(this.startDate);
                                       this.eventForm.controls['startTimeNormal'].setValue(this.startTime);
                                       this.eventForm.controls['endDateNormal'].setValue(this.endDate);
@@ -371,7 +373,7 @@ export class EfhEditEventComponent implements OnInit {
                                   this.dataSubmit['dateend'] = this.dataSubmit['dateinit'];
                                   this.dataSubmit['chargebeforereject'] = this.eventForm.controls['chargeReject'].value;
                                   break;
-                              case -46:
+                              case 4956:
                               case 953: this.startDate = this.eventForm.controls['startDateRunback'].value;
                                   this.startTime = this.eventForm.controls['startTimeRunback'].value;
                                   this.endDate = this.eventForm.controls['endDateRunback'].value;
@@ -381,7 +383,7 @@ export class EfhEditEventComponent implements OnInit {
                                   this.dataSubmit['chargebeforerunback'] = this.eventForm.controls['chargeBeforeRunback'].value;
                                   this.dataSubmit['chargeafterrunback'] = this.eventForm.controls['chargeAfterRunback'].value;
                                   break;
-                              case -45:
+                              case 4957:
                               case 954: this.flameOffDate = this.eventForm.controls['flameOffDateStop'].value;
                                   this.flameOffTime = this.eventForm.controls['flameOffTimeStop'].value;
                                   this.fsnlDate = this.eventForm.controls['fsnlDateStop'].value;
@@ -397,7 +399,7 @@ export class EfhEditEventComponent implements OnInit {
                                   this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.startDate + 'T' + this.startTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                                   this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.endDate + 'T' + this.endTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                                   break;
-                              case -44:
+                              case 4955:
                               case 956: this.startDate = this.eventForm.controls['startDateNormal'].value;
                                   this.startTime = this.eventForm.controls['startTimeNormal'].value;
                                   this.endDate = this.eventForm.controls['endDateNormal'].value;

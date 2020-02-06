@@ -22,8 +22,6 @@ export class EditMtrPlantComponent implements OnInit {
   valid = false;
   progress;
 
-
-
   title = 'Consulta/Edita Proyeccion MTR';
   data: Array<ModelMarket> = [];
   dataSource;
@@ -339,7 +337,7 @@ export class EditMtrPlantComponent implements OnInit {
 
       this.file = this.file.trim();
       this.fileName = value.file.name;
-      this.marketService.validateProposalAccepted({ file: this.file, name:  this.fileName})
+      this.marketService.validateMTR({ file: this.file, name:  this.fileName})
           .subscribe(
               data => {
                 if (data.success) {
