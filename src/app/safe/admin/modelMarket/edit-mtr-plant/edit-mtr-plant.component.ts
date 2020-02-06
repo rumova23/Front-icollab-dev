@@ -22,8 +22,6 @@ export class EditMtrPlantComponent implements OnInit {
   valid = false;
   progress;
 
-
-
   title = 'Consulta/Edita Proyeccion MTR';
   data: Array<ModelMarket> = [];
   dataSource;
