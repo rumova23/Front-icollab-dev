@@ -88,8 +88,6 @@ export class HenryhubComponent extends MonitoringChartTR implements OnInit {
 				fechas.push(fecha);
 				chatdata[0].data.push(precio);
 				this.data.push({fecha, precio});
-				console.log( fecha,new Date(fecha));
-				
 			}
 		}
 		this.charts['canvas1'] = new Chart(

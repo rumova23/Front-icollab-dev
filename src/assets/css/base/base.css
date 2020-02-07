@@ -178,3 +178,7 @@ option {
 .mat-form-field-flex{
     align-items: normal !important;
 }
+
+#columna span {
+    font-size: 12px;
+}

@@ -17,7 +17,7 @@ import { GlobalService } from 'src/app/core/globals/global.service';
   styleUrls   : ['./shared-sidebar-items.component.css'],
   animations  : [
 	 trigger('icon180', [
-	   state('hide' ,style({ transform : 'rotate(-90deg)' }))
+	   state('hide' ,style({ transform : 'rotate(90deg)' }))
 	  ,state('view' ,style({ transform : 'rotate(180deg)' }))
 	  ,transition('view <=> hide',
 		 animate('225ms cubic-bezier(0.4 ,0.0 ,0.2 ,1)')
