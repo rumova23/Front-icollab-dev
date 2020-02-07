@@ -27,11 +27,26 @@
       </div>
       <div class="col-md-3">
         <div class="form-group">
-          <small class="form-text text-muted" >Fecha a consultar:</small>
-          <input type="date" class="form-control" min="{{initDate}}" formControlName="queryDate"/>
+          <small class="form-text text-muted" >Fecha inicio:</small>
+          <input type="date" class="form-control" min="{{initDate}}" formControlName="initDate"/>
         </div>
-        <div *ngIf="submittedData && f.queryDate.errors" style="color:red">
-          <div *ngIf="f.queryDate.errors.required">Requerido</div>
+        <div *ngIf="submittedData && f.initDate.errors" style="color:red">
+          <div *ngIf="f.initDate.errors.required">Requerido</div>
+        </div>
+        <div *ngIf="datesValidation" style="color:red">
+          <div>Validar</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+            <small class="form-text text-muted" >Fecha fin:</small>
+            <input type="date" class="form-control" min="{{initDate}}" formControlName="endDate"/>
+        </div>
+        <div *ngIf="submittedData && f.endDate.errors" style="color:red">
+            <div *ngIf="f.endDate.errors.required">Requerido</div>
+        </div>
+        <div *ngIf="datesValidation" style="color:red">
+          <div>Validar</div>
         </div>
       </div>
       <div class="col-md-3">

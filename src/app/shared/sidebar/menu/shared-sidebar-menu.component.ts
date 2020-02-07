@@ -53,28 +53,82 @@ export class SharedSidebarMenuComponent {
                 break;
         }
     }
-    hardcodeSafe(){
-        let item0 = null;
-        let item1 = null;
-        let item2 = null;
-        let item3 = null;
-        let array = [];
-        for (let option of this.menu) {
-            if (option.label == "Home") item0 = option;
-            else if (option.label == "PPA") item1 = option;
-            else if (option.label == "Market") item2 = option;
-            else if (option.label == "Configuration") item3 = option;
-            else array.push(option);
-        }
-        this.menu = [];
-        this.menu[0] = item0;
-        this.menu[1] = item1;
-        this.menu[2] = item2;
-        this.menu[3] = item3;
-        for (const iterator of array) {
-            this.menu.push(iterator);
-        }
+    ordenar(lst){
+        lst.sort((a,b)=>{
+            if (a['order'] > b['order']) {
+                return 1;
+            }
+            if (a['order'] < b['order']) {
+                return -1;
+            }
+            return 0;
+        });
+    }
 
+    hardcodeSafe(){
+        this.menu.map((item, indice)=>{
+            if (item.label == "Home") item['order'] = 0;
+            else if (item.label == "PPA") item['order'] = 1;
+            else if (item.label == "Market"){
+                item['order'] = 2;
+                item.children.map(
+                    (nivel_1,i_n1)=>{
+                        if(nivel_1.label == "Planning"){
+                            nivel_1['order'] = 0;
+                            nivel_1.children.map(
+                                (nivel_2,i_n2)=>{
+                                    if(nivel_2.label == "Environmental Variables")nivel_2['order'] = 0;
+                                    else if(nivel_2.label == "Energy Variables")nivel_2['order']   = 1;
+                                    else if(nivel_2.label == "Charges and Costs")nivel_2['order']  = 2;
+                                    else if(nivel_2.label == "MDA")nivel_2['order'] = 3;
+                                    else nivel_2['order'] = i_n2+30;
+                                }
+                            );
+                        }
+                        else if(nivel_1.label == "Projection"){
+                            nivel_1['order'] = 1;
+                            nivel_1.children.map(
+                                (nivel_2,i_n2)=>{
+                                    if(nivel_2.label == "MDA"){ 
+                                        nivel_2['order'] = 0;
+                                        nivel_2.children.map((nivel_3,i_n3)=>{
+                                            if(nivel_3.label == "Oferta MDA Aceptada EAT")nivel_3['order'] = 0;
+                                            else if(nivel_3.label == "Resultados MDA CENACE")nivel_3['order']   = 1;
+                                            else nivel_3['order'] = i_n3+30;
+                                        });
+
+                                    }
+                                    else if(nivel_2.label == "MTR"){
+                                        nivel_2['order']   = 1;
+                                        nivel_2.children.map((nivel_3,i_n3)=>{
+                                            if(nivel_3.label == "Proyeccion MTR EAT")nivel_3['order'] = 0;
+                                            else if(nivel_3.label == "MTR EAT")nivel_3['order']   = 1;
+                                            else if(nivel_3.label == "MTR CENACE")nivel_3['order']   = 2;
+                                            else nivel_3['order'] = i_n3+30;
+                                        });
+                                    }
+                                    else nivel_2['order'] = i_n2+30;
+
+                                    this.ordenar(nivel_2.children);
+                                }
+                            );
+
+
+                        }
+                        else if(nivel_1.label == "Billing") nivel_1['order'] = 2;
+                        else if(nivel_1.label == "Analytic") nivel_1['order'] = 3;
+                        else nivel_1['order'] = i_n1+30;
+                        
+                        this.ordenar(nivel_1.children);
+                    }
+                );
+                this.ordenar(item.children);
+            }  
+            else if (item.label == "Configuration") item['order'] = 3;
+            else item['order'] = indice+30;
+        });
+        this.ordenar(this.menu);
+        console.log(this.menu);
     }
     hardcodeEfh() {
         let item0 = null;

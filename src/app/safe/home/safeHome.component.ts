@@ -65,6 +65,8 @@ import { AccountStatements20119Component } from '../business/account-statements2
 import {MdaAceptadaComponent} from '../admin/modelMarket/mda-aceptada/mda-aceptada.component';
 import {EditMtrPlantComponent} from '../admin/modelMarket/edit-mtr-plant/edit-mtr-plant.component';
 import {MtrAcceptedComponent} from '../admin/modelMarket/mtr-accepted/mtr-accepted.component';
+import { AgraficaComponent                        } from '../admin/agrafica/agrafica.component';
+import { HenryhubComponent                        } from '../admin/henryhub/henryhub.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -126,6 +128,8 @@ import {MtrAcceptedComponent} from '../admin/modelMarket/mtr-accepted/mtr-accept
 		, MdaAceptadaComponent
 		, EditMtrPlantComponent
 		, MtrAcceptedComponent
+		, AgraficaComponent
+		, HenryhubComponent
   	]
 })
 
@@ -268,6 +272,24 @@ export class SafeHomeComponent implements OnInit {
 							)
 						).changeDetectorRef.detectChanges();
 						break;
+					case 'Safe.HenryhubComponent':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								HenryhubComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+
+					case 'Safe.AgraficaComponent':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								AgraficaComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+
 					case 'Safe.Home':
 						banderaTemporal = true;
 						this.viewContainerRef.createComponent(
