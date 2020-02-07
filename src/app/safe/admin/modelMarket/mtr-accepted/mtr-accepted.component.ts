@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {ModelMarket} from '../../../models/ModelMarket';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material';
 import {Constants} from '../../../../core/globals/Constants';
 import {GlobalService} from '../../../../core/globals/global.service';
 import {MarketService} from '../../../services/market.service';
 import {ToastrManager} from 'ng6-toastr-notifications';
 import {Comentario} from '../../../../core/models/comentario';
+import {Validate} from '../../../../core/helpers/util.validator.';
+import {saveAs} from 'file-saver';
 
 @Component({
   selector: 'app-mtr-accepted',
@@ -43,6 +45,41 @@ export class MtrAcceptedComponent implements OnInit {
       private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.fileUploadForm = this.fb.group({
+      file: new FormControl(null, Validators.required),
+      fObserva: [{ value: '', disabled: this.isdisabled }, Validators.required]
+    });
+    this.observaciones = [];
+    this.cols = [
+      'hour',
+      'idSubInt',
+      'limitDispatchMax',
+      'limitDispatchMin',
+      'minimumPowerOperationCost',
+      'megawatt1',
+      'priceMegawatt1',
+      'megawatt2',
+      'priceMegawatt2',
+      'megawatt3',
+      'priceMegawatt3',
+      'megawatt4',
+      'priceMegawatt4',
+      'megawatt5',
+      'priceMegawatt5',
+      'megawatt6',
+      'priceMegawatt6',
+      'megawatt7',
+      'priceMegawatt7',
+      'megawatt8',
+      'priceMegawatt8',
+      'megawatt9',
+      'priceMegawatt9',
+      'megawatt10',
+      'priceMegawatt10',
+      'megawatt11',
+      'priceMegawatt11'
+    ];
+    this.colsGroup = ['-', '--', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
   }
 
 
@@ -52,7 +89,7 @@ export class MtrAcceptedComponent implements OnInit {
   }
 
   private loadData() {
-    this.marketService.getModelMarketAccept(this.date.getTime())
+    this.marketService.getModelMarketAcceptMtr(this.date.getTime())
         .subscribe(
             data => {
               const rows = data.rows;
@@ -140,4 +177,77 @@ export class MtrAcceptedComponent implements OnInit {
         new Comentario(comenta.planningSoporteId, comenta.usuarioSoporte, comenta.soporte, comenta.fechaSoporte));
   }
 
+  download() {
+    if (!Validate(this.data) || this.data.length <= 0) {
+      return;
+    }
+    this.marketService.downloadModelMarketMtr(
+        this.date.getTime()
+    ) .subscribe(
+        dat => {
+          console.log(dat);
+          let blob = new Blob([this.base64toBlob(dat.base64,
+              'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')], {});
+          saveAs(blob, dat.nameFile);
+          this.toastr.successToastr(Constants.SAVE_SUCCESS);
+        },
+        errorData => {
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Error al descargar archivo');
+        });
+  }
+
+  base64toBlob(base64Data, contentType) {
+    contentType = contentType || '';
+    let sliceSize = 1024;
+    let byteCharacters = atob(base64Data);
+    let bytesLength = byteCharacters.length;
+    let slicesCount = Math.ceil(bytesLength / sliceSize);
+    let byteArrays = new Array(slicesCount);
+    for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+      let begin = sliceIndex * sliceSize;
+      let end = Math.min(begin + sliceSize, bytesLength);
+      let bytes = new Array(end - begin);
+      for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+        bytes[i] = byteCharacters[offset].charCodeAt(0);
+      }
+      byteArrays[sliceIndex] = new Uint8Array(bytes);
+    }
+    return new Blob(byteArrays, { type: contentType });
+  }
+
+  solicitaReactivarPlanning(value) {
+    let reader = new FileReader();
+    reader.onloadend = (e) => {
+      this.file = reader.result;
+      console.dir(reader);
+      this.file = this.file.replace(/^data:(.*;base64,)?/, '');
+      this.file = this.file.trim();
+      this.fileName = value.file.name;
+      this.marketService.solicitaReactivarPlannigMTR({
+        file: this.file,
+        name: this.fileName,
+        soporte: this.fileUploadForm.controls.fObserva.value,
+        date: this.date.getTime()
+      }).subscribe(
+          data => {
+            this.obtieneObservaciones();
+            this.toastr.successToastr(Constants.SAVE_SUCCESS);
+          },
+          errorData => {
+            this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.error.message);
+          });
+    }
+    reader.readAsDataURL(value.file);
+  }
+
+  reactivarPlanning() {
+    this.marketService.reactivarPlannigMtr(this.date.getTime()).subscribe(
+        data => {
+          console.dir(data);
+          this.toastr.successToastr(Constants.SAVE_SUCCESS);
+        },
+        errorData => {
+          this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.error.message);
+        });
+  }
 }

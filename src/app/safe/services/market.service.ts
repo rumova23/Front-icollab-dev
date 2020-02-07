@@ -116,6 +116,12 @@ export class MarketService {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post(environment.mmmercadoUrl + 'validate', data, {params : this.parameters });
   }
+
+  validateProposalAcceptedMTR(data): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.post(environment.mmmercadoUrl + 'validate/mtr/cenace', data, {params : this.parameters });
+  }
+
   validateMTR(data): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post(environment.mmmercadoUrl + 'validate/MTR', data, {params : this.parameters });
@@ -295,9 +301,19 @@ export class MarketService {
     return this.http.get(environment.mmmercadoUrl + 'planning/cenace/' + time, {params : this.parameters });
   }
 
+  getModelMarketResultadosMTRCenace(time): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.mmmercadoUrl + 'planning/mtr/cenace/' + time, {params : this.parameters });
+  }
+
   getModelMarketAccept(time): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(environment.mmmercadoUrl + 'planning/accept/' + time, {params : this.parameters });
+  }
+
+  getModelMarketAcceptMtr(time): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.mmmercadoUrl + 'planning/mtr/accept/' + time, {params : this.parameters });
   }
 
   getResultadosCenace(time): Observable<any> {
@@ -323,10 +339,29 @@ export class MarketService {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post(environment.mmmercadoUrl + 'planning/solicita/activar', data, {params : this.parameters });
   }
+  solicitaReactivarPlannigMTR(data): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.post(environment.mmmercadoUrl + 'planning/mtr/solicita/activar', data, {params : this.parameters });
+  }
+
+  solicitaReactivarPlannigMTRCenace(data): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.post(environment.mmmercadoUrl + 'planning/mtr/cenace/solicita/activar', data, {params : this.parameters });
+  }
 
   reactivarPlannig(data): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(environment.mmmercadoUrl + 'planning/activar/' + data, {params : this.parameters });
+  }
+
+  reactivarPlannigMtr(data): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.mmmercadoUrl + 'planning/mtr/activar/' + data, {params : this.parameters });
+  }
+
+  reactivarPlannigMtrCenace(data): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.mmmercadoUrl + 'planning/mtr/cenace/activar/' + data, {params : this.parameters });
   }
 
   downloadModelMarket(time): Observable<any> {
@@ -334,9 +369,24 @@ export class MarketService {
     return this.http.get(environment.mmmercadoUrl + 'download/' + time, {params : this.parameters });
   }
 
+  downloadModelMarketMtr(time): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.mmmercadoUrl + 'download/mtr/' + time, {params : this.parameters });
+  }
+
   getComentariosPlanning(time): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(environment.mmmercadoUrl + 'planning/comentarios/' + time, {params : this.parameters });
+  }
+
+  getComentariosPlanningMtr(time): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.mmmercadoUrl + 'planning/mtr/comentarios/' + time, {params : this.parameters });
+  }
+
+  getComentariosPlanningMtrCenace(time): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.mmmercadoUrl + 'planning/mtr/cenace/comentarios/' + time, {params : this.parameters });
   }
 
   downloadInvoice(id: number): Observable<any> {

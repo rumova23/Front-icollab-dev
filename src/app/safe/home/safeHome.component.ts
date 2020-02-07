@@ -67,6 +67,7 @@ import {EditMtrPlantComponent} from '../admin/modelMarket/edit-mtr-plant/edit-mt
 import {MtrAcceptedComponent} from '../admin/modelMarket/mtr-accepted/mtr-accepted.component';
 import { AgraficaComponent                        } from '../admin/agrafica/agrafica.component';
 import { HenryhubComponent                        } from '../admin/henryhub/henryhub.component';
+import {MtrCenaceComponent} from '../admin/modelMarket/mtr-cenace/mtr-cenace.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -130,6 +131,7 @@ import { HenryhubComponent                        } from '../admin/henryhub/henr
 		, MtrAcceptedComponent
 		, AgraficaComponent
 		, HenryhubComponent
+		, MtrCenaceComponent
   	]
 })
 
@@ -260,6 +262,14 @@ export class SafeHomeComponent implements OnInit {
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(
 								MtrAcceptedComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.MTR CENACE':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								MtrCenaceComponent
 							)
 						).changeDetectorRef.detectChanges();
 						break;

@@ -90,6 +90,7 @@ import {EditMtrPlantComponent} from './admin/modelMarket/edit-mtr-plant/edit-mtr
 import {MtrAcceptedComponent} from './admin/modelMarket/mtr-accepted/mtr-accepted.component';
 import { HenryhubComponent } from './admin/henryhub/henryhub.component';
 import { AgraficaComponent } from './admin/agrafica/agrafica.component';
+import {MtrCenaceComponent} from './admin/modelMarket/mtr-cenace/mtr-cenace.component';
 
 @NgModule({
     declarations: [
@@ -134,7 +135,8 @@ import { AgraficaComponent } from './admin/agrafica/agrafica.component';
         EditMtrPlantComponent,
         MtrAcceptedComponent,
         AgraficaComponent,
-        HenryhubComponent
+        HenryhubComponent,
+        MtrCenaceComponent
     ],
     exports: [],
     imports: [
