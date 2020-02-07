@@ -64,6 +64,7 @@ import { ProposalAcceptedComponent				  } from '../admin/modelMarket/proposal-ac
 import { AccountStatements20119Component } from '../business/account-statements20119/account-statements20119.component';
 import {MdaAceptadaComponent} from '../admin/modelMarket/mda-aceptada/mda-aceptada.component';
 import {EditMtrPlantComponent} from '../admin/modelMarket/edit-mtr-plant/edit-mtr-plant.component';
+import {MtrAcceptedComponent} from '../admin/modelMarket/mtr-accepted/mtr-accepted.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -124,6 +125,7 @@ import {EditMtrPlantComponent} from '../admin/modelMarket/edit-mtr-plant/edit-mt
 		, AccountStatements20119Component
 		, MdaAceptadaComponent
 		, EditMtrPlantComponent
+		, MtrAcceptedComponent
   	]
 })
 
@@ -246,6 +248,14 @@ export class SafeHomeComponent implements OnInit {
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(
 								EditMtrPlantComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.MTR EAT':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								MtrAcceptedComponent
 							)
 						).changeDetectorRef.detectChanges();
 						break;

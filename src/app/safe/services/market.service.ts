@@ -280,6 +280,11 @@ export class MarketService {
     return this.http.post(environment.marketUrl + 'usppi/list', data, {params : this.parameters });
   }
 
+  getModelMarketMTR(time): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.mmmercadoUrl + 'planning/mtr/' + time, {params : this.parameters });
+  }
+
   getModelMarket(time): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(environment.mmmercadoUrl + 'prediction/planning/' + time, {params : this.parameters });
@@ -308,6 +313,11 @@ export class MarketService {
   terminaPlannig(data): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(environment.mmmercadoUrl + 'planning/termina/' + data, {params : this.parameters });
+  }
+
+  terminaPlannigMtr(data): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.mmmercadoUrl + 'planning/mtr/termina/' + data, {params : this.parameters });
   }
   solicitaReactivarPlannig(data): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
