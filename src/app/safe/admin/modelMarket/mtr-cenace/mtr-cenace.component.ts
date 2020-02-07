@@ -8,6 +8,8 @@ import {requiredFileType} from '../../../../core/helpers/requiredFileType';
 import {Constants} from '../../../../core/globals/Constants';
 import {MatTableDataSource} from '@angular/material';
 import {Comentario} from '../../../../core/models/comentario';
+import {Validate} from '../../../../core/helpers/util.validator.';
+import {saveAs} from 'file-saver';
 
 @Component({
   selector: 'app-mtr-cenace',
@@ -79,6 +81,7 @@ export class MtrCenaceComponent implements OnInit {
       'priceMegawatt11'
     ];
     this.colsGroup = ['-', '--', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
+    this.obtieneObservaciones();
   }
 
   validate(value) {
@@ -237,6 +240,44 @@ export class MtrCenaceComponent implements OnInit {
   resuelveDS(comenta) {
     this.observaciones.push(
         new Comentario(comenta.planningSoporteId, comenta.usuarioSoporte, comenta.soporte, comenta.fechaSoporte));
+  }
+
+  download() {
+    if (!Validate(this.data) || this.data.length <= 0) {
+      return;
+    }
+    this.marketService.downloadModelMarketMtr(
+        this.date.getTime()
+    ) .subscribe(
+        dat => {
+          console.log(dat);
+          let blob = new Blob([this.base64toBlob(dat.base64,
+              'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')], {});
+          saveAs(blob, dat.nameFile);
+          this.toastr.successToastr(Constants.SAVE_SUCCESS);
+        },
+        errorData => {
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Error al descargar archivo');
+        });
+  }
+
+  base64toBlob(base64Data, contentType) {
+    contentType = contentType || '';
+    let sliceSize = 1024;
+    let byteCharacters = atob(base64Data);
+    let bytesLength = byteCharacters.length;
+    let slicesCount = Math.ceil(bytesLength / sliceSize);
+    let byteArrays = new Array(slicesCount);
+    for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+      let begin = sliceIndex * sliceSize;
+      let end = Math.min(begin + sliceSize, bytesLength);
+      let bytes = new Array(end - begin);
+      for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+        bytes[i] = byteCharacters[offset].charCodeAt(0);
+      }
+      byteArrays[sliceIndex] = new Uint8Array(bytes);
+    }
+    return new Blob(byteArrays, { type: contentType });
   }
 
 }
