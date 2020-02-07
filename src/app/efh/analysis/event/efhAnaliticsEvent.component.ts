@@ -31,7 +31,17 @@ export class EfhAnaliticsEventComponent implements OnInit {
   currentYear = new Date().getFullYear();
   initDate = (this.currentYear - 1) + '-01-01';
   selectedUnit;
-  selectedDate;
+  selectedInitDate;
+  selectedEndDate;
+  datesValidation = false;
+
+    // Indicators
+    FF = 0;
+    FF_GAS = 0;
+    FF_DIESEL = 0;
+    FF_SC = 0;
+    COSTO_EFHi = 0;
+    MAX_LOAD = 0;
 
   tripLoadCurve: number[][] = [
     [0, 1],
@@ -78,7 +88,8 @@ export class EfhAnaliticsEventComponent implements OnInit {
     this.title = 'Análisis / ' + this.nombreCatalogo;
     this.analysisForm = this.formBuilder.group({
       unitControl: [null, null],
-      queryDate: ['', Validators.required]
+      initDate: ['', Validators.required],
+      endDate: ['', Validators.required]
     });
     this.selectedUnit = undefined;
     this.getCatalogs();
@@ -155,13 +166,42 @@ export class EfhAnaliticsEventComponent implements OnInit {
 
           this.efhService.getIndicatorsConfiguratedByDate(data).subscribe(
               dataResult => {
+                  this.result = dataResult;
+                  for (const element of this.result) {
+                      if (!this.globalService.aguila) {
+                          switch (element.idtypeindicator) {
+                              case 1: this.COSTO_EFHi = element.value;
+                                      break;
+                              case 2: this.FF = element.value;
+                                      break;
+                              case 3: this.MAX_LOAD = element.value;
+                                      break;
+                          }
+                      } else {
+                          switch (element.idtypeindicator) {
+                              case 1: this.COSTO_EFHi = element.value;
+                                      break;
+                              case 4: if (element.idtypefuel === 1) {
+                                        this.FF_GAS = element.value;
+                                      } else if (element.idtypefuel === 952) {
+                                        this.FF_DIESEL = element.value;
+                                      }
+                                      break;
+                              case 3: this.MAX_LOAD = element.value;
+                                      break;
+                              case 5: this.FF_SC = element.value;
+                                      break;
+                          }
+                      }
+
+                  }
+
+                  this.calculate();
 
               }, errorResult => {
-
+                  this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
               }
           );
-
-          this.calculate();
         }, errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
           this.addBlock(2, null);
@@ -173,15 +213,25 @@ export class EfhAnaliticsEventComponent implements OnInit {
 
   onSubmit() {
     this.submittedData = true;
-    if (this.analysisForm.controls['queryDate'].invalid
+    if (this.analysisForm.controls['initDate'].invalid
+        || this.analysisForm.controls['endDate'].invalid
         || (this.selectedUnit === undefined || this.selectedUnit === null)) {
       this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Lo siento,');
       return;
     }
+
     this.dataSubmit['idunit'] = this.analysisForm.controls['unitControl'].value;
-    this.selectedDate = this.analysisForm.controls['queryDate'].value;
-    console.log(this.selectedDate.toString());
-    this.dataSubmit['dateinit'] = this.datePipe.transform(this.getTimeLocale(this.selectedDate), 'yyyy-MM-dd');
+    this.selectedInitDate = this.analysisForm.controls['initDate'].value;
+    this.selectedEndDate = this.analysisForm.controls['endDate'].value;
+
+    if (this.compareDate(this.selectedInitDate, this.selectedEndDate)) {
+        this.toastr.errorToastr('Fecha inicio debe ser menor a Fecha final, verifique', 'Lo siento,');
+        this.datesValidation = true;
+        return;
+    }
+
+    this.dataSubmit['dateinit'] = this.datePipe.transform(this.getTimeLocale(this.selectedInitDate), 'yyyy-MM-dd');
+    this.dataSubmit['dateend'] = this.datePipe.transform(this.getTimeLocale(this.selectedEndDate), 'yyyy-MM-dd');
     this.getDataSource(this.dataSubmit);
   }
 
@@ -200,11 +250,6 @@ export class EfhAnaliticsEventComponent implements OnInit {
   }
 
   calculate() {
-    // Indicators
-    const FF_gas = 1;
-    const FF_diese = 1.25;
-    let FF = 0;
-    const cost_EFHi = 305.50;
 
     // Variables
     let totalStart = 0;
@@ -239,8 +284,8 @@ export class EfhAnaliticsEventComponent implements OnInit {
     let loadReject = 0;
     let esi_lrj = 1.00;
     let rapidLoad = 0;
-    let changeRange = '';
-    let changeRate = '';
+    let changeRange;
+    let changeRate;
     let esi_lcj = 0.00;
     this.dataAnalysis = [];
 
@@ -249,7 +294,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
     let eventStartTime;
     let eventEndTime;
     let duration;
-    let today;
+    let newDate;
 
     // Initialization
     const obj = {};
@@ -290,41 +335,52 @@ export class EfhAnaliticsEventComponent implements OnInit {
     obj['esi_lcj'] = esi_lcj;
     this.dataAnalysis.push(obj);
 
-    rateEFHi_costo = 305.50;
+    rateEFHi_costo = this.COSTO_EFHi;
     let cont = 0;
 
     debugger;
     const aux = this.calcularEsiForTrip(37);
 
     for (const event of this.data) {
-      cont++;
-      if (event.idUnit === 1) {
+        cont++;
         if (event.idTypeFuel === 1) {
-          FF = 1;
+          this.FF = this.FF_GAS;
         } else if (event.idTypeFuel === 952) {
-          FF = 1.25;
+            this.FF = this.FF_DIESEL;
         } else if (event.idTypeFuel === 5953 || event.idTypeFuel === 5952 || event.idTypeEvent === 4957 || event.idTypeEvent === 954) {
-          FF = 0;
+            this.FF = this.FF_SC;
         }
 
         tripFlag = 0;
         startFlag = 0;
         start = 0;
         loadTrip = 0;
+        rejectFlag = 0;
         loadReject = 0;
+        rapidLoad = 0;
+        changeRange = 0;
+        changeRate = 0;
         esi = 0.00;
         esi_tj = 0.0;
         esi_lrj = 0.0;
         esi_lcj = 0.0;
+        newDate = this.datePipe.transform(new Date(event.dateInit), 'dd/MM/yy');
 
         if (firstEvent) {
           eventStartTime = new Date(event.dateInit);
           eventStartTime.setHours(0);
           eventStartTime.setMinutes(0);
           eventStartTime.setSeconds(0);
-
           date = this.datePipe.transform(eventStartTime, 'dd/MM/yy');
           firstEvent = false;
+        }
+
+        if (date !== newDate) {
+          date = newDate;
+          eventStartTime = new Date(event.dateInit);
+          eventStartTime.setHours(0);
+          eventStartTime.setMinutes(0);
+          eventStartTime.setSeconds(0);
         }
 
         if (cont === this.data.length) {
@@ -334,6 +390,17 @@ export class EfhAnaliticsEventComponent implements OnInit {
           eventEndTime.setSeconds(59);
         }
 
+        if (event.idTypeEvent === 956 || event.idTypeEvent === 4955) {
+            eventEndTime = new Date(event.dateInit);
+            duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
+            startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
+            stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
+
+            runAOH = duration;
+            runEFHi = duration * this.FF;
+            runEFHi_costo = runEFHi * rateEFHi_costo;
+        }
+
         if (event.idTypeEvent === 1) {
           eventEndTime = new Date(event.dateInit);
           duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
@@ -341,7 +408,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
           stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
 
           runAOH = duration;
-          runEFHi = duration * FF;
+          runEFHi = duration * this.FF;
           runEFHi_costo = runEFHi * rateEFHi_costo;
 
           tripFlag = 1;
@@ -365,7 +432,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
           if (cont === this.data.length) {
             duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
             runAOH = duration;
-            runEFHi = duration * FF;
+            runEFHi = duration * this.FF;
             runEFHi_costo = runEFHi * rateEFHi_costo;
 
             totalStarts = totalStarts + start;
@@ -381,7 +448,10 @@ export class EfhAnaliticsEventComponent implements OnInit {
         sinceEFHi = sinceEFHi + runEFHi;
         sinceEFHi_costo = sinceEFHi_costo + runEFHi_costo;
 
-        esi = (ff * startFlag) + esi_tj + esi_lcj + esi_lrj;
+        esi = (this.FF * startFlag) + esi_tj + esi_lcj + esi_lrj;
+        runESi = esi;
+        totalESi = totalESi + esi;
+        sinceESi = sinceESi + esi;
 
         const obj = {};
         obj['totalStarts'] = totalStart;
@@ -420,12 +490,11 @@ export class EfhAnaliticsEventComponent implements OnInit {
         obj['changeRate'] = changeRate;
         obj['esi_lcj'] = esi_lcj;
         this.dataAnalysis.push(obj);
-      }
     }
   }
 
   calcularEsiForTrip(load: number): number {
-    const percentLoad = load * 100 / 162;
+    const percentLoad = load * 100 / this.MAX_LOAD;
     let esi = 0;
     for (let i = 0; i < this.tripLoadCurve.length; i++) {
       if (i === this.tripLoadCurve.length) {
@@ -440,7 +509,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
   }
 
   calcularEsiForReject(load: number): number {
-    const percentLoad = load * 100 / 162;
+    const percentLoad = load * 100 / this.MAX_LOAD;
     let esi = 0;
     for (let i = 0; i < this.rejectLoadCurve.length; i++) {
       if (i === this.rejectLoadCurve.length) {
@@ -452,6 +521,28 @@ export class EfhAnaliticsEventComponent implements OnInit {
       }
     }
     return esi;
+  }
+
+  calcularEsiForRunback(minutes: number, ci: number, cf: number): number {
+    const yj = ((ci - cf) * 100) / this.MAX_LOAD;
+    const xj = yj / minutes;
+    return xj;
+  }
+
+  compareDate(date1: string, date2: string): boolean {
+    let d1 = new Date(date1);
+    let d2 = new Date(date2);
+
+    // Check if the dates are equal
+    let same = d1.getTime() === d2.getTime();
+
+    if (same) { return true; }
+
+    // Check if the first is greater than second
+    if (d1 > d2) { return true; }
+
+    // Check if the first is less than second
+    if (d1 < d2) { return false; }
   }
 
 }
