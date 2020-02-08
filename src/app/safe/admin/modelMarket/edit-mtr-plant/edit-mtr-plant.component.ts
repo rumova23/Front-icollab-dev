@@ -110,9 +110,10 @@ export class EditMtrPlantComponent implements OnInit {
   }
 
   private loadData() {
-    this.marketService.getModelMarket(this.date.getTime())
+    this.marketService.getModelMarketMTR(this.date.getTime())
         .subscribe(
             data => {
+              console.dir(data);
               const rows = data.rows;
               this.dateDespatch = data.dateDespatch;
               this.data = [];
@@ -382,5 +383,19 @@ export class EditMtrPlantComponent implements OnInit {
       byteArrays[sliceIndex] = new Uint8Array(bytes);
     }
     return new Blob(byteArrays, { type: contentType });
+  }
+
+
+  terminarPlanning() {
+    this.marketService.terminaPlannigMtr(
+        this.date.getTime()
+    ) .subscribe(
+        dat => {
+          console.log(dat);
+          this.toastr.successToastr(Constants.SAVE_SUCCESS);
+        },
+        errorData => {
+          this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.message);
+        });
   }
 }

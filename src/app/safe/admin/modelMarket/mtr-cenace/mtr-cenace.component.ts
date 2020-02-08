@@ -1,50 +1,51 @@
 import { Component, OnInit } from '@angular/core';
-import {ModelMarket} from '../../../models/ModelMarket';
-import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
-import {Constants} from '../../../../core/globals/Constants';
-import {MarketService} from '../../../services/market.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ToastrManager} from 'ng6-toastr-notifications';
+import {ModelMarket} from '../../../models/ModelMarket';
 import {GlobalService} from '../../../../core/globals/global.service';
+import {MarketService} from '../../../services/market.service';
+import {ToastrManager} from 'ng6-toastr-notifications';
+import {requiredFileType} from '../../../../core/helpers/requiredFileType';
+import {Constants} from '../../../../core/globals/Constants';
+import {MatTableDataSource} from '@angular/material';
+import {Comentario} from '../../../../core/models/comentario';
 import {Validate} from '../../../../core/helpers/util.validator.';
 import {saveAs} from 'file-saver';
-import {requiredFileType} from '../../../../core/helpers/requiredFileType';
-import {Comentario} from '../../../../core/models/comentario';
 
 @Component({
-  selector: 'app-mda-aceptada',
-  templateUrl: './mda-aceptada.component.html',
-  styleUrls: ['./mda-aceptada.component.scss']
+  selector: 'app-mtr-cenace',
+  templateUrl: './mtr-cenace.component.html',
+  styleUrls: ['./mtr-cenace.component.scss']
 })
-export class MdaAceptadaComponent implements OnInit {
-  title = 'Oferta MDA Aceptada';
-  date: Date;
-  dateDespatch = '';
-  dataSource;
-  data: Array<ModelMarket> = [];
+export class MtrCenaceComponent implements OnInit {
+  proposalAcceptedForm: FormGroup;
+  file: any;
+  fileName: any;
+  valid = false;
+  progress;
 
-  cols: any[];
-  colsGroup: any [];
-
+  fileUploadForm: FormGroup;
   submitted = false;
   isdisabled = false;
   headObservaciones = ['#', 'Nombre', 'Observaciones', 'Fecha de ultima modificación'];
   observaciones: Array<any>;
   get f() { return this.fileUploadForm.controls; }
 
+  cols: any[];
+  colsGroup: any [];
+  dataSource;
+  date: Date;
+  dateDespatch = '';
+  data: Array<ModelMarket> = [];
+  constructor(public globalService: GlobalService,
+              private marketService: MarketService,
+              private toastr: ToastrManager,
+              private fb: FormBuilder
+  ) { }
 
-  progress;
-  fileUploadForm: FormGroup;
-  file: any;
-  fileName: any;
-  valid = false;
-
-  constructor(
-      public globalService: GlobalService,
-      private marketService: MarketService,
-      private toastr: ToastrManager,
-      private fb: FormBuilder) { }
   ngOnInit() {
+    this.proposalAcceptedForm = this.fb.group({
+      file: new FormControl(null, [Validators.required, requiredFileType('xlsx')])
+    });
     this.fileUploadForm = this.fb.group({
       file: new FormControl(null, Validators.required),
       fObserva: [{ value: '', disabled: this.isdisabled }, Validators.required]
@@ -80,6 +81,33 @@ export class MdaAceptadaComponent implements OnInit {
       'priceMegawatt11'
     ];
     this.colsGroup = ['-', '--', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
+    this.obtieneObservaciones();
+  }
+
+  validate(value) {
+    this.valid = false;
+    const reader = new FileReader();
+    reader.onloadend = (e) => {
+      this.file = reader.result;
+      this.file = this.file.replace(/^data:(.*;base64,)?/, '');
+
+      this.file = this.file.trim();
+      this.fileName = value.file.name;
+      this.marketService.validateProposalAcceptedMTR({ file: this.file, name:  this.fileName})
+          .subscribe(
+              data => {
+                if (data.success) {
+                  this.toastr.successToastr(data.message, '¡Se ha logrado!');
+                }
+                if (!data.success) {
+                  this.toastr.errorToastr(data.message + '. Codigo: ' + data.code, '!Error¡');
+                }
+              },
+              errorData => {
+                this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
+              });
+    }
+    reader.readAsDataURL(value.file);
   }
 
   dateChange(event) {
@@ -88,10 +116,11 @@ export class MdaAceptadaComponent implements OnInit {
   }
 
   private loadData() {
-    this.marketService.getModelMarketAccept(this.date.getTime())
+    this.marketService.getModelMarketResultadosMTRCenace(this.date.getTime())
         .subscribe(
             data => {
               const rows = data.rows;
+              console.dir(rows);
               this.dateDespatch = data.dateDespatch;
               this.data = [];
               for (var i = 0; i < rows.length; i++) {
@@ -153,7 +182,7 @@ export class MdaAceptadaComponent implements OnInit {
                 this.data.push(hour);
               }
               this.dataSource = new MatTableDataSource<any>(this.data);
-              this.obtieneObservaciones();
+
             },
             errorData => {
               if (errorData.error.message.indexOf('La Planeacion Existe') > -1) {
@@ -164,15 +193,50 @@ export class MdaAceptadaComponent implements OnInit {
             });
   }
 
-  obtieneObservaciones() {
-      this.marketService.getComentariosPlanning(this.date.getTime()).subscribe(
+  solicitaReactivarPlanning(value) {
+    let reader = new FileReader();
+    reader.onloadend = (e) => {
+      this.file = reader.result;
+      console.dir(reader);
+      this.file = this.file.replace(/^data:(.*;base64,)?/, '');
+      this.file = this.file.trim();
+      this.fileName = value.file.name;
+      this.marketService.solicitaReactivarPlannigMTRCenace({
+        file: this.file,
+        name: this.fileName,
+        soporte: this.fileUploadForm.controls.fObserva.value,
+        date: this.date.getTime()
+      }).subscribe(
           data => {
-            data.forEach(comenta => {
-              this.resuelveDS(comenta);
-            });
+            this.obtieneObservaciones();
+            this.toastr.successToastr(Constants.SAVE_SUCCESS);
+          },
+          errorData => {
+            this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.error.message);
           });
+    }
+    reader.readAsDataURL(value.file);
   }
 
+  reactivarPlanning() {
+    this.marketService.reactivarPlannigMtrCenace(this.date.getTime()).subscribe(
+        data => {
+          console.dir(data);
+          this.toastr.successToastr(Constants.SAVE_SUCCESS);
+        },
+        errorData => {
+          this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.error.message);
+        });
+  }
+
+  obtieneObservaciones() {
+    this.marketService.getComentariosPlanningMtrCenace(this.date.getTime()).subscribe(
+        data => {
+          data.forEach(comenta => {
+            this.resuelveDS(comenta);
+          });
+        });
+  }
   resuelveDS(comenta) {
     this.observaciones.push(
         new Comentario(comenta.planningSoporteId, comenta.usuarioSoporte, comenta.soporte, comenta.fechaSoporte));
@@ -182,7 +246,7 @@ export class MdaAceptadaComponent implements OnInit {
     if (!Validate(this.data) || this.data.length <= 0) {
       return;
     }
-    this.marketService.downloadModelMarket(
+    this.marketService.downloadModelMarketMtr(
         this.date.getTime()
     ) .subscribe(
         dat => {
@@ -216,39 +280,4 @@ export class MdaAceptadaComponent implements OnInit {
     return new Blob(byteArrays, { type: contentType });
   }
 
-  solicitaReactivarPlanning(value) {
-    let reader = new FileReader();
-    reader.onloadend = (e) => {
-      this.file = reader.result;
-      console.dir(reader);
-      this.file = this.file.replace(/^data:(.*;base64,)?/, '');
-      this.file = this.file.trim();
-      this.fileName = value.file.name;
-      this.marketService.solicitaReactivarPlannig({
-        file: this.file,
-        name: this.fileName,
-        soporte: this.fileUploadForm.controls.fObserva.value,
-        date: this.date.getTime()
-      }).subscribe(
-              data => {
-                this.obtieneObservaciones();
-                this.toastr.successToastr(Constants.SAVE_SUCCESS);
-              },
-              errorData => {
-                this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.error.message);
-              });
-    }
-    reader.readAsDataURL(value.file);
-  }
-
-  reactivarPlanning() {
-      this.marketService.reactivarPlannig(this.date.getTime()).subscribe(
-          data => {
-            console.dir(data);
-            this.toastr.successToastr(Constants.SAVE_SUCCESS);
-          },
-          errorData => {
-            this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.error.message);
-          });
-    }
 }

@@ -803,7 +803,7 @@
 
     <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
       <div>
-        <button type="button" class="btn"  [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">Terminar</button>
+        <button type="button" class="btn"  [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" (click)="terminarPlanning()">Terminar</button>
       </div>
     </div>
 
