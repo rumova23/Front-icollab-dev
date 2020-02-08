@@ -64,8 +64,19 @@ export class SharedSidebarMenuComponent {
             return 0;
         });
     }
-
+    setOrderSafe(menu){
+        menu.map((item, indice)=>{
+            if(item.children && item.children > 0) this.setOrderSafe(item.children);
+            if (item.label == "Home") item['order'] = 0;
+            else if (item.label == "PPA") item['order'] = 1;
+            else if (item.label == "Market")item['order'] = 2;
+            else if (item.label == "Configuration") item['order'] = 3;
+            else item['order'] = indice+30;
+        });
+        this.ordenar(menu);
+    }
     hardcodeSafe(){
+        ///*
         this.menu.map((item, indice)=>{
             if (item.label == "Home") item['order'] = 0;
             else if (item.label == "PPA") item['order'] = 1;
@@ -127,6 +138,7 @@ export class SharedSidebarMenuComponent {
             else if (item.label == "Configuration") item['order'] = 3;
             else item['order'] = indice+30;
         });
+        //*/
         this.ordenar(this.menu);
         console.log(this.menu);
     }
