@@ -78,7 +78,7 @@ this.henryhubService.algo().subscribe(data=>{});
 		let fechas = [];
 		let chatdata = [
 			{
-				backgroundColor:'rgba(255, 87, 51, 1)',
+				backgroundColor:'rgba(199, 225, 229, 1)',
 				label:"HenryHub",
 				data:[],
 				yAxisID: 'y-axis-1'

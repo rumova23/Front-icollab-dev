@@ -76,9 +76,9 @@ export class SharedSidebarMenuComponent {
                     else if (item.label == "Environmental Variables") item.order = 0;
                     else if (item.label == "Energy Variables")        item.order = 1;
                     else if (item.label == "Charges and Costs")       item.order = 2;
-                    else if (item.label == "MDA")                     item.order = 3;
+                    else if (item.label == "MDA" && item.idFather==127) item.order = 3;
                 else if (item.label == "Projection")      item.order = 1;
-                    else if (item.label == "MDA") item.order = 0;
+                    else if (item.label == "MDA" && item.idFather==128)   item.order = 0;
                         else if (item.label == "Oferta MDA Aceptada EAT") item.order = 0;
                         else if (item.label == "Resultados MDA CENACE")   item.order = 1;
                     else if (item.label == "MTR") item.order = 1;
