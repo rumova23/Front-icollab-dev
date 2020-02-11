@@ -273,12 +273,19 @@ export class SafeHomeComponent implements OnInit {
 							)
 						).changeDetectorRef.detectChanges();
 						break;
-
 					case 'Safe.PML':
 						banderaTemporal = true;
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(
 								PmlComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.Estado de Cuenta Diario':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								FuecdComponent
 							)
 						).changeDetectorRef.detectChanges();
 						break;
@@ -421,9 +428,6 @@ export class SafeHomeComponent implements OnInit {
 					break;
 				case 'Facturas':
 					option = 20;
-					break;
-				case 'Estado de Cuenta Diario':
-					option = 22;
 					break;
 				case 'Tipos de Cambio':
 					option = 25;
@@ -694,13 +698,6 @@ export class SafeHomeComponent implements OnInit {
 				event.data.invoice;
 			}
 			refInvoicesEdit.changeDetectorRef.detectChanges();
-			break;
-		case 22:
-			const factoryFuecd =
-			this.componentFactoryResolver.resolveComponentFactory(FuecdComponent);
-			const refFuecd =
-			this.viewContainerRef.createComponent(factoryFuecd);
-			refFuecd.changeDetectorRef.detectChanges();
 			break;
 		case 23:
 			const factoryFuecdEdit =

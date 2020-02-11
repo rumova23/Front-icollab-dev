@@ -98,9 +98,9 @@ export class MarketService {
     return this.http.get(environment.marketUrl + 'debitNote/get/' + id, {params : this.parameters });
   }
 
-  getFuecds(): Observable<any> {
+  getFufs(fuecd): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get(environment.fuecdUrl + 'fuecd/list', {params : this.parameters });
+    return this.http.get(environment.fuecdUrl + 'list/fuf/' + fuecd, {params : this.parameters });
   }
 
   getFuecd(id: number): Observable<any> {
