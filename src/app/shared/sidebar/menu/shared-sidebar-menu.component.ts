@@ -44,7 +44,7 @@ export class SharedSidebarMenuComponent {
                 this.hardcodemockUp();
                 break;
             case "Safe":
-                this.hardcodeSafe();
+                this.hardcodeSafe(this.menu);
                 break;
             case "Efh":
                 this.hardcodeEfh();
@@ -64,71 +64,37 @@ export class SharedSidebarMenuComponent {
             return 0;
         });
     }
-
-    hardcodeSafe(){
-        this.menu.map((item, indice)=>{
-            if (item.label == "Home") item['order'] = 0;
-            else if (item.label == "PPA") item['order'] = 1;
-            else if (item.label == "Market"){
-                item['order'] = 2;
-                item.children.map(
-                    (nivel_1,i_n1)=>{
-                        if(nivel_1.label == "Planning"){
-                            nivel_1['order'] = 0;
-                            nivel_1.children.map(
-                                (nivel_2,i_n2)=>{
-                                    if(nivel_2.label == "Environmental Variables")nivel_2['order'] = 0;
-                                    else if(nivel_2.label == "Energy Variables")nivel_2['order']   = 1;
-                                    else if(nivel_2.label == "Charges and Costs")nivel_2['order']  = 2;
-                                    else if(nivel_2.label == "MDA")nivel_2['order'] = 3;
-                                    else nivel_2['order'] = i_n2+30;
-                                }
-                            );
-                        }
-                        else if(nivel_1.label == "Projection"){
-                            nivel_1['order'] = 1;
-                            nivel_1.children.map(
-                                (nivel_2,i_n2)=>{
-                                    if(nivel_2.label == "MDA"){ 
-                                        nivel_2['order'] = 0;
-                                        nivel_2.children.map((nivel_3,i_n3)=>{
-                                            if(nivel_3.label == "Oferta MDA Aceptada EAT")nivel_3['order'] = 0;
-                                            else if(nivel_3.label == "Resultados MDA CENACE")nivel_3['order']   = 1;
-                                            else nivel_3['order'] = i_n3+30;
-                                        });
-
-                                    }
-                                    else if(nivel_2.label == "MTR"){
-                                        nivel_2['order']   = 1;
-                                        nivel_2.children.map((nivel_3,i_n3)=>{
-                                            if(nivel_3.label == "Proyeccion MTR EAT")nivel_3['order'] = 0;
-                                            else if(nivel_3.label == "MTR EAT")nivel_3['order']   = 1;
-                                            else if(nivel_3.label == "MTR CENACE")nivel_3['order']   = 2;
-                                            else nivel_3['order'] = i_n3+30;
-                                        });
-                                    }
-                                    else nivel_2['order'] = i_n2+30;
-
-                                    this.ordenar(nivel_2.children);
-                                }
-                            );
-
-
-                        }
-                        else if(nivel_1.label == "Billing") nivel_1['order'] = 2;
-                        else if(nivel_1.label == "Analytic") nivel_1['order'] = 3;
-                        else nivel_1['order'] = i_n1+30;
-                        
-                        this.ordenar(nivel_1.children);
-                    }
-                );
-                this.ordenar(item.children);
-            }  
-            else if (item.label == "Configuration") item['order'] = 3;
-            else item['order'] = indice+30;
+    setOrderSafe(menu){
+        menu.map((item, indice)=>{
+            if(item.children && item.children.length > 0) {
+                this.setOrderSafe(item.children);
+            }
+            if (item.label == "Home")               item.order = 0;
+            else if (item.label == "PPA")           item.order = 1;
+            else if (item.label == "Market")        item.order = 2;
+                else if (item.label == "Planning")        item.order = 0;
+                    else if (item.label == "Environmental Variables") item.order = 0;
+                    else if (item.label == "Energy Variables")        item.order = 1;
+                    else if (item.label == "Charges and Costs")       item.order = 2;
+                    else if (item.label == "MDA" && item.idFather==127) item.order = 3;
+                else if (item.label == "Projection")      item.order = 1;
+                    else if (item.label == "MDA" && item.idFather==128)   item.order = 0;
+                        else if (item.label == "Oferta MDA Aceptada EAT") item.order = 0;
+                        else if (item.label == "Resultados MDA CENACE")   item.order = 1;
+                    else if (item.label == "MTR") item.order = 1;
+                        else if (item.label == "Proyeccion MTR EAT") item.order = 0;
+                        else if (item.label == "MTR EAT")            item.order = 1;
+                        else if (item.label == "MTR CENACE")         item.order = 2;
+                else if (item.label == "Billing")         item.order = 2;
+                else if (item.label == "Analytic")        item.order = 3;
+            else if (item.label == "Configuration") item.order = 3;
+            else item.order = indice+30;
         });
-        this.ordenar(this.menu);
-        console.log(this.menu);
+        this.ordenar(menu);
+    }
+    hardcodeSafe(menu){
+        this.setOrderSafe(menu);
+        console.log(menu);     
     }
     hardcodeEfh() {
         let item0 = null;

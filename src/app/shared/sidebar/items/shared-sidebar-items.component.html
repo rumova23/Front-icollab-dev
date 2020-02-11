@@ -2,7 +2,7 @@
     [ngStyle]="{'padding-left': (deep * indent) + units}">
   <mat-icon class="itemIcon" *ngIf="deep===0 || item.children">{{item.icon}}
   </mat-icon>
-  <div class=" col-10 pl-2">
+  <div class=" col-10 pl-4">
     <span *ngIf="globalService.aside_open" [attr.id_item]="item.id">{{item.label | translate}}
     </span>
   </div>

@@ -1,285 +1,311 @@
 <div class="row">
-  <mdb-breadcrumb customClass="white" class="w-100">
-    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
-    <mdb-breadcrumb-item>Proyeccion</mdb-breadcrumb-item>
-    <mdb-breadcrumb-item class="active">Estado cuenta Aceptado</mdb-breadcrumb-item>
-  </mdb-breadcrumb>
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>Mercado</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>Proyección</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>MDA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">Resultados MDA CENACE</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
 </div>
 <div class="section">
-  <div class="row pb-2">
-    <div class="col">
-      <span class="agila-cda-titulo">Importar XML - Estado de cuenta aceptado</span>
-    </div>
-  </div>
-  <ng-container>
-    <mdb-card class="mt-4">
-      <mdb-card-body>
-        <form [formGroup]="proposalAcceptedForm" (ngSubmit)="validate(proposalAcceptedForm.value)">
-          <div class="row">
-            <div class="col">
-              Carga<br>
-              <app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
-              <mat-error *ngIf="!proposalAcceptedForm.controls['file'].valid
-                  && proposalAcceptedForm.controls['file'].touched">
-                Requerido
-              </mat-error>
-            </div>
-            <div class="col txt-r"><button type="button" class="btn right" (click)="download()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-              <mdb-icon far icon="save" class="mr-1"></mdb-icon> Descarga Layout
-            </button>
-              <hr />
-              <button type="submit" class="btn btn-info right"
-                      [disabled]="!proposalAcceptedForm.valid"
-                      [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
-                <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
-              </button>
-            </div>
-          </div>
-        </form>
-      </mdb-card-body>
-    </mdb-card>
-  </ng-container>
-<hr/>
-  <div class="row mb-3 mt-3">
-    <div class="col">
-      <div class="filtros mt-2 row">
-        <div class="col-12 col-sm-12 col-md-12 col-lg-10">
+	<div class="row pb-2">
+		<div class="col">
+			<span class="agila-cda-titulo">Importar Resultados MDA CENACE</span>
+		</div>
+	</div>
+	<form [formGroup]="proposalAcceptedForm" (ngSubmit)="validate(proposalAcceptedForm.value)">
+		<div class="row">
+			<div class="col-12 col-sm-12">
 
-          <div class="form-group">
-            <label class="form-text text-left" for="mydate">De</label>
-            <mat-form-field class="form-control">
-              <input matInput
-                     [matDatepicker]="mydate"
-                     [(ngModel)]="date"
-                     (dateChange)="dateChange($event)">
-              <mat-datepicker-toggle matSuffix [for]="mydate"></mat-datepicker-toggle>
-              <mat-datepicker #mydate></mat-datepicker>
-            </mat-form-field>
-          </div>
+				<div class="row justify-content-end">
+					<div class="col-12 col-sm-12 col-md-auto">
+						Carga<br>
+						<app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+						<mat-error *ngIf="!proposalAcceptedForm.controls['file'].valid
+	  && proposalAcceptedForm.controls['file'].touched">
+							Requerido
+						</mat-error>
+					</div>
+					<div class="col-12 col-sm-12 col-md-auto">
+						<button type="submit" class="btn mybtn" style="width: 168px;"
+							[disabled]="!proposalAcceptedForm.valid">
+							<mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+						</button>
+						<br>
+						<button type="button" class="btn mybtn" (click)="download()">
+							<mdb-icon far icon="save" class="mr-1"></mdb-icon> Descarga Layout
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
 
-        </div>
-        <!--   <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
-          <div>
-            <button type="button" class="btn btn-primary">Buscar</button>
-          </div>
-        </div> -->
-      </div>
-    </div>
-  </div>
 
-  <div class="mat-elevation-z0">
-    <table matSort mat-table [dataSource]="dataSource" class="table_catalogo">
 
-      <ng-container matColumnDef="hour">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">Hora</th>
-        <td mat-cell *matCellDef="let element"> {{element.hour}} </td>
-      </ng-container>
+	<hr />
+	<div class="row my-3">
+		<div class="col-12 col-sm-12 col-md-3">
+			<div class="form-group">
+				<label class="form-text text-left" for="mydate">De</label>
+				<mat-form-field class="form-control">
+					<input matInput [matDatepicker]="mydate" [(ngModel)]="date" (dateChange)="dateChange($event)">
+					<mat-datepicker-toggle matSuffix [for]="mydate"></mat-datepicker-toggle>
+					<mat-datepicker #mydate></mat-datepicker>
+				</mat-form-field>
+			</div>
+		</div>
 
-      <ng-container matColumnDef="idSubInt">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">ID_SUB_INT</th>
-        <td mat-cell *matCellDef="let element"> {{element.idSubInt}} </td>
-      </ng-container>
+		<div class="col-12 col-md-9 d-flex align-items-center justify-content-end">
+			<div class="row">
+				<div class="col-12 col-sm-12 col-md-auto">
+					<!-- Button trigger modal -->
+					<button type="button" class="btn" data-toggle="modal" data-target="#exampleModal">
+						Reactivar
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-      <ng-container matColumnDef="limitDispatchMax">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">Lim. Despacho máx. MW</th>
-        <td mat-cell *matCellDef="let element"> {{element.limitDispatchMax}} </td>
-      </ng-container>
 
-      <ng-container matColumnDef="limitDispatchMin">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">Lim. Despacho mín. MW</th>
-        <td mat-cell *matCellDef="let element"> {{element.limitDispatchMin}} </td>
-      </ng-container>
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Solicitud para Reactivar</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					(no existia, verificar con analista y en el back)
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-      <ng-container matColumnDef="minimumPowerOperationCost">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">Costo de operación
-          a potencia mín. $/h</th>
-        <td mat-cell *matCellDef="let element"> {{element.minimumPowerOperationCost}} </td>
-      </ng-container>
+	<div class="mat-elevation-z0">
+		<table matSort mat-table [dataSource]="dataSource" class="table_catalogo">
 
-      <ng-container matColumnDef="megawatt1">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
-        <td mat-cell *matCellDef="let element"> {{element.megawatt1}} </td>
-      </ng-container>
+			<ng-container matColumnDef="hour">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">Hora</th>
+				<td mat-cell *matCellDef="let element"> {{element.hour}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="priceMegawatt1">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
-        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt1}} </td>
-      </ng-container>
+			<ng-container matColumnDef="idSubInt">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">ID_SUB_INT</th>
+				<td mat-cell *matCellDef="let element"> {{element.idSubInt}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="megawatt2">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
-        <td mat-cell *matCellDef="let element"> {{element.megawatt2}} </td>
-      </ng-container>
+			<ng-container matColumnDef="limitDispatchMax">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">Lim. Despacho máx. MW</th>
+				<td mat-cell *matCellDef="let element"> {{element.limitDispatchMax}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="priceMegawatt2">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
-        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt2}} </td>
-      </ng-container>
+			<ng-container matColumnDef="limitDispatchMin">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">Lim. Despacho mín. MW</th>
+				<td mat-cell *matCellDef="let element"> {{element.limitDispatchMin}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="megawatt3">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
-        <td mat-cell *matCellDef="let element"> {{element.megawatt3}} </td>
-      </ng-container>
+			<ng-container matColumnDef="minimumPowerOperationCost">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">Costo de operación
+					a potencia mín. $/h</th>
+				<td mat-cell *matCellDef="let element"> {{element.minimumPowerOperationCost}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="priceMegawatt3">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
-        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt3}} </td>
-      </ng-container>
+			<ng-container matColumnDef="megawatt1">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+				<td mat-cell *matCellDef="let element"> {{element.megawatt1}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="megawatt4">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
-        <td mat-cell *matCellDef="let element"> {{element.megawatt4}} </td>
-      </ng-container>
+			<ng-container matColumnDef="priceMegawatt1">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+				<td mat-cell *matCellDef="let element"> {{element.priceMegawatt1}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="priceMegawatt4">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
-        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt4}} </td>
-      </ng-container>
+			<ng-container matColumnDef="megawatt2">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+				<td mat-cell *matCellDef="let element"> {{element.megawatt2}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="megawatt5">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
-        <td mat-cell *matCellDef="let element"> {{element.megawatt5}} </td>
-      </ng-container>
+			<ng-container matColumnDef="priceMegawatt2">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+				<td mat-cell *matCellDef="let element"> {{element.priceMegawatt2}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="priceMegawatt5">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
-        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt5}} </td>
-      </ng-container>
+			<ng-container matColumnDef="megawatt3">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+				<td mat-cell *matCellDef="let element"> {{element.megawatt3}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="megawatt6">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
-        <td mat-cell *matCellDef="let element"> {{element.megawatt6}} </td>
-      </ng-container>
+			<ng-container matColumnDef="priceMegawatt3">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+				<td mat-cell *matCellDef="let element"> {{element.priceMegawatt3}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="priceMegawatt6">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
-        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt6}} </td>
-      </ng-container>
+			<ng-container matColumnDef="megawatt4">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+				<td mat-cell *matCellDef="let element"> {{element.megawatt4}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="megawatt7">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
-        <td mat-cell *matCellDef="let element"> {{element.megawatt7}} </td>
-      </ng-container>
+			<ng-container matColumnDef="priceMegawatt4">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+				<td mat-cell *matCellDef="let element"> {{element.priceMegawatt4}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="priceMegawatt7">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
-        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt7}} </td>
-      </ng-container>
+			<ng-container matColumnDef="megawatt5">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+				<td mat-cell *matCellDef="let element"> {{element.megawatt5}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="megawatt8">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
-        <td mat-cell *matCellDef="let element"> {{element.megawatt8}} </td>
-      </ng-container>
+			<ng-container matColumnDef="priceMegawatt5">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+				<td mat-cell *matCellDef="let element"> {{element.priceMegawatt5}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="priceMegawatt8">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
-        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt8}} </td>
-      </ng-container>
+			<ng-container matColumnDef="megawatt6">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+				<td mat-cell *matCellDef="let element"> {{element.megawatt6}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="megawatt9">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
-        <td mat-cell *matCellDef="let element"> {{element.megawatt9}} </td>
-      </ng-container>
+			<ng-container matColumnDef="priceMegawatt6">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+				<td mat-cell *matCellDef="let element"> {{element.priceMegawatt6}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="priceMegawatt9">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
-        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt9}} </td>
-      </ng-container>
+			<ng-container matColumnDef="megawatt7">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+				<td mat-cell *matCellDef="let element"> {{element.megawatt7}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="megawatt10">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
-        <td mat-cell *matCellDef="let element"> {{element.megawatt10}} </td>
-      </ng-container>
+			<ng-container matColumnDef="priceMegawatt7">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+				<td mat-cell *matCellDef="let element"> {{element.priceMegawatt7}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="priceMegawatt10">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
-        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt10}} </td>
-      </ng-container>
+			<ng-container matColumnDef="megawatt8">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+				<td mat-cell *matCellDef="let element"> {{element.megawatt8}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="megawatt11">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
-        <td mat-cell *matCellDef="let element"> {{element.megawatt11}} </td>
-      </ng-container>
+			<ng-container matColumnDef="priceMegawatt8">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+				<td mat-cell *matCellDef="let element"> {{element.priceMegawatt8}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="priceMegawatt11">
-        <th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
-        <td mat-cell *matCellDef="let element"> {{element.priceMegawatt11}} </td>
-      </ng-container>
+			<ng-container matColumnDef="megawatt9">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+				<td mat-cell *matCellDef="let element"> {{element.megawatt9}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="-">
-        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+			<ng-container matColumnDef="priceMegawatt9">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+				<td mat-cell *matCellDef="let element"> {{element.priceMegawatt9}} </td>
+			</ng-container>
 
-        </th>
-      </ng-container>
-      <ng-container matColumnDef="--">
-        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="3">
+			<ng-container matColumnDef="megawatt10">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+				<td mat-cell *matCellDef="let element"> {{element.megawatt10}} </td>
+			</ng-container>
 
-        </th>
-      </ng-container>
-      <ng-container matColumnDef="1">
-        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
-          1
-        </th>
-      </ng-container>
-      <ng-container matColumnDef="2">
-        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
-          2
-        </th>
-      </ng-container>
-      <ng-container matColumnDef="3">
-        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
-          3
-        </th>
-      </ng-container>
-      <ng-container matColumnDef="4">
-        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
-          4
-        </th>
-      </ng-container>
-      <ng-container matColumnDef="5">
-        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
-          5
-        </th>
-      </ng-container>
+			<ng-container matColumnDef="priceMegawatt10">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+				<td mat-cell *matCellDef="let element"> {{element.priceMegawatt10}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="6">
-        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
-          6
-        </th>
-      </ng-container>
+			<ng-container matColumnDef="megawatt11">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">MW</th>
+				<td mat-cell *matCellDef="let element"> {{element.megawatt11}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="7">
-        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
-          7
-        </th>
-      </ng-container>
+			<ng-container matColumnDef="priceMegawatt11">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">$/MWh</th>
+				<td mat-cell *matCellDef="let element"> {{element.priceMegawatt11}} </td>
+			</ng-container>
 
-      <ng-container matColumnDef="8">
-        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
-          8
-        </th>
-      </ng-container>
-      <ng-container matColumnDef="9">
-        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
-          9
-        </th>
-      </ng-container>
+			<ng-container matColumnDef="-">
+				<th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
 
-      <ng-container matColumnDef="10">
-        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
-          10
-        </th>
-      </ng-container>
+				</th>
+			</ng-container>
+			<ng-container matColumnDef="--">
+				<th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="3">
 
-      <ng-container matColumnDef="11">
-        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
-          11
-        </th>
-      </ng-container>
+				</th>
+			</ng-container>
+			<ng-container matColumnDef="1">
+				<th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+					1
+				</th>
+			</ng-container>
+			<ng-container matColumnDef="2">
+				<th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+					2
+				</th>
+			</ng-container>
+			<ng-container matColumnDef="3">
+				<th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+					3
+				</th>
+			</ng-container>
+			<ng-container matColumnDef="4">
+				<th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+					4
+				</th>
+			</ng-container>
+			<ng-container matColumnDef="5">
+				<th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+					5
+				</th>
+			</ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="colsGroup"></tr>
-      <tr mat-header-row *matHeaderRowDef="cols"></tr>
-      <tr mat-row *matRowDef="let row; columns: cols;" [ngClass]="{'make-edit': row.edit === true}"></tr>
-    </table>
-  </div>
+			<ng-container matColumnDef="6">
+				<th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+					6
+				</th>
+			</ng-container>
+
+			<ng-container matColumnDef="7">
+				<th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+					7
+				</th>
+			</ng-container>
+
+			<ng-container matColumnDef="8">
+				<th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+					8
+				</th>
+			</ng-container>
+			<ng-container matColumnDef="9">
+				<th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+					9
+				</th>
+			</ng-container>
+
+			<ng-container matColumnDef="10">
+				<th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+					10
+				</th>
+			</ng-container>
+
+			<ng-container matColumnDef="11">
+				<th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+					11
+				</th>
+			</ng-container>
+
+			<tr mat-header-row *matHeaderRowDef="colsGroup"></tr>
+			<tr mat-header-row *matHeaderRowDef="cols"></tr>
+			<tr mat-row *matRowDef="let row; columns: cols;" [ngClass]="{'make-edit': row.edit === true}"></tr>
+		</table>
+	</div>
 </div>

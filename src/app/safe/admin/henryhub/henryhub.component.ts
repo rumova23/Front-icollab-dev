@@ -49,12 +49,15 @@ export class HenryhubComponent extends MonitoringChartTR implements OnInit {
 		super(globalService, eventService, socketService, monitoringTrService);
 	}
 	ngOnInit() {
-		this.subscribeSocketHenryhub();
-		this.henryhubService.algo().subscribe(data=>{});
+	//aqui hay alguna variable para detectar si ya se abrio el socket , revisar
+	//usar la variable 
+this.subscribeSocketHenryhub();
+this.henryhubService.algo().subscribe(data=>{});
 		
 	}
 	
 	subscribeSocketHenryhub(){
+		
 		let strChannel    : string = "henryhub"
 		let strChannelErr : string = `${strChannel}-error`;
 		let channel       = this.socketService.suscribeChannel(strChannel);
@@ -75,15 +78,17 @@ export class HenryhubComponent extends MonitoringChartTR implements OnInit {
 		let fechas = [];
 		let chatdata = [
 			{
-				backgroundColor:'rgba(255, 99, 132, 1)',
+				backgroundColor:'rgba(199, 225, 229, 1)',
 				label:"HenryHub",
 				data:[],
 				yAxisID: 'y-axis-1'
 			},
 		];
 		for (const serie of data.series) {
+			serie.data = serie.data.reverse();
 			for (const value of serie.data) {
-				let fecha  = value[0];
+				debugger;
+				let fecha  =   value[0].substring(0, 4)+"-"+value[0].substring(4, 7);
 				let precio = value[1];
 				fechas.push(fecha);
 				chatdata[0].data.push(precio);

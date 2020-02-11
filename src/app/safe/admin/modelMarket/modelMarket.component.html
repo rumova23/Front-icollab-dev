@@ -1,12 +1,13 @@
 <div class="row">
 	<mdb-breadcrumb customClass="white" class="w-100">
-		<mdb-breadcrumb-item class="">
-			<mdb-icon fas icon="cog"></mdb-icon>
-		</mdb-breadcrumb-item>
-		<mdb-breadcrumb-item>Modelo de Mercado</mdb-breadcrumb-item>
-		<mdb-breadcrumb-item class="active">{{title}}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+        <mdb-breadcrumb-item>Mercado</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item>Planeación</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item>MDA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">Planeación MDA</mdb-breadcrumb-item>
 	</mdb-breadcrumb>
 </div>
+
 <div class="section">
 	<div class="row pb-2">
 		<div class="col">
@@ -15,13 +16,11 @@
 		</div>
 	</div>
 
-	<hr>
-
 	<div class="row mb-3 mt-3">
 
 		<div class="col">
 			<div class="filtros mt-2 row">
-				<div class="col-12 col-sm-12 col-md-12 col-lg-10">
+				<div class="col-12 col-sm-12 col-md-3">
 
 					<div class="form-group">
 						<label class="form-text text-left" for="mydate">De</label>
@@ -42,54 +41,37 @@
 			</div>
 		</div>
 	</div>
-
+	<hr>
+    <div class="row pb-2">
+        <div class="col">
+            <p class="section_titulo_0">{{'Oferta Incremental' | translate}}</p>
+            <p class="section_subtitulo_0"> </p>
+        </div>
+    </div>
 	<form [formGroup]="modelMarketForm" (ngSubmit)="addModelMarket(modelMarketForm.value)">
 		<div class="row">
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
+			<div class="col-12 col-sm-12 col-md-3">
+				<div class="form-group">
+					<label class="form-text text-left">MW incremental 1</label>
+					<input class="form-control" formControlName="megawatt1"
+						oninput="this.value = this.value.toUpperCase()" maxlength="30">
 
-
-					<div class="form-group">
-						<label class="form-text text-left">MW incremental 1</label>
-						<input class="form-control" formControlName="megawatt1"
-							oninput="this.value = this.value.toUpperCase()" maxlength="30">
-
-						<div *ngIf="submitted && f.megawatt1.errors" style="color:red">
-							<div *ngIf="f.megawatt1.errors.required">Requerido</div>
-						</div>
+					<div *ngIf="submitted && f.megawatt1.errors" style="color:red">
+						<div *ngIf="f.megawatt1.errors.required">Requerido</div>
 					</div>
-
-					<!--mat-form-field class="full-width">
-                <input matInput formControlName="megawatt1" 
-                placeholder="MW incremental 1">
-              </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-
 				</div>
 			</div>
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
+			<div class="col-12 col-sm-12 col-md-3">
 					<div class="form-group">
 						<label class="form-text text-left">$/MWh incremental 1</label>
 						<input class="form-control" formControlName="priceMegawatt1"
 							oninput="this.value = this.value.toUpperCase()">
-
 						<div *ngIf="submitted && f.priceMegawatt1.errors" style="color:red">
 							<div *ngIf="f.priceMegawatt1.errors.required">Requerido</div>
 						</div>
 					</div>
-					<!--mat-form-field class="full-width">
-                <input matInput formControlName="priceMegawatt1" 
-                placeholder="$/MWh incremental 1">
-              </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-
-				</div>
 			</div>
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
+			<div class="col-12 col-sm-12 col-md-3">
 					<div class="form-group">
 						<label class="form-text text-left">MW incremental 2</label>
 						<input class="form-control" formControlName="megawatt2"
@@ -99,19 +81,8 @@
 							<div *ngIf="f.megawatt2.errors.required">Requerido</div>
 						</div>
 					</div>
-
-					<!--mat-form-field class="full-width">
-              <input matInput formControlName="megawatt2" placeholder="MW incremental 2">
-            </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-
-				</div>
 			</div>
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
-
-
+			<div class="col-12 col-sm-12 col-md-3">
 					<div class="form-group">
 						<label class="form-text text-left">$/MWh incremental 2</label>
 						<input class="form-control" formControlName="priceMegawatt2"
@@ -121,20 +92,10 @@
 							<div *ngIf="f.priceMegawatt2.errors.required">Requerido</div>
 						</div>
 					</div>
-
-					<!--mat-form-field class="full-width">
-              <input matInput formControlName="priceMegawatt2" placeholder="$/MWh incremental 2">
-            </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-				</div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
-
-
+			<div class="col-12 col-sm-12 col-md-3">
 					<div class="form-group">
 						<label class="form-text text-left">MW incremental 3</label>
 						<input class="form-control" formControlName="megawatt3"
@@ -144,19 +105,8 @@
 							<div *ngIf="f.megawatt3.errors.required">Requerido</div>
 						</div>
 					</div>
-
-
-					<!--mat-form-field class="full-width">
-              <input matInput formControlName="megawatt3" placeholder="MW incremental 3" >
-            </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-
-				</div>
 			</div>
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
-
+			<div class="col-12 col-sm-12 col-md-3">
 					<div class="form-group">
 						<label class="form-text text-left">$/MWh incremental 3</label>
 						<input class="form-control" formControlName="priceMegawatt3"
@@ -166,20 +116,8 @@
 							<div *ngIf="f.priceMegawatt3.errors.required">Requerido</div>
 						</div>
 					</div>
-
-
-					<!--mat-form-field class="full-width">
-              <input matInput formControlName="priceMegawatt3" placeholder="$/MWh incremental 3">
-            </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-
-				</div>
 			</div>
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
-
-
+			<div class="col-12 col-sm-12 col-md-3">
 					<div class="form-group">
 						<label class="form-text text-left">MW incremental 4</label>
 						<input class="form-control" formControlName="megawatt4"
@@ -189,19 +127,8 @@
 							<div *ngIf="f.megawatt4.errors.required">Requerido</div>
 						</div>
 					</div>
-
-
-					<!--mat-form-field class="full-width">
-              <input matInput formControlName="megawatt4" placeholder="MW incremental 4">
-            </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-
-				</div>
 			</div>
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
-
+			<div class="col-12 col-sm-12 col-md-3">
 					<div class="form-group">
 						<label class="form-text text-left">$/MWh incremental 4</label>
 						<input class="form-control" formControlName="priceMegawatt4"
@@ -211,21 +138,11 @@
 							<div *ngIf="f.priceMegawatt4.errors.required">Requerido</div>
 						</div>
 					</div>
-
-
-					<!--mat-form-field class="full-width">
-              <input matInput formControlName="priceMegawatt4" placeholder="$/MWh incremental 4">
-            </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-				</div>
 			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
-
+			<div class="col-12 col-sm-12 col-md-3">
 					<div class="form-group">
 						<label class="form-text text-left">MW incremental 5</label>
 						<input class="form-control" formControlName="megawatt5"
@@ -235,19 +152,8 @@
 							<div *ngIf="f.megawatt5.errors.required">Requerido</div>
 						</div>
 					</div>
-
-
-					<!--mat-form-field class="full-width">
-              <input matInput formControlName="megawatt5" placeholder="MW incremental 5">
-            </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-
-				</div>
 			</div>
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
-
+			<div class="col-12 col-sm-12 col-md-3">
 					<div class="form-group">
 						<label class="form-text text-left">$/MWh incremental 5</label>
 						<input class="form-control" formControlName="priceMegawatt5"
@@ -257,20 +163,8 @@
 							<div *ngIf="f.priceMegawatt5.errors.required">Requerido</div>
 						</div>
 					</div>
-
-
-
-					<!--mat-form-field class="full-width">
-              <input matInput formControlName="priceMegawatt5" placeholder="$/MWh incremental 5">
-            </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-
-				</div>
 			</div>
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
-
+			<div class="col-12 col-sm-12 col-md-3">
 					<div class="form-group">
 						<label class="form-text text-left">MW incremental 6</label>
 						<input class="form-control" formControlName="megawatt6"
@@ -280,17 +174,8 @@
 							<div *ngIf="f.megawatt6.errors.required">Requerido</div>
 						</div>
 					</div>
-
-					<!--mat-form-field class="full-width">
-            <input matInput formControlName="megawatt6" placeholder="MW incremental 6">
-          </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-
-				</div>
 			</div>
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
+			<div class="col-12 col-sm-12 col-md-3">
 					<div class="form-group">
 						<label class="form-text text-left">$/MWh incremental 6</label>
 						<input class="form-control" formControlName="priceMegawatt6"
@@ -300,19 +185,12 @@
 							<div *ngIf="f.priceMegawatt6.errors.required">Requerido</div>
 						</div>
 					</div>
-
-					<!--mat-form-field class="full-width">
-              <input matInput formControlName="priceMegawatt6" placeholder="$/MWh incremental 6">
-            </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-				</div>
 			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
+			<div class="col-12 col-sm-12 col-md-3">
+
 					<div class="form-group">
 						<label class="form-text text-left">MW incremental 7</label>
 						<input class="form-control" formControlName="megawatt7"
@@ -322,19 +200,8 @@
 							<div *ngIf="f.megawatt7.errors.required">Requerido</div>
 						</div>
 					</div>
-
-
-
-					<!--mat-form-field class="full-width">
-              <input matInput formControlName="megawatt7" placeholder="MW incremental 7">
-            </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-
-				</div>
 			</div>
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
+			<div class="col-12 col-sm-12 col-md-3">
 					<div class="form-group">
 						<label class="form-text text-left">$/MWh incremental 7</label>
 						<input class="form-control" formControlName="priceMegawatt7"
@@ -344,19 +211,8 @@
 							<div *ngIf="f.priceMegawatt7.errors.required">Requerido</div>
 						</div>
 					</div>
-
-
-
-					<!--mat-form-field class="full-width">
-              <input matInput formControlName="priceMegawatt7" placeholder="$/MWh incremental 7">
-            </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-
-				</div>
 			</div>
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
+			<div class="col-12 col-sm-12 col-md-3">
 					<div class="form-group">
 						<label class="form-text text-left">MW incremental 8</label>
 						<input class="form-control" formControlName="megawatt8"
@@ -366,19 +222,8 @@
 							<div *ngIf="f.megawatt8.errors.required">Requerido</div>
 						</div>
 					</div>
-
-
-
-					<!--mat-form-field class="full-width">
-            <input matInput formControlName="megawatt8" placeholder="MW incremental 8">
-          </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-
-				</div>
 			</div>
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
+			<div class="col-12 col-sm-12 col-md-3">
 					<div class="form-group">
 						<label class="form-text text-left">$/MWh incremental 8</label>
 						<input class="form-control" formControlName="priceMegawatt8"
@@ -388,20 +233,11 @@
 							<div *ngIf="f.priceMegawatt8.errors.required">Requerido</div>
 						</div>
 					</div>
-
-
-					<!--mat-form-field class="full-width">
-              <input matInput formControlName="priceMegawatt8" placeholder="$/MWh incremental 8">
-            </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-				</div>
 			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
+			<div class="col-12 col-sm-12 col-md-3">
 					<div class="form-group">
 						<label class="form-text text-left">MW incremental 9</label>
 						<input class="form-control" formControlName="megawatt9"
@@ -411,18 +247,8 @@
 							<div *ngIf="f.megawatt9.errors.required">Requerido</div>
 						</div>
 					</div>
-
-
-					<!--mat-form-field class="full-width">
-              <input matInput formControlName="megawatt9" placeholder="MW incremental 9">
-            </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-
-				</div>
 			</div>
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
+			<div class="col-12 col-sm-12 col-md-3">
 					<div class="form-group">
 						<label class="form-text text-left">$/MWh incremental 9</label>
 						<input class="form-control" formControlName="priceMegawatt9"
@@ -432,17 +258,9 @@
 							<div *ngIf="f.priceMegawatt9.errors.required">Requerido</div>
 						</div>
 					</div>
-
-					<!--mat-form-field class="full-width">
-              <input matInput formControlName="priceMegawatt9" placeholder="$/MWh incremental 9">
-            </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-
-				</div>
 			</div>
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
+			<div class="col-12 col-sm-12 col-md-3">
+
 					<div class="form-group">
 						<label class="form-text text-left">MW incremental 10</label>
 						<input class="form-control" formControlName="megawatt10"
@@ -452,17 +270,9 @@
 							<div *ngIf="f.megawatt10.errors.required">Requerido</div>
 						</div>
 					</div>
-
-					<!--mat-form-field class="full-width">
-              <input matInput formControlName="megawatt10" placeholder="MW incremental 10">
-            </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-
-				</div>
 			</div>
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
+			<div class="col-12 col-sm-12 col-md-3">
+
 					<div class="form-group">
 						<label class="form-text text-left">$/MWh incremental 10</label>
 						<input class="form-control" formControlName="priceMegawatt10"
@@ -472,19 +282,11 @@
 							<div *ngIf="f.priceMegawatt10.errors.required">Requerido</div>
 						</div>
 					</div>
-
-					<!--mat-form-field class="full-width">
-              <input matInput formControlName="priceMegawatt10" placeholder="$/MWh incremental 10">
-            </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-				</div>
 			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
+			<div class="col-12 col-sm-12 col-md-3">
 					<div class="form-group">
 						<label class="form-text text-left">MW incremental 11</label>
 						<input class="form-control" formControlName="megawatt11"
@@ -494,18 +296,8 @@
 							<div *ngIf="f.megawatt11.errors.required">Requerido</div>
 						</div>
 					</div>
-
-
-					<!--mat-form-field class="full-width">
-              <input matInput formControlName="megawatt11" placeholder="MW incremental 11">
-            </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-
-				</div>
 			</div>
-			<div class="col-md-auto col-md-6 col-lg-3">
-				<div class="col-md-8">
+			<div class="col-12 col-sm-12 col-md-3">
 					<div class="form-group">
 						<label class="form-text text-left">$/MWh incremental 11</label>
 						<input class="form-control" formControlName="priceMegawatt11"
@@ -515,31 +307,40 @@
 							<div *ngIf="f.priceMegawatt11.errors.required">Requerido</div>
 						</div>
 					</div>
-
-
-					<!--mat-form-field class="full-width">
-              <input matInput formControlName="priceMegawatt11" placeholder="$/MWh incremental 11">
-            </mat-form-field-->
-				</div>
-				<div class="col-md-4">
-
-				</div>
 			</div>
 
 		</div>
 
-		<div class="col">
-			<button type="button" class="btn right" (click)="cancelModelMarket()"
-				[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-				Cancelar
-			</button>
-			<button type="submit" class="btn right" [disabled]="!modelMarketForm.valid || hour === 0"
-				[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-				Aceptar
-			</button>
+
+		<hr>
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_0">{{'Oferta de Reserva de Generación (no existia, verificar con analista y en el back)' | translate}}</p>
+				<p class="section_subtitulo_0"> </p>
+			</div>
 		</div>
-		<br />
+
+
+
+		<div class="row mb-5">
+			<div class="col text-right">
+				<button type="button" class="btn right" (click)="cancelModelMarket()"
+					[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+					Cancelar
+				</button>
+				<button type="submit" class="btn right" [disabled]="!modelMarketForm.valid || hour === 0"
+					[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+					Aceptar
+				</button>
+			</div>
+		</div>
 	</form>
+
+
+	
+	<hr>
+	<span>(falta una tabla, verificar con analista y en el back)</span>
+
 
 	<div class="mat-elevation-z0">
 		<table matSort mat-table [dataSource]="dataSource" class="table_catalogo">
