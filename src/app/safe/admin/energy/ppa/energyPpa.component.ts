@@ -48,6 +48,7 @@ export class EnergyPpaComponent implements OnInit {
     });
     this.cols = [
       'hour',
+      'potenciamw',
       'indoorCalorificValue',
       'powerFactor',
       'edit'
