@@ -215,6 +215,7 @@ export class MdaAceptadaComponent implements OnInit {
     }
     return new Blob(byteArrays, { type: contentType });
   }
+
   solicitaReactivarPlanning(value) {
     let reader = new FileReader();
     reader.onloadend = (e) => {

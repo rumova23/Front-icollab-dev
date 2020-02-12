@@ -70,7 +70,6 @@ export class EfhAddIndicatorComponent implements OnInit {
           for (let ins = 0; ins < option.children.length; ins++) {
             if ((option.children[ins].label == this.nombreCatalogo) || option.children[ins].children) {
               // option.children[ins].actions.push('CREAR', 'VER', 'EDITAR', 'BORRAR');
-              debugger;
               if (option.children[ins].actions && option.children[ins].label == this.nombreCatalogo) {
                 for (let action = 0; action < option.children[ins].actions.length ; action++) {
 
@@ -215,8 +214,8 @@ export class EfhAddIndicatorComponent implements OnInit {
             obj['typeIndicator'] = this.indicatorTypesArr.find(x => x.id === element.idtypeindicator).name;
             obj['typeFuel'] = this.fuelTypesArr.find(x => x.id === element.idtypefuel).name;
             obj['unit'] = this.unitsArr.find(x => x.id === element.idunit).name;
-            obj['dateInit'] = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'dd/MM/yyyy HH:mm');
-            obj['dateEnd'] = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'dd/MM/yyyy HH:mm');
+            obj['dateInit'] = this.datePipe.transform(new Date(element.dateinit) , 'dd/MM/yyyy HH:mm');
+            obj['dateEnd'] = this.datePipe.transform(new Date(element.dateinit) , 'dd/MM/yyyy HH:mm');
             obj['userCreated'] = element.userUpdated === null ? element.userCreated : element.userUpdated;
             obj['userUpdated'] = element.userUpdated === null ? element.userCreated : element.userUpdated;
             const dateUpdated = element.dateUpdated === null ? element.dateCreated : element.dateUpdated;

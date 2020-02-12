@@ -15,6 +15,8 @@ import { Fuecd } from '../../models/Fuecd';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {TimeRegister} from '../../models/TimeRegister';
 import {requiredFileType} from '../../../core/helpers/requiredFileType';
+import {SettlementInvoiceDT0} from '../../models/settlement-invoice-dt0';
+import {AccountStatusDT0} from '../../models/account-status-dt0';
 
 
 @Component({
@@ -31,6 +33,7 @@ export class FuecdComponent implements OnInit {
   valid = false;
   timeRegisters: Array<TimeRegister> = [];
 
+  fuecd: AccountStatusDT0;
   loading: boolean;
   cols: any[];
   filters = [
@@ -39,8 +42,12 @@ export class FuecdComponent implements OnInit {
     { label: 'Activo', inputtype: 'text' },
   ];
   filterBtn = { label: 'buscar' };
-  rowsPorPage = [50, 100, 250, 500];
-  fuecd: Array<Fuecd>;
+  rowsPorPage = [5, 10, 25, 50, 100, 250, 500];
+  listFUFPlanta: Array<SettlementInvoiceDT0>;
+  listFUFCenace: Array<SettlementInvoiceDT0>;
+
+    aaaaaa: Array<SettlementInvoiceDT0>;
+    bbbbbb: Array<SettlementInvoiceDT0>;
   constructor(
     private marketService: MarketService,
     private catalogService: CatalogService,
@@ -53,29 +60,48 @@ export class FuecdComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {
+      this.aaaaaa = [];
+      this.bbbbbb = [];
     this.fuecdForm = this.fb.group({file: new FormControl(null, [Validators.required, requiredFileType('xml')])
     });
-    this.getFuecds();
     this.cols = [
-      'id',
-      'fuecd',
-      'competitorKey',
-      'subcuentKey',
-      'dateOperation',
-      'dateEmission',
-      'systemKey',
-      'invoices'
+        'fuf',
+        'tipoFuf',
+        'liquidacion',
+        'fechaOperaciónFuf',
+        'fechaPago',
+        'uuidOrigen',
+        'tipoDocumentoEmitir',
+        'subtotal',
+        'iva',
+        'total',
+        'subtotalDiferencia',
+        'ivaDiferencia',
+        'totalDiferencia',
+        'verDetalleFulsContenidosFuf'
     ];
     this.loading = false;
   }
 
   private getFuecds() {
-    this.marketService.getFuecds()
+    this.marketService.getFufs(this.fuecd.fuecd)
       .subscribe(
-        data => {
-          this.fuecd = data;
+          (data: Array<SettlementInvoiceDT0>) => {
+              this.listFUFPlanta = data;
+
+              for ( let i = 0; i < data.length; i++ ) {
+                  if (data[i].transmitter === 'participante') {
+                      this.aaaaaa.push(data[i]);
+                  }
+                  if (data[i].transmitter === 'cenace') {
+                      this.bbbbbb.push(data[i]);
+                  }
+              }
+              this.listFUFPlanta = this.aaaaaa;
+              this.listFUFCenace = this.bbbbbb;
         },
         errorData => {
+          console.dir(errorData);
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'FUECD');
         });
   }
@@ -104,12 +130,9 @@ export class FuecdComponent implements OnInit {
       this.file = this.file.trim();
       this.fileName = value.file.name;
       this.marketService.validateFuecd({ file: this.file, name:  this.fileName})
-          .subscribe(data => {
-            console.log('validateFuecd');
-              console.dir(data);
-                console.log('validateFuecd');
-                const status = data;
-                this.save();
+          .subscribe((data: AccountStatusDT0) => {
+              this.fuecd = data
+              this.save();
                 /*for (let a = 0; a < status.settlements.length; a++) {
                   const settlement = status.settlements[a];
                   for (let b = 0; b < settlement.settlementInvoices.length; b++) {
@@ -141,8 +164,12 @@ export class FuecdComponent implements OnInit {
                 this.valid = true;
               },
               errorData => {
-                this.fuecdForm.reset();
-                this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.error.message);
+                if (errorData.error.message.indexOf('Ya existe el estado de cuenta') > -1) {
+                  this.toastr.warningToastr(errorData.error.message, 'Warning!');
+                  this.fuecdForm.reset();
+                } else {
+                  this.toastr.errorToastr( errorData.error.message, 'Error!');
+                }
               });
     };
     reader.readAsDataURL(value.file);
@@ -151,7 +178,7 @@ export class FuecdComponent implements OnInit {
     this.marketService.saveFuecd({ file: this.file, name: this.fileName })
         .subscribe(
             data => {
-              this.ngOnInit();
+                this.getFuecds();
             },
             errorData => {
               this.fuecdForm.reset();
@@ -159,6 +186,5 @@ export class FuecdComponent implements OnInit {
               this.timeRegisters = [];
               this.toastr.errorToastr(Constants.ERROR_SAVE, errorData);
             });
-
   }
 }

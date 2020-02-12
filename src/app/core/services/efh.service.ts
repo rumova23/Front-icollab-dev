@@ -24,6 +24,11 @@ export class EfhService {
     return this.http.get( `${ this.microEfh }configuration/event/list`, { params : this.parameters });
   }
 
+  getEventsConfiguratedByDate(event) {
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    return this.http.post( `${ this.microEfh }configuration/event/listByDate`, event, { params : this.parameters });
+  }
+
   getEventsConfiguratedAsc() {
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${ this.microEfh }configuration/event/listAsc`, { params : this.parameters });
@@ -112,6 +117,11 @@ export class EfhService {
     return this.http.get( `${ this.microEfh }configuration/indicator/list`, { params : this.parameters });
   }
 
+  getIndicatorsConfiguratedByDate(event) {
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    return this.http.post( `${ this.microEfh }configuration/indicator/listByDate`, event, { params : this.parameters });
+  }
+
   getIndicator(id) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.microEfh }configuration/indicator/get/` + id, { params : this.parameters });
@@ -125,11 +135,6 @@ export class EfhService {
   deleteIndicator(id) {
         this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
         return this.http.delete( `${ this.microEfh }configuration/indicator/delete/` + id, {params : this.parameters });
-  }
-
-  uploadIndicator(fileObj) {
-        this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-        return this.http.post(`${ this.microEfh }configuration/indicator/saveFile`, fileObj, {params : this.parameters });
   }
 
 }

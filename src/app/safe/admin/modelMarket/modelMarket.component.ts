@@ -165,9 +165,6 @@ export class ModelMarketComponent implements OnInit {
 
         },
         errorData => {
-          console.log('RTC');
-          console.dir(errorData);
-          console.log('RTC');
           if (errorData.error.message.indexOf('La Planeacion Existe') > -1) {
             this.toastr.warningToastr(errorData.error.message, 'Warning!');
           } else {

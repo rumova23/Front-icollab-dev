@@ -44,7 +44,7 @@ export class SharedSidebarMenuComponent {
                 this.hardcodemockUp();
                 break;
             case "Safe":
-                this.hardcodeSafe();
+                this.hardcodeSafe(this.menu);
                 break;
             case "Efh":
                 this.hardcodeEfh();
@@ -53,28 +53,48 @@ export class SharedSidebarMenuComponent {
                 break;
         }
     }
-    hardcodeSafe(){
-        let item0 = null;
-        let item1 = null;
-        let item2 = null;
-        let item3 = null;
-        let array = [];
-        for (let option of this.menu) {
-            if (option.label == "Home") item0 = option;
-            else if (option.label == "PPA") item1 = option;
-            else if (option.label == "Market") item2 = option;
-            else if (option.label == "Configuration") item3 = option;
-            else array.push(option);
-        }
-        this.menu = [];
-        this.menu[0] = item0;
-        this.menu[1] = item1;
-        this.menu[2] = item2;
-        this.menu[3] = item3;
-        for (const iterator of array) {
-            this.menu.push(iterator);
-        }
-
+    ordenar(lst){
+        lst.sort((a,b)=>{
+            if (a['order'] > b['order']) {
+                return 1;
+            }
+            if (a['order'] < b['order']) {
+                return -1;
+            }
+            return 0;
+        });
+    }
+    setOrderSafe(menu){
+        menu.map((item, indice)=>{
+            if(item.children && item.children.length > 0) {
+                this.setOrderSafe(item.children);
+            }
+            if (item.label == "Home")               item.order = 0;
+            else if (item.label == "PPA")           item.order = 1;
+            else if (item.label == "Market")        item.order = 2;
+                else if (item.label == "Planning")        item.order = 0;
+                    else if (item.label == "Environmental Variables") item.order = 0;
+                    else if (item.label == "Energy Variables")        item.order = 1;
+                    else if (item.label == "Charges and Costs")       item.order = 2;
+                    else if (item.label == "MDA" && item.idFather==127) item.order = 3;
+                else if (item.label == "Projection")      item.order = 1;
+                    else if (item.label == "MDA" && item.idFather==128)   item.order = 0;
+                        else if (item.label == "Oferta MDA Aceptada EAT") item.order = 0;
+                        else if (item.label == "Resultados MDA CENACE")   item.order = 1;
+                    else if (item.label == "MTR") item.order = 1;
+                        else if (item.label == "Proyeccion MTR EAT") item.order = 0;
+                        else if (item.label == "MTR EAT")            item.order = 1;
+                        else if (item.label == "MTR CENACE")         item.order = 2;
+                else if (item.label == "Billing")         item.order = 2;
+                else if (item.label == "Analytic")        item.order = 3;
+            else if (item.label == "Configuration") item.order = 3;
+            else item.order = indice+30;
+        });
+        this.ordenar(menu);
+    }
+    hardcodeSafe(menu){
+        this.setOrderSafe(menu);
+        console.log(menu);     
     }
     hardcodeEfh() {
         let item0 = null;

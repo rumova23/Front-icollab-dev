@@ -87,6 +87,10 @@ import { DetailJobsComponent } from './admin/monitoring/detail/detailJobs.compon
 import { MonitoringJobsComponent } from './admin/monitoring/monitoringJobs.component';
 import { AccountStatements20119Component } from './business/account-statements20119/account-statements20119.component';
 import {EditMtrPlantComponent} from './admin/modelMarket/edit-mtr-plant/edit-mtr-plant.component';
+import {MtrAcceptedComponent} from './admin/modelMarket/mtr-accepted/mtr-accepted.component';
+import { HenryhubComponent } from './admin/henryhub/henryhub.component';
+import { AgraficaComponent } from './admin/agrafica/agrafica.component';
+import {MtrCenaceComponent} from './admin/modelMarket/mtr-cenace/mtr-cenace.component';
 
 @NgModule({
     declarations: [
@@ -128,7 +132,11 @@ import {EditMtrPlantComponent} from './admin/modelMarket/edit-mtr-plant/edit-mtr
         PlannedPowersPPAIComponent,
         AccountStatements20119Component,
         MdaAceptadaComponent,
-        EditMtrPlantComponent
+        EditMtrPlantComponent,
+        MtrAcceptedComponent,
+        AgraficaComponent,
+        HenryhubComponent,
+        MtrCenaceComponent
     ],
     exports: [],
     imports: [

@@ -22,8 +22,6 @@ export class EditMtrPlantComponent implements OnInit {
   valid = false;
   progress;
 
-
-
   title = 'Consulta/Edita Proyeccion MTR';
   data: Array<ModelMarket> = [];
   dataSource;
@@ -112,9 +110,10 @@ export class EditMtrPlantComponent implements OnInit {
   }
 
   private loadData() {
-    this.marketService.getModelMarket(this.date.getTime())
+    this.marketService.getModelMarketMTR(this.date.getTime())
         .subscribe(
             data => {
+              console.dir(data);
               const rows = data.rows;
               this.dateDespatch = data.dateDespatch;
               this.data = [];
@@ -201,6 +200,11 @@ export class EditMtrPlantComponent implements OnInit {
 
   addModelMarket(energy) {
     this.saveModel(energy);
+  }
+
+  cancelModelMarket() {
+    this.modelMarketForm.reset();
+    this.hour = 0;
   }
 
   saveModel(energy) {
@@ -334,7 +338,7 @@ export class EditMtrPlantComponent implements OnInit {
 
       this.file = this.file.trim();
       this.fileName = value.file.name;
-      this.marketService.validateProposalAccepted({ file: this.file, name:  this.fileName})
+      this.marketService.validateMTR({ file: this.file, name:  this.fileName})
           .subscribe(
               data => {
                 if (data.success) {
@@ -379,5 +383,19 @@ export class EditMtrPlantComponent implements OnInit {
       byteArrays[sliceIndex] = new Uint8Array(bytes);
     }
     return new Blob(byteArrays, { type: contentType });
+  }
+
+
+  terminarPlanning() {
+    this.marketService.terminaPlannigMtr(
+        this.date.getTime()
+    ) .subscribe(
+        dat => {
+          console.log(dat);
+          this.toastr.successToastr(Constants.SAVE_SUCCESS);
+        },
+        errorData => {
+          this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.message);
+        });
   }
 }

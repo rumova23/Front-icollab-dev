@@ -64,6 +64,10 @@ import { ProposalAcceptedComponent				  } from '../admin/modelMarket/proposal-ac
 import { AccountStatements20119Component } from '../business/account-statements20119/account-statements20119.component';
 import {MdaAceptadaComponent} from '../admin/modelMarket/mda-aceptada/mda-aceptada.component';
 import {EditMtrPlantComponent} from '../admin/modelMarket/edit-mtr-plant/edit-mtr-plant.component';
+import {MtrAcceptedComponent} from '../admin/modelMarket/mtr-accepted/mtr-accepted.component';
+import { AgraficaComponent                        } from '../admin/agrafica/agrafica.component';
+import { HenryhubComponent                        } from '../admin/henryhub/henryhub.component';
+import {MtrCenaceComponent} from '../admin/modelMarket/mtr-cenace/mtr-cenace.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -124,6 +128,10 @@ import {EditMtrPlantComponent} from '../admin/modelMarket/edit-mtr-plant/edit-mt
 		, AccountStatements20119Component
 		, MdaAceptadaComponent
 		, EditMtrPlantComponent
+		, MtrAcceptedComponent
+		, AgraficaComponent
+		, HenryhubComponent
+		, MtrCenaceComponent
   	]
 })
 
@@ -249,6 +257,56 @@ export class SafeHomeComponent implements OnInit {
 							)
 						).changeDetectorRef.detectChanges();
 						break;
+					case 'Safe.MTR EAT':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								MtrAcceptedComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.MTR CENACE':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								MtrCenaceComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.PML':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								PmlComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.Estado de Cuenta Diario':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								FuecdComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.HenryhubComponent':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								HenryhubComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+
+					case 'Safe.AgraficaComponent':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								AgraficaComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+
 					case 'Safe.Home':
 						banderaTemporal = true;
 						this.viewContainerRef.createComponent(
@@ -370,9 +428,6 @@ export class SafeHomeComponent implements OnInit {
 					break;
 				case 'Facturas':
 					option = 20;
-					break;
-				case 'Estado de Cuenta Diario':
-					option = 22;
 					break;
 				case 'Tipos de Cambio':
 					option = 25;
@@ -643,13 +698,6 @@ export class SafeHomeComponent implements OnInit {
 				event.data.invoice;
 			}
 			refInvoicesEdit.changeDetectorRef.detectChanges();
-			break;
-		case 22:
-			const factoryFuecd =
-			this.componentFactoryResolver.resolveComponentFactory(FuecdComponent);
-			const refFuecd =
-			this.viewContainerRef.createComponent(factoryFuecd);
-			refFuecd.changeDetectorRef.detectChanges();
 			break;
 		case 23:
 			const factoryFuecdEdit =
