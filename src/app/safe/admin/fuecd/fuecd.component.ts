@@ -78,7 +78,6 @@ export class FuecdComponent implements OnInit {
         'subtotalDiferencia',
         'ivaDiferencia',
         'totalDiferencia',
-        'generarPreDocumento',
         'verDetalleFulsContenidosFuf'
     ];
     this.loading = false;
