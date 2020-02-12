@@ -16,6 +16,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {TimeRegister} from '../../models/TimeRegister';
 import {requiredFileType} from '../../../core/helpers/requiredFileType';
 import {SettlementInvoiceDT0} from '../../models/settlement-invoice-dt0';
+import {AccountStatusDT0} from '../../models/account-status-dt0';
 
 
 @Component({
@@ -31,8 +32,8 @@ export class FuecdComponent implements OnInit {
   fileName: any;
   valid = false;
   timeRegisters: Array<TimeRegister> = [];
-  fuecdReturn = '';
 
+  fuecd: AccountStatusDT0;
   loading: boolean;
   cols: any[];
   filters = [
@@ -41,8 +42,12 @@ export class FuecdComponent implements OnInit {
     { label: 'Activo', inputtype: 'text' },
   ];
   filterBtn = { label: 'buscar' };
-  rowsPorPage = [50, 100, 250, 500];
-  fuecd: Array<SettlementInvoiceDT0>;
+  rowsPorPage = [5, 10, 25, 50, 100, 250, 500];
+  listFUFPlanta: Array<SettlementInvoiceDT0>;
+  listFUFCenace: Array<SettlementInvoiceDT0>;
+
+    aaaaaa: Array<SettlementInvoiceDT0>;
+    bbbbbb: Array<SettlementInvoiceDT0>;
   constructor(
     private marketService: MarketService,
     private catalogService: CatalogService,
@@ -55,19 +60,17 @@ export class FuecdComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {
+      this.aaaaaa = [];
+      this.bbbbbb = [];
     this.fuecdForm = this.fb.group({file: new FormControl(null, [Validators.required, requiredFileType('xml')])
     });
     this.cols = [
         'fuf',
-        'fechaOperacion',
-        'fechaEmision',
         'tipoFuf',
         'liquidacion',
         'fechaOperaciónFuf',
         'fechaPago',
         'uuidOrigen',
-        'emisor',
-        'tipoXml',
         'tipoDocumentoEmitir',
         'subtotal',
         'iva',
@@ -82,10 +85,21 @@ export class FuecdComponent implements OnInit {
   }
 
   private getFuecds() {
-    this.marketService.getFufs(this.fuecdReturn)
+    this.marketService.getFufs(this.fuecd.fuecd)
       .subscribe(
-        data => {
-          this.fuecd = data;
+          (data: Array<SettlementInvoiceDT0>) => {
+              this.listFUFPlanta = data;
+
+              for ( let i = 0; i < data.length; i++ ) {
+                  if (data[i].transmitter === 'participante') {
+                      this.aaaaaa.push(data[i]);
+                  }
+                  if (data[i].transmitter === 'cenace') {
+                      this.bbbbbb.push(data[i]);
+                  }
+              }
+              this.listFUFPlanta = this.aaaaaa;
+              this.listFUFCenace = this.bbbbbb;
         },
         errorData => {
           console.dir(errorData);
@@ -117,9 +131,9 @@ export class FuecdComponent implements OnInit {
       this.file = this.file.trim();
       this.fileName = value.file.name;
       this.marketService.validateFuecd({ file: this.file, name:  this.fileName})
-          .subscribe(data => {
-                const status = data;
-                this.save();
+          .subscribe((data: AccountStatusDT0) => {
+              this.fuecd = data
+              this.save();
                 /*for (let a = 0; a < status.settlements.length; a++) {
                   const settlement = status.settlements[a];
                   for (let b = 0; b < settlement.settlementInvoices.length; b++) {
@@ -165,8 +179,6 @@ export class FuecdComponent implements OnInit {
     this.marketService.saveFuecd({ file: this.file, name: this.fileName })
         .subscribe(
             data => {
-                console.dir(data);
-                this.fuecdReturn = data;
                 this.getFuecds();
             },
             errorData => {
@@ -175,6 +187,5 @@ export class FuecdComponent implements OnInit {
               this.timeRegisters = [];
               this.toastr.errorToastr(Constants.ERROR_SAVE, errorData);
             });
-
   }
 }
