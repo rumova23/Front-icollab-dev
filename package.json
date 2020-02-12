@@ -46,6 +46,7 @@
     "jsgantt-improved": "^2.5.1",
     "moment": "^2.24.0",
     "ng-block-ui": "^2.1.3",
+    "ng-canvas-gauges": "^6.0.4",
     "ng-gantt": "^2.4.9",
     "ng6-toastr-notifications": "^1.0.4",
     "ngx-treeview": "^6.0.2",
