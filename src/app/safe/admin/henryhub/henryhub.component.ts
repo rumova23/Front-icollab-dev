@@ -56,33 +56,18 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 		//aqui hay alguna variable para detectar si ya se abrio el socket , revisar
 		//usar la variable 
 		this.subscribeSocketHenryhub();
-		this.henryhubService.algo().subscribe(data => { });
-
+		this.peticionget();
 	}
+	peticionget(){
 
+		if(this.globalService.socketConnect){
+			this.henryhubService.algo().subscribe(data => { });
+		}
+	}
 	subscribeSocketHenryhub() {
-		//this.subscribeSocketChannel("henryhub");
-		///*
-		console.log("this.globalService.socketConnect",this.globalService.socketConnect);
-		
-		//if(this.globalService.socketConnect){
-			let strChannel    : string = "henryhub"
-			let strChannelErr : string = `${strChannel}-error`;
-			let channel                = this.socketService.suscribeChannel(strChannel);
-	
-			this.addSubscriptionsPerChannel([strChannel, strChannelErr]);
-			this.addChanels([strChannel]);
-	
-			this.subscriptions[strChannelErr] = this.socketService.onChannelError(channel - 1).subscribe((errorChannel: any) => { console.log(strChannelErr, errorChannel); });
-			this.subscriptions[strChannel]    = this.socketService.onChannelWatch(channel - 1)
-				.subscribe((data) => {
-					this.dataAdapter(data);
-				});
-		//}
-		//*/
+		this.subscribeSocketChannel("henryhub",(data)=>this.mydataAdapter(data),()=>{this.peticionget();});
 	}
-	dataAdapter(data: any) {
-		debugger;
+	mydataAdapter(data: any) {
 		this.data = [];
 		let fechas = [];
 		let chatdata = [
@@ -105,7 +90,7 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 			},
 		];
 		for (const serie of data.series) {
-			serie.data = serie.data.reverse();
+			//serie.data = serie.data.reverse();
 			for (const value of serie.data) {
 				let anio    = +value[0].substring(0, 4);
 				let mes     = +value[0].substring(4, 7);
@@ -116,21 +101,20 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 				let hoymes  = hoy.getMonth();
 				let hoyanio = hoy.getFullYear();
 				let dates   = new Date(anio+ "-" + mes+"-01");
+				chatdata[0].data.push( precio);
+				chatdata[1].data.push( precio);
+
 				if(dates.getTime() < hoy.getTime()){
-					chatdata[0].data.push({
-						x: fecha0,
-						y: precio});
 				}else{
 					if(chatdata[1].data.length == 0){
-						chatdata[1].data.push(chatdata[0].data[chatdata[0].data.length-1]);
+						let tester = chatdata[0].data[chatdata[0].data.length-1];
+						//chatdata[1].data.push(tester);
 					}
-					chatdata[1].data.push({
-						x: fecha0,
-						y: precio});
+					//chatdata[1].data.push(precio); 
 				}
 				//debugger;
 
-				fechas.push(fecha0);
+				fechas.push(fecha);
 				this.data.push({ fecha, precio });
 			}
 		}
@@ -138,7 +122,8 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 			this['canvas1'].nativeElement
 			, this.chartCreateConfigDemo(chatdata, fechas)
 		);
-		this.data.reverse();
+		this.charts['canvas1'].update();
+		//this.data.reverse();
 		this.dataSource = new MatTableDataSource<any>(this.data);
 		this.dataSource.paginator = this.paginator;
 	}
@@ -157,10 +142,15 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 					yAxes: [
 						{
 							//ticks: {min: 0,max: 500},
-							type: 'linear',
+							//type: 'linear',
 							display: true,
 							position: 'left',
 							id: 'y-axis-1',
+							
+							ticks: {
+								min: 0,
+								max: 5
+							}
 						},
 					]
 				}

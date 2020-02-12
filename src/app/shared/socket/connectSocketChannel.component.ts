@@ -14,7 +14,9 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 export class ConnectSocketChannelComponent extends ConnectSocketComponent implements OnInit, OnDestroy {
 	public chanels                 : Array<string>  = [];
 	public subscriptionsPerChannel : Array<string>  = []; //tiene el listado de los keys de subscriptions que solo corresponden a los canales del socket
-
+	public callBacks = [];
+	public fErrors   = [];
+	public fconnects = [];
 	constructor(
 		public globalService       : GlobalService ,
 		public eventService        : EventService  ,
@@ -38,7 +40,7 @@ export class ConnectSocketChannelComponent extends ConnectSocketComponent implem
 		}
 		this.unsubscribeSocketChanels();
 	}
-	subscribeSocketOnStatus(){
+	subscribeSocketOnStatus(callBack=null){
 		if(this.subscriptions['onChangeSocketConnect']  == undefined || this.subscriptions["onChangeSocketConnect"].isStopped==true){
 			this.subscriptions['onChangeSocketConnect'] = this.eventService.onChangeSocketConnect
 				.subscribe({
@@ -48,33 +50,40 @@ export class ConnectSocketChannelComponent extends ConnectSocketComponent implem
 							this.whenLosingConnection();
 						}else if(event.id === 1){
 							this.subscribeSocketChanels();
+							if(callBack!=null)callBack();
 						}
 					}
 				}
 			);
 		}
 	}
-	subscribeSocketChannel(strChannel:string) {
+	subscribeSocketChannel(strChannel:string,callBack=null,fconnect=null,fError=null) {
 		let strChannelErr : string = `${strChannel}-error`;
 		this.addSubscriptionsPerChannel([strChannel, strChannelErr]);
 		this.addChanels([strChannel]);
+		if(callBack!=null) this.callBacks[strChannel] = callBack;
+		if(fError!=null)   this.fErrors[strChannel]   = fError;
+		if(fconnect!=null) this.fconnects[strChannel] = fconnect;
 
 		if(this.globalService.socketConnect){
-			debugger;
 			let channel                       = this.socketService.suscribeChannel(strChannel);
 			this.subscriptions[strChannelErr] = this.socketService.onChannelError(channel - 1).subscribe((errorChannel: any) => { console.log(strChannelErr, errorChannel); });
 			this.subscriptions[strChannel]    = this.socketService.onChannelWatch(channel - 1)
 				.subscribe((data) => {
-					this.dataAdapter(data);
+					if(callBack!=null){
+						callBack(data);
+					}else{
+						this.dataAdapter(data);
+					}
 				});
 		}else{
 			this.subscribeOpenSocket();
-			this.subscribeSocketOnStatus();
+			this.subscribeSocketOnStatus(fconnect);
 		}
 	}
 	subscribeSocketChanels(){
 		for (const channel of this.chanels) {
-			this.subscribeSocketChannel(channel);
+			this.subscribeSocketChannel(channel,this.callBacks[channel],this.fconnects[channel],this.fErrors[channel]);
 		}
 	}
 	addSubscriptionsPerChannel(channels:Array<string>){
