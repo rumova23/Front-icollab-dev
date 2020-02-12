@@ -100,7 +100,7 @@ export class MarketService {
 
   getFufs(fuecd): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get(environment.fuecdUrl + 'list/fuf/' + fuecd, {params : this.parameters });
+    return this.http.get(environment.fuecdUrl + 'fuecd/list/fuf/' + fuecd, {params : this.parameters });
   }
 
   getFuecd(id: number): Observable<any> {
