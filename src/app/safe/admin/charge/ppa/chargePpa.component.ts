@@ -24,7 +24,7 @@ export class ChargePpaComponent implements OnInit {
   valid = false;
   typeVarhtml = '6';
 
-  title = 'Cargos';
+  title = 'Consulta / Edita Cargos y Costos';
   data: Array<ChargePpa> = [];
   dataSource;
   cols: any[];

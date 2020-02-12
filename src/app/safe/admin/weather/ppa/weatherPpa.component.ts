@@ -17,7 +17,7 @@ import {saveAs} from 'file-saver';
   styleUrls: ['./weatherPpa.component.scss']
 })
 export class WeatherPpaComponent implements OnInit {
-  title = 'Consulta de variables de clima';
+  title = 'Consulta / Edita Variables Ambientales';
   data: Array<WeatherPpa> = [];
   dataSource;
   cols: any[];

@@ -68,7 +68,7 @@
               </div>
             </div> -->
 	</form>
-
+	<hr>
 	<div class="row pb-2">
 		<div class="col">
 			<p class="section_titulo_0">{{title}}</p>
@@ -78,7 +78,7 @@
 	<div class="row mb-3 mt-3">
 		<div class="col-12 col-sm-12 col-md-3">
 			<div class="form-group">
-				<label class="form-text text-left" for="mydate">De</label>
+				<label class="form-text text-left" for="mydate">De:</label>
 				<mat-form-field class="form-control">
 					<input matInput [matDatepicker]="mydate" [(ngModel)]="date" (dateChange)="dateChange($event)">
 					<mat-datepicker-toggle matSuffix [for]="mydate"></mat-datepicker-toggle>
@@ -92,7 +92,7 @@
 		<div class="row">
 			<div class="col-12 col-sm-12 col-md-4">
 				<div class="form-group">
-					<label class="form-text text-left">Cargo Fijo MXN</label>
+					<label class="form-text text-left">Cargo Fijo MXN:</label>
 					<input class="form-control" type="number" formControlName="fixed" />
 				</div>
 
@@ -103,7 +103,7 @@
 			</div>
 			<div class="col-12 col-sm-12 col-md-4">
 				<div class="form-group">
-					<label class="form-text text-left">Cargo Variable MXN</label>
+					<label class="form-text text-left">Cargo Variable MXN:</label>
 					<input class="form-control" type="number" formControlName="variable" />
 				</div>
 				<div *ngIf="!chargeForm.controls['variable'].valid 
@@ -113,7 +113,7 @@
 			</div>
 			<div class="col-12 col-sm-12 col-md-4">
 						<div class="form-group">
-							<label class="form-text text-left">Precio de Gas $/GJ</label>
+							<label class="form-text text-left">Precio de Gas $/GJ:</label>
 							<input class="form-control" type="number" formControlName="gas" />
 						</div>
 						<div *ngIf="!chargeForm.controls['gas'].valid 
@@ -124,7 +124,7 @@
 
 			<div class="col-12 col-sm-12 col-md-4">
 						<div class="form-group">
-							<label class="form-text text-left">HR-M KJ/kWh</label>
+							<label class="form-text text-left">HR-M KJ/kWh:</label>
 							<input class="form-control" type="number" formControlName="hr" />
 						</div>
 						<div *ngIf="!chargeForm.controls['hr'].valid 
@@ -135,7 +135,7 @@
 
 			<div class="col-12 col-sm-12 col-md-4">
 						<div class="form-group">
-							<label class="form-text text-left">Margen x MM MXN</label>
+							<label class="form-text text-left">Margen x MM MXN:</label>
 							<input class="form-control" type="number" formControlName="margin" />
 						</div>
 						<div *ngIf="!chargeForm.controls['margin'].valid 
@@ -146,7 +146,7 @@
 
 			<div class="col-12 col-sm-12 col-md-4">
 						<div class="form-group">
-							<label class="form-text text-left">Otros</label>
+							<label class="form-text text-left">Otros $:</label>
 							<input class="form-control" type="number" formControlName="others" />
 						</div>
 						<div *ngIf="!chargeForm.controls['others'].valid 

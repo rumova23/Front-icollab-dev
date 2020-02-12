@@ -23,7 +23,7 @@ export class EnergyPpaComponent implements OnInit {
   valid = false;
   typeVarhtml = '4';
   config: any;
-  title = 'Variables de Energía';
+  title = 'Consulta / Edita Variables de Energía';
   data: Array<EnergyPpa> = [];
   dataSource;
   cols: any[];
@@ -48,7 +48,6 @@ export class EnergyPpaComponent implements OnInit {
     });
     this.cols = [
       'hour',
-      'potenciamw',
       'indoorCalorificValue',
       'powerFactor',
       'edit'
