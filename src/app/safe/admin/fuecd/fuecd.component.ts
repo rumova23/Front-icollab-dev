@@ -17,6 +17,7 @@ import {TimeRegister} from '../../models/TimeRegister';
 import {requiredFileType} from '../../../core/helpers/requiredFileType';
 import {SettlementInvoiceDT0} from '../../models/settlement-invoice-dt0';
 import {AccountStatusDT0} from '../../models/account-status-dt0';
+import {ConceptDTO} from '../../models/concept-dto';
 
 
 @Component({
@@ -36,6 +37,7 @@ export class FuecdComponent implements OnInit {
   fuecd: AccountStatusDT0;
   loading: boolean;
   cols: any[];
+  colsFul: any[];
   filters = [
     { label: 'Actividad', inputtype: 'text' },
     { label: 'Prefijo', inputtype: 'text' },
@@ -45,6 +47,10 @@ export class FuecdComponent implements OnInit {
   rowsPorPage = [5, 10, 25, 50, 100, 250, 500];
   listFUFPlanta: Array<SettlementInvoiceDT0>;
   listFUFCenace: Array<SettlementInvoiceDT0>;
+
+
+    listFulPlanta: Array<ConceptDTO>;
+    listFulCenace: Array<ConceptDTO>;
 
     aaaaaa: Array<SettlementInvoiceDT0>;
     bbbbbb: Array<SettlementInvoiceDT0>;
@@ -70,7 +76,6 @@ export class FuecdComponent implements OnInit {
         'liquidacion',
         'fechaOperaciónFuf',
         'fechaPago',
-        'uuidOrigen',
         'tipoDocumentoEmitir',
         'subtotal',
         'iva',
@@ -80,15 +85,41 @@ export class FuecdComponent implements OnInit {
         'totalDiferencia',
         'verDetalleFulsContenidosFuf'
     ];
+      this.colsFul = [
+          'group',
+          'description',
+          'subtotal',
+          'iva',
+          'total',
+          'subtotalDiferencia',
+          'ivaDiferencia',
+          'totalDiferencia'
+      ];
     this.loading = false;
+  }
+  private detalleFuf(fuf, participante) {
+      if (participante === 'participante') {
+          for ( let i = 0; i < this.listFUFPlanta.length; i++ ) {
+              if (this.listFUFPlanta[i].fuf === fuf) {
+                  this.listFulPlanta = this.listFUFPlanta[i].concepts;
+                  break;
+              }
+          }
+      }
+      if (participante === 'cenace') {
+          for ( let i = 0; i < this.listFUFCenace.length; i++ ) {
+              if (this.listFUFCenace[i].fuf === fuf) {
+                  this.listFulCenace = this.listFUFCenace[i].concepts;
+                  break;
+              }
+          }
+      }
   }
 
   private getFuecds() {
     this.marketService.getFufs(this.fuecd.fuecd)
       .subscribe(
           (data: Array<SettlementInvoiceDT0>) => {
-              this.listFUFPlanta = data;
-
               for ( let i = 0; i < data.length; i++ ) {
                   if (data[i].transmitter === 'participante') {
                       this.aaaaaa.push(data[i]);
@@ -101,7 +132,6 @@ export class FuecdComponent implements OnInit {
               this.listFUFCenace = this.bbbbbb;
         },
         errorData => {
-          console.dir(errorData);
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'FUECD');
         });
   }
