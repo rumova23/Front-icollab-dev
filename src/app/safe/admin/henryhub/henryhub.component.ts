@@ -70,52 +70,39 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 	mydataAdapter(data: any) {
 		this.data = [];
 		let fechas = [];
-		let chatdata = [
-			{
-				backgroundColor: 'rgba(199, 225, 229, 1)',
-				borderColor:'rgba(199, 225, 229, 1)',
-				fill: false,
-				label: "HenryHub",
-				data: [],
-				yAxisID: 'y-axis-1'
-			},
-			{
-				backgroundColor: 'rgba(202, 229, 199, 1)',
-				borderColor: 'rgba(202, 229, 199, 1)',
-				fill: false,
-				borderDash: [5, 5],
-				label: "forecast",
-				data: [],
-				yAxisID: 'y-axis-1'
-			},
-		];
+		let chatdata = [];
 		for (const serie of data.series) {
-			//serie.data = serie.data.reverse();
-			for (const value of serie.data) {
-				let anio    = +value[0].substring(0, 4);
-				let mes     = +value[0].substring(4, 7);
-				let fecha0  = +value[0];
-				let fecha   = anio+ "-" + mes;
-				let precio  = value[1];
-				let hoy     = new Date();
-				let hoymes  = hoy.getMonth();
-				let hoyanio = hoy.getFullYear();
-				let dates   = new Date(anio+ "-" + mes+"-01");
-				chatdata[0].data.push( precio);
-				chatdata[1].data.push( precio);
-
-				if(dates.getTime() < hoy.getTime()){
-				}else{
-					if(chatdata[1].data.length == 0){
-						let tester = chatdata[0].data[chatdata[0].data.length-1];
-						//chatdata[1].data.push(tester);
-					}
-					//chatdata[1].data.push(precio); 
+			if(serie.f=="M"){
+				let obj:any = {
+					backgroundColor: 'rgba(199, 225, 229, 1)',
+					borderColor:'rgba(199, 225, 229, 1)',
+					fill: false,
+					label: serie.name,
+					data: serie.data.map(d=>d[1]).reverse(),
+					yAxisID: 'y-axis-1'
 				}
-				//debugger;
-
-				fechas.push(fecha);
-				this.data.push({ fecha, precio });
+				if(serie.series_id == "STEO.NGHHMCF.M"){
+					obj.borderDash= [5, 5];
+					obj.backgroundColor= 'rgba(202, 229, 199, 1)';
+					obj.borderColor= 'rgba(202, 229, 199, 1)';
+					this.data=serie.data.map(d=>{
+						let anio    = +d[0].substring(0, 4);
+						let mes     = +d[0].substring(4, 7);
+						let fecha   = anio+ "-" + mes;
+						return{fecha,precio:d[1]}
+					});
+				}
+				if(serie.series_id == "NG.N3050TX3.M"){
+					obj.backgroundColor= 'rgba(243, 105, 116, 1)';
+					obj.borderColor= 'rgba(243, 105, 116, 1)';
+				}
+				chatdata.push(obj);
+				if(serie.series_id == "STEO.NGHHMCF.M")fechas = serie.data.map(d=>{
+					let anio    = +d[0].substring(0, 4);
+					let mes     = +d[0].substring(4, 7);
+					let fecha   = anio+ "-" + mes;
+					return fecha;
+				}).reverse();
 			}
 		}
 		this.charts['canvas1'] = new Chart(
@@ -148,8 +135,7 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 							id: 'y-axis-1',
 							
 							ticks: {
-								min: 0,
-								max: 5
+								min: 0
 							}
 						},
 					]
