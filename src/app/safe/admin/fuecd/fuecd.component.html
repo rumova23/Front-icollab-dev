@@ -40,12 +40,12 @@
     </mdb-card>
   </ng-container>
 
-  <div class="row mb-3 mt-3">
+  <div class="row mb-1 mt-1">
     <div class="col">
       Detalle de  FUECD: {{(fuecd != null) ? fuecd.fuecd : '-'}} con fecha de  Emision: {{(fuecd != null) ? (fuecd.dateEmission | date:'dd/MM/yyyy') : '-'}} y fecha de operacion: {{(fuecd != null) ? (fuecd.dateOperation | date:'dd/MM/yyyy') : '-'}} a Emitir por parte de EAT.
     </div>
   </div>
-  <div class="row mb-3 mt-3">
+  <div class="row mb-1 mt-1">
     <div class="col">
       <div class="tabla-responsi mat-elevation-z8">
         <table mat-table [dataSource]="listFUFPlanta" class="table_catalogo">
@@ -104,23 +104,65 @@
           <ng-container matColumnDef="verDetalleFulsContenidosFuf">
             <th mat-header-cell *matHeaderCellDef class="txt-center">Ver detalle de FULs contenidos en el FUF</th>
             <td mat-cell *matCellDef="let element">
-              <a (click)="invoice(element)">
+              <a (click)="detalleFuf(element.fuf, element.transmitter)">
                 <img src="assets/images/skins/ico_Ver.png" alt="Visualizar" />
               </a>
             </td>
           </ng-container>
-
-          <!-- header -->
           <tr mat-header-row *matHeaderRowDef="cols"></tr>
           <tr mat-row *matRowDef="let row; columns: cols;"></tr>
         </table>
         <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
-        <hr/>
-        <div class="row mb-3 mt-3">
-          <div class="col">
-            Detalle de  FUECD: {{(fuecd != null) ? fuecd.fuecd : '-'}} con fecha de  Emision: {{(fuecd != null) ? (fuecd.dateEmission | date:'dd/MM/yyyy') : '-'}} y fecha de operacion: {{(fuecd != null) ? (fuecd.dateOperation | date:'dd/MM/yyyy') : '-'}} a Emitir por parte de CENACE.
-          </div>
-        </div>
+        <table mat-table [dataSource]="listFulPlanta" class="table_catalogo">
+          <ng-container matColumnDef="group">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Grupo</th>
+            <td mat-cell *matCellDef="let element"> {{element.group}} </td>
+          </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Descripción</th>
+            <td mat-cell *matCellDef="let element">{{element.description}}</td>
+          </ng-container>
+          <ng-container matColumnDef="subtotal">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Subtotal</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalNet}} </td>
+          </ng-container>
+          <ng-container matColumnDef="iva">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Iva</th>
+            <td mat-cell *matCellDef="let element"> {{element.iva}} </td>
+          </ng-container>
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Total</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalAmount}} </td>
+          </ng-container>
+          <ng-container matColumnDef="subtotalDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Subtotal Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalNetDifference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ivaDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Iva Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.ivaDifference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Total Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalAmountDifference}} </td>
+          </ng-container>
+          <!-- header -->
+          <tr mat-header-row *matHeaderRowDef="colsFul"></tr>
+          <tr mat-row *matRowDef="let row; columns: colsFul;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <div class="row mb-1 mt-1">
+    <div class="col">
+      Detalle de  FUECD: {{(fuecd != null) ? fuecd.fuecd : '-'}} con fecha de  Emision: {{(fuecd != null) ? (fuecd.dateEmission | date:'dd/MM/yyyy') : '-'}} y fecha de operacion: {{(fuecd != null) ? (fuecd.dateOperation | date:'dd/MM/yyyy') : '-'}} a Emitir por parte de CENACE.
+    </div>
+  </div>
+  <div class="row mb-1 mt-1">
+    <div class="col">
+      <div class="tabla-responsi mat-elevation-z8">
         <table mat-table [dataSource]="listFUFCenace" class="table_catalogo">
           <ng-container matColumnDef="fuf">
             <th mat-header-cell *matHeaderCellDef class="txt-center">FUF</th>
@@ -177,7 +219,7 @@
           <ng-container matColumnDef="verDetalleFulsContenidosFuf">
             <th mat-header-cell *matHeaderCellDef class="txt-center">Ver detalle de FULs contenidos en el FUF</th>
             <td mat-cell *matCellDef="let element">
-              <a (click)="invoice(element)">
+              <a (click)="detalleFuf(element.fuf, element.transmitter)">
                 <img src="assets/images/skins/ico_Ver.png" alt="Visualizar" />
               </a>
             </td>
@@ -185,9 +227,46 @@
           <!-- header -->
           <tr mat-header-row *matHeaderRowDef="cols"></tr>
           <tr mat-row *matRowDef="let row; columns: cols;"></tr>
-          <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
         </table>
-
+        <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
+        <table mat-table [dataSource]="listFulCenace" class="table_catalogo">
+          <ng-container matColumnDef="group">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Grupo</th>
+            <td mat-cell *matCellDef="let element"> {{element.group}} </td>
+          </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Descripción</th>
+            <td mat-cell *matCellDef="let element">{{element.description}}</td>
+          </ng-container>
+          <ng-container matColumnDef="subtotal">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Subtotal</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalNet}} </td>
+          </ng-container>
+          <ng-container matColumnDef="iva">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Iva</th>
+            <td mat-cell *matCellDef="let element"> {{element.iva}} </td>
+          </ng-container>
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Total</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalAmount}} </td>
+          </ng-container>
+          <ng-container matColumnDef="subtotalDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Subtotal Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalNetDifference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ivaDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Iva Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.ivaDifference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Total Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalAmountDifference}} </td>
+          </ng-container>
+          <!-- header -->
+          <tr mat-header-row *matHeaderRowDef="colsFul"></tr>
+          <tr mat-row *matRowDef="let row; columns: colsFul;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
       </div>
     </div>
   </div>
