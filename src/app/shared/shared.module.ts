@@ -17,6 +17,7 @@ import { MaterialModule              } from 'src/app/modules/material-module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader              } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule     } from '@angular/common/http';
+import { ConnectSocketChannelComponent    } from './socket/connectSocketChannel.component';
 /*./translate */
 
 
@@ -29,6 +30,7 @@ import { HttpClient, HttpClientModule     } from '@angular/common/http';
         SharedSidebarItemsComponent,
         CssComponent,
         ConnectSocketComponent,
+        ConnectSocketChannelComponent,
         TranslationComponent
     ],
     exports:[
@@ -37,6 +39,7 @@ import { HttpClient, HttpClientModule     } from '@angular/common/http';
         SharedSidebarComponent,
         CssComponent,
         ConnectSocketComponent,
+        ConnectSocketChannelComponent,
         TranslationComponent,
         TranslateModule
     ],

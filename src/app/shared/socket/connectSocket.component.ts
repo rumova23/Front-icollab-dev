@@ -1,4 +1,4 @@
-import { Component, OnInit               } from '@angular/core';
+import { Component, OnInit, OnDestroy               } from '@angular/core';
 import { Subscription, Observable, timer } from 'rxjs';
 import { EventMessage                    } from 'src/app/core/models/EventMessage';
 import { SocketService                   } from 'src/app/core/services/socket.service';
@@ -12,7 +12,7 @@ import { EventService                    } from 'src/app/core/services/event.ser
   selector: 'app-base-connectsocket',
   template: `NO UI TO BE FOUND HERE!`
 })
-export class ConnectSocketComponent implements OnInit {
+export class ConnectSocketComponent implements OnInit, OnDestroy {
 	public subscriptions                : Subscription[]     = [];
 	public time_to_reconnect_socket     : Observable<number> = timer(0,8000);
 
@@ -27,6 +27,9 @@ export class ConnectSocketComponent implements OnInit {
 		this.openSocket();
 	}
 	ngOnDestroy(){
+		this.connectSocketNgOnDestroy();
+	}
+	connectSocketNgOnDestroy(){
 		for (const iterator in this.subscriptions) {
 			this.subscriptions[iterator].unsubscribe();
 		}
@@ -35,8 +38,7 @@ export class ConnectSocketComponent implements OnInit {
 	
 	openSocket(){
 		if(!this.globalService.socketConnect){
-			//const token = this.securityService.getToken();
-			const token = this.securityService.getToken() || 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZXIiLCJhdXRoIjpbeyJuYW1lIjoiUk9MRV9BRE1JTl9TRUNVUklUWSJ9LHsibmFtZSI6IlJPTEVfQURNSU5fQ09NUExJQU5DRSJ9LHsibmFtZSI6IlJPTEVfQURNSU5fU0FGRSJ9LHsibmFtZSI6IlJPTEVfQURNSU5fQURNSU5JU1RSQVRJVkVfTU9OSVRPUklORyJ9XSwiaWF0IjoxNTY3NTU5Mjc3LCJleHAiOjE1Njc1NjY0Nzd9.Ikozy3CH7DdmWaWGRw2iaRN8M-fJdpQlpL56auotGlI';   
+			const token = this.securityService.getToken();
 			if (Validate(token)) {
 			
 				let socket = this.socketService.initSocket(token);
