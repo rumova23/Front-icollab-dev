@@ -91,6 +91,7 @@ import {MtrAcceptedComponent} from './admin/modelMarket/mtr-accepted/mtr-accepte
 import { HenryhubComponent } from './admin/henryhub/henryhub.component';
 import { AgraficaComponent } from './admin/agrafica/agrafica.component';
 import {MtrCenaceComponent} from './admin/modelMarket/mtr-cenace/mtr-cenace.component';
+import {ControlFacturacionComponent} from './admin/fuecd/control-facturacion/control-facturacion.component';
 
 @NgModule({
     declarations: [
@@ -136,7 +137,8 @@ import {MtrCenaceComponent} from './admin/modelMarket/mtr-cenace/mtr-cenace.comp
         MtrAcceptedComponent,
         AgraficaComponent,
         HenryhubComponent,
-        MtrCenaceComponent
+        MtrCenaceComponent,
+        ControlFacturacionComponent
     ],
     exports: [],
     imports: [

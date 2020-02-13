@@ -78,6 +78,11 @@ export class MarketService {
     return this.http.post(environment.fuecdUrl + 'fuecd/save', data, {params : this.parameters });
   }
 
+  aceptaFuecd(fuecd: string, estatus: string): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.fuecdUrl + 'fuecd/changeStatus/' + fuecd + '/' + estatus, {params : this.parameters });
+  }
+
   saveFuecdInvoice(data): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post(environment.marketUrl + 'invoice/fuecd', data, {params : this.parameters });

@@ -34,6 +34,8 @@ export class FuecdComponent implements OnInit {
   valid = false;
   timeRegisters: Array<TimeRegister> = [];
 
+  buttonAcepted = false;
+
   fuecd: AccountStatusDT0;
   loading: boolean;
   cols: any[];
@@ -68,9 +70,9 @@ export class FuecdComponent implements OnInit {
   ngOnInit() {
       this.aaaaaa = [];
       this.bbbbbb = [];
-    this.fuecdForm = this.fb.group({file: new FormControl(null, [Validators.required, requiredFileType('xml')])
+      this.fuecdForm = this.fb.group({file: new FormControl(null, [Validators.required, requiredFileType('xml')])
     });
-    this.cols = [
+      this.cols = [
         'fuf',
         'tipoFuf',
         'liquidacion',
@@ -95,7 +97,7 @@ export class FuecdComponent implements OnInit {
           'ivaDiferencia',
           'totalDiferencia'
       ];
-    this.loading = false;
+      this.loading = false;
   }
   private detalleFuf(fuf, participante) {
       if (participante === 'participante') {
@@ -114,6 +116,17 @@ export class FuecdComponent implements OnInit {
               }
           }
       }
+  }
+
+  private aceptaFuecd() {
+      this.marketService.aceptaFuecd(this.fuecd.fuecd, 'Aprobado')
+          .subscribe(
+              data => {
+                  this.toastr.successToastr('FUECD, aceptado', 'Exito!');
+              },
+              errorData => {
+                  this.toastr.errorToastr(errorData.error.message, 'Error!');
+              });
   }
 
   private getFuecds() {
@@ -209,6 +222,7 @@ export class FuecdComponent implements OnInit {
         .subscribe(
             data => {
                 this.getFuecds();
+                this.buttonAcepted = true;
             },
             errorData => {
               this.fuecdForm.reset();

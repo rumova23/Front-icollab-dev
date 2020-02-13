@@ -68,6 +68,7 @@ import {MtrAcceptedComponent} from '../admin/modelMarket/mtr-accepted/mtr-accept
 import { AgraficaComponent                        } from '../admin/agrafica/agrafica.component';
 import { HenryhubComponent                        } from '../admin/henryhub/henryhub.component';
 import {MtrCenaceComponent} from '../admin/modelMarket/mtr-cenace/mtr-cenace.component';
+import {ControlFacturacionComponent} from '../admin/fuecd/control-facturacion/control-facturacion.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -286,6 +287,14 @@ export class SafeHomeComponent implements OnInit {
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(
 								FuecdComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.Control Facturas':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								ControlFacturacionComponent
 							)
 						).changeDetectorRef.detectChanges();
 						break;

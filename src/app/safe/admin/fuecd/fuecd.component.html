@@ -36,6 +36,10 @@
             </div>
           </div>
         </form>
+        <div class="col-12 col-sm-12 col-md-9 d-flex align-items-center justify-content-end" *ngIf="buttonAcepted">
+          <button type="button" class="btn" (click)="aceptaFuecd()" data-toggle="modal"
+                  data-target="#exampleModal">Aceptar FUECD</button>
+        </div>
       </mdb-card-body>
     </mdb-card>
   </ng-container>
