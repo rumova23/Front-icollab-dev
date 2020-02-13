@@ -74,8 +74,8 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 		for (const serie of data.series) {
 			if(serie.f=="M"){
 				let obj:any = {
-					backgroundColor: 'rgba(87, 185, 231, 0.3)',
-					borderColor:'rgba(87, 185, 231, 1)',
+					backgroundColor: 'rgba(0, 174, 255, 0.3)',
+					borderColor:'rgba(0, 174, 255, 1)',
 					fill: true,
 					label: serie.name,
 					data: serie.data.map(d=>d[1]).reverse(),
@@ -83,8 +83,8 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 				}
 				if(serie.series_id == "STEO.NGHHMCF.M"){
 					obj.borderDash= [5, 5];
-					obj.backgroundColor= 'rgba(89, 231, 102, 0.3)';
-					obj.borderColor= 'rgba(89, 231, 102, 1)';
+					obj.backgroundColor= 'rgba(16, 209, 0, 0.3)';
+					obj.borderColor= 'rgba(16, 209, 0, 1)';
 					this.data=serie.data.map(d=>{
 						let anio    = +d[0].substring(0, 4);
 						let mes     = +d[0].substring(4, 7);
@@ -93,8 +93,8 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 					});
 				}
 				if(serie.series_id == "NG.N3050TX3.M"){
-					obj.backgroundColor= 'rgba(243, 105, 116, 0.3)';
-					obj.borderColor= 'rgba(243, 105, 116, 1)';
+					obj.backgroundColor= 'rgba(242, 203, 5, 0.3)';
+					obj.borderColor= 'rgba(242, 203, 5, 1)';
 				}
 				chatdata.push(obj);
 				if(serie.series_id == "STEO.NGHHMCF.M")fechas = serie.data.map(d=>{
