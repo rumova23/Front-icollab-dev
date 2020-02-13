@@ -115,7 +115,7 @@
 					<th *ngIf="existApp('Security')" style="filter:grayscale(80%);" class="align-bottom mydisabled">
 						<img src="assets/img/admin.png" srcset="assets/img/admin.svg" class="icon-image"  style="width: 56px;" (click)="goToModule('Security','/security')" />
 					</th>
-					<th style="filter:grayscale(80%);" class="align-bottom mydisabled">
+					<th style="filter:grayscale(80%);" class="align-bottom mydisabled" *ngIf="this.appsIsActivate">
 						<img src="assets/img/logout-icon-png-26.png" srcset="assets/img/logout-icon-png-26.svg" class="icon-image" style="width: 45px;"  (click)="logout()" />
 					</th>
 				</tr>
@@ -123,7 +123,7 @@
 					<th class="texto-ral" *ngIf="existApp('Security')">
 						Admin
 					</th>
-					<th class="texto-ral">
+					<th class="texto-ral" *ngIf="this.appsIsActivate">
 						Salir
 					</th>
 				</tr>
