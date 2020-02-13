@@ -366,6 +366,7 @@ export class EfhEditEventComponent implements OnInit {
                                   this.fsnlTime = this.eventForm.controls['fsnlTimeStart'].value;
                                   this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.flameOffDate + 'T' + this.flameOffTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                                   this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.fsnlDate + 'T' + this.fsnlTime), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+                                  break;
                               case 2:
                               case 952: this.rejectDate = this.eventForm.controls['dateReject'].value;
                                   this.rejectTime = this.eventForm.controls['timeReject'].value;
@@ -827,9 +828,13 @@ export class EfhEditEventComponent implements OnInit {
        if (flag) {
           this.eventForm.controls.flameOffDateStart.enable();
           this.eventForm.controls.flameOffTimeStart.enable();
+          this.eventForm.controls.fsnlDateStart.enable();
+          this.eventForm.controls.fsnlTimeStart.enable();
        } else {
           this.eventForm.controls.flameOffDateStart.disable();
           this.eventForm.controls.flameOffTimeStart.disable();
+          this.eventForm.controls.fsnlDateStart.disable();
+          this.eventForm.controls.fsnlTimeStart.disable();
        }
   }
 

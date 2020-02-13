@@ -12,6 +12,8 @@ export class Constants {
     public static DATE_FORMAT_PLANT = "YYYY-MM-DD";
     public static DATE_FORMAT_WEATHER = "YYYY/MM/DD";
 
+    public static ERROR_SAVE_DOCUMENT = "Error, debe cargar al menos un documento de soporte";
+
 
     public static OPTIONS = {
         path: '/socketcluster/',
