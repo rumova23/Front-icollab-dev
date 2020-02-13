@@ -59,7 +59,7 @@ export function next(callback) {
     $("#menu").fadeIn(5000);
     $("#title").css("display", "block");
     $("#elaborado").css("display", "block");
-    $(".menu").toggleClass("active");
+    //$(".menu").toggleClass("active");
     setTimeout(function() {
       $("#form").css("display", "none");
       $("#world").css("display", "none");
