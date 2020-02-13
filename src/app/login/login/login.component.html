@@ -7,7 +7,7 @@
 			<p>Elige el sistema al que deseas ingresar</p>
 		</div>
 
-		<div class="menu" id="menu" style="z-index: 9;">
+		<div class="menu active" id="menu" style="z-index: 9;">
 			<div class="btn trigger">
 			<div class="btn btn-icon">
 				<img src="assets/img/icollab.png" class="icon-image parpadea" />
@@ -112,11 +112,11 @@
 			<div style="float: left; margin-top: 0px; margin-left: 45px;">
 			<table>
 				<tr>
-					<th *ngIf="existApp('Security')" style="filter:grayscale(80%);" class="align-bottom">
-						<img src="assets/img/admin.png" class="icon-image"  style="width: 56px;" (click)="goToModule('Security','/security')" />
+					<th *ngIf="existApp('Security')" style="filter:grayscale(80%);" class="align-bottom mydisabled">
+						<img src="assets/img/admin.png" srcset="assets/img/admin.svg" class="icon-image"  style="width: 56px;" (click)="goToModule('Security','/security')" />
 					</th>
-					<th style="filter:grayscale(80%);" class="align-bottom">
-						<img src="assets/img/logout-icon-png-26.png" class="icon-image" style="width: 45px;"  (click)="logout()" />
+					<th style="filter:grayscale(80%);" class="align-bottom mydisabled">
+						<img src="assets/img/logout-icon-png-26.png" srcset="assets/img/logout-icon-png-26.svg" class="icon-image" style="width: 45px;"  (click)="logout()" />
 					</th>
 				</tr>
 				<tr>
