@@ -240,12 +240,15 @@ export class WeatherComponent implements OnInit, OnDestroy {
   }
 
   loadForecastData() {
-    this.predictions = [];
-    const DailyForecasts =  this.forecast.DailyForecasts
+    const DailyForecasts = this.forecast.DailyForecasts;
+    this.predictions     = [];
+
     for(var i = 0; i < DailyForecasts.length; i++) {
       let dat: Date = new Date(DailyForecasts[i].Date);
-      let stringDate = i === 0 ? "Hoy":  dat.toLocaleDateString("es-ES", 
-      this.predictionOptions);
+      let dia = dat.toLocaleDateString("es-ES", this.predictionOptions);
+      let hoy = new Date().toLocaleDateString("es-ES", this.predictionOptions);
+      
+      let stringDate = dia === hoy ? "Hoy":  dia;
       this.predictions.push({
         date: stringDate,
         min: DailyForecasts[i].Temperature.Minimum.Value,
