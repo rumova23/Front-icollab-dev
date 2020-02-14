@@ -133,6 +133,7 @@ import {ControlFacturacionComponent} from '../admin/fuecd/control-facturacion/co
 		, AgraficaComponent
 		, HenryhubComponent
 		, MtrCenaceComponent
+		, ControlFacturacionComponent
   	]
 })
 

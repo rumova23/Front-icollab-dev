@@ -1,3 +1,388 @@
-<p>
-  control-facturacion works!
-</p>
+<div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+    <mdb-breadcrumb-item>Administración</mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">FUECD</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+
+<div class="section">
+  <div class="row pb-2">
+    <div class="col">
+      <p class="section_titulo_0">FUECD</p>
+      <p class="section_subtitulo_0"> </p>
+    </div>
+  </div>
+  <ng-container>
+    <mdb-card class="mt-4">
+      <mdb-card-body>
+        <div class="row">
+          <div class="col-12 col-sm-12 col-md-3">
+              <form [formGroup]="filterDatesFormGroup" (ngSubmit)="searchFuecdByDates()">
+                <div class="md-form">
+                  <select formControlName="typeDate" class="browser-default custom-select">
+                    <option [value]="1">Fecha de Operación</option>
+                    <option [value]="2">Fecha de Emisión ECD</option>
+                    <option [value]="3">Fecha de Emisión Factura</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-text" for="dateInihtml">De:</label>
+                  <mat-form-field class="form-control">
+                    <input matInput  [matDatepicker]="dateInihtml" [(ngModel)]="dateIni" [ngModelOptions]="{standalone: true}" (dateChange)="dateChangeIni($event)">
+                    <mat-datepicker-toggle matSuffix [for]="dateInihtml"></mat-datepicker-toggle>
+                    <mat-datepicker #dateInihtml></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="form-group">
+                  <label class="form-text" for="dateFinhtml"> Al:</label>
+                  <mat-form-field class="form-control" >
+                    <input matInput [min]="dateIni" [matDatepicker]="dateFinhtml" [(ngModel)]="dateFin" [ngModelOptions]="{standalone: true}" (dateChange)="dateChangeFin($event)">
+                    <mat-datepicker-toggle matSuffix [for]="dateFinhtml"></mat-datepicker-toggle>
+                    <mat-datepicker #dateFinhtml></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="md-form">
+                <button type="submit" class="btn right"
+                        style="width: 168px;"
+                        [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                  <mdb-icon far icon="save" class="mr-1"></mdb-icon> Buscar
+                </button>
+              </div>
+              </form>
+            </div>
+          <!--div class="col-12 col-sm-12 col-md-3">
+            <form>
+              <div class="md-form">
+                <select formControlName="typeDate" class="browser-default custom-select"
+                        [(ngModel)]="fd">
+                  <option [value]="FO">Fecha de Operación</option>
+                  <option [value]="FEECD">Fecha de Emisión ECD</option>
+                  <option [value]="FEF">Fecha de Emisión Factura</option>
+                </select>
+              </div>
+              <div class="md-form">
+                <button type="submit" class="btn right"
+                        style="width: 168px;"
+                        [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                  <mdb-icon far icon="save" class="mr-1"></mdb-icon> Buscar
+                </button>
+              </div>
+            </form>
+            </div>
+          <div class="col-12 col-sm-12 col-md-3">
+            <form>
+              <div class="md-form">
+                <select formControlName="typeDate" class="browser-default custom-select"
+                        [(ngModel)]="fd">
+                  <option [value]="FO">Fecha de Operación</option>
+                  <option [value]="FEECD">Fecha de Emisión ECD</option>
+                  <option [value]="FEF">Fecha de Emisión Factura</option>
+                </select>
+              </div>
+              <div class="md-form">
+                <button type="submit" class="btn right"
+                        style="width: 168px;"
+                        [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                  <mdb-icon far icon="save" class="mr-1"></mdb-icon> Buscar
+                </button>
+              </div>
+            </form>
+          </div-->
+        </div>
+      </mdb-card-body>
+    </mdb-card>
+  </ng-container>
+
+  <ng-container>
+    <mdb-card class="mt-4">
+      <mdb-card-body>
+        <form [formGroup]="fuecdForm" (ngSubmit)="validate(fuecdForm.value)">
+          <div class="row">
+            <div class="col">
+              Carga<br>
+              <app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+              <mat-error *ngIf="!fuecdForm.controls['file'].valid
+                  && fuecdForm.controls['file'].touched">
+                Requerido
+              </mat-error>
+            </div>
+            <div class="col txt-r">
+              <button type="submit" class="btn btn-info right"
+                      [disabled]="!fuecdForm.valid"
+                      [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+                <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+              </button>
+            </div>
+          </div>
+        </form>
+        <div class="col-12 col-sm-12 col-md-9 d-flex align-items-center justify-content-end" *ngIf="buttonAcepted">
+          <button type="button" class="btn" (click)="aceptaFuecd()" data-toggle="modal"
+                  data-target="#exampleModal">Aceptar FUECD</button>
+        </div>
+      </mdb-card-body>
+    </mdb-card>
+  </ng-container>
+  <div class="row mb-1 mt-1">
+    <div class="col">
+      <div class="tabla-responsi mat-elevation-z8">
+        <table mat-table [dataSource]="listFUECD" class="table_catalogo">
+          <ng-container matColumnDef="fuecd">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">FUECD</th>
+            <td mat-cell *matCellDef="let element"> {{element.fuecd}} </td>
+          </ng-container>
+          <ng-container matColumnDef="dateOperation">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Fecha de Operacion</th>
+            <td mat-cell *matCellDef="let element">{{element.dateOperation | date:'dd/MM/yyyy'}}</td>
+          </ng-container>
+          <ng-container matColumnDef="dateEmission">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Fecha de emisión</th>
+            <td mat-cell *matCellDef="let element">{{ element.dateEmission | date:'dd/MM/yyyy'}}</td>
+          </ng-container>
+          <ng-container matColumnDef="ver">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Ver detalle de FUFs contenidos en el FUECD</th>
+            <td mat-cell *matCellDef="let element">
+              <a (click)="detalleFufs(element.fuecd)">
+                <img src="assets/images/skins/ico_Ver.png" alt="Visualizar" />
+              </a>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="colsFuecd"></tr>
+          <tr mat-row *matRowDef="let row; columns: colsFuecd;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <div class="row mb-1 mt-1">
+    <div class="col">
+      Detalle de  FUECD: {{(fuecd != null) ? fuecd.fuecd : '-'}} con fecha de  Emision: {{(fuecd != null) ? (fuecd.dateEmission | date:'dd/MM/yyyy') : '-'}} y fecha de operacion: {{(fuecd != null) ? (fuecd.dateOperation | date:'dd/MM/yyyy') : '-'}} a Emitir por parte de EAT.
+    </div>
+  </div>
+  <div class="row mb-1 mt-1">
+    <div class="col">
+      <div class="tabla-responsi mat-elevation-z8">
+        <table mat-table [dataSource]="listFUFPlanta" class="table_catalogo">
+          <ng-container matColumnDef="fuf">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">FUF</th>
+            <td mat-cell *matCellDef="let element"> {{element.fuf}} </td>
+          </ng-container>
+          <ng-container matColumnDef="tipoFuf">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Tipo FUF</th>
+            <td mat-cell *matCellDef="let element"></td>
+          </ng-container>
+          <ng-container matColumnDef="liquidacion">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Liquidación</th>
+            <td mat-cell *matCellDef="let element"></td>
+          </ng-container>
+          <ng-container matColumnDef="fechaOperaciónFuf">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Fecha de Operación del FUF</th>
+            <td mat-cell *matCellDef="let element"> {{(element.dateOperation) ? (element.dateOperation | date:'dd/MM/yyyy') : "-"}} </td>
+          </ng-container>
+          <ng-container matColumnDef="fechaPago">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Fecha de pago</th>
+            <td mat-cell *matCellDef="let element"> {{element.datePayment | date:'dd/MM/yyyy'}} </td>
+          </ng-container>
+          <ng-container matColumnDef="uuidOrigen">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">UUID Origen</th>
+            <td mat-cell *matCellDef="let element"></td>
+          </ng-container>
+          <ng-container matColumnDef="tipoDocumentoEmitir">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Tipo de Documento a Emitir</th>
+            <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+          </ng-container>
+          <ng-container matColumnDef="subtotal">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Subtotal</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalNet}} </td>
+          </ng-container>
+          <ng-container matColumnDef="iva">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Iva</th>
+            <td mat-cell *matCellDef="let element"> {{element.iva}} </td>
+          </ng-container>
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Total</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalAmount}} </td>
+          </ng-container>
+          <ng-container matColumnDef="subtotalDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Subtotal Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalNetDifference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ivaDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Iva Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.ivaDifference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Total Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalAmountDifference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="verDetalleFulsContenidosFuf">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Ver detalle de FULs contenidos en el FUF</th>
+            <td mat-cell *matCellDef="let element">
+              <a (click)="detalleFuf(element.fuf, element.transmitter)">
+                <img src="assets/images/skins/ico_Ver.png" alt="Visualizar" />
+              </a>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="cols"></tr>
+          <tr mat-row *matRowDef="let row; columns: cols;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
+        <table mat-table [dataSource]="listFulPlanta" class="table_catalogo">
+          <ng-container matColumnDef="group">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Grupo</th>
+            <td mat-cell *matCellDef="let element"> {{element.group}} </td>
+          </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Descripción</th>
+            <td mat-cell *matCellDef="let element">{{element.description}}</td>
+          </ng-container>
+          <ng-container matColumnDef="subtotal">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Subtotal</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalNet}} </td>
+          </ng-container>
+          <ng-container matColumnDef="iva">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Iva</th>
+            <td mat-cell *matCellDef="let element"> {{element.iva}} </td>
+          </ng-container>
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Total</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalAmount}} </td>
+          </ng-container>
+          <ng-container matColumnDef="subtotalDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Subtotal Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalNetDifference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ivaDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Iva Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.ivaDifference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Total Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalAmountDifference}} </td>
+          </ng-container>
+          <!-- header -->
+          <tr mat-header-row *matHeaderRowDef="colsFul"></tr>
+          <tr mat-row *matRowDef="let row; columns: colsFul;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <div class="row mb-1 mt-1">
+    <div class="col">
+      Detalle de  FUECD: {{(fuecd != null) ? fuecd.fuecd : '-'}} con fecha de  Emision: {{(fuecd != null) ? (fuecd.dateEmission | date:'dd/MM/yyyy') : '-'}} y fecha de operacion: {{(fuecd != null) ? (fuecd.dateOperation | date:'dd/MM/yyyy') : '-'}} a Emitir por parte de CENACE.
+    </div>
+  </div>
+  <div class="row mb-1 mt-1">
+    <div class="col">
+      <div class="tabla-responsi mat-elevation-z8">
+        <table mat-table [dataSource]="listFUFCenace" class="table_catalogo">
+          <ng-container matColumnDef="fuf">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">FUF</th>
+            <td mat-cell *matCellDef="let element"> {{element.fuf}} </td>
+          </ng-container>
+          <ng-container matColumnDef="tipoFuf">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Tipo FUF</th>
+            <td mat-cell *matCellDef="let element"></td>
+          </ng-container>
+          <ng-container matColumnDef="liquidacion">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Liquidación</th>
+            <td mat-cell *matCellDef="let element"></td>
+          </ng-container>
+          <ng-container matColumnDef="fechaOperaciónFuf">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Fecha de Operación del FUF</th>
+            <td mat-cell *matCellDef="let element"> {{(element.dateOperation) ? (element.dateOperation | date:'dd/MM/yyyy') : "-"}} </td>
+          </ng-container>
+          <ng-container matColumnDef="fechaPago">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Fecha de pago</th>
+            <td mat-cell *matCellDef="let element"> {{element.datePayment | date:'dd/MM/yyyy'}} </td>
+          </ng-container>
+          <ng-container matColumnDef="uuidOrigen">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">UUID Origen</th>
+            <td mat-cell *matCellDef="let element"></td>
+          </ng-container>
+          <ng-container matColumnDef="tipoDocumentoEmitir">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Tipo de Documento a Emitir</th>
+            <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+          </ng-container>
+          <ng-container matColumnDef="subtotal">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Subtotal</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalNet}} </td>
+          </ng-container>
+          <ng-container matColumnDef="iva">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Iva</th>
+            <td mat-cell *matCellDef="let element"> {{element.iva}} </td>
+          </ng-container>
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Total</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalAmount}} </td>
+          </ng-container>
+          <ng-container matColumnDef="subtotalDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Subtotal Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalNetDifference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ivaDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Iva Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.ivaDifference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Total Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalAmountDifference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="verDetalleFulsContenidosFuf">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Ver detalle de FULs contenidos en el FUF</th>
+            <td mat-cell *matCellDef="let element">
+              <a (click)="detalleFuf(element.fuf, element.transmitter)">
+                <img src="assets/images/skins/ico_Ver.png" alt="Visualizar" />
+              </a>
+            </td>
+          </ng-container>
+          <!-- header -->
+          <tr mat-header-row *matHeaderRowDef="cols"></tr>
+          <tr mat-row *matRowDef="let row; columns: cols;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
+        <table mat-table [dataSource]="listFulCenace" class="table_catalogo">
+          <ng-container matColumnDef="group">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Grupo</th>
+            <td mat-cell *matCellDef="let element"> {{element.group}} </td>
+          </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Descripción</th>
+            <td mat-cell *matCellDef="let element">{{element.description}}</td>
+          </ng-container>
+          <ng-container matColumnDef="subtotal">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Subtotal</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalNet}} </td>
+          </ng-container>
+          <ng-container matColumnDef="iva">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Iva</th>
+            <td mat-cell *matCellDef="let element"> {{element.iva}} </td>
+          </ng-container>
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Total</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalAmount}} </td>
+          </ng-container>
+          <ng-container matColumnDef="subtotalDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Subtotal Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalNetDifference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ivaDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Iva Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.ivaDifference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Total Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalAmountDifference}} </td>
+          </ng-container>
+          <!-- header -->
+          <tr mat-header-row *matHeaderRowDef="colsFul"></tr>
+          <tr mat-row *matRowDef="let row; columns: colsFul;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
