@@ -281,6 +281,11 @@ export class ControlFacturacionComponent implements OnInit {
           settlementDT0 = accountStatusDT0.settlements[j]
           for (let k = 0; k < settlementDT0.settlementInvoices.length; k++) {
             settlementInvoiceDT0 = settlementDT0.settlementInvoices[k];
+            settlementInvoiceDT0.liquidacion = Number(settlementDT0.number);
+            settlementInvoiceDT0.tipoFuf = 'Liquidacion';
+            if (settlementInvoiceDT0.liquidacion > 0) {
+              settlementInvoiceDT0.tipoFuf = 'Reliquidacion';
+            }
             if (settlementInvoiceDT0.transmitter === 'participante') {
               this.aaaaaa.push(settlementInvoiceDT0);
             }
