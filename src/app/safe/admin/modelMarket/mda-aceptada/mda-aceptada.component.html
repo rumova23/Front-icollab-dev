@@ -30,7 +30,10 @@
 		</div>
 		<div class="col-12 col-sm-12 col-md-9 d-flex align-items-center justify-content-end">
 			<button type="button" class="btn" (click)="reactivarPlanning()" data-toggle="modal"
-				data-target="#exampleModal">Reactivar</button>
+				data-target="#exampleModal">
+				<i class="ti-tag"></i>
+                    {{'Reactivate' | translate}}
+			</button>
 		</div>
 	</div>
 	<div class="mat-elevation-z0">
@@ -263,7 +266,10 @@
 		<div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
 			<div>
 				<button type="button" class="btn" (click)="download()"
-					[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">Download</button>
+					[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+					<i class="ti-cloud-down"></i>
+                    {{'Download' | translate}}
+				</button>
 			</div>
 		</div>
 
@@ -295,9 +301,9 @@
 								</mat-error>
 							</div>
 							<div class="col-12 col-sm-12 col-md-auto">
-								<button type="submit" class="btn right" [disabled]="!fileUploadForm.valid"
-									[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-									<mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+								<button type="submit" class="btn" [disabled]="!fileUploadForm.valid">
+									<i class="ti-cloud-up"></i>
+                    				{{'Import' | translate}}
 								</button>
 							</div>
 						</div>

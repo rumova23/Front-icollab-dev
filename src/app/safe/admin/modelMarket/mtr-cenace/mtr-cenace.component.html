@@ -29,11 +29,13 @@
 				</div>
 				<div class="col-12 col-sm-12 col-md-auto">
 					<button type="submit" class="btn" [disabled]="!proposalAcceptedForm.valid" style="width: 168px;">
-						<mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+						<i class="ti-cloud-up"></i>
+						{{'Import' | translate}}
 					</button>
 					<br>
 					<button type="button" class="btn" (click)="download()">
-						<mdb-icon far icon="save" class="mr-1"></mdb-icon> Descarga Layout
+						<i class="ti-cloud-down"></i>
+						{{'Download' | translate}} {{'Layout' | translate}}
 					</button>
 				</div>
 			</div>
@@ -54,7 +56,10 @@
 		<div class="col-12 col-md-9 d-flex align-items-center justify-content-end">
 			<div class="row">
 				<div class="col-12 col-sm-12 col-md-auto">
-					<button type="button" class="btn" (click)="reactivarPlanning()">Reactivar</button>
+					<button type="button" class="btn" (click)="reactivarPlanning()">
+						<i class="ti-tag"></i>
+						{{'Reactivate' | translate}}
+					</button>
 				</div>
 			</div>
 		</div>
@@ -304,7 +309,8 @@
 							</div>
 							<div class="col-12 col-sm-12 col-md-auto">
 								<button type="submit" class="btn" [disabled]="!fileUploadForm.valid">
-									<mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+									<i class="ti-cloud-up"></i>
+									{{'Import' | translate}}
 								</button>
 							</div>
 						</div>

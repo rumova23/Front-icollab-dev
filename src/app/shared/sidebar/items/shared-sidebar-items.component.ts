@@ -58,6 +58,8 @@ export class SharedSidebarItemsComponent {
 		let descriptor = "";
 		descriptor = this.globalService.app.name;
 		descriptor += `.${item.url}`;
+		console.log(descriptor);
+		
 		return descriptor;
 	}
 }

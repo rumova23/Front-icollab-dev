@@ -44,14 +44,14 @@
 					</div>
 					<div class="col-12 col-sm-12 col-md-auto">
 						<button type="submit" class="btn right" [disabled]="!fileUploadForm.valid"
-							style="width: 168px;"
-							[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-							<mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+							style="width: 168px;">
+							<i class="ti-cloud-up"></i>
+							{{'Import' | translate}}
 						</button>
 						<br>
-						<button type="button" class="btn right" (click)="download()"
-							[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-							<mdb-icon far icon="save" class="mr-1"></mdb-icon> Descarga Layout
+						<button type="button" class="btn right" (click)="download()">
+                            <i class="ti-cloud-down"></i>
+                            {{'Download' | translate}} {{'Layout' | translate}}
 						</button>
 					</div>
 				</div>
@@ -161,11 +161,14 @@
 			<div class="col text-right">
 				<button type="button" class="btn right" (click)="cancelCharge()"
 					[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-					Cancelar
+					<i class="ti-close"></i>
+                	{{ "Cancel" | translate }}
 				</button>
 				<button type="submit" class="btn right" [disabled]="!chargeForm.valid || hour === 0"
 					[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-					Agregar
+					
+					<i class="ti-plus"></i>
+					&nbsp;{{ "add" | translate }}
 				</button>
 			</div>
 		</div>
@@ -233,7 +236,10 @@
 			<div>
 				<button type="button" class="btn"
 					[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-					(click)="save2()">Guardar</button>
+					(click)="save2()">
+					<i class="ti-pencil"></i>
+                    {{'Save / Update' | translate}}
+				</button>
 			</div>
 		</div>
 

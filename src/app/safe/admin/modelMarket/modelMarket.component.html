@@ -326,11 +326,13 @@
 			<div class="col text-right">
 				<button type="button" class="btn right" (click)="cancelModelMarket()"
 					[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-					Cancelar
+					<i class="ti-close"></i>
+                    {{ "Cancel" | translate }}
 				</button>
 				<button type="submit" class="btn right" [disabled]="!modelMarketForm.valid || hour === 0"
 					[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-					Aceptar
+					<i class="ti-check"></i>
+                    {{ "Accept" | translate }}
 				</button>
 			</div>
 		</div>
@@ -572,7 +574,10 @@
 		<div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
 			<div>
 				<button type="button" class="btn" (click)="terminarPlanning()"
-					[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">Terminar</button>
+					[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+					<i class="ti-check"></i>
+                    {{ "Finish" | translate }}
+				</button>
 			</div>
 		</div>
 
