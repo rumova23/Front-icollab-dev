@@ -9,6 +9,7 @@ import { Validate } from 'src/app/core/helpers/util.validator.';
 import { EnergyPpa } from 'src/app/safe/models/EnergyPpa';
 import {requiredFileType} from '../../../../core/helpers/requiredFileType';
 import {ConfirmationDialogService} from '../../../../core/services/confirmation-dialog.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-energyPpa',
@@ -38,7 +39,8 @@ export class EnergyPpaComponent implements OnInit {
               public globalService: GlobalService,
               private fb: FormBuilder,
               private toastr: ToastrManager,
-              private confirmationDialogService: ConfirmationDialogService) {
+              private confirmationDialogService: ConfirmationDialogService,
+              private datePipe: DatePipe) {
   }
 
   ngOnInit() {
@@ -66,6 +68,7 @@ export class EnergyPpaComponent implements OnInit {
       .subscribe(
         data => {
           this.data = data;
+          debugger;
           this.dataSource = new MatTableDataSource<any>(this.data);
         },
         errorData => {
@@ -156,6 +159,13 @@ export class EnergyPpaComponent implements OnInit {
                   if (data.message === "ok") {
                     this.saveImport();
                   } else {
+                    
+                    let a3 = data.message.split("para las fechas");
+                    let a4 = a3[1].split("en el sistema,");
+                    let fecha = a4[0].trim();
+                    let datePipeString = this.datePipe.transform(new Date(fecha),'yyyy-MM-dd');
+                    let menssage = `${a3[0].trim()} para las fechas ${datePipeString} en el sistema, ${a4[1].trim()}`;
+                    data.message = menssage;
                     this.confirmationDialogService.confirm('Confirmación', data.message)
                         .then((confirmed) => this.confirm(confirmed))
                         .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));

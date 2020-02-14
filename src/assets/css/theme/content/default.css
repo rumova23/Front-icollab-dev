@@ -47,3 +47,6 @@
     border-radius: 4px;
     text-transform: none;
 }
+.btn-secondary {
+    background-color: #6c757d  !important;
+}
