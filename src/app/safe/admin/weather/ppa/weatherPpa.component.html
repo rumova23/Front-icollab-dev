@@ -111,11 +111,13 @@
         </div>
         <div class="row">
             <div class="col text-right">
-                <button type="button" class="btn right" (click)="cancelWeather()" [ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }">
-                    Cancelar
+                <button type="button" class="btn" (click)="cancelWeather()" [ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }">
+                    <i class="ti-close"></i>
+                    {{ "Cancel" | translate }}
                 </button>
-                <button type="submit" class="btn right" [disabled]="!weatherForm.valid || hour === 0" [ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }">
-                    Guardar
+                <button type="submit" class="btn" [disabled]="!weatherForm.valid || hour === 0" [ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }">
+                    <i class="ti-pencil"></i>
+                    {{'Save / Update' | translate}}
                 </button>
             </div>
         </div>

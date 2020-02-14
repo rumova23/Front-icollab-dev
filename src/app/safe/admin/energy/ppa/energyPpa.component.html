@@ -115,11 +115,13 @@
             <div class="col text-right">
                 <button type="button" class="btn right" (click)="cancelEnergy()"
                     [ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }">
-                    Cancelar
+                    <i class="ti-close"></i>
+                    {{ "Cancel" | translate }}
                 </button>
                 <button type="submit" class="btn right" [disabled]="!energyForm.valid || hour === 0"
                     [ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }">
-                    Agregar
+                    <i class="ti-plus"></i>
+                    {{ "add" | translate }}
                 </button>
             </div>
         </div>
@@ -160,7 +162,10 @@
             <div>
                 <button type="button" class="btn"
                     [ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }"
-                    (click)="save2()">Guardar</button>
+                    (click)="save2()">
+                    <i class="ti-pencil"></i>
+                    {{'Save / Update' | translate}}
+                </button>
             </div>
         </div>
     </div>

@@ -166,9 +166,9 @@
                     <div class="col-md-4">
 
                         <div class="form-group">
-                            <label class="form-text text-left">Tipo de Product:</label>
+                            <label class="form-text text-left">Tipo de Producto:</label>
                             <mat-select class="form-control" formControlName="typeProduct" [compareWith]="compareObjects">
-                              <mat-option class="form-control" *ngFor="let typeProduct of typesProduct" [value]="typeProduct">{{ typeProduct.code }}</mat-option>
+                              <mat-option class="form-control" *ngFor="let typeProduct of typesProduct" [value]="typeProduct">{{ typeProduct.code }} {{ typeProduct.description }}</mat-option>
                             </mat-select>
                
                             <div
