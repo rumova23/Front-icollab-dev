@@ -141,8 +141,8 @@ export class EfhAnaliticsEventComponent implements OnInit {
             obj['idTypeEvent'] = element.idtypeevent;
             obj['idTypeFuel'] = element.idtypefuel;
             obj['idUnit'] = element.idunit;
-            obj['dateInit'] = this.datePipe.transform(this.getTimeLocale(element.dateinit), 'yyyy-MM-dd HH:mm:ss');
-            obj['dateEnd'] = this.datePipe.transform(this.getTimeLocale(element.dateend), 'yyyy-MM-dd HH:mm:ss');
+            obj['dateInit'] = this.datePipe.transform(new Date(element.dateinit), 'yyyy-MM-dd HH:mm:ss');
+            obj['dateEnd'] = this.datePipe.transform(new Date(element.dateend), 'yyyy-MM-dd HH:mm:ss');
             obj['chargebeforeshot'] = element.chargebeforeshot;
             obj['chargebeforereject'] = element.chargebeforereject;
             obj['chargebeforerunback'] = element.chargebeforerunback;
@@ -230,8 +230,8 @@ export class EfhAnaliticsEventComponent implements OnInit {
         return;
     }
 
-    this.dataSubmit['dateinit'] = this.datePipe.transform(this.getTimeLocale(this.selectedInitDate), 'yyyy-MM-dd');
-    this.dataSubmit['dateend'] = this.datePipe.transform(this.getTimeLocale(this.selectedEndDate), 'yyyy-MM-dd');
+    this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.selectedInitDate + 'T00:00:00.000'), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+    this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.selectedEndDate + 'T00:00:00.000'), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
     this.getDataSource(this.dataSubmit);
   }
 
@@ -338,11 +338,9 @@ export class EfhAnaliticsEventComponent implements OnInit {
     rateEFHi_costo = this.COSTO_EFHi;
     let cont = 0;
 
-    debugger;
-    const aux = this.calcularEsiForTrip(37);
-
     for (const event of this.data) {
         cont++;
+        debugger;
         if (event.idTypeFuel === 1) {
           this.FF = this.FF_GAS;
         } else if (event.idTypeFuel === 952) {

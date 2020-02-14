@@ -39,6 +39,7 @@ export class EfhEditIndicatorComponent implements OnInit {
   defaultCharge2;
   currentYear = new Date().getFullYear();
   initDate = (this.currentYear - 1) + '-01-01';
+  typeDocuments = ['Documentos'];
 
   isShotSectionVisible = false;
   isStartSectionVisible = false;
@@ -680,7 +681,16 @@ export class EfhEditIndicatorComponent implements OnInit {
   }
 
   regresar() {
-    this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.addIndicadorComponent'));
+    this.efhService.getDocuments(2, this.indicatorType.id, this.typeDocuments[1]).subscribe(
+        docto => {
+
+          if ( docto.length > 0) {
+            this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.addIndicadorComponent'));
+          } else {
+            this.toastr.errorToastr(Constants.ERROR_SAVE_DOCUMENT, 'Lo siento,');
+          }
+        }
+    );
   }
 
   isNumeric(link) {

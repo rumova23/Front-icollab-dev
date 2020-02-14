@@ -18,6 +18,7 @@ import { MonitoringPhase3Component       } from '../boards/phase3/monitoring-pha
 import { MonitoringMmMarketComponent     } from '../boards/mmMarket/monitoringMmMarket.component';
 import { DemoGraficaDosComponent } from '../boards/demo-grafica-dos/demo-grafica-dos.component';
 import { Phase2v1Component } from '../boards/phase2v1/phase2v1.component';
+import { Phase2v2Component } from '../boards/phase2v2/phase2v2.component';
 
 
 @Component({
@@ -32,6 +33,7 @@ import { Phase2v1Component } from '../boards/phase2v1/phase2v1.component';
 		,ChangePasswordComponent
 		,DemoGraficaDosComponent
 		,Phase2v1Component
+		,Phase2v2Component
 	]
 })
 export class MonitoringHomeComponent extends ConnectSocketComponent implements OnInit, OnDestroy {
@@ -107,6 +109,12 @@ export class MonitoringHomeComponent extends ConnectSocketComponent implements O
 						this.viewContainerRef
 							.createComponent(this.componentFactoryResolver.resolveComponentFactory(Phase2v1Component)).changeDetectorRef.detectChanges();
 						break;
+						
+					case 'Administrative_monitoring.Phase2v2Component':
+						this.viewContainerRef
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(Phase2v2Component)).changeDetectorRef.detectChanges();
+						break;
+						
 						
 				}
 			}

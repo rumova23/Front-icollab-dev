@@ -18,6 +18,7 @@ import { MonitoringMmMarketComponent         } from './boards/mmMarket/monitorin
 import { DemoGraficaDosComponent } from './boards/demo-grafica-dos/demo-grafica-dos.component';
 import { Phase2v1Component } from './boards/phase2v1/phase2v1.component';
 import {GaugesModule} from 'ng-canvas-gauges';
+import { Phase2v2Component } from './boards/phase2v2/phase2v2.component';
 
 @NgModule({
     declarations:[
@@ -31,7 +32,8 @@ import {GaugesModule} from 'ng-canvas-gauges';
         MonitoringChartTR,
         InteractiveImageTurbineCT1Component,
         DemoGraficaDosComponent,
-        Phase2v1Component
+        Phase2v1Component,
+        Phase2v2Component
     ],
     exports:[
     ],

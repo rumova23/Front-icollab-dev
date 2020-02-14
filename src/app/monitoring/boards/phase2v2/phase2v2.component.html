@@ -1,0 +1,518 @@
+<div id="ContenedorPrimario" style="width: 100%; margin: 0; height: 100vh;background-color:#000000"
+	(window:resize)="onResize($event)">
+
+
+
+	<div id="ContenedorReferencia1" class="row GrafocosContenedor">
+		<div class="row" style="width: 100%;  margin: 0;">
+
+			<h6 class="text-center bg-dark" style="color: honeydew; margin: 0;width: 100%;height: auto;">OverView</h6>
+
+		</div>
+
+
+		<div class="col-lg-3 col-sm-12 contenedoresporcentaje">
+
+			<div class="row" style="height: 10%;">
+				<div class="col-6">
+
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<h6 class="text-light TextDonutsZi"><em>Dif</em></h6>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<h6 class="text-light TextDonutsZi"><em>Dif</em></h6>
+				</div>
+			</div>
+
+			<div class="row" style="height: 22.5%;">
+				<div class="col-6">
+					<p class="Textrow1">
+						<i class="fas fa-bolt" style="color: #F9E79F"></i>
+						<strong style="color: #F9E79F"> Power OutPut</strong></p>
+					<p class="TexInfoRows"><small>545,45 MW</small></p>
+
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;border-color: #343a40;">
+					<canvas class="lienzo" id="dona12Char"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona13Char"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+
+			</div>
+			<div class="row" style="height: 22.5%;">
+				<div class="col-6">
+					<p class="Textrow1">
+						<i class="fas fa-temperature-low" style="color: #9bc9ec "></i>
+						<strong style="color: #9bc9ec"> Heat Rate</strong></p>
+					<p class="TexInfoRows"><small>545,45 K1/kWh</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona22Char"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona23Char"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+			</div>
+			<div class="row" style="height: 22.5%;">
+				<div class="col-6">
+					<p style="color: #b0d56f" class="Textrow1">
+						<i class="fas fa-battery-three-quarters" style="color: #b0d56f"></i><strong> Capacity
+							Factor</strong></p>
+					<p class="TexInfoRows"><small>69.67%</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona32Char"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona33Char"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+
+			</div>
+			<div class="row" style="height: 22.65%;">
+				<div class="col-6">
+					<p class="Textrow1" style="color: #9f8ac1"> <i class="fas fa-gas-pump" style="color: #9f8ac1"></i>
+						<strong> Fuel Gain /lost</strong></p>
+					<p class="TexInfoRows"><small>$00.00</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona42Char"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona43Char"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+
+			</div>
+
+		</div>
+
+
+
+		<div class="col-lg-4 col-sm-12 contenedoresporcentaje">
+
+			<canvas id="lineChart" height="120%"></canvas>
+		</div>
+
+		<div id="Contendor1Gas" class="col-lg-5 col-sm-12 contenedoresporcentaje">
+
+			<div class="row">
+				<div class="col-lg-3 col-sm-6 text-center">
+					<h3 class="text-light" style="font-size:5vh;">VillaMar</h3>
+					<p class="TextDonuts" style="color: white; font-size:1.9vh;"><small>Jueves 3 de Octubre 2019</small>
+					</p>
+					<p class="TextDonuts" style="color: white; font-size:1.9vh;"><small>Sensación Real: </small></p>
+					<p class="TextDonuts" style="color: white; font-size:1.9vh;"><small>UV-Index: </small></p>
+					<p class="TextDonuts" style="color: white; font-size:1.9vh;"><small>Presión Tendencia: </small></p>
+					<div class="row">
+						<div class="col-6">
+
+							<i class="fas fa-tint" style="color: white ;font-size:2.5vh;">
+								<i class="fas fa-percent"></i>
+							</i>
+						</div>
+						<div class="col-6">
+
+							<span class="text" style="color: white;font-size:2.5vh;">
+								<i class="fas fa-tachometer-alt"></i>
+							</span>
+
+
+						</div>
+
+
+					</div>
+
+
+				</div>
+				<div id="graf0tank" class="col-lg-9 col-sm-6">
+					<h6 class="text-center" style="color: honeydew; margin: 0; font-size: 1em;">Excess Capacity</h6>
+					<div class="row">
+
+						<div class="col-6 wrapper">
+
+							<h6 class="text-center" style="color: rgb(14, 144, 250); font-size:2.5vh;">EAT</h6>
+							<radial-gauge id="Gdr1" [value]="(value$ | async)" units="4.0 Mw" min-value="0"
+								max-value="120" major-ticks="0, ,20, ,40, ,60, ,80, ,100, ,120" minor-ticks="2"
+								font-numbers-size="25" color-plate="#000" color-plate-end="#222"
+								color-major-ticks="#888" color-minor-ticks="#ddd" color-title="#eee" color-units="#ccc"
+								color-numbers="#bb1" highlights='[
+                                          {"from": 0, "to": 30, "color": "rgba(20, 217, 6, 100)"},
+                                          {"from": 30, "to": 40, "color": "rgba(210, 165, 3, 100)"},
+                                          {"from": 40, "to": 80, "color": "rgba(210, 103, 3, 100)"},
+                                          {"from": 80, "to": 120, "color": "rgba(210, 27, 3, 100)"}
+                                      ]' needle-type="arrow" needle-width="2" needle-circle-size="7"
+								needle-circle-outer="true" needle-circle-inner="false" color-needle-shadow-down="#550"
+								color-needle-circle-outer="#333" color-needle-circle-outer-end="#111"
+								animation-duration="900" animation-rule="linear" borders="false" border-inner-width="0"
+								border-middle-width="0" border-outer-width="0" border-shadow-width="0"
+								color-border-outer="#111" color-border-middle="#888" color-border-middle-end="#555"
+								color-border-inner="#111" value-box="false"></radial-gauge>
+
+							<h6 class="text-center" style="color: honeydew; margin: 0;font-size:1.7vh;">4.5 Mw</h6>
+						</div>
+
+						<div class="col-6 wrapper">
+							<h6 style="color: rgb(201, 77, 5);font-size:2.5vh;">EST</h6>
+
+
+							<radial-gauge id="Gdr2" [value]="(value2$ | async)" units="4.0 Mw" min-value="0"
+								max-value="120" major-ticks="0, ,20, ,40, ,60, ,80, ,100, ,120" minor-ticks="2"
+								font-numbers-size="25" color-plate="#000" color-plate-end="#222"
+								color-major-ticks="#888" color-minor-ticks="#ddd" color-title="#eee" color-units="#ccc"
+								color-numbers="#bb1" highlights='[
+                                              {"from": 0, "to": 30, "color": "rgba(20, 217, 6, 100)"},
+                                              {"from": 30, "to": 40, "color": "rgba(210, 165, 3, 100)"},
+                                              {"from": 40, "to": 80, "color": "rgba(210, 103, 3, 100)"},
+                                              {"from": 80, "to": 120, "color": "rgba(210, 27, 3, 100)"}
+                                          ]' needle-type="arrow" needle-width="2" needle-circle-size="7"
+								needle-circle-outer="true" needle-circle-inner="false" color-needle-shadow-down="#550"
+								color-needle-circle-outer="#333" color-needle-circle-outer-end="#111"
+								animation-duration="900" animation-rule="linear" borders="false" border-inner-width="0"
+								border-middle-width="0" border-outer-width="0" border-shadow-width="0"
+								color-border-outer="#111" color-border-middle="#888" color-border-middle-end="#555"
+								color-border-inner="#111" value-box="false"></radial-gauge>
+
+							<h6 style="color: honeydew; margin: 0; font-size:1.7vh;">4.5 Mw</h6>
+
+
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+
+
+	<div id="ContenedorReferencia2" class="row GrafocosContenedor">
+		<div class="row" style="width: 100%;  margin: 0;">
+			<h6 class="text-center bg-dark" style="width: 100%;height: auto; color: rgb(14, 144, 250); margin: 0">EAT
+			</h6>
+		</div>
+		<div class="col-lg-3 col-sm-12 contenedoresporcentaje">
+			<div class="row" style="height: 10%;">
+				<div class="col-6">
+
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<h6 class="text-light TextDonutsZi"><em>Dif</em></h6>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<h6 class="text-light TextDonutsZi"><em>Dif</em></h6>
+				</div>
+			</div>
+
+			<div class="row" style="height: 22.5%;">
+				<div class="col-6">
+					<p class="Textrow1">
+						<i class="fas fa-bolt" style="color: #F9E79F"></i>
+						<strong style="color: #F9E79F"> Power OutPut</strong></p>
+					<p class="TexInfoRows"><small>545,45 MW</small></p>
+
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona12Char2"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona13Char2"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+
+			</div>
+			<div class="row" style="height: 22.5%;">
+				<div class="col-6">
+					<p class="Textrow1">
+						<i class="fas fa-temperature-low" style="color: #9bc9ec"></i>
+						<strong style="color: #9bc9ec"> Heat Rate</strong></p>
+					<p class="TexInfoRows"><small>545,45 K1/kWh</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona22Char2"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona23Char2"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+			</div>
+			<div class="row" style="height: 22.5%;">
+				<div class="col-6">
+					<p style="color: #b0d56f" class="Textrow1">
+						<i class="fas fa-battery-three-quarters" style="color: #b0d56f"></i><strong> Capacity
+							Factor</strong></p>
+					<p class="TexInfoRows"><small>69.67%</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona32Char2"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona33Char2"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+
+			</div>
+			<div class="row" style="height: 22.65%;">
+				<div class="col-6">
+					<p class="Textrow1" style="color: #9f8ac1"> <i class="fas fa-gas-pump" style="color: #9f8ac1"></i>
+						<strong> Fuel Gain /lost</strong></p>
+					<p class="TexInfoRows"><small>$00.00</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona42Char2"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona43Char2"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+
+			</div>
+
+
+		</div>
+		<div class="col-lg-4 col-sm-12 contenedoresporcentaje">
+
+			<canvas id="lineChart2" height="140%"></canvas>
+		</div>
+		<div class="col-lg-3 col-sm-12 contenedoresporcentaje">
+			<h6 class="text-center" style="color: honeydew; margin: 0; font-size: 1em;">Dispatch</h6>
+			<canvas id="lineChart21" height="120%"></canvas>
+
+		</div>
+		<div id="graf1tank" class="col-lg-2  col-sm-12 contenedoresporcentaje">
+			<h6 class="text-center" style="color: honeydew; margin: 0; font-size: 1em; overflow: visible; 
+                  position: relative; 
+                top: 1px;">Diesel Tank</h6>
+			<div class="row">
+				<div class="col-7">
+
+					<div class="d-flex">
+						<radial-gauge [value]="(valueGas$| async)" id="GasTankId" class="Tacometro" title="F" units="E"
+							width="190" height="190" min-value="0" start-angle="220" ticks-angle="100" value-box="false"
+							min-value="80" max-value="120" major-ticks="80, ,100" minor-ticks="2" font-numbers-size="0"
+							color-plate="rgba(0,0,255,0)" opacity-plate="100" color-major-ticks="#888"
+							color-minor-ticks="#ddd" color-title="#eee" color-units="#ccc" color-numbers="#bb1"
+							highlights='[
+                          {"from": 262, "to": 263, "color": "rgba(245, 4, 44, 100)"}
+                      ]' needle-type="arrow" needle-width="2" needle-circle-size="7" needle-circle-outer="true"
+							needle-circle-inner="false" color-needle-shadow-down="#550" color-needle-circle-outer="#333"
+							color-needle-circle-outer-end="#111" animation-duration="900" animation-rule="linear"
+							borders="false" border-inner-width="0" border-middle-width="0" border-outer-width="0"
+							border-shadow-width="0" color-border-outer="#111" color-border-middle="#888"
+							color-border-middle-end="#555" color-border-inner="#111" value-box="false">
+
+						</radial-gauge>
+
+						<div class="Tacometro tanquegas">
+
+							<i class="fas fa-gas-pump fa-1x" style=" color: honeydew ; font-size: 2em;"></i>
+
+							<h6 style="color: honeydew; margin: 0; font-size: 1em; ">100%</h6>
+
+						</div>
+
+					</div>
+				</div>
+
+				<div class="col-5">
+					<img height="70px" style="overflow: visible; 
+                    position: relative;
+                 float:right;
+                 margin: 0;
+                  top: 1px;"
+						src="data:image/png;base64,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">
+				</div>
+
+			</div>
+
+
+
+
+
+
+		</div>
+
+
+	</div>
+
+
+	<div id="ContenedorReferencia3" class="row GrafocosContenedor">
+
+		<div class="row" style="width: 100%;  margin: 0;">
+			<h6 class="text-center bg-dark" style="width: 100%;height: auto; color: rgb(201, 77, 5); margin: 0">EST</h6>
+
+		</div>
+		<div class="col-lg-3 col-sm-12 contenedoresporcentaje">
+			<div class="row" style="height: 10%;">
+				<div class="col-6">
+
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<h6 class="text-light TextDonutsZi"><em>Dif</em></h6>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<h6 class="text-light TextDonutsZi"><em>Dif</em></h6>
+				</div>
+			</div>
+
+			<div class="row" style="height: 22.5%;">
+				<div class="col-6">
+					<p class="Textrow1">
+						<i class="fas fa-bolt" style="color: #F9E79F"></i>
+						<strong style="color: #F9E79F"> Power OutPut</strong></p>
+					<p class="TexInfoRows"><small>545,45 MW</small></p>
+
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona12Char3"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona13Char3"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+
+			</div>
+			<div class="row" style="height: 22.5%;">
+				<div class="col-6">
+					<p class="Textrow1">
+						<i class="fas fa-temperature-low" style="color: #9bc9ec"></i>
+						<strong style="color: #9bc9ec"> Heat Rate</strong></p>
+					<p class="TexInfoRows"><small>545,45 K1/kWh</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona22Char3"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona23Char3"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+			</div>
+			<div class="row" style="height: 22.5%;">
+				<div class="col-6">
+					<p style="color: #b0d56f" class="Textrow1">
+						<i class="fas fa-battery-three-quarters" style="color: #b0d56f"></i><strong> Capacity
+							Factor</strong></p>
+					<p class="TexInfoRows"><small>69.67%</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona32Char3"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona33Char3"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+
+			</div>
+			<div class="row" style="height: 22.65%;">
+				<div class="col-6">
+					<p class="Textrow1" style="color: #9f8ac1"> <i class="fas fa-gas-pump" style="color: #9f8ac1"></i>
+						<strong> Fuel Gain /lost</strong></p>
+					<p class="TexInfoRows"><small>$00.00</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona42Char3"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+				<div class="col-3 text-center" style="background-color: #343a40;">
+					<canvas class="lienzo" id="dona43Char3"></canvas>
+					<p class="TextDonuts"><small>69.67%</small></p>
+				</div>
+
+			</div>
+
+
+		</div>
+
+		<div class="col-lg-4 col-sm-12 contenedoresporcentaje">
+
+			<canvas id="lineChart3" height="120%"></canvas>
+		</div>
+
+
+		<div class="col-lg-3 col-sm-12 contenedoresporcentaje">
+			<h6 class="text-center" style="color: honeydew; margin: 0; font-size: 1em;">Dispatch</h6>
+			<canvas id="lineChart31"></canvas>
+
+		</div>
+		<div id="graf2tank" class="col-lg-2  col-sm-12 contenedoresporcentaje">
+			<h6 class="text-center" style="color: honeydew; margin: 0;font-size: 1em; overflow: visible; 
+          position: relative; 
+        top: 1px;">Gas Pressure</h6>
+			<div class="row">
+				<div class="col-7">
+
+					<div class="d-flex">
+						<radial-gauge [value]="(valueGas$| async)" id="GasTankId2" class="Tacometro" title="F" units="E"
+							width="190" height="190" min-value="0" start-angle="220" ticks-angle="100" value-box="false"
+							min-value="80" max-value="120" major-ticks="80, ,100" minor-ticks="2" font-numbers-size="0"
+							color-plate="rgba(0,0,255,0)" opacity-plate="100" color-major-ticks="#888"
+							color-minor-ticks="#ddd" color-title="#eee" color-units="#ccc" color-numbers="#bb1"
+							highlights='[
+                  {"from": 262, "to": 263, "color": "rgba(245, 4, 44, 100)"}
+              ]' needle-type="arrow" needle-width="2" needle-circle-size="7" needle-circle-outer="true"
+							needle-circle-inner="false" color-needle-shadow-down="#550" color-needle-circle-outer="#333"
+							color-needle-circle-outer-end="#111" animation-duration="900" animation-rule="linear"
+							borders="false" border-inner-width="0" border-middle-width="0" border-outer-width="0"
+							border-shadow-width="0" color-border-outer="#111" color-border-middle="#888"
+							color-border-middle-end="#555" color-border-inner="#111" value-box="false">
+
+						</radial-gauge>
+
+						<div class="Tacometro tanquegas">
+
+
+
+
+							<i class="fas fa-fire-alt" style=" color: honeydew ;font-size: 2em;"></i>
+
+							<h6 style="color: honeydew; margin: 0; font-size: 1em; ">100%</h6>
+
+						</div>
+
+					</div>
+				</div>
+
+				<div class="col-5">
+					<img height="70px" style="overflow: visible; 
+            position: relative;
+         float:right;
+         margin: 0;
+         left: 8px;
+          top: 1px;"
+						src="data:image/png;base64,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AEBwAQAguAAABBcAgOACAEBwAQAILgAAwQUAgOACABBcAAAILgAAwQUAILgAABBcAACCCwBAcAEAILgAAAQXAIDgMgQAAIILAEBwAQAguAAABBcAgOACAEBwAQAILgAAwQUAgOACABBcAAAILgAAwQUAILgAABBcAACCCwCghK21ZhQAAAaywwUAILgAAAQXAACCCwBAcAEACC4AAAQXAIDgAgAQXAAACC4AAMEFAMBP7gu+5vf+eORmOgAAI9jhAgAQXAAAggsAAMEFACC4AAAEFwAAggsAQHABAAguAAAEFwCA4AIAoHRwNYccABBcAACCCwAAwQUAILjC2QwBACC4AAAEFwAAgut9Pi4CABBcAACCCwAAwQUAILgAAAQXAACCCwBAcAEACK6K/GkfAGCYe2EFADCWHS4AAMEFACC4AAAQXAAAggsAQHABACC4AAAEFwCA4AIAQHABAAguAAAEFwCA4AIAEFwAAAguAADBBQAguAAAEFwAAIILAEBwGQIAAMEFACC4AAAQXAAAggsAQHABACC4AAAEFwCA4AIAQHABAAguAAAEFwCA4AIAEFwAAOz0vwMAQ7mpJIrZdI8AAAAASUVORK5CYII=">
+				</div>
+
+			</div>
+
+
+
+
+
+
+		</div>
+
+
+
+
+
+
+	</div>
+
+</div>

@@ -33,7 +33,7 @@
                 <div class="row justify-content-end">
 
                     <div class="col-12 col-sm-12 col-md-auto">
-						Carga<br>
+						Carga Archivo:<br>
                         <app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
                         <mat-error *ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
                             Requerido
