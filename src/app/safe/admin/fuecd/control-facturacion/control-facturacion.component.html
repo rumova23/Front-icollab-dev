@@ -157,11 +157,6 @@
   <hr/>
   <div class="row mb-1 mt-1">
     <div class="col">
-      Detalle de  FUECD: {{(fuecd != null) ? fuecd.fuecd : '-'}} con fecha de  Emision: {{(fuecd != null) ? (fuecd.dateEmission | date:'dd/MM/yyyy') : '-'}} y fecha de operacion: {{(fuecd != null) ? (fuecd.dateOperation | date:'dd/MM/yyyy') : '-'}} a Emitir por parte de EAT.
-    </div>
-  </div>
-  <div class="row mb-1 mt-1">
-    <div class="col">
       <div class="tabla-responsi mat-elevation-z8">
         <table mat-table [dataSource]="listFUFPlanta" class="table_catalogo">
           <ng-container matColumnDef="fuf">
@@ -219,6 +214,14 @@
           <ng-container matColumnDef="verDetalleFulsContenidosFuf">
             <th mat-header-cell *matHeaderCellDef class="txt-center">Ver detalle de FULs contenidos en el FUF</th>
             <td mat-cell *matCellDef="let element">
+              <a (click)="detalleFuf(element.fuf, element.transmitter)">
+                <img src="assets/images/skins/ico_Ver.png" alt="Visualizar" />
+              </a>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="irPredocumento">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Pre Documento</th>
+            <td mat-cell *matCellDef="let element">
               <a (click)="action(element)">
                 <img src="assets/images/skins/ico_Ver.png" alt="Visualizar" />
               </a>
@@ -270,11 +273,6 @@
     </div>
   </div>
   <hr/>
-  <div class="row mb-1 mt-1">
-    <div class="col">
-      Detalle de  FUECD: {{(fuecd != null) ? fuecd.fuecd : '-'}} con fecha de  Emision: {{(fuecd != null) ? (fuecd.dateEmission | date:'dd/MM/yyyy') : '-'}} y fecha de operacion: {{(fuecd != null) ? (fuecd.dateOperation | date:'dd/MM/yyyy') : '-'}} a Emitir por parte de CENACE.
-    </div>
-  </div>
   <div class="row mb-1 mt-1">
     <div class="col">
       <div class="tabla-responsi mat-elevation-z8">
@@ -335,6 +333,14 @@
             <th mat-header-cell *matHeaderCellDef class="txt-center">Ver detalle de FULs contenidos en el FUF</th>
             <td mat-cell *matCellDef="let element">
               <a (click)="detalleFuf(element.fuf, element.transmitter)">
+                <img src="assets/images/skins/ico_Ver.png" alt="Visualizar" />
+              </a>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="irPredocumento">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Pre Documento</th>
+            <td mat-cell *matCellDef="let element">
+              <a (click)="action(element)">
                 <img src="assets/images/skins/ico_Ver.png" alt="Visualizar" />
               </a>
             </td>
