@@ -49,11 +49,13 @@
 			</div>
 			<div class="col-12 col-sm-12 col-md-auto">
 				<button type="submit" class="btn" style="width: 168px;" [disabled]="!proposalAcceptedForm.valid">
-					<mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+					<i class="ti-cloud-up"></i>
+					{{'Import' | translate}}
 				</button>
 				<br>
 				<button type="button" class="btn" (click)="download()">
-					<mdb-icon far icon="save" class="mr-1"></mdb-icon> Descarga Layout
+					<i class="ti-cloud-down"></i>
+					{{'Download' | translate}} {{'Layout' | translate}}
 				</button>
 			</div>
 		</div>
@@ -327,10 +329,12 @@
 		<div class="row">
 			<div class="col text-right">
 				<button type="button" class="btn" (click)="cancelModelMarket()">
-					Cancelar
+					<i class="ti-close"></i>
+                    {{ "Cancel" | translate }}
 				</button>
 				<button type="submit" class="btn" [disabled]="!modelMarketForm.valid || hour === 0">
-					Aceptar
+					<i class="ti-check"></i>
+                    {{ "Accept" | translate }}
 				</button>
 			</div>
 		</div>
@@ -577,7 +581,10 @@
 			<div>
 				<button type="button" class="btn"
 					[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-					(click)="terminarPlanning()">Terminar</button>
+					(click)="terminarPlanning()">
+					<i class="ti-check"></i>
+                    {{ "Finish" | translate }}
+				</button>
 			</div>
 		</div>
 

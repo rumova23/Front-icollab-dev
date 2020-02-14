@@ -56,6 +56,7 @@
     ,"Inactive":"Inactivo"
     ,"Active":"Activo"
     ,"Cancel":"Cancelar"
+    ,"Accept":"Aceptar"
     ,"CT":"CT"
     ,"Gas":"Gas"
     ,"Diesel":"Diesel"
@@ -91,4 +92,10 @@
     ,"Monitoreo":"Monitoreo"
     ,"Catálogos SAT":"Catálogos SAT"
     ,"Modelo de Mercado":"Modelo de Mercado"
+    ,"Finish":"Terminar"
+    ,"Reactivate":"Reactivar"
+    ,"Download":"Descargar"
+    ,"Import":"Importar"
+    ,"Layout":"Plantilla"
+    ,"Select File":"Seleccionar Archivo"
 }

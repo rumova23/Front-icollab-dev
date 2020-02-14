@@ -56,6 +56,7 @@
     ,"Inactive":"アイドル状態"
     ,"Active":"アクティブ"
     ,"Cancel":"取り消す"
+    ,"Accept":"受け入れる"
     ,"CT":"ガスタービン"
     ,"Gas":"ガス"
     ,"Diesel":"ディーゼル"
@@ -91,4 +92,10 @@
     ,"Monitoreo":"モニタリング"
     ,"Catálogos SAT":"SATカタログ"
     ,"Modelo de Mercado":"市場モデル"
+    ,"Finish":"終わり"
+    ,"Reactivate":"再有効化"
+    ,"Download":"ダウンロード"
+    ,"Import":"インポート"
+    ,"Layout":"レイアウト"
+    ,"Select File":"ファイルを選択"
 }

@@ -31,11 +31,14 @@
 					<div class="col-12 col-sm-12 col-md-auto">
 						<button type="submit" class="btn mybtn" style="width: 168px;"
 							[disabled]="!proposalAcceptedForm.valid">
-							<mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+							
+							<i class="ti-cloud-up"></i>
+							{{'Import' | translate}}
 						</button>
 						<br>
 						<button type="button" class="btn mybtn" (click)="download()">
-							<mdb-icon far icon="save" class="mr-1"></mdb-icon> Descarga Layout
+                            <i class="ti-cloud-down"></i>
+                            {{'Download' | translate}} {{'Layout' | translate}}
 						</button>
 					</div>
 				</div>
@@ -63,7 +66,8 @@
 				<div class="col-12 col-sm-12 col-md-auto">
 					<!-- Button trigger modal -->
 					<button type="button" class="btn" data-toggle="modal" data-target="#exampleModal">
-						Reactivar
+						<i class="ti-tag"></i>
+                    {{'Reactivate' | translate}}
 					</button>
 				</div>
 			</div>
