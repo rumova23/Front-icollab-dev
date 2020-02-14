@@ -107,7 +107,6 @@ export class EnergyPpaComponent implements OnInit {
   }
 
   dateChange(event) {
-
     this.date = event.value;
     this.loadData();
   }

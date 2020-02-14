@@ -1,0 +1,76 @@
+<div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class=""
+    ><mdb-icon fas icon="cog"></mdb-icon
+    ></mdb-breadcrumb-item>
+    <mdb-breadcrumb-item>Facturacion</mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">{{settlementInvoiceDT0.type}}</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+<div class="section">
+  <form [formGroup]="invoiceForm">
+    <div class="row mb-4">
+      <div>
+        <button
+                type="button"
+                class="btn"
+                (click)="download()"
+                [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+          << Regresar
+        </button>
+      </div>
+      <div>
+        <button
+                type="button"
+                class="btn"
+                (click)="download()"
+                [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+          Timbrar
+        </button>
+      </div>
+      <div>
+        <button
+                type="button"
+                class="btn"
+                (click)="download()"
+                [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+          Guardar
+        </button>
+      </div>
+      <div>
+        <button
+                type="button"
+                class="btn"
+                (click)="download()"
+                [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+          Cancelar
+        </button>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="form-group">
+        <label class="form-text text-left">Folio {{settlementInvoiceDT0.type}}</label>
+        <input class="form-control" formControlName="folioDocument"/>
+      </div>
+      <div class="form-group">
+        <label class="form-text text-left">Fecha</label>
+        <mat-form-field class="form-control">
+          <input matInput  [matDatepicker]="dateDocumentHTML" [(ngModel)]="dateDocument" [ngModelOptions]="{standalone: true}" (dateChange)="dateChange($event)">
+          <mat-datepicker-toggle matSuffix [for]="dateDocumentHTML"></mat-datepicker-toggle>
+          <mat-datepicker #dateDocumentHTML></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <label class="form-text text-left">UUID</label>
+        <input class="form-control" formControlName="uuidDocument"/>
+      </div>
+      <div class="form-group">
+        <label class="form-text text-left">Origen Documento</label>
+          <select formControlName="origenDocument" class="browser-default custom-select">
+            <option [value]="1">Estado de Cuenta</option>
+            <option [value]="2">Manual Estado de Cuenta</option>
+          </select>
+      </div>
+    </div>
+  </form>
+</div>

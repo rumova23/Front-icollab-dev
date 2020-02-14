@@ -21,6 +21,10 @@ export class SettlementInvoiceDT0 implements Deserializable  {
     public ivaDifference: number;
     public totalNetDifference: number;
     public concepts: Array<ConceptDTO>;
+
+    public tipoFuf: string;
+    public liquidacion: number;
+
     deserialize(input: any) {
         Object.assign(this, input);
         return this;

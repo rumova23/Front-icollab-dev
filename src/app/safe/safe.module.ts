@@ -92,6 +92,8 @@ import { HenryhubComponent } from './admin/henryhub/henryhub.component';
 import { AgraficaComponent } from './admin/agrafica/agrafica.component';
 import {MtrCenaceComponent} from './admin/modelMarket/mtr-cenace/mtr-cenace.component';
 import {ControlFacturacionComponent} from './admin/fuecd/control-facturacion/control-facturacion.component';
+import {PreDocumentComponent} from './admin/fuecd/pre-document/pre-document.component';
+
 
 @NgModule({
     declarations: [
@@ -138,7 +140,8 @@ import {ControlFacturacionComponent} from './admin/fuecd/control-facturacion/con
         AgraficaComponent,
         HenryhubComponent,
         MtrCenaceComponent,
-        ControlFacturacionComponent
+        ControlFacturacionComponent,
+        PreDocumentComponent
     ],
     exports: [],
     imports: [
