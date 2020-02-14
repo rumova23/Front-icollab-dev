@@ -86,7 +86,7 @@ export class InvoicesComponent implements OnInit {
     return (entity.active) ? "Activo " : "Inactivo";
   }
 
-  action(invoice: Invoice, option: number) {
+   action(invoice: Invoice, option: number) {
     switch (option) {
       case 2:
         this.eventService.sendMainSafe(new

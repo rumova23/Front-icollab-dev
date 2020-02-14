@@ -34,47 +34,41 @@ export class FuecdInvoiceComponent implements OnInit {
   }
 
   getFuecd() {
-    this.marketService.getFuecd(this.idFuecd)
-      .subscribe(
-        data => {
-          const status = data;
-          this.accountStatus = status;
-
-          for (let a = 0; a < status.settlements.length; a++) {
-            const settlement = status.settlements[a];
-            for (let b = 0; b < settlement.settlementInvoices.length; b++) {
-              const settlementInvoice = settlement.settlementInvoices[b];
-
-              for (let c = 0; c < settlementInvoice.concepts.length; c++) {
-                const concept = settlementInvoice.concepts[c];
-
-                let timer: TimeRegister = {};
-                timer.fuecd = status.fuecd;
-                timer.id = concept.id;
-                timer.idSettlementInvoice = settlementInvoice.id;
-                timer.concept = concept.ful;
-                timer.date = settlementInvoice.datePayment;
-                timer.ful = concept.ful;
-                timer.concept = concept.description;
-                timer.iva = concept.iva;
-                timer.totalAmount = concept.totalAmount;
-                timer.totalNet = concept.totalNet;
-                this.timeRegisters.push(timer);
-                for (let d = 0; d < concept.annexeds.length; d++) {
-                  const annexed = concept.annexeds[d];
-
-                  for (let e = 0; e < annexed.timeRegisters.length; e++) {
-                    const timeRegister = annexed.timeRegisters[e];
-                  }
-                }
+    this.marketService.getFuecd(this.idFuecd).subscribe(
+    data => {
+      const status = data;
+      this.accountStatus = status;
+      for (let a = 0; a < status.settlements.length; a++) {
+        const settlement = status.settlements[a];
+        for (let b = 0; b < settlement.settlementInvoices.length; b++) {
+          const settlementInvoice = settlement.settlementInvoices[b];
+          for (let c = 0; c < settlementInvoice.concepts.length; c++) {
+            const concept = settlementInvoice.concepts[c];
+            let timer: TimeRegister = {};
+            timer.fuecd = status.fuecd;
+            timer.id = concept.id;
+            timer.idSettlementInvoice = settlementInvoice.id;
+            timer.concept = concept.ful;
+            timer.date = settlementInvoice.datePayment;
+            timer.ful = concept.ful;
+            timer.concept = concept.description;
+            timer.iva = concept.iva;
+            timer.totalAmount = concept.totalAmount;
+            timer.totalNet = concept.totalNet;
+            this.timeRegisters.push(timer);
+            for (let d = 0; d < concept.annexeds.length; d++) {
+              const annexed = concept.annexeds[d];
+              for (let e = 0; e < annexed.timeRegisters.length; e++) {
+                const timeRegister = annexed.timeRegisters[e];
               }
             }
           }
-
-        },
-        errorData => {
-          this.toastr.errorToastr(Constants.ERROR_SAVE, errorData);
-        });
+        }
+      }
+    },
+    errorData => {
+      this.toastr.errorToastr(Constants.ERROR_SAVE, errorData);
+    });
   }
 
   invoice() {

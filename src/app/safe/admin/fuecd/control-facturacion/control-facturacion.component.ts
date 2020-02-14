@@ -14,6 +14,7 @@ import {SettlementInvoiceDT0} from '../../../models/settlement-invoice-dt0';
 import {AccountStatusDT0} from '../../../models/account-status-dt0';
 import {ConceptDTO} from '../../../models/concept-dto';
 import {SettlementDT0} from '../../../models/settlement-dt0';
+import {Invoice} from '../../../models/Invoice';
 
 @Component({
   selector: 'app-control-facturacion',
@@ -298,5 +299,9 @@ export class ControlFacturacionComponent implements OnInit {
         this.listFUFCenace = this.bbbbbb;
       }
     }
+  }
+
+  action(settlementInvoiceDT0: SettlementInvoiceDT0) {
+    this.eventService.sendChangePage(new EventMessage(-1, settlementInvoiceDT0 , 'Safe.Pre Document'));
   }
 }

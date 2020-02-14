@@ -69,6 +69,7 @@ import { AgraficaComponent                        } from '../admin/agrafica/agra
 import { HenryhubComponent                        } from '../admin/henryhub/henryhub.component';
 import {MtrCenaceComponent} from '../admin/modelMarket/mtr-cenace/mtr-cenace.component';
 import {ControlFacturacionComponent} from '../admin/fuecd/control-facturacion/control-facturacion.component';
+import {PreDocumentComponent} from '../admin/fuecd/pre-document/pre-document.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -134,6 +135,7 @@ import {ControlFacturacionComponent} from '../admin/fuecd/control-facturacion/co
 		, HenryhubComponent
 		, MtrCenaceComponent
 		, ControlFacturacionComponent
+		, PreDocumentComponent
   	]
 })
 
@@ -183,7 +185,6 @@ export class SafeHomeComponent implements OnInit {
 		this.subscriptions.push(this.eventService.onChangePage.subscribe({
 			next: (event: EventMessage) => {
 				let banderaTemporal = false;
-
 				this.viewContainerRef.clear();
 				switch (event.descriptor) {
 					case 'Safe.AccountStatements20119Component':
@@ -298,6 +299,13 @@ export class SafeHomeComponent implements OnInit {
 								ControlFacturacionComponent
 							)
 						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.Pre Document':
+						banderaTemporal = true;
+						const factory = this.componentFactoryResolver.resolveComponentFactory(PreDocumentComponent);
+						const viewComponent = this.viewContainerRef.createComponent(factory);
+						viewComponent.instance.settlementInvoiceDT0 = event.data;
+						viewComponent.changeDetectorRef.detectChanges();
 						break;
 					case 'Safe.HenryhubComponent':
 						banderaTemporal = true;

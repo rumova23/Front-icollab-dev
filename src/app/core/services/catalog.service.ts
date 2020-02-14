@@ -55,7 +55,7 @@ export class CatalogService {
     return this.http.post(environment.catalogUrl +  'catalog/save', generic, {params : this.parameters });
   }
 
-  listUnityProduct(option: number):Observable<any> {
+  listUnityProduct(option: number): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(environment.catalogUrl + 'unityProduct/list/' + option, {params : this.parameters });
   }
