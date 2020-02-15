@@ -24,6 +24,8 @@ import {Invoice} from '../../../models/Invoice';
 
 export class ControlFacturacionComponent implements OnInit {
   filterDatesFormGroup: FormGroup;
+  filterFusFormGroup: FormGroup;
+
   dateIni: Date;
   dateFin: Date;
   fd = 'FO';
@@ -80,6 +82,12 @@ export class ControlFacturacionComponent implements OnInit {
 
     this.filterDatesFormGroup = new FormGroup({
       typeDate: new FormControl(null, Validators.required)
+    });
+
+    this.filterFusFormGroup = new FormGroup({
+      idFuecd: new FormControl(null, Validators.required),
+      idFuf: new FormControl(null, Validators.required),
+      idFul: new FormControl(null, Validators.required)
     });
     this.cols = [
       'fuf',
@@ -259,7 +267,7 @@ export class ControlFacturacionComponent implements OnInit {
     this.dateFin = event.value;
   }
   searchFuecdByDates() {
-    const keyType = this.filterDatesFormGroup.controls['typeDate'].value;
+    const keyType = this.filterDatesFormGroup.controls.typeDate.value;
     const typeDate = (keyType === '1') ? 'FO' : ((keyType === '2') ? 'FEECD' : 'FEF');
     this.marketService.filterFuecdByDate(typeDate, this.dateIni.getTime(), this.dateFin.getTime()).subscribe(
       (data: Array<AccountStatusDT0>) => {
@@ -268,6 +276,12 @@ export class ControlFacturacionComponent implements OnInit {
       errorData => {
         this.toastr.warningToastr(errorData.error.message, 'Warning!');
       });
+  }
+  searchIdFus() {
+    const idFuecd = this.filterFusFormGroup.controls.idFuecd.value;
+    const idFuf = this.filterFusFormGroup.controls.idFuf.value;
+    const idFul = this.filterFusFormGroup.controls.idFul.value;
+    console.log('olas del mar: ' + idFuecd + ' : ' + idFuf + ' : ' + idFul);
   }
 
   detalleFufs(fuecd: string) {
@@ -280,7 +294,7 @@ export class ControlFacturacionComponent implements OnInit {
       if (this.listFUECD[i].fuecd === fuecd) {
         accountStatusDT0 = this.listFUECD[i];
         for (let j = 0; j < accountStatusDT0.settlements.length; j++) {
-          settlementDT0 = accountStatusDT0.settlements[j]
+          settlementDT0 = accountStatusDT0.settlements[j];
           for (let k = 0; k < settlementDT0.settlementInvoices.length; k++) {
             settlementInvoiceDT0 = settlementDT0.settlementInvoices[k];
             settlementInvoiceDT0.liquidacion = Number(settlementDT0.number);
