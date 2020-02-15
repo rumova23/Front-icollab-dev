@@ -72,5 +72,56 @@
           </select>
       </div>
     </div>
+    <div class="row mb-4">
+      <div class="form-group">
+        <mat-form-field>
+          <mat-label>Sistemas</mat-label>
+          <mat-select class="form-control" formControlName="sys" [(ngModel)]="idSys" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.sys.errors }">
+            <mat-option class="form-control" *ngFor="let option of systems" [value]="option.id">
+              {{option.code}}
+            </mat-option>
+          </mat-select>
+          <div *ngIf="submitted && invoiceForm.controls.sys.errors" style="color:red">
+            <div *ngIf="invoiceForm.controls.sys.errors.required">Requerido</div>
+          </div>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field>
+          <mat-label>Sucursal</mat-label>
+          <mat-select class="form-control" formControlName="plantBranchOffice" [(ngModel)]="idPlantBranchOffice" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.plantBranchOffice.errors }">
+            <mat-option class="form-control" *ngFor="let option of plantSelected.plantBranches" [value]="option.id">
+              {{option.name}}
+            </mat-option>
+          </mat-select>
+          <div *ngIf="submitted && invoiceForm.controls.plantBranchOffice.errors" style="color:red">
+            <div *ngIf="invoiceForm.controls.plantBranchOffice.errors.required">Requerido</div>
+          </div>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field>
+          <mat-label>Cliente</mat-label>
+          <mat-select class="form-control" formControlName="client" [(ngModel)]="idClient" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.client.errors }">
+            <mat-option class="form-control" *ngFor="let option of clients" [value]="option.id">
+              {{option.tradename}}
+            </mat-option>
+          </mat-select>
+          <div *ngIf="submitted && invoiceForm.controls.client.errors" style="color:red">
+            <div *ngIf="invoiceForm.controls.client.errors.required">Requerido</div>
+          </div>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="form-group">
+        <mat-label>Fecha de Operación</mat-label>
+        <mat-form-field>
+          <input matInput  [matDatepicker]="dateOperationHTML" [(ngModel)]="dateOperation" [ngModelOptions]="{standalone: true}" (dateChange)="dateChange($event)">
+          <mat-datepicker-toggle matSuffix [for]="dateOperationHTML"></mat-datepicker-toggle>
+          <mat-datepicker #dateOperationHTML></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
   </form>
 </div>

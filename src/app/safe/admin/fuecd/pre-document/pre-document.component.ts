@@ -42,8 +42,12 @@ export class PreDocumentComponent implements OnInit {
   catalogsSat: Array<CatalogOrderSat>;
   invoiceForm: FormGroup;
 
-
+  submitted = false;
+  idSys: number;
+  idPlantBranchOffice: number;
+  idClient: number;
   dateDocument: Date;
+  dateOperation: Date;
 
   constructor(
       public globalService: GlobalService,
@@ -54,6 +58,11 @@ export class PreDocumentComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+      console.dir(this.settlementInvoiceDT0);
+      this.idSys = 2;
+      this.idPlantBranchOffice = 1;
+      this.idClient = 52;
+      this.dateOperation = this.settlementInvoiceDT0.dateOperation;
     this.catalogs = [
       {
         catalog: 'paymentCondition',
@@ -107,7 +116,7 @@ export class PreDocumentComponent implements OnInit {
       dayMarket: new FormControl(''),
       yearClosing: new FormControl(''),
       monthClosing: new FormControl(''),
-      sys: new FormControl('', Validators.required),
+      sys: new FormControl('false', Validators.required),
       emails: new FormControl('', Validators.required),
       paymentMethod: new FormControl('', Validators.required),
       paymentCondition: new FormControl('', Validators.required),
@@ -175,7 +184,7 @@ export class PreDocumentComponent implements OnInit {
   private getClients() {
     this.marketService.getClients(3)
         .subscribe(
-            data => {
+            (data: Array<Client>) => {
               this.clients = data;
               console.dir(data);
               this.getPlant();
@@ -187,7 +196,7 @@ export class PreDocumentComponent implements OnInit {
   private getPlant() {
     this.marketService.getPlant(1)
         .subscribe(
-            data => {
+            (data: Plant) => {
               this.plantSelected = data;
               console.dir(data);
             },

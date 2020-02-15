@@ -74,6 +74,7 @@ export class ControlFacturacionComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {
     this.dateIni = new Date();
+    console.log(this.dateIni);
     this.aaaaaa = [];
     this.bbbbbb = [];
     this.fuecdForm = this.fb.group({
