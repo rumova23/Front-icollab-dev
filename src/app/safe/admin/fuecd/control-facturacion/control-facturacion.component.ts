@@ -278,11 +278,21 @@ export class ControlFacturacionComponent implements OnInit {
         this.toastr.warningToastr(errorData.error.message, 'Warning!');
       });
   }
-  searchIdFus() {
-    const idFuecd = this.filterFusFormGroup.controls.idFuecd.value;
-    const idFuf = this.filterFusFormGroup.controls.idFuf.value;
-    const idFul = this.filterFusFormGroup.controls.idFul.value;
-    console.log('olas del mar: ' + idFuecd + ' : ' + idFuf + ' : ' + idFul);
+
+  searchFuecdKeys() {
+    if (this.filterFusFormGroup.controls.idFuecd.value) {
+      this.marketService.filterAccountFuecd({
+        idFuecd: this.filterFusFormGroup.controls.idFuecd.value,
+        idFuf: this.filterFusFormGroup.controls.idFuf.value,
+        idFul: this.filterFusFormGroup.controls.idFul.value
+      }).subscribe(
+          (data: Array<AccountStatusDT0>) => {
+            this.listFUECD = data;
+          },
+          errorData => {
+            this.toastr.warningToastr(errorData.error.message, 'Warning!');
+          });
+    }
   }
 
   detalleFufs(fuecd: string) {

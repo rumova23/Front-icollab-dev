@@ -118,6 +118,11 @@ export class MarketService {
     return this.http.get(environment.fuecdUrl + 'fuecd/list/fuecd/' + campoDate +  '/' + timeIni + '/' + timeFin, {params : this.parameters });
   }
 
+  filterAccountFuecd(data): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.post(environment.fuecdUrl + 'fuecd/account/keys', data, {params : this.parameters });
+  }
+
   validateFuecd(data): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post(environment.fuecdUrl + 'fuecd/validate', data, {params : this.parameters });
