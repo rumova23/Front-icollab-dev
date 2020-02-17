@@ -24,6 +24,7 @@ export class SettlementInvoiceDT0 implements Deserializable  {
 
     public tipoFuf: string;
     public liquidacion: number;
+    public fuecd: string;
 
     deserialize(input: any) {
         Object.assign(this, input);

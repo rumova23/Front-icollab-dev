@@ -9,8 +9,8 @@
 </div>
 <div class="section">
   <form [formGroup]="invoiceForm">
-    <div class="row mb-4">
-      <div>
+    <div class="row">
+      <div class="col-3">
         <button
                 type="button"
                 class="btn"
@@ -19,7 +19,7 @@
           << Regresar
         </button>
       </div>
-      <div>
+      <div class="col-3">
         <button
                 type="button"
                 class="btn"
@@ -28,16 +28,16 @@
           Timbrar
         </button>
       </div>
-      <div>
+      <div class="col-3">
         <button
                 type="button"
                 class="btn"
-                (click)="download()"
+                (click)="save(invoiceForm.value)"
                 [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
           Guardar
         </button>
       </div>
-      <div>
+      <div class="col-3">
         <button
                 type="button"
                 class="btn"
@@ -47,29 +47,37 @@
         </button>
       </div>
     </div>
-    <div class="row mb-4">
-      <div class="form-group">
-        <label class="form-text text-left">Folio {{settlementInvoiceDT0.type}}</label>
-        <input class="form-control" formControlName="folioDocument"/>
+    <div class="row">
+      <div class="col-3">
+        <div class="form-group">
+          <label class="form-text text-left">Folio {{settlementInvoiceDT0.type}}</label>
+          <input class="form-control" formControlName="folioDocument"/>
+        </div>
       </div>
-      <div class="form-group">
-        <label class="form-text text-left">Fecha</label>
-        <mat-form-field class="form-control">
-          <input matInput  [matDatepicker]="dateDocumentHTML" [(ngModel)]="dateDocument" [ngModelOptions]="{standalone: true}" (dateChange)="dateChange($event)">
-          <mat-datepicker-toggle matSuffix [for]="dateDocumentHTML"></mat-datepicker-toggle>
-          <mat-datepicker #dateDocumentHTML></mat-datepicker>
-        </mat-form-field>
+     <div class="col-3">
+       <div class="form-group">
+         <label class="form-text text-left">Fecha</label>
+         <mat-form-field class="form-control">
+           <input matInput  [matDatepicker]="dateDocumentHTML" [(ngModel)]="dateDocument" [ngModelOptions]="{standalone: true}" (dateChange)="dateChange($event)">
+           <mat-datepicker-toggle matSuffix [for]="dateDocumentHTML"></mat-datepicker-toggle>
+           <mat-datepicker #dateDocumentHTML></mat-datepicker>
+         </mat-form-field>
+       </div>
+     </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label class="form-text text-left">UUID</label>
+          <input class="form-control" formControlName="uuidDocument"/>
+        </div>
       </div>
-      <div class="form-group">
-        <label class="form-text text-left">UUID</label>
-        <input class="form-control" formControlName="uuidDocument"/>
-      </div>
-      <div class="form-group">
-        <label class="form-text text-left">Origen Documento</label>
+      <div class="col-3">
+        <div class="form-group">
+          <label class="form-text text-left">Origen Documento</label>
           <select formControlName="origenDocument" class="browser-default custom-select">
             <option [value]="1">Estado de Cuenta</option>
             <option [value]="2">Manual Estado de Cuenta</option>
           </select>
+        </div>
       </div>
     </div>
     <div class="row mb-4">
@@ -115,12 +123,224 @@
     </div>
     <div class="row mb-4">
       <div class="form-group">
-        <mat-label>Fecha de Operación</mat-label>
-        <mat-form-field>
+        <label class="form-text text-left">Fecha de Operación</label>
+        <mat-form-field class="form-control">
           <input matInput  [matDatepicker]="dateOperationHTML" [(ngModel)]="dateOperation" [ngModelOptions]="{standalone: true}" (dateChange)="dateChange($event)">
           <mat-datepicker-toggle matSuffix [for]="dateOperationHTML"></mat-datepicker-toggle>
           <mat-datepicker #dateOperationHTML></mat-datepicker>
         </mat-form-field>
+      </div>
+      <div class="form-group">
+        <label class="form-text text-left">FUECD</label>
+        <input class="form-control" formControlName="fuecd"/>
+      </div>
+      <div class="form-group">
+        <label class="form-text text-left">fuf</label>
+        <input class="form-control" formControlName="fuf"/>
+      </div>
+      <div class="form-group">
+        <label class="form-text text-left">Fecha limite de pago</label>
+        <mat-form-field class="form-control">
+          <input matInput  [matDatepicker]="dateLimitPayHTML" [(ngModel)]="datePayLimit" [ngModelOptions]="{standalone: true}" (dateChange)="dateChange($event)">
+          <mat-datepicker-toggle matSuffix [for]="dateLimitPayHTML"></mat-datepicker-toggle>
+          <mat-datepicker #dateLimitPayHTML></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="form-group">
+        <mat-form-field>
+          <mat-label>Moneda</mat-label>
+          <mat-select class="form-control" formControlName="money" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.money.errors }">
+            <mat-option class="form-control" *ngFor="let option of moneys" [value]="option.id">
+              {{option.code}}
+            </mat-option>
+          </mat-select>
+          <div *ngIf="submitted && invoiceForm.controls.money.errors" style="color:red">
+            <div *ngIf="invoiceForm.controls.money.errors.required">Requerido</div>
+          </div>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <label class="form-text text-left">Tipo de Cambio</label>
+        <input class="form-control" formControlName="typeChange"/>
+      </div>
+      <div class="form-group">
+        <mat-form-field>
+          <mat-label>Uso CFDI</mat-label>
+          <mat-select class="form-control" formControlName="useCfdi" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.useCfdi.errors }">
+            <mat-option class="form-control" *ngFor="let option of usesCfdi" [value]="option.id">
+              {{option.name}}
+            </mat-option>
+          </mat-select>
+          <div *ngIf="submitted && invoiceForm.controls.useCfdi.errors" style="color:red">
+            <div *ngIf="invoiceForm.controls.useCfdi.errors.required">Requerido</div>
+          </div>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field>
+          <mat-label>Metodo de Pago</mat-label>
+          <mat-select class="form-control" formControlName="paymentMethod" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.paymentMethod.errors }">
+            <mat-option class="form-control" *ngFor="let option of paymentMethods" [value]="option.id">
+              {{option.code}}
+            </mat-option>
+          </mat-select>
+          <div *ngIf="submitted && invoiceForm.controls.paymentMethod.errors" style="color:red">
+            <div *ngIf="invoiceForm.controls.paymentMethod.errors.required">Requerido</div>
+          </div>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="form-group">
+        <mat-form-field>
+          <mat-label>Forma de Pago</mat-label>
+          <mat-select class="form-control" formControlName="paymentWay" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.paymentWay.errors }">
+            <mat-option class="form-control" *ngFor="let option of paymentWays" [value]="option.id">
+              {{option.name}}
+            </mat-option>
+          </mat-select>
+          <div *ngIf="submitted && invoiceForm.controls.paymentWay.errors" style="color:red">
+            <div *ngIf="invoiceForm.controls.paymentWay.errors.required">Requerido</div>
+          </div>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+      <mat-form-field>
+        <mat-label>Condiciones de Pago</mat-label>
+        <mat-select class="form-control" formControlName="paymentCondition" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.paymentCondition.errors }">
+          <mat-option class="form-control" *ngFor="let option of paymentConditions" [value]="option.id">
+            {{option.code}}
+          </mat-option>
+        </mat-select>
+        <div *ngIf="submitted && invoiceForm.controls.paymentCondition.errors" style="color:red">
+          <div *ngIf="invoiceForm.controls.paymentCondition.errors.required">Requerido</div>
+        </div>
+      </mat-form-field>
+    </div>
+      <div class="form-group">
+        <label class="form-text text-left">Cuenta</label>
+        <input class="form-control" formControlName="account"/>
+        <div *ngIf="submitted && invoiceForm.controls.account.errors" style="color:red">
+          <div *ngIf="invoiceForm.controls.account.errors.required">Requerido</div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="form-group">
+        <mat-form-field>
+          <mat-label>Tipo Relación</mat-label>
+          <mat-select class="form-control" formControlName="typeRelation" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.typeRelation.errors }">
+            <mat-option class="form-control" *ngFor="let option of typesRelation" [value]="option.id">
+              {{option.code}}
+            </mat-option>
+          </mat-select>
+          <div *ngIf="submitted && invoiceForm.controls.typeRelation.errors" style="color:red">
+            <div *ngIf="invoiceForm.controls.typeRelation.errors.required">Requerido</div>
+          </div>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <label class="form-text text-left">Confirmación SAT</label>
+        <input class="form-control" formControlName="satConfirmation"/>
+        <div *ngIf="submitted && invoiceForm.controls.satConfirmation.errors" style="color:red">
+          <div *ngIf="invoiceForm.controls.satConfirmation.errors.required">Requerido</div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+          <label class="form-text text-left">Observaciones</label>
+          <textarea
+                  class="form-control"
+                  cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  formControlName="observations"></textarea>
+          <div *ngIf="submitted && invoiceForm.controls.observations.errors" style="color:red">
+            <div *ngIf="invoiceForm.controls.observations.errors.required">Requerido</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <label class="form-text text-left">Descuento</label>
+          <input class="form-control" formControlName="discountAmount"/>
+        </div>
+        <div class="form-group">
+          <label class="form-text text-left">Subtotal</label>
+          <input class="form-control" formControlName="subtotal"/>
+        </div>
+        <div class="form-group">
+          <label class="form-text text-left">Iva</label>
+          <input class="form-control" formControlName="amountRateIvaTransfer"/>
+        </div>
+        <div class="form-group">
+          <label class="form-text text-left">Total</label>
+          <input class="form-control" formControlName="total"/>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label class="form-text text-left">Usuario Creo</label>
+          <input class="form-control" formControlName="userCreate"/>
+        </div>
+        <div class="form-group">
+          <label class="form-text text-left">Usuario Timbro</label>
+          <input class="form-control" formControlName="userTimbro"/>
+        </div>
+        <div class="form-group">
+          <label class="form-text text-left">Usuario Cancelo</label>
+          <input class="form-control" formControlName="userCanceled"/>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <table mat-table [dataSource]="listFulPlanta" class="table_catalogo">
+          <ng-container matColumnDef="group">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Grupo</th>
+            <td mat-cell *matCellDef="let element"> {{element.group}} </td>
+          </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Descripción</th>
+            <td mat-cell *matCellDef="let element">{{element.description}}</td>
+          </ng-container>
+          <ng-container matColumnDef="ful">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">FUL</th>
+            <td mat-cell *matCellDef="let element">{{element.ful}}</td>
+          </ng-container>
+          <ng-container matColumnDef="subtotal">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Subtotal</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalNet}} </td>
+          </ng-container>
+          <ng-container matColumnDef="iva">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Iva</th>
+            <td mat-cell *matCellDef="let element"> {{element.iva}} </td>
+          </ng-container>
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Total</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalAmount}} </td>
+          </ng-container>
+          <ng-container matColumnDef="subtotalDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Subtotal Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalNetDifference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ivaDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Iva Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.ivaDifference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalDiferencia">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Total Diferencia</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalAmountDifference}} </td>
+          </ng-container>
+          <!-- header -->
+          <tr mat-header-row *matHeaderRowDef="colsFul"></tr>
+          <tr mat-row *matRowDef="let row; columns: colsFul;"></tr>
+        </table>
       </div>
     </div>
   </form>

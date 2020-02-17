@@ -280,7 +280,6 @@ export class ControlFacturacionComponent implements OnInit {
   }
 
   searchFuecdKeys() {
-    if (this.filterFusFormGroup.controls.idFuecd.value) {
       this.marketService.filterAccountFuecd({
         idFuecd: this.filterFusFormGroup.controls.idFuecd.value,
         idFuf: this.filterFusFormGroup.controls.idFuf.value,
@@ -292,7 +291,6 @@ export class ControlFacturacionComponent implements OnInit {
           errorData => {
             this.toastr.warningToastr(errorData.error.message, 'Warning!');
           });
-    }
   }
 
   detalleFufs(fuecd: string) {
@@ -308,6 +306,7 @@ export class ControlFacturacionComponent implements OnInit {
           settlementDT0 = accountStatusDT0.settlements[j];
           for (let k = 0; k < settlementDT0.settlementInvoices.length; k++) {
             settlementInvoiceDT0 = settlementDT0.settlementInvoices[k];
+            settlementInvoiceDT0.fuecd = accountStatusDT0.fuecd;
             settlementInvoiceDT0.liquidacion = Number(settlementDT0.number);
             settlementInvoiceDT0.tipoFuf = 'Liquidacion';
             if (settlementInvoiceDT0.liquidacion > 0) {
