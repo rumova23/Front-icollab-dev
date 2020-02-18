@@ -24,6 +24,12 @@ import {ConceptDTO} from '../../../models/concept-dto';
 import {Validate} from '../../../../core/helpers/util.validator.';
 import {EventMessage} from '../../../../core/models/EventMessage';
 import {Invoice} from '../../../models/Invoice';
+import {InvoiceProduct} from '../../../models/InvoiceProduct';
+import {Entity} from '../../../../core/models/Entity';
+import {EventService} from '../../../../core/services/event.service';
+import {Product} from '../../../models/Product';
+import {ProductInDTO} from '../../../models/product-in-dto';
+import {InvoiceProductDTO} from '../../../models/invoice-product-dto';
 
 @Component({
   selector: 'app-pre-document',
@@ -45,6 +51,7 @@ export class PreDocumentComponent implements OnInit {
   clients: Array<Client>;
   clientSelected: Client = {};
   plantSelected: Plant = {};
+  products: Array<Product>;
 
   catalogs: Array<CatalogOrder>;
   catalogsSat: Array<CatalogOrderSat>;
@@ -57,6 +64,7 @@ export class PreDocumentComponent implements OnInit {
   idPaymentCondition: number;
   idPaymentWay: number;
   idPaymentMethod: number;
+  idMoney: number;
   dateDocument: Date;
   dateOperation: Date;
   datePayLimit: Date;
@@ -65,8 +73,11 @@ export class PreDocumentComponent implements OnInit {
   colsFul: any[];
 
   invoice: Invoice;
+  invoiceProducts: Array<InvoiceProduct> = [];
+  entity: Entity;
 
   constructor(
+      private eventService: EventService,
       public globalService: GlobalService,
       private marketService: MarketService,
       private catalogService: CatalogService,
@@ -158,6 +169,7 @@ export class PreDocumentComponent implements OnInit {
       this.idSys = 2;
       this.idPlantBranchOffice = 1;
       this.idClient = 52;
+      this.idMoney = 1;
       this.dateOperation = new Date(this.settlementInvoiceDT0.dateOperation);
       this.invoiceForm.controls.fuecd.setValue(this.settlementInvoiceDT0.fuecd);
       this.invoiceForm.controls.fuf.setValue(this.settlementInvoiceDT0.fuf);
@@ -263,7 +275,7 @@ export class PreDocumentComponent implements OnInit {
                     this.invoiceForm.controls['account'].setValue(
                         this.clientSelected.clientAccounts[0].account
                     );
-                    this.loadMoneys();
+                    this.getProductsByClient(id);
                 },
                 errorData => {
                     this.toastr.errorToastr(Constants.ERROR_LOAD, 'Client');
@@ -279,46 +291,93 @@ export class PreDocumentComponent implements OnInit {
   }
 
     save(value) {
-      /*
-        if (!Validate(this.invoiceProducts)
+      let concept: ConceptDTO;
+      for (let i = 0; i < this.settlementInvoiceDT0.concepts.length; i++) {
+          concept = this.settlementInvoiceDT0.concepts[i];
+          if (this.settlementInvoiceDT0.liquidacion === 0 ) {
+              const product = new InvoiceProductDTO();
+              product.idProduct = this.products.filter(entity =>
+                  entity.description === concept.description)[0].id;
+              product.amount = concept.totalAmount;
+              product.amount = Number(product.amount.toFixed(6));
+              product.amountIva = concept.iva;
+              product.quantity = 1;
+              product.unitValue = concept.totalNet;
+              product.percentageIva = 16;
+              this.invoiceProducts.push(product);
+          }
+
+          if (this.settlementInvoiceDT0.liquidacion > 0 ) {
+              const product = new InvoiceProductDTO();
+              product.idProduct = this.products.filter(entity =>
+                  entity.description === concept.description)[0].id;
+              product.amount = concept.totalAmountDifference;
+              product.amount = Number(product.amount.toFixed(6));
+              product.amountIva = concept.ivaDifference;
+              product.quantity = 1;
+              product.unitValue = concept.totalNetDifference;
+              product.percentageIva = 16;
+              this.invoiceProducts.push(product);
+          }
+      }
+      if (!Validate(this.invoiceProducts)
             || this.invoiceProducts.length === 0) {
-            this.toastr.errorToastr("Los productos de la factura no pueden ser vacíos",
+            this.toastr.errorToastr('Los productos de la factura no pueden ser vacíos',
                 'Productos');
             return;
+      }
+      this.invoice = value;
+      console.log('RTC');
+      console.dir(value);
+      console.log('RTC');
+      this.invoice.idSys = value.sys;
+      this.invoice.idPlantBranchOffice = value.plantBranchOffice;
+      this.invoice.idPlantDirection = value.plantDirection;
+      this.invoice.idClient = value.client;
+      this.invoice.idMoney = value.money;
+      this.invoice.idPaymentMethod = value.paymentMethod;
+      this.invoice.idPaymentCondition = value.paymentCondition;
+      this.invoice.idPaymentWay = value.paymentWay;
+      this.invoice.idUseCfdi = value.useCfdi;
+      this.invoice.idTypeRelation = value.typeRelation;
+      console.dir(this.plantSelected);
+      this.invoice.idPlantFiscalData = this.plantSelected.fiscalData.id;
+      console.dir(this.clientSelected);
+      this.invoice.idClientFiscalData = this.clientSelected.fiscalData.id;
+      this.invoice.subtotal = 0;
+      this.invoice.save = true;
+        if (this.settlementInvoiceDT0.liquidacion === 0 ) {
+            this.invoice.subtotal = this.settlementInvoiceDT0.totalNet;
+            this.invoice.amountRateIvaTransfer = this.settlementInvoiceDT0.iva;
+            this.invoice.total = this.settlementInvoiceDT0.totalAmount;
         }
-        this.invoice = value;
-        this.invoice.idSys = value.sys.id;
-        this.invoice.idPlantBranchOffice = value.plantBranchOffice.id;
-        this.invoice.idPlantDirection = value.plantDirection.id;
-        this.invoice.idClient = value.client.id;
-        this.invoice.idMoney = value.money.id;
-        this.invoice.idPaymentMethod = value.paymentMethod.id;
-        this.invoice.idPaymentCondition = value.paymentCondition.id;
-        this.invoice.idPaymentWay = value.paymentWay.id;
-        this.invoice.idUseCfdi = value.useCfdi.id;
-        this.invoice.idTypeRelation = value.typeRelation.id;
-        this.invoice.idPlantFiscalData = this.plantSelected.fiscalData.id;
-        this.invoice.idClientFiscalData = this.clientSelected.fiscalData.id;
 
-        this.invoice.subtotal = 0;
-        this.invoice.save = this.entity.new;
-        for (var i = 0; i < this.invoiceProducts.length; i++) {
-            this.invoiceProducts[i].idProduct = this.invoiceProducts[i].product.id;
-            this.invoice.subtotal += this.invoiceProducts[i].unitValue * this.invoiceProducts[i].quantity;
-            this.invoice.amountRateIvaTransfer += ((this.invoiceProducts[i].unitValue * this.invoiceProducts[i].quantity) * this.invoiceProducts[i].percentageIva) / 100;
+        if (this.settlementInvoiceDT0.liquidacion > 0 ) {
+            this.invoice.subtotal = this.settlementInvoiceDT0.totalNetDifference;
+            this.invoice.amountRateIvaTransfer = this.settlementInvoiceDT0.ivaDifference;
+            this.invoice.total = this.settlementInvoiceDT0.totalAmountDifference;
         }
-        this.invoice.subtotal2 = this.invoice.subtotal;
-        this.invoice.total = this.invoice.subtotal + this.invoice.amountRateIvaTransfer;
-        this.invoice.invoiceProducts = this.invoiceProducts;
-        this.marketService.saveInvoice(this.invoice)
+      this.invoice.subtotal2 = this.invoice.subtotal;
+      this.invoice.invoiceProducts = this.invoiceProducts;
+      this.marketService.saveInvoice(this.invoice).subscribe(
+        data => {
+            this.eventService.sendMainSafe(new EventMessage(20, {}));
+        },
+        errorData => {
+            this.toastr.errorToastr(Constants.ERROR_SAVE, 'Facturas');
+        });
+    }
+
+    getProductsByClient(id) {
+        this.marketService.getProductsByClient(id)
             .subscribe(
                 data => {
-                    this.eventService.sendMainSafe(new EventMessage(20, {}));
+                    console.dir(data);
+                    this.products = data;
+                    this.loadMoneys();
                 },
                 errorData => {
-                    this.toastr.errorToastr(Constants.ERROR_SAVE, 'Facturas');
+                    this.toastr.errorToastr(Constants.ERROR_LOAD, 'Estados');
                 });
-
-       */
     }
 }

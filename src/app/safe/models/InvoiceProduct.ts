@@ -1,28 +1,28 @@
 export interface InvoiceProduct {
-    id?,
-    save?,
-    product?,
-    idInvoice?,
+    id?;
+    save?;
+    product?;
+    idInvoice?;
     idProduct?;
     code?;
     description?;
     quantity?;
-    unitValue?,
-    discount?,
-    amount?
-    mw?,
-    percentageIva?,
-    amountIva?,
-    taxiKey?,
-    typeFactor?,
-    base?,
-    rateQuota?,
-    idTypeDocument?,
-    idSettlementInvoice?,
-    idConcept?,
-    unityText?,
-    unityKey?,
-    codeClient?,
-    folioUnique?,
-    concept?
+    unitValue?;
+    discount?;
+    amount?;
+    mw?;
+    percentageIva?;
+    amountIva?;
+    taxiKey?;
+    typeFactor?;
+    base?;
+    rateQuota?;
+    idTypeDocument?;
+    idSettlementInvoice?;
+    idConcept?;
+    unityText?;
+    unityKey?;
+    codeClient?;
+    folioUnique?;
+    concept?;
 }
