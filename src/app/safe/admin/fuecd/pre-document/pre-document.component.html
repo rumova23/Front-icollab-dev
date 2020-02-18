@@ -9,8 +9,8 @@
 </div>
 <div class="section">
   <form [formGroup]="invoiceForm">
-    <div class="row">
-      <div class="col-3">
+    <div class="row mb-12">
+      <div class="col-md-3">
         <button
                 type="button"
                 class="btn"
@@ -19,7 +19,7 @@
           << Regresar
         </button>
       </div>
-      <div class="col-3">
+      <div class="col-md-3">
         <button
                 type="button"
                 class="btn"
@@ -28,7 +28,7 @@
           Timbrar
         </button>
       </div>
-      <div class="col-3">
+      <div class="col-md-3">
         <button
                 type="button"
                 class="btn"
@@ -37,7 +37,7 @@
           Guardar
         </button>
       </div>
-      <div class="col-3">
+      <div class="col-md-3">
         <button
                 type="button"
                 class="btn"
@@ -47,14 +47,14 @@
         </button>
       </div>
     </div>
-    <div class="row">
-      <div class="col-3">
+    <div class="row mb-12">
+      <div class="col-md-3">
         <div class="form-group">
           <label class="form-text text-left">Folio {{settlementInvoiceDT0.type}}</label>
           <input class="form-control" formControlName="folioDocument"/>
         </div>
       </div>
-     <div class="col-3">
+      <div class="col-md-3">
        <div class="form-group">
          <label class="form-text text-left">Fecha</label>
          <mat-form-field class="form-control">
@@ -63,14 +63,14 @@
            <mat-datepicker #dateDocumentHTML></mat-datepicker>
          </mat-form-field>
        </div>
-     </div>
-      <div class="col-3">
+      </div>
+      <div class="col-md-3">
         <div class="form-group">
           <label class="form-text text-left">UUID</label>
           <input class="form-control" formControlName="uuidDocument"/>
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-md-3">
         <div class="form-group">
           <label class="form-text text-left">Origen Documento</label>
           <select formControlName="origenDocument" class="browser-default custom-select">
@@ -80,123 +80,145 @@
         </div>
       </div>
     </div>
-    <div class="row mb-4">
-      <div class="form-group">
-        <mat-form-field>
-          <mat-label>Sistemas</mat-label>
-          <mat-select class="form-control" formControlName="sys" [(ngModel)]="idSys" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.sys.errors }">
-            <mat-option class="form-control" *ngFor="let option of systems" [value]="option.id">
-              {{option.code}}
-            </mat-option>
-          </mat-select>
-          <div *ngIf="submitted && invoiceForm.controls.sys.errors" style="color:red">
-            <div *ngIf="invoiceForm.controls.sys.errors.required">Requerido</div>
-          </div>
-        </mat-form-field>
+    <div class="row mb-12">
+      <div class="col-md-3">
+        <div class="form-group">
+          <mat-form-field>
+            <mat-label>Sistemas</mat-label>
+            <mat-select class="form-control" formControlName="sys" [(ngModel)]="idSys" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.sys.errors }">
+              <mat-option class="form-control" *ngFor="let option of systems" [value]="option.id">
+                {{option.code}}
+              </mat-option>
+            </mat-select>
+            <div *ngIf="submitted && invoiceForm.controls.sys.errors" style="color:red">
+              <div *ngIf="invoiceForm.controls.sys.errors.required">Requerido</div>
+            </div>
+          </mat-form-field>
+        </div>
       </div>
-      <div class="form-group">
-        <mat-form-field>
-          <mat-label>Sucursal</mat-label>
-          <mat-select class="form-control" formControlName="plantBranchOffice" [(ngModel)]="idPlantBranchOffice" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.plantBranchOffice.errors }">
-            <mat-option class="form-control" *ngFor="let option of plantSelected.plantBranches" [value]="option.id">
-              {{option.name}}
-            </mat-option>
-          </mat-select>
-          <div *ngIf="submitted && invoiceForm.controls.plantBranchOffice.errors" style="color:red">
-            <div *ngIf="invoiceForm.controls.plantBranchOffice.errors.required">Requerido</div>
-          </div>
-        </mat-form-field>
+      <div class="col-md-3">
+        <div class="form-group">
+          <mat-form-field>
+            <mat-label>Sucursal</mat-label>
+            <mat-select class="form-control" formControlName="plantBranchOffice" [(ngModel)]="idPlantBranchOffice" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.plantBranchOffice.errors }">
+              <mat-option class="form-control" *ngFor="let option of plantSelected.plantBranches" [value]="option.id">
+                {{option.name}}
+              </mat-option>
+            </mat-select>
+            <div *ngIf="submitted && invoiceForm.controls.plantBranchOffice.errors" style="color:red">
+              <div *ngIf="invoiceForm.controls.plantBranchOffice.errors.required">Requerido</div>
+            </div>
+          </mat-form-field>
+        </div>
       </div>
-      <div class="form-group">
-        <mat-form-field>
-          <mat-label>Cliente</mat-label>
-          <mat-select class="form-control" formControlName="client" [(ngModel)]="idClient" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.client.errors }">
-            <mat-option class="form-control" *ngFor="let option of clients" [value]="option.id">
-              {{option.tradename}}
-            </mat-option>
-          </mat-select>
-          <div *ngIf="submitted && invoiceForm.controls.client.errors" style="color:red">
-            <div *ngIf="invoiceForm.controls.client.errors.required">Requerido</div>
-          </div>
-        </mat-form-field>
+      <div class="col-md-3">
+        <div class="form-group">
+          <mat-form-field>
+            <mat-label>Cliente</mat-label>
+            <mat-select class="form-control" formControlName="client" [(ngModel)]="idClient" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.client.errors }">
+              <mat-option class="form-control" *ngFor="let option of clients" [value]="option.id">
+                {{option.tradename}}
+              </mat-option>
+            </mat-select>
+            <div *ngIf="submitted && invoiceForm.controls.client.errors" style="color:red">
+              <div *ngIf="invoiceForm.controls.client.errors.required">Requerido</div>
+            </div>
+          </mat-form-field>
+        </div>
       </div>
-    </div>
-    <div class="row mb-4">
-      <div class="form-group">
-        <label class="form-text text-left">Fecha de Operación</label>
-        <mat-form-field class="form-control">
-          <input matInput  [matDatepicker]="dateOperationHTML" [(ngModel)]="dateOperation" [ngModelOptions]="{standalone: true}" (dateChange)="dateChange($event)">
-          <mat-datepicker-toggle matSuffix [for]="dateOperationHTML"></mat-datepicker-toggle>
-          <mat-datepicker #dateOperationHTML></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <label class="form-text text-left">FUECD</label>
-        <input class="form-control" formControlName="fuecd"/>
-      </div>
-      <div class="form-group">
-        <label class="form-text text-left">fuf</label>
-        <input class="form-control" formControlName="fuf"/>
-      </div>
-      <div class="form-group">
-        <label class="form-text text-left">Fecha limite de pago</label>
-        <mat-form-field class="form-control">
-          <input matInput  [matDatepicker]="dateLimitPayHTML" [(ngModel)]="datePayLimit" [ngModelOptions]="{standalone: true}" (dateChange)="dateChange($event)">
-          <mat-datepicker-toggle matSuffix [for]="dateLimitPayHTML"></mat-datepicker-toggle>
-          <mat-datepicker #dateLimitPayHTML></mat-datepicker>
-        </mat-form-field>
+      <div class="col-md-3">
+        <div class="form-group">
+          <mat-form-field>
+            <mat-label>Fecha de Operación</mat-label>
+            <input matInput  [matDatepicker]="dateOperationHTML" [(ngModel)]="dateOperation" [ngModelOptions]="{standalone: true}" (dateChange)="dateChange($event)">
+            <mat-datepicker-toggle matSuffix [for]="dateOperationHTML"></mat-datepicker-toggle>
+            <mat-datepicker #dateOperationHTML></mat-datepicker>
+          </mat-form-field>
+        </div>
       </div>
     </div>
-    <div class="row mb-4">
-      <div class="form-group">
-        <mat-form-field>
-          <mat-label>Moneda</mat-label>
-          <mat-select class="form-control" formControlName="money" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.money.errors }">
-            <mat-option class="form-control" *ngFor="let option of moneys" [value]="option.id">
-              {{option.code}}
-            </mat-option>
-          </mat-select>
-          <div *ngIf="submitted && invoiceForm.controls.money.errors" style="color:red">
-            <div *ngIf="invoiceForm.controls.money.errors.required">Requerido</div>
+    <div class="row mb-12">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="form-text text-left">FUECD</label>
+            <input class="form-control" formControlName="fuecd"/>
           </div>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <label class="form-text text-left">Tipo de Cambio</label>
-        <input class="form-control" formControlName="typeChange"/>
-      </div>
-      <div class="form-group">
-        <mat-form-field>
-          <mat-label>Uso CFDI</mat-label>
-          <mat-select class="form-control" formControlName="useCfdi" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.useCfdi.errors }">
-            <mat-option class="form-control" *ngFor="let option of usesCfdi" [value]="option.id">
-              {{option.name}}
-            </mat-option>
-          </mat-select>
-          <div *ngIf="submitted && invoiceForm.controls.useCfdi.errors" style="color:red">
-            <div *ngIf="invoiceForm.controls.useCfdi.errors.required">Requerido</div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="form-text text-left">fuf</label>
+            <input class="form-control" formControlName="fuf"/>
           </div>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field>
-          <mat-label>Metodo de Pago</mat-label>
-          <mat-select class="form-control" formControlName="paymentMethod" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.paymentMethod.errors }">
-            <mat-option class="form-control" *ngFor="let option of paymentMethods" [value]="option.id">
-              {{option.code}}
-            </mat-option>
-          </mat-select>
-          <div *ngIf="submitted && invoiceForm.controls.paymentMethod.errors" style="color:red">
-            <div *ngIf="invoiceForm.controls.paymentMethod.errors.required">Requerido</div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="form-text text-left">Fecha limite de pago</label>
+            <mat-form-field class="form-control">
+              <input matInput  [matDatepicker]="dateLimitPayHTML" [(ngModel)]="datePayLimit" [ngModelOptions]="{standalone: true}" (dateChange)="dateChange($event)">
+              <mat-datepicker-toggle matSuffix [for]="dateLimitPayHTML"></mat-datepicker-toggle>
+              <mat-datepicker #dateLimitPayHTML></mat-datepicker>
+            </mat-form-field>
           </div>
-        </mat-form-field>
+        </div>
+    </div>
+    <div class="row mb-12">
+      <div class="col-mb-3">
+        <div class="form-group">
+          <mat-form-field>
+            <mat-label>Moneda</mat-label>
+            <mat-select class="form-control" formControlName="money" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.money.errors }">
+              <mat-option class="form-control" *ngFor="let option of moneys" [value]="option.id">
+                {{option.code}}
+              </mat-option>
+            </mat-select>
+            <div *ngIf="submitted && invoiceForm.controls.money.errors" style="color:red">
+              <div *ngIf="invoiceForm.controls.money.errors.required">Requerido</div>
+            </div>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-mb-3">
+        <div class="form-group">
+          <label>Tipo de Cambio</label>
+          <input class="form-control" formControlName="typeChange"/>
+        </div>
+      </div>
+      <div class="col-mb-3">
+        <div class="form-group">
+          <mat-form-field>
+            <mat-label>Uso CFDI</mat-label>
+            <mat-select class="form-control" formControlName="useCfdi" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.useCfdi.errors }">
+              <mat-option class="form-control" *ngFor="let option of usesCfdi" [value]="option.id">
+                {{option.name}}
+              </mat-option>
+            </mat-select>
+            <div *ngIf="submitted && invoiceForm.controls.useCfdi.errors" style="color:red">
+              <div *ngIf="invoiceForm.controls.useCfdi.errors.required">Requerido</div>
+            </div>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-mb-3">
+        <div class="form-group">
+          <mat-form-field>
+            <mat-label>Metodo de Pago</mat-label>
+            <mat-select class="form-control" formControlName="paymentMethod" [ngModel]="idPaymentMethod" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.paymentMethod.errors }">
+              <mat-option class="form-control" *ngFor="let option of paymentMethods" [value]="option.id">
+                {{option.code}}
+              </mat-option>
+            </mat-select>
+            <div *ngIf="submitted && invoiceForm.controls.paymentMethod.errors" style="color:red">
+              <div *ngIf="invoiceForm.controls.paymentMethod.errors.required">Requerido</div>
+            </div>
+          </mat-form-field>
+        </div>
       </div>
     </div>
     <div class="row mb-4">
       <div class="form-group">
         <mat-form-field>
           <mat-label>Forma de Pago</mat-label>
-          <mat-select class="form-control" formControlName="paymentWay" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.paymentWay.errors }">
+          <mat-select class="form-control" formControlName="paymentWay" [ngModel]="idPaymentWay" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.paymentWay.errors }">
             <mat-option class="form-control" *ngFor="let option of paymentWays" [value]="option.id">
               {{option.name}}
             </mat-option>
@@ -209,7 +231,7 @@
       <div class="form-group">
       <mat-form-field>
         <mat-label>Condiciones de Pago</mat-label>
-        <mat-select class="form-control" formControlName="paymentCondition" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.paymentCondition.errors }">
+        <mat-select class="form-control" formControlName="paymentCondition" [ngModel]="idPaymentCondition" [ngClass]="{ 'is-invalid': submitted && invoiceForm.controls.paymentCondition.errors }">
           <mat-option class="form-control" *ngFor="let option of paymentConditions" [value]="option.id">
             {{option.code}}
           </mat-option>

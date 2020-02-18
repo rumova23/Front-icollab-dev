@@ -54,6 +54,9 @@ export class PreDocumentComponent implements OnInit {
   idSys: number;
   idPlantBranchOffice: number;
   idClient: number;
+  idPaymentCondition: number;
+  idPaymentWay: number;
+  idPaymentMethod: number;
   dateDocument: Date;
   dateOperation: Date;
   datePayLimit: Date;
@@ -251,23 +254,14 @@ export class PreDocumentComponent implements OnInit {
     getClient(id) {
         this.marketService.getClient(id)
             .subscribe(
-                data => {
+                (data: Client) => {
                     this.clientSelected = data;
-                    this.invoiceForm.controls['paymentCondition'].setValue(
-                        this.paymentConditions.filter(entity =>
-                            entity.id === this.clientSelected.idPaymentCondition)[0]
-                    );
-                    this.invoiceForm.controls['paymentWay'].setValue(
-                        this.paymentWays.filter(entity =>
-                            entity.id === this.clientSelected.idPaymentWay)[0]
-                    );
+                    this.idPaymentCondition = this.clientSelected.idPaymentCondition;
+                    this.idPaymentWay = this.clientSelected.idPaymentWay;
+                    this.idPaymentMethod = this.clientSelected.fiscalData.idPaymentMethod;
                     // SortUtils.sortByProperty(this.clientSelected.clientAccounts, 'id', 'DESC');
                     this.invoiceForm.controls['account'].setValue(
                         this.clientSelected.clientAccounts[0].account
-                    );
-                    this.invoiceForm.controls['paymentMethod'].setValue(
-                        this.paymentWays.filter(entity =>
-                            entity.id === this.clientSelected.fiscalData.idPaymentMethod)[0]
                     );
                     this.loadMoneys();
                 },
@@ -285,6 +279,7 @@ export class PreDocumentComponent implements OnInit {
   }
 
     save(value) {
+      /*
         if (!Validate(this.invoiceProducts)
             || this.invoiceProducts.length === 0) {
             this.toastr.errorToastr("Los productos de la factura no pueden ser vacíos",
@@ -323,5 +318,7 @@ export class PreDocumentComponent implements OnInit {
                 errorData => {
                     this.toastr.errorToastr(Constants.ERROR_SAVE, 'Facturas');
                 });
+
+       */
     }
 }
