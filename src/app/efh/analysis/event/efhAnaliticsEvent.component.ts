@@ -172,7 +172,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
                           switch (element.idtypeindicator) {
                               case 1: this.COSTO_EFHi = element.value;
                                       break;
-                              case 2: this.FF = element.value;
+                              case 2: this.FF_GAS = element.value;
                                       break;
                               case 3: this.MAX_LOAD = element.value;
                                       break;
@@ -389,7 +389,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
         }
 
         if (event.idTypeEvent === 956 || event.idTypeEvent === 4955) {
-            eventEndTime = new Date(event.dateInit);
+            eventEndTime = new Date(event.dateEnd);
             duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
             startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
             stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');

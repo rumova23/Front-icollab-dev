@@ -33,7 +33,7 @@
           <div>Requerido</div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3" *ngIf="isWithFuel">
         <div class="form-group">
           <small class="form-text text-muted text-left">Tipo de combustible:</small>
           <mat-select class="form-control" formControlName="fuelTypeControl" [(value)]="selectedFuelType">

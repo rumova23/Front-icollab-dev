@@ -40,6 +40,7 @@ export class EfhEditIndicatorComponent implements OnInit {
   currentYear = new Date().getFullYear();
   initDate = (this.currentYear - 1) + '-01-01';
   typeDocuments = ['Documentos'];
+  idFuelType;
 
   isShotSectionVisible = false;
   isStartSectionVisible = false;
@@ -55,6 +56,7 @@ export class EfhEditIndicatorComponent implements OnInit {
   stopDatesValidation = false;
   chargeValidation = false;
   charge2Validation = false;
+  isWithFuel = false;
 
   isInputsControlsEnabled = true;
   isDefaultControlsEnabled = true;
@@ -129,6 +131,11 @@ export class EfhEditIndicatorComponent implements OnInit {
     this.fuelTypesArr = this.indicatorType.fuelTypesArr.filter(fuel => fuel.active);
     this.fuelTypesArr.sort((a, b) => a.name.localeCompare(b.name));
     this.fuelTypesForSelect = this.fuelTypesArr;
+    for (let fuelType of this.fuelTypesArr) {
+      if(fuelType.name.trim() === 'SIN COMBUSTIBLE'){
+        this.idFuelType = fuelType.id;
+      }
+    }
 
     this.selectedIndicatorType = undefined;
     this.selectedUnit = undefined;
@@ -156,7 +163,6 @@ export class EfhEditIndicatorComponent implements OnInit {
 
     if (this.accion === 'editar' || this.accion === 'ver') {
       this.resetSections();
-      debugger;
 
       switch (this.seccion) {
         case 'COSTO EFHI$': this.inputsControlsEnabled(this.accion === 'ver' ? false : true);
@@ -164,24 +170,28 @@ export class EfhEditIndicatorComponent implements OnInit {
           this.isInputSectionVisible = true;
           this.isEfhiSelected = true;
           this.isDefaultSectionsVisible = true;
+          this.isWithFuel = true;
           break;
         case 'FACTOR EQUIVALENTE DE COMBUSTIBLE': this.withFuelControlsEnabled(this.accion === 'ver' ? false : true);
           this.defaultConstrolsEnabled(this.accion === 'ver' ? false : true);
           this.isInputSectionVisible = true;
           this.isEqFuelFactorSelected = true;
           this.isDefaultSectionsVisible = true;
+          this.isWithFuel = true;
           break;
         case 'FACTOR EQUIVALENTE SIN COMBUSTIBLE': this.withOutfuelControlsEnabled(this.accion === 'ver' ? false : true);
           this.defaultConstrolsEnabled(this.accion === 'ver' ? false : true);
           this.isInputSectionVisible = true;
           this.isEqWithOutFuelFactorSelected = true;
           this.isDefaultSectionsVisible = true;
+          this.isWithFuel = true;
           break;
         case 'MÁXIMA CARGA': this.maxiumLoadControlsEnabled(this.accion === 'ver' ? false : true);
           this.defaultConstrolsEnabled(this.accion === 'ver' ? false : true);
           this.isInputSectionVisible = true;
           this.isMaxiumLoadSelected = true;
           this.isDefaultSectionsVisible = true;
+          this.isWithFuel = true;
           break;
       }
       this.obtenerDatosConfiguracionIndicator(true, this.indicatorType.id);
@@ -215,7 +225,17 @@ export class EfhEditIndicatorComponent implements OnInit {
                         this.indicatorForm.controls['timeEndApplication'].setValue(this.timeEndApplication);
                         this.indicatorForm.controls['efhiCost'].setValue(this.efhiCost);
                         break;
-                      case 2:
+                      case 2: this.dateStartApplication = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
+                        this.timeStartApplication = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'HH:mm:ss');
+                        this.dateEndApplication = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
+                        this.timeEndApplication = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'HH:mm:ss');
+                        this.equivalenFuelFactor = element.value;
+                        this.indicatorForm.controls['dateStartApplication'].setValue(this.dateStartApplication)
+                        this.indicatorForm.controls['timeStartApplication'].setValue(this.timeStartApplication);
+                        this.indicatorForm.controls['dateEndApplication'].setValue(this.dateEndApplication);
+                        this.indicatorForm.controls['timeEndApplication'].setValue(this.timeEndApplication);
+                        this.indicatorForm.controls['equivalenFuelFactor'].setValue(this.equivalenFuelFactor);
+                        break;
                       case 4: this.dateStartApplication = this.datePipe.transform(new Date(element.dateinit) , 'yyyy-MM-dd');
                         this.timeStartApplication = this.datePipe.transform(new Date(element.dateinit) , 'HH:mm:ss');
                         this.dateEndApplication = this.datePipe.transform(new Date(element.dateend) , 'yyyy-MM-dd');
@@ -262,8 +282,14 @@ export class EfhEditIndicatorComponent implements OnInit {
                     this.dataSubmit['idtypeindicator'] = this.indicatorForm.controls['indicatorTypeControl'].value;
                   }
 
-                  if (this.indicatorForm.controls['fuelTypeControl'].value === null) {
+                  if(this.indicatorForm.controls['fuelTypeControl'].value === null && this.isWithFuel) {
                     this.dataSubmit['idtypefuel'] = this.selectedFuelType;
+                  }
+                  if (this.indicatorForm.controls['fuelTypeControl'].value === null && !this.isWithFuel) {
+                    this.dataSubmit['idtypefuel'] = this.selectedFuelType;
+                  }
+                  if(this.indicatorForm.controls['fuelTypeControl'].value != null && !this.isWithFuel) {
+                    this.dataSubmit['idtypefuel'] = this.idFuelType;
                   } else {
                     this.dataSubmit['idtypefuel'] = this.indicatorForm.controls['fuelTypeControl'].value;
                   }
@@ -323,13 +349,13 @@ export class EfhEditIndicatorComponent implements OnInit {
                           dataBack => {
 
                             if (dataBack['code'] === -100) {
-                              this.toastr.errorToastr('No es posible actualizar, existe un evento activo que se empalma', 'Lo siento,');
+                              this.toastr.errorToastr('No es posible actualizar, existe un indicador activo que se empalma', 'Lo siento,');
                             } else {
                               if (this.accion === 'nuevo') {
-                                this.toastr.successToastr('El evento fue creada con éxito.', '¡Se ha logrado!');
+                                this.toastr.successToastr('El indicador fue creado con éxito.', '¡Se ha logrado!');
                               }
                               if (this.accion === 'editar') {
-                                this.toastr.successToastr('El evento fue actualizado con éxito.', '¡Se ha logrado!');
+                                this.toastr.successToastr('El indicador fue actualizado con éxito.', '¡Se ha logrado!');
                               }
 
                               if (this.isInputSectionVisible && this.isEqFuelFactorSelected) {
@@ -360,8 +386,12 @@ export class EfhEditIndicatorComponent implements OnInit {
               }
           );
     } else {
+      if(this.isWithFuel) {
+        this.dataSubmit['idtypefuel'] = this.indicatorForm.controls['fuelTypeControl'].value;
+      } else {
+        this.dataSubmit['idtypefuel'] = this.idFuelType;
+      }
       this.dataSubmit['idtypeindicator'] = this.indicatorForm.controls['indicatorTypeControl'].value;
-      this.dataSubmit['idtypefuel'] = this.indicatorForm.controls['fuelTypeControl'].value;
       this.dataSubmit['idunit'] = this.indicatorForm.controls['unitControl'].value;
       this.dataSubmit['description'] = this.indicatorForm.controls['description'].value;
       this.dataSubmit['active'] = this.checkedEstatus;
@@ -403,7 +433,6 @@ export class EfhEditIndicatorComponent implements OnInit {
       if (this.accion === 'nuevo') {
         this.dataSubmit['save'] = true;
       }
-
       this.efhService.setIndicator(this.dataSubmit)
           .subscribe(
               dataBack => {
@@ -452,25 +481,35 @@ export class EfhEditIndicatorComponent implements OnInit {
         this.isInputSectionVisible = true;
         this.isDefaultSectionsVisible = true;
         this.isEfhiSelected = true;
+        this.isWithFuel = true;
         break;
-      case 2:
+      case 2: this.withFuelControlsEnabled(true);
+        this.defaultConstrolsEnabled(true);
+        this.isInputSectionVisible = true;
+        this.isDefaultSectionsVisible = true;
+        this.isEqFuelFactorSelected = true;
+        this.isWithFuel = true;
+        break;
       case 4: this.withFuelControlsEnabled(true);
         this.defaultConstrolsEnabled(true);
         this.isInputSectionVisible = true;
         this.isDefaultSectionsVisible = true;
         this.isEqFuelFactorSelected = true;
+        this.isWithFuel = true;
         break;
       case 5: this.withOutfuelControlsEnabled(true);
         this.defaultConstrolsEnabled(true);
         this.isInputSectionVisible = true;
         this.isDefaultSectionsVisible = true;
         this.isEqWithOutFuelFactorSelected = true;
+        this.isWithFuel = false;
         break;
       case 3: this.maxiumLoadControlsEnabled(true);
         this.defaultConstrolsEnabled(true);
         this.isInputSectionVisible = true;
         this.isDefaultSectionsVisible = true;
         this.isMaxiumLoadSelected = true;
+        this.isWithFuel = true;
         break;
     }
   }
@@ -482,6 +521,7 @@ export class EfhEditIndicatorComponent implements OnInit {
     this.isEqFuelFactorSelected = false;
     this.isEqWithOutFuelFactorSelected = false;
     this.isMaxiumLoadSelected = false;
+    this.isWithFuel = false;
     this.inputsControlsEnabled(false);
     this.defaultConstrolsEnabled(false);
     this.maxiumLoadControlsEnabled(false);
@@ -491,20 +531,6 @@ export class EfhEditIndicatorComponent implements OnInit {
 
   onSubmit() {
     this.submittedData = true;
-    /*if ((this.isInputSectionVisible && this.indicatorForm.controls['dateStartApplication'].invalid)
-        || (this.isInputSectionVisible && this.indicatorForm.controls['timeStartApplication'].invalid)
-        || (this.isInputSectionVisible && this.indicatorForm.controls['dateEndApplication'].invalid)
-        || (this.isInputSectionVisible && this.indicatorForm.controls['timeEndApplication'].invalid)
-        || (this.isEqFuelFactorSelected && this.indicatorForm.controls['equivalenFuelFactor'].invalid)
-        || (this.isEqWithOutFuelFactorSelected && this.indicatorForm.controls['equivalenWithOutFuelFactor'].invalid)
-        || (this.isMaxiumLoadSelected && this.indicatorForm.controls['maxiumLoad'].invalid)
-        || (this.isEfhiSelected && this.indicatorForm.controls['efhiCost'].invalid)
-        || this.indicatorForm.controls['description'].invalid
-        || (this.selectedUnit === undefined || this.selectedUnit === null)
-        || (this.selectedFuelType === undefined || this.selectedFuelType === null)) {
-      this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Lo siento,');
-      return;
-    } */
 
     if ((this.isInputSectionVisible && this.indicatorForm.controls['dateStartApplication'].invalid)
         || (this.isInputSectionVisible && this.indicatorForm.controls['timeStartApplication'].invalid)
@@ -514,7 +540,7 @@ export class EfhEditIndicatorComponent implements OnInit {
         || (this.isEfhiSelected && this.indicatorForm.controls['efhiCost'].invalid)
         || this.indicatorForm.controls['description'].invalid
         || (this.selectedUnit === undefined || this.selectedUnit === null)
-        || (this.selectedFuelType === undefined || this.selectedFuelType === null)) {
+        || (this.selectedFuelType === undefined && this.isWithFuel || this.selectedFuelType === null && this.isWithFuel)) {
       this.toastr.errorToastr('Verifique los campos.', 'Lo siento,');
       return;
     }
