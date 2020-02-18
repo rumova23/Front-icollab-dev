@@ -35,11 +35,13 @@ import { GateModule                } from 'src/app/gate/gate.module';
 import { BitsModule                } from 'src/app/bits/bits.module';
 import { EfhModule				   } from './efh/efh.module';
 /* ./Modules */
-import  localePy                     from '@angular/common/locales/es-MX';
+//import  localePy                     from '@angular/common/locales/es-MX';
 import { TranslateService } from '@ngx-translate/core';
+import localeEsMx from '@angular/common/locales/es-MX';
 
 
-registerLocaleData(localePy, 'es');
+//registerLocaleData(localePy, 'es');
+registerLocaleData(localeEsMx,'es-MX');
 @NgModule({
 	declarations: [
 		 AppComponent
@@ -77,7 +79,8 @@ registerLocaleData(localePy, 'es');
 			},
 			deps: [TranslateService]
 		},
-		{ provide: LOCALE_ID, useValue: 'es' }
+		//{ provide: LOCALE_ID, useValue: 'es' }
+		{ provide: LOCALE_ID, useValue: 'es-MX' },
 	],
 	entryComponents: [],
 	bootstrap: [AppComponent]
