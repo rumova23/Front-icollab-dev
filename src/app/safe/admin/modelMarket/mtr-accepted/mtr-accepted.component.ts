@@ -37,7 +37,7 @@ export class MtrAcceptedComponent implements OnInit {
   file: any;
   fileName: any;
   valid = false;
-
+  selectedElement;
   constructor(
       public globalService: GlobalService,
       private marketService: MarketService,

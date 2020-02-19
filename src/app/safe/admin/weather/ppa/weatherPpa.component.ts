@@ -34,7 +34,7 @@ export class WeatherPpaComponent implements OnInit {
   hour = 0;
   config: any;
   typeVarhtml = '1';
-  selectedElement: WeatherPpa | null;
+  selectedElement;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

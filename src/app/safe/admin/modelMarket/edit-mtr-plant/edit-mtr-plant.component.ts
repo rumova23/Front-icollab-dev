@@ -33,7 +33,7 @@ export class EditMtrPlantComponent implements OnInit {
   modelMarketForm: FormGroup;
   hour = 0;
   dateDespatch  = '';
-
+  selectedElement;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   constructor(private marketService: MarketService,
@@ -191,6 +191,7 @@ export class EditMtrPlantComponent implements OnInit {
   }
 
   editModelMarket(energy) {
+    this.selectedElement = energy;
     this.modelMarketForm.reset();
     this.hour = energy.hour;
     console.log(this.hour);

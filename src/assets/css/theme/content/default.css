@@ -5,12 +5,6 @@
 .sidebar_item{
     color:#000000 !important;
 }
-
-.sidebar_item:hover, .sidebar_item.itemActive{
-    background-color : #cfd8dc!important;
-    color            : Black!important;
-}
-
 .section{
     background: #ffffff;
     border-radius: 6px;
