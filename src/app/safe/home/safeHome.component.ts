@@ -573,7 +573,7 @@ export class SafeHomeComponent implements OnInit {
 			this.viewContainerRef.createComponent(factoryProductsEdit);
 			refProductsEdit.instance.entity = event.data;
 			if (Validate(event.data.product)) {
-			// refProductsEdit.instance.idProduct = event.data.product.id;
+			 	refProductsEdit.instance.idProduct = event.data.product.id;
 			}
 			refProductsEdit.changeDetectorRef.detectChanges();
 			break;
