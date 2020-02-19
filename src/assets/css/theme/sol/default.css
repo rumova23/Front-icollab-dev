@@ -7,3 +7,7 @@
     background:#D67700;
     color:#ffffff;
 }
+
+.mat-selected-row{
+    background: #ccc !important; 
+}

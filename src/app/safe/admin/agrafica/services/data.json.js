@@ -47,7 +47,7 @@ export const data_graficaDosa = [
         backgroundColor:'rgba(242, 203, 5,  1)',
         borderColor:'rgba(242, 203, 5,  1)',
         fill : false,
-        label:"Con F4",
+        label:"Con F4 Garantizado",
         data:[
             ,{x:0,      y: 577.3159982}
             ,{x:5,      y: 577.3159982}
@@ -91,7 +91,7 @@ export const data_graficaDosa = [
     {
         backgroundColor:'rgba(75, 192, 192, 0.3)',
         borderColor:'rgba(75, 192, 192, 1)',
-        label:"Capacidad Excedente (MW) sin F4",
+        label:"Capacidad Excedente (MW) actual F4",
         fill: true,
         pointHitRadius: 0,
         data:[

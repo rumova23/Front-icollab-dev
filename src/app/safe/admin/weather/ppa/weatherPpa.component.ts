@@ -34,6 +34,7 @@ export class WeatherPpaComponent implements OnInit {
   hour = 0;
   config: any;
   typeVarhtml = '1';
+  selectedElement: WeatherPpa | null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -67,7 +68,6 @@ export class WeatherPpaComponent implements OnInit {
     // this.loadData();
     this.getConfigWeather();
   }
-
   private loadData() {
     this.marketService.listWeather(this.date.getTime())
       .subscribe(
@@ -111,6 +111,7 @@ export class WeatherPpaComponent implements OnInit {
   }
 
   editWeather(weather) {
+    this.selectedElement = weather;
     this.weatherForm.reset();
     this.hour = weather.hour;
 
