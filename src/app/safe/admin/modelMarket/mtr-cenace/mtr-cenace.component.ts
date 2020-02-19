@@ -230,6 +230,7 @@ export class MtrCenaceComponent implements OnInit {
   }
 
   obtieneObservaciones() {
+    if(! this.date) return;
     this.marketService.getComentariosPlanningMtrCenace(this.date.getTime()).subscribe(
         data => {
           data.forEach(comenta => {
