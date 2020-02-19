@@ -1,9 +1,9 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { GlobalService          } from 'src/app/core/globals/global.service';
 import { ThemeService           } from 'src/app/core/globals/theme';
-import { GraficaDosaService     } from 'src/app/monitoring/boards/demo-grafica-dos/service/grafica-dosa.service';
 import { Chart                  } from 'chart.js';
 import { Subscription           } from 'rxjs';
+import { SafeagraficaService } from './services/safeagrafica.service';
 
 @Component({
 	selector    : 'app-agrafica',
@@ -18,7 +18,7 @@ export class AgraficaComponent implements OnInit {
 	constructor(
 		public globalService: GlobalService,
 		public theme: ThemeService,
-		private graficaDosaService: GraficaDosaService) { }
+		private graficaDosaService: SafeagraficaService) { }
 
 	ngOnDestroy() {
 		for (const iterator in this.subscriptions) {
@@ -30,9 +30,7 @@ export class AgraficaComponent implements OnInit {
 			this.graficaDosaService.getData().subscribe(
 				(data: any[]) => {
 					data.map(x => {
-						x.fill = false;
-						x.borderColor = x.backgroundColor;
-						x.borderWidth = 1;
+						x.borderWidth = 2;
 						return x;
 					});
 					this.charts['canvas1'] = new Chart(
@@ -43,11 +41,23 @@ export class AgraficaComponent implements OnInit {
 			)
 		);
 	}
+	financial(x) {
+		return +Number.parseFloat(x).toFixed(1);
+	  }
 	chartCreateConfigDemo(data: any[]) {
+		let j:number = 0;
+		let labels = [0];
+
+		for (let index = 0; index < 501; index++) {
+			j += 0.1;
+			j = this.financial(j);
+			labels.push(j);
+		}
 		return {
 			type: 'line',
 			data: {
-				labels: new Array(data[0].data.length).fill(0).map((_valor, indice) => indice),
+//				labels: new Array(12).fill(0).map((_valor, indice) => indice),
+				labels: labels,
 				datasets: data
 			},
 			options: {
@@ -56,18 +66,18 @@ export class AgraficaComponent implements OnInit {
 				scales: {
 					yAxes: [
 						{
-							ticks: { min: 0, max: 500 },
+							ticks: { min: 460, max: 580, stepSize: 2},
 							type: 'linear',
 							display: true,
 							position: 'left',
 							id: 'y-axis-1',
 						},
-
+						
 						{
-							ticks: { min: 0, max: 50 },
+							ticks: { min: 0, max: 60 , stepSize: 1},
 							type: 'linear',
 							display: true,
-							position: 'left',
+							position: 'right',
 							id: 'y-axis-2',
 						}
 					]

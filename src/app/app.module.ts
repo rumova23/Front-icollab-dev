@@ -36,8 +36,8 @@ import { BitsModule                } from 'src/app/bits/bits.module';
 import { EfhModule				   } from './efh/efh.module';
 /* ./Modules */
 //import  localePy                     from '@angular/common/locales/es-MX';
-import { TranslateService } from '@ngx-translate/core';
 import localeEsMx from '@angular/common/locales/es-MX';
+import { TranslateService } from '@ngx-translate/core';
 
 
 //registerLocaleData(localePy, 'es');

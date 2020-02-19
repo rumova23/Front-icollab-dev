@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MonitoringChartTR } from '../../../monitoring/class/monitoringChartTR.component';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { ThemeService } from 'src/app/core/globals/theme';
-import { GraficaDosaService } from 'src/app/monitoring/boards/demo-grafica-dos/service/grafica-dosa.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { SocketService } from 'src/app/core/services/socket.service';
 import { MonitoringTrService } from 'src/app/monitoring/services/monitoringTr.service';
@@ -40,7 +39,6 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 	constructor(
 		public globalService: GlobalService,
 		public theme: ThemeService,
-		private graficaDosaService: GraficaDosaService,
 		private henryhubService: HenryhubService,
 		
 		public  securityService    : SecurityService,

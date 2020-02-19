@@ -15,7 +15,6 @@ import { MonitoringPhase2Component           } from './boards/phase2/monitoring-
 import { MonitoringPhase3Component           } from './boards/phase3/monitoring-phase3.component';
 import { InteractiveImageTurbineCT1Component } from './boards/phase3/components/interactive-image-turbine-ct1/interactive-image-turbine-ct1.component';
 import { MonitoringMmMarketComponent         } from './boards/mmMarket/monitoringMmMarket.component';
-import { DemoGraficaDosComponent } from './boards/demo-grafica-dos/demo-grafica-dos.component';
 import { Phase2v1Component } from './boards/phase2v1/phase2v1.component';
 import {GaugesModule} from 'ng-canvas-gauges';
 import { Phase2v2Component } from './boards/phase2v2/phase2v2.component';
@@ -31,7 +30,6 @@ import { Phase2v2Component } from './boards/phase2v2/phase2v2.component';
         MonitoringBaseSocketOnComponent,
         MonitoringChartTR,
         InteractiveImageTurbineCT1Component,
-        DemoGraficaDosComponent,
         Phase2v1Component,
         Phase2v2Component
     ],
