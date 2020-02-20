@@ -40,16 +40,15 @@
                         </mat-error>
                     </div>
                     <div class="col-12 col-sm-12 col-md-auto">
-                        
+                        <button type="button" class="btn right" (click)="download()">
+                            <i class="ti-cloud-down"></i>
+                            {{'Download' | translate}} {{'Layout' | translate}}
+                        </button>
+                        <br>
                         <button type="submit" class="btn right" [disabled]="!fileUploadForm.valid"
                             style="width: 168px;">
                             <i class="ti-cloud-up"></i>
                             {{'Import' | translate}}
-                        </button>
-                        <br>
-                        <button type="button" class="btn right" (click)="download()">
-                            <i class="ti-cloud-down"></i>
-                            {{'Download' | translate}} {{'Layout' | translate}}
                         </button>
                     </div>
                 </div>

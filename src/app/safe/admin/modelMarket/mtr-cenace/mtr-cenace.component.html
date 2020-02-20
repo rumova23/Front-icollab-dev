@@ -28,14 +28,14 @@
 					</mat-error>
 				</div>
 				<div class="col-12 col-sm-12 col-md-auto">
-					<button type="submit" class="btn" [disabled]="!proposalAcceptedForm.valid" style="width: 168px;">
-						<i class="ti-cloud-up"></i>
-						{{'Import' | translate}}
-					</button>
-					<br>
 					<button type="button" class="btn" (click)="download()">
 						<i class="ti-cloud-down"></i>
 						{{'Download' | translate}} {{'Layout' | translate}}
+					</button>
+					<br>
+					<button type="submit" class="btn" [disabled]="!proposalAcceptedForm.valid" style="width: 168px;">
+						<i class="ti-cloud-up"></i>
+						{{'Import' | translate}}
 					</button>
 				</div>
 			</div>

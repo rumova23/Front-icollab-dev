@@ -15,7 +15,7 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./modelMarket.component.scss']
 })
 export class ModelMarketComponent implements OnInit {
-  title = "Modelo Mercado";
+  title = "Consulta / Edita Planeación MDA";
   data: Array<ModelMarket> = [];
   dataSource;
   cols: any[];

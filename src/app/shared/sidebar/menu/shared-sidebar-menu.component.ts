@@ -79,11 +79,11 @@ export class SharedSidebarMenuComponent {
                     else if (item.label == "MDA" && item.idFather==127) item.order = 3;
                 else if (item.label == "Projection")      item.order = 1;
                     else if (item.label == "MDA" && item.idFather==128)   item.order = 0;
-                        else if (item.label == "Oferta MDA Aceptada EAT") item.order = 0;
+                        else if (item.label == "Oferta MDA Aceptada Participante") item.order = 0;
                         else if (item.label == "Resultados MDA CENACE")   item.order = 1;
                     else if (item.label == "MTR") item.order = 1;
-                        else if (item.label == "Proyeccion MTR EAT") item.order = 0;
-                        else if (item.label == "MTR EAT")            item.order = 1;
+                        else if (item.label == "Proyeccion MTR Participante") item.order = 0;
+                        else if (item.label == "MTR Participante")            item.order = 1;
                         else if (item.label == "MTR CENACE")         item.order = 2;
                 else if (item.label == "Billing")         item.order = 2;
                 else if (item.label == "Analytic")        item.order = 3;
