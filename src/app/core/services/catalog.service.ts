@@ -96,4 +96,9 @@ export class CatalogService {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(environment.catalogUrl + 'status/list/'  +  entity + '/' + option, {params : this.parameters });
   }
+
+  getInvoiceByFUF(fuf: string): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.marketUrl + 'invoice/get/fuf/' + fuf, {params : this.parameters });
+  }
 }

@@ -60,7 +60,7 @@
        <div class="form-group">
          <mat-label >Fecha</mat-label>
          <mat-form-field class="form-control" >
-           <input matInput  [matDatepicker]="dateDocumentHTML" [(ngModel)]="dateDocument" [ngModelOptions]="{standalone: true}" (dateChange)="dateChange($event)">
+           <input matInput  [matDatepicker]="dateDocumentHTML" formControlName="dateDocument" [(ngModel)]="dateDocument" (dateChange)="dateChange($event)">
            <mat-datepicker-toggle matSuffix [for]="dateDocumentHTML"></mat-datepicker-toggle>
            <mat-datepicker #dateDocumentHTML></mat-datepicker>
          </mat-form-field>
@@ -136,7 +136,7 @@
         <div class="form-group">
           <mat-label>Fecha de Operación</mat-label>
           <mat-form-field class="form-control" >
-            <input matInput  [matDatepicker]="dateOperationHTML" [(ngModel)]="dateOperation" [ngModelOptions]="{standalone: true}" (dateChange)="dateChange($event)">
+            <input matInput formControlName="dateOperation"  [matDatepicker]="dateOperationHTML" [(ngModel)]="dateOperation" (dateChange)="dateChange($event)">
             <mat-datepicker-toggle matSuffix [for]="dateOperationHTML"></mat-datepicker-toggle>
             <mat-datepicker #dateOperationHTML></mat-datepicker>
           </mat-form-field>
@@ -154,7 +154,7 @@
       </div>
       <div class="col-md-3">
         <div class="form-group">
-          <mat-label>fuf</mat-label>
+          <mat-label>FUF</mat-label>
           <mat-form-field class="form-control" >
             <input matInput  formControlName="fuf"/>
           </mat-form-field>

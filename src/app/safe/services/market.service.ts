@@ -78,6 +78,11 @@ export class MarketService {
     return this.http.post(environment.fuecdUrl + 'fuecd/save', data, {params : this.parameters });
   }
 
+  changeStatusInvoiseFacturado(idSettlementInvoise: number, invoiseId: number): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(environment.fuecdUrl + 'fuecd/estatus/facturado/' + idSettlementInvoise + '/' + invoiseId, {params : this.parameters });
+  }
+
   aceptaFuecd(fuecd: string, estatus: string): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(environment.fuecdUrl + 'fuecd/changeStatus/' + fuecd + '/' + estatus, {params : this.parameters });
@@ -224,6 +229,16 @@ export class MarketService {
   getClient(idClient: number): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(environment.marketUrl + 'client/get/' + idClient, {params : this.parameters });
+  }
+
+  comboOrigenDocumento() {
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    return this.http.get( `${ environment.mastercatalog }mastercatalog/mastercatalog/Origen Documento`, {params : this.parameters });
+  }
+
+  obtenEntidadEstatus(entidad: string, estatus: string) {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ environment.estatusmaestro }${entidad}/${estatus}`, {params : this.parameters });
   }
 
   getPlant(idPlant): Observable<any> {

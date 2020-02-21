@@ -25,6 +25,9 @@ export class SettlementInvoiceDT0 implements Deserializable  {
     public tipoFuf: string;
     public liquidacion: number;
     public fuecd: string;
+    public isProcedencia: number;
+    public idInvoice: number;
+    public entidadEstatusId: number;
 
     deserialize(input: any) {
         Object.assign(this, input);

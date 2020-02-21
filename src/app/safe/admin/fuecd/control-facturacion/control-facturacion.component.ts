@@ -15,6 +15,7 @@ import {AccountStatusDT0} from '../../../models/account-status-dt0';
 import {ConceptDTO} from '../../../models/concept-dto';
 import {SettlementDT0} from '../../../models/settlement-dt0';
 import {Invoice} from '../../../models/Invoice';
+import {EntidadEstausDTO} from '../../../../compliance/models/entidad-estaus-dto';
 
 @Component({
   selector: 'app-control-facturacion',
@@ -61,14 +62,37 @@ export class ControlFacturacionComponent implements OnInit {
 
   aaaaaa: Array<SettlementInvoiceDT0>;
   bbbbbb: Array<SettlementInvoiceDT0>;
+
+  referenciaNoFacturadaId: number;
+  pendienteFacturacionId: number;
+  facturadoId: number;
+
   constructor(
       private marketService: MarketService,
       private catalogService: CatalogService,
       public toastr: ToastrManager,
       private eventService: EventService,
       public globalService: GlobalService,
-      private fb: FormBuilder
-  ) {
+      private fb: FormBuilder) {
+
+    this.marketService.obtenEntidadEstatus('SETTLEMENT_INVOICE', 'Referencia No Facturada').subscribe(
+        (entidadEstatus: EntidadEstausDTO) => {
+          this.referenciaNoFacturadaId = entidadEstatus.entidadEstatusId;
+        });
+
+    this.marketService.obtenEntidadEstatus('SETTLEMENT_INVOICE', 'Pendiente Facturacion').subscribe(
+        (entidadEstatus: EntidadEstausDTO) => {
+          this.pendienteFacturacionId = entidadEstatus.entidadEstatusId;
+        });
+
+    this.marketService.obtenEntidadEstatus('SETTLEMENT_INVOICE', 'Facturado').subscribe(
+        (entidadEstatus: EntidadEstausDTO) => {
+          this.facturadoId = entidadEstatus.entidadEstatusId;
+        });
+
+    console.log('this.referenciaNoFacturadaId: ' + this.referenciaNoFacturadaId);
+    console.log('this.pendienteFacturacionId: ' + this.pendienteFacturacionId);
+    console.log('this.facturadoId: ' + this.facturadoId);
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
