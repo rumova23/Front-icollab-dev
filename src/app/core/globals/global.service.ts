@@ -72,7 +72,7 @@ export class GlobalService {
 		const user = JSON.parse(localStorage.getItem('user')).username;
 		return si ? new HttpParams().set('X-TENANT-ID', 'aguila').set('user', user) : new HttpParams().set('X-TENANT-ID', 'sol').set('user', user);
 	}
-	setXTenantId_Plant(plantSelectedName: string) {
+	setXTenantId_Plant(plantSelectedName: string = this.plant.name) {
 		const user = JSON.parse(localStorage.getItem('user')).username;
 		return new HttpParams().set('X-TENANT-ID', plantSelectedName.toLowerCase()).set('user', user);
 	}

@@ -6,7 +6,7 @@
 		<mdb-breadcrumb-item>Mercado</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item>Proyección</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item>MDA</mdb-breadcrumb-item>
-		<mdb-breadcrumb-item class="active">Oferta Aceptada EAT</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">Oferta Aceptada Participante</mdb-breadcrumb-item>
 	</mdb-breadcrumb>
 </div>
 <div class="section">
@@ -258,7 +258,7 @@
 
 			<tr mat-header-row *matHeaderRowDef="colsGroup"></tr>
 			<tr mat-header-row *matHeaderRowDef="cols"></tr>
-			<tr mat-row *matRowDef="let row; columns: cols;" [ngClass]="{'make-edit': row.edit === true}"></tr>
+			<tr mat-row *matRowDef="let row; columns: cols;" [class.mat-selected-row]="selectedElement === row"></tr>
 		</table>
 	</div>
 	<div class="row mt-5  justify-content-end">

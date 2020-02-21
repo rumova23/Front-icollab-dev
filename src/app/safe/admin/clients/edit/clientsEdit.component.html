@@ -727,7 +727,21 @@
                         <div class="col-md-auto col-md-6 col-lg-4">
                             <div class="row">
                                 <div class="col-md-{{ in.col || 8 }}">
+                                                            
                                     <div class="form-group">
+                                        <label>{{in.label}}:</label>
+                                        <select class="form-control"
+                                                formControlName="{{in.formControlName}}">
+                                            <option *ngFor="let option of in.options" [value]="option">
+                                                {{
+                                                    option.description != null
+                                                        ? option.description
+                                                        : option.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+            
+                                    <!--div class="form-group">
                                         <label class="form-text text-left">{{in.label}}:</label>
                                         <mat-select class="form-control" formControlName="{{in.formControlName}}">
                                         <mat-option class="form-control" *ngFor="let option of in.options" [value]="option">
@@ -737,7 +751,7 @@
                                                     : option.name
                                             }}</mat-option>
                                         </mat-select>
-                                    </div>
+                                    </div-->
                                 </div>
                                 <div class="col-md-4">
                                     <div

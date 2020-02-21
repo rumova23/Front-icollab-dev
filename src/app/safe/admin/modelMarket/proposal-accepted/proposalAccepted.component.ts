@@ -20,7 +20,7 @@ export class ProposalAcceptedComponent implements OnInit {
   fileName: any;
   valid = false;
   progress;
-
+  selectedElement;
   cols: any[];
   colsGroup: any [];
   dataSource;

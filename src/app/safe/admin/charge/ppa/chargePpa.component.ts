@@ -34,6 +34,7 @@ export class ChargePpaComponent implements OnInit {
   chargeForm: FormGroup;
   hour = 0;
   config: any;
+  selectedElement;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -101,6 +102,7 @@ export class ChargePpaComponent implements OnInit {
   }
 
   editCharge(charge) {
+    this.selectedElement = charge;
     this.chargeForm.reset();
     this.hour = charge.hour;
 

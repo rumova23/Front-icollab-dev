@@ -29,7 +29,7 @@ export class MtrCenaceComponent implements OnInit {
   headObservaciones = ['#', 'Nombre', 'Observaciones', 'Fecha de ultima modificación'];
   observaciones: Array<any>;
   get f() { return this.fileUploadForm.controls; }
-
+  selectedElement;
   cols: any[];
   colsGroup: any [];
   dataSource;
