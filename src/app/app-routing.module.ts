@@ -8,4 +8,4 @@ const routes: Routes = [
 	//{ path: '', component: LoginComponent },
 ];
 
-export const APP_ROUTES = RouterModule.forRoot(routes , {useHash:false });
+export const APP_ROUTES = RouterModule.forRoot(routes , {useHash:true });

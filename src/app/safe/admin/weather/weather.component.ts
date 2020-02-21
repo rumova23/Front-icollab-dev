@@ -11,6 +11,7 @@ import { EventSocket } from 'src/app/core/models/EventSocket';
 import { TrService } from '../../services/tr.service';
 import { Constants } from 'src/app/core/globals/Constants';
 import * as moment from 'moment';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-weather',
@@ -48,6 +49,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
     private eventService: EventService,
     private socketService: SocketService,
     private trService: TrService,
+    private datePipe: DatePipe,
     private securityService: SecurityService,
     private globalService: GlobalService) { }
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -247,8 +249,8 @@ export class WeatherComponent implements OnInit, OnDestroy {
       let dat: Date = new Date(DailyForecasts[i].Date);
       let dia = dat.toLocaleDateString("es-ES", this.predictionOptions);
       let hoy = new Date().toLocaleDateString("es-ES", this.predictionOptions);
-      
-      let stringDate = dia === hoy ? "Hoy":  dia;
+      let datePipeString = this.datePipe.transform(dat,'dd-MMM');
+      let stringDate = dia+" "+datePipeString;
       this.predictions.push({
         date: stringDate,
         min: DailyForecasts[i].Temperature.Minimum.Value,
