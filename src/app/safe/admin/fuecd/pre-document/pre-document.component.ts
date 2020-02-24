@@ -37,6 +37,7 @@ import {CreditNoteProduct} from '../../../models/CreditNoteProduct';
 import {CreditNoteProductOutDTO} from '../../../models/credit-note-product-out-dto';
 import {MaestroOpcionDTO} from '../../../../compliance/models/maestro-opcion-dto';
 import {Combo} from '../../../../compliance/models/Combo';
+import {EntidadEstausDTO} from '../../../../compliance/models/entidad-estaus-dto';
 
 @Component({
   selector: 'app-pre-document',
@@ -90,6 +91,8 @@ export class PreDocumentComponent implements OnInit {
   debitNote: DebitNote;
   creditNote: CreditNote;
 
+  timbradoId: number;
+
   constructor(
       private eventService: EventService,
       public globalService: GlobalService,
@@ -99,29 +102,22 @@ export class PreDocumentComponent implements OnInit {
       private fb: FormBuilder
   ) {
       this.invoiceForm = this.fb.group({
-          folioDocument: new FormControl('', Validators.required),
+          folioDocument: new FormControl(''),
           fuecd: new FormControl('', Validators.required),
           fuf: new FormControl('', Validators.required),
           dateOperation: new FormControl('', Validators.required),
-          dateDocument: new FormControl('', Validators.required),
-          typeChange: new FormControl('', Validators.required),
-          satConfirmation: new FormControl('', Validators.required),
-          userCreate: new FormControl('', Validators.required),
-          userTimbro: new FormControl('', Validators.required),
-          userCanceled: new FormControl('', Validators.required),
-          uuidDocument: new FormControl('', Validators.required),
-          origenDocument: new FormControl('', Validators.required),
+          dateDocument: new FormControl(''),
+          typeChange: new FormControl(''),
+          satConfirmation: new FormControl(''),
+          userCreate: new FormControl(''),
+          userTimbro: new FormControl(''),
+          userCanceled: new FormControl(''),
+          uuidDocument: new FormControl(''),
+          origenDocument: new FormControl(''),
           plantBranchOffice: new FormControl('', Validators.required),
-          plantDirection: new FormControl('', Validators.required),
           client: new FormControl('', Validators.required),
           money: new FormControl('', Validators.required),
-          yearMarket: new FormControl(''),
-          monthMarket: new FormControl(''),
-          dayMarket: new FormControl(''),
-          yearClosing: new FormControl(''),
-          monthClosing: new FormControl(''),
           sys: new FormControl('false', Validators.required),
-          emails: new FormControl('', Validators.required),
           paymentMethod: new FormControl('', Validators.required),
           paymentCondition: new FormControl('', Validators.required),
           paymentWay: new FormControl('', Validators.required),
@@ -131,11 +127,15 @@ export class PreDocumentComponent implements OnInit {
           subtotal: new FormControl(''),
           percentageDiscount: new FormControl(''),
           discountAmount: new FormControl(''),
-          subtotal2: new FormControl(''),
           amountRateIvaTransfer: new FormControl(''),
           total: new FormControl(''),
           observations: new FormControl('', Validators.required)
       });
+
+      this.marketService.obtenEntidadEstatus('SETTLEMENT_INVOICE', 'Timbrado').subscribe(
+          (entidadEstatus: EntidadEstausDTO) => {
+              this.timbradoId = entidadEstatus.entidadEstatusId;
+          });
   }
   ngOnInit() {
       this.colsFul = [
@@ -220,12 +220,10 @@ export class PreDocumentComponent implements OnInit {
 
       this.loadCatalogs();
       this.listFulPlanta = this.settlementInvoiceDT0.concepts;
-
-      this.invoiceForm.controls.yearMarket.disable();
-      this.invoiceForm.controls.monthMarket.disable();
-      this.invoiceForm.controls.dayMarket.disable();
-      this.invoiceForm.controls.yearClosing.disable();
-      this.invoiceForm.controls.monthClosing.disable();
+      this.initDisabled();
+  }
+  private initDisabled() {
+      this.invoiceForm.enable({ onlySelf: true, emitEvent: false });
       this.invoiceForm.controls.sys.disable();
       this.invoiceForm.controls.plantBranchOffice.disable();
       this.invoiceForm.controls.client.disable();
@@ -245,7 +243,6 @@ export class PreDocumentComponent implements OnInit {
       this.invoiceForm.controls.subtotal.disable();
       this.invoiceForm.controls.percentageDiscount.disable();
       this.invoiceForm.controls.discountAmount.disable();
-      this.invoiceForm.controls.subtotal2.disable();
       this.invoiceForm.controls.amountRateIvaTransfer.disable();
       this.invoiceForm.controls.total.disable();
   }
@@ -350,6 +347,10 @@ export class PreDocumentComponent implements OnInit {
     console.log('trato de hacer algo');
   }
 
+  regresaControlFacturacion() {
+      this.eventService.sendChangePage(new EventMessage(-1, null , 'Safe.Control Facturas'));
+  }
+
   dateChange(event) {
     this.dateDocument = event.value;
   }
@@ -367,7 +368,14 @@ export class PreDocumentComponent implements OnInit {
     }
 
     save(value) {
+        this.submitted = true
         this.invoiceForm.enable({ onlySelf: false, emitEvent: true });
+        if (!this.invoiceForm.valid) {
+            this.initDisabled();
+            this.toastr.warningToastr('Ingreso los campos faltantes',
+                'Warning!');
+            return;
+        }
         value = this.invoiceForm.value;
         if (this.settlementInvoiceDT0.type === 'pago') {
             this.saveFactura(value);
@@ -414,6 +422,7 @@ export class PreDocumentComponent implements OnInit {
             || this.invoiceProducts.length === 0) {
             this.toastr.errorToastr('Los productos de la factura no pueden ser vacíos',
                 'Productos');
+            this.initDisabled();
             return;
         }
         this.invoice = value;
@@ -452,11 +461,13 @@ export class PreDocumentComponent implements OnInit {
                     },
                     errorData => {
                         this.toastr.errorToastr(errorData.error.message, 'Facturas');
+                        this.initDisabled();
                     });
                 this.eventService.sendMainSafe(new EventMessage(20, {}));
             },
             errorData => {
                 this.toastr.errorToastr(errorData.error.message, 'Facturas');
+                this.initDisabled();
             });
     }
 
@@ -494,6 +505,7 @@ export class PreDocumentComponent implements OnInit {
             || this.debitNoteProducts.length === 0) {
             this.toastr.errorToastr('Los productos de la nota de debito no pueden ser vacíos',
                 'Productos');
+            this.initDisabled();
             return;
         }
         console.log(this.clientSelected);
@@ -527,11 +539,13 @@ export class PreDocumentComponent implements OnInit {
                         },
                         errorData => {
                             this.toastr.errorToastr(errorData.error.message, 'Facturas');
+                            this.initDisabled();
                         });
                     this.eventService.sendMainSafe(new EventMessage(20, {}));
                 },
                 errorData => {
                     this.toastr.errorToastr(errorData.error.message, 'Facturas');
+                    this.initDisabled();
                 });
     }
 
@@ -568,6 +582,7 @@ export class PreDocumentComponent implements OnInit {
             || this.creditNoteProducts.length === 0) {
             this.toastr.errorToastr('Los productos de la nota de crédito no pueden ser vacíos',
                 'Productos');
+            this.initDisabled();
             return;
         }
         this.creditNote = value;
@@ -608,11 +623,13 @@ export class PreDocumentComponent implements OnInit {
                     },
                     errorData => {
                         this.toastr.errorToastr(errorData.error.message, 'Facturas');
+                        this.initDisabled();
                     });
                 this.eventService.sendMainSafe(new EventMessage(20, {}));
             },
             errorData => {
                 this.toastr.errorToastr(errorData.error.message, 'Facturas');
+                this.initDisabled();
             });
     }
 }

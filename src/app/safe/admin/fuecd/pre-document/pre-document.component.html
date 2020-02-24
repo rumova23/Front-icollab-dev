@@ -8,13 +8,13 @@
   </mdb-breadcrumb>
 </div>
 <div class="section">
-  <form [formGroup]="invoiceForm">
+  <form [formGroup]="invoiceForm" (ngSubmit)="save(invoiceForm.value)">
     <div class="row mb-12">
       <div class="col-md-3">
         <button
                 type="button"
                 class="btn"
-                (click)="download()"
+                (click)="regresaControlFacturacion()"
                 [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
           << Regresar
         </button>
@@ -29,16 +29,13 @@
         </button>
       </div>
       <div class="col-md-3">
-        <button
-                type="button"
-                class="btn"
-                (click)="save(invoiceForm.value)"
-                [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-          Guardar
+        <button type="submit" class="btn btn-info right"
+                [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+          <mdb-icon far icon="save" class="mr-1"></mdb-icon> Guardar
         </button>
       </div>
       <div class="col-md-3">
-        <button
+        <button  *ngIf="settlementInvoiceDT0.entidadEstatusId === timbradoId"
                 type="button"
                 class="btn"
                 (click)="download()"
