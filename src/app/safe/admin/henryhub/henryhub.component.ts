@@ -86,7 +86,7 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 					this.data=serie.data.map(d=>{
 						let anio    = +d[0].substring(0, 4);
 						let mes     = +d[0].substring(4, 7);
-						let fecha   = anio+ "-" + mes;
+						let fecha   = mes+ "/" + anio;
 						return{fecha,precio:d[1]}
 					});
 				}
@@ -98,7 +98,7 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 				if(serie.series_id == "STEO.NGHHMCF.M")fechas = serie.data.map(d=>{
 					let anio    = +d[0].substring(0, 4);
 					let mes     = +d[0].substring(4, 7);
-					let fecha   = anio+ "-" + mes;
+					let fecha   = mes+ "/" + anio;
 					return fecha;
 				}).reverse();
 			}
@@ -134,9 +134,21 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 							
 							ticks: {
 								min: 0
-							}
+							},
+							scaleLabel: {
+								display: true,
+								labelString: 'Precio'
+							},
 						},
-					]
+					],
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Temperatura'
+						}
+					}]
+					
 				}
 			}
 		};
