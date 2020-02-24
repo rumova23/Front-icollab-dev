@@ -113,17 +113,17 @@
 			<table>
 				<tr>
 					<th *ngIf="existApp('Security')" style="filter:grayscale(80%);" class="align-bottom mydisabled">
-						<img src="assets/img/admin.png" srcset="assets/img/admin.svg" class="icon-image"  style="width: 56px;" (click)="goToModule('Security','/security')" />
+						<img src="assets/img/admin.png" class="icon-image"  style="width: 56px;" (click)="goToModule('Security','/security')" />
 					</th>
 					<th style="filter:grayscale(80%);" class="align-bottom mydisabled" *ngIf="this.appsIsActivate">
-						<img src="assets/img/logout-icon-png-26.png" srcset="assets/img/logout-icon-png-26.svg" class="icon-image" style="width: 45px;"  (click)="logout()" />
+						<img src="assets/img/logout-icon-png-26.png" class="icon-image" style="width: 45px;"  (click)="logout()" />
 					</th>
 				</tr>
 				<tr>
-					<th class="texto-ral" *ngIf="existApp('Security')">
+					<th class="texto-ral" *ngIf="existApp('Security')" style="color: #555555;">
 						Admin
 					</th>
-					<th class="texto-ral" *ngIf="this.appsIsActivate">
+					<th class="texto-ral" *ngIf="this.appsIsActivate" style="color: #555555;">
 						Salir
 					</th>
 				</tr>
