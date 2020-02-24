@@ -145,7 +145,7 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 						display: true,
 						scaleLabel: {
 							display: true,
-							labelString: 'Temperatura'
+							labelString: 'Fecha'
 						}
 					}]
 					
