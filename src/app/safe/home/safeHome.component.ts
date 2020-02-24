@@ -325,6 +325,17 @@ export class SafeHomeComponent implements OnInit {
 						).changeDetectorRef.detectChanges();
 						break;
 
+
+					case 'Safe.InvoicesComponent':
+						banderaTemporal = true;
+						const factoryInvoices = this.componentFactoryResolver
+						.resolveComponentFactory(InvoicesComponent);
+						const refInvoices =
+						this.viewContainerRef.createComponent(factoryInvoices);
+						refInvoices.changeDetectorRef.detectChanges();
+
+					break;
+
 					case 'Safe.Home':
 						banderaTemporal = true;
 						this.viewContainerRef.createComponent(
