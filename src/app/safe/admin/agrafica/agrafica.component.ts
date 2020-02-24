@@ -53,7 +53,7 @@ export class AgraficaComponent implements OnInit {
 			j = this.financial(j);
 			labels.push(j);
 		}
-		var ticks = new Array(51).fill(0).map((_valor, indice) => indice);
+		var ticks = new Array(51).fill(0).map((_valor, indice) => indice+' °C');
 		return {
 			type: 'line',
 			data: {
