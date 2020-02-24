@@ -28,9 +28,8 @@
               </mat-error>
             </div>
             <div class="col txt-r">
-              <button type="submit" class="btn btn-info right"
-                      [disabled]="!fuecdForm.valid"
-                      [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+              <button type="submit" class="btn"
+                      [disabled]="!fuecdForm.valid">
                 <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
               </button>
             </div>
@@ -46,7 +45,7 @@
 
   <div class="row mb-1 mt-1">
     <div class="col">
-      Detalle de  FUECD: {{(fuecd != null) ? fuecd.fuecd : '-'}} con fecha de  Emision: {{(fuecd != null) ? (fuecd.dateEmission | date:'dd/MM/yyyy') : '-'}} y fecha de operacion: {{(fuecd != null) ? (fuecd.dateOperation | date:'dd/MM/yyyy') : '-'}} a Emitir por parte de EAT.
+      Detalle de  FUECD: {{(fuecd != null) ? fuecd.fuecd : '-'}} con fecha de  emision: {{(fuecd != null) ? (fuecd.dateEmission | date:'dd/MM/yyyy') : '-'}} y fecha de operacion: {{(fuecd != null) ? (fuecd.dateOperation | date:'dd/MM/yyyy') : '-'}} a emitir por parte de Participante.
     </div>
   </div>
   <div class="row mb-1 mt-1">
@@ -161,7 +160,7 @@
   <hr/>
   <div class="row mb-1 mt-1">
     <div class="col">
-      Detalle de  FUECD: {{(fuecd != null) ? fuecd.fuecd : '-'}} con fecha de  Emision: {{(fuecd != null) ? (fuecd.dateEmission | date:'dd/MM/yyyy') : '-'}} y fecha de operacion: {{(fuecd != null) ? (fuecd.dateOperation | date:'dd/MM/yyyy') : '-'}} a Emitir por parte de CENACE.
+      Detalle de  FUECD: {{(fuecd != null) ? fuecd.fuecd : '-'}} con fecha de  emision: {{(fuecd != null) ? (fuecd.dateEmission | date:'dd/MM/yyyy') : '-'}} y fecha de operacion: {{(fuecd != null) ? (fuecd.dateOperation | date:'dd/MM/yyyy') : '-'}} a emitir por parte de CENACE.
     </div>
   </div>
   <div class="row mb-1 mt-1">

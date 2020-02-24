@@ -68,7 +68,6 @@ export class EnergyPpaComponent implements OnInit {
       .subscribe(
         data => {
           this.data = data;
-          debugger;
           this.dataSource = new MatTableDataSource<any>(this.data);
         },
         errorData => {
