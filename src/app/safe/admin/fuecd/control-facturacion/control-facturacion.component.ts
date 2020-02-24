@@ -353,4 +353,66 @@ export class ControlFacturacionComponent implements OnInit {
   action(settlementInvoiceDT0: SettlementInvoiceDT0) {
     this.eventService.sendChangePage(new EventMessage(-1, settlementInvoiceDT0 , 'Safe.Pre Document'));
   }
+
+  download(idInvoice: number, type: string) {
+    if (type === 'pago') {
+      this.marketService.downloadInvoice(idInvoice) .subscribe(
+          dat => {
+            const blob = new Blob([this.base64toBlob(dat.base64,
+                'application/pdf')], {});
+            saveAs(blob, dat.nameFile);
+            this.toastr.successToastr('Factura generada correctamente', 'Archivo PDF!');
+          },
+          errorData => {
+            this.toastr.errorToastr(Constants.ERROR_LOAD, 'Error al descargar archivo');
+          });
+    }
+
+    if (type === 'pagonotadebito') {
+      this.marketService.downloadDebitNote(idInvoice) .subscribe(
+          dat => {
+            const blob = new Blob([this.base64toBlob(dat.base64,
+                'application/pdf')], {});
+            saveAs(blob, dat.nameFile);
+            this.toastr.successToastr('Factura generada correctamente', 'Archivo PDF!');
+          },
+          errorData => {
+            this.toastr.errorToastr(Constants.ERROR_LOAD, 'Error al descargar archivo');
+          });
+
+    }
+
+    if (type === 'pagonotacredito') {
+      this.marketService.downloadCreditNote(idInvoice) .subscribe(
+          dat => {
+            const blob = new Blob([this.base64toBlob(dat.base64,
+                'application/pdf')], {});
+            saveAs(blob, dat.nameFile);
+            this.toastr.successToastr('Factura generada correctamente', 'Archivo PDF!');
+          },
+          errorData => {
+            this.toastr.errorToastr(Constants.ERROR_LOAD, 'Error al descargar archivo');
+          });
+
+    }
+  }
+
+  base64toBlob(base64Data, contentType) {
+    contentType = contentType || '';
+    let sliceSize = 1024;
+    let byteCharacters = atob(base64Data);
+    let bytesLength = byteCharacters.length;
+    let slicesCount = Math.ceil(bytesLength / sliceSize);
+    let byteArrays = new Array(slicesCount);
+    for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+      let begin = sliceIndex * sliceSize;
+      let end = Math.min(begin + sliceSize, bytesLength);
+      let bytes = new Array(end - begin);
+      for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+        bytes[i] = byteCharacters[offset].charCodeAt(0);
+      }
+      byteArrays[sliceIndex] = new Uint8Array(bytes);
+    }
+    return new Blob(byteArrays, { type: contentType });
+  }
 }

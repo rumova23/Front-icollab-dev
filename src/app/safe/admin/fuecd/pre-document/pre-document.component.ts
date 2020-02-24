@@ -206,7 +206,6 @@ export class PreDocumentComponent implements OnInit {
           this.colsFul.push('ivaDiferencia');
           this.colsFul.push('totalDiferencia');
           const fufLiquidacion = this.settlementInvoiceDT0.fuf.substring(0, (this.settlementInvoiceDT0.fuf.length - 2)) + '00';
-          console.log(fufLiquidacion);
           this.catalogService.getInvoiceByFUF(fufLiquidacion).subscribe(
               data => {
                   this.invoice = data;
@@ -220,7 +219,6 @@ export class PreDocumentComponent implements OnInit {
       }
 
       this.loadCatalogs();
-      console.dir(this.settlementInvoiceDT0.concepts);
       this.listFulPlanta = this.settlementInvoiceDT0.concepts;
 
       this.invoiceForm.controls.yearMarket.disable();
@@ -323,7 +321,6 @@ export class PreDocumentComponent implements OnInit {
     initComboOrigenDocumento() {
         this.marketService.comboOrigenDocumento().subscribe(
             (lista: Array<MaestroOpcionDTO>) => {
-                console.dir(lista);
                 lista.forEach((elemento: MaestroOpcionDTO) => {
                     this.originDocument.push(new Combo(elemento.maestroOpcionId.toString(), elemento.opcion.codigo));
                 });
@@ -361,7 +358,6 @@ export class PreDocumentComponent implements OnInit {
         this.marketService.getProductsByClient(id)
             .subscribe(
                 data => {
-                    console.dir(data);
                     this.products = data;
                     this.loadMoneys();
                 },
@@ -371,6 +367,8 @@ export class PreDocumentComponent implements OnInit {
     }
 
     save(value) {
+        this.invoiceForm.enable({ onlySelf: false, emitEvent: true });
+        value = this.invoiceForm.value;
         if (this.settlementInvoiceDT0.type === 'pago') {
             this.saveFactura(value);
         }
@@ -383,15 +381,13 @@ export class PreDocumentComponent implements OnInit {
     }
 
     saveFactura(value) {
-        this.invoiceForm.enable();
         let concept: ConceptDTO;
         for (let i = 0; i < this.settlementInvoiceDT0.concepts.length; i++) {
             concept = this.settlementInvoiceDT0.concepts[i];
-            console.dir(concept);
             if (this.settlementInvoiceDT0.liquidacion === 0 ) {
                 const product = new InvoiceProductDTO();
                 product.idProduct = this.products.filter(entity =>
-                    entity.description === concept.description)[0].id;
+                    entity.description.trim() === concept.description.trim())[0].id;
                 product.amount = concept.totalAmount;
                 product.amount = Number(product.amount.toFixed(6));
                 product.amountIva = concept.iva;
@@ -404,7 +400,7 @@ export class PreDocumentComponent implements OnInit {
             if (this.settlementInvoiceDT0.liquidacion > 0 ) {
                 const product = new InvoiceProductDTO();
                 product.idProduct = this.products.filter(entity =>
-                    entity.description === concept.description)[0].id;
+                    entity.description.trim() === concept.description.trim())[0].id;
                 product.amount = concept.totalAmountDifference;
                 product.amount = Number(product.amount.toFixed(6));
                 product.amountIva = concept.ivaDifference;
@@ -422,18 +418,16 @@ export class PreDocumentComponent implements OnInit {
         }
         this.invoice = value;
         this.invoice.idSys = value.sys;
-        this.invoice.idPlantBranchOffice = value.plantBranchOffice.id;
-        this.invoice.idPlantDirection = value.plantDirection.id;
-        this.invoice.idClient = value.client.id;
-        this.invoice.idMoney = value.money.id;
-        this.invoice.idPaymentMethod = value.paymentMethod.id;
-        this.invoice.idPaymentCondition = value.paymentCondition.id;
-        this.invoice.idPaymentWay = value.paymentWay.id;
-        this.invoice.idUseCfdi = value.useCfdi.id;
-        this.invoice.idTypeRelation = value.typeRelation.id;
-        console.dir(this.plantSelected);
+        this.invoice.idPlantBranchOffice = value.plantBranchOffice;
+        this.invoice.idPlantDirection = this.plantSelected.plantDirections.id;
+        this.invoice.idClient = value.client;
+        this.invoice.idMoney = value.money;
+        this.invoice.idPaymentMethod = value.paymentMethod;
+        this.invoice.idPaymentCondition = value.paymentCondition;
+        this.invoice.idPaymentWay = value.paymentWay;
+        this.invoice.idUseCfdi = value.useCfdi;
+        this.invoice.idTypeRelation = value.typeRelation;
         this.invoice.idPlantFiscalData = this.plantSelected.fiscalData.id;
-        console.dir(this.clientSelected);
         this.invoice.idClientFiscalData = this.clientSelected.fiscalData.id;
         this.invoice.subtotal = 0;
         this.invoice.save = true;
@@ -452,7 +446,6 @@ export class PreDocumentComponent implements OnInit {
         this.invoice.invoiceProducts = this.invoiceProducts;
         this.marketService.saveInvoice(this.invoice).subscribe(
             (data: Invoice) => {
-                console.dir(data);
                 this.marketService.changeStatusInvoiseFacturado(this.settlementInvoiceDT0.id, data.id).subscribe(
                     dataA => {
                         this.toastr.successToastr('Se genero correctamente el predocumento', 'Exito!');
@@ -497,7 +490,6 @@ export class PreDocumentComponent implements OnInit {
                 this.debitNoteProducts.push(product);
             }
         }
-        console.log(value);
         if (!Validate(this.debitNoteProducts)
             || this.debitNoteProducts.length === 0) {
             this.toastr.errorToastr('Los productos de la nota de debito no pueden ser vacíos',
@@ -508,46 +500,48 @@ export class PreDocumentComponent implements OnInit {
         this.debitNote = value;
         this.debitNote.idInvoice = this.invoice.id;
         this.debitNote.invoice = null;
-        this.debitNote.idSys = value.sys.id;
-        this.debitNote.idPlantBranchOffice = value.plantBranchOffice.id;
-        this.debitNote.idPlantDirection = value.plantDirection.id;
-        this.debitNote.idClient = this.clientSelected.id;
-        this.debitNote.idMoney = value.money.id;
-        this.debitNote.idPaymentMethod = value.paymentMethod.id;
-        this.debitNote.idPaymentCondition = value.paymentCondition.id;
-        this.debitNote.idPaymentWay = value.paymentWay.id;
-        this.debitNote.idUseCfdi = value.useCfdi.id;
-        this.debitNote.idTypeRelation = value.typeRelation.id;
+        this.debitNote.idSys = value.sys;
+        this.debitNote.idPlantBranchOffice = value.plantBranchOffice;
+        this.debitNote.idPlantDirection = this.plantSelected.plantDirections.id;
+        this.debitNote.idClient = value.client;
+        this.debitNote.idMoney = value.money;
+        this.debitNote.idPaymentMethod = value.paymentMethod;
+        this.debitNote.idPaymentCondition = value.paymentCondition;
+        this.debitNote.idPaymentWay = value.paymentWay;
+        this.debitNote.idUseCfdi = value.useCfdi;
+        this.debitNote.idTypeRelation = value.typeRelation;
         this.debitNote.idPlantFiscalData = this.plantSelected.fiscalData.id;
         this.debitNote.idClientFiscalData = this.clientSelected.fiscalData.id;
-        this.debitNote.save = this.entity.new;
-        for (let i = 0; i < this.debitNoteProducts.length; i++) {
-            this.debitNoteProducts[i].idProduct = this.debitNoteProducts[i].product.id;
-        }
+        this.debitNote.save = true;
+        this.debitNote.subtotal = 0;
+        this.debitNote.subtotal = this.settlementInvoiceDT0.totalNetDifference;
+        this.debitNote.amountRateIvaTransfer = this.settlementInvoiceDT0.ivaDifference;
+        this.debitNote.total = this.settlementInvoiceDT0.totalAmountDifference;
+        this.debitNote.subtotal2 = this.debitNote.subtotal;
         this.debitNote.debitNoteProducts = this.debitNoteProducts;
-        this.marketService.saveDebitNote(this.debitNote)
-            .subscribe(
-                data => {
+        this.marketService.saveDebitNote(this.debitNote).subscribe(
+                (data: DebitNote) => {
+                    this.marketService.changeStatusInvoiseFacturado(this.settlementInvoiceDT0.id, data.id).subscribe(
+                        dataA => {
+                            this.toastr.successToastr('Se genero correctamente el predocumento', 'Exito!');
+                        },
+                        errorData => {
+                            this.toastr.errorToastr(errorData.error.message, 'Facturas');
+                        });
                     this.eventService.sendMainSafe(new EventMessage(20, {}));
                 },
                 errorData => {
-                    this.toastr.errorToastr(Constants.ERROR_SAVE, 'Notas de debito');
+                    this.toastr.errorToastr(errorData.error.message, 'Facturas');
                 });
     }
 
     saveCreditNote(value) {
-        console.log(value);
         let concept: ConceptDTO;
         for (let i = 0; i < this.settlementInvoiceDT0.concepts.length; i++) {
             concept = this.settlementInvoiceDT0.concepts[i];
-            console.dir(concept);
             if (this.settlementInvoiceDT0.liquidacion === 0 ) {
                 const product = new CreditNoteProductOutDTO();
-                console.log('this.products');
-                console.dir(this.products);
-                console.log('this.products');
-
-                product.idProduct = this.products.filter(entity => entity.description === concept.description)[0].id;
+                product.idProduct = this.products.filter(entity => entity.description.trim() === concept.description.trim())[0].id;
                 product.amount = concept.totalAmount;
                 product.amount = Number(product.amount.toFixed(6));
                 product.amountIva = concept.iva;
@@ -560,7 +554,7 @@ export class PreDocumentComponent implements OnInit {
             if (this.settlementInvoiceDT0.liquidacion > 0 ) {
                 const product = new InvoiceProductDTO();
                 product.idProduct = this.products.filter(entity =>
-                    entity.description === concept.description)[0].id;
+                    entity.description.trim() === concept.description.trim())[0].id;
                 product.amount = concept.totalAmountDifference;
                 product.amount = Number(product.amount.toFixed(6));
                 product.amountIva = concept.ivaDifference;
@@ -576,34 +570,49 @@ export class PreDocumentComponent implements OnInit {
                 'Productos');
             return;
         }
-        console.log(this.clientSelected);
         this.creditNote = value;
         this.creditNote.idInvoice = this.invoice.id;
         this.creditNote.invoice = null;
-        this.creditNote.idSys = value.sys.id;
-        this.creditNote.idPlantBranchOffice = value.plantBranchOffice.id;
-        this.creditNote.idPlantDirection = value.plantDirection.id,
-            this.creditNote.idClient = this.clientSelected.id;
-        this.creditNote.idMoney = value.money.id;
-        this.creditNote.idPaymentMethod = value.paymentMethod.id;
-        this.creditNote.idPaymentCondition = value.paymentCondition.id;
-        this.creditNote.idPaymentWay = value.paymentWay.id;
-        this.creditNote.idUseCfdi = value.useCfdi.id;
-        this.creditNote.idTypeRelation = value.typeRelation.id;
+        this.creditNote.idSys = value.sys;
+        this.creditNote.idPlantBranchOffice = value.plantBranchOffice;
+        this.creditNote.idPlantDirection = this.plantSelected.plantDirections.id;
+        this.creditNote.idClient = value.client;
+        this.creditNote.idMoney = value.money;
+        this.creditNote.idPaymentMethod = value.paymentMethod;
+        this.creditNote.idPaymentCondition = value.paymentCondition;
+        this.creditNote.idPaymentWay = value.paymentWay;
+        this.creditNote.idUseCfdi = value.useCfdi;
+        this.creditNote.idTypeRelation = value.typeRelation;
         this.creditNote.idPlantFiscalData = this.plantSelected.fiscalData.id;
         this.creditNote.idClientFiscalData = this.clientSelected.fiscalData.id;
-        this.creditNote.save = this.entity.new;
-        for (let i = 0; i < this.creditNoteProducts.length; i++) {
-            this.creditNoteProducts[i].idProduct = this.creditNoteProducts[i].product.id;
+        this.creditNote.save = true;
+        this.creditNote.subtotal = 0;
+        if (this.settlementInvoiceDT0.liquidacion === 0 ) {
+            this.creditNote.subtotal = this.settlementInvoiceDT0.totalNet;
+            this.creditNote.amountRateIvaTransfer = this.settlementInvoiceDT0.iva;
+            this.creditNote.total = this.settlementInvoiceDT0.totalAmount;
+        }
+
+        if (this.settlementInvoiceDT0.liquidacion > 0 ) {
+            this.creditNote.subtotal = this.settlementInvoiceDT0.totalNetDifference;
+            this.creditNote.amountRateIvaTransfer = this.settlementInvoiceDT0.ivaDifference;
+            this.creditNote.total = this.settlementInvoiceDT0.totalAmountDifference;
         }
         this.creditNote.creditNoteProducts = this.creditNoteProducts;
-        this.marketService.saveCreditNote(this.creditNote)
-            .subscribe(
-                data => {
-                    this.eventService.sendMainSafe(new EventMessage(20, {}));
-                },
-                errorData => {
-                    this.toastr.errorToastr(Constants.ERROR_SAVE, 'Notas de crédito');
-                });
+        this.invoice.subtotal2 = this.invoice.subtotal;
+        this.marketService.saveCreditNote(this.creditNote).subscribe(
+            (data: CreditNote) => {
+                this.marketService.changeStatusInvoiseFacturado(this.settlementInvoiceDT0.id, data.id).subscribe(
+                    dataA => {
+                        this.toastr.successToastr('Se genero correctamente el predocumento', 'Exito!');
+                    },
+                    errorData => {
+                        this.toastr.errorToastr(errorData.error.message, 'Facturas');
+                    });
+                this.eventService.sendMainSafe(new EventMessage(20, {}));
+            },
+            errorData => {
+                this.toastr.errorToastr(errorData.error.message, 'Facturas');
+            });
     }
 }

@@ -212,6 +212,9 @@
               <a (click)="action(element)" *ngIf="element.entidadEstatusId === pendienteFacturacionId">
                 <img src="assets/images/skins/ico_Ver.png" alt="Visualizar" />
               </a>
+              <a (click)="download(element.idInvoice, element.type)" *ngIf="element.entidadEstatusId === facturadoId">
+                <img src="assets/images/skins/ico_PDF_over.png" alt="Factura" />
+              </a>
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="cols"></tr>

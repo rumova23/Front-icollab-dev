@@ -424,6 +424,16 @@ export class MarketService {
     return this.http.get(environment.marketUrl + 'invoice/download/' + id, {params : this.parameters });
   }
 
+  downloadCreditNote(id: number): Observable<any> {
+    this.parameters = this.globalService.setXTenantId_Plant();
+    return this.http.get(environment.marketUrl + 'creditNote/download/' + id, {params : this.parameters });
+  }
+
+  downloadDebitNote(id: number): Observable<any> {
+    this.parameters = this.globalService.setXTenantId_Plant();
+    return this.http.get(environment.marketUrl + 'debitNote/download/' + id, {params : this.parameters });
+  }
+
   getConfigWeather(): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant();
     return this.http.get(environment.weatherUrl + 'config/', {params : this.parameters });
