@@ -66,6 +66,7 @@ export class ControlFacturacionComponent implements OnInit {
   referenciaNoFacturadaId: number;
   pendienteFacturacionId: number;
   facturadoId: number;
+  timbradoId: number;
 
   constructor(
       private marketService: MarketService,
@@ -88,6 +89,10 @@ export class ControlFacturacionComponent implements OnInit {
     this.marketService.obtenEntidadEstatus('SETTLEMENT_INVOICE', 'Facturado').subscribe(
         (entidadEstatus: EntidadEstausDTO) => {
           this.facturadoId = entidadEstatus.entidadEstatusId;
+        });
+    this.marketService.obtenEntidadEstatus('SETTLEMENT_INVOICE', 'Timbrado').subscribe(
+        (entidadEstatus: EntidadEstausDTO) => {
+          this.timbradoId = entidadEstatus.entidadEstatusId;
         });
 
     console.log('this.referenciaNoFacturadaId: ' + this.referenciaNoFacturadaId);

@@ -47,7 +47,7 @@ export class InvoicesEditComponent implements OnInit {
   invoiceSelected: Invoice;
   paymentConditions: Array<CatalogOrderGeneric>;
   moneys: Array<Money>;
-  systems: Array<CatalogOrderGeneric>
+  systems: Array<CatalogOrderGeneric>;
 
   paymentMethods: Array<PaymentMethodSat>;
   paymentWays: Array<PaymentWaySat>;
@@ -69,71 +69,71 @@ export class InvoicesEditComponent implements OnInit {
   productsColumns = ['product', 'quantity', 'unitValue',
     'amount', 'percentageIva', 'amountIva',
     'edit', 'rm'];
-  editingProduct: boolean = false;
+  editingProduct = false;
   idProduct = 0;
 
   clientSelected: Client = {};
-  plantSelected: Plant = {}
+  plantSelected: Plant = {};
 
-  //regex =  "/^\d{1,22}\.\d{1,12}$/";
-  regex = "^[0-9]{1,12}?.?[0-9]{1,22}$";
+  // regex =  "/^\d{1,22}\.\d{1,12}$/";
+  regex = '^[0-9]{1,12}?.?[0-9]{1,22}$';
 
 
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
   constructor(public globalService: GlobalService,
-    private ngZone: NgZone, private marketService: MarketService,
-    private catalogService: CatalogService,
-    private fb: FormBuilder,
-    private eventService: EventService,
-    private toastr: ToastrManager) { }
+              private ngZone: NgZone, private marketService: MarketService,
+              private catalogService: CatalogService,
+              private fb: FormBuilder,
+              private eventService: EventService,
+              private toastr: ToastrManager) { }
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {
     this.invoiceForm = this.fb.group({
-      //datos de general
-      'plantBranchOffice': new FormControl('', Validators.required),
-      'plantDirection': new FormControl('', Validators.required),
-      'client': new FormControl('', Validators.required),
-      'money': new FormControl('', Validators.required),
-      'yearMarket': new FormControl(''),
-      'monthMarket': new FormControl(''),
-      'dayMarket': new FormControl(''),
-      'yearClosing': new FormControl(''),
-      'monthClosing': new FormControl(''),
-      'sys': new FormControl('', Validators.required),
-      'emails': new FormControl('', Validators.required),
-      'paymentMethod': new FormControl('', Validators.required),
-      'paymentCondition': new FormControl('', Validators.required),
-      'paymentWay': new FormControl('', Validators.required),
-      'useCfdi': new FormControl('', Validators.required),
-      'typeRelation': new FormControl('', Validators.required),
-      'account': new FormControl('', Validators.required),
-      'subtotal': new FormControl(''),
-      'percentageDiscount': new FormControl(''),
-      'discountAmount': new FormControl(''),
-      'subtotal2': new FormControl(''),
-      'amountRateIvaTransfer': new FormControl(''),
-      'total': new FormControl(''),
-      'observations': new FormControl('', Validators.required)
+      // datos de general
+      plantBranchOffice: new FormControl('', Validators.required),
+      plantDirection: new FormControl('', Validators.required),
+      client: new FormControl('', Validators.required),
+      money: new FormControl('', Validators.required),
+      yearMarket: new FormControl(''),
+      monthMarket: new FormControl(''),
+      dayMarket: new FormControl(''),
+      yearClosing: new FormControl(''),
+      monthClosing: new FormControl(''),
+      sys: new FormControl('', Validators.required),
+      emails: new FormControl('', Validators.required),
+      paymentMethod: new FormControl('', Validators.required),
+      paymentCondition: new FormControl('', Validators.required),
+      paymentWay: new FormControl('', Validators.required),
+      useCfdi: new FormControl('', Validators.required),
+      typeRelation: new FormControl('', Validators.required),
+      account: new FormControl('', Validators.required),
+      subtotal: new FormControl(''),
+      percentageDiscount: new FormControl(''),
+      discountAmount: new FormControl(''),
+      subtotal2: new FormControl(''),
+      amountRateIvaTransfer: new FormControl(''),
+      total: new FormControl(''),
+      observations: new FormControl('', Validators.required)
     });
-    this.invoiceForm.controls['yearMarket'].disable();
-    this.invoiceForm.controls['monthMarket'].disable();
-    this.invoiceForm.controls['dayMarket'].disable();
-    this.invoiceForm.controls['yearClosing'].disable();
-    this.invoiceForm.controls['monthClosing'].disable();
+    this.invoiceForm.controls.yearMarket.disable();
+    this.invoiceForm.controls.monthMarket.disable();
+    this.invoiceForm.controls.dayMarket.disable();
+    this.invoiceForm.controls.yearClosing.disable();
+    this.invoiceForm.controls.monthClosing.disable();
 
-    this.invoiceForm.controls['subtotal'].disable();
-    this.invoiceForm.controls['percentageDiscount'].disable();
-    this.invoiceForm.controls['discountAmount'].disable();
-    this.invoiceForm.controls['subtotal2'].disable();
-    this.invoiceForm.controls['amountRateIvaTransfer'].disable();
-    this.invoiceForm.controls['total'].disable();
+    this.invoiceForm.controls.subtotal.disable();
+    this.invoiceForm.controls.percentageDiscount.disable();
+    this.invoiceForm.controls.discountAmount.disable();
+    this.invoiceForm.controls.subtotal2.disable();
+    this.invoiceForm.controls.amountRateIvaTransfer.disable();
+    this.invoiceForm.controls.total.disable();
 
     this.productForm = this.fb.group({
-      'product': new FormControl('', Validators.required),
-      'quantity': new FormControl('', [Validators.required,
+      product: new FormControl('', Validators.required),
+      quantity: new FormControl('', [Validators.required,
       Validators.pattern(this.regex)]),
-      'unitValue': new FormControl('', [Validators.required,
+      unitValue: new FormControl('', [Validators.required,
       Validators.pattern(this.regex)])
     });
 
@@ -148,9 +148,9 @@ export class InvoicesEditComponent implements OnInit {
           this.paymentConditions = result.filter(entity => entity.catalog === 'paymentCondition')[0].data;
           this.moneys = result.filter(entity => entity.catalog === 'money')[0].data;
           this.systems = result.filter(entity => entity.catalog === 'sys')[0].data;
-          for (var i = 0; i < this.formControls.length; i++) {
+          for (let i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
-            for (var a = 0; a < inputs.length; a++) {
+            for (let a = 0; a < inputs.length; a++) {
               switch (inputs[a].formControlName) {
                 case 'paymentCondition':
                   inputs[a].options = this.paymentConditions;
@@ -183,9 +183,9 @@ export class InvoicesEditComponent implements OnInit {
             entity.catalog === 'typeRelation')[0].data;
           this.ratesIva = result.filter(entity =>
             entity.catalog === 'rateIva')[0].data;
-          for (var i = 0; i < this.formControls.length; i++) {
+          for (let i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
-            for (var a = 0; a < inputs.length; a++) {
+            for (let a = 0; a < inputs.length; a++) {
               switch (inputs[a].formControlName) {
                 case 'paymentMethod':
                   inputs[a].options = this.paymentMethods;
@@ -198,7 +198,7 @@ export class InvoicesEditComponent implements OnInit {
                   break;
                 case 'typeRelation':
                   inputs[a].options = this.typesRelation;
-                  this.invoiceForm.controls['typeRelation'].setValue(
+                  this.invoiceForm.controls.typeRelation.setValue(
                     this.typesRelation.filter(entity =>
                       entity.id === 8)[0] // no aplica
                   );
@@ -218,9 +218,9 @@ export class InvoicesEditComponent implements OnInit {
       .subscribe(
         data => {
           this.moneys = data;
-          for (var i = 0; i < this.formControls.length; i++) {
+          for (let i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
-            for (var a = 0; a < inputs.length; a++) {
+            for (let a = 0; a < inputs.length; a++) {
               switch (inputs[a].formControlName) {
                 case 'money':
                   inputs[a].options = this.moneys;
@@ -240,9 +240,9 @@ export class InvoicesEditComponent implements OnInit {
       .subscribe(
         data => {
           this.clients = data;
-          for (var i = 0; i < this.formControls.length; i++) {
+          for (let i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
-            for (var a = 0; a < inputs.length; a++) {
+            for (let a = 0; a < inputs.length; a++) {
               switch (inputs[a].formControlName) {
                 case 'client':
                   inputs[a].options = this.clients;
@@ -263,9 +263,9 @@ export class InvoicesEditComponent implements OnInit {
         data => {
 
             this.plantSelected = data;
-          for (var i = 0; i < this.formControls.length; i++) {
+            for (let i = 0; i < this.formControls.length; i++) {
             const inputs = this.formControls[i].inputs;
-            for (var a = 0; a < inputs.length; a++) {
+            for (let a = 0; a < inputs.length; a++) {
               switch (inputs[a].formControlName) {
                 case 'plantDirection':
                   inputs[a].options = this.plantSelected.plantDirections;
@@ -276,7 +276,7 @@ export class InvoicesEditComponent implements OnInit {
               }
             }
           }
-          this.setData();
+            this.setData();
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.error.message);
@@ -293,53 +293,50 @@ export class InvoicesEditComponent implements OnInit {
     this.marketService.getInvoice(this.invoiceSelected.id)
       .subscribe(
         data => {
-            console.log("getInvoice");
-            console.dir(data);
-            console.log("getInvoice");
-          this.invoiceSelected = data;
-          this.invoiceSelected.client = this.clients.filter(entity =>
+            this.invoiceSelected = data;
+            this.invoiceSelected.client = this.clients.filter(entity =>
             entity.id === this.invoiceSelected.idClient)[0];
-          this.invoiceSelected.sys = this.systems.filter(entity =>
+            this.invoiceSelected.sys = this.systems.filter(entity =>
             entity.id === this.invoiceSelected.idSys)[0];
-          this.invoiceSelected.money = this.moneys.filter(entity =>
+            this.invoiceSelected.money = this.moneys.filter(entity =>
               entity.id === this.invoiceSelected.idMoney)[0];
-          this.invoiceSelected.paymentMethod = this.paymentMethods.filter(entity =>
+            this.invoiceSelected.paymentMethod = this.paymentMethods.filter(entity =>
                 entity.id === this.invoiceSelected.idPaymentMethod)[0];
-          this.invoiceSelected.paymentWay = this.paymentWays.filter(entity =>
+            this.invoiceSelected.paymentWay = this.paymentWays.filter(entity =>
             entity.id === this.invoiceSelected.idPaymentWay)[0];
-          this.invoiceSelected.paymentCondition = this.paymentConditions.filter(entity =>
+            this.invoiceSelected.paymentCondition = this.paymentConditions.filter(entity =>
             entity.id === this.invoiceSelected.idPaymentCondition)[0];
-          this.invoiceSelected.useCfdi =  this.usesCfdi.filter(entity =>
+            this.invoiceSelected.useCfdi =  this.usesCfdi.filter(entity =>
             entity.id === this.invoiceSelected.idUseCfdi)[0];
-          this.marketService.getClient(this.invoiceSelected.idClient)
+            this.marketService.getClient(this.invoiceSelected.idClient)
             .subscribe(
               dataC => {
-                  console.log("getClient");
+                  console.log('getClient');
                   console.dir(dataC);
-                  console.log("getClient");
-                this.clientSelected = dataC;
-                this.invoiceSelected.plantBranchOffice = this.
+                  console.log('getClient');
+                  this.clientSelected = dataC;
+                  this.invoiceSelected.plantBranchOffice = this.
                   plantSelected.plantBranches.filter(entity =>
                   entity.id === this.invoiceSelected.idPlantBranchOffice)[0];
                   this.invoiceSelected.plantDirection = this.
                   plantSelected.plantDirections.filter(entity =>
                   entity.id === this.invoiceSelected.idPlantDirection)[0];
-                this.invoiceProducts = this.invoiceSelected.invoiceProducts;
-                this.marketService.getProductsByClient(this.invoiceSelected.idClient)
+                  this.invoiceProducts = this.invoiceSelected.invoiceProducts;
+                  this.marketService.getProductsByClient(this.invoiceSelected.idClient)
                 .subscribe(
                   dataP => {
                     this.products = dataP;
-                    for (var a = 0; a < this.formControlsProduct.length; a++) {
+                    for (let a = 0; a < this.formControlsProduct.length; a++) {
                       switch (this.formControlsProduct[a].formControlName) {
                         case 'product':
                           this.formControlsProduct[a].options = this.products;
                           break;
                       }
                     }
-                      console.log("invoiceProducts");
-                      console.dir(this.invoiceProducts);
-                      console.log("invoiceProducts");
-                    for(let i =0; i < this.invoiceProducts.length; i++) {
+                    console.log('invoiceProducts');
+                    console.dir(this.invoiceProducts);
+                    console.log('invoiceProducts');
+                    for (let i = 0; i < this.invoiceProducts.length; i++) {
                       this.invoiceProducts[i].product = this.products.filter(entity =>
                         entity.id === this.invoiceProducts[i].idProduct)[0];
                     }
@@ -397,10 +394,10 @@ export class InvoicesEditComponent implements OnInit {
     const subtotal = allAmounts.reduce((a, b) => a + b, 0);
     const amountRateIvaTransfer = allIvas.reduce((a, b) => a + b, 0);
 
-    this.invoiceForm.controls['subtotal'].setValue(subtotal);
-    this.invoiceForm.controls['subtotal2'].setValue(subtotal);
-    this.invoiceForm.controls['amountRateIvaTransfer'].setValue(amountRateIvaTransfer);
-    this.invoiceForm.controls['total'].setValue(subtotal + amountRateIvaTransfer);
+    this.invoiceForm.controls.subtotal.setValue(subtotal);
+    this.invoiceForm.controls.subtotal2.setValue(subtotal);
+    this.invoiceForm.controls.amountRateIvaTransfer.setValue(amountRateIvaTransfer);
+    this.invoiceForm.controls.total.setValue(subtotal + amountRateIvaTransfer);
 
 
     this.productsDatasource = new MatTableDataSource<any>(this.invoiceProducts);
@@ -416,15 +413,15 @@ export class InvoicesEditComponent implements OnInit {
 
   getTitle() {
     return ((this.entity.readOnly) ?
-      "Consultar " : (this.entity.edit) ? "Editar " : " Agregar") +
-      " Factura";
+      'Consultar ' : (this.entity.edit) ? 'Editar ' : ' Agregar') +
+      ' Factura';
   }
 
   onSelect(value, input) {
     value = this.invoiceForm.value[input.formControlName];
-      console.log('RTC');
+    console.log('RTC');
     console.dir(value);
-      console.log('RTC');
+    console.log('RTC');
     switch (input.formControlName) {
       case 'client':
         this.getProductsByClient(value.id);
@@ -441,7 +438,7 @@ export class InvoicesEditComponent implements OnInit {
       .subscribe(
         data => {
           this.products = data;
-          for (var a = 0; a < this.formControlsProduct.length; a++) {
+          for (let a = 0; a < this.formControlsProduct.length; a++) {
             switch (this.formControlsProduct[a].formControlName) {
               case 'product':
                 this.formControlsProduct[a].options = this.products;
@@ -459,23 +456,23 @@ export class InvoicesEditComponent implements OnInit {
       .subscribe(
         data => {
           this.clientSelected = data;
-          console.log('clientSelected')
+          console.log('clientSelected');
           console.dir(data);
-          console.log('clientSelected')
-          this.invoiceForm.controls['emails'].setValue(this.clientSelected.emailInvoice);
-          this.invoiceForm.controls['paymentCondition'].setValue(
+          console.log('clientSelected');
+          this.invoiceForm.controls.emails.setValue(this.clientSelected.emailInvoice);
+          this.invoiceForm.controls.paymentCondition.setValue(
             this.paymentConditions.filter(entity =>
               entity.id === this.clientSelected.idPaymentCondition)[0]
           );
-          this.invoiceForm.controls['paymentWay'].setValue(
+          this.invoiceForm.controls.paymentWay.setValue(
             this.paymentWays.filter(entity =>
               entity.id === this.clientSelected.idPaymentWay)[0]
           );
           SortUtils.sortByProperty(this.clientSelected.clientAccounts, 'id', 'DESC');
-          this.invoiceForm.controls['account'].setValue(
+          this.invoiceForm.controls.account.setValue(
             this.clientSelected.clientAccounts[0].account
           );
-          this.invoiceForm.controls['paymentMethod'].setValue(
+          this.invoiceForm.controls.paymentMethod.setValue(
             this.paymentWays.filter(entity =>
               entity.id === this.clientSelected.fiscalData.idPaymentMethod)[0]
           );
@@ -492,25 +489,25 @@ export class InvoicesEditComponent implements OnInit {
     if (this.entity.new) {
       switch (value) {
         case 1:
-          this.invoiceForm.controls['yearMarket'].setValue(null);
-          this.invoiceForm.controls['monthMarket'].setValue(null);
-          this.invoiceForm.controls['dayMarket'].setValue(null);
-          this.invoiceForm.controls['yearClosing'].setValue(this.getYear());
-          this.invoiceForm.controls['monthClosing'].setValue(this.getMonth());
+          this.invoiceForm.controls.yearMarket.setValue(null);
+          this.invoiceForm.controls.monthMarket.setValue(null);
+          this.invoiceForm.controls.dayMarket.setValue(null);
+          this.invoiceForm.controls.yearClosing.setValue(this.getYear());
+          this.invoiceForm.controls.monthClosing.setValue(this.getMonth());
           break;
         case 2:
-          this.invoiceForm.controls['yearMarket'].setValue(this.getYear());
-          this.invoiceForm.controls['monthMarket'].setValue(this.getMonth());
-          this.invoiceForm.controls['dayMarket'].setValue(this.getDay());
-          this.invoiceForm.controls['yearClosing'].setValue(null);
-          this.invoiceForm.controls['monthClosing'].setValue(null);
+          this.invoiceForm.controls.yearMarket.setValue(this.getYear());
+          this.invoiceForm.controls.monthMarket.setValue(this.getMonth());
+          this.invoiceForm.controls.dayMarket.setValue(this.getDay());
+          this.invoiceForm.controls.yearClosing.setValue(null);
+          this.invoiceForm.controls.monthClosing.setValue(null);
           break;
         case 3:
-          this.invoiceForm.controls['yearMarket'].setValue(null);
-          this.invoiceForm.controls['monthMarket'].setValue(null);
-          this.invoiceForm.controls['dayMarket'].setValue(null);
-          this.invoiceForm.controls['yearClosing'].setValue(null);
-          this.invoiceForm.controls['monthClosing'].setValue(null);
+          this.invoiceForm.controls.yearMarket.setValue(null);
+          this.invoiceForm.controls.monthMarket.setValue(null);
+          this.invoiceForm.controls.dayMarket.setValue(null);
+          this.invoiceForm.controls.yearClosing.setValue(null);
+          this.invoiceForm.controls.monthClosing.setValue(null);
           break;
       }
     }
@@ -537,13 +534,9 @@ export class InvoicesEditComponent implements OnInit {
   }
 
   save(value) {
-      console.dir('RTC');
-      console.dir(value);
-      console.dir(this.plantSelected);
-      console.dir('RTC');
     if (!Validate(this.invoiceProducts)
       || this.invoiceProducts.length === 0) {
-      this.toastr.errorToastr("Los productos de la factura no pueden ser vacíos",
+      this.toastr.errorToastr('Los productos de la factura no pueden ser vacíos',
         'Productos');
       return;
     }
@@ -563,10 +556,10 @@ export class InvoicesEditComponent implements OnInit {
 
     this.invoice.subtotal = 0;
     this.invoice.save = this.entity.new;
-    for (var i = 0; i < this.invoiceProducts.length; i++) {
+    for (let i = 0; i < this.invoiceProducts.length; i++) {
       this.invoiceProducts[i].idProduct = this.invoiceProducts[i].product.id;
-        this.invoice.subtotal += this.invoiceProducts[i].unitValue * this.invoiceProducts[i].quantity;
-        this.invoice.amountRateIvaTransfer += ((this.invoiceProducts[i].unitValue * this.invoiceProducts[i].quantity) * this.invoiceProducts[i].percentageIva) / 100;
+      this.invoice.subtotal += this.invoiceProducts[i].unitValue * this.invoiceProducts[i].quantity;
+      this.invoice.amountRateIvaTransfer += ((this.invoiceProducts[i].unitValue * this.invoiceProducts[i].quantity) * this.invoiceProducts[i].percentageIva) / 100;
     }
     this.invoice.subtotal2 = this.invoice.subtotal;
     this.invoice.total = this.invoice.subtotal + this.invoice.amountRateIvaTransfer;
@@ -586,7 +579,7 @@ export class InvoicesEditComponent implements OnInit {
             this.invoiceSelected.id
         ) .subscribe(
             dat => {
-                let blob = new Blob([this.base64toBlob(dat.base64,
+                const blob = new Blob([this.base64toBlob(dat.base64,
                     'application/pdf')], {});
                 saveAs(blob, dat.nameFile);
                 this.toastr.successToastr('Factura generada correctamente', 'Archivo PDF!');
@@ -598,16 +591,16 @@ export class InvoicesEditComponent implements OnInit {
 
     base64toBlob(base64Data, contentType) {
         contentType = contentType || '';
-        let sliceSize = 1024;
-        let byteCharacters = atob(base64Data);
-        let bytesLength = byteCharacters.length;
-        let slicesCount = Math.ceil(bytesLength / sliceSize);
-        let byteArrays = new Array(slicesCount);
+        const sliceSize = 1024;
+        const byteCharacters = atob(base64Data);
+        const bytesLength = byteCharacters.length;
+        const slicesCount = Math.ceil(bytesLength / sliceSize);
+        const byteArrays = new Array(slicesCount);
         for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
-            let begin = sliceIndex * sliceSize;
-            let end = Math.min(begin + sliceSize, bytesLength);
-            let bytes = new Array(end - begin);
-            for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+            const begin = sliceIndex * sliceSize;
+            const end = Math.min(begin + sliceSize, bytesLength);
+            const bytes = new Array(end - begin);
+            for (let offset = begin, i = 0; offset < end; ++i, ++offset) {
                 bytes[i] = byteCharacters[offset].charCodeAt(0);
             }
             byteArrays[sliceIndex] = new Uint8Array(bytes);
