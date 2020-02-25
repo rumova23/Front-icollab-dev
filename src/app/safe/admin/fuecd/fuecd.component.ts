@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { MarketService } from '../../services/market.service';
@@ -47,12 +47,12 @@ export class FuecdComponent implements OnInit {
   ];
   filterBtn = { label: 'buscar' };
   rowsPorPage = [5, 10, 25, 50, 100, 250, 500];
-  listFUFPlanta: Array<SettlementInvoiceDT0>;
-  listFUFCenace: Array<SettlementInvoiceDT0>;
+  listFUFPlanta: MatTableDataSource<SettlementInvoiceDT0>;
+  listFUFCenace: MatTableDataSource<SettlementInvoiceDT0>;
 
 
-    listFulPlanta: Array<ConceptDTO>;
-    listFulCenace: Array<ConceptDTO>;
+    listFulPlanta: MatTableDataSource<ConceptDTO>;
+    listFulCenace: MatTableDataSource<ConceptDTO>;
 
     aaaaaa: Array<SettlementInvoiceDT0>;
     bbbbbb: Array<SettlementInvoiceDT0>;
@@ -104,17 +104,17 @@ export class FuecdComponent implements OnInit {
   }
   private detalleFuf(fuf, participante) {
       if (participante === 'participante') {
-          for ( let i = 0; i < this.listFUFPlanta.length; i++ ) {
-              if (this.listFUFPlanta[i].fuf === fuf) {
-                  this.listFulPlanta = this.listFUFPlanta[i].concepts;
+          for ( let i = 0; i < this.listFUFPlanta.data.length; i++ ) {
+              if (this.listFUFPlanta.data[i].fuf === fuf) {
+                  this.listFulPlanta = new MatTableDataSource<ConceptDTO>(this.listFUFPlanta.data[i].concepts);
                   break;
               }
           }
       }
       if (participante === 'cenace') {
-          for ( let i = 0; i < this.listFUFCenace.length; i++ ) {
-              if (this.listFUFCenace[i].fuf === fuf) {
-                  this.listFulCenace = this.listFUFCenace[i].concepts;
+          for ( let i = 0; i < this.listFUFCenace.data.length; i++ ) {
+              if (this.listFUFCenace.data[i].fuf === fuf) {
+                  this.listFulCenace = new MatTableDataSource<ConceptDTO>(this.listFUFCenace.data[i].concepts);
                   break;
               }
           }
@@ -133,22 +133,22 @@ export class FuecdComponent implements OnInit {
   }
 
   private getFuecds() {
-    this.marketService.getFufs(this.fuecd.fuecd)
-      .subscribe(
-          (data: Array<SettlementInvoiceDT0>) => {
-              for ( let i = 0; i < data.length; i++ ) {
-                  if (data[i].transmitter === 'participante') {
-                      this.aaaaaa.push(data[i]);
-                  }
-                  if (data[i].transmitter === 'cenace') {
-                      this.bbbbbb.push(data[i]);
-                  }
+      console.log(this.fuecd.fuecd);
+      this.marketService.getFufs(this.fuecd.fuecd)
+      .subscribe((data: Array<SettlementInvoiceDT0>) => {
+          if (data.length > 0) {
+              this.buttonAcepted = true;
+          }
+          for ( let i = 0; i < data.length; i++ ) {
+              if (data[i].transmitter === 'participante') {
+                  this.aaaaaa.push(data[i]);
               }
-              this.listFUFPlanta = this.aaaaaa;
-              this.listFUFCenace = this.bbbbbb;
-              if (this.listFUFPlanta.length > 0 || this.listFUFCenace.length > 0) {
-                  this.buttonAcepted = true;
+              if (data[i].transmitter === 'cenace') {
+                  this.bbbbbb.push(data[i]);
               }
+          }
+          this.listFUFPlanta = new MatTableDataSource<SettlementInvoiceDT0>(this.aaaaaa);
+          this.listFUFCenace = new MatTableDataSource<SettlementInvoiceDT0>(this.bbbbbb);
         },
         errorData => {
               this.buttonAcepted = false;

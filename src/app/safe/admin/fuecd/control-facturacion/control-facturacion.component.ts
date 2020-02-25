@@ -38,8 +38,6 @@ export class ControlFacturacionComponent implements OnInit {
   valid = false;
   timeRegisters: Array<TimeRegister> = [];
 
-  buttonAcepted = false;
-
   fuecd: AccountStatusDT0;
   loading: boolean;
   cols: any[];
@@ -178,39 +176,6 @@ export class ControlFacturacionComponent implements OnInit {
     }
   }
 
-  private aceptaFuecd() {
-    this.marketService.aceptaFuecd(this.fuecd.fuecd, 'Aprobado')
-        .subscribe(
-            data => {
-              this.toastr.successToastr('FUECD, aceptado', 'Exito!');
-            },
-            errorData => {
-              this.toastr.errorToastr(errorData.error.message, 'Error!');
-            });
-  }
-  private irAceptaFuecd(accountStatusDT0: AccountStatusDT0) {
-    this.eventService.sendChangePage(new EventMessage(-1, accountStatusDT0 , 'Safe.Estado de Cuenta Diario'));
-  }
-
-  private getFuecds() {
-    this.marketService.getFufs(this.fuecd.fuecd).subscribe(
-      (data: Array<SettlementInvoiceDT0>) => {
-        for ( let i = 0; i < data.length; i++ ) {
-          if (data[i].transmitter === 'participante') {
-            this.aaaaaa.push(data[i]);
-          }
-          if (data[i].transmitter === 'cenace') {
-            this.bbbbbb.push(data[i]);
-          }
-        }
-        this.listFUFPlanta = this.aaaaaa;
-        this.listFUFCenace = this.bbbbbb;
-      },
-      errorData => {
-        this.toastr.errorToastr(Constants.ERROR_LOAD, 'FUECD');
-      });
-  }
-
   compareObjects(o1: any, o2: any): boolean {
     return o1.id === o2.id;
   }
@@ -223,75 +188,6 @@ export class ControlFacturacionComponent implements OnInit {
   invoice(fuecd) {
     this.eventService.sendMainSafe(new
     EventMessage(24, { readOnly: false, edit: false, new: true, fuecd }));
-  }
-
-  validate(value) {
-    this.valid = false;
-    const reader = new FileReader();
-    reader.onloadend = (e) => {
-      this.file = reader.result;
-      this.file = this.file.replace(/^data:(.*;base64,)?/, '');
-
-      this.file = this.file.trim();
-      this.fileName = value.file.name;
-      this.marketService.validateFuecd({ file: this.file, name:  this.fileName})
-          .subscribe((data: AccountStatusDT0) => {
-                this.fuecd = data;
-                this.save();
-                /*for (let a = 0; a < status.settlements.length; a++) {
-                  const settlement = status.settlements[a];
-                  for (let b = 0; b < settlement.settlementInvoices.length; b++) {
-                    const settlementInvoice = settlement.settlementInvoices[b];
-
-                    for (let c = 0; c < settlementInvoice.concepts.length; c++) {
-                      const concept = settlementInvoice.concepts[c];
-
-                      const timer: TimeRegister = {};
-                      timer.fuecd = status.fuecd;
-                      timer.concept = concept.ful;
-                      timer.date = settlementInvoice.datePayment;
-                      timer.ful = concept.ful;
-                      timer.concept = concept.description;
-                      timer.iva = concept.iva;
-                      timer.totalAmount = concept.totalAmount;
-                      timer.totalNet = concept.totalNet;
-                      this.timeRegisters.push(timer);
-                      for (let d = 0; d < concept.annexeds.length; d++) {
-                        const annexed = concept.annexeds[d];
-
-                        for (let e = 0; e < annexed.timeRegisters.length; e++) {
-                          const timeRegister = annexed.timeRegisters[e];
-                        }
-                      }
-                    }
-                  }
-                }*/
-                this.valid = true;
-              },
-              errorData => {
-                if (errorData.error.message.indexOf('Ya existe el estado de cuenta') > -1) {
-                  this.toastr.warningToastr(errorData.error.message, 'Warning!');
-                  this.fuecdForm.reset();
-                } else {
-                  this.toastr.errorToastr( errorData.error.message, 'Error!');
-                }
-              });
-    };
-    reader.readAsDataURL(value.file);
-  }
-  save() {
-    this.marketService.saveFuecd({ file: this.file, name: this.fileName })
-        .subscribe(
-            data => {
-              this.getFuecds();
-              this.buttonAcepted = true;
-            },
-            errorData => {
-              this.fuecdForm.reset();
-              this.valid = false;
-              this.timeRegisters = [];
-              this.toastr.errorToastr(Constants.ERROR_SAVE, errorData);
-            });
   }
 
   dateChangeIni(event) {

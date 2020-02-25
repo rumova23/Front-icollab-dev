@@ -73,33 +73,9 @@
             </form>
             </div>
         </div>
-<hr>
-        <br><br>
-        <div class="row justify-content-end">
-        <form [formGroup]="fuecdForm" (ngSubmit)="validate(fuecdForm.value)">
-          <div class="row">
-            <div class="col">
-              Carga<br>
-              <app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
-              <mat-error *ngIf="!fuecdForm.controls['file'].valid
-                  && fuecdForm.controls['file'].touched">
-                Requerido
-              </mat-error>
-            </div>
-            <div class="col txt-r">
-              <button type="submit" class="btn"
-                      [disabled]="!fuecdForm.valid">
-                <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
-              </button>
-            </div>
-          </div>
-        </form>
-        <div class="col-12 col-sm-12 col-md-9 d-flex align-items-center justify-content-end" *ngIf="buttonAcepted">
-          <button type="button" class="btn" (click)="aceptaFuecd()" data-toggle="modal"
-                  data-target="#exampleModal">Aceptar FUECD</button>
-        </div>
-      </div>
-        <br><br>
+      </mdb-card-body>
+    </mdb-card>
+  </ng-container>
   <div class="row mb-1 mt-1">
     <div class="col">
       <div class="tabla-responsi mat-elevation-z8">
@@ -205,7 +181,7 @@
           <ng-container matColumnDef="irPredocumento">
             <th mat-header-cell *matHeaderCellDef class="txt-center">Pre Documento</th>
             <td mat-cell *matCellDef="let element">
-              <a (click)="action(element)">
+              <a (click)="action(element)" *ngIf="element.entidadEstatusId === pendienteFacturacionId" >
                 <i class="far fa-file-word fa-3x"></i>
               </a>&nbsp;
               <a (click)="download(element.idInvoice, element.type)" *ngIf="element.entidadEstatusId === facturadoId">
