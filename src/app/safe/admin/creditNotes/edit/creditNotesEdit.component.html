@@ -34,7 +34,7 @@
         <!-- Inputs -->
         <ng-container *ngFor="let formControl of formControls">
             <div class="row">
-                <div class="col dividerSection bg-secondary text-white">
+                <div class="col dividerSection colortheme">
                     <b>{{ formControl.section | translate }}</b>
                 </div>
             </div>
@@ -363,7 +363,7 @@
     <!-- PRODUCTOS PARA LA NOTA DE CŔEDITO -->
     <form [formGroup]="productForm" (ngSubmit)="saveProduct(productForm.value)">
         <div class="row">
-            <div class="col dividerSection bg-secondary text-white">
+            <div class="col dividerSection colortheme">
                 <b> Productos </b>
             </div>
         </div>
@@ -493,10 +493,6 @@
                 type="submit"
                 class="btn right"
                 [disabled]="!productForm.valid"
-                [ngClass]="{
-                    blue: globalService.aguila,
-                    orange: !globalService.aguila
-                }"
             >
                 <i class="ti-plus"></i>
                 &nbsp;{{ "add" | translate }}

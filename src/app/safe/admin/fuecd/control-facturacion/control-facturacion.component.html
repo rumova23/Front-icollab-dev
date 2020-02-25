@@ -13,9 +13,6 @@
       <p class="section_subtitulo_0"> </p>
     </div>
   </div>
-  <ng-container>
-    <mdb-card class="mt-4">
-      <mdb-card-body>
         <div class="row">
           <div class="col-12 col-sm-12 col-md-3">
               <form [formGroup]="filterDatesFormGroup" (ngSubmit)="searchFuecdByDates()">
@@ -113,7 +110,9 @@
       </div>
     </div>
   </div>
+  <br>
   <hr/>
+  <br>
   <div class="row mb-1 mt-1">
     <div class="col">
       <div class="tabla-responsi mat-elevation-z8">
@@ -194,6 +193,7 @@
           <tr mat-row *matRowDef="let row; columns: cols;"></tr>
         </table>
         <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
+        <br><br><br>
         <table mat-table [dataSource]="listFulPlanta" class="table_catalogo">
           <ng-container matColumnDef="group">
             <th mat-header-cell *matHeaderCellDef class="txt-center">Grupo</th>
@@ -235,7 +235,9 @@
       </div>
     </div>
   </div>
+  <br>
   <hr/>
+  <br>
   <div class="row mb-1 mt-1">
     <div class="col">
       <div class="tabla-responsi mat-elevation-z8">
@@ -313,6 +315,7 @@
           <tr mat-row *matRowDef="let row; columns: cols;"></tr>
         </table>
         <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
+        <br><br><br>
         <table mat-table [dataSource]="listFulCenace" class="table_catalogo">
           <ng-container matColumnDef="group">
             <th mat-header-cell *matHeaderCellDef class="txt-center">Grupo</th>
