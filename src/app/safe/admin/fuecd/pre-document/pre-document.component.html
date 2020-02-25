@@ -29,10 +29,11 @@
         </button>
       </div>
       <div class="col-md-3">
-        <button type="submit" class="btn btn-info right"
-                [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
-          <mdb-icon far icon="save" class="mr-1"></mdb-icon> Guardar
-        </button>
+        <button type="submit"
+                class="btn btn-info right"
+                [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
+                *ngIf="settlementInvoiceDT0.entidadEstatusId === pendienteFacturacionId">
+          <mdb-icon far icon="save" class="mr-1"></mdb-icon>Guardar</button>
       </div>
       <div class="col-md-3">
         <button  *ngIf="settlementInvoiceDT0.entidadEstatusId === timbradoId"
@@ -161,7 +162,7 @@
           <div class="form-group">
             <mat-label>Fecha limite de pago</mat-label>
             <mat-form-field class="form-control" >
-              <input matInput  [matDatepicker]="dateLimitPayHTML" [(ngModel)]="datePayLimit" [ngModelOptions]="{standalone: true}" (dateChange)="dateChange($event)">
+              <input matInput formControlName="datePayLimit"  [matDatepicker]="dateLimitPayHTML" [(ngModel)]="datePayLimit" (dateChange)="dateChange($event)">
               <mat-datepicker-toggle matSuffix [for]="dateLimitPayHTML"></mat-datepicker-toggle>
               <mat-datepicker #dateLimitPayHTML></mat-datepicker>
             </mat-form-field>

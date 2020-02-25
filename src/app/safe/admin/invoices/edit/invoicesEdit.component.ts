@@ -311,9 +311,6 @@ export class InvoicesEditComponent implements OnInit {
             this.marketService.getClient(this.invoiceSelected.idClient)
             .subscribe(
               dataC => {
-                  console.log('getClient');
-                  console.dir(dataC);
-                  console.log('getClient');
                   this.clientSelected = dataC;
                   this.invoiceSelected.plantBranchOffice = this.
                   plantSelected.plantBranches.filter(entity =>
@@ -333,9 +330,6 @@ export class InvoicesEditComponent implements OnInit {
                           break;
                       }
                     }
-                    console.log('invoiceProducts');
-                    console.dir(this.invoiceProducts);
-                    console.log('invoiceProducts');
                     for (let i = 0; i < this.invoiceProducts.length; i++) {
                       this.invoiceProducts[i].product = this.products.filter(entity =>
                         entity.id === this.invoiceProducts[i].idProduct)[0];
@@ -419,9 +413,6 @@ export class InvoicesEditComponent implements OnInit {
 
   onSelect(value, input) {
     value = this.invoiceForm.value[input.formControlName];
-    console.log('RTC');
-    console.dir(value);
-    console.log('RTC');
     switch (input.formControlName) {
       case 'client':
         this.getProductsByClient(value.id);
@@ -456,9 +447,6 @@ export class InvoicesEditComponent implements OnInit {
       .subscribe(
         data => {
           this.clientSelected = data;
-          console.log('clientSelected');
-          console.dir(data);
-          console.log('clientSelected');
           this.invoiceForm.controls.emails.setValue(this.clientSelected.emailInvoice);
           this.invoiceForm.controls.paymentCondition.setValue(
             this.paymentConditions.filter(entity =>

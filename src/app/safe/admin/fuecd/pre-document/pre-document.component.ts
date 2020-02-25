@@ -92,6 +92,8 @@ export class PreDocumentComponent implements OnInit {
   creditNote: CreditNote;
 
   timbradoId: number;
+  pendienteFacturacionId: number;
+  facturadoId: number;
 
   constructor(
       private eventService: EventService,
@@ -129,13 +131,9 @@ export class PreDocumentComponent implements OnInit {
           discountAmount: new FormControl(''),
           amountRateIvaTransfer: new FormControl(''),
           total: new FormControl(''),
-          observations: new FormControl('', Validators.required)
+          observations: new FormControl('', Validators.required),
+          datePayLimit: new FormControl('')
       });
-
-      this.marketService.obtenEntidadEstatus('SETTLEMENT_INVOICE', 'Timbrado').subscribe(
-          (entidadEstatus: EntidadEstausDTO) => {
-              this.timbradoId = entidadEstatus.entidadEstatusId;
-          });
   }
   ngOnInit() {
       this.colsFul = [
@@ -220,10 +218,34 @@ export class PreDocumentComponent implements OnInit {
 
       this.loadCatalogs();
       this.listFulPlanta = this.settlementInvoiceDT0.concepts;
-      this.initDisabled();
+      this.marketService.obtenEntidadEstatus('SETTLEMENT_INVOICE', 'Timbrado').subscribe(
+          (entidadEstatus: EntidadEstausDTO) => {
+              this.timbradoId = entidadEstatus.entidadEstatusId;
+              this.marketService.obtenEntidadEstatus('SETTLEMENT_INVOICE', 'Pendiente Facturacion').subscribe(
+                  (entidadEstatusa: EntidadEstausDTO) => {
+                      this.pendienteFacturacionId = entidadEstatusa.entidadEstatusId;
+                      this.marketService.obtenEntidadEstatus('SETTLEMENT_INVOICE', 'Facturado').subscribe(
+                          (entidadEstatusb: EntidadEstausDTO) => {
+                              this.facturadoId = entidadEstatusb.entidadEstatusId;
+                              this.initDisabled();
+                          });
+                  });
+          });
   }
   private initDisabled() {
       this.invoiceForm.enable({ onlySelf: true, emitEvent: false });
+      if (this.settlementInvoiceDT0.entidadEstatusId === this.facturadoId) {
+          this.invoiceForm.controls.typeChange.disable();
+          this.invoiceForm.controls.userCreate.disable();
+          this.invoiceForm.controls.userTimbro.disable();
+          this.invoiceForm.controls.userCanceled.disable();
+          this.invoiceForm.controls.useCfdi.disable();
+          this.invoiceForm.controls.typeRelation.disable();
+          this.invoiceForm.controls.observations.disable();
+          this.invoiceForm.controls.origenDocument.disable();
+          this.invoiceForm.controls.money.disable();
+          this.invoiceForm.controls.datePayLimit.disable();
+      }
       this.invoiceForm.controls.sys.disable();
       this.invoiceForm.controls.plantBranchOffice.disable();
       this.invoiceForm.controls.client.disable();
@@ -245,6 +267,7 @@ export class PreDocumentComponent implements OnInit {
       this.invoiceForm.controls.discountAmount.disable();
       this.invoiceForm.controls.amountRateIvaTransfer.disable();
       this.invoiceForm.controls.total.disable();
+
   }
   private loadCatalogs() {
     this.catalogService.list(this.catalogs)

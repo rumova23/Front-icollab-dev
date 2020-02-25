@@ -94,10 +94,6 @@ export class ControlFacturacionComponent implements OnInit {
         (entidadEstatus: EntidadEstausDTO) => {
           this.timbradoId = entidadEstatus.entidadEstatusId;
         });
-
-    console.log('this.referenciaNoFacturadaId: ' + this.referenciaNoFacturadaId);
-    console.log('this.pendienteFacturacionId: ' + this.pendienteFacturacionId);
-    console.log('this.facturadoId: ' + this.facturadoId);
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
