@@ -9,6 +9,7 @@ export class AccountStatusDT0 implements Deserializable  {
     public dateOperation: Date;
     public dateEmission: Date;
     public systemKey: string;
+    public entidadEstatusId: number;
     public settlements: Array<SettlementDT0>;
     deserialize(input: any) {
         Object.assign(this, input);

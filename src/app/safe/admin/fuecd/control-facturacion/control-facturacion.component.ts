@@ -67,6 +67,8 @@ export class ControlFacturacionComponent implements OnInit {
   pendienteFacturacionId: number;
   facturadoId: number;
   timbradoId: number;
+  accountPendienteAprobacionId: number;
+  accountAprobadoId: number;
 
   constructor(
       private marketService: MarketService,
@@ -93,6 +95,14 @@ export class ControlFacturacionComponent implements OnInit {
     this.marketService.obtenEntidadEstatus('SETTLEMENT_INVOICE', 'Timbrado').subscribe(
         (entidadEstatus: EntidadEstausDTO) => {
           this.timbradoId = entidadEstatus.entidadEstatusId;
+        });
+    this.marketService.obtenEntidadEstatus('ACCOUNT_STATUS', 'Pendiente Aprobacion').subscribe(
+        (entidadEstatus: EntidadEstausDTO) => {
+          this.accountPendienteAprobacionId = entidadEstatus.entidadEstatusId;
+          this.marketService.obtenEntidadEstatus('ACCOUNT_STATUS', 'Aprobado').subscribe(
+              (entidadEstatusb: EntidadEstausDTO) => {
+                this.accountAprobadoId = entidadEstatusb.entidadEstatusId;
+              });
         });
   }
 
@@ -177,6 +187,9 @@ export class ControlFacturacionComponent implements OnInit {
             errorData => {
               this.toastr.errorToastr(errorData.error.message, 'Error!');
             });
+  }
+  private irAceptaFuecd(accountStatusDT0: AccountStatusDT0) {
+    this.eventService.sendChangePage(new EventMessage(-1, accountStatusDT0 , 'Safe.Estado de Cuenta Diario'));
   }
 
   private getFuecds() {
@@ -311,6 +324,7 @@ export class ControlFacturacionComponent implements OnInit {
         idFul: this.filterFusFormGroup.controls.idFul.value
       }).subscribe(
           (data: Array<AccountStatusDT0>) => {
+            console.dir(data);
             this.listFUECD = data;
           },
           errorData => {

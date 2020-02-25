@@ -98,6 +98,9 @@ export class FuecdComponent implements OnInit {
           'totalDiferencia'
       ];
       this.loading = false;
+      if (this.fuecd) {
+          this.getFuecds();
+      }
   }
   private detalleFuf(fuf, participante) {
       if (participante === 'participante') {
@@ -143,9 +146,15 @@ export class FuecdComponent implements OnInit {
               }
               this.listFUFPlanta = this.aaaaaa;
               this.listFUFCenace = this.bbbbbb;
+              if (this.listFUFPlanta.length > 0 || this.listFUFCenace.length > 0) {
+                  this.buttonAcepted = true;
+              }
         },
         errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'FUECD');
+              this.buttonAcepted = false;
+              this.listFUFPlanta = null;
+              this.listFUFCenace = null;
+              this.toastr.errorToastr(Constants.ERROR_LOAD, 'FUECD');
         });
   }
 

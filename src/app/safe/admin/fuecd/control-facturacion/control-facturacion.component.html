@@ -128,8 +128,11 @@
           <ng-container matColumnDef="ver">
             <th mat-header-cell *matHeaderCellDef class="txt-center">Ver detalle de FUFs contenidos en el FUECD</th>
             <td mat-cell *matCellDef="let element">
-              <a (click)="detalleFufs(element.fuecd)">
+              <a (click)="detalleFufs(element.fuecd)" *ngIf="accountAprobadoId === element.entidadEstatusId">
                 <img src="assets/images/skins/ico_Ver.png" alt="Visualizar" />
+              </a>
+              <a (click)="irAceptaFuecd(element)" *ngIf="accountPendienteAprobacionId === element.entidadEstatusId">
+                <i class="fas fa-exclamation-triangle fa-3x"></i>
               </a>
             </td>
           </ng-container>

@@ -286,11 +286,10 @@ export class SafeHomeComponent implements OnInit {
 						break;
 					case 'Safe.Estado de Cuenta Diario':
 						banderaTemporal = true;
-						this.viewContainerRef.createComponent(
-							this.componentFactoryResolver.resolveComponentFactory(
-								FuecdComponent
-							)
-						).changeDetectorRef.detectChanges();
+						const factorya = this.componentFactoryResolver.resolveComponentFactory(FuecdComponent);
+						const viewComponenta = this.viewContainerRef.createComponent(factorya);
+						viewComponenta.instance.fuecd = event.data;
+						viewComponenta.changeDetectorRef.detectChanges();
 						break;
 					case 'Safe.Control Facturas':
 						banderaTemporal = true;
