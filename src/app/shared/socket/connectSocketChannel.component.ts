@@ -40,7 +40,7 @@ export class ConnectSocketChannelComponent extends ConnectSocketComponent implem
 		}
 		this.unsubscribeSocketChanels();
 	}
-	subscribeSocketOnStatus(callBack=null){
+	subscribeSocketOnStatus(callBack=null,fError=null){
 		if(this.subscriptions['onChangeSocketConnect']  == undefined || this.subscriptions["onChangeSocketConnect"].isStopped==true){
 			this.subscriptions['onChangeSocketConnect'] = this.eventService.onChangeSocketConnect
 				.subscribe({
@@ -48,6 +48,7 @@ export class ConnectSocketChannelComponent extends ConnectSocketComponent implem
 						if(event.id === 0){
 							this.unsubscribeSocketChanels();
 							this.whenLosingConnection();
+							if(fError!=null) fError();
 						}else if(event.id === 1){
 							this.subscribeSocketChanels();
 							if(callBack!=null)callBack();
@@ -78,7 +79,7 @@ export class ConnectSocketChannelComponent extends ConnectSocketComponent implem
 				});
 		}else{
 			this.subscribeOpenSocket();
-			this.subscribeSocketOnStatus(fconnect);
+			this.subscribeSocketOnStatus(fconnect,fError);
 		}
 	}
 	subscribeSocketChanels(){
