@@ -63,7 +63,12 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 		}
 	}
 	subscribeSocketHenryhub() {
-		this.subscribeSocketChannel("henryhub",(data)=>this.mydataAdapter(data),()=>{this.peticionget();});
+		this.subscribeSocketChannel(
+			"henryhub",
+			(data)=>this.mydataAdapter(data),
+			()=>{this.peticionget();},
+			()=>{}
+			);
 	}
 	mydataAdapter(data: any) {
 		this.data = [];
