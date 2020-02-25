@@ -20,7 +20,12 @@
     <form [formGroup]="invoiceForm" (ngSubmit)="save(invoiceForm.value)">
         <div class="row mb-5">
             <div>
-                <button type="button" class="btn" (click)="download()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">Descargar</button>
+                <button type="button" class="btn" (click)="download()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                    
+                    <i class="ti-cloud-down"></i>
+                    {{'Download' | translate}} {{'Layout' | translate}}
+              
+                </button>
             </div>
             <div class="col">
                 <button
@@ -28,7 +33,9 @@
                     class="btn right"
                     [disabled]="!invoiceForm.valid"
                 >
-                    Guardar Factura
+                    
+                <i class="ti-pencil"></i>
+                {{ "Save / Update" | translate }}
                 </button>
             </div>
         </div>
@@ -36,7 +43,7 @@
         <ng-container *ngFor="let formControl of formControls">
             <div class="row">
                 <div
-                    class="col dividerSection bg-secondary text-white"
+                    class="col dividerSection colortheme"
                 >
                     <b>{{ formControl.section }}</b>
                 </div>
@@ -290,7 +297,7 @@
     <form [formGroup]="productForm" (ngSubmit)="saveProduct(productForm.value)">
         <div class="row">
             <div
-                class="col dividerSection bg-secondary text-white"
+                class="col dividerSection colortheme"
             >
                 <b> Productos </b>
             </div>
@@ -406,14 +413,17 @@
                 class="btn right"
                 (click)="cancelProduct()"
             >
-                Cancelar
+            <i class="ti-close"></i>
+            {{ "Cancel" | translate }}
             </button>
             <button
                 type="submit"
                 class="btn right"
                 [disabled]="!productForm.valid"
             >
-                Agregar
+                
+            <i class="ti-plus"></i>
+            &nbsp;{{ "add" | translate }}
             </button>
         </div>
     </form>

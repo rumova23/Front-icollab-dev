@@ -14,20 +14,19 @@
       </div>
   </div>
 
-  <ng-container>
-    <mdb-card class="mt-4">
-      <mdb-card-body>
         <form [formGroup]="fuecdForm" (ngSubmit)="validate(fuecdForm.value)">
-          <div class="row">
-            <div class="col">
-              Carga<br>
+          
+          <div class="row justify-content-end">
+
+            <div class="col-12 col-sm-12 col-md-auto">
+              Carga Archivo:<br>
               <app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
               <mat-error *ngIf="!fuecdForm.controls['file'].valid
                   && fuecdForm.controls['file'].touched">
                 Requerido
               </mat-error>
             </div>
-            <div class="col txt-r">
+            <div class="col-12 col-sm-12 col-md-auto">
               <button type="submit" class="btn"
                       [disabled]="!fuecdForm.valid">
                 <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
@@ -39,15 +38,14 @@
           <button type="button" class="btn" (click)="aceptaFuecd()" data-toggle="modal"
                   data-target="#exampleModal">Aceptar FUECD</button>
         </div>
-      </mdb-card-body>
-    </mdb-card>
-  </ng-container>
+<hr>
 
   <div class="row mb-1 mt-1">
     <div class="col">
       Detalle de  FUECD: {{(fuecd != null) ? fuecd.fuecd : '-'}} con fecha de  emision: {{(fuecd != null) ? (fuecd.dateEmission | date:'dd/MM/yyyy') : '-'}} y fecha de operacion: {{(fuecd != null) ? (fuecd.dateOperation | date:'dd/MM/yyyy') : '-'}} a emitir por parte de Participante.
     </div>
   </div>
+  <br><br>
   <div class="row mb-1 mt-1">
     <div class="col">
       <div class="tabla-responsi mat-elevation-z8">
@@ -116,6 +114,8 @@
           <tr mat-row *matRowDef="let row; columns: cols;"></tr>
         </table>
         <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
+        
+        <br><br><br>
         <table mat-table [dataSource]="listFulPlanta" class="table_catalogo">
           <ng-container matColumnDef="group">
             <th mat-header-cell *matHeaderCellDef class="txt-center">Grupo</th>
@@ -158,11 +158,13 @@
     </div>
   </div>
   <hr/>
+  <br><br>
   <div class="row mb-1 mt-1">
     <div class="col">
       Detalle de  FUECD: {{(fuecd != null) ? fuecd.fuecd : '-'}} con fecha de  emision: {{(fuecd != null) ? (fuecd.dateEmission | date:'dd/MM/yyyy') : '-'}} y fecha de operacion: {{(fuecd != null) ? (fuecd.dateOperation | date:'dd/MM/yyyy') : '-'}} a emitir por parte de CENACE.
     </div>
   </div>
+  <br>
   <div class="row mb-1 mt-1">
     <div class="col">
       <div class="tabla-responsi mat-elevation-z8">
@@ -232,6 +234,8 @@
           <tr mat-row *matRowDef="let row; columns: cols;"></tr>
         </table>
         <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
+        
+        <br><br><br>
         <table mat-table [dataSource]="listFulCenace" class="table_catalogo">
           <ng-container matColumnDef="group">
             <th mat-header-cell *matHeaderCellDef class="txt-center">Grupo</th>

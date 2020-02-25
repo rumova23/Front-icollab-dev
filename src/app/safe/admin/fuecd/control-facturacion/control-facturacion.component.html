@@ -13,9 +13,6 @@
       <p class="section_subtitulo_0"> </p>
     </div>
   </div>
-  <ng-container>
-    <mdb-card class="mt-4">
-      <mdb-card-body>
         <div class="row">
           <div class="col-12 col-sm-12 col-md-3">
               <form [formGroup]="filterDatesFormGroup" (ngSubmit)="searchFuecdByDates()">
@@ -76,13 +73,9 @@
             </form>
             </div>
         </div>
-      </mdb-card-body>
-    </mdb-card>
-  </ng-container>
-
-  <ng-container>
-    <mdb-card class="mt-4">
-      <mdb-card-body>
+<hr>
+        <br><br>
+        <div class="row justify-content-end">
         <form [formGroup]="fuecdForm" (ngSubmit)="validate(fuecdForm.value)">
           <div class="row">
             <div class="col">
@@ -94,9 +87,8 @@
               </mat-error>
             </div>
             <div class="col txt-r">
-              <button type="submit" class="btn btn-info right"
-                      [disabled]="!fuecdForm.valid"
-                      [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+              <button type="submit" class="btn"
+                      [disabled]="!fuecdForm.valid">
                 <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
               </button>
             </div>
@@ -106,9 +98,8 @@
           <button type="button" class="btn" (click)="aceptaFuecd()" data-toggle="modal"
                   data-target="#exampleModal">Aceptar FUECD</button>
         </div>
-      </mdb-card-body>
-    </mdb-card>
-  </ng-container>
+      </div>
+        <br><br>
   <div class="row mb-1 mt-1">
     <div class="col">
       <div class="tabla-responsi mat-elevation-z8">
@@ -143,7 +134,9 @@
       </div>
     </div>
   </div>
+  <br>
   <hr/>
+  <br>
   <div class="row mb-1 mt-1">
     <div class="col">
       <div class="tabla-responsi mat-elevation-z8">
@@ -224,6 +217,7 @@
           <tr mat-row *matRowDef="let row; columns: cols;"></tr>
         </table>
         <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
+        <br><br><br>
         <table mat-table [dataSource]="listFulPlanta" class="table_catalogo">
           <ng-container matColumnDef="group">
             <th mat-header-cell *matHeaderCellDef class="txt-center">Grupo</th>
@@ -265,7 +259,9 @@
       </div>
     </div>
   </div>
+  <br>
   <hr/>
+  <br>
   <div class="row mb-1 mt-1">
     <div class="col">
       <div class="tabla-responsi mat-elevation-z8">
@@ -343,6 +339,7 @@
           <tr mat-row *matRowDef="let row; columns: cols;"></tr>
         </table>
         <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
+        <br><br><br>
         <table mat-table [dataSource]="listFulCenace" class="table_catalogo">
           <ng-container matColumnDef="group">
             <th mat-header-cell *matHeaderCellDef class="txt-center">Grupo</th>
