@@ -68,7 +68,6 @@ export class EnergyPpaComponent implements OnInit {
       .subscribe(
         data => {
           this.data = data;
-          debugger;
           this.dataSource = new MatTableDataSource<any>(this.data);
         },
         errorData => {
@@ -163,7 +162,7 @@ export class EnergyPpaComponent implements OnInit {
                     let a3 = data.message.split("para las fechas");
                     let a4 = a3[1].split("en el sistema,");
                     let fecha = a4[0].trim();
-                    let datePipeString = this.datePipe.transform(new Date(fecha),'yyyy-MM-dd');
+                    let datePipeString = this.datePipe.transform(new Date(fecha),'dd-MM-yyyy');
                     let menssage = `${a3[0].trim()} para las fechas ${datePipeString} en el sistema, ${a4[1].trim()}`;
                     data.message = menssage;
                     this.confirmationDialogService.confirm('Confirmación', data.message)

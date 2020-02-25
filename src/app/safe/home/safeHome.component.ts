@@ -336,6 +336,14 @@ export class SafeHomeComponent implements OnInit {
 
 					break;
 
+					case 'Safe.Planta':
+						banderaTemporal = true;
+						const factoryPlants = this.componentFactoryResolver
+						.resolveComponentFactory(PlantsComponent);
+						const refPlants =
+						this.viewContainerRef.createComponent(factoryPlants);
+						refPlants.changeDetectorRef.detectChanges();
+						break;
 					case 'Safe.Home':
 						banderaTemporal = true;
 						this.viewContainerRef.createComponent(

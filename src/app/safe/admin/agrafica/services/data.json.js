@@ -19,7 +19,8 @@ export const data_graficaDosa = [
             ,{x:45,     y: 480.07}
             ,{x:50,     y: 467.47}
         ],
-        yAxisID: 'y-axis-1'
+        yAxisID: 'y-axis-1',
+        xAxisID: 'x-temperatura-real'
     },
     {
         backgroundColor:'rgba(0, 174, 255, 0.3)',
@@ -41,7 +42,8 @@ export const data_graficaDosa = [
             ,{x:45,     y: 472.510}
             ,{x:50,     y: 460.105}
         ],
-        yAxisID: 'y-axis-1'
+        yAxisID: 'y-axis-1',
+        xAxisID: 'x-temperatura-real'
     },
     {
         backgroundColor:'rgba(242, 203, 5,  1)',
@@ -63,7 +65,8 @@ export const data_graficaDosa = [
             ,{x:45,     y: 472.5105}
             ,{x:50 ,    y: 460.105}
         ],
-        yAxisID: 'y-axis-1'
+        yAxisID: 'y-axis-1',
+        xAxisID: 'x-temperatura-real'
     },
     {
         backgroundColor:'rgba(196, 88, 80, 1)',
@@ -86,7 +89,8 @@ export const data_graficaDosa = [
             ,{x:45,     y: 460.77}
             ,{x:50,     y: 442.79}
         ],
-        yAxisID: 'y-axis-1'
+        yAxisID: 'y-axis-1',
+        xAxisID: 'x-temperatura-real'
     },
     {
         backgroundColor:'rgba(75, 192, 192, 0.3)',
@@ -109,6 +113,7 @@ export const data_graficaDosa = [
             ,{x:45,     y: 19.3}
             ,{x:50,     y: 24.68}
         ],
-        yAxisID: 'y-axis-2'
+        yAxisID: 'y-axis-2',
+        xAxisID: 'x-temperatura-real'
     }
 ];
