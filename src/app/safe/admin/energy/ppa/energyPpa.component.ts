@@ -29,6 +29,7 @@ export class EnergyPpaComponent implements OnInit {
   dataSource;
   cols: any[];
   date: Date;
+  selectedElement;
 
   energyForm: FormGroup;
   hour = 0;
@@ -71,6 +72,7 @@ export class EnergyPpaComponent implements OnInit {
           this.dataSource = new MatTableDataSource<any>(this.data);
         },
         errorData => {
+          this.dataSource = new MatTableDataSource<any>([]);
           this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
         });
   }
@@ -78,6 +80,7 @@ export class EnergyPpaComponent implements OnInit {
   editEnergy(energy) {
     this.energyForm.reset();
     this.hour = energy.hour;
+    this.selectedElement = energy;
 
     this.energyForm.patchValue(energy);
   }
@@ -110,6 +113,7 @@ export class EnergyPpaComponent implements OnInit {
 
   dateChange(event) {
     this.date = event.value;
+    this.energyForm.reset();
     this.loadData();
   }
 
@@ -191,6 +195,7 @@ export class EnergyPpaComponent implements OnInit {
         .subscribe(
             dataS => {
               this.toastr.successToastr(Constants.SAVE_SUCCESS, '');
+              this.fileUploadForm.reset();
             },
             errorDataS => {
               this.fileUploadForm.reset();

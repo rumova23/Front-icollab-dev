@@ -154,6 +154,7 @@ export class WeatherPpaComponent implements OnInit {
 
   dateChange(event) {
     this.date = new Date(event.target.value);
+    this.weatherForm.reset();
     this.loadData();
   }
 
@@ -230,6 +231,7 @@ export class WeatherPpaComponent implements OnInit {
         .subscribe(
             dataS => {
               this.toastr.successToastr(Constants.SAVE_SUCCESS, '');
+              this.fileUploadForm.reset();
             },
             errorDataS => {
               this.fileUploadForm.reset();

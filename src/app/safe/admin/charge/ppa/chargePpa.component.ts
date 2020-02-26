@@ -85,6 +85,7 @@ export class ChargePpaComponent implements OnInit {
           this.dataSource = new MatTableDataSource<any>(this.data);
         },
         errorData => {
+          this.dataSource = new MatTableDataSource<any>([]);
           this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
         });
   }
@@ -141,7 +142,7 @@ export class ChargePpaComponent implements OnInit {
   }
 
   dateChange(event) {
-
+    this.chargeForm.reset();
     this.date = event.value;
     this.loadData();
   }
@@ -224,6 +225,7 @@ export class ChargePpaComponent implements OnInit {
         .subscribe(
             dataS => {
               this.toastr.successToastr(Constants.SAVE_SUCCESS, '');
+              this.fileUploadForm.reset();
             },
             errorDataS => {
               this.fileUploadForm.reset();
