@@ -94,6 +94,15 @@ export class WeatherPpaComponent implements OnInit {
         errorData => {
           this.dataSource = new MatTableDataSource<any>([]);
           //this.toastr.errorToastr(Constants.ERROR_LOAD, errorData.error.message);
+          let casa = errorData.error.message;
+          
+          let a3 = errorData.error.message.split("No existe temperatura para la fecha ");
+          
+          let fecha = a3[1].trim();
+          let datePipeString = this.datePipe.transform(new Date(fecha),'dd/MM/yyyy');
+          let menssage = `No existe temperatura para la fecha  ${datePipeString}`;
+          errorData.error.message = menssage;
+
           this.toastr.errorToastr(errorData.error.message);
         });
   }
@@ -192,7 +201,7 @@ export class WeatherPpaComponent implements OnInit {
                     let a3 = data.message.split("para las fechas");
                     let a4 = a3[1].split("en el sistema,");
                     let fecha = a4[0].trim();
-                    let datePipeString = this.datePipe.transform(new Date(fecha),'dd-MM-yyyy');
+                    let datePipeString = this.datePipe.transform(new Date(fecha),'dd/MM/yyyy');
                     let menssage = `${a3[0].trim()} para las fechas ${datePipeString} en el sistema, ${a4[1].trim()}`;
                     data.message = menssage;
                     this.confirmationDialogService.confirm('Confirmación', data.message)
