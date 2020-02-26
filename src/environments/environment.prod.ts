@@ -11,7 +11,7 @@ export const environment = {
   , knowledgeUrl            : hostGateway + 'knowledge/'
   , seguimientoUrl          : hostGateway + 'seguimiento/'
   , estatusmaestro          : hostGateway + 'estatusmaestro/status/'
-  , marketUrl               : hostGateway + 'market/'
+  , marketUrl               : hostGateway + 'market/market/'
   , fuecdUrl                : hostGateway + 'fuecd/'
   , weatherUrl              : hostGateway + 'weather/'
   , ftpconsumerUrl          : hostGateway + 'ftpconsumer/'
