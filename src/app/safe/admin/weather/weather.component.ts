@@ -183,7 +183,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
     this.trService.getHourly(this.date.getTime())
     .subscribe(
       data => {
-        this.hourly = data.docs[0].data;
+        this.hourly = data.docs.length > 0 ? data.docs[0].data: null;
         this.loadHourlyData();
         this.getForecast();
       },
@@ -193,6 +193,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
   }
 
   loadHourlyData() {
+    if(!this.hourly)return;
     this.hours = [];
     let date = this.date;
     date.setHours(0,0,0,0);

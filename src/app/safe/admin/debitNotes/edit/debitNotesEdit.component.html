@@ -25,7 +25,9 @@
                     class="btn right"
                     [disabled]="!debitNoteForm.valid"
                 >
-                    Guardar Nota de Debito
+                    
+					<i class="ti-pencil"></i>
+                    {{'Save / Update' | translate}}
                 </button>
             </div>
         </div>
@@ -33,7 +35,7 @@
         <ng-container *ngFor="let formControl of formControls">
             <div class="row">
                 <div
-                    class="col dividerSection bg-secondary text-white">
+                    class="col dividerSection colortheme">
                     <b>{{ formControl.section }}</b>
                 </div>
             </div>
@@ -358,7 +360,7 @@
     <form [formGroup]="productForm" (ngSubmit)="saveProduct(productForm.value)">
         <div class="row">
             <div
-                class="col dividerSection bg-secondary text-white"
+                class="col dividerSection colortheme"
             >
                 <b> Productos </b>
             </div>
@@ -499,14 +501,17 @@
                 class="btn right"
                 (click)="cancelProduct()"
             >
-                Cancelar
+            <i class="ti-close"></i>
+            {{ "Cancel" | translate }}
             </button>
             <button
                 type="submit"
                 class="btn right"
                 [disabled]="!productForm.valid"
             >
-                Agregar
+                
+					<i class="ti-plus"></i>
+					&nbsp;{{ "add" | translate }}
             </button>
         </div>
     </form>

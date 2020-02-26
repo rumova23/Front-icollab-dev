@@ -93,6 +93,7 @@ import { AgraficaComponent } from './admin/agrafica/agrafica.component';
 import {MtrCenaceComponent} from './admin/modelMarket/mtr-cenace/mtr-cenace.component';
 import {ControlFacturacionComponent} from './admin/fuecd/control-facturacion/control-facturacion.component';
 import {PreDocumentComponent} from './admin/fuecd/pre-document/pre-document.component';
+import { TemperatureComponent } from './admin/temperature/temperature.component';
 
 
 @NgModule({
@@ -141,7 +142,8 @@ import {PreDocumentComponent} from './admin/fuecd/pre-document/pre-document.comp
         HenryhubComponent,
         MtrCenaceComponent,
         ControlFacturacionComponent,
-        PreDocumentComponent
+        PreDocumentComponent,
+        TemperatureComponent
     ],
     exports: [],
     imports: [

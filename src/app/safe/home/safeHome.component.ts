@@ -70,6 +70,7 @@ import { HenryhubComponent                        } from '../admin/henryhub/henr
 import {MtrCenaceComponent} from '../admin/modelMarket/mtr-cenace/mtr-cenace.component';
 import {ControlFacturacionComponent} from '../admin/fuecd/control-facturacion/control-facturacion.component';
 import {PreDocumentComponent} from '../admin/fuecd/pre-document/pre-document.component';
+import { TemperatureComponent } from '../admin/temperature/temperature.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -136,6 +137,7 @@ import {PreDocumentComponent} from '../admin/fuecd/pre-document/pre-document.com
 		, MtrCenaceComponent
 		, ControlFacturacionComponent
 		, PreDocumentComponent
+		, TemperatureComponent
   	]
 })
 
@@ -187,6 +189,12 @@ export class SafeHomeComponent implements OnInit {
 				let banderaTemporal = false;
 				this.viewContainerRef.clear();
 				switch (event.descriptor) {
+					case 'Safe.TemperatureComponent':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(TemperatureComponent)
+						).changeDetectorRef.detectChanges();
+						break;
 					case 'Safe.AccountStatements20119Component':
 
 						banderaTemporal = true;

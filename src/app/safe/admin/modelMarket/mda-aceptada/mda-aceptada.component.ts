@@ -156,6 +156,7 @@ export class MdaAceptadaComponent implements OnInit {
               this.obtieneObservaciones();
             },
             errorData => {
+              this.dataSource = new MatTableDataSource<any>([]);
               if (errorData.error.message.indexOf('La Planeacion Existe') > -1) {
                 this.toastr.warningToastr(errorData.error.message, 'Warning!');
               } else {

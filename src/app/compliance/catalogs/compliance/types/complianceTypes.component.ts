@@ -364,7 +364,7 @@ export class ComplianceTypesComponent implements OnInit {
                     obj['dateup'] = element.dateUpdated
                         ? this.datePipe.transform(
                               new Date(element.dateUpdated),
-                              'dd-MM-yyyy h:mm a'
+                              'dd/MM/yyyy h:mm a'
                           )
                         : '';
 					obj['status'] =

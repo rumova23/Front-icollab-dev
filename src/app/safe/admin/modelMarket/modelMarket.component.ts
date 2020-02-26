@@ -165,6 +165,7 @@ export class ModelMarketComponent implements OnInit {
 
         },
         errorData => {
+          this.dataSource = new MatTableDataSource<any>([]);
           if (errorData.error.message.indexOf('La Planeacion Existe') > -1) {
             this.toastr.warningToastr(errorData.error.message, 'Warning!');
           } else {
@@ -206,6 +207,7 @@ export class ModelMarketComponent implements OnInit {
   }
 
   dateChange(event) {
+    this.modelMarketForm.reset();
     this.date = new Date(event.target.value);
     this.loadData();
   }

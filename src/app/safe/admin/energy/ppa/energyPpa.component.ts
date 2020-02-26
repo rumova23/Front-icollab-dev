@@ -29,6 +29,7 @@ export class EnergyPpaComponent implements OnInit {
   dataSource;
   cols: any[];
   date: Date;
+  selectedElement;
 
   energyForm: FormGroup;
   hour = 0;
@@ -71,6 +72,7 @@ export class EnergyPpaComponent implements OnInit {
           this.dataSource = new MatTableDataSource<any>(this.data);
         },
         errorData => {
+          this.dataSource = new MatTableDataSource<any>([]);
           this.toastr.errorToastr(Constants.ERROR_LOAD, errorData);
         });
   }
@@ -78,6 +80,7 @@ export class EnergyPpaComponent implements OnInit {
   editEnergy(energy) {
     this.energyForm.reset();
     this.hour = energy.hour;
+    this.selectedElement = energy;
 
     this.energyForm.patchValue(energy);
   }
@@ -110,6 +113,7 @@ export class EnergyPpaComponent implements OnInit {
 
   dateChange(event) {
     this.date = event.value;
+    this.energyForm.reset();
     this.loadData();
   }
 
@@ -162,7 +166,7 @@ export class EnergyPpaComponent implements OnInit {
                     let a3 = data.message.split("para las fechas");
                     let a4 = a3[1].split("en el sistema,");
                     let fecha = a4[0].trim();
-                    let datePipeString = this.datePipe.transform(new Date(fecha),'dd-MM-yyyy');
+                    let datePipeString = this.datePipe.transform(new Date(fecha),'dd/MM/yyyy');
                     let menssage = `${a3[0].trim()} para las fechas ${datePipeString} en el sistema, ${a4[1].trim()}`;
                     data.message = menssage;
                     this.confirmationDialogService.confirm('Confirmación', data.message)
@@ -191,6 +195,7 @@ export class EnergyPpaComponent implements OnInit {
         .subscribe(
             dataS => {
               this.toastr.successToastr(Constants.SAVE_SUCCESS, '');
+              this.fileUploadForm.reset();
             },
             errorDataS => {
               this.fileUploadForm.reset();
