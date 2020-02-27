@@ -425,6 +425,7 @@ export class PreDocumentComponent implements OnInit {
                 product.quantity = 1;
                 product.unitValue = concept.totalNet;
                 product.percentageIva = 16;
+                product.idConcept = concept.id;
                 this.invoiceProducts.push(product);
             }
 
@@ -438,6 +439,7 @@ export class PreDocumentComponent implements OnInit {
                 product.quantity = 1;
                 product.unitValue = concept.totalNetDifference;
                 product.percentageIva = 16;
+                product.idConcept = concept.id;
                 this.invoiceProducts.push(product);
             }
         }
@@ -508,6 +510,7 @@ export class PreDocumentComponent implements OnInit {
                 product.quantity = 1;
                 product.unitValue = concept.totalNet;
                 product.percentageIva = 16;
+                product.idConcept = concept.id;
                 this.debitNoteProducts.push(product);
             }
 
@@ -521,6 +524,7 @@ export class PreDocumentComponent implements OnInit {
                 product.quantity = 1;
                 product.unitValue = concept.totalNetDifference;
                 product.percentageIva = 16;
+                product.idConcept = concept.id;
                 this.debitNoteProducts.push(product);
             }
         }
@@ -585,6 +589,7 @@ export class PreDocumentComponent implements OnInit {
                 product.quantity = 1;
                 product.unitValue = concept.totalNet;
                 product.percentageIva = 16;
+                product.idConcept = concept.id;
                 this.creditNoteProducts.push(product);
             }
 
@@ -598,6 +603,7 @@ export class PreDocumentComponent implements OnInit {
                 product.quantity = 1;
                 product.unitValue = concept.totalNetDifference;
                 product.percentageIva = 16;
+                product.idConcept = concept.id;
                 this.creditNoteProducts.push(product);
             }
         }
