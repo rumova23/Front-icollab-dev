@@ -64,8 +64,21 @@
 </form>
 <div class="section">
   <div class="row">
-    <!--<div class="mat-elevation-z0">-->
-    <table>
+      <div class="col-md-9"></div>
+      <div class="col-md-3">
+        <div class="d-flex justify-content-end">
+          <button type="button" class="btn" [disabled]="exportDisabled"
+                  [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
+                  (click)="exportAsExcel()">
+            <i class="ti-cloud-down"></i>
+            Exportar
+          </button>
+        </div>
+      </div>
+   </div>
+  <br>
+   <div class="row">
+    <table #tableAnalitics>
       <thead>
       <tr><th colspan="35"><small>EFG-ES Operating Data</small></th></tr>
       <tr>

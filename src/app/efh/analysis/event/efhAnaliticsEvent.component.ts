@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CatalogoMaestroService} from '../../../core/services/catalogo-maestro.service';
 import {EfhService} from '../../../core/services/efh.service';
@@ -9,7 +9,7 @@ import {DatePipe} from '@angular/common';
 import {EventMessage} from '../../../core/models/EventMessage';
 import {EventBlocked} from '../../../core/models/EventBlocked';
 import {Constants} from '../../../core/globals/Constants';
-import {MatTableDataSource} from '@angular/material';
+import {ExportToExcelService} from '../../../core/services/export-to-excel.service';
 
 @Component({
   selector: 'app-efh-analitics-event',
@@ -20,10 +20,12 @@ export class EfhAnaliticsEventComponent implements OnInit {
 
   title: String;
   @Input() nombreCatalogo: string;
+  @ViewChild('tableAnalitics') TABLE: ElementRef;
   analysisForm: FormGroup;
   unitsArr = [];
   data: any[] = [];
   dataAnalysis: Array<any>;
+  datesOfRange: Array<Date>;
   dataSubmit = {};
   result;
   resultService;
@@ -34,6 +36,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
   selectedInitDate;
   selectedEndDate;
   datesValidation = false;
+  exportDisabled = true;
 
     // Indicators
     FF = 0;
@@ -74,6 +77,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
       public  toastr: ToastrManager,
       public  globalService: GlobalService,
       private eventService: EventService,
+      private exportToExcelService: ExportToExcelService,
       private datePipe: DatePipe
   ) {
     this.analysisForm = this.formBuilder.group({});
@@ -91,6 +95,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
       initDate: ['', Validators.required],
       endDate: ['', Validators.required]
     });
+    this.datesOfRange = [];
     this.selectedUnit = undefined;
     this.getCatalogs();
   }
@@ -103,19 +108,21 @@ export class EfhAnaliticsEventComponent implements OnInit {
               this.resultService = data;
               let k = 0;
               for (const element of this.resultService) {
-                k += 1;
-                const obj = {};
-                // @ts-ignore
-                obj.order = k;
-                // @ts-ignore
-                obj.id = element.id;
-                // @ts-ignore
-                obj.name = element.code;
-                // @ts-ignore
-                obj.description = element.description;
-                // @ts-ignore
-                obj.active = element.active;
-                this.unitsArr.push(obj);
+                  k += 1;
+                  if (element.active) {
+                      const obj = {};
+                      // @ts-ignore
+                      obj.order = k;
+                      // @ts-ignore
+                      obj.id = element.id;
+                      // @ts-ignore
+                      obj.name = element.code;
+                      // @ts-ignore
+                      obj.description = element.description;
+                      // @ts-ignore
+                      obj.active = element.active;
+                      this.unitsArr.push(obj);
+                  }
               }
             },
             errorData => {
@@ -232,6 +239,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
 
     this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.selectedInitDate + 'T00:00:00.000'), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
     this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.selectedEndDate + 'T00:00:00.000'), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
+    // this.fillDatesOfRange(new Date(this.selectedInitDate + 'T00:00:00.000'), new Date(this.selectedEndDate + 'T00:00:00.000'));
     this.getDataSource(this.dataSubmit);
   }
 
@@ -250,6 +258,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
   }
 
   calculate() {
+    this.exportDisabled = false;
 
     // Variables
     let totalStart = 0;
@@ -541,6 +550,18 @@ export class EfhAnaliticsEventComponent implements OnInit {
 
     // Check if the first is less than second
     if (d1 < d2) { return false; }
+  }
+
+  fillDatesOfRange(startDate: Date, endDate: Date) {
+      let currentDate = startDate;
+      while (currentDate <= endDate) {
+        this.datesOfRange.push(currentDate);
+        currentDate = new Date(currentDate.getTime() + (1000 * 60 * 60 * 24));
+      }
+  }
+
+  exportAsExcel() {
+      this.exportToExcelService.exportAsExcelFile(this.TABLE.nativeElement, 'EFG-ES Operating Data');
   }
 
 }

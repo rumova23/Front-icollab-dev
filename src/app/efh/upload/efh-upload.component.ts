@@ -101,7 +101,6 @@ export class EfhUploadComponent implements OnInit, OnDestroy {
                           this.efhService.accion.next('upload');
                       },
                       error => {
-                          debugger;
                           if (error.error['text'] === 'OK') {
                               this.toastr.successToastr('Documento eliminado con éxito.', '¡Se ha logrado!');
                               this.efhService.accion.next('upload');
@@ -113,5 +112,4 @@ export class EfhUploadComponent implements OnInit, OnDestroy {
           })
           .catch(() => console.log('Canceló eliminar'));
   }
-
 }
