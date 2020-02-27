@@ -228,6 +228,10 @@ export class ControlFacturacionComponent implements OnInit {
           });
   }
 
+  private irAceptaFuecd(accountStatusDT0: AccountStatusDT0) {
+    this.eventService.sendChangePage(new EventMessage(-1, accountStatusDT0 , 'Safe.Estado de Cuenta Diario'));
+  }
+
   detalleFufs(fuecd: string) {
     let accountStatusDT0: AccountStatusDT0;
     let settlementDT0: SettlementDT0;
