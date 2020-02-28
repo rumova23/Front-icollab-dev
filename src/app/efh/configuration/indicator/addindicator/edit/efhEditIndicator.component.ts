@@ -538,7 +538,7 @@ export class EfhEditIndicatorComponent implements OnInit {
         || (this.isEqWithOutFuelFactorSelected && this.indicatorForm.controls['equivalenWithOutFuelFactor'].invalid)
         || (this.isMaxiumLoadSelected && this.indicatorForm.controls['maxiumLoad'].invalid)
         || (this.isEfhiSelected && this.indicatorForm.controls['efhiCost'].invalid)
-        || this.indicatorForm.controls['description'].invalid
+        // || this.indicatorForm.controls['description'].invalid
         || (this.selectedUnit === undefined || this.selectedUnit === null)
         || (this.selectedFuelType === undefined && this.isWithFuel || this.selectedFuelType === null && this.isWithFuel)) {
       this.toastr.errorToastr('Verifique los campos.', 'Lo siento,');

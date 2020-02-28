@@ -178,7 +178,7 @@ export class EfhFuelTypeComponent implements OnInit {
 
   eliminarRegistro(maestroOpcion: any) {
     this.confirmationDialogService.confirm('Por favor, confirme..',
-        'Está seguro de eliminar el registro?')
+        'Está seguro de eliminar ' + maestroOpcion.code + '?')
         .then((confirmed) => {
           if (confirmed) {
             this.catalogoMaestroService.outCatalogoItem(EfhFuelTypeComponent.mainCatalog

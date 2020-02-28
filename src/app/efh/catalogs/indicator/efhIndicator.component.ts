@@ -92,7 +92,6 @@ export class EfhIndicatorComponent implements OnInit {
             dataBack => {
                 this.result = dataBack;
                 let i = 0;
-                debugger;
                 for (let element of this.result) {
                     i += 1;
                     let obj            = {};
@@ -146,7 +145,6 @@ export class EfhIndicatorComponent implements OnInit {
 
     action(option: number, id: any) {
         let type: CatalogType = {};
-
         switch (option) {
             case 1:
                 type = {
@@ -175,19 +173,19 @@ export class EfhIndicatorComponent implements OnInit {
 
     eliminarRegistro(maestroOpcion: any) {
         this.confirmationDialogService.confirm('Por favor, confirme..',
-            'Está seguro de eliminar el registro?')
+            'Está seguro de eliminar ' + maestroOpcion.code + '?')
             .then((confirmed) => {
                 if (confirmed) {
                     this.catalogoMaestroService.outCatalogoItem(EfhIndicatorComponent.mainCatalog
                         , maestroOpcion.id).subscribe(
                         data => {
                             this.toastr.successToastr('El registro fue correctamente eliminado', '¡Se ha logrado!');
-                            this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.Tipo de evento'));
+                            this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.indicadorComponent'));
                         }
                         , error => {
                             if (error.error['text'] === 'Ok') {
                                 this.toastr.successToastr('El registro fue correctamente eliminado', '¡Se ha logrado!');
-                                this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.Tipo de evento'));
+                                this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.indicadorComponent'));
                             } else {
                                 this.toastr.errorToastr(error.error['text'], 'Lo siento,');
                             }

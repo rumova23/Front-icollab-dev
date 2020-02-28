@@ -755,7 +755,7 @@ export class EfhEditEventComponent implements OnInit {
           || (this.isNormalOperationSectionVisible && this.eventForm.controls['startTimeNormal'].invalid)
           || (this.isNormalOperationSectionVisible && this.eventForm.controls['endDateNormal'].invalid)
           || (this.isNormalOperationSectionVisible && this.eventForm.controls['endTimeNormal'].invalid)
-          || this.eventForm.controls['description'].invalid
+          // || this.eventForm.controls['description'].invalid
           // || this.observationsArr.length === 0
           || (this.selectedUnit === undefined || this.selectedUnit === null)
           || (this.isNormalOperationSectionVisible && (this.selectedFuelType === undefined || this.selectedFuelType === null)) ) {

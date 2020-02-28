@@ -77,14 +77,14 @@ export class EfhIndicatorEditComponent implements OnInit {
     if (this.accion === 'editar') {
       this.deshabiliarEstatus = false;
       this.disabledSave = true;
-      this.titulo = 'Editar / Catálogo de Tipos de Evento';
+      this.titulo = 'Editar / Catálogo de Tipos de Indicador';
     } else if (this.accion === 'ver') {
       this.deshabiliarEstatus = true;
-      this.titulo = 'Consultar / Catálogo de Tipos de Evento';
+      this.titulo = 'Consultar / Catálogo de Tipos de Indicador';
     } else {
       this.checkedEstatus = true;
       this.deshabiliarEstatus = false;
-      this.titulo = 'Agregar / Catálogo de Tipos de Evento';
+      this.titulo = 'Agregar / Catálogo de Tipos de Indicador';
     }
 
     if (this.accion === 'editar' || this.accion === 'ver') {
@@ -101,7 +101,7 @@ export class EfhIndicatorEditComponent implements OnInit {
   }
 
   obtenerDatosTiposEvento(putData) {
-    this.catalogoMaestroService.getCatalogoIndividual('indicator').subscribe(
+    this.catalogoMaestroService.getCatalogoIndividual('typeIndicator').subscribe(
         dataBack => {
           this.result = dataBack;
 

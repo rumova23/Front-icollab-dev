@@ -94,7 +94,6 @@ export class EfhEventTypeComponent implements OnInit {
     this.catalogoMaestroService.getCatalogoIndividual(EfhEventTypeComponent.mainCatalog).subscribe(
         dataBack => {
           this.result = dataBack;
-          debugger;
           let i = 0;
           for (let element of this.result) {
             i += 1;
@@ -178,7 +177,7 @@ export class EfhEventTypeComponent implements OnInit {
 
   eliminarRegistro(maestroOpcion: any) {
     this.confirmationDialogService.confirm('Por favor, confirme..',
-        'Está seguro de eliminar el registro?')
+        'Está seguro de eliminar ' + maestroOpcion.code + '?')
         .then((confirmed) => {
           if (confirmed) {
             this.catalogoMaestroService.outCatalogoItem(EfhEventTypeComponent.mainCatalog

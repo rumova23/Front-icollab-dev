@@ -472,12 +472,13 @@
         <div class="form-group">
           <label>Descripción</label>
           <!--<input mdbInput class="form-control" formControlName="description" (keydown)="enableSaveButton();" #description maxlength="1000">-->
-          <textarea mdbInput class="form-control" formControlName="description" (keydown)="enableSaveButton();" #description maxlength="1000" rows="4"></textarea>
+          <textarea mdbInput class="form-control" formControlName="description" (keydown)="enableSaveButton();" #description maxlength="1000" rows="8"></textarea>
           <small class="form-text text-muted text-right">{{description.value?.length || 0}}/1000</small>
         </div>
+        <!--
         <div *ngIf="submittedData && f.description.errors" style="color:red">
           <div *ngIf="f.description.errors.required">Requerido</div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
