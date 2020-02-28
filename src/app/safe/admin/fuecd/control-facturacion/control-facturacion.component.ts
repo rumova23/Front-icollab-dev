@@ -137,7 +137,7 @@ export class ControlFacturacionComponent implements OnInit {
       'ivaDiferencia',
       'totalDiferencia',
       'verDetalleFulsContenidosFuf',
-      //'irPredocumento',
+      'irPredocumento',
     ];
     this.colsFul = [
       'group',
