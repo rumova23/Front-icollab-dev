@@ -8,6 +8,7 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 import { Validate } from 'src/app/core/helpers/util.validator.';
 import { ModelMarket } from '../../models/ModelMarket';
 import { saveAs } from 'file-saver';
+import {isNull} from 'util';
 
 @Component({
   selector: 'app-modelMarket',
@@ -97,17 +98,22 @@ export class ModelMarketComponent implements OnInit {
     this.marketService.getModelMarket(this.date.getTime())
       .subscribe(
         data => {
+          console.log('RTC getModelMarket')
+          console.dir(data);
+          console.log('RTC getModelMarket')
           const rows = data.rows;
           this.dateDespatch = data.dateDespatch;
           this.data = [];
-          for (var i = 0; i < rows.length; i++) {
-            let hour: ModelMarket = {};
+          for (let i = 0; i < rows.length; i++) {
+            console.log('RTC: data.rows : ' + i);
+            console.dir(rows[i]);
+            const hour: ModelMarket = {};
             const offerIncrements = rows[i].offerIncrements;
             hour.hour = offerIncrements[0].hour;
             hour.limitDispatchMin = rows[i].planningDetail.limitDespatchMin;
             hour.limitDispatchMax = rows[i].planningDetail.limitDespatchMax;
             hour.idSubInt =  rows[i].planningDetail.idSubInt;
-            hour.minimumPowerOperationCost = rows[i].planningCharges.costOperation;
+            hour.minimumPowerOperationCost = (rows[i].planningCharges) ? rows[i].planningCharges.costOperation : 0;
             for (var a = 0; a < offerIncrements.length; a++) {
               switch (a) {
                 case 0:
@@ -158,11 +164,9 @@ export class ModelMarketComponent implements OnInit {
             }
             this.data.push(hour);
           }
-          this.dataSource = new MatTableDataSource<any>(this.data);
-          /*
-          this.data = data;
-          this.dataSource = new MatTableDataSource<any>(this.data); */
-
+          // this.dataSource = new MatTableDataSource<any>(this.data);
+          // this.data = data;
+          this.dataSource = new MatTableDataSource<ModelMarket>(this.data);
         },
         errorData => {
           this.dataSource = new MatTableDataSource<any>([]);
@@ -207,9 +211,13 @@ export class ModelMarketComponent implements OnInit {
   }
 
   dateChange(event) {
+    console.log('olas del mar a');
     this.modelMarketForm.reset();
+    console.log('olas del mar b');
     this.date = new Date(event.target.value);
+    console.log('olas del mar c');
     this.loadData();
+    console.log('olas del mar d');
   }
 
   saveModel(energy) {
