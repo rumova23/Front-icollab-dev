@@ -21,7 +21,7 @@
               </div>
             </div>
           </div>
-          <div class="col-6">
+          <div class="col-6" *ngIf="!isdisabled">
             <app-efh-upload-common [inAccion]='inAccion' [typeDocument]='item.titleDocument' [inIdEventConfig]='inIdEventConfig' [inTypeConfig]='inTypeConfig'></app-efh-upload-common>
           </div>
         </div>

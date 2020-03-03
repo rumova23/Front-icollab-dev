@@ -561,9 +561,6 @@
     <app-efh-comments [inIdEventConfig]="eventType.id" [inAction]="accion" [inTypeConfig]="1"></app-efh-comments>
   </div>
   <!-- End Test -->
-    <div *ngIf="isDefaultSectionsVisible && eventType.id != 0">
-      <app-efh-upload [inIdEventConfig]="eventType.id" [inAccion]="accion" [inTypeConfig]="1"></app-efh-upload>
-    </div>
     <div class="section" *ngIf="isDefaultSectionsVisible">
       <div class="row">
         <div class="col-md-6 col-lg-4">
@@ -598,6 +595,9 @@
             </div>
         </div>
       </div>
+    </div>
+    <div *ngIf="isDefaultSectionsVisible && eventType.id != 0">
+        <app-efh-upload [inIdEventConfig]="eventType.id" [inAccion]="accion" [inTypeConfig]="1"></app-efh-upload>
     </div>
 </form>
 

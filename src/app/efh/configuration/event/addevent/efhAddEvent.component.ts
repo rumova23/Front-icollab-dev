@@ -310,8 +310,11 @@ export class EfhAddEventComponent implements OnInit {
   }
 
   eliminarRegistro(maestroOpcion: any) {
+      debugger;
     this.confirmationDialogService.confirm('Por favor, confirme..',
-        'Está seguro de eliminar el registro?')
+        'Está seguro de eliminar ' + this.eventTypesArr.find(x => x.id === maestroOpcion.idtypeevent).name + ' '
+        + ' ' + this.unitsArr.find(x => x.id === maestroOpcion.idunit).name + ' '
+        + this.datePipe.transform(new Date(maestroOpcion.dateinit) , 'dd/MM/yyyy HH:mm') + '?')
         .then((confirmed) => {
           if (confirmed) {
             this.efhService.deleteEvent(maestroOpcion.id)

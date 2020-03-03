@@ -303,8 +303,9 @@ export class EfhAddIndicatorComponent implements OnInit {
   }
 
   eliminarRegistro(maestroOpcion: any) {
-    this.confirmationDialogService.confirm('Por favor, confirme..',
-        'Está seguro de eliminar el registro?')
+      this.confirmationDialogService.confirm('Por favor, confirme..',
+        'Está seguro de eliminar ' + this.indicatorTypesArr.find(x => x.id === maestroOpcion.idtypeindicator).name + ' '
+        + this.datePipe.transform(new Date(maestroOpcion.dateinit) , 'dd/MM/yyyy HH:mm') + '?')
         .then((confirmed) => {
           if (confirmed) {
             this.efhService.deleteIndicator(maestroOpcion.id)

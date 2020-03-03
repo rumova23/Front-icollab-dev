@@ -107,7 +107,6 @@ export class EfhEditEventComponent implements OnInit {
   get f() { return this.eventForm.controls; }
 
   ngOnInit() {
-      debugger;
       this.submittedData = false;
       this.eventForm = this.formBuilder.group({
           eventTypeControl: [null, null],
@@ -164,9 +163,6 @@ export class EfhEditEventComponent implements OnInit {
       this.fuelTypesArr.sort((a, b) => a.name.localeCompare(b.name));
       this.fuelTypesForSelect = this.fuelTypesArr;
 
-      // debugger;
-      // this.getCatalogs();
-
       this.selectedEventType = undefined;
       this.selectedUnit = undefined;
       this.selectedFuelType = undefined;
@@ -188,6 +184,7 @@ export class EfhEditEventComponent implements OnInit {
       } else {
           this.checkedEstatus = true;
           this.deshabiliarEstatus = false;
+          this.disabledSave = false;
           this.titulo = 'Agregar / Configuración de Eventos';
       }
 
@@ -250,10 +247,6 @@ export class EfhEditEventComponent implements OnInit {
                               this.selectedEventType = this.eventTypesArr.find(x => x.id === element.idtypeevent).id;
                               this.selectedUnit = this.unitsArr.find(x => x.id === element.idunit).id;
                               this.selectedFuelType = this.fuelTypesArr.find(x => x.id === element.idtypefuel).id;
-
-                              // this.getObservations(this.eventType.id);
-
-                              debugger;
 
                               switch (element.idtypeevent) {
                                   case 1: this.flameOffDate = this.datePipe.transform(new Date(element.dateinit) , 'yyyy-MM-dd');
@@ -680,10 +673,8 @@ export class EfhEditEventComponent implements OnInit {
                     this.defaultConstrolsEnabled(true);
                     this.isNormalOperationSectionVisible = true;
                     this.isDefaultSectionsVisible = true;
-                    this.fuelTypesArr = [];
+                    this.fuelTypesArr = this.eventType.fuelTypesArr;
                     this.selectedFuelType = undefined;
-                    this.fuelTypesArr.push(this.fuelTypesForSelect.find(x => x.name === 'GAS'));
-                    this.fuelTypesArr.push(this.fuelTypesForSelect.find(x => x.name === 'DIESEL'));
                     break;
       }
 
@@ -724,7 +715,6 @@ export class EfhEditEventComponent implements OnInit {
   }
 
   onSubmit() {
-      debugger;
       this.submittedData = true;
       if ((this.isShotSectionVisible && this.eventForm.controls['chargeShot'].invalid)
           || (this.isShotSectionVisible && this.eventForm.controls['flameOffDateShot'].invalid)
@@ -766,7 +756,7 @@ export class EfhEditEventComponent implements OnInit {
       if (this.isRunbackSectionVisible
           && this.compareDate(this.datePipe.transform(new Date(this.eventForm.controls['startDateRunback'].value + ' ' + this.eventForm.controls['startTimeRunback'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'),
               this.datePipe.transform(new Date(this.eventForm.controls['endDateRunback'].value + ' ' + this.eventForm.controls['endTimeRunback'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
-          this.toastr.errorToastr('Fecha-Hora Inicio debe ser menor a Fecha-Hora Fin, verifique', 'Lo siento,');
+          this.toastr.errorToastr('Fecha inicio debe ser menor a Fecha fin, verifique', 'Lo siento,');
           this.runbackDatesValidation = true;
           return;
       }
@@ -774,7 +764,7 @@ export class EfhEditEventComponent implements OnInit {
       if (this.isStopSectionVisible
           && this.compareDate(this.datePipe.transform(new Date(this.eventForm.controls['flameOffDateStop'].value + ' ' + this.eventForm.controls['flameOffTimeStop'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'),
               this.datePipe.transform(new Date(this.eventForm.controls['fsnlDateStop'].value + ' ' + this.eventForm.controls['fsnlTimeStop'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
-          this.toastr.errorToastr('Fecha-Hora FlameOff debe ser menor a Fecha-Hora Fsnl, verifique', 'Lo siento,');
+          this.toastr.errorToastr('Fecha de Paro debe ser menor a FSNL, verifique', 'Lo siento,');
           this.stopDatesValidation = true;
           return;
       }
@@ -782,7 +772,7 @@ export class EfhEditEventComponent implements OnInit {
       if (this.isDieselSectionVisible
           && this.compareDate(this.datePipe.transform(new Date(this.eventForm.controls['startDateDiesel'].value + ' ' + this.eventForm.controls['startTimeDiesel'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'),
               this.datePipe.transform(new Date(this.eventForm.controls['endDateDiesel'].value + ' ' + this.eventForm.controls['endTimeDiesel'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
-          this.toastr.errorToastr('Fecha-Hora Inicio debe ser menor a Fecha-Hora Fin, verifique', 'Lo siento,');
+          this.toastr.errorToastr('Fecha inicio debe ser menor a Fecha fin, verifique', 'Lo siento,');
           this.dieselDatesValidation = true;
           return;
       }
@@ -790,7 +780,7 @@ export class EfhEditEventComponent implements OnInit {
       if (this.isNormalOperationSectionVisible
           && this.compareDate(this.datePipe.transform(new Date(this.eventForm.controls['startDateNormal'].value + ' ' + this.eventForm.controls['startTimeNormal'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'),
               this.datePipe.transform(new Date(this.eventForm.controls['endDateNormal'].value + ' ' + this.eventForm.controls['endTimeNormal'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
-          this.toastr.errorToastr('Fecha-Hora Inicio debe ser menor a Fecha-Hora Fin, verifique', 'Lo siento,');
+          this.toastr.errorToastr('Fecha inicio de Operación debe ser menor a Fecha fin, verifique', 'Lo siento,');
           this.normalDatesValidation = true;
           return;
       }
@@ -798,7 +788,7 @@ export class EfhEditEventComponent implements OnInit {
       if (this.isStartSectionVisible
           && this.compareDate(this.datePipe.transform(new Date(this.eventForm.controls['flameOffDateStart'].value + ' ' + this.eventForm.controls['flameOffTimeStart'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'),
               this.datePipe.transform(new Date(this.eventForm.controls['fsnlDateStart'].value + ' ' + this.eventForm.controls['fsnlTimeStart'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
-          this.toastr.errorToastr('Fecha-Hora FlameOff debe ser menor a Fecha-Hora Fsnl, verifique', 'Lo siento,');
+          this.toastr.errorToastr('Fecha de Arranque debe ser menor a FSNL, verifique', 'Lo siento,');
           this.startDatesValidation = true;
           return;
       }
@@ -976,7 +966,7 @@ export class EfhEditEventComponent implements OnInit {
   }
 
   enableSaveButton() {
-      this.disabledSave = false;
+      // this.disabledSave = false;
       this.isAddObvsDisabled = false;
   }
 /*

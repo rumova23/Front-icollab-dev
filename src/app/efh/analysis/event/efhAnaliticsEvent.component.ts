@@ -543,7 +543,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
     // Check if the dates are equal
     let same = d1.getTime() === d2.getTime();
 
-    if (same) { return true; }
+    if (same) { return false; }
 
     // Check if the first is greater than second
     if (d1 > d2) { return true; }

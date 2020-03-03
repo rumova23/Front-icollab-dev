@@ -50,7 +50,7 @@
               <mat-checkbox class="active" color="primary"
                             (change)="visibleObservation(el);"
                             [checked]="el.active"
-                            [disabled]="inAction == 'ver' || inAction == 'nuevo'">
+                            [disabled]="inAction == 'ver'">
                 <mat-label></mat-label>
               </mat-checkbox>
             </td>
@@ -60,7 +60,7 @@
               </a>
             </td>
             <td>
-              <a (click)="eliminarRegistro(el.id)" [ngClass]="{'linkDisabled': inAction == 'ver' || inAction == 'nuevo'}">
+              <a (click)="eliminarRegistro(el)" [ngClass]="{'linkDisabled': inAction == 'ver' || inAction == 'nuevo'}">
                 <img src="assets/images/skins/ico_Borrar.png" alt="Eliminar">
               </a>
             </td>

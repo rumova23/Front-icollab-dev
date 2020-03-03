@@ -165,9 +165,6 @@
   </div>
 
   <!-- End Test -->
-  <div *ngIf="isDefaultSectionsVisible && indicatorType.id != 0">
-    <app-efh-upload [inIdEventConfig]="indicatorType.id" [inAccion]="accion" [inTypeConfig]="2"></app-efh-upload>
-  </div>
   <div class="section" *ngIf="isDefaultSectionsVisible">
     <div class="row">
       <div class="col-md-6 col-lg-4">
@@ -202,5 +199,8 @@
         </div>
       </div>
     </div>
+  </div>
+  <div *ngIf="isDefaultSectionsVisible && indicatorType.id != 0">
+      <app-efh-upload [inIdEventConfig]="indicatorType.id" [inAccion]="accion" [inTypeConfig]="2"></app-efh-upload>
   </div>
 </form>

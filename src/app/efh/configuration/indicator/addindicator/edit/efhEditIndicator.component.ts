@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatePipe                           } from '@angular/common';
 import { IndicatorType                      } from '../../../../models/IndicatorType';
@@ -10,6 +10,7 @@ import { ConfirmationDialogService          } from '../../../../../core/services
 import { EventService                       } from '../../../../../core/services/event.service';
 import { EfhService                         } from '../../../../../core/services/efh.service';
 import {EventMessage} from '../../../../../core/models/EventMessage';
+import {EfhUploadComponent} from '../../../../upload/efh-upload.component';
 
 @Component({
   selector: 'app-efh-edit-indicator',
@@ -158,6 +159,7 @@ export class EfhEditIndicatorComponent implements OnInit {
     } else {
       this.checkedEstatus = true;
       this.deshabiliarEstatus = false;
+      this.disabledSave = false;
       this.titulo = 'Agregar / Configuración de Indicadores';
     }
 
@@ -282,17 +284,18 @@ export class EfhEditIndicatorComponent implements OnInit {
                     this.dataSubmit['idtypeindicator'] = this.indicatorForm.controls['indicatorTypeControl'].value;
                   }
 
-                  if(this.indicatorForm.controls['fuelTypeControl'].value === null && this.isWithFuel) {
+                  if (this.indicatorForm.controls['fuelTypeControl'].value === null && this.isWithFuel) {
                     this.dataSubmit['idtypefuel'] = this.selectedFuelType;
                   }
                   if (this.indicatorForm.controls['fuelTypeControl'].value === null && !this.isWithFuel) {
                     this.dataSubmit['idtypefuel'] = this.selectedFuelType;
                   }
-                  if(this.indicatorForm.controls['fuelTypeControl'].value != null && !this.isWithFuel) {
+                  if (this.indicatorForm.controls['fuelTypeControl'].value != null && !this.isWithFuel) {
                     this.dataSubmit['idtypefuel'] = this.idFuelType;
-                  } else {
-                    this.dataSubmit['idtypefuel'] = this.indicatorForm.controls['fuelTypeControl'].value;
                   }
+                  /* else {
+                    this.dataSubmit['idtypefuel'] = this.indicatorForm.controls['fuelTypeControl'].value;
+                  } */
 
                   if (this.indicatorForm.controls['unitControl'].value === null) {
                     this.dataSubmit['idunit'] = this.selectedUnit;
@@ -347,7 +350,6 @@ export class EfhEditIndicatorComponent implements OnInit {
                   this.efhService.setIndicator(this.dataSubmit)
                       .subscribe(
                           dataBack => {
-
                             if (dataBack['code'] === -100) {
                               this.toastr.errorToastr('No es posible actualizar, existe un indicador activo que se empalma', 'Lo siento,');
                             } else {
@@ -386,7 +388,7 @@ export class EfhEditIndicatorComponent implements OnInit {
               }
           );
     } else {
-      if(this.isWithFuel) {
+      if (this.isWithFuel) {
         this.dataSubmit['idtypefuel'] = this.indicatorForm.controls['fuelTypeControl'].value;
       } else {
         this.dataSubmit['idtypefuel'] = this.idFuelType;
@@ -690,7 +692,7 @@ export class EfhEditIndicatorComponent implements OnInit {
   }
 
   enableSaveButton() {
-    this.disabledSave = false;
+    // this.disabledSave = false;
     this.isAddObvsDisabled = false;
   }
 
@@ -707,16 +709,7 @@ export class EfhEditIndicatorComponent implements OnInit {
   }
 
   regresar() {
-    this.efhService.getDocuments(2, this.indicatorType.id, this.typeDocuments[1]).subscribe(
-        docto => {
-
-          if ( docto.length > 0) {
-            this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.addIndicadorComponent'));
-          } else {
-            this.toastr.errorToastr(Constants.ERROR_SAVE_DOCUMENT, 'Lo siento,');
-          }
-        }
-    );
+    this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.addIndicadorComponent'));
   }
 
   isNumeric(link) {

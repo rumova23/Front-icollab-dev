@@ -82,15 +82,20 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
         data => {
           this.resultService = data;
           for (const element of this.resultService) {
-              debugger;
-            let idConfig = '';
-            if (element.ideventconfig !== undefined && element.ideventconfig !== null) {
+              let idConfig = '';
+              if (element.ideventconfig !== undefined && element.ideventconfig !== null) {
                 idConfig = element.ideventconfig;
-            }
-            if (element.idindicatorconfig !== undefined && element.idindicatorconfig !== null) {
+              }
+              if (element.idindicatorconfig !== undefined && element.idindicatorconfig !== null) {
                 idConfig = element.idindicatorconfig;
-            }
-            this.observationsArr.push(new Comment(element.id, idConfig, 'tester', element.observation, new Date(element.dateobservation), element.active, true));
+              }
+              if (this.inAction === 'ver') {
+                  if (element.active) {
+                      this.observationsArr.push(new Comment(element.id, idConfig, 'tester', element.observation, new Date(element.dateobservation), element.active, true));
+                  }
+              } else {
+                this.observationsArr.push(new Comment(element.id, idConfig, 'tester', element.observation, new Date(element.dateobservation), element.active, true));
+              }
           }
         }
     ).add(() => {
@@ -175,27 +180,33 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
   }
 
   visibleObservation(comment: any) {
-    this.dataObservationSumbit = {};
-    this.dataObservationSumbit['id'] = comment.id;
-    // this.dataObservationSumbit['ideventconfig'] = comment.ideventconfig;
-    if (this.inTypeConfig === 1) {
-        this.dataObservationSumbit['ideventconfig'] = comment.ideventconfig;
-    } else if (this.inTypeConfig === 2) {
-        this.dataObservationSumbit['idindicatorconfig'] = comment.ideventconfig;
-    }
-    this.dataObservationSumbit['observation'] = comment.observacion;
-    this.dataObservationSumbit['dateobservation'] = comment.fecha_modificacion;
-    this.dataObservationSumbit['active'] = !comment.active;
-    this.dataObservationSumbit['save'] = false;
-    this.efhService.saveObservation(this.inTypeConfig, this.dataObservationSumbit).subscribe(
-        data => {
-          this.toastr.successToastr('La observación fue actualizada con éxito.', '¡Se ha logrado!');
-          this.efhService.accionComments.next('updatecommentscomponent');
-        },
-        error => {
-          this.toastr.errorToastr(error.error['text'], 'Lo siento, no fue posible eliminar la observación');
-        }
-    );
+      if (this.inAction === 'nuevo') {
+          const updateItem = this.observationsArr.find(item => item.observacion === comment.observacion);
+          const index = this.observationsArr.indexOf(updateItem);
+          this.observationsArr[index].active = comment.active;
+      } else {
+          this.dataObservationSumbit = {};
+          this.dataObservationSumbit['id'] = comment.id;
+          // this.dataObservationSumbit['ideventconfig'] = comment.ideventconfig;
+          if (this.inTypeConfig === 1) {
+              this.dataObservationSumbit['ideventconfig'] = comment.ideventconfig;
+          } else if (this.inTypeConfig === 2) {
+              this.dataObservationSumbit['idindicatorconfig'] = comment.ideventconfig;
+          }
+          this.dataObservationSumbit['observation'] = comment.observacion;
+          this.dataObservationSumbit['dateobservation'] = comment.fecha_modificacion;
+          this.dataObservationSumbit['active'] = !comment.active;
+          this.dataObservationSumbit['save'] = false;
+          this.efhService.saveObservation(this.inTypeConfig, this.dataObservationSumbit).subscribe(
+              data => {
+                  this.toastr.successToastr('La observación fue actualizada con éxito.', '¡Se ha logrado!');
+                  this.efhService.accionComments.next('updatecommentscomponent');
+              },
+              error => {
+                  this.toastr.errorToastr(error.error['text'], 'Lo siento, no fue posible eliminar la observación');
+              }
+          );
+      }
   }
 
   setToEdit(comment: any) {
@@ -219,7 +230,14 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
       } else {
         this.obsForm.controls.observations.setValue('');
         if (this.inAction === 'nuevo') {
-          this.observationsArr.push(new Comment('1', '', 'tester', obser, new Date(), true, false));
+            if (this.currentComment) {
+                const updateItem = this.observationsArr.find(item => item.observacion === this.currentComment.observacion);
+                const index = this.observationsArr.indexOf(updateItem);
+                this.observationsArr[index].observacion = obser;
+                this.currentComment = null;
+            } else {
+                this.observationsArr.push(new Comment('1', '', 'tester', obser, new Date(), true, false));
+            }
         } else {
           this.saveObservation(this.inIdEventConfig, obser);
         }
@@ -234,33 +252,35 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
     }
   }
 
-  eliminarRegistro(id: number) {
-    this.confirmationDialogService.confirm('Por favor, confirme..',
-        'Está seguro de eliminar la observación?')
-        .then((confirmed) => {
-          if (confirmed) {
-            this.efhService.deleteObservation(this.inTypeConfig, id)
-                .subscribe(
-                    data => {
-                      this.toastr.successToastr('La observación fué eliminada correctamente', '¡Se ha logrado!');
-                      this.efhService.accionComments.next('updatecommentscomponent');
-                    }
-                    , error => {
-                      if (error.error['text'] === 'OK') {
-                        this.toastr.successToastr('La observación fué eliminada correctamente', '¡Se ha logrado!');
-                        this.efhService.accionComments.next('updatecommentscomponent');
-                      } else {
-                        this.toastr.errorToastr(error.error['text'], 'Lo siento,');
-                      }
-                    },
-                );
-          }
-        })
-        .catch(() => console.log('Canceló eliminar'));
-  }
-
-  dummy() {
-
+  eliminarRegistro(comment: any) {
+      if (this.inAction === 'nuevo') {
+          const updateItem = this.observationsArr.find(item => item.observacion === comment.observacion);
+          const index = this.observationsArr.indexOf(updateItem);
+          this.observationsArr.splice(index, 1);
+      } else {
+          this.confirmationDialogService.confirm('Por favor, confirme..',
+              'Está seguro de eliminar la observación?')
+              .then((confirmed) => {
+                  if (confirmed) {
+                      this.efhService.deleteObservation(this.inTypeConfig, comment.id)
+                          .subscribe(
+                              data => {
+                                  this.toastr.successToastr('La observación fué eliminada correctamente', '¡Se ha logrado!');
+                                  this.efhService.accionComments.next('updatecommentscomponent');
+                              }
+                              , error => {
+                                  if (error.error['text'] === 'OK') {
+                                      this.toastr.successToastr('La observación fué eliminada correctamente', '¡Se ha logrado!');
+                                      this.efhService.accionComments.next('updatecommentscomponent');
+                                  } else {
+                                      this.toastr.errorToastr(error.error['text'], 'Lo siento,');
+                                  }
+                              },
+                          );
+                  }
+              })
+              .catch(() => console.log('Canceló eliminar'));
+      }
   }
 
 }
