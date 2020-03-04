@@ -71,6 +71,7 @@ import {MtrCenaceComponent} from '../admin/modelMarket/mtr-cenace/mtr-cenace.com
 import {ControlFacturacionComponent} from '../admin/fuecd/control-facturacion/control-facturacion.component';
 import {PreDocumentComponent} from '../admin/fuecd/pre-document/pre-document.component';
 import { TemperatureComponent } from '../admin/temperature/temperature.component';
+import {MonitoringJobsComponent} from '../admin/monitoring/monitoringJobs.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -138,6 +139,7 @@ import { TemperatureComponent } from '../admin/temperature/temperature.component
 		, ControlFacturacionComponent
 		, PreDocumentComponent
 		, TemperatureComponent
+		, MonitoringJobsComponent
   	]
 })
 
@@ -331,8 +333,6 @@ export class SafeHomeComponent implements OnInit {
 							)
 						).changeDetectorRef.detectChanges();
 						break;
-
-
 					case 'Safe.InvoicesComponent':
 						banderaTemporal = true;
 						const factoryInvoices = this.componentFactoryResolver
@@ -340,8 +340,7 @@ export class SafeHomeComponent implements OnInit {
 						const refInvoices =
 						this.viewContainerRef.createComponent(factoryInvoices);
 						refInvoices.changeDetectorRef.detectChanges();
-
-					break;
+						break;
 
 					case 'Safe.Planta':
 						banderaTemporal = true;
@@ -356,6 +355,14 @@ export class SafeHomeComponent implements OnInit {
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(
 								WeatherComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.monitor jobs':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								MonitoringJobsComponent
 							)
 						).changeDetectorRef.detectChanges();
 						break;
