@@ -1,3 +1,12 @@
+@media (min-width: 0px) and (max-width: 767px){ 
+
+ }
+
+@media (min-width: 768px) { 
+    .seccion-aside_close{
+        padding-left:0px;
+    }
+ }
 #columna{
 	background: rgb(68, 73, 78);
     color: #fff;
@@ -7,6 +16,9 @@
 }
 #seccion{
     background:#000000;
+}
+.columna_aside_close_monitoring{
+    width:0;
 }
 hr{
 	background: #ffffff;

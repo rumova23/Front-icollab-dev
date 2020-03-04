@@ -1,7 +1,7 @@
 
 <aside id="columna" 
-	class="scroll_design"
-    [ngStyle]="{'width':globalService.aside_open ? '233px' : minwidth }">
+	class="scroll_design"	
+	[ngClass]="{'columna-aside_open': globalService.aside_open , 'columna-aside_close': (!globalService.aside_open && minwidth != '0px'),  'columna_aside_close_monitoring': (!globalService.aside_open && minwidth == '0px')}">
 	<div class="row">
 		<div class="col p-0">
 			<div class="user-panel" *ngIf="globalService.aside_open">
@@ -12,6 +12,7 @@
 				-->
 				</div><br>
 				<div class="info-user" *ngIf="globalService.aside_open">
+					<p>{{minwidth}}</p>
 					<p  *ngIf="getgender()===1">{{ "_general.body.welcome" | translate }}, {{getNameUser()}}</p>
 					<p  *ngIf="getgender()===2">{{ "_general.body.welcome2" | translate }}, {{getNameUser()}}</p>
 					<p><small>{{ "shared.sidebar.infoUser.youHaveNoPendingTasks" | translate }}</small></p>
