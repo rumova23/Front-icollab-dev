@@ -44,6 +44,7 @@ body{
     float         : right;
     width         : 100%;
     transition    : 0.5s;
+    margin-bottom: 30px;
 }
 #myfooter {
     clear         : both; 
