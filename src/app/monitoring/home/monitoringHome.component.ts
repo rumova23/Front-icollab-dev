@@ -19,6 +19,7 @@ import { MonitoringMmMarketComponent     } from '../boards/mmMarket/monitoringMm
 import { Phase2v1Component } from '../boards/phase2v1/phase2v1.component';
 import { Phase2v2Component } from '../boards/phase2v2/phase2v2.component';
 import { Phase3v2Component } from '../boards/phase3v2/phase3v2.component';
+import { Phase2v3Component } from '../boards/phase2v3/phase2v3.component';
 
 
 @Component({
@@ -34,6 +35,7 @@ import { Phase3v2Component } from '../boards/phase3v2/phase3v2.component';
 		,Phase2v1Component
 		,Phase2v2Component
 		,Phase3v2Component
+		,Phase2v3Component
 	]
 })
 export class MonitoringHomeComponent extends ConnectSocketComponent implements OnInit, OnDestroy {
@@ -61,7 +63,7 @@ export class MonitoringHomeComponent extends ConnectSocketComponent implements O
 	}
 	ngAfterViewInit() {
 		//const factory = this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase2Component);
-		const factory = this.componentFactoryResolver.resolveComponentFactory(MonitoringWelcomeComponent);
+		const factory = this.componentFactoryResolver.resolveComponentFactory(Phase2v3Component);
 		this.viewContainerRef.createComponent(factory);
 	}
 	ngOnDestroy(){

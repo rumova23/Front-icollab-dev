@@ -7,6 +7,12 @@
         padding-left:0px;
     }
  }
+.monitoreo{
+	color: #ffffff !important; 
+}
+.bg-gray{
+	background: #343a40 ;
+}
 #columna{
 	background: rgb(68, 73, 78);
     color: #fff;
