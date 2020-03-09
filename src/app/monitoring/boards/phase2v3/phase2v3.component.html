@@ -1,4 +1,5 @@
 
+ 
         <div class="monitoreo">
             <div class="row bg-gray text-center">
                 <div class="col">
@@ -33,7 +34,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-md-5     col-lg-4 col-xl        py-2 order-md-1 bg-gray">
+                <div class="col-12 col-md-5     col-lg-4 col-xl-3        py-2 order-md-1 bg-gray">
                     <div class="row my-2">
                         <div class="col-auto pr-0 align-self-center invisible"><div class="row">
                             <div class="col align-self-center"><i class="fas fa-bolt"></i></div>
@@ -51,7 +52,7 @@
                                 <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none">Power <br> OutPut</div>
                             </div>
                         </div>
-                        <div class="col text-center"><img src="assets/monitoring/phase2/demo-dougnut.png" alt="demo-dougnut"></div>
+                        <div class="col text-center"><div style="width: 30px;height: 30px; margin: auto;"><canvas id="mychart"></canvas></div><p style="font-size: 11px;">35.02</p></div>
                         <div class="col text-center px-0"><img src="assets/monitoring/phase2/demo-dougnut.png" alt="demo-dougnut"></div>
                         <div class="col text-center"><img src="assets/monitoring/phase2/demo-dougnut.png" alt="demo-dougnut"></div>
                     </div>
@@ -92,24 +93,77 @@
                         <div class="col text-center"><img src="assets/monitoring/phase2/demo-dougnut.png" alt="demo-dougnut"></div>
                     </div>
                 </div>
-                <div class="col-12 col-md-7     col-lg-7 col-xl        py-2 order-md-2 text-center">
+                <div class="col-12 col-md-7     col-lg-7 col-xl-3        py-2 order-md-2 text-center">
                     <div class="row">
                         <div class="col">
-                            <img src="assets/monitoring/phase2/demografica.png" alt="demografica" class="img-fluid">
+                            <div id="container2" #container2></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md       col-lg   col-xl        py-2 order-md-4 text-center">
+                <div class="col-12 col-md       col-lg   col-xl-3        py-2 order-md-4 text-center">
                     <div class="row">
                         <div class="col">
-                            <img src="assets/monitoring/phase2/demografica.png" alt="demografica" class="img-fluid">
+                            <div id="container3" #container3></div>
+                            <!--img src="assets/monitoring/phase2/demografica.png" alt="demografica" class="img-fluid"-->
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-auto                         py-2 order-md-5 text-center">
                     <div class="row">
                         <div class="col">
-                            <img src="assets/monitoring/phase2/tacometro.png" alt="demografica" class="img-fluid">
+                            <radial-gauge
+                                [value]="(valueGas$| async)"
+                                id="GasTankId2"
+                                class="Tacometro"
+                                title="F"
+                                units="E"
+                                width="190"
+                                height="100"
+                                min-value="0"
+                                start-angle="220"
+                                ticks-angle="100"
+                                value-box="false"
+
+                                min-value="80"
+                                max-value="120"
+                                major-ticks="80, ,100"
+                                minor-ticks="2"
+                                font-numbers-size="0"
+                                color-plate= "rgba(0,0,255,0)"
+                                opacity-plate="100"
+                                color-major-ticks="#888"
+                                color-minor-ticks="#ddd"
+                                color-title="#eee"
+                                color-units="#ccc"
+                                color-numbers="#bb1"
+                                highlights='[
+                                    {"from": 262, "to": 263, "color": "rgba(245, 4, 44, 100)"}
+                                ]'
+
+                                needle-type="arrow"
+                                needle-width="2"
+                                needle-circle-size="7"
+                                needle-circle-outer="true"
+                                needle-circle-inner="false"
+                                color-needle-shadow-down="#550"
+                                color-needle-circle-outer="#333"
+                                color-needle-circle-outer-end="#111"
+                                animation-duration="900"
+                                animation-rule="linear"
+                                borders="false"
+                                border-inner-width="0"
+                                border-middle-width="0"
+                                border-outer-width="0"
+                                border-shadow-width="0"
+                                color-border-outer="#111"
+                                color-border-middle="#888"
+                                color-border-middle-end="#555"
+                                color-border-inner="#111"
+                                value-box="false"
+                                >
+                        
+                            </radial-gauge>
+                            <!--img src="assets/monitoring/phase2/tacometro.png" alt="demografica" class="img-fluid"-->
                         </div>
                     </div>
                 </div>
