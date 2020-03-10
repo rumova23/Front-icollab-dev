@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { RadialGauge } from 'ng-canvas-gauges';
 import * as algo from './algo.json';
 
 
@@ -29,6 +29,9 @@ theme(Highcharts);
 	styleUrls: ['./phase2v3.component.scss']
 })
 export class Phase2v3Component implements OnInit {
+	@ViewChild('tachometer')
+	private tachometer: ElementRef;
+
 	expected={
 		eat:{
 			powerOutput:440.55,
@@ -120,7 +123,7 @@ export class Phase2v3Component implements OnInit {
 	}
 	theme=theme;
 	Highcharts = Highcharts;
-	
+	valueGas=100;
 	constructor() { }
 
 	ngOnInit() {
@@ -164,6 +167,9 @@ export class Phase2v3Component implements OnInit {
 
 		Highcharts.stockChart('container2', this.opt);
 		Highcharts.stockChart('container3', this.opt);
+
+		
+
 
 	}
 
