@@ -21,6 +21,12 @@ export class MonitoringTrService {
 		url += '&startTime=*-24h&endTime=*&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value';
 		return this.getStreamsetsInterpolated(url);
 	}
+	getStreamsetsInterpolatedLastHours(plant,tags,hours): Observable<PiServerBox> {
+		let url:string = "plantId="+plant;
+		for(let tag of tags){url += `&webId=${tag}`;}
+		url += `&startTime=*-${hours}h&endTime=*&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value`;
+		return this.getStreamsetsInterpolated(url);
+	}
 	getStreamsetsInterpolatedFromTo(plant,tags,startTime,endTime,interval): Observable<PiServerBox> {
 		let url:string = "plantId="+plant;
 		for(let tag of tags){url += `&webId=${tag}`;}
