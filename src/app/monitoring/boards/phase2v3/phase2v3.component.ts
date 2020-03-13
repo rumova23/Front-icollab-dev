@@ -191,6 +191,9 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 				animation: {
 					animateScale: true,
 					animateRotate: true
+				},
+				tooltips: {
+					 enabled: false
 				}
 			}
 		} );

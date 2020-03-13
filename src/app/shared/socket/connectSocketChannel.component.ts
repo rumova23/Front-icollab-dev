@@ -27,6 +27,8 @@ export class ConnectSocketChannelComponent extends ConnectSocketComponent implem
 	}
 
 	ngOnInit() {
+		this.subscribeSocketOnStatus();
+		this.subscribeSocketChanels();
 	}
 	ngOnDestroy(){
 		this.connectSocketChannelNgOnDestroy();
