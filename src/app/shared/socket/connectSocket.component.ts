@@ -47,26 +47,26 @@ export class ConnectSocketComponent implements OnInit, OnDestroy {
 					this.subscriptions['socketConnect']
 					=	this.socketService.onEvent(EventSocket.CONNECT)
 							.subscribe(() => {
-							this.unsubscribeOpenSocket();
-							this.globalService.socketConnect = true;
-							this.eventService.sendSocketConnect(new EventMessage(1, null));
-							if( ! environment.production )console.log( "Socket Conectado::",this.globalService.socketConnect);
+								this.globalService.socketConnect = true;
+								this.unsubscribeOpenSocket();
+								this.eventService.sendSocketConnect(new EventMessage(1, null));
+								if( ! environment.production )console.log( "Socket Conectado::",this.globalService.socketConnect);
 						});
 					this.subscriptions['socketDisconnect']
 					= 	this.socketService.onEvent(EventSocket.DISCONNECT)
 						.subscribe(() => {
+							this.globalService.socketConnect = false;
 							this.unsubscribeSocket();
 							this.subscribeOpenSocket();
-							this.globalService.socketConnect = false;
 							this.eventService.sendSocketConnect(new EventMessage(0, null));
 							if( ! environment.production )console.log("Socket Conectado::",this.globalService.socketConnect);
 						});
 					this.subscriptions['socketOnError']
 					=   this.socketService.onError()
 						.subscribe((error: any) => {
+							this.globalService.socketConnect = false;
 							this.unsubscribeSocket();
 							this.subscribeOpenSocket();
-							this.globalService.socketConnect = false;
 							this.eventService.sendSocketConnect(new EventMessage(0, null));
 							if( ! environment.production )console.log("Socket ERROR::",error);
 						});
@@ -82,18 +82,18 @@ export class ConnectSocketComponent implements OnInit, OnDestroy {
 								this.subscribeOpenSocket();
 								this.eventService.sendSocketConnect(new EventMessage(0, null));
 							} else {
-								this.unsubscribeOpenSocket();
 								this.globalService.socketConnect = true;
+								this.unsubscribeOpenSocket();
 								this.eventService.sendSocketConnect(new EventMessage(1, null));
 							}
 						});
 						
 				}
 			}else {
+				this.globalService.socketConnect = false;
 				if( ! environment.production )console.log('Token inválido');
 				this.unsubscribeSocket();
 				//this.subscribeOpenSocket(); // no tiene caso correr esto ya que no esta adecuadamente logueado el usuario
-				this.globalService.socketConnect = false;
 				this.eventService.sendSocketConnect(new EventMessage(0, null));
 			}
 		}
@@ -108,12 +108,14 @@ export class ConnectSocketComponent implements OnInit, OnDestroy {
 		});
 	}
 	subscribeOpenSocket(){
-		if(this.subscriptions['openSocket']  == undefined || this.subscriptions["openSocket"].isStopped==true){
-			this.subscriptions['openSocket']
-			= this.time_to_reconnect_socket.subscribe(second=>{
-				if( ! environment.production )console.log("Socket Reconnection in::",second);
-				this.openSocket();
-			});
+		if(!this.globalService.socketConnect){
+			if(this.subscriptions['openSocket']  == undefined || this.subscriptions["openSocket"].isStopped==true){
+				this.subscriptions['openSocket']
+				= this.time_to_reconnect_socket.subscribe(second=>{
+					if( ! environment.production )console.log("Socket Reconnection in::",second);
+					this.openSocket();
+				});
+			}
 		}
 	}
 	unsubscribeOpenSocket(){

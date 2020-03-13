@@ -58,11 +58,11 @@ export class MonitoringHomeComponent extends ConnectSocketComponent implements O
 		document.getElementById("content_theme").setAttribute('href',url);
 		
 		this.globalService.page  = new EventMessage(0,null,'Administrative_monitoring.Inicio');
-		this.openSocket();
+		//this.openSocket();
 		this.subscribeOnChangePage();
 	}
 	ngAfterViewInit() {
-		//const factory = this.componentFactoryResolver.resolveComponentFactory(MonitoringPhase2Component);
+		//const factory = this.componentFactoryResolver.resolveComponentFactory(MonitoringWelcomeComponent);
 		const factory = this.componentFactoryResolver.resolveComponentFactory(Phase2v3Component);
 		this.viewContainerRef.createComponent(factory);
 	}
@@ -109,7 +109,7 @@ export class MonitoringHomeComponent extends ConnectSocketComponent implements O
 						break;
 					case 'Administrative_monitoring.Phase2v1Component':
 						this.viewContainerRef
-							.createComponent(this.componentFactoryResolver.resolveComponentFactory(Phase2v1Component)).changeDetectorRef.detectChanges();
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(Phase2v3Component)).changeDetectorRef.detectChanges();
 						break;
 						
 					case 'Administrative_monitoring.Phase2v2Component':

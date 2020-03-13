@@ -52,11 +52,23 @@
                         <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none">Power <br> OutPut</div>
                     </div>
                 </div>
-                <div class="col text-center"><div style="width: 30px;height: 30px; margin: auto;"><canvas id="mychart"></canvas></div><p style="font-size: 11px;">35.02</p></div>
+                <div class="col text-center"><div style="width: 30px;height: 30px; margin: auto;"><canvas #chartEstA1></canvas></div><p style="font-size: 11px;">{{getEstA1()[0]}}</p></div>
                 <div class="col text-center px-0"><img src="assets/monitoring/phase2/demo-dougnut.png" alt="demo-dougnut"></div>
                 <div class="col text-center"><img src="assets/monitoring/phase2/demo-dougnut.png" alt="demo-dougnut"></div>
             </div>
-            <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-bolt"></i><br> Heat Rate</div></div>
+            <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-thermometer-three-quarters"></i><br> Heat Rate</div></div>
+            <div class="row">
+                <div class="col-auto pr-0 align-self-center d-none d-sm-block">
+                    <div class="row">
+                        <div class="col align-self-center"><i class="fas fa-bolt"></i></div>
+                        <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none">Power <br> OutPut</div>
+                    </div>
+                </div>
+                <div class="col text-center"><div style="width: 30px;height: 30px; margin: auto;"><canvas #chartEstA2></canvas></div><p style="font-size: 11px;">{{getEstA2()[0]}}</p></div>
+                <div class="col text-center px-0"><img src="assets/monitoring/phase2/demo-dougnut.png" alt="demo-dougnut"></div>
+                <div class="col text-center"><img src="assets/monitoring/phase2/demo-dougnut.png" alt="demo-dougnut"></div>
+            </div>
+            <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-battery-three-quarters"></i><br> Capacity Factor</div></div>
             <div class="row">
                 <div class="col-auto pr-0 align-self-center d-none d-sm-block">
                     <div class="row">
@@ -68,19 +80,7 @@
                 <div class="col text-center px-0"><img src="assets/monitoring/phase2/demo-dougnut.png" alt="demo-dougnut"></div>
                 <div class="col text-center"><img src="assets/monitoring/phase2/demo-dougnut.png" alt="demo-dougnut"></div>
             </div>
-            <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-bolt"></i><br> Capacity Factor</div></div>
-            <div class="row">
-                <div class="col-auto pr-0 align-self-center d-none d-sm-block">
-                    <div class="row">
-                        <div class="col align-self-center"><i class="fas fa-bolt"></i></div>
-                        <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none">Power <br> OutPut</div>
-                    </div>
-                </div>
-                <div class="col text-center"><img src="assets/monitoring/phase2/demo-dougnut.png" alt="demo-dougnut"></div>
-                <div class="col text-center px-0"><img src="assets/monitoring/phase2/demo-dougnut.png" alt="demo-dougnut"></div>
-                <div class="col text-center"><img src="assets/monitoring/phase2/demo-dougnut.png" alt="demo-dougnut"></div>
-            </div>
-            <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-bolt"></i><br> Fuel Gain /lost</div></div>
+            <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-gas-pump"></i><br> Fuel Gain /lost</div></div>
             <div class="row">
                 <div class="col-auto pr-0 align-self-center d-none d-sm-block">
                     <div class="row">
