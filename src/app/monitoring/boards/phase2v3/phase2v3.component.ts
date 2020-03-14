@@ -99,12 +99,13 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	maxCaF = 100;
 	maxFue = 1;
 	/* Espected */
-	expEatPow = 440.55;
-	expEatCF  = 89;
-	expEstPow = 455.4;
-	expEstCF  = 92;
-
-	factor_para_capacityFactor = 495;
+	factorExpEatPow = 440.55;
+	factorExpEatCF  = 89;
+	factorExpEstPow = 455.4;
+	factorExpEstCF  = 92;
+	factorCapFactor = 495;
+	factorExpEstFuel= 0.182791;
+	factorExpEatFuel= -0.246670;
 
 	eatHRCorregido;
 	estHRCorregido;
@@ -456,6 +457,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		//this.setEatC2();
 		this.setEatC3();
 		this.setEatC4();
+
 		//this.setEstA1();
 		//this.setEstA2();
 		this.setEstA3();
@@ -482,10 +484,10 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.setOveC3();
 		this.setOveC4();
 	}
-	setOveA1(){}
-	setOveA2(){}
+	setOveA1(){let v=(this.getEatA1()[0]+this.getEstA1()[0]);this.mtr.overview[0]=[v,(this.maxPow*2)-v]}
+	setOveA2(){let a=this.getEatA2();let s=this.getEstA2();let ove0=(a[0]+s[0])/2;this.mtr.overview[3]=[ove0,this.maxHR-ove0]}
 	setOveA3(){let a=this.getEatA3();let s=this.getEstA3();let ove0=(a[0]+s[0])/2;this.mtr.overview[6]=[ove0,this.maxCaF-ove0]}
-	setOveA4(){}
+	setOveA4(){let v=(this.getEatA4()[0]+this.getEstA4()[0]);this.mtr.overview[9]=[v,(this.maxFue*2)-v]}
 	setOveB1(){}
 	setOveB2(){}
 	setOveB3(){}
@@ -493,33 +495,33 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	setOveC1(){let a=this.getEatC1();let s=this.getEstC1();let ove0=a[0]+s[0];let ove1=a[1]+s[1];this.mtr.overview[2]=[ove0,ove1-ove0]}
 	setOveC2(){let a=this.getEatC2();let s=this.getEstC2();let ove0=(a[0]+s[0])/2;let ove1=(a[1]+s[1])/2;this.mtr.overview[5]=[ove0,this.maxHR-ove0]}
 	setOveC3(){let a=this.getEatC3();let s=this.getEstC3();let ove0=(a[0]+s[0])/2;let ove1=(a[1]+s[1])/2;this.mtr.overview[8]=[ove0,this.maxCaF-ove0]}
-	setOveC4(){let a=this.getEatC4();let s=this.getEstC4();let ove0=a[0]+s[0];let ove1=a[1]+s[1];this.mtr.overview[11]=[ove0,this.maxFue-ove0]}
+	setOveC4(){let a=this.getEatC4();let s=this.getEstC4();let ove0=a[0]+s[0];let ove1=a[1]+s[1];this.mtr.overview[11]=[ove0,(this.maxFue*2)-ove0]}
 
 	setEatA1(x){this.mtr.eat[0]=[x,this.maxPow-x];}
 	setEatA2(x){this.mtr.eat[3]=[x,this.maxHR-x];}
-	setEatA3(){this.updatefactorCapFac();let a=this.getEatA1();let v=(a[0]/this.factor_para_capacityFactor)*100;if(v>100)v=100;this.mtr.eat[6]=[v,this.maxCaF-v];}
-	setEatA4(){}
+	setEatA3(){this.updatefactorCapFac();let a=this.getEatA1();let v=(a[0]/this.factorCapFactor)*100;if(v>100)v=100;this.mtr.eat[6]=[v,this.maxCaF-v];}
+	setEatA4(){let heatRateCor=this.getEatC2()[0];let heatRate=this.getEatA2()[0];let v=(((heatRateCor-heatRate)*0.00004596)/20.03);this.mtr.eat[9]=[v,this.maxFue-v];}
 	setEatB1(){}
 	setEatB2(){}
 	setEatB3(){}
 	setEatB4(){}
-	setEatC1( ){this.mtr.eat[2]=[this.expEatPow ,this.maxPow-this.expEatPow]}
+	setEatC1( ){this.mtr.eat[2]=[this.factorExpEatPow ,this.maxPow-this.factorExpEatPow];}
 	setEatC2(x){this.mtr.eat[5]=[x,this.maxHR-x];this.eatHRCorregido=x;}
-	setEatC3( ){this.mtr.eat[8]=[this.expEatCF ,this.maxCaF-this.expEatCF]}
-	setEatC4(){}
+	setEatC3( ){this.mtr.eat[8]=[this.factorExpEatCF ,this.maxCaF-this.factorExpEatCF];}
+	setEatC4( ){this.mtr.eat[11]=[this.factorExpEatFuel,this.maxFue-this.factorExpEatFuel];}
 
 	setEstA1(x){this.mtr.est[0]=[x,this.maxPow-x];}
 	setEstA2(x){this.mtr.est[3]=[x,this.maxHR-x];}
-	setEstA3(){this.updatefactorCapFac();let a=this.getEstA1();let v=(a[0]/this.factor_para_capacityFactor)*100;if(v>100)v=100;this.mtr.est[6]=[v,this.maxCaF-v];}
-	setEstA4(){}
+	setEstA3(){this.updatefactorCapFac();let a=this.getEstA1();let v=(a[0]/this.factorCapFactor)*100;if(v>100)v=100;this.mtr.est[6]=[v,this.maxCaF-v];}
+	setEstA4(){let heatRateCor=this.getEstC2()[0];let heatRate=this.getEstA2()[0];let v=(((heatRateCor-heatRate)*0.00004764)/20.03);this.mtr.eat[9]=[v,this.maxFue-v];}
 	setEstB1(){}
 	setEstB2(){}
 	setEstB3(){}
 	setEstB4(){}
-	setEstC1( ){this.mtr.est[2]=[this.expEstPow ,this.maxPow-this.expEstPow]}
+	setEstC1( ){this.mtr.est[2]=[this.factorExpEstPow ,this.maxPow-this.factorExpEstPow];}
 	setEstC2(x){this.mtr.est[5]=[x,this.maxHR-x];this.estHRCorregido=x;}
-	setEstC3( ){this.mtr.est[8]=[this.expEstCF ,this.maxCaF-this.expEstCF]}
-	setEstC4(){}
+	setEstC3( ){this.mtr.est[8]=[this.factorExpEstCF ,this.maxCaF-this.factorExpEstCF];}
+	setEstC4( ){this.mtr.est[11]=[this.factorExpEstFuel,this.maxFue-this.factorExpEstFuel];}
 
 	getOveA1():Array<number>{return this.mtr.overview[0]; }
 	getOveA2():Array<number>{return this.mtr.overview[3]; }
@@ -570,8 +572,5 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	getEstHRCorregido(){ return this.estHRCorregido;}
 	getCTUnoDiesel(){ return this.CTUnoDiesel;}
 	getCTDosDiesel(){ return this.CTDosDiesel;}
-	updatefactorCapFac(){
-		if(this.CTUnoDiesel > 4 && this.CTDosDiesel > 4) this.factor_para_capacityFactor = 405;
-	}
-
+	updatefactorCapFac(){if(this.CTUnoDiesel > 4 && this.CTDosDiesel > 4) this.factorCapFactor = 405;}
 }
