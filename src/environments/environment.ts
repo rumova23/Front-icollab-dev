@@ -1,7 +1,7 @@
 const hostGateway = 'http://200.52.85.140:1234/';
 export const environment = {
   production: false
-  , openoffline:false
+  , openoffline:true
   , appVersion  : 'Desarrollo V 1.0'
   , securityUrl             : hostGateway + 'security/'
   , catalogUrl              : hostGateway + 'catalog/'
