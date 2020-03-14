@@ -86,9 +86,10 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	@ViewChild('chartLineEst1') chartLineEst1: ElementRef;  chartLineEst1C;
 	@ViewChild('chartLineEst2') chartLineEst2: ElementRef;  chartLineEst2C;
 
-
+	valueTemporal : number = 0;
 	CTUnoDiesel;
 	CTDosDiesel;
+
 
 	maxPow = 590;
 	maxHR  = 14000;
@@ -97,38 +98,44 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	maxRT2 = 50000;
 	maxCaF = 100;
 	maxFue = 1;
+	expEatPow = 440.55;
+	expEatCF  = 89;
+	expEstPow = 455.4;
+	expEstCF  = 92;
+	eatHRCorregido;
+	estHRCorregido;
 
 	mtr = {
 		overview:[
-			/*Power OutPut*/ [0 ,this.maxPow*2]  ,[0,0],  [0 ,this.maxPow*2],
-			/*heat Rate*/    [0 ,this.maxHR *2]  ,[0,0],  [0 ,this.maxHR *2],
-			/*Capacity Fac*/ [0 ,this.maxCaF*2]  ,[0,0],  [0 ,this.maxCaF*2],
-			/*Fuel G/L*/     [0 ,this.maxFue*2]  ,[0,0],  [0 ,this.maxFue*2]
+			/*Power OutPut*/ [9000 ,this.maxPow*2]  ,[1,1],  [0 ,this.maxPow*2],
+			/*heat Rate*/    [9000 ,this.maxHR *2]  ,[1,1],  [0 ,this.maxHR *2],
+			/*Capacity Fac*/ [9000 ,this.maxCaF*2]  ,[1,1],  [0 ,this.maxCaF*2],
+			/*Fuel G/L*/     [9000 ,this.maxFue*2]  ,[1,1],  [0 ,this.maxFue*2]
 		],
 		eat:[
-			/*Power OutPut*/ [0 ,this.maxPow]  ,[0,0],  [440.55 ,this.maxPow],
-			/*heat Rate*/    [0 ,this.maxHR ]  ,[0,0],  [0 ,this.maxHR],
-			/*Capacity Fac*/ [0 ,this.maxCaF]  ,[0,0],  [89 ,this.maxCaF],
-			/*Fuel G/L*/     [0 ,this.maxFue]  ,[0,0],  [0 ,this.maxFue]
+			/*Power OutPut*/ [9000 ,this.maxPow]  ,[1,1],  [0,1],
+			/*heat Rate*/    [9000 ,this.maxHR ]  ,[1,1],  [0 ,this.maxHR],
+			/*Capacity Fac*/ [9000 ,this.maxCaF]  ,[1,1],  [0,1],
+			/*Fuel G/L*/     [9000 ,this.maxFue]  ,[1,1],  [0 ,this.maxFue]
 		],
 		est:[
-			/*Power OutPut*/ [0 ,this.maxPow]  ,[0,0],  [455.4 ,this.maxPow],
-			/*heat Rate*/    [0 ,this.maxHR ]  ,[0,0],  [0 ,this.maxHR],
-			/*Capacity Fac*/ [0 ,this.maxCaF]  ,[0,0],  [92 ,this.maxCaF],
-			/*Fuel G/L*/     [0 ,this.maxFue]  ,[0,0],  [0 ,this.maxFue]
+			/*Power OutPut*/ [9000 ,this.maxPow]  ,[1,1],  [0,1],
+			/*heat Rate*/    [9000 ,this.maxHR ]  ,[1,1],  [0 ,this.maxHR],
+			/*Capacity Fac*/ [9000 ,this.maxCaF]  ,[1,1],  [0,1],
+			/*Fuel G/L*/     [9000 ,this.maxFue]  ,[1,1],  [0 ,this.maxFue]
 		]
 	};
 	wids=[
-		['P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY' ,0 ,'eat_power' ,"this.mtr.eat[0][0]"],
-		['P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM' ,0 ,'eat_heatR' ,"this.mtr.eat[3][0]"],
-		['P0uQAgHoBd0ku7P3cWOJL6IgGSUAAAU0VSVklET1JfUElcREFBMDgxMDQ' ,0 ,'eat_heatRC',"this.mtr.eat[5][0]"],
+		['P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY' ,0 ,'eat_power' ,"setEatA1"],
+		['P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM' ,0 ,'eat_heatR' ,"setEatA2"],
+		['P0uQAgHoBd0ku7P3cWOJL6IgGSUAAAU0VSVklET1JfUElcREFBMDgxMDQ' ,0 ,'eat_heatRC',"setEatHRCorregido"],
 
-		['F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz'      ,0 ,'est_power' ,"this.mtr.est[0][0]"],
-		['F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4'      ,0 ,'est_heatR' ,"this.mtr.est[3][0]"],
-		['F1DP4rhZAwFMREKDf7s8vylUqgJA0AAAUElUVlxMR1MuQ0VBLjcx'      ,0 ,'est_heatRC',"this.mtr.est[5][0]"],
+		['F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz'      ,0 ,'est_power' ,"setEstA1"],
+		['F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4'      ,0 ,'est_heatR' ,"setEstA2"],
+		['F1DP4rhZAwFMREKDf7s8vylUqgJA0AAAUElUVlxMR1MuQ0VBLjcx'      ,0 ,'est_heatRC',"setEstHRCorregido"],
 
-		['P0uQAgHoBd0ku7P3cWOJL6IgnSIAAAU0VSVklET1JfUElcRzFBMDgwOTc' ,0 ,'CTUnoDiesel',"this.CTUnoDiesel"],
-		['P0uQAgHoBd0ku7P3cWOJL6IgLCAAAAU0VSVklET1JfUElcRzJBMDgwOTc' ,0 ,'CTDosDiesel',"this.CTDosDiesel"],
+		['P0uQAgHoBd0ku7P3cWOJL6IgnSIAAAU0VSVklET1JfUElcRzFBMDgwOTc' ,0 ,'CTUnoDiesel',"setCTUnoDiesel"],
+		['P0uQAgHoBd0ku7P3cWOJL6IgLCAAAAU0VSVklET1JfUElcRzJBMDgwOTc' ,0 ,'CTDosDiesel',"setCTDosDiesel"],
 	];
 	
 	public opt :any={
@@ -206,10 +213,9 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		//this.subscribeSocketChannel("back-pi-isrun" ,(data)=>{this.socketFlow(data);}  ,()=>{this.socketReconnected();}  ,()=>{this.socketDisconnected();});
 
 
-		
+		this.setMtr();
+		this.setChart();
 
-
-		
 
 
 	}
@@ -218,7 +224,9 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 			for (const tag of plant.Items) {
 				for (const iterator of this.wids) {
 					if(tag.WebId == iterator[0]){
-						iterator[1]=tag.Value.Value;						
+						this.valueTemporal =  +tag.Value.Value;
+						iterator[1]=this.valueTemporal;
+						this[iterator[3]](this.valueTemporal);
 					}
 				}
 			}
@@ -316,56 +324,120 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.chartLineEst1C = Highcharts.stockChart(this.chartLineEst1.nativeElement, this.opt);
 		this.chartLineEst2C = Highcharts.stockChart(this.chartLineEst2.nativeElement, this.opt);
 
-		let configDonught = this.returnConfigDonught();
 		
 		///*
-		this.chartOveA1C = new Chart(this.chartOveA1.nativeElement,configDonught);
-		this.chartOveA2C = new Chart(this.chartOveA2.nativeElement,configDonught);
-		this.chartOveA3C = new Chart(this.chartOveA3.nativeElement,configDonught);
-		this.chartOveA4C = new Chart(this.chartOveA4.nativeElement,configDonught);
-		this.chartOveB1C = new Chart(this.chartOveB1.nativeElement,configDonught);
-		this.chartOveB2C = new Chart(this.chartOveB2.nativeElement,configDonught);
-		this.chartOveB3C = new Chart(this.chartOveB3.nativeElement,configDonught);
-		this.chartOveB4C = new Chart(this.chartOveB4.nativeElement,configDonught);
-		this.chartOveC1C = new Chart(this.chartOveC1.nativeElement,configDonught);
-		this.chartOveC2C = new Chart(this.chartOveC2.nativeElement,configDonught);
-		this.chartOveC3C = new Chart(this.chartOveC3.nativeElement,configDonught);
-		this.chartOveC4C = new Chart(this.chartOveC4.nativeElement,configDonught);
-		this.chartEatA1C = new Chart(this.chartEatA1.nativeElement,configDonught);
-		this.chartEatA2C = new Chart(this.chartEatA2.nativeElement,configDonught);
-		this.chartEatA3C = new Chart(this.chartEatA3.nativeElement,configDonught);
-		this.chartEatA4C = new Chart(this.chartEatA4.nativeElement,configDonught);
-		this.chartEatB1C = new Chart(this.chartEatB1.nativeElement,configDonught);
-		this.chartEatB2C = new Chart(this.chartEatB2.nativeElement,configDonught);
-		this.chartEatB3C = new Chart(this.chartEatB3.nativeElement,configDonught);
-		this.chartEatB4C = new Chart(this.chartEatB4.nativeElement,configDonught);
-		this.chartEatC1C = new Chart(this.chartEatC1.nativeElement,configDonught);
-		this.chartEatC2C = new Chart(this.chartEatC2.nativeElement,configDonught);
-		this.chartEatC3C = new Chart(this.chartEatC3.nativeElement,configDonught);
-		this.chartEatC4C = new Chart(this.chartEatC4.nativeElement,configDonught);
-		this.chartEstA1C = new Chart(this.chartEstA1.nativeElement,configDonught);
-		this.chartEstA2C = new Chart(this.chartEstA2.nativeElement,configDonught);
-		this.chartEstA3C = new Chart(this.chartEstA3.nativeElement,configDonught);
-		this.chartEstA4C = new Chart(this.chartEstA4.nativeElement,configDonught);
-		this.chartEstB1C = new Chart(this.chartEstB1.nativeElement,configDonught);
-		this.chartEstB2C = new Chart(this.chartEstB2.nativeElement,configDonught);
-		this.chartEstB3C = new Chart(this.chartEstB3.nativeElement,configDonught);
-		this.chartEstB4C = new Chart(this.chartEstB4.nativeElement,configDonught);
-		this.chartEstC1C = new Chart(this.chartEstC1.nativeElement,configDonught);
-		this.chartEstC2C = new Chart(this.chartEstC2.nativeElement,configDonught);
-		this.chartEstC3C = new Chart(this.chartEstC3.nativeElement,configDonught);
-		this.chartEstC4C = new Chart(this.chartEstC4.nativeElement,configDonught);
+		this.chartOveA1C = new Chart(this.chartOveA1.nativeElement,this.returnConfigDonught());
+		this.chartOveA2C = new Chart(this.chartOveA2.nativeElement,this.returnConfigDonught());
+		this.chartOveA3C = new Chart(this.chartOveA3.nativeElement,this.returnConfigDonught());
+		this.chartOveA4C = new Chart(this.chartOveA4.nativeElement,this.returnConfigDonught());
+		this.chartOveB1C = new Chart(this.chartOveB1.nativeElement,this.returnConfigDonught());
+		this.chartOveB2C = new Chart(this.chartOveB2.nativeElement,this.returnConfigDonught());
+		this.chartOveB3C = new Chart(this.chartOveB3.nativeElement,this.returnConfigDonught());
+		this.chartOveB4C = new Chart(this.chartOveB4.nativeElement,this.returnConfigDonught());
+		this.chartOveC1C = new Chart(this.chartOveC1.nativeElement,this.returnConfigDonught());
+		this.chartOveC2C = new Chart(this.chartOveC2.nativeElement,this.returnConfigDonught());
+		this.chartOveC3C = new Chart(this.chartOveC3.nativeElement,this.returnConfigDonught());
+		this.chartOveC4C = new Chart(this.chartOveC4.nativeElement,this.returnConfigDonught());
+		this.chartEatA1C = new Chart(this.chartEatA1.nativeElement,this.returnConfigDonught());
+		this.chartEatA2C = new Chart(this.chartEatA2.nativeElement,this.returnConfigDonught());
+		this.chartEatA3C = new Chart(this.chartEatA3.nativeElement,this.returnConfigDonught());
+		this.chartEatA4C = new Chart(this.chartEatA4.nativeElement,this.returnConfigDonught());
+		this.chartEatB1C = new Chart(this.chartEatB1.nativeElement,this.returnConfigDonught());
+		this.chartEatB2C = new Chart(this.chartEatB2.nativeElement,this.returnConfigDonught());
+		this.chartEatB3C = new Chart(this.chartEatB3.nativeElement,this.returnConfigDonught());
+		this.chartEatB4C = new Chart(this.chartEatB4.nativeElement,this.returnConfigDonught());
+		this.chartEatC1C = new Chart(this.chartEatC1.nativeElement,this.returnConfigDonught());
+		this.chartEatC2C = new Chart(this.chartEatC2.nativeElement,this.returnConfigDonught());
+		this.chartEatC3C = new Chart(this.chartEatC3.nativeElement,this.returnConfigDonught());
+		this.chartEatC4C = new Chart(this.chartEatC4.nativeElement,this.returnConfigDonught());
+		this.chartEstA1C = new Chart(this.chartEstA1.nativeElement,this.returnConfigDonught());
+		this.chartEstA2C = new Chart(this.chartEstA2.nativeElement,this.returnConfigDonught());
+		this.chartEstA3C = new Chart(this.chartEstA3.nativeElement,this.returnConfigDonught());
+		this.chartEstA4C = new Chart(this.chartEstA4.nativeElement,this.returnConfigDonught());
+		this.chartEstB1C = new Chart(this.chartEstB1.nativeElement,this.returnConfigDonught());
+		this.chartEstB2C = new Chart(this.chartEstB2.nativeElement,this.returnConfigDonught());
+		this.chartEstB3C = new Chart(this.chartEstB3.nativeElement,this.returnConfigDonught());
+		this.chartEstB4C = new Chart(this.chartEstB4.nativeElement,this.returnConfigDonught());
+		this.chartEstC1C = new Chart(this.chartEstC1.nativeElement,this.returnConfigDonught());
+		this.chartEstC2C = new Chart(this.chartEstC2.nativeElement,this.returnConfigDonught());
+		this.chartEstC3C = new Chart(this.chartEstC3.nativeElement,this.returnConfigDonught());
+		this.chartEstC4C = new Chart(this.chartEstC4.nativeElement,this.returnConfigDonught());
 		//*/
 	}
 	setChart(){
-		this.setChartEstA1();
-	}
-	setChartEstA1(){
-		this.chartEstA1C.data.datasets[0].data=this.getEstA1();
+		this.chartOveA1C.data.datasets[0].data = this.getOveA1();
+		this.chartOveA2C.data.datasets[0].data = this.getOveA2();
+		this.chartOveA3C.data.datasets[0].data = this.getOveA3();
+		this.chartOveA4C.data.datasets[0].data = this.getOveA4();
+		this.chartOveB1C.data.datasets[0].data = this.getOveB1();
+		this.chartOveB2C.data.datasets[0].data = this.getOveB2();
+		this.chartOveB3C.data.datasets[0].data = this.getOveB3();
+		this.chartOveB4C.data.datasets[0].data = this.getOveB4();
+		this.chartOveC1C.data.datasets[0].data = this.getOveC1();
+		this.chartOveC2C.data.datasets[0].data = this.getOveC2();
+		this.chartOveC3C.data.datasets[0].data = this.getOveC3();
+		this.chartOveC4C.data.datasets[0].data = this.getOveC4();
+		this.chartEatA1C.data.datasets[0].data = this.getEatA1();
+		this.chartEatA2C.data.datasets[0].data = this.getEatA2();
+		this.chartEatA3C.data.datasets[0].data = this.getEatA3();
+		this.chartEatA4C.data.datasets[0].data = this.getEatA4();
+		this.chartEatB1C.data.datasets[0].data = this.getEatB1();
+		this.chartEatB2C.data.datasets[0].data = this.getEatB2();
+		this.chartEatB3C.data.datasets[0].data = this.getEatB3();
+		this.chartEatB4C.data.datasets[0].data = this.getEatB4();
+		this.chartEatC1C.data.datasets[0].data = this.getEatC1();
+		this.chartEatC2C.data.datasets[0].data = this.getEatC2();
+		this.chartEatC3C.data.datasets[0].data = this.getEatC3();
+		this.chartEatC4C.data.datasets[0].data = this.getEatC4();
+		this.chartEstA1C.data.datasets[0].data = this.getEstA1();
+		this.chartEstA2C.data.datasets[0].data = this.getEstA2();
+		this.chartEstA3C.data.datasets[0].data = this.getEstA3();
+		this.chartEstA4C.data.datasets[0].data = this.getEstA4();
+		this.chartEstB1C.data.datasets[0].data = this.getEstB1();
+		this.chartEstB2C.data.datasets[0].data = this.getEstB2();
+		this.chartEstB3C.data.datasets[0].data = this.getEstB3();
+		this.chartEstB4C.data.datasets[0].data = this.getEstB4();
+		this.chartEstC1C.data.datasets[0].data = this.getEstC1();
+		this.chartEstC2C.data.datasets[0].data = this.getEstC2();
+		this.chartEstC3C.data.datasets[0].data = this.getEstC3();
+		this.chartEstC4C.data.datasets[0].data = this.getEstC4();
+
+		this.chartOveA1C.update();
+		this.chartOveA2C.update();
+		this.chartOveA3C.update();
+		this.chartOveA4C.update();
+		this.chartOveB1C.update();
+		this.chartOveB2C.update();
+		this.chartOveB3C.update();
+		this.chartOveB4C.update();
+		this.chartOveC1C.update();
+		this.chartOveC2C.update();
+		this.chartOveC3C.update();
+		this.chartOveC4C.update();
+		this.chartEatA1C.update();
+		this.chartEatA2C.update();
+		this.chartEatA3C.update();
+		this.chartEatA4C.update();
+		this.chartEatB1C.update();
+		this.chartEatB2C.update();
+		this.chartEatB3C.update();
+		this.chartEatB4C.update();
+		this.chartEatC1C.update();
+		this.chartEatC2C.update();
+		this.chartEatC3C.update();
+		this.chartEatC4C.update();
 		this.chartEstA1C.update();
-		
-		this.chartEstA2C.data.datasets[0].data=this.getEstA2();
 		this.chartEstA2C.update();
+		this.chartEstA3C.update();
+		this.chartEstA4C.update();
+		this.chartEstB1C.update();
+		this.chartEstB2C.update();
+		this.chartEstB3C.update();
+		this.chartEstB4C.update();
+		this.chartEstC1C.update();
+		this.chartEstC2C.update();
+		this.chartEstC3C.update();
+		this.chartEstC4C.update();
 	}
 	setMtr(){
 		this.setOveA1();
@@ -380,8 +452,8 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.setOveC2();
 		this.setOveC3();
 		this.setOveC4();
-		this.setEatA1();
-		this.setEatA2();
+		//this.setEatA1();
+		//this.setEatA2();
 		this.setEatA3();
 		this.setEatA4();
 		this.setEatB1();
@@ -392,8 +464,8 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.setEatC2();
 		this.setEatC3();
 		this.setEatC4();
-		this.setEstA1();
-		this.setEstA2();
+		//this.setEstA1();
+		//this.setEstA2();
 		this.setEstA3();
 		this.setEstA4();
 		this.setEstB1();
@@ -401,7 +473,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.setEstB3();
 		this.setEstB4();
 		this.setEstC1();
-		this.setEstC2();
+		//this.setEstC2();
 		this.setEstC3();
 		this.setEstC4();
 	}
@@ -417,29 +489,31 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	setOveC2(){}
 	setOveC3(){}
 	setOveC4(){}
-	setEatA1(){}
-	setEatA2(){}
+
+	setEatA1(x){this.mtr.eat[0][0]=x;}
+	setEatA2(x){this.mtr.eat[3][0]=x;}
 	setEatA3(){}
 	setEatA4(){}
 	setEatB1(){}
 	setEatB2(){}
 	setEatB3(){}
 	setEatB4(){}
-	setEatC1(){}
+	setEatC1( ){this.mtr.eat[2]=[this.expEatPow ,this.maxPow-this.expEatPow]}
 	setEatC2(){}
-	setEatC3(){}
+	setEatC3( ){this.mtr.eat[8]=[this.expEatCF ,this.maxCaF-this.expEatCF]}
 	setEatC4(){}
-	setEstA1(){this.mtr.est[0][0] =  +this.wids[3][1];}
-	setEstA2(){this.mtr.est[3][0] =  +this.wids[4][1];}
+
+	setEstA1(x){this.mtr.est[0][0]=x;}
+	setEstA2(x){this.mtr.est[3][0]=x;}
 	setEstA3(){}
 	setEstA4(){}
 	setEstB1(){}
 	setEstB2(){}
 	setEstB3(){}
 	setEstB4(){}
-	setEstC1(){}
-	setEstC2(){this.mtr.est[5][0] =  +this.wids[5][1];}
-	setEstC3(){}
+	setEstC1( ){this.mtr.est[2]=[this.expEstPow ,this.maxPow-this.expEstPow]}
+	setEstC2(x){this.mtr.est[5][0]=x;}
+	setEstC3( ){this.mtr.est[8]=[this.expEstCF ,this.maxCaF-this.expEstCF]}
 	setEstC4(){}
 
 	getOveA1():Array<number>{return this.mtr.overview[0]; }
@@ -450,33 +524,46 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	getOveB2():Array<number>{return this.mtr.overview[4]; }
 	getOveB3():Array<number>{return this.mtr.overview[7]; }
 	getOveB4():Array<number>{return this.mtr.overview[10];}
-	getOveC1():Array<number>{return this.mtr.overview[3]; }
+	getOveC1():Array<number>{return this.mtr.overview[2]; }
 	getOveC2():Array<number>{return this.mtr.overview[5]; }
 	getOveC3():Array<number>{return this.mtr.overview[8]; }
 	getOveC4():Array<number>{return this.mtr.overview[11];}
-	getEatA1():Array<number>{return this.mtr.overview[0]; }
-	getEatA2():Array<number>{return this.mtr.overview[3]; }
-	getEatA3():Array<number>{return this.mtr.overview[6]; }
-	getEatA4():Array<number>{return this.mtr.overview[9]; }
-	getEatB1():Array<number>{return this.mtr.overview[1]; }
-	getEatB2():Array<number>{return this.mtr.overview[4]; }
-	getEatB3():Array<number>{return this.mtr.overview[7]; }
-	getEatB4():Array<number>{return this.mtr.overview[10];}
-	getEatC1():Array<number>{return this.mtr.overview[3]; }
-	getEatC2():Array<number>{return this.mtr.overview[5]; }
-	getEatC3():Array<number>{return this.mtr.overview[8]; }
-	getEatC4():Array<number>{return this.mtr.overview[11];}
-	getEstA1():Array<number>{return this.mtr.overview[0]; }
-	getEstA2():Array<number>{return this.mtr.overview[3]; }
-	getEstA3():Array<number>{return this.mtr.overview[6]; }
-	getEstA4():Array<number>{return this.mtr.overview[9]; }
-	getEstB1():Array<number>{return this.mtr.overview[1]; }
-	getEstB2():Array<number>{return this.mtr.overview[4]; }
-	getEstB3():Array<number>{return this.mtr.overview[7]; }
-	getEstB4():Array<number>{return this.mtr.overview[10];}
-	getEstC1():Array<number>{return this.mtr.overview[3]; }
-	getEstC2():Array<number>{return this.mtr.overview[5]; }
-	getEstC3():Array<number>{return this.mtr.overview[8]; }
-	getEstC4():Array<number>{return this.mtr.overview[11];}
+
+	getEatA1():Array<number>{return this.mtr.eat[0]; }
+	getEatA2():Array<number>{return this.mtr.eat[3]; }
+	getEatA3():Array<number>{return this.mtr.eat[6]; }
+	getEatA4():Array<number>{return this.mtr.eat[9]; }
+	getEatB1():Array<number>{return this.mtr.eat[1]; }
+	getEatB2():Array<number>{return this.mtr.eat[4]; }
+	getEatB3():Array<number>{return this.mtr.eat[7]; }
+	getEatB4():Array<number>{return this.mtr.eat[10];}
+	getEatC1():Array<number>{return this.mtr.eat[2]; }
+	getEatC2():Array<number>{return this.mtr.eat[5]; }
+	getEatC3():Array<number>{return this.mtr.eat[8]; }
+	getEatC4():Array<number>{return this.mtr.eat[11];}
+
+	getEstA1():Array<number>{return this.mtr.est[0]; }
+	getEstA2():Array<number>{return this.mtr.est[3]; }
+	getEstA3():Array<number>{return this.mtr.est[6]; }
+	getEstA4():Array<number>{return this.mtr.est[9]; }
+	getEstB1():Array<number>{return this.mtr.est[1]; }
+	getEstB2():Array<number>{return this.mtr.est[4]; }
+	getEstB3():Array<number>{return this.mtr.est[7]; }
+	getEstB4():Array<number>{return this.mtr.est[10];}
+	getEstC1():Array<number>{return this.mtr.est[2]; }
+	getEstC2():Array<number>{return this.mtr.est[5]; }
+	getEstC3():Array<number>{return this.mtr.est[8]; }
+	getEstC4():Array<number>{return this.mtr.est[11];}
+
+	
+	setEatHRCorregido(x){this.eatHRCorregido=x;}
+	setEstHRCorregido(x){this.estHRCorregido=x;}
+	setCTUnoDiesel(x){this.CTUnoDiesel=x;}
+	setCTDosDiesel(x){this.CTDosDiesel=x;}
+
+	getEatHRCorregido(){ return this.eatHRCorregido;}
+	getEstHRCorregido(){ return this.estHRCorregido;}
+	getCTUnoDiesel(){ return this.CTUnoDiesel;}
+	getCTDosDiesel(){ return this.CTDosDiesel;}
 
 }
