@@ -197,6 +197,8 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 
 	}
 	ngOnInit() {
+		let url = `/assets/css/theme/content/monitoringv2.css`;
+		document.getElementById("content_theme").setAttribute('href',url);
 		this.initChart();
 		//this.getStreamsetsInterpolatedLast24HoursSol();
 		//this.getStreamsetsInterpolatedLast24HoursAguila();

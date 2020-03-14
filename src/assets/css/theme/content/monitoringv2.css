@@ -1,0 +1,112 @@
+@media (min-width: 0px) and (max-width: 767px){ 
+
+ }
+
+@media (min-width: 768px) { 
+    .seccion-aside_close{
+        padding-left:0px;
+    }
+ }
+.monitoreo{
+	color: #ffffff !important; 
+}
+.bg-gray{
+	background: #343a40 ;
+}
+#columna{
+	background: rgb(68, 73, 78);
+    color: #fff;
+}
+.info-user{
+    color: #fff;   
+}
+#seccion{
+    background:#343a40;
+}
+.columna_aside_close_monitoring{
+    width:0;
+}
+hr{
+	background: #ffffff;
+	height: 1px;
+}
+.section{
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 30px;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.info-user,.info-user p{
+    color: #ffffff !important;
+}
+
+.sidebar_item:hover, .sidebar_item.itemActive{
+    background-color : #cfd8dc!important;
+    color            : Black!important;
+}
+
+.user-panel{
+	background: rgb(68, 73, 78);
+}
+
+/*MODAL*/
+
+*[_ngcontent-ruw-c7] {
+    color: #000 !important;
+}
+.modal-xxl .modal-xl {
+    max-width: 90%;
+}
+.show{
+	display: block;
+}
+.modal-backdrop{
+	background-color:#ccc;
+}
+.modal-content{
+	background: #000;
+	/*border:solid 1px #ffffff;*/
+}
+.modal-title{
+	color:#fff;
+	margin: 0;
+}
+.modal-header {
+	padding: 8px;
+	border-bottom: none;
+}
+.modal-header .close > span{
+	color:#ffffff;
+}
+.modal-footer{
+	border-top:none;
+}
+.chart-container {
+	position: relative;
+	margin: auto;
+	height: 300px;
+	width: 100%;
+}
+
+.mytooltip .tooltip-inner {
+	background-color: darkgreen !important;
+	font-size: 12px !important;
+}
+.mytooltip .arrow::before {
+	border-top-color: darkgreen !important;
+}
+.my-popup-info{
+    color: #fff;
+}
+/*./MODAL*/
+
+
+.doughnut{
+    width: 32px;height: 32px; margin: auto;
+}
+.doughnut_p{
+    font-size: 11px;
+}
