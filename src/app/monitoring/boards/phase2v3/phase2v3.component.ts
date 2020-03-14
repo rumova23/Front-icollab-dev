@@ -112,22 +112,22 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 
 	mtr = {
 		overview:[
-			/*Power OutPut*/ [0,this.maxPow*2]  ,[0,1],  [0,1],
-			/*heat Rate*/    [0,this.maxHR *2]  ,[0,1],  [0 ,this.maxHR *2],
-			/*Capacity Fac*/ [0,this.maxCaF*2]  ,[0,1],  [0 ,this.maxCaF*2],
-			/*Fuel G/L*/     [0,this.maxFue*2]  ,[0,1],  [0 ,this.maxFue*2]
+			/*Power OutPut*/ [0,1]  ,[0,1],  [0,1],
+			/*heat Rate*/    [0,1]  ,[0,1],  [0,1],
+			/*Capacity Fac*/ [0,1]  ,[0,1],  [0,1],
+			/*Fuel G/L*/     [0,1]  ,[0,1],  [0,1]
 		],
 		eat:[
 			/*Power OutPut*/ [0,1]  ,[0,1],  [0,1],
 			/*heat Rate*/    [0,1]  ,[0,1],  [0,1],
 			/*Capacity Fac*/ [0,1]  ,[0,1],  [0,1],
-			/*Fuel G/L*/     [0,this.maxFue]  ,[0,1],  [0 ,this.maxFue]
+			/*Fuel G/L*/     [0,1]  ,[0,1],  [0,1]
 		],
 		est:[
 			/*Power OutPut*/ [0,1]  ,[0,1],  [0,1],
 			/*heat Rate*/    [0,1]  ,[0,1],  [0,1],
 			/*Capacity Fac*/ [0,1]  ,[0,1],  [0,1],
-			/*Fuel G/L*/     [0,this.maxFue]  ,[0,1],  [0 ,this.maxFue]
+			/*Fuel G/L*/     [0,1]  ,[0,1],  [0,1]
 		]
 	};
 	wids=[
@@ -449,50 +449,50 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		//this.setEatA2();
 		this.setEatA3();
 		this.setEatA4();
-		this.setEatB1();
-		this.setEatB2();
-		this.setEatB3();
-		this.setEatB4();
 		this.setEatC1();
 		//this.setEatC2();
 		this.setEatC3();
 		this.setEatC4();
+		this.setEatB1();
+		this.setEatB2();
+		this.setEatB3();
+		this.setEatB4();
 
 		//this.setEstA1();
 		//this.setEstA2();
 		this.setEstA3();
 		this.setEstA4();
-		this.setEstB1();
-		this.setEstB2();
-		this.setEstB3();
-		this.setEstB4();
 		this.setEstC1();
 		//this.setEstC2();
 		this.setEstC3();
-		this.setEstC4();	
+		this.setEstC4();
+		this.setEstB1();
+		this.setEstB2();
+		this.setEstB3();
+		this.setEstB4();	
 		
 		this.setOveA1();
 		this.setOveA2();
 		this.setOveA3();
 		this.setOveA4();
-		this.setOveB1();
-		this.setOveB2();
-		this.setOveB3();
-		this.setOveB4();
 		this.setOveC1();
 		this.setOveC2();
 		this.setOveC3();
 		this.setOveC4();
+		this.setOveB1();
+		this.setOveB2();
+		this.setOveB3();
+		this.setOveB4();
 	}
 	setOveA1(){let v=(this.getEatA1()[0]+this.getEstA1()[0]);this.mtr.overview[0]=[v,(this.maxPow*2)-v]}
 	setOveA2(){let a=this.getEatA2();let s=this.getEstA2();let ove0=(a[0]+s[0])/2;this.mtr.overview[3]=[ove0,this.maxHR-ove0]}
 	setOveA3(){let a=this.getEatA3();let s=this.getEstA3();let ove0=(a[0]+s[0])/2;this.mtr.overview[6]=[ove0,this.maxCaF-ove0]}
 	setOveA4(){let v=(this.getEatA4()[0]+this.getEstA4()[0]);this.mtr.overview[9]=[v,(this.maxFue*2)-v]}
-	setOveB1(){}
-	setOveB2(){}
-	setOveB3(){}
-	setOveB4(){}
-	setOveC1(){let a=this.getEatC1();let s=this.getEstC1();let ove0=a[0]+s[0];let ove1=a[1]+s[1];this.mtr.overview[2]=[ove0,ove1-ove0]}
+	setOveB1(){let v=(this.getOveA1()[0]-this.getOveC1()[0]);this.mtr.overview[1]=[v,(this.maxPow*2)-v];}
+	setOveB2(){let v=(this.getOveC2()[0]-this.getOveA2()[0]);this.mtr.overview[4]=[v,this.maxHR-v];}
+	setOveB3(){let v=(this.getOveA3()[0]-this.getOveC3()[0]);this.mtr.overview[7]=[v,this.maxCaF-v];}
+	setOveB4(){let v=(this.getOveA4()[0]-this.getOveC4()[0]);this.mtr.overview[10]=[v,(this.maxFue*2)-v];}
+	setOveC1(){let a=this.getEatC1();let s=this.getEstC1();let ove0=a[0]+s[0];let ove1=a[1]+s[1];this.mtr.overview[2]=[ove0,(this.maxPow*2)-ove0]}
 	setOveC2(){let a=this.getEatC2();let s=this.getEstC2();let ove0=(a[0]+s[0])/2;let ove1=(a[1]+s[1])/2;this.mtr.overview[5]=[ove0,this.maxHR-ove0]}
 	setOveC3(){let a=this.getEatC3();let s=this.getEstC3();let ove0=(a[0]+s[0])/2;let ove1=(a[1]+s[1])/2;this.mtr.overview[8]=[ove0,this.maxCaF-ove0]}
 	setOveC4(){let a=this.getEatC4();let s=this.getEstC4();let ove0=a[0]+s[0];let ove1=a[1]+s[1];this.mtr.overview[11]=[ove0,(this.maxFue*2)-ove0]}
@@ -501,10 +501,10 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	setEatA2(x){this.mtr.eat[3]=[x,this.maxHR-x];}
 	setEatA3(){this.updatefactorCapFac();let a=this.getEatA1();let v=(a[0]/this.factorCapFactor)*100;if(v>100)v=100;this.mtr.eat[6]=[v,this.maxCaF-v];}
 	setEatA4(){let heatRateCor=this.getEatC2()[0];let heatRate=this.getEatA2()[0];let v=(((heatRateCor-heatRate)*0.00004596)/20.03);this.mtr.eat[9]=[v,this.maxFue-v];}
-	setEatB1(){}
-	setEatB2(){}
-	setEatB3(){}
-	setEatB4(){}
+	setEatB1( ){let v=(this.getEatA1()[0]-this.getEatC1()[0]);this.mtr.eat[1]=[v,this.maxPow-v];}
+	setEatB2( ){let v=(this.getEatC2()[0]-this.getEatA2()[0]);this.mtr.eat[4]=[v,this.maxHR-v];}
+	setEatB3( ){let v=(this.getEatA3()[0]-this.getEatC3()[0]);this.mtr.eat[7]=[v,this.maxCaF-v];}
+	setEatB4( ){let v=(this.getEatA4()[0]-this.getEatC4()[0]);this.mtr.eat[10]=[v,this.maxFue-v];}
 	setEatC1( ){this.mtr.eat[2]=[this.factorExpEatPow ,this.maxPow-this.factorExpEatPow];}
 	setEatC2(x){this.mtr.eat[5]=[x,this.maxHR-x];this.eatHRCorregido=x;}
 	setEatC3( ){this.mtr.eat[8]=[this.factorExpEatCF ,this.maxCaF-this.factorExpEatCF];}
@@ -514,10 +514,10 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	setEstA2(x){this.mtr.est[3]=[x,this.maxHR-x];}
 	setEstA3(){this.updatefactorCapFac();let a=this.getEstA1();let v=(a[0]/this.factorCapFactor)*100;if(v>100)v=100;this.mtr.est[6]=[v,this.maxCaF-v];}
 	setEstA4(){let heatRateCor=this.getEstC2()[0];let heatRate=this.getEstA2()[0];let v=(((heatRateCor-heatRate)*0.00004764)/20.03);this.mtr.eat[9]=[v,this.maxFue-v];}
-	setEstB1(){}
-	setEstB2(){}
-	setEstB3(){}
-	setEstB4(){}
+	setEstB1( ){let v=(this.getEstA1()[0]-this.getEstC1()[0]);this.mtr.est[1]=[v,this.maxPow-v];}
+	setEstB2( ){let v=(this.getEstC2()[0]-this.getEstA2()[0]);this.mtr.est[4]=[v,this.maxHR-v];}
+	setEstB3( ){let v=(this.getEstA3()[0]-this.getEstC3()[0]);this.mtr.est[7]=[v,this.maxCaF-v];}
+	setEstB4( ){let v=(this.getEstA4()[0]-this.getEstC4()[0]);this.mtr.est[10]=[v,this.maxFue-v];}
 	setEstC1( ){this.mtr.est[2]=[this.factorExpEstPow ,this.maxPow-this.factorExpEstPow];}
 	setEstC2(x){this.mtr.est[5]=[x,this.maxHR-x];this.estHRCorregido=x;}
 	setEstC3( ){this.mtr.est[8]=[this.factorExpEstCF ,this.maxCaF-this.factorExpEstCF];}
@@ -572,5 +572,5 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	getEstHRCorregido(){ return this.estHRCorregido;}
 	getCTUnoDiesel(){ return this.CTUnoDiesel;}
 	getCTDosDiesel(){ return this.CTDosDiesel;}
-	updatefactorCapFac(){if(this.CTUnoDiesel > 4 && this.CTDosDiesel > 4) this.factorCapFactor = 405;}
+	updatefactorCapFac(){this.factorCapFactor = (this.CTUnoDiesel > 4 && this.CTDosDiesel > 4)?405:495;}
 }

@@ -58,12 +58,12 @@ export class MonitoringHomeComponent extends ConnectSocketComponent implements O
 		document.getElementById("content_theme").setAttribute('href',url);
 		
 		this.globalService.page  = new EventMessage(0,null,'Administrative_monitoring.Inicio');
-		//this.openSocket();
+		this.openSocket();
 		this.subscribeOnChangePage();
 	}
 	ngAfterViewInit() {
-		//const factory = this.componentFactoryResolver.resolveComponentFactory(MonitoringWelcomeComponent);
-		const factory = this.componentFactoryResolver.resolveComponentFactory(Phase2v3Component);
+		const factory = this.componentFactoryResolver.resolveComponentFactory(MonitoringWelcomeComponent);
+		//const factory = this.componentFactoryResolver.resolveComponentFactory(Phase2v3Component);
 		this.viewContainerRef.createComponent(factory);
 	}
 	ngOnDestroy(){
