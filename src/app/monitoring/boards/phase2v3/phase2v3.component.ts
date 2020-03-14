@@ -98,31 +98,35 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	maxRT2 = 50000;
 	maxCaF = 100;
 	maxFue = 1;
+	/* Espected */
 	expEatPow = 440.55;
 	expEatCF  = 89;
 	expEstPow = 455.4;
 	expEstCF  = 92;
+
+	factor_para_capacityFactor = 495;
+
 	eatHRCorregido;
 	estHRCorregido;
 
 	mtr = {
 		overview:[
-			/*Power OutPut*/ [9000 ,this.maxPow*2]  ,[1,1],  [0,1],
-			/*heat Rate*/    [9000 ,this.maxHR *2]  ,[1,1],  [0 ,this.maxHR *2],
-			/*Capacity Fac*/ [9000 ,this.maxCaF*2]  ,[1,1],  [0 ,this.maxCaF*2],
-			/*Fuel G/L*/     [9000 ,this.maxFue*2]  ,[1,1],  [0 ,this.maxFue*2]
+			/*Power OutPut*/ [0,this.maxPow*2]  ,[0,1],  [0,1],
+			/*heat Rate*/    [0,this.maxHR *2]  ,[0,1],  [0 ,this.maxHR *2],
+			/*Capacity Fac*/ [0,this.maxCaF*2]  ,[0,1],  [0 ,this.maxCaF*2],
+			/*Fuel G/L*/     [0,this.maxFue*2]  ,[0,1],  [0 ,this.maxFue*2]
 		],
 		eat:[
-			/*Power OutPut*/ [9000,1]  ,[1,1],  [0,1],
-			/*heat Rate*/    [9000,1]  ,[1,1],  [0,1],
-			/*Capacity Fac*/ [9000 ,this.maxCaF]  ,[1,1],  [0,1],
-			/*Fuel G/L*/     [9000 ,this.maxFue]  ,[1,1],  [0 ,this.maxFue]
+			/*Power OutPut*/ [0,1]  ,[0,1],  [0,1],
+			/*heat Rate*/    [0,1]  ,[0,1],  [0,1],
+			/*Capacity Fac*/ [0,1]  ,[0,1],  [0,1],
+			/*Fuel G/L*/     [0,this.maxFue]  ,[0,1],  [0 ,this.maxFue]
 		],
 		est:[
-			/*Power OutPut*/ [9000 ,1]  ,[1,1],  [0,1],
-			/*heat Rate*/    [9000 ,1 ]  ,[1,1],  [0,1],
-			/*Capacity Fac*/ [9000 ,this.maxCaF]  ,[1,1],  [0,1],
-			/*Fuel G/L*/     [9000 ,this.maxFue]  ,[1,1],  [0 ,this.maxFue]
+			/*Power OutPut*/ [0,1]  ,[0,1],  [0,1],
+			/*heat Rate*/    [0,1]  ,[0,1],  [0,1],
+			/*Capacity Fac*/ [0,1]  ,[0,1],  [0,1],
+			/*Fuel G/L*/     [0,this.maxFue]  ,[0,1],  [0 ,this.maxFue]
 		]
 	};
 	wids=[
@@ -207,15 +211,15 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		let url = `/assets/css/theme/content/monitoringv2.css`;
 		document.getElementById("content_theme").setAttribute('href',url);
 		this.initChart();
-		//this.getStreamsetsInterpolatedLast24HoursSol();
-		//this.getStreamsetsInterpolatedLast24HoursAguila();
-		//this.subscribeSocketChannel("pi-servers"    ,(data)=>{this.socketFlow(data);}  ,()=>{this.socketReconnected();}  ,()=>{this.socketDisconnected();});
+		this.getStreamsetsInterpolatedLast24HoursSol();
+		this.getStreamsetsInterpolatedLast24HoursAguila();
+		this.subscribeSocketChannel("pi-servers"    ,(data)=>{this.socketFlow(data);}  ,()=>{this.socketReconnected();}  ,()=>{this.socketDisconnected();});
 		//this.subscribeSocketChannel("back-pi-isrun" ,(data)=>{this.socketFlow(data);}  ,()=>{this.socketReconnected();}  ,()=>{this.socketDisconnected();});
 
-
+		/*
 		this.setMtr();
 		this.setChart();
-
+		//*/
 
 
 	}
@@ -250,7 +254,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 					this.opt.series[0]['data'] = values;
 					this.opt.title.text        = TAGS.lstTags['PowerOutput']['label'];
 					this.opt.subtitle.text     = data.data[0]['Items'][0]['Name'];
-					Highcharts.stockChart('container2', this.opt);
+					Highcharts.stockChart(this.chartLineEat2.nativeElement, this.opt);
 		
 				},
 				errorData => {
@@ -267,7 +271,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 					this.opt.series[0]['data'] = values;
 					this.opt.title.text        = TAGS.lstTags['PowerOutput']['label'];
 					this.opt.subtitle.text     = data.data[0]['Items'][0]['Name'];
-					Highcharts.stockChart('container3', this.opt);
+					Highcharts.stockChart(this.chartLineEst2.nativeElement, this.opt);
 		
 				},
 				errorData => {
@@ -480,20 +484,20 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	}
 	setOveA1(){}
 	setOveA2(){}
-	setOveA3(){}
+	setOveA3(){let a=this.getEatA3();let s=this.getEstA3();let ove0=(a[0]+s[0])/2;this.mtr.overview[6]=[ove0,this.maxCaF-ove0]}
 	setOveA4(){}
 	setOveB1(){}
 	setOveB2(){}
 	setOveB3(){}
 	setOveB4(){}
 	setOveC1(){let a=this.getEatC1();let s=this.getEstC1();let ove0=a[0]+s[0];let ove1=a[1]+s[1];this.mtr.overview[2]=[ove0,ove1-ove0]}
-	setOveC2(){let a=this.getEatC2();let s=this.getEstC2();let ove0=(a[0]+s[0])/2;let ove1=(a[1]+s[1])/2;this.mtr.overview[5]=[ove0,ove1-ove0]}
-	setOveC3(){let a=this.getEatC3();let s=this.getEstC3();let ove0=(a[0]+s[0])/2;let ove1=(a[1]+s[1])/2;this.mtr.overview[8]=[ove0,ove1-ove0]}
-	setOveC4(){let a=this.getEatC4();let s=this.getEstC4();let ove0=a[0]+s[0];let ove1=a[1]+s[1];this.mtr.overview[11]=[ove0,ove1-ove0]}
+	setOveC2(){let a=this.getEatC2();let s=this.getEstC2();let ove0=(a[0]+s[0])/2;let ove1=(a[1]+s[1])/2;this.mtr.overview[5]=[ove0,this.maxHR-ove0]}
+	setOveC3(){let a=this.getEatC3();let s=this.getEstC3();let ove0=(a[0]+s[0])/2;let ove1=(a[1]+s[1])/2;this.mtr.overview[8]=[ove0,this.maxCaF-ove0]}
+	setOveC4(){let a=this.getEatC4();let s=this.getEstC4();let ove0=a[0]+s[0];let ove1=a[1]+s[1];this.mtr.overview[11]=[ove0,this.maxFue-ove0]}
 
 	setEatA1(x){this.mtr.eat[0]=[x,this.maxPow-x];}
 	setEatA2(x){this.mtr.eat[3]=[x,this.maxHR-x];}
-	setEatA3(){}
+	setEatA3(){this.updatefactorCapFac();let a=this.getEatA1();let v=(a[0]/this.factor_para_capacityFactor)*100;if(v>100)v=100;this.mtr.eat[6]=[v,this.maxCaF-v];}
 	setEatA4(){}
 	setEatB1(){}
 	setEatB2(){}
@@ -506,7 +510,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 
 	setEstA1(x){this.mtr.est[0]=[x,this.maxPow-x];}
 	setEstA2(x){this.mtr.est[3]=[x,this.maxHR-x];}
-	setEstA3(){}
+	setEstA3(){this.updatefactorCapFac();let a=this.getEstA1();let v=(a[0]/this.factor_para_capacityFactor)*100;if(v>100)v=100;this.mtr.est[6]=[v,this.maxCaF-v];}
 	setEstA4(){}
 	setEstB1(){}
 	setEstB2(){}
@@ -566,5 +570,8 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	getEstHRCorregido(){ return this.estHRCorregido;}
 	getCTUnoDiesel(){ return this.CTUnoDiesel;}
 	getCTDosDiesel(){ return this.CTDosDiesel;}
+	updatefactorCapFac(){
+		if(this.CTUnoDiesel > 4 && this.CTDosDiesel > 4) this.factor_para_capacityFactor = 405;
+	}
 
 }

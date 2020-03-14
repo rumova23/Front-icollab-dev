@@ -29,9 +29,9 @@
                         <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Power <br> OutPut</div>
                     </div>
                 </div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveA1'"><canvas #chartOveA1></canvas></div><p class="doughnut_p">{{getOveA1()[0]}}</p></div>
-                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartOveB1'"><canvas #chartOveB1></canvas></div><p class="doughnut_p">{{getOveB1()[0]}}</p></div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveC1'"><canvas #chartOveC1></canvas></div><p class="doughnut_p">{{getOveC1()[0]}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveA1'"><canvas #chartOveA1></canvas></div><p class="doughnut_p" [attr.valor]="getOveA1()[0]">{{getOveA1()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartOveB1'"><canvas #chartOveB1></canvas></div><p class="doughnut_p" [attr.valor]="getOveB1()[0]">{{getOveB1()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveC1'"><canvas #chartOveC1></canvas></div><p class="doughnut_p" [attr.valor]="getOveC1()[0]">{{getOveC1()[0] | number: "1.2-2"}}</p></div>
             </div>
             <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-thermometer-three-quarters"></i><br> Heat Rate</div></div>
             <div class="row">
@@ -41,9 +41,9 @@
                         <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Heat <br> Rate</div>
                     </div>
                 </div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveA2'"><canvas #chartOveA2></canvas></div><p class="doughnut_p">{{getOveA2()[0]}}</p></div>
-                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartOveB2'"><canvas #chartOveB2></canvas></div><p class="doughnut_p">{{getOveB2()[0]}}</p></div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveC2'"><canvas #chartOveC2></canvas></div><p class="doughnut_p">{{getOveC2()[0]}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveA2'"><canvas #chartOveA2></canvas></div><p class="doughnut_p" [attr.valor]="getOveA2()[0]">{{getOveA2()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartOveB2'"><canvas #chartOveB2></canvas></div><p class="doughnut_p" [attr.valor]="getOveB2()[0]">{{getOveB2()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveC2'"><canvas #chartOveC2></canvas></div><p class="doughnut_p" [attr.valor]="getOveC2()[0]">{{getOveC2()[0] | number: "1.2-2"}}</p></div>
             </div>
             <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-battery-three-quarters"></i><br> Capacity Factor</div></div>
             <div class="row">
@@ -53,9 +53,9 @@
                         <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Capacity <br> Factor</div>
                     </div>
                 </div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveA3'"><canvas #chartOveA3></canvas></div><p class="doughnut_p">{{getOveA3()[0]}}</p></div>
-                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartOveB3'"><canvas #chartOveB3></canvas></div><p class="doughnut_p">{{getOveB3()[0]}}</p></div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveC3'"><canvas #chartOveC3></canvas></div><p class="doughnut_p">{{getOveC3()[0]}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveA3'"><canvas #chartOveA3></canvas></div><p class="doughnut_p" [attr.valor]="getOveA3()[0]">{{getOveA3()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartOveB3'"><canvas #chartOveB3></canvas></div><p class="doughnut_p" [attr.valor]="getOveB3()[0]">{{getOveB3()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveC3'"><canvas #chartOveC3></canvas></div><p class="doughnut_p" [attr.valor]="getOveC3()[0]">{{getOveC3()[0] | number: "1.2-2"}}</p></div>
             </div>
             <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-gas-pump"></i><br> Fuel Gain /lost</div></div>
             <div class="row">
@@ -65,9 +65,9 @@
                         <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Fuel <br> Gain /lost</div>
                     </div>
                 </div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveA4'"><canvas #chartOveA4></canvas></div><p class="doughnut_p">{{getOveA4()[0]}}</p></div>
-                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartOveB4'"><canvas #chartOveB4></canvas></div><p class="doughnut_p">{{getOveB4()[0]}}</p></div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveC4'"><canvas #chartOveC4></canvas></div><p class="doughnut_p">{{getOveC4()[0]}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveA4'"><canvas #chartOveA4></canvas></div><p class="doughnut_p" [attr.valor]="getOveA4()[0]">{{getOveA4()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartOveB4'"><canvas #chartOveB4></canvas></div><p class="doughnut_p" [attr.valor]="getOveB4()[0]">{{getOveB4()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveC4'"><canvas #chartOveC4></canvas></div><p class="doughnut_p" [attr.valor]="getOveC4()[0]">{{getOveC4()[0] | number: "1.2-2"}}</p></div>
             </div>
         </div>
         <div class="col-12 col-md-7    col-lg-7   col-xl-4        py-2 order-md-2 text-center bg-black">
@@ -188,9 +188,9 @@
                         <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Power <br> OutPut</div>
                     </div>
                 </div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatA1'"><canvas #chartEatA1></canvas></div><p class="doughnut_p">{{getEatA1()[0]}}</p></div>
-                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEatB1'"><canvas #chartEatB1></canvas></div><p class="doughnut_p">{{getEatB1()[0]}}</p></div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatC1'"><canvas #chartEatC1></canvas></div><p class="doughnut_p">{{getEatC1()[0]}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatA1'"><canvas #chartEatA1></canvas></div><p class="doughnut_p" [attr.valor]="getEatA1()[0]">{{getEatA1()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEatB1'"><canvas #chartEatB1></canvas></div><p class="doughnut_p" [attr.valor]="getEatB1()[0]">{{getEatB1()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatC1'"><canvas #chartEatC1></canvas></div><p class="doughnut_p" [attr.valor]="getEatC1()[0]">{{getEatC1()[0] | number: "1.2-2"}}</p></div>
             </div>
             <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-thermometer-three-quarters"></i><br> Heat Rate</div></div>
             <div class="row">
@@ -200,9 +200,9 @@
                         <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Heat <br> Rate</div>
                     </div>
                 </div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatA2'"><canvas #chartEatA2></canvas></div><p class="doughnut_p">{{getEatA2()[0]}}</p></div>
-                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEatB2'"><canvas #chartEatB2></canvas></div><p class="doughnut_p">{{getEatB2()[0]}}</p></div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatC2'"><canvas #chartEatC2></canvas></div><p class="doughnut_p">{{getEatC2()[0]}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatA2'"><canvas #chartEatA2></canvas></div><p class="doughnut_p" [attr.valor]="getEatA2()[0]">{{getEatA2()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEatB2'"><canvas #chartEatB2></canvas></div><p class="doughnut_p" [attr.valor]="getEatB2()[0]">{{getEatB2()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatC2'"><canvas #chartEatC2></canvas></div><p class="doughnut_p" [attr.valor]="getEatC2()[0]">{{getEatC2()[0] | number: "1.2-2"}}</p></div>
             </div>
             <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-battery-three-quarters"></i><br> Capacity Factor</div></div>
             <div class="row">
@@ -212,9 +212,9 @@
                         <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Capacity <br> Factor</div>
                     </div>
                 </div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatA3'"><canvas #chartEatA3></canvas></div><p class="doughnut_p">{{getEatA3()[0]}}</p></div>
-                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEatB3'"><canvas #chartEatB3></canvas></div><p class="doughnut_p">{{getEatB3()[0]}}</p></div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatC3'"><canvas #chartEatC3></canvas></div><p class="doughnut_p">{{getEatC3()[0]}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatA3'"><canvas #chartEatA3></canvas></div><p class="doughnut_p" [attr.valor]="getEatA3()[0]">{{getEatA3()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEatB3'"><canvas #chartEatB3></canvas></div><p class="doughnut_p" [attr.valor]="getEatB3()[0]">{{getEatB3()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatC3'"><canvas #chartEatC3></canvas></div><p class="doughnut_p" [attr.valor]="getEatC3()[0]">{{getEatC3()[0] | number: "1.2-2"}}</p></div>
             </div>
             <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-gas-pump"></i><br> Fuel Gain /lost</div></div>
             <div class="row">
@@ -224,9 +224,9 @@
                         <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Fuel <br> Gain /lost</div>
                     </div>
                 </div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatA4'"><canvas #chartEatA4></canvas></div><p class="doughnut_p">{{getEatA4()[0]}}</p></div>
-                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEatB4'"><canvas #chartEatB4></canvas></div><p class="doughnut_p">{{getEatB4()[0]}}</p></div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatC4'"><canvas #chartEatC4></canvas></div><p class="doughnut_p">{{getEatC4()[0]}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatA4'"><canvas #chartEatA4></canvas></div><p class="doughnut_p" [attr.valor]="getEatA4()[0]">{{getEatA4()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEatB4'"><canvas #chartEatB4></canvas></div><p class="doughnut_p" [attr.valor]="getEatB4()[0]">{{getEatB4()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatC4'"><canvas #chartEatC4></canvas></div><p class="doughnut_p" [attr.valor]="getEatC4()[0]">{{getEatC4()[0] | number: "1.2-2"}}</p></div>
             </div>
         </div>
         <div class="col-12 col-md-7    col-lg-7   col-xl-4        py-2 order-md-2 text-center bg-black">
@@ -349,9 +349,9 @@
                         <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Power <br> OutPut</div>
                     </div>
                 </div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstA1'"><canvas #chartEstA1></canvas></div><p class="doughnut_p">{{getEstA1()[0]}}</p></div>
-                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEstB1'"><canvas #chartEstB1></canvas></div><p class="doughnut_p">{{getEstB1()[0]}}</p></div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstC1'"><canvas #chartEstC1></canvas></div><p class="doughnut_p">{{getEstC1()[0]}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstA1'"><canvas #chartEstA1></canvas></div><p class="doughnut_p" [attr.valor]="getEstA1()[0]">{{getEstA1()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEstB1'"><canvas #chartEstB1></canvas></div><p class="doughnut_p" [attr.valor]="getEstB1()[0]">{{getEstB1()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstC1'"><canvas #chartEstC1></canvas></div><p class="doughnut_p" [attr.valor]="getEstC1()[0]">{{getEstC1()[0] | number: "1.2-2"}}</p></div>
             </div>
             <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-thermometer-three-quarters"></i><br> Heat Rate</div></div>
             <div class="row">
@@ -361,9 +361,9 @@
                         <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Heat <br> Rate</div>
                     </div>
                 </div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstA2'"><canvas #chartEstA2></canvas></div><p class="doughnut_p">{{getEstA2()[0]}}</p></div>
-                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEstB2'"><canvas #chartEstB2></canvas></div><p class="doughnut_p">{{getEstB2()[0]}}</p></div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstC2'"><canvas #chartEstC2></canvas></div><p class="doughnut_p">{{getEstC2()[0]}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstA2'"><canvas #chartEstA2></canvas></div><p class="doughnut_p" [attr.valor]="getEstA2()[0]">{{getEstA2()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEstB2'"><canvas #chartEstB2></canvas></div><p class="doughnut_p" [attr.valor]="getEstB2()[0]">{{getEstB2()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstC2'"><canvas #chartEstC2></canvas></div><p class="doughnut_p" [attr.valor]="getEstC2()[0]">{{getEstC2()[0] | number: "1.2-2"}}</p></div>
             </div>
             <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-battery-three-quarters"></i><br> Capacity Factor</div></div>
             <div class="row">
@@ -373,9 +373,9 @@
                         <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Capacity <br> Factor</div>
                     </div>
                 </div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstA3'"><canvas #chartEstA3></canvas></div><p class="doughnut_p">{{getEstA3()[0]}}</p></div>
-                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEstB3'"><canvas #chartEstB3></canvas></div><p class="doughnut_p">{{getEstB3()[0]}}</p></div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstC3'"><canvas #chartEstC3></canvas></div><p class="doughnut_p">{{getEstC3()[0]}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstA3'"><canvas #chartEstA3></canvas></div><p class="doughnut_p" [attr.valor]="getEstA3()[0]">{{getEstA3()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEstB3'"><canvas #chartEstB3></canvas></div><p class="doughnut_p" [attr.valor]="getEstB3()[0]">{{getEstB3()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstC3'"><canvas #chartEstC3></canvas></div><p class="doughnut_p" [attr.valor]="getEstC3()[0]">{{getEstC3()[0] | number: "1.2-2"}}</p></div>
             </div>
             <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-gas-pump"></i><br> Fuel Gain /lost</div></div>
             <div class="row">
@@ -385,9 +385,9 @@
                         <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Fuel <br> Gain /lost</div>
                     </div>
                 </div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstA4'"><canvas #chartEstA4></canvas></div><p class="doughnut_p">{{getEstA4()[0]}}</p></div>
-                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEstB4'"><canvas #chartEstB4></canvas></div><p class="doughnut_p">{{getEstB4()[0]}}</p></div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstC4'"><canvas #chartEstC4></canvas></div><p class="doughnut_p">{{getEstC4()[0]}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstA4'"><canvas #chartEstA4></canvas></div><p class="doughnut_p" [attr.valor]="getEstA4()[0]">{{getEstA4()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEstB4'"><canvas #chartEstB4></canvas></div><p class="doughnut_p" [attr.valor]="getEstB4()[0]">{{getEstB4()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstC4'"><canvas #chartEstC4></canvas></div><p class="doughnut_p" [attr.valor]="getEstC4()[0]">{{getEstC4()[0] | number: "1.2-2"}}</p></div>
             </div>
         </div>
         <div class="col-12 col-md-7    col-lg-7   col-xl-4        py-2 order-md-2 text-center bg-black">
