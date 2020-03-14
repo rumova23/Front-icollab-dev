@@ -107,20 +107,20 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 
 	mtr = {
 		overview:[
-			/*Power OutPut*/ [9000 ,this.maxPow*2]  ,[1,1],  [0 ,this.maxPow*2],
+			/*Power OutPut*/ [9000 ,this.maxPow*2]  ,[1,1],  [0,1],
 			/*heat Rate*/    [9000 ,this.maxHR *2]  ,[1,1],  [0 ,this.maxHR *2],
 			/*Capacity Fac*/ [9000 ,this.maxCaF*2]  ,[1,1],  [0 ,this.maxCaF*2],
 			/*Fuel G/L*/     [9000 ,this.maxFue*2]  ,[1,1],  [0 ,this.maxFue*2]
 		],
 		eat:[
-			/*Power OutPut*/ [9000 ,this.maxPow]  ,[1,1],  [0,1],
-			/*heat Rate*/    [9000 ,this.maxHR ]  ,[1,1],  [0 ,this.maxHR],
+			/*Power OutPut*/ [9000,1]  ,[1,1],  [0,1],
+			/*heat Rate*/    [9000,1]  ,[1,1],  [0,1],
 			/*Capacity Fac*/ [9000 ,this.maxCaF]  ,[1,1],  [0,1],
 			/*Fuel G/L*/     [9000 ,this.maxFue]  ,[1,1],  [0 ,this.maxFue]
 		],
 		est:[
-			/*Power OutPut*/ [9000 ,this.maxPow]  ,[1,1],  [0,1],
-			/*heat Rate*/    [9000 ,this.maxHR ]  ,[1,1],  [0 ,this.maxHR],
+			/*Power OutPut*/ [9000 ,1]  ,[1,1],  [0,1],
+			/*heat Rate*/    [9000 ,1 ]  ,[1,1],  [0,1],
 			/*Capacity Fac*/ [9000 ,this.maxCaF]  ,[1,1],  [0,1],
 			/*Fuel G/L*/     [9000 ,this.maxFue]  ,[1,1],  [0 ,this.maxFue]
 		]
@@ -128,11 +128,11 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	wids=[
 		['P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY' ,0 ,'eat_power' ,"setEatA1"],
 		['P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM' ,0 ,'eat_heatR' ,"setEatA2"],
-		['P0uQAgHoBd0ku7P3cWOJL6IgGSUAAAU0VSVklET1JfUElcREFBMDgxMDQ' ,0 ,'eat_heatRC',"setEatHRCorregido"],
+		['P0uQAgHoBd0ku7P3cWOJL6IgGSUAAAU0VSVklET1JfUElcREFBMDgxMDQ' ,0 ,'eat_heatRC',"setEatC2"],
 
 		['F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz'      ,0 ,'est_power' ,"setEstA1"],
 		['F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4'      ,0 ,'est_heatR' ,"setEstA2"],
-		['F1DP4rhZAwFMREKDf7s8vylUqgJA0AAAUElUVlxMR1MuQ0VBLjcx'      ,0 ,'est_heatRC',"setEstHRCorregido"],
+		['F1DP4rhZAwFMREKDf7s8vylUqgJA0AAAUElUVlxMR1MuQ0VBLjcx'      ,0 ,'est_heatRC',"setEstC2"],
 
 		['P0uQAgHoBd0ku7P3cWOJL6IgnSIAAAU0VSVklET1JfUElcRzFBMDgwOTc' ,0 ,'CTUnoDiesel',"setCTUnoDiesel"],
 		['P0uQAgHoBd0ku7P3cWOJL6IgLCAAAAU0VSVklET1JfUElcRzJBMDgwOTc' ,0 ,'CTDosDiesel',"setCTDosDiesel"],
@@ -440,18 +440,6 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.chartEstC4C.update();
 	}
 	setMtr(){
-		this.setOveA1();
-		this.setOveA2();
-		this.setOveA3();
-		this.setOveA4();
-		this.setOveB1();
-		this.setOveB2();
-		this.setOveB3();
-		this.setOveB4();
-		this.setOveC1();
-		this.setOveC2();
-		this.setOveC3();
-		this.setOveC4();
 		//this.setEatA1();
 		//this.setEatA2();
 		this.setEatA3();
@@ -461,7 +449,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.setEatB3();
 		this.setEatB4();
 		this.setEatC1();
-		this.setEatC2();
+		//this.setEatC2();
 		this.setEatC3();
 		this.setEatC4();
 		//this.setEstA1();
@@ -475,7 +463,20 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.setEstC1();
 		//this.setEstC2();
 		this.setEstC3();
-		this.setEstC4();
+		this.setEstC4();	
+		
+		this.setOveA1();
+		this.setOveA2();
+		this.setOveA3();
+		this.setOveA4();
+		this.setOveB1();
+		this.setOveB2();
+		this.setOveB3();
+		this.setOveB4();
+		this.setOveC1();
+		this.setOveC2();
+		this.setOveC3();
+		this.setOveC4();
 	}
 	setOveA1(){}
 	setOveA2(){}
@@ -485,13 +486,13 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	setOveB2(){}
 	setOveB3(){}
 	setOveB4(){}
-	setOveC1(){}
-	setOveC2(){}
-	setOveC3(){}
-	setOveC4(){}
+	setOveC1(){let a=this.getEatC1();let s=this.getEstC1();let ove0=a[0]+s[0];let ove1=a[1]+s[1];this.mtr.overview[2]=[ove0,ove1-ove0]}
+	setOveC2(){let a=this.getEatC2();let s=this.getEstC2();let ove0=(a[0]+s[0])/2;let ove1=(a[1]+s[1])/2;this.mtr.overview[5]=[ove0,ove1-ove0]}
+	setOveC3(){let a=this.getEatC3();let s=this.getEstC3();let ove0=(a[0]+s[0])/2;let ove1=(a[1]+s[1])/2;this.mtr.overview[8]=[ove0,ove1-ove0]}
+	setOveC4(){let a=this.getEatC4();let s=this.getEstC4();let ove0=a[0]+s[0];let ove1=a[1]+s[1];this.mtr.overview[11]=[ove0,ove1-ove0]}
 
-	setEatA1(x){this.mtr.eat[0][0]=x;}
-	setEatA2(x){this.mtr.eat[3][0]=x;}
+	setEatA1(x){this.mtr.eat[0]=[x,this.maxPow-x];}
+	setEatA2(x){this.mtr.eat[3]=[x,this.maxHR-x];}
 	setEatA3(){}
 	setEatA4(){}
 	setEatB1(){}
@@ -499,12 +500,12 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	setEatB3(){}
 	setEatB4(){}
 	setEatC1( ){this.mtr.eat[2]=[this.expEatPow ,this.maxPow-this.expEatPow]}
-	setEatC2(){}
+	setEatC2(x){this.mtr.eat[5]=[x,this.maxHR-x];this.eatHRCorregido=x;}
 	setEatC3( ){this.mtr.eat[8]=[this.expEatCF ,this.maxCaF-this.expEatCF]}
 	setEatC4(){}
 
-	setEstA1(x){this.mtr.est[0][0]=x;}
-	setEstA2(x){this.mtr.est[3][0]=x;}
+	setEstA1(x){this.mtr.est[0]=[x,this.maxPow-x];}
+	setEstA2(x){this.mtr.est[3]=[x,this.maxHR-x];}
 	setEstA3(){}
 	setEstA4(){}
 	setEstB1(){}
@@ -512,7 +513,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	setEstB3(){}
 	setEstB4(){}
 	setEstC1( ){this.mtr.est[2]=[this.expEstPow ,this.maxPow-this.expEstPow]}
-	setEstC2(x){this.mtr.est[5][0]=x;}
+	setEstC2(x){this.mtr.est[5]=[x,this.maxHR-x];this.estHRCorregido=x;}
 	setEstC3( ){this.mtr.est[8]=[this.expEstCF ,this.maxCaF-this.expEstCF]}
 	setEstC4(){}
 
