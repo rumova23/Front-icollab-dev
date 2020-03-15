@@ -7,7 +7,7 @@
     <!--*****************************************************************************************************************-->
     <div class="row bg-gray text-center">
         <div class="col-12">            
-            <h4 class="m-0">OverView</h4>
+            <h4 class="m-0" (click)="demo()">OverView</h4>
         </div>
     </div>
     <div class="row">
@@ -245,12 +245,12 @@
         </div>
         <div class="col-12 col-md-4    col-lg-4   col-xl-2        py-2 order-md-5 text-center bg-black">
             <div class="row h-100">
-                <div class="col-12">titulo</div>
+                <div class="col-12"><strong>Diesel Tank</strong></div>
                 <div class="col align-self-center">
                     <div>
                         <radial-gauge 
                             style="    margin-left: -85px;"
-                            [value]="100"
+                            [value]="viewDieselRadialGauge"
                             id="GasTankId2"
                             class="Tacometro"
                             title="F"
@@ -302,7 +302,7 @@
                 </div>
                 <div class="col align-self-center">
                     <i class="fas fa-gas-pump fa-3x"></i>
-                    <p>100%</p>
+                    <p>{{viewDiesel | number: "1.2-2"}}%</p>
                 </div>
                 <img src="assets/monitoring/phase2/aguila.png" alt="demo-dougnut" style="position: absolute; max-width: 50px; right: 0;" class="d-none d-xl-block">
             </div>
@@ -463,7 +463,7 @@
                 </div>
                 <div class="col align-self-center">
                     <i class="fas fa-fire-alt fa-3x"></i>
-                    <p>100%</p>
+                    <p>xxx%</p>
                 </div>
                 <img src="assets/monitoring/phase2/sol.png" alt="demo-dougnut" style="position: absolute; max-width: 50px; right: 0;" class="d-none d-xl-block">
             </div>
