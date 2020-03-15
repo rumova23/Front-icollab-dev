@@ -98,6 +98,8 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	maxRT2 = 50000;
 	maxCaF = 100;
 	maxFue = 1;
+	maxDiese1=50000;
+	maxDiese2=50000;
 	/* Espected */
 	factorExpEatPow = 440.55;
 	factorExpEatCF  = 89;
@@ -107,6 +109,9 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	factorExpEstFuel= 0.182791;
 	factorExpEatFuel= -0.246670;
 
+	viewDiesel=0;
+	viewDieselRadialGauge=0;
+	
 	eatHRCorregido;
 	estHRCorregido;
 
@@ -238,6 +243,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		}
 		this.setMtr();
 		this.setChart();
+		this.getDieselRadialGauge();
 	}
 	socketReconnected(){
 
@@ -573,4 +579,17 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	getCTUnoDiesel(){ return this.CTUnoDiesel;}
 	getCTDosDiesel(){ return this.CTDosDiesel;}
 	updatefactorCapFac(){this.factorCapFactor = (this.CTUnoDiesel > 4 && this.CTDosDiesel > 4)?405:495;}
+
+	getDiesel(){this.viewDiesel = ((this.maxDiese1+this.maxDiese2)/100)*(this.CTUnoDiesel+this.CTDosDiesel);}
+	getDieselRadialGauge(){
+		/* en la representacion radial-gauge en 80 representa el 100% y el 120 representa el 0%*/
+		this.getDiesel();
+		let v = (40*this.viewDiesel)/100;		
+		this.viewDieselRadialGauge = 80+(120-(80+v));
+	}
+	demo(){
+		this.viewDiesel += 10;		
+		let v = (40*this.viewDiesel)/100;		
+		this.viewDieselRadialGauge = 80+(120-(80+v));
+	}
 }
