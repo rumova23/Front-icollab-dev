@@ -176,6 +176,7 @@ export class SecurityService {
   }
 
   loadPlants() {
+    if(environment.openoffline )return [{ id: 1 , name: 'AGUILA'             }];
     return JSON.parse(localStorage.getItem('user')).plants;
     // return this.http.get(environment.securityUrl + 'plant/list');
   }
@@ -185,6 +186,7 @@ export class SecurityService {
   }
 
   loadApps() {
+    if(environment.openoffline )return [{id:"1",name:"Administrative_monitoring"}]
     return JSON.parse(localStorage.getItem('user')).apps;
     // return this.http.get(environment.securityUrl + 'app/list');
   }

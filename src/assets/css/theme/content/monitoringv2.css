@@ -21,7 +21,7 @@
     color: #fff;   
 }
 #seccion{
-    background:#000000;
+    background:#343a40;
 }
 .columna_aside_close_monitoring{
     width:0;
@@ -102,3 +102,11 @@ hr{
     color: #fff;
 }
 /*./MODAL*/
+
+
+.doughnut{
+    width: 32px;height: 32px; margin: auto;
+}
+.doughnut_p{
+    font-size: 11px;
+}

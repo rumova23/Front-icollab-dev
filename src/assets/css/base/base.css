@@ -182,3 +182,12 @@ option {
 #columna span {
     font-size: 10px;
 }
+.color-aguila{
+    color:#0F5787;
+}
+.color-sol{
+    color:#D67700;
+}
+.bg-black{
+    background: black;
+}

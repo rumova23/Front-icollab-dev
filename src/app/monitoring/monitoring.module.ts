@@ -19,6 +19,7 @@ import { Phase2v1Component } from './boards/phase2v1/phase2v1.component';
 import {GaugesModule} from 'ng-canvas-gauges';
 import { Phase2v2Component } from './boards/phase2v2/phase2v2.component';
 import { Phase3v2Component } from './boards/phase3v2/phase3v2.component';
+import { Phase2v3Component } from './boards/phase2v3/phase2v3.component';
 
 @NgModule({
     declarations:[
@@ -33,7 +34,8 @@ import { Phase3v2Component } from './boards/phase3v2/phase3v2.component';
         InteractiveImageTurbineCT1Component,
         Phase2v1Component,
         Phase2v2Component,
-        Phase3v2Component
+        Phase3v2Component,
+        Phase2v3Component
     ],
     exports:[
     ],

@@ -5,7 +5,7 @@ import { RouterStateSnapshot       } from '@angular/router';
 import { SecurityService           } from '../services/security.service';
 import { Validate                  } from '../helpers/util.validator.';
 import { GlobalService             } from 'src/app/core/globals/global.service';
-
+import {environment} from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
@@ -16,6 +16,7 @@ export class AuthGuard implements CanActivate {
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        if(environment.openoffline ) return true;
         const currentUser = this.securityService.getCurrentUser();
         if (!Validate(currentUser)) {
             return false;

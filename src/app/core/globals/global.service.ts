@@ -6,6 +6,7 @@ import { Plant           } from 'src/app/security/models/Plant';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { HttpParams      } from '@angular/common/http';
 import { DOCUMENT        } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
 	providedIn: 'root'
@@ -38,6 +39,7 @@ export class GlobalService {
 		return this.plant;
 	}
 	setTheme(){
+		if(environment.openoffline )this.plant = { id: 1 , name: 'AGUILA'             };
 		this.aguila = (this.plant.name=="AGUILA") ? true : false;   // no se debe seguir usando ya que puede haber n plantas  ahora se debe usar la variable plant
 		let url = `assets/css/theme/${this.plant.name.toLowerCase()}/default.css`;
 		let element = this._document.getElementById("plant_theme");
