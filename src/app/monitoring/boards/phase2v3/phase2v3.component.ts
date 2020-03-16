@@ -147,7 +147,26 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		['P0uQAgHoBd0ku7P3cWOJL6IgnSIAAAU0VSVklET1JfUElcRzFBMDgwOTc' ,0 ,'CTUnoDiesel',"setCTUnoDiesel"],
 		['P0uQAgHoBd0ku7P3cWOJL6IgLCAAAAU0VSVklET1JfUElcRzJBMDgwOTc' ,0 ,'CTDosDiesel',"setCTDosDiesel"],
 	];
-	
+	mtrLineAcDifExp={
+		overview:{
+			power:[{name:'Actuals',data:[]},{name:'dif',data:[]},{name:'expected',data:[[1167609600000,0.7537],[1167696000000,0.3197]]}],//[[1167609600000,0.7537],[1167696000000,0.3197]],
+			heatR:[{name:'Actuals',data:[]},{name:'dif',data:[]},{name:'expected',data:[[1167609600000,0.3237],[1167696000000,0.8177]]}],//[[1167609600000,0.3237],[1167696000000,0.8177]],
+			capaF:[{name:'Actuals',data:[]},{name:'dif',data:[]},{name:'expected',data:[[1167609600000,0.6537],[1167696000000,0.1347]]}],//[[1167609600000,0.6537],[1167696000000,0.1347]],
+			fuel :[{name:'Actuals',data:[]},{name:'dif',data:[]},{name:'expected',data:[[1167609600000,0.1237],[1167696000000,0.2777]]}],//[[1167609600000,0.1237],[1167696000000,0.2777]]
+		},
+		eat:{
+			power:[{name:'Actuals',data:[]},{name:'dif',data:[]},{name:'expected',data:[[1167609600000,0.8737],[1167696000000,0.6537]]}],//[[1167609600000,0.8737],[1167696000000,0.6537]],
+			heatR:[{name:'Actuals',data:[]},{name:'dif',data:[]},{name:'expected',data:[[1167609600000,0.8737],[1167696000000,0.9537]]}],//[[1167609600000,0.8737],[1167696000000,0.9537]],
+			capaF:[{name:'Actuals',data:[]},{name:'dif',data:[]},{name:'expected',data:[[1167609600000,0.1546],[1167696000000,0.2537]]}],//[[1167609600000,0.1546],[1167696000000,0.2537]],
+			fuel :[{name:'Actuals',data:[]},{name:'dif',data:[]},{name:'expected',data:[[1167609600000,0.5537],[1167696000000,0.4537]]}],//[[1167609600000,0.5537],[1167696000000,0.4537]]
+		},
+		est:{
+			power:[{name:'Actuals',data:[]},{name:'dif',data:[]},{name:'expected',data:[[1167609600000,0.7512],[1167696000000,0.1537]]}],//[[1167609600000,0.7512],[1167696000000,0.1537]],
+			heatR:[{name:'Actuals',data:[]},{name:'dif',data:[]},{name:'expected',data:[[1167609600000,0.7537],[1167696000000,0.8517]]}],//[[1167609600000,0.7537],[1167696000000,0.8517]],
+			capaF:[{name:'Actuals',data:[]},{name:'dif',data:[]},{name:'expected',data:[[1167609600000,0.8837],[1167696000000,0.6327]]}],//[[1167609600000,0.8837],[1167696000000,0.6327]],
+			fuel :[{name:'Actuals',data:[]},{name:'dif',data:[]},{name:'expected',data:[[1167609600000,0.9937],[1167696000000,0.9117]]}],//[[1167609600000,0.9937],[1167696000000,0.9117]]
+		}
+	};
 	public opt :any={
 		time: {
 			timezone: 'America/Mexico_City',
@@ -197,9 +216,73 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
             }]
         }
 	}
-	
+	public line1:any= {
+		time: {
+			timezone: 'America/Mexico_City',
+			useUTC: false
+		},
+        chart: {
+			height: 300,
+		},
+		
+		title: {
+			text: 'AAPL Stock Price'
+		},
+		rangeSelector: {
+			buttons: [{
+				count: 1,
+				type: 'minute',
+				text: '1M'
+			}, {
+				count: 5,
+				type: 'minute',
+				text: '5M'
+			}, {
+				type: 'all',
+				text: 'All'
+			}],
+			inputEnabled: false,
+			selected: 0
+		},
+		yAxis:[
+			{
+
+				title: {
+					text: '',	
+				},
+				opposite: false
+			},
+			{
+				title: {
+					text: 'Dif',	
+				},
+				opposite: true
+			}
+		],
+        series: [
+			{
+				name: 'Actuals',
+				yAxis: 0,
+				data: []
+			},
+			{
+				name: 'Dif',
+				yAxis: 1,
+				data: []
+			},
+			{
+				name: 'Expected',
+				yAxis: 0,
+				data: []
+			},
+		]
+    }
 	valueGas=100;
+	id;
 	
+	showOveLine=1;
+	showEstLine=2;
+	showEatLine=3;
     constructor(
         public globalService       : GlobalService,
         public eventService        : EventService,
@@ -209,9 +292,10 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
     ) {
         super(globalService, eventService, socketService,securityService);
     }
-
 	ngOnDestroy(){
-
+		if (this.id) {
+			clearInterval(this.id);
+		}
 	}
 	ngOnInit() {
 		let url = `/assets/css/theme/content/monitoringv2.css`;
@@ -224,9 +308,11 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 
 		/*
 		this.setMtr();
-		this.setChart();
+		this.updateDonughtChart();
 		//*/
-
+		this.id = setInterval(() => {
+		  this.updateChartDif(); 
+		}, 5000);
 
 	}
 	socketFlow(data){
@@ -242,7 +328,8 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 			}
 		}
 		this.setMtr();
-		this.setChart();
+		this.updateDonughtChart();
+		this.updateMtrLineDif();
 		this.getDieselRadialGauge();
 	}
 	socketReconnected(){
@@ -251,7 +338,6 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	socketDisconnected(){
 
 	}
-
 	getStreamsetsInterpolatedLast24HoursAguila(){
 
 		this.monitoringTrService.getStreamsetsInterpolatedLastHours('1',[TAGS.lstTags['PowerOutput']['aguila'][0]['WebId']],72)
@@ -329,12 +415,11 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		};
 	}
 	initChart(){
-		this.chartLineOve1C = Highcharts.stockChart(this.chartLineOve1.nativeElement, this.opt);
-		this.chartLineEat1C = Highcharts.stockChart(this.chartLineEat1.nativeElement, this.opt);
+		this.chartLineOve1C = Highcharts.stockChart(this.chartLineOve1.nativeElement, this.line1);
+		this.chartLineEat1C = Highcharts.stockChart(this.chartLineEat1.nativeElement, this.line1);
 		this.chartLineEat2C = Highcharts.stockChart(this.chartLineEat2.nativeElement, this.opt);
-		this.chartLineEst1C = Highcharts.stockChart(this.chartLineEst1.nativeElement, this.opt);
+		this.chartLineEst1C = Highcharts.stockChart(this.chartLineEst1.nativeElement, this.line1);
 		this.chartLineEst2C = Highcharts.stockChart(this.chartLineEst2.nativeElement, this.opt);
-
 		
 		///*
 		this.chartOveA1C = new Chart(this.chartOveA1.nativeElement,this.returnConfigDonught());
@@ -375,7 +460,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.chartEstC4C = new Chart(this.chartEstC4.nativeElement,this.returnConfigDonught());
 		//*/
 	}
-	setChart(){
+	updateDonughtChart(){
 		this.chartOveA1C.data.datasets[0].data = this.getOveA1();
 		this.chartOveA2C.data.datasets[0].data = this.getOveA2();
 		this.chartOveA3C.data.datasets[0].data = this.getOveA3();
@@ -490,6 +575,204 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.setOveB3();
 		this.setOveB4();
 	}
+	updateMtrLineDif(){
+		this.mtrLineAcDifExp.overview.power[0]['data'].push([new Date().getTime(),this.getOveA1()[0]]);
+		this.mtrLineAcDifExp.overview.power[1]['data'].push([new Date().getTime(),this.getOveB1()[0]]);
+		this.mtrLineAcDifExp.overview.power[2]['data'].push([new Date().getTime(),this.getOveC1()[0]]);
+		
+		this.mtrLineAcDifExp.overview.heatR[0]['data'].push([new Date().getTime(),this.getOveA2()[0]]);
+		this.mtrLineAcDifExp.overview.heatR[1]['data'].push([new Date().getTime(),this.getOveB2()[0]]);
+		this.mtrLineAcDifExp.overview.heatR[2]['data'].push([new Date().getTime(),this.getOveC2()[0]]);
+		
+		this.mtrLineAcDifExp.overview.capaF[0]['data'].push([new Date().getTime(),this.getOveA3()[0]]);
+		this.mtrLineAcDifExp.overview.capaF[1]['data'].push([new Date().getTime(),this.getOveB3()[0]]);
+		this.mtrLineAcDifExp.overview.capaF[2]['data'].push([new Date().getTime(),this.getOveC3()[0]]);
+		
+		this.mtrLineAcDifExp.overview.fuel[0]['data'].push([new Date().getTime(),this.getOveA4()[0]]);
+		this.mtrLineAcDifExp.overview.fuel[1]['data'].push([new Date().getTime(),this.getOveB4()[0]]);
+		this.mtrLineAcDifExp.overview.fuel[2]['data'].push([new Date().getTime(),this.getOveC4()[0]]);
+
+		
+		this.mtrLineAcDifExp.eat.power[0]['data'].push([new Date().getTime(),this.getEatA1()[0]]);
+		this.mtrLineAcDifExp.eat.power[1]['data'].push([new Date().getTime(),this.getEatB1()[0]]);
+		this.mtrLineAcDifExp.eat.power[2]['data'].push([new Date().getTime(),this.getEatC1()[0]]);
+		
+		this.mtrLineAcDifExp.eat.heatR[0]['data'].push([new Date().getTime(),this.getEatA2()[0]]);
+		this.mtrLineAcDifExp.eat.heatR[1]['data'].push([new Date().getTime(),this.getEatB2()[0]]);
+		this.mtrLineAcDifExp.eat.heatR[2]['data'].push([new Date().getTime(),this.getEatC2()[0]]);
+		
+		this.mtrLineAcDifExp.eat.capaF[0]['data'].push([new Date().getTime(),this.getEatA3()[0]]);
+		this.mtrLineAcDifExp.eat.capaF[1]['data'].push([new Date().getTime(),this.getEatB3()[0]]);
+		this.mtrLineAcDifExp.eat.capaF[2]['data'].push([new Date().getTime(),this.getEatC3()[0]]);
+		
+		this.mtrLineAcDifExp.eat.fuel[0]['data'].push([new Date().getTime(),this.getEatA4()[0]]);
+		this.mtrLineAcDifExp.eat.fuel[1]['data'].push([new Date().getTime(),this.getEatB4()[0]]);
+		this.mtrLineAcDifExp.eat.fuel[2]['data'].push([new Date().getTime(),this.getEatC4()[0]]);
+
+		
+		this.mtrLineAcDifExp.est.power[0]['data'].push([new Date().getTime(),this.getEstA1()[0]]);
+		this.mtrLineAcDifExp.est.power[1]['data'].push([new Date().getTime(),this.getEstB1()[0]]);
+		this.mtrLineAcDifExp.est.power[2]['data'].push([new Date().getTime(),this.getEstC1()[0]]);
+		
+		this.mtrLineAcDifExp.est.heatR[0]['data'].push([new Date().getTime(),this.getEstA2()[0]]);
+		this.mtrLineAcDifExp.est.heatR[1]['data'].push([new Date().getTime(),this.getEstB2()[0]]);
+		this.mtrLineAcDifExp.est.heatR[2]['data'].push([new Date().getTime(),this.getEstC2()[0]]);
+		
+		this.mtrLineAcDifExp.est.capaF[0]['data'].push([new Date().getTime(),this.getEstA3()[0]]);
+		this.mtrLineAcDifExp.est.capaF[1]['data'].push([new Date().getTime(),this.getEstB3()[0]]);
+		this.mtrLineAcDifExp.est.capaF[2]['data'].push([new Date().getTime(),this.getEstC3()[0]]);
+		
+		this.mtrLineAcDifExp.est.fuel[0]['data'].push([new Date().getTime(),this.getEstA4()[0]]);
+		this.mtrLineAcDifExp.est.fuel[1]['data'].push([new Date().getTime(),this.getEstB4()[0]]);
+		this.mtrLineAcDifExp.est.fuel[2]['data'].push([new Date().getTime(),this.getEstC4()[0]]);
+
+		if(this.mtrLineAcDifExp.overview.power[0]['data'].length > 20){
+			this.mtrLineAcDifExp.overview.power[0]['data'].shift();
+			this.mtrLineAcDifExp.overview.power[1]['data'].shift();
+			this.mtrLineAcDifExp.overview.power[2]['data'].shift();
+			
+			this.mtrLineAcDifExp.overview.heatR[0]['data'].shift();
+			this.mtrLineAcDifExp.overview.heatR[1]['data'].shift();
+			this.mtrLineAcDifExp.overview.heatR[2]['data'].shift();
+			
+			this.mtrLineAcDifExp.overview.capaF[0]['data'].shift();
+			this.mtrLineAcDifExp.overview.capaF[1]['data'].shift();
+			this.mtrLineAcDifExp.overview.capaF[2]['data'].shift();
+			
+			this.mtrLineAcDifExp.overview.fuel[0]['data'].shift();
+			this.mtrLineAcDifExp.overview.fuel[1]['data'].shift();
+			this.mtrLineAcDifExp.overview.fuel[2]['data'].shift();
+
+			
+			this.mtrLineAcDifExp.eat.power[0]['data'].shift();
+			this.mtrLineAcDifExp.eat.power[1]['data'].shift();
+			this.mtrLineAcDifExp.eat.power[2]['data'].shift();
+			
+			this.mtrLineAcDifExp.eat.heatR[0]['data'].shift();
+			this.mtrLineAcDifExp.eat.heatR[1]['data'].shift();
+			this.mtrLineAcDifExp.eat.heatR[2]['data'].shift();
+			
+			this.mtrLineAcDifExp.eat.capaF[0]['data'].shift();
+			this.mtrLineAcDifExp.eat.capaF[1]['data'].shift();
+			this.mtrLineAcDifExp.eat.capaF[2]['data'].shift();
+			
+			this.mtrLineAcDifExp.eat.fuel[0]['data'].shift();
+			this.mtrLineAcDifExp.eat.fuel[1]['data'].shift();
+			this.mtrLineAcDifExp.eat.fuel[2]['data'].shift();
+
+			
+			this.mtrLineAcDifExp.est.power[0]['data'].shift();
+			this.mtrLineAcDifExp.est.power[1]['data'].shift();
+			this.mtrLineAcDifExp.est.power[2]['data'].shift();
+			
+			this.mtrLineAcDifExp.est.heatR[0]['data'].shift();
+			this.mtrLineAcDifExp.est.heatR[1]['data'].shift();
+			this.mtrLineAcDifExp.est.heatR[2]['data'].shift();
+			
+			this.mtrLineAcDifExp.est.capaF[0]['data'].shift();
+			this.mtrLineAcDifExp.est.capaF[1]['data'].shift();
+			this.mtrLineAcDifExp.est.capaF[2]['data'].shift();
+			
+			this.mtrLineAcDifExp.est.fuel[0]['data'].shift();
+			this.mtrLineAcDifExp.est.fuel[1]['data'].shift();
+			this.mtrLineAcDifExp.est.fuel[2]['data'].shift();
+		}
+	}
+	updateChartDif(){
+		switch (this.showOveLine) {
+			case 1:
+				this.chartLineOve1C.setTitle({text: "Power Output"});
+				this.chartLineOve1C.series[0].setData(this.mtrLineAcDifExp.overview.power[0]['data']);
+				this.chartLineOve1C.series[1].setData(this.mtrLineAcDifExp.overview.power[1]['data']);
+				this.chartLineOve1C.series[2].setData(this.mtrLineAcDifExp.overview.power[2]['data']);
+				break;
+			case 2:
+				this.chartLineOve1C.setTitle({text: "Heat Rate"});
+				this.chartLineOve1C.series[0].setData(this.mtrLineAcDifExp.overview.heatR[0]['data']);
+				this.chartLineOve1C.series[1].setData(this.mtrLineAcDifExp.overview.heatR[1]['data']);
+				this.chartLineOve1C.series[2].setData(this.mtrLineAcDifExp.overview.heatR[2]['data']);
+				break;
+			case 3:
+				this.chartLineOve1C.setTitle({text: "Capacity Factor"});
+				this.chartLineOve1C.series[0].setData(this.mtrLineAcDifExp.overview.capaF[0]['data']);
+				this.chartLineOve1C.series[1].setData(this.mtrLineAcDifExp.overview.capaF[1]['data']);
+				this.chartLineOve1C.series[2].setData(this.mtrLineAcDifExp.overview.capaF[2]['data']);
+				break;
+			case 4:
+				this.chartLineOve1C.setTitle({text: "Fuel Gain / lost"});
+				this.chartLineOve1C.series[0].setData(this.mtrLineAcDifExp.overview.fuel[0]['data']);
+				this.chartLineOve1C.series[1].setData(this.mtrLineAcDifExp.overview.fuel[1]['data']);
+				this.chartLineOve1C.series[2].setData(this.mtrLineAcDifExp.overview.fuel[2]['data']);
+				break;
+		}
+		
+		switch (this.showEatLine) {
+			case 1:
+				this.chartLineEat1C.setTitle({text: "Power Output"});
+				this.chartLineEat1C.series[0].setData(this.mtrLineAcDifExp.eat.power[0]['data']);
+				this.chartLineEat1C.series[1].setData(this.mtrLineAcDifExp.eat.power[1]['data']);
+				this.chartLineEat1C.series[2].setData(this.mtrLineAcDifExp.eat.power[2]['data']);
+				break;
+			case 2:
+				this.chartLineEat1C.setTitle({text: "Heat Rate"});
+				this.chartLineEat1C.series[0].setData(this.mtrLineAcDifExp.eat.heatR[0]['data']);
+				this.chartLineEat1C.series[1].setData(this.mtrLineAcDifExp.eat.heatR[1]['data']);
+				this.chartLineEat1C.series[2].setData(this.mtrLineAcDifExp.eat.heatR[2]['data']);
+				break;
+			case 3:
+				this.chartLineEat1C.setTitle({text: "Capacity Factor"});
+				this.chartLineEat1C.series[0].setData(this.mtrLineAcDifExp.eat.capaF[0]['data']);
+				this.chartLineEat1C.series[1].setData(this.mtrLineAcDifExp.eat.capaF[1]['data']);
+				this.chartLineEat1C.series[2].setData(this.mtrLineAcDifExp.eat.capaF[2]['data']);
+				break;
+			case 4:
+				this.chartLineEat1C.setTitle({text: "Fuel Gain / lost"});
+				this.chartLineEat1C.series[0].setData(this.mtrLineAcDifExp.eat.fuel[0]['data']);
+				this.chartLineEat1C.series[1].setData(this.mtrLineAcDifExp.eat.fuel[1]['data']);
+				this.chartLineEat1C.series[2].setData(this.mtrLineAcDifExp.eat.fuel[2]['data']);
+				break;
+		}
+		
+		switch (this.showEstLine) {
+			case 1:
+				this.chartLineEst1C.setTitle({text: "Power Output"});
+				this.chartLineEst1C.series[0].setData(this.mtrLineAcDifExp.est.power[0]['data']);
+				this.chartLineEst1C.series[1].setData(this.mtrLineAcDifExp.est.power[1]['data']);
+				this.chartLineEst1C.series[2].setData(this.mtrLineAcDifExp.est.power[2]['data']);
+				break;
+			case 2:
+				this.chartLineEst1C.setTitle({text: "Heat Rate"});
+				this.chartLineEst1C.series[0].setData(this.mtrLineAcDifExp.est.heatR[0]['data']);
+				this.chartLineEst1C.series[1].setData(this.mtrLineAcDifExp.est.heatR[1]['data']);
+				this.chartLineEst1C.series[2].setData(this.mtrLineAcDifExp.est.heatR[2]['data']);
+				break;
+			case 3:
+				this.chartLineEst1C.setTitle({text: "Capacity Factor"});
+				this.chartLineEst1C.series[0].setData(this.mtrLineAcDifExp.est.capaF[0]['data']);
+				this.chartLineEst1C.series[1].setData(this.mtrLineAcDifExp.est.capaF[1]['data']);
+				this.chartLineEst1C.series[2].setData(this.mtrLineAcDifExp.est.capaF[2]['data']);
+				break;
+			case 4:
+				this.chartLineEst1C.setTitle({text: "Fuel Gain / lost"});
+				this.chartLineEst1C.series[0].setData(this.mtrLineAcDifExp.est.fuel[0]['data']);
+				this.chartLineEst1C.series[1].setData(this.mtrLineAcDifExp.est.fuel[1]['data']);
+				this.chartLineEst1C.series[2].setData(this.mtrLineAcDifExp.est.fuel[2]['data']);
+				break;
+		}
+	}
+	showOve(n){
+		this.showOveLine = n;
+		this.updateChartDif();
+	}
+	showEat(n){
+		this.showEatLine = n;
+		this.updateChartDif();
+	}
+	showEst(n){
+		this.showEstLine = n;
+		this.updateChartDif();
+	}
+
 	setOveA1(){let v=(this.getEatA1()[0]+this.getEstA1()[0]);this.mtr.overview[0]=[v,(this.maxPow*2)-v]}
 	setOveA2(){let a=this.getEatA2();let s=this.getEstA2();let ove0=(a[0]+s[0])/2;this.mtr.overview[3]=[ove0,this.maxHR-ove0]}
 	setOveA3(){let a=this.getEatA3();let s=this.getEstA3();let ove0=(a[0]+s[0])/2;this.mtr.overview[6]=[ove0,this.maxCaF-ove0]}
