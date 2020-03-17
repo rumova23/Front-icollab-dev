@@ -316,6 +316,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 	stringDate:string = '';
 	realFeelTemp="";
+	temperatura="";
 	weatherText="";
 	UVIndex="";
 	UVIndexText="";
@@ -366,6 +367,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		let weather = data.data;
 		let date = new Date();
 		this.stringDate = date.toLocaleDateString("es-ES", this.dateOptions);
+		this.temperatura = weather.Temperature.Metric.Value;
 		this.realFeelTemp = weather.RealFeelTemperature.Metric.Value;
 		this.weatherText = weather.WeatherText;
 		this.UVIndex = weather.UVIndex;
@@ -432,8 +434,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 				//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
 				}
 			);
-	}
-	
+	}	
 	getStreamsetsInterpolatedSolPresionGas(){
 
 		this.monitoringTrService.getStreamsetsInterpolatedLastHours('2',['F1DP4rhZAwFMREKDf7s8vylUqgnAMAAAUElUVlxULkNFQS4yMTk0'],1)
@@ -451,8 +452,6 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 				}
 			);
 	}
-
-
 	returnConfigDonught(){
 		return {
 
@@ -496,7 +495,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		};
 	}
 	initChart(){
-		this.chartLineOve1C = Highcharts.stockChart(this.chartLineOve1.nativeElement, this.line1);
+		this.chartLineOve1C = Highcharts.stockChart(this.chartLineOve1.nativeElement, this.line2);
 		this.chartLineEat1C = Highcharts.stockChart(this.chartLineEat1.nativeElement, this.line2);
 		this.chartLineEat2C = Highcharts.stockChart(this.chartLineEat2.nativeElement, this.opt);
 		this.chartLineEst1C = Highcharts.stockChart(this.chartLineEst1.nativeElement, this.line2);
@@ -542,6 +541,45 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		//*/
 	}
 	updateDonughtChart(){
+		
+		this.donugthCheckColor(this.chartOveA1C ,this.getOveA1());
+		this.donugthCheckColor(this.chartOveA2C ,this.getOveA2());
+		this.donugthCheckColor(this.chartOveA3C ,this.getOveA3());
+		this.donugthCheckColor(this.chartOveA4C ,this.getOveA4());
+		this.donugthCheckColor(this.chartOveB1C ,this.getOveB1());
+		this.donugthCheckColor(this.chartOveB2C ,this.getOveB2());
+		this.donugthCheckColor(this.chartOveB3C ,this.getOveB3());
+		this.donugthCheckColor(this.chartOveB4C ,this.getOveB4());
+		this.donugthCheckColor(this.chartOveC1C ,this.getOveC1());
+		this.donugthCheckColor(this.chartOveC2C ,this.getOveC2());
+		this.donugthCheckColor(this.chartOveC3C ,this.getOveC3());
+		this.donugthCheckColor(this.chartOveC4C ,this.getOveC4());
+		this.donugthCheckColor(this.chartEatA1C ,this.getEatA1());
+		this.donugthCheckColor(this.chartEatA2C ,this.getEatA2());
+		this.donugthCheckColor(this.chartEatA3C ,this.getEatA3());
+		this.donugthCheckColor(this.chartEatA4C ,this.getEatA4());
+		this.donugthCheckColor(this.chartEatB1C ,this.getEatB1());
+		this.donugthCheckColor(this.chartEatB2C ,this.getEatB2());
+		this.donugthCheckColor(this.chartEatB3C ,this.getEatB3());
+		this.donugthCheckColor(this.chartEatB4C ,this.getEatB4());
+		this.donugthCheckColor(this.chartEatC1C ,this.getEatC1());
+		this.donugthCheckColor(this.chartEatC2C ,this.getEatC2());
+		this.donugthCheckColor(this.chartEatC3C ,this.getEatC3());
+		this.donugthCheckColor(this.chartEatC4C ,this.getEatC4());
+		this.donugthCheckColor(this.chartEstA1C ,this.getEstA1());
+		this.donugthCheckColor(this.chartEstA2C ,this.getEstA2());
+		this.donugthCheckColor(this.chartEstA3C ,this.getEstA3());
+		this.donugthCheckColor(this.chartEstA4C ,this.getEstA4());
+		this.donugthCheckColor(this.chartEstB1C ,this.getEstB1());
+		this.donugthCheckColor(this.chartEstB2C ,this.getEstB2());
+		this.donugthCheckColor(this.chartEstB3C ,this.getEstB3());
+		this.donugthCheckColor(this.chartEstB4C ,this.getEstB4());
+		this.donugthCheckColor(this.chartEstC1C ,this.getEstC1());
+		this.donugthCheckColor(this.chartEstC2C ,this.getEstC2());
+		this.donugthCheckColor(this.chartEstC3C ,this.getEstC3());
+		this.donugthCheckColor(this.chartEstC4C ,this.getEstC4());
+
+		/*
 		this.chartOveA1C.data.datasets[0].data = this.getOveA1();
 		this.chartOveA2C.data.datasets[0].data = this.getOveA2();
 		this.chartOveA3C.data.datasets[0].data = this.getOveA3();
@@ -554,6 +592,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.chartOveC2C.data.datasets[0].data = this.getOveC2();
 		this.chartOveC3C.data.datasets[0].data = this.getOveC3();
 		this.chartOveC4C.data.datasets[0].data = this.getOveC4();
+
 		this.chartEatA1C.data.datasets[0].data = this.getEatA1();
 		this.chartEatA2C.data.datasets[0].data = this.getEatA2();
 		this.chartEatA3C.data.datasets[0].data = this.getEatA3();
@@ -566,6 +605,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.chartEatC2C.data.datasets[0].data = this.getEatC2();
 		this.chartEatC3C.data.datasets[0].data = this.getEatC3();
 		this.chartEatC4C.data.datasets[0].data = this.getEatC4();
+
 		this.chartEstA1C.data.datasets[0].data = this.getEstA1();
 		this.chartEstA2C.data.datasets[0].data = this.getEstA2();
 		this.chartEstA3C.data.datasets[0].data = this.getEstA3();
@@ -615,6 +655,20 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.chartEstC2C.update();
 		this.chartEstC3C.update();
 		this.chartEstC4C.update();
+		//*/
+	}
+	donugthCheckColor(chart,data){
+		let mydata = [...data]
+		chart.data.datasets[0].data = mydata;
+		if(data[0] < 0){
+			chart.data.datasets[0].data.reverse();
+			chart.data.datasets[0].backgroundColor[0] = "#7f8182";
+			chart.data.datasets[0].backgroundColor[1] = "#ff0000";
+		}else{
+			chart.data.datasets[0].backgroundColor[0] = "#46FF33";
+			chart.data.datasets[0].backgroundColor[1] = "#7f8182";
+		}
+		chart.update();
 	}
 	setMtr(){
 		//this.setEatA1();
@@ -763,27 +817,84 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		switch (this.showOveLine) {
 			case 1:
 				this.chartLineOve1C.setTitle({text: "Power Output"});
+				/*
 				this.chartLineOve1C.series[0].setData(this.mtrLineAcDifExp.overview.power[0]['data']);
 				this.chartLineOve1C.series[1].setData(this.mtrLineAcDifExp.overview.power[1]['data']);
 				this.chartLineOve1C.series[2].setData(this.mtrLineAcDifExp.overview.power[2]['data']);
+				//*/
+				this.monitoringTrService.getStreamsetsInterpolatedLastHours('1',['P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY'],8760)
+				.subscribe(
+					data => {						
+						this.monitoringTrService.getStreamsetsInterpolatedLastHours('2',['F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz'],8760)
+						.subscribe(
+							dataSol => {
+								let valuesAguila = ( ! data.data[0]['error_response'] ) ? data.data[0]['Items'][0]['Items'].map((item)=>[new Date(item['Timestamp']).getTime(), item.Value.Value]) : [];						
+								let valuesSol    = ( ! dataSol.data[0]['error_response'] ) ? dataSol.data[0]['Items'][0]['Items'].map((item)=>[new Date(item['Timestamp']).getTime(), item.Value.Value]) : [];						
+								let values = []
+								for (let i = 0; i < valuesAguila.length; i++) {
+									const elementA = valuesAguila[i];
+									const elementS = valuesSol[i];
+									values.push([elementA[0],(elementA[1]+elementS[1])]);
+								}
+								this.chartLineOve1C.series[0].setData(values);
+
+							},
+							errorData => {
+							}
+						);
+					},
+					errorData => {
+					}
+				);
 				break;
 			case 2:
 				this.chartLineOve1C.setTitle({text: "Heat Rate"});
+				/*
 				this.chartLineOve1C.series[0].setData(this.mtrLineAcDifExp.overview.heatR[0]['data']);
 				this.chartLineOve1C.series[1].setData(this.mtrLineAcDifExp.overview.heatR[1]['data']);
 				this.chartLineOve1C.series[2].setData(this.mtrLineAcDifExp.overview.heatR[2]['data']);
+				//*/
+				
+				this.monitoringTrService.getStreamsetsInterpolatedLastHours('1',['P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM'],8760)
+				.subscribe(
+					data => {						
+						this.monitoringTrService.getStreamsetsInterpolatedLastHours('2',['F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4'],8760)
+						.subscribe(
+							dataSol => {
+								let valuesAguila = ( ! data.data[0]['error_response'] ) ? data.data[0]['Items'][0]['Items'].map((item)=>[new Date(item['Timestamp']).getTime(), item.Value.Value]) : [];						
+								let valuesSol    = ( ! dataSol.data[0]['error_response'] ) ? dataSol.data[0]['Items'][0]['Items'].map((item)=>[new Date(item['Timestamp']).getTime(), item.Value.Value]) : [];						
+								let values = []
+								for (let i = 0; i < valuesAguila.length; i++) {
+									const elementA = valuesAguila[i];
+									const elementS = valuesSol[i];
+									values.push([elementA[0],(elementA[1]+elementS[1])/2]);
+								}
+								this.chartLineOve1C.series[0].setData(values);
+
+							},
+							errorData => {
+							}
+						);
+					},
+					errorData => {
+					}
+				);
 				break;
 			case 3:
+				/*
 				this.chartLineOve1C.setTitle({text: "Capacity Factor"});
 				this.chartLineOve1C.series[0].setData(this.mtrLineAcDifExp.overview.capaF[0]['data']);
 				this.chartLineOve1C.series[1].setData(this.mtrLineAcDifExp.overview.capaF[1]['data']);
 				this.chartLineOve1C.series[2].setData(this.mtrLineAcDifExp.overview.capaF[2]['data']);
+				//*/
 				break;
 			case 4:
+				/*
 				this.chartLineOve1C.setTitle({text: "Fuel Gain / lost"});
 				this.chartLineOve1C.series[0].setData(this.mtrLineAcDifExp.overview.fuel[0]['data']);
 				this.chartLineOve1C.series[1].setData(this.mtrLineAcDifExp.overview.fuel[1]['data']);
 				this.chartLineOve1C.series[2].setData(this.mtrLineAcDifExp.overview.fuel[2]['data']);
+				//*/
 				break;
 		}
 		
@@ -818,12 +929,27 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 				);
 				break;
 			case 3:
-				/*
+				
 				this.chartLineEat1C.setTitle({text: "Capacity Factor"});
-				this.chartLineEat1C.series[0].setData(this.mtrLineAcDifExp.eat.capaF[0]['data']);
+				/*this.chartLineEat1C.series[0].setData(this.mtrLineAcDifExp.eat.capaF[0]['data']);
 				this.chartLineEat1C.series[1].setData(this.mtrLineAcDifExp.eat.capaF[1]['data']);
 				this.chartLineEat1C.series[2].setData(this.mtrLineAcDifExp.eat.capaF[2]['data']);
 				//*/
+				
+				this.monitoringTrService.getStreamsetsInterpolatedLastHours('1',['P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY'],8760)
+				.subscribe(
+					data => {
+						this.updatefactorCapFac();
+						let values = ( ! data.data[0]['error_response'] ) ? data.data[0]['Items'][0]['Items'].map((item)=>[new Date(item['Timestamp']).getTime(), item.Value.Value]) : [];
+						values = values.map((a)=>{
+							let v=(a[1]/this.factorCapFactor)*100;if(v>100)v=100;
+							return [a[0],v];
+						});
+						this.chartLineEat1C.series[0].setData(values);
+					},
+					errorData => {
+					}
+				);
 				break;
 			case 4:
 				/*
@@ -872,12 +998,27 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 				);
 				break;
 			case 3:
-				/*
+				
 				this.chartLineEst1C.setTitle({text: "Capacity Factor"});
-				this.chartLineEst1C.series[0].setData(this.mtrLineAcDifExp.est.capaF[0]['data']);
+				/*this.chartLineEst1C.series[0].setData(this.mtrLineAcDifExp.est.capaF[0]['data']);
 				this.chartLineEst1C.series[1].setData(this.mtrLineAcDifExp.est.capaF[1]['data']);
 				this.chartLineEst1C.series[2].setData(this.mtrLineAcDifExp.est.capaF[2]['data']);
 				//*/
+				
+				this.monitoringTrService.getStreamsetsInterpolatedLastHours('2',['F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz'],8760)
+				.subscribe(
+					data => {
+						this.updatefactorCapFac();
+						let values = ( ! data.data[0]['error_response'] ) ? data.data[0]['Items'][0]['Items'].map((item)=>[new Date(item['Timestamp']).getTime(), item.Value.Value]) : [];
+						values = values.map((a)=>{
+							let v=(a[1]/this.factorCapFactor)*100;if(v>100)v=100;
+							return [a[0],v];
+						});
+						this.chartLineEst1C.series[0].setData(values);
+					},
+					errorData => {
+					}
+				);
 				break;
 			case 4:
 				/*
@@ -917,8 +1058,8 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 
 	setEatA1(x){this.mtr.eat[0]=[x,this.maxPow-x];}
 	setEatA2(x){this.mtr.eat[3]=[x,this.maxHR-x];}
-	setEatA3(){this.updatefactorCapFac();let a=this.getEatA1();let v=(a[0]/this.factorCapFactor)*100;if(v>100)v=100;this.mtr.eat[6]=[v,this.maxCaF-v];}
-	setEatA4(){let heatRateCor=this.getEatC2()[0];let heatRate=this.getEatA2()[0];let v=(((heatRateCor-heatRate)*0.00004596)/20.03);this.mtr.eat[9]=[v,this.maxFue-v];}
+	setEatA3( ){this.updatefactorCapFac();let a=this.getEatA1();let v=(a[0]/this.factorCapFactor)*100;if(v>100)v=100;this.mtr.eat[6]=[v,this.maxCaF-v];}
+	setEatA4( ){let heatRateCor=this.getEatC2()[0];let heatRate=this.getEatA2()[0];let v=(((heatRateCor-heatRate)*0.00004596)/20.03);this.mtr.eat[9]=[v,this.maxFue-v];}
 	setEatB1( ){let v=(this.getEatA1()[0]-this.getEatC1()[0]);this.mtr.eat[1]=[v,this.maxPow-v];}
 	setEatB2( ){let v=(this.getEatC2()[0]-this.getEatA2()[0]);this.mtr.eat[4]=[v,this.maxHR-v];}
 	setEatB3( ){let v=(this.getEatA3()[0]-this.getEatC3()[0]);this.mtr.eat[7]=[v,this.maxCaF-v];}
@@ -930,8 +1071,8 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 
 	setEstA1(x){this.mtr.est[0]=[x,this.maxPow-x];}
 	setEstA2(x){this.mtr.est[3]=[x,this.maxHR-x];}
-	setEstA3(){this.updatefactorCapFac();let a=this.getEstA1();let v=(a[0]/this.factorCapFactor)*100;if(v>100)v=100;this.mtr.est[6]=[v,this.maxCaF-v];}
-	setEstA4(){let heatRateCor=this.getEstC2()[0];let heatRate=this.getEstA2()[0];let v=(((heatRateCor-heatRate)*0.00004764)/20.03);this.mtr.eat[9]=[v,this.maxFue-v];}
+	setEstA3( ){this.updatefactorCapFac();let a=this.getEstA1();let v=(a[0]/this.factorCapFactor)*100;if(v>100)v=100;this.mtr.est[6]=[v,this.maxCaF-v];}
+	setEstA4( ){let heatRateCor=this.getEstC2()[0];let heatRate=this.getEstA2()[0];let v=(((heatRateCor-heatRate)*0.00004764)/20.03);this.mtr.eat[9]=[v,this.maxFue-v];}
 	setEstB1( ){let v=(this.getEstA1()[0]-this.getEstC1()[0]);this.mtr.est[1]=[v,this.maxPow-v];}
 	setEstB2( ){let v=(this.getEstC2()[0]-this.getEstA2()[0]);this.mtr.est[4]=[v,this.maxHR-v];}
 	setEstB3( ){let v=(this.getEstA3()[0]-this.getEstC3()[0]);this.mtr.est[7]=[v,this.maxCaF-v];}
