@@ -89,6 +89,8 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	valueTemporal : number = 0;
 	CTUnoDiesel;
 	CTDosDiesel;
+	radialGasPressure=0;
+	viewGasPressure=0;
 
 
 	maxPow = 590;
@@ -303,6 +305,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.initChart();
 		this.getStreamsetsInterpolatedLast24HoursSol();
 		this.getStreamsetsInterpolatedLast24HoursAguila();
+		
 		this.subscribeSocketChannel("pi-servers"    ,(data)=>{this.socketFlow(data);}  ,()=>{this.socketReconnected();}  ,()=>{this.socketDisconnected();});
 		//this.subscribeSocketChannel("back-pi-isrun" ,(data)=>{this.socketFlow(data);}  ,()=>{this.socketReconnected();}  ,()=>{this.socketDisconnected();});
 
@@ -312,6 +315,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		//*/
 		this.id = setInterval(() => {
 		  this.updateChartDif(); 
+		  this.getStreamsetsInterpolatedSolPresionGas();
 		}, 5000);
 
 	}
@@ -372,6 +376,26 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 				}
 			);
 	}
+	
+	getStreamsetsInterpolatedSolPresionGas(){
+
+		this.monitoringTrService.getStreamsetsInterpolatedLastHours('2',['F1DP4rhZAwFMREKDf7s8vylUqgnAMAAAUElUVlxULkNFQS4yMTk0'],1)
+			.subscribe(
+				data => {
+					
+					let max = 50000;
+					let value = data.data[0]['Items'][0]['Items'][data.data[0]['Items'][0]['Items'].length-1].Value.Value;
+					//this.viewGasPressure = (value*100)/max;
+					this.viewGasPressure = value;
+					this.radialGasPressure = 80+(120-(80+((40*this.viewGasPressure)/100)));					
+				},
+				errorData => {
+				//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
+				}
+			);
+	}
+
+
 	returnConfigDonught(){
 		return {
 
@@ -863,7 +887,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	getCTDosDiesel(){ return this.CTDosDiesel;}
 	updatefactorCapFac(){this.factorCapFactor = (this.CTUnoDiesel > 4 && this.CTDosDiesel > 4)?405:495;}
 
-	getDiesel(){this.viewDiesel = ((this.maxDiese1+this.maxDiese2)/100)*(this.CTUnoDiesel+this.CTDosDiesel);}
+	getDiesel(){this.viewDiesel = ((this.CTUnoDiesel+this.CTDosDiesel)*100)   /  (this.maxDiese1+this.maxDiese2)  ;}
 	getDieselRadialGauge(){
 		/* en la representacion radial-gauge en 80 representa el 100% y el 120 representa el 0%*/
 		this.getDiesel();

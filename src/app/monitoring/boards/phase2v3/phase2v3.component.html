@@ -107,7 +107,7 @@
                     <div><h3 class="color-aguila">EAT</h3></div>
                     <div>
                         <radial-gauge
-                            [value]="'50'"
+                            [value]="'0'"
                             units="4.0 Mw"
                             width="170"
                             height="170"
@@ -156,14 +156,14 @@
                         </radial-gauge>
                     </div>
                     <div>
-                        4.5 Mw
+                        0 Mw
                     </div>                    
                 </div>
                 <div class="col align-self-center">
                     <div><h3 class="color-sol">EST</h3></div>
                     <div>
                         <radial-gauge
-                            [value]="'100'"
+                            [value]="'0'"
                             units="4.0 Mw"
                             width="170"
                             height="170"
@@ -212,7 +212,7 @@
                         </radial-gauge>
                     </div> 
                     <div>
-                        4.5 Mw
+                        0 Mw
                     </div> 
                 </div>
             </div>
@@ -319,9 +319,10 @@
                 <div class="col-12"><label class="titlem">Diesel Tank</label></div>
                 <div class="col align-self-center">
                     <div>
+                        <!--[value]="viewDieselRadialGauge"-->
                         <radial-gauge 
-                            style="    margin-left: -85px;"
-                            [value]="viewDieselRadialGauge"
+                            style="margin-left: -85px;"                            
+                            [value]="'80'"
                             id="GasTankId2"
                             class="Tacometro"
                             title="F"
@@ -373,7 +374,8 @@
                 </div>
                 <div class="col align-self-center">
                     <i class="fas fa-gas-pump fa-3x"></i>
-                    <p>{{viewDiesel | number: "1.2-2"}}%</p>
+                    <!--p>{{viewDiesel | number: "1.2-2"}}%</p-->
+                    <p>100%</p>
                 </div>
                 <img src="assets/monitoring/phase2/aguila.png" alt="demo-dougnut" style="position: absolute; max-width: 50px; right: 0;" class="d-none d-xl-block">
             </div>
@@ -481,8 +483,8 @@
                 <div class="col align-self-center">
                     <div>
                         <radial-gauge 
-                            style="    margin-left: -85px;"
-                            [value]="'80'"
+                            style="margin-left: -85px;"
+                            [value]="radialGasPressure"
                             id="GasTankId2"
                             class="Tacometro"
                             title="F"
@@ -534,7 +536,7 @@
                 </div>
                 <div class="col align-self-center">
                     <i class="fas fa-fire-alt fa-3x"></i>
-                    <p>xxx%</p>
+                    <p>{{viewGasPressure  | number: "1.2-2"}}</p>
                 </div>
                 <img src="assets/monitoring/phase2/sol.png" alt="demo-dougnut" style="position: absolute; max-width: 50px; right: 0;" class="d-none d-xl-block">
             </div>
