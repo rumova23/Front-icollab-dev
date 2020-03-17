@@ -81,20 +81,20 @@
             <div class="row h-100">
                 <div class="col-12"><label class="titlem">Villa Mar</label></div>
                 <div class="col">
-                    <p>sábado, 14 de marzo de 2020</p>
-                    <p>Nublado</p>
-                    <p>Sensación Real®: 31.4 ℃</p>
-                    <p>UV-index: 0, Bajo</p>
-                    <p>Presión Tendencia: En aumento</p>
+                    <p>{{ stringDate }}</p>
+                    <p>{{ weatherText }}</p>
+                    <p>Sensación Real®: {{ realFeelTemp }} ℃</p>
+                    <p>UV-index: {{ UVIndex }}, {{ UVIndexText }}</p>
+                    <p>Presión {{ pressureTendency }}</p>
                     <div class="row mt-2">
                         <div class="col-4">
-                            <div class="humidity">87%</div>
+                            <div class="humidity">{{ humidity }}%</div>
                         </div>
                         <div class="col-4">
-                            <div class="pressure">1016.6 mb</div>
+                            <div class="pressure">{{ pressure }}mb</div>
                         </div>
                         <div class="col-4">
-                            <div class="wind-speed">5.3 km/h</div>
+                            <div class="wind-speed">{{ windSpeed }} km/h</div>
                         </div>
                     </div>
                 </div>

@@ -278,13 +278,51 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 				data: []
 			},
 		]
+	}
+	
+	public line2:any= {
+		time: {
+			timezone: 'America/Mexico_City',
+			useUTC: false
+		},
+        chart: {
+			height: 300,
+		},
+		
+		title: {
+			text: 'AAPL Stock Price'
+		},
+		rangeSelector: {			
+			inputEnabled: false,
+			selected: 0
+		},
+
+        series: [
+			{
+				name: 'Actuals',
+				data: []
+			}
+		]
     }
 	valueGas=100;
 	id;
+	id2;
 	
 	showOveLine=1;
 	showEstLine=2;
-	showEatLine=3;
+	showEatLine=2;
+
+	/**weather */
+	dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+	stringDate:string = '';
+	realFeelTemp="";
+	weatherText="";
+	UVIndex="";
+	UVIndexText="";
+	pressureTendency="";
+	humidity="";
+	pressure="";
+	windSpeed="";
     constructor(
         public globalService       : GlobalService,
         public eventService        : EventService,
@@ -297,6 +335,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	ngOnDestroy(){
 		if (this.id) {
 			clearInterval(this.id);
+			clearInterval(this.id2);
 		}
 	}
 	ngOnInit() {
@@ -307,16 +346,34 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.getStreamsetsInterpolatedLast24HoursAguila();
 		
 		this.subscribeSocketChannel("pi-servers"    ,(data)=>{this.socketFlow(data);}  ,()=>{this.socketReconnected();}  ,()=>{this.socketDisconnected();});
+		this.subscribeSocketChannel("weather"    ,(data)=>{this.socketFlowWeather(data);}  ,()=>{this.socketReconnected();}  ,()=>{this.socketDisconnected();});
 		//this.subscribeSocketChannel("back-pi-isrun" ,(data)=>{this.socketFlow(data);}  ,()=>{this.socketReconnected();}  ,()=>{this.socketDisconnected();});
 
 		/*
 		this.setMtr();
 		this.updateDonughtChart();
 		//*/
+		this.updateChartDif(); 
 		this.id = setInterval(() => {
-		  this.updateChartDif(); 
 		  this.getStreamsetsInterpolatedSolPresionGas();
 		}, 5000);
+		this.id2 = setInterval(() => {
+			this.updateChartDif(); 
+		  }, 3600000);
+
+	}
+	socketFlowWeather(data){
+		let weather = data.data;
+		let date = new Date();
+		this.stringDate = date.toLocaleDateString("es-ES", this.dateOptions);
+		this.realFeelTemp = weather.RealFeelTemperature.Metric.Value;
+		this.weatherText = weather.WeatherText;
+		this.UVIndex = weather.UVIndex;
+		this.UVIndexText = weather.UVIndexText;
+		this.pressureTendency = weather.PressureTendency.LocalizedText;
+		this.humidity = weather.RelativeHumidity;
+		this.pressure = weather.Pressure.Metric.Value;
+		this.windSpeed = weather.Wind.Speed.Metric.Value;
 
 	}
 	socketFlow(data){
@@ -344,7 +401,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	}
 	getStreamsetsInterpolatedLast24HoursAguila(){
 
-		this.monitoringTrService.getStreamsetsInterpolatedLastHours('1',[TAGS.lstTags['PowerOutput']['aguila'][0]['WebId']],72)
+		this.monitoringTrService.getStreamsetsInterpolatedLastHours('1',[TAGS.lstTags['PowerOutput']['aguila'][0]['WebId']],8760)
 			.subscribe(
 				data => {
 					let values = ( ! data.data[0]['error_response'] ) ? data.data[0]['Items'][0]['Items'].map((item)=>[new Date(item['Timestamp']).getTime(), item.Value.Value]) : [];
@@ -361,7 +418,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	}
 	getStreamsetsInterpolatedLast24HoursSol(){
 
-		this.monitoringTrService.getStreamsetsInterpolatedLastHours('2',[TAGS.lstTags['PowerOutput']['sol'][0]['WebId']],72)
+		this.monitoringTrService.getStreamsetsInterpolatedLastHours('2',[TAGS.lstTags['PowerOutput']['sol'][0]['WebId']],8760)
 			.subscribe(
 				data => {
 					let values = ( ! data.data[0]['error_response'] ) ? data.data[0]['Items'][0]['Items'].map((item)=>[new Date(item['Timestamp']).getTime(), item.Value.Value]) : [];
@@ -440,9 +497,9 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	}
 	initChart(){
 		this.chartLineOve1C = Highcharts.stockChart(this.chartLineOve1.nativeElement, this.line1);
-		this.chartLineEat1C = Highcharts.stockChart(this.chartLineEat1.nativeElement, this.line1);
+		this.chartLineEat1C = Highcharts.stockChart(this.chartLineEat1.nativeElement, this.line2);
 		this.chartLineEat2C = Highcharts.stockChart(this.chartLineEat2.nativeElement, this.opt);
-		this.chartLineEst1C = Highcharts.stockChart(this.chartLineEst1.nativeElement, this.line1);
+		this.chartLineEst1C = Highcharts.stockChart(this.chartLineEst1.nativeElement, this.line2);
 		this.chartLineEst2C = Highcharts.stockChart(this.chartLineEst2.nativeElement, this.opt);
 		
 		///*
@@ -733,54 +790,102 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		switch (this.showEatLine) {
 			case 1:
 				this.chartLineEat1C.setTitle({text: "Power Output"});
-				this.chartLineEat1C.series[0].setData(this.mtrLineAcDifExp.eat.power[0]['data']);
-				this.chartLineEat1C.series[1].setData(this.mtrLineAcDifExp.eat.power[1]['data']);
-				this.chartLineEat1C.series[2].setData(this.mtrLineAcDifExp.eat.power[2]['data']);
+				
+				this.monitoringTrService.getStreamsetsInterpolatedLastHours('1',['P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY'],8760)
+				.subscribe(
+					data => {
+						let values = ( ! data.data[0]['error_response'] ) ? data.data[0]['Items'][0]['Items'].map((item)=>[new Date(item['Timestamp']).getTime(), item.Value.Value]) : [];						
+						this.chartLineEat1C.series[0].setData(values);
+					},
+					errorData => {
+					}
+				);
 				break;
 			case 2:
 				this.chartLineEat1C.setTitle({text: "Heat Rate"});
-				this.chartLineEat1C.series[0].setData(this.mtrLineAcDifExp.eat.heatR[0]['data']);
+				/*this.chartLineEat1C.series[0].setData(this.mtrLineAcDifExp.eat.heatR[0]['data']);
 				this.chartLineEat1C.series[1].setData(this.mtrLineAcDifExp.eat.heatR[1]['data']);
 				this.chartLineEat1C.series[2].setData(this.mtrLineAcDifExp.eat.heatR[2]['data']);
+				//*/
+				this.monitoringTrService.getStreamsetsInterpolatedLastHours('1',['P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM'],8760)
+				.subscribe(
+					data => {
+						let values = ( ! data.data[0]['error_response'] ) ? data.data[0]['Items'][0]['Items'].map((item)=>[new Date(item['Timestamp']).getTime(), item.Value.Value]) : [];						
+						this.chartLineEat1C.series[0].setData(values);
+					},
+					errorData => {
+					}
+				);
 				break;
 			case 3:
+				/*
 				this.chartLineEat1C.setTitle({text: "Capacity Factor"});
 				this.chartLineEat1C.series[0].setData(this.mtrLineAcDifExp.eat.capaF[0]['data']);
 				this.chartLineEat1C.series[1].setData(this.mtrLineAcDifExp.eat.capaF[1]['data']);
 				this.chartLineEat1C.series[2].setData(this.mtrLineAcDifExp.eat.capaF[2]['data']);
+				//*/
 				break;
 			case 4:
+				/*
 				this.chartLineEat1C.setTitle({text: "Fuel Gain / lost"});
 				this.chartLineEat1C.series[0].setData(this.mtrLineAcDifExp.eat.fuel[0]['data']);
 				this.chartLineEat1C.series[1].setData(this.mtrLineAcDifExp.eat.fuel[1]['data']);
 				this.chartLineEat1C.series[2].setData(this.mtrLineAcDifExp.eat.fuel[2]['data']);
+				//*/
 				break;
 		}
 		
 		switch (this.showEstLine) {
 			case 1:
 				this.chartLineEst1C.setTitle({text: "Power Output"});
-				this.chartLineEst1C.series[0].setData(this.mtrLineAcDifExp.est.power[0]['data']);
+				/*this.chartLineEst1C.series[0].setData(this.mtrLineAcDifExp.est.power[0]['data']);
 				this.chartLineEst1C.series[1].setData(this.mtrLineAcDifExp.est.power[1]['data']);
 				this.chartLineEst1C.series[2].setData(this.mtrLineAcDifExp.est.power[2]['data']);
+				//*/
+				
+				this.monitoringTrService.getStreamsetsInterpolatedLastHours('2',['F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz'],8760)
+				.subscribe(
+					data => {
+						let values = ( ! data.data[0]['error_response'] ) ? data.data[0]['Items'][0]['Items'].map((item)=>[new Date(item['Timestamp']).getTime(), item.Value.Value]) : [];						
+						this.chartLineEst1C.series[0].setData(values);
+					},
+					errorData => {
+					}
+				);
+
 				break;
 			case 2:
 				this.chartLineEst1C.setTitle({text: "Heat Rate"});
-				this.chartLineEst1C.series[0].setData(this.mtrLineAcDifExp.est.heatR[0]['data']);
+				/*this.chartLineEst1C.series[0].setData(this.mtrLineAcDifExp.est.heatR[0]['data']);
 				this.chartLineEst1C.series[1].setData(this.mtrLineAcDifExp.est.heatR[1]['data']);
 				this.chartLineEst1C.series[2].setData(this.mtrLineAcDifExp.est.heatR[2]['data']);
+				//*/
+				
+				this.monitoringTrService.getStreamsetsInterpolatedLastHours('2',['F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4'],8760)
+				.subscribe(
+					data => {
+						let values = ( ! data.data[0]['error_response'] ) ? data.data[0]['Items'][0]['Items'].map((item)=>[new Date(item['Timestamp']).getTime(), item.Value.Value]) : [];						
+						this.chartLineEst1C.series[0].setData(values);
+					},
+					errorData => {
+					}
+				);
 				break;
 			case 3:
+				/*
 				this.chartLineEst1C.setTitle({text: "Capacity Factor"});
 				this.chartLineEst1C.series[0].setData(this.mtrLineAcDifExp.est.capaF[0]['data']);
 				this.chartLineEst1C.series[1].setData(this.mtrLineAcDifExp.est.capaF[1]['data']);
 				this.chartLineEst1C.series[2].setData(this.mtrLineAcDifExp.est.capaF[2]['data']);
+				//*/
 				break;
 			case 4:
+				/*
 				this.chartLineEst1C.setTitle({text: "Fuel Gain / lost"});
 				this.chartLineEst1C.series[0].setData(this.mtrLineAcDifExp.est.fuel[0]['data']);
 				this.chartLineEst1C.series[1].setData(this.mtrLineAcDifExp.est.fuel[1]['data']);
 				this.chartLineEst1C.series[2].setData(this.mtrLineAcDifExp.est.fuel[2]['data']);
+				//*/
 				break;
 		}
 	}
