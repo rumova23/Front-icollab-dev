@@ -383,11 +383,11 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 			.subscribe(
 				data => {
 					
-					let max = 50000;
+					let max = 68;
 					let value = data.data[0]['Items'][0]['Items'][data.data[0]['Items'][0]['Items'].length-1].Value.Value;
-					//this.viewGasPressure = (value*100)/max;
+					//this.viewGasPressure = ((value*100)/max);
 					this.viewGasPressure = value;
-					this.radialGasPressure = 80+(120-(80+((40*this.viewGasPressure)/100)));					
+					this.radialGasPressure = 80+(120-(80+((40*((value*100)/max))/100)));					
 				},
 				errorData => {
 				//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
