@@ -299,6 +299,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
     // Auxiliares
     let firstEvent = true;
     let waitForStart = false;
+    let thereAreMore = false;
     let eventStartTime;
     let eventEndTime;
     let duration;
@@ -346,11 +347,10 @@ export class EfhAnaliticsEventComponent implements OnInit {
     rateEFHi_costo = this.COSTO_EFHi;
     let cont = 0;
 
-    debugger;
-
     for (const dateToAnalyze of this.datesOfRange) {
         this.getDataPartial(dateToAnalyze);
         waitForStart = false;
+        thereAreMore = false;
         firstEvent = true;
         cont = 0;
 
@@ -378,20 +378,25 @@ export class EfhAnaliticsEventComponent implements OnInit {
             esi_lrj = 0.0;
             esi_lcj = 0.0;
 
-            eventStartTime = new Date(event.dateInit);
-            date = this.datePipe.transform(eventStartTime, 'dd/MM/yy');
+            debugger;
 
+            if (waitForStart && event.idTypeEvent !== 4954) {
+                continue;
+            } else {
+                // eventStartTime = new Date(event.dateInit);
+                date = this.datePipe.transform(eventStartTime, 'dd/MM/yy');
+            }
+
+            // PRIMER EVENTO
             if (firstEvent) {
+                eventStartTime = new Date(event.dateInit);
                 eventStartTime.setHours(0);
                 eventStartTime.setMinutes(0);
                 eventStartTime.setSeconds(0);
                 firstEvent = false;
             }
 
-            if (waitForStart && event.idTypeEvent !== 4954) {
-                continue;
-            }
-
+            // ULTIMO EVENTO
             if (cont === this.dataPartial.length) {
                 eventEndTime = new Date(event.dateInit);
                 eventEndTime.setHours(23);
@@ -399,6 +404,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
                 eventEndTime.setSeconds(59);
             }
 
+            // OPERACION NORMAL
             if (event.idTypeEvent === 956) {
                 eventEndTime = new Date(event.dateEnd);
                 duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
@@ -410,7 +416,14 @@ export class EfhAnaliticsEventComponent implements OnInit {
                 runEFHi_costo = runEFHi * rateEFHi_costo;
             }
 
+            // DISPARO
             if (event.idTypeEvent === 1) {
+                /* if (thereAreMore) {
+                    eventEndTime = new Date(this.dataPartial[cont].dateInit);
+                    thereAreMore = false;
+                } else {
+                    eventEndTime = new Date(event.dateInit);
+                } */
                 eventEndTime = new Date(event.dateInit);
                 duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
                 startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
@@ -432,7 +445,15 @@ export class EfhAnaliticsEventComponent implements OnInit {
                 waitForStart = true;
             }
 
+            // PARO
             if (event.idTypeEvent === 4957 || event.idTypeEvent === 954) {
+                /*
+                if (thereAreMore) {
+                    eventEndTime = new Date(this.dataPartial[cont].dateInit);
+                    thereAreMore = false;
+                } else {
+                    eventEndTime = new Date(event.dateInit);
+                } */
                 eventEndTime = new Date(event.dateInit);
                 duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
                 startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
@@ -450,27 +471,33 @@ export class EfhAnaliticsEventComponent implements OnInit {
                 sinceTrips = sinceTrips + tripFlag;
 
                 esi_tj = this.calcularEsiForTrip(loadTrip);
+
+                waitForStart = true;
             }
 
+            // ARRANQUE
             if (event.idTypeEvent === 4954) {
                 start = 1;
                 startFlag = 1;
 
                 eventStartTime = new Date(event.dateEnd);
+                waitForStart = false;
+
+                if (cont < this.dataPartial.length && (this.dataPartial[cont].idTypeEvent === 1
+                    || this.dataPartial[cont].idTypeEvent === 4957 || this.dataPartial[cont].idTypeEvent === 954)) {
+                    continue;
+                }
+
                 startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
                 stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
 
-                if (cont === this.dataPartial.length) {
-                    duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
-                    runAOH = duration;
-                    runEFHi = duration * this.FF;
-                    runEFHi_costo = runEFHi * rateEFHi_costo;
+                duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
+                runAOH = duration;
+                runEFHi = duration * this.FF;
+                runEFHi_costo = runEFHi * rateEFHi_costo;
 
-                    totalStarts = totalStarts + start;
-                    sinceStarts = sinceStarts + startFlag;
-                }
-
-                waitForStart = false;
+                totalStarts = totalStarts + start;
+                sinceStarts = sinceStarts + startFlag;
             }
 
             totalAOH = totalAOH + runAOH;

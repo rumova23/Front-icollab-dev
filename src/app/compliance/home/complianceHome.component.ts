@@ -22,6 +22,8 @@ import { PerfilHomeComponent              } from '../business/perfil/home/perfil
 import { TaskPlanningComponent            } from '../administration/task-planning/task-planning.component';
 import { TaskEditComponent                } from '../administration/task-planning/home-edit/task-edit/task-edit.component';
 import { TemplateEditTaskComponent        } from '../administration/task-planning/home-edit/template-edit-task/template-edit-task.component';
+import {ComplianceAddStaffComponent} from '../business/competence/staff/addstaff/complianceAddStaff.component';
+import {ComplianceProfileComponent} from '../business/competence/staff/addstaff/profile/complianceProfile.component';
 
 @Component({
 	selector        : 'app-complianceHome',
@@ -42,6 +44,8 @@ import { TemplateEditTaskComponent        } from '../administration/task-plannin
 		,TaskPlanningComponent
 		,TaskEditComponent
 		,TemplateEditTaskComponent
+		,ComplianceAddStaffComponent
+		,ComplianceProfileComponent
 	]
 })
 export class ComplianceHomeComponent implements OnInit {
@@ -166,6 +170,19 @@ export class ComplianceHomeComponent implements OnInit {
 						this.viewContainerRef
 							.createComponent(this.componentFactoryResolver.resolveComponentFactory(TaskPlanningComponent))
 							.changeDetectorRef.detectChanges();
+						break;
+					case 'Compliance.registerPersonal':
+						this.viewContainerRef
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceAddStaffComponent)).changeDetectorRef.detectChanges();
+						break;
+					case 'Compliance.registerPersonal.11':
+						let refPerfil = this.viewContainerRef
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceProfileComponent));
+						refPerfil.instance.inIdEmpleado = event.data.idEmpleado;
+						refPerfil.instance.isViewable = 'true';
+						refPerfil.instance.isdisabled =  event.data.isdisabled;
+						refPerfil.instance.inTipo = event.data.tipo;
+						refPerfil.changeDetectorRef.detectChanges();
 						break;
 					case 'shared.header.changePassword':
 						this.viewContainerRef
