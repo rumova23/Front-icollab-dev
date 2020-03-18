@@ -881,12 +881,50 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 				);
 				break;
 			case 3:
-				/*
+				
 				this.chartLineOve1C.setTitle({text: "Capacity Factor"});
-				this.chartLineOve1C.series[0].setData(this.mtrLineAcDifExp.overview.capaF[0]['data']);
+				/*this.chartLineOve1C.series[0].setData(this.mtrLineAcDifExp.overview.capaF[0]['data']);
 				this.chartLineOve1C.series[1].setData(this.mtrLineAcDifExp.overview.capaF[1]['data']);
 				this.chartLineOve1C.series[2].setData(this.mtrLineAcDifExp.overview.capaF[2]['data']);
 				//*/
+				
+				this.monitoringTrService.getStreamsetsInterpolatedLastHours('1',['P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY'],8760)
+				.subscribe(
+					data => {						
+						this.monitoringTrService.getStreamsetsInterpolatedLastHours('2',['F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz'],8760)
+						.subscribe(
+							dataSol => {
+								this.updatefactorCapFac();
+								let valuesAguila = ( ! data.data[0]['error_response'] ) ? data.data[0]['Items'][0]['Items'].map((item)=>[new Date(item['Timestamp']).getTime(), item.Value.Value]) : [];						
+								let valuesSol    = ( ! dataSol.data[0]['error_response'] ) ? dataSol.data[0]['Items'][0]['Items'].map((item)=>[new Date(item['Timestamp']).getTime(), item.Value.Value]) : [];						
+								valuesAguila = valuesAguila.map((a)=>{
+									let v=(a[1]/this.factorCapFactor)*100;if(v>100)v=100;
+									return [a[0],v];
+								});
+								valuesSol = valuesSol.map((a)=>{
+									let v=(a[1]/this.factorCapFactor)*100;if(v>100)v=100;
+									return [a[0],v];
+								});
+
+								let values = []
+								for (let i = 0; i < valuesAguila.length; i++) {
+									const elementA = valuesAguila[i];
+									const elementS = valuesSol[i];
+									values.push([elementA[0],(elementA[1]+elementS[1])/2]);
+								}
+								
+						
+
+								this.chartLineOve1C.series[0].setData(values);
+
+							},
+							errorData => {
+							}
+						);
+					},
+					errorData => {
+					}
+				);
 				break;
 			case 4:
 				/*
@@ -928,8 +966,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 					}
 				);
 				break;
-			case 3:
-				
+			case 3:				
 				this.chartLineEat1C.setTitle({text: "Capacity Factor"});
 				/*this.chartLineEat1C.series[0].setData(this.mtrLineAcDifExp.eat.capaF[0]['data']);
 				this.chartLineEat1C.series[1].setData(this.mtrLineAcDifExp.eat.capaF[1]['data']);
