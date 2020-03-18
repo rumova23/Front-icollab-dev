@@ -112,6 +112,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	factorExpEatFuel= -0.246670;
 
 	viewDiesel=0;
+	viewDieselMetros;
 	viewDieselRadialGauge=0;
 	
 	eatHRCorregido;
@@ -355,8 +356,10 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.updateDonughtChart();
 		//*/
 		this.updateChartDif(); 
+		this.getStreamsetsInterpolatedAguilaDieselTank();
 		this.id = setInterval(() => {
 		  this.getStreamsetsInterpolatedSolPresionGas();
+		  this.getStreamsetsInterpolatedAguilaDieselTank();
 		}, 5000);
 		this.id2 = setInterval(() => {
 			this.updateChartDif(); 
@@ -393,7 +396,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.setMtr();
 		this.updateDonughtChart();
 		this.updateMtrLineDif();
-		this.getDieselRadialGauge();
+		
 	}
 	socketReconnected(){
 
@@ -446,6 +449,27 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 					//this.viewGasPressure = ((value*100)/max);
 					this.viewGasPressure = value;
 					this.radialGasPressure = 80+(120-(80+((40*((value*100)/max))/100)));					
+				},
+				errorData => {
+				//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
+				}
+			);
+	}
+	getStreamsetsInterpolatedAguilaDieselTank(){
+
+		this.monitoringTrService.getStreamsetsInterpolatedLastHours('1',['P0uQAgHoBd0ku7P3cWOJL6IgyyMAAAU0VSVklET1JfUElcUDFBMDgwNjI'],1)
+			.subscribe(
+				data => {
+					//14.13 son metros y es mi maximo 
+					//data / 1000 // convertir a metros
+					/* en la representacion radial-gauge en 80 representa el 100% y el 120 representa el 0% */
+					let max = 14.13;
+					let value = data.data[0]['Items'][0]['Items'][data.data[0]['Items'][0]['Items'].length-1].Value.Value;
+					this.viewDieselMetros= value/1000;
+					this.viewDiesel = ((this.viewDieselMetros*100)/max);
+
+					let v = (40*this.viewDiesel)/100;		
+					this.viewDieselRadialGauge = 80+(120-(80+v));	
 				},
 				errorData => {
 				//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
@@ -1168,14 +1192,14 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	getCTUnoDiesel(){ return this.CTUnoDiesel;}
 	getCTDosDiesel(){ return this.CTDosDiesel;}
 	updatefactorCapFac(){this.factorCapFactor = (this.CTUnoDiesel > 4 && this.CTDosDiesel > 4)?405:495;}
-
+	/*
 	getDiesel(){this.viewDiesel = ((this.CTUnoDiesel+this.CTDosDiesel)*100)   /  (this.maxDiese1+this.maxDiese2)  ;}
 	getDieselRadialGauge(){
-		/* en la representacion radial-gauge en 80 representa el 100% y el 120 representa el 0%*/
+
 		this.getDiesel();
 		let v = (40*this.viewDiesel)/100;		
 		this.viewDieselRadialGauge = 80+(120-(80+v));
-	}
+	}//*/
 	demo(){
 		this.viewDiesel += 10;		
 		let v = (40*this.viewDiesel)/100;		

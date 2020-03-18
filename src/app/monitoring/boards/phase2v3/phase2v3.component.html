@@ -323,7 +323,7 @@
                         <!--[value]="viewDieselRadialGauge"-->
                         <radial-gauge 
                             style="margin-left: -85px;"                            
-                            [value]="'80'"
+                            [value]="viewDieselRadialGauge"
                             id="GasTankId2"
                             class="Tacometro"
                             title="F"
@@ -375,8 +375,7 @@
                 </div>
                 <div class="col align-self-center">
                     <i class="fas fa-gas-pump fa-3x"></i>
-                    <!--p>{{viewDiesel | number: "1.2-2"}}%</p-->
-                    <p>100%</p>
+                    <p [attr.viewDieselMetros]="viewDieselMetros">{{viewDiesel | number: "1.2-2"}}%</p>
                 </div>
                 <img src="assets/monitoring/phase2/aguila.png" alt="demo-dougnut" style="position: absolute; max-width: 50px; right: 0;" class="d-none d-xl-block">
             </div>
@@ -554,6 +553,6 @@
     <!--*****************************************************************************************************************-->
     <!-- ./EST -->
     <!--*****************************************************************************************************************-->
-    <div class="row bg-gray color-sol text-center" style="height: 40px;">
+    <div class="row bg-gray color-sol text-center" style="height: 40px;">        
     </div>
 </div>
