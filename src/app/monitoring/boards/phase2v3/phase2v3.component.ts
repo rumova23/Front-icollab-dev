@@ -660,13 +660,12 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	donugthCheckColor(chart,data){
 		let mydata = [...data]
 		chart.data.datasets[0].data = mydata;
+		chart.data.datasets[0].backgroundColor[0] = "#46FF33";
+		chart.data.datasets[0].backgroundColor[1] = "#7f8182";
 		if(data[0] < 0){
 			chart.data.datasets[0].data.reverse();
 			chart.data.datasets[0].backgroundColor[0] = "#7f8182";
 			chart.data.datasets[0].backgroundColor[1] = "#ff0000";
-		}else{
-			chart.data.datasets[0].backgroundColor[0] = "#46FF33";
-			chart.data.datasets[0].backgroundColor[1] = "#7f8182";
 		}
 		chart.update();
 	}
