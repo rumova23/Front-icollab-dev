@@ -300,6 +300,8 @@ export class EfhAnaliticsEventComponent implements OnInit {
     let firstEvent = true;
     let waitForStart = false;
     let thereAreMore = false;
+    let runbackRegistered = false;
+    let rejectRegistered = false;
     let eventStartTime;
     let eventEndTime;
     let duration;
@@ -350,8 +352,10 @@ export class EfhAnaliticsEventComponent implements OnInit {
     for (const dateToAnalyze of this.datesOfRange) {
         this.getDataPartial(dateToAnalyze);
         waitForStart = false;
-        thereAreMore = false;
+        // thereAreMore = false;
         firstEvent = true;
+        rejectRegistered = false;
+        runbackRegistered = false;
         cont = 0;
 
         for (const event of this.dataPartial) {
@@ -368,15 +372,22 @@ export class EfhAnaliticsEventComponent implements OnInit {
             startFlag = 0;
             start = 0;
             loadTrip = 0;
-            rejectFlag = 0;
-            loadReject = 0;
-            rapidLoad = 0;
-            changeRange = 0;
-            changeRate = 0;
+
+            if (!rejectRegistered) {
+                rejectFlag = 0;
+                loadReject = 0;
+                esi_lrj = 0.0;
+            }
+
+            if (!runbackRegistered) {
+                rapidLoad = 0;
+                changeRange = 0;
+                changeRate = 0;
+                esi_lcj = 0.0;
+            }
+
             esi = 0.00;
             esi_tj = 0.0;
-            esi_lrj = 0.0;
-            esi_lcj = 0.0;
 
             debugger;
 
@@ -414,6 +425,26 @@ export class EfhAnaliticsEventComponent implements OnInit {
                 runAOH = duration;
                 runEFHi = duration * this.FF;
                 runEFHi_costo = runEFHi * rateEFHi_costo;
+            }
+
+            // RECHAZO DE CARGA
+            if (event.idTypeEvent === 952) {
+                rejectFlag = 1;
+                loadReject = event.chargebeforereject;
+                esi_lrj = this.calcularEsiForReject(loadReject);
+                rejectRegistered = true;
+                continue;
+            }
+
+            // RUNBACK
+            if (event.idTypeEvent === 953) {
+                rapidLoad = 1;
+                const minutes = (event.dateEnd.getTime() - event.dateInit.getTime()) / 60000;
+                changeRange = event.chargebeforerunback - event.chargeafterrunback;
+                changeRate = (((changeRange) * 100) / this.MAX_LOAD) / minutes;
+                esi_lcj = this.calcularEsiForRunback(10, event.chargebeforerunback, event.chargeafterrunback);
+                runbackRegistered = true;
+                continue;
             }
 
             // DISPARO
@@ -498,6 +529,14 @@ export class EfhAnaliticsEventComponent implements OnInit {
 
                 totalStarts = totalStarts + start;
                 sinceStarts = sinceStarts + startFlag;
+            }
+
+            if (rejectRegistered) {
+                rejectRegistered = false;
+            }
+
+            if (runbackRegistered) {
+                runbackRegistered = false;
             }
 
             totalAOH = totalAOH + runAOH;
@@ -781,6 +820,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
   }
 
   fillDatesOfRange(startDate: Date, endDate: Date) {
+      this.datesOfRange = [];
       let currentDate = startDate;
       while (currentDate <= endDate) {
         this.datesOfRange.push(currentDate);
@@ -805,7 +845,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
   }
 
   getDataPartial(day: Date) {
-      this.dataPartial.length = 0;
+      this.dataPartial = [];
       const dayToCheck = this.datePipe.transform(new Date(day), 'yyyy-MM-dd');
       for (const element of this.data) {
           const dateInit = this.datePipe.transform(new Date(element.dateInit), 'yyyy-MM-dd');
