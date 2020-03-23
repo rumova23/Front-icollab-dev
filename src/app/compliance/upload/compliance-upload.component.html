@@ -1,0 +1,31 @@
+<!-- Documentos -->
+<div class="section" *ngFor="let item of titleDocument">
+  <div class="row">
+    <div class="col">
+      <p class="section_titulo_0">{{item.titleDocument}}</p>
+    </div>
+  </div>
+  <hr>
+  <div class=" row">
+    <div class="col-12">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-6">
+            <div class="row">
+              <div class="col" *ngFor="let itemInterno of item.carasDocuments" >
+                <a *ngIf="!isdisabled" (click)="deleteFile(itemInterno.fileDownloadUri)">
+                  <img matTooltip="Eliminar archivo" src="../../../../assets/img/icon_delete.png" style="width: 20px;" />
+                </a>
+                <a (click)="downloadFile(itemInterno.fileDownloadUri, itemInterno.name)">
+                  <img src="../../../../assets/img/{{itemInterno.type}}.png" style="width: 40px;" />&nbsp;{{itemInterno.name}}</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-6" *ngIf="!isdisabled">
+            <app-compliance-upload-common [inAccion]='inAccion' [typeDocument]='item.titleDocument' [inIdEventConfig]='inIdEventConfig' [inTypeConfig]='inTypeConfig'></app-compliance-upload-common>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

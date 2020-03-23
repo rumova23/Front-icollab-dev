@@ -260,7 +260,9 @@ export class PerfilComponent implements OnInit {
                             '',
                             this.perfilForm.controls['fNombres'].value,
                             this.perfilForm.controls['fAPaterno'].value,
-                            1);
+                            1,
+        null
+        );
     
     this.cmbos.getSave(emp).subscribe(
       respuesta => {

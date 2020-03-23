@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { EventService } from 'src/app/core/services/event.service';
@@ -15,23 +14,20 @@ import { Entity } from 'src/app/core/models/Entity';
 })
 
 export class DetailJobsComponent implements OnInit {
-  title: String = 'Detalle de ejecución';
+  title = 'Detalle de ejecución';
   entity: Entity;
   idFtpMonitoring: any;
-  fileDetailsDto:any;
+  fileDetailsDto: any;
   cols: any[];
-  filterBtn = { label: "buscar" }; 
+  filterBtn = { label: 'buscar' };
   rowsPorPage = [50, 100, 250, 500];
-  
-  
-  constructor(public globalService: GlobalService,
-    private eventService: EventService,
-    private monitoringService : MonitoringService,
-    private toastr: ToastrManager,
-    private fb: FormBuilder,) { }
- 
+  constructor(
+      public globalService: GlobalService,
+      private eventService: EventService,
+      private monitoringService: MonitoringService,
+      private toastr: ToastrManager
+  ) { }
   ngOnInit() {
-  
     this.cols = [
       'idFtpDetail',
       'fileName',
@@ -41,10 +37,9 @@ export class DetailJobsComponent implements OnInit {
       'status'
     ];
 
-    console.log(this.entity);    
+    console.log(this.entity);
     this.idFtpMonitoring = this.entity;
     this.setData(this.idFtpMonitoring);
-    
   }
 
   compareObjects(o1: any, o2: any): boolean {
@@ -63,8 +58,7 @@ export class DetailJobsComponent implements OnInit {
         });
   }
 
-  back(){
+  back() {
     this.eventService.sendMainSafe(new EventMessage(401, null));
   }
-
 }

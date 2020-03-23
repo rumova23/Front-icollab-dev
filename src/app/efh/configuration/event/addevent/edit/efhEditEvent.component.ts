@@ -673,7 +673,8 @@ export class EfhEditEventComponent implements OnInit {
                     this.defaultConstrolsEnabled(true);
                     this.isNormalOperationSectionVisible = true;
                     this.isDefaultSectionsVisible = true;
-                    this.fuelTypesArr = this.eventType.fuelTypesArr;
+                    // this.fuelTypesArr = this.eventType.fuelTypesArr;
+                    this.fuelTypesArr = this.fuelTypesForSelect;
                     this.selectedFuelType = undefined;
                     break;
       }
