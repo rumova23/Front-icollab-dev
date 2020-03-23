@@ -32,6 +32,10 @@ theme(Highcharts);
 export class SafePPAMonitoringStationComponent implements OnInit {
 	@ViewChild('chartLineMs') chartLineMs: ElementRef;
 	fileUploadForm: FormGroup;
+	typeVarhtml;
+	progress;
+	title;
+	download;
 	public opt: any = {
 		chart: {
 			zoomType: 'xy'
