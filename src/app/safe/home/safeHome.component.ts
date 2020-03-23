@@ -72,6 +72,7 @@ import {ControlFacturacionComponent} from '../admin/fuecd/control-facturacion/co
 import {PreDocumentComponent} from '../admin/fuecd/pre-document/pre-document.component';
 import { TemperatureComponent } from '../admin/temperature/temperature.component';
 import {MonitoringJobsComponent} from '../admin/monitoring/monitoringJobs.component';
+import { SafePPAMonitoringStationComponent } from '../admin/safe-ppamonitoring-station/safe-ppamonitoring-station.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -140,6 +141,7 @@ import {MonitoringJobsComponent} from '../admin/monitoring/monitoringJobs.compon
 		, PreDocumentComponent
 		, TemperatureComponent
 		, MonitoringJobsComponent
+		, SafePPAMonitoringStationComponent
   	]
 })
 
@@ -355,6 +357,14 @@ export class SafeHomeComponent implements OnInit {
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(
 								WeatherComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.SafePPAMonitoringStationComponent':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								SafePPAMonitoringStationComponent
 							)
 						).changeDetectorRef.detectChanges();
 						break;
