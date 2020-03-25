@@ -261,6 +261,10 @@ export class PerfilComponent implements OnInit {
                             this.perfilForm.controls['fNombres'].value,
                             this.perfilForm.controls['fAPaterno'].value,
                             1,
+        null,
+        null,
+        null,
+        null,
         null
         );
     

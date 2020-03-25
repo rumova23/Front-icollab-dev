@@ -12,9 +12,9 @@ import {EventMessage} from '../../../../../../core/models/EventMessage';
 import {Combo} from '../../../../../models/Combo';
 
 @Component({
-  selector: 'app-compliance-profile',
-  templateUrl: './complianceProfile.component.html',
-  styleUrls: ['./complianceProfile.component.scss']
+    selector: 'app-compliance-profile',
+    templateUrl: './complianceProfile.component.html',
+    styleUrls: ['./complianceProfile.component.scss']
 })
 export class ComplianceProfileComponent implements OnInit {
     @Input() inIdEmpleado: number;
@@ -34,7 +34,6 @@ export class ComplianceProfileComponent implements OnInit {
     lugares: Array<any>;
     personas: Array<any>;
     arryCata: Array<any>;
-
     perfilForm: FormGroup;
     submitted = false;
 
@@ -44,6 +43,7 @@ export class ComplianceProfileComponent implements OnInit {
     deshabiliarEstatus = false;
     isdisabled: boolean = false;
     isdisableIdEmp: boolean = false;
+    isdisabledName: boolean = false;
 
     labBotAcep = 'Guardar';
 
@@ -81,19 +81,26 @@ export class ComplianceProfileComponent implements OnInit {
         if(this.inTipo == "ver"){
             this.isdisabled = true;
             this.isdisableIdEmp = true;
+            this.deshabiliarEstatus = true;
+            this.isdisabledName = true;
         }
 
         if(this.inTipo == "guardar" || this.inTipo == "editar"){
             this.isdisableIdEmp = true;
+            this.deshabiliarEstatus = false;
+        }
+
+        if(this.inTipo == "editar"){
+            this.isdisabledName = true;
         }
 
         this.perfilForm = this.formBuilder.group({
             // fPhoto: [{ value:'', disabled: this.isdisabled }, Validators.required],
             fEnterprise: [{ value:'', disabled: this.isdisabled }, Validators.required],
             fEmpNum: [{ value:'', disabled: this.isdisableIdEmp }, Validators.required],
-            fNames: [{ value:'', disabled: this.isdisableIdEmp }, Validators.required],
-            fLastName: [{ value:'', disabled: this.isdisableIdEmp }, Validators.required],
-            fSecondName: [{ value:'', disabled: this.isdisableIdEmp }, Validators.required],
+            fNames: [{ value:'', disabled: this.isdisabledName }, Validators.required],
+            fLastName: [{ value:'', disabled: this.isdisabledName }, Validators.required],
+            fSecondName: [{ value:'', disabled: this.isdisabledName }, Validators.required],
             fGender: [{ value:'', disabled: this.isdisabled }, Validators.required],
             fDateBirth: [{ value:'', disabled: this.isdisabled }, Validators.required],
             fLevelStudy: [{ value:'', disabled: this.isdisabled }, Validators.required],
@@ -227,26 +234,30 @@ export class ComplianceProfileComponent implements OnInit {
     }
 
     saveEmployee(){
-        let det = new Detalle( this.perfilForm.controls['fDepto'].value,
+        let det = new Detalle(// this.perfilForm.controls['fDepto'].value,
+            null,
             0,
             this.inIdEmpleado,
             1,
             this.perfilForm.controls['fStartJob'].value,
             this.perfilForm.controls['fWorkHours'].value,
-            this.perfilForm.controls['fImmBoss'].value,
+            //   this.perfilForm.controls['fImmBoss'].value,
+            null,
             this.perfilForm.controls['fWorkplace'].value,
             this.perfilForm.controls['fPerCarg'].value,
-            this.perfilForm.controls['fPosition'].value,
+            //this.perfilForm.controls['fPosition'].value,
+            null,
             0,
-            this.perfilForm.controls['fJobDescription'].value
-            ,this.perfilForm.controls['fJob'].value);
-
+            this.perfilForm.controls['fJobDescription'].value,
+            //this.perfilForm.controls['fJob'].value
+            null);
+        debugger;
         let emp = new Empleado( this.perfilForm.controls['fCareer'].value,
             1,
             det,
             this.inIdEmpleado,
             'exito',
-            1,
+            this.checkedEstatus === true ? 1:0,
             this.perfilForm.controls['fDateBirth'].value,
             this.perfilForm.controls['fGender'].value,
             this.perfilForm.controls['fLevelStudy'].value,
@@ -255,11 +266,14 @@ export class ComplianceProfileComponent implements OnInit {
             this.perfilForm.controls['fNames'].value,
             this.perfilForm.controls['fLastName'].value,
             1,
-            this.byteArray);
+            this.byteArray,
+            this.perfilForm.controls['fPosition'].value,
+            this.perfilForm.controls['fDepto'].value,
+            this.perfilForm.controls['fImmBoss'].value,
+            this.perfilForm.controls['fJob'].value);
 
         this.cmbos.getSave(emp).subscribe(
             respuesta => {
-
                 this.toastr.successToastr('El empleado fue Creado con éxito.', '¡Se ha logrado!');
                 this.eventService.sendChangePage(new EventMessage(10, {},'Compliance.registerPersonal'));
             }
