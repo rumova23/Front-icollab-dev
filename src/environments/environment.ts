@@ -1,4 +1,4 @@
-const hostGateway = 'http://200.52.85.140:1234/';
+const hostGateway = 'http://201.149.85.14:1234/';
 export const environment = {
   production: false
   , openoffline:false
