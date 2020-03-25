@@ -94,6 +94,7 @@ import {MtrCenaceComponent} from './admin/modelMarket/mtr-cenace/mtr-cenace.comp
 import {ControlFacturacionComponent} from './admin/fuecd/control-facturacion/control-facturacion.component';
 import {PreDocumentComponent} from './admin/fuecd/pre-document/pre-document.component';
 import { TemperatureComponent } from './admin/temperature/temperature.component';
+import { SafePPAMonitoringStationComponent } from './admin/safe-ppamonitoring-station/safe-ppamonitoring-station.component';
 
 
 @NgModule({
@@ -143,7 +144,8 @@ import { TemperatureComponent } from './admin/temperature/temperature.component'
         MtrCenaceComponent,
         ControlFacturacionComponent,
         PreDocumentComponent,
-        TemperatureComponent
+        TemperatureComponent,
+        SafePPAMonitoringStationComponent
     ],
     exports: [],
     imports: [

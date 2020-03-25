@@ -1,0 +1,111 @@
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{'Data Mining' | translate}}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{'Monitoring station' | translate}}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+<div class="section">
+	<div class="row pb-2">
+		<div class="col">
+			<p class="section_titulo_0">{{'Importa Variables de Estación de Supervisión' | translate}}</p>
+			<p class="section_subtitulo_0"> </p>
+		</div>
+	</div>
+	<form [formGroup]="fileUploadForm" (ngSubmit)="upload(fileUploadForm.value)">
+		<div class="row">
+			<div class="col-12 col-sm-12 col-md-3">
+				
+					<select formControlName="typeVarhtml" class="browser-default custom-select"
+						[(ngModel)]="typeVarhtml">
+						<option [value]="1">FileZilla FTP</option>
+						<option [value]="2">PAYSERVER DB</option>
+						<option [value]="3">PI SERVER DB</option>
+						<option [value]="4">Manual</option>
+					</select>
+			</div>
+			<div class="col-12 col-md-2">
+				<button class="btn" style="margin: auto;">
+					Carga
+			   </button>
+			</div>
+			<div class="col-12 col-md-7">
+				<div class="row justify-content-end">
+
+					<div class="col-12 col-sm-12 col-md-auto">
+						Carga Archivo:<br>
+						<app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+						<mat-error
+							*ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
+							Requerido
+						</mat-error>
+					</div>
+					<div class="col-12 col-sm-12 col-md-auto">
+						<button type="button" class="btn" (click)="download()">
+							<i class="ti-cloud-down"></i>
+							{{'Download' | translate}} {{'Layout' | translate}}
+						</button>
+						<br>
+						<button type="submit" class="btn" [disabled]="!fileUploadForm.valid" style="width: 168px;">
+							<i class="ti-cloud-up"></i>
+							{{'Import' | translate}}
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<hr>
+
+
+	<div class="row pb-2">
+		<div class="col">
+			<p class="section_titulo_0">Consulta Variables</p>
+			<p class="section_subtitulo_0"></p>
+		</div>
+	</div>
+
+	<div class="row mb-3 mt-3">
+		<div class="col">
+			<div class="form-group">
+				<label class="form-text text-left" for="mydate">De:</label>
+				<mat-form-field class="form-control">
+					<input matInput>
+					<mat-datepicker-toggle matSuffix [for]="mydate"></mat-datepicker-toggle>
+					<mat-datepicker #mydate></mat-datepicker>
+				</mat-form-field>
+			</div>
+
+		</div>
+		<div class="col">
+			<div class="form-group">
+				<label class="form-text text-left" for="mydate">Al:</label>
+				<mat-form-field class="form-control">
+					<input matInput>
+					<mat-datepicker-toggle matSuffix [for]="mydate"></mat-datepicker-toggle>
+					<mat-datepicker #mydate></mat-datepicker>
+				</mat-form-field>
+			</div>
+
+		</div>
+		<div class="col d-flex align-middle">
+
+			<button type="submit" class="btn" style="margin: auto;">
+				<mdb-icon far icon="save" class="mr-1"></mdb-icon> Buscar
+			</button>
+			<!--button type="submit" class="btn" style="margin: auto;">
+				<i class="ti-cloud-down"></i> {{'Download' | translate}} {{'XLS' | translate}}
+			</button-->
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col">
+			<div #chartLineMs></div>
+		</div>
+	</div>
+</div>

@@ -56,16 +56,16 @@ import { TaskPlanningComponent                  } from './administration/task-pl
 import { TaskEditComponent                      } from './administration/task-planning/home-edit/task-edit/task-edit.component';
 import { TemplateEditTaskComponent              } from './administration/task-planning/home-edit/template-edit-task/template-edit-task.component';
 
-import { NgGanttEditorModule                    } from 'ng-gantt' 
+import { NgGanttEditorModule                    } from 'ng-gantt';
 import { TaskObservacionComponent               } from './administration/task-planning/home-edit/task-observacion/task-observacion.component';
 import { TaskEstatusComponent                   } from './administration/task-planning/home-edit/task-estatus/task-estatus.component';
 import { TaskGanttComponent                     } from './administration/task-planning/home-edit/task-gantt/task-gantt.component';
 import { TaskFilesComponent                     } from './administration/task-planning/home-edit/task-files/task-files.component';
 import { DatePipe } from '@angular/common';
-
-
-
-
+import {ComplianceAddStaffComponent} from './business/competence/staff/addstaff/complianceAddStaff.component';
+import {ComplianceProfileComponent} from './business/competence/staff/addstaff/profile/complianceProfile.component';
+import {ComplianceUploadComponent} from './upload/compliance-upload.component';
+import { ComplianceUploadCommonComponent } from './upload/compliance-upload-common/compliance-upload-common.component';
 
 @NgModule({
     declarations:[
@@ -102,6 +102,9 @@ import { DatePipe } from '@angular/common';
 		,TaskEstatusComponent
 		,TaskGanttComponent
 		,TaskFilesComponent
+        ,ComplianceAddStaffComponent
+		,ComplianceProfileComponent
+		,ComplianceUploadComponent, ComplianceUploadCommonComponent
     ],
     exports:[
     ],

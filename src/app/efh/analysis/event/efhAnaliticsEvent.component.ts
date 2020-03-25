@@ -141,6 +141,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
     this.addBlock(1, 'Cargando...');
     this.efhService.getEventsConfiguratedByDate(data).subscribe(
         dataBack => {
+            debugger;
           this.result = dataBack;
           let i = 0;
           for (const element of this.result) {
@@ -298,11 +299,13 @@ export class EfhAnaliticsEventComponent implements OnInit {
 
     // Auxiliares
     let firstEvent = true;
-    let waitForStart = false;
+    let runbackRegistered = false;
+    let rejectRegistered = false;
     let eventStartTime;
     let eventEndTime;
+    let canRegister = false;
     let duration;
-    let newDate;
+    let isWorkingWithDiesel = false;
 
     // Initialization
     const obj = {};
@@ -345,53 +348,28 @@ export class EfhAnaliticsEventComponent implements OnInit {
 
     rateEFHi_costo = this.COSTO_EFHi;
     let cont = 0;
-
-    debugger;
+    this.FF = this.FF_GAS;
 
     for (const dateToAnalyze of this.datesOfRange) {
         this.getDataPartial(dateToAnalyze);
-        waitForStart = false;
         firstEvent = true;
+        rejectRegistered = false;
+        runbackRegistered = false;
         cont = 0;
 
         for (const event of this.dataPartial) {
             cont++;
-            if (event.idTypeFuel === 1) {
-                this.FF = this.FF_GAS;
-            } else if (event.idTypeFuel === 952) {
-                this.FF = this.FF_DIESEL;
-            } else if (event.idTypeFuel === 5953 || event.idTypeFuel === 5952 || event.idTypeEvent === 4957 || event.idTypeEvent === 954) {
-                this.FF = this.FF_SC;
-            }
 
-            tripFlag = 0;
-            startFlag = 0;
-            start = 0;
-            loadTrip = 0;
-            rejectFlag = 0;
-            loadReject = 0;
-            rapidLoad = 0;
-            changeRange = 0;
-            changeRate = 0;
-            esi = 0.00;
-            esi_tj = 0.0;
-            esi_lrj = 0.0;
-            esi_lcj = 0.0;
-
-            eventStartTime = new Date(event.dateInit);
-            date = this.datePipe.transform(eventStartTime, 'dd/MM/yy');
-
+            // PRIMER EVENTO
             if (firstEvent) {
+                eventStartTime = new Date(event.dateInit);
                 eventStartTime.setHours(0);
                 eventStartTime.setMinutes(0);
                 eventStartTime.setSeconds(0);
                 firstEvent = false;
             }
 
-            if (waitForStart && event.idTypeEvent !== 4954) {
-                continue;
-            }
-
+            // ULTIMO EVENTO
             if (cont === this.dataPartial.length) {
                 eventEndTime = new Date(event.dateInit);
                 eventEndTime.setHours(23);
@@ -399,7 +377,29 @@ export class EfhAnaliticsEventComponent implements OnInit {
                 eventEndTime.setSeconds(59);
             }
 
-            if (event.idTypeEvent === 956) {
+            tripFlag = 0;
+            startFlag = 0;
+            start = 0;
+            loadTrip = 0;
+
+            if (!rejectRegistered) {
+                rejectFlag = 0;
+                loadReject = 0;
+                esi_lrj = 0.0;
+            }
+
+            if (!runbackRegistered) {
+                rapidLoad = 0;
+                changeRange = 0;
+                changeRate = 0;
+                esi_lcj = 0.0;
+            }
+
+            esi = 0.00;
+            esi_tj = 0.0;
+
+            // OPERACION NORMAL
+            if (event.idTypeEvent === 956 && this.FF > 0) {
                 eventEndTime = new Date(event.dateEnd);
                 duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
                 startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
@@ -408,9 +408,12 @@ export class EfhAnaliticsEventComponent implements OnInit {
                 runAOH = duration;
                 runEFHi = duration * this.FF;
                 runEFHi_costo = runEFHi * rateEFHi_costo;
+
+                canRegister = true;
             }
 
-            if (event.idTypeEvent === 1) {
+            // TERMINA OPERACION CON NORMAL
+            if (event.idTypeEvent === -100 && event.idTypeFuel === 952 && !isWorkingWithDiesel) {
                 eventEndTime = new Date(event.dateInit);
                 duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
                 startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
@@ -419,21 +422,20 @@ export class EfhAnaliticsEventComponent implements OnInit {
                 runAOH = duration;
                 runEFHi = duration * this.FF;
                 runEFHi_costo = runEFHi * rateEFHi_costo;
-
-                tripFlag = 1;
-
-                loadTrip = event.chargebeforeshot;
-
-                totalTrips = totalTrips + tripFlag;
-                sinceTrips = sinceTrips + tripFlag;
-
-                esi_tj = this.calcularEsiForTrip(loadTrip);
-
-                waitForStart = true;
+                canRegister = true;
+                isWorkingWithDiesel = true;
+                this.FF = this.FF_DIESEL;
             }
 
-            if (event.idTypeEvent === 4957 || event.idTypeEvent === 954) {
-                eventEndTime = new Date(event.dateInit);
+            // INICIA OPERACION CON DIESEL
+            if (event.idTypeEvent === -200 && event.idTypeFuel === 952 && isWorkingWithDiesel) {
+                eventStartTime = new Date(event.dateInit);
+                continue;
+            }
+
+            // TERMINA OPERACION CON DIESEL
+            if (event.idTypeEvent === -200 && event.idTypeFuel === 952 && isWorkingWithDiesel) {
+                eventEndTime = new Date(event.dateEnd);
                 duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
                 startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
                 stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
@@ -441,88 +443,182 @@ export class EfhAnaliticsEventComponent implements OnInit {
                 runAOH = duration;
                 runEFHi = duration * this.FF;
                 runEFHi_costo = runEFHi * rateEFHi_costo;
-
-                tripFlag = 1;
-
-                loadTrip = event.chargebeforeshot;
-
-                totalTrips = totalTrips + tripFlag;
-                sinceTrips = sinceTrips + tripFlag;
-
-                esi_tj = this.calcularEsiForTrip(loadTrip);
+                canRegister = true;
             }
 
-            if (event.idTypeEvent === 4954) {
-                start = 1;
-                startFlag = 1;
-
-                eventStartTime = new Date(event.dateEnd);
-                startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
-                stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
+            // SE REESTABLECE OPERACION NORMAL DE NUEVO
+            if (event.idTypeEvent === -100 && event.idTypeFuel === 952 && isWorkingWithDiesel) {
+                eventStartTime = new Date(event.dateInit);
+                isWorkingWithDiesel = false;
+                this.FF = this.FF_GAS;
 
                 if (cont === this.dataPartial.length) {
+                    startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
+                    stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
+
                     duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
                     runAOH = duration;
                     runEFHi = duration * this.FF;
                     runEFHi_costo = runEFHi * rateEFHi_costo;
-
-                    totalStarts = totalStarts + start;
-                    sinceStarts = sinceStarts + startFlag;
+                    canRegister = true;
                 }
-
-                waitForStart = false;
             }
 
-            totalAOH = totalAOH + runAOH;
-            totalEFHi = totalEFHi + runEFHi;
-            totalEFHi_costo = totalEFHi_costo + runEFHi_costo;
+            // RECHAZO DE CARGA
+            if (event.idTypeEvent === 952 && this.FF > 0) {
+                rejectFlag = 1;
+                loadReject = event.chargebeforereject;
+                esi_lrj = this.calcularEsiForReject(loadReject);
+                rejectRegistered = true;
+                continue;
+            }
 
-            sinceAOH = sinceAOH + runAOH;
-            sinceEFHi = sinceEFHi + runEFHi;
-            sinceEFHi_costo = sinceEFHi_costo + runEFHi_costo;
+            // RUNBACK
+            if (event.idTypeEvent === 953  && this.FF > 0) {
+                rapidLoad = 1;
+                const minutes = (event.dateEnd.getTime() - event.dateInit.getTime()) / 60000;
+                changeRange = event.chargebeforerunback - event.chargeafterrunback;
+                changeRate = (((changeRange) * 100) / this.MAX_LOAD) / minutes;
+                esi_lcj = this.calcularEsiForRunback(10, event.chargebeforerunback, event.chargeafterrunback);
+                runbackRegistered = true;
+                continue;
+            }
 
-            esi = (this.FF * startFlag) + esi_tj + esi_lcj + esi_lrj;
-            runESi = esi;
-            totalESi = totalESi + esi;
-            sinceESi = sinceESi + esi;
+            // DISPARO
+            if (event.idTypeEvent === 1 && this.FF > 0) {
+                eventEndTime = new Date(event.dateInit);
+                duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
+                startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
+                stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
 
-            const obj = {};
-            obj['totalStarts'] = totalStart;
-            obj['start'] = start;
-            obj['date'] = date;
-            obj['startTime'] = startTime;
-            obj['stopTime'] = stopTime;
-            obj['runAOH'] = runAOH;
-            obj['runEFHi'] = runEFHi;
-            obj['runESi'] = runESi;
-            obj['runEFHi_costo'] = runEFHi_costo;
-            obj['rateEFHi_costo'] = rateEFHi_costo;
-            obj['totalTrips'] = totalTrips;
-            obj['totalStarts'] = totalStarts;
-            obj['totalESi'] = totalESi;
-            obj['totalAOH'] = totalAOH;
-            obj['totalEFHi'] = totalEFHi;
-            obj['totalEFHi_costo'] = totalEFHi_costo;
-            obj['sinceTrips'] = sinceTrips;
-            obj['sinceStarts'] = sinceStarts;
-            obj['sinceESi'] = sinceESi;
-            obj['sinceAOH'] = sinceAOH;
-            obj['sinceEFHi'] = sinceEFHi;
-            obj['sinceEFHi_costo'] = sinceEFHi_costo;
-            obj['esi'] = esi;
-            obj['ff'] = ff;
-            obj['startFlag'] = startFlag;
-            obj['tripFlag'] = tripFlag;
-            obj['loadTrip'] = loadTrip;
-            obj['esi_tj'] = esi_tj;
-            obj['rejectFlag'] = rejectFlag;
-            obj['loadReject'] = loadReject;
-            obj['esi_lrj'] = esi_lrj;
-            obj['rapidLoad'] = rapidLoad;
-            obj['changeRange'] = changeRange;
-            obj['changeRate'] = changeRate;
-            obj['esi_lcj'] = esi_lcj;
-            this.dataAnalysis.push(obj);
+                runAOH = duration;
+                runEFHi = duration * this.FF;
+                runEFHi_costo = runEFHi * rateEFHi_costo;
+
+                tripFlag = 1;
+
+                loadTrip = event.chargebeforeshot;
+
+                totalTrips = totalTrips + tripFlag;
+                sinceTrips = sinceTrips + tripFlag;
+
+                esi_tj = this.calcularEsiForTrip(loadTrip);
+
+                // Combustible -> 0
+                this.FF = this.FF_SC;
+
+                canRegister = true;
+            }
+
+            // PARO
+            if ((event.idTypeEvent === 4957 || event.idTypeEvent === 954) && this.FF > 0) {
+                eventEndTime = new Date(event.dateInit);
+                duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
+                startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
+                stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
+
+                runAOH = duration;
+                runEFHi = duration * this.FF;
+                runEFHi_costo = runEFHi * rateEFHi_costo;
+
+                tripFlag = 1;
+
+                loadTrip = event.chargebeforestop;
+
+                totalTrips = totalTrips + tripFlag;
+                sinceTrips = sinceTrips + tripFlag;
+
+                esi_tj = this.calcularEsiForTrip(loadTrip);
+
+                // Combustible -> 0
+                this.FF = this.FF_SC;
+
+                canRegister = true;
+            }
+
+            // ARRANQUE
+            if (event.idTypeEvent === 4954 && this.FF === 0) {
+                start = 1;
+                startFlag = 1;
+
+                if (isWorkingWithDiesel) {
+                    this.FF = this.FF_DIESEL;
+                } else {
+                    this.FF = this.FF_GAS;
+                }
+
+                eventStartTime = new Date(event.dateEnd);
+
+                totalStarts = totalStarts + start;
+                sinceStarts = sinceStarts + startFlag;
+
+                if (cont === this.dataPartial.length) {
+                    startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
+                    stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
+
+                    duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
+                    runAOH = duration;
+                    runEFHi = duration * this.FF;
+                    runEFHi_costo = runEFHi * rateEFHi_costo;
+                    canRegister = true;
+                }
+            }
+
+            // SE REALIZA REEGISTRO DE TIEMPO OPERADO NORMALMENTE
+            if (canRegister) {
+                totalAOH = totalAOH + runAOH;
+                totalEFHi = totalEFHi + runEFHi;
+                totalEFHi_costo = totalEFHi_costo + runEFHi_costo;
+
+                sinceAOH = sinceAOH + runAOH;
+                sinceEFHi = sinceEFHi + runEFHi;
+                sinceEFHi_costo = sinceEFHi_costo + runEFHi_costo;
+
+                esi = (this.FF * startFlag) + esi_tj + esi_lcj + esi_lrj;
+                runESi = esi;
+                totalESi = totalESi + esi;
+                sinceESi = sinceESi + esi;
+
+                const obj = {};
+                obj['totalStarts'] = totalStart;
+                obj['start'] = start;
+                obj['date'] = date;
+                obj['startTime'] = startTime;
+                obj['stopTime'] = stopTime;
+                obj['runAOH'] = runAOH;
+                obj['runEFHi'] = runEFHi;
+                obj['runESi'] = runESi;
+                obj['runEFHi_costo'] = runEFHi_costo;
+                obj['rateEFHi_costo'] = rateEFHi_costo;
+                obj['totalTrips'] = totalTrips;
+                obj['totalStarts'] = totalStarts;
+                obj['totalESi'] = totalESi;
+                obj['totalAOH'] = totalAOH;
+                obj['totalEFHi'] = totalEFHi;
+                obj['totalEFHi_costo'] = totalEFHi_costo;
+                obj['sinceTrips'] = sinceTrips;
+                obj['sinceStarts'] = sinceStarts;
+                obj['sinceESi'] = sinceESi;
+                obj['sinceAOH'] = sinceAOH;
+                obj['sinceEFHi'] = sinceEFHi;
+                obj['sinceEFHi_costo'] = sinceEFHi_costo;
+                obj['esi'] = esi;
+                obj['ff'] = ff;
+                obj['startFlag'] = startFlag;
+                obj['tripFlag'] = tripFlag;
+                obj['loadTrip'] = loadTrip;
+                obj['esi_tj'] = esi_tj;
+                obj['rejectFlag'] = rejectFlag;
+                obj['loadReject'] = loadReject;
+                obj['esi_lrj'] = esi_lrj;
+                obj['rapidLoad'] = rapidLoad;
+                obj['changeRange'] = changeRange;
+                obj['changeRate'] = changeRate;
+                obj['esi_lcj'] = esi_lcj;
+                this.dataAnalysis.push(obj);
+
+                canRegister = false;
+            }
         }
     }
 
@@ -754,6 +850,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
   }
 
   fillDatesOfRange(startDate: Date, endDate: Date) {
+      this.datesOfRange = [];
       let currentDate = startDate;
       while (currentDate <= endDate) {
         this.datesOfRange.push(currentDate);
@@ -778,7 +875,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
   }
 
   getDataPartial(day: Date) {
-      this.dataPartial.length = 0;
+      this.dataPartial = [];
       const dayToCheck = this.datePipe.transform(new Date(day), 'yyyy-MM-dd');
       for (const element of this.data) {
           const dateInit = this.datePipe.transform(new Date(element.dateInit), 'yyyy-MM-dd');
