@@ -1,4 +1,4 @@
-const hostGateway = 'http://201.149.85.14:1234/';
+const hostGateway = 'http://200.52.85.140:1234/';
 export const environment = {
   production: false
   , openoffline:false
@@ -22,6 +22,7 @@ export const environment = {
   , microuploaddbUrl        : hostGateway + 'microuploaddb/'
   , urlTrPi                 : 'http://200.52.85.140:1119/'  // micro Bi
   , efhUrl                  : hostGateway + 'efh/'
+  , dgctags                 : hostGateway + 'dgctags/dgctags/'
 };
 /*
 const hostGateway = 'http://200.52.85.140:8585/';

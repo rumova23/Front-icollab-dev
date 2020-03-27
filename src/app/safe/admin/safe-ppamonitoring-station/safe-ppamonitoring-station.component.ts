@@ -16,6 +16,7 @@ import HC_exportdata from "highcharts/modules/export-data";
 import Highcharts3d from "highcharts/highcharts-3d";
 import theme           from 'highcharts/themes/sunset';
 //import theme           from 'highcharts/themes/gray.src';
+import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format.service';
 HC_exporting(Highcharts);
 HC_stock(Highcharts);
 HC_customEvents(Highcharts);
@@ -183,15 +184,45 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		private fb: FormBuilder,
 		private toastr: ToastrManager,
 		private confirmationDialogService: ConfirmationDialogService,
+		private ppaMonitoringFormatService:PpaMonitoringFormatService,
 		private datePipe: DatePipe) { }
 
 	ngOnInit() { 
-		
+		this.ppaMonitoringFormatService.get().subscribe((data)=>{
+			let lstV = [];
+			let lstX = [];
+			let name ;
+			for (const dia of data) {
+				name = dia.tag;
+				dia.fechaTag; //"2020/2/15"
+
+				for (const dato of dia.valores) {
+					lstV.push(dato.value);
+					lstX.push(new Date(dia.fechaTag+" "+dato.status+":00"));
+					dato.timeEnd;
+					dato.timeini;
+					dato.status;//"08:20"
+				}
+			}
+			this.opt.xAxis.categories = lstX;
+			this.opt.series =  [
+				{
+					name: name,
+					type: 'spline',
+					yAxis: 1,
+					data: lstV,
+					tooltip: {
+						valueSuffix: ' mm'
+					}
+				}
+			];
+			Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
+		});
 		this.fileUploadForm = this.fb.group({
 			file: new FormControl(null, [Validators.required, requiredFileType('xlsx')]),
 			typeVarhtml: new FormControl('', Validators.required)
 		});
-		Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
+		//Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
 	}
 
 	upload(value){
