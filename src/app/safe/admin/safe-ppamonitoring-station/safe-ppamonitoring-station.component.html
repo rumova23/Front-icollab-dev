@@ -19,19 +19,18 @@
 	<form [formGroup]="fileUploadForm" (ngSubmit)="upload(fileUploadForm.value)">
 		<div class="row">
 			<div class="col-12 col-sm-12 col-md-3">
-				
-					<select formControlName="typeVarhtml" class="browser-default custom-select"
-						[(ngModel)]="typeVarhtml">
-						<option [value]="1">FileZilla FTP</option>
-						<option [value]="2">PAYSERVER DB</option>
-						<option [value]="3">PI SERVER DB</option>
-						<option [value]="4">Manual</option>
-					</select>
+
+				<select formControlName="typeVarhtml" class="browser-default custom-select" [(ngModel)]="typeVarhtml">
+					<option [value]="1">FileZilla FTP</option>
+					<option [value]="2">PAYSERVER DB</option>
+					<option [value]="3">PI SERVER DB</option>
+					<option [value]="4">Manual</option>
+				</select>
 			</div>
 			<div class="col-12 col-md-2">
 				<button class="btn" style="margin: auto;">
 					Carga
-			   </button>
+				</button>
 			</div>
 			<div class="col-12 col-md-7">
 				<div class="row justify-content-end">
@@ -68,40 +67,43 @@
 			<p class="section_subtitulo_0"></p>
 		</div>
 	</div>
+	<form [formGroup]="filterDatesFormGroup" (ngSubmit)="searchFuecdByDates()">
+		<div class="row mb-3 mt-3">
+			<div class="col">
+				<div class="form-group">
+					<label class="form-text" for="dateInihtml">De:</label>
+					<mat-form-field class="form-control">
+						<input matInput [matDatepicker]="dateInihtml" [(ngModel)]="dateIni"
+							[ngModelOptions]="{standalone: true}" (dateChange)="dateChangeIni($event)">
+						<mat-datepicker-toggle matSuffix [for]="dateInihtml"></mat-datepicker-toggle>
+						<mat-datepicker #dateInihtml></mat-datepicker>
+					</mat-form-field>
+				</div>
 
-	<div class="row mb-3 mt-3">
-		<div class="col">
-			<div class="form-group">
-				<label class="form-text text-left" for="mydate">De:</label>
-				<mat-form-field class="form-control">
-					<input matInput>
-					<mat-datepicker-toggle matSuffix [for]="mydate"></mat-datepicker-toggle>
-					<mat-datepicker #mydate></mat-datepicker>
-				</mat-form-field>
 			</div>
+			<div class="col">
+				<div class="form-group">
+					<label class="form-text" for="dateFinhtml"> Al:</label>
+					<mat-form-field class="form-control">
+						<input matInput [min]="dateIni" [matDatepicker]="dateFinhtml" [(ngModel)]="dateFin"
+							[ngModelOptions]="{standalone: true}" (dateChange)="dateChangeFin($event)">
+						<mat-datepicker-toggle matSuffix [for]="dateFinhtml"></mat-datepicker-toggle>
+						<mat-datepicker #dateFinhtml></mat-datepicker>
+					</mat-form-field>
+				</div>
 
-		</div>
-		<div class="col">
-			<div class="form-group">
-				<label class="form-text text-left" for="mydate">Al:</label>
-				<mat-form-field class="form-control">
-					<input matInput>
-					<mat-datepicker-toggle matSuffix [for]="mydate"></mat-datepicker-toggle>
-					<mat-datepicker #mydate></mat-datepicker>
-				</mat-form-field>
 			</div>
+			<div class="col d-flex align-middle">
 
-		</div>
-		<div class="col d-flex align-middle">
-
-			<button type="submit" class="btn" style="margin: auto;">
-				<mdb-icon far icon="save" class="mr-1"></mdb-icon> Buscar
-			</button>
-			<!--button type="submit" class="btn" style="margin: auto;">
+				<button  class="btn" style="margin: auto;" (click)="searchFuecdByDates()">
+					<mdb-icon far icon="save" class="mr-1"></mdb-icon> Buscar
+				</button>
+				<!--button type="submit" class="btn" style="margin: auto;">
 				<i class="ti-cloud-down"></i> {{'Download' | translate}} {{'XLS' | translate}}
 			</button-->
+			</div>
 		</div>
-	</div>
+	</form>
 
 	<div class="row">
 		<div class="col">

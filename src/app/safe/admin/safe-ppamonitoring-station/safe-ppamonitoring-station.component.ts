@@ -14,7 +14,7 @@ import HC_stock from "highcharts/modules/stock";
 import HC_customEvents from "highcharts-custom-events";
 import HC_exportdata from "highcharts/modules/export-data";
 import Highcharts3d from "highcharts/highcharts-3d";
-import theme           from 'highcharts/themes/sunset';
+import theme from 'highcharts/themes/sunset';
 //import theme           from 'highcharts/themes/gray.src';
 import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format.service';
 HC_exporting(Highcharts);
@@ -32,12 +32,20 @@ theme(Highcharts);
 })
 export class SafePPAMonitoringStationComponent implements OnInit {
 	@ViewChild('chartLineMs') chartLineMs: ElementRef;
+	filterDatesFormGroup: FormGroup;
+	dateIni: Date;
+	dateFin: Date;
+
 	fileUploadForm: FormGroup;
 	typeVarhtml;
 	progress;
 	title;
 	download;
 	public opt: any = {
+		time: {
+			timezone: 'America/Mexico_City',
+			useUTC: false
+		},
 		chart: {
 			zoomType: 'xy'
 		},
@@ -49,11 +57,9 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			text: 'Source: WorldClimate.com',
 			align: 'left'
 		},
-		xAxis: [{
-			categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-				'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-			crosshair: true
-		}],
+		xAxis: {
+			type: 'datetime'
+		},
 		yAxis: [{ // Primary yAxis
 			labels: {
 				format: '{value}°C',
@@ -68,7 +74,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 				}
 			},
 			opposite: true
-	
+
 		}, { // Secondary yAxis
 			gridLineWidth: 0,
 			title: {
@@ -83,7 +89,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 					color: Highcharts.getOptions().colors[0]
 				}
 			}
-	
+
 		}, { // Tertiary yAxis
 			gridLineWidth: 0,
 			title: {
@@ -116,33 +122,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		},
 		series: [{
 			name: 'Rainfall',
-			type: 'spline',
-			yAxis: 1,
-			data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
-			tooltip: {
-				valueSuffix: ' mm'
-			}
-	
-		}, {
-			name: 'Sea-Level Pressure',
-			type: 'spline',
-			yAxis: 2,
-			data: [1016, 1016, 1015.9, 1015.5, 1012.3, 1009.5, 1009.6, 1010.2, 1013.1, 1016.9, 1018.2, 1016.7],
-			marker: {
-				enabled: false
-			},
-			dashStyle: 'shortdot',
-			tooltip: {
-				valueSuffix: ' mb'
-			}
-	
-		}, {
-			name: 'Temperature',
-			type: 'spline',
-			data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
-			tooltip: {
-				valueSuffix: ' °C'
-			}
+			data: chartDemo.chartDemo,
 		}],
 		responsive: {
 			rules: [{
@@ -184,40 +164,59 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		private fb: FormBuilder,
 		private toastr: ToastrManager,
 		private confirmationDialogService: ConfirmationDialogService,
-		private ppaMonitoringFormatService:PpaMonitoringFormatService,
+		private ppaMonitoringFormatService: PpaMonitoringFormatService,
 		private datePipe: DatePipe) { }
 
-	ngOnInit() { 
-		this.ppaMonitoringFormatService.get().subscribe((data)=>{
+	ordenar (arr){
+		const l = arr.length;
+		let j, temp;
+	  
+		for ( let i = 1; i < l; i++ ) {
+		  j = i;
+		  temp = arr[ i ];
+		  while ( j > 0 && arr[ j - 1 ][0] > temp[0] ) {
+			arr[ j ] = arr[ j - 1 ];
+			j--;
+		  }
+		  arr[ j ] = temp;
+		}
+	  
+		return arr;
+	}
+	ngOnInit() {
+		
+		this.filterDatesFormGroup = new FormGroup({});
+		
+		this.ppaMonitoringFormatService.get().subscribe((data) => {
 			let lstV = [];
 			let lstX = [];
-			let name ;
+			let fdss = [];
+			let name;
 			for (const dia of data) {
 				name = dia.tag;
 				dia.fechaTag; //"2020/2/15"
 
 				for (const dato of dia.valores) {
 					lstV.push(dato.value);
-					lstX.push(new Date(dia.fechaTag+" "+dato.status+":00"));
+					lstX.push(new Date(dia.fechaTag + " " + dato.status + ":00").getTime());
 					dato.timeEnd;
 					dato.timeini;
 					dato.status;//"08:20"
+					fdss.push([new Date(dia.fechaTag + " " + dato.status + ":00").getTime(),dato.value]);
 				}
 			}
-			this.opt.xAxis.categories = lstX;
-			this.opt.series =  [
+			
+			fdss = this.ordenar(fdss);
+
+			//this.opt.xAxis.categories = lstX;
+			this.opt.series = [
 				{
 					name: name,
-					type: 'spline',
-					yAxis: 1,
-					data: lstV,
-					tooltip: {
-						valueSuffix: ' mm'
-					}
+					data: fdss,
 				}
 			];
 			Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
-		});
+		});//*/
 		this.fileUploadForm = this.fb.group({
 			file: new FormControl(null, [Validators.required, requiredFileType('xlsx')]),
 			typeVarhtml: new FormControl('', Validators.required)
@@ -225,7 +224,56 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		//Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
 	}
 
-	upload(value){
+	upload(value) {
 
+	}
+	searchFuecdByDates() {
+		let dateInit =  this.datePipe.transform(this.dateIni, 'yyyy-MM-dd');
+		let dateFint = this.datePipe.transform(this.dateFin, 'yyyy-MM-dd');
+		let tag: String = "olas del mar"
+		let data:any = [
+			{"nameParameter": "dateIni","valueParameter": dateInit},
+			{"nameParameter": "dateEnd","valueParameter": dateFint}];
+		this.ppaMonitoringFormatService.get(tag,data).subscribe((data) => {
+			let lstV = [];
+			let lstX = [];
+			let fdss = [];
+			let name;
+			for (const dia of data) {
+				name = dia.tag;
+				dia.fechaTag; //"2020/2/15"
+
+				for (const dato of dia.valores) {
+					lstV.push(dato.value);
+					lstX.push(new Date(dia.fechaTag + " " + dato.status + ":00").getTime());
+					dato.timeEnd;
+					dato.timeini;
+					dato.status;//"08:20"
+					fdss.push([new Date(dia.fechaTag + " " + dato.status + ":00").getTime(),dato.value]);
+				}
+			}
+			fdss = this.ordenar(fdss);
+			//this.opt.xAxis.categories = lstX;
+			this.opt.series = [
+				{
+					name: name,
+					data: fdss,
+				}
+			];
+			Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
+		});
+		
+	}
+
+	dateChangeIni(event) {
+		this.dateIni = event.value;
+		if (this.dateFin != null) {
+			if (this.dateIni.getTime() >= this.dateFin.getTime()) {
+				this.dateFin = new Date(this.dateIni);
+			}
+		}
+	}
+	dateChangeFin(event) {
+		this.dateFin = event.value;
 	}
 }
