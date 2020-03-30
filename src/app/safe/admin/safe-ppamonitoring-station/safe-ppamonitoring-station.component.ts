@@ -224,8 +224,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 					this.toastr.warningToastr(tag+' no contiene datos en estas fechas', 'Lo siento,');
 					return false;
 				}
-				let lstV = [];
-				let lstX = [];
+		
 				let fdss = [];
 				let name;
 				for (const dia of data) {
@@ -233,12 +232,11 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 					dia.fechaTag; //"2020/2/15"
 	
 					for (const dato of dia.valores) {
-						lstV.push(dato.value);
-						lstX.push(new Date(dia.fechaTag + " " + dato.status + ":00").getTime());
+			
 						dato.timeEnd;
 						dato.timeini;
 						dato.status;//"08:20"
-						fdss.push([new Date(dia.fechaTag + " " + dato.status + ":00").getTime(),dato.value]);
+						fdss.push([new Date(dia.fechaTag + " " + dato.timeini + ":00").getTime(),dato.value]);
 					}
 				}
 				fdss = this.ordenar(fdss);
