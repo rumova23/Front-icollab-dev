@@ -13,8 +13,11 @@ export class PpaMonitoringFormatService {
 	constructor(private http: HttpClient,private globalService: GlobalService) { }
 	
 	get(tag: String = "olas del mar", data:any = [{"nameParameter": "dateIni","valueParameter": "1995-01-01"},{"nameParameter": "dateEnd","valueParameter": "2025-01-01"}]): Observable<any> {
-		this.parameters = this.globalService.setXTenantId_Plant();
-		
+		this.parameters = this.globalService.setXTenantId_Plant();		
 		return this.http.post(environment.dgctags +"obtenTag/"+ tag, data);
+	}
+	getTags():Observable<any>{
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get( `${ environment.dgctags }obtenTag/all`, {params : this.parameters });
 	}
 }

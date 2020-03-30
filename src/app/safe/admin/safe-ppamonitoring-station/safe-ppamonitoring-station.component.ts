@@ -17,6 +17,7 @@ import Highcharts3d from "highcharts/highcharts-3d";
 import theme from 'highcharts/themes/sunset';
 //import theme           from 'highcharts/themes/gray.src';
 import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format.service';
+import { debug } from 'util';
 HC_exporting(Highcharts);
 HC_stock(Highcharts);
 HC_customEvents(Highcharts);
@@ -32,9 +33,14 @@ theme(Highcharts);
 })
 export class SafePPAMonitoringStationComponent implements OnInit {
 	@ViewChild('chartLineMs') chartLineMs: ElementRef;
+	chartLine:any;
 	filterDatesFormGroup: FormGroup;
 	dateIni: Date;
 	dateFin: Date;
+
+	tags = new FormControl();
+	tagsList: string[] = [];
+
 
 	fileUploadForm: FormGroup;
 	typeVarhtml;
@@ -120,10 +126,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 				Highcharts.defaultOptions.legend.backgroundColor || // theme
 				'rgba(255,255,255,0.25)'
 		},
-		series: [{
-			name: 'Rainfall',
-			data: chartDemo.chartDemo,
-		}],
+		series: [],
 		responsive: {
 			rules: [{
 				condition: {
@@ -184,84 +187,72 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		return arr;
 	}
 	ngOnInit() {
-		
 		this.filterDatesFormGroup = new FormGroup({});
 		
-		this.ppaMonitoringFormatService.get().subscribe((data) => {
-			let lstV = [];
-			let lstX = [];
-			let fdss = [];
-			let name;
-			for (const dia of data) {
-				name = dia.tag;
-				dia.fechaTag; //"2020/2/15"
-
-				for (const dato of dia.valores) {
-					lstV.push(dato.value);
-					lstX.push(new Date(dia.fechaTag + " " + dato.status + ":00").getTime());
-					dato.timeEnd;
-					dato.timeini;
-					dato.status;//"08:20"
-					fdss.push([new Date(dia.fechaTag + " " + dato.status + ":00").getTime(),dato.value]);
-				}
-			}
-			
-			fdss = this.ordenar(fdss);
-
-			//this.opt.xAxis.categories = lstX;
-			this.opt.series = [
-				{
-					name: name,
-					data: fdss,
-				}
-			];
-			Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
-		});//*/
+		this.ppaMonitoringFormatService.getTags().subscribe((data)=>{
+			data.forEach(element => {
+				this.tagsList.push(element.tag);
+			});
+		});
+		this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
 		this.fileUploadForm = this.fb.group({
 			file: new FormControl(null, [Validators.required, requiredFileType('xlsx')]),
 			typeVarhtml: new FormControl('', Validators.required)
 		});
-		//Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
 	}
 
 	upload(value) {
 
 	}
-	searchFuecdByDates() {
+	searchTagsFromTo() {
 		let dateInit =  this.datePipe.transform(this.dateIni, 'yyyy-MM-dd');
 		let dateFint = this.datePipe.transform(this.dateFin, 'yyyy-MM-dd');
-		let tag: String = "olas del mar"
+		let tags     = this.tags.value;
+		//debugger
+		if(tags == null || tags.length == 0 || dateInit == null || dateFint == null){
+			this.toastr.errorToastr("Todos los campos son necesarios.", 'Lo siento,');
+			return 0;
+		}
+		this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
+
 		let data:any = [
 			{"nameParameter": "dateIni","valueParameter": dateInit},
 			{"nameParameter": "dateEnd","valueParameter": dateFint}];
-		this.ppaMonitoringFormatService.get(tag,data).subscribe((data) => {
-			let lstV = [];
-			let lstX = [];
-			let fdss = [];
-			let name;
-			for (const dia of data) {
-				name = dia.tag;
-				dia.fechaTag; //"2020/2/15"
-
-				for (const dato of dia.valores) {
-					lstV.push(dato.value);
-					lstX.push(new Date(dia.fechaTag + " " + dato.status + ":00").getTime());
-					dato.timeEnd;
-					dato.timeini;
-					dato.status;//"08:20"
-					fdss.push([new Date(dia.fechaTag + " " + dato.status + ":00").getTime(),dato.value]);
+		for (const tag of tags) {
+			this.ppaMonitoringFormatService.get(tag,data).subscribe((data) => {
+				if(data == null){
+					this.toastr.warningToastr(tag+' no contiene datos en estas fechas', 'Lo siento,');
+					return false;
 				}
-			}
-			fdss = this.ordenar(fdss);
-			//this.opt.xAxis.categories = lstX;
-			this.opt.series = [
-				{
-					name: name,
-					data: fdss,
+				let lstV = [];
+				let lstX = [];
+				let fdss = [];
+				let name;
+				for (const dia of data) {
+					name = dia.tag;
+					dia.fechaTag; //"2020/2/15"
+	
+					for (const dato of dia.valores) {
+						lstV.push(dato.value);
+						lstX.push(new Date(dia.fechaTag + " " + dato.status + ":00").getTime());
+						dato.timeEnd;
+						dato.timeini;
+						dato.status;//"08:20"
+						fdss.push([new Date(dia.fechaTag + " " + dato.status + ":00").getTime(),dato.value]);
+					}
 				}
-			];
-			Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
-		});
+				fdss = this.ordenar(fdss);
+				this.chartLine.addSeries(
+					{
+						name: name,
+						data: fdss,
+					}
+				);
+				//this.opt.xAxis.categories = lstX;
+	
+			});
+			//*/
+		}
 		
 	}
 
