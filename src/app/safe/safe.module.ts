@@ -95,11 +95,13 @@ import {ControlFacturacionComponent} from './admin/fuecd/control-facturacion/con
 import {PreDocumentComponent} from './admin/fuecd/pre-document/pre-document.component';
 import { TemperatureComponent } from './admin/temperature/temperature.component';
 import { SafePPAMonitoringStationComponent } from './admin/safe-ppamonitoring-station/safe-ppamonitoring-station.component';
+import { AccuweatherComponent } from './admin/accuweather/accuweather.component';
 
 
 @NgModule({
     declarations: [
         SafeHomeComponent,
+        AccuweatherComponent,
         ProductsComponent, ProductsEditComponent,
         UnityProductsComponent, UnityProductsEditComponent, ClientsComponent,
         ClientsEditComponent, CatalogGenericComponent, CatalogGenericEditComponent,
