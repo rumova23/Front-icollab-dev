@@ -26,10 +26,6 @@ export class ComplianceProfileComponent implements OnInit {
     title3 = 'Datos personales / '
     generos: Array<any>;
     grados: Array<any>;
-    posiciones: Array<any>;
-    departamentos: Array<any>;
-    puestoTrabs: Array<any>;
-    jefes: Array<any>;
     horarios: Array<any>;
     lugares: Array<any>;
     personas: Array<any>;
@@ -39,7 +35,6 @@ export class ComplianceProfileComponent implements OnInit {
 
     disabledSave = true;
     checkedEstatus = false;
-    checkedStopProgrammed = true;
     deshabiliarEstatus = false;
     isdisabled: boolean = false;
     isdisableIdEmp: boolean = false;
@@ -56,6 +51,7 @@ export class ComplianceProfileComponent implements OnInit {
     workingHour;
     employeePlace;
     employeeDependent;
+    enterprise;
     imageUrl: string | ArrayBuffer = "../../../assets/img/foto.png";
     fileName: string = "No file selected";
     file: File;
@@ -95,7 +91,6 @@ export class ComplianceProfileComponent implements OnInit {
         }
 
         this.perfilForm = this.formBuilder.group({
-            // fPhoto: [{ value:'', disabled: this.isdisabled }, Validators.required],
             fEnterprise: [{ value:'', disabled: this.isdisabled }, Validators.required],
             fEmpNum: [{ value:'', disabled: this.isdisableIdEmp }, Validators.required],
             fNames: [{ value:'', disabled: this.isdisabledName }, Validators.required],
@@ -177,6 +172,7 @@ export class ComplianceProfileComponent implements OnInit {
         this.horarios = [];
         this.lugares = [];
         this.personas = [];
+        this.enterprise = [];
 
         this.arryCata = Array<OrderCatalogDTO>();
         this.arryCata.push( new OrderCatalogDTO('gender', 1, 1));
@@ -184,6 +180,7 @@ export class ComplianceProfileComponent implements OnInit {
         this.arryCata.push( new OrderCatalogDTO('workingHour', 1, 1));
         this.arryCata.push( new OrderCatalogDTO('employeePlace', 1, 1));
         this.arryCata.push( new OrderCatalogDTO('employeeDependent', 1, 1));
+        this.arryCata.push( new OrderCatalogDTO('enterprisePreffix', 1, 1));
         debugger
         this.cmbos.getlistCatalogoOrdenados(this.arryCata).subscribe(
             poRespuesta => {
@@ -192,6 +189,7 @@ export class ComplianceProfileComponent implements OnInit {
                 this.resuelveDS(poRespuesta, this.horarios,'workingHour');
                 this.resuelveDS(poRespuesta, this.lugares,'employeePlace');
                 this.resuelveDS(poRespuesta, this.personas,'employeeDependent');
+                this.resuelveDS(poRespuesta, this.enterprise,'enterprisePreffix');
             }
         );
 
@@ -241,15 +239,12 @@ export class ComplianceProfileComponent implements OnInit {
             1,
             this.perfilForm.controls['fStartJob'].value,
             this.perfilForm.controls['fWorkHours'].value,
-            //   this.perfilForm.controls['fImmBoss'].value,
             null,
             this.perfilForm.controls['fWorkplace'].value,
             this.perfilForm.controls['fPerCarg'].value,
-            //this.perfilForm.controls['fPosition'].value,
             null,
             0,
             this.perfilForm.controls['fJobDescription'].value,
-            //this.perfilForm.controls['fJob'].value
             null);
         debugger;
         let emp = new Empleado( this.perfilForm.controls['fCareer'].value,

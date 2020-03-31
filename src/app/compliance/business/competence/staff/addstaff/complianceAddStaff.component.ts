@@ -29,7 +29,6 @@ export interface RegisterPersonal {
   estatus:string;
   ver: string;
   editar: string;
-  // pdf: string;
   eliminar: string;
   mensajeEliminar: string;
 }
@@ -51,7 +50,6 @@ export class RegisterPersonalImp implements RegisterPersonal {
   estatus:string;
   ver: string;
   editar: string;
-  //pdf: string;
   eliminar: string;
   mensajeEliminar: string;
   constructor(orden: number, empleadoId: number, numEmpleado: string, nombre: string,
@@ -77,7 +75,6 @@ export class RegisterPersonalImp implements RegisterPersonal {
     this.estatus = estatus;
     this.ver = ver;
     this.editar = editar;
-    // this.pdf = pdf;
     this.eliminar = eliminar;
     this.mensajeEliminar = mensajeEliminar;
   }
@@ -97,17 +94,6 @@ export class ComplianceAddStaffComponent implements OnInit {
   inTitulo: string = 'Confirmacion';
   registros = new MatTableDataSource<RegisterPersonal>();
   columnas: string[] = ['orden', 'numEmpleado', 'nombre', 'apPaterno', 'apMaterno', 'genero', 'posicion', 'departamento', 'puesto', 'lugarDeTrabajo','Usuario Modifico','Fecha_y_Hora_de_Ultima_Modificación','Estatus', 'ver', 'editar',  'eliminar'];
-  filters = [
-    { label: "Nombre", inputtype: "text" },
-    { label: "Apellido paterno", inputtype: "text" },
-    { label: "Apellido Materno", inputtype: "text" },
-    { label: "Género", inputtype: "select", options: [] },
-    { label: "Posición", inputtype: "select", options: [] },
-    { label: "Departamento", inputtype: "select", options: [] },
-    { label: "Puesto", inputtype: "select", options: [] },
-    { label: "Lugar de trabajo", inputtype: "select", options: [] },
-  ];
-  filtrobtn = { label: "buscar" };
   registros_x_pagina = [5, 10, 20, 30];
 
   constructor(private personal: PersonalCompetenteService,
@@ -119,23 +105,6 @@ export class ComplianceAddStaffComponent implements OnInit {
               private datePipe: DatePipe,
               private formBuilder: FormBuilder,
   ) { }
-
-
-  getCatalog(index, catalog) {
-    this.catalogoMaestroService.getCatalogoIndividual(catalog).subscribe(
-        (dataBack) => {
-          console.log("dataBack");
-          console.log(dataBack);
-        });
-  }
-
-  loadCatalogs() {
-    this.getCatalog(3, 'gender');
-    this.getCatalog(4, 'position');
-    this.getCatalog(5, 'department');
-    this.getCatalog(6, 'workstation');
-    this.getCatalog(7, 'employeePlace');
-  }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -164,7 +133,6 @@ export class ComplianceAddStaffComponent implements OnInit {
   }
 
   getDataSource() {
-    debugger;
     this.addBlock(1, null);
     this.elementData = [];
     this.personal.getEmpleados().subscribe(
@@ -180,15 +148,15 @@ export class ComplianceAddStaffComponent implements OnInit {
               let materno = dataBack['empleados'][key].materno;
               let generoId = dataBack['empleados'][key].generoId;
               let entidadEstatus = dataBack['empleados'][key].estidadEstatus;
-              let posicionId = dataBack['empleados'][key].posicionId;
-              let departamentoId = dataBack['empleados'][key].departamentoId;
-              let puestoId = dataBack['empleados'][key].puestoId;
+              let posicion= dataBack['empleados'][key].posicion;
+              let departamento = dataBack['empleados'][key].departamento;
+              let puesto = dataBack['empleados'][key].puestoTrabajo;
               let lugarTrabajoId = dataBack['empleados'][key].lugarTrabajoId;
               let userCreated = dataBack['empleados'][key].userCreated;
+              let userUpdated = dataBack['empleados'][key].userCreated != null ? dataBack['empleados'][key].userCreated : dataBack['empleados'][key].userCreated ;
               let dateCreated = dataBack['empleados'][key].dateCreated;
-              let userUpdated = dataBack['empleados'][key].userUpdated;
-              let dateUpdated = dataBack['empleados'][key].dateUpdated != null ? this.datePipe.transform(new Date(dataBack['empleados'][key].dateUpdated), 'dd/MM/yyyy HH:mm') : "00/00/00 00:00";
-              this.elementData.push(new RegisterPersonalImp(index, empleadoId, empleadoStrId, nombres, paterno, materno, generoId, posicionId, departamentoId, puestoId, lugarTrabajoId, userUpdated, dateUpdated, estatus, 'home-compliance/',
+              let dateUpdated = dataBack['empleados'][key].dateUpdated != null ? this.datePipe.transform(new Date(dataBack['empleados'][key].dateUpdated), 'dd/MM/yyyy HH:mm') : this.datePipe.transform(new Date(dataBack['empleados'][key].dateCreated), 'dd/MM/yyyy HH:mm') ;
+              this.elementData.push(new RegisterPersonalImp(index, empleadoId, empleadoStrId, nombres, paterno, materno, generoId, posicion, departamento, puesto, lugarTrabajoId, userUpdated, dateUpdated, estatus, 'home-compliance/',
                   'home-compliance/',
                   'home-compliance',
                   'Esta seguro de eliminar el empleado numero: ' + empleadoStrId));
@@ -249,17 +217,17 @@ export class ComplianceAddStaffComponent implements OnInit {
     }
     if(this.filterForm.controls['fNames'].value != ''){
       arrayElements = arrayElements.filter(personal => {
-        return personal.nombre.toString().toUpperCase() === this.filterForm.controls['fNames'].value ? true: false;
+        return personal.nombre.toString().toUpperCase() === this.filterForm.controls['fNames'].value.toString().toUpperCase() ? true: false;
       });
     }
     if(this.filterForm.controls['fLastName'].value != ''){
       arrayElements = arrayElements.filter(personal => {
-        return personal.apPaterno.toString().toUpperCase() === this.filterForm.controls['fLastName'].value ? true: false;
+        return personal.apPaterno.toString().toUpperCase() === this.filterForm.controls['fLastName'].value.toString().toUpperCase() ? true: false;
       });
     }
     if(this.filterForm.controls['fSecondName'].value != ''){
       arrayElements = arrayElements.filter(personal => {
-        return personal.apMaterno.toString().toUpperCase() === this.filterForm.controls['fSecondName'].value ? true: false;
+        return personal.apMaterno.toString().toUpperCase() === this.filterForm.controls['fSecondName'].value.toString().toUpperCase() ? true: false;
       });
     }
     if(this.filterForm.controls['fPosition'].value != ''){

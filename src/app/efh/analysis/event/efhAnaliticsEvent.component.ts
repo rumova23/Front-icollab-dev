@@ -141,7 +141,6 @@ export class EfhAnaliticsEventComponent implements OnInit {
     this.addBlock(1, 'Cargando...');
     this.efhService.getEventsConfiguratedByDate(data).subscribe(
         dataBack => {
-            debugger;
           this.result = dataBack;
           let i = 0;
           for (const element of this.result) {
@@ -290,10 +289,10 @@ export class EfhAnaliticsEventComponent implements OnInit {
     let esi_tj = 0.0;
     let rejectFlag = 0;
     let loadReject = 0;
-    let esi_lrj = 1.00;
+    let esi_lrj = 0.00;
     let rapidLoad = 0;
-    let changeRange;
-    let changeRate;
+    let changeRange = 0;
+    let changeRate = 0;
     let esi_lcj = 0.00;
     this.dataAnalysis = [];
 
@@ -359,6 +358,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
 
         for (const event of this.dataPartial) {
             cont++;
+            date = this.datePipe.transform(event.dateInit, 'dd/MM/yy');
 
             // PRIMER EVENTO
             if (firstEvent) {

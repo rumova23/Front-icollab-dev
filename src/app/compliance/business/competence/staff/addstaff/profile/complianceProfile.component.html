@@ -44,9 +44,9 @@
                 <div class="form-group">
                   <label>Empresa</label>
                   <select class="browser-default custom-select"
-                          formControlName="fEnterprise" [(ngModel)]="educationLevel"
+                          formControlName="fEnterprise" [(ngModel)]="enterprise"
                   >
-                    <option *ngFor="let operator of grados;"
+                    <option *ngFor="let operator of enterprise;"
                             [value]="operator.value">
                       {{operator.label}}
                     </option>
@@ -312,13 +312,5 @@
         </div>
       </div>
     </div>
-    <!--<div class="row">
-       <div class="col text-right">
-         <button type="submit" [disabled]="isdisabled" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-           <i class="ti-pencil"></i>&nbsp;
-           &lt;!&ndash;{{labBotAcep}}&ndash;&gt;Guardar / Actualizar
-         </button>
-       </div>
-     </div>-->
   </div>
 </form>

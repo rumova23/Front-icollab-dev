@@ -2,132 +2,123 @@
 
   <div class="row pb-2">
     <div class="col">
-      <p class="section_titulo_0">{{titulo}}</p>
+      <p class="section_titulo_0">{{titulo}} <br></p>
+      <p class="section_subtitulo_0"> </p>
       <p class="section_subtitulo_0"></p>
     </div>
-    <!--<form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Buscar" #buscarTexto>
-        <button (click) = "filtros(buscarTexto.value)" class="btn btn-outline-primary my-2 my-sm-0" type="button">Buscar</button>
-    </form>-->
-
-    <form [formGroup]="filterForm" >
-      <div class="section">
-        <div class="row pb-2">
-          <div class="col">
-            <p class="section_titulo_0">Filtros</p>
-            <p class="section_subtitulo_0"> </p>
+  </div>
+  <form [formGroup]="filterForm" >
+    <p class="section_titulo_0">Filtros</p>
+    <hr>
+    <div class=" row">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group">
+              <label>Numero de Empleado</label>
+              <input mdbInput class="form-control" formControlName="fEmpNum">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label>Nombre(s)</label>
+              <input mdbInput class="form-control" formControlName="fNames">
+            </div>
+          </div>
+          <div class="col-4">
+            <label>Apellido Paterno</label>
+            <input mdbInput class="form-control" formControlName="fLastName">
           </div>
         </div>
-        <hr>
-        <div class=" row">
-          <div class="col-12">
-            <div class="row">
-              <div class="col-4">
-                <div class="form-group">
-                  <label>Numero de Empleado</label>
-                  <input mdbInput class="form-control" type="number" formControlName="fEmpNum">
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label>Nombre(s)</label>
-                  <input mdbInput class="form-control" formControlName="fNames">
-                </div>
-              </div>
-              <div class="col-4">
-                <label>Apellido Paterno</label>
-                <input mdbInput class="form-control" formControlName="fLastName">
-              </div>
+
+        <div class="row">
+
+          <div class="col">
+            <div class="form-group">
+              <label>Apellido Materno</label>
+              <input mdbInput class="form-control" formControlName="fSecondName">
             </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label>Posición</label>
+              <input mdbInput class="form-control" formControlName="fPosition">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label>Departamento</label>
+              <input mdbInput class="form-control" formControlName="fDepto">
+            </div>
+          </div>
 
-            <div class="row">
+          <div class="col-4">
+            <div class="form-group">
+              <label>Puesto de trabajo</label>
+              <input mdbInput class="form-control" formControlName="fJob">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label>Estatus</label>
+              <!--                                            <input mdbInput class="form-control" formControlName="fEst">-->
+              <select class="browser-default custom-select"
+                      formControlName="fEst">
+                <option *ngFor="let operator of comboStatus;"
+                        [value]="operator.value">
+                  {{operator.label}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label>Fecha Ultima de modificacion</label>
+              <input mdbInput class="form-control" type="date" formControlName="fLastDate">
+            </div>
+          </div>
 
-              <div class="col">
-                <div class="form-group">
-                  <label>Apellido Materno</label>
-                  <input mdbInput class="form-control" formControlName="fSecondName">
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label>Posición</label>
-                  <input mdbInput class="form-control" type="number" formControlName="fPosition">
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label>Departamento</label>
-                  <input mdbInput class="form-control" type="number" formControlName="fDepto">
-                </div>
-              </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label>Hora Ultima de modificacion</label>
+              <input mdbInput class="form-control" type="time" formControlName="fLastHour">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
 
-              <div class="col-4">
-                <div class="form-group">
-                  <label>Puesto de trabajo</label>
-                  <input mdbInput class="form-control" type="number" formControlName="fJob">
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label>Estatus</label>
-                  <!--                                            <input mdbInput class="form-control" formControlName="fEst">-->
-                  <select class="browser-default custom-select"
-                          formControlName="fEst">
-                    <option *ngFor="let operator of comboStatus;"
-                            [value]="operator.value">
-                      {{operator.label}}
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label>Fecha Ultima de modificacion</label>
-                  <input mdbInput class="form-control" type="date" formControlName="fLastDate">
-                </div>
-              </div>
+            </div>
+          </div>
+          <div class="col-4">
 
-              <div class="col-4">
-                <div class="form-group">
-                  <label>Hora Ultima de modificacion</label>
-                  <input mdbInput class="form-control" type="time" formControlName="fLastHour">
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
+          </div>
 
-                </div>
-              </div>
-              <div class="col-4">
+          <div class="col-4">
+            <div class="form-group">
 
-              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
 
-              <div class="col-4">
-                <div class="form-group">
-
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <div class="d-flex justify-content-end">
-                    <button type="button" (click) = "filtros()" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-                      <!--<i class="ti-pencil"></i>-->
-                      <!--{{labBotAcep}}-->Buscar
-                    </button>
-                  </div>
-                </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <div class="d-flex justify-content-end">
+                <button type="button" (click) = "filtros()" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                  <!--<i class="ti-pencil"></i>-->
+                  <!--{{labBotAcep}}-->Buscar
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </form>
-  </div>
+    </div>
+    <!-- </div>-->
+  </form>
+
   <hr>
   <!--Boton nuevo emoleado-->
   <div class="row mb-3 mt-3">
@@ -145,7 +136,7 @@
     <div class="col">
 
       <div >
-        <table mat-table [dataSource]="registros" matSort>
+        <table mat-table [dataSource]="registros" matSort class="table_catalogo">
 
           <ng-container matColumnDef="orden" sticky>
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> No. </th>
