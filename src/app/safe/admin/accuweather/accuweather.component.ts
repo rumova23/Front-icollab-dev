@@ -13,7 +13,7 @@ HC_stock(Highcharts);
 HC_customEvents(Highcharts);
 HC_exportdata(Highcharts);
 Highcharts3d(Highcharts);
-theme(Highcharts);
+//theme(Highcharts);
 /* ./ Highcharts */
 
 import { AccuweatherService } from './accuweather.service';

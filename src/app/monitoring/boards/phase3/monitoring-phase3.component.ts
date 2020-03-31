@@ -43,7 +43,10 @@ export class MonitoringPhase3Component extends MonitoringChartTR implements OnIn
         super(globalService, eventService, socketService, monitoringTrService);
     }
 
-    ngOnInit() {
+    ngOnInit() {        
+		let url = `/assets/css/theme/content/monitoring.css`;
+		document.getElementById("content_theme").setAttribute('href',url);
+        
         this.webIds = this.initializeAt0();
         if(this.webIds.length > 0){
             this.subscribeEverySecond();

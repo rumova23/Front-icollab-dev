@@ -7,6 +7,8 @@ import { DatePipe } from '@angular/common';
 import { requiredFileType } from 'src/app/core/helpers/requiredFileType';
 import * as chartDemo from "./chartDemo.json";
 
+
+import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format.service';
 /* Highcharts */
 import * as Highcharts from "highcharts";
 import HC_exporting from "highcharts/modules/exporting";
@@ -14,16 +16,15 @@ import HC_stock from "highcharts/modules/stock";
 import HC_customEvents from "highcharts-custom-events";
 import HC_exportdata from "highcharts/modules/export-data";
 import Highcharts3d from "highcharts/highcharts-3d";
-import theme from 'highcharts/themes/sunset';
-//import theme           from 'highcharts/themes/gray.src';
-import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format.service';
-import { debug } from 'util';
+//import theme from 'highcharts/themes/sunset';
+import theme           from 'highcharts/themes/gray.src';
+//import theme           from 'highcharts/themes/dark-green';
 HC_exporting(Highcharts);
 HC_stock(Highcharts);
 HC_customEvents(Highcharts);
 HC_exportdata(Highcharts);
-Highcharts3d(Highcharts);
-theme(Highcharts);
+//Highcharts3d(Highcharts);
+//theme(Highcharts);
 /* ./ Highcharts */
 
 @Component({
@@ -56,13 +57,9 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			zoomType: 'xy'
 		},
 		title: {
-			text: 'Average Monthly Weather Data for Tokyo',
-			align: 'left'
+			text: '',
 		},
-		subtitle: {
-			text: 'Source: WorldClimate.com',
-			align: 'left'
-		},
+	
 		xAxis: {
 			type: 'datetime'
 		},
@@ -194,11 +191,12 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 				this.tagsList.push(element.tag);
 			});
 		});
-		this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
 		this.fileUploadForm = this.fb.group({
 			file: new FormControl(null, [Validators.required, requiredFileType('xlsx')]),
 			typeVarhtml: new FormControl('', Validators.required)
-		});
+		});	
+		//Highcharts.setOptions(this.theme);
+		this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
 	}
 
 	upload(value) {
@@ -213,6 +211,8 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			this.toastr.errorToastr("Todos los campos son necesarios.", 'Lo siento,');
 			return 0;
 		}
+		this.dateIni = null;
+		this.dateFin = null;
 		this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
 
 		let data:any = [

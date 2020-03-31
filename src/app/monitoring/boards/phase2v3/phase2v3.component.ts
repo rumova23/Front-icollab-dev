@@ -7,6 +7,7 @@ import { ConnectSocketChannelComponent       } from 'src/app/shared/socket/conne
 import { SecurityService                     } from 'src/app/core/services/security.service';
 import { MonitoringTrService                 } from 'src/app/monitoring/services/monitoringTr.service';
 import * as TAGS                               from 'src/app/monitoring/boards/phase2/config';
+import * as highcharts                         from 'src/app/monitoring/highcharts/highcharts.json';
 
 import { RadialGauge } from 'ng-canvas-gauges';
 import * as algo from './algo.json';
@@ -32,7 +33,7 @@ HC_stock(Highcharts);
 HC_customEvents(Highcharts);
 HC_exportdata(Highcharts);
 Highcharts3d(Highcharts);
-theme(Highcharts);
+//theme(Highcharts);
 
 
 /* ./ Highcharts */
@@ -343,6 +344,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	ngOnInit() {
 		let url = `/assets/css/theme/content/monitoringv2.css`;
 		document.getElementById("content_theme").setAttribute('href',url);
+		Highcharts.setOptions(highcharts.theme);
 		this.initChart();
 		this.getStreamsetsInterpolatedLast24HoursSol();
 		this.getStreamsetsInterpolatedLast24HoursAguila();
