@@ -48,6 +48,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	progress;
 	title;
 	download;
+	//https://jsfiddle.net/highcharts/4jZ7T/
 	public opt: any = {
 		time: {
 			timezone: 'America/Mexico_City',
@@ -63,62 +64,22 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		xAxis: {
 			type: 'datetime'
 		},
-		yAxis: [{ // Primary yAxis
-			labels: {
-				format: '{value}°C',
-				style: {
-					color: Highcharts.getOptions().colors[2]
-				}
-			},
-			title: {
-				text: 'Temperature',
-				style: {
-					color: Highcharts.getOptions().colors[2]
-				}
-			},
-			opposite: true
-
-		}, { // Secondary yAxis
-			gridLineWidth: 0,
-			title: {
-				text: 'Rainfall',
-				style: {
-					color: Highcharts.getOptions().colors[0]
-				}
-			},
-			labels: {
-				format: '{value} mm',
-				style: {
-					color: Highcharts.getOptions().colors[0]
-				}
-			}
-
-		}, { // Tertiary yAxis
-			gridLineWidth: 0,
-			title: {
-				text: 'Sea-Level Pressure',
-				style: {
-					color: Highcharts.getOptions().colors[1]
-				}
-			},
-			labels: {
-				format: '{value} mb',
-				style: {
-					color: Highcharts.getOptions().colors[1]
-				}
-			},
-			opposite: true
-		}],
+		yAxis: [  ],
 		tooltip: {
 			shared: true
 		},
 		legend: {
 			layout: 'vertical',
-			align: 'left',
-			x: 80,
+			align: 'right',			
 			verticalAlign: 'top',
-			y: 55,
+			y: 60,
+            x: -10,
 			floating: true,
+            draggable: true,
+			zIndex: 20, 
+			title: {
+                text: 'Tags'
+            },
 			backgroundColor:
 				Highcharts.defaultOptions.legend.backgroundColor || // theme
 				'rgba(255,255,255,0.25)'
@@ -218,13 +179,13 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		let data:any = [
 			{"nameParameter": "dateIni","valueParameter": dateInit},
 			{"nameParameter": "dateEnd","valueParameter": dateFint}];
+		let indexYAxis=0;
 		for (const tag of tags) {
 			this.ppaMonitoringFormatService.get(tag,data).subscribe((data) => {
 				if(data == null){
 					this.toastr.warningToastr(tag+' no contiene datos en estas fechas', 'Lo siento,');
 					return false;
 				}
-		
 				let fdss = [];
 				let name;
 				for (const dia of data) {
@@ -239,13 +200,30 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 						fdss.push([new Date(dia.fechaTag + " " + dato.timeini + ":00").getTime(),dato.value]);
 					}
 				}
+				this.chartLine.addAxis({ // Primary yAxis
+					labels: {
+						
+						style: {
+							color: Highcharts.getOptions().colors[indexYAxis]
+						}
+					},
+					title: {
+						text: name,
+						style: {
+							color: Highcharts.getOptions().colors[indexYAxis]
+						}
+					},
+				});
 				fdss = this.ordenar(fdss);
 				this.chartLine.addSeries(
 					{
+						yAxis: indexYAxis,
 						name: name,
 						data: fdss,
 					}
 				);
+				
+				indexYAxis += 1;
 				//this.opt.xAxis.categories = lstX;
 	
 			});
