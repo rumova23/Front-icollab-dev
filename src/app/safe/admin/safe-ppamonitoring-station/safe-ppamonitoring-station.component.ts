@@ -7,6 +7,32 @@ import { DatePipe } from '@angular/common';
 import { requiredFileType } from 'src/app/core/helpers/requiredFileType';
 import * as chartDemo from "./chartDemo.json";
 
+import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {MatDatepicker} from '@angular/material/datepicker';
+import * as _moment from 'moment';
+//import Moment from 'moment';
+// tslint:disable-next-line:no-duplicate-imports
+//import {default as _rollupMoment, Moment} from 'moment';
+
+//const moment = _rollupMoment || _moment;
+const moment = _moment;
+
+// See the Moment.js docs for the meaning of these formats:
+// https://momentjs.com/docs/#/displaying/format/
+export const MY_FORMATS = {
+  parse: {
+	dateInput: 'MM/YYYY',
+	
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+
 
 import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format.service';
 /* Highcharts */
@@ -18,6 +44,7 @@ import HC_exportdata from "highcharts/modules/export-data";
 import Highcharts3d from "highcharts/highcharts-3d";
 //import theme from 'highcharts/themes/sunset';
 import theme           from 'highcharts/themes/gray.src';
+import { Sort } from '@angular/material';
 //import theme           from 'highcharts/themes/dark-green';
 HC_exporting(Highcharts);
 HC_stock(Highcharts);
@@ -30,7 +57,16 @@ HC_exportdata(Highcharts);
 @Component({
 	selector: "app-safe-ppamonitoring-station",
 	templateUrl: "./safe-ppamonitoring-station.component.html",
-	styleUrls: ["./safe-ppamonitoring-station.component.scss"]
+	styleUrls: ["./safe-ppamonitoring-station.component.scss"],
+	providers: [
+		{
+		  provide: DateAdapter,
+		  useClass: MomentDateAdapter,
+		  deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+		},
+	
+		{provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+	  ],
 })
 export class SafePPAMonitoringStationComponent implements OnInit {
 	@ViewChild('chartLineMs') chartLineMs: ElementRef;
@@ -42,12 +78,27 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	tags = new FormControl();
 	tagsList: string[] = [];
 
+	
+    dataSource;
+    data: any[] = [];
+    displayedColumnsOrder: any[] = [];
+    displayedColumnsActions: any[] = [];
+    columnsToDisplay: string[] = [];
+	row_x_page = [50, 100, 250, 500];
+	
+    showAdd: boolean = true;
+    showView: boolean = false;
+    showUpdate: boolean = false;
+    showDelete: boolean = true;
 
 	fileUploadForm: FormGroup;
 	typeVarhtml;
 	progress;
 	title;
 	download;
+
+	
+	date = new FormControl(moment());
 	//https://jsfiddle.net/highcharts/4jZ7T/
 	public opt: any = {
 		time: {
@@ -128,6 +179,18 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		private ppaMonitoringFormatService: PpaMonitoringFormatService,
 		private datePipe: DatePipe) { }
 
+		chosenYearHandler(normalizedYear: any) {
+		  const ctrlValue = this.date.value;
+		  ctrlValue.year(normalizedYear.year());
+		  this.date.setValue(ctrlValue);
+		}
+	  
+		chosenMonthHandler(normalizedMonth: any, datepicker: MatDatepicker<any>) {
+		  const ctrlValue = this.date.value;
+		  ctrlValue.month(normalizedMonth.month());
+		  this.date.setValue(ctrlValue);
+		  datepicker.close();
+		}
 	ordenar (arr){
 		const l = arr.length;
 		let j, temp;
@@ -145,6 +208,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		return arr;
 	}
 	ngOnInit() {
+		this.setColumnsToDisplay();
 		this.filterDatesFormGroup = new FormGroup({});
 		
 		this.ppaMonitoringFormatService.getTags().subscribe((data)=>{
@@ -157,9 +221,65 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			typeVarhtml: new FormControl('', Validators.required)
 		});	
 		//Highcharts.setOptions(this.theme);
-		this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
+		//this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
 	}
+	setChartData(){
+		this.dataSource = [
+			{order : "1",dateOpCom : "mar-20",Import : "Manuel",user : "Manuel Herrera",dateUpdated : "01/04/2020 10:40:00 a.m",status : "Exitosa",sys_see : "sys_see",sys_edit : "sys_edit",sys_delete : "sys_delete"},
+			{order : "2",dateOpCom : "mar-20",Import : "PI SERVER DSB",user : "Ivette Colin",dateUpdated : "01/04/2020 10:40:00 a.m",status : "Fallida",sys_see : "sys_see",sys_edit : "sys_edit",sys_delete : "sys_delete"},
+			{order : "3",dateOpCom : "mar-20",Import : "FilleZilla FTP",user : "Sistema",dateUpdated : "01/04/2020 10:40:00 a.m",status : "Fallida",sys_see : "sys_see",sys_edit : "sys_edit",sys_delete : "sys_delete"},
 
+		];
+	}
+	setColumnsToDisplay(){
+		this.setChartData();
+		this.displayedColumnsOrder = [
+			{ key: 'order', label: '#' },
+			{ key: 'dateOpCom', label: 'Fecha de Operación Comercial' },
+			{ key: 'Import', label: 'Fuente de Importación' },
+			{ key: 'user', label: 'Usuario' },
+			{
+				key: 'dateUpdated',
+				label: 'Date and Time last modified'
+			},
+			{ key: 'status', label: 'Estatus de la Importación' }
+		];
+
+		this.displayedColumnsActions = [];
+		this.columnsToDisplay = [
+			'order',
+			'dateOpCom',
+			'Import',
+			'user',
+			'dateUpdated',
+			'status'
+		];
+
+		if (this.showView) {
+			this.displayedColumnsActions.push({
+				key: 'sys_see',
+				label: 'See'
+			});
+			this.columnsToDisplay.push('sys_see');
+		}
+		if (this.showUpdate) {
+			this.displayedColumnsActions.push({
+				key: 'sys_edit',
+				label: 'Edit'
+			});
+			this.columnsToDisplay.push('sys_edit');
+		}
+		if (this.showDelete) {
+			this.displayedColumnsActions.push({
+				key: 'sys_delete',
+				label: 'Delete'
+			});
+			this.columnsToDisplay.push('sys_delete');
+		}
+	}
+    sortData(sort: Sort) {
+        
+    }
 	upload(value) {
 
 	}
@@ -200,9 +320,25 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 						fdss.push([new Date(dia.fechaTag + " " + dato.timeini + ":00").getTime(),dato.value]);
 					}
 				}
+				let unidad = "";
+				if(tag.includes("TBS") || tag.includes("TAM")){
+					unidad = "°C";
+				}
+				if(tag.includes("SGM") || tag.includes("IGM")){
+					unidad = "kj/kg";
+				}
+				if(tag.includes("SGV") || tag.includes("IGV")){
+					unidad = "kj/m3";
+				}
+				if(tag.includes("HRE")){
+					unidad = "%";
+				}
+				if(tag.includes("PBA")){
+					unidad = "BAR";
+				}
 				this.chartLine.addAxis({ // Primary yAxis
 					labels: {
-						
+						format: '{value} '+unidad,
 						style: {
 							color: Highcharts.getOptions().colors[indexYAxis]
 						}
@@ -231,7 +367,6 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		}
 		
 	}
-
 	dateChangeIni(event) {
 		this.dateIni = event.value;
 		if (this.dateFin != null) {
