@@ -179,18 +179,18 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		private ppaMonitoringFormatService: PpaMonitoringFormatService,
 		private datePipe: DatePipe) { }
 
-		chosenYearHandler(normalizedYear: any) {
-		  const ctrlValue = this.date.value;
-		  ctrlValue.year(normalizedYear.year());
-		  this.date.setValue(ctrlValue);
-		}
-	  
-		chosenMonthHandler(normalizedMonth: any, datepicker: MatDatepicker<any>) {
-		  const ctrlValue = this.date.value;
-		  ctrlValue.month(normalizedMonth.month());
-		  this.date.setValue(ctrlValue);
-		  datepicker.close();
-		}
+	chosenYearHandler(normalizedYear: any) {
+		const ctrlValue = this.date.value;
+		ctrlValue.year(normalizedYear.year());
+		this.date.setValue(ctrlValue);
+	}
+	
+	chosenMonthHandler(normalizedMonth: any, datepicker: MatDatepicker<any>) {
+		const ctrlValue = this.date.value;
+		ctrlValue.month(normalizedMonth.month());
+		this.date.setValue(ctrlValue);
+		datepicker.close();
+	}
 	ordenar (arr){
 		const l = arr.length;
 		let j, temp;
@@ -284,10 +284,15 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 
 	}
 	searchTagsFromTo() {
-		let dateInit =  this.datePipe.transform(this.dateIni, 'yyyy-MM-dd');
-		let dateFint = this.datePipe.transform(this.dateFin, 'yyyy-MM-dd');
+		let si = new Date(this.date.value).getFullYear()+"-"+(new Date(this.date.value).getMonth()+1)+"-01";
+		let sf = new Date(this.date.value).getFullYear()+"-"+(new Date(this.date.value).getMonth()+2)+"-01";
+		let ini = new Date(si);
+		let fin = new Date(sf);
+		fin.setDate(fin.getDate() - 1);
+		let dateInit =  this.datePipe.transform(ini, 'yyyy-MM-dd');
+		let dateFint = this.datePipe.transform(fin, 'yyyy-MM-dd');
+		//let dateOpComm = this.datePipe.transform(this.dateOpComm, 'yyyy-MM-dd');
 		let tags     = this.tags.value;
-		//debugger
 		if(tags == null || tags.length == 0 || dateInit == null || dateFint == null){
 			this.toastr.errorToastr("Todos los campos son necesarios.", 'Lo siento,');
 			return 0;

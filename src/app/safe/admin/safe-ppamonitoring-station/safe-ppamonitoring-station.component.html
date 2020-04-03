@@ -23,7 +23,8 @@
 				<div class="form-group">
 					<label class="form-text">Fecha de operación Comercial:</label>
 					<mat-form-field class="form-control">
-						<input matInput [matDatepicker]="dp" [formControl]="date"/>
+						<input matInput [matDatepicker]="dp" [formControl]="date"
+							/>
 						<mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
 						<mat-datepicker #dp
 										startView="multi-year"
@@ -42,8 +43,8 @@
 					<option [value]="4">Manual</option>
 				</select>
 			</div>
-			<div class="col-12 col-md-2">
-				<button class="btn" style="margin: auto;">
+			<div class="col-12 col-md-2 d-flex">
+				<button class="btn align-self-center" style="margin: auto;">
 					Carga
 				</button>
 			</div>
@@ -58,12 +59,12 @@
 						</mat-error>
 					</div>
 					<div class="col-12 col-sm-12 col-md-auto">
-						<button type="button" class="btn" (click)="download()">
+						<button type="button" class="btn" (click)="download()" style="width: 175px;">
 							<i class="ti-cloud-down"></i>
 							{{ "Download" | translate }} {{ "Layout" | translate }}
 						</button>
 						<br />
-						<button type="submit" class="btn" [disabled]="!fileUploadForm.valid" style="width: 168px;">
+						<button type="submit" class="btn" [disabled]="!fileUploadForm.valid" style="width: 175px;">
 							<i class="ti-cloud-up"></i>
 							{{ "Import" | translate }}
 						</button>
@@ -131,7 +132,7 @@
 					</mat-form-field>
 				</div>
 			</div>
-			<div class="col">
+			<!--div class="col">
 				<div class="form-group">
 					<label class="form-text" for="dateInihtml">De:</label>
 					<mat-form-field class="form-control">
@@ -152,12 +153,12 @@
 						<mat-datepicker #dateFinhtml></mat-datepicker>
 					</mat-form-field>
 				</div>
-			</div>
+			</div-->
 			<div class="col d-flex align-middle">
-				<button class="btn" style="margin: auto;">
-					<mdb-icon far icon="save" class="mr-1"></mdb-icon> Buscar
+				<button class="btn align-self-end" style="margin: auto;">
+					<mdb-icon far icon="save" class="mr-1"></mdb-icon> Graficar
 				</button>
-				<button type='button' class="btn" style="margin: auto;">
+				<button type='button align-self-end' class="btn" style="margin: auto;">
 					<i class="ti-cloud-down"></i> {{'Download' | translate}} {{'XLS' | translate}}
 				</button>
 			</div>

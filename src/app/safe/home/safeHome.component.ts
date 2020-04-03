@@ -74,6 +74,7 @@ import { TemperatureComponent } from '../admin/temperature/temperature.component
 import {MonitoringJobsComponent} from '../admin/monitoring/monitoringJobs.component';
 import { SafePPAMonitoringStationComponent } from '../admin/safe-ppamonitoring-station/safe-ppamonitoring-station.component';
 import { AccuweatherComponent } from '../admin/accuweather/accuweather.component';
+import { SafeppaSupervisionStationComponent } from '../admin/safeppa-supervision-station/safeppa-supervision-station.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -82,6 +83,7 @@ import { AccuweatherComponent } from '../admin/accuweather/accuweather.component
   	entryComponents : [
 		ProductsComponent
 		, ProductsEditComponent
+		, SafeppaSupervisionStationComponent
 		, ChangePasswordComponent
 		, UnityProductsComponent
 		, UnityProductsEditComponent
@@ -195,6 +197,12 @@ export class SafeHomeComponent implements OnInit {
 				let banderaTemporal = false;
 				this.viewContainerRef.clear();
 				switch (event.descriptor) {
+					case 'Safe.SafeppaSupervisionStationComponent':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(SafeppaSupervisionStationComponent)
+						).changeDetectorRef.detectChanges();
+						break;
 					case 'Safe.TemperatureComponent':
 						banderaTemporal = true;
 						this.viewContainerRef.createComponent(

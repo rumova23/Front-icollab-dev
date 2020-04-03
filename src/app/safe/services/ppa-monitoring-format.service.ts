@@ -14,7 +14,7 @@ export class PpaMonitoringFormatService {
 	
 	get(tag: String = "olas del mar", data:any = [{"nameParameter": "dateIni","valueParameter": "1995-01-01"},{"nameParameter": "dateEnd","valueParameter": "2025-01-01"}]): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();		
-		return this.http.post(environment.dgctags +"obtenTag/"+ tag, data);
+		return this.http.post(environment.dgctags +"obtenTag/"+ tag, data, {params : this.parameters });
 	}
 	getTags():Observable<any>{
 		this.parameters = this.globalService.setXTenantId_Plant();
