@@ -89,6 +89,7 @@ export class DashboardsComponent implements OnInit {
     if (!poRespuesta) {
       console.log("El back no responde");
     } else {
+      debugger;
       let estatus = poRespuesta['status'];
       if (estatus === 'exito') {
         Object.keys(poRespuesta['graficos']).forEach(key => {
