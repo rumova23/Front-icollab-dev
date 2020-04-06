@@ -18,6 +18,8 @@ export class EvaluationComponent implements OnInit {
   columnsToDisplay: string[] = [];
   rowPerPage = [50, 100, 250, 500];
 
+  dataSource;
+  comboStatus=[];
   constructor(private globalService : GlobalService,
               private eventService : EventService,
               private formBuilder: FormBuilder
@@ -60,8 +62,8 @@ export class EvaluationComponent implements OnInit {
     this.displayedColumnsActions = [];
     this.columnsToDisplay = [ 'number', 'numEmp', 'name', 'lastName', 'secondName', 'department', 'totalRating', 'competence', 'totalEvaluations', 'userUpdated', 'dateHourUpdate', 'status'];
   }
-
-  action(idEmpleado, tipo) {
+  filtros(){}
+  action(idEmpleado, tipo,n) {
     this.eventService.sendChangePage(new
     EventMessage(11, {
       idEmpleado: idEmpleado,
