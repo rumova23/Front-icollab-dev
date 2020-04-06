@@ -57,7 +57,7 @@
 	</div>
 	<br>
 	<div class="row">
-		<div class="col">
+		<div class="col" style="overflow-x: scroll;">
 			<table class="table table-bordered table-sm">
 				<thead>
 				  <tr>
@@ -67,25 +67,10 @@
 				  </tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td scope="col" class="colortheme">Total de registros esperados</td>
-						<td scope="col" *ngFor="let item of demoTab1; let i = index"></td>
-						<td scope="col" class="colortheme">31</td>
-					</tr>
-					<tr>
-						<td scope="col" class="colortheme">Total de registros encontrados</td>
-						<td scope="col" *ngFor="let item of demoTab1; let i = index"></td>
-						<td scope="col" class="colortheme">31</td>
-					</tr>
-					<tr>
-						<td scope="col" class="colortheme"># Variables Detectadas</td>
-						<td scope="col" *ngFor="let item of demoTab1; let i = index"></td>
-						<td scope="col" class="colortheme">31</td>
-					</tr>
-					<tr>
-						<td scope="col" class="colortheme"># Variables Corregidas</td>
-						<td scope="col" *ngFor="let item of demoTab1; let i = index"></td>
-						<td scope="col" class="colortheme">31</td>
+					<tr *ngFor="let serie of tablaDiasSeries">
+						<td scope="col" class="colortheme">{{serie.name}}</td>
+						<td scope="col" *ngFor="let value of serie.value; let i = index">{{value}}</td>
+						<td scope="col" class="colortheme">{{serie.dia31}}</td>
 					</tr>
 				</tbody>
 			  </table>
@@ -103,14 +88,14 @@
 					<table class="table table-bordered table-sm">
 						<thead>
 						  <tr>
-							<th scope="col">tag</th>
-							<th scope="col" *ngFor="let item of demoTags; let i = index">{{item}}</th>
+							<th scope="col"></th>
+							<th scope="col" *ngFor="let item of resumenHeader; let i = index">{{item}}</th>
 						  </tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td scope="col">Serie</td>
-								<td scope="col" *ngFor="let item of demoTags; let i = index"></td>
+							<tr *ngFor="let serie of resumenValue">
+								<td scope="col">{{serie.name}}</td>
+								<td scope="col" *ngFor="let value of serie.value; let i = index">{{value}}%</td>
 							</tr>
 						</tbody>
 					</table>
