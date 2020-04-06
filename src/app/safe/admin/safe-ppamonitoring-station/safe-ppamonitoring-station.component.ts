@@ -302,8 +302,8 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
 
 		let data:any = [
-			{"nameParameter": "dateIni","valueParameter": dateInit},
-			{"nameParameter": "dateEnd","valueParameter": dateFint}];
+			{"nameParameter": "year","valueParameter": new Date(this.date.value).getFullYear()},
+			{"nameParameter": "mount","valueParameter": new Date(this.date.value).getMonth() + 1}];
 		let indexYAxis=0;
 		for (const tag of tags) {
 			this.ppaMonitoringFormatService.get(tag,data).subscribe((data) => {
