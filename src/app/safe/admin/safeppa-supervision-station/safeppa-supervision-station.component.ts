@@ -2,13 +2,28 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Sort } from '@angular/material';
 import * as Highcharts from 'highcharts';
 import { FormControl } from '@angular/forms';
+
+
+import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {MatDatepicker} from '@angular/material/datepicker';
+import {MY_FORMAT_DATE_PICKER} from '../../../core/models/MyFormatDatePicker';
 import * as moment from 'moment';
-import { MatDatepicker } from '@angular/material/datepicker';
+
 
 @Component({
 	selector: 'app-safeppa-supervision-station',
 	templateUrl: './safeppa-supervision-station.component.html',
-	styleUrls: ['./safeppa-supervision-station.component.scss']
+	styleUrls: ['./safeppa-supervision-station.component.scss'],
+	providers: [
+		{
+		  provide: DateAdapter,
+		  useClass: MomentDateAdapter,
+		  deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+		},
+	
+		{provide: MAT_DATE_FORMATS, useValue: MY_FORMAT_DATE_PICKER},
+	  ],
 })
 export class SafeppaSupervisionStationComponent implements OnInit {
 	@ViewChild('chartbar1') chartbar1: ElementRef;

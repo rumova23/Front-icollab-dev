@@ -10,28 +10,11 @@ import * as chartDemo from "./chartDemo.json";
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {MatDatepicker} from '@angular/material/datepicker';
-import * as _moment from 'moment';
-//import Moment from 'moment';
-// tslint:disable-next-line:no-duplicate-imports
-//import {default as _rollupMoment, Moment} from 'moment';
-
-//const moment = _rollupMoment || _moment;
-const moment = _moment;
+import {MY_FORMAT_DATE_PICKER} from '../../../core/models/MyFormatDatePicker';
+import * as moment from 'moment';
 
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
-export const MY_FORMATS = {
-  parse: {
-	dateInput: 'MM/YYYY',
-	
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 
 
 import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format.service';
@@ -65,7 +48,7 @@ HC_exportdata(Highcharts);
 		  deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
 		},
 	
-		{provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+		{provide: MAT_DATE_FORMATS, useValue: MY_FORMAT_DATE_PICKER},
 	  ],
 })
 export class SafePPAMonitoringStationComponent implements OnInit {
