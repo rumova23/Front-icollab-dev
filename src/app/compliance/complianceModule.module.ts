@@ -61,11 +61,12 @@ import { TaskObservacionComponent               } from './administration/task-pl
 import { TaskEstatusComponent                   } from './administration/task-planning/home-edit/task-estatus/task-estatus.component';
 import { TaskGanttComponent                     } from './administration/task-planning/home-edit/task-gantt/task-gantt.component';
 import { TaskFilesComponent                     } from './administration/task-planning/home-edit/task-files/task-files.component';
-import { DatePipe } from '@angular/common';
-import {ComplianceAddStaffComponent} from './business/competence/staff/addstaff/complianceAddStaff.component';
-import {ComplianceProfileComponent} from './business/competence/staff/addstaff/profile/complianceProfile.component';
-import {ComplianceUploadComponent} from './upload/compliance-upload.component';
-import { ComplianceUploadCommonComponent } from './upload/compliance-upload-common/compliance-upload-common.component';
+import { DatePipe                               } from '@angular/common';
+import { ComplianceAddStaffComponent            } from './business/competence/staff/addstaff/complianceAddStaff.component';
+import { ComplianceProfileComponent             } from './business/competence/staff/addstaff/profile/complianceProfile.component';
+import { ComplianceUploadComponent              } from './upload/compliance-upload.component';
+import { ComplianceUploadCommonComponent        } from './upload/compliance-upload-common/compliance-upload-common.component';
+import { EvaluationComponent                    } from './business/competence/staff/evaluation/evaluation.component';
 
 @NgModule({
     declarations:[
@@ -104,7 +105,9 @@ import { ComplianceUploadCommonComponent } from './upload/compliance-upload-comm
 		,TaskFilesComponent
         ,ComplianceAddStaffComponent
 		,ComplianceProfileComponent
-		,ComplianceUploadComponent, ComplianceUploadCommonComponent
+		,ComplianceUploadComponent
+		,ComplianceUploadCommonComponent
+		,EvaluationComponent
     ],
     exports:[
     ],

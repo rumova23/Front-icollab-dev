@@ -359,7 +359,6 @@ export class EfhAnaliticsEventComponent implements OnInit {
         for (const event of this.dataPartial) {
             cont++;
             date = this.datePipe.transform(event.dateInit, 'dd/MM/yy');
-
             // PRIMER EVENTO
             if (firstEvent) {
                 eventStartTime = new Date(event.dateInit);
@@ -859,7 +858,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
   }
 
   exportAsExcel() {
-      this.exportToExcelService.exportAsExcelFile(this.TABLE.nativeElement, 'EFG-ES Operating Data');
+      this.exportToExcelService.exportAsExcelFile(this.dataAnalysis, 'EFG-ES Operating Data');
   }
 
   getDateArrayLength(day: Date): number {
