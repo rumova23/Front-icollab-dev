@@ -220,7 +220,6 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			file: new FormControl(null, [Validators.required, requiredFileType('xlsx')]),
 			typeVarhtml: new FormControl('', Validators.required)
 		});	
-		//Highcharts.setOptions(this.theme);
 		//this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
 	}
 	setChartData(){
@@ -284,26 +283,20 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 
 	}
 	searchTagsFromTo() {
-		let si = new Date(this.date.value).getFullYear()+"-"+(new Date(this.date.value).getMonth()+1)+"-01";
-		let sf = new Date(this.date.value).getFullYear()+"-"+(new Date(this.date.value).getMonth()+2)+"-01";
-		let ini = new Date(si);
-		let fin = new Date(sf);
-		fin.setDate(fin.getDate() - 1);
-		let dateInit =  this.datePipe.transform(ini, 'yyyy-MM-dd');
-		let dateFint = this.datePipe.transform(fin, 'yyyy-MM-dd');
+	
 		//let dateOpComm = this.datePipe.transform(this.dateOpComm, 'yyyy-MM-dd');
 		let tags     = this.tags.value;
-		if(tags == null || tags.length == 0 || dateInit == null || dateFint == null){
+		if(tags == null || tags.length == 0 || this.date.value == null){
 			this.toastr.errorToastr("Todos los campos son necesarios.", 'Lo siento,');
 			return 0;
 		}
-		this.dateIni = null;
-		this.dateFin = null;
+
 		this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
 
 		let data:any = [
-			{"nameParameter": "dateIni","valueParameter": dateInit},
-			{"nameParameter": "dateEnd","valueParameter": dateFint}];
+			{"nameParameter": "year","valueParameter": new Date(this.date.value).getFullYear()},
+			{"nameParameter": "mount","valueParameter": new Date(this.date.value).getMonth()}];
+		
 		let indexYAxis=0;
 		for (const tag of tags) {
 			this.ppaMonitoringFormatService.get(tag,data).subscribe((data) => {
