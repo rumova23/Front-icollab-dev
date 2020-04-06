@@ -115,6 +115,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 			}
 		},
 		legend: {
+			enabled: false,
 			layout: 'vertical',
 			align: 'right',
 			verticalAlign: 'top',
@@ -172,6 +173,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 			}
 		},
 		legend: {
+			enabled: false,
 			layout: 'vertical',
 			align: 'right',
 			verticalAlign: 'top',
