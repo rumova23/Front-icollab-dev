@@ -12,6 +12,7 @@ import { DatePipe } from '@angular/common';
 import { ConnectSocketChannelComponent } from 'src/app/shared/socket/connectSocketChannel.component';
 import { SecurityService } from 'src/app/core/services/security.service';
 import * as Highcharts from "highcharts";
+import { FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -11396,7 +11397,8 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 	];
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
-
+	filterDatesFormGroup: FormGroup;
+	
 	dataSource;
 	data: any[] = [];
 	displayedColumnsOrder: any[] = [
@@ -11474,6 +11476,8 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
         series: this.seriesOptions, 
 	};
 	seriesCounter=0;
+	dateIni=null;
+	dateFin=null;
 	constructor(
 		public globalService: GlobalService,
 		public theme: ThemeService,
@@ -11507,8 +11511,8 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 		//*/
 	}
 	ngOnInit() {
-		//aqui hay alguna variable para detectar si ya se abrio el socket , revisar
-		//usar la variable 
+		this.filterDatesFormGroup = new FormGroup({});
+		
 		this.subscribeSocketHenryhub();
 		this.peticionget();
 		
@@ -11670,4 +11674,48 @@ export class HenryhubComponent extends ConnectSocketChannelComponent implements 
 		};
 	}
 
+	dateChangeIni(event) {
+		this.dateIni = event.value;
+		if (this.dateFin != null) {
+			if (this.dateIni.getTime() >= this.dateFin.getTime()) {
+				this.dateFin = new Date(this.dateIni);
+			}
+		}
+	}
+	dateChangeFin(event) {
+		this.dateFin = event.value;
+	}
+	searchTagsFromTo(){
+		let i = this.datePipe.transform(this.dateIni, 'yyyy-MM-dd');
+		let f = this.datePipe.transform(this.dateFin, 'yyyy-MM-dd');
+		this.henryhubService.getFromTo(i,f).subscribe(series=>{
+			this.seriesOptions=[];
+			let i =0;
+			for (const serie of series) {
+					
+				let  marker={
+					enabled: true,
+					radius: 3
+				};
+				let lineWidth = 1;
+				let dataSerie = serie.henryHubDatas.map(d=>{
+				
+					if(serie.f=="D"){
+						marker.radius = 1;
+					}
+					return[new Date(d.dataDate).getTime(),d.value];
+				});
+				this.seriesOptions[i] = {
+					name: serie.name,
+					data: this.ordenar(dataSerie),
+					marker,
+					lineWidth
+				};
+
+				i+=1;
+			}
+			this.opt.series=this.seriesOptions;
+			this.charthenryhubobj = Highcharts.stockChart(this.charthenryhub.nativeElement, this.opt);
+		});
+	}
 }

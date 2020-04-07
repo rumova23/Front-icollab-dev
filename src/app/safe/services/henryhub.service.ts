@@ -16,4 +16,9 @@ export class HenryhubService {
 		this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
 		return this.http.get(environment.weatherUrl + 'henryhub', { params: this.parameters });
 	}
+	getFromTo(init,fin):Observable<any>{
+
+		this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+		return this.http.get(environment.weatherUrl + `henryHub/getDataFromTo/${init}/${fin}`, { params: this.parameters });
+	}
 }
