@@ -154,6 +154,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			}]
 		}
 	};
+	typeVarhtml: any;
 	constructor(
 		public globalService: GlobalService,
 		private fb: FormBuilder,
