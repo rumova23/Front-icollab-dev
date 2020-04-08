@@ -92,7 +92,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			zoomType: 'xy'
 		},
 		title: {
-			text: '',
+			text: 'Variables de Estación de Supervisión',
 		},
 	
 		xAxis: {
@@ -154,6 +154,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			}]
 		}
 	};
+	idYAxis=[];
 	constructor(
 		public globalService: GlobalService,
 		private fb: FormBuilder,
@@ -274,8 +275,12 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			return 0;
 		}
 
+		if(this.chartLine)this.chartLine.destroy();
 		this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
-
+		for (const axis of this.idYAxis) {
+			this.chartLine.get(axis).remove();
+		}
+		this.idYAxis = [];
 		let data:any = [
 			{"nameParameter": "year","valueParameter": new Date(this.date.value).getFullYear()},
 			{"nameParameter": "mount","valueParameter": new Date(this.date.value).getMonth() + 1}];
@@ -316,24 +321,30 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 				if(tag.includes("PBA")){
 					unidad = "BAR";
 				}
+				this.idYAxis.push(name);
 				this.chartLine.addAxis({ // Primary yAxis
+					id: name,
 					labels: {
-						format: '{value} '+unidad,
+						format: '{value}',
 						style: {
 							color: Highcharts.getOptions().colors[indexYAxis]
 						}
 					},
 					title: {
-						text: name,
 						style: {
 							color: Highcharts.getOptions().colors[indexYAxis]
-						}
+						},
+						align: 'high',
+						offset: 0,
+						text: " "+name+' ('+unidad+") ",
+						rotation: 0,
+						y: -10
 					},
 				});
 				fdss = this.ordenar(fdss);
 				this.chartLine.addSeries(
 					{
-						yAxis: indexYAxis,
+						yAxis: name,
 						name: name,
 						data: fdss,
 					}
