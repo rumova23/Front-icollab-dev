@@ -23,6 +23,7 @@ export const environment = {
   , urlTrPi                 : hostGateway + 'pi/'
   , efhUrl                  : hostGateway + 'efh/'
   , dgctags                 : hostGateway + 'dgctags/dgctags/'
+  , dycformato              : hostGateway + 'dycformato/dycformato/'
 };
 /*
 const hostGateway = 'http://200.52.85.140:8585/';

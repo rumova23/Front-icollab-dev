@@ -32,7 +32,7 @@ export class MonitoringJobsComponent implements OnInit {
 
   constructor(public globalService: GlobalService,
     private eventService: EventService,
-    private monitoringService : MonitoringService,
+    private monitoringService: MonitoringService,
     private toastr: ToastrManager) { }
 
   ngOnInit() {

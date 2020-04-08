@@ -20,4 +20,9 @@ export class PpaMonitoringFormatService {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get( `${ environment.dgctags }obtenTag/all`, {params : this.parameters });
 	}
+
+	entradaManual(data): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.post(environment.dycformato + 'upload/zip', data, {params : this.parameters });
+	}
 }
