@@ -2,13 +2,28 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Sort } from '@angular/material';
 import * as Highcharts from 'highcharts';
 import { FormControl } from '@angular/forms';
+
+
+import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {MatDatepicker} from '@angular/material/datepicker';
+import {MY_FORMAT_DATE_PICKER} from '../../../core/models/MyFormatDatePicker';
 import * as moment from 'moment';
-import { MatDatepicker } from '@angular/material/datepicker';
+
 
 @Component({
 	selector: 'app-safeppa-supervision-station',
 	templateUrl: './safeppa-supervision-station.component.html',
-	styleUrls: ['./safeppa-supervision-station.component.scss']
+	styleUrls: ['./safeppa-supervision-station.component.scss'],
+	providers: [
+		{
+		  provide: DateAdapter,
+		  useClass: MomentDateAdapter,
+		  deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+		},
+	
+		{provide: MAT_DATE_FORMATS, useValue: MY_FORMAT_DATE_PICKER},
+	  ],
 })
 export class SafeppaSupervisionStationComponent implements OnInit {
 	@ViewChild('chartbar1') chartbar1: ElementRef;
@@ -28,6 +43,41 @@ export class SafeppaSupervisionStationComponent implements OnInit {
     showUpdate : boolean = false;
     showDelete : boolean = true;
 
+	resumenHeader=[
+		"Bandera (Falta Hora y Fecha)",
+		"Bandera (Falta  Fecha)",
+		"Bandera (Falta Hora)",
+		"Bandera( Fecha y Hora no aceptables)",
+		"Bandera(Fecha no aceptable)",
+		"Bandera(Hora no aceptable)",
+		"Bandera (Dato Repetido)",
+		"Bandera (Dato redondeo a concominutal)",
+		"Bandera(Ordenamiento)",
+		"Bandera (Dato Correcto)",
+		"Bandera (Falta Valor)",
+		"Bandera (Renglon vacio)",
+		"Bandera (Valor no aceptable)"
+	];
+	resumenValue=[
+		{name:"Serie 1",value:[0.280,0.672,0.370,0.560,0.504,0.381,0.034,0.258,7.841,86.985,0.381,0.616,1.120]}
+	]
+	chart2header=[
+		"Variables corregidas",
+		"Variables detectadas",
+		"Total "
+	];
+	chart2headerValue=[
+		100,
+		13.02,
+		0.00
+	];
+
+	tablaDiasSeries=[
+		{name:"Total de Registros Esperados"  , dia31: 8928 ,value:[288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288]},
+		{name:"Total de Registos Encontrados" , dia31: 8938 ,value:[288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288]},
+		{name:"# Variables Detectadas"        , dia31: 1162 ,value:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
+		{name:"# Variables Corregidas"        , dia31: 0    ,value:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
+	]
 	opt : any = {
 		chart: {
 			type: 'bar'
@@ -39,7 +89,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 			text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
 		},
 		xAxis: {
-			categories: ['Africa', 'America', 'Asia', 'Europe', 'Oceania'],
+			categories: this.resumenHeader,
 			title: {
 				text: null
 			}
@@ -65,6 +115,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 			}
 		},
 		legend: {
+			enabled: false,
 			layout: 'vertical',
 			align: 'right',
 			verticalAlign: 'top',
@@ -80,11 +131,68 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 			enabled: false
 		},
 		series: [{
-			name: 'Year 1800',
-			data: [107, 31, 635, 203, 2]
+			
+			data: this.resumenValue[0].value
 		}]
 	};
 	
+	opt2 : any = {
+		chart: {
+			type: 'bar'
+		},
+		title: {
+			text: 'Historic World Population by Region'
+		},
+		subtitle: {
+			text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
+		},
+		xAxis: {
+			categories: this.chart2header,
+			title: {
+				text: null
+			}
+		},
+		yAxis: {
+			min: 0,
+			title: {
+				text: 'Population (millions)',
+				align: 'high'
+			},
+			labels: {
+				overflow: 'justify'
+			}
+		},
+		tooltip: {
+			valueSuffix: ' millions'
+		},
+		plotOptions: {
+			bar: {
+				dataLabels: {
+					enabled: true
+				}
+			}
+		},
+		legend: {
+			enabled: false,
+			layout: 'vertical',
+			align: 'right',
+			verticalAlign: 'top',
+			x: -40,
+			y: 80,
+			floating: true,
+			borderWidth: 1,
+			backgroundColor:
+				Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+			shadow: true
+		},
+		credits: {
+			enabled: false
+		},
+		series: [{
+			
+			data: this.chart2headerValue
+		}]
+	};
 	date = new FormControl(moment());
 	constructor() { }
 
@@ -165,6 +273,6 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	}
 	grafica(){
 		Highcharts.chart(this.chartbar1.nativeElement, this.opt);
-		Highcharts.chart(this.chartbar2.nativeElement, this.opt);
+		Highcharts.chart(this.chartbar2.nativeElement, this.opt2);
 	}
 }

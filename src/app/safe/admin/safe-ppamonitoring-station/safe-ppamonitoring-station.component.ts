@@ -11,28 +11,11 @@ import * as chartDemo from './chartDemo.json';
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {MatDatepicker} from '@angular/material/datepicker';
-import * as _moment from 'moment';
-// import Moment from 'moment';
-// tslint:disable-next-line:no-duplicate-imports
-// import {default as _rollupMoment, Moment} from 'moment';
-
-// const moment = _rollupMoment || _moment;
-const moment = _moment;
+import {MY_FORMAT_DATE_PICKER} from '../../../core/models/MyFormatDatePicker';
+import * as moment from 'moment';
 
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
-export const MY_FORMATS = {
-  parse: {
-	dateInput: 'MM/YYYY',
-
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 
 
 import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format.service';
@@ -67,7 +50,8 @@ HC_exportdata(Highcharts);
 		  useClass: MomentDateAdapter,
 		  deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
 		},
-		{provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+	
+		{provide: MAT_DATE_FORMATS, useValue: MY_FORMAT_DATE_PICKER},
 	  ],
 })
 export class SafePPAMonitoringStationComponent implements OnInit {
@@ -219,9 +203,8 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		this.fileUploadForm = this.fb.group({
 			file: new FormControl(null, [Validators.required, requiredFileType('zip')]),
 			typeVarhtml: new FormControl('', Validators.required)
-		});
-		// Highcharts.setOptions(this.theme);
-		// this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
+		});	
+		//this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
 	}
 	setChartData() {
 		this.dataSource = [
@@ -280,21 +263,14 @@ export class SafePPAMonitoringStationComponent implements OnInit {
     sortData(sort: Sort) {
     }
 	searchTagsFromTo() {
-		const si = new Date(this.date.value).getFullYear() + '-' + (new Date(this.date.value).getMonth() + 1) + '-01';
-		const sf = new Date(this.date.value).getFullYear() + '-' + (new Date(this.date.value).getMonth() + 2) + '-01';
-		const ini = new Date(si);
-		const fin = new Date(sf);
-		fin.setDate(fin.getDate() - 1);
-		const dateInit =  this.datePipe.transform(ini, 'yyyy-MM-dd');
-		const dateFint = this.datePipe.transform(fin, 'yyyy-MM-dd');
-		// let dateOpComm = this.datePipe.transform(this.dateOpComm, 'yyyy-MM-dd');
-		const tags     = this.tags.value;
-		if (tags == null || tags.length === 0 || dateInit == null || dateFint == null) {
-			this.toastr.errorToastr('Todos los campos son necesarios.', 'Lo siento,');
+	
+		//let dateOpComm = this.datePipe.transform(this.dateOpComm, 'yyyy-MM-dd');
+		let tags     = this.tags.value;
+		if(tags == null || tags.length == 0 || this.date.value == null){
+			this.toastr.errorToastr("Todos los campos son necesarios.", 'Lo siento,');
 			return 0;
 		}
-		this.dateIni = null;
-		this.dateFin = null;
+
 		this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
 
 		const data: any = [
