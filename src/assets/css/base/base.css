@@ -182,6 +182,9 @@ option {
 #columna span {
     font-size: 10px;
 }
+.span10px {
+    font-size: 10px;
+}
 .color-aguila{
     color:#0F5787;
 }

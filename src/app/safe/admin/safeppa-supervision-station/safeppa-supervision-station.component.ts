@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Sort } from '@angular/material';
+import { Sort, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import * as Highcharts from 'highcharts';
 import { FormControl } from '@angular/forms';
 
@@ -32,6 +32,8 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	demoTab1 = new Array(     31    ).fill(0).map((_valor,indice)=>Math.round(indice + 1));
 	demoTags = new Array(     13    ).fill(0).map((_valor,indice)=>("Tag " + indice));
 
+	@ViewChild(MatPaginator) paginator: MatPaginator;
+	@ViewChild(MatSort) sort: MatSort;
     dataSource;
     data : any[] = [];
     displayedColumnsOrder   : any[]    = [];
@@ -83,10 +85,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 			type: 'bar'
 		},
 		title: {
-			text: 'Historic World Population by Region'
-		},
-		subtitle: {
-			text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
+			text: ''
 		},
 		xAxis: {
 			categories: this.resumenHeader,
@@ -96,10 +95,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		},
 		yAxis: {
 			min: 0,
-			title: {
-				text: 'Population (millions)',
-				align: 'high'
-			},
+			
 			labels: {
 				overflow: 'justify'
 			}
@@ -141,10 +137,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 			type: 'bar'
 		},
 		title: {
-			text: 'Historic World Population by Region'
-		},
-		subtitle: {
-			text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
+			text: ''
 		},
 		xAxis: {
 			categories: this.chart2header,
@@ -154,10 +147,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		},
 		yAxis: {
 			min: 0,
-			title: {
-				text: 'Population (millions)',
-				align: 'high'
-			},
+			
 			labels: {
 				overflow: 'justify'
 			}
@@ -261,12 +251,14 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	}
 	
 	setTableData(){
-		this.dataSource = [
+		let data = [
 			{order : "1",dateOpCom : "mar-20",process : "Corrección de Formato",user : "Manuel Herrera",dateUpdated : "01/04/2020 10:40:00 a.m",status : "Exitosa",sys_see : "sys_see",sys_edit : "sys_edit",sys_delete : "sys_delete"},
 			{order : "2",dateOpCom : "mar-20",process : "Detección de Formato",user : "Ivette Colin",dateUpdated : "01/04/2020 10:40:00 a.m",status : "Fallida",sys_see : "sys_see",sys_edit : "sys_edit",sys_delete : "sys_delete"},
 			{order : "3",dateOpCom : "mar-20",process : "Detección de Formato",user : "Sistema",dateUpdated : "01/04/2020 10:40:00 a.m",status : "Fallida",sys_see : "sys_see",sys_edit : "sys_edit",sys_delete : "sys_delete"},
-
 		];
+		this.dataSource = new MatTableDataSource<any>(data);
+		this.dataSource.paginator = this.paginator;
+		this.dataSource.sort = this.sort;
 	}
     sortData(sort: Sort) {
         
