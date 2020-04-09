@@ -194,6 +194,14 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		return arr;
 	}
 	ngOnInit() {
+		this.ppaMonitoringFormatService.obtenBitacoraLoadRaw().subscribe(
+			data => {
+				console.dir(data);
+			},
+			errorData => {
+				console.dir(errorData);
+				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
+			});
 		this.setColumnsToDisplay();
 		this.filterDatesFormGroup = new FormGroup({});
 
@@ -378,7 +386,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		this.monitoringService.executeProcess(applicationName, isMonthly).subscribe(
 			data => {
 				console.log(data);
-				this.toastr.successToastr('Ejecutando proceso ' + (isMonthly ? 'Mensual' : 'Diario') + ' para: '+applicationName, 'Ejecución lanzada con éxito.');
+				this.toastr.successToastr('Ejecutando proceso ' + (isMonthly ? 'Mensual' : 'Diario') + ' para: ' + applicationName, 'Ejecución lanzada con éxito.');
 			},
 			errorData => {
 				this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
@@ -386,7 +394,20 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	}
 
 	upload(value) {
-		console.log('Ejecuntando upload');
+		this.typeVarhtml = this.fileUploadForm.controls.typeVarhtml.value;
+		if (this.typeVarhtml == null || this.date.value == null) {
+			this.toastr.errorToastr('Todos los campos son necesarios.', 'Lo siento,');
+			return 0;
+		}
+
+		if (this.fileUploadForm.controls.typeVarhtml.value === '4') {
+			const message = 'Procesando el mes: ' + (new Date(this.date.value).getMonth() + 1) + ' del año: ' +  new Date(this.date.value).getFullYear() + '. Upload Zip Manualmente; espere por favor.';
+			this.toastr.successToastr(message, '.... Procesando');
+		} else {
+			this.toastr.errorToastr('No es Proceso Manual.', 'Lo siento,');
+			return 0;
+		}
+
 		this.valid = false;
 		const reader = new FileReader();
 		reader.onloadend = (e) => {
@@ -394,7 +415,8 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			this.file = this.file.replace(/^data:(.*;base64,)?/, '');
 			this.file = this.file.trim();
 			this.fileName = value.file.name;
-			this.ppaMonitoringFormatService.entradaManual({
+			this.ppaMonitoringFormatService.entradaManual( new Date(this.date.value).getFullYear(),
+			 new Date(this.date.value).getMonth() + 1, {
 				file: this.file,
 				name: this.fileName,
 				idTypeImport: 4,
@@ -405,7 +427,8 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 					this.toastr.successToastr('El archivo llego con exito', 'Ejecución lanzada con éxito.');
 				},
 				errorData => {
-					this.toastr.errorToastr('El archivo no llego', 'Lo siento,');
+					console.dir(errorData);
+					this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 				});
 		}
 		reader.readAsDataURL(value.file);

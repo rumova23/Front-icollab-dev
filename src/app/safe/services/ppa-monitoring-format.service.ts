@@ -10,19 +10,24 @@ import { environment } from 'src/environments/environment';
 export class PpaMonitoringFormatService {
 
 	parameters: any;
-	constructor(private http: HttpClient,private globalService: GlobalService) { }
-	
-	get(tag: String = "PCO 1", data:any = [{"nameParameter": "year","valueParameter": 2020},{"nameParameter": "mount","valueParameter": 3}]): Observable<any> {
-		this.parameters = this.globalService.setXTenantId_Plant();		
-		return this.http.post(environment.dgctags +"obtenTag/"+ tag, data, {params : this.parameters });
+	constructor(private http: HttpClient, private globalService: GlobalService) { }
+
+	get(tag: String = 'PCO 1', data: any = [{nameParameter: 'year', valueParameter: 2020}, {nameParameter: 'mount', valueParameter: 3}]): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.post(environment.dgctags + 'obtenTag/' + tag, data, {params : this.parameters });
 	}
-	getTags():Observable<any>{
+	getTags(): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get( `${ environment.dgctags }obtenTag/all`, {params : this.parameters });
 	}
 
-	entradaManual(data): Observable<any> {
+	entradaManual(year: number, mount: number, data): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.post(environment.dycformato + 'upload/zip', data, {params : this.parameters });
+		return this.http.post(environment.dycformato + 'upload/zip/' + year + '/' + mount, data, {params : this.parameters });
+	}
+
+	obtenBitacoraLoadRaw(): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.dycformato + 'loadRaw/bitacora', {params : this.parameters });
 	}
 }
