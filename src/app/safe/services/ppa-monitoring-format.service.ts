@@ -30,4 +30,9 @@ export class PpaMonitoringFormatService {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(environment.dycformato + 'loadRaw/bitacora', {params : this.parameters });
 	}
+
+	preocesaCorreccion(year: number, mount: number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.dycformato + 'loadRaw/correccion/' + year + '/' + mount, {params : this.parameters });
+	}
 }

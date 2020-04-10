@@ -9,6 +9,9 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 import {MatDatepicker} from '@angular/material/datepicker';
 import {MY_FORMAT_DATE_PICKER} from '../../../core/models/MyFormatDatePicker';
 import * as moment from 'moment';
+import {ToastrManager} from 'ng6-toastr-notifications';
+import {ConfirmationDialogService} from '../../../core/services/confirmation-dialog.service';
+import {PpaMonitoringFormatService} from '../../services/ppa-monitoring-format.service';
 
 
 @Component({
@@ -184,7 +187,9 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		}]
 	};
 	date = new FormControl(moment());
-	constructor() { }
+	constructor(
+		private toastr: ToastrManager,
+		private ppaMonitoringFormatService: PpaMonitoringFormatService) { }
 
 	ngOnInit() {
 		this.setColumnsToDisplay();
@@ -266,5 +271,16 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	grafica(){
 		Highcharts.chart(this.chartbar1.nativeElement, this.opt);
 		Highcharts.chart(this.chartbar2.nativeElement, this.opt2);
+	}
+
+	aplicarCorrecion() {
+		this.ppaMonitoringFormatService.preocesaCorreccion(2020, 3).subscribe(
+			data => {
+				console.dir(data);
+			},
+			errorData => {
+				console.dir(errorData);
+				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
+			});
 	}
 }
