@@ -1,13 +1,12 @@
 export class Detalle {
     private empleadoId: number;
     private empleadoDetalleId: number;
-    
-    //carrera
+
     private posicionId: number;
     private departamentoId: number;
 
-    private puestoTrabajoId : number;
-    private jefeInmediatoId: number;  
+    private puestoTrabajoId: number;
+    private jefeInmediatoId: number;
     private horarioTrabajoId: number;
 
     private lugarTrabajoId: number;
@@ -18,6 +17,11 @@ export class Detalle {
 
     private estidadEstatusID: number;
     private tipoEmpleadoId: number;
+
+    private posicion: string;
+    private departamento: string;
+    private jefeInmediato: string;
+    private puestoTrabajo: string;
 
     constructor(
         departamentoId: number,
@@ -31,8 +35,12 @@ export class Detalle {
         personalCargoId: number,
         posicionId: number,
         tipoEmpleadoId: number,
-        descGralPuesto: string
-        ,puestoTrabajoId :number
+        descGralPuesto: string,
+        puestoTrabajoId: number,
+        posicion: string,
+        departamento: string,
+        jefeInmediato: string,
+        puestoTrabajo: string
     ) {
         this.departamentoId = departamentoId;
         this.empleadoDetalleId = empleadoDetalleId;
@@ -47,6 +55,10 @@ export class Detalle {
         this.tipoEmpleadoId = tipoEmpleadoId;
         this.descGralPuesto = descGralPuesto;
         this.puestoTrabajoId = puestoTrabajoId;
+        this.posicion = posicion;
+        this.departamento = departamento;
+        this.jefeInmediato = jefeInmediato;
+        this.puestoTrabajo = puestoTrabajo;
     }
 
 }

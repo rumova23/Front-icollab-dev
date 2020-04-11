@@ -16,10 +16,6 @@ export class Empleado {
     private paterno: string
     private userId: number
     private foto: any
-    private posicion: string
-    private departamento: string
-    private jefeInmediato: string
-    private puestoTrabajo: string
 
     constructor(
         carrera: string,
@@ -36,18 +32,14 @@ export class Empleado {
         nombres: string,
         paterno: string,
         userId: number,
-        foto: any,
-        posicion: string,
-        departamento: string,
-        jefeInmediato: string,
-        puestoTrabajo: string
+        foto: any
     ) {
         this.carrera = carrera;
         this.claveGenerico = claveGenerico;
         this.detalle = detalle;
         this.empleadoId = empleadoId;
         this.estatusGenerico = estatusGenerico;
-        this.estidadEstatus = estidadEstatus; 
+        this.estidadEstatus = estidadEstatus;
         this.fechanacimiento = fechanacimiento;
         this.generoId = generoId;
         this.gradoEstudioId = gradoEstudioId;
@@ -57,10 +49,6 @@ export class Empleado {
         this.paterno = paterno;
         this.userId = userId;
         this.foto = foto;
-        this.posicion = posicion;
-        this.departamento = departamento;
-        this.jefeInmediato = jefeInmediato;
-        this.puestoTrabajo = puestoTrabajo;
     }
 
 

@@ -11,6 +11,7 @@ import {EventMessage} from '../../../../../core/models/EventMessage';
 import {EventBlocked} from '../../../../../core/models/EventBlocked';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Combo} from '../../../../models/Combo';
+import {OrderCatalogDTO} from '../../../../models/OrderCatalogDTO';
 
 export interface RegisterPersonal {
   orden: number;
@@ -52,6 +53,7 @@ export class RegisterPersonalImp implements RegisterPersonal {
   editar: string;
   eliminar: string;
   mensajeEliminar: string;
+
   constructor(orden: number, empleadoId: number, numEmpleado: string, nombre: string,
               apPaterno: string, apMaterno: string, genero: string,
               posicion: string, departamento: string, puesto: string,
@@ -96,6 +98,10 @@ export class ComplianceAddStaffComponent implements OnInit {
   columnas: string[] = ['orden', 'numEmpleado', 'nombre', 'apPaterno', 'apMaterno', 'genero', 'posicion', 'departamento', 'puesto', 'lugarDeTrabajo','Usuario Modifico','Fecha_y_Hora_de_Ultima_Modificación','Estatus', 'ver', 'editar',  'eliminar'];
   registros_x_pagina = [5, 10, 20, 30];
 
+  generos: Array<any>;
+  lugares: Array<any>;
+  arryCata: Array<any>;
+
   constructor(private personal: PersonalCompetenteService,
               private catalogoMaestroService: CatalogoMaestroService,
               private preguntas: PerfilComboService,
@@ -104,6 +110,7 @@ export class ComplianceAddStaffComponent implements OnInit {
               public globalService: GlobalService,
               private datePipe: DatePipe,
               private formBuilder: FormBuilder,
+              private cmbos: PerfilComboService
   ) { }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -135,42 +142,55 @@ export class ComplianceAddStaffComponent implements OnInit {
   getDataSource() {
     this.addBlock(1, null);
     this.elementData = [];
-    this.personal.getEmpleados().subscribe(
-        dataBack => {
-          let estatus = dataBack['status'];
-          if( estatus === 'exito' ){
-            let index: number = 1;
-            Object.keys(dataBack['empleados']).forEach(key => {
-              const empleadoId = dataBack['empleados'][key].empleadoId;
-              let empleadoStrId = dataBack['empleados'][key].empleadoStrId;
-              let nombres = dataBack['empleados'][key].nombres;
-              let paterno = dataBack['empleados'][key].paterno;
-              let materno = dataBack['empleados'][key].materno;
-              let generoId = dataBack['empleados'][key].generoId;
-              let entidadEstatus = dataBack['empleados'][key].estidadEstatus;
-              let posicion= dataBack['empleados'][key].posicion;
-              let departamento = dataBack['empleados'][key].departamento;
-              let puesto = dataBack['empleados'][key].puestoTrabajo;
-              let lugarTrabajoId = dataBack['empleados'][key].lugarTrabajoId;
-              let userCreated = dataBack['empleados'][key].userCreated;
-              let userUpdated = dataBack['empleados'][key].userCreated != null ? dataBack['empleados'][key].userCreated : dataBack['empleados'][key].userCreated ;
-              let dateCreated = dataBack['empleados'][key].dateCreated;
-              let dateUpdated = dataBack['empleados'][key].dateUpdated != null ? this.datePipe.transform(new Date(dataBack['empleados'][key].dateUpdated), 'dd/MM/yyyy HH:mm') : this.datePipe.transform(new Date(dataBack['empleados'][key].dateCreated), 'dd/MM/yyyy HH:mm') ;
-              this.elementData.push(new RegisterPersonalImp(index, empleadoId, empleadoStrId, nombres, paterno, materno, generoId, posicion, departamento, puesto, lugarTrabajoId, userUpdated, dateUpdated, estatus, 'home-compliance/',
-                  'home-compliance/',
-                  'home-compliance',
-                  'Esta seguro de eliminar el empleado numero: ' + empleadoStrId));
-              index++;
-            });
+    this.generos = [];
+    this.lugares = [];
 
-            console.log( this.elementData)
-            this.registros = new MatTableDataSource<RegisterPersonal>(this.elementData);
-            this.registros.paginator = this.paginator;
-            this.registros.sort = this.sort;
+    this.arryCata = Array<OrderCatalogDTO>();
+    this.arryCata.push( new OrderCatalogDTO('gender', 1, 1));
+    this.arryCata.push( new OrderCatalogDTO('employeePlace', 1, 1));
+    this.cmbos.getlistCatalogoOrdenados(this.arryCata).subscribe(
+        poRespuesta => {
+          this.generos = this.resuelveDS(poRespuesta, 'gender');
+          this.lugares = this.resuelveDS(poRespuesta, 'employeePlace');
+          this.personal.getEmpleados().subscribe(
+              dataBack => {
+                let estatus = dataBack['status'];
+                if( estatus === 'exito' ){
+                  let index: number = 1;
+                  Object.keys(dataBack['empleados']).forEach(key => {
+                    const empleadoId = dataBack['empleados'][key].empleadoId;
+                    let empleadoStrId = dataBack['empleados'][key].empleadoStrId;
+                    let nombres = dataBack['empleados'][key].nombres;
+                    let paterno = dataBack['empleados'][key].paterno;
+                    let materno = dataBack['empleados'][key].materno;
+                    let generoId = dataBack['empleados'][key].generoId;
+                    let generoString = this.generos.find(x => x.value === parseInt(generoId, 10)).label;
+                    let entidadEstatus = dataBack['empleados'][key].estidadEstatus;
+                    let posicion= dataBack['empleados'][key].posicion;
+                    let departamento = dataBack['empleados'][key].departamento;
+                    let puesto = dataBack['empleados'][key].puestoTrabajo;
+                    let lugarTrabajoId = dataBack['empleados'][key].lugarTrabajoId;
+                    let lugarTrabajoString = this.lugares.find(x => x.value === parseInt(lugarTrabajoId, 10)).label;
+                    let userCreated = dataBack['empleados'][key].userCreated;
+                    let userUpdated = dataBack['empleados'][key].userCreated != null ? dataBack['empleados'][key].userCreated : dataBack['empleados'][key].userCreated ;
+                    let dateCreated = dataBack['empleados'][key].dateCreated;
+                    let dateUpdated = dataBack['empleados'][key].dateUpdated != null ? this.datePipe.transform(new Date(dataBack['empleados'][key].dateUpdated), 'dd/MM/yyyy HH:mm') : this.datePipe.transform(new Date(dataBack['empleados'][key].dateCreated), 'dd/MM/yyyy HH:mm') ;
+                    this.elementData.push(new RegisterPersonalImp(index, empleadoId, empleadoStrId, nombres, paterno, materno, generoString, posicion, departamento, puesto, lugarTrabajoString, userUpdated, dateUpdated, estatus, 'home-compliance/',
+                        'home-compliance/',
+                        'home-compliance',
+                        'Esta seguro de eliminar el empleado numero: ' + empleadoStrId));
+                    index++;
+                  });
+                  console.log( this.elementData)
+                  this.registros = new MatTableDataSource<RegisterPersonal>(this.elementData);
+                  this.registros.paginator = this.paginator;
+                  this.registros.sort = this.sort;
 
-            this.addBlock(2, null);
-          }
-        });
+                  this.addBlock(2, null);
+                }
+              });
+        }
+    );
   }
 
   valorModal: number;
@@ -207,7 +227,6 @@ export class ComplianceAddStaffComponent implements OnInit {
   }
 
   search(): RegisterPersonalImp[] {
-    debugger;
     let arrayElements: RegisterPersonalImp[] = this.elementData;
 
     if(this.filterForm.controls['fEmpNum'].value != ''){
@@ -279,5 +298,25 @@ export class ComplianceAddStaffComponent implements OnInit {
     }else{
       this.toastr.errorToastr("Debe llenar por lo menos 1 campo", 'Lo siento,');
     }
+  }
+
+  resuelveDS(poRespuesta: Object, comp: string) {
+    let catalogArray = [];
+    if (!poRespuesta) {
+      console.log("El back no responde");
+    } else {
+      let catalogs: any;
+      catalogs = poRespuesta;
+      catalogs.forEach(element => {
+        if ( element.catalog === comp ){
+          element.data.forEach ( elementCatalog => {
+            let value = elementCatalog.id;
+            let label = elementCatalog.code;
+            catalogArray.push(new Combo(value, label));
+          });
+        }
+      });
+    }
+    return catalogArray;
   }
 }

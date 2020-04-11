@@ -21,7 +21,6 @@
             <img [src]="imageUrl" width="110" height="110">
             <div class="d-flex justify-content-center">
               <button class="btn btnPhoto" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
-                <i class="ti-pencil"></i>
                 <input
                         class="mdl-button--file"
                         maxlength="4"
@@ -33,7 +32,7 @@
                         [ngClass]="{ 'is-invalid': submitted && f.fPhoto.errors }"
 
                 />
-                Añadir foto
+                <mdb-icon fas icon="plus"></mdb-icon>&nbsp;Agregar
               </button>
             </div>
           </div>
@@ -46,7 +45,7 @@
                   <select class="browser-default custom-select"
                           formControlName="fEnterprise" [(ngModel)]="enterprise"
                   >
-                    <option *ngFor="let operator of enterprise;"
+                    <option *ngFor="let operator of preffixes;"
                             [value]="operator.value">
                       {{operator.label}}
                     </option>
@@ -113,7 +112,7 @@
                   <label>Género</label><br>
                   <mat-radio-group formControlName="fGender" [(ngModel)]="gender"
                                    [ngClass]="{ 'is-invalid': submitted && f.fGender.errors }">
-                    <mat-radio-button *ngFor="let data of generos; " [value]="data.value">{{data.label}}</mat-radio-button>
+                    <mat-radio-button *ngFor="let data of generos; " [value]="data.value">{{data.label}}&nbsp;</mat-radio-button>
                   </mat-radio-group>
                   <div *ngIf="submitted && f.fGender.errors" style="color:red">
                     <div *ngIf="f.fGender.errors.required">Requerido</div>
@@ -255,7 +254,7 @@
                   <label>¿Tiene personal a su cargo?</label><br>
                   <mat-radio-group formControlName="fPerCarg" [(ngModel)]="employeeDependent"
                                    arial-label="Seleccion"  [ngClass]="{ 'is-invalid': submitted && f.fPerCarg.errors }">
-                    <mat-radio-button *ngFor="let data of personas" [value]="data.value">{{data.label}}</mat-radio-button>
+                    <mat-radio-button *ngFor="let data of personas" [value]="data.value">{{data.label}}&nbsp;</mat-radio-button>
                   </mat-radio-group>
                   <div *ngIf="submitted && f.fPerCarg.errors" style="color:red">
                     <div *ngIf="f.fPerCarg.errors.required">Requerido</div>
@@ -307,7 +306,7 @@
         <div class="d-flex justify-content-end">
           <button type="submit" [disabled]="isdisabled" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
             <i class="ti-pencil"></i>
-            <!--{{labBotAcep}}-->Guardar / Actualizar
+            Guardar / Actualizar
           </button>
         </div>
       </div>

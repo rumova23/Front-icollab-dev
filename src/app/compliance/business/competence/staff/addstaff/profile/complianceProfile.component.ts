@@ -29,12 +29,13 @@ export class ComplianceProfileComponent implements OnInit {
     horarios: Array<any>;
     lugares: Array<any>;
     personas: Array<any>;
+    preffixes: Array<any>;
     arryCata: Array<any>;
     perfilForm: FormGroup;
     submitted = false;
 
     disabledSave = true;
-    checkedEstatus = false;
+    checkedEstatus = true;
     deshabiliarEstatus = false;
     isdisabled: boolean = false;
     isdisableIdEmp: boolean = false;
@@ -172,7 +173,7 @@ export class ComplianceProfileComponent implements OnInit {
         this.horarios = [];
         this.lugares = [];
         this.personas = [];
-        this.enterprise = [];
+        this.preffixes = [];
 
         this.arryCata = Array<OrderCatalogDTO>();
         this.arryCata.push( new OrderCatalogDTO('gender', 1, 1));
@@ -181,7 +182,6 @@ export class ComplianceProfileComponent implements OnInit {
         this.arryCata.push( new OrderCatalogDTO('employeePlace', 1, 1));
         this.arryCata.push( new OrderCatalogDTO('employeeDependent', 1, 1));
         this.arryCata.push( new OrderCatalogDTO('enterprisePreffix', 1, 1));
-        debugger
         this.cmbos.getlistCatalogoOrdenados(this.arryCata).subscribe(
             poRespuesta => {
                 this.resuelveDS(poRespuesta, this.generos, 'gender');
@@ -189,7 +189,7 @@ export class ComplianceProfileComponent implements OnInit {
                 this.resuelveDS(poRespuesta, this.horarios,'workingHour');
                 this.resuelveDS(poRespuesta, this.lugares,'employeePlace');
                 this.resuelveDS(poRespuesta, this.personas,'employeeDependent');
-                this.resuelveDS(poRespuesta, this.enterprise,'enterprisePreffix');
+                this.resuelveDS(poRespuesta, this.preffixes,'enterprisePreffix');
             }
         );
 
@@ -231,7 +231,7 @@ export class ComplianceProfileComponent implements OnInit {
         }
     }
 
-    saveEmployee(){
+    saveEmployee() {
         let det = new Detalle(// this.perfilForm.controls['fDepto'].value,
             null,
             0,
@@ -245,8 +245,11 @@ export class ComplianceProfileComponent implements OnInit {
             null,
             0,
             this.perfilForm.controls['fJobDescription'].value,
-            null);
-        debugger;
+            null,
+            this.perfilForm.controls['fPosition'].value,
+            this.perfilForm.controls['fDepto'].value,
+            this.perfilForm.controls['fImmBoss'].value,
+            this.perfilForm.controls['fJob'].value);
         let emp = new Empleado( this.perfilForm.controls['fCareer'].value,
             1,
             det,
@@ -261,11 +264,7 @@ export class ComplianceProfileComponent implements OnInit {
             this.perfilForm.controls['fNames'].value,
             this.perfilForm.controls['fLastName'].value,
             1,
-            this.byteArray,
-            this.perfilForm.controls['fPosition'].value,
-            this.perfilForm.controls['fDepto'].value,
-            this.perfilForm.controls['fImmBoss'].value,
-            this.perfilForm.controls['fJob'].value);
+            this.byteArray);
 
         this.cmbos.getSave(emp).subscribe(
             respuesta => {
@@ -276,7 +275,6 @@ export class ComplianceProfileComponent implements OnInit {
     }
 
     onSubmit() {
-        debugger;
         this.submitted = true;
         // stop here if form is invalid
         if (this.perfilForm.invalid) {
@@ -288,7 +286,6 @@ export class ComplianceProfileComponent implements OnInit {
     }
 
     onChange(file: File){
-        debugger
         if(file) {
             this.fileName = file.name;
             this.file = file;
