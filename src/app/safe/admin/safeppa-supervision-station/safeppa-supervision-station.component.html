@@ -88,14 +88,12 @@
 					<table class="table table-bordered table-sm">
 						<thead>
 						  <tr>
-							<th scope="col"></th>
-							<th scope="col" *ngFor="let item of resumenHeader; let i = index" class="span10px">{{item}}</th>
+							<th scope="col" *ngFor="let item of tablaTotalPorcentajesBanderas; let i = index" class="span10px">{{item.header}}</th>
 						  </tr>
 						</thead>
 						<tbody>
-							<tr *ngFor="let serie of resumenValue">
-								<td scope="col">{{serie.name}}</td>
-								<td scope="col" *ngFor="let value of serie.value; let i = index">{{value}}%</td>
+							<tr>
+								<td scope="col" *ngFor="let value of tablaTotalPorcentajesBanderas; let i = index">{{value.value}}%</td>
 							</tr>
 						</tbody>
 					</table>
@@ -103,8 +101,29 @@
 			</div>
 		</div>
 		<div class="col-6">
-			<div #chartbar2></div>
+			
+			<div class="row">
+				<div class="col-12">
+					<div #chartbar2></div>
+				</div>
+				<div class="col-12" style="overflow-x: scroll;">
+
+					<table class="table table-bordered table-sm">
+						<thead>
+						  <tr>
+							<th scope="col" *ngFor="let item of tablaTotales; let i = index" class="span10px">{{item.header}}</th>
+						  </tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td scope="col" *ngFor="let value of tablaTotales; let i = index">{{value.value}}%</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
+
 	</div>
 
 	<div class="row">

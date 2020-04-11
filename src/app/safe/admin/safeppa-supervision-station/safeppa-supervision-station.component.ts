@@ -50,16 +50,18 @@ export class SafeppaSupervisionStationComponent implements OnInit {
     showUpdate : boolean = false;
     showDelete : boolean = true;
 
+	tablaTotalPorcentajesBanderas=[];
+	tablaTotales=[];
 	resumenHeader=[
 		"Bandera (Falta Hora y Fecha)",
 		"Bandera (Falta  Fecha)",
 		"Bandera (Falta Hora)",
-		"Bandera( Fecha y Hora no aceptables)",
-		"Bandera(Fecha no aceptable)",
-		"Bandera(Hora no aceptable)",
+		"Bandera (Fecha y Hora no aceptables)",
+		"Bandera (Fecha no aceptable)",
+		"Bandera (Hora no aceptable)",
 		"Bandera (Dato Repetido)",
 		"Bandera (Dato redondeo a concominutal)",
-		"Bandera(Ordenamiento)",
+		"Bandera (Ordenamiento)",
 		"Bandera (Dato Correcto)",
 		"Bandera (Falta Valor)",
 		"Bandera (Renglon vacio)",
@@ -71,7 +73,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	chart2header=[
 		"Variables corregidas",
 		"Variables detectadas",
-		"Total "
+		"Total"
 	];
 	chart2headerValue=[
 		0,
@@ -328,12 +330,29 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		this.setChartTotal();
 	}
 	setChartBanderas(data){
+		this.tablaTotalPorcentajesBanderas=[];
 		this.opt.xAxis.categories = [];
 		this.resumenValue[0].value=[];
 		for (const bandera of data.estatusValueList) {
 			if(!this.opt.xAxis.categories.includes(`Bandera (${bandera.estatus})`)){
 				this.opt.xAxis.categories.push(`Bandera (${bandera.estatus})`);
 				this.resumenValue[0].value.push(bandera.cantidad);
+
+				this.tablaTotalPorcentajesBanderas.push({
+					header:`Bandera (${bandera.estatus})`,
+					value:bandera.cantidad
+				});
+			}
+		}
+		for (const bandera of this.resumenHeader) {
+			if(!this.opt.xAxis.categories.includes(bandera)){
+				this.opt.xAxis.categories.push(bandera);
+				this.resumenValue[0].value.push(0);
+				
+				this.tablaTotalPorcentajesBanderas.push({
+					header:bandera,
+					value:0
+				});
 			}
 		}
 		this.opt.series[0].data = this.resumenValue[0].value;
@@ -341,11 +360,17 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	}
 	setChartTotal(){
 		this.chart2headerValue=[];
+		this.tablaTotales=[];
 		
 		this.chart2headerValue.push(this.tablaDiasSeries[3].dia31);
 		this.chart2headerValue.push(this.tablaDiasSeries[2].dia31);
 		this.chart2headerValue.push(this.tablaDiasSeries[2].dia31+this.tablaDiasSeries[3].dia31);
 		
+		this.tablaTotales.push({header:'Variables corregidas',value:this.tablaDiasSeries[3].dia31});
+		this.tablaTotales.push({header:'Variables detectadas',value:this.tablaDiasSeries[2].dia31});
+		this.tablaTotales.push({header:'Total',value:this.tablaDiasSeries[3].dia31+this.tablaDiasSeries[2].dia31});
+
+
 		this.opt2.series[0].data = this.chart2headerValue;
 		Highcharts.chart(this.chartbar2.nativeElement, this.opt2);
 	}
@@ -359,6 +384,9 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 			data => {
 				console.dir(data);
 				this.addBlock(2,"");
+				
+				this.setTable01(data);
+				this.setChartBanderas(data);
 			},
 			errorData => {
 				console.dir(errorData);
