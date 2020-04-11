@@ -37,6 +37,7 @@ export class PpaMonitoringFormatService {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(environment.dycformato + 'loadRaw/correccion/' + year + '/' + mount, {params : this.parameters });
 	}
+
 	preocesaDeteccion(year: number, mount: number): Observable<any> {
 		//return of(this.respuestaDemoPreocesaDeteccion);
 		this.parameters = this.globalService.setXTenantId_Plant();
