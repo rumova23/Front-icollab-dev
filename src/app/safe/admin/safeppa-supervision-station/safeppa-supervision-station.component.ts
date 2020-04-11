@@ -12,7 +12,9 @@ import * as moment from 'moment';
 import {ToastrManager} from 'ng6-toastr-notifications';
 import {ConfirmationDialogService} from '../../../core/services/confirmation-dialog.service';
 import {PpaMonitoringFormatService} from '../../services/ppa-monitoring-format.service';
-
+import { EventService } from 'src/app/core/services/event.service';
+import { EventMessage } from 'src/app/core/models/EventMessage';
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 @Component({
 	selector: 'app-safeppa-supervision-station',
@@ -64,7 +66,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		"Bandera (Valor no aceptable)"
 	];
 	resumenValue=[
-		{name:"Serie 1",value:[0.280,0.672,0.370,0.560,0.504,0.381,0.034,0.258,7.841,86.985,0.381,0.616,1.120]}
+		{name:"Serie 1",value:[0,0,0,0,0,0,0,0,0,0,0,0,0]}
 	]
 	chart2header=[
 		"Variables corregidas",
@@ -72,16 +74,23 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		"Total "
 	];
 	chart2headerValue=[
-		100,
-		13.02,
-		0.00
+		0,
+		0,
+		0
 	];
-
+	/*
 	tablaDiasSeries=[
 		{name:"Total de Registros Esperados"  , dia31: 8928 ,value:[288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288]},
 		{name:"Total de Registos Encontrados" , dia31: 8938 ,value:[288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288,288]},
 		{name:"# Variables Detectadas"        , dia31: 1162 ,value:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
 		{name:"# Variables Corregidas"        , dia31: 0    ,value:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
+	]//*/
+	
+	tablaDiasSeries=[
+		{name:"Total de Registros Esperados"  , dia31: 0 ,value:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
+		{name:"Total de Registos Encontrados" , dia31: 0 ,value:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
+		{name:"# Variables Detectadas"        , dia31: 0 ,value:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
+		{name:"# Variables Corregidas"        , dia31: 0 ,value:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
 	]
 	opt : any = {
 		chart: {
@@ -188,6 +197,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	};
 	date = new FormControl(moment());
 	constructor(
+		private eventService : EventService,
 		private toastr: ToastrManager,
 		private ppaMonitoringFormatService: PpaMonitoringFormatService) { }
 
@@ -274,24 +284,91 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	}
 
 	aplicarCorrecion() {
-		this.ppaMonitoringFormatService.preocesaCorreccion(2020, 3).subscribe(
+		let year = new Date(this.date.value).getFullYear()
+		let mount =  new Date(this.date.value).getMonth() + 1;
+
+		this.addBlock(1,"Aplicar Correción");
+		this.ppaMonitoringFormatService.preocesaCorreccion(year, mount).subscribe(
 			data => {
-				console.dir(data);
+				this.addBlock(2,"");
+				this.setTable01(data);
+				this.setChartBanderas(data);
+				
 			},
 			errorData => {
+				this.addBlock(2,"");
 				console.dir(errorData);
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
 	}
+	setTable01(data){
+		this.tablaDiasSeries[0].value = [];
+		this.tablaDiasSeries[1].value = [];
+		this.tablaDiasSeries[2].value = [];
+		this.tablaDiasSeries[3].value = [];
+		for (const dia of data.analisisDayList) {
+			/*			
+			{name:"Total de Registros Esperados"  , dia31: 0 ,value:[]},
+			{name:"Total de Registos Encontrados" , dia31: 0 ,value:[]},
+			{name:"# Variables Detectadas"        , dia31: 0 ,value:[]},
+			{name:"# Variables Corregidas"        , dia31: 0 ,value:[]}//*/
+			this.tablaDiasSeries[0].value.push(dia.esperados);
+			this.tablaDiasSeries[0].dia31 += dia.esperados;
 
-	aplicarDeteccion() {
-		this.ppaMonitoringFormatService.preocesaDeteccion(2020, 3).subscribe(
+			this.tablaDiasSeries[1].value.push(dia.encontrados);
+			this.tablaDiasSeries[1].dia31 += dia.encontrados;
+			
+			this.tablaDiasSeries[2].value.push(dia.detectados);
+			this.tablaDiasSeries[2].dia31 += dia.detectados;
+			
+			this.tablaDiasSeries[3].value.push(dia.corregidos);
+			this.tablaDiasSeries[3].dia31 += dia.corregidos;
+			
+		}
+		this.setChartTotal();
+	}
+	setChartBanderas(data){
+		this.opt.xAxis.categories = [];
+		this.resumenValue[0].value=[];
+		for (const bandera of data.estatusValueList) {
+			if(!this.opt.xAxis.categories.includes(`Bandera (${bandera.estatus})`)){
+				this.opt.xAxis.categories.push(`Bandera (${bandera.estatus})`);
+				this.resumenValue[0].value.push(bandera.cantidad);
+			}
+		}
+		this.opt.series[0].data = this.resumenValue[0].value;
+		Highcharts.chart(this.chartbar1.nativeElement, this.opt);
+	}
+	setChartTotal(){
+		this.chart2headerValue=[];
+		
+		this.chart2headerValue.push(this.tablaDiasSeries[3].dia31);
+		this.chart2headerValue.push(this.tablaDiasSeries[2].dia31);
+		this.chart2headerValue.push(this.tablaDiasSeries[2].dia31+this.tablaDiasSeries[3].dia31);
+		
+		this.opt2.series[0].data = this.chart2headerValue;
+		Highcharts.chart(this.chartbar2.nativeElement, this.opt2);
+	}
+	aplicarDeteccion(){
+		console.log("aplicarDeteccion()");
+		
+		let year = new Date(this.date.value).getFullYear()
+		let mount =  new Date(this.date.value).getMonth() + 1;
+		this.addBlock(1,"Aplicar Detección");
+		this.ppaMonitoringFormatService.preocesaDeteccion(year, mount).subscribe(
 			data => {
 				console.dir(data);
+				this.addBlock(2,"");
 			},
 			errorData => {
 				console.dir(errorData);
+				this.addBlock(2,"");
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
+	}
+	
+	private addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1, 
+		  new EventBlocked(type, msg)));
 	}
 }

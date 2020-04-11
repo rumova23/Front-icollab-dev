@@ -41,9 +41,9 @@
                         <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Heat <br> Rate</div>
                     </div>
                 </div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveA2'"><canvas #chartOveA2></canvas></div><p class="doughnut_p" [attr.valor]="getOveA2()[0]">{{getOveA2()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveA2'"><canvas #chartOveA2></canvas></div><p class="doughnut_p" [attr.oveA2PorFormula]="oveA2PorFormula" [attr.valor]="getOveA2()[0]">{{getOveA2()[0] | number: "1.2-2"}}</p></div>
                 <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartOveB2'"><canvas #chartOveB2></canvas></div><p class="doughnut_p" [attr.valor]="getOveB2()[0]">{{getOveB2()[0] | number: "1.2-2"}}</p></div>
-                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveC2'"><canvas #chartOveC2></canvas></div><p class="doughnut_p" [attr.valor]="getOveC2()[0]">{{getOveC2()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveC2'"><canvas #chartOveC2></canvas></div><p class="doughnut_p" [attr.oveC2PorFormula]="oveC2PorFormula" [attr.valor]="getOveC2()[0]">{{getOveC2()[0] | number: "1.2-2"}}</p></div>
             </div>
             <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-battery-three-quarters"></i><br> Capacity Factor</div></div>
             <div class="row">

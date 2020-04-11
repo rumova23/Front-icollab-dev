@@ -169,6 +169,8 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		
 
 	];
+	oveA2PorFormula=0;
+	oveC2PorFormula=0;
 	mtrLineAcDifExp={
 		overview:{
 			power:[{name:'Actuals',data:[]},{name:'dif',data:[]},{name:'expected',data:[[1167609600000,0.7537],[1167696000000,0.3197]]}],//[[1167609600000,0.7537],[1167696000000,0.3197]],
@@ -1178,10 +1180,12 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		
 		//this.setOveA1();
 		//this.setOveA2();
+		this.setOveA2PorFormula();
 		//this.setOveA3();
 		this.setOveA4();
 		this.setOveC1();
 		//this.setOveC2();
+		this.setOveC2PorFormula();
 		this.setOveC3();
 		this.setOveC4();
 		this.setOveB1();
@@ -1560,8 +1564,26 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	}
 
 	//setOveA1(){let v=(this.getEatA1()[0]+this.getEstA1()[0]);this.mtr.overview[0]=[v,(this.maxPow*2)-v]}
-	setOveA1(x){let v=x;this.mtr.overview[0]=[v,(this.maxPow*2)-v]}
+	setOveA1(x){
+		let v=x;
+		this.mtr.overview[0]=[v,(this.maxPow*2)-v];
+		
+		let a=this.getEatA2();
+		let s=this.getEstA2();
+		let ove0=(a[0]+s[0])/2;
+		/*
+		console.log("(Actual)Total Heat Rate");
+		console.log("OveA2 (T.CEA.2279) = (DAA08103  +  T.CEA.2268)/2");
+		console.log(`desdePI = (${x})   ,   desdeIcollab ( (${a[0]} + ${s[0]})/2 ) = ${ove0}`);
+		//*/
+	}
 	//setOveA2(){let a=this.getEatA2();let s=this.getEstA2();let ove0=(a[0]+s[0])/2;this.mtr.overview[3]=[ove0,this.maxHR-ove0]}
+	setOveA2PorFormula(){
+		let a=this.getEatA2();
+		let s=this.getEstA2();
+		let ove0=(a[0]+s[0])/2;
+		this.oveA2PorFormula=ove0;
+	}
 	setOveA2(x){this.mtr.overview[3]=[x,this.maxHR-x]}
 	//setOveA3(){let a=this.getEatA3();let s=this.getEstA3();let ove0=(a[0]+s[0])/2;this.mtr.overview[6]=[ove0,this.maxCaF-ove0]}
 	setOveA3(x){this.mtr.overview[6]=[x,this.maxCaF-x]}
@@ -1572,7 +1594,21 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	setOveB4(){let v=(this.getOveA4()[0]-this.getOveC4()[0]);this.mtr.overview[10]=[v,(this.maxFue*2)-v];}
 	setOveC1(){let a=this.getEatC1();let s=this.getEstC1();let ove0=a[0]+s[0];let ove1=a[1]+s[1];this.mtr.overview[2]=[ove0,(this.maxPow*2)-ove0]}
 	//setOveC2(){let a=this.getEatC2();let s=this.getEstC2();let ove0=(a[0]+s[0])/2;let ove1=(a[1]+s[1])/2;this.mtr.overview[5]=[ove0,this.maxHR-ove0]}
-	setOveC2(x){this.mtr.overview[5]=[x,this.maxHR-x]}
+	setOveC2PorFormula(){let a=this.getEatC2();let s=this.getEstC2();let ove0=(a[0]+s[0])/2;this.oveC2PorFormula=ove0}
+	setOveC2(x){
+		this.mtr.overview[5]=[x,this.maxHR-x];
+
+		let a=this.getEatC2();
+		let s=this.getEstC2();
+		let ove0=(a[0]+s[0])/2;		
+		this.mtr.overview[5]=[ove0,this.maxHR-ove0]
+
+		///*
+		console.log("(Expected)Total Heat Rate");
+		console.log("OveC2 (DAA08113) = (DAA08104 + LGS.CEA.71)/2");
+		console.log(`desdePI = (${x})   ,   desdeIcollab ( (${a[0]} + ${s[0]})/2 ) = ${ove0}`);
+		//*/
+	}
 	setOveC3(){let a=this.getEatC3();let s=this.getEstC3();let ove0=(a[0]+s[0])/2;let ove1=(a[1]+s[1])/2;this.mtr.overview[8]=[ove0,this.maxCaF-ove0]}
 	setOveC4(){let a=this.getEatC4();let s=this.getEstC4();let ove0=a[0]+s[0];let ove1=a[1]+s[1];this.mtr.overview[11]=[ove0,(this.maxFue*2)-ove0]}
 
