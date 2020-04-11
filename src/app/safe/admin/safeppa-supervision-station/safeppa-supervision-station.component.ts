@@ -283,4 +283,15 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
 	}
+
+	aplicarDeteccion() {
+		this.ppaMonitoringFormatService.preocesaDeteccion(2020, 3).subscribe(
+			data => {
+				console.dir(data);
+			},
+			errorData => {
+				console.dir(errorData);
+				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
+			});
+	}
 }
