@@ -217,12 +217,34 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		//this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
 	}
 	setChartData() {
-		this.dataSource = [
+		/*this.dataSource = [
 			{order : '1', dateOpCom : 'mar-20', Import : 'Manuel', user : 'Manuel Herrera', dateUpdated : '01/04/2020 10:40:00 a.m', status : 'Exitosa', sys_see : 'sys_see', sys_edit : 'sys_edit', sys_delete : 'sys_delete'},
 			{order : '2', dateOpCom : 'mar-20', Import : 'PI SERVER DSB', user : 'Ivette Colin', dateUpdated : '01/04/2020 10:40:00 a.m', status : 'Fallida', sys_see : 'sys_see', sys_edit : 'sys_edit', sys_delete : 'sys_delete'},
 			{order : '3', dateOpCom : 'mar-20', Import : 'FilleZilla FTP', user : 'Sistema', dateUpdated : '01/04/2020 10:40:00 a.m', status : 'Fallida', sys_see : 'sys_see', sys_edit : 'sys_edit', sys_delete : 'sys_delete'},
 
-		];
+		];//*/
+		this.ppaMonitoringFormatService.obtenBitacoraLoadRaw().subscribe(
+			data => {
+				this.dataSource = [];
+				let i=1;
+				for (const d of data) {
+					this.dataSource.push(
+						{
+							"order":i,
+							"dateOpCom": d.fechaOperacionComercial,
+							"Import": d.fuenteImportacion,
+							"dateUpdated": d.fechaUltimaModificacion?d.fechaUltimaModificacion:"-",
+							"status": d.estatusImportacion,
+							"user": d.usuario?d.usuario:"system"
+						}
+					);
+					i+=1;
+				}
+			},
+			errorData => {
+				console.dir(errorData);
+				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
+			});
 	}
 	setColumnsToDisplay() {
 		this.setChartData();

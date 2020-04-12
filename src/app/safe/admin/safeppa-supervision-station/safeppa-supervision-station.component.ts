@@ -268,6 +268,38 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	}
 	
 	setTableData(){
+		
+		this.ppaMonitoringFormatService.obtenBitacoraLoadRaw().subscribe(
+			data => {
+				let datain = [];
+				let i=1;
+				for (const d of data) {
+					datain.push(
+						{
+							"order":i,
+							"dateOpCom": d.fechaOperacionComercial,
+							"process": d.fuenteImportacion,
+							"dateUpdated": d.fechaUltimaModificacion?d.fechaUltimaModificacion:"-",
+							"status": d.estatusImportacion,
+							"user": d.usuario?d.usuario:"system",
+							sys_see : "sys_see",
+							sys_edit : "sys_edit",
+							sys_delete : "sys_delete"
+						}
+					);
+					i+=1;
+				}
+
+				
+				this.dataSource = new MatTableDataSource<any>(datain);
+				this.dataSource.paginator = this.paginator;
+				this.dataSource.sort = this.sort;
+			},
+			errorData => {
+				console.dir(errorData);
+				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
+			});
+			/*
 		let data = [
 			{order : "1",dateOpCom : "mar-20",process : "Corrección de Formato",user : "Manuel Herrera",dateUpdated : "01/04/2020 10:40:00 a.m",status : "Exitosa",sys_see : "sys_see",sys_edit : "sys_edit",sys_delete : "sys_delete"},
 			{order : "2",dateOpCom : "mar-20",process : "Detección de Formato",user : "Ivette Colin",dateUpdated : "01/04/2020 10:40:00 a.m",status : "Fallida",sys_see : "sys_see",sys_edit : "sys_edit",sys_delete : "sys_delete"},
@@ -275,7 +307,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		];
 		this.dataSource = new MatTableDataSource<any>(data);
 		this.dataSource.paginator = this.paginator;
-		this.dataSource.sort = this.sort;
+		this.dataSource.sort = this.sort;//*/
 	}
     sortData(sort: Sort) {
         
@@ -336,7 +368,8 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		for (const bandera of data.estatusValueList) {
 			if(!this.opt.xAxis.categories.includes(`Bandera (${bandera.estatus})`)){
 				this.opt.xAxis.categories.push(`Bandera (${bandera.estatus})`);
-				this.resumenValue[0].value.push(bandera.cantidad);
+				let porcentaje = (this.tablaDiasSeries[0].dia31/100)*bandera.cantidad;
+				this.resumenValue[0].value.push(porcentaje);
 
 				this.tablaTotalPorcentajesBanderas.push({
 					header:`Bandera (${bandera.estatus})`,
