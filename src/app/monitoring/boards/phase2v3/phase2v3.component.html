@@ -108,7 +108,7 @@
                     <div><h3 class="color-aguila">EAT</h3></div>
                     <div>
                         <radial-gauge
-                            [value]="'0'"
+                            [value]="excessCapacityEAT"
                             units="4.0 Mw"
                             width="170"
                             height="170"
@@ -157,14 +157,14 @@
                         </radial-gauge>
                     </div>
                     <div>
-                        0 Mw
+                        {{excessCapacityEAT}} Mw
                     </div>                    
                 </div>
                 <div class="col align-self-center">
                     <div><h3 class="color-sol">EST</h3></div>
                     <div>
                         <radial-gauge
-                            [value]="'0'"
+                            [value]="excessCapacityEST"
                             units="4.0 Mw"
                             width="170"
                             height="170"
@@ -213,7 +213,7 @@
                         </radial-gauge>
                     </div> 
                     <div>
-                        0 Mw
+                        {{excessCapacityEST}} Mw
                     </div> 
                 </div>
             </div>

@@ -5,13 +5,15 @@ import { map           } from 'rxjs/operators';
 import { environment   } from 'src/environments/environment';
 import { SocketService } from 'src/app/core/services/socket.service';
 import { PiServerBox   } from '../models/piServer/piServerBox';
+import { GlobalService } from 'src/app/core/globals/global.service';
 
 
 
 @Injectable({ providedIn: 'root' })
 export class MonitoringTrService {
 
-	constructor(private http: HttpClient, private socketService:SocketService) { }
+	constructor(private http: HttpClient, private socketService:SocketService,
+		private globalService: GlobalService) { }
 	/**********************************************************************\
 	 *    REST REQUEST
 	\**********************************************************************/
@@ -86,5 +88,11 @@ export class MonitoringTrService {
 	getSocketPiAguilaError(): Observable<any>{
 		let channel = this.socketService.suscribeChannel("pi-aguila");
 		return this.socketService.onChannelError(channel - 1);
+	}
+
+	
+	getModelMarketSol(time): Observable<any> {
+		let parameters = this.globalService.setXTenantId_Plant('Sol');
+		return this.http.get(environment.mmmercadoUrl + 'prediction/planning/' + time, {params : parameters });
 	}
 }

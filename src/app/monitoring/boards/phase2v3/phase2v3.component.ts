@@ -29,6 +29,7 @@ import HC_more         from 'highcharts/highcharts-more';
 import theme           from 'highcharts/themes/gray.src';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
+import { MarketService } from 'src/app/safe/services/market.service';
 
 
 
@@ -893,12 +894,14 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	pressure="";
 	windSpeed="";
 	chartManoometro;
+	excessCapacityEST="0";
+	excessCapacityEAT="0";
     constructor(
         public globalService       : GlobalService,
         public eventService        : EventService,
         public socketService       : SocketService,
 		public securityService     : SecurityService,
-		public monitoringTrService  : MonitoringTrService
+		public monitoringTrService : MonitoringTrService
     ) {
         super(globalService, eventService, socketService,securityService);
     }
@@ -913,7 +916,6 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		document.getElementById("content_theme").setAttribute('href',url);
 		//Highcharts.setOptions(highcharts.theme);
 		this.addBlock(1,'');
-	
 		this.sleep(2000).then(() => { this.cargar(); });
 	}
 	cargar(){
@@ -930,12 +932,15 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.setMtr();
 		this.updateDonughtChart();
 		//*/
-		this.updateChartDif(); 
+		this.updateChartDif(); 			
+		this.loadData();
 		this.id = setInterval(() => {
 		  this.getStreamsetsInterpolatedSolPresionGas();
 		}, 5000);
 		this.id2 = setInterval(() => {
-			this.updateChartDif(); 
+			/**Cada Hora */
+			this.updateChartDif(); 			
+			this.loadData();
 		}, 3600000);
 		this.sleep(4000).then(() => { this.addBlock(2,''); });
 	}
@@ -1028,6 +1033,34 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 				}
 			},
 		  });
+	}
+	
+	loadData() {
+		let fecha = new Date();
+		
+		this.monitoringTrService.getModelMarketSol(fecha.getTime())
+		  .subscribe(
+			data => {
+			  const rows = data.rows;
+			  for (let i = 0; i < rows.length; i++) {
+				const hour: any = {};
+				const offerIncrements = rows[i].offerIncrements;
+				hour.hour = offerIncrements[0].hour;
+				hour.limitDispatchMin = rows[i].planningDetail.limitDespatchMin;
+				hour.limitDispatchMax = rows[i].planningDetail.limitDespatchMax;
+				hour.idSubInt =  rows[i].planningDetail.idSubInt;
+				hour.minimumPowerOperationCost = (rows[i].planningCharges) ? rows[i].planningCharges.costOperation : 0;
+				let hours = new Date().getHours();
+				if(hours == hour.hour){
+					this.excessCapacityEST = hour.limitDispatchMax+"";
+				}
+				
+			  }
+			 
+			},
+			errorData => {
+			  
+			});
 	}
 	getStreamsetsInterpolatedSolPresionGas(){
 
