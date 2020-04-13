@@ -22,12 +22,17 @@ import HC_stock        from 'highcharts/modules/stock';
 import HC_customEvents from 'highcharts-custom-events';
 import HC_exportdata   from 'highcharts/modules/export-data';
 import Highcharts3d    from 'highcharts/highcharts-3d';
+import HC_more         from 'highcharts/highcharts-more';
+//require('highcharts/highcharts-more')(Highcharts);
+//require('highcharts/modules/solid-gauge')(Highcharts);
 //import theme           from 'highcharts/themes/gray';
 import theme           from 'highcharts/themes/gray.src';
+import { EventMessage } from 'src/app/core/models/EventMessage';
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 
 
-
+HC_more(Highcharts);
 HC_exporting(Highcharts);
 HC_stock(Highcharts);
 HC_customEvents(Highcharts);
@@ -86,6 +91,8 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	@ViewChild('chartLineEat2') chartLineEat2: ElementRef;  chartLineEat2C;
 	@ViewChild('chartLineEst1') chartLineEst1: ElementRef;  chartLineEst1C;
 	@ViewChild('chartLineEst2') chartLineEst2: ElementRef;  chartLineEst2C;
+	
+	@ViewChild('chartManometro') chartManometro: ElementRef; 
 
 	valueTemporal : number = 0;
 	CTUnoDiesel;
@@ -758,7 +765,113 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 				data: []
 			}
 		]
-    }
+	}
+	public optManometro:any={
+
+		chart: {
+			type: 'gauge',
+			plotBackgroundColor: null,
+			plotBackgroundImage: null,
+			plotBorderWidth: 0,
+			plotShadow: false,
+			backgroundColor: {
+				linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+				stops: [
+					[0, 'rgb(0, 0, 0)'],
+					[1, 'rgb(0, 0, 0)']
+				]
+			},
+            height: 260
+		},
+	
+		title: {
+			text: ''
+		},
+
+		exporting: {
+		  enabled: false
+		},
+	
+		pane: {
+			startAngle: -150,
+			endAngle: 150,
+			background: [{
+				backgroundColor: {
+					linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+					stops: [
+						[0, '#FFF'],
+						[1, '#333']
+					]
+				},
+				borderWidth: 0,
+				outerRadius: '109%'
+			}, {
+				backgroundColor: {
+					linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+					stops: [
+						[0, '#333'],
+						[1, '#FFF']
+					]
+				},
+				borderWidth: 1,
+				outerRadius: '107%'
+			}, {
+				// default background
+			}, {
+				backgroundColor: '#DDD',
+				borderWidth: 0,
+				outerRadius: '105%',
+				innerRadius: '103%'
+			}]
+		},
+	
+		// the value axis
+		yAxis: {
+			min: 0,
+			max: 70,
+	
+			minorTickInterval: 'auto',
+			minorTickWidth: 1,
+			minorTickLength: 10,
+			minorTickPosition: 'inside',
+			minorTickColor: '#666',
+	
+			tickPixelInterval: 30,
+			tickWidth: 2,
+			tickPosition: 'inside',
+			tickLength: 10,
+			tickColor: '#666',
+			labels: {
+				step: 2,
+				rotation: 'auto'
+			},
+			title: {
+				text: 'kg/cm^2'
+			},
+			plotBands: [{
+				from: 0,
+				to: 23,
+				color: '#DF5353' // green #55BF3B
+			}, {
+				from: 23,
+				to: 46,
+				color: '#DDDF0D' // yellow DDDF0D
+			}, {
+				from: 46,
+				to: 70,
+				color: '#55BF3B' // red DF5353
+			}]
+		},
+	
+		series: [{
+			name: 'Bar',
+			data: [0],
+			tooltip: {
+				valueSuffix: 'kg/cm^2'
+			}
+		}]
+	
+	};
 	valueGas=100;
 	id;
 	id2;
@@ -779,6 +892,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	humidity="";
 	pressure="";
 	windSpeed="";
+	chartManoometro;
     constructor(
         public globalService       : GlobalService,
         public eventService        : EventService,
@@ -798,6 +912,12 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		let url = `/assets/css/theme/content/monitoringv2.css`;
 		document.getElementById("content_theme").setAttribute('href',url);
 		//Highcharts.setOptions(highcharts.theme);
+		this.addBlock(1,'');
+	
+		this.sleep(2000).then(() => { this.cargar(); });
+	}
+	cargar(){
+		this.sleep(5000);
 		this.initChart();
 		this.getStreamsetsInterpolatedLast24HoursSol();
 		this.getStreamsetsInterpolatedLast24HoursAguila();
@@ -805,7 +925,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.subscribeSocketChannel("pi-servers"    ,(data)=>{this.socketFlow(data);}  ,()=>{this.socketReconnected();}  ,()=>{this.socketDisconnected();});
 		this.subscribeSocketChannel("weather"    ,(data)=>{this.socketFlowWeather(data);}  ,()=>{this.socketReconnected();}  ,()=>{this.socketDisconnected();});
 		//this.subscribeSocketChannel("back-pi-isrun" ,(data)=>{this.socketFlow(data);}  ,()=>{this.socketReconnected();}  ,()=>{this.socketDisconnected();});
-
+		this.initManoometro();
 		/*
 		this.setMtr();
 		this.updateDonughtChart();
@@ -816,8 +936,14 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		}, 5000);
 		this.id2 = setInterval(() => {
 			this.updateChartDif(); 
-		  }, 3600000);
-
+		}, 3600000);
+		this.sleep(4000).then(() => { this.addBlock(2,''); });
+	}
+	sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+	initManoometro(){
+		this.chartManoometro = Highcharts.chart(this.chartManometro.nativeElement, this.optManometro);
 	}
 	socketFlowWeather(data){
 		let weather = data.data;
@@ -891,6 +1017,18 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 				}
 			);
 	}	
+	DemoManometro(){
+		
+		this.chartManoometro.update({
+			series: {
+				name: 'Bar',
+				data: [100],
+				tooltip: {
+					valueSuffix: ' kg/cm^2'
+				}
+			},
+		  });
+	}
 	getStreamsetsInterpolatedSolPresionGas(){
 
 		this.monitoringTrService.getStreamsetsInterpolatedLastHours('2',['F1DP4rhZAwFMREKDf7s8vylUqgnAMAAAUElUVlxULkNFQS4yMTk0'],1)
@@ -901,6 +1039,17 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 					let value = data.data[0]['Items'][0]['Items'][data.data[0]['Items'][0]['Items'].length-1].Value.Value;
 					//this.viewGasPressure = ((value*100)/max);
 					this.viewGasPressure = value;
+					
+					this.chartManoometro.update({
+						series: {
+							name: 'Bar',
+							data: [value],
+							tooltip: {
+								valueSuffix: ' kg/cm^2'
+							}
+						},
+					  });
+					this.optManometro.series[0].data = [value];
 					this.radialGasPressure = 80+(120-(80+((40*((value*100)/max))/100)));					
 				},
 				errorData => {
@@ -1603,7 +1752,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		let ove0=(a[0]+s[0])/2;		
 		this.mtr.overview[5]=[ove0,this.maxHR-ove0]
 
-		///*
+		/*
 		console.log("(Expected)Total Heat Rate");
 		console.log("OveC2 (DAA08113) = (DAA08104 + LGS.CEA.71)/2");
 		console.log(`desdePI = (${x})   ,   desdeIcollab ( (${a[0]} + ${s[0]})/2 ) = ${ove0}`);
@@ -1702,5 +1851,11 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.viewDiesel += 10;		
 		let v = (40*this.viewDiesel)/100;		
 		this.viewDieselRadialGauge = 80+(120-(80+v));
+	}
+
+	
+	private addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1, 
+		  new EventBlocked(type, msg)));
 	}
 }

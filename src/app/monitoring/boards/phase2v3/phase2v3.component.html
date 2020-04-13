@@ -400,7 +400,7 @@
             <img src="assets/monitoring/phase2/sol.png" alt="demo-dougnut" style="max-width: 50px;">
         </div>
         <div class="col-12">
-            <h4 class="m-0">EST</h4>
+            <h4 class="m-0" (click)="DemoManometro()">EST</h4>
         </div>
     </div>
     <div class="row">
@@ -480,7 +480,9 @@
         <div class="col-12 col-md-4    col-lg-4   col-xl-2        py-2 order-md-5 text-center bg-black">
             <div class="row h-100">
                 <div class="col-12"><label class="titlem">Gas Pressure</label></div>
-                <div class="col align-self-center">
+                <div class="col-12">
+                    <div #chartManometro id="chartManometro"></div>
+                    <!--
                     <div>
                         <radial-gauge 
                             style="margin-left: -85px;"
@@ -532,12 +534,13 @@
                             >
                     
                         </radial-gauge>
-                    </div>                    
+                    </div>     
+                    -->               
                 </div>
-                <div class="col align-self-center">
+                <!--div class="col-12">
                     <i class="fas fa-fire-alt fa-3x"></i>
                     <p>{{viewGasPressure  | number: "1.2-2"}} bar</p>
-                </div>
+                </div-->
                 <img src="assets/monitoring/phase2/sol.png" alt="demo-dougnut" style="position: absolute; max-width: 50px; right: 0;" class="d-none d-xl-block">
             </div>
         </div>
