@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import {Chart} from 'chart.js';
 import { map } from 'rxjs/operators';
 import { ConnectSocketChannelComponent } from 'src/app/shared/socket/connectSocketChannel.component';
@@ -11,20 +11,126 @@ import { SocketService } from 'src/app/core/services/socket.service';
 import { MonitoringTrService } from '../../services/monitoringTr.service';
 import { DatePipe } from '@angular/common';
 import { PiServerBox } from '../../models/piServer/piServerBox';
-
+import * as Highcharts from 'highcharts';
 @Component({
 	selector: 'app-phase3v2',
 	templateUrl: './phase3v2.component.html',
 	styleUrls: ['./phase3v2.component.scss']
 })
 export class Phase3v2Component extends ConnectSocketChannelComponent implements OnInit, OnDestroy {
-
+	@ViewChild('LineChart2') LineChart2: ElementRef;chartLine2C;
 	LineChart :Chart ;  //grafica
 	mediaDona1 = []; //MediaDona1
 	mediaDona2 = []; //Media Dona en medio
 	mediaDona3 = []; //Media Dona en final
 	mediaDonaIntermedia1 = [];
 	
+	public opt2: any = {
+		time: {
+			timezone: 'America/Mexico_City',
+			useUTC: false
+		},
+		chart: {
+			backgroundColor: {
+				linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+				stops: [
+					[0, 'rgb(0, 0, 0)'],
+					[1, 'rgb(0, 0, 0)']
+				]
+			},
+			zoomType: 'xy'
+		},
+		title: {
+			text: 'Variables de Estación de Supervisión',
+		},
+		xAxis: {
+			type: 'datetime'
+		},
+		yAxis: [ { // Secondary yAxis
+            id: 'potencia-neta-axis',
+            title: {
+                text: 'Potencia Neta'
+            },
+            //opposite: true
+        },{ // Secondary yAxis
+            id: 'potencia-ccdv-axis',
+            title: {
+                text: 'CCDV'
+            },
+           // opposite: true
+        },{ // Secondary yAxis
+            id: 'regimen-terminco-axis',
+            title: {
+                text: 'Regimen Termico'
+            },
+            //opposite: true
+        } ],
+		tooltip: {
+			shared: true
+		},
+		legend: {
+			layout: 'vertical',
+			align: 'right',
+			verticalAlign: 'top',
+			y: 60,
+            x: -10,
+			floating: true,
+            draggable: true,
+			zIndex: 20,
+			title: {
+                text: 'Tags'
+            },
+			backgroundColor:
+				Highcharts.defaultOptions.legend.backgroundColor || // theme
+				'rgba(255,255,255,0.25)'
+		},
+		series: [{
+			name:'Potencia Neta',
+			color: '#F33',
+            yAxis: 'potencia-neta-axis',
+
+		}],
+		responsive: {
+			rules: [{
+				condition: {
+					maxWidth: 500
+				},
+				chartOptions: {
+					legend: {
+						floating: false,
+						layout: 'horizontal',
+						align: 'center',
+						verticalAlign: 'bottom',
+						x: 0,
+						y: 0
+					},
+					yAxis: [{
+						labels: {
+							align: 'right',
+							x: 0,
+							y: -6
+						},
+						showLastLabel: false
+					}, {
+						labels: {
+							align: 'left',
+							x: 0,
+							y: -6
+						},
+						showLastLabel: false
+					}, {
+						visible: false
+					}]
+				}
+			}]
+		}
+	};
+	
+	webIds=[
+		{name:"potenciaNeta",f:"setPotenciaNeta",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz"},
+		{name:"potenciaCcdv",f:"setPotenciaCcdv",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgICUAAAU0VSVklET1JfUElcREFBMDgxMTE",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg1QMAAAUElUVlxULkNFQS4yMjYy"},
+		{name:"regimentermico",f:"setRegimenTermico",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4"}
+	]
 	constructor(
 		public globalService: GlobalService,
 		public theme: ThemeService,
@@ -40,10 +146,9 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 		super(globalService, eventService, socketService,securityService);
 	}
 
-
 	ngOnInit() {
 		this.socketFase3();
-
+		this.LineChart2f();
 		// Grafica
 		this.LineChart = new Chart('lineChart', {
 			type: 'line',
@@ -325,8 +430,7 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 			}
 
 		});
-	}
-	
+	}	
 	ngOnDestroy(){
 		this.connectSocketChannelNgOnDestroy();
 	}
@@ -348,9 +452,45 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 	}
 	disconnected(){
 
-	}
+	}	
+	addStreamsetsValueInChart(box: PiServerBox){
+		
+		let date = new Date();
+		for (const plant of box.data) {
+			if(!plant.error_response){
+				for (const tag of plant.Items) {
+					
+					for (const iterator of this.webIds) {
+						if(this.globalService.plant.name.toLowerCase() == "aguila"){
 	
-    addStreamsetsValueInChart(box: PiServerBox){
+							if(tag.WebId == iterator.webIdA){
+								iterator.value = +tag.Value.Value;
+								iterator.date = date; 
+								this[iterator.f](iterator.value,date.getTime());
+							}
+						}else if(this.globalService.plant.name.toLowerCase() == "sol"){
+							
+							if(tag.WebId == iterator.webIdS){
+								iterator.value = +tag.Value.Value;
+								iterator.date = date; 
+								this[iterator.f](iterator.value,date.getTime());
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	setPotenciaNeta(y,x){
+		this.chartLine2C.series[0].addPoint([x, y], true, true);
+	}
+	setPotenciaCcdv(y,x){
+		this.chartLine2C.series[1].addPoint([x, y], true, true);
+	}
+	setRegimenTermico(y,x){
+		this.chartLine2C.series[2].addPoint([x, y], true, true);
+	}
+    addStreamsetsValueInChartOld(box: PiServerBox){
 		let entrada = true;
 		for (const data of box.data) {
 			if (!data.error_response) {
@@ -406,5 +546,148 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 				}
 			}
 		}
-    }
+	}
+	LineChart2f(){
+		
+		let opt: any = {
+			chart: {
+				type: 'spline',
+				//animation: Highcharts.svg, // don't animate in old IE
+				marginRight: 10,
+				
+				backgroundColor: {
+					linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+					stops: [
+						[0, 'rgb(0, 0, 0)'],
+						[1, 'rgb(0, 0, 0)']
+					]
+				},
+			},
+		
+			time: {
+				useUTC: false
+			},
+		
+			title: {
+				text: 'Live random data'
+			},
+		
+			plotOptions: {
+				series: {
+					marker: {
+						enabled: false
+					}
+				}
+			},
+			accessibility: {
+				announceNewData: {
+					enabled: false,
+					minAnnounceInterval: 15000,
+					announcementFormatter: function (allSeries, newSeries, newPoint) {
+						if (newPoint) {
+							return 'New point added. Value: ' + newPoint.y;
+						}
+						return false;
+					}
+				}
+			},
+		
+			xAxis: {
+				type: 'datetime',
+				tickPixelInterval: 150
+			},
+		
+			yAxis:  [ { // Secondary yAxis
+				id: 'potencia-neta-axis',
+				gridLineWidth: 0,
+				title: {
+					text: 'Potencia Neta'
+				},
+				//opposite: true
+			},{ // Secondary yAxis
+				id: 'potencia-ccdv-axis',
+				gridLineWidth: 0,
+				title: {
+					text: 'CCDV'
+				},
+			   // opposite: true
+			},{ // Secondary yAxis
+				id: 'regimen-terminco-axis',
+				gridLineWidth: 0,
+				title: {
+					text: 'Regimen Termico'
+				},
+				//opposite: true
+			} ],
+		
+			tooltip: {
+				headerFormat: '<b>{series.name}</b><br/>',
+				pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}'
+			},
+		
+			legend: {
+				enabled: false
+			},
+		
+			exporting: {
+				enabled: false
+			},
+		
+			series: [{
+				name:'Potencia Neta',
+				yAxis: 'potencia-neta-axis',
+				data:(function () {
+					// generate an array of random data
+					var data = [],
+						time = (new Date()).getTime(),
+						i;
+		
+					for (i = -24; i <= 0; i += 1) {
+						data.push({
+							x: time + i * 1000,
+							y:0
+						});
+					}
+					return data;
+				}())
+			},{
+				name:'Potencia CCDV',
+				yAxis: 'potencia-ccdv-axis',
+				color: '#fff',
+				data:(function () {
+					// generate an array of random data
+					var data = [],
+						time = (new Date()).getTime(),
+						i;
+		
+					for (i = -24; i <= 0; i += 1) {
+						data.push({
+							x: time + i * 1000,
+							y:0
+						});
+					}
+					return data;
+				}())
+			},{
+				name:'Regimen Termico',
+				yAxis: 'regimen-terminco-axis',
+				color: '#F33',
+				data:(function () {
+					// generate an array of random data
+					var data = [],
+						time = (new Date()).getTime(),
+						i;
+		
+					for (i = -24; i <= 0; i += 1) {
+						data.push({
+							x: time + i * 1000,
+							y:0
+						});
+					}
+					return data;
+				}())
+			}]
+		}
+		this.chartLine2C = Highcharts.chart(this.LineChart2.nativeElement, opt);
+	}
 }

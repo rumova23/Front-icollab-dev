@@ -14,25 +14,25 @@
 			<div style="margin-left:30px; background: #0F0F0F; display: inline-block;text-align: center">
 				<div style="margin:10px;">
 					<p class="text1">POTENCIA NETA</p>
-					<span class="digito">246.92</span><span class="text2">MW</span>
-					<p class="text2">03/10/2019</p>
-					<p class="text2">10:43:08</p>
+					<span class="digito">{{webIds[0].value | number: "1.2-2"}}</span><span class="text2">MW</span>
+					<p class="text2">{{ webIds[0].date | date:'dd/MM/yyyy' }} </p>
+					<p class="text2">{{ webIds[0].date | date:'hh:mm:ss' }} </p>
 				</div>
 			</div>
 			<div style="margin-left:30px;background: #0F0F0F;display:inline-block;text-align: center;">
 				<div style="margin:10px;">
 					<p class="text1">POTENCIA CCDV</p>
-					<span class="digito">239,69</span><span class="text2">MV</span>
-					<p class="text2">03/10/2019</p>
-					<p class="text2">10:43:08</p>
+					<span class="digito">{{webIds[1].value | number: "1.2-2"}}</span><span class="text2">MV</span>
+					<p class="text2">{{ webIds[1].date | date:'dd/MM/yyyy' }}</p>
+					<p class="text2">{{ webIds[1].date | date:'hh:mm:ss' }}</p>
 				</div>
 			</div>
 			<div style="margin-left:30px;background: #0F0F0F;display: inline-block;text-align: center;">
 				<div style="margin:10px;">
 					<p class="text1">RÉGIMEN TÉRMICO</p>
-					<span class="digito">6.886</span><span class="text2">KJ/KWh</span>
-					<p class="text2">03/10/2019</p>
-					<p class="text2">10:43:08</p>
+					<span class="digito">{{webIds[2].value | number: "1.2-2"}}</span><span class="text2">KJ/KWh</span>
+					<p class="text2">{{ webIds[2].date | date:'dd/MM/yyyy' }}</p>
+					<p class="text2">{{ webIds[2].date | date:'hh:mm:ss' }}</p>
 				</div>
 			</div>
 		</div>
@@ -59,8 +59,11 @@
 		</div>
 	</div>
 	<div class="chart-container">
-		<canvas id="lineChart"></canvas>
+		<div #LineChart2></div>
 	</div>
+	<!--div class="chart-container">
+		<canvas id="lineChart"></canvas>
+	</div-->
 	<div id="turbinas">
 		<div class="block">
 			<div id="donaContainer">
