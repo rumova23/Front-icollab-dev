@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import { GlobalService } from 'src/app/core/globals/global.service';
 
 const httpOptions = {
@@ -23,6 +23,7 @@ export class PersonalCompetenteService {
   private baseUrl2 = environment.microexamenUrl;
   private microSeguimiento = environment.seguimientoUrl;
 
+  accion: BehaviorSubject<string> = new BehaviorSubject<string>('no aplica');
   parameters: any;
 
   constructor(private http: HttpClient,

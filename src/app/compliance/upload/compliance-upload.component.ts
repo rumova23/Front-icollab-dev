@@ -5,6 +5,7 @@ import {ConfirmationDialogService} from '../../core/services/confirmation-dialog
 import {ToastrManager} from 'ng6-toastr-notifications';
 import {Documents} from '../models/Documents';
 import {CarasDocument} from '../models/CarasDocument';
+import {PersonalCompetenteService} from '../services/personal-competente.service';
 
 @Component({
   selector: 'app-compliance-upload',
@@ -12,9 +13,8 @@ import {CarasDocument} from '../models/CarasDocument';
   styleUrls: ['./compliance-upload.component.scss']
 })
 export class ComplianceUploadComponent implements OnInit, OnDestroy {
-  @Input() inIdEventConfig: number;
+  @Input() inEmployeeId: number;
   @Input() inAccion: string;
-  @Input() inTypeConfig: number;
 
   typeDocuments = ['Documentos'];
   titleDocument: Array<any>;
@@ -23,11 +23,11 @@ export class ComplianceUploadComponent implements OnInit, OnDestroy {
   subscription;
 
   constructor(public globalService: GlobalService,
-              private efhService: EfhService,
+              private personalCompetenteService: PersonalCompetenteService,
               private confirmationDialogService: ConfirmationDialogService,
               public toastr: ToastrManager) {
     this.titleDocument = [];
-    this.subscription = this.efhService.accion.subscribe(
+    this.subscription = this.personalCompetenteService.accion.subscribe(
         accion => {
           console.log('Accion upload: ' + accion);
           if (accion === 'upload') {
@@ -55,7 +55,7 @@ export class ComplianceUploadComponent implements OnInit, OnDestroy {
       let documents: Documents;
       let carasDocumnts: Array<CarasDocument>;
       carasDocumnts =  [];
-      this.efhService.getDocuments(this.inTypeConfig, this.inIdEventConfig, this.typeDocuments[i]).subscribe(
+      this.personalCompetenteService.getDocuments(this.inEmployeeId).subscribe(
           docto => {
             for (let j = 0; j < docto.length; j++) {
               carasDocumnts.push(new CarasDocument(docto[j].fileName, docto[j].fileType, docto[j].fileId));
@@ -71,7 +71,7 @@ export class ComplianceUploadComponent implements OnInit, OnDestroy {
   }
 
   downloadFile(fileId: number, fileName: string) {
-    this.efhService.downloadFile(this.inTypeConfig, fileId).subscribe(
+    this.personalCompetenteService.downloadFile(fileId).subscribe(
         result => {
           let dataType = result.type;
           let binaryData = [];
@@ -91,15 +91,15 @@ export class ComplianceUploadComponent implements OnInit, OnDestroy {
         'Está seguro de eliminar el archivo?')
         .then((confirmed) => {
           if (confirmed) {
-            this.efhService.deleteFile(this.inTypeConfig, fileId).subscribe(
+            this.personalCompetenteService.deleteFile(fileId).subscribe(
                 result => {
                   this.toastr.successToastr('Documento eliminado con éxito.', '¡Se ha logrado!');
-                  this.efhService.accion.next('upload');
+                  this.personalCompetenteService.accion.next('upload');
                 },
                 error => {
                   if (error.error['text'] === 'OK') {
                     this.toastr.successToastr('Documento eliminado con éxito.', '¡Se ha logrado!');
-                    this.efhService.accion.next('upload');
+                    this.personalCompetenteService.accion.next('upload');
                   } else {
                     this.toastr.errorToastr('Ocurrió un error al intentar eliminar el archivo', 'Lo siento,');
                   }
