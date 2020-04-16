@@ -125,6 +125,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	viewDiesel=0;
 	viewDieselMetros;
 	viewDieselRadialGauge=0;
+	//viewDieselTagName="";
 	
 	eatHRCorregido;
 	estHRCorregido;
@@ -398,13 +399,13 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 				color: 'silver'
 			},
 			labelStyle: {
-				color: 'silver'
+				color: '#fff'
 			}
 		},
 		navigator: {
 			handles: {
 				backgroundColor: '#666',
-				borderColor: '#AAA'
+				borderColor: '#fff'
 			},
 			outlineColor: '#CCC',
 			maskFill: 'rgba(16, 16, 16, 0.5)',
@@ -415,17 +416,17 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		},
 		xAxis: {
 			gridLineWidth: 0,
-			lineColor: '#999',
-			tickColor: '#999',
+			lineColor: '#fff',
+			tickColor: '#fff',
 			labels: {
 				style: {
-					color: '#999',
+					color: '#fff',
 					fontWeight: 'bold'
 				}
 			},
 			title: {
 				style: {
-					color: '#AAA',
+					color: '#fff',
 					font: 'bold 12px Lucida Grande, Lucida Sans Unicode,' +
 						' Verdana, Arial, Helvetica, sans-serif'
 				}
@@ -440,13 +441,13 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 			tickWidth: 0,
 			labels: {
 				style: {
-					color: '#999',
+					color: '#fff',
 					fontWeight: 'bold'
 				}
 			},
 			title: {
 				style: {
-					color: '#AAA',
+					color: '#fff',
 					font: 'bold 12px Lucida Grande, Lucida Sans Unicode,' +
 						' Verdana, Arial, Helvetica, sans-serif'
 				}
@@ -646,7 +647,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		},
 		// scroll charts
 		rangeSelector: {
-			inputEnabled: false,
+			inputEnabled: true,
 			selected: 0,
 			buttonTheme: {
 				fill: {
@@ -692,10 +693,10 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 			},
 			inputStyle: {
 				backgroundColor: '#333',
-				color: 'silver'
+				color: '#fff'
 			},
 			labelStyle: {
-				color: 'silver'
+				color: '#fff'
 			}
 		},
 		navigator: {
@@ -712,17 +713,17 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		},
 		xAxis: {
 			gridLineWidth: 0,
-			lineColor: '#999',
-			tickColor: '#999',
+			lineColor: '#fff',
+			tickColor: '#fff',
 			labels: {
 				style: {
-					color: '#999',
+					color: '#fff',
 					fontWeight: 'bold'
 				}
 			},
 			title: {
 				style: {
-					color: '#AAA',
+					color: '#fff',
 					font: 'bold 12px Lucida Grande, Lucida Sans Unicode,' +
 						' Verdana, Arial, Helvetica, sans-serif'
 				}
@@ -737,13 +738,13 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 			tickWidth: 0,
 			labels: {
 				style: {
-					color: '#999',
+					color: '#fff',
 					fontWeight: 'bold'
 				}
 			},
 			title: {
 				style: {
-					color: '#AAA',
+					color: '#fff',
 					font: 'bold 12px Lucida Grande, Lucida Sans Unicode,' +
 						' Verdana, Arial, Helvetica, sans-serif'
 				}
@@ -1156,18 +1157,19 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 			);
 	}
 	getStreamsetsInterpolatedAguilaDieselTank(){
-
+		/*
 		this.monitoringTrService.getStreamsetsInterpolatedLastHours('1',['P0uQAgHoBd0ku7P3cWOJL6IgyyMAAAU0VSVklET1JfUElcUDFBMDgwNjI'],1)
 			.subscribe(
 				data => {
 					//14.13 son metros y es mi maximo 
 					//data / 1000 // convertir a metros
-					/* en la representacion radial-gauge en 80 representa el 100% y el 120 representa el 0% */
+					// en la representacion radial-gauge en 80 representa el 100% y el 120 representa el 0%
 					let max = 14.13;
 					let value = data.data[0]['Items'][0]['Items'][data.data[0]['Items'][0]['Items'].length-1].Value.Value;
 					this.viewDieselMetros= value/1000;
 					this.viewDiesel = ((this.viewDieselMetros*100)/max);
-
+					this.viewDieselTagName = data.data[0].error_response?"":data.data[0].Items[0].Name;
+					debugger
 					let v = (40*this.viewDiesel)/100;		
 					this.viewDieselRadialGauge = 80+(120-(80+v));	
 				},
@@ -1175,6 +1177,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 				//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
 				}
 			);
+			//*/
 	}
 	setPercentageDieselTank(x){
 		this.viewDiesel = x;		
