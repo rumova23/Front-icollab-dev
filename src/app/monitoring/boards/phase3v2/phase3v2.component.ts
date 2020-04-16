@@ -20,9 +20,9 @@ import * as Highcharts from 'highcharts';
 export class Phase3v2Component extends ConnectSocketChannelComponent implements OnInit, OnDestroy {
 	@ViewChild('LineChart2') LineChart2: ElementRef;chartLine2C;
 	LineChart :Chart ;  //grafica
-	mediaDona1 = []; //MediaDona1
-	mediaDona2 = []; //Media Dona en medio
-	mediaDona3 = []; //Media Dona en final
+	mediaDona1 :Chart; //MediaDona1
+	mediaDona2 :Chart; //Media Dona en medio
+	mediaDona3 :Chart; //Media Dona en final
 	mediaDonaIntermedia1 = [];
 	
 	public opt2: any = {
@@ -127,9 +127,28 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 	};
 	
 	webIds=[
-		{name:"potenciaNeta",f:"setPotenciaNeta",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz"},
-		{name:"potenciaCcdv",f:"setPotenciaCcdv",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgICUAAAU0VSVklET1JfUElcREFBMDgxMTE",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg1QMAAAUElUVlxULkNFQS4yMjYy"},
-		{name:"regimentermico",f:"setRegimenTermico",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4"}
+		{tagName:"",name:"potenciaNeta",f:"setPotenciaNeta",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz"},
+		{tagName:"",name:"potenciaCcdv",f:"setPotenciaCcdv",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgICUAAAU0VSVklET1JfUElcREFBMDgxMTE",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg1QMAAAUElUVlxULkNFQS4yMjYy"},
+		{tagName:"",name:"regimentermico",f:"setRegimenTermico",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4"},
+		{tagName:"",name:"ct-1-gas"     ,f:"setCt1Gas",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IguB8AAAU0VSVklET1JfUElcRzFBMDgwNzM",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqglAAAAAUElUVlw1MUNFQUdGMDAxXzAx"},
+		{tagName:"",name:"ct-1-diesel"  ,f:"setCt1Die",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgnSIAAAU0VSVklET1JfUElcRzFBMDgwOTc",webIdS:""},
+		{tagName:"",name:"ct-1-RT"      ,f:"setCt1RT" ,value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgGyUAAAU0VSVklET1JfUElcREFBMDgxMDY",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg3gMAAAUElUVlxULkNFQS4yMjcx"},
+		{tagName:"",name:"ct-1-Potencia",f:"setCt1Pot",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6Igmh8AAAU0VSVklET1JfUElcRzFBMDgwMzA",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqgMgAAAAUElUVlw1MUNFQUdJMDAyXzAx"},
+		{tagName:"",name:"ct-1-RPM"     ,f:"setCt1Rpm",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6Ig3SIAAAU0VSVklET1JfUElcRzFBMDg0MDQ",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqgkQAAAAUElUVlw1MU1CSzAxQ1MwMDE"},
+
+		{tagName:"",name:"ct-2-gas"     ,f:"setCt2Gas",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgICAAAAU0VSVklET1JfUElcRzJBMDgwNzM",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg9QAAAAUElUVlw1MkNFQUdGMDAxXzAx"},
+		{tagName:"",name:"ct-2-diesel"  ,f:"setCt2Die",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgLCAAAAU0VSVklET1JfUElcRzJBMDgwOTc",webIdS:""},
+		{tagName:"",name:"ct-2-RT"      ,f:"setCt2RT" ,value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgHCUAAAU0VSVklET1JfUElcREFBMDgxMDc",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg3wMAAAUElUVlxULkNFQS4yMjcy"},
+		{tagName:"",name:"ct-2-Potencia",f:"setCt2Pot",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgDSAAAAU0VSVklET1JfUElcRzJBMDgwNDY",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqglwAAAAUElUVlw1MkNFQUdJMDAyXzAx"},
+		{tagName:"",name:"ct-2-RPM"     ,f:"setCt2Rpm",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgciMAAAU0VSVklET1JfUElcRzJBMDg0MDQ",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg8gAAAAUElUVlw1Mk1CSzAxQ1MwMDE"},
+		
+		{tagName:"",name:"ct-3-gas"     ,f:"setCt3Gas",value:0,date:new Date(),webIdA:"",webIdS:""},
+		{tagName:"",name:"ct-3-diesel"  ,f:"setCt3Die",value:0,date:new Date(),webIdA:"",webIdS:""},
+		{tagName:"",name:"ct-3-RT"      ,f:"setCt3RT" ,value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgGiUAAAU0VSVklET1JfUElcREFBMDgxMDU",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg4AMAAAUElUVlxULkNFQS4yMjcz"},
+		{tagName:"",name:"ct-3-Potencia",f:"setCt3Pot",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6Ig4h4AAAU0VSVklET1JfUElcRUhBMDgwMTk",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqgDwMAAAUElUVlxULkNFQS4yMDQ0"},
+		{tagName:"",name:"ct-3-RPM"     ,f:"setCt3Rpm",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgSiIAAAU0VSVklET1JfUElcRUhBMDg3MDE",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg_gwAAAUElUVlxDRUEuNDI0"},
+
+		
 	]
 	constructor(
 		public globalService: GlobalService,
@@ -184,10 +203,11 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 		this.mediaDona1 = new Chart('mediaDona1', {
 			type: 'doughnut',
 			data: {
+				labels: (this.globalService.plant.name.toLowerCase() == "aguila")?["Gas","Diesel","RT","Potencia","RPM"]:["Gas","RT","Potencia","RPM"],
 				responsive: true,
 				datasets: [
 					{
-						data: [80, 30, 60, 70, 80, 20],
+						data: [0, 0, 0, 0, 0, 0],
 						backgroundColor: [
 							'rgba(138,53,71, 0.3)',
 							'rgba(37,110,161, 0.3)',
@@ -208,7 +228,7 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 
 					},
 					{
-						data: [10],
+						data: [1],
 						backgroundColor: [
 							'rgba(0,0,0)',
 
@@ -221,7 +241,7 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 					},
 
 					{
-						data: [80, 30, 60, 70, 80, 20],
+						data: [0, 0, 0, 0, 0, 0],
 						backgroundColor: [
 							'rgba(138,53,71, 0.3)',
 							'rgba(37,110,161, 0.3)',
@@ -251,6 +271,7 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 				circumference: Math.PI,
 				cutoutPercentage: 88,
 				legend: {
+					display:false,
 					position: 'left'
 				},
 				animation: {
@@ -267,11 +288,12 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 
 		this.mediaDona2 = new Chart('mediaDona2', {
 			type: 'doughnut',
+			labels: (this.globalService.plant.name.toLowerCase() == "aguila")?["Gas","Diesel","RT","Potencia","RPM"]:["Gas","RT","Potencia","RPM"],
 			responsive: true,
 			data: {
 				datasets: [
 					{
-						data: [50, 30, 60, 30, 70, 60],
+						data: [0, 0, 0, 0, 0, 0],
 						backgroundColor: [
 							'rgba(138,53,71, 0.3)',
 							'rgba(37,110,161, 0.3)',
@@ -304,7 +326,7 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 
 					},
 					{
-						data: [50, 30, 60, 30, 70, 60],
+						data: [0, 0, 0, 0, 0, 0],
 						backgroundColor: [
 							'rgba(138,53,71, 0.3)',
 							'rgba(37,110,161, 0.3)',
@@ -353,11 +375,12 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 		this.mediaDona3 = new Chart('mediaDona3', {
 			type: 'doughnut',
 			responsive: true,
+			labels: ["RT","Potencia","RPM"],
 			data: {
 
 				datasets: [
 					{
-						data: [50, 30, 60, 70, 85, 50],
+						data: [0, 0, 0, 0, 0, 0],
 						backgroundColor: [
 							'rgba(138,53,71, 0.3)',
 							'rgba(37,110,161, 0.3)',
@@ -390,7 +413,7 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 
 					},
 					{
-						data: [50, 30, 60, 70, 85, 50],
+						data: [0, 0, 0, 0, 0, 0],
 						backgroundColor: [
 							'rgba(138,53,71, 0.3)',
 							'rgba(37,110,161, 0.3)',
@@ -461,20 +484,19 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 				for (const tag of plant.Items) {
 					
 					for (const iterator of this.webIds) {
+
+						let webIdT = "";
+						
 						if(this.globalService.plant.name.toLowerCase() == "aguila"){
-	
-							if(tag.WebId == iterator.webIdA){
-								iterator.value = +tag.Value.Value;
-								iterator.date = date; 
-								this[iterator.f](iterator.value,date.getTime());
-							}
+							webIdT = iterator.webIdA;
 						}else if(this.globalService.plant.name.toLowerCase() == "sol"){
-							
-							if(tag.WebId == iterator.webIdS){
-								iterator.value = +tag.Value.Value;
-								iterator.date = date; 
-								this[iterator.f](iterator.value,date.getTime());
-							}
+							webIdT = iterator.webIdS;							
+						}
+						if(tag.WebId == webIdT){
+							iterator.value = +tag.Value.Value;
+							iterator.date = date; 
+							iterator.tagName = tag.Name;
+							this[iterator.f](iterator.value,date.getTime());
 						}
 					}
 				}
@@ -489,6 +511,87 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 	}
 	setRegimenTermico(y,x){
 		this.chartLine2C.series[2].addPoint([x, y], true, true);
+	}
+	setCt1Gas(value,date){
+		this.mediaDona1['data']['datasets'][0]['data'][0]=value;
+		this.mediaDona1['data']['datasets'][2]['data'][0]=value;
+		this.mediaDona1.update();
+	}
+	setCt1Die(value,date){
+		this.mediaDona1['data']['datasets'][0]['data'][1]=value;
+		this.mediaDona1['data']['datasets'][2]['data'][1]=value;
+		this.mediaDona1.update();
+	}
+	setCt1RT(value,date){
+		this.mediaDona1['data']['datasets'][0]['data'][2]=value;
+		this.mediaDona1['data']['datasets'][2]['data'][2]=value;
+		this.mediaDona1.update();
+	}
+	setCt1Pot(value,date){
+		this.mediaDona1['data']['datasets'][0]['data'][3]=value;
+		this.mediaDona1['data']['datasets'][2]['data'][3]=value;
+		this.mediaDona1.update();
+	}
+	setCt1Rpm(value,date){
+		this.mediaDona1['data']['datasets'][0]['data'][4]=value;
+		this.mediaDona1['data']['datasets'][2]['data'][4]=value;
+		this.mediaDona1.update();
+	}
+
+
+	
+	setCt2Gas(value,date){
+		this.mediaDona2['data']['datasets'][0]['data'][0]=value;
+		this.mediaDona2['data']['datasets'][2]['data'][0]=value;
+		this.mediaDona2.update();
+	}
+	setCt2Die(value,date){
+		this.mediaDona2['data']['datasets'][0]['data'][1]=value;
+		this.mediaDona2['data']['datasets'][2]['data'][1]=value;
+		this.mediaDona2.update();
+	}
+	setCt2RT(value,date){
+		this.mediaDona2['data']['datasets'][0]['data'][2]=value;
+		this.mediaDona2['data']['datasets'][2]['data'][2]=value;
+		this.mediaDona2.update();
+	}
+	setCt2Pot(value,date){
+		this.mediaDona2['data']['datasets'][0]['data'][3]=value;
+		this.mediaDona2['data']['datasets'][2]['data'][3]=value;
+		this.mediaDona2.update();
+	}
+	setCt2Rpm(value,date){
+		this.mediaDona2['data']['datasets'][0]['data'][4]=value;
+		this.mediaDona2['data']['datasets'][2]['data'][4]=value;
+		this.mediaDona2.update();
+	}
+
+
+	
+	setCt3Gas(value,date){
+		this.mediaDona3['data']['datasets'][0]['data'][0]=value;
+		this.mediaDona3['data']['datasets'][2]['data'][0]=value;
+		this.mediaDona3.update();
+	}
+	setCt3Die(value,date){
+		this.mediaDona3['data']['datasets'][0]['data'][1]=value;
+		this.mediaDona3['data']['datasets'][2]['data'][1]=value;
+		this.mediaDona3.update();
+	}
+	setCt3RT(value,date){
+		this.mediaDona3['data']['datasets'][0]['data'][2]=value;
+		this.mediaDona3['data']['datasets'][2]['data'][2]=value;
+		this.mediaDona3.update();
+	}
+	setCt3Pot(value,date){
+		this.mediaDona3['data']['datasets'][0]['data'][3]=value;
+		this.mediaDona3['data']['datasets'][2]['data'][3]=value;
+		this.mediaDona3.update();
+	}
+	setCt3Rpm(value,date){
+		this.mediaDona3['data']['datasets'][0]['data'][4]=value;
+		this.mediaDona3['data']['datasets'][2]['data'][4]=value;
+		this.mediaDona3.update();
 	}
     addStreamsetsValueInChartOld(box: PiServerBox){
 		let entrada = true;
@@ -600,22 +703,49 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 			yAxis:  [ { // Secondary yAxis
 				id: 'potencia-neta-axis',
 				gridLineWidth: 0,
+				labels: {
+					style: {
+						color: '#66D7D1',
+						fontWeight: 'bold'
+					}
+				},
 				title: {
-					text: 'Potencia Neta'
+					text: 'Potencia Neta',
+					style: {
+						color: '#66D7D1'
+					}
 				},
 				//opposite: true
 			},{ // Secondary yAxis
 				id: 'potencia-ccdv-axis',
 				gridLineWidth: 0,
+				labels: {
+					style: {
+						color: '#F4F1BB',
+						fontWeight: 'bold'
+					}
+				},
 				title: {
-					text: 'CCDV'
+					text: 'CCDV',
+					style: {
+						color: '#F4F1BB'
+					}
 				},
 			   // opposite: true
 			},{ // Secondary yAxis
 				id: 'regimen-terminco-axis',
 				gridLineWidth: 0,
+				labels: {
+					style: {
+						color: '#FF637D',
+						fontWeight: 'bold'
+					}
+				},
 				title: {
-					text: 'Regimen Termico'
+					text: 'Regimen Termico',
+					style: {
+						color: '#FF637D'
+					}
 				},
 				//opposite: true
 			} ],
@@ -636,6 +766,8 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 			series: [{
 				name:'Potencia Neta',
 				yAxis: 'potencia-neta-axis',
+				
+				color: '#66D7D1',
 				data:(function () {
 					// generate an array of random data
 					var data = [],
@@ -653,7 +785,7 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 			},{
 				name:'Potencia CCDV',
 				yAxis: 'potencia-ccdv-axis',
-				color: '#fff',
+				color: '#F4F1BB',
 				data:(function () {
 					// generate an array of random data
 					var data = [],
@@ -671,7 +803,7 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 			},{
 				name:'Regimen Termico',
 				yAxis: 'regimen-terminco-axis',
-				color: '#F33',
+				color: '#FF637D',
 				data:(function () {
 					// generate an array of random data
 					var data = [],
