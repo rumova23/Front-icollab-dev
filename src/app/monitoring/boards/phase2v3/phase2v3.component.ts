@@ -30,6 +30,7 @@ import theme           from 'highcharts/themes/gray.src';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import { MarketService } from 'src/app/safe/services/market.service';
+import { PiServerBox } from '../../models/piServer/piServerBox';
 
 
 
@@ -100,6 +101,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	CTDosDiesel;
 	radialGasPressure=0;
 	viewGasPressure=0;
+	viewGasPressureTagName:string="";
 
 
 	maxPow = 590;
@@ -148,35 +150,36 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		]
 	};
 	wids=[
-		['P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY' ,0 ,'eat_power' ,"setEatA1"],
-		['P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM' ,0 ,'eat_heatR' ,"setEatA2"],
-		['P0uQAgHoBd0ku7P3cWOJL6IgGSUAAAU0VSVklET1JfUElcREFBMDgxMDQ' ,0 ,'eat_heatRC',"setEatC2"],
+		['P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY' ,0 ,'eat_power' ,"setEatA1","tagName"],
+		['P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM' ,0 ,'eat_heatR' ,"setEatA2","tagName"],
+		['P0uQAgHoBd0ku7P3cWOJL6IgGSUAAAU0VSVklET1JfUElcREFBMDgxMDQ' ,0 ,'eat_heatRC',"setEatC2","tagName"],
 
-		['F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz'      ,0 ,'est_power' ,"setEstA1"],
-		['F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4'      ,0 ,'est_heatR' ,"setEstA2"],
-		['F1DP4rhZAwFMREKDf7s8vylUqgJA0AAAUElUVlxMR1MuQ0VBLjcx'      ,0 ,'est_heatRC',"setEstC2"],
+		['F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz'      ,0 ,'est_power' ,"setEstA1","tagName"],
+		['F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4'      ,0 ,'est_heatR' ,"setEstA2","tagName"],
+		['F1DP4rhZAwFMREKDf7s8vylUqgJA0AAAUElUVlxMR1MuQ0VBLjcx'      ,0 ,'est_heatRC',"setEstC2","tagName"],
 
-		['P0uQAgHoBd0ku7P3cWOJL6IgnSIAAAU0VSVklET1JfUElcRzFBMDgwOTc' ,0 ,'CTUnoDiesel',"setCTUnoDiesel"],
-		['P0uQAgHoBd0ku7P3cWOJL6IgLCAAAAU0VSVklET1JfUElcRzJBMDgwOTc' ,0 ,'CTDosDiesel',"setCTDosDiesel"],
+		['P0uQAgHoBd0ku7P3cWOJL6IgnSIAAAU0VSVklET1JfUElcRzFBMDgwOTc' ,0 ,'CTUnoDiesel',"setCTUnoDiesel","tagName"],
+		['P0uQAgHoBd0ku7P3cWOJL6IgLCAAAAU0VSVklET1JfUElcRzJBMDgwOTc' ,0 ,'CTDosDiesel',"setCTDosDiesel","tagName"],
 
 		
 		/**Aguila */
 		
-        ['P0uQAgHoBd0ku7P3cWOJL6IgXCUAAAU0VSVklET1JfUElcVC5DRUEuMjI3OA' ,0 ,'',"setOveA1"],
-        ['P0uQAgHoBd0ku7P3cWOJL6IgXiUAAAU0VSVklET1JfUElcVC5DRUEuMjI3OQ' ,0 ,'',"setOveA2"],
-        ['P0uQAgHoBd0ku7P3cWOJL6IgYCUAAAU0VSVklET1JfUElcVC5DRUEuMjI4MA' ,0 ,'',"setOveA3"],
-        ['P0uQAgHoBd0ku7P3cWOJL6IgYiUAAAU0VSVklET1JfUElcREFBMDgxMTM' ,0 ,'',"setOveC2"],
+        ['P0uQAgHoBd0ku7P3cWOJL6IgXCUAAAU0VSVklET1JfUElcVC5DRUEuMjI3OA' ,0 ,'',"setOveA1","tagName"],
+        ['P0uQAgHoBd0ku7P3cWOJL6IgXiUAAAU0VSVklET1JfUElcVC5DRUEuMjI3OQ' ,0 ,'',"setOveA2","tagName"],
+        ['P0uQAgHoBd0ku7P3cWOJL6IgYCUAAAU0VSVklET1JfUElcVC5DRUEuMjI4MA' ,0 ,'',"setOveA3","tagName"],
+        ['P0uQAgHoBd0ku7P3cWOJL6IgYiUAAAU0VSVklET1JfUElcREFBMDgxMTM'    ,0 ,'',"setOveC2","tagName"],
 
-        ['P0uQAgHoBd0ku7P3cWOJL6IgWSUAAAU0VSVklET1JfUElcUDFBMDgwODA' ,0 ,'',"setPercentageDieselTank"],//setPercentageDieselTank
-		['P0uQAgHoBd0ku7P3cWOJL6IgWCUAAAU0VSVklET1JfUElcREFHMDgyMDc' ,0 ,'',"setEatA3"],
+        ['P0uQAgHoBd0ku7P3cWOJL6IgWSUAAAU0VSVklET1JfUElcUDFBMDgwODA'    ,0 ,'',"setPercentageDieselTank","tagName"],//setPercentageDieselTank
+		['P0uQAgHoBd0ku7P3cWOJL6IgWCUAAAU0VSVklET1JfUElcREFHMDgyMDc'    ,0 ,'',"setEatA3","tagName"],
 		
 
 		/**Sol */
 		
-		['F1DP4rhZAwFMREKDf7s8vylUqgNQ4AAAUElUVlxULkNFQS4yMjc3' ,0 ,'',"setEstA3"],
+		['F1DP4rhZAwFMREKDf7s8vylUqgNQ4AAAUElUVlxULkNFQS4yMjc3'         ,0 ,'',"setEstA3","tagName"],
 		
 
 	];
+
 	oveA2PorFormula=0;
 	oveC2PorFormula=0;
 	mtrLineAcDifExp={
@@ -215,7 +218,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 			plotBackgroundColor: null,
 			plotShadow: false,
 			plotBorderWidth: 0,
-            height: 300
+            //height: 300
 		},
 		scrollbar: {
 			barBackgroundColor: {
@@ -457,7 +460,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
         responsive: {
             rules: [{
                 condition: {
-                    maxWidth: 500
+                    maxWidth: 900
                 },
                 chartOptions: {
                     chart: {
@@ -470,7 +473,16 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
                         enabled: false
                     }
                 }
-            }]
+            },{
+				condition: {
+					minWidth: 901
+				},
+				chartOptions: {
+					chart: {
+						height: null
+					}
+				}
+			}]
         },
 
 		series: [{
@@ -502,7 +514,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 			plotBackgroundColor: null,
 			plotShadow: false,
 			plotBorderWidth: 0,
-            height: 300
+            //height: 300
 		},
 		scrollbar: {
 			barBackgroundColor: {
@@ -743,22 +755,33 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 			useUTC: false
 		},
         responsive: {
-            rules: [{
-                condition: {
-                    maxWidth: 500
-                },
-                chartOptions: {
-                    chart: {
-                        height: 300
-                    },
-                    subtitle: {
-                        text: null
-                    },
-                    navigator: {
-                        enabled: false
-                    }
-                }
-            }]
+            rules: [
+				{
+					condition: {
+						maxWidth: 900
+					},
+					chartOptions: {
+						chart: {
+							height: 300
+						},
+						subtitle: {
+							text: null
+						},
+						navigator: {
+							enabled: false
+						}
+					}
+				},{
+					condition: {
+						minWidth: 901
+					},
+					chartOptions: {
+						chart: {
+							height: null
+						}
+					}
+				}
+			]
         },
         series: [
 			{
@@ -774,7 +797,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 			plotBackgroundColor: null,
 			plotBackgroundImage: null,
 			plotBorderWidth: 0,
-			plotShadow: false,
+			plotShadow: true,
 			backgroundColor: {
 				linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
 				stops: [
@@ -782,9 +805,10 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 					[1, 'rgb(0, 0, 0)']
 				]
 			},
-            height: 260
+			height: 260,
+			width:260
 		},
-	
+
 		title: {
 			text: ''
 		},
@@ -797,32 +821,10 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 			startAngle: -150,
 			endAngle: 150,
 			background: [{
-				backgroundColor: {
-					linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-					stops: [
-						[0, '#FFF'],
-						[1, '#333']
-					]
-				},
+				backgroundColor: '#000',
 				borderWidth: 0,
-				outerRadius: '109%'
-			}, {
-				backgroundColor: {
-					linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-					stops: [
-						[0, '#333'],
-						[1, '#FFF']
-					]
-				},
-				borderWidth: 1,
-				outerRadius: '107%'
-			}, {
-				// default background
-			}, {
-				backgroundColor: '#DDD',
-				borderWidth: 0,
-				outerRadius: '105%',
-				innerRadius: '103%'
+				outerRadius: '100%',
+				innerRadius: '88%'
 			}]
 		},
 	
@@ -844,24 +846,61 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 			tickColor: '#666',
 			labels: {
 				step: 2,
-				rotation: 'auto'
+				rotation: 'auto',
+				style: {
+					color: '#fff',
+					fontWeigth: 'normal'
+				}
 			},
 			title: {
-				text: 'kg/cm^2'
+				text: 'kg/cm^2',
+				style: {
+					color: '#fff',
+					fontWeigth: 'normal'
+				}
 			},
 			plotBands: [{
 				from: 0,
-				to: 23,
+				to: 39,
 				color: '#DF5353' // green #55BF3B
 			}, {
-				from: 23,
-				to: 46,
+				from: 39,
+				to: 45,
 				color: '#DDDF0D' // yellow DDDF0D
 			}, {
-				from: 46,
+				from: 45,
 				to: 70,
 				color: '#55BF3B' // red DF5353
 			}]
+		},
+
+		plotOptions: {
+			series: {
+				dataLabels: {
+					enabled: true,
+					color: '#fff'
+				}
+			},
+			gauge: {
+				dial: {
+					backgroundColor: '#fff',
+				},
+				pivot: {
+					backgroundColor: '#fff'
+				},/*
+				dataLabels: {
+					borderWidth: 2,
+					borderColor: '#d3e9f7',
+					padding: 5,
+					borderRadius: 2,
+					verticalAlign: 'center',
+					y: 30,
+					style: {
+						fontWeight: 'normal'
+					}
+				},
+				wrap: false//*/
+			}
 		},
 	
 		series: [{
@@ -904,7 +943,16 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		public monitoringTrService : MonitoringTrService
     ) {
         super(globalService, eventService, socketService,securityService);
-    }
+	}
+	getTagName(fname:string):string{
+		let name = "";
+		for (const e of this.wids) {
+			if(fname==e[3]){
+				name = e[4]+"";
+			}
+		}
+		return name;
+	}
 	ngOnDestroy(){
 		if (this.id) {
 			clearInterval(this.id);
@@ -965,13 +1013,31 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.windSpeed = weather.Wind.Speed.Metric.Value;
 
 	}
-	socketFlow(data){
+	socketFlow(data:PiServerBox){
+		console.log(5);
+		
+		/*
+		this.chartLineOve1C.redraw();
+		this.chartLineEat1C.redraw();
+		this.chartLineEst1C.redraw();
+		this.chartLineEat2C.redraw();
+		this.chartLineEst2C.redraw();
+		/*
+		this.chartLineOve1C.update();
+		this.chartLineEat1C.update();
+		this.chartLineEst1C.update();
+		this.chartLineEat2C.update();
+		this.chartLineEst2C.update();//*/
+
+		//this.chartLineOve1C?this.chartLineOve1C.series[0].addPoint([(new Date()).getTime(), 500], true, true):null;
+		//*/
 		for (const plant of data.data) {
 			for (const tag of plant.Items) {
 				for (const iterator of this.wids) {
 					if(tag.WebId == iterator[0]){
 						this.valueTemporal =  +tag.Value.Value;
 						iterator[1]=this.valueTemporal;
+						iterator[4]=tag.Name;
 						//console.log(iterator[3]);
 						this[iterator[3]](this.valueTemporal);
 					}
@@ -1066,13 +1132,12 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 
 		this.monitoringTrService.getStreamsetsInterpolatedLastHours('2',['F1DP4rhZAwFMREKDf7s8vylUqgnAMAAAUElUVlxULkNFQS4yMTk0'],1)
 			.subscribe(
-				data => {
-					
+				(data:PiServerBox) => {
 					let max = 68;
 					let value = data.data[0]['Items'][0]['Items'][data.data[0]['Items'][0]['Items'].length-1].Value.Value;
 					//this.viewGasPressure = ((value*100)/max);
 					this.viewGasPressure = value;
-					
+					this.viewGasPressureTagName = data.data[0].error_response?"":data.data[0].Items[0].Name;
 					this.chartManoometro.update({
 						series: {
 							name: 'Bar',
