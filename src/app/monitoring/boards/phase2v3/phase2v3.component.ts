@@ -94,7 +94,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	@ViewChild('chartLineEst1') chartLineEst1: ElementRef;  chartLineEst1C;
 	@ViewChild('chartLineEst2') chartLineEst2: ElementRef;  chartLineEst2C;
 	
-	@ViewChild('chartManometro') chartManometro: ElementRef; 
+	//@ViewChild('chartManometro') chartManometro: ElementRef; 
 
 	valueTemporal : number = 0;
 	CTUnoDiesel;
@@ -878,7 +878,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		plotOptions: {
 			series: {
 				dataLabels: {
-					enabled: true,
+					enabled: false,
 					color: '#fff'
 				}
 			},
@@ -997,7 +997,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		return new Promise(resolve => setTimeout(resolve, ms));
 	}
 	initManoometro(){
-		this.chartManoometro = Highcharts.chart(this.chartManometro.nativeElement, this.optManometro);
+		//this.chartManoometro = Highcharts.chart(this.chartManometro.nativeElement, this.optManometro);
 	}
 	socketFlowWeather(data){
 		let weather = data.data;
@@ -1139,7 +1139,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 					//this.viewGasPressure = ((value*100)/max);
 					this.viewGasPressure = value;
 					this.viewGasPressureTagName = data.data[0].error_response?"":data.data[0].Items[0].Name;
-					this.chartManoometro.update({
+					/*this.chartManoometro.update({
 						series: {
 							name: 'Bar',
 							data: [value],
@@ -1147,7 +1147,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 								valueSuffix: ' kg/cm^2'
 							}
 						},
-					  });
+					  });//*/
 					this.optManometro.series[0].data = [value];
 					this.radialGasPressure = 80+(120-(80+((40*((value*100)/max))/100)));					
 				},
