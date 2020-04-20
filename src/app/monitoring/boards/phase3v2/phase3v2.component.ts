@@ -288,9 +288,9 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 
 		this.mediaDona2 = new Chart('mediaDona2', {
 			type: 'doughnut',
-			labels: (this.globalService.plant.name.toLowerCase() == "aguila")?["Gas","Diesel","RT","Potencia","RPM"]:["Gas","RT","Potencia","RPM"],
-			responsive: true,
 			data: {
+				labels: (this.globalService.plant.name.toLowerCase() == "aguila")?["Gas","Diesel","RT","Potencia","RPM"]:["Gas","RT","Potencia","RPM"],
+				responsive: true,
 				datasets: [
 					{
 						data: [0, 0, 0, 0, 0, 0],
@@ -348,8 +348,6 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 
 					}
 				],
-
-
 			},
 
 			options: {
@@ -358,6 +356,7 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 				cutoutPercentage: 88,
 				circumference: Math.PI,
 				legend: {
+					display:false,
 					position: 'left'
 				},
 				animation: {
@@ -374,10 +373,9 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 
 		this.mediaDona3 = new Chart('mediaDona3', {
 			type: 'doughnut',
-			responsive: true,
-			labels: ["RT","Potencia","RPM"],
 			data: {
-
+				responsive: true,				
+				labels: ["RT","Potencia","RPM"],
 				datasets: [
 					{
 						data: [0, 0, 0, 0, 0, 0],
@@ -434,8 +432,6 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 
 					}
 				],
-
-
 			},
 
 			options: {
@@ -444,6 +440,7 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 				cutoutPercentage: 88,
 				circumference: Math.PI,
 				legend: {
+					display:false,
 					position: 'left'
 				},
 				animation: {
@@ -454,6 +451,24 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 
 		});
 	}	
+	getTagNamByF(fname:string):string{
+		let name = "";
+		for (const e of this.webIds) {
+			if(fname==e.f){
+				name = e.tagName+"";
+			}
+		}
+		return name;
+	}
+	getValueByF(fname:string):number{
+		let name = 0;
+		for (const e of this.webIds) {
+			if(fname==e.f){
+				name = e.value;
+			}
+		}
+		return name;
+	}
 	ngOnDestroy(){
 		this.connectSocketChannelNgOnDestroy();
 	}
@@ -672,7 +687,7 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 			},
 		
 			title: {
-				text: 'Live random data'
+				text: ''
 			},
 		
 			plotOptions: {
