@@ -25,6 +25,10 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 	mediaDona3 :Chart; //Media Dona en final
 	mediaDonaIntermedia1 = [];
 	
+	colorPotNet = "#66D7D1";
+	colorCcdv   = "#F4F1BB";
+	colorRT     = "#FF637D";
+
 	public opt2: any = {
 		time: {
 			timezone: 'America/Mexico_City',
@@ -538,26 +542,26 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 	}
 	setCt1Gas(value,date){
 		this.mediaDona1['data']['datasets'][0]['data'][0]=value;
-		this.mediaDona1['data']['datasets'][2]['data'][0]=value;
+		this.mediaDona1['data']['datasets'][2]['data'][0]=0;
 		this.mediaDona1.update();
 	}
 	setCt1Die(value,date){
 		this.mediaDona1['data']['datasets'][0]['data'][1]=value;
-		this.mediaDona1['data']['datasets'][2]['data'][1]=value;
+		this.mediaDona1['data']['datasets'][2]['data'][1]=0;
 		this.mediaDona1.update();
 	}
 	setCt1RT(value,date){
 		this.mediaDona1['data']['datasets'][0]['data'][2]=value;
-		this.mediaDona1['data']['datasets'][2]['data'][2]=value;
+		this.mediaDona1['data']['datasets'][2]['data'][2]=0;
 		this.mediaDona1.update();
 	}
 	setCt1Pot(value,date){
-		this.mediaDona1['data']['datasets'][0]['data'][3]=value;
+		this.mediaDona1['data']['datasets'][0]['data'][3]=0;
 		this.mediaDona1['data']['datasets'][2]['data'][3]=value;
 		this.mediaDona1.update();
 	}
 	setCt1Rpm(value,date){
-		this.mediaDona1['data']['datasets'][0]['data'][4]=value;
+		this.mediaDona1['data']['datasets'][0]['data'][4]=0;
 		this.mediaDona1['data']['datasets'][2]['data'][4]=value;
 		this.mediaDona1.update();
 	}
@@ -566,26 +570,26 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 	
 	setCt2Gas(value,date){
 		this.mediaDona2['data']['datasets'][0]['data'][0]=value;
-		this.mediaDona2['data']['datasets'][2]['data'][0]=value;
+		this.mediaDona2['data']['datasets'][2]['data'][0]=0;
 		this.mediaDona2.update();
 	}
 	setCt2Die(value,date){
 		this.mediaDona2['data']['datasets'][0]['data'][1]=value;
-		this.mediaDona2['data']['datasets'][2]['data'][1]=value;
+		this.mediaDona2['data']['datasets'][2]['data'][1]=0;
 		this.mediaDona2.update();
 	}
 	setCt2RT(value,date){
 		this.mediaDona2['data']['datasets'][0]['data'][2]=value;
-		this.mediaDona2['data']['datasets'][2]['data'][2]=value;
+		this.mediaDona2['data']['datasets'][2]['data'][2]=0;
 		this.mediaDona2.update();
 	}
 	setCt2Pot(value,date){
-		this.mediaDona2['data']['datasets'][0]['data'][3]=value;
+		this.mediaDona2['data']['datasets'][0]['data'][3]=0;
 		this.mediaDona2['data']['datasets'][2]['data'][3]=value;
 		this.mediaDona2.update();
 	}
 	setCt2Rpm(value,date){
-		this.mediaDona2['data']['datasets'][0]['data'][4]=value;
+		this.mediaDona2['data']['datasets'][0]['data'][4]=0;
 		this.mediaDona2['data']['datasets'][2]['data'][4]=value;
 		this.mediaDona2.update();
 	}
@@ -729,14 +733,15 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 				gridLineWidth: 0,
 				labels: {
 					style: {
-						color: '#66D7D1',
+						color: this.colorPotNet,
 						fontWeight: 'bold'
 					}
 				},
 				title: {
+					enabled: false,
 					text: 'Potencia Neta',
 					style: {
-						color: '#66D7D1'
+						color: this.colorPotNet
 					}
 				},
 				//opposite: true
@@ -745,14 +750,15 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 				gridLineWidth: 0,
 				labels: {
 					style: {
-						color: '#F4F1BB',
+						color: this.colorCcdv,
 						fontWeight: 'bold'
 					}
 				},
 				title: {
+					enabled: false,
 					text: 'CCDV',
 					style: {
-						color: '#F4F1BB'
+						color: this.colorCcdv
 					}
 				},
 			   // opposite: true
@@ -761,14 +767,15 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 				gridLineWidth: 0,
 				labels: {
 					style: {
-						color: '#FF637D',
+						color: this.colorRT,
 						fontWeight: 'bold'
 					}
 				},
 				title: {
+					enabled: false,
 					text: 'Regimen Termico',
 					style: {
-						color: '#FF637D'
+						color: this.colorRT
 					}
 				},
 				//opposite: true
@@ -791,7 +798,7 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 				name:'Potencia Neta',
 				yAxis: 'potencia-neta-axis',
 				
-				color: '#66D7D1',
+				color: this.colorPotNet,
 				data:(function () {
 					// generate an array of random data
 					var data = [],
@@ -809,7 +816,7 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 			},{
 				name:'Potencia CCDV',
 				yAxis: 'potencia-ccdv-axis',
-				color: '#F4F1BB',
+				color: this.colorCcdv,
 				data:(function () {
 					// generate an array of random data
 					var data = [],
@@ -827,7 +834,7 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 			},{
 				name:'Regimen Termico',
 				yAxis: 'regimen-terminco-axis',
-				color: '#FF637D',
+				color: this.colorRT,
 				data:(function () {
 					// generate an array of random data
 					var data = [],
