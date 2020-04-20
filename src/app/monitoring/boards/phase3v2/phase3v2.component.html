@@ -27,7 +27,7 @@
 		</ng-template>
 
 		<div style="float: left;">
-			<div  [ngbTooltip]="tippotencianeta" tooltipClass="mytooltip" style="margin-left:30px; background: #0F0F0F; display: inline-block;text-align: center">
+			<div [ngbTooltip]="tippotencianeta" tooltipClass="mytooltip" style="margin-left:30px; background: #0F0F0F; display: inline-block;text-align: center">
 				<div style="margin:10px;">
 					<p class="text1">POTENCIA NETA</p>
 					<span class="digito">{{webIds[0].value | number: "1.2-2"}}</span><span class="text2">MW</span>
@@ -35,7 +35,7 @@
 					<p class="text2">{{ webIds[0].date | date:'hh:mm:ss' }} </p>
 				</div>
 			</div>
-			<div  [ngbTooltip]="tipccdv" tooltipClass="mytooltip" style="margin-left:30px;background: #0F0F0F;display:inline-block;text-align: center;">
+			<div [ngbTooltip]="tipccdv" tooltipClass="mytooltip" style="margin-left:30px;background: #0F0F0F;display:inline-block;text-align: center;">
 				<div style="margin:10px;">
 					<p class="text1">POTENCIA CCDV</p>
 					<span class="digito">{{webIds[1].value | number: "1.2-2"}}</span><span class="text2">MV</span>
@@ -43,7 +43,7 @@
 					<p class="text2">{{ webIds[1].date | date:'hh:mm:ss' }}</p>
 				</div>
 			</div>
-			<div  [ngbTooltip]="tiprt" tooltipClass="mytooltip" style="margin-left:30px;background: #0F0F0F;display: inline-block;text-align: center;">
+			<div [ngbTooltip]="tiprt" tooltipClass="mytooltip" style="margin-left:30px;background: #0F0F0F;display: inline-block;text-align: center;">
 				<div style="margin:10px;">
 					<p class="text1">RÉGIMEN TÉRMICO</p>
 					<span class="digito">{{webIds[2].value | number: "1.2-2"}}</span><span class="text2">KJ/KWh</span>
@@ -54,20 +54,38 @@
 		</div>
 		<div id="contenedorCondiciones">
 			<p class="text" style="margin-right: 20px; font-size:medium">CONDICIONES AMBIENTALES </p>
-			<div class="text derecha">
-				28.9°C
+			
+			<ng-template #tipsetTemperaturaAmbiente>
+				<p>Temperatura ambiente</p>
+				<p>{{getTagNamByF('setTemperaturaAmbiente')}}</p>
+			</ng-template>
+
+			
+			<ng-template #tipsetPresionAtmosferica>
+				<p>Presión atmosférica</p>
+				<p>{{getTagNamByF('setPresionAtmosferica')}}</p>
+			</ng-template>
+
+			
+			<ng-template #tipsethumedad>
+				<p>Humedad</p>
+				<p>{{getTagNamByF('sethumedad')}}</p>
+			</ng-template>
+
+			<div [ngbTooltip]="tipsetTemperaturaAmbiente" tooltipClass="mytooltip" class="text derecha">
+				{{ getValueByF('setTemperaturaAmbiente') | number: "1.2-2"}} °C
 				<span style="font-size: 1.5em; color: red; margin:10px">
 					<i class="fas fa-thermometer-half"></i>
 				</span>
 			</div>
-			<div class="text derecha">
-				1.012, MBAR
+			<div [ngbTooltip]="tipsetPresionAtmosferica" tooltipClass="mytooltip" class="text derecha">
+				{{ getValueByF('setPresionAtmosferica') | number: "1.2-2"}}, MBAR
 				<span style="font-size: 1em; margin:10px">
 					<i class="fas fa-tachometer-alt"></i>
 				</span>
 			</div>
-			<div class="text derecha">
-				78,0%
+			<div [ngbTooltip]="tipsethumedad" tooltipClass="mytooltip" class="text derecha">
+				{{ getValueByF('sethumedad') | number:'1.0-0'}} %
 				<span style="font-size: 1.5em; color: cyan; margin:10px">
 					<i class="fas fa-tint"></i>
 				</span>

@@ -127,6 +127,11 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 	};
 	
 	webIds=[
+		
+		{tagName:"",name:"Temperatura ambiente"     ,f:"setTemperaturaAmbiente",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IglyQAAAU0VSVklET1JfUElcUDJBMDgyMTE",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqgxwMAAAUElUVlxULkNFQS4yMjQ1"},
+		{tagName:"",name:"Presión atmosférica"  ,f:"setPresionAtmosferica",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgmSQAAAU0VSVklET1JfUElcUDJBMDgyMTM",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg5gIAAAUElUVlw1MlBDLUFJLTAwNQ"},
+		{tagName:"",name:"Humedad"  ,f:"sethumedad",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgmCQAAAU0VSVklET1JfUElcUDJBMDgyMTI",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqgtgIAAAUElUVlw1MlBDLUFJLTAwNA"},
+
 		{tagName:"",name:"potenciaNeta",f:"setPotenciaNeta",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz"},
 		{tagName:"",name:"potenciaCcdv",f:"setPotenciaCcdv",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgICUAAAU0VSVklET1JfUElcREFBMDgxMTE",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg1QMAAAUElUVlxULkNFQS4yMjYy"},
 		{tagName:"",name:"regimentermico",f:"setRegimenTermico",value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4"},
@@ -518,6 +523,10 @@ export class Phase3v2Component extends ConnectSocketChannelComponent implements 
 			}
 		}
 	}
+
+	setTemperaturaAmbiente(x,y){}
+	setPresionAtmosferica(x,y){}
+	sethumedad(x,y){}
 	setPotenciaNeta(y,x){
 		this.chartLine2C.series[0].addPoint([x, y], true, true);
 	}
