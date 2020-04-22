@@ -45,4 +45,9 @@ export class PpaMonitoringFormatService {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(environment.dycformato + 'loadRaw/deteccion/' + year + '/' + mount, {params : this.parameters });
 	}
+
+	preocesaDeteccionNorma(year: number, mount: number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.dycformato + 'norma/deteccion/' + year + '/' + mount, {params : this.parameters });
+	}
 }
