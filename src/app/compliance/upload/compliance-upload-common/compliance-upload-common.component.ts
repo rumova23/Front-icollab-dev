@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {EfhService} from '../../../core/services/efh.service';
 import {ToastrManager} from 'ng6-toastr-notifications';
 import {GlobalService} from '../../../core/globals/global.service';
+import {PersonalCompetenteService} from '../../services/personal-competente.service';
 
 @Component({
   selector: 'app-compliance-upload-common',
@@ -25,7 +26,7 @@ export class ComplianceUploadCommonComponent implements OnInit {
   currentFile: File;
   dataFileSubmit = {};
 
-  constructor(private fb: FormBuilder, private efhService: EfhService, public  toastr: ToastrManager, private cd: ChangeDetectorRef, public globalService: GlobalService) {
+  constructor(private fb: FormBuilder, public  toastr: ToastrManager, private cd: ChangeDetectorRef, public globalService: GlobalService, private personalCompetenteService: PersonalCompetenteService) {
   }
 
   ngOnInit() {
@@ -60,10 +61,10 @@ export class ComplianceUploadCommonComponent implements OnInit {
       this.dataFileSubmit['fileData'] = fileReader.result;
       this.dataFileSubmit['fileData'] = this.dataFileSubmit['fileData'].replace(/^data:(.*;base64,)?/, '');
       this.dataFileSubmit['fileData'] = this.dataFileSubmit['fileData'].trim();
-      this.efhService.upload(this.inTypeConfig, this.dataFileSubmit).subscribe(
+      this.personalCompetenteService.uploadFile(this.dataFileSubmit).subscribe(
           respuesta => {
             this.toastr.successToastr('Documento guardado con éxito.', '¡Se ha logrado!');
-            this.efhService.accion.next('upload');
+            this.personalCompetenteService.accion.next('upload');
           });
     }
     fileReader.readAsDataURL(this.currentFile);

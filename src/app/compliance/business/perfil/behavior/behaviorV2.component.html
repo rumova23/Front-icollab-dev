@@ -47,8 +47,12 @@
                     <button type="submit" class="btn btn-primary btn-md" [disabled]="(this.entidadEstatusId === this.terminadoId) ? true:false" >Guardar</button>
                     <button class="btn btn-primary btn-md" (click)="terminaExamen()" [disabled]="(this.entidadEstatusId === this.terminadoId) ? true:false">Termina Examen</button>
                   -->
-                    <button class="btn" (click)="terminaExamen()" [disabled]="isdisabled">
-                      <i class="ti-save"></i>&nbsp;
+                    <button type="submit" class="btn" [disabled]="isdisabled">
+                        <i class="ti-bookmark-alt"></i>&nbsp;
+                        Guardar
+                    </button>
+                    <button class="btn" (click)="terminaExamen()" [disabled]="isdisabledFinishBehavior ">
+                      <i class="ti-save"></i>
                       Termina Examen
                     </button>
                 </div>
@@ -56,4 +60,3 @@
           </form>
 
   </div>
-  

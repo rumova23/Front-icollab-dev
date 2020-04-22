@@ -147,13 +147,14 @@ export class SharedSidebarMenuComponent {
         }
     }
     hardcodeAdministrative_monitoring() {
+        /*
         this.menu.push({
             id: "Mm Market",
             idFather: "",
             icon: "insert_chart",
             label: "Mm Market",
             url: "Mm Market"
-        });
+        });//*/
     }
     hardcodeCompliance() {
         let item0 = null;

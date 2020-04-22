@@ -10,26 +10,42 @@
 		</div>
 	</div>
 	<div id="intermedio" style="margin:1px; overflow: hidden;">
+		
+		<ng-template #tippotencianeta>
+			<p>POTENCIA NETA</p>
+			<p>{{getTagNamByF('setPotenciaNeta')}}</p>
+		</ng-template>
+		
+		<ng-template #tipccdv>
+			<p>POTENCIA CCDV</p>
+			<p>{{getTagNamByF('setPotenciaCcdv')}}</p>
+		</ng-template>
+		
+		<ng-template #tiprt>
+			<p>RÉGIMEN TÉRMICO</p>
+			<p>{{getTagNamByF('setRegimenTermico')}}</p>
+		</ng-template>
+
 		<div style="float: left;">
-			<div style="margin-left:30px; background: #0F0F0F; display: inline-block;text-align: center">
+			<div [ngbTooltip]="tippotencianeta" tooltipClass="mytooltip" style="margin-left:30px; background: #0F0F0F; display: inline-block;text-align: center">
 				<div style="margin:10px;">
-					<p class="text1">POTENCIA NETA</p>
+					<p class="text1" [style.color]="colorPotNet">POTENCIA NETA</p>
 					<span class="digito">{{webIds[0].value | number: "1.2-2"}}</span><span class="text2">MW</span>
 					<p class="text2">{{ webIds[0].date | date:'dd/MM/yyyy' }} </p>
 					<p class="text2">{{ webIds[0].date | date:'hh:mm:ss' }} </p>
 				</div>
 			</div>
-			<div style="margin-left:30px;background: #0F0F0F;display:inline-block;text-align: center;">
+			<div [ngbTooltip]="tipccdv" tooltipClass="mytooltip" style="margin-left:30px;background: #0F0F0F;display:inline-block;text-align: center;">
 				<div style="margin:10px;">
-					<p class="text1">POTENCIA CCDV</p>
+					<p class="text1" [style.color]="colorCcdv">POTENCIA CCDV</p>
 					<span class="digito">{{webIds[1].value | number: "1.2-2"}}</span><span class="text2">MV</span>
 					<p class="text2">{{ webIds[1].date | date:'dd/MM/yyyy' }}</p>
 					<p class="text2">{{ webIds[1].date | date:'hh:mm:ss' }}</p>
 				</div>
 			</div>
-			<div style="margin-left:30px;background: #0F0F0F;display: inline-block;text-align: center;">
+			<div [ngbTooltip]="tiprt" tooltipClass="mytooltip" style="margin-left:30px;background: #0F0F0F;display: inline-block;text-align: center;">
 				<div style="margin:10px;">
-					<p class="text1">RÉGIMEN TÉRMICO</p>
+					<p class="text1" [style.color]="colorRT">RÉGIMEN TÉRMICO</p>
 					<span class="digito">{{webIds[2].value | number: "1.2-2"}}</span><span class="text2">KJ/KWh</span>
 					<p class="text2">{{ webIds[2].date | date:'dd/MM/yyyy' }}</p>
 					<p class="text2">{{ webIds[2].date | date:'hh:mm:ss' }}</p>
@@ -38,20 +54,38 @@
 		</div>
 		<div id="contenedorCondiciones">
 			<p class="text" style="margin-right: 20px; font-size:medium">CONDICIONES AMBIENTALES </p>
-			<div class="text derecha">
-				28.9°C
+			
+			<ng-template #tipsetTemperaturaAmbiente>
+				<p>Temperatura ambiente</p>
+				<p>{{getTagNamByF('setTemperaturaAmbiente')}}</p>
+			</ng-template>
+
+			
+			<ng-template #tipsetPresionAtmosferica>
+				<p>Presión atmosférica</p>
+				<p>{{getTagNamByF('setPresionAtmosferica')}}</p>
+			</ng-template>
+
+			
+			<ng-template #tipsethumedad>
+				<p>Humedad</p>
+				<p>{{getTagNamByF('sethumedad')}}</p>
+			</ng-template>
+
+			<div [ngbTooltip]="tipsetTemperaturaAmbiente" tooltipClass="mytooltip" class="text derecha">
+				{{ getValueByF('setTemperaturaAmbiente') | number: "1.2-2"}} °C
 				<span style="font-size: 1.5em; color: red; margin:10px">
 					<i class="fas fa-thermometer-half"></i>
 				</span>
 			</div>
-			<div class="text derecha">
-				1.012, MBAR
+			<div [ngbTooltip]="tipsetPresionAtmosferica" tooltipClass="mytooltip" class="text derecha">
+				{{ getValueByF('setPresionAtmosferica') | number: "1.2-2"}}, MBAR
 				<span style="font-size: 1em; margin:10px">
 					<i class="fas fa-tachometer-alt"></i>
 				</span>
 			</div>
-			<div class="text derecha">
-				78,0%
+			<div [ngbTooltip]="tipsethumedad" tooltipClass="mytooltip" class="text derecha">
+				{{ getValueByF('sethumedad') | number:'1.0-0'}} %
 				<span style="font-size: 1.5em; color: cyan; margin:10px">
 					<i class="fas fa-tint"></i>
 				</span>
@@ -70,13 +104,37 @@
 				<canvas id="mediaDona1"></canvas>
 				<img class="imgTurbinaDiesel" src="assets/monitoring/phase3/v2/turbinaAnimada2.gif" alt="" />
 				<div style="position: relative; ">
-					<span class="center"
-						style="font-size: 1.5em; color: red;display: inline-block; margin-right: 20px;">
-						<i class="fas fa-gas-pump"></i>
-					</span>
-					<span style="font-size: 1.5em; color: yellowgreen;">
-						<i class="fas fa-fire-alt"></i>
-					</span>
+					<div class="container">
+						<div class="row justify-content-md-center">
+							<ng-template #tipCt1Die>
+								<p>Diesel</p>
+								<p>{{getTagNamByF('setCt1Die')}}</p>
+							</ng-template>
+							<ng-template #tipCt1Gas>
+								<p>Gas</p>
+								<p>{{getTagNamByF('setCt1Gas')}}</p>
+							</ng-template>
+							<div class="col col-md-auto" [ngbTooltip]="tipCt1Die" tooltipClass="mytooltip">
+								<span style="font-size: 1.5em; color: red;display: inline-block;">
+									<i class="fas fa-gas-pump"></i>
+									<br>
+									<p style="font-size: 12px;">
+										{{ getValueByF('setCt1Die') | number: "1.2-2"}} T/h
+									</p>
+								</span>
+							</div>
+							<div class="col col-md-auto" [ngbTooltip]="tipCt1Gas" tooltipClass="mytooltip">
+
+								<span style="font-size: 1.5em; color: yellowgreen;">
+									<i class="fas fa-fire-alt"></i>
+									<br>
+									<p style="font-size: 12px;">
+										{{ getValueByF('setCt1Gas') | number: "1.2-2"}} NM3/h
+									</p>
+								</span>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -85,13 +143,38 @@
 				<canvas id="mediaDona2"></canvas>
 				<img class="imgTurbinaDiesel" src="assets/monitoring/phase3/v2/turbinaAnimada2.gif" alt="" />
 				<div style="position: relative;">
-					<span class="center"
-						style="font-size: 1.5em; color: red;display: inline-block; margin-right: 20px;">
-						<i class="fas fa-gas-pump"></i>
-					</span>
-					<span style="font-size: 1.5em; color: yellowgreen;">
-						<i class="fas fa-fire-alt"></i>
-					</span>
+					
+					<div class="container">
+						<div class="row justify-content-md-center">
+							<ng-template #tipCt2Die>
+								<p>Diesel</p>
+								<p>{{getTagNamByF('setCt2Die')}}</p>
+							</ng-template>
+							<ng-template #tipCt2Gas>
+								<p>Gas</p>
+								<p>{{getTagNamByF('setCt2Gas')}}</p>
+							</ng-template>
+							<div class="col col-md-auto" [ngbTooltip]="tipCt2Die" tooltipClass="mytooltip">
+								<span style="font-size: 1.5em; color: red;display: inline-block;">
+									<i class="fas fa-gas-pump"></i>
+									<br>
+									<p style="font-size: 12px;">
+										{{ getValueByF('setCt2Die') | number: "1.2-2"}} T/h
+									</p>
+								</span>
+							</div>
+							<div class="col col-md-auto" [ngbTooltip]="tipCt2Gas" tooltipClass="mytooltip">
+
+								<span style="font-size: 1.5em; color: yellowgreen;">
+									<i class="fas fa-fire-alt"></i>
+									<br>
+									<p style="font-size: 12px;">
+										{{ getValueByF('setCt2Gas') | number: "1.2-2"}} NM3/h
+									</p>
+								</span>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
