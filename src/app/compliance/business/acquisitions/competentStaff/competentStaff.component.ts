@@ -168,7 +168,6 @@ export class CompetentStaffComponent implements OnInit {
         if (estatus === 'exito') {
           let index: number = 1;
           Object.keys(resul['empleados']).forEach(key => {
-            debugger;
             const empleadoId = resul['empleados'][key].empleadoId;
             let empleadoStrId = resul['empleados'][key].empleadoStrId;
             let nombres = resul['empleados'][key].nombres;

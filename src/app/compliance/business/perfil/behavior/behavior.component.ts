@@ -49,11 +49,8 @@ export class BehaviorComponent implements OnInit {
       this.totalPreg = [];
       this.idTemas = [ 'PSICOMETRICO DEFAULT'];
 
-
-
       this.preguntas.obtenPreguntasExamen('PSICOMETRICO DEFAULT', this.inIdEmpleado).subscribe(
       reservacion => {
-
         this.examenReservacionId = reservacion.examenReservacionId;
 
         if (reservacion.entidadEstatusId === this.entidadEstausTerminado.entidadEstatusId) {

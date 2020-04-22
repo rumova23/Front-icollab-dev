@@ -12,7 +12,6 @@
 				-->
 				</div><br>
 				<div class="info-user" *ngIf="globalService.aside_open">
-					<p>{{minwidth}}</p>
 					<p  *ngIf="getgender()===1">{{ "_general.body.welcome" | translate }}, {{getNameUser()}}</p>
 					<p  *ngIf="getgender()===2">{{ "_general.body.welcome2" | translate }}, {{getNameUser()}}</p>
 					<p><small>{{ "shared.sidebar.infoUser.youHaveNoPendingTasks" | translate }}</small></p>

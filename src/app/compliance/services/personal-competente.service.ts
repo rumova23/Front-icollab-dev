@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import { GlobalService } from 'src/app/core/globals/global.service';
 
 const httpOptions = {
@@ -23,6 +23,7 @@ export class PersonalCompetenteService {
   private baseUrl2 = environment.microexamenUrl;
   private microSeguimiento = environment.seguimientoUrl;
 
+  accion: BehaviorSubject<string> = new BehaviorSubject<string>('no aplica');
   parameters: any;
 
   constructor(private http: HttpClient,
@@ -56,6 +57,22 @@ export class PersonalCompetenteService {
   salvarPlantaPerfilEmpleado(lista: Array<any>) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post(`${this.microSeguimiento}legal//tags/perfilActor`, lista, {params : this.parameters });
+  }
+  uploadFile(fileObj) {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.post(`${this.baseUrl2}exam/personalCompetente/guardaSoporte`, fileObj, {params: this.parameters});
+  }
+  downloadFile(fileId: number) {
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    return this.http.get<Blob>(`${ this.baseUrl2 }exam/personalCompetente/downloadFile/` + fileId, {params : this.parameters, responseType: 'blob' as 'json' });
+  }
+  getDocuments(empleadoId: number): Observable<any> {
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    return this.http.get(`${this.baseUrl2}exam/personalCompetente/listaSoportes/${empleadoId}`, {params : this.parameters });
+  }
+  deleteFile(id): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.delete( `${ this.baseUrl2 }exam/event/deleteFile/` + id, {params : this.parameters });
   }
 
 }

@@ -1,0 +1,66 @@
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{'Data Mining' | translate}}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{'Monitoring station' | translate}}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+<div class="section">
+	<div class="row pb-2">
+		<div class="col">
+			<p class="section_titulo_0"></p>
+			<p class="section_subtitulo_0"> </p>
+		</div>
+	</div>
+	<div class="row mb-3 mt-3">
+		<div class="col">
+			<div class="form-group">
+				<label class="form-text" for="dateInihtml">De:</label>
+				<mat-form-field class="form-control">
+					<input matInput [matDatepicker]="dateInihtml" [(ngModel)]="dateIni"
+						[ngModelOptions]="{standalone: true}" (dateChange)="dateChangeIni($event)">
+					<mat-datepicker-toggle matSuffix [for]="dateInihtml"></mat-datepicker-toggle>
+					<mat-datepicker #dateInihtml></mat-datepicker>
+				</mat-form-field>
+			</div>
+
+		</div>
+		<div class="col">
+			<div class="form-group">
+				<label class="form-text" for="dateFinhtml"> Al:</label>
+				<mat-form-field class="form-control">
+					<input matInput [min]="dateIni" [matDatepicker]="dateFinhtml" [(ngModel)]="dateFin"
+						[ngModelOptions]="{standalone: true}" (dateChange)="dateChangeFin($event)">
+					<mat-datepicker-toggle matSuffix [for]="dateFinhtml"></mat-datepicker-toggle>
+					<mat-datepicker #dateFinhtml></mat-datepicker>
+				</mat-form-field>
+			</div>
+
+		</div>
+		<div class="col d-flex align-middle">
+
+			<button  class="btn" style="margin: auto;" (click)="searchAccuweather()">
+				<mdb-icon far icon="save" class="mr-1"></mdb-icon> Buscar
+			</button>
+			<!--button type="submit" class="btn" style="margin: auto;">
+			<i class="ti-cloud-down"></i> {{'Download' | translate}} {{'XLS' | translate}}
+		</button-->
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col">
+			<div #chartLineMs></div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col">
+			<div #chartLineMs2></div>
+		</div>
+	</div>
+</div>

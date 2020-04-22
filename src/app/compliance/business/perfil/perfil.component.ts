@@ -244,11 +244,15 @@ export class PerfilComponent implements OnInit {
                            this.perfilForm.controls['fPerCarg'].value,
                            this.perfilForm.controls['fPosicion'].value,
                            0,
-                           this.perfilForm.controls['fDescGralPust'].value
-                           ,this.perfilForm.controls['fPueTrab'].value);
+                           this.perfilForm.controls['fDescGralPust'].value,
+                           this.perfilForm.controls['fPueTrab'].value,
+                   null,
+               null,
+                null,
+               null);
                           
     let emp = new Empleado( this.perfilForm.controls['fCarrera'].value,
-                            1, 
+                            1,
                             det,
                             this.inIdEmpleado,
                             'exito',

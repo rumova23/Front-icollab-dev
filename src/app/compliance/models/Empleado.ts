@@ -39,7 +39,7 @@ export class Empleado {
         this.detalle = detalle;
         this.empleadoId = empleadoId;
         this.estatusGenerico = estatusGenerico;
-        this.estidadEstatus = estidadEstatus; 
+        this.estidadEstatus = estidadEstatus;
         this.fechanacimiento = fechanacimiento;
         this.generoId = generoId;
         this.gradoEstudioId = gradoEstudioId;

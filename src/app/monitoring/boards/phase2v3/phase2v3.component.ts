@@ -7,6 +7,7 @@ import { ConnectSocketChannelComponent       } from 'src/app/shared/socket/conne
 import { SecurityService                     } from 'src/app/core/services/security.service';
 import { MonitoringTrService                 } from 'src/app/monitoring/services/monitoringTr.service';
 import * as TAGS                               from 'src/app/monitoring/boards/phase2/config';
+import * as highcharts                         from 'src/app/monitoring/highcharts/highcharts.json';
 
 import { RadialGauge } from 'ng-canvas-gauges';
 import * as algo from './algo.json';
@@ -21,18 +22,25 @@ import HC_stock        from 'highcharts/modules/stock';
 import HC_customEvents from 'highcharts-custom-events';
 import HC_exportdata   from 'highcharts/modules/export-data';
 import Highcharts3d    from 'highcharts/highcharts-3d';
+import HC_more         from 'highcharts/highcharts-more';
+//require('highcharts/highcharts-more')(Highcharts);
+//require('highcharts/modules/solid-gauge')(Highcharts);
 //import theme           from 'highcharts/themes/gray';
 import theme           from 'highcharts/themes/gray.src';
+import { EventMessage } from 'src/app/core/models/EventMessage';
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
+import { MarketService } from 'src/app/safe/services/market.service';
+import { PiServerBox } from '../../models/piServer/piServerBox';
 
 
 
-
+HC_more(Highcharts);
 HC_exporting(Highcharts);
 HC_stock(Highcharts);
 HC_customEvents(Highcharts);
 HC_exportdata(Highcharts);
 Highcharts3d(Highcharts);
-theme(Highcharts);
+//theme(Highcharts);
 
 
 /* ./ Highcharts */
@@ -85,12 +93,15 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	@ViewChild('chartLineEat2') chartLineEat2: ElementRef;  chartLineEat2C;
 	@ViewChild('chartLineEst1') chartLineEst1: ElementRef;  chartLineEst1C;
 	@ViewChild('chartLineEst2') chartLineEst2: ElementRef;  chartLineEst2C;
+	
+	//@ViewChild('chartManometro') chartManometro: ElementRef; 
 
 	valueTemporal : number = 0;
 	CTUnoDiesel;
 	CTDosDiesel;
 	radialGasPressure=0;
 	viewGasPressure=0;
+	viewGasPressureTagName:string="";
 
 
 	maxPow = 590;
@@ -114,6 +125,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	viewDiesel=0;
 	viewDieselMetros;
 	viewDieselRadialGauge=0;
+	//viewDieselTagName="";
 	
 	eatHRCorregido;
 	estHRCorregido;
@@ -139,17 +151,38 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		]
 	};
 	wids=[
-		['P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY' ,0 ,'eat_power' ,"setEatA1"],
-		['P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM' ,0 ,'eat_heatR' ,"setEatA2"],
-		['P0uQAgHoBd0ku7P3cWOJL6IgGSUAAAU0VSVklET1JfUElcREFBMDgxMDQ' ,0 ,'eat_heatRC',"setEatC2"],
+		['P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY' ,0 ,'eat_power' ,"setEatA1","tagName"],
+		['P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM' ,0 ,'eat_heatR' ,"setEatA2","tagName"],
+		['P0uQAgHoBd0ku7P3cWOJL6IgGSUAAAU0VSVklET1JfUElcREFBMDgxMDQ' ,0 ,'eat_heatRC',"setEatC2","tagName"],
 
-		['F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz'      ,0 ,'est_power' ,"setEstA1"],
-		['F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4'      ,0 ,'est_heatR' ,"setEstA2"],
-		['F1DP4rhZAwFMREKDf7s8vylUqgJA0AAAUElUVlxMR1MuQ0VBLjcx'      ,0 ,'est_heatRC',"setEstC2"],
+		['F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz'      ,0 ,'est_power' ,"setEstA1","tagName"],
+		['F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4'      ,0 ,'est_heatR' ,"setEstA2","tagName"],
+		['F1DP4rhZAwFMREKDf7s8vylUqgJA0AAAUElUVlxMR1MuQ0VBLjcx'      ,0 ,'est_heatRC',"setEstC2","tagName"],
 
-		['P0uQAgHoBd0ku7P3cWOJL6IgnSIAAAU0VSVklET1JfUElcRzFBMDgwOTc' ,0 ,'CTUnoDiesel',"setCTUnoDiesel"],
-		['P0uQAgHoBd0ku7P3cWOJL6IgLCAAAAU0VSVklET1JfUElcRzJBMDgwOTc' ,0 ,'CTDosDiesel',"setCTDosDiesel"],
+		['P0uQAgHoBd0ku7P3cWOJL6IgnSIAAAU0VSVklET1JfUElcRzFBMDgwOTc' ,0 ,'CTUnoDiesel',"setCTUnoDiesel","tagName"],
+		['P0uQAgHoBd0ku7P3cWOJL6IgLCAAAAU0VSVklET1JfUElcRzJBMDgwOTc' ,0 ,'CTDosDiesel',"setCTDosDiesel","tagName"],
+
+		
+		/**Aguila */
+		
+        ['P0uQAgHoBd0ku7P3cWOJL6IgXCUAAAU0VSVklET1JfUElcVC5DRUEuMjI3OA' ,0 ,'',"setOveA1","tagName"],
+        ['P0uQAgHoBd0ku7P3cWOJL6IgXiUAAAU0VSVklET1JfUElcVC5DRUEuMjI3OQ' ,0 ,'',"setOveA2","tagName"],
+        ['P0uQAgHoBd0ku7P3cWOJL6IgYCUAAAU0VSVklET1JfUElcVC5DRUEuMjI4MA' ,0 ,'',"setOveA3","tagName"],
+        ['P0uQAgHoBd0ku7P3cWOJL6IgYiUAAAU0VSVklET1JfUElcREFBMDgxMTM'    ,0 ,'',"setOveC2","tagName"],
+
+        ['P0uQAgHoBd0ku7P3cWOJL6IgWSUAAAU0VSVklET1JfUElcUDFBMDgwODA'    ,0 ,'',"setPercentageDieselTank","tagName"],//setPercentageDieselTank
+		['P0uQAgHoBd0ku7P3cWOJL6IgWCUAAAU0VSVklET1JfUElcREFHMDgyMDc'    ,0 ,'',"setEatA3","tagName"],
+		
+
+		/**Sol */
+		
+		['F1DP4rhZAwFMREKDf7s8vylUqgNQ4AAAUElUVlxULkNFQS4yMjc3'         ,0 ,'',"setEstA3","tagName"],
+		
+
 	];
+
+	oveA2PorFormula=0;
+	oveC2PorFormula=0;
 	mtrLineAcDifExp={
 		overview:{
 			power:[{name:'Actuals',data:[]},{name:'dif',data:[]},{name:'expected',data:[[1167609600000,0.7537],[1167696000000,0.3197]]}],//[[1167609600000,0.7537],[1167696000000,0.3197]],
@@ -171,39 +204,264 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		}
 	};
 	public opt :any={
+		colors: ['#DDDF0D', '#7798BF', '#55BF3B', '#DF5353', '#aaeeee',
+        '#ff0066', '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
+		chart: {
+			backgroundColor: {
+				linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+				stops: [
+					[0, 'rgb(0, 0, 0)'],
+					[1, 'rgb(0, 0, 0)']
+				]
+			},
+			borderWidth: 0,
+			borderRadius: 0,
+			plotBackgroundColor: null,
+			plotShadow: false,
+			plotBorderWidth: 0,
+            //height: 300
+		},
+		scrollbar: {
+			barBackgroundColor: {
+				linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+				stops: [
+					[0.4, '#888'],
+					[0.6, '#555']
+				]
+			},
+			barBorderColor: '#CCC',
+			buttonArrowColor: '#CCC',
+			buttonBackgroundColor: {
+				linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+				stops: [
+					[0.4, '#888'],
+					[0.6, '#555']
+				]
+			},
+			buttonBorderColor: '#CCC',
+			rifleColor: '#FFF',
+			trackBackgroundColor: {
+				linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+				stops: [
+					[0, '#000'],
+					[1, '#333']
+				]
+			},
+			trackBorderColor: '#666'
+		},
+		title: {
+			text: 'AAPL Stock Price',
+			style: {
+				color: '#FFF',
+				font: '16px Lucida Grande, Lucida Sans Unicode,' +
+					' Verdana, Arial, Helvetica, sans-serif'
+			}
+		},
+		subtitle: {
+			text: 'Click small/large buttons or change window size to test responsiveness',
+			style: {
+				color: '#DDD',
+				font: '12px Lucida Grande, Lucida Sans Unicode,' +
+					' Verdana, Arial, Helvetica, sans-serif'
+			}
+		},
+		legend: {
+			backgroundColor: 'rgba(48, 48, 48, 0.8)',
+			itemStyle: {
+				color: '#CCC'
+			},
+			itemHoverStyle: {
+				color: '#FFF'
+			},
+			itemHiddenStyle: {
+				color: '#333'
+			},
+			title: {
+				style: {
+					color: '#E0E0E0'
+				}
+			}
+		},
+		labels: {
+			style: {
+				color: '#CCC'
+			}
+		},
+		tooltip: {
+			backgroundColor: {
+				linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+				stops: [
+					[0, 'rgba(96, 96, 96, .8)'],
+					[1, 'rgba(16, 16, 16, .8)']
+				]
+			},
+			borderWidth: 0,
+			style: {
+				color: '#FFF'
+			}
+		},
+		plotOptions: {
+			series: {
+				dataLabels: {
+					color: '#444'
+				},
+				nullColor: '#444444'
+			},
+			line: {
+				dataLabels: {
+					color: '#CCC'
+				},
+				marker: {
+					lineColor: '#333'
+				}
+			},
+			spline: {
+				marker: {
+					lineColor: '#333'
+				}
+			},
+			scatter: {
+				marker: {
+					lineColor: '#333'
+				}
+			},
+			candlestick: {
+				lineColor: 'white'
+			}
+		},
+		toolbar: {
+			itemStyle: {
+				color: '#CCC'
+			}
+		},
+		navigation: {
+			buttonOptions: {
+				symbolStroke: '#DDDDDD',
+				theme: {
+					fill: {
+						linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+						stops: [
+							[0.4, '#606060'],
+							[0.6, '#333333']
+						]
+					},
+					stroke: '#000000'
+				}
+			}
+		},
+		// scroll charts
+		rangeSelector: {
+			selected: 1,
+			buttonTheme: {
+				fill: {
+					linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+					stops: [
+						[0.4, '#888'],
+						[0.6, '#555']
+					]
+				},
+				stroke: '#000000',
+				style: {
+					color: '#CCC',
+					fontWeight: 'bold'
+				},
+				states: {
+					hover: {
+						fill: {
+							linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+							stops: [
+								[0.4, '#BBB'],
+								[0.6, '#888']
+							]
+						},
+						stroke: '#000000',
+						style: {
+							color: 'white'
+						}
+					},
+					select: {
+						fill: {
+							linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+							stops: [
+								[0.1, '#000'],
+								[0.3, '#333']
+							]
+						},
+						stroke: '#000000',
+						style: {
+							color: 'yellow'
+						}
+					}
+				}
+			},
+			inputStyle: {
+				backgroundColor: '#333',
+				color: 'silver'
+			},
+			labelStyle: {
+				color: '#fff'
+			}
+		},
+		navigator: {
+			handles: {
+				backgroundColor: '#666',
+				borderColor: '#fff'
+			},
+			outlineColor: '#CCC',
+			maskFill: 'rgba(16, 16, 16, 0.5)',
+			series: {
+				color: '#7798BF',
+				lineColor: '#A6C7ED'
+			}
+		},
+		xAxis: {
+			gridLineWidth: 0,
+			lineColor: '#fff',
+			tickColor: '#fff',
+			labels: {
+				style: {
+					color: '#fff',
+					fontWeight: 'bold'
+				}
+			},
+			title: {
+				style: {
+					color: '#fff',
+					font: 'bold 12px Lucida Grande, Lucida Sans Unicode,' +
+						' Verdana, Arial, Helvetica, sans-serif'
+				}
+			}
+		},
+		yAxis: {
+			alternateGridColor: null,
+			minorTickInterval: null,
+			gridLineColor: 'rgba(255, 255, 255, .1)',
+			minorGridLineColor: 'rgba(255,255,255,0.07)',
+			lineWidth: 0,
+			tickWidth: 0,
+			labels: {
+				style: {
+					color: '#fff',
+					fontWeight: 'bold'
+				}
+			},
+			title: {
+				style: {
+					color: '#fff',
+					font: 'bold 12px Lucida Grande, Lucida Sans Unicode,' +
+						' Verdana, Arial, Helvetica, sans-serif'
+				}
+			}
+		},
+	
 		time: {
 			timezone: 'America/Mexico_City',
 			useUTC: false
 		},
-        chart: {
-            height: 300
-        },
-
-		rangeSelector: {
-			selected: 1
-		},
-
-		title: {
-			text: 'AAPL Stock Price'
-		},
-
-        subtitle: {
-            text: 'Click small/large buttons or change window size to test responsiveness'
-        },
-		series: [{
-			name: '',
-			data: algo.algo,
-            type: 'area',
-            threshold: null,
-            tooltip: {
-                valueDecimals: 2
-            }
-		}],
-
         responsive: {
             rules: [{
                 condition: {
-                    maxWidth: 500
+                    maxWidth: 900
                 },
                 chartOptions: {
                     chart: {
@@ -216,95 +474,445 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
                         enabled: false
                     }
                 }
-            }]
-        }
-	}
-	public line1:any= {
-		time: {
-			timezone: 'America/Mexico_City',
-			useUTC: false
-		},
-        chart: {
-			height: 300,
-		},
-		
-		title: {
-			text: 'AAPL Stock Price'
-		},
-		rangeSelector: {
-			buttons: [{
-				count: 1,
-				type: 'minute',
-				text: '1M'
-			}, {
-				count: 5,
-				type: 'minute',
-				text: '5M'
-			}, {
-				type: 'all',
-				text: 'All'
-			}],
-			inputEnabled: false,
-			selected: 0
-		},
-		yAxis:[
-			{
+            },{
+				condition: {
+					minWidth: 901
+				},
+				chartOptions: {
+					chart: {
+						height: null
+					}
+				}
+			}]
+        },
 
-				title: {
-					text: '',	
-				},
-				opposite: false
-			},
-			{
-				title: {
-					text: 'Dif',	
-				},
-				opposite: true
-			}
-		],
-        series: [
-			{
-				name: 'Actuals',
-				yAxis: 0,
-				data: []
-			},
-			{
-				name: 'Dif',
-				yAxis: 1,
-				data: []
-			},
-			{
-				name: 'Expected',
-				yAxis: 0,
-				data: []
-			},
-		]
+		series: [{
+			name: '',
+			data: algo.algo,
+            type: 'area',
+            threshold: null,
+            tooltip: {
+                valueDecimals: 2
+            }
+		}],
 	}
+
 	
 	public line2:any= {
+		
+		colors: ['#DDDF0D', '#7798BF', '#55BF3B', '#DF5353', '#aaeeee',
+        '#ff0066', '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
+		chart: {
+			backgroundColor: {
+				linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+				stops: [
+					[0, 'rgb(0, 0, 0)'],
+					[1, 'rgb(0, 0, 0)']
+				]
+			},
+			borderWidth: 0,
+			borderRadius: 0,
+			plotBackgroundColor: null,
+			plotShadow: false,
+			plotBorderWidth: 0,
+            //height: 300
+		},
+		scrollbar: {
+			barBackgroundColor: {
+				linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+				stops: [
+					[0.4, '#888'],
+					[0.6, '#555']
+				]
+			},
+			barBorderColor: '#CCC',
+			buttonArrowColor: '#CCC',
+			buttonBackgroundColor: {
+				linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+				stops: [
+					[0.4, '#888'],
+					[0.6, '#555']
+				]
+			},
+			buttonBorderColor: '#CCC',
+			rifleColor: '#FFF',
+			trackBackgroundColor: {
+				linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+				stops: [
+					[0, '#000'],
+					[1, '#333']
+				]
+			},
+			trackBorderColor: '#666'
+		},
+		title: {
+			text: 'AAPL Stock Price',
+			style: {
+				color: '#FFF',
+				font: '16px Lucida Grande, Lucida Sans Unicode,' +
+					' Verdana, Arial, Helvetica, sans-serif'
+			}
+		},
+		subtitle: {
+			text: 'Click small/large buttons or change window size to test responsiveness',
+			style: {
+				color: '#DDD',
+				font: '12px Lucida Grande, Lucida Sans Unicode,' +
+					' Verdana, Arial, Helvetica, sans-serif'
+			}
+		},
+		legend: {
+			backgroundColor: 'rgba(48, 48, 48, 0.8)',
+			itemStyle: {
+				color: '#CCC'
+			},
+			itemHoverStyle: {
+				color: '#FFF'
+			},
+			itemHiddenStyle: {
+				color: '#333'
+			},
+			title: {
+				style: {
+					color: '#E0E0E0'
+				}
+			}
+		},
+		labels: {
+			style: {
+				color: '#CCC'
+			}
+		},
+		tooltip: {
+			backgroundColor: {
+				linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+				stops: [
+					[0, 'rgba(96, 96, 96, .8)'],
+					[1, 'rgba(16, 16, 16, .8)']
+				]
+			},
+			borderWidth: 0,
+			style: {
+				color: '#FFF'
+			}
+		},
+		plotOptions: {
+			series: {
+				dataLabels: {
+					color: '#444'
+				},
+				nullColor: '#444444'
+			},
+			line: {
+				dataLabels: {
+					color: '#CCC'
+				},
+				marker: {
+					lineColor: '#333'
+				}
+			},
+			spline: {
+				marker: {
+					lineColor: '#333'
+				}
+			},
+			scatter: {
+				marker: {
+					lineColor: '#333'
+				}
+			},
+			candlestick: {
+				lineColor: 'white'
+			}
+		},
+		toolbar: {
+			itemStyle: {
+				color: '#CCC'
+			}
+		},
+		navigation: {
+			buttonOptions: {
+				symbolStroke: '#DDDDDD',
+				theme: {
+					fill: {
+						linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+						stops: [
+							[0.4, '#606060'],
+							[0.6, '#333333']
+						]
+					},
+					stroke: '#000000'
+				}
+			}
+		},
+		// scroll charts
+		rangeSelector: {
+			inputEnabled: true,
+			selected: 0,
+			buttonTheme: {
+				fill: {
+					linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+					stops: [
+						[0.4, '#888'],
+						[0.6, '#555']
+					]
+				},
+				stroke: '#000000',
+				style: {
+					color: '#CCC',
+					fontWeight: 'bold'
+				},
+				states: {
+					hover: {
+						fill: {
+							linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+							stops: [
+								[0.4, '#BBB'],
+								[0.6, '#888']
+							]
+						},
+						stroke: '#000000',
+						style: {
+							color: 'white'
+						}
+					},
+					select: {
+						fill: {
+							linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+							stops: [
+								[0.1, '#000'],
+								[0.3, '#333']
+							]
+						},
+						stroke: '#000000',
+						style: {
+							color: 'yellow'
+						}
+					}
+				}
+			},
+			inputStyle: {
+				backgroundColor: '#333',
+				color: '#fff'
+			},
+			labelStyle: {
+				color: '#fff'
+			}
+		},
+		navigator: {
+			handles: {
+				backgroundColor: '#666',
+				borderColor: '#AAA'
+			},
+			outlineColor: '#CCC',
+			maskFill: 'rgba(16, 16, 16, 0.5)',
+			series: {
+				color: '#7798BF',
+				lineColor: '#A6C7ED'
+			}
+		},
+		xAxis: {
+			gridLineWidth: 0,
+			lineColor: '#fff',
+			tickColor: '#fff',
+			labels: {
+				style: {
+					color: '#fff',
+					fontWeight: 'bold'
+				}
+			},
+			title: {
+				style: {
+					color: '#fff',
+					font: 'bold 12px Lucida Grande, Lucida Sans Unicode,' +
+						' Verdana, Arial, Helvetica, sans-serif'
+				}
+			}
+		},
+		yAxis: {
+			alternateGridColor: null,
+			minorTickInterval: null,
+			gridLineColor: 'rgba(255, 255, 255, .1)',
+			minorGridLineColor: 'rgba(255,255,255,0.07)',
+			lineWidth: 0,
+			tickWidth: 0,
+			labels: {
+				style: {
+					color: '#fff',
+					fontWeight: 'bold'
+				}
+			},
+			title: {
+				style: {
+					color: '#fff',
+					font: 'bold 12px Lucida Grande, Lucida Sans Unicode,' +
+						' Verdana, Arial, Helvetica, sans-serif'
+				}
+			}
+		},
+	
 		time: {
 			timezone: 'America/Mexico_City',
 			useUTC: false
 		},
-        chart: {
-			height: 300,
-		},
-		
-		title: {
-			text: 'AAPL Stock Price'
-		},
-		rangeSelector: {			
-			inputEnabled: false,
-			selected: 0
-		},
-
+        responsive: {
+            rules: [
+				{
+					condition: {
+						maxWidth: 900
+					},
+					chartOptions: {
+						chart: {
+							height: 300
+						},
+						subtitle: {
+							text: null
+						},
+						navigator: {
+							enabled: false
+						}
+					}
+				},{
+					condition: {
+						minWidth: 901
+					},
+					chartOptions: {
+						chart: {
+							height: null
+						}
+					}
+				}
+			]
+        },
         series: [
 			{
 				name: 'Actuals',
 				data: []
 			}
 		]
-    }
+	}
+	public optManometro:any={
+
+		chart: {
+			type: 'gauge',
+			plotBackgroundColor: null,
+			plotBackgroundImage: null,
+			plotBorderWidth: 0,
+			plotShadow: true,
+			backgroundColor: {
+				linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+				stops: [
+					[0, 'rgb(0, 0, 0)'],
+					[1, 'rgb(0, 0, 0)']
+				]
+			},
+			height: 260,
+			width:260
+		},
+
+		title: {
+			text: ''
+		},
+
+		exporting: {
+		  enabled: false
+		},
+	
+		pane: {
+			startAngle: -150,
+			endAngle: 150,
+			background: [{
+				backgroundColor: '#000',
+				borderWidth: 0,
+				outerRadius: '100%',
+				innerRadius: '88%'
+			}]
+		},
+	
+		// the value axis
+		yAxis: {
+			min: 0,
+			max: 70,
+	
+			minorTickInterval: 'auto',
+			minorTickWidth: 1,
+			minorTickLength: 10,
+			minorTickPosition: 'inside',
+			minorTickColor: '#666',
+	
+			tickPixelInterval: 30,
+			tickWidth: 2,
+			tickPosition: 'inside',
+			tickLength: 10,
+			tickColor: '#666',
+			labels: {
+				step: 2,
+				rotation: 'auto',
+				style: {
+					color: '#fff',
+					fontWeigth: 'normal'
+				}
+			},
+			title: {
+				text: 'kg/cm^2',
+				style: {
+					color: '#fff',
+					fontWeigth: 'normal'
+				}
+			},
+			plotBands: [{
+				from: 0,
+				to: 39,
+				color: '#DF5353' // green #55BF3B
+			}, {
+				from: 39,
+				to: 45,
+				color: '#DDDF0D' // yellow DDDF0D
+			}, {
+				from: 45,
+				to: 70,
+				color: '#55BF3B' // red DF5353
+			}]
+		},
+
+		plotOptions: {
+			series: {
+				dataLabels: {
+					enabled: false,
+					color: '#fff'
+				}
+			},
+			gauge: {
+				dial: {
+					backgroundColor: '#fff',
+				},
+				pivot: {
+					backgroundColor: '#fff'
+				},/*
+				dataLabels: {
+					borderWidth: 2,
+					borderColor: '#d3e9f7',
+					padding: 5,
+					borderRadius: 2,
+					verticalAlign: 'center',
+					y: 30,
+					style: {
+						fontWeight: 'normal'
+					}
+				},
+				wrap: false//*/
+			}
+		},
+	
+		series: [{
+			name: 'Bar',
+			data: [0],
+			tooltip: {
+				valueSuffix: 'kg/cm^2'
+			}
+		}]
+	
+	};
 	valueGas=100;
 	id;
 	id2;
@@ -325,15 +933,27 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	humidity="";
 	pressure="";
 	windSpeed="";
+	chartManoometro;
+	excessCapacityEST="0";
+	excessCapacityEAT="0";
     constructor(
         public globalService       : GlobalService,
         public eventService        : EventService,
         public socketService       : SocketService,
 		public securityService     : SecurityService,
-		public monitoringTrService  : MonitoringTrService
+		public monitoringTrService : MonitoringTrService
     ) {
         super(globalService, eventService, socketService,securityService);
-    }
+	}
+	getTagName(fname:string):string{
+		let name = "";
+		for (const e of this.wids) {
+			if(fname==e[3]){
+				name = e[4]+"";
+			}
+		}
+		return name;
+	}
 	ngOnDestroy(){
 		if (this.id) {
 			clearInterval(this.id);
@@ -343,6 +963,12 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	ngOnInit() {
 		let url = `/assets/css/theme/content/monitoringv2.css`;
 		document.getElementById("content_theme").setAttribute('href',url);
+		//Highcharts.setOptions(highcharts.theme);
+		this.addBlock(1,'');
+		this.sleep(2000).then(() => { this.cargar(); });
+	}
+	cargar(){
+		this.sleep(5000);
 		this.initChart();
 		this.getStreamsetsInterpolatedLast24HoursSol();
 		this.getStreamsetsInterpolatedLast24HoursAguila();
@@ -350,21 +976,28 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.subscribeSocketChannel("pi-servers"    ,(data)=>{this.socketFlow(data);}  ,()=>{this.socketReconnected();}  ,()=>{this.socketDisconnected();});
 		this.subscribeSocketChannel("weather"    ,(data)=>{this.socketFlowWeather(data);}  ,()=>{this.socketReconnected();}  ,()=>{this.socketDisconnected();});
 		//this.subscribeSocketChannel("back-pi-isrun" ,(data)=>{this.socketFlow(data);}  ,()=>{this.socketReconnected();}  ,()=>{this.socketDisconnected();});
-
+		this.initManoometro();
 		/*
 		this.setMtr();
 		this.updateDonughtChart();
 		//*/
-		this.updateChartDif(); 
-		this.getStreamsetsInterpolatedAguilaDieselTank();
+		this.updateChartDif(); 			
+		this.loadData();
 		this.id = setInterval(() => {
 		  this.getStreamsetsInterpolatedSolPresionGas();
-		  this.getStreamsetsInterpolatedAguilaDieselTank();
 		}, 5000);
 		this.id2 = setInterval(() => {
-			this.updateChartDif(); 
-		  }, 3600000);
-
+			/**Cada Hora */
+			this.updateChartDif(); 			
+			this.loadData();
+		}, 3600000);
+		this.sleep(4000).then(() => { this.addBlock(2,''); });
+	}
+	sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+	initManoometro(){
+		//this.chartManoometro = Highcharts.chart(this.chartManometro.nativeElement, this.optManometro);
 	}
 	socketFlowWeather(data){
 		let weather = data.data;
@@ -381,13 +1014,32 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.windSpeed = weather.Wind.Speed.Metric.Value;
 
 	}
-	socketFlow(data){
+	socketFlow(data:PiServerBox){
+		console.log(5);
+		
+		/*
+		this.chartLineOve1C.redraw();
+		this.chartLineEat1C.redraw();
+		this.chartLineEst1C.redraw();
+		this.chartLineEat2C.redraw();
+		this.chartLineEst2C.redraw();
+		/*
+		this.chartLineOve1C.update();
+		this.chartLineEat1C.update();
+		this.chartLineEst1C.update();
+		this.chartLineEat2C.update();
+		this.chartLineEst2C.update();//*/
+
+		//this.chartLineOve1C?this.chartLineOve1C.series[0].addPoint([(new Date()).getTime(), 500], true, true):null;
+		//*/
 		for (const plant of data.data) {
 			for (const tag of plant.Items) {
 				for (const iterator of this.wids) {
 					if(tag.WebId == iterator[0]){
 						this.valueTemporal =  +tag.Value.Value;
 						iterator[1]=this.valueTemporal;
+						iterator[4]=tag.Name;
+						//console.log(iterator[3]);
 						this[iterator[3]](this.valueTemporal);
 					}
 				}
@@ -396,7 +1048,6 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.setMtr();
 		this.updateDonughtChart();
 		this.updateMtrLineDif();
-		
 	}
 	socketReconnected(){
 
@@ -438,16 +1089,66 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 				}
 			);
 	}	
+	DemoManometro(){
+		
+		this.chartManoometro.update({
+			series: {
+				name: 'Bar',
+				data: [100],
+				tooltip: {
+					valueSuffix: ' kg/cm^2'
+				}
+			},
+		  });
+	}
+	
+	loadData() {
+		let fecha = new Date();
+		
+		this.monitoringTrService.getModelMarketSol(fecha.getTime())
+		  .subscribe(
+			data => {
+			  const rows = data.rows;
+			  for (let i = 0; i < rows.length; i++) {
+				const hour: any = {};
+				const offerIncrements = rows[i].offerIncrements;
+				hour.hour = offerIncrements[0].hour;
+				hour.limitDispatchMin = rows[i].planningDetail.limitDespatchMin;
+				hour.limitDispatchMax = rows[i].planningDetail.limitDespatchMax;
+				hour.idSubInt =  rows[i].planningDetail.idSubInt;
+				hour.minimumPowerOperationCost = (rows[i].planningCharges) ? rows[i].planningCharges.costOperation : 0;
+				let hours = new Date().getHours();
+				if(hours == hour.hour){
+					this.excessCapacityEST = hour.limitDispatchMax+"";
+				}
+				
+			  }
+			 
+			},
+			errorData => {
+			  
+			});
+	}
 	getStreamsetsInterpolatedSolPresionGas(){
 
 		this.monitoringTrService.getStreamsetsInterpolatedLastHours('2',['F1DP4rhZAwFMREKDf7s8vylUqgnAMAAAUElUVlxULkNFQS4yMTk0'],1)
 			.subscribe(
-				data => {
-					
+				(data:PiServerBox) => {
 					let max = 68;
 					let value = data.data[0]['Items'][0]['Items'][data.data[0]['Items'][0]['Items'].length-1].Value.Value;
 					//this.viewGasPressure = ((value*100)/max);
 					this.viewGasPressure = value;
+					this.viewGasPressureTagName = data.data[0].error_response?"":data.data[0].Items[0].Name;
+					/*this.chartManoometro.update({
+						series: {
+							name: 'Bar',
+							data: [value],
+							tooltip: {
+								valueSuffix: ' kg/cm^2'
+							}
+						},
+					  });//*/
+					this.optManometro.series[0].data = [value];
 					this.radialGasPressure = 80+(120-(80+((40*((value*100)/max))/100)));					
 				},
 				errorData => {
@@ -456,18 +1157,19 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 			);
 	}
 	getStreamsetsInterpolatedAguilaDieselTank(){
-
+		/*
 		this.monitoringTrService.getStreamsetsInterpolatedLastHours('1',['P0uQAgHoBd0ku7P3cWOJL6IgyyMAAAU0VSVklET1JfUElcUDFBMDgwNjI'],1)
 			.subscribe(
 				data => {
 					//14.13 son metros y es mi maximo 
 					//data / 1000 // convertir a metros
-					/* en la representacion radial-gauge en 80 representa el 100% y el 120 representa el 0% */
+					// en la representacion radial-gauge en 80 representa el 100% y el 120 representa el 0%
 					let max = 14.13;
 					let value = data.data[0]['Items'][0]['Items'][data.data[0]['Items'][0]['Items'].length-1].Value.Value;
 					this.viewDieselMetros= value/1000;
 					this.viewDiesel = ((this.viewDieselMetros*100)/max);
-
+					this.viewDieselTagName = data.data[0].error_response?"":data.data[0].Items[0].Name;
+					debugger
 					let v = (40*this.viewDiesel)/100;		
 					this.viewDieselRadialGauge = 80+(120-(80+v));	
 				},
@@ -475,6 +1177,12 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 				//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
 				}
 			);
+			//*/
+	}
+	setPercentageDieselTank(x){
+		this.viewDiesel = x;		
+		let v = (40*this.viewDiesel)/100;		
+		this.viewDieselRadialGauge = 80+(120-(80+v));
 	}
 	returnConfigDonught(){
 		return {
@@ -696,7 +1404,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	setMtr(){
 		//this.setEatA1();
 		//this.setEatA2();
-		this.setEatA3();
+		//this.setEatA3();
 		this.setEatA4();
 		this.setEatC1();
 		//this.setEatC2();
@@ -709,7 +1417,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 
 		//this.setEstA1();
 		//this.setEstA2();
-		this.setEstA3();
+		//this.setEstA3();
 		this.setEstA4();
 		this.setEstC1();
 		//this.setEstC2();
@@ -720,12 +1428,14 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.setEstB3();
 		this.setEstB4();	
 		
-		this.setOveA1();
-		this.setOveA2();
-		this.setOveA3();
+		//this.setOveA1();
+		//this.setOveA2();
+		this.setOveA2PorFormula();
+		//this.setOveA3();
 		this.setOveA4();
 		this.setOveC1();
-		this.setOveC2();
+		//this.setOveC2();
+		this.setOveC2PorFormula();
 		this.setOveC3();
 		this.setOveC4();
 		this.setOveB1();
@@ -1103,22 +1813,59 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.updateChartDif();
 	}
 
-	setOveA1(){let v=(this.getEatA1()[0]+this.getEstA1()[0]);this.mtr.overview[0]=[v,(this.maxPow*2)-v]}
-	setOveA2(){let a=this.getEatA2();let s=this.getEstA2();let ove0=(a[0]+s[0])/2;this.mtr.overview[3]=[ove0,this.maxHR-ove0]}
-	setOveA3(){let a=this.getEatA3();let s=this.getEstA3();let ove0=(a[0]+s[0])/2;this.mtr.overview[6]=[ove0,this.maxCaF-ove0]}
+	//setOveA1(){let v=(this.getEatA1()[0]+this.getEstA1()[0]);this.mtr.overview[0]=[v,(this.maxPow*2)-v]}
+	setOveA1(x){
+		let v=x;
+		this.mtr.overview[0]=[v,(this.maxPow*2)-v];
+		
+		let a=this.getEatA2();
+		let s=this.getEstA2();
+		let ove0=(a[0]+s[0])/2;
+		/*
+		console.log("(Actual)Total Heat Rate");
+		console.log("OveA2 (T.CEA.2279) = (DAA08103  +  T.CEA.2268)/2");
+		console.log(`desdePI = (${x})   ,   desdeIcollab ( (${a[0]} + ${s[0]})/2 ) = ${ove0}`);
+		//*/
+	}
+	//setOveA2(){let a=this.getEatA2();let s=this.getEstA2();let ove0=(a[0]+s[0])/2;this.mtr.overview[3]=[ove0,this.maxHR-ove0]}
+	setOveA2PorFormula(){
+		let a=this.getEatA2();
+		let s=this.getEstA2();
+		let ove0=(a[0]+s[0])/2;
+		this.oveA2PorFormula=ove0;
+	}
+	setOveA2(x){this.mtr.overview[3]=[x,this.maxHR-x]}
+	//setOveA3(){let a=this.getEatA3();let s=this.getEstA3();let ove0=(a[0]+s[0])/2;this.mtr.overview[6]=[ove0,this.maxCaF-ove0]}
+	setOveA3(x){this.mtr.overview[6]=[x,this.maxCaF-x]}
 	setOveA4(){let v=(this.getEatA4()[0]+this.getEstA4()[0]);this.mtr.overview[9]=[v,(this.maxFue*2)-v]}
 	setOveB1(){let v=(this.getOveA1()[0]-this.getOveC1()[0]);this.mtr.overview[1]=[v,(this.maxPow*2)-v];}
 	setOveB2(){let v=(this.getOveC2()[0]-this.getOveA2()[0]);this.mtr.overview[4]=[v,this.maxHR-v];}
 	setOveB3(){let v=(this.getOveA3()[0]-this.getOveC3()[0]);this.mtr.overview[7]=[v,this.maxCaF-v];}
 	setOveB4(){let v=(this.getOveA4()[0]-this.getOveC4()[0]);this.mtr.overview[10]=[v,(this.maxFue*2)-v];}
 	setOveC1(){let a=this.getEatC1();let s=this.getEstC1();let ove0=a[0]+s[0];let ove1=a[1]+s[1];this.mtr.overview[2]=[ove0,(this.maxPow*2)-ove0]}
-	setOveC2(){let a=this.getEatC2();let s=this.getEstC2();let ove0=(a[0]+s[0])/2;let ove1=(a[1]+s[1])/2;this.mtr.overview[5]=[ove0,this.maxHR-ove0]}
+	//setOveC2(){let a=this.getEatC2();let s=this.getEstC2();let ove0=(a[0]+s[0])/2;let ove1=(a[1]+s[1])/2;this.mtr.overview[5]=[ove0,this.maxHR-ove0]}
+	setOveC2PorFormula(){let a=this.getEatC2();let s=this.getEstC2();let ove0=(a[0]+s[0])/2;this.oveC2PorFormula=ove0}
+	setOveC2(x){
+		this.mtr.overview[5]=[x,this.maxHR-x];
+
+		let a=this.getEatC2();
+		let s=this.getEstC2();
+		let ove0=(a[0]+s[0])/2;		
+		this.mtr.overview[5]=[ove0,this.maxHR-ove0]
+
+		/*
+		console.log("(Expected)Total Heat Rate");
+		console.log("OveC2 (DAA08113) = (DAA08104 + LGS.CEA.71)/2");
+		console.log(`desdePI = (${x})   ,   desdeIcollab ( (${a[0]} + ${s[0]})/2 ) = ${ove0}`);
+		//*/
+	}
 	setOveC3(){let a=this.getEatC3();let s=this.getEstC3();let ove0=(a[0]+s[0])/2;let ove1=(a[1]+s[1])/2;this.mtr.overview[8]=[ove0,this.maxCaF-ove0]}
 	setOveC4(){let a=this.getEatC4();let s=this.getEstC4();let ove0=a[0]+s[0];let ove1=a[1]+s[1];this.mtr.overview[11]=[ove0,(this.maxFue*2)-ove0]}
 
 	setEatA1(x){this.mtr.eat[0]=[x,this.maxPow-x];}
 	setEatA2(x){this.mtr.eat[3]=[x,this.maxHR-x];}
-	setEatA3( ){this.updatefactorCapFac();let a=this.getEatA1();let v=(a[0]/this.factorCapFactor)*100;if(v>100)v=100;this.mtr.eat[6]=[v,this.maxCaF-v];}
+	//setEatA3( ){this.updatefactorCapFac();let a=this.getEatA1();let v=(a[0]/this.factorCapFactor)*100;if(v>100)v=100;this.mtr.eat[6]=[v,this.maxCaF-v];}
+	setEatA3(x){let v=x;if(v>100)v=100;this.mtr.eat[6]=[v,this.maxCaF-v];}
 	setEatA4( ){let heatRateCor=this.getEatC2()[0];let heatRate=this.getEatA2()[0];let v=(((heatRateCor-heatRate)*0.00004596)/20.03);this.mtr.eat[9]=[v,this.maxFue-v];}
 	setEatB1( ){let v=(this.getEatA1()[0]-this.getEatC1()[0]);this.mtr.eat[1]=[v,this.maxPow-v];}
 	setEatB2( ){let v=(this.getEatC2()[0]-this.getEatA2()[0]);this.mtr.eat[4]=[v,this.maxHR-v];}
@@ -1131,7 +1878,8 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 
 	setEstA1(x){this.mtr.est[0]=[x,this.maxPow-x];}
 	setEstA2(x){this.mtr.est[3]=[x,this.maxHR-x];}
-	setEstA3( ){this.updatefactorCapFac();let a=this.getEstA1();let v=(a[0]/this.factorCapFactor)*100;if(v>100)v=100;this.mtr.est[6]=[v,this.maxCaF-v];}
+	//setEstA3( ){this.updatefactorCapFac();let a=this.getEstA1();let v=(a[0]/this.factorCapFactor)*100;if(v>100)v=100;this.mtr.est[6]=[v,this.maxCaF-v];}
+	setEstA3(x){let v=x;if(v>100)v=100;this.mtr.est[6]=[v,this.maxCaF-v];}
 	setEstA4( ){let heatRateCor=this.getEstC2()[0];let heatRate=this.getEstA2()[0];let v=(((heatRateCor-heatRate)*0.00004764)/20.03);this.mtr.eat[9]=[v,this.maxFue-v];}
 	setEstB1( ){let v=(this.getEstA1()[0]-this.getEstC1()[0]);this.mtr.est[1]=[v,this.maxPow-v];}
 	setEstB2( ){let v=(this.getEstC2()[0]-this.getEstA2()[0]);this.mtr.est[4]=[v,this.maxHR-v];}
@@ -1204,5 +1952,11 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.viewDiesel += 10;		
 		let v = (40*this.viewDiesel)/100;		
 		this.viewDieselRadialGauge = 80+(120-(80+v));
+	}
+
+	
+	private addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1, 
+		  new EventBlocked(type, msg)));
 	}
 }

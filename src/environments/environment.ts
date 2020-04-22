@@ -20,8 +20,10 @@ export const environment = {
   , trUrl                   : hostGateway + 'tr/'
   , mmmercadoUrl            : hostGateway + 'mmmercado/mmmercado/'
   , microuploaddbUrl        : hostGateway + 'microuploaddb/'
-  , urlTrPi                 : 'http://200.52.85.140:1119/'  // micro Bi
+  , urlTrPi                 : hostGateway + 'pi/'
   , efhUrl                  : hostGateway + 'efh/'
+  , dgctags                 : hostGateway + 'dgctags/dgctags/'
+  , dycformato              : hostGateway + 'dycformato/dycformato/'
 };
 
 /*

@@ -8,13 +8,40 @@
 </div>
 
 <div class="section">
-
+	<div class="row">
+		<form [formGroup]="filterDatesFormGroup" (ngSubmit)="searchTagsFromTo()">
+			<div class="col">
+				<div class="form-group">
+					<label class="form-text" for="dateInihtml">De:</label>
+					<mat-form-field class="form-control">
+						<input matInput [matDatepicker]="dateInihtml" [(ngModel)]="dateIni"
+							[ngModelOptions]="{ standalone: true }" (dateChange)="dateChangeIni($event)" />
+						<mat-datepicker-toggle matSuffix [for]="dateInihtml"></mat-datepicker-toggle>
+						<mat-datepicker #dateInihtml></mat-datepicker>
+					</mat-form-field>
+				</div>
+			</div>
+			<div class="col">
+				<div class="form-group">
+					<label class="form-text" for="dateFinhtml"> Al:</label>
+					<mat-form-field class="form-control">
+						<input matInput [min]="dateIni" [matDatepicker]="dateFinhtml" [(ngModel)]="dateFin"
+							[ngModelOptions]="{ standalone: true }" (dateChange)="dateChangeFin($event)" />
+						<mat-datepicker-toggle matSuffix [for]="dateFinhtml"></mat-datepicker-toggle>
+						<mat-datepicker #dateFinhtml></mat-datepicker>
+					</mat-form-field>
+				</div>
+			</div>
+			<div class="col">
+				<button class="btn align-self-end" style="margin: auto;">
+					<mdb-icon far icon="save" class="mr-1"></mdb-icon> Graficar
+				</button>
+			</div>
+		</form>
+	</div>
 	<div class="row pb-2">
 		<div class="col">
-			<div style="height: 500px;">
-				<canvas id="canvas1" #canvas1></canvas>
-			</div>
-
+			<div #charthenryhub></div>
 		</div>
 	</div>
 

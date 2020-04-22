@@ -1,5 +1,3 @@
-
-/* set the overriding variables */
 $grid-breakpoints: (
   xxxs: 0,
   xxs: 320px,
@@ -22,5 +20,3 @@ $container-max-widths: (
   xxl: 1440px,
   xxxl: 1600px
 );
-
-@import "bootstrap";

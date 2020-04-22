@@ -12,9 +12,9 @@ import {EventMessage} from '../../../../../../core/models/EventMessage';
 import {Combo} from '../../../../../models/Combo';
 
 @Component({
-  selector: 'app-compliance-profile',
-  templateUrl: './complianceProfile.component.html',
-  styleUrls: ['./complianceProfile.component.scss']
+    selector: 'app-compliance-profile',
+    templateUrl: './complianceProfile.component.html',
+    styleUrls: ['./complianceProfile.component.scss']
 })
 export class ComplianceProfileComponent implements OnInit {
     @Input() inIdEmpleado: number;
@@ -26,24 +26,19 @@ export class ComplianceProfileComponent implements OnInit {
     title3 = 'Datos personales / '
     generos: Array<any>;
     grados: Array<any>;
-    posiciones: Array<any>;
-    departamentos: Array<any>;
-    puestoTrabs: Array<any>;
-    jefes: Array<any>;
     horarios: Array<any>;
     lugares: Array<any>;
     personas: Array<any>;
     arryCata: Array<any>;
-
     perfilForm: FormGroup;
     submitted = false;
 
     disabledSave = true;
     checkedEstatus = false;
-    checkedStopProgrammed = true;
     deshabiliarEstatus = false;
     isdisabled: boolean = false;
     isdisableIdEmp: boolean = false;
+    isdisabledName: boolean = false;
 
     labBotAcep = 'Guardar';
 
@@ -56,8 +51,9 @@ export class ComplianceProfileComponent implements OnInit {
     workingHour;
     employeePlace;
     employeeDependent;
-    imageUrl: string | ArrayBuffer = "../../../assets/img/foto.png";
-    fileName: string = "No file selected";
+    enterprise;
+    imageUrl: string | ArrayBuffer = '../../../assets/img/foto.png';
+    fileName: string = 'No file selected';
     file: File;
     photo;
     byteArray;
@@ -78,22 +74,28 @@ export class ComplianceProfileComponent implements OnInit {
         this.setCombos();
 
 
-        if(this.inTipo == "ver"){
+        if (this.inTipo === 'ver') {
             this.isdisabled = true;
             this.isdisableIdEmp = true;
+            this.deshabiliarEstatus = true;
+            this.isdisabledName = true;
         }
 
-        if(this.inTipo == "guardar" || this.inTipo == "editar"){
+        if (this.inTipo === 'guardar' || this.inTipo === 'editar')  {
             this.isdisableIdEmp = true;
+            this.deshabiliarEstatus = false;
+        }
+
+        if (this.inTipo === 'editar') {
+            this.isdisabledName = true;
         }
 
         this.perfilForm = this.formBuilder.group({
-            // fPhoto: [{ value:'', disabled: this.isdisabled }, Validators.required],
             fEnterprise: [{ value:'', disabled: this.isdisabled }, Validators.required],
             fEmpNum: [{ value:'', disabled: this.isdisableIdEmp }, Validators.required],
-            fNames: [{ value:'', disabled: this.isdisableIdEmp }, Validators.required],
-            fLastName: [{ value:'', disabled: this.isdisableIdEmp }, Validators.required],
-            fSecondName: [{ value:'', disabled: this.isdisableIdEmp }, Validators.required],
+            fNames: [{ value:'', disabled: this.isdisabledName }, Validators.required],
+            fLastName: [{ value:'', disabled: this.isdisabledName }, Validators.required],
+            fSecondName: [{ value:'', disabled: this.isdisabledName }, Validators.required],
             fGender: [{ value:'', disabled: this.isdisabled }, Validators.required],
             fDateBirth: [{ value:'', disabled: this.isdisabled }, Validators.required],
             fLevelStudy: [{ value:'', disabled: this.isdisabled }, Validators.required],
@@ -110,7 +112,7 @@ export class ComplianceProfileComponent implements OnInit {
         });
 
         if(this.inTipo == "ver" || this.inTipo == "editar"){
-
+            debugger
             this.cmbos.getEmpleado(this.inIdEmpleado).subscribe(
                 respuesta => {
                     const currentDate = new Date().toISOString().substring(0, 10);
@@ -132,15 +134,16 @@ export class ComplianceProfileComponent implements OnInit {
 
                     this.gender         = respuesta[ 'generoId' ];
                     this.educationLevel = respuesta[ 'gradoEstudioId' ];
+                    this.imageUrl = 'data:image/jpeg;base64,'+respuesta['foto'];
                 }
             );
 
             this.cmbos.getEmpleadoDetalles(this.inIdEmpleado).subscribe(
                 respuesta => {
-                    this.perfilForm.controls['fPosition'].setValue(respuesta[ 'posicionId' ]+'');
-                    this.perfilForm.controls['fDepto'].setValue(respuesta[ 'departamentoId' ]+'');
-                    this.perfilForm.controls['fJob'].setValue(respuesta[ 'puestoTrabajoId' ]+'');
-                    this.perfilForm.controls['fImmBoss'].setValue(respuesta[ 'jefeInmediatoId' ]+'');
+                    this.perfilForm.controls['fPosition'].setValue(respuesta[ 'posicion' ]+'');
+                    this.perfilForm.controls['fDepto'].setValue(respuesta[ 'departamento' ]+'');
+                    this.perfilForm.controls['fJob'].setValue(respuesta[ 'puestoTrabajo' ]+'');
+                    this.perfilForm.controls['fImmBoss'].setValue(respuesta[ 'jefeInmediato' ]+'');
                     this.perfilForm.controls['fWorkHours'].setValue(respuesta[ 'horarioTrabajoId' ]+'');
                     this.perfilForm.controls['fWorkplace'].setValue(respuesta[ 'lugarTrabajoId' ]+'');
                     let jobD = this.datePipe.transform(
@@ -165,11 +168,13 @@ export class ComplianceProfileComponent implements OnInit {
     }
 
     setCombos(){
+        debugger
         this.generos = [];
         this.grados = [] ;
         this.horarios = [];
         this.lugares = [];
         this.personas = [];
+        this.enterprise = [];
 
         this.arryCata = Array<OrderCatalogDTO>();
         this.arryCata.push( new OrderCatalogDTO('gender', 1, 1));
@@ -177,7 +182,7 @@ export class ComplianceProfileComponent implements OnInit {
         this.arryCata.push( new OrderCatalogDTO('workingHour', 1, 1));
         this.arryCata.push( new OrderCatalogDTO('employeePlace', 1, 1));
         this.arryCata.push( new OrderCatalogDTO('employeeDependent', 1, 1));
-        debugger
+        this.arryCata.push( new OrderCatalogDTO('enterprisePreffix', 1, 1));
         this.cmbos.getlistCatalogoOrdenados(this.arryCata).subscribe(
             poRespuesta => {
                 this.resuelveDS(poRespuesta, this.generos, 'gender');
@@ -185,6 +190,7 @@ export class ComplianceProfileComponent implements OnInit {
                 this.resuelveDS(poRespuesta, this.horarios,'workingHour');
                 this.resuelveDS(poRespuesta, this.lugares,'employeePlace');
                 this.resuelveDS(poRespuesta, this.personas,'employeeDependent');
+                this.resuelveDS(poRespuesta, this.enterprise,'enterprisePreffix');
             }
         );
 
@@ -194,15 +200,15 @@ export class ComplianceProfileComponent implements OnInit {
         if (!poRespuesta) {
             console.log("El back no responde");
         } else {
-            let catalogs : any;
+            let catalogs: any;
             catalogs = poRespuesta;
             catalogs.forEach(element => {
-                if ( element.catalog === comp ){
+                if ( element.catalog === comp ) {
                     element.data.forEach ( elementCatalog => {
                         let value = elementCatalog.id;
                         let label = elementCatalog.code;
                         combo.push(new Combo(value, label));
-                    })
+                    });
                 }
             });
 
@@ -219,34 +225,38 @@ export class ComplianceProfileComponent implements OnInit {
 
                 this.toastr.errorToastr('Fecha de nacimiento no puede ser superior a fecha de Inicio Laboral.', 'Oops!');
                 return {
-                    dates: "Date from should be less than Date to"
+                    dates: 'Date from should be less than Date to'
                 };
             }
             return {};
         }
     }
 
-    saveEmployee(){
-        let det = new Detalle( this.perfilForm.controls['fDepto'].value,
+    saveEmployee() {
+        let det = new Detalle(
+            null,
             0,
             this.inIdEmpleado,
             1,
             this.perfilForm.controls['fStartJob'].value,
             this.perfilForm.controls['fWorkHours'].value,
-            this.perfilForm.controls['fImmBoss'].value,
+            null,
             this.perfilForm.controls['fWorkplace'].value,
             this.perfilForm.controls['fPerCarg'].value,
-            this.perfilForm.controls['fPosition'].value,
+            null,
             0,
-            this.perfilForm.controls['fJobDescription'].value
-            ,this.perfilForm.controls['fJob'].value);
-
+            this.perfilForm.controls['fJobDescription'].value,
+            null,
+            this.perfilForm.controls['fPosition'].value,
+            this.perfilForm.controls['fDepto'].value,
+            this.perfilForm.controls['fImmBoss'].value,
+            this.perfilForm.controls['fJob'].value);
         let emp = new Empleado( this.perfilForm.controls['fCareer'].value,
             1,
             det,
             this.inIdEmpleado,
             'exito',
-            1,
+            this.checkedEstatus === true ? 1 : 0,
             this.perfilForm.controls['fDateBirth'].value,
             this.perfilForm.controls['fGender'].value,
             this.perfilForm.controls['fLevelStudy'].value,
@@ -259,7 +269,6 @@ export class ComplianceProfileComponent implements OnInit {
 
         this.cmbos.getSave(emp).subscribe(
             respuesta => {
-
                 this.toastr.successToastr('El empleado fue Creado con éxito.', '¡Se ha logrado!');
                 this.eventService.sendChangePage(new EventMessage(10, {},'Compliance.registerPersonal'));
             }
@@ -267,7 +276,6 @@ export class ComplianceProfileComponent implements OnInit {
     }
 
     onSubmit() {
-        debugger;
         this.submitted = true;
         // stop here if form is invalid
         if (this.perfilForm.invalid) {
@@ -278,23 +286,19 @@ export class ComplianceProfileComponent implements OnInit {
         this.saveEmployee();
     }
 
-    onChange(file: File){
-        debugger
-        if(file) {
+    onChange(file: File) {
+        if (file) {
             this.fileName = file.name;
             this.file = file;
 
             const reader = new FileReader();
             reader.readAsDataURL(file);
 
-            reader.onload = (e:any) => {
-                this.photo = atob(e.target.result);
-
-                const byteNumbers = new Array(this.photo.length);
-                for (let i = 0; i < this.photo.length; i++) {
-                    byteNumbers[i] = this.photo.charCodeAt(i);
-                }
-                this.byteArray = new Uint8Array(byteNumbers);
+            reader.onload = (e: any) => {
+                this.photo = e.target.result;
+                let base = this.photo.replace(/^data:image\/jpeg;base64,/, '');
+                this.byteArray = this.photo.replace(/^data:image\/jpeg;base64,/, '');
+                console.log('this is the photo file in base64 = ' + this.byteArray)
                 this.imageUrl = reader.result;
             };
         }

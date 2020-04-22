@@ -22,8 +22,9 @@ import { PerfilHomeComponent              } from '../business/perfil/home/perfil
 import { TaskPlanningComponent            } from '../administration/task-planning/task-planning.component';
 import { TaskEditComponent                } from '../administration/task-planning/home-edit/task-edit/task-edit.component';
 import { TemplateEditTaskComponent        } from '../administration/task-planning/home-edit/template-edit-task/template-edit-task.component';
-import {ComplianceAddStaffComponent} from '../business/competence/staff/addstaff/complianceAddStaff.component';
-import {ComplianceProfileComponent} from '../business/competence/staff/addstaff/profile/complianceProfile.component';
+import {ComplianceAddStaffComponent       } from '../business/competence/staff/addstaff/complianceAddStaff.component';
+import {ComplianceProfileComponent        } from '../business/competence/staff/addstaff/profile/complianceProfile.component';
+import {EvaluationComponent               } from '../business/competence/staff/evaluation/evaluation.component';
 
 @Component({
 	selector        : 'app-complianceHome',
@@ -46,6 +47,7 @@ import {ComplianceProfileComponent} from '../business/competence/staff/addstaff/
 		,TemplateEditTaskComponent
 		,ComplianceAddStaffComponent
 		,ComplianceProfileComponent
+		,EvaluationComponent
 	]
 })
 export class ComplianceHomeComponent implements OnInit {
@@ -81,7 +83,7 @@ export class ComplianceHomeComponent implements OnInit {
 		}
 	}
 	  	
-	subscribeOnChangePage(){
+	subscribeOnChangePage() {
 		this.subscriptions.push(this.eventService.onChangePage.subscribe({
 			next: (event: EventMessage) => {
 				//debugger;
@@ -187,6 +189,10 @@ export class ComplianceHomeComponent implements OnInit {
 					case 'shared.header.changePassword':
 						this.viewContainerRef
 							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent)).changeDetectorRef.detectChanges();
+						break;
+					case 'Compliance.evaluatePersonal':
+						this.viewContainerRef
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(EvaluationComponent)).changeDetectorRef.detectChanges();
 						break;
 					default:
 				}
