@@ -68,7 +68,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
     displayedColumnsOrder: any[] = [];
     displayedColumnsActions: any[] = [];
     columnsToDisplay: string[] = [];
-	row_x_page = [50, 100, 250, 500];
+	row_x_page = [5];
     showAdd = true;
     showView = false;
     showUpdate = false;
