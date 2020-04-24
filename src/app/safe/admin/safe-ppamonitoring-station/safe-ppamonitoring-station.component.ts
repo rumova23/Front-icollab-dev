@@ -187,7 +187,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		this.resetScreen();
 	}
 	resetScreen(){
-		this.dataSource = new MatTableDataSource<any>([]);
+		//this.dataSource = new MatTableDataSource<any>([]);
 		this.chartLine.destroy();
 		this.chartLine = undefined;
 	}
