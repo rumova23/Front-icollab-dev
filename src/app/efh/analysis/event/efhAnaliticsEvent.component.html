@@ -28,7 +28,7 @@
       <div class="col-md-3">
         <div class="form-group">
           <small class="form-text text-muted" >Fecha inicio:</small>
-          <input type="date" class="form-control" min="{{initDate}}" formControlName="initDate"/>
+          <input type="date" class="form-control" min="{{initDate}}" max="{{maxDate}}" formControlName="initDate"/>
         </div>
         <div *ngIf="submittedData && f.initDate.errors && !datesValidation" style="color:red">
           <div *ngIf="f.initDate.errors.required">Requerido</div>
@@ -40,7 +40,7 @@
       <div class="col-md-3">
         <div class="form-group">
             <small class="form-text text-muted" >Fecha fin:</small>
-            <input type="date" class="form-control" min="{{initDate}}" formControlName="endDate"/>
+            <input type="date" class="form-control" min="{{initDate}}" max="{{maxDate}}" formControlName="endDate"/>
         </div>
         <div *ngIf="submittedData && f.endDate.errors && !datesValidation" style="color:red">
             <div *ngIf="f.endDate.errors.required">Requerido</div>

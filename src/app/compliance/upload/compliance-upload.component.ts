@@ -16,7 +16,7 @@ export class ComplianceUploadComponent implements OnInit, OnDestroy {
   @Input() inEmployeeId: number;
   @Input() inAccion: string;
 
-  typeDocuments = ['Documentos'];
+  typeDocuments = ['Soportes'];
   titleDocument: Array<any>;
   submitted = false;
   isdisabled = false;

@@ -1,5 +1,5 @@
 <!-- Documentos -->
-<div class="section" *ngFor="let item of titleDocument">
+<div *ngFor="let item of titleDocument">
   <div class="row">
     <div class="col">
       <p class="section_titulo_0">{{item.titleDocument}}</p>
@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="col-6" *ngIf="!isdisabled">
-            <app-compliance-upload-common [inAccion]='inAccion' [typeDocument]='item.titleDocument' [inIdEventConfig]='inIdEventConfig'></app-compliance-upload-common>
+            <app-compliance-upload-common [inAccion]='inAccion' [typeDocument]='item.titleDocument' [inEmployeeId]='inEmployeeId'></app-compliance-upload-common>
           </div>
         </div>
       </div>

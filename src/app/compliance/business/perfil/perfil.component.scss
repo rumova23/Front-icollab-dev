@@ -2,7 +2,7 @@
 	background: white;
 	padding-top: 15px;
 	display: flex;
-    flex-direction: column;
+	flex-direction: column;
 }
 
 .mat-radio-button ~ .mat-radio-button {
@@ -10,7 +10,7 @@
 }
 
 .mat-form-field{
-	  width: 100%;
+	width: 100%;
 }
 
 .mat-card{
@@ -20,8 +20,29 @@
 
 @media (min-width: 1200px){
 	.mat-card {
-	margin-left: 7% !important;
-	margin-right: 0% !important;
-	max-width: 65%;
+		margin-left: 7% !important;
+		margin-right: 0% !important;
+		max-width: 65%;
 	}
+}
+
+input[type="file"] {
+	display: none;
+}
+.custom-file-upload {
+	border: 1px solid #ccc;
+	display: inline-block;
+	padding: 6px 12px;
+	cursor: pointer;
+	background: #0F5787;
+	color: #ffffff;
+}
+
+.custom-file-upload2 {
+	border: 1px solid #ccc;
+	display: inline-block;
+	padding: 6px 12px;
+	cursor: pointer;
+	background: #D67700;
+	color: #ffffff;
 }

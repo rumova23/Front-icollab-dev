@@ -33,6 +33,8 @@ export class EfhAnaliticsEventComponent implements OnInit {
   submittedData = false;
   currentYear = new Date().getFullYear();
   initDate = (this.currentYear - 1) + '-01-01';
+  currentDate = new Date();
+  maxDate = this.datePipe.transform(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth()  + 1, 0), 'yyyy-MM-dd');
   selectedUnit;
   selectedInitDate;
   selectedEndDate;
@@ -228,7 +230,6 @@ export class EfhAnaliticsEventComponent implements OnInit {
       this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Lo siento,');
       return;
     }
-
     this.dataSubmit['idunit'] = this.analysisForm.controls['unitControl'].value;
     this.selectedInitDate = this.analysisForm.controls['initDate'].value;
     this.selectedEndDate = this.analysisForm.controls['endDate'].value;
@@ -358,7 +359,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
 
         for (const event of this.dataPartial) {
             cont++;
-            date = this.datePipe.transform(event.dateInit, 'dd/MM/yy');
+            date = this.datePipe.transform(event.dateInit, 'dd/MM/yyyy');
             // PRIMER EVENTO
             if (firstEvent) {
                 eventStartTime = new Date(event.dateInit);
@@ -398,10 +399,10 @@ export class EfhAnaliticsEventComponent implements OnInit {
             esi_tj = 0.0;
 
             // OPERACION NORMAL
-            if (event.idTypeEvent === 956 && this.FF > 0) {
-                eventEndTime = new Date(event.dateEnd);
+            if (event.idTypeEvent === 956 && cont === this.dataPartial.length) {
+                // eventEndTime = new Date(event.dateEnd);
                 duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
-                startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
+                startTime = this.datePipe.transform(eventStartTime, 'HH:mm:ss');
                 stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
 
                 runAOH = duration;
@@ -415,7 +416,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
             if (event.idTypeEvent === -100 && event.idTypeFuel === 952 && !isWorkingWithDiesel) {
                 eventEndTime = new Date(event.dateInit);
                 duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
-                startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
+                startTime = this.datePipe.transform(eventStartTime, 'HH:mm:ss');
                 stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
 
                 runAOH = duration;
@@ -436,7 +437,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
             if (event.idTypeEvent === -200 && event.idTypeFuel === 952 && isWorkingWithDiesel) {
                 eventEndTime = new Date(event.dateEnd);
                 duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
-                startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
+                startTime = this.datePipe.transform(eventStartTime, 'HH:mm:ss');
                 stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
 
                 runAOH = duration;
@@ -452,7 +453,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
                 this.FF = this.FF_GAS;
 
                 if (cont === this.dataPartial.length) {
-                    startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
+                    startTime = this.datePipe.transform(eventStartTime, 'HH:mm:ss');
                     stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
 
                     duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
@@ -487,7 +488,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
             if (event.idTypeEvent === 1 && this.FF > 0) {
                 eventEndTime = new Date(event.dateInit);
                 duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
-                startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
+                startTime = this.datePipe.transform(eventStartTime, 'HH:mm:ss');
                 stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
 
                 runAOH = duration;
@@ -513,7 +514,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
             if ((event.idTypeEvent === 4957 || event.idTypeEvent === 954) && this.FF > 0) {
                 eventEndTime = new Date(event.dateInit);
                 duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
-                startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
+                startTime = this.datePipe.transform(eventStartTime, 'HH:mm:ss');
                 stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
 
                 runAOH = duration;
@@ -552,7 +553,33 @@ export class EfhAnaliticsEventComponent implements OnInit {
                 sinceStarts = sinceStarts + startFlag;
 
                 if (cont === this.dataPartial.length) {
-                    startTime = this.datePipe.transform(eventStartTime, 'HH:mm');
+                    startTime = this.datePipe.transform(eventStartTime, 'HH:mm:ss');
+                    stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
+
+                    duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
+                    runAOH = duration;
+                    runEFHi = duration * this.FF;
+                    runEFHi_costo = runEFHi * rateEFHi_costo;
+                    canRegister = true;
+                }
+            } else if (event.idTypeEvent === 4954 && this.FF > 0) {
+                start = 1;
+                startFlag = 1;
+
+                totalStarts = totalStarts + start;
+                sinceStarts = sinceStarts + startFlag;
+
+                if (cont === this.dataPartial.length) {
+                    eventStartTime = new Date(event.dateInit);
+                    eventStartTime.setHours(0);
+                    eventStartTime.setMinutes(0);
+                    eventStartTime.setSeconds(0);
+                    eventEndTime = new Date(event.dateInit);
+                    eventEndTime.setHours(23);
+                    eventEndTime.setMinutes(59);
+                    eventEndTime.setSeconds(59);
+
+                    startTime = this.datePipe.transform(eventStartTime, 'HH:mm:ss');
                     stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
 
                     duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
@@ -562,6 +589,8 @@ export class EfhAnaliticsEventComponent implements OnInit {
                     canRegister = true;
                 }
             }
+
+            ff = this.FF;
 
             // SE REALIZA REEGISTRO DE TIEMPO OPERADO NORMALMENTE
             if (canRegister) {
@@ -850,10 +879,13 @@ export class EfhAnaliticsEventComponent implements OnInit {
 
   fillDatesOfRange(startDate: Date, endDate: Date) {
       this.datesOfRange = [];
+      startDate.setHours(0, 0, 0);
+      endDate.setHours(0, 0, 0);
       let currentDate = startDate;
       while (currentDate <= endDate) {
         this.datesOfRange.push(currentDate);
         currentDate = new Date(currentDate.getTime() + (1000 * 60 * 60 * 24));
+        currentDate.setHours(0, 0, 0);
       }
   }
 

@@ -20,21 +20,19 @@
                     <div class="col-3 text-center" >
                         <img [src]="imageUrl" width="110" height="110">
                         <div class="d-flex justify-content-center">
-                            <button class="btn btnPhoto" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                            <label for="file-upload" [ngClass]="{'custom-file-upload': globalService.aguila,'custom-file-upload2': !globalService.aguila}">
+                                <i class="fas fa-plus"></i> Agregar
+                            </label>
+                            <input id="file-upload"
+                                   type="file"
+                                   name="file"
+                                   #fileInput
+                                   (change)="onChange(fileInput.files[0])"
+                                   [ngClass]="{ 'is-invalid': submitted && f.fPhoto.errors }"
 
-                                <input
-                                        class="mdl-button--file"
-                                        maxlength="4"
-                                        size="4"
-                                        type="file"
-                                        name="file"
-                                        #fileInput
-                                        (change)="onChange(fileInput.files[0])"
-                                        [ngClass]="{ 'is-invalid': submitted && f.fPhoto.errors }"
+                            />
 
-                                />
-                                <mdb-icon fas icon="plus"></mdb-icon>&nbsp;Agregar
-                            </button>
+
                         </div>
                     </div>
                     <div class="col-9" >
@@ -282,8 +280,8 @@
         </div>
     </div>
     <div>
-        <div class="section" *ngIf="inIdEmpleado != 0">
-            <app-compliance-upload [inAccion]="accion" [inEmployeeId]="inIdEmpleado"></app-compliance-upload>
+        <div class="section">
+            <app-compliance-upload></app-compliance-upload>
         </div>
     </div>
     <div class="section">

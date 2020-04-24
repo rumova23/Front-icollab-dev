@@ -49,7 +49,7 @@ export class RegisterPersonalImp implements RegisterPersonal {
     lugarDeTrabajo: string;
     usuarioModifico: string;
     fechaHoraUltimaModificacion: string;
-    estatus: string;
+    estatus:string;
     ver: string;
     editar: string;
     eliminar: string;
@@ -178,8 +178,8 @@ export class ComplianceAddStaffComponent implements OnInit {
                             let userCreated = element.userCreated;
                             obj['userUpdated'] = element.userUpdated != null ? element.userUpdated : userCreated ;
                             let dateCreated = element.dateCreated;
-                            obj['dateUpdated'] = element.dateUpdated != null ? this.datePipe.transform(new Date(element.dateUpdated), 'dd/MM/yyyy HH:mm') : this.datePipe.transform(new Date(dateCreated), 'dd/MM/yyyy HH:mm') ;;
-                            obj['status'] = element.estidadEstatus;
+                            obj['dateUpdated'] = element.dateUpdated != null ? this.datePipe.transform(new Date(element.dateUpdated), 'dd/MM/yyyy HH:mm') : this.datePipe.transform(new Date(dateCreated), 'dd/MM/yyyy HH:mm');
+                            // obj['status'] = element.estidadEstatus;
                             //     obj['element']     = element;
                             i++;
 
@@ -199,11 +199,11 @@ export class ComplianceAddStaffComponent implements OnInit {
                             , {key: 'workPlace', label: 'Lugar de Trabajo'}
                             , {key: 'userUpdated', label: 'Usuario Modificó'}
                             , {key: 'dateUpdated', label: 'Fecha y Hora última modificación'}
-                            , {key: 'status', label: 'Estatus'}
+                            // , {key: 'status', label: 'Estatus'}
                         ];
 
                         this.displayedColumnsActions = [];
-                        this.columnsToDisplay = [ 'order', 'numEmployee', 'name', 'lastName', 'secondName', 'gender', 'position', 'department','marketStall','workPlace','userUpdated','dateUpdated','status'];
+                        this.columnsToDisplay = [ 'order', 'numEmployee', 'name', 'lastName', 'secondName', 'gender', 'position', 'department','marketStall','workPlace','userUpdated','dateUpdated'];
 
                         this.displayedColumnsActions.push({key: 'sys_see', label: 'Ver'});
                         this.columnsToDisplay.push('sys_see');
@@ -279,88 +279,93 @@ export class ComplianceAddStaffComponent implements OnInit {
     }
 
     search(): any[] {
-        let arrayElements = this.elementData;
+        debugger;
+        let arrayElements: any[] = this.elementData;
 
-        if (this.filterForm.controls['fEmpNum'].value !== '') {
+        if(this.filterForm.controls['fEmpNum'].value != ''){
             arrayElements = arrayElements.filter(personal => {
                 return personal.numEmployee.toString() === this.filterForm.controls['fEmpNum'].value ? true: false;
             });
         }
-        if (this.filterForm.controls['fNames'].value !== '') {
+        if(this.filterForm.controls['fNames'].value != ''){
             arrayElements = arrayElements.filter(personal => {
                 return personal.name.toString().toUpperCase() === this.filterForm.controls['fNames'].value.toString().toUpperCase() ? true: false;
             });
         }
-        if (this.filterForm.controls['fLastName'].value !== '') {
+        if(this.filterForm.controls['fLastName'].value != ''){
             arrayElements = arrayElements.filter(personal => {
                 return personal.lastName.toString().toUpperCase() === this.filterForm.controls['fLastName'].value.toString().toUpperCase() ? true: false;
             });
         }
-        if (this.filterForm.controls['fSecondName'].value !== '') {
+        if(this.filterForm.controls['fSecondName'].value != ''){
             arrayElements = arrayElements.filter(personal => {
                 return personal.secondName.toString().toUpperCase() === this.filterForm.controls['fSecondName'].value.toString().toUpperCase() ? true: false;
             });
         }
-        if (this.filterForm.controls['fPosition'].value !== '') {
+        if(this.filterForm.controls['fPosition'].value != ''){
             arrayElements = arrayElements.filter(personal => {
                 console.log(personal.posicion.toString())
                 return personal.position.toString() === this.filterForm.controls['fPosition'].value.toString() ? true: false;
             });
-        }if (this.filterForm.controls['fDepto'].value !== '') {
+        }if(this.filterForm.controls['fDepto'].value != ''){
             arrayElements = arrayElements.filter(personal => {
                 return personal.department.toString() === this.filterForm.controls['fDepto'].value ? true : false;
             });
         }
-        if (this.filterForm.controls['fJob'].value !== '') {
+        if(this.filterForm.controls['fJob'].value != ''){
             arrayElements = arrayElements.filter(personal => {
                 console.log(personal.lugarDeTrabajo.toString())
                 return personal.workPlace.toString() === this.filterForm.controls['fJob'].value ? true : false;
             });
         }
-        if (this.filterForm.controls['fEst'].value !== '') {
+        if(this.filterForm.controls['fEst'].value != ''){
             arrayElements = arrayElements.filter(personal => {
                 return personal.status.toString() === this.filterForm.controls['fEst'].value ? true: false;
             });
         }
-        if (this.filterForm.controls['fLastDate'].value !== '' && this.filterForm.controls['fLastHour'].value !== '') {
+        if(this.filterForm.controls['fLastDate'].value != '' && this.filterForm.controls['fLastHour'].value != ''){
             let dateLastUpdate = this.datePipe.transform(new Date(this.filterForm.controls['fLastDate'].value), 'dd/MM/yyyy') + ' ' + this.filterForm.controls['fLastHour'].value
             arrayElements = arrayElements.filter(personal => {
                 return personal.fechaHoraUltimaModificacion.toString() === dateLastUpdate ? true : false;
             });
-        } else if (this.filterForm.controls['fLastDate'].value === '' && this.filterForm.controls['fLastHour'].value !== '') {
-            this.toastr.errorToastr('Debe introducir una fecha', 'Lo siento,');
-        } else if (this.filterForm.controls['fLastDate'].value !== '' && this.filterForm.controls['fLastHour'].value === '') {
-            this.toastr.errorToastr('Debe introducir una hora', 'Lo siento,');
+        }else if(this.filterForm.controls['fLastDate'].value === '' && this.filterForm.controls['fLastHour'].value != ''){
+            this.toastr.errorToastr("Debe introducir una fecha", 'Lo siento,');
+        }else if(this.filterForm.controls['fLastDate'].value != '' && this.filterForm.controls['fLastHour'].value === ''){
+            this.toastr.errorToastr("Debe introducir una hora", 'Lo siento,');
         }
 
         return arrayElements;
     }
 
-    filtros() {
-        if (this.filterForm.controls['fEmpNum'].value !== '' || this.filterForm.controls['fNames'].value !== ''
-            || this.filterForm.controls['fLastName'].value !== '' || this.filterForm.controls['fSecondName'].value !== ''
-            || this.filterForm.controls['fPosition'].value !== '' || this.filterForm.controls['fDepto'].value !== ''
-            || this.filterForm.controls['fJob'].value !== '' || this.filterForm.controls['fEst'].value !== ''
-            || this.filterForm.controls['fLastDate'].value !== '' || this.filterForm.controls['fLastHour'].value !== '') {
+    filtros(){
+        if(this.filterForm.controls['fEmpNum'].value != '' || this.filterForm.controls['fNames'].value != ''
+            || this.filterForm.controls['fLastName'].value != '' || this.filterForm.controls['fSecondName'].value != ''
+            || this.filterForm.controls['fPosition'].value != '' || this.filterForm.controls['fDepto'].value != ''
+            || this.filterForm.controls['fJob'].value != '' || this.filterForm.controls['fEst'].value != ''
+            || this.filterForm.controls['fLastDate'].value != '' || this.filterForm.controls['fLastHour'].value != ''){
 
             this.registros = new MatTableDataSource<RegisterPersonal>(this.search());
             this.registros.paginator = this.paginator;
             this.registros.sort = this.sort;
 
-        } else {
-            this.toastr.errorToastr('Debe llenar por lo menos 1 campo', 'Lo siento,');
+        }else{
+            let arrayElementData: any[] = this.elementData;
+            this.registros = new MatTableDataSource<RegisterPersonal>(arrayElementData);
+            this.registros.paginator = this.paginator;
+            this.registros.sort = this.sort;
+            this.toastr.errorToastr("Debe llenar por lo menos 1 campo", 'Lo siento,');
         }
     }
 
     resuelveDS(poRespuesta: Object, comp: string) {
         let catalogArray = [];
         if (!poRespuesta) {
-            console.log('El back no responde');
+            console.log("El back no responde");
         } else {
             let catalogs: any;
             catalogs = poRespuesta;
             catalogs.forEach(element => {
-                if ( element.catalog === comp ) {
+                if ( element.catalog === comp ){
                     element.data.forEach ( elementCatalog => {
                         let value = elementCatalog.id;
                         let label = elementCatalog.code;

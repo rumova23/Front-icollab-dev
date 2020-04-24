@@ -1,11 +1,20 @@
-input.mdl-button--file {
-  opacity:0;
+input[type="file"] {
+  display: none;
+}
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
   cursor: pointer;
-  height: 100%;
-  right: 0;
-  width: 20px;
+  background: #0F5787;
+  color: #ffffff;
 }
 
-.btnPhoto {
-  padding: 0px 14px;
+.custom-file-upload2 {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  background: #D67700;
+  color: #ffffff;
 }

@@ -16,6 +16,7 @@ export class Empleado {
     private paterno: string
     private userId: number
     private foto: any
+    private empresaPrefijo: string
 
     constructor(
         carrera: string,
@@ -32,7 +33,8 @@ export class Empleado {
         nombres: string,
         paterno: string,
         userId: number,
-        foto: any
+        foto: any,
+        empresaPrefijo: string
     ) {
         this.carrera = carrera;
         this.claveGenerico = claveGenerico;
@@ -49,6 +51,7 @@ export class Empleado {
         this.paterno = paterno;
         this.userId = userId;
         this.foto = foto;
+        this.empresaPrefijo = empresaPrefijo;
     }
 
 

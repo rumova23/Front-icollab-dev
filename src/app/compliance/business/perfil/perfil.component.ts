@@ -1,296 +1,328 @@
-import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { ToastrManager } from 'ng6-toastr-notifications';
-import { Combo } from '../../models/Combo';
+import {Component, Input, OnInit} from '@angular/core';
+import {DatePipe} from '@angular/common';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
+import {ToastrManager} from 'ng6-toastr-notifications';
+import { GlobalService } from 'src/app/core/globals/global.service';
+import { EventMessage } from 'src/app/core/models/EventMessage';
+import { OrderCatalogDTO } from 'src/app/compliance/models/OrderCatalogDTO';
+import { EventService } from 'src/app/core/services/event.service';
 import { Detalle } from '../../models/Detalle';
 import { Empleado } from '../../models/Empleado';
-import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
-import { OrderCatalogDTO } from 'src/app/compliance/models/OrderCatalogDTO'; 
-import { EventService } from 'src/app/core/services/event.service';
-import { EventMessage } from 'src/app/core/models/EventMessage';
-import { GlobalService } from 'src/app/core/globals/global.service';
-import { DatePipe } from '@angular/common';
+import { Combo } from '../../models/Combo';
+import { DomSanitizer } from '@angular/platform-browser';
+import {split} from 'ts-node';
 
 @Component({
-  selector: 'app-perfil',
-  templateUrl: './perfil_v2.component.html',
-  styleUrls: ['./perfil.component.scss'],
+    selector: 'app-perfil',
+    templateUrl: './perfil_v2.component.html',
+    styleUrls: ['./perfil.component.scss'],
     providers: [DatePipe]
 })
 export class PerfilComponent implements OnInit {
-  @Input() inIdEmpleado: number;
-  @Input() inTipo: string;
-  @Input() isViewable: string;
-  title = 'Perfil de Puesto';
-  generos: Array<any>;
-  grados: Array<any>;
-  posiciones: Array<any>;
-  departamentos: Array<any>;
-  puestoTrabs: Array<any>;
-  jefes: Array<any>;
-  horarios: Array<any>;
-  lugares: Array<any>;
-  personas: Array<any>;
-  arryCata: Array<any>;
+    @Input() inIdEmpleado: number;
+    @Input() inTipo: string;
+    @Input() isViewable: string;
+    @Input() accion: string;
+    title = 'Datos Personales / Perfil de Puesto';
+    generos: Array<any>;
+    grados: Array<any>;
+    horarios: Array<any>;
+    lugares: Array<any>;
+    personas: Array<any>;
+    enterprisePreffix: Array<any>;
+    arryCata: Array<any>;
+    perfilForm: FormGroup;
+    submitted = false;
 
-  perfilForm: FormGroup;
-  submitted = false;
+    disabledSave = true;
+    checkedEstatus = false;
+    deshabiliarEstatus = false;
+    isdisabled: boolean = false;
+    isdisableIdEmp: boolean = false;
+    isdisableEnterprisePreffix: boolean = false;
+    isdisabledName: boolean = false;
+    requiredPhoto: boolean = true;
 
-  isdisabled: boolean = false;
-  isdisableIdEmp: boolean = false;
+    labBotAcep = 'Guardar';
 
-  labBotAcep = 'Guardar';
+    gender;
+    educationLevel;
+    position;
+    department;
+    workstation;
+    employeeBoss;
+    workingHour;
+    employeePlace;
+    employeeDependent;
+    enterprise;
+    imageUrl: string | ArrayBuffer = "../../../assets/img/foto.png";
+    fileName: string = "No file selected";
+    file: File;
+    photo;
+    byteArray;
 
-  gender;
-  educationLevel;
-  position;
-  department;
-  workstation;
-  employeeBoss;
-  workingHour;
-  employeePlace;
-  employeeDependent;
+    constructor(private cmbos: PerfilComboService,
+                private formBuilder: FormBuilder,
+                public toastr: ToastrManager,
+                public globalService: GlobalService,
+                private eventService: EventService,
+                private datePipe: DatePipe) { }
 
-
-  constructor(
-    private cmbos: PerfilComboService,
-    private formBuilder: FormBuilder,
-    public toastr: ToastrManager,
-    public globalService: GlobalService,
-    private eventService: EventService,
-    private datePipe: DatePipe) {
-  }
-  ngOnInit() {
-    //console.clear();
-
-    if ( this.inIdEmpleado > 0) {
-      this.labBotAcep = 'Modificar';
-    }
-
-    this.setCombos();
-
-
-    if(this.inTipo == "ver"){
-      this.isdisabled = true;
-      this.isdisableIdEmp = true;
-    }
-
-    if(this.inTipo == "guardar" || this.inTipo == "editar"){
-      this.isdisableIdEmp = true;
-    }
-
-    this.perfilForm = this.formBuilder.group({
-      fNumEmpo: [{ value:'', disabled: this.isdisableIdEmp }, Validators.required],
-      fNombres: [{ value:'', disabled: this.isdisabled }, Validators.required],
-      fAPaterno: [{ value:'', disabled: this.isdisabled }, Validators.required],
-      fAMaterno: [{ value:'', disabled: this.isdisabled }, Validators.required],
-      fGenero: [{ value:'', disabled: this.isdisabled }, Validators.required],
-      fNaci: [{ value:'', disabled: this.isdisabled }, Validators.required],
-      fGrado: [{ value:'', disabled: this.isdisabled }, Validators.required],
-      fCarrera: [{ value:'', disabled: this.isdisabled }, Validators.required],
-      fPosicion: [{ value:'', disabled: this.isdisabled }, Validators.required],
-      fDepto: [{ value:'', disabled: this.isdisabled }, Validators.required],
-      fPueTrab: [{ value:'', disabled: this.isdisabled }, Validators.required],
-      fJefInm: [{ value:'', disabled: this.isdisabled }, Validators.required],
-      fHorTrab: [{ value:'', disabled: this.isdisabled }, Validators.required],
-      fLugTrab: [{ value:'', disabled: this.isdisabled }, Validators.required],
-      fStartJob: [{ value:'', disabled: this.isdisabled }, Validators.required],
-      fPerCarg: [{ value:'', disabled: this.isdisabled }, Validators.required],
-      fDescGralPust: [{ value:'', disabled: this.isdisabled }, Validators.required]
-    });    
-    
-
-    if(this.inTipo == "ver" || this.inTipo == "editar"){
-
-      this.cmbos.getEmpleado(this.inIdEmpleado).subscribe(
-        respuesta => {
-          const currentDate = new Date().toISOString().substring(0, 10);
-
-          this.perfilForm.controls['fNumEmpo'].setValue(respuesta[ 'empleadoId' ]);
-          this.perfilForm.controls['fAMaterno'].setValue(respuesta[ 'materno' ]);
-          this.perfilForm.controls['fNombres'].setValue(respuesta[ 'nombres' ]);
-          this.perfilForm.controls['fAPaterno'].setValue(respuesta[ 'paterno' ]);
-          this.perfilForm.controls['fCarrera'].setValue(respuesta[ 'carrera' ]);
-
-          this.perfilForm.controls['fGenero'].patchValue(respuesta[ 'generoId' ]+'');
-          this.perfilForm.controls['fGrado'].setValue(respuesta[ 'gradoEstudioId' ]+'');
-          
-          let bornD = this.datePipe.transform(
-               (new Date(respuesta['fechanacimiento'].substring(0, 10))).getTime() + (60*60*24*1000)
-               ,'yyyy-MM-dd');
-
-          this.perfilForm.controls['fNaci'].setValue(bornD);
-
-          this.gender         = respuesta[ 'generoId' ];
-          this.educationLevel = respuesta[ 'gradoEstudioId' ];
+    ngOnInit() {
+        if ( this.inIdEmpleado > 0) {
+            this.labBotAcep = 'Modificar';
         }
-      );
 
-      this.cmbos.getEmpleadoDetalles(this.inIdEmpleado).subscribe(
-        respuesta => {
-          this.perfilForm.controls['fPosicion'].setValue(respuesta[ 'posicionId' ]+'');
-          this.perfilForm.controls['fDepto'].setValue(respuesta[ 'departamentoId' ]+'');
-          this.perfilForm.controls['fPueTrab'].setValue(respuesta[ 'puestoTrabajoId' ]+'');
-          this.perfilForm.controls['fJefInm'].setValue(respuesta[ 'jefeInmediatoId' ]+'');
-          this.perfilForm.controls['fHorTrab'].setValue(respuesta[ 'horarioTrabajoId' ]+'');
-          this.perfilForm.controls['fLugTrab'].setValue(respuesta[ 'lugarTrabajoId' ]+'');
-          let jobD = this.datePipe.transform(
-            (new Date(respuesta['fechaInicioPuesto'].substring(0, 10))).getTime() + (60*60*24*1000)
-            ,'yyyy-MM-dd');
-          this.perfilForm.controls['fStartJob'].setValue(jobD);
-          this.perfilForm.controls['fPerCarg'].setValue(respuesta[ 'personalCargoId' ]+'');
-          this.perfilForm.controls['fDescGralPust'].setValue(respuesta[ 'descGralPuesto' ]);
+        this.setCombos();
 
-          this.position          = respuesta[ 'posicionId' ];
-          this.department        = respuesta[ 'departamentoId' ];
-          this.workstation       = respuesta[ 'puestoTrabajoId' ];
-          this.employeeBoss      = respuesta[ 'jefeInmediatoId' ];
-          this.workingHour       = respuesta[ 'horarioTrabajoId' ];
-          this.employeePlace     = respuesta[ 'lugarTrabajoId' ];
-          //fecha-inicio-laboral
-          this.employeeDependent = respuesta[ 'personalCargoId' ];
 
+        if (this.inTipo === "ver") {
+            this.isdisabled = true;
+            this.isdisableIdEmp = true;
+            this.isdisableEnterprisePreffix = true;
+            this.deshabiliarEstatus = true;
+            this.isdisabledName = true;
         }
-      );
-    }
-  }
 
-  setCombos(){
-    this.generos = [];
-    this.grados = [] ;
-    this.posiciones = [];
-    this.departamentos = [];
-    this.puestoTrabs = [];
-    this.jefes = [];
-    this.horarios = [];
-    this.lugares = [];
-    this.personas = []; 
-
-    this.arryCata = Array<OrderCatalogDTO>();
-    this.arryCata.push( new OrderCatalogDTO('gender', 1, 1));
-    this.arryCata.push( new OrderCatalogDTO('educationLevel', 1, 1));
-    this.arryCata.push( new OrderCatalogDTO('position', 1, 1));
-    this.arryCata.push( new OrderCatalogDTO('department', 1, 1));
-    this.arryCata.push( new OrderCatalogDTO('workstation', 1, 1));
-    this.arryCata.push( new OrderCatalogDTO('employeeBoss', 1, 1));
-    this.arryCata.push( new OrderCatalogDTO('workingHour', 1, 1));
-    this.arryCata.push( new OrderCatalogDTO('employeePlace', 1, 1));
-    this.arryCata.push( new OrderCatalogDTO('employeeDependent', 1, 1));
-
-    this.cmbos.getlistCatalogoOrdenados(this.arryCata).subscribe(
-      poRespuesta => {
-
-        this.resuelveDS(poRespuesta, this.generos, 'gender');
-        this.resuelveDS(poRespuesta, this.grados, 'educationLevel');
-        this.resuelveDS(poRespuesta, this.posiciones,'position');
-        this.resuelveDS(poRespuesta, this.departamentos, 'department');
-        this.resuelveDS(poRespuesta, this.puestoTrabs,'workstation');
-        this.resuelveDS(poRespuesta, this.jefes,'employeeBoss');
-        this.resuelveDS(poRespuesta, this.horarios,'workingHour');
-        this.resuelveDS(poRespuesta, this.lugares,'employeePlace');
-        this.resuelveDS(poRespuesta, this.personas,'employeeDependent');
-      }
-    );
-
-  }
-
-
-  resuelveDS(poRespuesta: Object, combo: Array<any>, comp: string) {
-    if (!poRespuesta) {
-      console.log("El back no responde");
-    } else {
-      let catalogs : any;
-      catalogs = poRespuesta;
-      catalogs.forEach(element => {
-        if ( element.catalog === comp ){
-          element.data.forEach ( elementCatalog => {
-            let value = elementCatalog.id; 
-            let label = elementCatalog.code;
-            combo.push(new Combo(value, label));
-          })
+        if (this.inTipo === "guardar" || this.inTipo === "editar") {
+            this.isdisableIdEmp = true;
+            this.deshabiliarEstatus = false;
         }
-      });
 
+        if (this.inTipo === "editar") {
+            this.isdisabledName = true;
+            this.isdisableEnterprisePreffix = true;
+        }
+
+        if (this.inTipo === "guardar") {
+            this.checkedEstatus = true;
+        }
+
+        this.perfilForm = this.formBuilder.group({
+            fEnterprise: [{ value: '', disabled: this.isdisableEnterprisePreffix }, Validators.required],
+            fEmpNum: [{ value: '', disabled: this.isdisableIdEmp }, Validators.required],
+            fNames: [{ value: '', disabled: this.isdisabledName }, Validators.required],
+            fLastName: [{ value: '', disabled: this.isdisabledName }, Validators.required],
+            fSecondName: [{ value: '', disabled: this.isdisabledName }, Validators.required],
+            fGender: [{ value: '', disabled: this.isdisabled }, Validators.required],
+            fDateBirth: [{ value: '', disabled: this.isdisabled }, Validators.required],
+            fLevelStudy: [{ value: '', disabled: this.isdisabled }, Validators.required],
+            fCareer: [{ value: '', disabled: this.isdisabled }, Validators.required],
+            fPosition: [{ value: '', disabled: this.isdisabled }, Validators.required],
+            fDepto: [{ value: '', disabled: this.isdisabled }, Validators.required],
+            fJob: [{ value: '', disabled: this.isdisabled }, Validators.required],
+            fImmBoss: [{ value: '', disabled: this.isdisabled }, Validators.required],
+            fWorkHours: [{ value: '', disabled: this.isdisabled }, Validators.required],
+            fWorkplace: [{ value: '', disabled: this.isdisabled }, Validators.required],
+            fStartJob: [{ value: '', disabled: this.isdisabled }, Validators.required],
+            fPerCarg: [{ value: '', disabled: this.isdisabled }, Validators.required],
+            fJobDescription: [{ value: '', disabled: this.isdisabled }, Validators.required]
+        });
+
+        if (this.inTipo === "ver" || this.inTipo === "editar") {
+            this.cmbos.getEmpleado(this.inIdEmpleado).subscribe(
+                respuesta => {
+                    const currentDate = new Date().toISOString().substring(0, 10);
+                    this.perfilForm.controls['fEmpNum'].setValue(respuesta[ 'userId' ]);
+                    this.enterprise = (respuesta['userId'] as string).split('-')[0];
+                    this.perfilForm.controls['fEnterprise'].setValue(this.enterprisePreffix.find(x => x.label === this.enterprise).value);
+                    this.perfilForm.controls['fSecondName'].setValue(respuesta[ 'materno' ]);
+                    this.perfilForm.controls['fNames'].setValue(respuesta[ 'nombres' ]);
+                    this.perfilForm.controls['fLastName'].setValue(respuesta[ 'paterno' ]);
+                    this.perfilForm.controls['fCareer'].setValue(respuesta[ 'carrera' ]);
+
+                    this.perfilForm.controls['fGender'].patchValue(respuesta[ 'generoId' ]+'');
+                    this.perfilForm.controls['fLevelStudy'].setValue(respuesta[ 'gradoEstudioId' ]+'');
+
+                    let bornD = this.datePipe.transform(
+                        (new Date(respuesta['fechanacimiento'].substring(0, 10))).getTime() + (60 * 60 * 24 * 1000)
+                        , 'yyyy-MM-dd');
+
+                    this.perfilForm.controls['fDateBirth'].setValue(bornD);
+
+                    this.gender         = respuesta['generoId'];
+                    this.educationLevel = respuesta['gradoEstudioId'];
+                    this.checkedEstatus = respuesta['estidadEstatus'];
+                    if (respuesta['foto'] !== null) {
+                        this.imageUrl = 'data:image/jpeg;base64,' + respuesta['foto'];
+                    }
+                }
+            );
+
+            this.cmbos.getEmpleadoDetalles(this.inIdEmpleado).subscribe(
+                respuesta => {
+                    this.perfilForm.controls['fPosition'].setValue(respuesta['posicion'] !== null ? respuesta['posicion'] : '');
+                    this.perfilForm.controls['fDepto'].setValue(respuesta['departamento'] !== null ? respuesta['departamento'] : '');
+                    this.perfilForm.controls['fJob'].setValue(respuesta['puestoTrabajo'] !== null ? respuesta['puestoTrabajo'] : '');
+                    this.perfilForm.controls['fImmBoss'].setValue(respuesta['jefeInmediato'] !== null ? respuesta['jefeInmediato'] : '');
+                    this.perfilForm.controls['fWorkHours'].setValue(respuesta['horarioTrabajoId'] + '');
+                    this.perfilForm.controls['fWorkplace'].setValue(respuesta['lugarTrabajoId'] + '');
+                    let jobD = this.datePipe.transform(
+                        (new Date(respuesta['fechaInicioPuesto'].substring(0, 10))).getTime() + (60 * 60 * 24 * 1000)
+                        , 'yyyy-MM-dd');
+                    this.perfilForm.controls['fStartJob'].setValue(jobD);
+                    this.perfilForm.controls['fPerCarg'].setValue(respuesta['personalCargoId'] + '');
+                    this.perfilForm.controls['fJobDescription'].setValue(respuesta['descGralPuesto']);
+
+                    this.position          = respuesta['posicionId'];
+                    this.department        = respuesta['departamentoId'];
+                    this.workstation       = respuesta['puestoTrabajoId'];
+                    this.employeeBoss      = respuesta['jefeInmediatoId'];
+                    this.workingHour       = respuesta['horarioTrabajoId'];
+                    this.employeePlace     = respuesta['lugarTrabajoId'];
+                    this.employeeDependent = respuesta['personalCargoId'];
+
+                }
+            );
+        }
     }
-  }
 
-  get f() { return this.perfilForm.controls; }
+    setCombos() {
+        this.generos = [];
+        this.grados = [] ;
+        this.horarios = [];
+        this.lugares = [];
+        this.personas = [];
+        this.enterprisePreffix = [];
 
-  dateLessThan(fNaci: string, fStartJob: string) {
-    return (group: FormGroup): {[key: string]: any} => {
-      let f = group.controls[fNaci];
-      let t = group.controls[fStartJob];
-      if (f.value > t.value) {
-        
-        this.toastr.errorToastr('Fecha de nacimiento no puede ser superior a fecha de Inicio Laboral.', 'Oops!');
-        return {
-          dates: "Date from should be less than Date to"
-        };
-      }
-      return {};
-    }
-  }
+        this.arryCata = Array<OrderCatalogDTO>();
+        this.arryCata.push( new OrderCatalogDTO('gender', 1, 1));
+        this.arryCata.push( new OrderCatalogDTO('educationLevel', 1, 1));
+        this.arryCata.push( new OrderCatalogDTO('workingHour', 1, 1));
+        this.arryCata.push( new OrderCatalogDTO('employeePlace', 1, 1));
+        this.arryCata.push( new OrderCatalogDTO('employeeDependent', 1, 1));
+        this.arryCata.push( new OrderCatalogDTO('enterprisePreffix', 1, 1));
 
-
-  guardarEmpleado(){
-    let det = new Detalle( this.perfilForm.controls['fDepto'].value,
-                           0,
-                           this.inIdEmpleado,
-                           1,
-                           this.perfilForm.controls['fStartJob'].value,
-                           this.perfilForm.controls['fHorTrab'].value,
-                           this.perfilForm.controls['fJefInm'].value,
-                           this.perfilForm.controls['fLugTrab'].value,
-                           this.perfilForm.controls['fPerCarg'].value,
-                           this.perfilForm.controls['fPosicion'].value,
-                           0,
-                           this.perfilForm.controls['fDescGralPust'].value,
-                           this.perfilForm.controls['fPueTrab'].value,
-                   null,
-               null,
-                null,
-               null);
-                          
-    let emp = new Empleado( this.perfilForm.controls['fCarrera'].value,
-                            1,
-                            det,
-                            this.inIdEmpleado,
-                            'exito',
-                            1, 
-                            this.perfilForm.controls['fNaci'].value,
-                            this.perfilForm.controls['fGenero'].value,
-                            this.perfilForm.controls['fGrado'].value,
-                            this.perfilForm.controls['fAMaterno'].value,
-                            '',
-                            this.perfilForm.controls['fNombres'].value,
-                            this.perfilForm.controls['fAPaterno'].value,
-                            1,
-        null
+        this.cmbos.getlistCatalogoOrdenados(this.arryCata).subscribe(
+            poRespuesta => {
+                this.resuelveDS(poRespuesta, this.generos, 'gender');
+                this.resuelveDS(poRespuesta, this.grados, 'educationLevel');
+                this.resuelveDS(poRespuesta, this.horarios, 'workingHour');
+                this.resuelveDS(poRespuesta, this.lugares, 'employeePlace');
+                this.resuelveDS(poRespuesta, this.personas, 'employeeDependent');
+                this.resuelveDS(poRespuesta, this.enterprisePreffix, 'enterprisePreffix');
+            }
         );
-    
-    this.cmbos.getSave(emp).subscribe(
-      respuesta => {
 
-        this.toastr.successToastr('El empleado fue Creado con éxito.', '¡Se ha logrado!');
-        this.eventService.sendChangePage(new EventMessage(10, {},'Compliance.Personal Competente'));
-      }
-    );
-  }
-
-
-
-  onSubmit() {
-    this.submitted = true;
-    // stop here if form is invalid 
-    if (this.perfilForm.invalid) {
-      this.toastr.errorToastr('Error al guardar el empleado.', 'Lo siento,');      
-      return;
     }
 
-    this.guardarEmpleado();
-  }
+    resuelveDS(poRespuesta: Object, combo: Array<any>, comp: string) {
+        if (!poRespuesta) {
+            console.log('El back no responde');
+        } else {
+            let catalogs: any;
+            catalogs = poRespuesta;
+            catalogs.forEach(element => {
+                if ( element.catalog === comp ) {
+                    element.data.forEach ( elementCatalog => {
+                        let value = elementCatalog.id;
+                        let label = elementCatalog.code;
+                        combo.push(new Combo(value, label));
+                    });
+                }
+            });
 
+        }
+    }
 
+    get f() { return this.perfilForm.controls; }
 
+    saveEmployee() {
+        let empresaPrefijo = this.enterprisePreffix.find(x => x.value === parseInt(this.perfilForm.controls['fEnterprise'].value, 10)).label;
+        let det = new Detalle(
+            null,
+            0,
+            this.inIdEmpleado,
+            this.checkedEstatus === true ? 1 : 0,
+            this.perfilForm.controls['fStartJob'].value,
+            this.perfilForm.controls['fWorkHours'].value,
+            null,
+            this.perfilForm.controls['fWorkplace'].value,
+            this.perfilForm.controls['fPerCarg'].value,
+            null,
+            0,
+            this.perfilForm.controls['fJobDescription'].value,
+            null,
+            this.perfilForm.controls['fPosition'].value,
+            this.perfilForm.controls['fDepto'].value,
+            this.perfilForm.controls['fImmBoss'].value,
+            this.perfilForm.controls['fJob'].value);
+        let emp = new Empleado( this.perfilForm.controls['fCareer'].value,
+            1,
+            det,
+            this.inIdEmpleado,
+            'exito',
+            this.checkedEstatus === true ? 1 : 0,
+            this.perfilForm.controls['fDateBirth'].value,
+            this.perfilForm.controls['fGender'].value,
+            this.perfilForm.controls['fLevelStudy'].value,
+            this.perfilForm.controls['fSecondName'].value,
+            '',
+            this.perfilForm.controls['fNames'].value,
+            this.perfilForm.controls['fLastName'].value,
+            1,
+            this.byteArray,
+            empresaPrefijo);
 
+        this.cmbos.getSave(emp).subscribe(
+            respuesta => {
+                this.toastr.successToastr('El empleado fue Creado con éxito.', '¡Se ha logrado!');
+                this.eventService.sendChangePage(new EventMessage(10, {}, 'Compliance.Personal Competente'));
+            }
+        );
+    }
+
+    onSubmit() {
+        this.submitted = true;
+
+        if (this.requiredPhoto) {
+            this.toastr.errorToastr('Se debe agregar una fotografía.', 'Lo siento,');
+            return;
+        }
+
+        if (this.perfilForm.invalid) {
+            this.toastr.errorToastr('Valida los datos ingresados.', 'Lo siento,');
+            return;
+        }
+
+        let dateBirth = new Date(this.perfilForm.controls['fDateBirth'].value);
+        let dateStartJob = new Date(this.perfilForm.controls['fStartJob'].value);
+
+        if ((dateStartJob.getFullYear() - dateBirth.getFullYear()) < 18) {
+            this.toastr.errorToastr('La persona debe ser mayor de edad.', 'Lo siento,');
+            return;
+        }
+
+        this.saveEmployee();
+    }
+
+    onChange(file: File) {
+        if (file) {
+            this.fileName = file.name;
+            this.file = file;
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+
+            reader.onload = (e: any) => {
+                this.photo = e.target.result;
+                this.byteArray = this.photo.replace(/^data:image\/jpeg;base64,/, '');
+                this.imageUrl = reader.result;
+                this.requiredPhoto = false;
+            };
+        }
+    }
+
+    changeCheck() {
+        if (this.checkedEstatus) {
+            this.checkedEstatus = false;
+        } else {
+            this.checkedEstatus = true;
+        }
+
+        if (this.accion === 'editar') {
+            this.disabledSave = false;
+        }
+    }
 }
