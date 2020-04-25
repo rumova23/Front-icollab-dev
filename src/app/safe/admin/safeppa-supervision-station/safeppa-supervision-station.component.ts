@@ -397,22 +397,22 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		
 		this.chart2headerValue.push(this.tablaDiasSeries[3].dia31);
 		this.chart2headerValue.push(this.tablaDiasSeries[2].dia31);
-		this.chart2headerValue.push(this.tablaDiasSeries[2].dia31+this.tablaDiasSeries[3].dia31);
+		this.chart2headerValue.push(this.tablaDiasSeries[2].dia31 + this.tablaDiasSeries[3].dia31);
 		
-		this.tablaTotales.push({header:'Variables corregidas',value:this.tablaDiasSeries[3].dia31});
-		this.tablaTotales.push({header:'Variables detectadas',value:this.tablaDiasSeries[2].dia31});
-		this.tablaTotales.push({header:'Total',value:this.tablaDiasSeries[3].dia31+this.tablaDiasSeries[2].dia31});
+		this.tablaTotales.push({header: 'Variables corregidas', value: this.tablaDiasSeries[3].dia31});
+		this.tablaTotales.push({header: 'Variables detectadas', value: this.tablaDiasSeries[2].dia31});
+		this.tablaTotales.push({header: 'Total', value: this.tablaDiasSeries[3].dia31 + this.tablaDiasSeries[2].dia31});
 
 
 		this.opt2.series[0].data = this.chart2headerValue;
 		Highcharts.chart(this.chartbar2.nativeElement, this.opt2);
 	}
-	aplicarDeteccion(){
-		console.log("aplicarDeteccion()");
+	aplicarDeteccion() {
+		console.log('aplicarDeteccion()');
 		
 		let year = new Date(this.date.value).getFullYear()
 		let mount =  new Date(this.date.value).getMonth() + 1;
-		this.addBlock(1,"Aplicar Detección");
+		this.addBlock(1, 'Aplicar Detección');
 		this.ppaMonitoringFormatService.preocesaDeteccion(year, mount).subscribe(
 			data => {
 				console.dir(data);
@@ -429,7 +429,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	}
 	
 	private addBlock(type, msg): void {
-		this.eventService.sendApp(new EventMessage(1, 
+		this.eventService.sendApp(new EventMessage(1,
 		  new EventBlocked(type, msg)));
 	}
 }

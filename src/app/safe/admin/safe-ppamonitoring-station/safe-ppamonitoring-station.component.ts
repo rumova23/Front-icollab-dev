@@ -395,8 +395,12 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	ejecutaProceso() {
 		console.log(this.fileUploadForm.controls.typeVarhtml.value);
 		if (this.fileUploadForm.controls.typeVarhtml.value === '1') {
+			if(this.date.value == null){
+				this.toastr.errorToastr('Eliga una Fecha', 'Lo siento,');
+				return 0;
+			}
 			this.toastr.successToastr('Procesando el mes anterior, Desde fillezila. Espere por favor.', '.... Procesando');
-			this.executeProcess('FILEZILLA', true);
+			this.executeProcess('FILEZILLA', new Date(this.date.value).getFullYear(), new Date(this.date.value).getMonth() + 1);
 		}
 
 		if (this.fileUploadForm.controls.typeVarhtml.value === '4') {
@@ -404,11 +408,11 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		}
 	}
 
-	executeProcess(applicationName: string, isMonthly: boolean) {
-		this.monitoringService.executeProcess(applicationName, isMonthly).subscribe(
+	executeProcess(applicationName: string, year: number, month: number) {
+		this.monitoringService.executeProcessYearMonth(applicationName, year, month).subscribe(
 			data => {
 				console.log(data);
-				this.toastr.successToastr('Ejecutando proceso ' + (isMonthly ? 'Mensual' : 'Diario') + ' para: ' + applicationName, 'Ejecución lanzada con éxito.');
+				this.toastr.successToastr('Ejecutando proceso ' + year + '/' + month + ' para: ' + applicationName, 'Ejecución lanzada con éxito.');
 			},
 			errorData => {
 				this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
@@ -426,7 +430,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			const message = 'Procesando el mes: ' + (new Date(this.date.value).getMonth() + 1) + ' del año: ' +  new Date(this.date.value).getFullYear() + '. Upload Zip Manualmente; espere por favor.';
 			this.toastr.successToastr(message, '.... Procesando');
 		} else {
-			this.toastr.errorToastr('No es Proceso Manual.', 'Lo siento,');
+			//this.toastr.errorToastr('No es Proceso Manual.', 'Lo siento,');
 			return 0;
 		}
 

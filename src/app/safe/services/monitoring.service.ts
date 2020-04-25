@@ -42,13 +42,17 @@ export class MonitoringService {
     return this.http.get(environment.ftpconsumerUrl + 'monitoring/detail/get/' + idFtpMonitoring, {params : this.parameters });
   }
 
-  //Ejecucion de procesos
-  executeProcess(applicationName: string, isMonthly: boolean ): Observable<any> {
+  // Ejecucion de procesos
+  executeProcessYearMonth(applicationName: string, year: number, month: number): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    let url = environment.ftpconsumerUrl +'executeProcess/'+applicationName+'/'+isMonthly;
-    //alert(url);
+    const url = environment.ftpconsumerUrl + 'executeProcess/month/' + applicationName + '/' + year + '/' + month;
     return this.http.get( url , {params : this.parameters });
   }
 
+  executeProcess(applicationName: string, isMonthy: boolean): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    const url = environment.ftpconsumerUrl + 'executeProcess/' + applicationName + '/' + isMonthy;
+    return this.http.get( url , {params : this.parameters });
+  }
 
 }
