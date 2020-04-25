@@ -86,7 +86,6 @@ export class ComplianceHomeComponent implements OnInit {
 	subscribeOnChangePage() {
 		this.subscriptions.push(this.eventService.onChangePage.subscribe({
 			next: (event: EventMessage) => {
-				//debugger;
 				this.globalService.setPage(event);
 				this.viewContainerRef.clear();
 				switch (event.descriptor) {

@@ -23,7 +23,7 @@ import {PerfilComboService} from '../../../../core/services/perfil-combo.service
   ]
 })
 export class PerfilHomeComponent implements OnInit {
-  title = 'Perfil de Puesto';
+  title = 'Competencia de los Recursos / Alta de Personal Interno / Agregar';
   idEmpleado: number;
   tipo: string;
   isViewable = true;

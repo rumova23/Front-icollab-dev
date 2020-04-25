@@ -28,9 +28,12 @@ import HC_exportdata from 'highcharts/modules/export-data';
 import Highcharts3d from 'highcharts/highcharts-3d';
 // import theme from 'highcharts/themes/sunset';
 import theme           from 'highcharts/themes/gray.src';
-import { Sort } from '@angular/material';
+import { Sort, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import {Constants} from '../../../core/globals/Constants';
 import {MonitoringService} from '../../services/monitoring.service';
+import { EventService } from 'src/app/core/services/event.service';
+import { EventMessage } from 'src/app/core/models/EventMessage';
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
 // import theme           from 'highcharts/themes/dark-green';
 HC_exporting(Highcharts);
 HC_stock(Highcharts);
@@ -61,6 +64,10 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	dateIni: Date;
 	dateFin: Date;
 
+	
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild(MatSort) sort: MatSort;
+
 	tags = new FormControl();
 	tagsList: string[] = [];
     dataSource;
@@ -68,7 +75,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
     displayedColumnsOrder: any[] = [];
     displayedColumnsActions: any[] = [];
     columnsToDisplay: string[] = [];
-	row_x_page = [50, 100, 250, 500];
+	row_x_page = [5];
     showAdd = true;
     showView = false;
     showUpdate = false;
@@ -160,6 +167,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		public globalService: GlobalService,
 		private fb: FormBuilder,
 		private toastr: ToastrManager,
+        public eventService        : EventService,
 		private confirmationDialogService: ConfirmationDialogService,
 		private ppaMonitoringFormatService: PpaMonitoringFormatService,
 		private monitoringService: MonitoringService,
@@ -176,6 +184,12 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		ctrlValue.month(normalizedMonth.month());
 		this.date.setValue(ctrlValue);
 		datepicker.close();
+		this.resetScreen();
+	}
+	resetScreen(){
+		//this.dataSource = new MatTableDataSource<any>([]);
+		this.chartLine.destroy();
+		this.chartLine = undefined;
 	}
 	ordenar(arr) {
 		const l = arr.length;
@@ -194,11 +208,14 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		return arr;
 	}
 	ngOnInit() {
+		this.addBlock(1,'');
 		this.ppaMonitoringFormatService.obtenBitacoraLoadRaw().subscribe(
 			data => {
+				this.addBlock(2,'');
 				console.dir(data);
 			},
 			errorData => {
+				this.addBlock(2,'');
 				console.dir(errorData);
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
@@ -206,6 +223,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		this.filterDatesFormGroup = new FormGroup({});
 
 		this.ppaMonitoringFormatService.getTags().subscribe((data) => {
+			this.addBlock(2,'');
 			data.forEach(element => {
 				this.tagsList.push(element.tag);
 			});
@@ -223,8 +241,10 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			{order : '3', dateOpCom : 'mar-20', Import : 'FilleZilla FTP', user : 'Sistema', dateUpdated : '01/04/2020 10:40:00 a.m', status : 'Fallida', sys_see : 'sys_see', sys_edit : 'sys_edit', sys_delete : 'sys_delete'},
 
 		];//*/
+		this.addBlock(1,'');
 		this.ppaMonitoringFormatService.obtenBitacoraLoadRaw().subscribe(
 			data => {
+				this.addBlock(2,'');
 				this.dataSource = [];
 				let i=1;
 				for (const d of data) {
@@ -240,8 +260,12 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 					);
 					i+=1;
 				}
+				this.dataSource = new MatTableDataSource<any>(this.dataSource);
+				this.dataSource.paginator = this.paginator;
+
 			},
 			errorData => {
+				this.addBlock(2,'');
 				console.dir(errorData);
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
@@ -298,6 +322,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	
 		//let dateOpComm = this.datePipe.transform(this.dateOpComm, 'yyyy-MM-dd');
 		let tags     = this.tags.value;
+		let count = 0;
 		if(tags == null || tags.length == 0 || this.date.value == null){
 			this.toastr.errorToastr("Todos los campos son necesarios.", 'Lo siento,');
 			return 0;
@@ -313,8 +338,11 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			{nameParameter: "year",valueParameter: new Date(this.date.value).getFullYear()},
 			{nameParameter: "mount",valueParameter: new Date(this.date.value).getMonth() + 1}];
 		let indexYAxis=0;
+		this.addBlock(1,'');
 		for (const tag of tags) {
 			this.ppaMonitoringFormatService.get(tag, data).subscribe((data) => {
+				count +=1;
+				if(count == tags.length)this.addBlock(2,'');
 				if (data == null) {
 					this.toastr.warningToastr(tag + ' no contiene datos en estas fechas', 'Lo siento,');
 					return false;
@@ -377,6 +405,9 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 				);
 				indexYAxis += 1;
 				// this.opt.xAxis.categories = lstX;
+			},error=>{
+				count +=1;
+				if(count == tags.length)this.addBlock(2,'');
 			});
 		}
 	}
@@ -393,6 +424,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	}
 
 	ejecutaProceso() {
+		this.addBlock(1,'');
 		console.log(this.fileUploadForm.controls.typeVarhtml.value);
 		if (this.fileUploadForm.controls.typeVarhtml.value === '1') {
 			if(this.date.value == null){
@@ -406,15 +438,20 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		if (this.fileUploadForm.controls.typeVarhtml.value === '4') {
 			this.toastr.successToastr('Procesando el mes anterior, Upload Zip Manualmente . Espere por favor.', '.... Procesando');
 		}
+		
+		this.addBlock(2,'');
 	}
 
 	executeProcess(applicationName: string, year: number, month: number) {
+		this.addBlock(1,'');
 		this.monitoringService.executeProcessYearMonth(applicationName, year, month).subscribe(
 			data => {
+				this.addBlock(2,'');
 				console.log(data);
 				this.toastr.successToastr('Ejecutando proceso ' + year + '/' + month + ' para: ' + applicationName, 'Ejecución lanzada con éxito.');
 			},
 			errorData => {
+				this.addBlock(2,'');
 				this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
 			});
 	}
@@ -433,7 +470,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			//this.toastr.errorToastr('No es Proceso Manual.', 'Lo siento,');
 			return 0;
 		}
-
+		this.addBlock(1,'');
 		this.valid = false;
 		const reader = new FileReader();
 		reader.onloadend = (e) => {
@@ -449,14 +486,21 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 				nameImport: 'no aplica'
 			}).subscribe(
 				data => {
+					this.addBlock(2,'');
 					console.log(data);
 					this.toastr.successToastr('El archivo llego con exito', 'Ejecución lanzada con éxito.');
 				},
 				errorData => {
+					this.addBlock(2,'');
 					console.dir(errorData);
 					this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 				});
 		}
 		reader.readAsDataURL(value.file);
+	}
+	
+	private addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1, 
+		  new EventBlocked(type, msg)));
 	}
 }

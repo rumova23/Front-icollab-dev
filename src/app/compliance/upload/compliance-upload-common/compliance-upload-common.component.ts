@@ -12,9 +12,8 @@ import {PersonalCompetenteService} from '../../services/personal-competente.serv
 })
 export class ComplianceUploadCommonComponent implements OnInit {
   @Input() inAccion: string;
-  @Input() inIdEventConfig: number;
+  @Input() inEmployeeId: number;
   @Input() typeDocument: number;
-  @Input() inTypeConfig: number;
   formGroup: FormGroup;
   isdisabled: boolean = false;
 
@@ -49,11 +48,7 @@ export class ComplianceUploadCommonComponent implements OnInit {
     this.currentFile = this.selectedFiles.item(0);
 
     fileReader.onloadend = (e) => {
-      if (this.inTypeConfig === 1) {
-        this.dataFileSubmit['eventConfigId'] = this.inIdEventConfig;
-      } else if (this.inTypeConfig === 2) {
-        this.dataFileSubmit['idindicatorconfig'] = this.inIdEventConfig;
-      }
+      this.dataFileSubmit['eventConfigId'] = this.inEmployeeId;
       this.dataFileSubmit['fileName'] = this.currentFile.name;
       this.dataFileSubmit['fileType'] = this.currentFile.name.substr(this.currentFile.name.lastIndexOf('.') + 1);
       this.dataFileSubmit['fileContentType'] = this.currentFile.type;
