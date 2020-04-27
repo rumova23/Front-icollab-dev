@@ -163,6 +163,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	};
 	typeVarhtml: any;
 	idYAxis=[];
+	manualImport=false;
 	constructor(
 		public globalService: GlobalService,
 		private fb: FormBuilder,
@@ -190,6 +191,10 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		//this.dataSource = new MatTableDataSource<any>([]);
 		this.chartLine.destroy();
 		this.chartLine = undefined;
+	}
+	changeIn(evt){
+		const v = +evt.target.value; // el 4 es carga manual
+		this.manualImport = (v==4) ? true : false;
 	}
 	ordenar(arr) {
 		const l = arr.length;
