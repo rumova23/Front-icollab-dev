@@ -452,7 +452,6 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			},
 			errorData => {
 				this.addBlock(2,'');
-				this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
 			});
 	}
 
