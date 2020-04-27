@@ -167,7 +167,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		public globalService: GlobalService,
 		private fb: FormBuilder,
 		private toastr: ToastrManager,
-        public eventService        : EventService,
+		public eventService: EventService,
 		private confirmationDialogService: ConfirmationDialogService,
 		private ppaMonitoringFormatService: PpaMonitoringFormatService,
 		private monitoringService: MonitoringService,
@@ -424,35 +424,33 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	}
 
 	ejecutaProceso() {
-		this.addBlock(1,'');
 		console.log(this.fileUploadForm.controls.typeVarhtml.value);
 		if (this.fileUploadForm.controls.typeVarhtml.value === '1') {
 			if(this.date.value == null){
 				this.toastr.errorToastr('Eliga una Fecha', 'Lo siento,');
 				return 0;
 			}
-			this.toastr.successToastr('Procesando el mes anterior, Desde fillezila. Espere por favor.', '.... Procesando');
+			// this.toastr.successToastr('Procesando el mes anterior, Desde fillezila. Espere por favor.', '.... Procesando');
 			this.executeProcess('FILEZILLA', new Date(this.date.value).getFullYear(), new Date(this.date.value).getMonth() + 1);
 		}
 
 		if (this.fileUploadForm.controls.typeVarhtml.value === '4') {
 			this.toastr.successToastr('Procesando el mes anterior, Upload Zip Manualmente . Espere por favor.', '.... Procesando');
 		}
-		
-		this.addBlock(2,'');
 	}
 
 	executeProcess(applicationName: string, year: number, month: number) {
-		this.addBlock(1,'');
+		this.addBlock(1, '...procesando');
 		this.monitoringService.executeProcessYearMonth(applicationName, year, month).subscribe(
 			data => {
-				this.addBlock(2,'');
-				console.log(data);
+				console.log('rtc:data ' + data);
 				this.toastr.successToastr('Ejecutando proceso ' + year + '/' + month + ' para: ' + applicationName, 'Ejecución lanzada con éxito.');
 			},
 			errorData => {
-				this.addBlock(2,'');
-			});
+				this.addBlock(2, null);
+			}).add(() => {
+			this.addBlock(2, null);
+		});
 	}
 
 	upload(value) {
@@ -497,9 +495,8 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		}
 		reader.readAsDataURL(value.file);
 	}
-	
 	private addBlock(type, msg): void {
-		this.eventService.sendApp(new EventMessage(1, 
-		  new EventBlocked(type, msg)));
+		this.eventService.sendApp(new EventMessage(1,
+			new EventBlocked(type, msg)));
 	}
 }
