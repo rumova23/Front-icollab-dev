@@ -71,6 +71,10 @@ export class SharedSidebarMenuComponent {
             }
             if (item.label == "Home")               item.order = 0;
             else if (item.label == "PPA")           item.order = 1;
+                    else if (item.label == "Detection and Format Correction")           item.order = 0;
+                    else if (item.label == "Detection and Correction by Procedure")     item.order = 1;
+
+
             else if (item.label == "Market")        item.order = 2;
                 else if (item.label == "Planning")        item.order = 0;
                     else if (item.label == "Environmental Variables") item.order = 0;
