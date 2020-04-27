@@ -1,0 +1,49 @@
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Data Quality" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "Supervision Station" | translate }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+<div class="section">
+
+	<div class="row pb-2">
+		<div class="col">
+			<p class="section_titulo_0">{{ "Detección y Corrección de Procedimiento" | translate }}</p>
+			<p class="section_subtitulo_0"></p>
+		</div>
+	</div>
+
+	<form>
+
+		<div class="form-row">
+			<div class="col col-xxxs-12 col-xxs-12 col-xs-6 col-lg-5 col-xxl-3">
+				<label>Fecha de Operación Comercial:</label>
+				<mat-form-field class="form-control">
+					<input matInput [matDatepicker]="dp" [formControl]="date" />
+					<mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+					<mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+						(monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
+					</mat-datepicker>
+				</mat-form-field>
+			</div>
+			<div
+				class="col-auto d-flex justify-content-end justify-content-xxl-start pt-xxl-1">
+				<button type="submit" class="btn w-100 align-self-end align-self-xxl-start mr-0 mt-xxl-4"
+					
+					(click)="ejecutaProceso()">Aplicar Corrección y Detección</button>
+			</div>
+		</div>
+	</form>
+	<hr>
+	
+	<button type="button" class="btn mr-0" (click)="download()" style="width: 175px;">
+		<i class="ti-cloud-down"></i>
+		{{ "Download" | translate }} {{ "XLS" | translate }}
+	</button>
+
+</div>
