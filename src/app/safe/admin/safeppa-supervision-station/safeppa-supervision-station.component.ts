@@ -403,7 +403,6 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		this.tablaTotales.push({header: 'Variables detectadas', value: this.tablaDiasSeries[2].dia31});
 		this.tablaTotales.push({header: 'Total', value: this.tablaDiasSeries[3].dia31 + this.tablaDiasSeries[2].dia31});
 
-
 		this.opt2.series[0].data = this.chart2headerValue;
 		Highcharts.chart(this.chartbar2.nativeElement, this.opt2);
 	}
