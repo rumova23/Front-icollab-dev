@@ -97,6 +97,7 @@ import { TemperatureComponent } from './admin/temperature/temperature.component'
 import { SafePPAMonitoringStationComponent } from './admin/safe-ppamonitoring-station/safe-ppamonitoring-station.component';
 import { AccuweatherComponent } from './admin/accuweather/accuweather.component';
 import { SafeppaSupervisionStationComponent } from './admin/safeppa-supervision-station/safeppa-supervision-station.component';
+import { SafeProcedureDetectionAndCorrectionComponent } from './admin/safe-procedure-detection-and-correction/safe-procedure-detection-and-correction.component';
 
 
 @NgModule({
@@ -149,7 +150,8 @@ import { SafeppaSupervisionStationComponent } from './admin/safeppa-supervision-
         ControlFacturacionComponent,
         PreDocumentComponent,
         TemperatureComponent,
-        SafePPAMonitoringStationComponent
+        SafePPAMonitoringStationComponent,
+        SafeProcedureDetectionAndCorrectionComponent
     ],
     exports: [],
     imports: [

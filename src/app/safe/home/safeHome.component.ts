@@ -75,6 +75,7 @@ import {MonitoringJobsComponent} from '../admin/monitoring/monitoringJobs.compon
 import { SafePPAMonitoringStationComponent } from '../admin/safe-ppamonitoring-station/safe-ppamonitoring-station.component';
 import { AccuweatherComponent } from '../admin/accuweather/accuweather.component';
 import { SafeppaSupervisionStationComponent } from '../admin/safeppa-supervision-station/safeppa-supervision-station.component';
+import { SafeProcedureDetectionAndCorrectionComponent } from '../admin/safe-procedure-detection-and-correction/safe-procedure-detection-and-correction.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -146,6 +147,7 @@ import { SafeppaSupervisionStationComponent } from '../admin/safeppa-supervision
 		, MonitoringJobsComponent
 		, SafePPAMonitoringStationComponent
 		, AccuweatherComponent
+		, SafeProcedureDetectionAndCorrectionComponent
   	]
 })
 
@@ -201,6 +203,12 @@ export class SafeHomeComponent implements OnInit {
 						banderaTemporal = true;
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(SafeppaSupervisionStationComponent)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.SafeProcedureDetectionAndCorrection':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(SafeProcedureDetectionAndCorrectionComponent)
 						).changeDetectorRef.detectChanges();
 						break;
 					case 'Safe.TemperatureComponent':

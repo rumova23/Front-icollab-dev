@@ -34,7 +34,7 @@
 
 			<div class="col col-xxxs-12 col-xxs-12 col-xs-6 col-lg-5 col-xxl-2">
 				<label>Fuente:</label>
-				<select formControlName="typeVarhtml" class="browser-default custom-select" [(ngModel)]="typeVarhtml">
+				<select formControlName="typeVarhtml" class="browser-default custom-select" [(ngModel)]="typeVarhtml" (change)="changeIn($event)">
 					<option [value]="1">FileZilla FTP</option>
 					<option [value]="2">PAYSERVER DB</option>
 					<option [value]="3">PI SERVER DB</option>
@@ -48,7 +48,7 @@
 					style="max-width: 175px;"
 					(click)="ejecutaProceso()">Carga</button>
 			</div>
-			<div class="col col-xxxs-12 col-xxs-12 col-xs-12 col-md-12 col-xl-12 col-xxl-6 col-xxxl-6 mt-lg-2 mt-xxl-2">
+			<div class="col col-xxxs-12 col-xxs-12 col-xs-12 col-md-12 col-xl-12 col-xxl-6 col-xxxl-6 mt-lg-2 mt-xxl-2" *ngIf="manualImport">
 				<div class="row d-flex justify-content-end">
 
 					<div class="col col-md-auto">
