@@ -13,6 +13,8 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { time } from 'highcharts';
+import {ToastrManager} from 'ng6-toastr-notifications';
+import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format.service';
 
 @Component({
   selector: 'app-safe-procedure-detection-and-correction',
@@ -33,7 +35,9 @@ export class SafeProcedureDetectionAndCorrectionComponent implements OnInit {
 	date = new FormControl(moment());
 	constructor(
 		public globalService: GlobalService,
-		public eventService: EventService) { }
+		public eventService: EventService,
+		private toastr: ToastrManager,
+		private ppaMonitoringFormatService: PpaMonitoringFormatService) { }
 
 	ngOnInit() {
 	}
@@ -67,5 +71,38 @@ export class SafeProcedureDetectionAndCorrectionComponent implements OnInit {
 		ctrlValue.month(normalizedMonth.month());
 		this.date.setValue(ctrlValue);
 		datepicker.close();
+	}
+
+	
+	aplicarDeteccionProcedimiento() {
+		const year = new Date(this.date.value).getFullYear()
+		const mount =  new Date(this.date.value).getMonth() + 1;
+		this.addBlock(1, 'Aplicar Detección Procedimiento');
+		this.ppaMonitoringFormatService.procesaDeteccionProcedimiento(year, mount).subscribe(
+			data => {
+				console.dir(data);
+				this.addBlock(2,"");
+			},
+			errorData => {
+				console.dir(errorData);
+				this.addBlock(2,"");
+				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
+			});
+	}
+
+	aplicarCorrecionProcedimiento() {
+		const year = new Date(this.date.value).getFullYear()
+		const mount =  new Date(this.date.value).getMonth() + 1;
+		this.addBlock(1, 'Aplicar Correcion Procedimiento');
+		this.ppaMonitoringFormatService.procesaCorreccionProcedimiento(year, mount).subscribe(
+			data => {
+				console.dir(data);
+				this.addBlock(2,"");
+			},
+			errorData => {
+				console.dir(errorData);
+				this.addBlock(2,"");
+				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
+			});
 	}
 }
