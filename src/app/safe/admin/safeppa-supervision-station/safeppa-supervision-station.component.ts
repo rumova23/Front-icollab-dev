@@ -322,7 +322,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		let mount =  new Date(this.date.value).getMonth() + 1;
 
 		this.addBlock(1,"Aplicar Correción");
-		this.ppaMonitoringFormatService.preocesaCorreccion(year, mount).subscribe(
+		this.ppaMonitoringFormatService.procesaCorreccion(year, mount).subscribe(
 			data => {
 				this.addBlock(2,"");
 				this.setTable01(data);
@@ -412,13 +412,64 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		let year = new Date(this.date.value).getFullYear()
 		let mount =  new Date(this.date.value).getMonth() + 1;
 		this.addBlock(1, 'Aplicar Detección');
-		this.ppaMonitoringFormatService.preocesaDeteccion(year, mount).subscribe(
+		this.ppaMonitoringFormatService.procesaDeteccion(year, mount).subscribe(
 			data => {
 				console.dir(data);
 				this.addBlock(2,"");
 				
 				this.setTable01(data);
 				this.setChartBanderas(data);
+			},
+			errorData => {
+				console.dir(errorData);
+				this.addBlock(2,"");
+				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
+			});
+	}
+
+	aplicarCorrecion() {
+		let year = new Date(this.date.value).getFullYear()
+		let mount =  new Date(this.date.value).getMonth() + 1;
+
+		this.addBlock(1,"Aplicar Correción");
+		this.ppaMonitoringFormatService.procesaCorreccion(year, mount).subscribe(
+			data => {
+				this.addBlock(2,"");
+				this.setTable01(data);
+				this.setChartBanderas(data);
+
+			},
+			errorData => {
+				this.addBlock(2,"");
+				console.dir(errorData);
+				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
+			});
+	}
+
+	aplicarDeteccionProcedimiento() {
+		const year = new Date(this.date.value).getFullYear()
+		const mount =  new Date(this.date.value).getMonth() + 1;
+		this.addBlock(1, 'Aplicar Detección Procedimiento');
+		this.ppaMonitoringFormatService.procesaDeteccionProcedimiento(year, mount).subscribe(
+			data => {
+				console.dir(data);
+				this.addBlock(2,"");
+			},
+			errorData => {
+				console.dir(errorData);
+				this.addBlock(2,"");
+				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
+			});
+	}
+
+	aplicarCorrecionProcedimiento() {
+		const year = new Date(this.date.value).getFullYear()
+		const mount =  new Date(this.date.value).getMonth() + 1;
+		this.addBlock(1, 'Aplicar Correcion Procedimiento');
+		this.ppaMonitoringFormatService.procesaCorreccionProcedimiento(year, mount).subscribe(
+			data => {
+				console.dir(data);
+				this.addBlock(2,"");
 			},
 			errorData => {
 				console.dir(errorData);

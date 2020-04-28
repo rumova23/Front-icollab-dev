@@ -34,20 +34,26 @@ export class PpaMonitoringFormatService {
 		return this.http.get(environment.dycformato + 'loadRaw/bitacora', {params : this.parameters });
 	}
 
-	preocesaCorreccion(year: number, mount: number): Observable<any> {
+	procesaCorreccion(year: number, mount: number): Observable<any> {
 		//return of(this.respuestaDemoPreocesaCorreccion);
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(environment.dycformato + 'loadRaw/correccion/' + year + '/' + mount, {params : this.parameters });
 	}
 
-	preocesaDeteccion(year: number, mount: number): Observable<any> {
+	procesaDeteccion(year: number, mount: number): Observable<any> {
 		//return of(this.respuestaDemoPreocesaDeteccion);
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(environment.dycformato + 'loadRaw/deteccion/' + year + '/' + mount, {params : this.parameters });
 	}
 
-	preocesaDeteccionNorma(year: number, mount: number): Observable<any> {
+	procesaDeteccionProcedimiento(year: number, mount: number): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(environment.dycformato + 'norma/deteccion/' + year + '/' + mount, {params : this.parameters });
+	}
+
+	procesaCorreccionProcedimiento(year: number, mount: number): Observable<any> {
+		//return of(this.respuestaDemoPreocesaCorreccion);
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.dycformato + 'norma/correccion/' + year + '/' + mount, {params : this.parameters });
 	}
 }
