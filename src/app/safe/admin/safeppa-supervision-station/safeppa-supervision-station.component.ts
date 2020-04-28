@@ -359,6 +359,23 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 			this.tablaDiasSeries[3].dia31 += dia.corregidos;
 			
 		}
+		if(data.analisisDayList.length < 31){
+			for (let index = data.analisisDayList.length; index < 31; index++) {
+				
+				this.tablaDiasSeries[0].value.push(0);
+				this.tablaDiasSeries[0].dia31 += 0;
+
+				this.tablaDiasSeries[1].value.push(0);
+				this.tablaDiasSeries[1].dia31 += 0;
+				
+				this.tablaDiasSeries[2].value.push(0);
+				this.tablaDiasSeries[2].dia31 += 0;
+				
+				this.tablaDiasSeries[3].value.push(0);
+				this.tablaDiasSeries[3].dia31 += 0;
+				
+			}
+		}
 		this.setChartTotal();
 	}
 	setChartBanderas(data){
