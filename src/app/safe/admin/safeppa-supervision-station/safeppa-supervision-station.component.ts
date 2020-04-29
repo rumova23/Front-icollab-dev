@@ -53,19 +53,19 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	tablaTotalPorcentajesBanderas=[];
 	tablaTotales=[];
 	resumenHeader=[
-		"Bandera (Falta Hora y Fecha)",
-		"Bandera (Falta  Fecha)",
-		"Bandera (Falta Hora)",
-		"Bandera (Fecha y Hora no aceptables)",
-		"Bandera (Fecha no aceptable)",
-		"Bandera (Hora no aceptable)",
-		"Bandera (Dato Repetido)",
-		"Bandera (Dato redondeo a concominutal)",
-		"Bandera (Ordenamiento)",
-		"Bandera (Dato Correcto)",
-		"Bandera (Falta Valor)",
-		"Bandera (Renglon vacio)",
-		"Bandera (Valor no aceptable)"
+		"(Falta Hora y Fecha)",
+		"(Falta  Fecha)",
+		"(Falta Hora)",
+		"(Fecha y Hora no aceptables)",
+		"(Fecha no aceptable)",
+		"(Hora no aceptable)",
+		"(Dato Repetido)",
+		"(Dato redondeo a concominutal)",
+		"(Ordenamiento)",
+		"(Dato Correcto)",
+		"(Falta Valor)",
+		"(Renglon vacio)",
+		"(Valor no aceptable)"
 	];
 	resumenValue=[
 		{name:"Serie 1",value:[0,0,0,0,0,0,0,0,0,0,0,0,0]}
@@ -365,13 +365,13 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		this.opt.xAxis.categories = [];
 		this.resumenValue[0].value=[];
 		for (const bandera of data.estatusValueList) {
-			if(!this.opt.xAxis.categories.includes(`Bandera (${bandera.estatus})`)){
-				this.opt.xAxis.categories.push(`Bandera (${bandera.estatus})`);
+			if(!this.opt.xAxis.categories.includes(`(${bandera.estatus})`)){
+				this.opt.xAxis.categories.push(`(${bandera.estatus})`);
 				let porcentaje = (this.tablaDiasSeries[0].dia31/100)*bandera.cantidad;
 				this.resumenValue[0].value.push(porcentaje);
 
 				this.tablaTotalPorcentajesBanderas.push({
-					header:`Bandera (${bandera.estatus})`,
+					header:`(${bandera.estatus})`,
 					value:bandera.cantidad
 				});
 			}
