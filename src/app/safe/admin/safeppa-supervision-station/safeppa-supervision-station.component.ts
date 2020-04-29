@@ -314,7 +314,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	}
 	grafica(){
 		Highcharts.chart(this.chartbar1.nativeElement, this.opt);
-		Highcharts.chart(this.chartbar2.nativeElement, this.opt2);
+		//Highcharts.chart(this.chartbar2.nativeElement, this.opt2);
 	}
 
 	setTable01(data){
@@ -390,7 +390,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		this.opt.series[0].data = this.resumenValue[0].value;
 		Highcharts.chart(this.chartbar1.nativeElement, this.opt);
 	}
-	setChartTotal(){
+	setChartTotal(){/*
 		this.chart2headerValue=[];
 		this.tablaTotales=[];
 		
@@ -403,7 +403,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		this.tablaTotales.push({header: 'Total', value: this.tablaDiasSeries[3].dia31 + this.tablaDiasSeries[2].dia31});
 
 		this.opt2.series[0].data = this.chart2headerValue;
-		Highcharts.chart(this.chartbar2.nativeElement, this.opt2);
+		Highcharts.chart(this.chartbar2.nativeElement, this.opt2);//*/
 	}
 	aplicarDeteccion() {
 		console.log('aplicarDeteccion()');
