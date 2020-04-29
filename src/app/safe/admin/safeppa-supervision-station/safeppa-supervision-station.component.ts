@@ -341,6 +341,23 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 			this.tablaDiasSeries[3].dia31 += dia.corregidos;
 			
 		}
+		if(data.analisisDayList.length < 31){
+			for (let index = data.analisisDayList.length; index < 31; index++) {
+				
+				this.tablaDiasSeries[0].value.push(0);
+				this.tablaDiasSeries[0].dia31 += 0;
+
+				this.tablaDiasSeries[1].value.push(0);
+				this.tablaDiasSeries[1].dia31 += 0;
+				
+				this.tablaDiasSeries[2].value.push(0);
+				this.tablaDiasSeries[2].dia31 += 0;
+				
+				this.tablaDiasSeries[3].value.push(0);
+				this.tablaDiasSeries[3].dia31 += 0;
+				
+			}
+		}
 		this.setChartTotal();
 	}
 	setChartBanderas(data){
@@ -405,25 +422,6 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 			errorData => {
 				console.dir(errorData);
 				this.addBlock(2,"");
-				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
-			});
-	}
-
-	aplicarCorrecion() {
-		let year = new Date(this.date.value).getFullYear()
-		let mount =  new Date(this.date.value).getMonth() + 1;
-
-		this.addBlock(1,"Aplicar Correción");
-		this.ppaMonitoringFormatService.procesaCorreccion(year, mount).subscribe(
-			data => {
-				this.addBlock(2,"");
-				this.setTable01(data);
-				this.setChartBanderas(data);
-
-			},
-			errorData => {
-				this.addBlock(2,"");
-				console.dir(errorData);
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
 	}

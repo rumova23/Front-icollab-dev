@@ -71,7 +71,7 @@
 				  <tr>
 					<th scope="col" class="colortheme">Día</th>
 					<th scope="col" *ngFor="let item of demoTab1; let i = index">{{item}}</th>
-					<th scope="col" class="colortheme">31</th>
+					<th scope="col" class="colortheme">Total</th>
 				  </tr>
 				</thead>
 				<tbody>
@@ -101,7 +101,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td scope="col" *ngFor="let value of tablaTotalPorcentajesBanderas; let i = index">{{value.value}}%</td>
+								<td scope="col" *ngFor="let value of tablaTotalPorcentajesBanderas; let i = index" style="font-size: 10px;">{{value.value}}%</td>
 							</tr>
 						</tbody>
 					</table>
@@ -114,7 +114,7 @@
 				<div class="col-12">
 					<div #chartbar2></div>
 				</div>
-				<div class="col-12" style="overflow-x: scroll;">
+				<div class="col-8" style="overflow-x: scroll; margin: auto;">
 
 					<table class="table table-bordered table-sm">
 						<thead>

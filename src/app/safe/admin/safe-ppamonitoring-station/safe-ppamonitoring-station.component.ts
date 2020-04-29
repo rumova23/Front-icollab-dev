@@ -189,8 +189,10 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	}
 	resetScreen(){
 		//this.dataSource = new MatTableDataSource<any>([]);
-		this.chartLine.destroy();
-		this.chartLine = undefined;
+		if(this.chartLine != undefined) {
+			this.chartLine.destroy();
+			this.chartLine = undefined;
+		}
 	}
 	changeIn(evt){
 		const v = +evt.target.value; // el 4 es carga manual
@@ -389,7 +391,8 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 							color: Highcharts.getOptions().colors[indexYAxis]
 						}
 					},
-					title: {
+					title: {						
+						enabled: false,
 						style: {
 							color: Highcharts.getOptions().colors[indexYAxis]
 						},
@@ -445,7 +448,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	}
 
 	executeProcess(applicationName: string, year: number, month: number) {
-		this.addBlock(1, '...procesando');
+		this.addBlock(1, 'Importando información');
 		this.monitoringService.executeProcessYearMonth(applicationName, year, month).subscribe(
 			data => {
 				console.log('rtc:data ' + data);
