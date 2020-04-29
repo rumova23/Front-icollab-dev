@@ -317,24 +317,6 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		Highcharts.chart(this.chartbar2.nativeElement, this.opt2);
 	}
 
-	aplicarCorrecion() {
-		let year = new Date(this.date.value).getFullYear()
-		let mount =  new Date(this.date.value).getMonth() + 1;
-
-		this.addBlock(1,"Aplicar Correción");
-		this.ppaMonitoringFormatService.procesaCorreccion(year, mount).subscribe(
-			data => {
-				this.addBlock(2,"");
-				this.setTable01(data);
-				this.setChartBanderas(data);
-				
-			},
-			errorData => {
-				this.addBlock(2,"");
-				console.dir(errorData);
-				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
-			});
-	}
 	setTable01(data){
 		this.tablaDiasSeries[0].value = [];
 		this.tablaDiasSeries[1].value = [];
