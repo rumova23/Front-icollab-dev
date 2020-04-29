@@ -15,6 +15,8 @@ import {PpaMonitoringFormatService} from '../../services/ppa-monitoring-format.s
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
+import {saveAs} from 'file-saver';
+import {Constants} from '../../../core/globals/Constants';
 
 @Component({
 	selector: 'app-safeppa-supervision-station',
@@ -426,6 +428,25 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 			});
 	}
 
+	aplicarCorrecion() {
+		let year = new Date(this.date.value).getFullYear()
+		let mount =  new Date(this.date.value).getMonth() + 1;
+
+		this.addBlock(1,"Aplicar Correción");
+		this.ppaMonitoringFormatService.procesaCorreccion(year, mount).subscribe(
+			data => {
+				this.addBlock(2,"");
+				this.setTable01(data);
+				this.setChartBanderas(data);
+
+			},
+			errorData => {
+				this.addBlock(2,"");
+				console.dir(errorData);
+				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
+			});
+	}
+
 	aplicarDeteccionProcedimiento() {
 		const year = new Date(this.date.value).getFullYear()
 		const mount =  new Date(this.date.value).getMonth() + 1;
@@ -461,5 +482,40 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	private addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,
 		  new EventBlocked(type, msg)));
+	}
+
+	download() {
+		const year = new Date(this.date.value).getFullYear()
+		const month =  new Date(this.date.value).getMonth() + 1;
+		this.ppaMonitoringFormatService.downloadExcel(year, month)
+			.subscribe(
+				data => {
+					console.dir(data);
+					let blob = new Blob([this.base64toBlob(data.base64,
+						'application/CSV')], {});
+					saveAs(blob, data.nameFile);
+				},
+				errorData => {
+					this.toastr.errorToastr(errorData.error.message, '¡Error!');
+				});
+	}
+
+	base64toBlob(base64Data, contentType) {
+		contentType = contentType || '';
+		let sliceSize = 1024;
+		let byteCharacters = atob(base64Data);
+		let bytesLength = byteCharacters.length;
+		let slicesCount = Math.ceil(bytesLength / sliceSize);
+		let byteArrays = new Array(slicesCount);
+		for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+			let begin = sliceIndex * sliceSize;
+			let end = Math.min(begin + sliceSize, bytesLength);
+			let bytes = new Array(end - begin);
+			for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+				bytes[i] = byteCharacters[offset].charCodeAt(0);
+			}
+			byteArrays[sliceIndex] = new Uint8Array(bytes);
+		}
+		return new Blob(byteArrays, { type: contentType });
 	}
 }

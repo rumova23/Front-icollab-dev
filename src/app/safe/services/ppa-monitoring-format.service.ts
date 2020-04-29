@@ -56,4 +56,9 @@ export class PpaMonitoringFormatService {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(environment.dycformato + 'norma/correccion/' + year + '/' + mount, {params : this.parameters });
 	}
+
+	downloadExcel(year: number, mount: number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.dycformato + '/download/' + year + '/' + mount, {params : this.parameters });
+	}
 }
