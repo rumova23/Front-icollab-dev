@@ -18,18 +18,18 @@ import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format
 import {saveAs} from 'file-saver';
 
 @Component({
-  selector: 'app-safe-procedure-detection-and-correction',
-  templateUrl: './safe-procedure-detection-and-correction.component.html',
-  styleUrls: ['./safe-procedure-detection-and-correction.component.scss'],
+	selector: 'app-safe-procedure-detection-and-correction',
+	templateUrl: './safe-procedure-detection-and-correction.component.html',
+	styleUrls: ['./safe-procedure-detection-and-correction.component.scss'],
 	providers: [
-		{
-		  provide: DateAdapter,
-		  useClass: MomentDateAdapter,
-		  deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-		},
-	
-		{provide: MAT_DATE_FORMATS, useValue: MY_FORMAT_DATE_PICKER},
-	  ],
+	{
+		provide: DateAdapter,
+		useClass: MomentDateAdapter,
+		deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+	},
+	{
+		provide: MAT_DATE_FORMATS, useValue: MY_FORMAT_DATE_PICKER},
+	],
 })
 export class SafeProcedureDetectionAndCorrectionComponent implements OnInit {
 
@@ -42,21 +42,7 @@ export class SafeProcedureDetectionAndCorrectionComponent implements OnInit {
 
 	ngOnInit() {
 	}
-	ejecutaProceso(){
-		this.addBlock(1,"");
 
-		timer(2000).subscribe(()=>{
-			this.addBlock(2,"");
-		});
-	}
-	download(){
-		this.addBlock(1,"");
-
-		timer(2000).subscribe(()=>{
-			this.addBlock(2,"");
-		});
-	}
-	
 	private addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,
 			new EventBlocked(type, msg)));
@@ -74,67 +60,71 @@ export class SafeProcedureDetectionAndCorrectionComponent implements OnInit {
 		datepicker.close();
 	}
 
-	
+
 	aplicarDeteccionProcedimiento() {
-		const year = new Date(this.date.value).getFullYear()
+		const year = new Date(this.date.value).getFullYear();
 		const mount =  new Date(this.date.value).getMonth() + 1;
 		this.addBlock(1, 'Aplicar Detección Procedimiento');
 		this.ppaMonitoringFormatService.procesaDeteccionProcedimiento(year, mount).subscribe(
 			data => {
-				console.dir(data);
-				this.addBlock(2,"");
+				this.addBlock(2, '');
+				this.toastr.successToastr('Detección Procedimiento: Aplicada correctamente', '¡Exito!');
 			},
 			errorData => {
 				console.dir(errorData);
-				this.addBlock(2,"");
+				this.addBlock(2, '');
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
 	}
 
 	aplicarCorrecionProcedimiento() {
-		const year = new Date(this.date.value).getFullYear()
+		const year = new Date(this.date.value).getFullYear();
 		const mount =  new Date(this.date.value).getMonth() + 1;
 		this.addBlock(1, 'Aplicar Correcion Procedimiento');
 		this.ppaMonitoringFormatService.procesaCorreccionProcedimiento(year, mount).subscribe(
 			data => {
-				console.dir(data);
-				this.addBlock(2,"");
+				this.addBlock(2, '');
+				this.toastr.successToastr('Correcion Procedimiento: Aplicado correctamente', '¡Exito!');
 			},
 			errorData => {
 				console.dir(errorData);
-				this.addBlock(2,"");
-				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
+				this.addBlock(2, '');
+				this.toastr.errorToastr(errorData.error.message, '¡Error!');
 			});
 	}
 
 	download() {
-		const year = new Date(this.date.value).getFullYear()
+
+		const year = new Date(this.date.value).getFullYear();
 		const month =  new Date(this.date.value).getMonth() + 1;
+		this.addBlock(1, 'Bajando CSV ' + year + '/' + month + ': Generando');
 		this.ppaMonitoringFormatService.downloadExcel(year, month)
 			.subscribe(
 				data => {
-					console.dir(data);
-					let blob = new Blob([this.base64toBlob(data.base64,
+					const blob = new Blob([this.base64toBlob(data.base64,
 						'application/CSV')], {});
 					saveAs(blob, data.nameFile);
+					this.addBlock(2, '');
+					this.toastr.successToastr('Download File: Correctamente ' + year + '/' + month + ': Generado Correctamente', '¡Exito!');
 				},
 				errorData => {
+					this.addBlock(2, '');
 					this.toastr.errorToastr(errorData.error.message, '¡Error!');
 				});
 	}
 
 	base64toBlob(base64Data, contentType) {
 		contentType = contentType || '';
-		let sliceSize = 1024;
-		let byteCharacters = atob(base64Data);
-		let bytesLength = byteCharacters.length;
-		let slicesCount = Math.ceil(bytesLength / sliceSize);
-		let byteArrays = new Array(slicesCount);
+		const sliceSize = 1024;
+		const byteCharacters = atob(base64Data);
+		const bytesLength = byteCharacters.length;
+		const slicesCount = Math.ceil(bytesLength / sliceSize);
+		const byteArrays = new Array(slicesCount);
 		for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
-			let begin = sliceIndex * sliceSize;
-			let end = Math.min(begin + sliceSize, bytesLength);
-			let bytes = new Array(end - begin);
-			for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+			const begin = sliceIndex * sliceSize;
+			const end = Math.min(begin + sliceSize, bytesLength);
+			const bytes = new Array(end - begin);
+			for (let offset = begin, i = 0; offset < end; ++i, ++offset) {
 				bytes[i] = byteCharacters[offset].charCodeAt(0);
 			}
 			byteArrays[sliceIndex] = new Uint8Array(bytes);
