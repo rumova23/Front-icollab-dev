@@ -71,6 +71,9 @@ export class SharedSidebarMenuComponent {
             }
             if (item.label == "Home")               item.order = 0;
             else if (item.label == "PPA")           item.order = 1;
+            
+                else if (item.label == "Data Mining")           item.order = 0;
+                else if (item.label == "Data Quality")          item.order = 1;
                     else if (item.label == "Detection and Format Correction")           item.order = 0;
                     else if (item.label == "Detection and Correction by Procedure")     item.order = 1;
 

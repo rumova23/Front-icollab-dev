@@ -1,7 +1,7 @@
 <a mat-list-item (click)="itemSelected(item)" class="sidebar_item" id="{{item.id}}"
 	[ngStyle]="{'padding-left': (deep * indent) + units}" style="min-height: 70px;
     padding-top: 10px;">
-	<mat-icon class="itemIcon" *ngIf="deep===0 || item.children">{{item.icon}}
+	<mat-icon class="itemIcon" *ngIf="(deep===0 || item.children) && item.icon">{{item.icon}}
 	</mat-icon>
 	<div class=" col-10" [ngStyle]="{'padding-left':deep > 1 ? '25px' : '' }">
 		<span *ngIf="globalService.aside_open" [attr.id_item]="item.id" [attr.deep]="deep">{{item.label | translate}}

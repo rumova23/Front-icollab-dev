@@ -102,7 +102,8 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			useUTC: false
 		},
 		chart: {
-			zoomType: 'xy'
+			zoomType: 'xy',
+			type: 'area'
 		},
 		title: {
 			text: 'Variables de Estación de Supervisión',
@@ -111,6 +112,13 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			type: 'datetime'
 		},
 		yAxis: [  ],
+		
+		plotOptions: {
+			series: {
+				fillOpacity: 0.2
+			}
+		},
+	
 		tooltip: {
 			shared: true
 		},
@@ -354,7 +362,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			{nameParameter: "year",valueParameter: new Date(this.date.value).getFullYear()},
 			{nameParameter: "mount",valueParameter: new Date(this.date.value).getMonth() + 1}];
 		let indexYAxis=0;
-		this.addBlock(1,'');
+		this.addBlock(1,'Graficando');
 		for (const tag of tags) {
 			this.ppaMonitoringFormatService.get(tag, data).subscribe((data) => {
 				count +=1;
