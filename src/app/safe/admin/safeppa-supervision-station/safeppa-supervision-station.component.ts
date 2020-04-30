@@ -485,39 +485,4 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		this.eventService.sendApp(new EventMessage(1,
 		  new EventBlocked(type, msg)));
 	}
-
-	download() {
-		const year = new Date(this.date.value).getFullYear()
-		const month =  new Date(this.date.value).getMonth() + 1;
-		this.ppaMonitoringFormatService.downloadExcel(year, month)
-			.subscribe(
-				data => {
-					console.dir(data);
-					let blob = new Blob([this.base64toBlob(data.base64,
-						'application/CSV')], {});
-					saveAs(blob, data.nameFile);
-				},
-				errorData => {
-					this.toastr.errorToastr(errorData.error.message, '¡Error!');
-				});
-	}
-
-	base64toBlob(base64Data, contentType) {
-		contentType = contentType || '';
-		let sliceSize = 1024;
-		let byteCharacters = atob(base64Data);
-		let bytesLength = byteCharacters.length;
-		let slicesCount = Math.ceil(bytesLength / sliceSize);
-		let byteArrays = new Array(slicesCount);
-		for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
-			let begin = sliceIndex * sliceSize;
-			let end = Math.min(begin + sliceSize, bytesLength);
-			let bytes = new Array(end - begin);
-			for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
-				bytes[i] = byteCharacters[offset].charCodeAt(0);
-			}
-			byteArrays[sliceIndex] = new Uint8Array(bytes);
-		}
-		return new Blob(byteArrays, { type: contentType });
-	}
 }
