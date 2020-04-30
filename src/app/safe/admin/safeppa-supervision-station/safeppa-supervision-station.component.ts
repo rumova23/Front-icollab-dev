@@ -17,6 +17,8 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import {saveAs} from 'file-saver';
 import {Constants} from '../../../core/globals/Constants';
+import {MaestroOpcionDTO} from '../../../compliance/models/maestro-opcion-dto';
+import {Combo} from '../../../compliance/models/Combo';
 
 @Component({
 	selector: 'app-safeppa-supervision-station',
@@ -42,15 +44,15 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
     dataSource;
-    data : any[] = [];
-    displayedColumnsOrder   : any[]    = [];
-    displayedColumnsActions : any[]    = [];
-    columnsToDisplay        : string[] = [];
+    data: any[] = [];
+    displayedColumnsOrder: any[]    = [];
+    displayedColumnsActions: any[]    = [];
+    columnsToDisplay: string[] = [];
 	row_x_page           = [50, 100, 250, 500];
-    showAdd    : boolean = true;
-    showView   : boolean = false;
-    showUpdate : boolean = false;
-    showDelete : boolean = true;
+    showAdd: boolean = true;
+    showView: boolean = false;
+    showUpdate: boolean = false;
+    showDelete: boolean = true;
 
 	tablaTotalPorcentajesBanderas=[];
 	tablaTotales=[];
@@ -201,7 +203,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	};
 	date = new FormControl(moment());
 	constructor(
-		private eventService : EventService,
+		private eventService: EventService,
 		private toastr: ToastrManager,
 		private ppaMonitoringFormatService: PpaMonitoringFormatService) { }
 

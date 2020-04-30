@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { Observable,of  } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import {MaestroOpcionDTO} from '../../compliance/models/maestro-opcion-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +19,15 @@ export class PpaMonitoringFormatService {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.post(environment.dgctags + 'obtenTag/' + tag, data, {params : this.parameters });
 	}
-	getTags(): Observable<any> {
+
+	getCatalogoOpcion(catalogo: string, opcion: string): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get( `${ environment.dgctags }obtenTag/all`, {params : this.parameters });
+		return this.http.get( `${ environment.mastercatalog }mastercatalog/mastercatalog/${catalogo}/${opcion}`, {params : this.parameters });
+	}
+
+	getTags(etapaId: number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get( `${ environment.dgctags }obtenTag/etapa/${etapaId}`, {params : this.parameters });
 	}
 
 	entradaManual(year: number, mount: number, data): Observable<any> {

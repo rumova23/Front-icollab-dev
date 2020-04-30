@@ -54,5 +54,4 @@ export class MonitoringService {
     const url = environment.ftpconsumerUrl + 'executeProcess/' + applicationName + '/' + isMonthy;
     return this.http.get( url , {params : this.parameters });
   }
-
 }

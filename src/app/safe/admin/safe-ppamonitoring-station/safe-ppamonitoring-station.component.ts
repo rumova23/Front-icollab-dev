@@ -34,6 +34,9 @@ import {MonitoringService} from '../../services/monitoring.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
+import {MaestroOpcionDTO} from '../../../compliance/models/maestro-opcion-dto';
+import {Observable} from 'rxjs';
+import {environment} from '../../../../environments/environment';
 // import theme           from 'highcharts/themes/dark-green';
 HC_exporting(Highcharts);
 HC_stock(Highcharts);
@@ -80,6 +83,8 @@ export class SafePPAMonitoringStationComponent implements OnInit {
     showView = false;
     showUpdate = false;
     showDelete = true;
+
+	etapa001: number;
 
 
 	valid = false;
@@ -214,27 +219,31 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 
 		return arr;
 	}
+
 	ngOnInit() {
-		this.addBlock(1,'');
+		this.ppaMonitoringFormatService.getCatalogoOpcion('Etapa Tag', '001').subscribe(
+		(data: MaestroOpcionDTO) => {
+			this.etapa001 = data.maestroOpcionId;
+			this.ppaMonitoringFormatService.getTags(this.etapa001).subscribe((dataInterno) => {
+				this.addBlock(2,'');
+				dataInterno.forEach(element => {
+					this.tagsList.push(element.tag);
+				});
+			});
+		});
+		this.addBlock(1, '');
 		this.ppaMonitoringFormatService.obtenBitacoraLoadRaw().subscribe(
 			data => {
-				this.addBlock(2,'');
+				this.addBlock(2, '');
 				console.dir(data);
 			},
 			errorData => {
-				this.addBlock(2,'');
+				this.addBlock(2, '');
 				console.dir(errorData);
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
 		this.setColumnsToDisplay();
 		this.filterDatesFormGroup = new FormGroup({});
-
-		this.ppaMonitoringFormatService.getTags().subscribe((data) => {
-			this.addBlock(2,'');
-			data.forEach(element => {
-				this.tagsList.push(element.tag);
-			});
-		});
 		this.fileUploadForm = this.fb.group({
 			file: new FormControl(null, [Validators.required, requiredFileType('zip')]),
 			typeVarhtml: new FormControl('', Validators.required)
