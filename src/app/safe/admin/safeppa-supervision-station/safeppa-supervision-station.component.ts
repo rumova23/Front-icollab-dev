@@ -57,22 +57,23 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	tablaTotalPorcentajesBanderas=[];
 	tablaTotales=[];
 	resumenHeader=[
-		"(Falta Hora y Fecha)",
-		"(Falta  Fecha)",
-		"(Falta Hora)",
-		"(Fecha y Hora no aceptables)",
-		"(Fecha no aceptable)",
-		"(Hora no aceptable)",
-		"(Dato Repetido)",
-		"(Dato redondeo a concominutal)",
-		"(Ordenamiento)",
-		"(Dato Correcto)",
-		"(Falta Valor)",
-		"(Renglon vacio)",
-		"(Valor no aceptable)"
+		"Dato Correcto",
+		"Falta Valor",
+		"Renglon vacio",
+		"Valor no aceptable",
+		
+		"Falta Hora y Fecha",
+		"Falta Fecha",
+		"Falta Hora",
+		"Fecha y Hora no aceptables",
+		"Fecha no aceptable",
+		"Hora no aceptable",
+		"Dato Repetido",
+		"Dato redondeo a concominutal",
+		"Ordenamiento"
 	];
 	resumenValue=[
-		{name:"Serie 1",value:[0,0,0,0,0,0,0,0,0,0,0,0,0]}
+		{name:"",value:[0,0,0,0,0,0,0,0,0,0,0,0,0]}
 	]
 	chart2header=[
 		"Variables corregidas",
@@ -113,13 +114,17 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		},
 		yAxis: {
 			min: 0,
-			
+			title: {
+				text: null
+			},
 			labels: {
-				overflow: 'justify'
+				overflow: 'justify',
+				enabled: false
 			}
 		},
 		tooltip: {
-			valueSuffix: ' millions'
+			pointFormat: '<b>{point.y}</b>',
+			valueSuffix: ' %'
 		},
 		plotOptions: {
 			bar: {
@@ -365,34 +370,47 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		this.setChartTotal();
 	}
 	setChartBanderas(data){
-		this.tablaTotalPorcentajesBanderas=[];
-		this.opt.xAxis.categories = [];
-		this.resumenValue[0].value=[];
-		for (const bandera of data.estatusValueList) {
-			if(!this.opt.xAxis.categories.includes(`(${bandera.estatus})`)){
-				this.opt.xAxis.categories.push(`(${bandera.estatus})`);
-				let porcentaje = (this.tablaDiasSeries[0].dia31/100)*bandera.cantidad;
-				this.resumenValue[0].value.push(porcentaje);
-
-				this.tablaTotalPorcentajesBanderas.push({
-					header:`(${bandera.estatus})`,
-					value:bandera.cantidad
-				});
+		this.opt.series[0].data = this.resumenValue[0].value.map(()=>0);
+		this.tablaTotalPorcentajesBanderas = this.resumenValue[0].value.map((v,i)=>{
+			return {
+				header:this.opt.xAxis.categories[i],
+				value:v
+			};
+		});
+		for (let index = 0; index < this.opt.xAxis.categories.length; index++) {
+			const element = this.opt.xAxis.categories[index].toLowerCase();
+			for (let bandera of data.estatusValueList) {
+				if(bandera.estatus.toLowerCase() == element){
+					let porcentaje = (this.tablaDiasSeries[0].dia31/100)*bandera.cantidad;
+					this.opt.series[0].data[index]=porcentaje;
+					this.tablaTotalPorcentajesBanderas[index].value = porcentaje;
+				}
 			}
 		}
-		for (const bandera of this.resumenHeader) {
-			if(!this.opt.xAxis.categories.includes(bandera)){
-				this.opt.xAxis.categories.push(bandera);
-				this.resumenValue[0].value.push(0);
-				
-				this.tablaTotalPorcentajesBanderas.push({
-					header:bandera,
-					value:0
-				});
-			}
-		}
-		this.opt.series[0].data = this.resumenValue[0].value;
 		Highcharts.chart(this.chartbar1.nativeElement, this.opt);
+	}
+	getOrderBanderas(estatus){
+		/**
+		 * 
+		 */
+		let i=10000;
+		if(estatus.includes(`Dato Correcto`))                i = 1;
+		if(estatus.includes("Falta Valor"))                  i = 2;
+		if(estatus.includes("Renglon vacio"))                i = 3;
+		if(estatus.includes("Valor no aceptable"))           i = 4;
+		
+		if(estatus.includes("Falta Hora y Fecha"))           i = 5;
+		if(estatus.includes("Falta Fecha"))                  i = 6;
+		if(estatus.includes("Falta Hora"))                   i = 7;
+		if(estatus.includes("Fecha y Hora no aceptables"))   i = 8;
+		if(estatus.includes("Fecha no aceptable"))           i = 9;
+		if(estatus.includes("Hora no aceptable"))            i = 10;
+		if(estatus.includes("Dato Repetido"))                i = 11;
+		if(estatus.includes("Dato redondeo a concominutal")) i = 12;
+		if(estatus.includes("Ordenamiento"))                 i = 13;
+		
+
+		return i;
 	}
 	setChartTotal(){/*
 		this.chart2headerValue=[];
