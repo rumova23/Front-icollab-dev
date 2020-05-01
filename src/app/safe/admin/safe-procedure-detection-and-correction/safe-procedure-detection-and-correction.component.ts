@@ -1,3 +1,4 @@
+/* tslint:disable:indent */
 import { Component, OnInit } from '@angular/core';
 
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -22,13 +23,14 @@ import {saveAs} from 'file-saver';
 	templateUrl: './safe-procedure-detection-and-correction.component.html',
 	styleUrls: ['./safe-procedure-detection-and-correction.component.scss'],
 	providers: [
-	{
-		provide: DateAdapter,
-		useClass: MomentDateAdapter,
-		deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-	},
-	{
-		provide: MAT_DATE_FORMATS, useValue: MY_FORMAT_DATE_PICKER},
+		{
+			provide: DateAdapter,
+			useClass: MomentDateAdapter,
+			deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+		},
+		{
+			provide: MAT_DATE_FORMATS, useValue: MY_FORMAT_DATE_PICKER
+		}
 	],
 })
 export class SafeProcedureDetectionAndCorrectionComponent implements OnInit {
@@ -59,7 +61,6 @@ export class SafeProcedureDetectionAndCorrectionComponent implements OnInit {
 		this.date.setValue(ctrlValue);
 		datepicker.close();
 	}
-
 
 	aplicarDeteccionProcedimiento() {
 		const year = new Date(this.date.value).getFullYear();
