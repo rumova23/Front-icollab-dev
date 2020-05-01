@@ -100,13 +100,11 @@ export class PerfilComboService {
         resulta, {params : this.parameters });
   }
 
-
   getValoresAptitudes(examenReservacionId: number, preguntaId: number) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.microexamenUrl }exam/valorRespuesta?examenReservacionId=` + examenReservacionId
                              + `&preguntaId=` + preguntaId, {}, {params : this.parameters });
   }
-
 
   postValoresHabilidades(idEmpleado: number, resulta: Array<any>) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
@@ -114,9 +112,6 @@ export class PerfilComboService {
     return this.http.post( `${ this.microexamenUrl }exam/guardarSicometricoEmpleado?idEmpleado=` + idEmpleado,
         resulta, {params : this.parameters });
   }
-
-
-
 
   getScalas(val: string) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);

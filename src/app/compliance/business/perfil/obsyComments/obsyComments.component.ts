@@ -18,7 +18,7 @@ export class ObsyCommentsComponent implements OnInit {
   @Input() inTipo: string;
   calificacionId: number;
   headObservaciones = ['#', 'Nombre', 'Observaciones', 'Fecha de ultima modificación'];
-  typeDocuments = ['Documentos', 'Registros', 'Referencias'];
+  typeDocuments = ['Evidencias'];
   observacioes: Array<any>;
   titleDocument: Array<any>;
   obsForm: FormGroup;

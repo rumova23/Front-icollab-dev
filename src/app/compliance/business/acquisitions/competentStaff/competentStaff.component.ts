@@ -9,7 +9,6 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import {Combo} from '../../../models/Combo';
-import {RegisterPersonal, RegisterPersonalImp} from '../../competence/staff/addstaff/complianceAddStaff.component';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DatePipe} from '@angular/common';
 import {ConfirmationDialogService} from '../../../../core/services/confirmation-dialog.service';

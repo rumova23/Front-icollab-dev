@@ -12,6 +12,7 @@ import { Empleado } from '../../models/Empleado';
 import { Combo } from '../../models/Combo';
 import { DomSanitizer } from '@angular/platform-browser';
 import {split} from 'ts-node';
+import {Constants} from '../../../core/globals/Constants';
 
 @Component({
     selector: 'app-perfil',
@@ -61,6 +62,8 @@ export class PerfilComponent implements OnInit {
     file: File;
     photo;
     byteArray;
+    elementData: any[] = [];
+    result;
 
     constructor(private cmbos: PerfilComboService,
                 private formBuilder: FormBuilder,
@@ -269,6 +272,9 @@ export class PerfilComponent implements OnInit {
             respuesta => {
                 this.toastr.successToastr('El empleado fue Creado con éxito.', '¡Se ha logrado!');
                 this.eventService.sendChangePage(new EventMessage(10, {}, 'Compliance.Personal Competente'));
+            },
+            error => {
+                this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
             }
         );
     }
@@ -307,11 +313,21 @@ export class PerfilComponent implements OnInit {
 
             reader.onload = (e: any) => {
                 this.photo = e.target.result;
-                this.byteArray = this.photo.replace(/^data:image\/jpeg;base64,/, '');
+                if ( this.photo.includes('jpeg')) {
+                    this.byteArray = this.photo.replace(/^data:image\/jpeg;base64,/, '');
+                } else if ( this.photo.includes('png')) {
+                    this.byteArray = this.photo.replace(/^data:image\/png;base64,/, '');
+                } else if (this.photo.includes('jpg')) {
+                    this.byteArray = this.photo.replace(/^data:image\/jpg;base64,/, '');
+                }
                 this.imageUrl = reader.result;
                 this.requiredPhoto = false;
             };
         }
+    }
+
+    regresar() {
+        this.eventService.sendChangePage(new EventMessage(10, {} , 'Compliance.Personal Competente'));
     }
 
     changeCheck() {
@@ -325,4 +341,53 @@ export class PerfilComponent implements OnInit {
             this.disabledSave = false;
         }
     }
+
+    /*
+    validatePersonalName(): boolean {
+
+        let arrayElements: any[] = this.elementData;
+        let flag: boolean = false;
+
+        if (this.perfilForm.controls['fNames'].value !== '') {
+            arrayElements = arrayElements.filter(personal => {
+                return personal.name.toString().toUpperCase() === this.perfilForm.controls['fNames'].value.toString().toUpperCase() ? true : false;
+            });
+        }
+        if (this.perfilForm.controls['fLastName'].value !== '') {
+            arrayElements = arrayElements.filter(personal => {
+                return personal.lastName.toString().toUpperCase() === this.perfilForm.controls['fLastName'].value.toString().toUpperCase() ? true : false;
+            });
+        }
+        if (this.perfilForm.controls['fSecondName'].value !== '') {
+            arrayElements = arrayElements.filter(personal => {
+                return personal.secondName.toString().toUpperCase() === this.perfilForm.controls['fSecondName'].value.toString().toUpperCase() ? true : false;
+            });
+        }
+
+        if (arrayElements.length > 0) {
+            flag = true;
+        } else {
+            flag = false;
+        }
+        return flag;
+    }
+
+    getDataSource() {
+        this.elementData = [];
+        this.personal.getEmpleados().subscribe(
+            dataBack => {
+                this.result = dataBack;
+                let i = 1;
+                for (const element of this.result.empleados){
+
+                    const obj ={};
+
+                    obj['name'] = element.nombres;
+                    obj['lastName'] = element.paterno;
+                    obj['secondName'] = element.materno;
+
+                    this.elementData.push(obj);
+                }
+            });
+    } */
 }

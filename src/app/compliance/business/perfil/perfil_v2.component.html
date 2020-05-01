@@ -300,7 +300,13 @@
                         <div class="d-flex justify-content-end">
                             <button type="submit" [disabled]="isdisabled" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
                                 <i class="ti-pencil"></i>
-                                <!--{{labBotAcep}}-->Guardar / Actualizar
+                                Guardar / Actualizar
+                            </button>
+                            <button type="button" class="btn"
+                                    [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
+                                    (click)="regresar()">
+                                <i class="ti-angle-double-left"></i>
+                                Regresar
                             </button>
                         </div>
                     </div>

@@ -34,6 +34,10 @@ export class PersonalCompetenteService {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(`${this.baseUrl2}exam/personalCompetente/empleados`, {params : this.parameters });
   }
+  getEmpleadosEvaluaciones() {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(`${this.baseUrl2}exam/personalCompetente/empleados/evaluaciones`, {params : this.parameters });
+  }
   deleteEliminar(idEmpleado: number) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.delete(`${this.baseUrl2}exam/personalCompetente/empleados?idEmpleado=` + idEmpleado, {params : this.parameters });
