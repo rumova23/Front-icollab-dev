@@ -9,7 +9,7 @@
     <div class="section">
         <div class="row pb-2">
             <div class="col">
-                <p class="section_titulo_0">{{title}}</p>
+                <p class="section_titulo_0">{{subtitle}}</p>
                 <p class="section_subtitulo_0"> </p>
             </div>
         </div>
@@ -19,6 +19,7 @@
                 <div class="row">
                     <div class="col-3 text-center" >
                         <img [src]="imageUrl" width="110" height="110">
+                        <br/>
                         <div class="d-flex justify-content-center">
                             <label for="file-upload" [ngClass]="{'custom-file-upload': globalService.aguila,'custom-file-upload2': !globalService.aguila}">
                                 <i class="fas fa-plus"></i> Agregar
@@ -27,12 +28,14 @@
                                    type="file"
                                    name="file"
                                    #fileInput
+                                   formControlName="fPhoto"
                                    (change)="onChange(fileInput.files[0])"
-                                   [ngClass]="{ 'is-invalid': submitted && f.fPhoto.errors }"
+                                   [ngClass]="{ 'is-invalid': submitted && requiredPhoto }"
 
                             />
-
-
+                        </div>
+                        <div *ngIf="submitted && requiredPhoto" style="color:red">
+                            <div>Requerido</div>
                         </div>
                     </div>
                     <div class="col-9" >
@@ -42,9 +45,9 @@
                                 <div class="form-group">
                                     <label>Empresa</label>
                                     <select class="browser-default custom-select"
-                                            formControlName="fEnterprise" [(ngModel)]="enterprise"
+                                            formControlName="fEnterprise" [(ngModel)]="enterprise" [ngClass]="{ 'is-invalid': submitted && f.fEnterprise.errors }"
                                     >
-                                        <option *ngFor="let operator of enterprise;"
+                                        <option *ngFor="let operator of enterprisePreffix;"
                                                 [value]="operator.value">
                                             {{operator.label}}
                                         </option>
@@ -85,7 +88,7 @@
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>Apellido Paterno</label>
+                                    <label>Apellido Paterno *</label>
                                     <input mdbInput class="form-control" formControlName="fLastName"
                                            [ngClass]="{ 'is-invalid': submitted && f.fLastName.errors }"
                                     >
@@ -96,7 +99,7 @@
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>Apellido Materno</label>
+                                    <label>Apellido Materno *</label>
                                     <input mdbInput class="form-control" formControlName="fSecondName"
                                            [ngClass]="{ 'is-invalid': submitted && f.fSecondName.errors }"
                                     >
@@ -122,7 +125,7 @@
                                 <div class="form-group">
                                     <label>Fecha de nacimiento</label>
                                     <input mdbInput class="form-control" formControlName="fDateBirth"
-                                           type="date"
+                                           type="date" [ngClass]="{ 'is-invalid': submitted && f.fDateBirth.errors }"
                                     >
                                     <div *ngIf="submitted && f.fDateBirth.errors" style="color:red">
                                         <div *ngIf="f.fDateBirth.errors.required">Requerido</div>
@@ -133,7 +136,7 @@
                                 <div class="form-group">
                                     <label>Grado de Estudios</label>
                                     <select class="browser-default custom-select"
-                                            formControlName="fLevelStudy" [(ngModel)]="educationLevel"
+                                            formControlName="fLevelStudy" [(ngModel)]="educationLevel" [ngClass]="{ 'is-invalid': submitted && f.fLevelStudy.errors }"
                                     >
                                         <option *ngFor="let operator of grados;"
                                                 [value]="operator.value">
@@ -194,7 +197,7 @@
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>Jefe Inmediato</label>
+                                    <label>Jefe Inmediato *</label>
                                     <input mdbInput class="form-control" formControlName="fImmBoss"
                                            [ngClass]="{ 'is-invalid': submitted && f.fImmBoss.errors }"
                                     >
@@ -270,7 +273,7 @@
                         <label>Descripción del puesto</label>
                         <textarea formControlName="fJobDescription" class="form-control"
                                   [ngClass]="{ 'is-invalid': submitted && f.fJobDescription.errors }" >
-                          </textarea>
+                      </textarea>
                         <div *ngIf="submitted && f.fJobDescription.errors" style="color:red">
                             <div *ngIf="f.fJobDescription.errors.required">Requerido</div>
                         </div>
@@ -278,13 +281,11 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div>
-        <div class="section">
-            <app-compliance-upload></app-compliance-upload>
+        <br/>
+        <div *ngIf="inIdEmpleado > 0">
+            <app-compliance-upload [inEmployeeId]="inIdEmpleado" [inAccion]="inTipo"></app-compliance-upload>
         </div>
-    </div>
-    <div class="section">
+        <br/>
         <div class="row">
             <div class="col-md-6 col-lg-4">
                 <ng-container>
@@ -305,7 +306,13 @@
                 <div class="d-flex justify-content-end">
                     <button type="submit" [disabled]="isdisabled" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
                         <i class="ti-pencil"></i>
-                        <!--{{labBotAcep}}-->Guardar / Actualizar
+                        Guardar / Actualizar
+                    </button>
+                    <button type="button" class="btn"
+                            [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
+                            (click)="regresar()">
+                        <i class="ti-angle-double-left"></i>
+                        Regresar
                     </button>
                 </div>
             </div>

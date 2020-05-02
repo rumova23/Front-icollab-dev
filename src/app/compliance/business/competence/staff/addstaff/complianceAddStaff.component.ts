@@ -99,9 +99,9 @@ export class ComplianceAddStaffComponent implements OnInit {
     elementData: Array<Personalcompetente>;
     comboStatus: Array<any>;
     filterForm: FormGroup;
-    titulo: string = 'Competencia de los Recursos / Alta de Personal';
-    titulo_seccion: string = 'Personal Interno';
-    inTitulo: string = 'Confirmacion';
+    titulo = 'Competencia de los Recursos / Alta de Personal';
+    subtitulo = 'Personal Interno';
+    inTitulo = 'Confirmacion';
     registros = new MatTableDataSource<Personalcompetente>();
     columnas: string[] = ['orden', 'numEmpleado', 'nombre', 'apPaterno', 'apMaterno', 'genero', 'posicion', 'departamento', 'lugarDeTrabajo', 'usuarioModifico', 'fechaHoraUltimaModificacion', 'status', 'ver', 'editar',  'eliminar', 'nuevoexamen'];
     generos: Array<any>;
@@ -156,9 +156,9 @@ export class ComplianceAddStaffComponent implements OnInit {
         this.cargaTabla();
         this.comboStatus = [];
 
-        this.comboStatus.push(new Combo("",""));
-        this.comboStatus.push(new Combo("1","Activo"));
-        this.comboStatus.push(new Combo("0","Inactivo"));
+        this.comboStatus.push(new Combo('', ''));
+        this.comboStatus.push(new Combo('1', 'Activo'));
+        this.comboStatus.push(new Combo('0', 'Inactivo'));
 
         this.filterForm = this.formBuilder.group({
             fEmpNum: ['', Validators.required],
@@ -279,7 +279,7 @@ export class ComplianceAddStaffComponent implements OnInit {
         EventMessage(11, {
                 idEmpleado: idEmpleado,
                 tipo: tipo
-            },'Compliance.Personal Competente.11'
+            }, 'Compliance.registerPersonal.11'
         ));
     }
 
@@ -335,7 +335,13 @@ export class ComplianceAddStaffComponent implements OnInit {
         }
         if (this.filterForm.controls['fEst'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
-                return personal.status.toString() === this.filterForm.controls['fEst'].value ? true : false;
+                if (personal.status === null) {
+                    return false;
+                } else if (this.filterForm.controls['fEst'].value.toString() === '1' && personal.status.toString().toUpperCase() === 'ACTIVO') {
+                    return true;
+                } else if (this.filterForm.controls['fEst'].value.toString() === '0' && personal.status.toString().toUpperCase() === 'INACTIVO') {
+                    return true;
+                }
             });
         }
         if (this.filterForm.controls['fLastDate'].value !== '' && this.filterForm.controls['fLastHour'].value !== ''){

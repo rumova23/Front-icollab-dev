@@ -25,59 +25,55 @@ import { TemplateEditTaskComponent        } from '../administration/task-plannin
 import {ComplianceAddStaffComponent       } from '../business/competence/staff/addstaff/complianceAddStaff.component';
 import {ComplianceProfileComponent        } from '../business/competence/staff/addstaff/profile/complianceProfile.component';
 import {EvaluationComponent               } from '../business/competence/staff/evaluation/evaluation.component';
+import {EditEvaluationHomeComponent} from '../business/competence/staff/evaluation/editevaluation/editEvaluationHome.component';
 
 @Component({
-	selector        : 'app-complianceHome',
+	selector        : 'app-compliance-home',
 	templateUrl     : './complianceHome.component.html',
 	styleUrls       : ['./complianceHome.component.scss'],
-	entryComponents : [
-		 ChangePasswordComponent
-		,ComplianceWelcomeComponent
-		,ComplianceTypesComponent
-		,ComplianceTypesEditComponent
-		,ActivitiesComponent
-		,ActivitiesEditComponent
-		,ComplianceConfigurationComponent
-		,ConfigActivitiesComponent
-		,AcquisitionsComponent
-		,PerfilHomeComponent
-		,LegalAgreementComponent
-		,TaskPlanningComponent
-		,TaskEditComponent
-		,TemplateEditTaskComponent
-		,ComplianceAddStaffComponent
-		,ComplianceProfileComponent
-		,EvaluationComponent
-	]
+	entryComponents : [ChangePasswordComponent,
+		ComplianceWelcomeComponent,
+		ComplianceTypesComponent,
+		ComplianceTypesEditComponent,
+		ActivitiesComponent,
+		ActivitiesEditComponent,
+		ComplianceConfigurationComponent,
+		ConfigActivitiesComponent,
+		AcquisitionsComponent,
+		PerfilHomeComponent,
+		LegalAgreementComponent,
+		TaskPlanningComponent,
+		TaskEditComponent,
+		TemplateEditTaskComponent,
+		ComplianceAddStaffComponent,
+		ComplianceProfileComponent,
+		EvaluationComponent,
+		EditEvaluationHomeComponent]
 })
 export class ComplianceHomeComponent implements OnInit {
 	@ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
-	private subscriptions : Subscription[] = [];
+	private subscriptions: Subscription[] = [];
 
 	constructor(
-		private  route                    : ActivatedRoute
-		,private componentFactoryResolver : ComponentFactoryResolver
-		,public  theme                    : ThemeService
-		,public  globalService            : GlobalService
-		,private eventService             : EventService
-		,private securityService          : SecurityService
+		private  route: ActivatedRoute,
+		private componentFactoryResolver: ComponentFactoryResolver,
+		public  theme: ThemeService,
+		public  globalService: GlobalService,
+		private eventService: EventService,
+		private securityService: SecurityService
 	) {
 		globalService.setApp('Compliance');
 	}
 
 	ngOnInit() {
-		//let url = `/assets/css/base/respaldo.css`;
-		//document.getElementById("content_theme").setAttribute('href',url);
 		this.subscribeOnChangePage();
 	}
 
 	ngAfterViewInit() {
-
-		//this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(LegalAgreementComponent));
 		this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceWelcomeComponent));
 	}
 
-	ngOnDestroy(){
+	ngOnDestroy() {
 		for (const iterator in this.subscriptions) {
 			this.subscriptions[iterator].unsubscribe();
 		}
@@ -192,6 +188,15 @@ export class ComplianceHomeComponent implements OnInit {
 					case 'Compliance.evaluatePersonal':
 						this.viewContainerRef
 							.createComponent(this.componentFactoryResolver.resolveComponentFactory(EvaluationComponent)).changeDetectorRef.detectChanges();
+						break;
+					case 'Compliance.evaluatePersonal.11':
+						let refEditEvaluationHome = this.viewContainerRef
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(EditEvaluationHomeComponent));
+						refEditEvaluationHome.instance.idEmpleado = event.data.idEmpleado;
+						refEditEvaluationHome.instance.isViewable = true;
+						refEditEvaluationHome.instance.isdisabled = event.data.isdisabled;
+						refEditEvaluationHome.instance.tipo       = event.data.tipo;
+						refEditEvaluationHome.changeDetectorRef.detectChanges();
 						break;
 					default:
 				}

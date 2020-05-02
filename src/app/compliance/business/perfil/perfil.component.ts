@@ -120,7 +120,8 @@ export class PerfilComponent implements OnInit {
             fWorkplace: [{ value: '', disabled: this.isdisabled }, Validators.required],
             fStartJob: [{ value: '', disabled: this.isdisabled }, Validators.required],
             fPerCarg: [{ value: '', disabled: this.isdisabled }, Validators.required],
-            fJobDescription: [{ value: '', disabled: this.isdisabled }, Validators.required]
+            fJobDescription: [{ value: '', disabled: this.isdisabled }, Validators.required],
+            fPhoto: [{ value: '', disabled: this.isdisabled }, Validators.required]
         });
 
         if (this.inTipo === "ver" || this.inTipo === "editar") {

@@ -10,6 +10,7 @@ import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {EventBlocked} from '../../../../../core/models/EventBlocked';
 import {Constants} from '../../../../../core/globals/Constants';
 import {SecurityService} from '../../../../../core/services/security.service';
+import {Combo} from '../../../../models/Combo';
 
 @Component({
   selector: 'app-evaluation',
@@ -27,7 +28,7 @@ export class EvaluationComponent implements OnInit {
   dataEmpleadoEvaluaciones: any[] = [];
   result;
   dataSource;
-  comboStatus = [];
+  comboStatus: Array<any>;
   menu: any[];
   nombreCatalogo = 'Personal';
   nombreSubCatalogo = 'Evaluación de Competencias para el Personal';
@@ -90,7 +91,11 @@ export class EvaluationComponent implements OnInit {
     }
     this.getDataSource()
 
+    this.comboStatus = [];
 
+    this.comboStatus.push(new Combo('', ''));
+    this.comboStatus.push(new Combo('1', 'Activo'));
+    this.comboStatus.push(new Combo('0', 'Inactivo'));
 
     this.filterForm = this.formBuilder.group({
       fEmpNum: ['', Validators.required],
@@ -111,7 +116,6 @@ export class EvaluationComponent implements OnInit {
     this.addBlock(1, 'Cargando...');
     this.personalService.getEmpleadosEvaluaciones().subscribe(
         dataBack => {
-          debugger;
           this.result = dataBack;
           let i = 0;
           for (const element of this.result) {
@@ -174,7 +178,6 @@ export class EvaluationComponent implements OnInit {
           this.dataSource.sort = this.sort;
         },
         errorData => {
-          debugger;
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
           this.addBlock(2, null);
         }
@@ -185,16 +188,83 @@ export class EvaluationComponent implements OnInit {
   }
   filtros() {}
 
-  action(idEmpleado, tipo, n) {
+  action(idEmpleado, tipo) {
     this.eventService.sendChangePage(new
     EventMessage(11, {
       idEmpleado: idEmpleado,
       tipo: tipo
-    },'Compliance.evaluatePersonal.11'));
+    }, 'Compliance.evaluatePersonal.11'));
   }
 
   private addBlock(type, msg): void {
     this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
+
+  search(): any[] {
+    let arrayElements: any[] = this.dataEmpleadoEvaluaciones;
+
+    if (this.filterForm.controls['fEmpNum'].value !== '') {
+      arrayElements = arrayElements.filter(personal => {
+        return personal.numEmpleado.toString() === this.filterForm.controls['fEmpNum'].value ? true : false;
+      });
+    }
+    if (this.filterForm.controls['fNames'].value !== '') {
+      arrayElements = arrayElements.filter(personal => {
+        return personal.name.toString().toUpperCase() === this.filterForm.controls['fNames'].value.toString().toUpperCase() ? true : false;
+      });
+    }
+    if (this.filterForm.controls['fLastName'].value !== '') {
+      arrayElements = arrayElements.filter(personal => {
+        return personal.lastName.toString().toUpperCase() === this.filterForm.controls['fLastName'].value.toString().toUpperCase() ? true : false;
+      });
+    }
+    if (this.filterForm.controls['fSecondName'].value !== '') {
+      arrayElements = arrayElements.filter(personal => {
+        return personal.secondName.toString().toUpperCase() === this.filterForm.controls['fSecondName'].value.toString().toUpperCase() ? true : false;
+      });
+    }
+    if (this.filterForm.controls['fDepto'].value !== '') {
+      arrayElements = arrayElements.filter(personal => {
+        return personal.department != null && personal.department.toString().toUpperCase() === this.filterForm.controls['fDepto'].value.toString().toUpperCase() ? true : false;
+      });
+    }
+    if (this.filterForm.controls['fRating'].value !== '') {
+      arrayElements = arrayElements.filter(personal => {
+        return personal.totalRating != null && personal.totalRating.toString().toUpperCase() === this.filterForm.controls['fRating'].value.toString() ? true : false;
+      });
+    }
+    if (this.filterForm.controls['fCompetence'].value !== '') {
+      arrayElements = arrayElements.filter(personal => {
+        return personal.competence !=null && personal.competence.toString().toUpperCase() === this.filterForm.controls['fCompetence'].value.toString().toUpperCase() ? true : false;
+      });
+    }
+    if (this.filterForm.controls['fEst'].value !== '') {
+      arrayElements = arrayElements.filter(personal => {
+        if (personal.status === null) {
+          return false;
+        } else if (this.filterForm.controls['fEst'].value.toString() === '1' && personal.status.toString().toUpperCase() === 'ACTIVO') {
+          return true;
+        } else if (this.filterForm.controls['fEst'].value.toString() === '0' && personal.status.toString().toUpperCase() === 'INACTIVO') {
+          return true;
+        }
+      });
+    }
+    if (this.filterForm.controls['fLastDate'].value !== '' && this.filterForm.controls['fLastHour'].value !== '') {
+      let dateLastUpdate = this.datePipe.transform(new Date(this.filterForm.controls['fLastDate'].value), 'dd/MM/yyyy') + ' ' + this.filterForm.controls['fLastHour'].value
+      arrayElements = arrayElements.filter(personal => {
+        return personal.fechaHoraUltimaModificacion.toString() === dateLastUpdate ? true : false;
+      });
+    } else if (this.filterForm.controls['fLastDate'].value === '' && this.filterForm.controls['fLastHour'].value !== '') {
+      this.toastr.errorToastr('Debe introducir una fecha', 'Lo siento,');
+    } else if (this.filterForm.controls['fLastDate'].value !== '' && this.filterForm.controls['fLastHour'].value === '') {
+      this.toastr.errorToastr('Debe introducir una hora', 'Lo siento,');
+    }
+
+    return arrayElements;
+  }
+
+  eliminarRegistro(maestroOpcion: any) {
+
   }
 
 }

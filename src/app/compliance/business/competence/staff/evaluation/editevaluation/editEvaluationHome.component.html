@@ -1,3 +1,16 @@
-<p>
-  edit-evaluation-home works!
-</p>
+<div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">{{title}}</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+
+<app-perfil [inIdEmpleado]="idEmpleado" [inTipo]="tipo"></app-perfil>
+
+<app-behavior [inIdEmpleado]="idEmpleado" [inTipo]="tipo" [entidadEstausTerminado]="entidadEstausTerminado"></app-behavior>
+
+<app-skills [inIdEmpleado]="idEmpleado" [inTipo]="tipo" [entidadEstausTerminado]="entidadEstausTerminado"></app-skills>
+
+<app-dashboards [inIdEmpleado]="idEmpleado" [inTipo]="tipo"></app-dashboards>
+
+<app-obsyComments [inIdEmpleado]="idEmpleado" [inTipo]="tipo"></app-obsyComments>
