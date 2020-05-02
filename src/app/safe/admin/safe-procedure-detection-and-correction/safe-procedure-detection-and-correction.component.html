@@ -21,7 +21,7 @@
 	<form>
 
 		<div class="form-row">
-			<div class="col col-xxxs-12 col-xxs-12 col-xs-6 col-lg-5 col-xxl-3">
+			<div class="col col-xxxs-12 col-xxs-12 col-xs-6 col-lg-5 col-xxl-3 my-1">
 				<label>Fecha de Operación Comercial:</label>
 				<mat-form-field class="form-control">
 					<input matInput [matDatepicker]="dp" [formControl]="date" />
@@ -31,21 +31,21 @@
 					</mat-datepicker>
 				</mat-form-field>
 			</div>
-			<!--div
-				class="col-auto d-flex justify-content-end justify-content-xxl-start pt-xxl-1">
-				<button type="submit" class="btn w-100 align-self-end align-self-xxl-start mr-0 mt-xxl-4"
-					
-					(click)="ejecutaProceso()">Aplicar Detección y Corrección</button>
-			</div-->
 			
-			<div class="col text-right">
-				<button class="btn" (click)="aplicarDeteccionProcedimiento()">
-					Aplicar Detección Procedimiento &nbsp;
-				</button>
-				<br>
-				<button class="btn" (click)="aplicarCorrecionProcedimiento()">
-					Aplicar Corrección Procedimiento
-				</button>
+			
+			<div class="col col-xxxs-12 col-xxs-12 col-xs-6 col-lg-7 col-xl-7 col-xxxl-5 ">
+				<div class="row h-100">
+					<div class="col col-xxxs-12 col-xxs-12 col-xs-12 col-lg-6 my-1 d-flex">
+						<button class="btn btn-block align-self-end my-0" (click)="aplicarDeteccionProcedimiento()">
+							Aplicar Detección Procedimiento &nbsp;
+						</button>
+					</div>
+					<div class="col col-xxxs-12 col-xxs-12 col-xs-12 col-lg-6 my-1 d-flex">
+						<button class="btn btn-block align-self-end my-0" (click)="aplicarCorrecionProcedimiento()">
+							Aplicar Corrección Procedimiento
+						</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</form>

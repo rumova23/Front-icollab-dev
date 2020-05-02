@@ -22,6 +22,9 @@
     margin-bottom: 30px;
     overflow: hidden;
 }
+.btn-block{
+    white-space: initial !important;   
+}
 #columna{
     background: #ffffff;
 }
