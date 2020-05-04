@@ -68,4 +68,9 @@ export class PpaMonitoringFormatService {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(environment.dycformato + '/download/' + year + '/' + mount, {params : this.parameters });
 	}
+
+	downloadCrudosExcel(year: number, mount: number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.dycformato + '/download/reporte/crudos/' + year + '/' + mount, {params : this.parameters });
+	}
 }
