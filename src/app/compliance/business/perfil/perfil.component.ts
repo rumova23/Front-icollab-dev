@@ -57,8 +57,8 @@ export class PerfilComponent implements OnInit {
     employeePlace;
     employeeDependent;
     enterprise;
-    imageUrl: string | ArrayBuffer = "../../../assets/img/foto.png";
-    fileName: string = "No file selected";
+    imageUrl: string | ArrayBuffer = '../../../assets/img/foto.png';
+    fileName: string = 'No file selected';
     file: File;
     photo;
     byteArray;
@@ -80,7 +80,7 @@ export class PerfilComponent implements OnInit {
         this.setCombos();
 
 
-        if (this.inTipo === "ver") {
+        if (this.inTipo === 'ver') {
             this.isdisabled = true;
             this.isdisableIdEmp = true;
             this.isdisableEnterprisePreffix = true;
@@ -88,17 +88,17 @@ export class PerfilComponent implements OnInit {
             this.isdisabledName = true;
         }
 
-        if (this.inTipo === "guardar" || this.inTipo === "editar") {
+        if (this.inTipo === 'guardar' || this.inTipo === 'editar') {
             this.isdisableIdEmp = true;
             this.deshabiliarEstatus = false;
         }
 
-        if (this.inTipo === "editar") {
+        if (this.inTipo === 'editar') {
             this.isdisabledName = true;
             this.isdisableEnterprisePreffix = true;
         }
 
-        if (this.inTipo === "guardar") {
+        if (this.inTipo === 'guardar') {
             this.checkedEstatus = true;
         }
 

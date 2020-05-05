@@ -30,7 +30,7 @@ import {Combo} from '../../../compliance/models/Combo';
 		  useClass: MomentDateAdapter,
 		  deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
 		},
-	
+
 		{provide: MAT_DATE_FORMATS, useValue: MY_FORMAT_DATE_PICKER},
 	  ],
 })
@@ -38,8 +38,8 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	@ViewChild('chartbar1') chartbar1: ElementRef;
 	@ViewChild('chartbar2') chartbar2: ElementRef;
 
-	demoTab1 = new Array(     31    ).fill(0).map((_valor,indice)=>Math.round(indice + 1));
-	demoTags = new Array(     13    ).fill(0).map((_valor,indice)=>("Tag " + indice));
+	demoTab1 = new Array(     31    ).fill(0).map((_valor, indice) => Math.round(indice + 1));
+	demoTags = new Array(     13    ).fill(0).map((_valor, indice) => ('Tag ' + indice));
 
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
@@ -49,38 +49,37 @@ export class SafeppaSupervisionStationComponent implements OnInit {
     displayedColumnsActions: any[]    = [];
     columnsToDisplay: string[] = [];
 	row_x_page           = [50, 100, 250, 500];
-    showAdd: boolean = true;
-    showView: boolean = false;
-    showUpdate: boolean = false;
-    showDelete: boolean = true;
+    showAdd = true;
+    showView = false;
+    showUpdate = false;
+    showDelete = true;
 
-	tablaTotalPorcentajesBanderas=[];
-	tablaTotales=[];
-	resumenHeader=[
-		"Dato Correcto",
-		"Falta Valor",
-		"Renglon vacio",
-		"Valor no aceptable",
-		
-		"Falta Hora y Fecha",
-		"Falta Fecha",
-		"Falta Hora",
-		"Fecha y Hora no aceptables",
-		"Fecha no aceptable",
-		"Hora no aceptable",
-		"Dato Repetido",
-		"Dato redondeo a concominutal",
-		"Ordenamiento"
+	tablaTotalPorcentajesBanderas = [];
+	tablaTotales = [];
+	resumenHeader = [
+		'Dato Correcto',
+		'Falta Valor',
+		'Renglon vacio',
+		'Valor no aceptable',
+		'Falta Fecha y Hora',
+		'Falta Fecha',
+		'Falta Hora',
+		'Fecha y Hora no aceptables',
+		'Fecha no aceptable',
+		'Hora no aceptable',
+		'Dato Repetido',
+		'Dato redondeo a concominutal',
+		'Ordenamiento'
 	];
-	resumenValue=[
-		{name:"",value:[0,0,0,0,0,0,0,0,0,0,0,0,0]}
-	]
-	chart2header=[
-		"Variables corregidas",
-		"Variables detectadas",
-		"Total"
+	resumenValue = [
+		{name: '', value: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
 	];
-	chart2headerValue=[
+	chart2header = [
+		'Variables corregidas',
+		'Variables detectadas',
+		'Total'
+	];
+	chart2headerValue = [
 		0,
 		0,
 		0
@@ -92,14 +91,14 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		{name:"# Variables Detectadas"        , dia31: 1162 ,value:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
 		{name:"# Variables Corregidas"        , dia31: 0    ,value:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
 	]//*/
-	
-	tablaDiasSeries=[
-		{name:"Total de Registros Esperados"  , dia31: 0 ,value:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
-		{name:"Total de Registos Encontrados" , dia31: 0 ,value:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
-		{name:"# Variables Detectadas"        , dia31: 0 ,value:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
-		{name:"# Variables Corregidas"        , dia31: 0 ,value:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
-	]
-	opt : any = {
+
+	tablaDiasSeries = [
+		{name: 'Total de Registros Esperados'  , dia31: 0 , value: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+		{name: 'Total de Registos Encontrados' , dia31: 0 , value: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+		{name: '# Variables Detectadas'        , dia31: 0 , value: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+		{name: '# Variables Corregidas'        , dia31: 0 , value: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
+	];
+	opt: any = {
 		chart: {
 			type: 'bar'
 		},
@@ -150,12 +149,12 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 			enabled: false
 		},
 		series: [{
-			
+
 			data: this.resumenValue[0].value
 		}]
 	};
-	
-	opt2 : any = {
+
+	opt2: any = {
 		chart: {
 			type: 'bar'
 		},
@@ -170,7 +169,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		},
 		yAxis: {
 			min: 0,
-			
+
 			labels: {
 				overflow: 'justify'
 			}
@@ -202,7 +201,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 			enabled: false
 		},
 		series: [{
-			
+
 			data: this.chart2headerValue
 		}]
 	};
@@ -222,14 +221,14 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		ctrlValue.year(normalizedYear.year());
 		this.date.setValue(ctrlValue);
 	}
-	
+
 	chosenMonthHandler(normalizedMonth: any, datepicker: MatDatepicker<any>) {
 		const ctrlValue = this.date.value;
 		ctrlValue.month(normalizedMonth.month());
 		this.date.setValue(ctrlValue);
 		datepicker.close();
 	}
-	setColumnsToDisplay(){
+	setColumnsToDisplay() {
 		this.setTableData();
 		this.displayedColumnsOrder = [
 			{ key: 'order', label: '#' },
@@ -275,31 +274,31 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 			this.columnsToDisplay.push('sys_delete');
 		}
 	}
-	
-	setTableData(){
-		
+
+	setTableData() {
+
 		this.ppaMonitoringFormatService.obtenBitacoraLoadRaw().subscribe(
 			data => {
-				let datain = [];
-				let i=1;
+				const datain = [];
+				let i = 1;
 				for (const d of data) {
 					datain.push(
 						{
-							"order":i,
-							"dateOpCom": d.fechaOperacionComercial,
-							"process": d.fuenteImportacion,
-							"dateUpdated": d.fechaUltimaModificacion?d.fechaUltimaModificacion:"-",
-							"status": d.estatusImportacion,
-							"user": d.usuario?d.usuario:"system",
-							sys_see : "sys_see",
-							sys_edit : "sys_edit",
-							sys_delete : "sys_delete"
+							order: i,
+							dateOpCom: d.fechaOperacionComercial,
+							process: d.fuenteImportacion,
+							dateUpdated: d.fechaUltimaModificacion ? d.fechaUltimaModificacion : '-',
+							status: d.estatusImportacion,
+							user: d.usuario ? d.usuario : 'system',
+							sys_see : 'sys_see',
+							sys_edit : 'sys_edit',
+							sys_delete : 'sys_delete'
 						}
 					);
-					i+=1;
+					i += 1;
 				}
 
-				
+
 				this.dataSource = new MatTableDataSource<any>(datain);
 				this.dataSource.paginator = this.paginator;
 				this.dataSource.sort = this.sort;
@@ -319,20 +318,20 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		this.dataSource.sort = this.sort;//*/
 	}
     sortData(sort: Sort) {
-        
+
 	}
-	grafica(){
+	grafica() {
 		Highcharts.chart(this.chartbar1.nativeElement, this.opt);
-		//Highcharts.chart(this.chartbar2.nativeElement, this.opt2);
+		// Highcharts.chart(this.chartbar2.nativeElement, this.opt2);
 	}
 
-	setTable01(data){
+	setTable01(data) {
 		this.tablaDiasSeries[0].value = [];
 		this.tablaDiasSeries[1].value = [];
 		this.tablaDiasSeries[2].value = [];
 		this.tablaDiasSeries[3].value = [];
 		for (const dia of data.analisisDayList) {
-			/*			
+			/*
 			{name:"Total de Registros Esperados"  , dia31: 0 ,value:[]},
 			{name:"Total de Registos Encontrados" , dia31: 0 ,value:[]},
 			{name:"# Variables Detectadas"        , dia31: 0 ,value:[]},
@@ -342,84 +341,84 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 
 			this.tablaDiasSeries[1].value.push(dia.encontrados);
 			this.tablaDiasSeries[1].dia31 += dia.encontrados;
-			
+
 			this.tablaDiasSeries[2].value.push(dia.detectados);
 			this.tablaDiasSeries[2].dia31 += dia.detectados;
-			
+
 			this.tablaDiasSeries[3].value.push(dia.corregidos);
 			this.tablaDiasSeries[3].dia31 += dia.corregidos;
-			
+
 		}
-		if(data.analisisDayList.length < 31){
+		if (data.analisisDayList.length < 31) {
 			for (let index = data.analisisDayList.length; index < 31; index++) {
-				
+
 				this.tablaDiasSeries[0].value.push(0);
 				this.tablaDiasSeries[0].dia31 += 0;
 
 				this.tablaDiasSeries[1].value.push(0);
 				this.tablaDiasSeries[1].dia31 += 0;
-				
+
 				this.tablaDiasSeries[2].value.push(0);
 				this.tablaDiasSeries[2].dia31 += 0;
-				
+
 				this.tablaDiasSeries[3].value.push(0);
 				this.tablaDiasSeries[3].dia31 += 0;
-				
+
 			}
 		}
 		this.setChartTotal();
 	}
-	setChartBanderas(data){
-		this.opt.series[0].data = this.resumenValue[0].value.map(()=>0);
-		this.tablaTotalPorcentajesBanderas = this.resumenValue[0].value.map((v,i)=>{
+	setChartBanderas(data) {
+		this.opt.series[0].data = this.resumenValue[0].value.map(() => 0);
+		this.tablaTotalPorcentajesBanderas = this.resumenValue[0].value.map((v, i) => {
 			return {
-				header:this.opt.xAxis.categories[i],
-				value:v
+				header: this.opt.xAxis.categories[i],
+				value: v
 			};
 		});
 		for (let index = 0; index < this.opt.xAxis.categories.length; index++) {
 			const element = this.opt.xAxis.categories[index].toLowerCase();
-			for (let bandera of data.estatusValueList) {
-				if(bandera.estatus.toLowerCase() == element){
-					let porcentaje = (this.tablaDiasSeries[0].dia31/100)*bandera.cantidad;
-					this.opt.series[0].data[index]=porcentaje;
+			for (const bandera of data.estatusValueList) {
+				if (bandera.estatus.toLowerCase() == element) {
+					const porcentaje = (this.tablaDiasSeries[0].dia31 / 100) * bandera.cantidad;
+					this.opt.series[0].data[index] = porcentaje;
 					this.tablaTotalPorcentajesBanderas[index].value = porcentaje;
 				}
 			}
 		}
 		Highcharts.chart(this.chartbar1.nativeElement, this.opt);
 	}
-	getOrderBanderas(estatus){
+	getOrderBanderas(estatus) {
 		/**
-		 * 
+		 *
 		 */
-		let i=10000;
-		if(estatus.includes(`Dato Correcto`))                i = 1;
-		if(estatus.includes("Falta Valor"))                  i = 2;
-		if(estatus.includes("Renglon vacio"))                i = 3;
-		if(estatus.includes("Valor no aceptable"))           i = 4;
-		
-		if(estatus.includes("Falta Hora y Fecha"))           i = 5;
-		if(estatus.includes("Falta Fecha"))                  i = 6;
-		if(estatus.includes("Falta Hora"))                   i = 7;
-		if(estatus.includes("Fecha y Hora no aceptables"))   i = 8;
-		if(estatus.includes("Fecha no aceptable"))           i = 9;
-		if(estatus.includes("Hora no aceptable"))            i = 10;
-		if(estatus.includes("Dato Repetido"))                i = 11;
-		if(estatus.includes("Dato redondeo a concominutal")) i = 12;
-		if(estatus.includes("Ordenamiento"))                 i = 13;
-		
+		let i = 10000;
+		if (estatus.includes('Dato Correcto')) {                i = 1; }
+		if (estatus.includes('Falta Valor')) {                  i = 2; }
+		if (estatus.includes('Renglon vacio')) {                i = 3; }
+		if (estatus.includes('Valor no aceptable')) {           i = 4; }
+
+		if (estatus.includes('Falta Fecha y Hora')) {           i = 5; }
+		if (estatus.includes('Falta Fecha')) {                  i = 6; }
+		if (estatus.includes('Falta Hora')) {                   i = 7; }
+		if (estatus.includes('Fecha y Hora no aceptables')) {   i = 8; }
+		if (estatus.includes('Fecha no aceptable')) {           i = 9; }
+		if (estatus.includes('Hora no aceptable')) {            i = 10; }
+		if (estatus.includes('Dato Repetido')) {                i = 11; }
+		if (estatus.includes('Dato redondeo a concominutal')) { i = 12; }
+		if (estatus.includes('Ordenamiento')) {                 i = 13; }
+
 
 		return i;
 	}
-	setChartTotal(){/*
+	setChartTotal() {/*
 		this.chart2headerValue=[];
 		this.tablaTotales=[];
-		
+
 		this.chart2headerValue.push(this.tablaDiasSeries[3].dia31);
 		this.chart2headerValue.push(this.tablaDiasSeries[2].dia31);
 		this.chart2headerValue.push(this.tablaDiasSeries[2].dia31 + this.tablaDiasSeries[3].dia31);
-		
+
 		this.tablaTotales.push({header: 'Variables corregidas', value: this.tablaDiasSeries[3].dia31});
 		this.tablaTotales.push({header: 'Variables detectadas', value: this.tablaDiasSeries[2].dia31});
 		this.tablaTotales.push({header: 'Total', value: this.tablaDiasSeries[3].dia31 + this.tablaDiasSeries[2].dia31});
@@ -429,78 +428,116 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	}
 	aplicarDeteccion() {
 		console.log('aplicarDeteccion()');
-		
-		let year = new Date(this.date.value).getFullYear()
-		let mount =  new Date(this.date.value).getMonth() + 1;
+
+		const year = new Date(this.date.value).getFullYear();
+		const mount =  new Date(this.date.value).getMonth() + 1;
 		this.addBlock(1, 'Aplicar Detección');
 		this.ppaMonitoringFormatService.procesaDeteccion(year, mount).subscribe(
 			data => {
 				console.dir(data);
-				this.addBlock(2,"");
-				
+				this.addBlock(2, '');
+
 				this.setTable01(data);
 				this.setChartBanderas(data);
 			},
 			errorData => {
 				console.dir(errorData);
-				this.addBlock(2,"");
+				this.addBlock(2, '');
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
 	}
 
 	aplicarCorrecion() {
-		let year = new Date(this.date.value).getFullYear()
-		let mount =  new Date(this.date.value).getMonth() + 1;
+		const year = new Date(this.date.value).getFullYear();
+		const mount =  new Date(this.date.value).getMonth() + 1;
 
-		this.addBlock(1,"Aplicar Correción");
+		this.addBlock(1, 'Aplicar Correción');
 		this.ppaMonitoringFormatService.procesaCorreccion(year, mount).subscribe(
 			data => {
-				this.addBlock(2,"");
+				this.addBlock(2, '');
 				this.setTable01(data);
 				this.setChartBanderas(data);
 
 			},
 			errorData => {
-				this.addBlock(2,"");
+				this.addBlock(2, '');
 				console.dir(errorData);
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
 	}
 
 	aplicarDeteccionProcedimiento() {
-		const year = new Date(this.date.value).getFullYear()
+		const year = new Date(this.date.value).getFullYear();
 		const mount =  new Date(this.date.value).getMonth() + 1;
 		this.addBlock(1, 'Aplicar Detección Procedimiento');
 		this.ppaMonitoringFormatService.procesaDeteccionProcedimiento(year, mount).subscribe(
 			data => {
 				console.dir(data);
-				this.addBlock(2,"");
+				this.addBlock(2, '');
 			},
 			errorData => {
 				console.dir(errorData);
-				this.addBlock(2,"");
+				this.addBlock(2, '');
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
 	}
 
 	aplicarCorrecionProcedimiento() {
-		const year = new Date(this.date.value).getFullYear()
+		const year = new Date(this.date.value).getFullYear();
 		const mount =  new Date(this.date.value).getMonth() + 1;
 		this.addBlock(1, 'Aplicar Correcion Procedimiento');
 		this.ppaMonitoringFormatService.procesaCorreccionProcedimiento(year, mount).subscribe(
 			data => {
 				console.dir(data);
-				this.addBlock(2,"");
+				this.addBlock(2, '');
 			},
 			errorData => {
 				console.dir(errorData);
-				this.addBlock(2,"");
+				this.addBlock(2, '');
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
 	}
-	
+
 	private addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,
 		  new EventBlocked(type, msg)));
+	}
+
+	download() {
+		const year = new Date(this.date.value).getFullYear();
+		const month =  new Date(this.date.value).getMonth() + 1;
+		this.addBlock(1, 'Bajando  crudos CSV ' + year + '/' + month + ': Generando');
+		this.ppaMonitoringFormatService.downloadCrudosExcel(year, month)
+			.subscribe(
+				data => {
+					const blob = new Blob([this.base64toBlob(data.base64,
+						'application/CSV')], {});
+					saveAs(blob, data.nameFile);
+					this.addBlock(2, '');
+					this.toastr.successToastr('Download File: Correctamente ' + year + '/' + month + ': Generado Correctamente', '¡Exito!');
+				},
+				errorData => {
+					this.addBlock(2, '');
+					this.toastr.errorToastr(errorData.error.message, '¡Error!');
+				});
+	}
+
+	base64toBlob(base64Data, contentType) {
+		contentType = contentType || '';
+		const sliceSize = 1024;
+		const byteCharacters = atob(base64Data);
+		const bytesLength = byteCharacters.length;
+		const slicesCount = Math.ceil(bytesLength / sliceSize);
+		const byteArrays = new Array(slicesCount);
+		for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+			const begin = sliceIndex * sliceSize;
+			const end = Math.min(begin + sliceSize, bytesLength);
+			const bytes = new Array(end - begin);
+			for (let offset = begin, i = 0; offset < end; ++i, ++offset) {
+				bytes[i] = byteCharacters[offset].charCodeAt(0);
+			}
+			byteArrays[sliceIndex] = new Uint8Array(bytes);
+		}
+		return new Blob(byteArrays, { type: contentType });
 	}
 }

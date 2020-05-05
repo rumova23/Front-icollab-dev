@@ -13,6 +13,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Combo} from '../../../../models/Combo';
 import {ConfirmationDialogService} from '../../../../../core/services/confirmation-dialog.service';
 import {OrderCatalogDTO} from '../../../../models/OrderCatalogDTO';
+import {Constants} from '../../../../../core/globals/Constants';
 
 export interface Personalcompetente {
     orden: number;
@@ -175,13 +176,13 @@ export class ComplianceAddStaffComponent implements OnInit {
     }
 
     cargaTabla() {
-        this.addBlock(1, null);
         this.elementData = [];
         this.generos = [];
         this.lugares = [];
         this.arryCata = Array<OrderCatalogDTO>();
         this.arryCata.push( new OrderCatalogDTO('gender', 1, 1));
-        this.arryCata.push( new OrderCatalogDTO('employeePlace',1,1));
+        this.arryCata.push( new OrderCatalogDTO('employeePlace', 1, 1));
+        this.addBlock(1, 'Cargando...');
         this.cmbos.getlistCatalogoOrdenados(this.arryCata).subscribe(
             poRespuesta => {
                 this.generos = this.resuelveDS(poRespuesta, 'gender');
@@ -246,6 +247,10 @@ export class ComplianceAddStaffComponent implements OnInit {
                             }
                         }
                     });
+            },
+            error => {
+                this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+                this.addBlock(2, null);
             }
         );
     }
