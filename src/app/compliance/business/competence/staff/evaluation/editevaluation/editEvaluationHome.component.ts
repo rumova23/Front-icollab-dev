@@ -11,6 +11,7 @@ export class EditEvaluationHomeComponent implements OnInit {
   title = 'Competencia de los Recursos / Evaluación de Competencia para el Personal / Evaluación';
   idEmpleado: number;
   tipo: string;
+  ver:string;
   isViewable = true;
   isdisabled = false;
   isdisabledFinishBehavior = false;
