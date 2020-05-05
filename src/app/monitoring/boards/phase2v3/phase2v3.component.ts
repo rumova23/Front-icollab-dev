@@ -31,6 +31,8 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import { MarketService } from 'src/app/safe/services/market.service';
 import { PiServerBox } from '../../models/piServer/piServerBox';
+import { ExcelService } from '../../services/excel.service';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -156,8 +158,8 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		['P0uQAgHoBd0ku7P3cWOJL6IgGSUAAAU0VSVklET1JfUElcREFBMDgxMDQ' ,0 ,'eat_heatRC',"setEatC2","tagName"],
 
 		['F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz'      ,0 ,'est_power' ,"setEstA1","tagName"],
-		['F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4'      ,0 ,'est_heatR' ,"setEstA2","tagName"],
-		['F1DP4rhZAwFMREKDf7s8vylUqgJA0AAAUElUVlxMR1MuQ0VBLjcx'      ,0 ,'est_heatRC',"setEstC2","tagName"],
+		['F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4'      ,0 ,'est_heatR' ,"setEstA2","tagName"],// T.CEA.2268
+		['F1DP4rhZAwFMREKDf7s8vylUqgJA0AAAUElUVlxMR1MuQ0VBLjcx'      ,0 ,'est_heatRC',"setEstC2","tagName"],// LGS.CEA.71
 
 		['P0uQAgHoBd0ku7P3cWOJL6IgnSIAAAU0VSVklET1JfUElcRzFBMDgwOTc' ,0 ,'CTUnoDiesel',"setCTUnoDiesel","tagName"],
 		['P0uQAgHoBd0ku7P3cWOJL6IgLCAAAAU0VSVklET1JfUElcRzJBMDgwOTc' ,0 ,'CTDosDiesel',"setCTDosDiesel","tagName"],
@@ -936,12 +938,17 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	chartManoometro;
 	excessCapacityEST="0";
 	excessCapacityEAT="0";
+
+	exportAsExcelFile=[];
+	mapBookExcel = new Map();
     constructor(
         public globalService       : GlobalService,
         public eventService        : EventService,
         public socketService       : SocketService,
 		public securityService     : SecurityService,
-		public monitoringTrService : MonitoringTrService
+		public monitoringTrService : MonitoringTrService,
+		private excelService       : ExcelService,
+		private datePipe           : DatePipe
     ) {
         super(globalService, eventService, socketService,securityService);
 	}
@@ -1015,8 +1022,6 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 
 	}
 	socketFlow(data:PiServerBox){
-		console.log(5);
-		
 		/*
 		this.chartLineOve1C.redraw();
 		this.chartLineEat1C.redraw();
@@ -1033,21 +1038,28 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		//this.chartLineOve1C?this.chartLineOve1C.series[0].addPoint([(new Date()).getTime(), 500], true, true):null;
 		//*/
 		for (const plant of data.data) {
-			for (const tag of plant.Items) {
-				for (const iterator of this.wids) {
-					if(tag.WebId == iterator[0]){
-						this.valueTemporal =  +tag.Value.Value;
-						iterator[1]=this.valueTemporal;
-						iterator[4]=tag.Name;
-						//console.log(iterator[3]);
-						this[iterator[3]](this.valueTemporal);
+			if(plant.Items && plant.Items.length > 0){
+				for (const tag of plant.Items) {
+					for (const iterator of this.wids) {
+						if(tag.WebId == iterator[0]){
+							this.valueTemporal =  +tag.Value.Value;
+							iterator[1]=this.valueTemporal;
+							iterator[4]=tag.Name;
+							//console.log(iterator[3]);
+							this[iterator[3]](this.valueTemporal);
+						}
 					}
 				}
+			}else{
+				//debugger
 			}
 		}
 		this.setMtr();
 		this.updateDonughtChart();
 		this.updateMtrLineDif();
+	}
+	eventExportAsExcelFile(){
+		this.excelService.exportAsExcelBook(this.mapBookExcel);
 	}
 	socketReconnected(){
 
@@ -1816,16 +1828,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	//setOveA1(){let v=(this.getEatA1()[0]+this.getEstA1()[0]);this.mtr.overview[0]=[v,(this.maxPow*2)-v]}
 	setOveA1(x){
 		let v=x;
-		this.mtr.overview[0]=[v,(this.maxPow*2)-v];
-		
-		let a=this.getEatA2();
-		let s=this.getEstA2();
-		let ove0=(a[0]+s[0])/2;
-		/*
-		console.log("(Actual)Total Heat Rate");
-		console.log("OveA2 (T.CEA.2279) = (DAA08103  +  T.CEA.2268)/2");
-		console.log(`desdePI = (${x})   ,   desdeIcollab ( (${a[0]} + ${s[0]})/2 ) = ${ove0}`);
-		//*/
+		this.mtr.overview[0]=[v,(this.maxPow*2)-v];		
 	}
 	//setOveA2(){let a=this.getEatA2();let s=this.getEstA2();let ove0=(a[0]+s[0])/2;this.mtr.overview[3]=[ove0,this.maxHR-ove0]}
 	setOveA2PorFormula(){
@@ -1834,7 +1837,28 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		let ove0=(a[0]+s[0])/2;
 		this.oveA2PorFormula=ove0;
 	}
-	setOveA2(x){this.mtr.overview[3]=[x,this.maxHR-x]}
+	setOveA2(x){this.mtr.overview[3]=[x,this.maxHR-x];
+		let a=this.getEatA2();
+		let s=this.getEstA2();
+		let ove0=(a[0]+s[0])/2;
+		let namePag = "OveA2-"+this.getTagName("setOveA2");
+		let tagName = this.getTagName("setOveA2");
+		if(!this.mapBookExcel.has(namePag))this.mapBookExcel.set(namePag,[]);
+		if(this.mapBookExcel.get(namePag).length > 10000 )this.mapBookExcel.get(namePag).shift();
+		this.mapBookExcel.get(namePag).push(
+			{	
+				tag:tagName,
+				date: this.datePipe.transform(new Date(), 'HH:mm:ss'),
+				formula:`(EatA2(DAA08103) + EstA2(T.CEA.2268) / 2)`,
+				"DAA08103":a[0],
+				"T.CEA.2268":s[0],
+				"resultado usando T.CEA.2268":ove0,
+				porTag:x,
+				diferencia_Tag_Menos_Formula:x-ove0
+			}
+		);
+		
+	}
 	//setOveA3(){let a=this.getEatA3();let s=this.getEstA3();let ove0=(a[0]+s[0])/2;this.mtr.overview[6]=[ove0,this.maxCaF-ove0]}
 	setOveA3(x){this.mtr.overview[6]=[x,this.maxCaF-x]}
 	setOveA4(){let v=(this.getEatA4()[0]+this.getEstA4()[0]);this.mtr.overview[9]=[v,(this.maxFue*2)-v]}
@@ -1846,13 +1870,35 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	//setOveC2(){let a=this.getEatC2();let s=this.getEstC2();let ove0=(a[0]+s[0])/2;let ove1=(a[1]+s[1])/2;this.mtr.overview[5]=[ove0,this.maxHR-ove0]}
 	setOveC2PorFormula(){let a=this.getEatC2();let s=this.getEstC2();let ove0=(a[0]+s[0])/2;this.oveC2PorFormula=ove0}
 	setOveC2(x){
+		//DAA08113
 		this.mtr.overview[5]=[x,this.maxHR-x];
 
 		let a=this.getEatC2();
 		let s=this.getEstC2();
+		
+		let sA2=this.getEstA2();
 		let ove0=(a[0]+s[0])/2;		
+		let resultadoCambiandoEltagAl2268 = (a[0]+sA2[0])/2;	
 		this.mtr.overview[5]=[ove0,this.maxHR-ove0]
 
+		let namePag = "OveC2-"+this.getTagName("setOveC2");
+		let tagName = this.getTagName("setOveC2");
+		if(!this.mapBookExcel.has(namePag))this.mapBookExcel.set(namePag,[]);
+		if(this.mapBookExcel.get(namePag).length > 10000 )this.mapBookExcel.get(namePag).shift();
+		this.mapBookExcel.get(namePag).push(
+			{	
+				tag:tagName,
+				date: this.datePipe.transform(new Date(), 'HH:mm:ss'),
+				formula:`(EatC2 (DAA08104) + EstC2(LGS.CEA.71) / 2)`,
+				DAA08104: a[0],
+				"LGS.CEA.71": s[0],
+				"T.CEA.2268": sA2[0],
+				"resultado usando T.CEA.2268":resultadoCambiandoEltagAl2268,
+				"resultado usando LGS.CEA.71":ove0,
+				porTag:x,
+				diferencia_Tag_Menos_Formula:x-ove0
+			}
+		);
 		/*
 		console.log("(Expected)Total Heat Rate");
 		console.log("OveC2 (DAA08113) = (DAA08104 + LGS.CEA.71)/2");
