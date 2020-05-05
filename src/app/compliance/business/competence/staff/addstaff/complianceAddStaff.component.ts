@@ -263,8 +263,8 @@ export class ComplianceAddStaffComponent implements OnInit {
         if (this.valorModal == 1) {
             this.personal.deleteEliminar(empleadoId).subscribe(
                 respuesta => {
-                    if (respuesta['status'] == "exito") {
-                        this.eventService.sendChangePage(new EventMessage(10, {},'Compliance.Personal Competente'));
+                    if (respuesta['status'] === 'exito') {
+                        this.eventService.sendChangePage(new EventMessage(11, {}, 'Compliance.registerPersonal'));
                     }
                 }
             );

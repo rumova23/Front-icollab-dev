@@ -129,6 +129,7 @@ export class ComplianceProfileComponent implements OnInit {
             this.addBlock(1, 'Cargando...');
             this.cmbos.getEmpleado(this.inIdEmpleado).subscribe(
                 respuesta => {
+                    debugger;
                     const currentDate = new Date().toISOString().substring(0, 10);
                     this.perfilForm.controls['fEmpNum'].setValue(respuesta[ 'userId' ]);
                     this.enterprise = (respuesta['userId'] as string).split('-')[0];
@@ -146,12 +147,12 @@ export class ComplianceProfileComponent implements OnInit {
                         , 'yyyy-MM-dd');
 
                     this.perfilForm.controls['fDateBirth'].setValue(bornD);
-
                     this.gender         = respuesta['generoId'];
                     this.educationLevel = respuesta['gradoEstudioId'];
-                    this.checkedEstatus = respuesta['estidadEstatus'];
+                    this.checkedEstatus = respuesta['estidadEstatus'] === 1 ? true : false;
                     if (respuesta['foto'] !== null) {
                         this.imageUrl = 'data:image/jpeg;base64,' + respuesta['foto'];
+                        this.byteArray = respuesta['foto'];
                     }
 
                     this.cmbos.getEmpleadoDetalles(this.inIdEmpleado).subscribe(
@@ -278,7 +279,7 @@ export class ComplianceProfileComponent implements OnInit {
             '',
             this.perfilForm.controls['fNames'].value,
             this.perfilForm.controls['fLastName'].value,
-            1,
+            this.perfilForm.controls['fEmpNum'].value,
             this.byteArray,
             empresaPrefijo);
 
