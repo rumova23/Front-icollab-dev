@@ -125,11 +125,8 @@ export class PerfilComboService {
     return this.http.get(`${this.microexamenUrl}exam/obten/reservacion/${calificacionId}`, {params : this.parameters });
   }
 
-
-
   obtenCalificacion(empleadoId: number): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    // return this.http.get(`${this.microexamenUrl}exam/obten/calificacion/${empleadoId}`, httpOptions);
     return this.http.get(`${this.microexamenUrl}exam/obten/calificacion/${empleadoId}`, {params : this.parameters });
   }
 
@@ -156,25 +153,25 @@ export class PerfilComboService {
           {params : this.parameters });
   }
 
-
   getGraficas(examenReservacionId: number): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(`${this.microexamenUrl}exam/obten/calificacion/reservacion/${examenReservacionId}`, {params : this.parameters });
   }
 
+  getGraficaGlobal(calificacionId: number): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get(`${this.microexamenUrl}exam/obten/calificacion/global/${calificacionId}`, {params : this.parameters });
+  }
 
   getComentarios(calificacionId: number): Observable<any>  {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    // return this.http.get(`${this.microexamenUrl}exam/getObservaciones/${calificacionId}`, httpOptions);
     return this.http.get(`${this.microexamenUrl}exam/getObservaciones/${calificacionId}`, {params : this.parameters });
   }
-
 
   postObservaciones(calificacionId: number, observacion: string): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.microexamenUrl }exam/guardaObservacion/${calificacionId}/${observacion}`, null, {params : this.parameters });
   }
-
 
   upload(fileObj: File, idCalificacion: number, typeDocument: number) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);

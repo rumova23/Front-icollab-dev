@@ -13,6 +13,7 @@ export class EditEvaluationHomeComponent implements OnInit {
   tipo: string;
   isViewable = true;
   isdisabled = false;
+  isdisabledFinishBehavior = false;
 
   entidadEstausTerminado: EntidadEstausDTO;
 
@@ -23,6 +24,14 @@ export class EditEvaluationHomeComponent implements OnInit {
         (entidadEstatus: EntidadEstausDTO) => {
           this.entidadEstausTerminado = entidadEstatus;
         });
+  }
+
+  guardaExamen() {
+    this.perfilComboService.accion.next('guardaExamen');
+  }
+
+  terminaExamen() {
+
   }
 
 }

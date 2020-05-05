@@ -12,6 +12,7 @@ import {EventMessage} from '../../../../../../core/models/EventMessage';
 import {Combo} from '../../../../../models/Combo';
 import { DomSanitizer } from '@angular/platform-browser';
 import {Constants} from '../../../../../../core/globals/Constants';
+import {EventBlocked} from '../../../../../../core/models/EventBlocked';
 
 @Component({
     selector: 'app-compliance-profile',
@@ -95,6 +96,7 @@ export class ComplianceProfileComponent implements OnInit {
         if (this.inTipo === 'editar') {
             this.isdisabledName = true;
             this.isdisableEnterprisePreffix = true;
+            this.requiredPhoto = false;
         }
 
         if (this.inTipo === 'guardar') {
@@ -119,11 +121,12 @@ export class ComplianceProfileComponent implements OnInit {
             fWorkplace: [{ value: '', disabled: this.isdisabled }, Validators.required],
             fStartJob: [{ value: '', disabled: this.isdisabled }, Validators.required],
             fPerCarg: [{ value: '', disabled: this.isdisabled }, Validators.required],
-            fJobDescription: [{ value: '', disabled: this.isdisabled }, Validators.required],
-            fPhoto: [{ value: '', disabled: this.isdisabled }, Validators.required],
+            fJobDescription: [{ value: '', disabled: this.isdisabled }, Validators.required]
+            // fPhoto: [{ value: '', disabled: this.isdisabled }, Validators.required],
         });
 
         if (this.inTipo === 'ver' || this.inTipo === 'editar') {
+            this.addBlock(1, 'Cargando...');
             this.cmbos.getEmpleado(this.inIdEmpleado).subscribe(
                 respuesta => {
                     const currentDate = new Date().toISOString().substring(0, 10);
@@ -150,34 +153,45 @@ export class ComplianceProfileComponent implements OnInit {
                     if (respuesta['foto'] !== null) {
                         this.imageUrl = 'data:image/jpeg;base64,' + respuesta['foto'];
                     }
+
+                    this.cmbos.getEmpleadoDetalles(this.inIdEmpleado).subscribe(
+                        respuestaDetalle => {
+                            this.perfilForm.controls['fPosition'].setValue(respuestaDetalle['posicion'] !== null ? respuestaDetalle['posicion'] : '');
+                            this.perfilForm.controls['fDepto'].setValue(respuestaDetalle['departamento'] !== null ? respuestaDetalle['departamento'] : '');
+                            this.perfilForm.controls['fJob'].setValue(respuestaDetalle['puestoTrabajo'] !== null ? respuestaDetalle['puestoTrabajo'] : '');
+                            this.perfilForm.controls['fImmBoss'].setValue(respuestaDetalle['jefeInmediato'] !== null ? respuestaDetalle['jefeInmediato'] : '');
+                            this.perfilForm.controls['fWorkHours'].setValue(respuestaDetalle['horarioTrabajoId'] + '');
+                            this.perfilForm.controls['fWorkplace'].setValue(respuestaDetalle['lugarTrabajoId'] + '');
+                            let jobD = this.datePipe.transform(
+                                (new Date(respuestaDetalle['fechaInicioPuesto'].substring(0, 10))).getTime() + (60 * 60 * 24 * 1000)
+                                , 'yyyy-MM-dd');
+                            this.perfilForm.controls['fStartJob'].setValue(jobD);
+                            this.perfilForm.controls['fPerCarg'].setValue(respuestaDetalle['personalCargoId'] + '');
+                            this.perfilForm.controls['fJobDescription'].setValue(respuestaDetalle['descGralPuesto']);
+
+                            this.position          = respuestaDetalle['posicionId'];
+                            this.department        = respuestaDetalle['departamentoId'];
+                            this.workstation       = respuestaDetalle['puestoTrabajoId'];
+                            this.employeeBoss      = respuestaDetalle['jefeInmediatoId'];
+                            this.workingHour       = respuestaDetalle['horarioTrabajoId'];
+                            this.employeePlace     = respuestaDetalle['lugarTrabajoId'];
+                            this.employeeDependent = respuestaDetalle['personalCargoId'];
+
+                        },
+                        error => {
+                            this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+                            this.addBlock(2, null);
+                        }
+                    );
+
+                },
+                error => {
+                    this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+                    this.addBlock(2, null);
                 }
-            );
-
-            this.cmbos.getEmpleadoDetalles(this.inIdEmpleado).subscribe(
-                respuesta => {
-                    this.perfilForm.controls['fPosition'].setValue(respuesta['posicion'] !== null ? respuesta['posicion'] : '');
-                    this.perfilForm.controls['fDepto'].setValue(respuesta['departamento'] !== null ? respuesta['departamento'] : '');
-                    this.perfilForm.controls['fJob'].setValue(respuesta['puestoTrabajo'] !== null ? respuesta['puestoTrabajo'] : '');
-                    this.perfilForm.controls['fImmBoss'].setValue(respuesta['jefeInmediato'] !== null ? respuesta['jefeInmediato'] : '');
-                    this.perfilForm.controls['fWorkHours'].setValue(respuesta['horarioTrabajoId'] + '');
-                    this.perfilForm.controls['fWorkplace'].setValue(respuesta['lugarTrabajoId'] + '');
-                    let jobD = this.datePipe.transform(
-                        (new Date(respuesta['fechaInicioPuesto'].substring(0, 10))).getTime() + (60 * 60 * 24 * 1000)
-                        , 'yyyy-MM-dd');
-                    this.perfilForm.controls['fStartJob'].setValue(jobD);
-                    this.perfilForm.controls['fPerCarg'].setValue(respuesta['personalCargoId'] + '');
-                    this.perfilForm.controls['fJobDescription'].setValue(respuesta['descGralPuesto']);
-
-                    this.position          = respuesta['posicionId'];
-                    this.department        = respuesta['departamentoId'];
-                    this.workstation       = respuesta['puestoTrabajoId'];
-                    this.employeeBoss      = respuesta['jefeInmediatoId'];
-                    this.workingHour       = respuesta['horarioTrabajoId'];
-                    this.employeePlace     = respuesta['lugarTrabajoId'];
-                    this.employeeDependent = respuesta['personalCargoId'];
-
-                }
-            );
+            ).add(() => {
+                this.addBlock(2, null);
+            });
         }
     }
 
@@ -268,15 +282,19 @@ export class ComplianceProfileComponent implements OnInit {
             this.byteArray,
             empresaPrefijo);
 
+        this.addBlock(1, 'Guardando...');
         this.cmbos.getSave(emp).subscribe(
             respuesta => {
-                this.toastr.successToastr('El empleado fue Creado con éxito.', '¡Se ha logrado!');
-                this.eventService.sendChangePage(new EventMessage(10, {}, 'Compliance.Personal Competente'));
+                this.toastr.successToastr('El empleado fue guardado con éxito.', '¡Se ha logrado!');
+                this.eventService.sendChangePage(new EventMessage(11, {}, 'Compliance.registerPersonal'));
             },
             error => {
                 this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
+                this.addBlock(2, null);
             }
-        );
+        ).add(() => {
+            this.addBlock(2, null);
+        });
     }
 
     onSubmit() {
@@ -327,7 +345,7 @@ export class ComplianceProfileComponent implements OnInit {
     }
 
     regresar() {
-        this.eventService.sendChangePage(new EventMessage(10, {} , 'Compliance.registerPersonal.11'));
+        this.eventService.sendChangePage(new EventMessage(11, {} , 'Compliance.registerPersonal'));
     }
 
     changeCheck() {
@@ -340,6 +358,10 @@ export class ComplianceProfileComponent implements OnInit {
         if (this.accion === 'editar') {
             this.disabledSave = false;
         }
+    }
+
+    private addBlock(type, msg): void {
+        this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
     }
 
     /*
