@@ -68,13 +68,13 @@
 				  <tr>
 					<th scope="col" class="colortheme">Día</th>
 					<th scope="col" *ngFor="let item of demoTab1; let i = index">{{item}}</th>
-					<th scope="col" class="colortheme">Total</th>
+					<th scope="col" class="colortheme">{{totalDiasDelMes}}</th>
 				  </tr>
 				</thead>
 				<tbody>
 					<tr *ngFor="let serie of tablaDiasSeries">
 						<td scope="col" class="colortheme">{{serie.name}}</td>
-						<td scope="col" *ngFor="let value of serie.value; let i = index" [ngClass]="{'colorRed': (serie.name == '# Variables Detectadas' && value > 0)}">{{value}}</td>
+						<td scope="col" *ngFor="let value of serie.value; let i = index" [ngClass]="{'colorRed': (serie.name == '# Variables Detectadas' && variablesDetectadasRojo) ,'colorblue' : (serie.name == '# Variables Detectadas' &&  !variablesDetectadasRojo)}">{{value}}</td>
 						<td scope="col" class="colortheme">{{serie.dia31}}</td>
 					</tr>
 				</tbody>

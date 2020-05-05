@@ -53,7 +53,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
     showView = false;
     showUpdate = false;
     showDelete = true;
-
+	variablesDetectadasRojo = false;
 	tablaTotalPorcentajesBanderas = [];
 	tablaTotales = [];
 	resumenHeader = [
@@ -98,6 +98,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		{name: '# Variables Detectadas'        , dia31: 0 , value: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
 		{name: '# Variables Corregidas'        , dia31: 0 , value: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
 	];
+	totalDiasDelMes:number=0;
 	opt: any = {
 		chart: {
 			type: 'bar'
@@ -330,6 +331,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		this.tablaDiasSeries[1].value = [];
 		this.tablaDiasSeries[2].value = [];
 		this.tablaDiasSeries[3].value = [];
+		this.totalDiasDelMes = data.analisisDayList[data.analisisDayList.length-1]["day"];
 		for (const dia of data.analisisDayList) {
 			/*
 			{name:"Total de Registros Esperados"  , dia31: 0 ,value:[]},
@@ -347,6 +349,8 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 
 			this.tablaDiasSeries[3].value.push(dia.corregidos);
 			this.tablaDiasSeries[3].dia31 += dia.corregidos;
+
+			if(dia.detectados > 0) this.variablesDetectadasRojo=true;
 
 		}
 		if (data.analisisDayList.length < 31) {
@@ -431,7 +435,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 
 		const year = new Date(this.date.value).getFullYear();
 		const mount =  new Date(this.date.value).getMonth() + 1;
-		this.addBlock(1, 'Aplicar Detección');
+		this.addBlock(1, 'Aplicando detección de formato');
 		this.ppaMonitoringFormatService.procesaDeteccion(year, mount).subscribe(
 			data => {
 				console.dir(data);

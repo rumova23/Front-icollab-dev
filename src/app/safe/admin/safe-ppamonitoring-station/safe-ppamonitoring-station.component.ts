@@ -107,6 +107,10 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		},
 		title: {
 			text: 'Variables de Estación de Supervisión',
+			
+		},
+		exporting: {
+			tableCaption: ""
 		},
 		xAxis: {
 			type: 'datetime'
@@ -202,6 +206,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	}
 	resetScreen(){
 		//this.dataSource = new MatTableDataSource<any>([]);
+		this.tags.reset();
 		if(this.chartLine != undefined) {
 			this.chartLine.destroy();
 			this.chartLine = undefined;
@@ -352,11 +357,11 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			return 0;
 		}
 
-		if(this.chartLine)this.chartLine.destroy();
-		this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
 		for (const axis of this.idYAxis) {
 			this.chartLine.get(axis).remove();
 		}
+		if(this.chartLine)this.chartLine.destroy();
+		this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
 		this.idYAxis = [];
 		let data:any = [
 			{nameParameter: "year",valueParameter: new Date(this.date.value).getFullYear()},
