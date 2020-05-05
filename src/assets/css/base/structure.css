@@ -6,7 +6,7 @@
         padding-left:0;
     }
     .columna-aside_open{
-        width:233px;
+        width:349px;
     }
     .columna-aside_close{
         width:0;
@@ -22,13 +22,13 @@
 
 @media (min-width: 768px) { 
     .seccion-aside_open{
-        padding-left:233px;
+        padding-left:349px;
     }
     .seccion-aside_close{
         padding-left:60px;
     }
     .columna-aside_open{
-        width:233px;
+        width:349px;
     }
     .columna-aside_close{
         width:60px;
