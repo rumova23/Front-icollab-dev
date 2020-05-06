@@ -67,7 +67,8 @@ import { ComplianceProfileComponent             } from './business/competence/st
 import { ComplianceUploadComponent              } from './upload/compliance-upload.component';
 import { ComplianceUploadCommonComponent        } from './upload/compliance-upload-common/compliance-upload-common.component';
 import { EvaluationComponent                    } from './business/competence/staff/evaluation/evaluation.component';
-import {EditEvaluationHomeComponent} from './business/competence/staff/evaluation/editevaluation/editEvaluationHome.component';
+import {EditEvaluationHomeComponent				} from './business/competence/staff/evaluation/editevaluation/editEvaluationHome.component';
+import {HistoryEvaluationComponent				} from './business/competence/staff/evaluation/historyevaluation/historyEvaluation.component';
 
 @NgModule({
     declarations:[
@@ -110,6 +111,7 @@ import {EditEvaluationHomeComponent} from './business/competence/staff/evaluatio
 		,ComplianceUploadCommonComponent
 		,EvaluationComponent
 		,EditEvaluationHomeComponent
+		,HistoryEvaluationComponent
     ],
     exports:[
     ],

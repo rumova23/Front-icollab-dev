@@ -26,6 +26,7 @@ import {ComplianceAddStaffComponent       } from '../business/competence/staff/a
 import {ComplianceProfileComponent        } from '../business/competence/staff/addstaff/profile/complianceProfile.component';
 import {EvaluationComponent               } from '../business/competence/staff/evaluation/evaluation.component';
 import {EditEvaluationHomeComponent} from '../business/competence/staff/evaluation/editevaluation/editEvaluationHome.component';
+import {HistoryEvaluationComponent} from '../business/competence/staff/evaluation/historyevaluation/historyEvaluation.component';
 
 @Component({
 	selector        : 'app-compliance-home',
@@ -48,7 +49,8 @@ import {EditEvaluationHomeComponent} from '../business/competence/staff/evaluati
 		ComplianceAddStaffComponent,
 		ComplianceProfileComponent,
 		EvaluationComponent,
-		EditEvaluationHomeComponent]
+		EditEvaluationHomeComponent,
+		HistoryEvaluationComponent]
 })
 export class ComplianceHomeComponent implements OnInit {
 	@ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
@@ -197,6 +199,12 @@ export class ComplianceHomeComponent implements OnInit {
 						refEditEvaluationHome.instance.isdisabled = event.data.isdisabled;
 						refEditEvaluationHome.instance.tipo       = event.data.tipo;
 						refEditEvaluationHome.changeDetectorRef.detectChanges();
+						break;
+					case 'Compliance.evaluatePersonal.history':
+						let refHistoryEvaluationHome = this.viewContainerRef
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(HistoryEvaluationComponent));
+						refHistoryEvaluationHome.instance.inIdEmpleado = event.data.idEmpleado;
+						refHistoryEvaluationHome.changeDetectorRef.detectChanges();
 						break;
 					default:
 				}

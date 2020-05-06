@@ -5,7 +5,7 @@
   </mdb-breadcrumb>
 </div>
 
-<app-perfil [inIdEmpleado]="idEmpleado" [inTipo]="ver"></app-perfil>
+<app-perfil [inIdEmpleado]="idEmpleado" [inTipo]="'ver'"></app-perfil>
 
 <app-behavior [inIdEmpleado]="idEmpleado" [inTipo]="tipo" [entidadEstausTerminado]="entidadEstausTerminado"></app-behavior>
 
@@ -15,15 +15,17 @@
 
 <app-obsyComments [inIdEmpleado]="idEmpleado" [inTipo]="tipo"></app-obsyComments>
 
-<div class="row">
-  <div class="col-12 text-right">
-    <button type="button" class="btn" (click)="guardaExamen()" [disabled]="isdisabled">
-      <i class="ti-bookmark-alt"></i>&nbsp;
-      Guardar
-    </button>
-    <button type="button" class="btn" (click)="terminaExamen()" [disabled]="isdisabledFinishBehavior ">
-      <i class="ti-save"></i>
-      Termina Examen
-    </button>
+<div class="section">
+  <div class="row">
+    <div class="col-12 text-right">
+      <button type="button" class="btn" (click)="guardaExamen()" [disabled]="isdisabled">
+        <i class="ti-bookmark-alt"></i>&nbsp;
+        Guardar
+      </button>
+      <button type="button" class="btn" (click)="terminaExamen()" [disabled]="isdisabledFinishBehavior ">
+        <i class="ti-save"></i>
+        Termina Examen
+      </button>
+    </div>
   </div>
 </div>

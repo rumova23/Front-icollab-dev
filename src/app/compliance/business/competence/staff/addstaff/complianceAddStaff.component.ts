@@ -104,7 +104,7 @@ export class ComplianceAddStaffComponent implements OnInit {
     subtitulo = 'Personal Interno';
     inTitulo = 'Confirmacion';
     registros = new MatTableDataSource<Personalcompetente>();
-    columnas: string[] = ['orden', 'numEmpleado', 'nombre', 'apPaterno', 'apMaterno', 'genero', 'posicion', 'departamento', 'lugarDeTrabajo', 'usuarioModifico', 'fechaHoraUltimaModificacion', 'status', 'ver', 'editar',  'eliminar', 'nuevoexamen'];
+    columnas: string[] = ['orden', 'numEmpleado', 'nombre', 'apPaterno', 'apMaterno', 'genero', 'posicion', 'departamento', 'lugarDeTrabajo', 'usuarioModifico', 'fechaHoraUltimaModificacion', 'status', 'ver', 'editar',  'eliminar'];
     generos: Array<any>;
     lugares: Array<any>;
     arryCata: Array<any>;

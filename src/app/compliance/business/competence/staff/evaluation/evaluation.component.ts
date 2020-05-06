@@ -11,6 +11,7 @@ import {EventBlocked} from '../../../../../core/models/EventBlocked';
 import {Constants} from '../../../../../core/globals/Constants';
 import {SecurityService} from '../../../../../core/services/security.service';
 import {Combo} from '../../../../models/Combo';
+import {PerfilComboService} from '../../../../../core/services/perfil-combo.service';
 
 @Component({
   selector: 'app-evaluation',
@@ -19,7 +20,7 @@ import {Combo} from '../../../../models/Combo';
 })
 export class EvaluationComponent implements OnInit {
   titulo = 'Competencia de los recursos / Personal / Evaluación de competencias para el personal';
-  titulo2 = 'Evaluación de Competencia';
+  titulo2 = 'Evaluación de Competencias';
   filterForm: FormGroup;
   displayedColumnsOrder: any[] = [];
   displayedColumnsActions: any[]    = [];
@@ -43,7 +44,8 @@ export class EvaluationComponent implements OnInit {
               public toastr: ToastrManager,
               private datePipe: DatePipe,
               private securityService: SecurityService,
-              private personalService: PersonalCompetenteService
+              private personalService: PersonalCompetenteService,
+              private perfilService: PerfilComboService,
   ) {
     this.menu = securityService.getMenu('Compliance');
   }
@@ -116,6 +118,7 @@ export class EvaluationComponent implements OnInit {
     this.addBlock(1, 'Cargando...');
     this.personalService.getEmpleadosEvaluaciones().subscribe(
         dataBack => {
+          debugger;
           this.result = dataBack;
           let i = 0;
           for (const element of this.result) {
@@ -166,7 +169,7 @@ export class EvaluationComponent implements OnInit {
             this.columnsToDisplay.push('sys_see');
           }
           if (this.showUpdate) {
-            this.displayedColumnsActions.push({key: 'sys_edit', label: 'Editar'});
+            this.displayedColumnsActions.push({key: 'sys_edit', label: 'Nuevo / Editar'});
             this.columnsToDisplay.push('sys_edit');
           }
           if (this.showUpdate) {
@@ -186,14 +189,36 @@ export class EvaluationComponent implements OnInit {
     });
 
   }
-  filtros() {}
+
+  filtros() {
+    if (this.filterForm.controls['fEmpNum'].value !== '' || this.filterForm.controls['fNames'].value !== ''
+        || this.filterForm.controls['fLastName'].value !== '' || this.filterForm.controls['fSecondName'].value !== ''
+        || this.filterForm.controls['fRating'].value !== '' || this.filterForm.controls['fDepto'].value !== ''
+        || this.filterForm.controls['fCompetence'].value !== '' || this.filterForm.controls['fEst'].value !== ''
+        || this.filterForm.controls['fLastDate'].value !== '' || this.filterForm.controls['fLastHour'].value !== '') {
+
+      this.dataSource = new MatTableDataSource<any>(this.search());
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+
+    } else {
+      let arrayElementData: any[] = this.dataEmpleadoEvaluaciones;
+      this.dataSource = new MatTableDataSource<any>(arrayElementData);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
+  }
 
   action(idEmpleado, tipo) {
+    let descriptor = 'Compliance.evaluatePersonal.11';
+    if (tipo === 'historial') {
+      descriptor = 'Compliance.evaluatePersonal.history';
+    }
     this.eventService.sendChangePage(new
     EventMessage(11, {
       idEmpleado: idEmpleado,
       tipo: tipo
-    }, 'Compliance.evaluatePersonal.11'));
+    }, descriptor));
   }
 
   private addBlock(type, msg): void {
@@ -265,6 +290,13 @@ export class EvaluationComponent implements OnInit {
 
   eliminarRegistro(maestroOpcion: any) {
 
+  }
+
+  generarExamen(empleadoId: number) {
+    this.perfilService.generaExamen(empleadoId, '').subscribe(data => {
+          this.toastr.successToastr('Se generaron los examenes correctamente', '¡Se ha logrado!');
+        }
+    );
   }
 
 }

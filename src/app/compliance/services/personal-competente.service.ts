@@ -38,6 +38,10 @@ export class PersonalCompetenteService {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(`${this.baseUrl2}exam/personalCompetente/empleados/evaluaciones`, {params : this.parameters });
   }
+  getHistorialEvaluaciones(empleadoId: number) {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ this.baseUrl2}exam/personalCompetente/empleado/${empleadoId}/evaluaciones`, {params : this.parameters });
+  }
   deleteEliminar(idEmpleado: number) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.delete(`${this.baseUrl2}exam/personalCompetente/empleados?idEmpleado=` + idEmpleado, {params : this.parameters });
@@ -76,7 +80,7 @@ export class PersonalCompetenteService {
   }
   deleteFile(id): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.delete( `${ this.baseUrl2 }exam/event/deleteFile/` + id, {params : this.parameters });
+    return this.http.delete( `${ this.baseUrl2 }exam/personalCompetente/deleteFile/` + id, {params : this.parameters });
   }
 
 }
