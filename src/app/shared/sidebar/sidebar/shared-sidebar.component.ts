@@ -24,4 +24,7 @@ export class SharedSidebarComponent{
 		let name = this.securityService.getNameUser() +" "+ this.securityService.getLastNameUser();
 		return name;
 	}
+	getUsername(){
+		return JSON.parse(localStorage.getItem('user'))['username'];
+	}
 }

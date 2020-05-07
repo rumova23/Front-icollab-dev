@@ -4,19 +4,24 @@
 	[ngClass]="{'columna-aside_open': globalService.aside_open , 'columna-aside_close': (!globalService.aside_open && minwidth != '0px'),  'columna_aside_close_monitoring': (!globalService.aside_open && minwidth == '0px')}">
 	<div class="row">
 		<div class="col p-0">
-			<div class="user-panel" *ngIf="globalService.aside_open">
-				<div class="image" style="height: 90px;">
+			<div class="user-panel" *ngIf="globalService.aside_open" style="border-bottom: solid 6px #eee;">
 				<!--
+				<div class="image" style="height: 90px;">
 					<img *ngIf="getgender()===1" src="../../../assets/images/avatar2.png" alt="" class="img-user">
 					<img *ngIf="getgender()===2" src="../../../assets/images/womenAvatar.png" alt="" class="img-user">
+				</div>
 				-->
-				</div><br>
+				<div>
+					<img *ngIf="getUsername()=='Jm'" src="assets/images/avatar/jm.png" alt="" class="img-user">
+					<img *ngIf="getUsername()=='Ivette'" src="assets/images/avatar/ivette.png" alt="" class="img-user">
+				</div>
+				<br>
 				<div class="info-user" *ngIf="globalService.aside_open">
 					<p  *ngIf="getgender()===1">{{ "_general.body.welcome" | translate }}, {{getNameUser()}}</p>
 					<p  *ngIf="getgender()===2">{{ "_general.body.welcome2" | translate }}, {{getNameUser()}}</p>
 					<p><small>{{ "shared.sidebar.infoUser.youHaveNoPendingTasks" | translate }}</small></p>
 				</div>
-				<img *ngIf="globalService.aside_open" src="../../../assets/images/avatar-bg.png" alt="" class="bg-user">
+				<!--<img *ngIf="globalService.aside_open" src="../../../assets/images/avatar-bg.png" alt="" class="bg-user">-->
 			</div>
 		</div>
 	</div>
