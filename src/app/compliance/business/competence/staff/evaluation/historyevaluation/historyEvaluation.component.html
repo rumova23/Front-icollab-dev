@@ -45,7 +45,7 @@
   <div class="row pb-3">
     <div class="col">
       <div class="d-flex justify-content-end">
-        <button type="button" class="btn"
+        <button type="button" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
                 (click)="regresar()">
           <i class="ti-angle-double-left"></i>
           Regresar

@@ -28,6 +28,9 @@
                     <div class="col-8">
                         <div class="row">
                         <div class="col-12">
+                                <p class="section_titulo_0" *ngIf="(gr.cd_1[0].label == 'GLOBAL')">
+                                    Calificación Global
+                                </p>
                                 <p class="section_titulo_0" *ngIf="(gr.cd_1[0].label == 'DEFAULT')">
                                     Evaluación de Conocimiento General 
                                 </p>
@@ -60,7 +63,8 @@
                             </div> 
                         </div>
                     </div>
-                </div>  
+                </div>
+                <br>
             </div> 
             <div class="row">
                 <div *ngFor="let scala of scalas; let l = index;">
@@ -74,4 +78,3 @@
         </div>
     </div>
 </div>
-    

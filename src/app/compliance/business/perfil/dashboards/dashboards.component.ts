@@ -28,7 +28,7 @@ export class DashboardsComponent implements OnInit {
 
   constructor(private scalaServ: PerfilComboService) {
     this.scalaServ.accion.subscribe(accion => {
-      if(accion === 'califica') {
+      if (accion === 'califica') {
         this.ngOnInit();
       }
     });
@@ -37,22 +37,25 @@ export class DashboardsComponent implements OnInit {
   ngOnInit() {
     this.charResul = [];
     this.cl_1 = ['Aciertos', 'Desacierto'];
-
     console.log('RTC this.scalaServ.obtenCalificacion: ' + this.inIdEmpleado);
     this.scalaServ.obtenCalificacion(this.inIdEmpleado).subscribe(
       calificacion => {
-
-        this.scalaServ.getReservacionesEmpleado(calificacion.calificacionId).subscribe(
-         data => {
-
-          for (const examenreservacion of data) {
-            this.scalaServ.getGraficas(examenreservacion.examenReservacionId).subscribe(
+        if (calificacion !== null) {
+          this.scalaServ.getGraficaGlobal(calificacion.calificacionId).subscribe(
               resultado => {
-
                 this.resuelveGrafica(resultado, 'pie', 1, true);
+              }
+          );
+          this.scalaServ.getReservacionesEmpleado(calificacion.calificacionId).subscribe(
+              data => {
+                for (const examenreservacion of data) {
+                  this.scalaServ.getGraficas(examenreservacion.examenReservacionId).subscribe(
+                      resultado => {
+                        this.resuelveGrafica(resultado, 'pie', 1, true);
+                      });
+                }
               });
-          }
-        });
+        }
       });
 
     this.scalas = [];
@@ -84,7 +87,6 @@ export class DashboardsComponent implements OnInit {
     }
   }
 
-  
   resuelveGrafica(poRespuesta: object, chartType: string, border: number, respon: boolean) {
     if (!poRespuesta) {
       console.log("El back no responde");
@@ -104,7 +106,7 @@ export class DashboardsComponent implements OnInit {
           this.charResul.push(new Grafica(chartType, this.cd_1, this.cl_1, this.cc_1, border, respon,
             poRespuesta['graficos'][key].evaluacionFinal,
             poRespuesta['graficos'][key].totalReactivos,
-            poRespuesta['graficos'][key].puntacion))
+            poRespuesta['graficos'][key].puntacion));
         });
       } else {
         console.log('El sistema indica diferente a exito');

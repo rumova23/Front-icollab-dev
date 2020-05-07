@@ -7,22 +7,22 @@
 
 <app-perfil [inIdEmpleado]="idEmpleado" [inTipo]="'ver'"></app-perfil>
 
-<app-behavior [inIdEmpleado]="idEmpleado" [inTipo]="tipo" [entidadEstausTerminado]="entidadEstausTerminado"></app-behavior>
+<app-behavior [inIdEmpleado]="idEmpleado" [inTipo]="tipo" [entidadEstausTerminado]="entidadEstausTerminado" (isComplete)="validaBehavior($event)"></app-behavior>
 
-<app-skills [inIdEmpleado]="idEmpleado" [inTipo]="tipo" [entidadEstausTerminado]="entidadEstausTerminado"></app-skills>
+<app-skills [inIdEmpleado]="idEmpleado" [inTipo]="tipo" [entidadEstausTerminado]="entidadEstausTerminado" (isComplete)="validaSkills($event)"></app-skills>
 
-<app-dashboards [inIdEmpleado]="idEmpleado" [inTipo]="tipo"></app-dashboards>
+<app-dashboards *ngIf="isBehaviorComplete && isSkillsComplete && finishedExam" [inIdEmpleado]="idEmpleado" [inTipo]="tipo"></app-dashboards>
 
 <app-obsyComments [inIdEmpleado]="idEmpleado" [inTipo]="tipo"></app-obsyComments>
 
 <div class="section">
   <div class="row">
     <div class="col-12 text-right">
-      <button type="button" class="btn" (click)="guardaExamen()" [disabled]="isdisabled">
+      <button type="button" class="btn" (click)="guardaExamen()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" [disabled]="isdisabled">
         <i class="ti-bookmark-alt"></i>&nbsp;
         Guardar
       </button>
-      <button type="button" class="btn" (click)="terminaExamen()" [disabled]="isdisabledFinishBehavior ">
+      <button type="button" class="btn" (click)="terminaExamen()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" [disabled]="isdisabledFinishBehavior ">
         <i class="ti-save"></i>
         Termina Examen
       </button>

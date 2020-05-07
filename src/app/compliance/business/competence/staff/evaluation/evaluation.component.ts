@@ -118,7 +118,6 @@ export class EvaluationComponent implements OnInit {
     this.addBlock(1, 'Cargando...');
     this.personalService.getEmpleadosEvaluaciones().subscribe(
         dataBack => {
-          debugger;
           this.result = dataBack;
           let i = 0;
           for (const element of this.result) {

@@ -39,14 +39,13 @@ export class HistoryEvaluationComponent implements OnInit {
   showUpdate = false;
   showDelete = false;
 
-  constructor(private globalService: GlobalService,
-              private eventService: EventService,
+  constructor(private eventService: EventService,
               private formBuilder: FormBuilder,
-              public toastr: ToastrManager,
+              public  toastr: ToastrManager,
+              public  globalService: GlobalService,
               private datePipe: DatePipe,
               private securityService: SecurityService,
-              private personalService: PersonalCompetenteService,
-              private perfilService: PerfilComboService,
+              private personalService: PersonalCompetenteService
   ) {
     this.menu = securityService.getMenu('Compliance');
   }
@@ -100,7 +99,6 @@ export class HistoryEvaluationComponent implements OnInit {
     this.addBlock(1, 'Cargando...');
     this.personalService.getHistorialEvaluaciones(this.inIdEmpleado).subscribe(
         dataBack => {
-          debugger;
           this.result = dataBack;
           let i = 0;
           for (const element of this.result) {
