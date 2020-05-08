@@ -24,7 +24,7 @@ export class ComplianceProfileComponent implements OnInit {
     @Input() inTipo: string;
     @Input() isViewable: string;
     @Input() accion: string;
-    title = 'Competencia de los Recursos / Alta de Personal Interno / Agregar';
+    title = 'Competencia de los Recursos / Personal / Alta de Personal / Agregar';
     subtitle = 'Datos Personales / Perfil de Puesto';
     generos: Array<any>;
     grados: Array<any>;
@@ -149,7 +149,7 @@ export class ComplianceProfileComponent implements OnInit {
                     this.perfilForm.controls['fDateBirth'].setValue(bornD);
                     this.gender         = respuesta['generoId'];
                     this.educationLevel = respuesta['gradoEstudioId'];
-                    this.checkedEstatus = respuesta['estidadEstatus'] === 1 ? true : false;
+                    this.checkedEstatus = respuesta['activo'] === 1 ? true : false;
                     if (respuesta['foto'] !== null) {
                         this.imageUrl = 'data:image/jpeg;base64,' + respuesta['foto'];
                         this.byteArray = respuesta['foto'];
@@ -270,7 +270,7 @@ export class ComplianceProfileComponent implements OnInit {
             1,
             det,
             this.inIdEmpleado,
-            'exito',
+            this.checkedEstatus === true ? 1 : 0,
             this.checkedEstatus === true ? 1 : 0,
             this.perfilForm.controls['fDateBirth'].value,
             this.perfilForm.controls['fGender'].value,

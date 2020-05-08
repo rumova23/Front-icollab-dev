@@ -6,6 +6,9 @@ import {ToastrManager} from 'ng6-toastr-notifications';
 import {Documents} from '../models/Documents';
 import {CarasDocument} from '../models/CarasDocument';
 import {PersonalCompetenteService} from '../services/personal-competente.service';
+import {EventMessage} from '../../core/models/EventMessage';
+import {EventBlocked} from '../../core/models/EventBlocked';
+import {EventService} from '../../core/services/event.service';
 
 @Component({
   selector: 'app-compliance-upload',
@@ -23,6 +26,7 @@ export class ComplianceUploadComponent implements OnInit, OnDestroy {
   subscription;
 
   constructor(public globalService: GlobalService,
+              private eventService: EventService,
               private personalCompetenteService: PersonalCompetenteService,
               private confirmationDialogService: ConfirmationDialogService,
               public toastr: ToastrManager) {
@@ -71,6 +75,7 @@ export class ComplianceUploadComponent implements OnInit, OnDestroy {
   }
 
   downloadFile(fileId: number, fileName: string) {
+    this.addBlock(1, 'Descargando archivo...');
     this.personalCompetenteService.downloadFile(fileId).subscribe(
         result => {
           let dataType = result.type;
@@ -82,8 +87,11 @@ export class ComplianceUploadComponent implements OnInit, OnDestroy {
           downloadLink.click();
         },
         error => {
-          const error1 = error;
-        });
+            const error1 = error;
+            this.addBlock(2, null);
+        }).add(() => {
+        this.addBlock(2, null);
+    });
   }
 
   deleteFile(fileId: number) {
@@ -91,7 +99,8 @@ export class ComplianceUploadComponent implements OnInit, OnDestroy {
         'Está seguro de eliminar el archivo?')
         .then((confirmed) => {
           if (confirmed) {
-            this.personalCompetenteService.deleteFile(fileId).subscribe(
+              this.addBlock(1, 'Eliminando archivo...');
+              this.personalCompetenteService.deleteFile(fileId).subscribe(
                 result => {
                   this.toastr.successToastr('Documento eliminado con éxito.', '¡Se ha logrado!');
                   this.personalCompetenteService.accion.next('upload');
@@ -102,10 +111,17 @@ export class ComplianceUploadComponent implements OnInit, OnDestroy {
                     this.personalCompetenteService.accion.next('upload');
                   } else {
                     this.toastr.errorToastr('Ocurrió un error al intentar eliminar el archivo', 'Lo siento,');
+                    this.addBlock(2, null);
                   }
-                });
+                }).add(() => {
+                  this.addBlock(2, null);
+              });
           }
         })
         .catch(() => console.log('Canceló eliminar'));
+  }
+
+  private addBlock(type, msg): void {
+      this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 }

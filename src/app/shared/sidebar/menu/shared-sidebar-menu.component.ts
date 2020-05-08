@@ -169,6 +169,11 @@ export class SharedSidebarMenuComponent {
         let item2 = null;
         let autoridades= null;
         let categorias = null;
+        let personal = null;
+        let proveedores = null;
+        let altaProveedores = null;
+        let evaluacionProveedores = null;
+        let reevaluacionProveedores = null;
         let array = [];
         for (let option of this.menu) {
             if (option.label == "Home") item0 = option;
@@ -196,6 +201,32 @@ export class SharedSidebarMenuComponent {
                 option.children=[];
                 option.children.push(autoridades);
                 option.children.push(categorias);
+            }
+            if (option.label == "Competencia de los Recursos") {
+                for (let cat of option.children) {
+                    if (cat.label == "Personal") {
+                        personal = cat;
+                    }else if (cat.label == "Proveedores") {
+                        for(let submenu of cat.children) {
+                            if (submenu.label == "Alta de Proveedores") {
+                                altaProveedores = submenu;
+                            } else if (submenu.label == "Evaluación de Proveedores") {
+                                evaluacionProveedores = submenu;
+                            } else if (submenu.label == "Reevaluación de Proveedores") {
+                                reevaluacionProveedores = submenu;
+                            }
+                        }
+                        cat.children = [];
+                        cat.children.push(altaProveedores);
+                        cat.children.push(evaluacionProveedores);
+                        cat.children.push(reevaluacionProveedores);
+
+                        proveedores = cat;
+                    }
+                }
+                option.children=[];
+                option.children.push(personal);
+                option.children.push(proveedores);
             }
         }
 

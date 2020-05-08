@@ -23,10 +23,12 @@ export interface Personalcompetente {
     apPaterno: string;
     apMaterno: string;
     genero: string;
+    generoId: number;
     posicion: string;
     departamento: string;
-    lugartrabajo: string;
+    puesto: string;
     lugarDeTrabajo: string;
+    lugarDeTrabajoId: number;
     usuarioModifico: string;
     fechaHoraUltimaModificacion: string;
     status: string;
@@ -46,10 +48,12 @@ export class PersonalcompetenteImp implements Personalcompetente {
     apPaterno: string;
     apMaterno: string;
     genero: string;
+    generoId: number;
     posicion: string;
     departamento: string;
-    lugartrabajo: string;
+    puesto: string;
     lugarDeTrabajo: string;
+    lugarDeTrabajoId: number;
     status: string;
     ver: string;
     editar: string;
@@ -60,9 +64,9 @@ export class PersonalcompetenteImp implements Personalcompetente {
     nuevoexamen: string;
     mensajeEliminar: string;
     constructor(orden: number, empleadoId: number, numEmpleado: string, nombre: string,
-                apPaterno: string, apMaterno: string, genero: string,
-                posicion: string, departamento: string,
-                lugarDeTrabajo: string, status: string,
+                apPaterno: string, apMaterno: string, genero: string, generoId: number,
+                posicion: string, departamento: string, puesto: string,
+                lugarDeTrabajo: string, lugarDeTrabajoId: number, status: string,
                 usuarioModifico: string, fechaHoraUltimaModificacion: string,
                 ver: string, editar: string,
                 pdf: string, eliminar: string,
@@ -75,9 +79,12 @@ export class PersonalcompetenteImp implements Personalcompetente {
         this.apPaterno = apPaterno;
         this.apMaterno = apMaterno;
         this.genero = genero;
+        this.generoId = generoId;
         this.posicion = posicion;
         this.departamento = departamento;
+        this.puesto = puesto;
         this.lugarDeTrabajo = lugarDeTrabajo;
+        this.lugarDeTrabajoId = lugarDeTrabajoId;
         this.status = status;
         this.ver = ver;
         this.editar = editar;
@@ -100,27 +107,16 @@ export class ComplianceAddStaffComponent implements OnInit {
     elementData: Array<Personalcompetente>;
     comboStatus: Array<any>;
     filterForm: FormGroup;
-    titulo = 'Competencia de los Recursos / Alta de Personal';
+    titulo = 'Competencia de los Recursos / Personal / Alta de Personal';
     subtitulo = 'Personal Interno';
     inTitulo = 'Confirmacion';
     registros = new MatTableDataSource<Personalcompetente>();
-    columnas: string[] = ['orden', 'numEmpleado', 'nombre', 'apPaterno', 'apMaterno', 'genero', 'posicion', 'departamento', 'lugarDeTrabajo', 'usuarioModifico', 'fechaHoraUltimaModificacion', 'status', 'ver', 'editar',  'eliminar'];
+    columnas: string[] = ['orden', 'numEmpleado', 'nombre', 'apPaterno', 'apMaterno', 'genero', 'posicion', 'departamento', 'puesto', 'lugarDeTrabajo', 'usuarioModifico', 'fechaHoraUltimaModificacion', 'status', 'ver', 'editar',  'eliminar'];
     generos: Array<any>;
     lugares: Array<any>;
     arryCata: Array<any>;
     result;
-    filters = [
-        { label: "Nombre", inputtype: "text" },
-        { label: "Apellido paterno", inputtype: "text" },
-        { label: "Apellido Materno", inputtype: "text" },
-        { label: "Género", inputtype: "select", options: [] },
-        { label: "Posición", inputtype: "select", options: [] },
-        { label: "Departamento", inputtype: "select", options: [] },
-        { label: "Puesto", inputtype: "select", options: [] },
-        { label: "Lugar de trabajo", inputtype: "select", options: [] },
-    ];
-    filtrobtn = { label: 'buscar' };
-    registros_x_pagina = [50, 100, 250, 500];
+    rowsPerPage = [50, 100, 250, 500];
 
     constructor(private personal: PersonalCompetenteService,
                 private catalogoMaestroService: CatalogoMaestroService,
@@ -166,12 +162,13 @@ export class ComplianceAddStaffComponent implements OnInit {
             fNames: ['', Validators.required],
             fLastName: ['', Validators.required],
             fSecondName: ['', Validators.required],
+            fGender: ['', Validators.required],
             fPosition: ['', Validators.required],
             fEst: ['', Validators.required],
-            fLastHour: ['', Validators.required],
             fLastDate: ['', Validators.required],
             fDepto: ['', Validators.required],
             fJob: ['', Validators.required],
+            fPlaceWork: ['', Validators.required]
         });
     }
 
@@ -202,12 +199,14 @@ export class ComplianceAddStaffComponent implements OnInit {
                                     let nombres = resul['empleados'][key].nombres;
                                     let paterno = resul['empleados'][key].paterno;
                                     let materno = resul['empleados'][key].materno;
-
-                                    let generoId = this.generos.find(x => x.value === parseInt(resul['empleados'][key].generoId, 10)).label;
+                                    let genero = this.generos.find(x => x.value === parseInt(resul['empleados'][key].generoId, 10)).label;
+                                    let generoId = parseInt(resul['empleados'][key].generoId, 10);
                                     let posicion = resul['empleados'][key].posicion;
                                     let departamento = resul['empleados'][key].departamento;
-                                    let lugarTrabajo = resul['empleados'][key].lugarTrabajoId != null ? this.lugares.find(x => x.value === parseInt(resul['empleados'][key].lugarTrabajoId, 10)).label: 'por definir';
-                                    let status = resul['empleados'][key].estidadEstatus;
+                                    let puesto = resul['empleados'][key].puestoTrabajo;
+                                    let lugarTrabajo = resul['empleados'][key].lugarTrabajoId != null ? this.lugares.find(x => x.value === parseInt(resul['empleados'][key].lugarTrabajoId, 10)).label : 'por definir';
+                                    let lugarTrabajoId = parseInt(resul['empleados'][key].lugarTrabajoId, 10);
+                                    let status = resul['empleados'][key].activo ? 'Activo' : 'Inactivo';
                                     let usuarioCreo = resul['empleados'][key].userCreated;
                                     let usuarioModifico = resul['empleados'][key].userUpdated != null ? resul['empleados'][key].userUpdated : usuarioCreo;
                                     let fechaCreo = resul['empleados'][key].dateCreated;
@@ -220,10 +219,13 @@ export class ComplianceAddStaffComponent implements OnInit {
                                         nombres,
                                         paterno,
                                         materno,
+                                        genero,
                                         generoId,
                                         posicion,
                                         departamento,
+                                        puesto,
                                         lugarTrabajo,
+                                        lugarTrabajoId,
                                         status,
                                         usuarioModifico,
                                         fechaUltimaModificacion,
@@ -254,7 +256,6 @@ export class ComplianceAddStaffComponent implements OnInit {
             }
         );
     }
-
 
     valorModal: number;
     eliminar($event, empleadoId: number) {
@@ -349,15 +350,29 @@ export class ComplianceAddStaffComponent implements OnInit {
                 }
             });
         }
-        if (this.filterForm.controls['fLastDate'].value !== '' && this.filterForm.controls['fLastHour'].value !== ''){
-            let dateLastUpdate = this.datePipe.transform(new Date(this.filterForm.controls['fLastDate'].value), 'dd/MM/yyyy') + ' ' + this.filterForm.controls['fLastHour'].value
+        if (this.filterForm.controls['fGender'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
-                return personal.fechaHoraUltimaModificacion.toString() === dateLastUpdate ? true : false;
+                if (personal.generoId === null) {
+                    return false;
+                } else if (this.filterForm.controls['fGender'].value === personal.generoId.toString()) {
+                    return true;
+                }
             });
-        } else if (this.filterForm.controls['fLastDate'].value === '' && this.filterForm.controls['fLastHour'].value !== '') {
-            this.toastr.errorToastr("Debe introducir una fecha", 'Lo siento,');
-        } else if (this.filterForm.controls['fLastDate'].value !== '' && this.filterForm.controls['fLastHour'].value === '') {
-            this.toastr.errorToastr("Debe introducir una hora", 'Lo siento,');
+        }
+        if (this.filterForm.controls['fPlaceWork'].value !== '') {
+            arrayElements = arrayElements.filter(personal => {
+                if (personal.lugarDeTrabajoId === null) {
+                    return false;
+                } else if (this.filterForm.controls['fPlaceWork'].value === personal.lugarDeTrabajoId.toString()) {
+                    return true;
+                }
+            });
+        }
+        if (this.filterForm.controls['fLastDate'].value !== '') {
+            let dateLastUpdate = this.datePipe.transform(this.getTimeLocale(this.filterForm.controls['fLastDate'].value), 'dd/MM/yyyy');
+            arrayElements = arrayElements.filter(personal => {
+                return personal.fechaHoraUltimaModificacion.includes(dateLastUpdate) ? true : false;
+            });
         }
 
         return arrayElements;
@@ -368,7 +383,8 @@ export class ComplianceAddStaffComponent implements OnInit {
             || this.filterForm.controls['fLastName'].value !== '' || this.filterForm.controls['fSecondName'].value !== ''
             || this.filterForm.controls['fPosition'].value !== '' || this.filterForm.controls['fDepto'].value !== ''
             || this.filterForm.controls['fJob'].value !== '' || this.filterForm.controls['fEst'].value !== ''
-            || this.filterForm.controls['fLastDate'].value !== '' || this.filterForm.controls['fLastHour'].value !== '') {
+            || this.filterForm.controls['fLastDate'].value !== '' || this.filterForm.controls['fGender'].value !== ''
+            || this.filterForm.controls['fPlaceWork'].value !== '') {
 
             this.registros = new MatTableDataSource<Personalcompetente>(this.search());
             this.registros.paginator = this.paginator;
@@ -380,6 +396,25 @@ export class ComplianceAddStaffComponent implements OnInit {
             this.registros.paginator = this.paginator;
             this.registros.sort = this.sort;
         }
+    }
+
+    limpiarFiltros() {
+        this.filterForm.controls['fEmpNum'].setValue('');
+        this.filterForm.controls['fNames'].setValue('');
+        this.filterForm.controls['fLastName'].setValue('');
+        this.filterForm.controls['fSecondName'].setValue('');
+        this.filterForm.controls['fPosition'].setValue('');
+        this.filterForm.controls['fDepto'].setValue('');
+        this.filterForm.controls['fJob'].setValue('');
+        this.filterForm.controls['fEst'].setValue('');
+        this.filterForm.controls['fLastDate'].setValue('');
+        this.filterForm.controls['fGender'].setValue('');
+        this.filterForm.controls['fPlaceWork'].setValue('');
+
+        let arrayElementData: Personalcompetente[] = this.elementData;
+        this.registros = new MatTableDataSource<Personalcompetente>(arrayElementData);
+        this.registros.paginator = this.paginator;
+        this.registros.sort = this.sort;
     }
 
     resuelveDS(poRespuesta: Object, comp: string) {
@@ -401,4 +436,5 @@ export class ComplianceAddStaffComponent implements OnInit {
         }
         return catalogArray;
     }
+
 }

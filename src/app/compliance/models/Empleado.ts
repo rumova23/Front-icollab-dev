@@ -5,7 +5,7 @@ export class Empleado {
     private claveGenerico: number
     private detalle: Detalle
     private empleadoId: number
-    private estatusGenerico: string
+    private activo: number
     private estidadEstatus: number
     private fechanacimiento: string
     private generoId: number
@@ -23,7 +23,7 @@ export class Empleado {
         claveGenerico: number,
         detalle: Detalle,
         empleadoId: number,
-        estatusGenerico: string,
+        activo: number,
         estidadEstatus: number,
         fechanacimiento: string,
         generoId: number,
@@ -40,7 +40,7 @@ export class Empleado {
         this.claveGenerico = claveGenerico;
         this.detalle = detalle;
         this.empleadoId = empleadoId;
-        this.estatusGenerico = estatusGenerico;
+        this.activo = activo;
         this.estidadEstatus = estidadEstatus;
         this.fechanacimiento = fechanacimiento;
         this.generoId = generoId;

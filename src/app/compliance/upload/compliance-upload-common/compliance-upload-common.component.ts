@@ -4,6 +4,9 @@ import {EfhService} from '../../../core/services/efh.service';
 import {ToastrManager} from 'ng6-toastr-notifications';
 import {GlobalService} from '../../../core/globals/global.service';
 import {PersonalCompetenteService} from '../../services/personal-competente.service';
+import {EventMessage} from '../../../core/models/EventMessage';
+import {EventBlocked} from '../../../core/models/EventBlocked';
+import {EventService} from '../../../core/services/event.service';
 
 @Component({
   selector: 'app-compliance-upload-common',
@@ -25,7 +28,12 @@ export class ComplianceUploadCommonComponent implements OnInit {
   currentFile: File;
   dataFileSubmit = {};
 
-  constructor(private fb: FormBuilder, public  toastr: ToastrManager, private cd: ChangeDetectorRef, public globalService: GlobalService, private personalCompetenteService: PersonalCompetenteService) {
+  constructor(private fb: FormBuilder,
+              public  toastr: ToastrManager,
+              private cd: ChangeDetectorRef,
+              public globalService: GlobalService,
+              private eventService: EventService,
+              private personalCompetenteService: PersonalCompetenteService) {
   }
 
   ngOnInit() {
@@ -46,6 +54,7 @@ export class ComplianceUploadCommonComponent implements OnInit {
   upload() {
     let fileReader = new FileReader();
     this.currentFile = this.selectedFiles.item(0);
+    this.addBlock(1, 'Guardando archivo...');
 
     fileReader.onloadend = (e) => {
       this.dataFileSubmit['eventConfigId'] = this.inEmployeeId;
@@ -60,8 +69,17 @@ export class ComplianceUploadCommonComponent implements OnInit {
           respuesta => {
             this.toastr.successToastr('Documento guardado con éxito.', '¡Se ha logrado!');
             this.personalCompetenteService.accion.next('upload');
-          });
+          },
+          error => {
+              this.addBlock(2, null);
+          }).add(() => {
+            this.addBlock(2, null);
+      });
     }
     fileReader.readAsDataURL(this.currentFile);
+  }
+
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 }
