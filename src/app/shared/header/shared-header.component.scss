@@ -118,3 +118,12 @@ button:focus {outline:0px;}
     font-size: 13px;
 }
 /*********     ./HEADER     *************/
+.dropdown-menu .flex-column .nav-item {
+    min-height: 50px;
+}
+p{
+    font-size: 14px !important;
+}
+.dropdown-toggle::after{
+    border-top: hidden !important;
+}

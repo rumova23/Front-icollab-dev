@@ -1,173 +1,246 @@
 <div id="myheader" class="sticky-top">
 	<!--Navbar-->
-	<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark" [containerInside]="false">
-	
+	<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark" [containerInside]="false" class="d-none d-lg-block">
+
 		<!-- Navbar brand -->
 		<mdb-navbar-brand>
-		<div class="mybrand">
-			<img src="{{theme.getLogo()}}" height="35" width="45" alt="" />
-			<strong class="nameplanta mr-4 ml-3">{{theme.getNameLabel()}}</strong>
-			<a class="navbar-brand" *ngIf="!disableChangePlant && globalService.plant.name == 'AGUILA'" [ngStyle]="{'visibility':securityService.loadPlants().length > 1 ? 'visible' : 'hidden' }" ><mdb-icon fas icon="exchange-alt" class="mr-2" (click)="changePlant('SOL')"></mdb-icon></a>
-			<a class="navbar-brand" *ngIf="!disableChangePlant && globalService.plant.name == 'SOL'" [ngStyle]="{'visibility':securityService.loadPlants().length > 1 ? 'visible' : 'hidden' }"><mdb-icon fas icon="exchange-alt" class="mr-2" (click)="changePlant('AGUILA')"></mdb-icon></a>
-		</div>	
-		<mdb-icon fas icon="bars" (click)="toggleMenu()" class="myicobarstoggle"></mdb-icon>
+			<div class="mybrand">
+				<img src="{{theme.getLogo()}}" height="35" width="45" alt="" />
+				<strong class="nameplanta mr-4 ml-3">{{theme.getNameLabel()}}</strong>
+				<a class="navbar-brand" *ngIf="!disableChangePlant && globalService.plant.name == 'AGUILA'"
+					[ngStyle]="{'visibility':securityService.loadPlants().length > 1 ? 'visible' : 'hidden' }">
+					<mdb-icon fas icon="exchange-alt" class="mr-2" (click)="changePlant('SOL')"></mdb-icon>
+				</a>
+				<a class="navbar-brand" *ngIf="!disableChangePlant && globalService.plant.name == 'SOL'"
+					[ngStyle]="{'visibility':securityService.loadPlants().length > 1 ? 'visible' : 'hidden' }">
+					<mdb-icon fas icon="exchange-alt" class="mr-2" (click)="changePlant('AGUILA')"></mdb-icon>
+				</a>
+			</div>
+			<mdb-icon fas icon="bars" (click)="toggleMenu()" class="myicobarstoggle"></mdb-icon>
 		</mdb-navbar-brand>
-		
+
 		<!-- Collapsible content -->
 		<links>
-		<ul class="navbar-nav mr-auto">
-			<li class="nav-item">
-			<a class="nav-link">
-				<div class="btn-group">
-				<form action="" class="mysearch">
-					<input type="search" name="" id="" placeholder="">
-					<i class="fa fa-search"></i>
-				</form>
-				</div>
-			</a>
-			</li>
-		</ul>
-		
-		<ul class="navbar-nav ml-auto nav-flex-icons">
-			<!--Tools-->
-			<li class="nav-item">
-			<a class="nav-link">
-				<div class="btn-group" mdbDropdown>
-				<mdb-icon fas icon="tools" dropdownToggle style="color: #ccc;"></mdb-icon>
-				<div class="dropdown-menu dropdown-menu-right">
-					<div class="col">
-					<p class="dropdownMenuheader">{{ 'shared.header.tools' | translate }}</p>
-					</div>
-					<a class="dropdown-item" (click)="changePassword()">
-					<table>
-						<tr>
-						<td><span class="lnr lnr-lock"></span>&nbsp;&nbsp;&nbsp;</td>
-						<td><h4>{{ 'shared.header.tools.changePassword' | translate }}</h4></td>
-						</tr>
-					</table>
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+					<a class="nav-link">
+						<div class="btn-group">
+							<form action="" class="mysearch">
+								<input type="search" name="" id="" placeholder="">
+								<i class="fa fa-search"></i>
+							</form>
+						</div>
 					</a>
-					<div class="divider dropdown-divider"></div>
-	
-					<app-translation></app-translation>
-					
-					<div class="divider dropdown-divider"></div>
-					<a class="dropdown-item" (click)="logout()">
-					<table>
-						<tr>
-						<td>
-							<span class="lnr lnr-power-switch"></span>&nbsp;&nbsp;&nbsp;
-						</td>
-						<td>
-							<h4>{{ 'shared.header.tools.getOut' | translate }}</h4>
-						</td>
-						</tr>
-					</table>
+				</li>
+			</ul>
+
+			<ul class="navbar-nav ml-auto nav-flex-icons">
+				<!--Tools-->
+				<li class="nav-item">
+					<a class="nav-link">
+						<div class="btn-group" mdbDropdown>
+							<mdb-icon fas icon="tools" dropdownToggle style="color: #ccc;"></mdb-icon>
+							<div class="dropdown-menu dropdown-menu-right">
+								<div class="col">
+									<p class="dropdownMenuheader">{{ 'shared.header.tools' | translate }}</p>
+								</div>
+								<a class="dropdown-item" (click)="changePassword()">
+									<table>
+										<tr>
+											<td><span class="lnr lnr-lock"></span>&nbsp;&nbsp;&nbsp;</td>
+											<td>
+												<h4>{{ 'shared.header.tools.changePassword' | translate }}</h4>
+											</td>
+										</tr>
+									</table>
+								</a>
+								<div class="divider dropdown-divider"></div>
+
+								<app-translation></app-translation>
+
+								<div class="divider dropdown-divider"></div>
+								<a class="dropdown-item" (click)="logout()">
+									<table>
+										<tr>
+											<td>
+												<span class="lnr lnr-power-switch"></span>&nbsp;&nbsp;&nbsp;
+											</td>
+											<td>
+												<h4>{{ 'shared.header.tools.getOut' | translate }}</h4>
+											</td>
+										</tr>
+									</table>
+								</a>
+							</div>
+						</div>
 					</a>
-				</div>
-				</div>
-			</a>
-			</li>
-	
-			<li class="nav-item">
-			<a class="nav-link">
-				<div class="btn-group" mdbDropdown>
-				<!--<mdb-icon far icon="envelope" dropdownToggle></mdb-icon>-->
-				<i class="ti-email" dropdownToggle style="font-size: 20px; color: #ccc;"></i>
-				<div *dropdownMenu class="dropdown-menu dropdown-menu-right " role="menu">
-					<div class="col">
-					<p class="dropdownMenuheader">{{  "shared.header.emails" | translate  }}</p>
-					</div>
-					<a class="dropdown-item" >
-					<table>
-						<tr>
-						<td>
-							<i class="ti-announcement"></i>&nbsp;&nbsp;&nbsp;
-						</td>
-						<td>
-							<h4>{{  "shared.header.mail" | translate  }}</h4>
-							<h5>Cargar</h5>
-						</td>
-						</tr>
-					</table>
+				</li>
+
+				<li class="nav-item">
+					<a class="nav-link">
+						<div class="btn-group" mdbDropdown>
+							<!--<mdb-icon far icon="envelope" dropdownToggle></mdb-icon>-->
+							<i class="ti-email" dropdownToggle style="font-size: 20px; color: #ccc;"></i>
+							<div *dropdownMenu class="dropdown-menu dropdown-menu-right " role="menu">
+								<div class="col">
+									<p class="dropdownMenuheader">{{  "shared.header.emails" | translate  }}</p>
+								</div>
+								<a class="dropdown-item">
+									<table>
+										<tr>
+											<td>
+												<i class="ti-announcement"></i>&nbsp;&nbsp;&nbsp;
+											</td>
+											<td>
+												<h4>{{  "shared.header.mail" | translate  }}</h4>
+												<h5>Cargar</h5>
+											</td>
+										</tr>
+									</table>
+								</a>
+								<div class="divider dropdown-divider"></div>
+								<a class="dropdown-item" (click)="changePassword()">
+									<table>
+										<tr>
+											<td>
+												<i class="ti-announcement"></i>&nbsp;&nbsp;&nbsp;
+											</td>
+											<td>
+												<h4>{{  "shared.header.mail" | translate  }}</h4>
+												<h5>Reiniciar</h5>
+											</td>
+										</tr>
+									</table>
+								</a>
+								<div class="divider dropdown-divider"></div>
+								<a class="dropdown-item text-right" (click)="changePassword()">
+									<span class="dropdownMenufooter">
+										Ver Todos
+									</span>
+								</a>
+							</div>
+						</div>
 					</a>
-					<div class="divider dropdown-divider"></div>
-					<a class="dropdown-item" (click)="changePassword()">
-					<table>
-						<tr>
-						<td>
-							<i class="ti-announcement"></i>&nbsp;&nbsp;&nbsp;
-						</td>
-						<td>
-							<h4>{{  "shared.header.mail" | translate  }}</h4>
-							<h5>Reiniciar</h5>
-						</td>
-						</tr>
-					</table>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link">
+						<div class="btn-group" mdbDropdown>
+							<!--<mdb-icon far icon="bell" dropdownToggle  style="font-size: 20px; color: #ccc;"></mdb-icon>-->
+							<i class="ti-bell" dropdownToggle style="font-size: 20px; color: #ccc;"></i>
+							<div *dropdownMenu class="dropdown-menu dropdown-menu-right " role="menu">
+								<div class="col">
+									<p class="dropdownMenuheader">{{  "shared.header.notifications" | translate  }}</p>
+								</div>
+								<a class="dropdown-item">
+									<table>
+										<tr>
+											<td>
+												<i class="ti-announcement"></i>&nbsp;&nbsp;&nbsp;
+											</td>
+											<td>
+												<h4>Notificaciones 1</h4>
+												<h5>Cargar</h5>
+											</td>
+										</tr>
+									</table>
+								</a>
+								<div class="divider dropdown-divider"></div>
+								<a class="dropdown-item">
+									<table>
+										<tr>
+											<td>
+												<i class="ti-announcement"></i>&nbsp;&nbsp;&nbsp;
+											</td>
+											<td>
+												<h4>Notificaciones 2</h4>
+												<h5>Reiniciar</h5>
+											</td>
+										</tr>
+									</table>
+								</a>
+								<div class="divider dropdown-divider"></div>
+								<a class="dropdown-item text-right" (click)="changePassword()">
+									<span class="dropdownMenufooter">
+										Ver Todos
+									</span>
+								</a>
+							</div>
+						</div>
 					</a>
-					<div class="divider dropdown-divider"></div>
-					<a class="dropdown-item text-right" (click)="changePassword()">
-					<span class="dropdownMenufooter">
-						Ver Todos
-					</span>
-					</a>
-				</div>
-				</div>
-			</a>
-			</li>
-			<li class="nav-item">
-			<a class="nav-link">
-				<div class="btn-group" mdbDropdown>
-				<!--<mdb-icon far icon="bell" dropdownToggle  style="font-size: 20px; color: #ccc;"></mdb-icon>-->
-				<i class="ti-bell" dropdownToggle style="font-size: 20px; color: #ccc;"></i>
-				<div *dropdownMenu class="dropdown-menu dropdown-menu-right " role="menu">
-					<div class="col">
-					<p class="dropdownMenuheader">{{  "shared.header.notifications" | translate  }}</p>
-					</div>
-					<a class="dropdown-item" >
-					<table>
-						<tr>
-						<td>
-							<i class="ti-announcement"></i>&nbsp;&nbsp;&nbsp;
-						</td>
-						<td>
-							<h4>Notificaciones 1</h4>
-							<h5>Cargar</h5>
-						</td>
-						</tr>
-					</table>
-					</a>
-					<div class="divider dropdown-divider"></div>
-					<a class="dropdown-item">
-					<table>
-						<tr>
-						<td>
-							<i class="ti-announcement"></i>&nbsp;&nbsp;&nbsp;
-						</td>
-						<td>
-							<h4>Notificaciones 2</h4>
-							<h5>Reiniciar</h5>
-						</td>
-						</tr>
-					</table>
-					</a>
-					<div class="divider dropdown-divider"></div>
-					<a class="dropdown-item text-right" (click)="changePassword()">
-					<span class="dropdownMenufooter">
-						Ver Todos
-					</span>
-					</a>
-				</div>
-				</div>
-			</a>
-			</li>
-		</ul>
-		
+				</li>
+			</ul>
+
 			<span class="navbar-text white-text">
-			<img src="{{theme.getLogoApp()}}" class="logomodheader"  (click)="changeModule()" /> 
-			<span class="nameplanta mr-4">{{theme.getNameLabelApp()}}</span>
-		</span>
+				<img src="{{theme.getLogoApp()}}" class="logomodheader" (click)="changeModule()" />
+				<span class="nameplanta mr-4">{{theme.getNameLabelApp()}}</span>
+			</span>
 		</links>
 		<!-- Collapsible content -->
 	</mdb-navbar>
 	<!--/.Navbar-->
+	<!--Navbar Movil-->
+	<div class="container-fluid d-block d-lg-none" style="height: 57px;">
+		<div class="row h-100 align-items-center">
+			<div class="col d-flex">
+				<img class="align-self-center mr-3" src="{{theme.getLogo()}}" height="35" width="45" alt="" />
+				<strong class="d-none d-xxs-block nameplanta mr-3">{{theme.getNameLabel()}}</strong>
+				<a class="navbar-brand" *ngIf="!disableChangePlant && globalService.plant.name == 'AGUILA'"
+					[ngStyle]="{'visibility':securityService.loadPlants().length > 1 ? 'visible' : 'hidden' }">
+					<mdb-icon fas icon="exchange-alt" class="mr-2" (click)="changePlant('SOL')"></mdb-icon>
+				</a>
+				<a class="navbar-brand" *ngIf="!disableChangePlant && globalService.plant.name == 'SOL'"
+					[ngStyle]="{'visibility':securityService.loadPlants().length > 1 ? 'visible' : 'hidden' }">
+					<mdb-icon fas icon="exchange-alt" class="mr-2" (click)="changePlant('AGUILA')"></mdb-icon>
+				</a>
+				<mdb-icon class="align-self-center myicobarstoggle" fas icon="bars" (click)="toggleMenu()"></mdb-icon>
+			</div>
+			<div class="col d-flex justify-content-end dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<mdb-icon class="align-self-center myicobarstoggle" fas icon="bars"></mdb-icon>
+				<img class="align-self-center" src="{{theme.getLogoApp()}}" style="height: 35px;" />
+				<span class="nameplanta d-none d-xs-block">{{theme.getNameLabelApp()}}</span>
+			</div>
+			<div class="dropdown-menu dropdown-menu-right">
+				<div class="px-4 pt-3">
+					<p class="dropdownMenuheader">{{  "shared.header.emails" | translate  }}</p>
+					<p class="dropdownMenuheader">{{  "shared.header.notifications" | translate  }}</p>
+
+					<div class="dropdown-divider"></div>
+					<p class="dropdownMenuheader">{{ 'shared.header.tools' | translate }}</p>
+					<ul class="nav flex-column ml-2">
+						<li class="nav-item d-flex" (click)="changePassword()">
+							<p class="nav-link d-flex align-items-center">
+								{{ 'shared.header.tools.changePassword' | translate }}</p>
+						</li>
+					</ul>
+
+					<div class="dropdown-divider"></div>
+					<app-translation></app-translation>
+				</div>
+				<!--form class="px-4 py-3">
+						<div class="form-group">
+							<label for="exampleDropdownFormEmail1">Email address</label>
+							<input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com">
+						</div>
+						<div class="form-group">
+							<label for="exampleDropdownFormPassword1">Password</label>
+							<input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="dropdownCheck">
+							<label class="form-check-label" for="dropdownCheck">
+								Remember me
+							</label>
+						</div>
+						<button type="submit" class="btn btn-primary">Sign in</button>
+					</form -->
+
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" (click)="changeModule()">{{ 'Cambiar de Modulo' | translate }}</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" (click)="logout()">{{ 'shared.header.tools.getOut' | translate }}</a>
+			</div>
+		</div>
+	</div>
+
+	<!--./Navbar Movil-->
 </div>

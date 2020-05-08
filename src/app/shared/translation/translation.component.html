@@ -1,35 +1,47 @@
+<div class="d-none d-lg-block col">
+	<p class="dropdownMenuheader">{{ 'shared.header.tools.language' | translate }}</p>
+</div>
+<a class="d-none d-lg-block dropdown-item" (click)="cambiarLenguaje('es')">
+	<table>
+		<tr>
+			<td><span class="lnr lnr-bubble"></span>&nbsp;&nbsp;&nbsp;</td>
+			<td>
+				<p>{{ 'shared.header.tools.spanish' | translate }}</p>
+			</td>
+		</tr>
+	</table>
+</a>
+<a class="d-none d-lg-block dropdown-item" (click)="cambiarLenguaje('en')">
+	<table>
+		<tr>
+			<td><span class="lnr lnr-bubble"></span>&nbsp;&nbsp;&nbsp;</td>
+			<td>
+				<p>{{ 'shared.header.tools.english' | translate }}</p>
+			</td>
+		</tr>
+	</table>
+</a>
+<a class="d-none d-lg-block dropdown-item" (click)="cambiarLenguaje('ja')">
+	<table>
+		<tr>
+			<td><span class="lnr lnr-bubble"></span>&nbsp;&nbsp;&nbsp;</td>
+			<td>
+				<p>{{ 'shared.header.tools.japanese' | translate }}</p>
+			</td>
+		</tr>
+	</table>
+</a>
 
 
-  	<div class="col">
-		<p class="dropdownMenuheader">{{ 'shared.header.tools.language' | translate }}</p>
-	</div>
-	<a class="dropdown-item" (click)="cambiarLenguaje('es')">
-		<table>
-			<tr>
-				<td><span class="lnr lnr-bubble"></span>&nbsp;&nbsp;&nbsp;</td>
-				<td>
-					<p>{{ 'shared.header.tools.spanish' | translate }}</p>
-				</td>
-			</tr>
-		</table>
-	</a>
-	<a class="dropdown-item" (click)="cambiarLenguaje('en')">
-		<table>
-			<tr>
-				<td><span class="lnr lnr-bubble"></span>&nbsp;&nbsp;&nbsp;</td>
-				<td>
-					<p>{{ 'shared.header.tools.english' | translate }}</p>
-				</td>
-			</tr>
-		</table>
-	</a>
-	<a class="dropdown-item" (click)="cambiarLenguaje('ja')">
-		<table>
-			<tr>
-				<td><span class="lnr lnr-bubble"></span>&nbsp;&nbsp;&nbsp;</td>
-				<td>
-					<p>{{ 'shared.header.tools.japanese' | translate }}</p>
-				</td>
-			</tr>
-		</table>
-	</a>
+<p class="d-block d-lg-none dropdownMenuheader">{{ 'shared.header.tools.language' | translate }}</p>
+<ul class="d-block d-lg-none nav flex-column ml-2">
+	<li class="nav-item d-flex" (click)="cambiarLenguaje('es')">
+		<p class="nav-link d-flex align-items-center">{{ 'shared.header.tools.spanish' | translate }}</p>
+	</li>
+	<li class="nav-item d-flex" (click)="cambiarLenguaje('en')">
+		<p class="nav-link d-flex align-items-center">{{ 'shared.header.tools.english' | translate }}</p>
+	</li>
+	<li class="nav-item d-flex" (click)="cambiarLenguaje('ja')">
+		<p class="nav-link d-flex align-items-center">{{ 'shared.header.tools.japanese' | translate }}</p>
+	</li>
+</ul>
