@@ -256,7 +256,7 @@ export class PerfilComponent implements OnInit {
             1,
             det,
             this.inIdEmpleado,
-            this.checkedEstatus === true ? 1 : 0,
+            this.checkedEstatus,
             this.checkedEstatus === true ? 1 : 0,
             this.perfilForm.controls['fDateBirth'].value,
             this.perfilForm.controls['fGender'].value,

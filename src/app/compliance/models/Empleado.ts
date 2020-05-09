@@ -5,7 +5,7 @@ export class Empleado {
     private claveGenerico: number
     private detalle: Detalle
     private empleadoId: number
-    private activo: number
+    private activo: boolean
     private estidadEstatus: number
     private fechanacimiento: string
     private generoId: number
@@ -23,7 +23,7 @@ export class Empleado {
         claveGenerico: number,
         detalle: Detalle,
         empleadoId: number,
-        activo: number,
+        activo: boolean,
         estidadEstatus: number,
         fechanacimiento: string,
         generoId: number,

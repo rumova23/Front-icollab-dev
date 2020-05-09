@@ -110,7 +110,10 @@
           </div>
           <div class="col-4">
             <div class="form-group">
-
+              <label>Condición de búsqueda</label><br>
+              <mat-radio-group formControlName="fSearchCondition" [(ngModel)]="condition">
+                <mat-radio-button *ngFor="let data of conditionSearch; " [value]="data.value">{{data.label}}</mat-radio-button>
+              </mat-radio-group>
             </div>
           </div>
           <div class="col-4">
