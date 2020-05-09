@@ -1,0 +1,103 @@
+<div id="principal_contenedor">
+	<div id="title" style=" overflow: hidden;">
+		<div style="float: left;">
+			<h2 class="text"> PARÁMETROS PRINCIPALES DE GENERACIÓN</h2>
+		</div>
+		<div style="float: right">
+			<span style="font-size: 1.5em; color: #42AE49; margin-bottom:5px;margin-right: 20px;">
+				<i class="fas fa-wifi"></i>
+			</span>
+		</div>
+	</div>
+	<div id="intermedio" style="margin:1px; overflow: hidden;">
+		<div style="float: left;">
+			<div style="margin-left:30px; background: #0F0F0F; display: inline-block;text-align: center">
+				<div style="margin:10px;">
+					<p class="text1">POTENCIA NETA</p>
+					<span class="digito">246.92</span><span class="text2">MW</span>
+					<p class="text2">03/10/2019</p>
+					<p class="text2">10:43:08</p>
+				</div>
+			</div>
+			<div style="margin-left:30px;background: #0F0F0F;display:inline-block;text-align: center;">
+				<div style="margin:10px;">
+					<p class="text1">POTENCIA CCDV</p>
+					<span class="digito">239,69</span><span class="text2">MV</span>
+					<p class="text2">03/10/2019</p>
+					<p class="text2">10:43:08</p>
+				</div>
+			</div>
+			<div style="margin-left:30px;background: #0F0F0F;display: inline-block;text-align: center;">
+				<div style="margin:10px;">
+					<p class="text1">RÉGIMEN TÉRMICO</p>
+					<span class="digito">6.886</span><span class="text2">KJ/KWh</span>
+					<p class="text2">03/10/2019</p>
+					<p class="text2">10:43:08</p>
+				</div>
+			</div>
+		</div>
+		<div id="contenedorCondiciones">
+			<p class="text" style="margin-right: 20px; font-size:medium">CONDICIONES AMBIENTALES </p>
+			<div class="text derecha">
+				28.9°C
+				<span style="font-size: 1.5em; color: red; margin:10px">
+					<i class="fas fa-thermometer-half"></i>
+				</span>
+			</div>
+			<div class="text derecha">
+				1.012, MBAR
+				<span style="font-size: 1em; margin:10px">
+					<i class="fas fa-tachometer-alt"></i>
+				</span>
+			</div>
+			<div class="text derecha">
+				78,0%
+				<span style="font-size: 1.5em; color: cyan; margin:10px">
+					<i class="fas fa-tint"></i>
+				</span>
+			</div>
+		</div>
+	</div>
+	<div class="chart-container">
+		<canvas id="lineChart"></canvas>
+	</div>
+	<div id="turbinas">
+		<div class="block">
+			<div id="donaContainer">
+				<canvas id="mediaDona1"></canvas>
+				<img class="imgTurbinaDiesel" src="assets/monitoring/3_3/turbinaAnimada2.gif" alt="" />
+				<div style="position: relative; ">
+					<span class="center"
+						style="font-size: 1.5em; color: red;display: inline-block; margin-right: 20px;">
+						<i class="fas fa-gas-pump"></i>
+					</span>
+					<span style="font-size: 1.5em; color: yellowgreen;">
+						<i class="fas fa-fire-alt"></i>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="block">
+			<div id="donaContainer2">
+				<canvas id="mediaDona2"></canvas>
+				<img class="imgTurbinaDiesel" src="assets/monitoring/3_3/turbinaAnimada2.gif" alt="" />
+				<div style="position: relative;">
+					<span class="center"
+						style="font-size: 1.5em; color: red;display: inline-block; margin-right: 20px;">
+						<i class="fas fa-gas-pump"></i>
+					</span>
+					<span style="font-size: 1.5em; color: yellowgreen;">
+						<i class="fas fa-fire-alt"></i>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="block">
+			<div id="donaContainer3">
+				<canvas id="mediaDona3"></canvas>
+				<img class="imgTurbinaVapor" src="assets/monitoring/3_3/turbinaVaporAnimada.gif" alt="" />
+			</div>
+		</div>
+	</div>
+</div>
