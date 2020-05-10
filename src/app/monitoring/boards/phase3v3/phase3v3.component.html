@@ -4,7 +4,7 @@
 			<h2 class="text"> PARÁMETROS PRINCIPALES DE GENERACIÓN</h2>
 		</div>
 		<div style="float: right">
-			<span style="font-size: 1.5em; color: #42AE49; margin-bottom:5px;margin-right: 20px;">
+			<span style="font-size: 1.5em; margin-bottom:5px;margin-right: 20px;" [ngStyle]="{color: conectToPi ? '#42AE49': 'red'}">
 				<i class="fas fa-wifi"></i>
 			</span>
 		</div>
@@ -59,7 +59,8 @@
 		</div>
 	</div>
 	<div class="chart-container">
-		<canvas id="lineChart"></canvas>
+		<div #LineChart2></div>
+		<!--<canvas id="lineChart"></canvas>-->
 	</div>
 	<div id="turbinas">
 		<div class="block">
