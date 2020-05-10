@@ -35,20 +35,25 @@ export class PpaMonitoringFormatService {
 		return this.http.post(environment.dycformato + 'upload/zip/' + year + '/' + mount, data, {params : this.parameters });
 	}
 
+	uploadPerfil(data): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.post(environment.dycformato + 'uploadPerfil/', data, {params : this.parameters });
+	}
+
 	obtenBitacoraLoadRaw(): Observable<any> {
-		//return of(this.loadRawBitacora);
+		// return of(this.loadRawBitacora);
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(environment.dycformato + 'loadRaw/bitacora', {params : this.parameters });
 	}
 
 	procesaCorreccion(year: number, mount: number): Observable<any> {
-		//return of(this.respuestaDemoPreocesaCorreccion);
+		// return of(this.respuestaDemoPreocesaCorreccion);
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(environment.dycformato + 'loadRaw/correccion/' + year + '/' + mount, {params : this.parameters });
 	}
 
 	procesaDeteccion(year: number, mount: number): Observable<any> {
-		//return of(this.respuestaDemoPreocesaDeteccion);
+		// return of(this.respuestaDemoPreocesaDeteccion);
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(environment.dycformato + 'loadRaw/deteccion/' + year + '/' + mount, {params : this.parameters });
 	}
@@ -59,7 +64,7 @@ export class PpaMonitoringFormatService {
 	}
 
 	procesaCorreccionProcedimiento(year: number, mount: number): Observable<any> {
-		//return of(this.respuestaDemoPreocesaCorreccion);
+		// return of(this.respuestaDemoPreocesaCorreccion);
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(environment.dycformato + 'norma/correccion/' + year + '/' + mount, {params : this.parameters });
 	}

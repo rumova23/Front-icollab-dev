@@ -1,4 +1,4 @@
-import { NgModule                    } from "@angular/core";
+import { NgModule                    } from '@angular/core';
 import { BrowserModule               } from '@angular/platform-browser';
 import { SharedModule                } from 'src/app/shared/shared.module';
 import { SAFE_ROUTES                 } from './safe.routes';
@@ -98,6 +98,7 @@ import { SafePPAMonitoringStationComponent } from './admin/safe-ppamonitoring-st
 import { AccuweatherComponent } from './admin/accuweather/accuweather.component';
 import { SafeppaSupervisionStationComponent } from './admin/safeppa-supervision-station/safeppa-supervision-station.component';
 import { SafeProcedureDetectionAndCorrectionComponent } from './admin/safe-procedure-detection-and-correction/safe-procedure-detection-and-correction.component';
+import {SafePpaMonitoringProfileStationComponent} from './admin/safe-ppa-monitoring-profile-station/safe-ppa-monitoring-profile-station.component';
 
 
 @NgModule({
@@ -151,7 +152,8 @@ import { SafeProcedureDetectionAndCorrectionComponent } from './admin/safe-proce
         PreDocumentComponent,
         TemperatureComponent,
         SafePPAMonitoringStationComponent,
-        SafeProcedureDetectionAndCorrectionComponent
+        SafeProcedureDetectionAndCorrectionComponent,
+        SafePpaMonitoringProfileStationComponent
     ],
     exports: [],
     imports: [
@@ -180,4 +182,4 @@ import { SafeProcedureDetectionAndCorrectionComponent } from './admin/safe-proce
         })
     ]
 })
-export class SafeModule{}
+export class SafeModule {}

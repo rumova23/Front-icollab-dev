@@ -76,6 +76,7 @@ import { SafePPAMonitoringStationComponent } from '../admin/safe-ppamonitoring-s
 import { AccuweatherComponent } from '../admin/accuweather/accuweather.component';
 import { SafeppaSupervisionStationComponent } from '../admin/safeppa-supervision-station/safeppa-supervision-station.component';
 import { SafeProcedureDetectionAndCorrectionComponent } from '../admin/safe-procedure-detection-and-correction/safe-procedure-detection-and-correction.component';
+import {SafePpaMonitoringProfileStationComponent} from '../admin/safe-ppa-monitoring-profile-station/safe-ppa-monitoring-profile-station.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -148,6 +149,7 @@ import { SafeProcedureDetectionAndCorrectionComponent } from '../admin/safe-proc
 		, SafePPAMonitoringStationComponent
 		, AccuweatherComponent
 		, SafeProcedureDetectionAndCorrectionComponent
+		, SafePpaMonitoringProfileStationComponent
   	]
 })
 
@@ -392,6 +394,15 @@ export class SafeHomeComponent implements OnInit {
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(
 								SafePPAMonitoringStationComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+
+					case 'Safe.SafePpaMonitoringProfileStationComponent':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								SafePpaMonitoringProfileStationComponent
 							)
 						).changeDetectorRef.detectChanges();
 						break;

@@ -66,8 +66,6 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	filterDatesFormGroup: FormGroup;
 	dateIni: Date;
 	dateFin: Date;
-
-	
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
