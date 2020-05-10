@@ -106,6 +106,7 @@ export class PersonalcompetenteImp implements Personalcompetente {
 export class ComplianceAddStaffComponent implements OnInit {
     elementData: Array<Personalcompetente>;
     comboStatus: Array<any>;
+    conditionSearch: Array<any>;
     filterForm: FormGroup;
     titulo = 'Competencia de los Recursos / Personal / Alta de Personal';
     subtitulo = 'Personal Interno';
@@ -116,6 +117,7 @@ export class ComplianceAddStaffComponent implements OnInit {
     lugares: Array<any>;
     arryCata: Array<any>;
     result;
+    condition;
     rowsPerPage = [50, 100, 250, 500];
 
     constructor(private personal: PersonalCompetenteService,
@@ -152,10 +154,15 @@ export class ComplianceAddStaffComponent implements OnInit {
     ngOnInit() {
         this.cargaTabla();
         this.comboStatus = [];
+        this.conditionSearch = [];
+        this.condition = '1';
 
         this.comboStatus.push(new Combo('', ''));
         this.comboStatus.push(new Combo('1', 'Activo'));
         this.comboStatus.push(new Combo('0', 'Inactivo'));
+
+        this.conditionSearch.push(new Combo('1', 'Al menos uno'));
+        this.conditionSearch.push(new Combo('2', 'Todos'));
 
         this.filterForm = this.formBuilder.group({
             fEmpNum: ['', Validators.required],
@@ -168,7 +175,8 @@ export class ComplianceAddStaffComponent implements OnInit {
             fLastDate: ['', Validators.required],
             fDepto: ['', Validators.required],
             fJob: ['', Validators.required],
-            fPlaceWork: ['', Validators.required]
+            fPlaceWork: ['', Validators.required],
+            fSearchCondition: ['', null]
         });
     }
 
@@ -379,6 +387,7 @@ export class ComplianceAddStaffComponent implements OnInit {
     }
 
     filtros() {
+        let typeSearch = this.filterForm.controls['fSearchCondition'].value;
         if (this.filterForm.controls['fEmpNum'].value !== '' || this.filterForm.controls['fNames'].value !== ''
             || this.filterForm.controls['fLastName'].value !== '' || this.filterForm.controls['fSecondName'].value !== ''
             || this.filterForm.controls['fPosition'].value !== '' || this.filterForm.controls['fDepto'].value !== ''

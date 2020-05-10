@@ -38,4 +38,7 @@ td:first-child{
 .col-md-auto > input{
   margin-right: 5px;
 }
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
 

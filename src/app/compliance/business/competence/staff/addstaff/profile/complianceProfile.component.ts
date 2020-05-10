@@ -145,11 +145,10 @@ export class ComplianceProfileComponent implements OnInit {
                     let bornD = this.datePipe.transform(
                         (new Date(respuesta['fechanacimiento'].substring(0, 10))).getTime() + (60 * 60 * 24 * 1000)
                         , 'yyyy-MM-dd');
-
                     this.perfilForm.controls['fDateBirth'].setValue(bornD);
                     this.gender         = respuesta['generoId'];
                     this.educationLevel = respuesta['gradoEstudioId'];
-                    this.checkedEstatus = respuesta['activo'] === 1 ? true : false;
+                    this.checkedEstatus = respuesta['activo'];
                     if (respuesta['foto'] !== null) {
                         this.imageUrl = 'data:image/jpeg;base64,' + respuesta['foto'];
                         this.byteArray = respuesta['foto'];
@@ -270,7 +269,7 @@ export class ComplianceProfileComponent implements OnInit {
             1,
             det,
             this.inIdEmpleado,
-            this.checkedEstatus === true ? 1 : 0,
+            this.checkedEstatus,
             this.checkedEstatus === true ? 1 : 0,
             this.perfilForm.controls['fDateBirth'].value,
             this.perfilForm.controls['fGender'].value,
