@@ -106,10 +106,11 @@ export class Phase3v3Component extends ConnectSocketChannelComponent implements 
 		this.mediaDona1 = new Chart('mediaDona1', {
 			type: 'doughnut',
 			data: {
+				labels: (this.globalService.plant.name.toLowerCase() == "aguila")?["Gas","Diesel","RT","Potencia","RPM"]:["Gas","RT","Potencia","RPM"],
 				responsive: true,
 				datasets: [
 					{
-						data: [80, 30, 60, 70, 80, 20],
+						data: [0, 0, 0, 0, 0, 0],
 						backgroundColor: [
 							'rgba(138,53,71, 0.3)',
 							'rgba(37,110,161, 0.3)',
@@ -130,7 +131,7 @@ export class Phase3v3Component extends ConnectSocketChannelComponent implements 
 
 					},
 					{
-						data: [10],
+						data: [1],
 						backgroundColor: [
 							'rgba(0,0,0)',
 
@@ -143,7 +144,7 @@ export class Phase3v3Component extends ConnectSocketChannelComponent implements 
 					},
 
 					{
-						data: [80, 30, 60, 70, 80, 20],
+						data: [0, 0, 0, 0, 0, 0],
 						backgroundColor: [
 							'rgba(138,53,71, 0.3)',
 							'rgba(37,110,161, 0.3)',
@@ -173,6 +174,7 @@ export class Phase3v3Component extends ConnectSocketChannelComponent implements 
 				circumference: Math.PI,
 				cutoutPercentage: 88,
 				legend: {
+					display:false,
 					position: 'left'
 				},
 				animation: {
@@ -189,11 +191,12 @@ export class Phase3v3Component extends ConnectSocketChannelComponent implements 
 
 		this.mediaDona2 = new Chart('mediaDona2', {
 			type: 'doughnut',
-			responsive: true,
 			data: {
+				labels: (this.globalService.plant.name.toLowerCase() == "aguila")?["Gas","Diesel","RT","Potencia","RPM"]:["Gas","RT","Potencia","RPM"],
+				responsive: true,
 				datasets: [
 					{
-						data: [50, 30, 60, 30, 70, 60],
+						data: [0, 0, 0, 0, 0, 0],
 						backgroundColor: [
 							'rgba(138,53,71, 0.3)',
 							'rgba(37,110,161, 0.3)',
@@ -226,7 +229,7 @@ export class Phase3v3Component extends ConnectSocketChannelComponent implements 
 
 					},
 					{
-						data: [50, 30, 60, 30, 70, 60],
+						data: [0, 0, 0, 0, 0, 0],
 						backgroundColor: [
 							'rgba(138,53,71, 0.3)',
 							'rgba(37,110,161, 0.3)',
@@ -248,8 +251,6 @@ export class Phase3v3Component extends ConnectSocketChannelComponent implements 
 
 					}
 				],
-
-
 			},
 
 			options: {
@@ -258,6 +259,7 @@ export class Phase3v3Component extends ConnectSocketChannelComponent implements 
 				cutoutPercentage: 88,
 				circumference: Math.PI,
 				legend: {
+					display:false,
 					position: 'left'
 				},
 				animation: {
@@ -274,12 +276,12 @@ export class Phase3v3Component extends ConnectSocketChannelComponent implements 
 
 		this.mediaDona3 = new Chart('mediaDona3', {
 			type: 'doughnut',
-			responsive: true,
 			data: {
-
+				responsive: true,				
+				labels: ["RT","Potencia","RPM"],
 				datasets: [
 					{
-						data: [50, 30, 60, 70, 85, 50],
+						data: [0, 0, 0, 0, 0, 0],
 						backgroundColor: [
 							'rgba(138,53,71, 0.3)',
 							'rgba(37,110,161, 0.3)',
@@ -312,7 +314,7 @@ export class Phase3v3Component extends ConnectSocketChannelComponent implements 
 
 					},
 					{
-						data: [50, 30, 60, 70, 85, 50],
+						data: [0, 0, 0, 0, 0, 0],
 						backgroundColor: [
 							'rgba(138,53,71, 0.3)',
 							'rgba(37,110,161, 0.3)',
@@ -333,8 +335,6 @@ export class Phase3v3Component extends ConnectSocketChannelComponent implements 
 
 					}
 				],
-
-
 			},
 
 			options: {
@@ -343,6 +343,7 @@ export class Phase3v3Component extends ConnectSocketChannelComponent implements 
 				cutoutPercentage: 88,
 				circumference: Math.PI,
 				legend: {
+					display:false,
 					position: 'left'
 				},
 				animation: {
@@ -352,6 +353,17 @@ export class Phase3v3Component extends ConnectSocketChannelComponent implements 
 			}
 
 		});
+	}
+
+	getTagName(key):string{
+		return this.tags.get(key)['tagName'];
+	}
+	getValue(key):string{
+		let c = Array.isArray(this.tags.get(key)['value'])
+		? 
+		this.tags.get(key)['value']['length']>0 ? this.tags.get(key)['value'][this.tags.get(key)['value']['length']-1] : [null,0] 
+		: this.tags.get(key)['value'];
+		return c;
 	}
 	initTags(){
 		this.tags.set("temperatura_ambiente" ,{tagName:"" ,f:"setTemperaturaAmbiente" ,value:0,date:new Date(),webIdA:"P0uQAgHoBd0ku7P3cWOJL6IglyQAAAU0VSVklET1JfUElcUDJBMDgyMTE",webIdS:"F1DP4rhZAwFMREKDf7s8vylUqgxwMAAAUElUVlxULkNFQS4yMjQ1"});
@@ -623,9 +635,9 @@ export class Phase3v3Component extends ConnectSocketChannelComponent implements 
 					if(!this.mapToTag.has(tag.WebId))this.mapToTag.set(tag.WebId,this.findLocalKeyTagByWebId(tag.WebId));
 					if(this.mapToTag.get(tag.WebId) != null){
 						let localTag = this.tags.get(this.mapToTag.get(tag.WebId));
-						localTag['value'] = tag.Value.Value;
-						localTag['tagName'] = tag.Name;
-						this[localTag['f']](localTag['value'],date.getTime());
+						if( ! ["potenciaNeta","potenciaCcdv","regimentermico"].includes(this.mapToTag.get(tag.WebId).toString()) )localTag['value'] = tag.Value.Value;
+						if(""==localTag['tagName'])localTag['tagName'] = tag.Name;
+						this[localTag['f']](tag.Value.Value,date.getTime());
 					}
 				}
 			}
@@ -658,12 +670,24 @@ export class Phase3v3Component extends ConnectSocketChannelComponent implements 
 	sethumedad(x,y){}
 	setPotenciaNeta(y,x){
 		this.chartLine2C.series[0].addPoint([x, y], true, true);
+		let arr = this.tags.get('potenciaNeta')['value'];
+		arr.shift();
+		arr.push([x,y]);
+		//*/
 	}
-	setPotenciaCcdv(y,x){
+	setPotenciaCcdv(y,x){		
 		this.chartLine2C.series[1].addPoint([x, y], true, true);
+		let arr = this.tags.get('potenciaCcdv')['value'];
+		arr.shift();
+		arr.push([x,y]);
+		//*/
 	}
 	setRegimenTermico(y,x){
 		this.chartLine2C.series[2].addPoint([x, y], true, true);
+		let arr = this.tags.get('regimentermico')['value'];
+		arr.shift();
+		arr.push([x,y]);
+		//*/
 	}
 	setCt1Gas(value,date){
 		this.mediaDona1['data']['datasets'][0]['data'][0]=value;

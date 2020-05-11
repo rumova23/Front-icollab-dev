@@ -10,48 +10,82 @@
 		</div>
 	</div>
 	<div id="intermedio" style="margin:1px; overflow: hidden;">
+		
+		<ng-template #tippotencianeta>
+			<p>POTENCIA NETA</p>
+			<p>{{getTagName('potenciaNeta')}}</p>
+		</ng-template>
+		
+		<ng-template #tipccdv>
+			<p>POTENCIA CCDV</p>
+			<p>{{getTagName('potenciaCcdv')}}</p>
+		</ng-template>
+		
+		<ng-template #tiprt>
+			<p>RÉGIMEN TÉRMICO</p>
+			<p>{{getTagName('regimentermico')}}</p>
+		</ng-template>
 		<div style="float: left;">
-			<div style="margin-left:30px; background: #0F0F0F; display: inline-block;text-align: center">
-				<div style="margin:10px;">
-					<p class="text1">POTENCIA NETA</p>
-					<span class="digito">246.92</span><span class="text2">MW</span>
-					<p class="text2">03/10/2019</p>
-					<p class="text2">10:43:08</p>
+			<div [ngbTooltip]="tippotencianeta" tooltipClass="mytooltip" style="margin-left:30px; background: #0F0F0F; display: inline-block;text-align: center">
+				<div style="margin:10px;" [style.color]="colorPotNet">
+					<p [style.color]="colorPotNet" class="text1">POTENCIA NETA</p>
+					<span [style.color]="colorPotNet" class="digito">{{getValue('potenciaNeta')[1] | number: "1.2-2"}}</span><span class="text2" [style.color]="colorPotNet" >MW</span>
+					<p *ngIf="getValue('potenciaNeta')[0] != null" class="text2">{{ getValue('potenciaNeta')[0] | date:'dd/MM/yyyy' }}</p>
+					<p *ngIf="getValue('potenciaNeta')[0] != null" class="text2">{{ getValue('potenciaNeta')[0] | date:'hh:mm:ss' }}</p>
+					<p *ngIf="getValue('potenciaNeta')[0] == null" class="text2">00/00/0000</p>
+					<p *ngIf="getValue('potenciaNeta')[0] == null" class="text2">00:00:00</p>
 				</div>
 			</div>
-			<div style="margin-left:30px;background: #0F0F0F;display:inline-block;text-align: center;">
-				<div style="margin:10px;">
-					<p class="text1">POTENCIA CCDV</p>
-					<span class="digito">239,69</span><span class="text2">MV</span>
-					<p class="text2">03/10/2019</p>
-					<p class="text2">10:43:08</p>
+			<div [ngbTooltip]="tipccdv" tooltipClass="mytooltip" style="margin-left:30px;background: #0F0F0F;display:inline-block;text-align: center;">
+				<div style="margin:10px;" [style.color]="colorCcdv">
+					<p [style.color]="colorCcdv" class="text1">POTENCIA CCDV</p>
+					<span [style.color]="colorCcdv" class="digito">{{getValue('potenciaCcdv')[1] | number: "1.2-2"}}</span><span class="text2" [style.color]="colorCcdv">MV</span>
+					<p *ngIf="getValue('potenciaCcdv')[0] != null" class="text2">{{ getValue('potenciaCcdv')[0] | date:'dd/MM/yyyy' }}</p>
+					<p *ngIf="getValue('potenciaCcdv')[0] != null" class="text2">{{ getValue('potenciaCcdv')[0] | date:'hh:mm:ss' }}</p>
+					<p *ngIf="getValue('potenciaCcdv')[0] == null" class="text2">00/00/0000</p>
+					<p *ngIf="getValue('potenciaCcdv')[0] == null" class="text2">00:00:00</p>
 				</div>
 			</div>
-			<div style="margin-left:30px;background: #0F0F0F;display: inline-block;text-align: center;">
-				<div style="margin:10px;">
-					<p class="text1">RÉGIMEN TÉRMICO</p>
-					<span class="digito">6.886</span><span class="text2">KJ/KWh</span>
-					<p class="text2">03/10/2019</p>
-					<p class="text2">10:43:08</p>
+			<div [ngbTooltip]="tiprt" tooltipClass="mytooltip" style="margin-left:30px;background: #0F0F0F;display: inline-block;text-align: center;">
+				<div style="margin:10px;" [style.color]="colorRT">
+					<p [style.color]="colorRT" class="text1">RÉGIMEN TÉRMICO</p>
+					<span [style.color]="colorRT" class="digito">{{getValue('regimentermico')[1] | number: "1.2-2"}}</span><span class="text2" [style.color]="colorRT">KJ/KWh</span>
+					<p *ngIf="getValue('regimentermico')[0] != null" class="text2">{{ getValue('regimentermico')[0] | date:'dd/MM/yyyy' }}</p>
+					<p *ngIf="getValue('regimentermico')[0] != null" class="text2">{{ getValue('regimentermico')[0] | date:'hh:mm:ss' }}</p>
+					<p *ngIf="getValue('regimentermico')[0] == null" class="text2">00/00/0000</p>
+					<p *ngIf="getValue('regimentermico')[0] == null" class="text2">00:00:00</p>
 				</div>
 			</div>
 		</div>
 		<div id="contenedorCondiciones">
+			<ng-template #tipsetTemperaturaAmbiente>
+				<p>Temperatura ambiente</p>
+				<p>{{getTagName('temperatura_ambiente')}}</p>
+			</ng-template>
+			<ng-template #tipsetPresionAtmosferica>
+				<p>Presión atmosférica</p>
+				<p>{{getTagName('presion_atmosferica')}}</p>
+			</ng-template>
+			<ng-template #tipsethumedad>
+				<p>Humedad</p>
+				<p>{{getTagName('humedad')}}</p>
+			</ng-template>
+
 			<p class="text" style="margin-right: 20px; font-size:medium">CONDICIONES AMBIENTALES </p>
-			<div class="text derecha">
-				28.9°C
+			<div [ngbTooltip]="tipsetTemperaturaAmbiente" tooltipClass="mytooltip" class="text derecha">
+				{{ getValue('temperatura_ambiente') | number: "1.2-2"}} °C
 				<span style="font-size: 1.5em; color: red; margin:10px">
 					<i class="fas fa-thermometer-half"></i>
 				</span>
 			</div>
-			<div class="text derecha">
-				1.012, MBAR
+			<div [ngbTooltip]="tipsetPresionAtmosferica" tooltipClass="mytooltip" class="text derecha">
+				{{ getValue('presion_atmosferica') | number: "1.2-2"}}, MBAR
 				<span style="font-size: 1em; margin:10px">
 					<i class="fas fa-tachometer-alt"></i>
 				</span>
 			</div>
-			<div class="text derecha">
-				78,0%
+			<div [ngbTooltip]="tipsethumedad" tooltipClass="mytooltip"  class="text derecha">
+				{{ getValue('humedad') | number:'1.0-0'}} %
 				<span style="font-size: 1.5em; color: cyan; margin:10px">
 					<i class="fas fa-tint"></i>
 				</span>
@@ -62,18 +96,40 @@
 		<div #LineChart2></div>
 		<!--<canvas id="lineChart"></canvas>-->
 	</div>
+	
+	<ng-template #tipCt1Die>
+		<p>Diesel</p>
+		<p>{{getTagName('ct-1-diesel')}}</p>
+		<p>{{ getValue('ct-1-diesel') | number: "1.2-2"}} T/h</p>
+	</ng-template>
+	<ng-template #tipCt1Gas>
+		<p>Gas</p>
+		<p>{{getTagName('ct-1-gas')}}</p>
+		<p>{{ getValue('ct-1-gas') | number: "1.2-2"}} NM3/h</p>
+	</ng-template>
+	<ng-template #tipCt2Die>
+		<p>Diesel</p>
+		<p>{{getTagName('ct-2-diesel')}}</p>
+		<p>{{ getValue('ct-2-diesel') | number: "1.2-2"}} T/h</p>
+	</ng-template>
+	<ng-template #tipCt2Gas>
+		<p>Gas</p>
+		<p>{{getTagName('ct-2-gas')}}</p>
+		<p>{{ getValue('ct-2-gas') | number: "1.2-2"}} T/h</p>
+	</ng-template>
 	<div id="turbinas">
 		<div class="block">
 			<div id="donaContainer">
 				<canvas id="mediaDona1"></canvas>
 				<img class="imgTurbinaDiesel" src="assets/monitoring/3_3/turbinaAnimada2.gif" alt="" />
 				<div style="position: relative; ">
-					<span class="center"
+					<span class="center" [ngbTooltip]="tipCt1Die" tooltipClass="mytooltip"
 						style="font-size: 1.5em; color: red;display: inline-block; margin-right: 20px;">
 						<i class="fas fa-gas-pump"></i>
+						
 					</span>
-					<span style="font-size: 1.5em; color: yellowgreen;">
-						<i class="fas fa-fire-alt"></i>
+					<span style="font-size: 1.5em; color: yellowgreen;" [ngbTooltip]="tipCt1Gas" tooltipClass="mytooltip">
+						<i class="fas fa-fire-alt"></i>					
 					</span>
 				</div>
 			</div>
@@ -83,11 +139,11 @@
 				<canvas id="mediaDona2"></canvas>
 				<img class="imgTurbinaDiesel" src="assets/monitoring/3_3/turbinaAnimada2.gif" alt="" />
 				<div style="position: relative;">
-					<span class="center"
+					<span class="center" [ngbTooltip]="tipCt2Die" tooltipClass="mytooltip"
 						style="font-size: 1.5em; color: red;display: inline-block; margin-right: 20px;">
 						<i class="fas fa-gas-pump"></i>
 					</span>
-					<span style="font-size: 1.5em; color: yellowgreen;">
+					<span style="font-size: 1.5em; color: yellowgreen;" [ngbTooltip]="tipCt2Gas" tooltipClass="mytooltip">
 						<i class="fas fa-fire-alt"></i>
 					</span>
 				</div>
