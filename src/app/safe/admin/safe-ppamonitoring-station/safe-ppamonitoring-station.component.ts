@@ -129,8 +129,8 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		legend: {
 			layout: 'vertical',
 			align: 'right',
-			verticalAlign: 'top',
-			y: 60,
+			verticalAlign: 'bottom',
+			y: -20,
             x: -10,
 			floating: true,
             draggable: true,
