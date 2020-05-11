@@ -99,7 +99,7 @@
   .chart-container {
     position: relative;
     margin: auto;
-    height: 30vh; 
+    height: auto; 
   }
   #turbinas{
       margin: 2px auto;
@@ -160,27 +160,85 @@
          /* background:red;   */
     }
   }
+  
+  
   @media  screen and (max-width: 1280px) {
-    .chart-container {
-      position: relative;
-      margin: auto;
-      height: 45vh; 
-    }
+    #principal_contenedor {
+      width: 100%;
+      height: 100%;
+      background-color: black;
+    
+      }
+      #contenedorCondiciones{
+        float: center; 
+        background: #0F0F0F;
+      }
     #turbinas{
-        margin: 2px auto;
-        max-width:100%;
-        height: 30vh; 
-        overflow: hidden;  
-         /* background:red;   */
-    }
+     
+      height: auto; 
+     overflow: hidden;  
+    
+  }
+      .block {
+     
+        width: 98%;
+      }
+      .block:first-child {
+        width: 98%;
+       
+        clear: both;
+      }
+      .block:last-child {
+        width: 98%;
+       
+        clear: both;
+      }
+  }
+  
+  @media screen and  (min-width: 1000px) and (max-width: 1199px){
     #principal_contenedor {
       width: 100%;
       height: 100vh;
       background-color: black;
     
       }
+      .chart-container {
+        position: relative;
+        margin: auto;
+        height: 35vh; 
+      }
+      #turbinas{
+          margin: 2px auto;
+          max-width:100%;
+          height: 30vh; 
+          overflow: hidden;  
+          
+      }
   }
-  @media screen and (max-width: 640px) {
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    #contenedorCondiciones{
+      float: center; 
+      background: #0F0F0F;
+    }
+    
+    #turbinas{
+   
+      height: auto; 
+     overflow: hidden;  
+    
+  }
+    .block {
+      width: 98%;
+    }
+    #principal_contenedor {
+      width: 100%;
+      height: 100%;
+      background-color: black;
+    
+      }
+  }
+  
+  @media screen and (min-width: 641px) and (max-width: 999px) {
     #principal_contenedor {
       width: 100%;
       height: 100%;
@@ -212,7 +270,9 @@
         clear: both;
       }
     }
-    @media screen and (max-width: 640px) and (max-width: 320px) {
+   
+  
+    @media screen and (max-width: 640px) and (min-width: 320px) {
       #contenedorCondiciones{
         float: center; 
         background: #0F0F0F;
@@ -233,7 +293,51 @@
       
         }
     }
-    
+    @media only screen and (min-width: 570px) and (max-width:571px) {
+      #contenedorCondiciones{
+        float: center; 
+        background: #0F0F0F;
+      }
+      #turbinas{
+     
+        height: auto; 
+       overflow: hidden;  
+      
+    }
+      .block {
+        width: 98%;
+      }
+      #principal_contenedor {
+        width: 100%;
+        height: 100%;
+        background-color: black;
+      
+        }
+    }
+  
+    @media screen and (max-width: 319px)  {
+      #contenedorCondiciones{
+        float: center; 
+        background: #0F0F0F;
+      }
+      #turbinas{
+     
+        height: auto; 
+       overflow: hidden;  
+      
+    }
+      .block {
+        width: 98%;
+      }
+      #principal_contenedor {
+        width: 100%;
+        height: 100%;
+        background-color: black;
+      
+        }
+    }
+  
+  
     .center {
       margin-left: auto;
       margin-right: auto;   

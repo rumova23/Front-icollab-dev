@@ -119,10 +119,10 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 /* ./Estilos para las tablas en catalogos */
 
 #columna{
-    direction: rtl;
+    /*direction: rtl;*/
 }
 #columna div{
-    direction: ltr;
+    /*direction: ltr;*/
 }
 /* Tamaño del scroll */
 .scroll_design::-webkit-scrollbar {
