@@ -95,4 +95,46 @@ export class SafePpaMonitoringProfileStationComponent implements OnInit {
     this.eventService.sendApp(new EventMessage(1,
         new EventBlocked(type, msg)));
   }
+
+  aplicarDeteccion() {
+    if (this.date.value == null) {
+      this.toastr.errorToastr('Eliga una fecha.', 'Lo siento,');
+      return 0;
+    }
+    this.addBlock(1, '');
+    this.ppaMonitoringFormatService.procesaDeteccionProfile(
+      new Date(this.date.value).getFullYear(),
+      new Date(this.date.value).getMonth() + 1
+    ).subscribe (
+        data => {
+          this.addBlock(2, '');
+          this.toastr.successToastr('El archivo llego con exito', 'Ejecución lanzada con éxito.');
+        },
+        errorData => {
+          this.addBlock(2, '');
+          console.dir(errorData);
+          this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
+        });
+  }
+
+  aplicarCorrecion() {
+    if (this.date.value == null) {
+      this.toastr.errorToastr('Eliga una fecha.', 'Lo siento,');
+      return 0;
+    }
+    this.addBlock(1, '');
+    this.ppaMonitoringFormatService.procesaCorreccionProfile(
+        new Date(this.date.value).getFullYear(),
+        new Date(this.date.value).getMonth() + 1
+    ).subscribe (
+        data => {
+          this.addBlock(2, '');
+          this.toastr.successToastr('El archivo llego con exito', 'Ejecución lanzada con éxito.');
+        },
+        errorData => {
+          this.addBlock(2, '');
+          console.dir(errorData);
+          this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
+        });
+  }
 }

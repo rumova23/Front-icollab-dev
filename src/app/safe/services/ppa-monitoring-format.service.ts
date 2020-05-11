@@ -40,6 +40,18 @@ export class PpaMonitoringFormatService {
 		return this.http.post(environment.dycformato + 'uploadPerfil/', data, {params : this.parameters });
 	}
 
+	procesaCorreccionProfile(year: number, mount: number): Observable<any> {
+		// return of(this.respuestaDemoPreocesaCorreccion);
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.dycformato + 'profile/corrected/' + year + '/' + mount, {params : this.parameters });
+	}
+
+	procesaDeteccionProfile(year: number, mount: number): Observable<any> {
+		// return of(this.respuestaDemoPreocesaDeteccion);
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.dycformato + 'profile/detected/' + year + '/' + mount, {params : this.parameters });
+	}
+
 	obtenBitacoraLoadRaw(): Observable<any> {
 		// return of(this.loadRawBitacora);
 		this.parameters = this.globalService.setXTenantId_Plant();
