@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { Chart } from 'chart.js';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { MonitoringTrService } from '../../services/monitoringTr.service';
@@ -446,13 +446,26 @@ export class Phase3v3Component extends ConnectSocketChannelComponent implements 
 					//*/
 						timer(3000).subscribe(()=>{
 							this.socketFase3();
+						},null,()=>{
+							interval(3000).subscribe(()=>{
+								//this.initChartLine();
+								this.chartLine2C.redraw(true);
+							});
+							
+							interval(19000).subscribe(()=>{
+								this.initChartLine();
+								//this.chartLine2C.redraw();
+							});
 						});
 					}
 				}
 			);
 	}
 	initChartLine(){
-				
+		if(this.chartLine2C != undefined){
+			this.chartLine2C.destroy();
+			this.chartLine2C = undefined;
+		}
 		let opt: any = {
 			chart: {
 				type: 'spline',
@@ -561,56 +574,17 @@ export class Phase3v3Component extends ConnectSocketChannelComponent implements 
 				yAxis: 'potencia-neta-axis',
 				
 				color: this.colorPotNet,
-				data:(function (lista) {
-					// generate an array of random data
-					var data = [],
-						time = (new Date()).getTime(),
-						i;
-		
-					for (i = -24; i <= 0; i += 1) {
-						data.push({
-							x: time + i * 1000,
-							y:0
-						});
-					}
-					return data;
-				}(this.tags.get('potenciaNeta')['value']))
+				data:this.tags.get('potenciaNeta')['value']
 			},{
 				name:'Potencia CCDV',
 				yAxis: 'potencia-ccdv-axis',
 				color: this.colorCcdv,
-				data:(function () {
-					// generate an array of random data
-					var data = [],
-						time = (new Date()).getTime(),
-						i;
-		
-					for (i = -24; i <= 0; i += 1) {
-						data.push({
-							x: time + i * 1000,
-							y:0
-						});
-					}
-					return data;
-				}())
+				data:this.tags.get('potenciaCcdv')['value']
 			},{
 				name:'Regimen Termico',
 				yAxis: 'regimen-terminco-axis',
 				color: this.colorRT,
-				data:(function () {
-					// generate an array of random data
-					var data = [],
-						time = (new Date()).getTime(),
-						i;
-		
-					for (i = -24; i <= 0; i += 1) {
-						data.push({
-							x: time + i * 1000,
-							y:0
-						});
-					}
-					return data;
-				}())
+				data:this.tags.get('regimentermico')['value']
 			}]
 		}
 		this.chartLine2C = Highcharts.chart(this.LineChart2.nativeElement, opt);
@@ -669,21 +643,21 @@ export class Phase3v3Component extends ConnectSocketChannelComponent implements 
 	setPresionAtmosferica(x,y){}
 	sethumedad(x,y){}
 	setPotenciaNeta(y,x){
-		this.chartLine2C.series[0].addPoint([x, y], true, true);
+		this.chartLine2C.series[0].addPoint([x, y], false, true);
 		let arr = this.tags.get('potenciaNeta')['value'];
 		arr.shift();
 		arr.push([x,y]);
 		//*/
 	}
 	setPotenciaCcdv(y,x){		
-		this.chartLine2C.series[1].addPoint([x, y], true, true);
+		this.chartLine2C.series[1].addPoint([x, y], false, true);
 		let arr = this.tags.get('potenciaCcdv')['value'];
 		arr.shift();
 		arr.push([x,y]);
 		//*/
 	}
 	setRegimenTermico(y,x){
-		this.chartLine2C.series[2].addPoint([x, y], true, true);
+		this.chartLine2C.series[2].addPoint([x, y], false, true);
 		let arr = this.tags.get('regimentermico')['value'];
 		arr.shift();
 		arr.push([x,y]);
