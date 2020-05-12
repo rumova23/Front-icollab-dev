@@ -7,6 +7,14 @@
     src: url(../../../../assets/font/Roboto.ttf) format("truetype");
   }
   
+  .text {
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px; 
+    font-weight: bold;  
+    color: aliceblue;
+    font-family: 'roboto',Arial, Helvetica, sans-serif;      
+  }
   .text1 {
     font-weight: bolder;
     color: aliceblue;
@@ -23,3 +31,6 @@
     font-family: "digital", Arial, Helvetica, sans-serif;
   }
   
+  #contenedorCondiciones{
+    background: #0F0F0F;
+  }
