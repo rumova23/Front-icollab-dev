@@ -46,3 +46,22 @@ input[type="file"] {
   background: #D67700;
   color: #ffffff;
 }
+
+
+.disabledEagle {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  background: #5A9AC2;
+  color: #ffffff;
+}
+
+.disabledSun {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  background: #F2B66C;
+  color: #ffffff;
+}

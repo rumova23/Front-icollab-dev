@@ -17,15 +17,17 @@
         <div class=" row">
             <div class="col-12">
                 <div class="row">
-                    <div class="col-3 text-center" >
-                        <img [src]="imageUrl" width="110" height="110">
+                    <div class="col-4 text-center" >
+                        <img [src]="imageUrl" width="350" height="350">
                         <br/>
                         <div class="d-flex justify-content-center">
-                            <label for="file-upload" [ngClass]="{'custom-file-upload': globalService.aguila,'custom-file-upload2': !globalService.aguila}">
+                            <label for="file-upload" [ngClass]="{'custom-file-upload': globalService.aguila,'custom-file-upload2': !globalService.aguila,
+                                'disabledEagle':isdisabled && globalService.aguila, 'disabledSun':isdisabled && !globalService.aguila}">
                                 <i class="fas fa-plus"></i> Agregar
                             </label>
                             <input id="file-upload"
                                    type="file"
+                                   [disabled]="isdisabled"
                                    name="file"
                                    #fileInput
                                    (change)="onChange(fileInput.files[0])"
@@ -37,7 +39,7 @@
                             <div>Requerido</div>
                         </div>
                     </div>
-                    <div class="col-9" >
+                    <div class="col-8" >
 
                         <div class="row">
                             <div class="col-4">
