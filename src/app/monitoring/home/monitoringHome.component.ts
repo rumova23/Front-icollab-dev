@@ -20,6 +20,9 @@ import { Phase2v1Component } from '../boards/phase2v1/phase2v1.component';
 import { Phase2v2Component } from '../boards/phase2v2/phase2v2.component';
 import { Phase2v3Component } from '../boards/phase2v3/phase2v3.component';
 import { Phase3v3Component } from '../boards/phase3v3/phase3v3.component';
+import { Phase3v5Component } from '../boards/phase3v5/phase3v5.component';
+import { Phase3v4Component } from '../boards/phase3v4/phase3v4.component';
+import { Phase3v6Component } from '../boards/phase3v6/phase3v6.component';
 
 
 @Component({
@@ -36,6 +39,9 @@ import { Phase3v3Component } from '../boards/phase3v3/phase3v3.component';
 		,Phase2v2Component
 		,Phase2v3Component
 		,Phase3v3Component
+		,Phase3v4Component
+		,Phase3v5Component
+		,Phase3v6Component
 	]
 })
 export class MonitoringHomeComponent extends ConnectSocketComponent implements OnInit, OnDestroy {
@@ -97,6 +103,24 @@ export class MonitoringHomeComponent extends ConnectSocketComponent implements O
 							this.componentFactoryResolver.resolveComponentFactory(Phase3v3Component)
 						).changeDetectorRef.detectChanges();
 					break;
+					
+					case 'Administrative_monitoring.phase3v4':				
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(Phase3v4Component)
+						).changeDetectorRef.detectChanges();
+					break;
+					
+					case 'Administrative_monitoring.phase3v5':				
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(Phase3v5Component)
+						).changeDetectorRef.detectChanges();
+					break;
+					case 'Administrative_monitoring.phase3v6':				
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(Phase3v6Component)
+						).changeDetectorRef.detectChanges();
+					break;
+
 					case 'Administrative_monitoring.Mm Market':
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(MonitoringMmMarketComponent)

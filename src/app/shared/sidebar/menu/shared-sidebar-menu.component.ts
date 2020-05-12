@@ -154,14 +154,31 @@ export class SharedSidebarMenuComponent {
         }
     }
     hardcodeAdministrative_monitoring() {
-        /*
+        ///*
         this.menu.push({
-            id: "Mm Market",
+            id: "hardcode",
             idFather: "",
             icon: "insert_chart",
-            label: "Mm Market",
-            url: "Mm Market"
-        });//*/
+            label: "phase 3v4",
+            url: "phase3v4"
+        });
+        this.menu.push({
+            id: "hardcode",
+            idFather: "",
+            icon: "insert_chart",
+            label: "phase 3v5",
+            url: "phase3v5"
+        });
+        this.menu.push({
+            id: "hardcode",
+            idFather: "",
+            icon: "insert_chart",
+            label: "phase 3v6",
+            url: "phase3v6"
+        });
+
+        
+        //*/
     }
     hardcodeCompliance() {
         let item0 = null;

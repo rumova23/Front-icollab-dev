@@ -1,0 +1,25 @@
+@font-face {
+    font-family: "digital";
+    src: url(../../../../assets/font/display.ttf) format("truetype");
+  }
+  @font-face {
+    font-family: "roboto";
+    src: url(../../../../assets/font/Roboto.ttf) format("truetype");
+  }
+  
+  .text1 {
+    font-weight: bolder;
+    color: aliceblue;
+    margin: 2px;
+    font-family: "roboto", Arial, Helvetica, sans-serif;
+  }
+  
+  .digito {
+    font-weight: bolder;
+    color: aliceblue;
+    font-size: xx-large;
+    margin: 3px;
+    letter-spacing: 0.2em;
+    font-family: "digital", Arial, Helvetica, sans-serif;
+  }
+  
