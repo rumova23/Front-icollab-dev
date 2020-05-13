@@ -214,9 +214,9 @@
 
 	<!--Donas-->
 	<div class="row">
-		<div class="col-12 col-lg-6 col-xl-4">
+		<div class="col-12 col-lg-6 col-xl-4 my-4">
 			<div class="row">
-				<div class="col-12 col-lg-4">
+				<div class="col-12 col-lg-4" (click)="openModal_ct_1_dona()">
 					<div>
 						<div #donaChart1></div>
 					</div>
@@ -289,9 +289,9 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-12 col-lg-6 col-xl-4">
+		<div class="col-12 col-lg-6 col-xl-4 my-4">
 			<div class="row">
-				<div class="col-12 col-lg-4">
+				<div class="col-12 col-lg-4" (click)="openModal_ct_2_dona()">
 					<div>
 						<div #donaChart2></div>
 					</div>
@@ -364,9 +364,9 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-12 col-lg-6 col-xl-4">
+		<div class="col-12 col-lg-6 col-xl-4 my-4">
 			<div class="row">
-				<div class="col-12 col-lg-4">
+				<div class="col-12 col-lg-4" (click)="openModal_ct_3_dona()">
 					<div>
 						<div #donaChart3></div>
 					</div>
@@ -380,10 +380,7 @@
 						style="width: 70%; max-width: 460px;" />
 				</div>
 			</div>
-			<div class="row d-flex justify-content-center text-center" style="
-			width: 100%;
-			position: absolute;
-			bottom: 0;">
+			<div class="row d-flex justify-content-center text-center">
 				<div class="col-auto">
 					<div (click)="chartLine_01_ToogleSerie('ct_3_RT')">
 						<span [ngbTooltip]="tip_ct_3_RT" tooltipClass="mytooltip"
@@ -429,3 +426,49 @@
 </app-interactive-image-turbine-ct1>
 <app-interactive-image-turbine-ct1 [ct]="'tv'" [timeCurrent]="timeCurrent" #modal_turbine_ct_3>
 </app-interactive-image-turbine-ct1>
+
+<div class="modal scroll_design fade" #modal_ct_1_dona tabindex="-1" role="dialog" aria-labelledby="ModalTurbineCT1Title" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalTurbineCT1Title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+				<div #donaChart1_modal></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal scroll_design fade" #modal_ct_2_dona tabindex="-1" role="dialog" aria-labelledby="ModalTurbineCT1Title" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalTurbineCT1Title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+				<div #donaChart2_modal></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal scroll_design fade" #modal_ct_3_dona tabindex="-1" role="dialog" aria-labelledby="ModalTurbineCT1Title" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalTurbineCT1Title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+				<div #donaChart3_modal></div>
+			</div>
+		</div>
+	</div>
+</div>

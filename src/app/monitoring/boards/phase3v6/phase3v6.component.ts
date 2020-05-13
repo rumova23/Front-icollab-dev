@@ -12,6 +12,9 @@ import { EventMessage } from "src/app/core/models/EventMessage";
 import { EventBlocked } from "src/app/core/models/EventBlocked";
 import { PiServerBox } from "../../models/piServer/piServerBox";
 import { Chart } from "chart.js";
+
+declare var $: any;
+
 import { InteractiveImageTurbineCT1Component } from '../phase3/components/interactive-image-turbine-ct1/interactive-image-turbine-ct1.component';
 @Component({
 	selector: "app-phase3v6",
@@ -21,7 +24,14 @@ import { InteractiveImageTurbineCT1Component } from '../phase3/components/intera
 export class Phase3v6Component extends ConnectSocketChannelComponent implements OnInit, OnDestroy {
 	@ViewChild("modal_turbine_ct_1") modal_turbine_ct_1: InteractiveImageTurbineCT1Component;
     @ViewChild("modal_turbine_ct_2") modal_turbine_ct_2: InteractiveImageTurbineCT1Component;
-    @ViewChild("modal_turbine_ct_3") modal_turbine_ct_3: InteractiveImageTurbineCT1Component;
+	@ViewChild("modal_turbine_ct_3") modal_turbine_ct_3: InteractiveImageTurbineCT1Component;
+	@ViewChild("modal_ct_1_dona") modal_ct_1_dona: ElementRef;
+	@ViewChild("modal_ct_2_dona") modal_ct_2_dona: ElementRef;
+	@ViewChild("modal_ct_3_dona") modal_ct_3_dona: ElementRef;
+	@ViewChild("donaChart1_modal") donaChart1_modal: ElementRef; donaChart1_modal_x;
+	@ViewChild("donaChart2_modal") donaChart2_modal: ElementRef; donaChart2_modal_x;
+	@ViewChild("donaChart3_modal") donaChart3_modal: ElementRef; donaChart3_modal_x;
+
 	@ViewChild("LineChart2") LineChart2: ElementRef;
 	chartLine2C;
 	@ViewChild("donaChart1") donaChart1: ElementRef;
@@ -318,6 +328,9 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 						this.dona_1_update();
 						this.dona_2_update();
 						this.dona_3_update();
+						this.dona_1_modal_update();
+						this.dona_2_modal_update();
+						this.dona_3_modal_update();
 					});
 				}
 			}
@@ -394,6 +407,9 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		this.dona_1();
 		this.dona_2();
 		this.dona_3();
+		this.dona_1_modal();
+		this.dona_2_modal();
+		this.dona_3_modal();
 	}
 	chartLine_01_Init() {
 		if (this.chartLine2C != undefined) {
@@ -681,6 +697,147 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		}
 		this.chartDona_1 = Highcharts.chart(this.donaChart1.nativeElement, opt);
 	}
+	
+	dona_1_modal(){		
+		if (this.donaChart1_modal_x != undefined) {
+			this.donaChart1_modal_x.destroy();
+			this.donaChart1_modal_x = undefined;
+		}
+		let opt: any = {
+			colors: ["#CD7F32","#ffffff"],
+
+			legend: {
+				enabled: false,
+			},
+			chart: {
+				type: "column",
+				inverted: true,
+				polar: true,
+				backgroundColor: {
+					linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+					stops: [
+						[0, "#000"],
+						[1, "#000"],
+					],
+				},
+				style: {
+					fontFamily: "'Unica One', sans-serif",
+				},
+				plotBorderColor: "#606063",
+			},
+			title: {
+				text: "",
+			},
+			tooltip: {
+				outside: true,
+			},
+			pane: {
+				size: "80%",
+				innerSize: "50%",
+				endAngle: 270,
+			},
+			xAxis: {
+				gridLineColor: "#707073",
+
+				tickInterval: 1,
+				labels: {
+					align: "right",
+					useHTML: true,
+					allowOverlap: true,
+					step: 1,
+					y: 3,
+					style: {
+						fontSize: "13px",
+						color: "#fff",
+					},
+				},
+				lineWidth: 0,
+				categories: ['RT <span class="f16"><span id="flag" class="flag no">' + "</span></span>", 'Potencia <span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
+			},
+			yAxis: [{
+				id: "y-axis-rt",
+				offset: -20,
+				min:0,
+				max:14000,
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 1000,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: true,
+					style: {
+						color: "#fff",
+					},
+				},
+			},{
+				id: "y-axis-potencia",
+				offset: 5,
+				min:0,
+				max:200, 
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 25,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: true,
+					style: {
+						color: "#fff",
+					},
+				},
+			}],
+			plotOptions: {
+				column: {
+					stacking: "normal",
+					borderWidth: 0,
+					pointPadding: 0,
+					groupPadding: 0.15,
+				},
+			},
+			series: [
+				{
+					id:"ct_1_RT",
+					yAxis: "y-axis-rt",
+					data: [0, 105],
+				},
+				{
+					id:"ct_1_Potencia",
+					yAxis: "y-axis-potencia",
+					data: [132, 0],
+				},
+			],
+			exporting: {
+				enabled: false,
+			},
+		};
+		let vp = this.getValue('ct_1_Potencia')[1];
+		let vr = this.getValue('ct_1_RT')[1];
+		opt.series[0]['data'][1]=vr;
+		opt.series[1]['data'][0]=vp;
+
+		if(vp <= 10){
+			opt.colors[0]=  this.rojo;//ct_1_Potencia
+		}else if(vp > 10 && vp < 80){
+			opt.colors[0]=  this.amarillo;//ct_1_Potencia
+		}else if(vp >= 80){
+			opt.colors[0]=  this.verde;//ct_1_Potencia
+		}
+		if(vr < 1000){
+			opt.colors[1]=  this.rojo;
+		}else if(vr >= 1000){
+			opt.colors[1]=  this.verde;
+		}
+		this.donaChart1_modal_x = Highcharts.chart(this.donaChart1_modal.nativeElement, opt);
+	}
 	dona_2() {		
 		if (this.chartDona_2 != undefined) {
 			this.chartDona_2.destroy();
@@ -820,6 +977,146 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			opt.colors[1]=  this.verde;
 		}
 		this.chartDona_2 = Highcharts.chart(this.donaChart2.nativeElement, opt);
+	}
+	dona_2_modal() {		
+		if (this.donaChart2_modal_x != undefined) {
+			this.donaChart2_modal_x.destroy();
+			this.donaChart2_modal_x = undefined;
+		}
+		let opt: any = {
+			colors: ["#CD7F32","#ffffff"],
+
+			legend: {
+				enabled: false,
+			},
+			chart: {
+				type: "column",
+				inverted: true,
+				polar: true,
+				backgroundColor: {
+					linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+					stops: [
+						[0, "#000"],
+						[1, "#000"],
+					],
+				},
+				style: {
+					fontFamily: "'Unica One', sans-serif",
+				},
+				plotBorderColor: "#606063",
+			},
+			title: {
+				text: "",
+			},
+			tooltip: {
+				outside: true,
+			},
+			pane: {
+				size: "80%",
+				innerSize: "50%",
+				endAngle: 270,
+			},
+			xAxis: {
+				gridLineColor: "#707073",
+
+				tickInterval: 1,
+				labels: {
+					align: "right",
+					useHTML: true,
+					allowOverlap: true,
+					step: 1,
+					y: 3,
+					style: {
+						fontSize: "13px",
+						color: "#fff",
+					},
+				},
+				lineWidth: 0,
+				categories: ['RT <span class="f16"><span id="flag" class="flag no">' + "</span></span>", 'Potencia <span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
+			},
+			yAxis: [{
+				id: "y-axis-rt",
+				offset: -20,
+				min:0,
+				max:14000,
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 1000,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: true,
+					style: {
+						color: "#fff",
+					},
+				},
+			},{
+				id: "y-axis-potencia",
+				offset: 5,
+				min:0,
+				max:200, 
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 25,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: true,
+					style: {
+						color: "#fff",
+					},
+				},
+			}],
+			plotOptions: {
+				column: {
+					stacking: "normal",
+					borderWidth: 0,
+					pointPadding: 0,
+					groupPadding: 0.15,
+				},
+			},
+			series: [
+				{
+					id:"ct_1_RT",
+					yAxis: "y-axis-rt",
+					data: [0, 105],
+				},
+				{
+					id:"ct_1_Potencia",
+					yAxis: "y-axis-potencia",
+					data: [132, 0],
+				},
+			],
+			exporting: {
+				enabled: false,
+			},
+		};
+		let vp = this.getValue('ct_2_Potencia')[1];
+		let vr = this.getValue('ct_2_RT')[1];
+		opt.series[0]['data'][1]=vr;
+		opt.series[1]['data'][0]=vp;
+
+		if(vp <= 10){
+			opt.colors[0]=  this.rojo;//ct_1_Potencia
+		}else if(vp > 10 && vp < 80){
+			opt.colors[0]=  this.amarillo;//ct_1_Potencia
+		}else if(vp >= 80){
+			opt.colors[0]=  this.verde;//ct_1_Potencia
+		}
+		if(vr < 1000){
+			opt.colors[1]=  this.rojo;
+		}else if(vr >= 1000){
+			opt.colors[1]=  this.verde;
+		}
+		this.donaChart2_modal_x = Highcharts.chart(this.donaChart2_modal.nativeElement, opt);
 	}
 	dona_3() {		
 		if (this.chartDona_3 != undefined) {
@@ -961,6 +1258,147 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		}
 		this.chartDona_3 = Highcharts.chart(this.donaChart3.nativeElement, opt);
 	}
+	dona_3_modal() {		
+		if (this.donaChart3_modal_x != undefined) {
+			this.donaChart3_modal_x.destroy();
+			this.donaChart3_modal_x = undefined;
+		}
+		let opt: any = {
+			colors: ["#CD7F32","#ffffff"],
+
+			legend: {
+				enabled: false,
+			},
+			chart: {
+				type: "column",
+				inverted: true,
+				polar: true,
+				backgroundColor: {
+					linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+					stops: [
+						[0, "#000"],
+						[1, "#000"],
+					],
+				},
+				style: {
+					fontFamily: "'Unica One', sans-serif",
+				},
+				plotBorderColor: "#606063",
+			},
+			title: {
+				text: "",
+			},
+			tooltip: {
+				outside: true,
+			},
+			pane: {
+				size: "80%",
+				innerSize: "50%",
+				endAngle: 270,
+			},
+			xAxis: {
+				gridLineColor: "#707073",
+
+				tickInterval: 1,
+				labels: {
+					align: "right",
+					useHTML: true,
+					allowOverlap: true,
+					step: 1,
+					y: 3,
+					style: {
+						fontSize: "13px",
+						color: "#fff",
+					},
+				},
+				lineWidth: 0,
+				categories: ['RT <span class="f16"><span id="flag" class="flag no">' + "</span></span>", 'Potencia <span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
+			},
+			yAxis: [{
+				id: "y-axis-rt",
+				offset: -20,
+				min:0,
+				max:14000,
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 1000,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: true,
+					style: {
+						color: "#fff",
+					},
+				},
+			},{
+				id: "y-axis-potencia",
+				offset: 5,
+				min:0,
+				max:200, 
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 25,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: true,
+					style: {
+						color: "#fff",
+					},
+				},
+			}],
+			plotOptions: {
+				column: {
+					stacking: "normal",
+					borderWidth: 0,
+					pointPadding: 0,
+					groupPadding: 0.15,
+				},
+			},
+			series: [
+				{
+					id:"ct_1_RT",
+					yAxis: "y-axis-rt",
+					data: [0, 105],
+				},
+				{
+					id:"ct_1_Potencia",
+					yAxis: "y-axis-potencia",
+					data: [132, 0],
+				},
+			],
+			exporting: {
+				enabled: false,
+			},
+		};
+		let vp = this.getValue('ct_3_Potencia')[1];
+		let vr = this.getValue('ct_3_RT')[1];
+		opt.series[0]['data'][1]=vr;
+		opt.series[1]['data'][0]=vp;
+
+		if(vp <= 10){
+			opt.colors[0]=  this.rojo;//ct_1_Potencia
+		}else if(vp > 10 && vp < 80){
+			opt.colors[0]=  this.amarillo;//ct_1_Potencia
+		}else if(vp >= 80){
+			opt.colors[0]=  this.verde;//ct_1_Potencia
+		}
+		if(vr < 1000){
+			opt.colors[1]=  this.rojo;
+		}else if(vr >= 1000){
+			opt.colors[1]=  this.verde;
+		}
+		this.donaChart3_modal_x = Highcharts.chart(this.donaChart3_modal.nativeElement, opt);
+	}
+
 	dona_1_update(){
 		this.dona_1();
 		/*
@@ -990,13 +1428,23 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		this.chartDona_1.redraw(true);
 		//*/
 	}
-	
 	dona_2_update(){
 		this.dona_2();
 	}
-	
 	dona_3_update(){
 		this.dona_3();
+	}
+	
+	dona_1_modal_update(){
+		this.dona_1_modal();
+	}
+	
+	dona_2_modal_update(){
+		this.dona_2_modal();
+	}
+	
+	dona_3_modal_update(){
+		this.dona_3_modal();
 	}
 	isEat(){
 		return (this.globalService.plant.name.toLowerCase() == "aguila") ? true: false;
@@ -1009,5 +1457,14 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
     }
     openModalCt_3(){
         this.modal_turbine_ct_3.openModalCt_1();
-    }
+	}
+	openModal_ct_1_dona(){
+		$(this.modal_ct_1_dona.nativeElement).modal('show');
+	}
+	openModal_ct_2_dona(){
+		$(this.modal_ct_2_dona.nativeElement).modal('show');
+	}
+	openModal_ct_3_dona(){
+		$(this.modal_ct_3_dona.nativeElement).modal('show');
+	}
 }
