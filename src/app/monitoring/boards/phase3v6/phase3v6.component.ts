@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from "@angular/core";
 import * as Highcharts from "highcharts";
-import { Subscription, timer } from "rxjs";
+import { Subscription, timer ,interval} from "rxjs";
 import { ConnectSocketChannelComponent } from "src/app/shared/socket/connectSocketChannel.component";
 import { GlobalService } from "src/app/core/globals/global.service";
 import { MonitoringTrService } from "../../services/monitoringTr.service";
@@ -26,13 +26,33 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 	public subscriptions: Subscription[] = []; // almacena las todos los observables
 
 	conectToPi: boolean = false;
-	tags: Map<String, Object> = new Map();
-	mapToTag: Map<String, String> = new Map();
-
-	colorPotNet = "#5d76d3";
-	colorCcdv = "#9741f6";
-	colorRT = "#4cc900";
+	mapWebIdToKeyTag: Map<string, string> = new Map();
+	tags: Map<string, Object> = new Map();
+	mapColors: Map<string, string> = new Map([
+		["temperatura_ambiente"  ,"#fff"],
+		["presion_atmosferica"   ,"#fff"],
+		["humedad"               ,"#fff"],
+		["potenciaNeta"          ,"#5d76d3"],
+		["potenciaCcdv"          ,"#9741f6"],
+		["regimentermico"        ,"#4cc900"],
+		["ct_1_gas"              ,"#fff"],
+		["ct_1_diesel"           ,"#fff"],
+		["ct_1_RT"               ,"#fff"],
+		["ct_1_Potencia"         ,"#fff"],
+		["ct_1_RPM"              ,"#fff"],
+		["ct_2_gas"              ,"#fff"],
+		["ct_2_diesel"           ,"#fff"],
+		["ct_2_RT"               ,"#fff"],
+		["ct_2_Potencia"         ,"#fff"],
+		["ct_2_RPM"              ,"#fff"],
+		["ct_3_gas"              ,"#fff"],
+		["ct_3_diesel"           ,"#fff"],
+		["ct_3_RT"               ,"#fff"],
+		["ct_3_Potencia"         ,"#fff"],
+		["ct_3_RPM"              ,"#fff"],
+	]);
 	pl = "";
+
 
 	mediaDona1: Chart = []; //MediaDona1
 
@@ -115,81 +135,81 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM",
 			webIdS: "F1DP4rhZAwFMREKDf7s8vylUqg2wMAAAUElUVlxULkNFQS4yMjY4",
 		});
-		this.tags.set("ct-1-gas", {
+		this.tags.set("ct_1_gas", {
 			tagName: "",
 			f: "setCt1Gas",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IguB8AAAU0VSVklET1JfUElcRzFBMDgwNzM",
 			webIdS: "F1DP4rhZAwFMREKDf7s8vylUqglAAAAAUElUVlw1MUNFQUdGMDAxXzAx",
 		});
-		this.tags.set("ct-1-diesel", { tagName: "", f: "setCt1Die", value: [], webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgnSIAAAU0VSVklET1JfUElcRzFBMDgwOTc", webIdS: "" });
-		this.tags.set("ct-1-RT", {
+		this.tags.set("ct_1_diesel", { tagName: "", f: "setCt1Die", value: [], webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgnSIAAAU0VSVklET1JfUElcRzFBMDgwOTc", webIdS: "" });
+		this.tags.set("ct_1_RT", {
 			tagName: "",
 			f: "setCt1RT",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgGyUAAAU0VSVklET1JfUElcREFBMDgxMDY",
 			webIdS: "F1DP4rhZAwFMREKDf7s8vylUqg3gMAAAUElUVlxULkNFQS4yMjcx",
 		});
-		this.tags.set("ct-1-Potencia", {
+		this.tags.set("ct_1_Potencia", {
 			tagName: "",
 			f: "setCt1Pot",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6Igmh8AAAU0VSVklET1JfUElcRzFBMDgwMzA",
 			webIdS: "F1DP4rhZAwFMREKDf7s8vylUqgMgAAAAUElUVlw1MUNFQUdJMDAyXzAx",
 		});
-		this.tags.set("ct-1-RPM", {
+		this.tags.set("ct_1_RPM", {
 			tagName: "",
 			f: "setCt1Rpm",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6Ig3SIAAAU0VSVklET1JfUElcRzFBMDg0MDQ",
 			webIdS: "F1DP4rhZAwFMREKDf7s8vylUqgkQAAAAUElUVlw1MU1CSzAxQ1MwMDE",
 		});
-		this.tags.set("ct-2-gas", {
+		this.tags.set("ct_2_gas", {
 			tagName: "",
 			f: "setCt2Gas",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgICAAAAU0VSVklET1JfUElcRzJBMDgwNzM",
 			webIdS: "F1DP4rhZAwFMREKDf7s8vylUqg9QAAAAUElUVlw1MkNFQUdGMDAxXzAx",
 		});
-		this.tags.set("ct-2-diesel", { tagName: "", f: "setCt2Die", value: [], webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgLCAAAAU0VSVklET1JfUElcRzJBMDgwOTc", webIdS: "" });
-		this.tags.set("ct-2-RT", {
+		this.tags.set("ct_2_diesel", { tagName: "", f: "setCt2Die", value: [], webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgLCAAAAU0VSVklET1JfUElcRzJBMDgwOTc", webIdS: "" });
+		this.tags.set("ct_2_RT", {
 			tagName: "",
 			f: "setCt2RT",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgHCUAAAU0VSVklET1JfUElcREFBMDgxMDc",
 			webIdS: "F1DP4rhZAwFMREKDf7s8vylUqg3wMAAAUElUVlxULkNFQS4yMjcy",
 		});
-		this.tags.set("ct-2-Potencia", {
+		this.tags.set("ct_2_Potencia", {
 			tagName: "",
 			f: "setCt2Pot",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgDSAAAAU0VSVklET1JfUElcRzJBMDgwNDY",
 			webIdS: "F1DP4rhZAwFMREKDf7s8vylUqglwAAAAUElUVlw1MkNFQUdJMDAyXzAx",
 		});
-		this.tags.set("ct-2-RPM", {
+		this.tags.set("ct_2_RPM", {
 			tagName: "",
 			f: "setCt2Rpm",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgciMAAAU0VSVklET1JfUElcRzJBMDg0MDQ",
 			webIdS: "F1DP4rhZAwFMREKDf7s8vylUqg8gAAAAUElUVlw1Mk1CSzAxQ1MwMDE",
 		});
-		this.tags.set("ct-3-gas", { tagName: "", f: "setCt3Gas", value: [], webIdA: "", webIdS: "" });
-		this.tags.set("ct-3-diesel", { tagName: "", f: "setCt3Die", value: [], webIdA: "", webIdS: "" });
-		this.tags.set("ct-3-RT", {
+		this.tags.set("ct_3_gas", { tagName: "", f: "setCt3Gas", value: [], webIdA: "", webIdS: "" });
+		this.tags.set("ct_3_diesel", { tagName: "", f: "setCt3Die", value: [], webIdA: "", webIdS: "" });
+		this.tags.set("ct_3_RT", {
 			tagName: "",
 			f: "setCt3RT",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgGiUAAAU0VSVklET1JfUElcREFBMDgxMDU",
 			webIdS: "F1DP4rhZAwFMREKDf7s8vylUqg4AMAAAUElUVlxULkNFQS4yMjcz",
 		});
-		this.tags.set("ct-3-Potencia", {
+		this.tags.set("ct_3_Potencia", {
 			tagName: "",
 			f: "setCt3Pot",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6Ig4h4AAAU0VSVklET1JfUElcRUhBMDgwMTk",
 			webIdS: "F1DP4rhZAwFMREKDf7s8vylUqgDwMAAAUElUVlxULkNFQS4yMDQ0",
 		});
-		this.tags.set("ct-3-RPM", {
+		this.tags.set("ct_3_RPM", {
 			tagName: "",
 			f: "setCt3Rpm",
 			value: [],
@@ -215,7 +235,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		for (let nextValue = a.next(); nextValue.done !== true; nextValue = a.next()) {
 			if (nextValue.value[1][this.pl] != "") webIds.push(nextValue.value[1][this.pl]);
 		}
-		this.monitoringTrService.getStreamsetsInterpolatedLastHoursMinute(idPi, webIds, 1, 3).subscribe(
+		this.monitoringTrService.getStreamsetsInterpolatedLastHoursSeconts(idPi, webIds, 1, 3).subscribe(
 			(data: PiServerBox) => {
 				if (data.data[0].error_response) {
 					this.toastr.errorToastr("Error", "Error con la solicitud");
@@ -227,7 +247,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					for (let nextValue = a.next(); nextValue.done !== true; nextValue = a.next()) {
 						let webIdLocal = nextValue.value[1][this.pl];
 						if (item.WebId && item.WebId == webIdLocal) {
-							if (!this.mapToTag.has(item.WebId)) this.mapToTag.set(item.WebId, nextValue.value[0]);
+							if (!this.mapWebIdToKeyTag.has(item.WebId)) this.mapWebIdToKeyTag.set(item.WebId, nextValue.value[0]);
 							this.tags.get(nextValue.value[0])["tagName"] = item.Name;
 							this.tags.get(nextValue.value[0])["value"] = item.Items.map((itemInterpolated) => [new Date(itemInterpolated.Value.Timestamp).getTime(), itemInterpolated.Value.Value]);
 						}
@@ -245,16 +265,20 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				if (this.conectToPi) {
 					this.initChartLine();
 					this.dona_1();
-					this.addBlock(2, "");
-					/*timer(3000).subscribe(()=>{
-									  this.addBlock(2, '');
-									  //this.socketFase3();
-								  });//*/
+					this.socketFase3();
+					timer(3000).subscribe(()=>{
+						this.addBlock(2, "");
+					});//*/
+					
+					interval(3000).subscribe(()=>{
+						this.updateCharLine();
+						//this.initChartLine();
+						//this.chartLine2C.redraw(true);
+					});
 				}
 			}
 		);
 	}
-
 	socketFase3() {
 		let canal = "pi-" + this.globalService.plant.name.toLowerCase();
 		this.subscribeSocketChannel(
@@ -271,9 +295,9 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		for (const plant of data.data) {
 			if (!plant.error_response) {
 				for (const tag of plant.Items) {
-					if (!this.mapToTag.has(tag.WebId)) this.mapToTag.set(tag.WebId, this.findLocalKeyTagByWebId(tag.WebId));
-					if (this.mapToTag.get(tag.WebId) != null) {
-						let localTag = this.tags.get(this.mapToTag.get(tag.WebId));
+					if (!this.mapWebIdToKeyTag.has(tag.WebId)) this.mapWebIdToKeyTag.set(tag.WebId, this.findLocalKeyTagByWebId(tag.WebId));
+					if (this.mapWebIdToKeyTag.get(tag.WebId) != null) {
+						let localTag = this.tags.get(this.mapWebIdToKeyTag.get(tag.WebId));
 
 						localTag["value"].push([date.getTime(), tag.Value.Value]);
 
@@ -288,8 +312,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 
 		//this.addStreamsetsValueInChart(data);
 	}
-	findLocalKeyTagByWebId(webId): String {
-		let result: String = null;
+	findLocalKeyTagByWebId(webId): string {
+		let result: string = null;
 		let a = this.tags.entries();
 		for (let nextValue = a.next(); nextValue.done !== true; nextValue = a.next()) {
 			let webIdLocal = nextValue.value[1][this.pl];
@@ -344,67 +368,15 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			xAxis: {
 				type: "datetime",
 				tickPixelInterval: 150,
+				labels: {
+					style: {
+						fontSize: "13px",
+						color: "#fff",
+					},
+				},
 			},
 
-			yAxis: [
-				{
-					// Secondary yAxis
-					id: "potencia-neta-axis",
-					gridLineWidth: 0,
-					labels: {
-						style: {
-							color: this.colorPotNet,
-							fontWeight: "bold",
-						},
-					},
-					title: {
-						enabled: false,
-						text: "Potencia Neta",
-						style: {
-							color: this.colorPotNet,
-						},
-					},
-					//opposite: true
-				},
-				{
-					// Secondary yAxis
-					id: "potencia-ccdv-axis",
-					gridLineWidth: 0,
-					labels: {
-						style: {
-							color: this.colorCcdv,
-							fontWeight: "bold",
-						},
-					},
-					title: {
-						enabled: false,
-						text: "CCDV",
-						style: {
-							color: this.colorCcdv,
-						},
-					},
-					// opposite: true
-				},
-				{
-					// Secondary yAxis
-					id: "regimen-terminco-axis",
-					gridLineWidth: 0,
-					labels: {
-						style: {
-							color: this.colorRT,
-							fontWeight: "bold",
-						},
-					},
-					title: {
-						enabled: false,
-						text: "Regimen Termico",
-						style: {
-							color: this.colorRT,
-						},
-					},
-					//opposite: true
-				},
-			],
+			yAxis: [],
 
 			tooltip: {
 				headerFormat: "<b>{series.name}</b><br/>",
@@ -419,31 +391,62 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				enabled: false,
 			},
 
-			series: [
-				{
-					name: "Potencia Neta",
-					yAxis: "potencia-neta-axis",
-
-					color: this.colorPotNet,
-					data: this.tags.get("potenciaNeta")["value"],
-				},
-				{
-					name: "Potencia CCDV",
-					yAxis: "potencia-ccdv-axis",
-					color: this.colorCcdv,
-					data: this.tags.get("potenciaCcdv")["value"],
-				},
-				{
-					name: "Regimen Termico",
-					yAxis: "regimen-terminco-axis",
-					color: this.colorRT,
-					data: this.tags.get("regimentermico")["value"],
-				},
-			],
+			series: [],
 		};
+		let a = this.tags.entries();
+		for (let nextValue = a.next(); nextValue.done !== true; nextValue = a.next()) {
+			opt.yAxis.push(
+				{
+					id: "y-axis-"+nextValue.value[0],
+					gridLineWidth: 0,
+					labels: {
+						style: {
+							color: this.mapColors.get(nextValue.value[0]),
+							fontWeight: "bold",
+						}
+					},
+					title: {
+						enabled: false,
+						text: nextValue.value[0],
+						style: {
+							color: this.mapColors.get(nextValue.value[0]),
+						},
+					},
+					//opposite: true
+				}
+			);
+			opt.series.push(
+				{
+					id : nextValue.value[0],
+					name: nextValue.value[0],
+					yAxis: "y-axis-"+nextValue.value[0],
+					visible: ["potenciaNeta","potenciaCcdv","regimentermico"].includes(nextValue.value[0]),
+					color: this.mapColors.get(nextValue.value[0]),
+					data: nextValue.value[1]["value"],
+				}
+			);
+		}
 		this.chartLine2C = Highcharts.chart(this.LineChart2.nativeElement, opt);
 	}
-
+	updateCharLine(){
+		let a = this.tags.entries();
+		let data = null;
+		let serie = null;
+		for (let nextValue = a.next(); nextValue.done !== true; nextValue = a.next()) {
+			serie = this.chartLine2C.get(nextValue.value[0]);
+			data = nextValue.value[1]["value"][nextValue.value[1]["value"]["length"]-1]
+			serie.addPoint(data, false, true);
+			//debugger;
+		}
+		this.chartLine2C.redraw(true);
+	}
+	tester(){
+		/*this.chartLine2C.series[0].hide();
+		this.chartLine2C.series[0].show();//*/
+		var series = this.chartLine2C.get('series-2');
+		alert ('The series-2 series\' name is '+ series.name);
+		series.show();
+	}
 	dona_1() {
 		//Dona 1
 		let opt: any = {

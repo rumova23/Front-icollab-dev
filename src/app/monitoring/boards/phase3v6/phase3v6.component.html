@@ -3,12 +3,10 @@
 		<p>POTENCIA NETA</p>
 		<p>{{ getTagName("potenciaNeta") }}</p>
 	</ng-template>
-
 	<ng-template #tipccdv>
 		<p>POTENCIA CCDV</p>
 		<p>{{ getTagName("potenciaCcdv") }}</p>
 	</ng-template>
-
 	<ng-template #tiprt>
 		<p>RÉGIMEN TÉRMICO</p>
 		<p>{{ getTagName("regimentermico") }}</p>
@@ -29,23 +27,23 @@
 
 	<ng-template #tipCt1Die>
 		<p>Diesel</p>
-		<p>{{ getTagName("ct-1-diesel") }}</p>
-		<p>{{ getValue("ct-1-diesel")[1] | number: "1.2-2" }} T/h</p>
+		<p>{{ getTagName("ct_1_diesel") }}</p>
+		<p>{{ getValue("ct_1_diesel")[1] | number: "1.2-2" }} T/h</p>
 	</ng-template>
 	<ng-template #tipCt1Gas>
 		<p>Gas</p>
-		<p>{{ getTagName("ct-1-gas") }}</p>
-		<p>{{ getValue("ct-1-gas")[1] | number: "1.2-2" }} NM3/h</p>
+		<p>{{ getTagName("ct_1_gas") }}</p>
+		<p>{{ getValue("ct_1_gas")[1] | number: "1.2-2" }} NM3/h</p>
 	</ng-template>
 	<ng-template #tipCt2Die>
 		<p>Diesel</p>
-		<p>{{ getTagName("ct-2-diesel") }}</p>
-		<p>{{ getValue("ct-2-diesel")[1] | number: "1.2-2" }} T/h</p>
+		<p>{{ getTagName("ct_2_diesel") }}</p>
+		<p>{{ getValue("ct_2_diesel")[1] | number: "1.2-2" }} T/h</p>
 	</ng-template>
 	<ng-template #tipCt2Gas>
 		<p>Gas</p>
-		<p>{{ getTagName("ct-2-gas") }}</p>
-		<p>{{ getValue("ct-2-gas")[1] | number: "1.2-2" }} T/h</p>
+		<p>{{ getTagName("ct_2_gas") }}</p>
+		<p>{{ getValue("ct_2_gas")[1] | number: "1.2-2" }} T/h</p>
 	</ng-template>
 </div>
 <div class="monitoreo pb-4">
@@ -57,10 +55,10 @@
 					<div [ngbTooltip]="tippotencianeta" tooltipClass="mytooltip"
 						style="background: #0f0f0f;">
 						<div style="margin: 10px;">
-							<p [style.color]="colorPotNet" class="text1">POTENCIA NETA</p>
-							<span [style.color]="colorPotNet"
+							<p [style.color]="mapColors.get('potenciaNeta')" class="text1">POTENCIA NETA</p>
+							<span [style.color]="mapColors.get('potenciaNeta')"
 								class="digito">{{ getValue("potenciaNeta")[1] | number: "1.2-2" }}</span><span
-								class="text2" [style.color]="colorPotNet">MW</span>
+								class="text2" [style.color]="mapColors.get('potenciaNeta')">MW</span>
 							<p *ngIf="getValue('potenciaNeta')[0] != null" class="text2">
 								{{ getValue("potenciaNeta")[0] | date: "dd/MM/yyyy" }}
 							</p>
@@ -76,10 +74,10 @@
 					<div [ngbTooltip]="tipccdv" tooltipClass="mytooltip"
 						style="background: #0f0f0f;">
 						<div style="margin: 10px;">
-							<p [style.color]="colorCcdv" class="text1">POTENCIA CCDV</p>
-							<span [style.color]="colorCcdv"
+							<p [style.color]="mapColors.get('potenciaCcdv')" class="text1">POTENCIA CCDV</p>
+							<span [style.color]="mapColors.get('potenciaCcdv')"
 								class="digito">{{ getValue("potenciaCcdv")[1] | number: "1.2-2" }}</span><span
-								class="text2" [style.color]="colorCcdv">MV</span>
+								class="text2" [style.color]="mapColors.get('potenciaCcdv')">MV</span>
 							<p *ngIf="getValue('potenciaCcdv')[0] != null" class="text2">
 								{{ getValue("potenciaCcdv")[0] | date: "dd/MM/yyyy" }}
 							</p>
@@ -95,10 +93,10 @@
 					<div [ngbTooltip]="tiprt" tooltipClass="mytooltip"
 						style="background: #0f0f0f;">
 						<div style="margin: 10px;">
-							<p [style.color]="colorRT" class="text1">RÉGIMEN TÉRMICO</p>
-							<span [style.color]="colorRT"
+							<p [style.color]="mapColors.get('regimentermico')" class="text1">RÉGIMEN TÉRMICO</p>
+							<span [style.color]="mapColors.get('regimentermico')"
 								class="digito">{{ getValue("regimentermico")[1] | number: "1.2-2" }}</span><span
-								class="text2" [style.color]="colorRT">KJ/KWh</span>
+								class="text2" [style.color]="mapColors.get('regimentermico')">KJ/KWh</span>
 							<p *ngIf="getValue('regimentermico')[0] != null" class="text2">
 								{{ getValue("regimentermico")[0] | date: "dd/MM/yyyy" }}
 							</p>
@@ -171,18 +169,47 @@
 						style="width: 70%;" />
 				</div>
 			</div>
-			<div class="row d-flex justify-content-center">
+			<div class="row d-flex justify-content-center text-center">
+				<div class="col-auto">
+					<span class="center" [ngbTooltip]="tipCt1Die" tooltipClass="mytooltip"
+						style="font-size: 1.5em; color: red;">
+						<i class="fas fa-chart-line"></i>
+					</span>
+					<p>{{ getValue("ct_1_diesel")[1] | number: "1.2-2" }}</p>
+					<p>T/h</p>
+				</div>
+				<div class="col-auto">
+					<span style="font-size: 1.5em; color: yellowgreen;" [ngbTooltip]="tipCt1Gas"
+						tooltipClass="mytooltip">
+						<i class="fas fa-bolt"></i>
+					</span>
+					<p>{{ getValue("ct_1_gas")[1] | number: "1.2-2" }}</p>
+					<p>NM3/h</p>
+				</div>
+
 				<div class="col-auto">
 					<span class="center" [ngbTooltip]="tipCt1Die" tooltipClass="mytooltip"
 						style="font-size: 1.5em; color: red;">
 						<i class="fas fa-gas-pump"></i>
 					</span>
+					<p>{{ getValue("ct_1_diesel")[1] | number: "1.2-2" }}</p>
+					<p>T/h</p>
 				</div>
 				<div class="col-auto">
 					<span style="font-size: 1.5em; color: yellowgreen;" [ngbTooltip]="tipCt1Gas"
 						tooltipClass="mytooltip">
 						<i class="fas fa-fire-alt"></i>
 					</span>
+					<p>{{ getValue("ct_1_gas")[1] | number: "1.2-2" }}</p>
+					<p>NM3/h</p>
+				</div>
+				<div class="col-auto" (click)="tester()">
+					<span style="font-size: 1.5em; color: yellowgreen;" [ngbTooltip]="tipCt1Gas"
+						tooltipClass="mytooltip">
+						<i class="fas fa-running icon-verde running"></i>
+					</span>
+					<p>{{ getValue("ct_1_gas")[1] | number: "1.2-2" }}</p>
+					<p>NM3/h</p>
 				</div>
 			</div>
 		</div>
