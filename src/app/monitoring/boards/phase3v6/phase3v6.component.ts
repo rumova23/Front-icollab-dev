@@ -583,7 +583,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					color: "#333",
 				},
 				lineWidth: 0,
-				tickInterval: 25,
+				tickInterval: 1000,
 				reversedStacks: false,
 				endOnTick: true,
 				showLastLabel: true,
