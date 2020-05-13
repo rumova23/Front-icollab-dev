@@ -300,12 +300,12 @@ export class ComplianceProfileComponent implements OnInit {
     onSubmit() {
         this.submitted = true;
 
-        if (this.requiredPhoto) {
-            this.toastr.errorToastr('Se debe agregar una fotografía.', 'Lo siento,');
+        if (this.perfilForm.invalid) {
+            this.toastr.errorToastr('Valida los datos ingresados.', 'Lo siento,');
             return;
         }
 
-        if (this.perfilForm.invalid) {
+        if (this.requiredPhoto) {
             this.toastr.errorToastr('Valida los datos ingresados.', 'Lo siento,');
             return;
         }
@@ -313,12 +313,12 @@ export class ComplianceProfileComponent implements OnInit {
         let dateBirth = new Date(this.perfilForm.controls['fDateBirth'].value);
         let dateStartJob = new Date(this.perfilForm.controls['fStartJob'].value);
 
-        if ((dateStartJob.getFullYear() - dateBirth.getFullYear()) < 18) {
+        if (this.verifyAge(dateBirth, dateStartJob) < 18) {
             this.toastr.errorToastr('La persona debe ser mayor de edad.', 'Lo siento,');
             return;
         }
 
-        this.saveEmployee();
+        // this.saveEmployee();
     }
 
     onChange(file: File) {
@@ -362,6 +362,15 @@ export class ComplianceProfileComponent implements OnInit {
 
     private addBlock(type, msg): void {
         this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+    }
+
+    verifyAge(dateBirth: Date, startJob: Date) {
+        let age = startJob.getFullYear() - dateBirth.getFullYear();
+        let m = startJob.getMonth() - dateBirth.getMonth();
+        if (m < 0 || (m === 0 && startJob.getDate() < dateBirth.getDate())) {
+            age--;
+        }
+        return age;
     }
 
     /*
