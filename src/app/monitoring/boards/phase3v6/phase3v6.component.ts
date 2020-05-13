@@ -12,12 +12,16 @@ import { EventMessage } from "src/app/core/models/EventMessage";
 import { EventBlocked } from "src/app/core/models/EventBlocked";
 import { PiServerBox } from "../../models/piServer/piServerBox";
 import { Chart } from "chart.js";
+import { InteractiveImageTurbineCT1Component } from '../phase3/components/interactive-image-turbine-ct1/interactive-image-turbine-ct1.component';
 @Component({
 	selector: "app-phase3v6",
 	templateUrl: "./phase3v6.component.html",
 	styleUrls: ["./phase3v6.component.scss"],
 })
 export class Phase3v6Component extends ConnectSocketChannelComponent implements OnInit, OnDestroy {
+	@ViewChild("modal_turbine_ct_1") modal_turbine_ct_1: InteractiveImageTurbineCT1Component;
+    @ViewChild("modal_turbine_ct_2") modal_turbine_ct_2: InteractiveImageTurbineCT1Component;
+    @ViewChild("modal_turbine_ct_3") modal_turbine_ct_3: InteractiveImageTurbineCT1Component;
 	@ViewChild("LineChart2") LineChart2: ElementRef;
 	chartLine2C;
 	@ViewChild("donaChart1") donaChart1: ElementRef;
@@ -26,6 +30,9 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 	chartDona_2;
 	@ViewChild("donaChart3") donaChart3: ElementRef;
 	chartDona_3;
+	public timeCurrent             : Date           = new Date();  // para los modales
+
+
 
 	public subscriptions: Subscription[] = []; // almacena las todos los observables
 
@@ -104,6 +111,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		this.connectSocketChannelNgOnDestroy();
 	}
 	ngOnInit() {
+		this.subscriptions['interval_timeCurrent'] = interval(1000).subscribe(()=>{this.timeCurrent = new Date();});
 		this.addBlock(1, "");
 		let url = `/assets/css/theme/content/monitoring.css`;
 		document.getElementById("content_theme").setAttribute("href", url);
@@ -302,11 +310,11 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 						this.addBlock(2, "");
 					});//*/
 					
-					interval(3000).subscribe(()=>{
+					this.subscriptions['interval_interval_uodateDona'] = interval(3000).subscribe(()=>{
 						this.chartLine_01_updateCharLine();
 					});
 					
-					interval(20000).subscribe(()=>{
+					this.subscriptions['interval_interval_uodateDona'] = interval(20000).subscribe(()=>{
 						this.dona_1_update();
 						this.dona_2_update();
 						this.dona_3_update();
@@ -334,8 +342,6 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		);
 	}
 	inSocketData(data: any) {
-		console.log(data);
-
 		let date = new Date();
 		for (const plant of data.data) {
 			if (!plant.error_response) {
@@ -354,6 +360,11 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				}
 			}
 		}
+
+
+		this.modal_turbine_ct_1.dataAdapter(data);
+		this.modal_turbine_ct_2.dataAdapter(data);
+		this.modal_turbine_ct_3.dataAdapter(data);
 
 		//this.addStreamsetsValueInChart(data);
 	}
@@ -990,4 +1001,13 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 	isEat(){
 		return (this.globalService.plant.name.toLowerCase() == "aguila") ? true: false;
 	}
+	openModalCt_1() {
+        this.modal_turbine_ct_1.openModalCt_1();
+	}
+    openModalCt_2() {
+        this.modal_turbine_ct_2.openModalCt_1();
+    }
+    openModalCt_3(){
+        this.modal_turbine_ct_3.openModalCt_1();
+    }
 }

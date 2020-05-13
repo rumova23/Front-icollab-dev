@@ -222,7 +222,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" (click)="openModalCt_1()">
 				<div class="col text-center">
 					<img class="imgTurbinaDiesel" *ngIf="getValue('ct_1_RPM')[1]>10" src="assets/monitoring/3_3/turbinaAnimada2.gif" alt=""
 						style="width: 70%; max-width: 460px;" />
@@ -297,7 +297,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" (click)="openModalCt_2()">
 				<div class="col text-center">
 					<img class="imgTurbinaDiesel" *ngIf="getValue('ct_1_RPM')[1]>10" src="assets/monitoring/3_3/turbinaAnimada2.gif" alt=""
 						style="width: 70%; max-width: 460px;" />
@@ -372,7 +372,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" (click)="openModalCt_3()">
 				<div class="col text-center">
 					<img class="imgTurbinaDiesel" *ngIf="getValue('ct_3_RPM')[1]>10" src="assets/monitoring/3_3/turbinaVaporAnimada.gif" alt=""
 						style="width: 70%; max-width: 460px;" />
@@ -422,3 +422,10 @@
 		</div>
 	</div>
 </div>
+
+<app-interactive-image-turbine-ct1 [ct]="'ct1'" [timeCurrent]="timeCurrent" #modal_turbine_ct_1>
+</app-interactive-image-turbine-ct1>
+<app-interactive-image-turbine-ct1 [ct]="'ct2'" [timeCurrent]="timeCurrent" #modal_turbine_ct_2>
+</app-interactive-image-turbine-ct1>
+<app-interactive-image-turbine-ct1 [ct]="'tv'" [timeCurrent]="timeCurrent" #modal_turbine_ct_3>
+</app-interactive-image-turbine-ct1>
