@@ -1,36 +1,58 @@
 @font-face {
-    font-family: "digital";
-    src: url(../../../../assets/font/display.ttf) format("truetype");
-  }
-  @font-face {
-    font-family: "roboto";
-    src: url(../../../../assets/font/Roboto.ttf) format("truetype");
-  }
-  
-  .text {
-    margin-bottom: 5px;
-    margin-left: 10px;
-    margin-right: 10px; 
-    font-weight: bold;  
-    color: aliceblue;
-    font-family: 'roboto',Arial, Helvetica, sans-serif;      
-  }
-  .text1 {
-    font-weight: bolder;
-    color: aliceblue;
-    margin: 2px;
-    font-family: "roboto", Arial, Helvetica, sans-serif;
-  }
-  
-  .digito {
-    font-weight: bolder;
-    color: aliceblue;
-    font-size: xx-large;
-    margin: 3px;
-    letter-spacing: 0.2em;
-    font-family: "digital", Arial, Helvetica, sans-serif;
-  }
-  
-  #contenedorCondiciones{
-    background: #0F0F0F;
-  }
+  font-family: "digital";
+  src: url(../../../../assets/font/display.ttf) format("truetype");
+}
+@font-face {
+  font-family: "roboto";
+  src: url(../../../../assets/font/Roboto.ttf) format("truetype");
+}
+.ico {
+  font-size: 1.5em;
+}
+.badge{
+  vertical-align:super;
+  font-size: .3rem; 
+}
+.icon-color {
+  color: #c0c0c0 !important;
+}
+.icon-rojo {
+  color: red !important;
+}
+.icon-amarillo {
+  color: yellow !important;
+}
+.icon-verde {
+  color: #4cc900 !important;
+}
+.icon-azul {
+  color: #00a1c9 !important;
+}
+.bg_a {
+  background: #0f0f0f;
+}
+.text {
+  margin-bottom: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-weight: bold;
+  color: aliceblue;
+  font-family: "roboto", Arial, Helvetica, sans-serif;
+}
+.text1 {
+  font-weight: bolder;
+  margin: 2px;
+  font-family: "roboto", Arial, Helvetica, sans-serif;
+}
+
+.digito {
+  font-weight: bolder;
+  font-size: xx-large;
+  margin: 3px;
+  letter-spacing: 0.2em;
+  font-family: "digital", Arial, Helvetica, sans-serif;
+}
+
+#contenedorCondiciones {
+  background: #0f0f0f;
+}

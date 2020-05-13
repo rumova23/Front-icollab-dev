@@ -29,27 +29,50 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 	mapWebIdToKeyTag: Map<string, string> = new Map();
 	tags: Map<string, Object> = new Map();
 	mapColors: Map<string, string> = new Map([
-		["temperatura_ambiente"  ,"#fff"],
-		["presion_atmosferica"   ,"#fff"],
-		["humedad"               ,"#fff"],
 		["potenciaNeta"          ,"#5d76d3"],
 		["potenciaCcdv"          ,"#9741f6"],
 		["regimentermico"        ,"#4cc900"],
-		["ct_1_gas"              ,"#fff"],
-		["ct_1_diesel"           ,"#fff"],
-		["ct_1_RT"               ,"#fff"],
-		["ct_1_Potencia"         ,"#fff"],
-		["ct_1_RPM"              ,"#fff"],
-		["ct_2_gas"              ,"#fff"],
-		["ct_2_diesel"           ,"#fff"],
-		["ct_2_RT"               ,"#fff"],
-		["ct_2_Potencia"         ,"#fff"],
-		["ct_2_RPM"              ,"#fff"],
-		["ct_3_gas"              ,"#fff"],
-		["ct_3_diesel"           ,"#fff"],
-		["ct_3_RT"               ,"#fff"],
-		["ct_3_Potencia"         ,"#fff"],
-		["ct_3_RPM"              ,"#fff"],
+		["temperatura_ambiente"  ,"#aff000"],
+		["presion_atmosferica"   ,"#c5f327"],
+		["humedad"               ,"#d9d5fe"],
+		["ct_1_gas"              ,"#c5f327"],
+		["ct_1_diesel"           ,"#5d76d3"],
+		["ct_1_RT"               ,"#CCFF00"],
+		["ct_1_Potencia"         ,"#ff526a"],
+		["ct_1_RPM"              ,"#FF0000"],
+		["ct_2_gas"              ,"#FFA500"],
+		["ct_2_diesel"           ,"#FFC0CB"],
+		["ct_2_RT"               ,"#008000"],
+		["ct_2_Potencia"         ,"#FFFF00"],
+		["ct_2_RPM"              ,"#0000FF"],
+		["ct_3_gas"              ,"#FFFFFF"],
+		["ct_3_diesel"           ,"#FFCC99"],
+		["ct_3_RT"               ,"#CCFFFF"],
+		["ct_3_Potencia"         ,"#CC3300"],
+		["ct_3_RPM"              ,"#99CC99"],
+	]);
+	isSerieActivate_1: Map<string, boolean> = new Map([
+		["temperatura_ambiente"  ,false],
+		["presion_atmosferica"   ,false],
+		["humedad"               ,false],
+		["potenciaNeta"          ,true ],
+		["potenciaCcdv"          ,true ],
+		["regimentermico"        ,true ],
+		["ct_1_gas"              ,false],
+		["ct_1_diesel"           ,false],
+		["ct_1_RT"               ,false],
+		["ct_1_Potencia"         ,false],
+		["ct_1_RPM"              ,false],
+		["ct_2_gas"              ,false],
+		["ct_2_diesel"           ,false],
+		["ct_2_RT"               ,false],
+		["ct_2_Potencia"         ,false],
+		["ct_2_RPM"              ,false],
+		["ct_3_gas"              ,false],
+		["ct_3_diesel"           ,false],
+		["ct_3_RT"               ,false],
+		["ct_3_Potencia"         ,false],
+		["ct_3_RPM"              ,false],
 	]);
 	pl = "";
 
@@ -65,7 +88,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		public securityService: SecurityService
 	) {
 		super(globalService, eventService, socketService, securityService);
-		this.initTags();
+	
 	}
 	private addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
@@ -78,20 +101,12 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		this.addBlock(1, "");
 		let url = `/assets/css/theme/content/monitoring.css`;
 		document.getElementById("content_theme").setAttribute("href", url);
-		this.initTags();
-		this.initInterpolated();
+		this.connect();
 		/*timer(3000).subscribe(()=>{
 				this.addBlock(2, '');
 			});//*/
 	}
 
-	getTagName(key): string {
-		return this.tags.get(key)["tagName"];
-	}
-	getValue(key): string {
-		let tag = this.tags.get(key)["value"]["length"] > 0 ? this.tags.get(key)["value"][this.tags.get(key)["value"]["length"] - 1] : [null, 0];
-		return tag;
-	}
 	initTags() {
 		this.tags.set("temperatura_ambiente", {
 			tagName: "",
@@ -218,6 +233,14 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		});
 	}
 
+	getTagName(key): string {
+		return this.tags.get(key)["tagName"];
+	}
+	getValue(key) {
+		if(!this.tags.has(key))return [null, 0];
+		let tag = this.tags.get(key)["value"]["length"] > 0 ? this.tags.get(key)["value"][this.tags.get(key)["value"]["length"] - 1] : [null, 0];
+		return tag;
+	}
 	initInterpolated() {
 		let webIds = [];
 		let idPi = 0;
@@ -263,7 +286,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				//Complete
 				if (!this.conectToPi) this.addBlock(2, "");
 				if (this.conectToPi) {
-					this.initChartLine();
+					this.chartLine_01_Init();
 					this.dona_1();
 					this.socketFase3();
 					timer(3000).subscribe(()=>{
@@ -271,8 +294,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					});//*/
 					
 					interval(3000).subscribe(()=>{
-						this.updateCharLine();
-						//this.initChartLine();
+						this.chartLine_01_updateCharLine();
+						//this.chartLine_01_Init();
 						//this.chartLine2C.redraw(true);
 					});
 				}
@@ -280,12 +303,21 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		);
 	}
 	socketFase3() {
+		this.subscriptions['onChangeSocketConnect'] = this.eventService.onChangeSocketConnect
+			.subscribe({
+				next: (event: EventMessage) => {
+					if(event.id === 0){
+						this.disconnected();
+					}else if(event.id === 1){
+						this.connect();
+					}
+				}
+			}
+		);
 		let canal = "pi-" + this.globalService.plant.name.toLowerCase();
 		this.subscribeSocketChannel(
 			canal,
-			(data) => this.inSocketData(data),
-			() => this.connected(),
-			() => this.disconnected()
+			(data) => this.inSocketData(data)
 		);
 	}
 	inSocketData(data: any) {
@@ -323,13 +355,18 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		}
 		return result;
 	}
-	connected() {
-		this.conectToPi = true;
+	connect() {
+		this.initTags();
+		this.chartLine_01_Init();
+		this.initInterpolated();
 	}
 	disconnected() {
 		this.conectToPi = false;
+		this.initTags();
+		this.chartLine_01_Init();
 	}
-	initChartLine() {
+	
+	chartLine_01_Init() {
 		if (this.chartLine2C != undefined) {
 			this.chartLine2C.destroy();
 			this.chartLine2C = undefined;
@@ -428,7 +465,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		}
 		this.chartLine2C = Highcharts.chart(this.LineChart2.nativeElement, opt);
 	}
-	updateCharLine(){
+	chartLine_01_updateCharLine(){
 		let a = this.tags.entries();
 		let data = null;
 		let serie = null;
@@ -440,12 +477,39 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		}
 		this.chartLine2C.redraw(true);
 	}
+	chartLine_01_ToogleSerie(key){
+		this.isSerieActivate_1.set(key,!this.isSerieActivate_1.get(key));
+		this.isSerieActivate_1.get(key) ? this.chartLine2C.get(key).show() : this.chartLine2C.get(key).hide();
+	}
 	tester(){
 		/*this.chartLine2C.series[0].hide();
 		this.chartLine2C.series[0].show();//*/
 		var series = this.chartLine2C.get('series-2');
 		alert ('The series-2 series\' name is '+ series.name);
 		series.show();
+	}
+	getClassIcon(key):string{
+		let cl = "";
+		let v = this.getValue(key)[1];
+		if(key == "ct_1_RT"){
+			if(v <  1000 ) cl = 'icon-rojo';
+			if(v >= 1000 ) cl = 'icon-verde';
+		}else if(key == "ct_1_Potencia"){
+			if(v <= 10 ) cl = 'icon-rojo';
+			if(v > 10 ) cl = 'icon-amarillo';
+			if(v >= 80) cl = 'icon-verde';
+		}else if(key == "ct_1_diesel"){			
+			if(v < 5 ) cl = 'icon-rojo';
+			if(v >= 5 ) cl = 'icon-verde';
+		}else if(key == "ct_1_gas"){			
+			if(v < 1000 ) cl = 'icon-rojo';
+			if(v >= 1000) cl = 'icon-verde';
+		}else if(key == "ct_1_RPM"){			
+			if(v <= 10 ) cl = 'icon-rojo';
+			if(v > 10) cl = 'icon-verde';
+		}
+		
+		return cl;
 	}
 	dona_1() {
 		//Dona 1
