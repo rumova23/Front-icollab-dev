@@ -22,6 +22,10 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 	chartLine2C;
 	@ViewChild("donaChart1") donaChart1: ElementRef;
 	chartDona_1;
+	@ViewChild("donaChart2") donaChart2: ElementRef;
+	chartDona_2;
+	@ViewChild("donaChart3") donaChart3: ElementRef;
+	chartDona_3;
 
 	public subscriptions: Subscription[] = []; // almacena las todos los observables
 
@@ -104,9 +108,13 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		let url = `/assets/css/theme/content/monitoring.css`;
 		document.getElementById("content_theme").setAttribute("href", url);
 		this.connect();
-		/*timer(3000).subscribe(()=>{
-				this.addBlock(2, '');
-			});//*/
+		this.subscriptions['onChangeNavBar'] = this.eventService.onChangeNavBar.subscribe((data)=>{
+			if(data.id == 2){
+				timer(1000).subscribe(()=>{
+					this.chartLine_01_Init();
+				});
+			}
+		});
 	}
 
 	initTags() {
@@ -288,8 +296,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				//Complete
 				if (!this.conectToPi) this.addBlock(2, "");
 				if (this.conectToPi) {
-					this.chartLine_01_Init();
-					this.dona_1();
+					this.initCharts();
 					this.socketFase3();
 					timer(3000).subscribe(()=>{
 						this.addBlock(2, "");
@@ -297,9 +304,12 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					
 					interval(3000).subscribe(()=>{
 						this.chartLine_01_updateCharLine();
+					});
+					
+					interval(20000).subscribe(()=>{
 						this.dona_1_update();
-						//this.chartLine_01_Init();
-						//this.chartLine2C.redraw(true);
+						this.dona_2_update();
+						this.dona_3_update();
 					});
 				}
 			}
@@ -360,17 +370,20 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 	}
 	connect() {
 		this.initTags();
-		this.chartLine_01_Init();
-		this.dona_1();
+		this.initCharts();
 		this.initInterpolated();
 	}
 	disconnected() {
 		this.conectToPi = false;
 		this.initTags();
+		this.initCharts();
+	}
+	initCharts(){
 		this.chartLine_01_Init();
 		this.dona_1();
+		this.dona_2();
+		this.dona_3();
 	}
-	
 	chartLine_01_Init() {
 		if (this.chartLine2C != undefined) {
 			this.chartLine2C.destroy();
@@ -496,20 +509,20 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 	getClassIcon(key):string{
 		let cl = "";
 		let v = this.getValue(key)[1];
-		if(key == "ct_1_RT"){
+		if(["ct_1_RT","ct_2_RT","ct_3_RT"].includes(key)){
 			if(v <  1000 ) cl = 'icon-rojo';
 			if(v >= 1000 ) cl = 'icon-verde';
-		}else if(key == "ct_1_Potencia"){
+		}else if(["ct_1_Potencia","ct_2_Potencia","ct_3_Potencia"].includes(key)){
 			if(v <= 10 ) cl = 'icon-rojo';
 			if(v > 10 ) cl = 'icon-amarillo';
 			if(v >= 80) cl = 'icon-verde';
-		}else if(key == "ct_1_diesel"){			
+		}else if(["ct_1_diesel","ct_2_diesel","ct_3_diesel"].includes(key)){			
 			if(v < 5 ) cl = 'icon-rojo';
 			if(v >= 5 ) cl = 'icon-verde';
-		}else if(key == "ct_1_gas"){			
+		}else if(["ct_1_gas","ct_2_gas","ct_3_gas"].includes(key)){			
 			if(v < 1000 ) cl = 'icon-rojo';
 			if(v >= 1000) cl = 'icon-verde';
-		}else if(key == "ct_1_RPM"){			
+		}else if(["ct_1_RPM","ct_2_RPM","ct_3_RPM"].includes(key)){			
 			if(v <= 10 ) cl = 'icon-rojo';
 			if(v > 10) cl = 'icon-verde';
 		}
@@ -657,6 +670,286 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		}
 		this.chartDona_1 = Highcharts.chart(this.donaChart1.nativeElement, opt);
 	}
+	dona_2() {		
+		if (this.chartDona_2 != undefined) {
+			this.chartDona_2.destroy();
+			this.chartDona_2 = undefined;
+		}
+		let opt: any = {
+			colors: ["#CD7F32","#ffffff"],
+
+			legend: {
+				enabled: false,
+			},
+			chart: {
+				height: 150,
+				type: "column",
+				inverted: true,
+				polar: true,
+				backgroundColor: {
+					linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+					stops: [
+						[0, "#000"],
+						[1, "#000"],
+					],
+				},
+				style: {
+					fontFamily: "'Unica One', sans-serif",
+				},
+				plotBorderColor: "#606063",
+			},
+			title: {
+				text: "",
+			},
+			tooltip: {
+				outside: true,
+			},
+			pane: {
+				size: "80%",
+				innerSize: "50%",
+				endAngle: 270,
+			},
+			xAxis: {
+				gridLineColor: "#707073",
+
+				tickInterval: 1,
+				labels: {
+					align: "right",
+					useHTML: true,
+					allowOverlap: true,
+					step: 1,
+					y: 3,
+					style: {
+						fontSize: "13px",
+						color: "#fff",
+					},
+				},
+				lineWidth: 0,
+				categories: ['RT <span class="f16"><span id="flag" class="flag no">' + "</span></span>", 'Potencia <span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
+			},
+			yAxis: [{
+				id: "y-axis-rt",
+				min:0,
+				max:14000,
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 1000,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: false,
+					style: {
+						color: "#fff",
+					},
+				},
+			},{
+				id: "y-axis-potencia",
+				offset: 10,
+				min:0,
+				max:200, 
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 25,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: true,
+					style: {
+						color: "#fff",
+					},
+				},
+			}],
+			plotOptions: {
+				column: {
+					stacking: "normal",
+					borderWidth: 0,
+					pointPadding: 0,
+					groupPadding: 0.15,
+				},
+			},
+			series: [
+				{
+					id:"ct_1_RT",
+					yAxis: "y-axis-rt",
+					data: [0, 105],
+				},
+				{
+					id:"ct_1_Potencia",
+					yAxis: "y-axis-potencia",
+					data: [132, 0],
+				},
+			],
+			exporting: {
+				enabled: false,
+			},
+		};
+		let vp = this.getValue('ct_2_Potencia')[1];
+		let vr = this.getValue('ct_2_RT')[1];
+		opt.series[0]['data'][1]=vr;
+		opt.series[1]['data'][0]=vp;
+
+		if(vp <= 10){
+			opt.colors[0]=  this.rojo;//ct_1_Potencia
+		}else if(vp > 10 && vp < 80){
+			opt.colors[0]=  this.amarillo;//ct_1_Potencia
+		}else if(vp >= 80){
+			opt.colors[0]=  this.verde;//ct_1_Potencia
+		}
+		if(vr < 1000){
+			opt.colors[1]=  this.rojo;
+		}else if(vr >= 1000){
+			opt.colors[1]=  this.verde;
+		}
+		this.chartDona_2 = Highcharts.chart(this.donaChart2.nativeElement, opt);
+	}
+	dona_3() {		
+		if (this.chartDona_3 != undefined) {
+			this.chartDona_3.destroy();
+			this.chartDona_3 = undefined;
+		}
+		let opt: any = {
+			colors: ["#CD7F32","#ffffff"],
+
+			legend: {
+				enabled: false,
+			},
+			chart: {
+				height: 150,
+				type: "column",
+				inverted: true,
+				polar: true,
+				backgroundColor: {
+					linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+					stops: [
+						[0, "#000"],
+						[1, "#000"],
+					],
+				},
+				style: {
+					fontFamily: "'Unica One', sans-serif",
+				},
+				plotBorderColor: "#606063",
+			},
+			title: {
+				text: "",
+			},
+			tooltip: {
+				outside: true,
+			},
+			pane: {
+				size: "80%",
+				innerSize: "50%",
+				endAngle: 270,
+			},
+			xAxis: {
+				gridLineColor: "#707073",
+
+				tickInterval: 1,
+				labels: {
+					align: "right",
+					useHTML: true,
+					allowOverlap: true,
+					step: 1,
+					y: 3,
+					style: {
+						fontSize: "13px",
+						color: "#fff",
+					},
+				},
+				lineWidth: 0,
+				categories: ['RT <span class="f16"><span id="flag" class="flag no">' + "</span></span>", 'Potencia <span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
+			},
+			yAxis: [{
+				id: "y-axis-rt",
+				min:0,
+				max:14000,
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 1000,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: false,
+					style: {
+						color: "#fff",
+					},
+				},
+			},{
+				id: "y-axis-potencia",
+				offset: 10,
+				min:0,
+				max:200, 
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 25,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: true,
+					style: {
+						color: "#fff",
+					},
+				},
+			}],
+			plotOptions: {
+				column: {
+					stacking: "normal",
+					borderWidth: 0,
+					pointPadding: 0,
+					groupPadding: 0.15,
+				},
+			},
+			series: [
+				{
+					id:"ct_1_RT",
+					yAxis: "y-axis-rt",
+					data: [0, 105],
+				},
+				{
+					id:"ct_1_Potencia",
+					yAxis: "y-axis-potencia",
+					data: [132, 0],
+				},
+			],
+			exporting: {
+				enabled: false,
+			},
+		};
+		let vp = this.getValue('ct_3_Potencia')[1];
+		let vr = this.getValue('ct_3_RT')[1];
+		opt.series[0]['data'][1]=vr;
+		opt.series[1]['data'][0]=vp;
+
+		if(vp <= 10){
+			opt.colors[0]=  this.rojo;//ct_1_Potencia
+		}else if(vp > 10 && vp < 80){
+			opt.colors[0]=  this.amarillo;//ct_1_Potencia
+		}else if(vp >= 80){
+			opt.colors[0]=  this.verde;//ct_1_Potencia
+		}
+		if(vr < 1000){
+			opt.colors[1]=  this.rojo;
+		}else if(vr >= 1000){
+			opt.colors[1]=  this.verde;
+		}
+		this.chartDona_3 = Highcharts.chart(this.donaChart3.nativeElement, opt);
+	}
 	dona_1_update(){
 		this.dona_1();
 		/*
@@ -685,5 +978,16 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		});
 		this.chartDona_1.redraw(true);
 		//*/
+	}
+	
+	dona_2_update(){
+		this.dona_2();
+	}
+	
+	dona_3_update(){
+		this.dona_3();
+	}
+	isEat(){
+		return (this.globalService.plant.name.toLowerCase() == "aguila") ? true: false;
 	}
 }
