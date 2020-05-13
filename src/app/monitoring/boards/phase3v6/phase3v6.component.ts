@@ -21,7 +21,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 	@ViewChild("LineChart2") LineChart2: ElementRef;
 	chartLine2C;
 	@ViewChild("donaChart1") donaChart1: ElementRef;
-	chartdona_1;
+	chartDona_1;
 
 	public subscriptions: Subscription[] = []; // almacena las todos los observables
 
@@ -77,7 +77,9 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 	pl = "";
 
 
-	mediaDona1: Chart = []; //MediaDona1
+	rojo = "red";
+	amarillo = "yellow";
+	verde = "#4cc900";
 
 	constructor(
 		public globalService: GlobalService,
@@ -295,6 +297,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					
 					interval(3000).subscribe(()=>{
 						this.chartLine_01_updateCharLine();
+						this.dona_1_update();
 						//this.chartLine_01_Init();
 						//this.chartLine2C.redraw(true);
 					});
@@ -358,12 +361,14 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 	connect() {
 		this.initTags();
 		this.chartLine_01_Init();
+		this.dona_1();
 		this.initInterpolated();
 	}
 	disconnected() {
 		this.conectToPi = false;
 		this.initTags();
 		this.chartLine_01_Init();
+		this.dona_1();
 	}
 	
 	chartLine_01_Init() {
@@ -512,15 +517,19 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		return cl;
 	}
 	dona_1() {
-		//Dona 1
+		
+		if (this.chartDona_1 != undefined) {
+			this.chartDona_1.destroy();
+			this.chartDona_1 = undefined;
+		}
 		let opt: any = {
-			colors: ["#CD7F32"],
+			colors: ["#CD7F32","#ffffff"],
 
 			legend: {
 				enabled: false,
 			},
 			chart: {
-				height: 120,
+				height: 150,
 				type: "column",
 				inverted: true,
 				polar: true,
@@ -565,7 +574,10 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				lineWidth: 0,
 				categories: ['RT <span class="f16"><span id="flag" class="flag no">' + "</span></span>", 'Potencia <span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
 			},
-			yAxis: {
+			yAxis: [{
+				id: "y-axis-rt",
+				min:0,
+				max:14000,
 				crosshair: {
 					enabled: true,
 					color: "#333",
@@ -576,11 +588,32 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				endOnTick: true,
 				showLastLabel: true,
 				labels: {
+					enabled: false,
 					style: {
 						color: "#fff",
 					},
 				},
-			},
+			},{
+				id: "y-axis-potencia",
+				offset: 10,
+				min:0,
+				max:200, 
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 25,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: true,
+					style: {
+						color: "#fff",
+					},
+				},
+			}],
 			plotOptions: {
 				column: {
 					stacking: "normal",
@@ -591,14 +624,66 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			},
 			series: [
 				{
-					name: "Gold medals",
-					data: [132, 105],
+					id:"ct_1_RT",
+					yAxis: "y-axis-rt",
+					data: [0, 105],
+				},
+				{
+					id:"ct_1_Potencia",
+					yAxis: "y-axis-potencia",
+					data: [132, 0],
 				},
 			],
 			exporting: {
 				enabled: false,
 			},
 		};
-		Highcharts.chart(this.donaChart1.nativeElement, opt);
+		let vp = this.getValue('ct_1_Potencia')[1];
+		let vr = this.getValue('ct_1_RT')[1];
+		opt.series[0]['data'][1]=vr;
+		opt.series[1]['data'][0]=vp;
+
+		if(vp <= 10){
+			opt.colors[0]=  this.rojo;//ct_1_Potencia
+		}else if(vp > 10 && vp < 80){
+			opt.colors[0]=  this.amarillo;//ct_1_Potencia
+		}else if(vp >= 80){
+			opt.colors[0]=  this.verde;//ct_1_Potencia
+		}
+		if(vr < 1000){
+			opt.colors[1]=  this.rojo;
+		}else if(vr >= 1000){
+			opt.colors[1]=  this.verde;
+		}
+		this.chartDona_1 = Highcharts.chart(this.donaChart1.nativeElement, opt);
+	}
+	dona_1_update(){
+		this.dona_1();
+		/*
+		let opt = {
+			colors:["",""]
+		}
+		
+		let vp = this.getValue('ct_1_Potencia')[1];
+		let vr = this.getValue('ct_1_RT')[1];
+		if(vp <= 10){
+			opt.colors[0]=  this.rojo;//ct_1_Potencia
+		}else if(vp > 10 && vp < 80){
+			opt.colors[0]=  this.amarillo;//ct_1_Potencia
+		}else if(vp >= 80){
+			opt.colors[0]=  this.verde;//ct_1_Potencia
+		}
+		if(vr < 1000){
+			opt.colors[1]=  this.rojo;
+		}else if(vr >= 1000){
+			opt.colors[1]=  this.verde;
+		}
+		this.chartDona_1.get('ct_1_RT').data=[0,vr];
+		this.chartDona_1.get('ct_1_Potencia').data=[vp,0];
+		this.chartDona_1.update({
+			colors:opt.colors			
+		});
+		this.chartDona_1.redraw(true);
+		//*/
 	}
 }

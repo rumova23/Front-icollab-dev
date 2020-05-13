@@ -155,20 +155,7 @@ export class SharedSidebarMenuComponent {
     }
     hardcodeAdministrative_monitoring() {
         ///*
-        this.menu.push({
-            id: "hardcode",
-            idFather: "",
-            icon: "insert_chart",
-            label: "phase 3v4",
-            url: "phase3v4"
-        });
-        this.menu.push({
-            id: "hardcode",
-            idFather: "",
-            icon: "insert_chart",
-            label: "phase 3v5",
-            url: "phase3v5"
-        });
+
         this.menu.push({
             id: "hardcode",
             idFather: "",
