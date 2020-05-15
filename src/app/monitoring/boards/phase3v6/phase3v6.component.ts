@@ -16,6 +16,8 @@ import { Chart } from "chart.js";
 declare var $: any;
 
 import { InteractiveImageTurbineCT1Component } from '../phase3/components/interactive-image-turbine-ct1/interactive-image-turbine-ct1.component';
+import { ChartControl } from '../../models/chart/ChartControl';
+import { ChartControls } from '../../common/high-charts-controls/models/highchartsControls.model';
 @Component({
 	selector: "app-phase3v6",
 	templateUrl: "./phase3v6.component.html",
@@ -102,6 +104,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 	amarillo = "yellow";
 	verde = "#4cc900";
 
+	chartControlLineChart2:ChartControls= new ChartControls('spline','dinamic',30);
 	constructor(
 		public globalService: GlobalService,
 		public monitoringTrService: MonitoringTrService,
@@ -138,6 +141,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 	initTags() {
 		this.tags.set("temperatura_ambiente", {
 			tagName: "",
+			min:0,
+  			max:590,
 			f: "setTemperaturaAmbiente",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IglyQAAAU0VSVklET1JfUElcUDJBMDgyMTE",
@@ -145,6 +150,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		});
 		this.tags.set("presion_atmosferica", {
 			tagName: "",
+			min:0,
+  			max:1200,
 			f: "setPresionAtmosferica",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgmSQAAAU0VSVklET1JfUElcUDJBMDgyMTM",
@@ -152,6 +159,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		});
 		this.tags.set("humedad", {
 			tagName: "",
+			min:0,
+  			max:100,
 			f: "sethumedad",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgmCQAAAU0VSVklET1JfUElcUDJBMDgyMTI",
@@ -159,6 +168,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		});
 		this.tags.set("potenciaNeta", {
 			tagName: "",
+			min:0,
+  			max:590,
 			f: "setPotenciaNeta",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY",
@@ -166,6 +177,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		});
 		this.tags.set("potenciaCcdv", {
 			tagName: "",
+			min:0,
+  			max:590,
 			f: "setPotenciaCcdv",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgICUAAAU0VSVklET1JfUElcREFBMDgxMTE",
@@ -173,6 +186,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		});
 		this.tags.set("regimentermico", {
 			tagName: "",
+			min:0,
+  			max:14000,
 			f: "setRegimenTermico",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM",
@@ -180,14 +195,20 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		});
 		this.tags.set("ct_1_gas", {
 			tagName: "",
+			min:0,
+  			max:50000,
 			f: "setCt1Gas",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IguB8AAAU0VSVklET1JfUElcRzFBMDgwNzM",
 			webIdS: "F1DP4rhZAwFMREKDf7s8vylUqglAAAAAUElUVlw1MUNFQUdGMDAxXzAx",
 		});
-		this.tags.set("ct_1_diesel", { tagName: "", f: "setCt1Die", value: [], webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgnSIAAAU0VSVklET1JfUElcRzFBMDgwOTc", webIdS: "" });
+		this.tags.set("ct_1_diesel", { tagName: "",
+			min:0,
+  			max:50000, f: "setCt1Die", value: [], webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgnSIAAAU0VSVklET1JfUElcRzFBMDgwOTc", webIdS: "" });
 		this.tags.set("ct_1_RT", {
 			tagName: "",
+			min:0,
+  			max:14000,
 			f: "setCt1RT",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgGyUAAAU0VSVklET1JfUElcREFBMDgxMDY",
@@ -195,6 +216,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		});
 		this.tags.set("ct_1_Potencia", {
 			tagName: "",
+			min:0,
+  			max:200,
 			f: "setCt1Pot",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6Igmh8AAAU0VSVklET1JfUElcRzFBMDgwMzA",
@@ -202,6 +225,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		});
 		this.tags.set("ct_1_RPM", {
 			tagName: "",
+			min:0,
+  			max:4150,
 			f: "setCt1Rpm",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6Ig3SIAAAU0VSVklET1JfUElcRzFBMDg0MDQ",
@@ -209,14 +234,20 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		});
 		this.tags.set("ct_2_gas", {
 			tagName: "",
+			min:0,
+  			max:50000,
 			f: "setCt2Gas",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgICAAAAU0VSVklET1JfUElcRzJBMDgwNzM",
 			webIdS: "F1DP4rhZAwFMREKDf7s8vylUqg9QAAAAUElUVlw1MkNFQUdGMDAxXzAx",
 		});
-		this.tags.set("ct_2_diesel", { tagName: "", f: "setCt2Die", value: [], webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgLCAAAAU0VSVklET1JfUElcRzJBMDgwOTc", webIdS: "" });
+		this.tags.set("ct_2_diesel", { tagName: "",
+			min:0,
+  			max:50000, f: "setCt2Die", value: [], webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgLCAAAAU0VSVklET1JfUElcRzJBMDgwOTc", webIdS: "" });
 		this.tags.set("ct_2_RT", {
 			tagName: "",
+			min:0,
+  			max:14000,
 			f: "setCt2RT",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgHCUAAAU0VSVklET1JfUElcREFBMDgxMDc",
@@ -224,6 +255,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		});
 		this.tags.set("ct_2_Potencia", {
 			tagName: "",
+			min:0,
+  			max:200,
 			f: "setCt2Pot",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgDSAAAAU0VSVklET1JfUElcRzJBMDgwNDY",
@@ -231,15 +264,23 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		});
 		this.tags.set("ct_2_RPM", {
 			tagName: "",
+			min:0,
+  			max:4150,
 			f: "setCt2Rpm",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgciMAAAU0VSVklET1JfUElcRzJBMDg0MDQ",
 			webIdS: "F1DP4rhZAwFMREKDf7s8vylUqg8gAAAAUElUVlw1Mk1CSzAxQ1MwMDE",
 		});
-		this.tags.set("ct_3_gas", { tagName: "", f: "setCt3Gas", value: [], webIdA: "", webIdS: "" });
-		this.tags.set("ct_3_diesel", { tagName: "", f: "setCt3Die", value: [], webIdA: "", webIdS: "" });
+		this.tags.set("ct_3_gas", { tagName: "",
+			min:0,
+  			max:0, f: "setCt3Gas", value: [], webIdA: "", webIdS: "" });
+		this.tags.set("ct_3_diesel", { tagName: "",
+			min:0,
+  			max:0, f: "setCt3Die", value: [], webIdA: "", webIdS: "" });
 		this.tags.set("ct_3_RT", {
 			tagName: "",
+			min:0,
+  			max:14000,
 			f: "setCt3RT",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgGiUAAAU0VSVklET1JfUElcREFBMDgxMDU",
@@ -247,6 +288,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		});
 		this.tags.set("ct_3_Potencia", {
 			tagName: "",
+			min:0,
+  			max:250,
 			f: "setCt3Pot",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6Ig4h4AAAU0VSVklET1JfUElcRUhBMDgwMTk",
@@ -254,6 +297,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		});
 		this.tags.set("ct_3_RPM", {
 			tagName: "",
+			min:0,
+  			max:4150,
 			f: "setCt3Rpm",
 			value: [],
 			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgSiIAAAU0VSVklET1JfUElcRUhBMDg3MDE",
@@ -286,7 +331,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		for (let nextValue = a.next(); nextValue.done !== true; nextValue = a.next()) {
 			if (nextValue.value[1][this.pl] != "") webIds.push(nextValue.value[1][this.pl]);
 		}
-		this.monitoringTrService.getStreamsetsInterpolatedLastHoursSeconts(idPi, webIds, 1, 3).subscribe(
+		this.monitoringTrService.getStreamsetsInterpolatedLastHoursSeconts(idPi, webIds, 1, this.chartControlLineChart2.timeRefreseh).subscribe(
 			(data: PiServerBox) => {
 				if (data.data[0].error_response) {
 					this.toastr.errorToastr("Error", "Error con la solicitud");
@@ -319,8 +364,16 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					timer(3000).subscribe(()=>{
 						this.addBlock(2, "");
 					});//*/
-					
-					this.subscriptions['interval_interval_uodateDona'] = interval(3000).subscribe(()=>{
+
+					if(this.subscriptions['interval_chartLine_01_updateCharLine'] != undefined && this.subscriptions['interval_chartLine_01_updateCharLine']['isStopped']==false){
+						this.subscriptions['interval_chartLine_01_updateCharLine'].unsubscribe();
+						this.subscriptions['interval_chartLine_01_updateCharLine']=undefined;
+					}
+					if(this.subscriptions['interval_interval_uodateDona'] != undefined && this.subscriptions['interval_interval_uodateDona']['isStopped']==false){
+						this.subscriptions['interval_interval_uodateDona'].unsubscribe();
+						this.subscriptions['interval_interval_uodateDona']=undefined;
+					}
+					this.subscriptions['interval_chartLine_01_updateCharLine'] = interval(1000*this.chartControlLineChart2.timeRefreseh).subscribe(()=>{
 						this.chartLine_01_updateCharLine();
 					});
 					
@@ -421,7 +474,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				enabled: false
 			},		
 			chart: {
-				type: "spline",
+				zoomType: 'x',
+				type: this.chartControlLineChart2.typeGraph,
 				//animation: Highcharts.svg, // don't animate in old IE
 				marginRight: 10,
 
@@ -478,8 +532,15 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 
 			series: [],
 		};
+		let ymax = undefined;
+		let ymin = undefined;
+
 		let a = this.tags.entries();
 		for (let nextValue = a.next(); nextValue.done !== true; nextValue = a.next()) {
+			if("static" == this.chartControlLineChart2.typeScale){
+				ymax = this.tags.get(nextValue.value[0])['max'];
+				ymin = this.tags.get(nextValue.value[0])['min'];
+			}
 			opt.yAxis.push(
 				{
 					id: "y-axis-"+nextValue.value[0],
@@ -497,6 +558,9 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 							color: this.mapColors.get(nextValue.value[0]),
 						},
 					},
+					showEmpty: false,
+					max:ymax,
+					min:ymin
 					//opposite: true
 				}
 			);
@@ -521,7 +585,6 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			serie = this.chartLine2C.get(nextValue.value[0]);
 			data = nextValue.value[1]["value"][nextValue.value[1]["value"]["length"]-1]
 			serie.addPoint(data, false, true);
-			//debugger;
 		}
 		this.chartLine2C.redraw(true);
 	}
@@ -1487,5 +1550,41 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 	}
 	openModal_ct_3_dona(){
 		$(this.modal_ct_3_dona.nativeElement).modal('show');
+	}
+	modifyChartLineChart2(event:ChartControls){
+		this.chartControlLineChart2 = event;
+		let ymax = undefined;
+		let ymin = undefined;
+		let y = null;
+		for (let index = 0; index < this.chartLine2C.yAxis.length; index++) {
+			y = this.chartLine2C.yAxis[index];
+			if("static" == event.typeScale){
+				debugger
+				ymax = this.tags.get(y.userOptions.id.split("y-axis-")[1])['max'];
+				ymin = this.tags.get(y.userOptions.id.split("y-axis-")[1])['min'];
+			}
+			this.chartLine2C.yAxis[index].update({
+				max : ymax,
+				min : ymin
+			},false);
+			
+		}
+		this.chartLine2C.update({
+			chart: {
+				type: event.typeGraph,
+			},
+		},false);
+		
+		if(this.subscriptions['interval_chartLine_01_updateCharLine'] != undefined && this.subscriptions['interval_chartLine_01_updateCharLine']['isStopped']==false){
+			this.subscriptions['interval_chartLine_01_updateCharLine'].unsubscribe();
+			this.subscriptions['interval_chartLine_01_updateCharLine']=undefined;
+			
+			this.subscriptions['interval_chartLine_01_updateCharLine'] = interval(1000 * event.timeRefreseh).subscribe(()=>{
+				this.chartLine_01_updateCharLine();
+			});
+		}
+
+		this.chartLine2C.redraw(true);
+		//debugger;
 	}
 }
