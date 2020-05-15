@@ -69,6 +69,7 @@ import { ComplianceUploadCommonComponent        } from './upload/compliance-uplo
 import { EvaluationComponent                    } from './business/competence/staff/evaluation/evaluation.component';
 import {EditEvaluationHomeComponent				} from './business/competence/staff/evaluation/editevaluation/editEvaluationHome.component';
 import {HistoryEvaluationComponent				} from './business/competence/staff/evaluation/historyevaluation/historyEvaluation.component';
+import {TrimContentDirective} from '../core/helpers/trim-content.directive';
 
 @NgModule({
     declarations:[
@@ -112,28 +113,29 @@ import {HistoryEvaluationComponent				} from './business/competence/staff/evalua
 		,EvaluationComponent
 		,EditEvaluationHomeComponent
 		,HistoryEvaluationComponent
+		,TrimContentDirective
     ],
     exports:[
     ],
-    imports:[
+    imports: [
         COMPLIANCE_ROUTES,
         BrowserModule,
         SharedModule,
-    	ComponentsModule,
-		NgGanttEditorModule,
-		
+        ComponentsModule,
+        NgGanttEditorModule,
+
         MDBBootstrapModule.forRoot(),
         NgbModule,
         FormsModule,
-    	ReactiveFormsModule,
+        ReactiveFormsModule,
         MaterialModule,
-      
-		HttpClientModule,
-		MatDatepickerModule,
-		MatNativeDateModule, 
-		FlatpickrModule.forRoot(),
-		ToastrModule.forRoot(),
-		BlockUIModule.forRoot({message: Constants.LOADING_MEESSAGE})
+
+        HttpClientModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        FlatpickrModule.forRoot(),
+        ToastrModule.forRoot(),
+        BlockUIModule.forRoot({message: Constants.LOADING_MEESSAGE})
     ],
 	providers:[DatePipe]
 })
