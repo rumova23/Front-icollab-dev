@@ -108,7 +108,7 @@
 <div class="monitoreo pb-4">
 	<div class="row">
 		<div class="col-12 col-xs-6 order-1 order-xs-0 text-center">
-			<h2 class="text">PARÁMETROS PRINCIPALES DE GENERACIÓN</h2>
+			<h2 class="text text-left">PARÁMETROS PRINCIPALES DE GENERACIÓN</h2>
 			<div class="row">
 				<div class="col">
 					<div (click)="chartLine_01_ToogleSerie('potenciaNeta')">
@@ -373,11 +373,11 @@
 				</div>
 			</div>
 			<div class="row" (click)="openModalCt_3()">
-				<div class="col text-center">
+				<div class="col text-center" style="margin-bottom: 3%;">
 					<img class="imgTurbinaDiesel" *ngIf="getValue('ct_3_RPM')[1]>10" src="assets/monitoring/3_3/turbinaVaporAnimada.gif" alt=""
-						style="width: 70%; max-width: 460px;" />
+						style="width: 100%; max-width: 460px;" />
 					<img class="imgTurbinaDiesel" *ngIf="getValue('ct_3_RPM')[1]<11" src="assets/monitoring/3_3/turbina-vapor.png" alt=""
-						style="width: 70%; max-width: 460px;" />
+						style="width: 100%; max-width: 460px;" />
 				</div>
 			</div>
 			<div class="row d-flex justify-content-center text-center">

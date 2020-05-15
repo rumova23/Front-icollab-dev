@@ -416,7 +416,10 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			this.chartLine2C.destroy();
 			this.chartLine2C = undefined;
 		}
-		let opt: any = {
+		let opt: any = {			
+			credits: {
+				enabled: false
+			},		
 			chart: {
 				type: "spline",
 				//animation: Highcharts.svg, // don't animate in old IE
@@ -563,6 +566,9 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			this.chartDona_1 = undefined;
 		}
 		let opt: any = {
+			credits: {
+				enabled: false
+			},		
 			colors: ["#CD7F32","#ffffff"],
 
 			legend: {
@@ -612,7 +618,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					},
 				},
 				lineWidth: 0,
-				categories: ['RT <span class="f16"><span id="flag" class="flag no">' + "</span></span>", 'Potencia <span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
+				categories: ['<span class="f9" style="font-size: 9px;">RT</span> <span class="f16"><span id="flag" class="flag no">' + "</span></span>", '<span class="f9" style="font-size: 9px;">Potencia </span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
 			},
 			yAxis: [{
 				id: "y-axis-rt",
@@ -704,6 +710,9 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			this.donaChart1_modal_x = undefined;
 		}
 		let opt: any = {
+			credits: {
+				enabled: false
+			},		
 			colors: ["#CD7F32","#ffffff"],
 
 			legend: {
@@ -844,6 +853,9 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			this.chartDona_2 = undefined;
 		}
 		let opt: any = {
+			credits: {
+				enabled: false
+			},		
 			colors: ["#CD7F32","#ffffff"],
 
 			legend: {
@@ -893,7 +905,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					},
 				},
 				lineWidth: 0,
-				categories: ['RT <span class="f16"><span id="flag" class="flag no">' + "</span></span>", 'Potencia <span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
+				categories: ['<span class="f9" style="font-size: 9px;">RT</span> <span class="f16"><span id="flag" class="flag no">' + "</span></span>", '<span class="f9" style="font-size: 9px;">Potencia </span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
 			},
 			yAxis: [{
 				id: "y-axis-rt",
@@ -984,6 +996,9 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			this.donaChart2_modal_x = undefined;
 		}
 		let opt: any = {
+			credits: {
+				enabled: false
+			},		
 			colors: ["#CD7F32","#ffffff"],
 
 			legend: {
@@ -1124,6 +1139,9 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			this.chartDona_3 = undefined;
 		}
 		let opt: any = {
+			credits: {
+				enabled: false
+			},		
 			colors: ["#CD7F32","#ffffff"],
 
 			legend: {
@@ -1173,7 +1191,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					},
 				},
 				lineWidth: 0,
-				categories: ['RT <span class="f16"><span id="flag" class="flag no">' + "</span></span>", 'Potencia <span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
+				categories: ['<span class="f9" style="font-size: 9px;">RT</span> <span class="f16"><span id="flag" class="flag no">' + "</span></span>", '<span class="f9" style="font-size: 9px;">Potencia </span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
 			},
 			yAxis: [{
 				id: "y-axis-rt",
@@ -1264,6 +1282,9 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			this.donaChart3_modal_x = undefined;
 		}
 		let opt: any = {
+			credits: {
+				enabled: false
+			},		
 			colors: ["#CD7F32","#ffffff"],
 
 			legend: {
