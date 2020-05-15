@@ -118,6 +118,7 @@ export class ComplianceAddStaffComponent implements OnInit {
     arryCata: Array<any>;
     result;
     condition;
+    stringToTrim = '';
     rowsPerPage = [50, 100, 250, 500];
 
     constructor(private personal: PersonalCompetenteService,
@@ -161,8 +162,8 @@ export class ComplianceAddStaffComponent implements OnInit {
         this.comboStatus.push(new Combo('1', 'Activo'));
         this.comboStatus.push(new Combo('0', 'Inactivo'));
 
-        this.conditionSearch.push(new Combo('1', 'Al menos uno'));
-        this.conditionSearch.push(new Combo('2', 'Todos'));
+        this.conditionSearch.push(new Combo('1', 'Todos'));
+        this.conditionSearch.push(new Combo('2', 'Al menos uno'));
 
         this.filterForm = this.formBuilder.group({
             fEmpNum: ['', Validators.required],
@@ -307,44 +308,53 @@ export class ComplianceAddStaffComponent implements OnInit {
         return new Date(toConvertDate.getTime() + offsetTimeZone);
     }
 
-    search(): Personalcompetente[] {
+    search(typeCondition: string): Personalcompetente[] {
         let arrayElements: Personalcompetente[] = this.elementData;
-
+        let resultElements: Personalcompetente[] = [];
+        debugger;
         if (this.filterForm.controls['fEmpNum'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
-                return personal.numEmpleado.toString() === this.filterForm.controls['fEmpNum'].value ? true : false;
+                return personal.numEmpleado.toString() === this.filterForm.controls['fEmpNum'].value.toString().trimLeft().trimRight() ? true : false;
             });
+            if (typeCondition === 'OR') {
+                resultElements = resultElements.concat(arrayElements);
+                arrayElements = this.elementData;
+            }
         }
         if (this.filterForm.controls['fNames'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
-                return personal.nombre.toString().toUpperCase() === this.filterForm.controls['fNames'].value.toString().toUpperCase() ? true : false;
+                return personal.nombre.toString().toUpperCase() === this.filterForm.controls['fNames'].value.toString().trimLeft().trimRight().toUpperCase() ? true : false;
             });
+            if (typeCondition === 'OR') {
+                resultElements = resultElements.concat(arrayElements);
+                arrayElements = this.elementData;
+            }
         }
         if (this.filterForm.controls['fLastName'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
-                return personal.apPaterno.toString().toUpperCase() === this.filterForm.controls['fLastName'].value.toString().toUpperCase() ? true : false;
+                return personal.apPaterno.toString().toUpperCase() === this.filterForm.controls['fLastName'].value.toString().trimLeft().trimRight().toUpperCase() ? true : false;
             });
         }
         if (this.filterForm.controls['fSecondName'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
-                return personal.apMaterno.toString().toUpperCase() === this.filterForm.controls['fSecondName'].value.toString().toUpperCase() ? true : false;
+                return personal.apMaterno.toString().toUpperCase() === this.filterForm.controls['fSecondName'].value.toString().trimLeft().trimRight().toUpperCase() ? true : false;
             });
         }
         if (this.filterForm.controls['fPosition'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
                 console.log(personal.posicion.toString())
-                return personal.posicion.toString() === this.filterForm.controls['fPosition'].value.toString() ? true : false;
+                return personal.posicion.toString() === this.filterForm.controls['fPosition'].value.toString().trimLeft().trimRight() ? true : false;
             });
         }
         if (this.filterForm.controls['fDepto'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
-                return personal.departamento.toString() === this.filterForm.controls['fDepto'].value ? true : false;
+                return personal.departamento.toString() === this.filterForm.controls['fDepto'].value.toString().trimLeft().trimRight() ? true : false;
             });
         }
         if (this.filterForm.controls['fJob'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
                 console.log(personal.lugarDeTrabajo.toString())
-                return personal.lugarDeTrabajo.toString() === this.filterForm.controls['fJob'].value ? true : false;
+                return personal.lugarDeTrabajo.toString() === this.filterForm.controls['fJob'].value.toString().trimLeft().trimRight() ? true : false;
             });
         }
         if (this.filterForm.controls['fEst'].value !== '') {
@@ -383,11 +393,11 @@ export class ComplianceAddStaffComponent implements OnInit {
             });
         }
 
-        return arrayElements;
+        return typeCondition === 'AND' ? arrayElements : resultElements;
     }
 
     filtros() {
-        let typeSearch = this.filterForm.controls['fSearchCondition'].value;
+        const typeSearch = this.filterForm.controls['fSearchCondition'].value.toString() === '1' ? 'AND' : 'OR'; // 1. OR \ 2. AND for search conditions
         if (this.filterForm.controls['fEmpNum'].value !== '' || this.filterForm.controls['fNames'].value !== ''
             || this.filterForm.controls['fLastName'].value !== '' || this.filterForm.controls['fSecondName'].value !== ''
             || this.filterForm.controls['fPosition'].value !== '' || this.filterForm.controls['fDepto'].value !== ''
@@ -395,7 +405,7 @@ export class ComplianceAddStaffComponent implements OnInit {
             || this.filterForm.controls['fLastDate'].value !== '' || this.filterForm.controls['fGender'].value !== ''
             || this.filterForm.controls['fPlaceWork'].value !== '') {
 
-            this.registros = new MatTableDataSource<Personalcompetente>(this.search());
+            this.registros = new MatTableDataSource<Personalcompetente>(this.search(typeSearch));
             this.registros.paginator = this.paginator;
             this.registros.sort = this.sort;
 
