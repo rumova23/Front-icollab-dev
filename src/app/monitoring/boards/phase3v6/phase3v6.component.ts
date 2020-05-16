@@ -415,10 +415,11 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					if (!this.mapWebIdToKeyTag.has(tag.WebId)) this.mapWebIdToKeyTag.set(tag.WebId, this.findLocalKeyTagByWebId(tag.WebId));
 					if (this.mapWebIdToKeyTag.get(tag.WebId) != null) {
 						let localTag = this.tags.get(this.mapWebIdToKeyTag.get(tag.WebId));
-
+						
+						localTag["value"] = [];
+						//if (localTag["value"]["length"] > 100) localTag["value"].shift();
 						localTag["value"].push([date.getTime(), tag.Value.Value]);
 
-						if (localTag["value"]["length"] > 100) localTag["value"].shift();
 
 						if ("" == localTag["tagName"]) localTag["tagName"] = tag.Name;
 						//this[localTag['f']](tag.Value.Value,date.getTime());
@@ -498,6 +499,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 
 			plotOptions: {
 				series: {
+					fillOpacity: 0.2,
 					marker: {
 						enabled: false,
 					},
@@ -1578,7 +1580,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		if(this.subscriptions['interval_chartLine_01_updateCharLine'] != undefined && this.subscriptions['interval_chartLine_01_updateCharLine']['isStopped']==false){
 			this.subscriptions['interval_chartLine_01_updateCharLine'].unsubscribe();
 			this.subscriptions['interval_chartLine_01_updateCharLine']=undefined;
-			
+
 			this.subscriptions['interval_chartLine_01_updateCharLine'] = interval(1000 * event.timeRefreseh).subscribe(()=>{
 				this.chartLine_01_updateCharLine();
 			});
