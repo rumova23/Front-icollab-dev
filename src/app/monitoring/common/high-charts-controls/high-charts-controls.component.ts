@@ -20,8 +20,6 @@ export class HighChartsControlsComponent implements OnInit {
       });
   }
   updateChart(form){
-    this.chartsControl;
-    debugger;
       this.chartsControlOutPut.emit(this.chartsControl);
   }
 }

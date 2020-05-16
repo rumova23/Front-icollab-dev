@@ -124,17 +124,15 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		this.connectSocketChannelNgOnDestroy();
 	}
 	ngOnInit() {
-		this.subscriptions['interval_timeCurrent'] = interval(1000).subscribe(()=>{this.timeCurrent = new Date();});
 		this.addBlock(1, "");
 		let url = `/assets/css/theme/content/monitoring.css`;
 		document.getElementById("content_theme").setAttribute("href", url);
-		this.connect();
-		this.subscriptions['onChangeNavBar'] = this.eventService.onChangeNavBar.subscribe((data)=>{
-			if(data.id == 2){
-				timer(1000).subscribe(()=>{
-					this.chartLine_01_Init();
-				});
-			}
+		this.subscriptions['interval_timeCurrent'] = interval(1000).subscribe(()=>{this.timeCurrent = new Date();});
+		timer(400).subscribe(()=>{
+			this.globalService.aside_open = !this.globalService.aside_open;
+		});
+		timer(1000).subscribe(()=>{
+			this.connect();
 		});
 	}
 
@@ -377,7 +375,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 						this.chartLine_01_updateCharLine();
 					});
 					
-					this.subscriptions['interval_interval_uodateDona'] = interval(20000).subscribe(()=>{
+					this.subscriptions['interval_interval_uodateDona'] = interval(5000).subscribe(()=>{
 						this.dona_1_update();
 						this.dona_2_update();
 						this.dona_3_update();
@@ -683,7 +681,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					},
 				},
 				lineWidth: 0,
-				categories: ['<span class="f9" style="font-size: 9px;">RT</span> <span class="f16"><span id="flag" class="flag no">' + "</span></span>", '<span class="f9" style="font-size: 9px;">Potencia </span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
+				categories: ['<span class="f9" style="font-size: 9px;">Potencia</span> <span class="f16"><span id="flag" class="flag no">' + "</span></span>", '<span class="f9" style="font-size: 9px;">RT</span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
 			},
 			yAxis: [{
 				id: "y-axis-rt",
@@ -826,7 +824,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					},
 				},
 				lineWidth: 0,
-				categories: ['RT <span class="f16"><span id="flag" class="flag no">' + "</span></span>", 'Potencia <span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
+				categories: ['Potencia<span class="f16"><span id="flag" class="flag no">' + "</span></span>", 'RT<span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
 			},
 			yAxis: [{
 				id: "y-axis-rt",
@@ -970,7 +968,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					},
 				},
 				lineWidth: 0,
-				categories: ['<span class="f9" style="font-size: 9px;">RT</span> <span class="f16"><span id="flag" class="flag no">' + "</span></span>", '<span class="f9" style="font-size: 9px;">Potencia </span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
+				categories: ['<span class="f9" style="font-size: 9px;">Potencia</span> <span class="f16"><span id="flag" class="flag no">' + "</span></span>", '<span class="f9" style="font-size: 9px;">RT</span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
 			},
 			yAxis: [{
 				id: "y-axis-rt",
@@ -1112,7 +1110,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					},
 				},
 				lineWidth: 0,
-				categories: ['RT <span class="f16"><span id="flag" class="flag no">' + "</span></span>", 'Potencia <span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
+				categories: ['Potencia<span class="f16"><span id="flag" class="flag no">' + "</span></span>", 'RT<span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
 			},
 			yAxis: [{
 				id: "y-axis-rt",
@@ -1256,7 +1254,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					},
 				},
 				lineWidth: 0,
-				categories: ['<span class="f9" style="font-size: 9px;">RT</span> <span class="f16"><span id="flag" class="flag no">' + "</span></span>", '<span class="f9" style="font-size: 9px;">Potencia </span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
+				categories: ['<span class="f9" style="font-size: 9px;">Potencia</span> <span class="f16"><span id="flag" class="flag no">' + "</span></span>", '<span class="f9" style="font-size: 9px;">RT</span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
 			},
 			yAxis: [{
 				id: "y-axis-rt",
@@ -1398,7 +1396,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					},
 				},
 				lineWidth: 0,
-				categories: ['RT <span class="f16"><span id="flag" class="flag no">' + "</span></span>", 'Potencia <span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
+				categories: ['Potencia<span class="f16"><span id="flag" class="flag no">' + "</span></span>", 'RT<span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
 			},
 			yAxis: [{
 				id: "y-axis-rt",
@@ -1484,16 +1482,10 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		}
 		this.donaChart3_modal_x = Highcharts.chart(this.donaChart3_modal.nativeElement, opt);
 	}
-
-	dona_1_update(){
-		this.dona_1();
-		/*
+	getColorChartDonas(vp,vr){
 		let opt = {
 			colors:["",""]
 		}
-		
-		let vp = this.getValue('ct_1_Potencia')[1];
-		let vr = this.getValue('ct_1_RT')[1];
 		if(vp <= 10){
 			opt.colors[0]=  this.rojo;//ct_1_Potencia
 		}else if(vp > 10 && vp < 80){
@@ -1506,11 +1498,19 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		}else if(vr >= 1000){
 			opt.colors[1]=  this.verde;
 		}
-		this.chartDona_1.get('ct_1_RT').data=[0,vr];
-		this.chartDona_1.get('ct_1_Potencia').data=[vp,0];
+		return opt;
+	}
+	dona_1_update(){
+		let vp = this.getValue('ct_1_Potencia')[1];
+		let vr = this.getValue('ct_1_RT')[1];
+		let opt = this.getColorChartDonas(vp,vr);
+		
+
+		this.chartDona_1.get('ct_1_RT').setData([0,vr],false,false);
+		this.chartDona_1.get('ct_1_Potencia').setData([vp,0],false,false);
 		this.chartDona_1.update({
 			colors:opt.colors			
-		});
+		},false);
 		this.chartDona_1.redraw(true);
 		//*/
 	}
@@ -1555,8 +1555,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 	}
 	modifyChartLineChart2(event:ChartControls){
 		this.chartControlLineChart2 = event;
-		let ymax = undefined;
-		let ymin = undefined;
+		let ymax = null;
+		let ymin = null;
 		let y = null;
 		for (let index = 0; index < this.chartLine2C.yAxis.length; index++) {
 			y = this.chartLine2C.yAxis[index];
