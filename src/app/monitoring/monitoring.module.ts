@@ -20,6 +20,7 @@ import {GaugesModule} from 'ng-canvas-gauges';
 import { Phase2v2Component } from './boards/phase2v2/phase2v2.component';
 import { Phase2v3Component } from './boards/phase2v3/phase2v3.component';
 import { Phase3v3Component } from './boards/phase3v3/phase3v3.component';
+import { Phase3v6Component } from './boards/phase3v6/phase3v6.component';
 
 @NgModule({
     declarations:[
@@ -35,7 +36,8 @@ import { Phase3v3Component } from './boards/phase3v3/phase3v3.component';
         Phase2v1Component,
         Phase2v2Component,
         Phase2v3Component,
-        Phase3v3Component
+        Phase3v3Component,
+        Phase3v6Component
     ],
     exports:[
     ],

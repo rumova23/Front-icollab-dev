@@ -46,7 +46,8 @@ export class MonitoringChartTR extends MonitoringBaseSocketOnComponent {
     extractDataFromTheBox(tag: PiServerItem): FinalsDataToChart {
         let values = [];
         let labels = [];
-        if (tag.Items.length > 0) {
+
+        if (Array.isArray(tag.Items) && tag.Items.length > 0) {
             for (const item of tag.Items) {
                 values.push(item.Value.Value);
                 labels.push(getMyDateFormat(new Date(item.Timestamp)));

@@ -38,8 +38,9 @@ export class SharedHeaderComponent implements OnInit {
 		return name;
 	}
 	toggleMenu() {
-		//this.eventService.sendChangeNavBar(new EventMessage(1, null));
 		this.globalService.aside_open = !this.globalService.aside_open ;
+		let i = this.globalService.aside_open ? 1 : 2;
+		this.eventService.sendChangeNavBar(new EventMessage(i, null));
 	}
 	
 	changePassword() {		
