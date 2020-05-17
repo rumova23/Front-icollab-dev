@@ -37,6 +37,7 @@ import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import {MaestroOpcionDTO} from '../../../compliance/models/maestro-opcion-dto';
 import {Observable} from 'rxjs';
 import {environment} from '../../../../environments/environment';
+import {saveAs} from 'file-saver';
 // import theme           from 'highcharts/themes/dark-green';
 HC_exporting(Highcharts);
 HC_stock(Highcharts);
@@ -91,7 +92,6 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	fileName: any;
 	progress;
 	title;
-	download;
 	date = new FormControl(moment());
 	// https://jsfiddle.net/highcharts/4jZ7T/
 	public opt: any = {
@@ -452,9 +452,8 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	}
 
 	ejecutaProceso() {
-		console.log(this.fileUploadForm.controls.typeVarhtml.value);
 		if (this.fileUploadForm.controls.typeVarhtml.value === '1') {
-			if(this.date.value == null){
+			if (this.date.value == null){
 				this.toastr.errorToastr('Eliga una Fecha', 'Lo siento,');
 				return 0;
 			}
@@ -471,7 +470,6 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		this.addBlock(1, 'Importando información');
 		this.monitoringService.executeProcessYearMonth(applicationName, year, month).subscribe(
 			data => {
-				console.log('rtc:data ' + data);
 				this.toastr.successToastr('Ejecutando proceso ' + year + '/' + month + ' para: ' + applicationName, 'Ejecución lanzada con éxito.');
 			},
 			errorData => {
@@ -492,7 +490,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			const message = 'Procesando el mes: ' + (new Date(this.date.value).getMonth() + 1) + ' del año: ' +  new Date(this.date.value).getFullYear() + '. Upload Zip Manualmente; espere por favor.';
 			this.toastr.successToastr(message, '.... Procesando');
 		} else {
-			//this.toastr.errorToastr('No es Proceso Manual.', 'Lo siento,');
+			// this.toastr.errorToastr('No es Proceso Manual.', 'Lo siento,');
 			return 0;
 		}
 		this.addBlock(1,'');
@@ -526,5 +524,43 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	private addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,
 			new EventBlocked(type, msg)));
+	}
+
+	download() {
+		const year = new Date(this.date.value).getFullYear();
+		const month =  new Date(this.date.value).getMonth() + 1;
+		this.addBlock(1, 'Bajando  crudos CSV ' + year + '/' + month + ': Generando');
+		this.ppaMonitoringFormatService.downloadcrudosZip(year, month)
+			.subscribe(
+				data => {
+					const blob = new Blob([this.base64toBlob(data.base64,
+						'application/CSV')], {});
+					saveAs(blob, data.nameFile);
+					this.addBlock(2, '');
+					this.toastr.successToastr('Download File: Correctamente ' + year + '/' + month + ': Generado Correctamente', '¡Exito!');
+				},
+				errorData => {
+					this.addBlock(2, '');
+					this.toastr.errorToastr(errorData.error.message, '¡Error!');
+				});
+	}
+
+	base64toBlob(base64Data, contentType) {
+		contentType = contentType || '';
+		const sliceSize = 1024;
+		const byteCharacters = atob(base64Data);
+		const bytesLength = byteCharacters.length;
+		const slicesCount = Math.ceil(bytesLength / sliceSize);
+		const byteArrays = new Array(slicesCount);
+		for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+			const begin = sliceIndex * sliceSize;
+			const end = Math.min(begin + sliceSize, bytesLength);
+			const bytes = new Array(end - begin);
+			for (let offset = begin, i = 0; offset < end; ++i, ++offset) {
+				bytes[i] = byteCharacters[offset].charCodeAt(0);
+			}
+			byteArrays[sliceIndex] = new Uint8Array(bytes);
+		}
+		return new Blob(byteArrays, { type: contentType });
 	}
 }

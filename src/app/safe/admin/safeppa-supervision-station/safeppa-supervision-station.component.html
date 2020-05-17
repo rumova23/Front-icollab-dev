@@ -31,7 +31,8 @@
 									startView="multi-year"
 									(yearSelected)="chosenYearHandler($event)"
 									(monthSelected)="chosenMonthHandler($event, dp)"
-									panelClass="example-month-picker"></mat-datepicker>
+									panelClass="example-month-picker"
+					></mat-datepicker>
 				</mat-form-field>
 			</div>
 		</div>
@@ -55,8 +56,8 @@
 	<hr>
 	<div class="row">
 		<div class="col text-right">
-			<button class="btn" (click)="download()">
-				<i class="ti-cloud-down"></i>&nbsp;	&nbsp;	&nbsp;&nbsp;{{'Download' | translate}} &nbsp;	&nbsp;	
+			<button type="button" class="btn" (click)="download()">
+				<i class="ti-cloud-down"></i>&nbsp;	&nbsp;	&nbsp;&nbsp;{{'Download' | translate}} &nbsp;	&nbsp;
 			</button>
 		</div>
 	</div>

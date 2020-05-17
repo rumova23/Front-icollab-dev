@@ -52,6 +52,12 @@ export class PpaMonitoringFormatService {
 		return this.http.get(environment.dycformato + 'profile/detected/' + year + '/' + mount, {params : this.parameters });
 	}
 
+	procesaDeteccionProcedimientoProfile(year: number, mount: number): Observable<any> {
+		// return of(this.respuestaDemoPreocesaDeteccion);
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.dycformato + 'profile/norm/detected/' + year + '/' + mount, {params : this.parameters });
+	}
+
 	obtenBitacoraLoadRaw(): Observable<any> {
 		// return of(this.loadRawBitacora);
 		this.parameters = this.globalService.setXTenantId_Plant();
@@ -83,16 +89,27 @@ export class PpaMonitoringFormatService {
 
 	downloadExcel(year: number, mount: number): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get(environment.dycformato + '/download/' + year + '/' + mount, {params : this.parameters });
+		return this.http.get(environment.dycformato + 'download/' + year + '/' + mount, {params : this.parameters });
 	}
 
 	downloadCrudosExcel(year: number, mount: number): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get(environment.dycformato + '/download/reporte/crudos/' + year + '/' + mount, {params : this.parameters });
+		return this.http.get(environment.dycformato + 'download/reporte/crudos/' + year + '/' + mount, {params : this.parameters });
 	}
 
 	downloadCrudosProfileExcel(year: number, mount: number): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get(environment.dycformato + '/download/profile/crudos/' + year + '/' + mount, {params : this.parameters });
+		return this.http.get(environment.dycformato + 'download/profile/crudos/' + year + '/' + mount, {params : this.parameters });
 	}
+
+	downloadcrudosZip(year: number, mount: number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.dycformato + 'download/zip/' + year + '/' + mount, {params : this.parameters });
+	}
+
+	stageLoadRaw(year: number, mount: number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.dycformato + 'loadRaw/stage/' + year + '/' + mount, {params : this.parameters });
+	}
+
 }

@@ -62,7 +62,7 @@
 					<div class="col-auto d-flex">
 						<div class="align-self-end">
 
-							<button type="button" class="btn mr-0" (click)="download()" style="width: 175px;">
+							<button type="button" class="btn mr-0" style="width: 175px;">
 								<i class="ti-cloud-down"></i>
 								{{ "Download" | translate }} {{ "Layout" | translate }}
 							</button>
@@ -124,6 +124,11 @@
 			<p class="section_subtitulo_0"></p>
 		</div>
 	</div>
+	<div class="col-auto my-xxs-1">
+		<button type="button" (click)="download()" class="btn"><i class="ti-cloud-down"></i>
+			{{ "Download Zip Estación de Supervisión" | translate }}</button>
+
+	</div>
 	<form [formGroup]="filterDatesFormGroup" (ngSubmit)="searchTagsFromTo()">
 		<div class="row mb-3 mt-3">
 			<div class="col-12 col-lg-6 col-xxl-4">
@@ -142,11 +147,6 @@
 						<button class="btn align-self-end" style="margin: auto;width: 175px;">
 							<mdb-icon far icon="save" class="mr-1"></mdb-icon> Graficar
 						</button>
-
-					</div>
-					<div class="col-auto my-xxs-1">
-						<button type="button align-self-end" class="btn" style="margin: auto;width: 175px;"><i class="ti-cloud-down"></i>
-							{{ "Download" | translate }}</button>
 
 					</div>
 				</div>

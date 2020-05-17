@@ -228,6 +228,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		ctrlValue.month(normalizedMonth.month());
 		this.date.setValue(ctrlValue);
 		datepicker.close();
+		this.stangeLoadRaw();
 	}
 	setColumnsToDisplay() {
 		this.setTableData();
@@ -543,5 +544,19 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 			byteArrays[sliceIndex] = new Uint8Array(bytes);
 		}
 		return new Blob(byteArrays, { type: contentType });
+	}
+
+	stangeLoadRaw() {
+		const year = new Date(this.date.value).getFullYear();
+		const month =  new Date(this.date.value).getMonth() + 1;
+		this.ppaMonitoringFormatService.stageLoadRaw(year, month)
+			.subscribe(
+				data => {
+					this.setTable01(data);
+					this.setChartBanderas(data);
+				},
+				errorData => {
+					this.toastr.errorToastr(errorData.error.message, '¡Error!');
+				});
 	}
 }
