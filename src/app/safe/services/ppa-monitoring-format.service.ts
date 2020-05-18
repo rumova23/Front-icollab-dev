@@ -30,9 +30,9 @@ export class PpaMonitoringFormatService {
 		return this.http.get( `${ environment.dgctags }obtenTag/etapa/${etapaId}`, {params : this.parameters });
 	}
 
-	entradaManual(year: number, mount: number, data): Observable<any> {
+	entradaManual(year: number, month: number, data): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.post(environment.dycformato + 'upload/zip/' + year + '/' + mount, data, {params : this.parameters });
+		return this.http.post(environment.dycformato + 'upload/zip/' + year + '/' + month, data, {params : this.parameters });
 	}
 
 	uploadPerfil(data): Observable<any> {
@@ -40,22 +40,22 @@ export class PpaMonitoringFormatService {
 		return this.http.post(environment.dycformato + 'uploadPerfil/', data, {params : this.parameters });
 	}
 
-	procesaCorreccionProfile(year: number, mount: number): Observable<any> {
+	procesaCorreccionProfile(year: number, month: number): Observable<any> {
 		// return of(this.respuestaDemoPreocesaCorreccion);
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get(environment.dycformato + 'profile/corrected/' + year + '/' + mount, {params : this.parameters });
+		return this.http.get(environment.dycformato + 'profile/corrected/' + year + '/' + month, {params : this.parameters });
 	}
 
-	procesaDeteccionProfile(year: number, mount: number): Observable<any> {
+	procesaDeteccionProfile(year: number, month: number): Observable<any> {
 		// return of(this.respuestaDemoPreocesaDeteccion);
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get(environment.dycformato + 'profile/detected/' + year + '/' + mount, {params : this.parameters });
+		return this.http.get(environment.dycformato + 'profile/detected/' + year + '/' + month, {params : this.parameters });
 	}
 
-	procesaDeteccionProcedimientoProfile(year: number, mount: number): Observable<any> {
+	procesaDeteccionProcedimientoProfile(year: number, month: number): Observable<any> {
 		// return of(this.respuestaDemoPreocesaDeteccion);
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get(environment.dycformato + 'profile/norm/detected/' + year + '/' + mount, {params : this.parameters });
+		return this.http.get(environment.dycformato + 'profile/norm/detected/' + year + '/' + month, {params : this.parameters });
 	}
 
 	obtenBitacoraLoadRaw(): Observable<any> {
@@ -64,52 +64,57 @@ export class PpaMonitoringFormatService {
 		return this.http.get(environment.dycformato + 'loadRaw/bitacora', {params : this.parameters });
 	}
 
-	procesaCorreccion(year: number, mount: number): Observable<any> {
+	procesaCorreccion(year: number, month: number): Observable<any> {
 		// return of(this.respuestaDemoPreocesaCorreccion);
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get(environment.dycformato + 'loadRaw/correccion/' + year + '/' + mount, {params : this.parameters });
+		return this.http.get(environment.dycformato + 'loadRaw/correccion/' + year + '/' + month, {params : this.parameters });
 	}
 
-	procesaDeteccion(year: number, mount: number): Observable<any> {
+	procesaDeteccion(year: number, month: number): Observable<any> {
 		// return of(this.respuestaDemoPreocesaDeteccion);
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get(environment.dycformato + 'loadRaw/deteccion/' + year + '/' + mount, {params : this.parameters });
+		return this.http.get(environment.dycformato + 'loadRaw/deteccion/' + year + '/' + month, {params : this.parameters });
 	}
 
-	procesaDeteccionProcedimiento(year: number, mount: number): Observable<any> {
+	procesaDeteccionProcedimiento(year: number, month: number): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get(environment.dycformato + 'norma/deteccion/' + year + '/' + mount, {params : this.parameters });
+		return this.http.get(environment.dycformato + 'norma/deteccion/' + year + '/' + month, {params : this.parameters });
 	}
 
-	procesaCorreccionProcedimiento(year: number, mount: number): Observable<any> {
+	procesaCorreccionProcedimiento(year: number, month: number): Observable<any> {
 		// return of(this.respuestaDemoPreocesaCorreccion);
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get(environment.dycformato + 'norma/correccion/' + year + '/' + mount, {params : this.parameters });
+		return this.http.get(environment.dycformato + 'norma/correccion/' + year + '/' + month, {params : this.parameters });
 	}
 
-	downloadExcel(year: number, mount: number): Observable<any> {
+	downloadExcel(year: number, month: number): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get(environment.dycformato + 'download/' + year + '/' + mount, {params : this.parameters });
+		return this.http.get(environment.dycformato + 'download/' + year + '/' + month, {params : this.parameters });
 	}
 
-	downloadCrudosExcel(year: number, mount: number): Observable<any> {
+	downloadCrudosExcel(year: number, month: number): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get(environment.dycformato + 'download/reporte/crudos/' + year + '/' + mount, {params : this.parameters });
+		return this.http.get(environment.dycformato + 'download/reporte/crudos/' + year + '/' + month, {params : this.parameters });
 	}
 
-	downloadCrudosProfileExcel(year: number, mount: number): Observable<any> {
+	downloadCrudosProfileExcel(year: number, month: number): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get(environment.dycformato + 'download/profile/crudos/' + year + '/' + mount, {params : this.parameters });
+		return this.http.get(environment.dycformato + 'download/profile/crudos/' + year + '/' + month, {params : this.parameters });
 	}
 
-	downloadcrudosZip(year: number, mount: number): Observable<any> {
+	downloadcrudosZip(year: number, month: number): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get(environment.dycformato + 'download/zip/' + year + '/' + mount, {params : this.parameters });
+		return this.http.get(environment.dycformato + 'download/zip/' + year + '/' + month, {params : this.parameters });
 	}
 
-	stageLoadRaw(year: number, mount: number): Observable<any> {
+	stageLoadRaw(year: number, month: number): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get(environment.dycformato + 'loadRaw/stage/' + year + '/' + mount, {params : this.parameters });
+		return this.http.get(environment.dycformato + 'loadRaw/stage/' + year + '/' + month, {params : this.parameters });
+	}
+
+	stageLoad(year: number, month: number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.dycformato + 'loadRaw/stageload/' + year + '/' + month, {params : this.parameters });
 	}
 
 }

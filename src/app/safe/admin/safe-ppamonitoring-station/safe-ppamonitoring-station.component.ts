@@ -85,6 +85,9 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 
 	etapa001: number;
 
+	existsLoad: boolean;
+	buttonExists: boolean;
+
 
 	valid = false;
 	fileUploadForm: FormGroup;
@@ -201,11 +204,12 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		this.date.setValue(ctrlValue);
 		datepicker.close();
 		this.resetScreen();
+		this.stangeLoadRaw();
 	}
-	resetScreen(){
-		//this.dataSource = new MatTableDataSource<any>([]);
+	resetScreen() {
+		// this.dataSource = new MatTableDataSource<any>([]);
 		this.tags.reset();
-		if(this.chartLine != undefined) {
+		if (this.chartLine !== undefined) {
 			this.chartLine.destroy();
 			this.chartLine = undefined;
 		}
@@ -232,6 +236,8 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.existsLoad = true;
+		this.buttonExists = true;
 		this.ppaMonitoringFormatService.getCatalogoOpcion('Etapa Tag', '001').subscribe(
 		(data: MaestroOpcionDTO) => {
 			this.etapa001 = data.maestroOpcionId;
@@ -451,6 +457,22 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		this.dateFin = event.value;
 	}
 
+	validaEjecutaProceso() {
+		console.log(this.existsLoad);
+		if (this.existsLoad) {
+			console.log('entro al confirm');
+			this.confirmationDialogService.confirm('Por favor, confirme..',
+				'La carga para fecha comercial ya existe: Necesita Sobreescribirla?').then((confirmed) => {
+				if (confirmed) {
+					this.ejecutaProceso();
+				}
+			}).catch(() => console.log('Salio'));
+		} else {
+			console.log('se fue directo al else');
+			this.ejecutaProceso();
+		}
+	}
+
 	ejecutaProceso() {
 		if (this.fileUploadForm.controls.typeVarhtml.value === '1') {
 			if (this.date.value == null){
@@ -562,5 +584,30 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			byteArrays[sliceIndex] = new Uint8Array(bytes);
 		}
 		return new Blob(byteArrays, { type: contentType });
+	}
+
+	stangeLoadRaw() {
+		this.addBlock(1, '');
+		const year = new Date(this.date.value).getFullYear();
+		const month =  new Date(this.date.value).getMonth() + 1;
+		this.ppaMonitoringFormatService.stageLoad(year, month)
+			.subscribe(
+				data => {
+					this.existsLoad = data.existsLoad
+					this.buttonExists = false;
+					this.addBlock(2, '');
+				},
+				errorData => {
+					this.addBlock(2, '');
+					if (errorData.error.message.indexOf('Notificacion 100') !== -1) {
+						this.toastr.warningToastr(errorData.error.message, '¡Notificacion!');
+						this.existsLoad = false;
+						this.buttonExists = false;
+					} else {
+						this.toastr.errorToastr(errorData.error.message, '¡Error!');
+						this.existsLoad = false;
+						this.buttonExists = true;
+					}
+				});
 	}
 }

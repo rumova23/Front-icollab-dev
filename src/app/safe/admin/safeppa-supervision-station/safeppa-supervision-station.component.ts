@@ -10,15 +10,12 @@ import {MatDatepicker} from '@angular/material/datepicker';
 import {MY_FORMAT_DATE_PICKER} from '../../../core/models/MyFormatDatePicker';
 import * as moment from 'moment';
 import {ToastrManager} from 'ng6-toastr-notifications';
-import {ConfirmationDialogService} from '../../../core/services/confirmation-dialog.service';
 import {PpaMonitoringFormatService} from '../../services/ppa-monitoring-format.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import {saveAs} from 'file-saver';
-import {Constants} from '../../../core/globals/Constants';
-import {MaestroOpcionDTO} from '../../../compliance/models/maestro-opcion-dto';
-import {Combo} from '../../../compliance/models/Combo';
+import {ConfirmationDialogService} from '../../../core/services/confirmation-dialog.service';
 
 @Component({
 	selector: 'app-safeppa-supervision-station',
@@ -207,12 +204,19 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		}]
 	};
 	date = new FormControl(moment());
+	buttonDetected: boolean;
+	isDetected: boolean;
+	buttonCorrected: boolean;
+	isCorrected: boolean;
 	constructor(
 		private eventService: EventService,
 		private toastr: ToastrManager,
-		private ppaMonitoringFormatService: PpaMonitoringFormatService) { }
+		private ppaMonitoringFormatService: PpaMonitoringFormatService,
+		private confirmationDialogService: ConfirmationDialogService) { }
 
 	ngOnInit() {
+		this.buttonDetected = true;
+		this.buttonCorrected = true;
 		this.setColumnsToDisplay();
 		this.grafica();
 	}
@@ -431,15 +435,36 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		this.opt2.series[0].data = this.chart2headerValue;
 		Highcharts.chart(this.chartbar2.nativeElement, this.opt2);//*/
 	}
-	aplicarDeteccion() {
-		console.log('aplicarDeteccion()');
 
+	validaAplicarDeteccion() {
+		console.log(this.isDetected);
+		if (this.isDetected) {
+			console.log('entro al confirm');
+			this.confirmationDialogService.confirm('Por favor, confirme..',
+				'Esta seguro que, quiere sobreescribir la actual deteccion?').then((confirmed) => {
+					if (confirmed) {
+						this.aplicarDeteccion();
+					}
+			}).catch(() => console.log('Salio'));
+		} else {
+			console.log('se fue directo al else');
+			this.aplicarDeteccion();
+		}
+}
+	aplicarDeteccion() {
 		const year = new Date(this.date.value).getFullYear();
 		const mount =  new Date(this.date.value).getMonth() + 1;
 		this.addBlock(1, 'Aplicando detección de formato');
 		this.ppaMonitoringFormatService.procesaDeteccion(year, mount).subscribe(
 			data => {
-				console.dir(data);
+				this.isDetected = data.isDetected;
+				this.isCorrected = data.getisCorrected;
+				this.buttonDetected = false;
+				this.buttonCorrected = true;
+				if (this.isDetected) {
+					this.buttonCorrected = false;
+				}
+
 				this.addBlock(2, '');
 
 				this.setTable01(data);
@@ -547,16 +572,29 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	}
 
 	stangeLoadRaw() {
+		this.addBlock(1, '');
 		const year = new Date(this.date.value).getFullYear();
 		const month =  new Date(this.date.value).getMonth() + 1;
 		this.ppaMonitoringFormatService.stageLoadRaw(year, month)
 			.subscribe(
 				data => {
+					this.isDetected = data.isDetected;
+					this.isCorrected = data.getisCorrected;
+					this.buttonDetected = false;
+					this.buttonCorrected = true;
+					if (this.isDetected) {
+						this.buttonCorrected = false;
+					}
+
 					this.setTable01(data);
 					this.setChartBanderas(data);
+					this.addBlock(2, '');
 				},
 				errorData => {
+					this.addBlock(2, '');
 					this.toastr.errorToastr(errorData.error.message, '¡Error!');
+					this.buttonDetected = true;
+					this.buttonCorrected = true;
 				});
 	}
 }

@@ -37,10 +37,10 @@
 			</div>
 		</div>
 		<div class="col text-right text-lg-left">
-			<button class="btn mt-xxxs-4 mt-xxs-4 mt-xs-4 mt-xxl-4" (click)="aplicarDeteccion()">
+			<button class="btn mt-xxxs-4 mt-xxs-4 mt-xs-4 mt-xxl-4" (click)="validaAplicarDeteccion()" [disabled]="buttonDetected">
 				Aplicar Detección&nbsp;	
 			</button>
-			<button class="btn mt-xxxs-4 mt-xxs-4 mt-xs-4 mt-xxl-4" (click)="aplicarCorrecion()">
+			<button class="btn mt-xxxs-4 mt-xxs-4 mt-xs-4 mt-xxl-4" (click)="aplicarCorrecion()" [disabled]="buttonCorrected">
 				Aplicar Corrección
 			</button>
 		</div>
