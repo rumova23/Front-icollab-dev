@@ -12,6 +12,8 @@ import {Constants} from '../../../../../core/globals/Constants';
 import {SecurityService} from '../../../../../core/services/security.service';
 import {Combo} from '../../../../models/Combo';
 import {PerfilComboService} from '../../../../../core/services/perfil-combo.service';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-evaluation',
@@ -38,6 +40,13 @@ export class EvaluationComponent implements OnInit {
   showUpdate = false;
   showDelete = false;
 
+  filteredfEmpNum     : Observable<string[]>;
+  filteredfNames      : Observable<string[]>;
+  filteredfLastName   : Observable<string[]>;
+  filteredfSecondName : Observable<string[]>;
+  filteredfDepto      : Observable<string[]>;
+  filteredfRating     : Observable<string[]>;
+  filteredfCompetence : Observable<string[]>;
   constructor(private globalService: GlobalService,
               private eventService: EventService,
               private formBuilder: FormBuilder,
@@ -111,8 +120,18 @@ export class EvaluationComponent implements OnInit {
       fDepto: ['', Validators.required],
       fRating: ['', Validators.required],
     });
+    this.initAutoComplete();
   }
 
+  initAutoComplete(){
+      this.filteredfEmpNum     = this.filterForm.get('fEmpNum'     ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.numEmp                 ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+      this.filteredfNames      = this.filterForm.get('fNames'      ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.name                   ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+      this.filteredfLastName   = this.filterForm.get('fLastName'   ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.lastName               ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+      this.filteredfSecondName = this.filterForm.get('fSecondName' ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.secondName             ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+      this.filteredfDepto      = this.filterForm.get('fDepto'      ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.department             ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+      this.filteredfRating     = this.filterForm.get('fRating'     ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.totalRating.toString() ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+      this.filteredfCompetence = this.filterForm.get('fCompetence' ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.competence             ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+  }
   getDataSource() {
     this.dataEmpleadoEvaluaciones = [];
     this.addBlock(1, 'Cargando...');

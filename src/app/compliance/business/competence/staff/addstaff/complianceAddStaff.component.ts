@@ -193,13 +193,13 @@ export class ComplianceAddStaffComponent implements OnInit {
         this.initAutoComplete();
     }
     initAutoComplete(){
-        this.filteredfEmpNum      = this.filterForm.get('fEmpNum'    ).valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.numEmpleado   ).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
-        this.filteredfNames       = this.filterForm.get('fNames'     ).valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.nombre        ).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
-        this.filteredfLastName    = this.filterForm.get('fLastName'  ).valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.apPaterno     ).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
-        this.filteredfSecondName  = this.filterForm.get('fSecondName').valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.apMaterno     ).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
-        this.filteredfPosition    = this.filterForm.get('fPosition'  ).valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.posicion      ).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
-        this.filteredfDepto       = this.filterForm.get('fDepto'     ).valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.departamento  ).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
-        this.filteredfJob         = this.filterForm.get('fJob'       ).valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.lugarDeTrabajo).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+        this.filteredfEmpNum      = this.filterForm.get('fEmpNum'    ).valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.numEmpleado   ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+        this.filteredfNames       = this.filterForm.get('fNames'     ).valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.nombre        ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+        this.filteredfLastName    = this.filterForm.get('fLastName'  ).valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.apPaterno     ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+        this.filteredfSecondName  = this.filterForm.get('fSecondName').valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.apMaterno     ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+        this.filteredfPosition    = this.filterForm.get('fPosition'  ).valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.posicion      ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+        this.filteredfDepto       = this.filterForm.get('fDepto'     ).valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.departamento  ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+        this.filteredfJob         = this.filterForm.get('fJob'       ).valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.lugarDeTrabajo).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
     }
     cargaTabla() {
         this.elementData = [];
