@@ -39,6 +39,8 @@ export class EvaluationComponent implements OnInit {
   showView = false;
   showUpdate = false;
   showDelete = false;
+  conditionSearch: Array<any>=[];
+  condition;
 
   filteredfEmpNum     : Observable<string[]>;
   filteredfNames      : Observable<string[]>;
@@ -103,10 +105,15 @@ export class EvaluationComponent implements OnInit {
     this.getDataSource()
 
     this.comboStatus = [];
+    this.conditionSearch = [];
+    this.condition = '1';
 
     this.comboStatus.push(new Combo('', ''));
     this.comboStatus.push(new Combo('1', 'Activo'));
     this.comboStatus.push(new Combo('0', 'Inactivo'));
+
+    this.conditionSearch.push(new Combo('1', 'Todos'));
+    this.conditionSearch.push(new Combo('2', 'Al menos uno'));
 
     this.filterForm = this.formBuilder.group({
       fEmpNum: ['', Validators.required],
@@ -119,18 +126,19 @@ export class EvaluationComponent implements OnInit {
       fLastDate: ['', Validators.required],
       fDepto: ['', Validators.required],
       fRating: ['', Validators.required],
+      fSearchCondition: ['', null]
     });
     this.initAutoComplete();
   }
 
   initAutoComplete(){
-      this.filteredfEmpNum     = this.filterForm.get('fEmpNum'     ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.numEmp                 ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
-      this.filteredfNames      = this.filterForm.get('fNames'      ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.name                   ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
-      this.filteredfLastName   = this.filterForm.get('fLastName'   ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.lastName               ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
-      this.filteredfSecondName = this.filterForm.get('fSecondName' ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.secondName             ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
-      this.filteredfDepto      = this.filterForm.get('fDepto'      ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.department             ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
-      this.filteredfRating     = this.filterForm.get('fRating'     ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.totalRating.toString() ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
-      this.filteredfCompetence = this.filterForm.get('fCompetence' ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.competence             ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+      this.filteredfEmpNum     = this.filterForm.get('fEmpNum'     ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.numEmp.toLowerCase()                 ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+      this.filteredfNames      = this.filterForm.get('fNames'      ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.name.toLowerCase()                   ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+      this.filteredfLastName   = this.filterForm.get('fLastName'   ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.lastName.toLowerCase()               ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+      this.filteredfSecondName = this.filterForm.get('fSecondName' ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.secondName.toLowerCase()             ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+      this.filteredfDepto      = this.filterForm.get('fDepto'      ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.department.toLowerCase()             ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+      this.filteredfRating     = this.filterForm.get('fRating'     ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.totalRating.toString().toLowerCase() ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+      this.filteredfCompetence = this.filterForm.get('fCompetence' ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.competence.toLowerCase()             ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
   }
   getDataSource() {
     this.dataEmpleadoEvaluaciones = [];
@@ -209,13 +217,21 @@ export class EvaluationComponent implements OnInit {
   }
 
   filtros() {
-    if (this.filterForm.controls['fEmpNum'].value !== '' || this.filterForm.controls['fNames'].value !== ''
-        || this.filterForm.controls['fLastName'].value !== '' || this.filterForm.controls['fSecondName'].value !== ''
-        || this.filterForm.controls['fRating'].value !== '' || this.filterForm.controls['fDepto'].value !== ''
-        || this.filterForm.controls['fCompetence'].value !== '' || this.filterForm.controls['fEst'].value !== ''
-        || this.filterForm.controls['fLastDate'].value !== '' || this.filterForm.controls['fLastHour'].value !== '') {
+    
+    let values = this.filterForm.value;
+    const typeSearch = this.filterForm.controls['fSearchCondition'].value.toString() === '1' ? 'AND' : 'OR'; // 1. OR \ 2. AND for search conditions
+    if (
+      values.fEmpNum      !=""||
+      values.fNames       !=""||
+      values.fLastName    !=""||
+      values.fSecondName  !=""||
+      values.fDepto       !=""||
+      values.fRating      !=""||
+      values.fCompetence  !=""||
+      (values.fLastDate   != "" && values.fLastHour != "")
+      ) {
 
-      this.dataSource = new MatTableDataSource<any>(this.search());
+      this.dataSource = new MatTableDataSource<any>(this.search(typeSearch));
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
 
@@ -243,67 +259,56 @@ export class EvaluationComponent implements OnInit {
     this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 
-  search(): any[] {
+  search(typeCondition: string): any[] {
     let arrayElements: any[] = this.dataEmpleadoEvaluaciones;
+    let resultElements: any[] = [];
+    let values = this.filterForm.value;
+    let dateLastUpdate =  ( values.fLastDate   != "" && values.fLastHour != "")?this.datePipe.transform(new Date(values.fLastDate+ ' ' + values.fLastHour+':00'), 'dd/MM/yyyy HH:mm:ss'):null;
 
-    if (this.filterForm.controls['fEmpNum'].value !== '') {
-      arrayElements = arrayElements.filter(personal => {
-        return personal.numEmpleado.toString() === this.filterForm.controls['fEmpNum'].value ? true : false;
-      });
-    }
-    if (this.filterForm.controls['fNames'].value !== '') {
-      arrayElements = arrayElements.filter(personal => {
-        return personal.name.toString().toUpperCase() === this.filterForm.controls['fNames'].value.toString().toUpperCase() ? true : false;
-      });
-    }
-    if (this.filterForm.controls['fLastName'].value !== '') {
-      arrayElements = arrayElements.filter(personal => {
-        return personal.lastName.toString().toUpperCase() === this.filterForm.controls['fLastName'].value.toString().toUpperCase() ? true : false;
-      });
-    }
-    if (this.filterForm.controls['fSecondName'].value !== '') {
-      arrayElements = arrayElements.filter(personal => {
-        return personal.secondName.toString().toUpperCase() === this.filterForm.controls['fSecondName'].value.toString().toUpperCase() ? true : false;
-      });
-    }
-    if (this.filterForm.controls['fDepto'].value !== '') {
-      arrayElements = arrayElements.filter(personal => {
-        return personal.department != null && personal.department.toString().toUpperCase() === this.filterForm.controls['fDepto'].value.toString().toUpperCase() ? true : false;
-      });
-    }
-    if (this.filterForm.controls['fRating'].value !== '') {
-      arrayElements = arrayElements.filter(personal => {
-        return personal.totalRating != null && personal.totalRating.toString().toUpperCase() === this.filterForm.controls['fRating'].value.toString() ? true : false;
-      });
-    }
-    if (this.filterForm.controls['fCompetence'].value !== '') {
-      arrayElements = arrayElements.filter(personal => {
-        return personal.competence !=null && personal.competence.toString().toUpperCase() === this.filterForm.controls['fCompetence'].value.toString().toUpperCase() ? true : false;
-      });
-    }
-    if (this.filterForm.controls['fEst'].value !== '') {
-      arrayElements = arrayElements.filter(personal => {
-        if (personal.status === null) {
-          return false;
-        } else if (this.filterForm.controls['fEst'].value.toString() === '1' && personal.status.toString().toUpperCase() === 'ACTIVO') {
-          return true;
-        } else if (this.filterForm.controls['fEst'].value.toString() === '0' && personal.status.toString().toUpperCase() === 'INACTIVO') {
-          return true;
+    if(typeCondition === 'OR'){
+      resultElements = arrayElements.filter(o=>
+        ( values.fEmpNum     != "" && o.numEmp.toLowerCase().includes(values.fEmpNum.toLowerCase()                    ) ) ||
+        ( values.fNames      != "" && o.name.toLowerCase().includes(values.fNames.toLowerCase()                       ) ) ||
+        ( values.fLastName   != "" && o.lastName.toLowerCase().includes(values.fLastName.toLowerCase()                ) ) ||
+        ( values.fSecondName != "" && o.secondName.toLowerCase().includes(values.fSecondName.toLowerCase()            ) ) ||
+        ( values.fDepto      != "" && o.department.toLowerCase().includes(values.fDepto.toLowerCase()                 ) ) ||
+        ( values.fRating     != "" && o.totalRating.toString().includes(values.fRating.toLowerCase()                  ) ) ||
+        ( values.fCompetence != "" && o.competence.toLowerCase().includes(values.fCompetence.toLowerCase()            ) ) ||
+        ( values.fLastDate   != "" && values.fLastHour != "" && o.dateHourUpdate.toString().includes(dateLastUpdate   ) ) 
+      );
+    }else{
+      let valuesMap = new Map([
+          ["fEmpNum",     "numEmp"],
+          ["fNames",      "name"],
+          ["fLastName",   "lastName"],
+          ["fSecondName", "secondName"],
+          ["fDepto",      "department"],
+          ["fRating",     "totalRating"],
+          ["fCompetence", "competence"]
+      ]);
+      resultElements = arrayElements.filter(o=>{
+        let respuesta = true;
+        
+        for (const key in values) {
+          if (values.hasOwnProperty(key)) {
+            const element = values[key];
+            if(dateLastUpdate != null){
+              if(!o.dateHourUpdate.toString().includes(dateLastUpdate)){
+                respuesta = false;
+              }
+            }
+            if(element != "" && !["fSearchCondition","fLastDate","fLastHour"].includes(key)){
+              if(! o[valuesMap.get(key)].toString().toLowerCase().includes(element.toLowerCase())){
+                respuesta = false;
+              }
+            }
+          }
         }
+        return respuesta;
       });
-    }
-    if (this.filterForm.controls['fLastDate'].value !== '' && this.filterForm.controls['fLastHour'].value !== '') {
-      let dateLastUpdate = this.datePipe.transform(new Date(this.filterForm.controls['fLastDate'].value), 'dd/MM/yyyy') + ' ' + this.filterForm.controls['fLastHour'].value
-      arrayElements = arrayElements.filter(personal => {
-        return personal.fechaHoraUltimaModificacion.toString() === dateLastUpdate ? true : false;
-      });
-    } else if (this.filterForm.controls['fLastDate'].value === '' && this.filterForm.controls['fLastHour'].value !== '') {
-      this.toastr.errorToastr('Debe introducir una fecha', 'Lo siento,');
-    } else if (this.filterForm.controls['fLastDate'].value !== '' && this.filterForm.controls['fLastHour'].value === '') {
-      this.toastr.errorToastr('Debe introducir una hora', 'Lo siento,');
     }
 
-    return arrayElements;
+    return resultElements;
   }
 
   eliminarRegistro(maestroOpcion: any) {
