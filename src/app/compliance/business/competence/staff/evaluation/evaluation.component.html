@@ -23,44 +23,128 @@
           <div class="col-4">
             <div class="form-group">
               <label>Numero de Empleado</label>
-              <input mdbInput class="form-control" formControlName="fEmpNum">
+              <mat-form-field class="form-control w-100">
+                <input type="text"
+                      matInput
+                      formControlName="fEmpNum" 
+                      [matAutocomplete]="auto_fEmpNum"
+                      [appTrimContent]="true">
+                <mat-autocomplete #auto_fEmpNum="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredfEmpNum | async" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <!--input mdbInput class="form-control" formControlName="fEmpNum"-->
             </div>
           </div>
           <div class="col-4">
             <div class="form-group">
               <label>Nombre(s)</label>
-              <input mdbInput class="form-control" formControlName="fNames">
+              <mat-form-field class="form-control w-100">
+                <input type="text"
+                      matInput
+                      formControlName="fNames" 
+                      [matAutocomplete]="auto_fNames"
+                      [appTrimContent]="true">
+                <mat-autocomplete #auto_fNames="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredfNames | async" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <!--input mdbInput class="form-control" formControlName="fNames"-->
             </div>
           </div>
           <div class="col-4">
             <label>Apellido Paterno</label>
-            <input mdbInput class="form-control" formControlName="fLastName">
+              <mat-form-field class="form-control w-100">
+                <input type="text"
+                      matInput
+                      formControlName="fLastName" 
+                      [matAutocomplete]="auto_fLastName"
+                      [appTrimContent]="true">
+                <mat-autocomplete #auto_fLastName="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredfLastName | async" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            <!--input mdbInput class="form-control" formControlName="fLastName"-->
           </div>
         </div>
         <div class="row">
           <div class="col">
             <div class="form-group">
               <label>Apellido Materno</label>
-              <input mdbInput class="form-control" formControlName="fSecondName">
+              <mat-form-field class="form-control w-100">
+                <input type="text"
+                      matInput
+                      formControlName="fSecondName" 
+                      [matAutocomplete]="auto_fSecondName"
+                      [appTrimContent]="true">
+                <mat-autocomplete #auto_fSecondName="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredfSecondName | async" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <!--input mdbInput class="form-control" formControlName="fSecondName"-->
             </div>
           </div>
           <div class="col-4">
             <div class="form-group">
               <label>Departamento</label>
-              <input mdbInput class="form-control" formControlName="fDepto">
+              <mat-form-field class="form-control w-100">
+                <input type="text"
+                      matInput
+                      formControlName="fDepto" 
+                      [matAutocomplete]="auto_fDepto"
+                      [appTrimContent]="true">
+                <mat-autocomplete #auto_fDepto="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredfDepto | async" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <!--input mdbInput class="form-control" formControlName="fDepto"-->
             </div>
           </div>
           <div class="col-4">
             <div class="form-group">
               <label>Calificación Total</label>
-              <input mdbInput class="form-control" formControlName="fRating">
+              <mat-form-field class="form-control w-100">
+                <input type="text"
+                      matInput
+                      formControlName="fRating" 
+                      [matAutocomplete]="auto_fRating"
+                      [appTrimContent]="true">
+                <mat-autocomplete #auto_fRating="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredfRating | async" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <!--input mdbInput class="form-control" formControlName="fRating"-->
             </div>
           </div>
 
           <div class="col-4">
             <div class="form-group">
               <label>Competencia</label>
-              <input mdbInput class="form-control" formControlName="fCompetence">
+              <mat-form-field class="form-control w-100">
+                <input type="text"
+                      matInput
+                      formControlName="fCompetence" 
+                      [matAutocomplete]="auto_fCompetence"
+                      [appTrimContent]="true">
+                <mat-autocomplete #auto_fCompetence="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredfCompetence | async" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <!--input mdbInput class="form-control" formControlName="fCompetence"-->
             </div>
           </div>
           <div class="col-4">
@@ -91,7 +175,10 @@
           </div>
           <div class="col-4">
             <div class="form-group">
-
+              <label>Condición de búsqueda</label><br>
+              <mat-radio-group formControlName="fSearchCondition" [(ngModel)]="condition">
+                <mat-radio-button *ngFor="let data of conditionSearch; " [value]="data.value">{{data.label}}</mat-radio-button>
+              </mat-radio-group>
             </div>
           </div>
           <div class="col-4">

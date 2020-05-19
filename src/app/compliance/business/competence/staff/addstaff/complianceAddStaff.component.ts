@@ -9,11 +9,13 @@ import {CatalogoMaestroService} from '../../../../../core/services/catalogo-maes
 import {GlobalService} from '../../../../../core/globals/global.service';
 import {EventMessage} from '../../../../../core/models/EventMessage';
 import {EventBlocked} from '../../../../../core/models/EventBlocked';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import {Combo} from '../../../../models/Combo';
 import {ConfirmationDialogService} from '../../../../../core/services/confirmation-dialog.service';
 import {OrderCatalogDTO} from '../../../../models/OrderCatalogDTO';
 import {Constants} from '../../../../../core/globals/Constants';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 export interface Personalcompetente {
     orden: number;
@@ -121,6 +123,14 @@ export class ComplianceAddStaffComponent implements OnInit {
     stringToTrim = '';
     rowsPerPage = [50, 100, 250, 500];
 
+    filteredfEmpNum     : Observable<string[]>;
+    filteredfNames      : Observable<string[]>;
+    filteredfLastName   : Observable<string[]>;
+    filteredfSecondName : Observable<string[]>;
+    filteredfPosition   : Observable<string[]>;
+    filteredfDepto      : Observable<string[]>;
+    filteredfJob        : Observable<string[]>;
+
     constructor(private personal: PersonalCompetenteService,
                 private catalogoMaestroService: CatalogoMaestroService,
                 private preguntas: PerfilComboService,
@@ -152,6 +162,7 @@ export class ComplianceAddStaffComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
+   
     ngOnInit() {
         this.cargaTabla();
         this.comboStatus = [];
@@ -179,8 +190,17 @@ export class ComplianceAddStaffComponent implements OnInit {
             fPlaceWork: ['', Validators.required],
             fSearchCondition: ['', null]
         });
+        this.initAutoComplete();
     }
-
+    initAutoComplete(){
+        this.filteredfEmpNum      = this.filterForm.get('fEmpNum'    ).valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.numEmpleado   ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+        this.filteredfNames       = this.filterForm.get('fNames'     ).valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.nombre        ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+        this.filteredfLastName    = this.filterForm.get('fLastName'  ).valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.apPaterno     ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+        this.filteredfSecondName  = this.filterForm.get('fSecondName').valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.apMaterno     ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+        this.filteredfPosition    = this.filterForm.get('fPosition'  ).valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.posicion      ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+        this.filteredfDepto       = this.filterForm.get('fDepto'     ).valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.departamento  ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+        this.filteredfJob         = this.filterForm.get('fJob'       ).valueChanges.pipe(startWith(''),map(value => this.elementData.map(d=>d.lugarDeTrabajo).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+    }
     cargaTabla() {
         this.elementData = [];
         this.generos = [];
