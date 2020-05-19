@@ -475,6 +475,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				enabled: false
 			},		
 			chart: {
+				height: 400,
 				zoomType: 'x',
 				type: this.chartControlLineChart2.typeGraph,
 				//animation: Highcharts.svg, // don't animate in old IE
