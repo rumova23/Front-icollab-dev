@@ -28,6 +28,7 @@ export class SharedSidebarMenuComponent {
             || app.name == "Compliance" 
             || app.name == "Administrative_monitoring"
             || app.name == "Safe"
+            || app.name == "Default"
             || app.name == "Efh") {
             this.hardcode(app.name);
         }
@@ -41,6 +42,7 @@ export class SharedSidebarMenuComponent {
                 this.hardcodeCompliance();
                 break;
             case "Mock_Up":
+            case "Default":
                 this.hardcodemockUp();
                 break;
             case "Safe":
@@ -101,6 +103,15 @@ export class SharedSidebarMenuComponent {
     }
     hardcodeSafe(menu){
         this.setOrderSafe(menu);
+        
+        this.menu.push({
+            id: "hardcode",
+            idFather: "",
+            icon: "insert_chart",
+            label: "New Event",
+            url: "SafeNewEventComponent"
+        });
+
         console.log(menu);     
     }
     hardcodeEfh() {
@@ -237,30 +248,24 @@ export class SharedSidebarMenuComponent {
     }
     hardcodemockUp() {
         this.menu = [
-            {
-                id: "Link-MockUp",
-                idFather: "",
-                label: "Link-MockUp",
-                icon: "/assets/images/skins/layer_7_ek1.png",
-                children: [
-                    { id: "1", idFather: "2", icon: "", label: "planned-powers-ppa" },
-                    { id: "1", idFather: "2", icon: "", label: "heat-rate-record" },
-                    { id: "1", idFather: "2", icon: "", label: "sales-offers" },
-                    { id: "1", idFather: "2", icon: "", label: "sales-offers-V2" },
-                    { id: "1", idFather: "2", icon: "", label: "registration-customer" },
-                    { id: "1", idFather: "2", icon: "", label: "Legal-Compliance" },
-                    { id: "1", idFather: "2", icon: "", label: "New Event" },
-                    { id: "1", idFather: "2", icon: "", label: "Monitoreo nivel 2" },
-                    { id: "1", idFather: "2", icon: "", label: "planned-powers-ppa-B" },
-                    { id: "1", idFather: "2", icon: "", label: "planned-powers-ppa-C" },
-                    { id: "1", idFather: "2", icon: "", label: "Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaD" },
-                    { id: "1", idFather: "2", icon: "", label: "Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaE" },
-                    { id: "1", idFather: "2", icon: "", label: "Planeación de variables" },
-                    { id: "1", idFather: "2", icon: "", label: "Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaG" },
-                    { id: "1", idFather: "2", icon: "", label: "Importación" },
-                    { id: "1", idFather: "2", icon: "", label: "planned-powers-ppa-" }
-                ]
-            }
+            
+            { id: "1", idFather: "", icon: "",url:"", label: "planned-powers-ppa" },
+            { id: "1", idFather: "", icon: "",url:"", label: "heat-rate-record" },
+            { id: "1", idFather: "", icon: "",url:"", label: "sales-offers" },
+            { id: "1", idFather: "", icon: "",url:"", label: "sales-offers-V2" },
+            { id: "1", idFather: "", icon: "",url:"", label: "registration-customer" },
+            { id: "1", idFather: "", icon: "",url:"", label: "Legal-Compliance" },
+            { id: "1", idFather: "", icon: "",url:"", label: "New Event" },
+            { id: "1", idFather: "", icon: "",url:"", label: "Monitoreo nivel 2" },
+            { id: "1", idFather: "", icon: "",url:"", label: "planned-powers-ppa-B" },
+            { id: "1", idFather: "", icon: "",url:"", label: "planned-powers-ppa-C" },
+            { id: "1", idFather: "", icon: "",url:"", label: "Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaD" },
+            { id: "1", idFather: "", icon: "",url:"", label: "Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaE" },
+            { id: "1", idFather: "", icon: "",url:"", label: "Planeación de variables" },
+            { id: "1", idFather: "", icon: "",url:"", label: "Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaG" },
+            { id: "1", idFather: "", icon: "",url:"", label: "Importación" },
+            { id: "1", idFather: "", icon: "",url:"", label: "planned-powers-ppa-" }
+    
         ];
     }
 }
