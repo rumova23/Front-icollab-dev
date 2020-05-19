@@ -18,6 +18,7 @@ declare var $: any;
 import { InteractiveImageTurbineCT1Component } from '../phase3/components/interactive-image-turbine-ct1/interactive-image-turbine-ct1.component';
 import { ChartControl } from '../../models/chart/ChartControl';
 import { ChartControls } from '../../common/high-charts-controls/models/highchartsControls.model';
+import { DatePipe } from '@angular/common';
 @Component({
 	selector: "app-phase3v6",
 	templateUrl: "./phase3v6.component.html",
@@ -111,7 +112,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		public toastr: ToastrManager,
 		public eventService: EventService,
 		public socketService: SocketService,
-		public securityService: SecurityService
+		public securityService: SecurityService,
+		private datePipe: DatePipe
 	) {
 		super(globalService, eventService, socketService, securityService);
 	
@@ -512,6 +514,31 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 						fontSize: "13px",
 						color: "#fff",
 					},
+					rotation: -70,
+					formatter: function () {
+						const d = new Date(this.value)
+						const year = d.getFullYear() // 2019
+						const month = d.getMonth()+1;
+						const day = d.getDate();
+						const hour = d.getHours();
+						const min = d.getMinutes();
+						const sec = d.getSeconds();
+						let month2;
+						let day2;
+						let hour2;
+						let min2;
+						let sec2 ;
+						
+						month2 = (month < 10) ? `0${month}`:`${month}`;
+						day2   = (day   < 10) ? `0${day}`:`${day}`;
+						hour2  = (hour  < 10) ? `0${hour}`:`${hour}`;
+						min2   = (min   < 10) ? `0${min}`:`${min}`;
+						sec2 = (sec < 10) ? `0${sec}`:`${sec}`;
+						return `${day2}/${month2}/${year} ${hour2}:${min2}:${sec2}`;
+						//return this.this.this.datePipe.transform(new Date(this.value), 'dd/MM/yyyy HH:mm:ss');
+						//return this.value ;
+					}//*/
+					
 				},
 			},
 
@@ -527,7 +554,13 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			},
 
 			exporting: {
-				enabled: false,
+				enabled: true,
+				
+				buttons: {
+					contextButton: {
+						menuItems: ["viewFullscreen",'downloadPNG']
+					}
+				}
 			},
 
 			series: [],
