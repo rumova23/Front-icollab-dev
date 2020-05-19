@@ -107,6 +107,11 @@ export class PpaMonitoringFormatService {
 		return this.http.get(environment.dycformato + 'download/zip/' + year + '/' + month, {params : this.parameters });
 	}
 
+	stagenorm(year: number, month: number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.dycformato + 'loadRaw/stagenorm/' + year + '/' + month, {params : this.parameters });
+	}
+
 	stageLoadRaw(year: number, month: number): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(environment.dycformato + 'loadRaw/stage/' + year + '/' + month, {params : this.parameters });

@@ -36,12 +36,12 @@
 			<div class="col col-xxxs-12 col-xxs-12 col-xs-6 col-lg-7 col-xl-7 col-xxxl-5 ">
 				<div class="row h-100">
 					<div class="col col-xxxs-12 col-xxs-12 col-xs-12 col-lg-6 my-1 d-flex">
-						<button class="btn btn-block align-self-end my-0" (click)="aplicarDeteccionProcedimiento()">
+						<button class="btn btn-block align-self-end my-0" (click)="validaAplicarDeteccion()" [disabled]="buttonDetected">
 							Aplicar Detección Procedimiento &nbsp;
 						</button>
 					</div>
 					<div class="col col-xxxs-12 col-xxs-12 col-xs-12 col-lg-6 my-1 d-flex">
-						<button class="btn btn-block align-self-end my-0" (click)="aplicarCorrecionProcedimiento()">
+						<button class="btn btn-block align-self-end my-0" (click)="validaAplicarCorreccion()" [disabled]="buttonCorrected">
 							Aplicar Corrección Procedimiento
 						</button>
 					</div>
