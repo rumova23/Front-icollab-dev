@@ -66,7 +66,7 @@ export class MockUpHomeComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.subscribeOnChangePage();
   }
   
 	subscribeOnChangePage(){
