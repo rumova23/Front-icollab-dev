@@ -207,7 +207,6 @@
 	
 	<div class="row justify-content-end">
 		<div class="col-4  text-right">
-
 			<app-high-charts-controls [chartsControl]="chartControlLineChart2" (chartsControlOutPut)="modifyChartLineChart2($event)"></app-high-charts-controls>
 		</div>
 	</div>
@@ -223,6 +222,14 @@
 	<div class="row">
 		<div class="col-12 col-lg-6 col-xl-4 my-4">
 			<div class="row">
+				<div class="col">
+					<strong class="nameplanta">
+						{{ 'CT' | translate }} - 1
+					</strong>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
 				<div class="col-12 col-lg-4" (click)="openModal_ct_1_dona()">
 					<div>
 						<div #donaChart1></div>
@@ -237,7 +244,7 @@
 						style="width: 70%; max-width: 460px;" />
 				</div>
 			</div>
-			<div class="row d-flex justify-content-center text-center">
+			<div class="row d-flex justify-content-center text-center d-block d-xl-none">
 				<div class="col-auto">
 					<div (click)="chartLine_01_ToogleSerie('ct_1_RT')">
 						<span [ngbTooltip]="tip_ct_1_RT" tooltipClass="mytooltip"
@@ -298,6 +305,14 @@
 		</div>
 		<div class="col-12 col-lg-6 col-xl-4 my-4">
 			<div class="row">
+				<div class="col">
+					<strong class="nameplanta">
+						{{ 'CT' | translate }} - 2
+					</strong>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
 				<div class="col-12 col-lg-4" (click)="openModal_ct_2_dona()">
 					<div>
 						<div #donaChart2></div>
@@ -312,7 +327,7 @@
 						style="width: 70%; max-width: 460px;" />
 				</div>
 			</div>
-			<div class="row d-flex justify-content-center text-center">
+			<div class="row d-flex justify-content-center text-center d-block d-xl-none">
 				<div class="col-auto">
 					<div (click)="chartLine_01_ToogleSerie('ct_2_RT')">
 						<span [ngbTooltip]="tip_ct_2_RT" tooltipClass="mytooltip"
@@ -373,6 +388,13 @@
 		</div>
 		<div class="col-12 col-lg-6 col-xl-4 my-4">
 			<div class="row">
+				<div class="col">
+					<strong class="nameplanta">{{ 'TV' | translate }}
+					</strong>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
 				<div class="col-12 col-lg-4" (click)="openModal_ct_3_dona()">
 					<div>
 						<div #donaChart3></div>
@@ -387,7 +409,7 @@
 						style="width: 100%; max-width: 460px;" />
 				</div>
 			</div>
-			<div class="row d-flex justify-content-center text-center">
+			<div class="row d-flex justify-content-center text-center d-block d-xl-none">
 				<div class="col-auto">
 					<div (click)="chartLine_01_ToogleSerie('ct_3_RT')">
 						<span [ngbTooltip]="tip_ct_3_RT" tooltipClass="mytooltip"
@@ -420,6 +442,168 @@
 						<p>{{ getValue("ct_3_RPM")[1] | number: "1.2-2" }}</p>
 						<p>RPM</p>
 						<p><span class="badge" [style.background-color]="mapColors.get('ct_3_RPM')" *ngIf="isSerieActivate_1.get('ct_3_RPM')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="d-none d-xl-block">
+		<div class="row">
+			<div class="col-12 col-lg-6 col-xl-4">
+				<div class="row d-flex justify-content-center text-center">
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_1_RT')">
+							<span [ngbTooltip]="tip_ct_1_RT" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_1_RT')" >
+								<i class="fas fa-chart-line"></i>
+							</span>
+							<p>{{ getValue("ct_1_RT")[1] | number: "1.2-2" }}</p>
+							<p>KJ/KWh</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_1_RT')" *ngIf="isSerieActivate_1.get('ct_1_RT')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_1_Potencia')">
+							<span [ngbTooltip]="tip_ct_1_Potencia" tooltipClass="mytooltip"
+								[ngClass]="getClassIcon('ct_1_Potencia')">
+								<i class="fas fa-bolt"></i>
+							</span>
+							<p>{{ getValue("ct_1_Potencia")[1] | number: "1.2-2" }}</p>
+							<p>MW</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_1_Potencia')" *ngIf="isSerieActivate_1.get('ct_1_Potencia')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto" *ngIf="isEat()">
+						<div (click)="chartLine_01_ToogleSerie('ct_1_diesel')">
+							<span [ngbTooltip]="tip_ct_1_diesel" tooltipClass="mytooltip"
+								[ngClass]="getClassIcon('ct_1_diesel')">
+								<i class="fas fa-gas-pump"></i>
+							</span>
+							<p>{{ getValue("ct_1_diesel")[1] | number: "1.2-2" }}</p>
+							<p>T/h</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_1_diesel')" *ngIf="isSerieActivate_1.get('ct_1_diesel')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_1_gas')">
+							<span [ngbTooltip]="tip_ct_1_gas" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_1_gas')">
+							<i class="fas fa-fire-alt"></i>
+							</span>
+							<p>{{ getValue("ct_1_gas")[1] | number: "1.2-2" }}</p>
+							<p>NM3/h</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_1_gas')" *ngIf="isSerieActivate_1.get('ct_1_gas')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_1_RPM')">
+							<span [ngbTooltip]="tip_ct_1_RPM" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_1_RPM')">
+								<i class="fas fa-running running" *ngIf="getValue('ct_1_RPM')[1] > 10"></i>
+								<i class="fas fa-bed" *ngIf="getValue('ct_1_RPM')[1] <= 10"></i>
+							</span>
+							<p>{{ getValue("ct_1_RPM")[1] | number: "1.2-2" }}</p>
+							<p>RPM</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_1_RPM')" *ngIf="isSerieActivate_1.get('ct_1_RPM')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-6 col-xl-4">
+				<div class="row d-flex justify-content-center text-center">
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_2_RT')">
+							<span [ngbTooltip]="tip_ct_2_RT" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_2_RT')" >
+								<i class="fas fa-chart-line"></i>
+							</span>
+							<p>{{ getValue("ct_2_RT")[1] | number: "1.2-2" }}</p>
+							<p>KJ/KWh</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_2_RT')" *ngIf="isSerieActivate_1.get('ct_2_RT')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_2_Potencia')">
+							<span [ngbTooltip]="tip_ct_2_Potencia" tooltipClass="mytooltip"
+								[ngClass]="getClassIcon('ct_2_Potencia')">
+								<i class="fas fa-bolt"></i>
+							</span>
+							<p>{{ getValue("ct_2_Potencia")[1] | number: "1.2-2" }}</p>
+							<p>MW</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_2_Potencia')" *ngIf="isSerieActivate_1.get('ct_2_Potencia')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto" *ngIf="isEat()">
+						<div (click)="chartLine_01_ToogleSerie('ct_2_diesel')">
+							<span [ngbTooltip]="tip_ct_2_diesel" tooltipClass="mytooltip"
+								[ngClass]="getClassIcon('ct_2_diesel')">
+								<i class="fas fa-gas-pump"></i>
+							</span>
+							<p>{{ getValue("ct_2_diesel")[1] | number: "1.2-2" }}</p>
+							<p>T/h</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_2_diesel')" *ngIf="isSerieActivate_1.get('ct_2_diesel')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_2_gas')">
+							<span [ngbTooltip]="tip_ct_2_gas" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_2_gas')">
+							<i class="fas fa-fire-alt"></i>
+							</span>
+							<p>{{ getValue("ct_2_gas")[1] | number: "1.2-2" }}</p>
+							<p>NM3/h</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_2_gas')" *ngIf="isSerieActivate_1.get('ct_2_gas')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_2_RPM')">
+							<span [ngbTooltip]="tip_ct_2_RPM" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_2_RPM')">
+								<i class="fas fa-running running" *ngIf="getValue('ct_2_RPM')[1] > 10"></i>
+								<i class="fas fa-bed" *ngIf="getValue('ct_2_RPM')[1] <= 10"></i>
+							</span>
+							<p>{{ getValue("ct_2_RPM")[1] | number: "1.2-2" }}</p>
+							<p>RPM</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_2_RPM')" *ngIf="isSerieActivate_1.get('ct_2_RPM')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-6 col-xl-4">		
+				<div class="row d-flex justify-content-center text-center">
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_3_RT')">
+							<span [ngbTooltip]="tip_ct_3_RT" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_3_RT')" >
+								<i class="fas fa-chart-line"></i>
+							</span>
+							<p>{{ getValue("ct_3_RT")[1] | number: "1.2-2" }}</p>
+							<p>KJ/KWh</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_3_RT')" *ngIf="isSerieActivate_1.get('ct_3_RT')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_3_Potencia')">
+							<span [ngbTooltip]="tip_ct_3_Potencia" tooltipClass="mytooltip"
+								[ngClass]="getClassIcon('ct_3_Potencia')">
+								<i class="fas fa-bolt"></i>
+							</span>
+							<p>{{ getValue("ct_3_Potencia")[1] | number: "1.2-2" }}</p>
+							<p>MW</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_3_Potencia')" *ngIf="isSerieActivate_1.get('ct_3_Potencia')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_3_RPM')">
+							<span [ngbTooltip]="tip_ct_3_RPM" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_3_RPM')">
+								<i class="fas fa-running running" *ngIf="getValue('ct_3_RPM')[1] > 10"></i>
+								<i class="fas fa-bed" *ngIf="getValue('ct_3_RPM')[1] <= 10"></i>
+							</span>
+							<p>{{ getValue("ct_3_RPM")[1] | number: "1.2-2" }}</p>
+							<p>RPM</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_3_RPM')" *ngIf="isSerieActivate_1.get('ct_3_RPM')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
 					</div>
 				</div>
 			</div>

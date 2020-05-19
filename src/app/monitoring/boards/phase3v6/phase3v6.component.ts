@@ -514,7 +514,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 						fontSize: "13px",
 						color: "#fff",
 					},
-					rotation: -70,
+					rotation: -20,
 					formatter: function () {
 						const d = new Date(this.value)
 						const year = d.getFullYear() // 2019
