@@ -53,9 +53,9 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 	mapWebIdToKeyTag: Map<string, string> = new Map();
 	tags: Map<string, Object> = new Map();
 	mapColors: Map<string, string> = new Map([
-		["potenciaNeta"          ,"#5d76d3"],
-		["potenciaCcdv"          ,"#9741f6"],
-		["regimentermico"        ,"#4cc900"],
+		["potenciaNeta"          ,"#f3f315"],
+		["potenciaCcdv"          ,"#00ACEE"],
+		["regimentermico"        ,"#39FF14"],
 		["temperatura_ambiente"  ,"#aff000"],
 		["presion_atmosferica"   ,"#c5f327"],
 		["humedad"               ,"#d9d5fe"],
