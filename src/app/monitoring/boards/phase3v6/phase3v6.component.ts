@@ -740,7 +740,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				id: "y-axis-potencia",
 				offset: 10,
 				min:0,
-				max:200, 
+				max:200,
+                gridLineWidth: 0,
 				crosshair: {
 					enabled: true,
 					color: "#333",
@@ -884,7 +885,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				id: "y-axis-potencia",
 				offset: 5,
 				min:0,
-				max:200, 
+				max:200,
 				crosshair: {
 					enabled: true,
 					color: "#333",
@@ -1028,6 +1029,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				offset: 10,
 				min:0,
 				max:200, 
+                gridLineWidth: 0,
 				crosshair: {
 					enabled: true,
 					color: "#333",
@@ -1313,7 +1315,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				id: "y-axis-potencia",
 				offset: 10,
 				min:0,
-				max:200, 
+				max:200,
+                gridLineWidth: 0,
 				crosshair: {
 					enabled: true,
 					color: "#333",
