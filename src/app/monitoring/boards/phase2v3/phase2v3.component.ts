@@ -1840,12 +1840,32 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 	setOveA2(x){this.mtr.overview[3]=[x,this.maxHR-x];
 		let a=this.getEatA2();
 		let s=this.getEstA2();
+		let ss=this.getEstC2();//LGS.CEA.71 ss[0]
 		let ove0=(a[0]+s[0])/2;
 		let namePag = "OveA2-"+this.getTagName("setOveA2");
 		let tagName = this.getTagName("setOveA2");
 		if(!this.mapBookExcel.has(namePag))this.mapBookExcel.set(namePag,[]);
 		if(this.mapBookExcel.get(namePag).length > 10000 )this.mapBookExcel.get(namePag).shift();
+		let sss = (a[0]+ss[0])/2;
 		this.mapBookExcel.get(namePag).push(
+			{	
+				tag:tagName,
+				date: this.datePipe.transform(new Date(), 'HH:mm:ss'),
+				"EAT HR ACTUAL 5seg (DAA08103)":a[0],
+				"EST HR ACTUAL 5 min (T.CEA.2268)":s[0],
+				"Formula Manual HR ACTUAL TOTAL (eat+est/2)":ove0,
+				"HR ACTUAL TOTAL 5min (T.CEA.2279)":x,
+				"Diferencias":ove0-x,
+				"-----":"||||",
+				"EAT HR ACTUAL 5seg(DAA08103)":a[0],
+				"EST HR ACTUAL 5 min(LGS.CEA.71)":ss[0],
+				"Formula Manual HR ACTUAL TOTAL((I+J)/2)":sss,
+				"HR ACTUAL TOTAL 5min(T.CEA.2279)":x,
+				"Diferencias(AF-AH)":(ss[0]-sss)
+
+			}
+		);
+		/*this.mapBookExcel.get(namePag).push(
 			{	
 				tag:tagName,
 				date: this.datePipe.transform(new Date(), 'HH:mm:ss'),
@@ -1856,7 +1876,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 				porTag:x,
 				diferencia_Tag_Menos_Formula:x-ove0
 			}
-		);
+		);//*/
 		
 	}
 	//setOveA3(){let a=this.getEatA3();let s=this.getEstA3();let ove0=(a[0]+s[0])/2;this.mtr.overview[6]=[ove0,this.maxCaF-ove0]}
@@ -1874,7 +1894,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.mtr.overview[5]=[x,this.maxHR-x];
 
 		let a=this.getEatC2();
-		let s=this.getEstC2();
+		let s=this.getEstC2();//LGS.CEA.71 s[0]
 		
 		let sA2=this.getEstA2();
 		let ove0=(a[0]+s[0])/2;		
@@ -1889,6 +1909,23 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 			{	
 				tag:tagName,
 				date: this.datePipe.transform(new Date(), 'HH:mm:ss'),
+				"EAT HR EXPECTED 5seg (DAA08104)":a[0],
+				"EST HR EXPECTEDL 5 min (LGS.CEA.71)":s[0],
+				"Formula Manual HR ACTUAL TOTAL (eat+est/2)":ove0,
+				"HR EXPECTED TOTAL 5min (DAA08113)":x,
+				"Diferencias (E-F)":ove0-x,
+				"-----":"||||",
+				"EAT HR EXPECTED 5seg(DAA08104)":a[0],
+				"EST HR EXPECTEDL 5 min(T.CEA.2268)":sA2[0],
+				"Formula Manual HR ACTUAL TOTAL((X+Y)/2)":resultadoCambiandoEltagAl2268,
+				"HR EXPECTED TOTAL 5min(DAA08113)":x,
+				"Diferencias(K-L)":resultadoCambiandoEltagAl2268-x,
+			}
+		);
+		/*this.mapBookExcel.get(namePag).push(
+			{	
+				tag:tagName,
+				date: this.datePipe.transform(new Date(), 'HH:mm:ss'),
 				formula:`(EatC2 (DAA08104) + EstC2(LGS.CEA.71) / 2)`,
 				DAA08104: a[0],
 				"LGS.CEA.71": s[0],
@@ -1899,6 +1936,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 				diferencia_Tag_Menos_Formula:x-ove0
 			}
 		);
+		//*/
 		/*
 		console.log("(Expected)Total Heat Rate");
 		console.log("OveC2 (DAA08113) = (DAA08104 + LGS.CEA.71)/2");
