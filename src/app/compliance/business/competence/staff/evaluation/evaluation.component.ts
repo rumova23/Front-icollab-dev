@@ -242,7 +242,22 @@ export class EvaluationComponent implements OnInit {
       this.dataSource.sort = this.sort;
     }
   }
-
+  limpiarFiltros(){
+    this.filterForm.controls['fEmpNum'    ].setValue('');
+    this.filterForm.controls['fNames'     ].setValue('');
+    this.filterForm.controls['fLastName'  ].setValue('');
+    this.filterForm.controls['fSecondName'].setValue('');
+    this.filterForm.controls['fDepto'     ].setValue('');
+    this.filterForm.controls['fRating'    ].setValue('');
+    this.filterForm.controls['fCompetence'].setValue('');
+    this.filterForm.controls['fLastDate'  ].setValue('');
+    this.filterForm.controls['fLastHour'  ].setValue('');
+    
+    let arrayElementData: any[] = this.dataEmpleadoEvaluaciones;
+    this.dataSource = new MatTableDataSource<any>(arrayElementData);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
   action(idEmpleado, tipo) {
     let descriptor = 'Compliance.evaluatePersonal.11';
     if (tipo === 'historial') {
