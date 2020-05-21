@@ -39,7 +39,7 @@ export class EvaluationComponent implements OnInit {
   showView = false;
   showUpdate = false;
   showDelete = false;
-  conditionSearch: Array<any>=[];
+  conditionSearch: Array<any> = [];
   condition;
 
   filteredfEmpNum     : Observable<string[]>;
@@ -122,7 +122,6 @@ export class EvaluationComponent implements OnInit {
       fSecondName: ['', Validators.required],
       fCompetence: ['', Validators.required],
       fEst: ['', Validators.required],
-      fLastHour: ['', Validators.required],
       fLastDate: ['', Validators.required],
       fDepto: ['', Validators.required],
       fRating: ['', Validators.required],
@@ -131,7 +130,7 @@ export class EvaluationComponent implements OnInit {
     this.initAutoComplete();
   }
 
-  initAutoComplete(){
+  initAutoComplete() {
       this.filteredfEmpNum     = this.filterForm.get('fEmpNum'     ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.numEmp.toLowerCase()                 ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
       this.filteredfNames      = this.filterForm.get('fNames'      ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.name.toLowerCase()                   ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
       this.filteredfLastName   = this.filterForm.get('fLastName'   ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.lastName.toLowerCase()               ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
@@ -156,16 +155,23 @@ export class EvaluationComponent implements OnInit {
             obj['lastName'] = element.paterno;
             obj['secondName'] = element.materno;
             obj['department'] = element.departamento;
-            obj['totalRating'] = element.calificacionFinal !== undefined && element.calificacionFinal > 0 ? parseFloat(element.calificacionFinal).toFixed(2) : 0;
-            obj['competence'] = element.competencia;
-            obj['totalEvaluations'] = element.totalEvaluaciones;
+            obj['status']      = element.entidadEstatus;
+            if (element.entidadEstatus === 'Activo') {
+              obj['totalRating'] = '-';
+              obj['competence'] = '-';
+              obj['totalEvaluations'] = element.totalEvaluaciones - 1;
+            } else {
+              obj['totalRating'] = element.calificacionFinal !== undefined && element.calificacionFinal > 0 ? parseFloat(element.calificacionFinal).toFixed(2) : 0;
+              obj['competence'] = element.competencia;
+              obj['totalEvaluations'] = element.totalEvaluaciones;
+            }
+
             obj['userUpdated'] = element.userUpdated;
             const dateUpdated = element.dateUpdated;
             obj['dateHourUpdate'] = '.';
             if (dateUpdated) {
               obj['dateHourUpdate'] = this.datePipe.transform(new Date(dateUpdated) , 'dd/MM/yyyy HH:mm:ss');
             }
-            obj['status']      = element.entidadEstatus;
             obj['element']     = element;
             obj['order'] = i;
 
@@ -217,18 +223,17 @@ export class EvaluationComponent implements OnInit {
   }
 
   filtros() {
-    
     let values = this.filterForm.value;
     const typeSearch = this.filterForm.controls['fSearchCondition'].value.toString() === '1' ? 'AND' : 'OR'; // 1. OR \ 2. AND for search conditions
     if (
-      values.fEmpNum      !=""||
-      values.fNames       !=""||
-      values.fLastName    !=""||
-      values.fSecondName  !=""||
-      values.fDepto       !=""||
-      values.fRating      !=""||
-      values.fCompetence  !=""||
-      (values.fLastDate   != "" && values.fLastHour != "")
+      values.fEmpNum      !== '' ||
+      values.fNames       !== '' ||
+      values.fLastName    !== '' ||
+      values.fSecondName  !== '' ||
+      values.fDepto       !== '' ||
+      values.fRating      !== '' ||
+      values.fCompetence  !== '' ||
+      (values.fLastDate   !== '')
       ) {
 
       this.dataSource = new MatTableDataSource<any>(this.search(typeSearch));
@@ -243,6 +248,21 @@ export class EvaluationComponent implements OnInit {
     }
   }
 
+  limpiarFiltros() {
+    this.filterForm.controls['fEmpNum'    ].setValue('');
+    this.filterForm.controls['fNames'     ].setValue('');
+    this.filterForm.controls['fLastName'  ].setValue('');
+    this.filterForm.controls['fSecondName'].setValue('');
+    this.filterForm.controls['fDepto'     ].setValue('');
+    this.filterForm.controls['fRating'    ].setValue('');
+    this.filterForm.controls['fCompetence'].setValue('');
+    this.filterForm.controls['fLastDate'  ].setValue('');
+
+    let arrayElementData: any[] = this.dataEmpleadoEvaluaciones;
+    this.dataSource = new MatTableDataSource<any>(arrayElementData);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
   action(idEmpleado, tipo) {
     let descriptor = 'Compliance.evaluatePersonal.11';
     if (tipo === 'historial') {
@@ -263,42 +283,42 @@ export class EvaluationComponent implements OnInit {
     let arrayElements: any[] = this.dataEmpleadoEvaluaciones;
     let resultElements: any[] = [];
     let values = this.filterForm.value;
-    let dateLastUpdate =  ( values.fLastDate   != "" && values.fLastHour != "")?this.datePipe.transform(new Date(values.fLastDate+ ' ' + values.fLastHour+':00'), 'dd/MM/yyyy HH:mm:ss'):null;
+    let dateLastUpdate =  values.fLastDate !== '' ? this.datePipe.transform(this.getTimeLocale(values.fLastDate), 'dd/MM/yyyy') : null;
 
-    if(typeCondition === 'OR'){
-      resultElements = arrayElements.filter(o=>
-        ( values.fEmpNum     != "" && o.numEmp.toLowerCase().includes(values.fEmpNum.toLowerCase()                    ) ) ||
-        ( values.fNames      != "" && o.name.toLowerCase().includes(values.fNames.toLowerCase()                       ) ) ||
-        ( values.fLastName   != "" && o.lastName.toLowerCase().includes(values.fLastName.toLowerCase()                ) ) ||
-        ( values.fSecondName != "" && o.secondName.toLowerCase().includes(values.fSecondName.toLowerCase()            ) ) ||
-        ( values.fDepto      != "" && o.department.toLowerCase().includes(values.fDepto.toLowerCase()                 ) ) ||
-        ( values.fRating     != "" && o.totalRating.toString().includes(values.fRating.toLowerCase()                  ) ) ||
-        ( values.fCompetence != "" && o.competence.toLowerCase().includes(values.fCompetence.toLowerCase()            ) ) ||
-        ( values.fLastDate   != "" && values.fLastHour != "" && o.dateHourUpdate.toString().includes(dateLastUpdate   ) ) 
+    if (typeCondition === 'OR') {
+      resultElements = arrayElements.filter(o =>
+        ( values.fEmpNum     !== '' && o.numEmp.toLowerCase().includes(values.fEmpNum.toLowerCase()                    ) ) ||
+        ( values.fNames      !== '' && o.name.toLowerCase().includes(values.fNames.toLowerCase()                       ) ) ||
+        ( values.fLastName   !== '' && o.lastName.toLowerCase().includes(values.fLastName.toLowerCase()                ) ) ||
+        ( values.fSecondName !== '' && o.secondName.toLowerCase().includes(values.fSecondName.toLowerCase()            ) ) ||
+        ( values.fDepto      !== '' && o.department.toLowerCase().includes(values.fDepto.toLowerCase()                 ) ) ||
+        ( values.fRating     !== '' && o.totalRating.toString().includes(values.fRating.toLowerCase()                  ) ) ||
+        ( values.fCompetence !== '' && o.competence.toLowerCase().includes(values.fCompetence.toLowerCase()            ) ) ||
+        ( values.fLastDate   !== '' && o.dateHourUpdate.toString().includes(dateLastUpdate))
       );
-    }else{
+    } else {
       let valuesMap = new Map([
-          ["fEmpNum",     "numEmp"],
-          ["fNames",      "name"],
-          ["fLastName",   "lastName"],
-          ["fSecondName", "secondName"],
-          ["fDepto",      "department"],
-          ["fRating",     "totalRating"],
-          ["fCompetence", "competence"]
+          ['fEmpNum',     'numEmp'],
+          ['fNames',      'name'],
+          ['fLastName',   'lastName'],
+          ['fSecondName', 'secondName'],
+          ['fDepto',      'department'],
+          ['fRating',     'totalRating'],
+          ['fCompetence', 'competence']
       ]);
-      resultElements = arrayElements.filter(o=>{
+      resultElements = arrayElements.filter(o => {
         let respuesta = true;
-        
+
         for (const key in values) {
           if (values.hasOwnProperty(key)) {
             const element = values[key];
-            if(dateLastUpdate != null){
-              if(!o.dateHourUpdate.toString().includes(dateLastUpdate)){
+            if (dateLastUpdate != null) {
+              if (!o.dateHourUpdate.toString().includes(dateLastUpdate)){
                 respuesta = false;
               }
             }
-            if(element != "" && !["fSearchCondition","fLastDate","fLastHour"].includes(key)){
-              if(! o[valuesMap.get(key)].toString().toLowerCase().includes(element.toLowerCase())){
+            if (element !== '' && !['fSearchCondition', 'fLastDate'].includes(key)) {
+              if (! o[valuesMap.get(key)].toString().toLowerCase().includes(element.toLowerCase())) {
                 respuesta = false;
               }
             }
@@ -320,6 +340,12 @@ export class EvaluationComponent implements OnInit {
           this.toastr.successToastr('Se generaron los examenes correctamente', '¡Se ha logrado!');
         }
     );
+  }
+
+  getTimeLocale(dateString: string): Date {
+    const toConvertDate = new Date(dateString);
+    const offsetTimeZone = toConvertDate.getTimezoneOffset() * 60000;
+    return new Date(toConvertDate.getTime() + offsetTimeZone);
   }
 
 }
