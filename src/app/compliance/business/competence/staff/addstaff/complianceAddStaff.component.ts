@@ -162,7 +162,6 @@ export class ComplianceAddStaffComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-   
     ngOnInit() {
         this.cargaTabla();
         this.comboStatus = [];
@@ -223,6 +222,7 @@ export class ComplianceAddStaffComponent implements OnInit {
                             if (estatus === 'exito') {
                                 let index: number = 1;
                                 Object.keys(resul['empleados']).forEach(key => {
+                                    debugger;
                                     const empleadoId = resul['empleados'][key].empleadoId;
                                     let empleadoStrId = resul['empleados'][key].userId;
                                     let nombres = resul['empleados'][key].nombres;

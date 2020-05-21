@@ -156,16 +156,23 @@ export class EvaluationComponent implements OnInit {
             obj['lastName'] = element.paterno;
             obj['secondName'] = element.materno;
             obj['department'] = element.departamento;
-            obj['totalRating'] = element.calificacionFinal !== undefined && element.calificacionFinal > 0 ? parseFloat(element.calificacionFinal).toFixed(2) : 0;
-            obj['competence'] = element.competencia;
-            obj['totalEvaluations'] = element.totalEvaluaciones;
+            obj['status']      = element.entidadEstatus;
+            if (element.entidadEstatus === 'Activo') {
+              obj['totalRating'] = '-';
+              obj['competence'] = '-';
+              obj['totalEvaluations'] = element.totalEvaluaciones - 1;
+            } else {
+              obj['totalRating'] = element.calificacionFinal !== undefined && element.calificacionFinal > 0 ? parseFloat(element.calificacionFinal).toFixed(2) : 0;
+              obj['competence'] = element.competencia;
+              obj['totalEvaluations'] = element.totalEvaluaciones;
+            }
+
             obj['userUpdated'] = element.userUpdated;
             const dateUpdated = element.dateUpdated;
             obj['dateHourUpdate'] = '.';
             if (dateUpdated) {
               obj['dateHourUpdate'] = this.datePipe.transform(new Date(dateUpdated) , 'dd/MM/yyyy HH:mm:ss');
             }
-            obj['status']      = element.entidadEstatus;
             obj['element']     = element;
             obj['order'] = i;
 
