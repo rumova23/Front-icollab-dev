@@ -139,6 +139,27 @@ export class SafePpaMonitoringProfileStationComponent implements OnInit {
         });
   }
 
+  aplicarCorrecionProcedimiento() {
+    if (this.date.value == null) {
+      this.toastr.errorToastr('Eliga una fecha.', 'Lo siento,');
+      return 0;
+    }
+    this.addBlock(1, '');
+    this.ppaMonitoringFormatService.procesaCorrecionProcedimientoProfile(
+        new Date(this.date.value).getFullYear(),
+        new Date(this.date.value).getMonth() + 1
+    ).subscribe (
+        data => {
+          this.addBlock(2, '');
+          this.toastr.successToastr('Deteccion de Norma en proceso: ' + new Date(this.date.value).getFullYear() + '/' + (new Date(this.date.value).getMonth() + 1), '¡Procesando!');
+        },
+        errorData => {
+          this.addBlock(2, '');
+          console.dir(errorData);
+          this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
+        });
+  }
+
   aplicarCorrecion() {
     if (this.date.value == null) {
       this.toastr.errorToastr('Eliga una fecha.', 'Lo siento,');

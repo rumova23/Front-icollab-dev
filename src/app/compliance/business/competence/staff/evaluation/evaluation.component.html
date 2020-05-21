@@ -166,12 +166,9 @@
               <input mdbInput class="form-control" type="date" formControlName="fLastDate">
             </div>
           </div>
-
           <div class="col-4">
-            <div class="form-group">
-              <label>Hora Ultima de modificacion</label>
-              <input mdbInput class="form-control" type="time" formControlName="fLastHour">
-            </div>
+          </div>
+          <div class="col-4">
           </div>
           <div class="col-4">
             <div class="form-group">
@@ -182,18 +179,8 @@
             </div>
           </div>
           <div class="col-4">
-
-          </div>
-
-          <div class="col-4">
-            <div class="form-group">
-
-            </div>
           </div>
           <div class="col-4">
-            <div class="form-group">
-
-            </div>
           </div>
           <div class="col-4">
             <div class="form-group">
@@ -224,7 +211,7 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header > {{column.label}} </th>
             <td mat-cell *matCellDef="let element" [ngSwitch]="column.key">
                 <div *ngSwitchCase="'totalEvaluations'" >
-                    <a (click)="action(element.id, 'historial')" *ngIf="element.totalEvaluations > 0; else elseBlock">
+                    <a style="text-decoration-line: underline; text-decoration-color: #8c92a3" (click)="action(element.id, 'historial')" *ngIf="element.totalEvaluations > 0; else elseBlock">
                         {{ element[column.key] }}
                     </a>
                     <ng-template #elseBlock>{{ element[column.key] }}</ng-template>

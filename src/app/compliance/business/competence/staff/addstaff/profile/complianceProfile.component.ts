@@ -13,6 +13,8 @@ import {Combo} from '../../../../../models/Combo';
 import { DomSanitizer } from '@angular/platform-browser';
 import {Constants} from '../../../../../../core/globals/Constants';
 import {EventBlocked} from '../../../../../../core/models/EventBlocked';
+import {ConfirmationDialogService} from '../../../../../../core/services/confirmation-dialog.service';
+
 @Component({
     selector: 'app-compliance-profile',
     templateUrl: './complianceProfile.component.html',
@@ -69,8 +71,9 @@ export class ComplianceProfileComponent implements OnInit {
                 public toastr: ToastrManager,
                 public globalService: GlobalService,
                 private eventService: EventService,
+                private confirmationDialogService: ConfirmationDialogService,
                 private datePipe: DatePipe) { }
-                    
+
     ngOnInit() {
         if ( this.inIdEmpleado > 0) {
             this.labBotAcep = 'Modificar';
@@ -300,12 +303,12 @@ export class ComplianceProfileComponent implements OnInit {
         this.submitted = true;
 
         if (this.perfilForm.invalid) {
-            this.toastr.errorToastr('Valida los datos ingresados.', 'Lo siento,');
+            this.toastr.errorToastr('Faltan campos requeridos', 'Lo siento,');
             return;
         }
 
         if (this.requiredPhoto) {
-            this.toastr.errorToastr('Valida los datos ingresados.', 'Lo siento,');
+            this.toastr.errorToastr('Faltan campos requeridos', 'Lo siento,');
             return;
         }
 
@@ -317,7 +320,18 @@ export class ComplianceProfileComponent implements OnInit {
             return;
         }
 
-        // this.saveEmployee();
+        if (this.validatePersonalName()) {
+            this.confirmationDialogService.confirm('Por favor, confirme..',
+                'Ya existe un empleado con este nombre, ¿Desea guardarlo?')
+                .then((confirmed) => {
+                    if (confirmed) {
+                        this.saveEmployee();
+                    }
+                })
+                .catch(() => console.log('Canceló guardar empleado'));
+        } else {
+            this.saveEmployee();
+        }
     }
 
     onChange(file: File) {
@@ -344,10 +358,14 @@ export class ComplianceProfileComponent implements OnInit {
         }
     }
     menuChangeImage(){
+        if(this.inTipo != 'ver')
         this.dropdownMenuChangeImage = !this.dropdownMenuChangeImage;
     }
     removeImg(){
         this.imageUrl = '../../../assets/img/foto.png';
+        this.fileName = 'No file selected';
+        this.file = null;
+        this.byteArray=null;
     }
     regresar() {
         this.eventService.sendChangePage(new EventMessage(11, {} , 'Compliance.registerPersonal'));
@@ -378,7 +396,6 @@ export class ComplianceProfileComponent implements OnInit {
         return age;
     }
 
-    /*
     validatePersonalName(): boolean {
 
         let arrayElements: any[] = this.elementData;
@@ -408,6 +425,7 @@ export class ComplianceProfileComponent implements OnInit {
         return flag;
     }
 
+    /*
     getDataSource() {
         this.elementData = [];
         this.personal.getEmpleados().subscribe(

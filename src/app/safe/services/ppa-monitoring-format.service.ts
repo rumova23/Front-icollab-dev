@@ -58,6 +58,12 @@ export class PpaMonitoringFormatService {
 		return this.http.get(environment.dycformato + 'profile/norm/detected/' + year + '/' + month, {params : this.parameters });
 	}
 
+	procesaCorrecionProcedimientoProfile(year: number, month: number): Observable<any> {
+		// return of(this.respuestaDemoPreocesaDeteccion);
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.dycformato + 'profile/norm/corrected/' + year + '/' + month, {params : this.parameters });
+	}
+
 	obtenBitacoraLoadRaw(): Observable<any> {
 		// return of(this.loadRawBitacora);
 		this.parameters = this.globalService.setXTenantId_Plant();
