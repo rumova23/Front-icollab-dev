@@ -363,9 +363,6 @@ export class ComplianceProfileComponent implements OnInit {
     }
     removeImg(){
         this.imageUrl = '../../../assets/img/foto.png';
-        this.fileName = 'No file selected';
-        this.file = null;
-        this.byteArray=null;
     }
     regresar() {
         this.eventService.sendChangePage(new EventMessage(11, {} , 'Compliance.registerPersonal'));
