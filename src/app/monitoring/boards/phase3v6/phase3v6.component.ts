@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, AfterContentInit } from '@angular/core';
 import * as Highcharts from "highcharts";
 import { Subscription, timer ,interval} from "rxjs";
 import { ConnectSocketChannelComponent } from "src/app/shared/socket/connectSocketChannel.component";
@@ -24,7 +24,7 @@ import { DatePipe } from '@angular/common';
 	templateUrl: "./phase3v6.component.html",
 	styleUrls: ["./phase3v6.component.scss"],
 })
-export class Phase3v6Component extends ConnectSocketChannelComponent implements OnInit, OnDestroy {
+export class Phase3v6Component extends ConnectSocketChannelComponent implements OnInit, OnDestroy, AfterViewInit  {
 	@ViewChild("modal_turbine_ct_1") modal_turbine_ct_1: InteractiveImageTurbineCT1Component;
     @ViewChild("modal_turbine_ct_2") modal_turbine_ct_2: InteractiveImageTurbineCT1Component;
 	@ViewChild("modal_turbine_ct_3") modal_turbine_ct_3: InteractiveImageTurbineCT1Component;
@@ -128,16 +128,17 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 	ngOnInit() {
 		this.addBlock(1, "");
 		let url = `/assets/css/theme/content/monitoring.css`;
-		document.getElementById("content_theme").setAttribute("href", url);
-		this.subscriptions['interval_timeCurrent'] = interval(1000).subscribe(()=>{this.timeCurrent = new Date();});
-		timer(400).subscribe(()=>{
-			this.globalService.aside_open = !this.globalService.aside_open;
-		});
-		timer(1000).subscribe(()=>{
+		let urlActual = document.getElementById("content_theme").getAttribute("href");
+		if(url != urlActual){
+			document.getElementById("content_theme").setAttribute("href", url);
+		}
+		this.globalService.aside_open = !this.globalService.aside_open;
+	}
+	ngAfterViewInit(){
+		timer(7000).subscribe(()=>{
 			this.connect();
 		});
 	}
-
 	initTags() {
 		this.tags.set("temperatura_ambiente", {
 			tagName: "",
@@ -307,7 +308,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 	}
 
 	getTagName(key): string {
-		return this.tags.get(key)["tagName"];
+		return this.tags.has(key) ? this.tags.get(key)["tagName"]:'';
 	}
 	getValue(key) {
 		if(!this.tags.has(key))return [null, 0];
@@ -377,7 +378,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 						this.chartLine_01_updateCharLine();
 					});
 					
-					this.subscriptions['interval_interval_uodateDona'] = interval(5000).subscribe(()=>{
+					this.subscriptions['interval_interval_uodateDona'] = interval(3000).subscribe(()=>{
 						this.dona_1_update();
 						this.dona_2_update();
 						this.dona_3_update();
@@ -1056,12 +1057,12 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			},
 			series: [
 				{
-					id:"ct_1_RT",
+					id:"ct_2_RT",
 					yAxis: "y-axis-rt",
 					data: [0, 105],
 				},
 				{
-					id:"ct_1_Potencia",
+					id:"ct_2_Potencia",
 					yAxis: "y-axis-potencia",
 					data: [132, 0],
 				},
@@ -1199,12 +1200,12 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			},
 			series: [
 				{
-					id:"ct_1_RT",
+					id:"ct_2_RT",
 					yAxis: "y-axis-rt",
 					data: [0, 105],
 				},
 				{
-					id:"ct_1_Potencia",
+					id:"ct_2_Potencia",
 					yAxis: "y-axis-potencia",
 					data: [132, 0],
 				},
@@ -1343,12 +1344,12 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			},
 			series: [
 				{
-					id:"ct_1_RT",
+					id:"ct_3_RT",
 					yAxis: "y-axis-rt",
 					data: [0, 105],
 				},
 				{
-					id:"ct_1_Potencia",
+					id:"ct_3_Potencia",
 					yAxis: "y-axis-potencia",
 					data: [132, 0],
 				},
@@ -1486,12 +1487,12 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			},
 			series: [
 				{
-					id:"ct_1_RT",
+					id:"ct_3_RT",
 					yAxis: "y-axis-rt",
 					data: [0, 105],
 				},
 				{
-					id:"ct_1_Potencia",
+					id:"ct_3_Potencia",
 					yAxis: "y-axis-potencia",
 					data: [132, 0],
 				},
@@ -1538,36 +1539,102 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		return opt;
 	}
 	dona_1_update(){
-		let vp = this.getValue('ct_1_Potencia')[1];
-		let vr = this.getValue('ct_1_RT')[1];
-		let opt = this.getColorChartDonas(vp,vr);
-		
+		if(this.chartDona_1.get('ct_1_Potencia') && this.chartDona_1.get('ct_1_RT')){
+			let vp = this.getValue('ct_1_Potencia')[1];
+			let vr = this.getValue('ct_1_RT')[1];
+			let opt = this.getColorChartDonas(vp,vr);
+			
 
-		this.chartDona_1.get('ct_1_RT').setData([0,vr],false,false);
-		this.chartDona_1.get('ct_1_Potencia').setData([vp,0],false,false);
-		this.chartDona_1.update({
-			colors:opt.colors			
-		},false);
-		this.chartDona_1.redraw(true);
+			this.chartDona_1.get('ct_1_RT').setData([0,vr],false,false);
+			this.chartDona_1.get('ct_1_Potencia').setData([vp,0],false,false);
+			this.chartDona_1.update({
+				colors:opt.colors			
+			},false);
+			this.chartDona_1.redraw(true);
+		}
 		//*/
 	}
 	dona_2_update(){
-		this.dona_2();
+		if(this.chartDona_2.get('ct_2_Potencia') && this.chartDona_2.get('ct_2_RT')){
+			
+			let vp = this.getValue('ct_2_Potencia')[1];
+			let vr = this.getValue('ct_2_RT')[1];
+			let opt = this.getColorChartDonas(vp,vr);
+			
+
+			this.chartDona_2.get('ct_2_RT').setData([0,vr],false,false);
+			this.chartDona_2.get('ct_2_Potencia').setData([vp,0],false,false);
+			this.chartDona_2.update({
+				colors:opt.colors			
+			},false);
+			this.chartDona_2.redraw(true);
+		}
 	}
 	dona_3_update(){
-		this.dona_3();
+		if(this.chartDona_3.get('ct_3_Potencia') && this.chartDona_3.get('ct_3_RT')){
+			
+			let vp = this.getValue('ct_3_Potencia')[1];
+			let vr = this.getValue('ct_3_RT')[1];
+			let opt = this.getColorChartDonas(vp,vr);
+			
+
+			this.chartDona_3.get('ct_3_RT').setData([0,vr],false,false);
+			this.chartDona_3.get('ct_3_Potencia').setData([vp,0],false,false);
+			this.chartDona_3.update({
+				colors:opt.colors			
+			},false);
+			this.chartDona_3.redraw(true);
+		}
 	}
 	
 	dona_1_modal_update(){
-		this.dona_1_modal();
+		if(this.donaChart1_modal_x.get('ct_1_Potencia') && this.donaChart1_modal_x.get('ct_1_RT')){
+			let vp = this.getValue('ct_1_Potencia')[1];
+			let vr = this.getValue('ct_1_RT')[1];
+			let opt = this.getColorChartDonas(vp,vr);
+			
+
+			this.donaChart1_modal_x.get('ct_1_RT').setData([0,vr],false,false);
+			this.donaChart1_modal_x.get('ct_1_Potencia').setData([vp,0],false,false);
+			this.donaChart1_modal_x.update({
+				colors:opt.colors			
+			},false);
+			this.donaChart1_modal_x.redraw(true);
+		}
 	}
 	
 	dona_2_modal_update(){
-		this.dona_2_modal();
+		
+		if(this.donaChart2_modal_x.get('ct_2_Potencia') && this.donaChart2_modal_x.get('ct_2_RT')){
+			let vp = this.getValue('ct_2_Potencia')[1];
+			let vr = this.getValue('ct_2_RT')[1];
+			let opt = this.getColorChartDonas(vp,vr);
+			
+
+			this.donaChart2_modal_x.get('ct_2_RT').setData([0,vr],false,false);
+			this.donaChart2_modal_x.get('ct_2_Potencia').setData([vp,0],false,false);
+			this.donaChart2_modal_x.update({
+				colors:opt.colors			
+			},false);
+			this.donaChart2_modal_x.redraw(true);
+		}
 	}
 	
 	dona_3_modal_update(){
-		this.dona_3_modal();
+		if(this.donaChart3_modal_x.get('ct_3_Potencia') && this.donaChart3_modal_x.get('ct_3_RT')){
+			
+			let vp = this.getValue('ct_3_Potencia')[1];
+			let vr = this.getValue('ct_3_RT')[1];
+			let opt = this.getColorChartDonas(vp,vr);
+			
+
+			this.donaChart3_modal_x.get('ct_3_RT').setData([0,vr],false,false);
+			this.donaChart3_modal_x.get('ct_3_Potencia').setData([vp,0],false,false);
+			this.donaChart3_modal_x.update({
+				colors:opt.colors			
+			},false);
+			this.donaChart3_modal_x.redraw(true);
+		}
 	}
 	isEat(){
 		return (this.globalService.plant.name.toLowerCase() == "aguila") ? true: false;
