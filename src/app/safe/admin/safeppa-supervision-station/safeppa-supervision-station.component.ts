@@ -437,9 +437,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	}
 
 	validaAplicarDeteccion() {
-		console.log(this.isDetected);
 		if (this.isDetected) {
-			console.log('entro al confirm');
 			this.confirmationDialogService.confirm('Por favor, confirme..',
 				'Esta seguro que, quiere sobreescribir la actual deteccion?').then((confirmed) => {
 					if (confirmed) {
@@ -447,7 +445,6 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 					}
 			}).catch(() => console.log('Salio'));
 		} else {
-			console.log('se fue directo al else');
 			this.aplicarDeteccion();
 		}
 }
@@ -458,7 +455,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		this.ppaMonitoringFormatService.procesaDeteccion(year, mount).subscribe(
 			data => {
 				this.isDetected = data.isDetected;
-				this.isCorrected = data.getisCorrected;
+				this.isCorrected = data.isCorrected;
 				this.buttonDetected = false;
 				this.buttonCorrected = true;
 				if (this.isDetected) {
@@ -477,6 +474,18 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 			});
 	}
 
+	validaAplicarCorreccion() {
+		if (this.isCorrected) {
+			this.confirmationDialogService.confirm('Por favor, confirme..',
+				'Esta seguro que, quiere sobreescribir la actual Correccion?').then((confirmed) => {
+				if (confirmed) {
+					this.aplicarCorrecion();
+				}
+			}).catch(() => console.log('Salio'));
+		} else {
+			this.aplicarCorrecion();
+		}
+	}
 	aplicarCorrecion() {
 		const year = new Date(this.date.value).getFullYear();
 		const mount =  new Date(this.date.value).getMonth() + 1;
@@ -484,6 +493,13 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		this.addBlock(1, 'Aplicar Correción');
 		this.ppaMonitoringFormatService.procesaCorreccion(year, mount).subscribe(
 			data => {
+				this.isDetected = data.isDetected;
+				this.isCorrected = data.isCorrected;
+				this.buttonDetected = false;
+				this.buttonCorrected = true;
+				if (this.isDetected) {
+					this.buttonCorrected = false;
+				}
 				this.addBlock(2, '');
 				this.setTable01(data);
 				this.setChartBanderas(data);
@@ -536,7 +552,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	download() {
 		const year = new Date(this.date.value).getFullYear();
 		const month =  new Date(this.date.value).getMonth() + 1;
-		this.addBlock(1, 'Bajando  crudos CSV ' + year + '/' + month + ': Generando');
+		this.addBlock(1, 'Descargando datos detectados y corregidos de formato: ' + year + '/' + month + '; Generando');
 		this.ppaMonitoringFormatService.downloadCrudosExcel(year, month)
 			.subscribe(
 				data => {
@@ -578,8 +594,9 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		this.ppaMonitoringFormatService.stageLoadRaw(year, month)
 			.subscribe(
 				data => {
+					console.dir(data);
 					this.isDetected = data.isDetected;
-					this.isCorrected = data.getisCorrected;
+					this.isCorrected = data.isCorrected;
 					this.buttonDetected = false;
 					this.buttonCorrected = true;
 					if (this.isDetected) {

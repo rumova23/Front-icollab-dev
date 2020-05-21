@@ -1,12 +1,21 @@
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Data Quality" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "Supervision Station" | translate }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+<div class="section">
 
-<div class="p-5">
-    <!-- Titulo -->
-    <div class="row justify-content-between">
-        <div class="col">
-            <span class="agila-cda-titulo">{{titulo}}</span>
-        </div>
-    </div>
-    
+	<div class="row pb-2">
+		<div class="col">
+			<p class="section_titulo_0">{{ titulo | translate }}</p>
+			<p class="section_subtitulo_0"></p>
+		</div>
+	</div>
     
     <form [formGroup]="newEventtForm" (ngSubmit)="save(newEventtForm.value)">
         <div class="row mt-5 mb-5">

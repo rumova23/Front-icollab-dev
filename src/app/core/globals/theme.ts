@@ -87,7 +87,7 @@ export class ThemeService {
         let logo = "";
         switch(app.name){
             case "Administrative_monitoring":
-                logo ="/assets/img/common/ico_mod/MonitoreoAdministrativo-v2.png";
+                logo ="/assets/img/common/ico_mod/ma.png";
                 break;
             case "Safe":
                 logo ="/assets/img/common/ico_mod/Safe-v2.png";

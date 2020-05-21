@@ -65,7 +65,7 @@ export class ComplianceProfileComponent implements OnInit {
     byteArray;
     elementData: any[] = [];
     result;
-
+    dropdownMenuChangeImage=false;
     constructor(private cmbos: PerfilComboService,
                 private formBuilder: FormBuilder,
                 public toastr: ToastrManager,
@@ -353,10 +353,16 @@ export class ComplianceProfileComponent implements OnInit {
                 }
                 this.imageUrl = reader.result;
                 this.requiredPhoto = false;
+                this.dropdownMenuChangeImage = false;
             };
         }
     }
-
+    menuChangeImage(){
+        this.dropdownMenuChangeImage = !this.dropdownMenuChangeImage;
+    }
+    removeImg(){
+        this.imageUrl = '../../../assets/img/foto.png';
+    }
     regresar() {
         this.eventService.sendChangePage(new EventMessage(11, {} , 'Compliance.registerPersonal'));
     }

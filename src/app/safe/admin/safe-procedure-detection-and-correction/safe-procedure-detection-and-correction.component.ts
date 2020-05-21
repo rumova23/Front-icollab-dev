@@ -17,6 +17,7 @@ import { time } from 'highcharts';
 import {ToastrManager} from 'ng6-toastr-notifications';
 import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format.service';
 import {saveAs} from 'file-saver';
+import {ConfirmationDialogService} from '../../../core/services/confirmation-dialog.service';
 
 @Component({
 	selector: 'app-safe-procedure-detection-and-correction',
@@ -36,13 +37,20 @@ import {saveAs} from 'file-saver';
 export class SafeProcedureDetectionAndCorrectionComponent implements OnInit {
 
 	date = new FormControl(moment());
+	buttonDetected: boolean;
+	isDetected: boolean;
+	buttonCorrected: boolean;
+	isCorrected: boolean;
 	constructor(
 		public globalService: GlobalService,
 		public eventService: EventService,
 		private toastr: ToastrManager,
-		private ppaMonitoringFormatService: PpaMonitoringFormatService) { }
+		private ppaMonitoringFormatService: PpaMonitoringFormatService,
+		private confirmationDialogService: ConfirmationDialogService) { }
 
 	ngOnInit() {
+		this.buttonDetected = true;
+		this.buttonCorrected = true;
 	}
 
 	private addBlock(type, msg): void {
@@ -59,7 +67,21 @@ export class SafeProcedureDetectionAndCorrectionComponent implements OnInit {
 		const ctrlValue = this.date.value;
 		ctrlValue.month(normalizedMonth.month());
 		this.date.setValue(ctrlValue);
+		this.stangeLoadRaw();
 		datepicker.close();
+	}
+
+	validaAplicarDeteccion() {
+		if (this.isDetected) {
+			this.confirmationDialogService.confirm('Por favor, confirme..',
+				'Esta seguro que, quiere sobreescribir la actual deteccion?').then((confirmed) => {
+				if (confirmed) {
+					this.aplicarDeteccionProcedimiento();
+				}
+			}).catch(() => console.log('Salio'));
+		} else {
+			this.aplicarDeteccionProcedimiento();
+		}
 	}
 
 	aplicarDeteccionProcedimiento() {
@@ -69,6 +91,7 @@ export class SafeProcedureDetectionAndCorrectionComponent implements OnInit {
 		this.ppaMonitoringFormatService.procesaDeteccionProcedimiento(year, mount).subscribe(
 			data => {
 				this.addBlock(2, '');
+				this.stangeLoadRaw();
 				this.toastr.successToastr('Detección Procedimiento: Aplicada correctamente', '¡Exito!');
 			},
 			errorData => {
@@ -78,6 +101,18 @@ export class SafeProcedureDetectionAndCorrectionComponent implements OnInit {
 			});
 	}
 
+	validaAplicarCorreccion() {
+		if (this.isCorrected) {
+			this.confirmationDialogService.confirm('Por favor, confirme..',
+				'Esta seguro que, quiere sobreescribir la actual Correccion?').then((confirmed) => {
+				if (confirmed) {
+					this.aplicarCorrecionProcedimiento();
+				}
+			}).catch(() => console.log('Salio'));
+		} else {
+			this.aplicarCorrecionProcedimiento();
+		}
+	}
 	aplicarCorrecionProcedimiento() {
 		const year = new Date(this.date.value).getFullYear();
 		const mount =  new Date(this.date.value).getMonth() + 1;
@@ -85,6 +120,7 @@ export class SafeProcedureDetectionAndCorrectionComponent implements OnInit {
 		this.ppaMonitoringFormatService.procesaCorreccionProcedimiento(year, mount).subscribe(
 			data => {
 				this.addBlock(2, '');
+				this.stangeLoadRaw();
 				this.toastr.successToastr('Correcion Procedimiento: Aplicado correctamente', '¡Exito!');
 			},
 			errorData => {
@@ -131,5 +167,39 @@ export class SafeProcedureDetectionAndCorrectionComponent implements OnInit {
 			byteArrays[sliceIndex] = new Uint8Array(bytes);
 		}
 		return new Blob(byteArrays, { type: contentType });
+	}
+	stangeLoadRaw() {
+		this.addBlock(1, '');
+		const year = new Date(this.date.value).getFullYear();
+		const month =  new Date(this.date.value).getMonth() + 1;
+		this.ppaMonitoringFormatService.stagenorm(year, month)
+			.subscribe(
+				data => {
+					console.dir(data);
+					this.isDetected = data.isDetected;
+					this.isCorrected = data.isCorrected;
+					this.buttonDetected = false;
+					this.buttonCorrected = true;
+					if (this.isDetected) {
+						this.buttonCorrected = false;
+					}
+					this.addBlock(2, '');
+				},
+				errorData => {
+					this.addBlock(2, '');
+					if (errorData.error.message.indexOf('Fecha de Operación Comercial: No cargada.') !== -1) {
+						this.isDetected = false;
+						this.isCorrected = false;
+						this.buttonDetected = false;
+						this.buttonCorrected = true;
+						if (this.isDetected) {
+							this.buttonCorrected = false;
+						}
+					} else {
+						this.toastr.errorToastr(errorData.error.message, '¡Error!');
+						this.buttonDetected = true;
+						this.buttonCorrected = true;
+					}
+				});
 	}
 }

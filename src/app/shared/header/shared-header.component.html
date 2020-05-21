@@ -181,20 +181,20 @@
 	<!--Navbar Movil-->
 	<div class="container-fluid d-block d-lg-none" style="height: 57px;">
 		<div class="row h-100 align-items-center">
-			<div class="col d-flex">
+			<div class="col d-flex pr-0">
 				<img class="align-self-center mr-3" src="{{theme.getLogo()}}" height="35" width="45" alt="" />
 				<strong class="d-none d-xxs-block nameplanta mr-3">{{theme.getNameLabel()}}</strong>
-				<a class="navbar-brand" *ngIf="!disableChangePlant && globalService.plant.name == 'AGUILA'"
+				<a class="navbar-brand mr-0" *ngIf="!disableChangePlant && globalService.plant.name == 'AGUILA'"
 					[ngStyle]="{'visibility':securityService.loadPlants().length > 1 ? 'visible' : 'hidden' }">
 					<mdb-icon fas icon="exchange-alt" class="mr-2" (click)="changePlant('SOL')"></mdb-icon>
 				</a>
-				<a class="navbar-brand" *ngIf="!disableChangePlant && globalService.plant.name == 'SOL'"
+				<a class="navbar-brand mr-0" *ngIf="!disableChangePlant && globalService.plant.name == 'SOL'"
 					[ngStyle]="{'visibility':securityService.loadPlants().length > 1 ? 'visible' : 'hidden' }">
 					<mdb-icon fas icon="exchange-alt" class="mr-2" (click)="changePlant('AGUILA')"></mdb-icon>
 				</a>
 				<mdb-icon class="align-self-center myicobarstoggle" fas icon="bars" (click)="toggleMenu()"></mdb-icon>
 			</div>
-			<div class="col d-flex justify-content-end dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<div class="col d-flex justify-content-end dropdown-toggle pl-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<mdb-icon class="align-self-center myicobarstoggle" fas icon="bars"></mdb-icon>
 				<img class="align-self-center" src="{{theme.getLogoApp()}}" style="height: 35px;" />
 				<span class="nameplanta d-none d-xs-block">{{theme.getNameLabelApp()}}</span>
