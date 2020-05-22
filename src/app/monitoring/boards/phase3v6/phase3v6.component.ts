@@ -667,7 +667,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			credits: {
 				enabled: false
 			},		
-			colors: ["#CD7F32","#ffffff"],
+			colors: ["#CD7F32","#ffffff","#ffffff"],
 
 			legend: {
 				enabled: false,
@@ -716,7 +716,11 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					},
 				},
 				lineWidth: 0,
-				categories: ['<span class="f9" style="font-size: 9px;">Potencia</span> <span class="f16"><span id="flag" class="flag no">' + "</span></span>", '<span class="f9" style="font-size: 9px;">RT</span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
+				categories: [
+					'<span class="f9" style="font-size: 9px;">Potencia</span> <span class="f16"><span id="flag" class="flag no">' + "</span></span>"
+					,'<span class="f9" style="font-size: 9px;">RT</span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"
+					,'<span class="f9" style="font-size: 6px;">RPM</span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"
+				],
 			},
 			yAxis: [{
 				id: "y-axis-rt",
@@ -758,6 +762,27 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 						color: "#fff",
 					},
 				},
+			},{
+				id: "y-axis-rpm",
+				offset: 10,
+				min:0,
+				max:4150,
+                gridLineWidth: 0,
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 25,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: true,
+					style: {
+						color: "#fff",
+					},
+				},
 			}],
 			plotOptions: {
 				column: {
@@ -772,11 +797,19 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					id:"ct_1_RT",
 					yAxis: "y-axis-rt",
 					data: [0, 105],
+					name: '',
 				},
 				{
 					id:"ct_1_Potencia",
 					yAxis: "y-axis-potencia",
 					data: [132, 0],
+					name: '',
+				},
+				{
+					id:"ct_1_RPM",
+					yAxis: "y-axis-rpm",
+					data: [0, 0, 1000],
+					name: '',
 				},
 			],
 			exporting: {
@@ -785,8 +818,10 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		};
 		let vp = this.getValue('ct_1_Potencia')[1];
 		let vr = this.getValue('ct_1_RT')[1];
+		let vrpm = this.getValue('ct_1_RPM')[1];
 		opt.series[0]['data'][1]=vr;
 		opt.series[1]['data'][0]=vp;
+		opt.series[2]['data'][2]=vrpm;
 
 		if(vp <= 10){
 			opt.colors[0]=  this.rojo;//ct_1_Potencia
@@ -799,6 +834,11 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			opt.colors[1]=  this.rojo;
 		}else if(vr >= 1000){
 			opt.colors[1]=  this.verde;
+		}
+		if(vrpm < 10){
+			opt.colors[2]=  this.rojo;
+		}else if(vrpm >= 10){
+			opt.colors[2]=  this.verde;
 		}
 		this.chartDona_1 = Highcharts.chart(this.donaChart1.nativeElement, opt);
 	}
@@ -1522,7 +1562,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 	}
 	getColorChartDonas(vp,vr){
 		let opt = {
-			colors:["",""]
+			colors:["","",""]
 		}
 		if(vp <= 10){
 			opt.colors[0]=  this.rojo;//ct_1_Potencia
@@ -1542,11 +1582,18 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		if(this.chartDona_1.get('ct_1_Potencia') && this.chartDona_1.get('ct_1_RT')){
 			let vp = this.getValue('ct_1_Potencia')[1];
 			let vr = this.getValue('ct_1_RT')[1];
+			let vrpm = this.getValue('ct_1_RPM')[1];
 			let opt = this.getColorChartDonas(vp,vr);
 			
+			if(vrpm < 10){
+				opt.colors[2]=  this.rojo;
+			}else if(vrpm >= 10){
+				opt.colors[2]=  this.verde;
+			}
 
 			this.chartDona_1.get('ct_1_RT').setData([0,vr],false,false);
 			this.chartDona_1.get('ct_1_Potencia').setData([vp,0],false,false);
+			this.chartDona_1.get('ct_1_RPM').setData([0,0,vrpm],false,false);
 			this.chartDona_1.update({
 				colors:opt.colors			
 			},false);
