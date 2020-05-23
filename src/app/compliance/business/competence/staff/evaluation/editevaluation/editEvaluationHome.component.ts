@@ -3,6 +3,8 @@ import {EntidadEstausDTO} from '../../../../../models/entidad-estaus-dto';
 import {PerfilComboService} from '../../../../../../core/services/perfil-combo.service';
 import {ToastrManager} from 'ng6-toastr-notifications';
 import {GlobalService} from '../../../../../../core/globals/global.service';
+import {EventMessage} from '../../../../../../core/models/EventMessage';
+import {EventService} from '../../../../../../core/services/event.service';
 
 @Component({
   selector: 'app-edit-evaluation-home',
@@ -24,6 +26,7 @@ export class EditEvaluationHomeComponent implements OnInit {
 
   constructor(private perfilComboService: PerfilComboService,
               public toastr: ToastrManager,
+              private eventService: EventService,
               public  globalService: GlobalService) { }
 
   ngOnInit() {
@@ -35,6 +38,10 @@ export class EditEvaluationHomeComponent implements OnInit {
 
   guardaExamen() {
     this.perfilComboService.accion.next('guardaExamen');
+  }
+
+  regresar() {
+    this.eventService.sendChangePage(new EventMessage(11, {} , 'Compliance.evaluatePersonal'));
   }
 
   terminaExamen() {
