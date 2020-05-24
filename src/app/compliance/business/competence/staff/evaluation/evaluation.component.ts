@@ -204,10 +204,6 @@ export class EvaluationComponent implements OnInit {
             this.displayedColumnsActions.push({key: 'sys_edit', label: 'Nuevo / Editar'});
             this.columnsToDisplay.push('sys_edit');
           }
-          if (this.showUpdate) {
-            this.displayedColumnsActions.push({key: 'sys_delete', label: 'Eliminar'});
-            this.columnsToDisplay.push('sys_delete');
-          }
           this.dataSource = new MatTableDataSource<any>(this.dataEmpleadoEvaluaciones);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -329,10 +325,6 @@ export class EvaluationComponent implements OnInit {
     }
 
     return resultElements;
-  }
-
-  eliminarRegistro(maestroOpcion: any) {
-
   }
 
   generarExamen(empleadoId: number) {

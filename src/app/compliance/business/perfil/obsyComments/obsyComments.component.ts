@@ -17,13 +17,16 @@ export class ObsyCommentsComponent implements OnInit {
   @Input() inIdEmpleado: number;
   @Input() inTipo: string;
   calificacionId: number;
-  headObservaciones = ['#', 'Nombre', 'Observaciones', 'Fecha de ultima modificación'];
+  headObservaciones = ['#', 'Nombre', 'Observaciones', 'Fecha de ultima modificación', 'Visible', 'Editar', 'Eliminar'];
   typeDocuments = ['Evidencias'];
   observacioes: Array<any>;
   titleDocument: Array<any>;
   obsForm: FormGroup;
   submitted = false;
   isdisabled = false;
+  isAddObvsDisabled = true;
+  currentComment: any;
+  dataObservationSumbit = {};
 
   // tslint:disable-next-line:max-line-length
   constructor(
@@ -52,20 +55,17 @@ export class ObsyCommentsComponent implements OnInit {
   }
 
   get f() { return this.obsForm.controls; }
+
   onSubmit() {
     this.submitted = true;
-    if (this.obsForm.invalid) {
-      this.toastr.errorToastr('Error, Debe de escribir un comentario.', 'Oops!');
-      return;
-    }
     this.guardarObserv();
-    this.toastr.successToastr('Observacion enviada satisfactoriamente.', 'Success!');
   }
 
   resuelveDS(comenta) {
     this.observacioes.push(
       new Comentario(comenta.idUsr, comenta.nombre, comenta.observacion, comenta.fecha_modificacion));
   }
+
   getDocumentos() {
     for (let i = 0; i < this.typeDocuments.length; i++) {
       let documents: Documents;
@@ -83,6 +83,7 @@ export class ObsyCommentsComponent implements OnInit {
       this.titleDocument.push(documents);
     }
   }
+
   obtieneObservaciones() {
     this.comentarios.obtenCalificacion(this.inIdEmpleado).subscribe(
       calificacion => {
@@ -94,19 +95,48 @@ export class ObsyCommentsComponent implements OnInit {
           });
       });
   }
+
   guardarObserv() {
+    this.dataObservationSumbit = {};
     const obsva = this.obsForm.controls.fObserva.value;
     this.comentarios.obtenCalificacion(this.inIdEmpleado).subscribe(
       calificacion => {
-        this.comentarios.postObservaciones(calificacion.calificacionId, obsva).subscribe(comenta => {
+        this.dataObservationSumbit['observacion'] = obsva;
+        this.dataObservationSumbit['calificacionId'] = calificacion.calificacionId;
+        this.dataObservationSumbit['fechaObservacion'] = new Date();
+        this.dataObservationSumbit['activo'] = true;
+        this.dataObservationSumbit['save'] = true;
+        this.comentarios.guardaObservacion(this.dataObservationSumbit).subscribe(comenta => {
           this.observacioes.push(
             new Comentario(comenta.idUsr, comenta.nombre, comenta.observacion, comenta.fecha_modificacion));
+          this.obsForm.controls.fObserva.setValue('');
+          this.toastr.successToastr('La observación fue registrada con éxito.', '¡Se ha logrado!');
         });
       });
   }
+
   downloadFile(fileId: number) {
     this.comentarios.downloadFile(fileId).subscribe(
         result => {
         });
+  }
+
+  enableSaveButton() {
+    if (this.inTipo !== 'ver') {
+      this.isAddObvsDisabled = false;
+    }
+  }
+
+  setToEdit(comment: any) {
+    this.currentComment = comment;
+    this.obsForm.controls.fObserva.setValue(comment.observacion);
+  }
+
+  eliminarRegistro(comment: any) {
+
+  }
+
+  visibleObservation(comment: any) {
+
   }
 }

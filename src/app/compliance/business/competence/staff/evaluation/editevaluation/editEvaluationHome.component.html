@@ -18,6 +18,10 @@
 <div class="section">
   <div class="row">
     <div class="col-12 text-right">
+      <button type="button" class="btn" (click)="regresar()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+        <i class="ti-angle-double-left"></i>
+        Regresar
+      </button>
       <button type="button" class="btn" (click)="guardaExamen()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" [disabled]="isdisabled">
         <i class="ti-bookmark-alt"></i>&nbsp;
         Guardar
