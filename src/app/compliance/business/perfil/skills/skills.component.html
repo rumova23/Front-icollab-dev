@@ -31,12 +31,13 @@
                         </div>
                     <div class="form-row my-1">
                         <div class="form-group col-12 mb-0">
-                            <label for="pq-{{i}}-{{j}}">¿Por qué?</label>
+                            <label for="pq-{{i}}-{{j}}" class="f12">¿Por qué?</label>
                             <mat-form-field>
-                                <textarea                                     
+                                <textarea 
+                                    class="------my-form-control"                            
                                     id="pq-{{i}}-{{j}}"
                                     matInput
-                                    rows="2"
+                                    rows="1"
                                     [(ngModel)]="grupResSkill[i][j]" 
                                     [ngModelOptions]="{standalone: true}" 
                                     [disabled]="isdisabled">
