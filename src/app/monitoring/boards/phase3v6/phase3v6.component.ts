@@ -560,7 +560,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				
 				buttons: {
 					contextButton: {
-						menuItems: ["viewFullscreen",'downloadPNG']
+						menuItems: ["viewFullscreen",'downloadPNG','downloadXLS']
 					}
 				}
 			},
@@ -602,7 +602,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			opt.series.push(
 				{
 					id : nextValue.value[0],
-					name: nextValue.value[0],
+					name: nextValue.value[1]['tagName'],
 					yAxis: "y-axis-"+nextValue.value[0],
 					visible: ["potenciaNeta","potenciaCcdv","regimentermico"].includes(nextValue.value[0]),
 					color: this.mapColors.get(nextValue.value[0]),
@@ -638,21 +638,25 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		let cl = "";
 		let v = this.getValue(key)[1];
 		if(["ct_1_RT","ct_2_RT","ct_3_RT"].includes(key)){
-			if(v <  1000 ) cl = 'icon-rojo';
-			if(v >= 1000 ) cl = 'icon-verde';
+			if(v >= 10000 ) cl = 'icon-verde';
+			if(v > 10001 && v < 10100 ) cl = 'icon-amarillo';
+			if(v <  10101 ) cl = 'icon-rojo';
 		}else if(["ct_1_Potencia","ct_2_Potencia","ct_3_Potencia"].includes(key)){
 			if(v <= 10 ) cl = 'icon-rojo';
-			if(v > 10 ) cl = 'icon-amarillo';
-			if(v >= 80) cl = 'icon-verde';
+			if(v > 10 && v < 100) cl = 'icon-amarillo';
+			if(v >= 100) cl = 'icon-verde';
 		}else if(["ct_1_diesel","ct_2_diesel","ct_3_diesel"].includes(key)){			
 			if(v < 5 ) cl = 'icon-rojo';
-			if(v >= 5 ) cl = 'icon-verde';
+			if(v >= 5 && v < 20) cl = 'icon-amarillo';
+			if(v >= 20 ) cl = 'icon-verde';
 		}else if(["ct_1_gas","ct_2_gas","ct_3_gas"].includes(key)){			
-			if(v < 1000 ) cl = 'icon-rojo';
-			if(v >= 1000) cl = 'icon-verde';
+			if(v < 10000 ) cl = 'icon-rojo';
+			if(v >= 10000 && v < 25000) cl = 'icon-amarillo';
+			if(v >= 25000) cl = 'icon-verde';
 		}else if(["ct_1_RPM","ct_2_RPM","ct_3_RPM"].includes(key)){			
-			if(v <= 10 ) cl = 'icon-rojo';
-			if(v > 10) cl = 'icon-verde';
+			if(v <= 3200 ) cl = 'icon-rojo';
+			if(v >= 3200 && v <= 3500) cl = 'icon-amarillo';
+			if(v > 3500) cl = 'icon-verde';
 		}
 		
 		return cl;
