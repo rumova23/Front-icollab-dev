@@ -128,4 +128,8 @@ export class PpaMonitoringFormatService {
 		return this.http.get(environment.dycformato + 'loadRaw/stageload/' + year + '/' + month, {params : this.parameters });
 	}
 
+    procesaModeloTiempo(year: number, month: number) {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.dycformato + 'mmmppa/calculaFactores/' + year + '/' + month, {params : this.parameters });
+    }
 }

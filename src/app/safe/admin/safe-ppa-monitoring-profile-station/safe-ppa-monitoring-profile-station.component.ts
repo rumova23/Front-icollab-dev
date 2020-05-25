@@ -218,4 +218,25 @@ export class SafePpaMonitoringProfileStationComponent implements OnInit {
     }
     return new Blob(byteArrays, { type: contentType });
   }
+
+    aplicarModeloPrimerTiempo() {
+      if (this.date.value == null) {
+        this.toastr.errorToastr('Eliga una fecha.', 'Faltan Datos¡');
+        return 0;
+      }
+      this.addBlock(1, '');
+      this.ppaMonitoringFormatService.procesaModeloTiempo(
+          new Date(this.date.value).getFullYear(),
+          new Date(this.date.value).getMonth() + 1
+      ).subscribe (
+          data => {
+            this.addBlock(2, '');
+            this.toastr.successToastr('Deteccion de Norma en proceso: ' + new Date(this.date.value).getFullYear() + '/' + (new Date(this.date.value).getMonth() + 1), '¡Procesando!');
+          },
+          errorData => {
+            this.addBlock(2, '');
+            console.dir(errorData);
+            this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
+          });
+    }
 }
