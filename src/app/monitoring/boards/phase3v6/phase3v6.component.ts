@@ -1019,7 +1019,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				enabled: true,
 				buttons: {
 					contextButton: {
-						menuItems: ["viewFullscreen",'downloadPNG']
+						menuItems: ['downloadPNG']
 					}
 				}
 			},
@@ -1086,17 +1086,17 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				text: "",
 			},
 			
-    tooltip: {
-        backgroundColor: {
-            linearGradient: [0, 0, 0, 60],
-            stops: [
-                [0, '#FFFFFF'],
-                [1, '#E0E0E0']
-            ]
-        },
-        borderWidth: 1,
-        borderColor: '#AAA'
-    },
+			tooltip: {
+				backgroundColor: {
+					linearGradient: [0, 0, 0, 60],
+					stops: [
+						[0, '#FFFFFF'],
+						[1, '#E0E0E0']
+					]
+				},
+				borderWidth: 1,
+				borderColor: '#AAA'
+			},
 			pane: {
 				size: "80%",
 				innerSize: "50%",
@@ -1404,7 +1404,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				enabled: true,
 				buttons: {
 					contextButton: {
-						menuItems: ["viewFullscreen",'downloadPNG']
+						menuItems: ['downloadPNG']
 					}
 				}
 			},
@@ -1788,7 +1788,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				enabled: true,
 				buttons: {
 					contextButton: {
-						menuItems: ["viewFullscreen",'downloadPNG']
+						menuItems: ['downloadPNG']
 					}
 				}
 			},
