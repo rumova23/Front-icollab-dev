@@ -199,3 +199,10 @@ option {
 .bg-black{
     background: black;
 }
+.f12{
+	font-size: 12px;
+}
+.my-form-control{
+	border: 1px solid rgb(206, 212, 218);
+	border-radius: 0.25rem;
+}

@@ -560,7 +560,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				
 				buttons: {
 					contextButton: {
-						menuItems: ["viewFullscreen",'downloadPNG']
+						menuItems: ["viewFullscreen",'downloadPNG','downloadXLS']
 					}
 				}
 			},
@@ -602,7 +602,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			opt.series.push(
 				{
 					id : nextValue.value[0],
-					name: nextValue.value[0],
+					name: nextValue.value[1]['tagName'],
 					yAxis: "y-axis-"+nextValue.value[0],
 					visible: ["potenciaNeta","potenciaCcdv","regimentermico"].includes(nextValue.value[0]),
 					color: this.mapColors.get(nextValue.value[0]),
@@ -638,21 +638,25 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		let cl = "";
 		let v = this.getValue(key)[1];
 		if(["ct_1_RT","ct_2_RT","ct_3_RT"].includes(key)){
-			if(v <  1000 ) cl = 'icon-rojo';
-			if(v >= 1000 ) cl = 'icon-verde';
+			if(v >= 10000 ) cl = 'icon-verde';
+			if(v > 10001 && v < 10100 ) cl = 'icon-amarillo';
+			if(v <  10101 ) cl = 'icon-rojo';
 		}else if(["ct_1_Potencia","ct_2_Potencia","ct_3_Potencia"].includes(key)){
 			if(v <= 10 ) cl = 'icon-rojo';
-			if(v > 10 ) cl = 'icon-amarillo';
-			if(v >= 80) cl = 'icon-verde';
+			if(v > 10 && v < 100) cl = 'icon-amarillo';
+			if(v >= 100) cl = 'icon-verde';
 		}else if(["ct_1_diesel","ct_2_diesel","ct_3_diesel"].includes(key)){			
 			if(v < 5 ) cl = 'icon-rojo';
-			if(v >= 5 ) cl = 'icon-verde';
+			if(v >= 5 && v < 20) cl = 'icon-amarillo';
+			if(v >= 20 ) cl = 'icon-verde';
 		}else if(["ct_1_gas","ct_2_gas","ct_3_gas"].includes(key)){			
-			if(v < 1000 ) cl = 'icon-rojo';
-			if(v >= 1000) cl = 'icon-verde';
+			if(v < 10000 ) cl = 'icon-rojo';
+			if(v >= 10000 && v < 25000) cl = 'icon-amarillo';
+			if(v >= 25000) cl = 'icon-verde';
 		}else if(["ct_1_RPM","ct_2_RPM","ct_3_RPM"].includes(key)){			
-			if(v <= 10 ) cl = 'icon-rojo';
-			if(v > 10) cl = 'icon-verde';
+			if(v <= 3200 ) cl = 'icon-rojo';
+			if(v >= 3200 && v <= 3500) cl = 'icon-amarillo';
+			if(v > 3500) cl = 'icon-verde';
 		}
 		
 		return cl;
@@ -692,9 +696,18 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			title: {
 				text: "",
 			},
-			tooltip: {
-				outside: true,
-			},
+			
+    tooltip: {
+        backgroundColor: {
+            linearGradient: [0, 0, 0, 60],
+            stops: [
+                [0, '#FFFFFF'],
+                [1, '#E0E0E0']
+            ]
+        },
+        borderWidth: 1,
+        borderColor: '#AAA'
+    },
 			pane: {
 				size: "80%",
 				innerSize: "50%",
@@ -852,7 +865,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			credits: {
 				enabled: false
 			},		
-			colors: ["#CD7F32","#ffffff"],
+			colors: ["#CD7F32","#ffffff","#ffffff"],
 
 			legend: {
 				enabled: false,
@@ -877,7 +890,15 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				text: "",
 			},
 			tooltip: {
-				outside: true,
+				backgroundColor: {
+					linearGradient: [0, 0, 0, 60],
+					stops: [
+						[0, '#FFFFFF'],
+						[1, '#E0E0E0']
+					]
+				},
+				borderWidth: 1,
+				borderColor: '#AAA'
 			},
 			pane: {
 				size: "80%",
@@ -900,7 +921,11 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					},
 				},
 				lineWidth: 0,
-				categories: ['Potencia<span class="f16"><span id="flag" class="flag no">' + "</span></span>", 'RT<span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
+				categories: [
+					'<span class="f9">Potencia</span> <span class="f16"><span id="flag" class="flag no">' + "</span></span>"
+					,'<span class="f9">RT</span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"
+					,'<span class="f9">RPM</span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"
+				],
 			},
 			yAxis: [{
 				id: "y-axis-rt",
@@ -924,7 +949,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				},
 			},{
 				id: "y-axis-potencia",
-				offset: 5,
+				offset: -40,
 				min:0,
 				max:200,
 				crosshair: {
@@ -933,6 +958,26 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				},
 				lineWidth: 0,
 				tickInterval: 25,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: true,
+					style: {
+						color: "#fff",
+					},
+				},
+			},{
+				id: "y-axis-rpm",
+				offset: 5,
+				min:0,
+				max:4150,
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 500,
 				reversedStacks: false,
 				endOnTick: true,
 				showLastLabel: true,
@@ -962,15 +1007,30 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					yAxis: "y-axis-potencia",
 					data: [132, 0],
 				},
+				{
+					id:"ct_1_RPM",
+					yAxis: "y-axis-rpm",
+					data: [0, 0, 1000],
+					name: '',
+				},
 			],
+			
 			exporting: {
-				enabled: false,
+				enabled: true,
+				buttons: {
+					contextButton: {
+						menuItems: ['downloadPNG']
+					}
+				}
 			},
 		};
+
 		let vp = this.getValue('ct_1_Potencia')[1];
 		let vr = this.getValue('ct_1_RT')[1];
+		let vrpm = this.getValue('ct_1_RPM')[1];
 		opt.series[0]['data'][1]=vr;
 		opt.series[1]['data'][0]=vp;
+		opt.series[2]['data'][2]=vrpm;
 
 		if(vp <= 10){
 			opt.colors[0]=  this.rojo;//ct_1_Potencia
@@ -984,6 +1044,11 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		}else if(vr >= 1000){
 			opt.colors[1]=  this.verde;
 		}
+		if(vrpm < 10){
+			opt.colors[2]=  this.rojo;
+		}else if(vrpm >= 10){
+			opt.colors[2]=  this.verde;
+		}
 		this.donaChart1_modal_x = Highcharts.chart(this.donaChart1_modal.nativeElement, opt);
 	}
 	dona_2() {		
@@ -995,7 +1060,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			credits: {
 				enabled: false
 			},		
-			colors: ["#CD7F32","#ffffff"],
+			colors: ["#CD7F32","#ffffff","#ffffff"],
 
 			legend: {
 				enabled: false,
@@ -1020,8 +1085,17 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			title: {
 				text: "",
 			},
+			
 			tooltip: {
-				outside: true,
+				backgroundColor: {
+					linearGradient: [0, 0, 0, 60],
+					stops: [
+						[0, '#FFFFFF'],
+						[1, '#E0E0E0']
+					]
+				},
+				borderWidth: 1,
+				borderColor: '#AAA'
 			},
 			pane: {
 				size: "80%",
@@ -1044,7 +1118,11 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					},
 				},
 				lineWidth: 0,
-				categories: ['<span class="f9" style="font-size: 9px;">Potencia</span> <span class="f16"><span id="flag" class="flag no">' + "</span></span>", '<span class="f9" style="font-size: 9px;">RT</span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
+				categories: [
+					'<span class="f9" style="font-size: 9px;">Potencia</span> <span class="f16"><span id="flag" class="flag no">' + "</span></span>"
+					,'<span class="f9" style="font-size: 9px;">RT</span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"
+					,'<span class="f9" style="font-size: 6px;">RPM</span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"
+				],
 			},
 			yAxis: [{
 				id: "y-axis-rt",
@@ -1086,134 +1164,12 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 						color: "#fff",
 					},
 				},
-			}],
-			plotOptions: {
-				column: {
-					stacking: "normal",
-					borderWidth: 0,
-					pointPadding: 0,
-					groupPadding: 0.15,
-				},
-			},
-			series: [
-				{
-					id:"ct_2_RT",
-					yAxis: "y-axis-rt",
-					data: [0, 105],
-				},
-				{
-					id:"ct_2_Potencia",
-					yAxis: "y-axis-potencia",
-					data: [132, 0],
-				},
-			],
-			exporting: {
-				enabled: false,
-			},
-		};
-		let vp = this.getValue('ct_2_Potencia')[1];
-		let vr = this.getValue('ct_2_RT')[1];
-		opt.series[0]['data'][1]=vr;
-		opt.series[1]['data'][0]=vp;
-
-		if(vp <= 10){
-			opt.colors[0]=  this.rojo;//ct_1_Potencia
-		}else if(vp > 10 && vp < 80){
-			opt.colors[0]=  this.amarillo;//ct_1_Potencia
-		}else if(vp >= 80){
-			opt.colors[0]=  this.verde;//ct_1_Potencia
-		}
-		if(vr < 1000){
-			opt.colors[1]=  this.rojo;
-		}else if(vr >= 1000){
-			opt.colors[1]=  this.verde;
-		}
-		this.chartDona_2 = Highcharts.chart(this.donaChart2.nativeElement, opt);
-	}
-	dona_2_modal() {		
-		if (this.donaChart2_modal_x != undefined) {
-			this.donaChart2_modal_x.destroy();
-			this.donaChart2_modal_x = undefined;
-		}
-		let opt: any = {
-			credits: {
-				enabled: false
-			},		
-			colors: ["#CD7F32","#ffffff"],
-
-			legend: {
-				enabled: false,
-			},
-			chart: {
-				type: "column",
-				inverted: true,
-				polar: true,
-				backgroundColor: {
-					linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
-					stops: [
-						[0, "#000"],
-						[1, "#000"],
-					],
-				},
-				style: {
-					fontFamily: "'Unica One', sans-serif",
-				},
-				plotBorderColor: "#606063",
-			},
-			title: {
-				text: "",
-			},
-			tooltip: {
-				outside: true,
-			},
-			pane: {
-				size: "80%",
-				innerSize: "50%",
-				endAngle: 270,
-			},
-			xAxis: {
-				gridLineColor: "#707073",
-
-				tickInterval: 1,
-				labels: {
-					align: "right",
-					useHTML: true,
-					allowOverlap: true,
-					step: 1,
-					y: 3,
-					style: {
-						fontSize: "13px",
-						color: "#fff",
-					},
-				},
-				lineWidth: 0,
-				categories: ['Potencia<span class="f16"><span id="flag" class="flag no">' + "</span></span>", 'RT<span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
-			},
-			yAxis: [{
-				id: "y-axis-rt",
-				offset: -20,
-				min:0,
-				max:14000,
-				crosshair: {
-					enabled: true,
-					color: "#333",
-				},
-				lineWidth: 0,
-				tickInterval: 1000,
-				reversedStacks: false,
-				endOnTick: true,
-				showLastLabel: true,
-				labels: {
-					enabled: true,
-					style: {
-						color: "#fff",
-					},
-				},
 			},{
-				id: "y-axis-potencia",
-				offset: 5,
+				id: "y-axis-rpm",
+				offset: 10,
 				min:0,
-				max:200, 
+				max:4150,
+                gridLineWidth: 0,
 				crosshair: {
 					enabled: true,
 					color: "#333",
@@ -1249,6 +1205,12 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					yAxis: "y-axis-potencia",
 					data: [132, 0],
 				},
+				{
+					id:"ct_2_RPM",
+					yAxis: "y-axis-rpm",
+					data: [0, 0, 1000],
+					name: '',
+				},
 			],
 			exporting: {
 				enabled: false,
@@ -1256,8 +1218,10 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		};
 		let vp = this.getValue('ct_2_Potencia')[1];
 		let vr = this.getValue('ct_2_RT')[1];
+		let vrpm = this.getValue('ct_2_RPM')[1];
 		opt.series[0]['data'][1]=vr;
 		opt.series[1]['data'][0]=vp;
+		opt.series[2]['data'][2]=vrpm;
 
 		if(vp <= 10){
 			opt.colors[0]=  this.rojo;//ct_1_Potencia
@@ -1271,6 +1235,204 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		}else if(vr >= 1000){
 			opt.colors[1]=  this.verde;
 		}
+		if(vrpm < 10){
+			opt.colors[2]=  this.rojo;
+		}else if(vrpm >= 10){
+			opt.colors[2]=  this.verde;
+		}
+		this.chartDona_2 = Highcharts.chart(this.donaChart2.nativeElement, opt);
+	}
+	dona_2_modal() {		
+		if (this.donaChart2_modal_x != undefined) {
+			this.donaChart2_modal_x.destroy();
+			this.donaChart2_modal_x = undefined;
+		}
+		let opt: any = {
+			credits: {
+				enabled: false
+			},		
+			colors: ["#CD7F32","#ffffff","#ffffff"],
+
+			legend: {
+				enabled: false,
+			},
+			chart: {
+				type: "column",
+				inverted: true,
+				polar: true,
+				backgroundColor: {
+					linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+					stops: [
+						[0, "#000"],
+						[1, "#000"],
+					],
+				},
+				style: {
+					fontFamily: "'Unica One', sans-serif",
+				},
+				plotBorderColor: "#606063",
+			},
+			title: {
+				text: "",
+			},
+			tooltip: {
+				backgroundColor: {
+					linearGradient: [0, 0, 0, 60],
+					stops: [
+						[0, '#FFFFFF'],
+						[1, '#E0E0E0']
+					]
+				},
+				borderWidth: 1,
+				borderColor: '#AAA'
+			},
+			pane: {
+				size: "80%",
+				innerSize: "50%",
+				endAngle: 270,
+			},
+			xAxis: {
+				gridLineColor: "#707073",
+
+				tickInterval: 1,
+				labels: {
+					align: "right",
+					useHTML: true,
+					allowOverlap: true,
+					step: 1,
+					y: 3,
+					style: {
+						fontSize: "13px",
+						color: "#fff",
+					},
+				},
+				lineWidth: 0,
+				categories: [
+					'<span class="f9">Potencia</span> <span class="f16"><span id="flag" class="flag no">' + "</span></span>"
+					,'<span class="f9">RT</span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"
+					,'<span class="f9">RPM</span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"
+				],
+			},
+			yAxis: [{
+				id: "y-axis-rt",
+				offset: -20,
+				min:0,
+				max:14000,
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 1000,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: true,
+					style: {
+						color: "#fff",
+					},
+				},
+			},{
+				id: "y-axis-potencia",
+				offset: -40,
+				min:0,
+				max:200,
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 25,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: true,
+					style: {
+						color: "#fff",
+					},
+				},
+			},{
+				id: "y-axis-rpm",
+				offset: 5,
+				min:0,
+				max:4150,
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 500,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: true,
+					style: {
+						color: "#fff",
+					},
+				},
+			}],
+			plotOptions: {
+				column: {
+					stacking: "normal",
+					borderWidth: 0,
+					pointPadding: 0,
+					groupPadding: 0.15,
+				},
+			},
+			series: [
+				{
+					id:"ct_2_RT",
+					yAxis: "y-axis-rt",
+					data: [0, 105],
+				},
+				{
+					id:"ct_2_Potencia",
+					yAxis: "y-axis-potencia",
+					data: [132, 0],
+				},
+				{
+					id:"ct_2_RPM",
+					yAxis: "y-axis-rpm",
+					data: [0, 0, 1000],
+					name: '',
+				},
+			],
+			exporting: {
+				enabled: true,
+				buttons: {
+					contextButton: {
+						menuItems: ['downloadPNG']
+					}
+				}
+			},
+		};
+		let vp = this.getValue('ct_2_Potencia')[1];
+		let vr = this.getValue('ct_2_RT')[1];
+		let vrpm = this.getValue('ct_2_RPM')[1];
+		opt.series[0]['data'][1]=vr;
+		opt.series[1]['data'][0]=vp;
+		opt.series[2]['data'][2]=vrpm;
+
+		if(vp <= 10){
+			opt.colors[0]=  this.rojo;//ct_1_Potencia
+		}else if(vp > 10 && vp < 80){
+			opt.colors[0]=  this.amarillo;//ct_1_Potencia
+		}else if(vp >= 80){
+			opt.colors[0]=  this.verde;//ct_1_Potencia
+		}
+		if(vr < 1000){
+			opt.colors[1]=  this.rojo;
+		}else if(vr >= 1000){
+			opt.colors[1]=  this.verde;
+		}
+		if(vrpm < 10){
+			opt.colors[2]=  this.rojo;
+		}else if(vrpm >= 10){
+			opt.colors[2]=  this.verde;
+		}
 		this.donaChart2_modal_x = Highcharts.chart(this.donaChart2_modal.nativeElement, opt);
 	}
 	dona_3() {		
@@ -1282,7 +1444,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			credits: {
 				enabled: false
 			},		
-			colors: ["#CD7F32","#ffffff"],
+			colors: ["#CD7F32","#ffffff","#ffffff"],
 
 			legend: {
 				enabled: false,
@@ -1307,9 +1469,18 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			title: {
 				text: "",
 			},
-			tooltip: {
-				outside: true,
-			},
+			
+    tooltip: {
+        backgroundColor: {
+            linearGradient: [0, 0, 0, 60],
+            stops: [
+                [0, '#FFFFFF'],
+                [1, '#E0E0E0']
+            ]
+        },
+        borderWidth: 1,
+        borderColor: '#AAA'
+    },
 			pane: {
 				size: "80%",
 				innerSize: "50%",
@@ -1331,7 +1502,11 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					},
 				},
 				lineWidth: 0,
-				categories: ['<span class="f9" style="font-size: 9px;">Potencia</span> <span class="f16"><span id="flag" class="flag no">' + "</span></span>", '<span class="f9" style="font-size: 9px;">RT</span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
+				categories: [
+					'<span class="f9" style="font-size: 9px;">Potencia</span> <span class="f16"><span id="flag" class="flag no">' + "</span></span>"
+					,'<span class="f9" style="font-size: 9px;">RT</span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"
+					,'<span class="f9" style="font-size: 6px;">RPM</span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"
+				],
 			},
 			yAxis: [{
 				id: "y-axis-rt",
@@ -1373,134 +1548,12 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 						color: "#fff",
 					},
 				},
-			}],
-			plotOptions: {
-				column: {
-					stacking: "normal",
-					borderWidth: 0,
-					pointPadding: 0,
-					groupPadding: 0.15,
-				},
-			},
-			series: [
-				{
-					id:"ct_3_RT",
-					yAxis: "y-axis-rt",
-					data: [0, 105],
-				},
-				{
-					id:"ct_3_Potencia",
-					yAxis: "y-axis-potencia",
-					data: [132, 0],
-				},
-			],
-			exporting: {
-				enabled: false,
-			},
-		};
-		let vp = this.getValue('ct_3_Potencia')[1];
-		let vr = this.getValue('ct_3_RT')[1];
-		opt.series[0]['data'][1]=vr;
-		opt.series[1]['data'][0]=vp;
-
-		if(vp <= 10){
-			opt.colors[0]=  this.rojo;//ct_1_Potencia
-		}else if(vp > 10 && vp < 80){
-			opt.colors[0]=  this.amarillo;//ct_1_Potencia
-		}else if(vp >= 80){
-			opt.colors[0]=  this.verde;//ct_1_Potencia
-		}
-		if(vr < 1000){
-			opt.colors[1]=  this.rojo;
-		}else if(vr >= 1000){
-			opt.colors[1]=  this.verde;
-		}
-		this.chartDona_3 = Highcharts.chart(this.donaChart3.nativeElement, opt);
-	}
-	dona_3_modal() {		
-		if (this.donaChart3_modal_x != undefined) {
-			this.donaChart3_modal_x.destroy();
-			this.donaChart3_modal_x = undefined;
-		}
-		let opt: any = {
-			credits: {
-				enabled: false
-			},		
-			colors: ["#CD7F32","#ffffff"],
-
-			legend: {
-				enabled: false,
-			},
-			chart: {
-				type: "column",
-				inverted: true,
-				polar: true,
-				backgroundColor: {
-					linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
-					stops: [
-						[0, "#000"],
-						[1, "#000"],
-					],
-				},
-				style: {
-					fontFamily: "'Unica One', sans-serif",
-				},
-				plotBorderColor: "#606063",
-			},
-			title: {
-				text: "",
-			},
-			tooltip: {
-				outside: true,
-			},
-			pane: {
-				size: "80%",
-				innerSize: "50%",
-				endAngle: 270,
-			},
-			xAxis: {
-				gridLineColor: "#707073",
-
-				tickInterval: 1,
-				labels: {
-					align: "right",
-					useHTML: true,
-					allowOverlap: true,
-					step: 1,
-					y: 3,
-					style: {
-						fontSize: "13px",
-						color: "#fff",
-					},
-				},
-				lineWidth: 0,
-				categories: ['Potencia<span class="f16"><span id="flag" class="flag no">' + "</span></span>", 'RT<span class="f16"><span id="flag" class="flag us">' + "</span></span>"],
-			},
-			yAxis: [{
-				id: "y-axis-rt",
-				offset: -20,
-				min:0,
-				max:14000,
-				crosshair: {
-					enabled: true,
-					color: "#333",
-				},
-				lineWidth: 0,
-				tickInterval: 1000,
-				reversedStacks: false,
-				endOnTick: true,
-				showLastLabel: true,
-				labels: {
-					enabled: true,
-					style: {
-						color: "#fff",
-					},
-				},
 			},{
-				id: "y-axis-potencia",
-				offset: 5,
+				id: "y-axis-rpm",
+				offset: 10,
 				min:0,
-				max:200, 
+				max:4150,
+                gridLineWidth: 0,
 				crosshair: {
 					enabled: true,
 					color: "#333",
@@ -1536,6 +1589,12 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 					yAxis: "y-axis-potencia",
 					data: [132, 0],
 				},
+				{
+					id:"ct_3_RPM",
+					yAxis: "y-axis-rpm",
+					data: [0, 0, 1000],
+					name: '',
+				},
 			],
 			exporting: {
 				enabled: false,
@@ -1543,8 +1602,10 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		};
 		let vp = this.getValue('ct_3_Potencia')[1];
 		let vr = this.getValue('ct_3_RT')[1];
+		let vrpm = this.getValue('ct_3_RPM')[1];
 		opt.series[0]['data'][1]=vr;
 		opt.series[1]['data'][0]=vp;
+		opt.series[2]['data'][2]=vrpm;
 
 		if(vp <= 10){
 			opt.colors[0]=  this.rojo;//ct_1_Potencia
@@ -1557,6 +1618,204 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			opt.colors[1]=  this.rojo;
 		}else if(vr >= 1000){
 			opt.colors[1]=  this.verde;
+		}
+		if(vrpm < 10){
+			opt.colors[2]=  this.rojo;
+		}else if(vrpm >= 10){
+			opt.colors[2]=  this.verde;
+		}
+		this.chartDona_3 = Highcharts.chart(this.donaChart3.nativeElement, opt);
+	}
+	dona_3_modal() {		
+		if (this.donaChart3_modal_x != undefined) {
+			this.donaChart3_modal_x.destroy();
+			this.donaChart3_modal_x = undefined;
+		}
+		let opt: any = {
+			credits: {
+				enabled: false
+			},		
+			colors: ["#CD7F32","#ffffff","#ffffff"],
+
+			legend: {
+				enabled: false,
+			},
+			chart: {
+				type: "column",
+				inverted: true,
+				polar: true,
+				backgroundColor: {
+					linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+					stops: [
+						[0, "#000"],
+						[1, "#000"],
+					],
+				},
+				style: {
+					fontFamily: "'Unica One', sans-serif",
+				},
+				plotBorderColor: "#606063",
+			},
+			title: {
+				text: "",
+			},
+			tooltip: {
+				backgroundColor: {
+					linearGradient: [0, 0, 0, 60],
+					stops: [
+						[0, '#FFFFFF'],
+						[1, '#E0E0E0']
+					]
+				},
+				borderWidth: 1,
+				borderColor: '#AAA'
+			},
+			pane: {
+				size: "80%",
+				innerSize: "50%",
+				endAngle: 270,
+			},
+			xAxis: {
+				gridLineColor: "#707073",
+
+				tickInterval: 1,
+				labels: {
+					align: "right",
+					useHTML: true,
+					allowOverlap: true,
+					step: 1,
+					y: 3,
+					style: {
+						fontSize: "13px",
+						color: "#fff",
+					},
+				},
+				lineWidth: 0,
+				categories: [
+					'<span class="f9">Potencia</span> <span class="f16"><span id="flag" class="flag no">' + "</span></span>"
+					,'<span class="f9">RT</span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"
+					,'<span class="f9">RPM</span><span class="f16"><span id="flag" class="flag us">' + "</span></span>"
+				],
+			},
+			yAxis: [{
+				id: "y-axis-rt",
+				offset: -20,
+				min:0,
+				max:14000,
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 1000,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: true,
+					style: {
+						color: "#fff",
+					},
+				},
+			},{
+				id: "y-axis-potencia",
+				offset: -40,
+				min:0,
+				max:200,
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 25,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: true,
+					style: {
+						color: "#fff",
+					},
+				},
+			},{
+				id: "y-axis-rpm",
+				offset: 5,
+				min:0,
+				max:4150,
+				crosshair: {
+					enabled: true,
+					color: "#333",
+				},
+				lineWidth: 0,
+				tickInterval: 500,
+				reversedStacks: false,
+				endOnTick: true,
+				showLastLabel: true,
+				labels: {
+					enabled: true,
+					style: {
+						color: "#fff",
+					},
+				},
+			}],
+			plotOptions: {
+				column: {
+					stacking: "normal",
+					borderWidth: 0,
+					pointPadding: 0,
+					groupPadding: 0.15,
+				},
+			},
+			series: [
+				{
+					id:"ct_3_RT",
+					yAxis: "y-axis-rt",
+					data: [0, 105],
+				},
+				{
+					id:"ct_3_Potencia",
+					yAxis: "y-axis-potencia",
+					data: [132, 0],
+				},
+				{
+					id:"ct_3_RPM",
+					yAxis: "y-axis-rpm",
+					data: [0, 0, 1000],
+					name: '',
+				},
+			],
+			exporting: {
+				enabled: true,
+				buttons: {
+					contextButton: {
+						menuItems: ['downloadPNG']
+					}
+				}
+			},
+		};
+		let vp = this.getValue('ct_3_Potencia')[1];
+		let vr = this.getValue('ct_3_RT')[1];
+		let vrpm = this.getValue('ct_3_RPM')[1];
+		opt.series[0]['data'][1]=vr;
+		opt.series[1]['data'][0]=vp;
+		opt.series[2]['data'][2]=vrpm;
+
+		if(vp <= 10){
+			opt.colors[0]=  this.rojo;//ct_1_Potencia
+		}else if(vp > 10 && vp < 80){
+			opt.colors[0]=  this.amarillo;//ct_1_Potencia
+		}else if(vp >= 80){
+			opt.colors[0]=  this.verde;//ct_1_Potencia
+		}
+		if(vr < 1000){
+			opt.colors[1]=  this.rojo;
+		}else if(vr >= 1000){
+			opt.colors[1]=  this.verde;
+		}
+		if(vrpm < 10){
+			opt.colors[2]=  this.rojo;
+		}else if(vrpm >= 10){
+			opt.colors[2]=  this.verde;
 		}
 		this.donaChart3_modal_x = Highcharts.chart(this.donaChart3_modal.nativeElement, opt);
 	}
@@ -1606,11 +1865,18 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			
 			let vp = this.getValue('ct_2_Potencia')[1];
 			let vr = this.getValue('ct_2_RT')[1];
+			let vrpm = this.getValue('ct_2_RPM')[1];
 			let opt = this.getColorChartDonas(vp,vr);
 			
+			if(vrpm < 10){
+				opt.colors[2]=  this.rojo;
+			}else if(vrpm >= 10){
+				opt.colors[2]=  this.verde;
+			}
 
 			this.chartDona_2.get('ct_2_RT').setData([0,vr],false,false);
 			this.chartDona_2.get('ct_2_Potencia').setData([vp,0],false,false);
+			this.chartDona_2.get('ct_2_RPM').setData([0,0,vrpm],false,false);
 			this.chartDona_2.update({
 				colors:opt.colors			
 			},false);
@@ -1622,11 +1888,18 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			
 			let vp = this.getValue('ct_3_Potencia')[1];
 			let vr = this.getValue('ct_3_RT')[1];
+			let vrpm = this.getValue('ct_3_RPM')[1];
 			let opt = this.getColorChartDonas(vp,vr);
 			
+			if(vrpm < 10){
+				opt.colors[2]=  this.rojo;
+			}else if(vrpm >= 10){
+				opt.colors[2]=  this.verde;
+			}
 
 			this.chartDona_3.get('ct_3_RT').setData([0,vr],false,false);
 			this.chartDona_3.get('ct_3_Potencia').setData([vp,0],false,false);
+			this.chartDona_3.get('ct_3_RPM').setData([0,0,vrpm],false,false);
 			this.chartDona_3.update({
 				colors:opt.colors			
 			},false);
@@ -1638,11 +1911,19 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		if(this.donaChart1_modal_x.get('ct_1_Potencia') && this.donaChart1_modal_x.get('ct_1_RT')){
 			let vp = this.getValue('ct_1_Potencia')[1];
 			let vr = this.getValue('ct_1_RT')[1];
+			let vrpm = this.getValue('ct_1_RPM')[1];
 			let opt = this.getColorChartDonas(vp,vr);
 			
 
+			if(vrpm < 10){
+				opt.colors[2]=  this.rojo;
+			}else if(vrpm >= 10){
+				opt.colors[2]=  this.verde;
+			}
+
 			this.donaChart1_modal_x.get('ct_1_RT').setData([0,vr],false,false);
 			this.donaChart1_modal_x.get('ct_1_Potencia').setData([vp,0],false,false);
+			this.donaChart1_modal_x.get('ct_1_RPM').setData([0,0,vrpm],false,false);
 			this.donaChart1_modal_x.update({
 				colors:opt.colors			
 			},false);
@@ -1655,11 +1936,19 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		if(this.donaChart2_modal_x.get('ct_2_Potencia') && this.donaChart2_modal_x.get('ct_2_RT')){
 			let vp = this.getValue('ct_2_Potencia')[1];
 			let vr = this.getValue('ct_2_RT')[1];
+			let vrpm = this.getValue('ct_2_RPM')[1];
 			let opt = this.getColorChartDonas(vp,vr);
 			
+			if(vrpm < 10){
+				opt.colors[2]=  this.rojo;
+			}else if(vrpm >= 10){
+				opt.colors[2]=  this.verde;
+			}
+
 
 			this.donaChart2_modal_x.get('ct_2_RT').setData([0,vr],false,false);
 			this.donaChart2_modal_x.get('ct_2_Potencia').setData([vp,0],false,false);
+			this.donaChart2_modal_x.get('ct_2_RPM').setData([0,0,vrpm],false,false);
 			this.donaChart2_modal_x.update({
 				colors:opt.colors			
 			},false);
@@ -1672,11 +1961,19 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			
 			let vp = this.getValue('ct_3_Potencia')[1];
 			let vr = this.getValue('ct_3_RT')[1];
+			let vrpm = this.getValue('ct_3_RPM')[1];
 			let opt = this.getColorChartDonas(vp,vr);
 			
+			if(vrpm < 10){
+				opt.colors[2]=  this.rojo;
+			}else if(vrpm >= 10){
+				opt.colors[2]=  this.verde;
+			}
+
 
 			this.donaChart3_modal_x.get('ct_3_RT').setData([0,vr],false,false);
 			this.donaChart3_modal_x.get('ct_3_Potencia').setData([vp,0],false,false);
+			this.donaChart3_modal_x.get('ct_3_RPM').setData([0,0,vrpm],false,false);
 			this.donaChart3_modal_x.update({
 				colors:opt.colors			
 			},false);

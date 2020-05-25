@@ -21,6 +21,7 @@ declare var $: any;
 export class InteractiveImageTurbineCT1Component extends MonitoringChartTR implements OnInit {
     @Input() timeCurrent;   //esto para reutilizar el del padre u no suscribirnos de nuevo 
     @Input() ct = "ii";
+    @Input() titulo = "";
     @ViewChild('chart_info')        chart_info        : ElementRef;
     @ViewChild('chartontheturbine') chartontheturbine : ElementRef;
 
@@ -50,7 +51,7 @@ export class InteractiveImageTurbineCT1Component extends MonitoringChartTR imple
     }
 
     ngOnInit() {
-        this.title  = this.ct;
+        this.title  = this.titulo;
         this.webIds = this.initializeAt0();
         if(this.webIds.length > 0){
             this.getStreamsetsInterpolatedLast24Hours(this.webIds);
