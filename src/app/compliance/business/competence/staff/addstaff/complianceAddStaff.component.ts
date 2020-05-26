@@ -373,7 +373,6 @@ export class ComplianceAddStaffComponent implements OnInit {
         }
         if (this.filterForm.controls['fJob'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
-                console.log(personal.puesto.toString())
                 return personal.puesto.toString().toUpperCase() === this.filterForm.controls['fJob'].value.toString().trimLeft().trimRight().toUpperCase() ? true : false;
             });
         }
