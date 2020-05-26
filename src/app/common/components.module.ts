@@ -31,6 +31,7 @@ import { BtnBlockAceptComponent } from './btn/btn-block/btn-block-acept.componen
 import { BtnBlockFinishComponent } from './btn/btn-block/btn-block-finish.component';
 import { BtnBlockSaveUpdateComponent } from './btn/btn-block/btn-block-save-update.component';
 import { BtnBlockSaveComponent } from './btn/btn-block/btn-block-save.component';
+import { MatInputTextAutocompleteComponent } from './inputs/mat-input-text-autocomplete/mat-input-text-autocomplete.component';
 
 @NgModule({
 	declarations: [
@@ -49,6 +50,7 @@ import { BtnBlockSaveComponent } from './btn/btn-block/btn-block-save.component'
 		, BtnBlockFinishComponent
 		, BtnBlockSaveUpdateComponent
 		, BtnBlockSaveComponent
+		, MatInputTextAutocompleteComponent
 	],
 	exports: [
 		 ProgressComponent
@@ -66,6 +68,7 @@ import { BtnBlockSaveComponent } from './btn/btn-block/btn-block-save.component'
 		, BtnBlockFinishComponent
 		, BtnBlockSaveUpdateComponent
 		, BtnBlockSaveComponent
+		, MatInputTextAutocompleteComponent
 
 	],
 	imports: [

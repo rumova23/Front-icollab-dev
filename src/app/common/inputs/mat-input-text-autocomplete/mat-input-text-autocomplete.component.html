@@ -1,0 +1,11 @@
+<!--div class="form-group">
+	<label>Numero de Empleado</label>
+	<mat-form-field class="form-control w-100">
+		<input type="text" matInput formControlName="fEmpNum" [matAutocomplete]="auto" [appTrimContent]="false">
+		<mat-autocomplete #auto="matAutocomplete">
+			<mat-option *ngFor="let option of options | async" [value]="option">
+				{{option}}
+			</mat-option>
+		</mat-autocomplete>
+	</mat-form-field>
+</div-->
