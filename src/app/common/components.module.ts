@@ -23,6 +23,7 @@ import { BlockUIModule } from 'ng-block-ui';
 import { Constants } from '../core/globals/Constants';
 import { ConfirmationDialogComponent } from './confirmationDialog/confirmationDialog.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { BtnBlockComponent } from './btn-block/btn-block.component';
 
 @NgModule({
 	declarations: [
@@ -32,7 +33,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 		,BreadcrumbsComponent
 		,ChangePasswordComponent
 		,ConfirmationDialogComponent
-		,CalendarComponent
+		,CalendarComponent, BtnBlockComponent
 	],
 	exports: [
 		 ProgressComponent
@@ -42,6 +43,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 		,ChangePasswordComponent
 		,ConfirmationDialogComponent
 		,CalendarComponent
+		,BtnBlockComponent
 
 	],
 	imports: [

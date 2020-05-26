@@ -247,6 +247,7 @@ export class SharedSidebarMenuComponent {
 
     }
     hardcodemockUp() {
+        /*
         this.menu = [
             
             { id: "1", idFather: "", icon: "",url:"", label: "planned-powers-ppa" },
@@ -265,6 +266,12 @@ export class SharedSidebarMenuComponent {
             { id: "1", idFather: "", icon: "",url:"", label: "Potencias Planeadas del PPA por hora y por día y Potencia Planeada Máxima Real DemostradaG" },
             { id: "1", idFather: "", icon: "",url:"", label: "Importación" },
             { id: "1", idFather: "", icon: "",url:"", label: "planned-powers-ppa-" }
+    
+        ];//*/
+        
+        this.menu = [
+            
+            { id: "1", idFather: "", icon: "view_quilt",url:"Components", label: "Components" },
     
         ];
     }

@@ -3,7 +3,7 @@ import { MockUpHomeComponent } from './home/mockUpHome.component';
 
 const mockUpRoutes:Routes = [
     {
-        path: 'Link-MockUp', component: MockUpHomeComponent, pathMatch: 'full',
+        path: 'MockUp', component: MockUpHomeComponent, pathMatch: 'full',
         data: {
             app: 'Mock_Up'
         }
