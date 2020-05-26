@@ -50,7 +50,7 @@
                        matInput
                        formControlName="fNames" 
                        [matAutocomplete]="auto_fNames"
-                       [appTrimContent]="true">
+                       [appTrimContent]="false">
                 <mat-autocomplete #auto_fNames="matAutocomplete">
                   <mat-option *ngFor="let option of filteredfNames | async" [value]="option">
                     {{option}}
