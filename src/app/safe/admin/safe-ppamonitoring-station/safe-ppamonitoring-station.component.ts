@@ -182,6 +182,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	typeVarhtml: any;
 	idYAxis=[];
 	manualImport=false;
+	maxDate: Date;
 	constructor(
 		public globalService: GlobalService,
 		private fb: FormBuilder,
@@ -236,6 +237,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.maxDate = new Date(new Date().getFullYear(), (new Date().getMonth() - 1 ));
 		this.existsLoad = true;
 		this.buttonExists = true;
 		this.ppaMonitoringFormatService.getCatalogoOpcion('Etapa Tag', '001').subscribe(

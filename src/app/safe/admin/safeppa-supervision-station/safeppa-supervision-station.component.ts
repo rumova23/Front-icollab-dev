@@ -208,6 +208,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 	isDetected: boolean;
 	buttonCorrected: boolean;
 	isCorrected: boolean;
+	maxDate: Date;
 	constructor(
 		private eventService: EventService,
 		private toastr: ToastrManager,
@@ -215,6 +216,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		private confirmationDialogService: ConfirmationDialogService) { }
 
 	ngOnInit() {
+		this.maxDate = new Date(new Date().getFullYear(), (new Date().getMonth() - 1 ));
 		this.buttonDetected = true;
 		this.buttonCorrected = true;
 		this.setColumnsToDisplay();

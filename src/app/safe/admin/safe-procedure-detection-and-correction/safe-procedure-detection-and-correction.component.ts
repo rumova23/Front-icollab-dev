@@ -41,6 +41,7 @@ export class SafeProcedureDetectionAndCorrectionComponent implements OnInit {
 	isDetected: boolean;
 	buttonCorrected: boolean;
 	isCorrected: boolean;
+	maxDate: Date;
 	constructor(
 		public globalService: GlobalService,
 		public eventService: EventService,
@@ -49,6 +50,7 @@ export class SafeProcedureDetectionAndCorrectionComponent implements OnInit {
 		private confirmationDialogService: ConfirmationDialogService) { }
 
 	ngOnInit() {
+		this.maxDate = new Date(new Date().getFullYear(), (new Date().getMonth() - 1 ));
 		this.buttonDetected = true;
 		this.buttonCorrected = true;
 	}
