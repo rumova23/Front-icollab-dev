@@ -1,3 +1,19 @@
-<p>
-  safe-mm-out-of-line works!
-</p>
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Data Quality" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "Supervision Station" | translate }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+<div class="section">
+	<div class="row">
+		<div class="col-4">
+			<app-mat-input-datepicker-year-and-month (eventChange)="chosenMonthHandler($event)" [label]="'Fecha de Operación Comercial'"></app-mat-input-datepicker-year-and-month>
+
+		</div>
+	</div>
+</div>

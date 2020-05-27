@@ -32,6 +32,7 @@ import { BtnBlockFinishComponent } from './btn/btn-block/btn-block-finish.compon
 import { BtnBlockSaveUpdateComponent } from './btn/btn-block/btn-block-save-update.component';
 import { BtnBlockSaveComponent } from './btn/btn-block/btn-block-save.component';
 import { MatInputTextAutocompleteComponent } from './inputs/mat-input-text-autocomplete/mat-input-text-autocomplete.component';
+import { MatInputDatepickerYearAndMonthComponent } from './inputs/mat-input-datepicker-year-and-month/mat-input-datepicker-year-and-month.component';
 
 @NgModule({
 	declarations: [
@@ -50,7 +51,7 @@ import { MatInputTextAutocompleteComponent } from './inputs/mat-input-text-autoc
 		, BtnBlockFinishComponent
 		, BtnBlockSaveUpdateComponent
 		, BtnBlockSaveComponent
-		, MatInputTextAutocompleteComponent
+		, MatInputTextAutocompleteComponent, MatInputDatepickerYearAndMonthComponent
 	],
 	exports: [
 		 ProgressComponent
@@ -69,6 +70,7 @@ import { MatInputTextAutocompleteComponent } from './inputs/mat-input-text-autoc
 		, BtnBlockSaveUpdateComponent
 		, BtnBlockSaveComponent
 		, MatInputTextAutocompleteComponent
+		, MatInputDatepickerYearAndMonthComponent
 
 	],
 	imports: [
