@@ -23,7 +23,15 @@ import { BlockUIModule } from 'ng-block-ui';
 import { Constants } from '../core/globals/Constants';
 import { ConfirmationDialogComponent } from './confirmationDialog/confirmationDialog.component';
 import { CalendarComponent } from './calendar/calendar.component';
-import { BtnBlockComponent } from './btn-block/btn-block.component';
+import { BtnBlockComponent } from './btn/btn-block/btn-block.component';
+import { BtnBlockDownloadComponent } from './btn/btn-block/btn-block-download.component';
+import { BtnBlockImportComponent } from './btn/btn-block/btn-block-import.component';
+import { BtnBlockCancelComponent } from './btn/btn-block/btn-block-cancel.component';
+import { BtnBlockAceptComponent } from './btn/btn-block/btn-block-acept.component';
+import { BtnBlockFinishComponent } from './btn/btn-block/btn-block-finish.component';
+import { BtnBlockSaveUpdateComponent } from './btn/btn-block/btn-block-save-update.component';
+import { BtnBlockSaveComponent } from './btn/btn-block/btn-block-save.component';
+import { MatInputTextAutocompleteComponent } from './inputs/mat-input-text-autocomplete/mat-input-text-autocomplete.component';
 
 @NgModule({
 	declarations: [
@@ -33,7 +41,16 @@ import { BtnBlockComponent } from './btn-block/btn-block.component';
 		,BreadcrumbsComponent
 		,ChangePasswordComponent
 		,ConfirmationDialogComponent
-		,CalendarComponent, BtnBlockComponent
+		,CalendarComponent
+		, BtnBlockComponent
+		, BtnBlockDownloadComponent
+		, BtnBlockImportComponent
+		, BtnBlockCancelComponent
+		, BtnBlockAceptComponent
+		, BtnBlockFinishComponent
+		, BtnBlockSaveUpdateComponent
+		, BtnBlockSaveComponent
+		, MatInputTextAutocompleteComponent
 	],
 	exports: [
 		 ProgressComponent
@@ -44,6 +61,14 @@ import { BtnBlockComponent } from './btn-block/btn-block.component';
 		,ConfirmationDialogComponent
 		,CalendarComponent
 		,BtnBlockComponent
+		,BtnBlockDownloadComponent
+		,BtnBlockImportComponent
+		, BtnBlockCancelComponent
+		, BtnBlockAceptComponent
+		, BtnBlockFinishComponent
+		, BtnBlockSaveUpdateComponent
+		, BtnBlockSaveComponent
+		, MatInputTextAutocompleteComponent
 
 	],
 	imports: [

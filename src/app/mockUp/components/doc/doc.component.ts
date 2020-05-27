@@ -11,5 +11,8 @@ export class DocComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  tester(){
+    console.log("evento click");
+    
+  }
 }
