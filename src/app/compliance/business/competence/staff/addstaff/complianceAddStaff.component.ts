@@ -192,13 +192,13 @@ export class ComplianceAddStaffComponent implements OnInit {
         this.initAutoComplete();
     }
     initAutoComplete() {
-        this.filteredfEmpNum      = this.filterForm.get('fEmpNum'    ).valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.numEmpleado   ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
-        this.filteredfNames       = this.filterForm.get('fNames'     ).valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.nombre        ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
-        this.filteredfLastName    = this.filterForm.get('fLastName'  ).valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.apPaterno     ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
-        this.filteredfSecondName  = this.filterForm.get('fSecondName').valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.apMaterno     ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
-        this.filteredfPosition    = this.filterForm.get('fPosition'  ).valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.posicion      ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
-        this.filteredfDepto       = this.filterForm.get('fDepto'     ).valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.departamento  ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
-        this.filteredfJob         = this.filterForm.get('fJob'       ).valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.lugarDeTrabajo).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().includes(value.toLowerCase()))));
+        this.filteredfEmpNum      = this.filterForm.get('fEmpNum'    ).valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.numEmpleado.toLowerCase()   ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
+        this.filteredfNames       = this.filterForm.get('fNames'     ).valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.nombre.toLowerCase()        ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
+        this.filteredfLastName    = this.filterForm.get('fLastName'  ).valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.apPaterno.toLowerCase()     ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
+        this.filteredfSecondName  = this.filterForm.get('fSecondName').valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.apMaterno.toLowerCase()     ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
+        this.filteredfPosition    = this.filterForm.get('fPosition'  ).valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.posicion.toLowerCase()      ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
+        this.filteredfDepto       = this.filterForm.get('fDepto'     ).valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.departamento.toLowerCase()  ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
+        this.filteredfJob         = this.filterForm.get('fJob'       ).valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.puesto.toLowerCase()        ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
     }
     cargaTabla() {
         this.elementData = [];
@@ -334,7 +334,7 @@ export class ComplianceAddStaffComponent implements OnInit {
 
         if (this.filterForm.controls['fEmpNum'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
-                return personal.numEmpleado.toString() === this.filterForm.controls['fEmpNum'].value.toString().trimLeft().trimRight() ? true : false;
+                return personal.numEmpleado.toString().toUpperCase() === this.filterForm.controls['fEmpNum'].value.toString().trimLeft().trimRight().toUpperCase() ? true : false;
             });
             if (typeCondition === 'OR') {
                 resultElements = resultElements.concat(arrayElements);
@@ -363,18 +363,17 @@ export class ComplianceAddStaffComponent implements OnInit {
         if (this.filterForm.controls['fPosition'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
                 console.log(personal.posicion.toString())
-                return personal.posicion.toString() === this.filterForm.controls['fPosition'].value.toString().trimLeft().trimRight() ? true : false;
+                return personal.posicion.toString().toUpperCase() === this.filterForm.controls['fPosition'].value.toString().trimLeft().trimRight().toUpperCase() ? true : false;
             });
         }
         if (this.filterForm.controls['fDepto'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
-                return personal.departamento.toString() === this.filterForm.controls['fDepto'].value.toString().trimLeft().trimRight() ? true : false;
+                return personal.departamento.toString().toUpperCase() === this.filterForm.controls['fDepto'].value.toString().trimLeft().trimRight().toUpperCase() ? true : false;
             });
         }
         if (this.filterForm.controls['fJob'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
-                console.log(personal.lugarDeTrabajo.toString())
-                return personal.lugarDeTrabajo.toString() === this.filterForm.controls['fJob'].value.toString().trimLeft().trimRight() ? true : false;
+                return personal.puesto.toString().toUpperCase() === this.filterForm.controls['fJob'].value.toString().trimLeft().trimRight().toUpperCase() ? true : false;
             });
         }
         if (this.filterForm.controls['fEst'].value !== '') {
@@ -392,7 +391,7 @@ export class ComplianceAddStaffComponent implements OnInit {
             arrayElements = arrayElements.filter(personal => {
                 if (personal.generoId === null) {
                     return false;
-                } else if (this.filterForm.controls['fGender'].value === personal.generoId.toString()) {
+                } else if (this.filterForm.controls['fGender'].value.toUpperCase() === personal.generoId.toString().toUpperCase()) {
                     return true;
                 }
             });
@@ -401,7 +400,7 @@ export class ComplianceAddStaffComponent implements OnInit {
             arrayElements = arrayElements.filter(personal => {
                 if (personal.lugarDeTrabajoId === null) {
                     return false;
-                } else if (this.filterForm.controls['fPlaceWork'].value === personal.lugarDeTrabajoId.toString()) {
+                } else if (this.filterForm.controls['fPlaceWork'].value.toUpperCase() === personal.lugarDeTrabajoId.toString().toUpperCase()) {
                     return true;
                 }
             });

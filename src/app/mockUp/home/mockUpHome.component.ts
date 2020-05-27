@@ -23,6 +23,7 @@ import { PlannedPowersPPAIComponent } from 'src/app/safe/business/mdaPlanningPro
 import { ThemeService } from 'src/app/core/globals/theme';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { Subscription } from 'rxjs';
+import { DocComponent } from '../components/doc/doc.component';
 @Component({
   selector: 'app-mockUpHome',
   templateUrl: './mockUpHome.component.html',
@@ -32,6 +33,7 @@ import { Subscription } from 'rxjs';
     LegalAgreementComponent, SafeNewEventComponent,DashboardAComponent,SalesOffersV2Component
     ,PlannedPowersPpaBComponent,PlannedPowersPpaCComponent,PlannedPowersPPADComponent,PlannedPowersPPAEComponent
     ,PlannedPowersPPAFComponent, PlannedPowersPPAGComponent,PlannedPowersPPAHComponent,PlannedPowersPPAIComponent
+    ,DocComponent
   ]
 })
 export class MockUpHomeComponent implements OnInit {
@@ -49,7 +51,6 @@ export class MockUpHomeComponent implements OnInit {
     private securityService: SecurityService,
     private eventService: EventService) {
 
-      
     try{
 			this.theme.setApp("Mock_Up");
 			if(this.globalService.plant == undefined) this.globalService.plant = this.securityService.loadPlants()[0];// para dev ya que no entro por el home
@@ -74,6 +75,10 @@ export class MockUpHomeComponent implements OnInit {
 			next: (event: EventMessage) => {
         this.viewContainerRef.clear();
 				switch (event.data.label) {
+          
+          case 'Components':
+              this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(DocComponent)).changeDetectorRef.detectChanges();
+              break;
           case 'Link-MockUp':
               this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(PlannedPowersPPAComponent)).changeDetectorRef.detectChanges();
               break;

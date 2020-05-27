@@ -50,7 +50,7 @@
                        matInput
                        formControlName="fNames" 
                        [matAutocomplete]="auto_fNames"
-                       [appTrimContent]="true">
+                       [appTrimContent]="false">
                 <mat-autocomplete #auto_fNames="matAutocomplete">
                   <mat-option *ngFor="let option of filteredfNames | async" [value]="option">
                     {{option}}
@@ -238,7 +238,6 @@
   <div class="row mb-3 mt-3">
     <div class="col text-right">
       <button type="button" class="btn"
-              [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
               (click)="action(0, 'guardar')">
         <mdb-icon fas icon="plus"></mdb-icon>&nbsp;Agregar
       </button>

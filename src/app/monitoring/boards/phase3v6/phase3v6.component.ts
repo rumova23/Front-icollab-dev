@@ -549,6 +549,17 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			tooltip: {
 				headerFormat: "<b>{series.name}</b><br/>",
 				pointFormat: "{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}",
+				borderWidth: 0,
+				backgroundColor: {
+					linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+					stops: [
+						[0, 'rgba(96, 96, 96, .8)'],
+						[1, 'rgba(16, 16, 16, .8)']
+					]
+				},
+				style: {
+					color: '#FFF'
+				}
 			},
 
 			legend: {
@@ -638,9 +649,9 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		let cl = "";
 		let v = this.getValue(key)[1];
 		if(["ct_1_RT","ct_2_RT","ct_3_RT"].includes(key)){
-			if(v >= 10000 ) cl = 'icon-verde';
-			if(v > 10001 && v < 10100 ) cl = 'icon-amarillo';
-			if(v <  10101 ) cl = 'icon-rojo';
+			if(v <= 10000 ) cl = 'icon-verde';
+			if(v > 10000 && v < 10100 ) cl = 'icon-amarillo';
+			if(v >=  10100 ) cl = 'icon-rojo';
 		}else if(["ct_1_Potencia","ct_2_Potencia","ct_3_Potencia"].includes(key)){
 			if(v <= 10 ) cl = 'icon-rojo';
 			if(v > 10 && v < 100) cl = 'icon-amarillo';
@@ -655,8 +666,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			if(v >= 25000) cl = 'icon-verde';
 		}else if(["ct_1_RPM","ct_2_RPM","ct_3_RPM"].includes(key)){			
 			if(v <= 3200 ) cl = 'icon-rojo';
-			if(v >= 3200 && v <= 3500) cl = 'icon-amarillo';
-			if(v > 3500) cl = 'icon-verde';
+			if(v > 3200 && v < 3500) cl = 'icon-amarillo';
+			if(v >= 3500) cl = 'icon-verde';
 		}
 		
 		return cl;
@@ -697,17 +708,19 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				text: "",
 			},
 			
-    tooltip: {
-        backgroundColor: {
-            linearGradient: [0, 0, 0, 60],
-            stops: [
-                [0, '#FFFFFF'],
-                [1, '#E0E0E0']
-            ]
-        },
-        borderWidth: 1,
-        borderColor: '#AAA'
-    },
+			tooltip: {
+				borderWidth: 0,
+				backgroundColor: {
+					linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+					stops: [
+						[0, 'rgba(96, 96, 96, .8)'],
+						[1, 'rgba(16, 16, 16, .8)']
+					]
+				},
+				style: {
+					color: '#FFF'
+				}
+			},
 			pane: {
 				size: "80%",
 				innerSize: "50%",
@@ -809,13 +822,13 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				{
 					id:"ct_1_RT",
 					yAxis: "y-axis-rt",
-					data: [0, 105],
+					data: [0, 105,0],
 					name: '',
 				},
 				{
 					id:"ct_1_Potencia",
 					yAxis: "y-axis-potencia",
-					data: [132, 0],
+					data: [132, 0,0],
 					name: '',
 				},
 				{
@@ -836,23 +849,7 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		opt.series[1]['data'][0]=vp;
 		opt.series[2]['data'][2]=vrpm;
 
-		if(vp <= 10){
-			opt.colors[0]=  this.rojo;//ct_1_Potencia
-		}else if(vp > 10 && vp < 80){
-			opt.colors[0]=  this.amarillo;//ct_1_Potencia
-		}else if(vp >= 80){
-			opt.colors[0]=  this.verde;//ct_1_Potencia
-		}
-		if(vr < 1000){
-			opt.colors[1]=  this.rojo;
-		}else if(vr >= 1000){
-			opt.colors[1]=  this.verde;
-		}
-		if(vrpm < 10){
-			opt.colors[2]=  this.rojo;
-		}else if(vrpm >= 10){
-			opt.colors[2]=  this.verde;
-		}
+		opt.colors = this.getColorChartDonas(vp,vr,vrpm).colors;
 		this.chartDona_1 = Highcharts.chart(this.donaChart1.nativeElement, opt);
 	}
 	
@@ -890,15 +887,17 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				text: "",
 			},
 			tooltip: {
+				borderWidth: 0,
 				backgroundColor: {
-					linearGradient: [0, 0, 0, 60],
+					linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
 					stops: [
-						[0, '#FFFFFF'],
-						[1, '#E0E0E0']
+						[0, 'rgba(96, 96, 96, .8)'],
+						[1, 'rgba(16, 16, 16, .8)']
 					]
 				},
-				borderWidth: 1,
-				borderColor: '#AAA'
+				style: {
+					color: '#FFF'
+				}
 			},
 			pane: {
 				size: "80%",
@@ -1032,23 +1031,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		opt.series[1]['data'][0]=vp;
 		opt.series[2]['data'][2]=vrpm;
 
-		if(vp <= 10){
-			opt.colors[0]=  this.rojo;//ct_1_Potencia
-		}else if(vp > 10 && vp < 80){
-			opt.colors[0]=  this.amarillo;//ct_1_Potencia
-		}else if(vp >= 80){
-			opt.colors[0]=  this.verde;//ct_1_Potencia
-		}
-		if(vr < 1000){
-			opt.colors[1]=  this.rojo;
-		}else if(vr >= 1000){
-			opt.colors[1]=  this.verde;
-		}
-		if(vrpm < 10){
-			opt.colors[2]=  this.rojo;
-		}else if(vrpm >= 10){
-			opt.colors[2]=  this.verde;
-		}
+		
+		opt.colors = this.getColorChartDonas(vp,vr,vrpm).colors;
 		this.donaChart1_modal_x = Highcharts.chart(this.donaChart1_modal.nativeElement, opt);
 	}
 	dona_2() {		
@@ -1087,15 +1071,17 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			},
 			
 			tooltip: {
+				borderWidth: 0,
 				backgroundColor: {
-					linearGradient: [0, 0, 0, 60],
+					linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
 					stops: [
-						[0, '#FFFFFF'],
-						[1, '#E0E0E0']
+						[0, 'rgba(96, 96, 96, .8)'],
+						[1, 'rgba(16, 16, 16, .8)']
 					]
 				},
-				borderWidth: 1,
-				borderColor: '#AAA'
+				style: {
+					color: '#FFF'
+				}
 			},
 			pane: {
 				size: "80%",
@@ -1223,23 +1209,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		opt.series[1]['data'][0]=vp;
 		opt.series[2]['data'][2]=vrpm;
 
-		if(vp <= 10){
-			opt.colors[0]=  this.rojo;//ct_1_Potencia
-		}else if(vp > 10 && vp < 80){
-			opt.colors[0]=  this.amarillo;//ct_1_Potencia
-		}else if(vp >= 80){
-			opt.colors[0]=  this.verde;//ct_1_Potencia
-		}
-		if(vr < 1000){
-			opt.colors[1]=  this.rojo;
-		}else if(vr >= 1000){
-			opt.colors[1]=  this.verde;
-		}
-		if(vrpm < 10){
-			opt.colors[2]=  this.rojo;
-		}else if(vrpm >= 10){
-			opt.colors[2]=  this.verde;
-		}
+		
+		opt.colors = this.getColorChartDonas(vp,vr,vrpm).colors;
 		this.chartDona_2 = Highcharts.chart(this.donaChart2.nativeElement, opt);
 	}
 	dona_2_modal() {		
@@ -1276,15 +1247,17 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				text: "",
 			},
 			tooltip: {
+				borderWidth: 0,
 				backgroundColor: {
-					linearGradient: [0, 0, 0, 60],
+					linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
 					stops: [
-						[0, '#FFFFFF'],
-						[1, '#E0E0E0']
+						[0, 'rgba(96, 96, 96, .8)'],
+						[1, 'rgba(16, 16, 16, .8)']
 					]
 				},
-				borderWidth: 1,
-				borderColor: '#AAA'
+				style: {
+					color: '#FFF'
+				}
 			},
 			pane: {
 				size: "80%",
@@ -1416,23 +1389,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		opt.series[1]['data'][0]=vp;
 		opt.series[2]['data'][2]=vrpm;
 
-		if(vp <= 10){
-			opt.colors[0]=  this.rojo;//ct_1_Potencia
-		}else if(vp > 10 && vp < 80){
-			opt.colors[0]=  this.amarillo;//ct_1_Potencia
-		}else if(vp >= 80){
-			opt.colors[0]=  this.verde;//ct_1_Potencia
-		}
-		if(vr < 1000){
-			opt.colors[1]=  this.rojo;
-		}else if(vr >= 1000){
-			opt.colors[1]=  this.verde;
-		}
-		if(vrpm < 10){
-			opt.colors[2]=  this.rojo;
-		}else if(vrpm >= 10){
-			opt.colors[2]=  this.verde;
-		}
+		
+		opt.colors = this.getColorChartDonas(vp,vr,vrpm).colors;
 		this.donaChart2_modal_x = Highcharts.chart(this.donaChart2_modal.nativeElement, opt);
 	}
 	dona_3() {		
@@ -1470,17 +1428,19 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				text: "",
 			},
 			
-    tooltip: {
-        backgroundColor: {
-            linearGradient: [0, 0, 0, 60],
-            stops: [
-                [0, '#FFFFFF'],
-                [1, '#E0E0E0']
-            ]
-        },
-        borderWidth: 1,
-        borderColor: '#AAA'
-    },
+			tooltip: {
+				borderWidth: 0,
+				backgroundColor: {
+					linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+					stops: [
+						[0, 'rgba(96, 96, 96, .8)'],
+						[1, 'rgba(16, 16, 16, .8)']
+					]
+				},
+				style: {
+					color: '#FFF'
+				}
+			},
 			pane: {
 				size: "80%",
 				innerSize: "50%",
@@ -1607,23 +1567,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		opt.series[1]['data'][0]=vp;
 		opt.series[2]['data'][2]=vrpm;
 
-		if(vp <= 10){
-			opt.colors[0]=  this.rojo;//ct_1_Potencia
-		}else if(vp > 10 && vp < 80){
-			opt.colors[0]=  this.amarillo;//ct_1_Potencia
-		}else if(vp >= 80){
-			opt.colors[0]=  this.verde;//ct_1_Potencia
-		}
-		if(vr < 1000){
-			opt.colors[1]=  this.rojo;
-		}else if(vr >= 1000){
-			opt.colors[1]=  this.verde;
-		}
-		if(vrpm < 10){
-			opt.colors[2]=  this.rojo;
-		}else if(vrpm >= 10){
-			opt.colors[2]=  this.verde;
-		}
+		
+		opt.colors = this.getColorChartDonas(vp,vr,vrpm).colors;
 		this.chartDona_3 = Highcharts.chart(this.donaChart3.nativeElement, opt);
 	}
 	dona_3_modal() {		
@@ -1660,15 +1605,17 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 				text: "",
 			},
 			tooltip: {
+				borderWidth: 0,
 				backgroundColor: {
-					linearGradient: [0, 0, 0, 60],
+					linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
 					stops: [
-						[0, '#FFFFFF'],
-						[1, '#E0E0E0']
+						[0, 'rgba(96, 96, 96, .8)'],
+						[1, 'rgba(16, 16, 16, .8)']
 					]
 				},
-				borderWidth: 1,
-				borderColor: '#AAA'
+				style: {
+					color: '#FFF'
+				}
 			},
 			pane: {
 				size: "80%",
@@ -1800,41 +1747,41 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		opt.series[1]['data'][0]=vp;
 		opt.series[2]['data'][2]=vrpm;
 
-		if(vp <= 10){
-			opt.colors[0]=  this.rojo;//ct_1_Potencia
-		}else if(vp > 10 && vp < 80){
-			opt.colors[0]=  this.amarillo;//ct_1_Potencia
-		}else if(vp >= 80){
-			opt.colors[0]=  this.verde;//ct_1_Potencia
-		}
-		if(vr < 1000){
-			opt.colors[1]=  this.rojo;
-		}else if(vr >= 1000){
-			opt.colors[1]=  this.verde;
-		}
-		if(vrpm < 10){
-			opt.colors[2]=  this.rojo;
-		}else if(vrpm >= 10){
-			opt.colors[2]=  this.verde;
-		}
+		
+		opt.colors = this.getColorChartDonas(vp,vr,vrpm).colors;
 		this.donaChart3_modal_x = Highcharts.chart(this.donaChart3_modal.nativeElement, opt);
 	}
-	getColorChartDonas(vp,vr){
+	getColorChartDonas(vp,vr,vrpm){
 		let opt = {
 			colors:["","",""]
 		}
+		/*
+		opt.colors[0]=  this.rojo;  //rt
+		opt.colors[1]=  this.amarillo;//potencia
+		opt.colors[2]=  this.verde;  //rpm
+		//*/
+
 		if(vp <= 10){
-			opt.colors[0]=  this.rojo;//ct_1_Potencia
-		}else if(vp > 10 && vp < 80){
-			opt.colors[0]=  this.amarillo;//ct_1_Potencia
-		}else if(vp >= 80){
-			opt.colors[0]=  this.verde;//ct_1_Potencia
+			opt.colors[1]=  this.rojo;//ct_1_Potencia
+		}else if(vp > 10 && vp < 100){
+			opt.colors[1]=  this.amarillo;//ct_1_Potencia
+		}else if(vp >= 100){
+			opt.colors[1]=  this.verde;//ct_1_Potencia
 		}
-		if(vr < 1000){
-			opt.colors[1]=  this.rojo;
-		}else if(vr >= 1000){
-			opt.colors[1]=  this.verde;
+		if(vr <= 10000){
+			opt.colors[0]=  this.verde;
+		}else if(vr > 10000 && vr < 10100){
+			opt.colors[0]=  this.amarillo;
+		}else if(vr >= 10100){
+			opt.colors[0]=  this.rojo;
 		}
+		if(vrpm <= 3200){
+			opt.colors[2]=  this.rojo;
+		}else if(vrpm > 3200 && vrpm < 3500){
+			opt.colors[2]=  this.amarillo;
+		}else if(vrpm >= 3500){
+			opt.colors[2]=  this.verde;
+		}//*/
 		return opt;
 	}
 	dona_1_update(){
@@ -1842,16 +1789,11 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			let vp = this.getValue('ct_1_Potencia')[1];
 			let vr = this.getValue('ct_1_RT')[1];
 			let vrpm = this.getValue('ct_1_RPM')[1];
-			let opt = this.getColorChartDonas(vp,vr);
+			let opt = this.getColorChartDonas(vp,vr,vrpm);
 			
-			if(vrpm < 10){
-				opt.colors[2]=  this.rojo;
-			}else if(vrpm >= 10){
-				opt.colors[2]=  this.verde;
-			}
 
-			this.chartDona_1.get('ct_1_RT').setData([0,vr],false,false);
-			this.chartDona_1.get('ct_1_Potencia').setData([vp,0],false,false);
+			this.chartDona_1.get('ct_1_Potencia').setData([vp,0,0],false,false);
+			this.chartDona_1.get('ct_1_RT').setData([0,vr,0],false,false);
 			this.chartDona_1.get('ct_1_RPM').setData([0,0,vrpm],false,false);
 			this.chartDona_1.update({
 				colors:opt.colors			
@@ -1866,13 +1808,9 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			let vp = this.getValue('ct_2_Potencia')[1];
 			let vr = this.getValue('ct_2_RT')[1];
 			let vrpm = this.getValue('ct_2_RPM')[1];
-			let opt = this.getColorChartDonas(vp,vr);
+			let opt = this.getColorChartDonas(vp,vr,vrpm);
 			
-			if(vrpm < 10){
-				opt.colors[2]=  this.rojo;
-			}else if(vrpm >= 10){
-				opt.colors[2]=  this.verde;
-			}
+			
 
 			this.chartDona_2.get('ct_2_RT').setData([0,vr],false,false);
 			this.chartDona_2.get('ct_2_Potencia').setData([vp,0],false,false);
@@ -1889,13 +1827,9 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			let vp = this.getValue('ct_3_Potencia')[1];
 			let vr = this.getValue('ct_3_RT')[1];
 			let vrpm = this.getValue('ct_3_RPM')[1];
-			let opt = this.getColorChartDonas(vp,vr);
+			let opt = this.getColorChartDonas(vp,vr,vrpm);
 			
-			if(vrpm < 10){
-				opt.colors[2]=  this.rojo;
-			}else if(vrpm >= 10){
-				opt.colors[2]=  this.verde;
-			}
+			
 
 			this.chartDona_3.get('ct_3_RT').setData([0,vr],false,false);
 			this.chartDona_3.get('ct_3_Potencia').setData([vp,0],false,false);
@@ -1912,14 +1846,10 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			let vp = this.getValue('ct_1_Potencia')[1];
 			let vr = this.getValue('ct_1_RT')[1];
 			let vrpm = this.getValue('ct_1_RPM')[1];
-			let opt = this.getColorChartDonas(vp,vr);
+			let opt = this.getColorChartDonas(vp,vr,vrpm);
 			
 
-			if(vrpm < 10){
-				opt.colors[2]=  this.rojo;
-			}else if(vrpm >= 10){
-				opt.colors[2]=  this.verde;
-			}
+			
 
 			this.donaChart1_modal_x.get('ct_1_RT').setData([0,vr],false,false);
 			this.donaChart1_modal_x.get('ct_1_Potencia').setData([vp,0],false,false);
@@ -1937,13 +1867,9 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			let vp = this.getValue('ct_2_Potencia')[1];
 			let vr = this.getValue('ct_2_RT')[1];
 			let vrpm = this.getValue('ct_2_RPM')[1];
-			let opt = this.getColorChartDonas(vp,vr);
+			let opt = this.getColorChartDonas(vp,vr,vrpm);
 			
-			if(vrpm < 10){
-				opt.colors[2]=  this.rojo;
-			}else if(vrpm >= 10){
-				opt.colors[2]=  this.verde;
-			}
+			
 
 
 			this.donaChart2_modal_x.get('ct_2_RT').setData([0,vr],false,false);
@@ -1962,13 +1888,9 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			let vp = this.getValue('ct_3_Potencia')[1];
 			let vr = this.getValue('ct_3_RT')[1];
 			let vrpm = this.getValue('ct_3_RPM')[1];
-			let opt = this.getColorChartDonas(vp,vr);
+			let opt = this.getColorChartDonas(vp,vr,vrpm);
 			
-			if(vrpm < 10){
-				opt.colors[2]=  this.rojo;
-			}else if(vrpm >= 10){
-				opt.colors[2]=  this.verde;
-			}
+			
 
 
 			this.donaChart3_modal_x.get('ct_3_RT').setData([0,vr],false,false);
