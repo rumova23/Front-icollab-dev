@@ -141,7 +141,7 @@ lstTags["getrt"] = {
     label: "RT.",
     min: 0,
     max: 590,
-    color: 'rgba(255, 206, 86, 1)',
+    color: 'rgba(205, 206, 26, 1)',
     aguila: [
         {
             WebId: "P0uQAgHoBd0ku7P3cWOJL6IgGyUAAAU0VSVklET1JfUElcREFBMDgxMDY",

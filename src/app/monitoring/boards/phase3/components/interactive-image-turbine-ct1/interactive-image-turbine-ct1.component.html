@@ -13,31 +13,65 @@ Launch demo modal
                 </button>
             </div>
             <div class="modal-body">
-                <div style="/*overflow-x: auto;*/" class="container scroll_design">
-                    <div class="image-phase3" style="width: 937px; height: 577px; position: relative; /*overflow: hidden;*/ margin: auto;">
-                        <div style="color:aliceblue; position: absolute;z-index: 2; width: 100%; height: 100%;">
-                            <p>
-                                <i
-                                    class="fas fa-chart-line"
-                                    [ngClass]="{
-                                        'icon-rojo': tagValue['getrt'] < 1000,
-                                        'icon-verde': tagValue['getrt'] >= 1000
-                                    }"
-                                ></i>
-                                Rt: {{tagValue["getrt"] | number}} KJ/KWh
-                            </p>
-                            <p>
-                                <i
-                                    class="fas fa-bolt"
-                                    [ngClass]="{
-                                        'icon-rojo': tagValue['getpotencia'] <= 10,
-                                        'icon-amarillo': tagValue['getpotencia'] > 10,
-                                        'icon-verde': tagValue['getpotencia'] >= 80
-                                    }"
-                                ></i>
-                                Potencia: {{tagValue["getpotencia"] | number}} MW
-                            </p>
+                <div class="row">
+                    <div class="col-auto">
+                        <div (click)="tag(null,null,'getrt')">
+                            <ng-template style="min-width: 900px;" #tipgetrt>
+                                <div>{{ taglabel["getrt"] }}</div>
+                                <b>{{ tagName["getrt"] }}</b>
+                                <div>{{tagValue["getrt"] | number}} KJ/KWh</div>
+                            </ng-template>
+                            <div [ngbTooltip]="tipgetrt" tooltipClass="mytooltip" class="text derecha">
+                                <span>
+                                    <i
+                                        class="fas fa-chart-line"
+                                        [ngClass]="{
+                                            'icon-rojo': tagValue['getrt'] < 1000,
+                                            'icon-verde': tagValue['getrt'] >= 1000
+                                        }"
+                                    ></i>
+                                </span>
+                                <span style="color: #fff;">
+
+                                    Rt: {{tagValue["getrt"] | number}} KJ/KWh
+                                </span>
+                                <span class="ml-2 badge" [style.background-color]="mapColors.get('getrt')" *ngIf="isSerieActivate_1.get('getrt')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            </div>
                         </div>
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-auto">
+                        <div (click)="tag(null,null,'getpotencia')">
+                            <ng-template style="min-width: 900px;" #tipgetpotencia>
+                                <div>{{ taglabel["getpotencia"] }}</div>
+                                <b>{{ tagName["getpotencia"] }}</b>
+                                <div>{{tagValue["getpotencia"] | number}} MW</div>
+                            </ng-template>
+                            <div [ngbTooltip]="tipgetpotencia" tooltipClass="mytooltip" class="text derecha">
+                                <span>
+                                    <i
+                                        class="fas fa-bolt"
+                                        [ngClass]="{
+                                            'icon-rojo': tagValue['getpotencia'] <= 10,
+                                            'icon-amarillo': tagValue['getpotencia'] > 10,
+                                            'icon-verde': tagValue['getpotencia'] >= 80
+                                        }"
+                                    ></i>
+                                </span>
+                                <span style="color: #fff;">
+                                    Potencia: {{tagValue["getpotencia"] | number}} MW
+                                </span>
+                                <span class="ml-2 badge" [style.background-color]="mapColors.get('getpotencia')" *ngIf="isSerieActivate_1.get('getpotencia')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                
+                <div class="container scroll_design">
+                    <div class="image-phase3" style="width: 937px; position: relative; margin: auto;" [ngStyle]="{'height':ct != 'tv' ? '505px' : '290px' }">
                         <!-- TAGS PARA TURBINA TV -->
                         <div class="tags" *ngIf="ct == 'tv'" style="position: absolute;z-index: 2; width: 100%; height: 100%;">
                             <div style="
@@ -248,63 +282,24 @@ Launch demo modal
 						autoplay loop 
 						style="position: absolute;z-index: 1; width: 100%; top: 0;"
                         ></video>
-
-                        <div class="chart" style="z-index: 3;color:#ffffff;min-height: 200px;width: 500px; position: absolute;bottom: 0;right: 0;">
-                            
-                            <div class="row justify-content-end">
-                                <div class="col-4  text-right">
-                                    
-                                    <app-monitoringChartsControls
-                                    [chartsControl]="
-                                        getchartControl(
-                                            'chartontheturbine'
-                                        )
-                                    "
-                                    (chartsControlOutPut)="modifyChart($event)"
-                                ></app-monitoringChartsControls>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="chart" style="z-index: 2;min-height: 200px;width: 500px; position: absolute;bottom: 0;right: 0;">
-                            <canvas #chartontheturbine ></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div  #my_popup_info class="my-popup-info" style="width: 100%;
-                    padding: 14px; ">
-                    
-                    <div class="row">
-                        <div class="col-6  text-right">
-                            
-                            <app-monitoringChartsControls
-                            [chartsControl]="
-                                getchartControl(
-                                    'chart_info'
-                                )
-                            "
-                            (chartsControlOutPut)="modifyChart($event)"
-                        ></app-monitoringChartsControls>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div style="width: 100%; min-height: 200px;">
-                                <canvas #chart_info ></canvas>
-                            </div>
-                        </div>
-                        <div class="col" >
-                            <p>
-                                Name: {{Tag_info.name}}
-                            </p>
-                            <p>
-                                Value:  {{tagValue[Tag_info.localId]||'_'}}
-                            </p>
-                            
-                        </div>
                     </div>
                 </div>
                 
+                <!-- LineChart -->
+                <div class="row justify-content-end">
+                    <div class="col text-right" style="color: #fff !important;">
+                        <app-high-charts-controls [chartsControl]="chartControlLineChart2" (chartsControlOutPut)="modifyChartLineChart2($event)"></app-high-charts-controls>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div>
+                            <div #LineChart2></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./ LineChart -->
+               
             </div>
             <div class="modal-footer">
                 <!--button type="button" class="btn" data-dismiss="modal">Close</button-->
