@@ -78,6 +78,7 @@ import { SafeppaSupervisionStationComponent } from '../admin/safeppa-supervision
 import { SafeProcedureDetectionAndCorrectionComponent } from '../admin/safe-procedure-detection-and-correction/safe-procedure-detection-and-correction.component';
 import {SafePpaMonitoringProfileStationComponent} from '../admin/safe-ppa-monitoring-profile-station/safe-ppa-monitoring-profile-station.component';
 import { SafeNewEventComponent } from 'src/app/safe/business/logBook/newEvent/safeNewEvent.component';
+import { SafeMmOutOfLineComponent } from '../admin/safe-mm-out-of-line/safe-mm-out-of-line.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -152,6 +153,7 @@ import { SafeNewEventComponent } from 'src/app/safe/business/logBook/newEvent/sa
 		, SafeProcedureDetectionAndCorrectionComponent
 		, SafePpaMonitoringProfileStationComponent
 		, SafeNewEventComponent
+		, SafeMmOutOfLineComponent
   	]
 })
 
@@ -203,6 +205,14 @@ export class SafeHomeComponent implements OnInit {
 				let banderaTemporal = false;
 				this.viewContainerRef.clear();
 				switch (event.descriptor) {
+
+					case 'Safe.SafeMmOutOfLineComponent':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(SafeMmOutOfLineComponent)
+						).changeDetectorRef.detectChanges();
+						break;
+					
 					case 'Safe.SafeppaSupervisionStationComponent':
 						banderaTemporal = true;
 						this.viewContainerRef.createComponent(
