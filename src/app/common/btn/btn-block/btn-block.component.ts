@@ -9,7 +9,7 @@ export class BtnBlockComponent implements OnInit {
 	@Input () label        : string    = 'Boton';
 	@Input () isDisabled   : boolean   = false;
 	@Input () type         : string    = 'button';
-	@Input () btnClass     : string[]  = ['btn','btn-block','align-self-end','my-0'];
+	@Input () btnClass     : string[]  = ['btn','btn-block','my-0']; //'align-self-end'
 	@Input () addClass     : string[]  = [];
 	@Input () icon         : string[]  = [];
 	

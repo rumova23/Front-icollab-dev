@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Moment } from 'moment';
+import { ToastrManager } from 'ng6-toastr-notifications';
+import { GlobalService } from 'src/app/core/globals/global.service';
 
 @Component({
 	selector: 'app-safe-mm-out-of-line',
@@ -8,13 +10,22 @@ import { Moment } from 'moment';
 })
 export class SafeMmOutOfLineComponent implements OnInit {
 
-	constructor() { }
+	constructor(
+		public globalService: GlobalService,
+		public toastr: ToastrManager
+	) { }
 
 	ngOnInit() {
 	}
-	chosenMonthHandler(a:Moment){
-		const date = a.toDate();
-		const month = a.month() + 1;
-		const year  = a.year();
+	chosenMonthHandler(d:Moment){
+		const month = d.month() + 1;
+		const year  = d.year();
+		const date  = d.format('MM/yyyy');
+	}
+	clickBtn1raCorrida(){
+
+	}
+	clickBtn2daCorrida(){
+		
 	}
 }
