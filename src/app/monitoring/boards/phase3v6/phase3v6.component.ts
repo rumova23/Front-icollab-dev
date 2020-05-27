@@ -649,7 +649,8 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		let cl = "";
 		let v = this.getValue(key)[1];
 		if(["ct_1_RT","ct_2_RT","ct_3_RT"].includes(key)){
-			if(v <= 10000 ) cl = 'icon-verde';
+			if(v == 0 ) cl = 'icon-rojo';
+			if(v > 0 && v <= 10000 ) cl = 'icon-verde';
 			if(v > 10000 && v < 10100 ) cl = 'icon-amarillo';
 			if(v >=  10100 ) cl = 'icon-rojo';
 		}else if(["ct_1_Potencia","ct_2_Potencia","ct_3_Potencia"].includes(key)){
