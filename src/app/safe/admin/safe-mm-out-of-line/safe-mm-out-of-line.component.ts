@@ -9,7 +9,16 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 	styleUrls: ['./safe-mm-out-of-line.component.scss']
 })
 export class SafeMmOutOfLineComponent implements OnInit {
-
+	tableData = [
+		{order:1,fechaOp:'mar-20',proceso:'2da Corrida MM',usuario:'Manuel Herrera',fechaMod:'01/04/2020 01:40:00 pm',estatus:'exitosa'}
+	];
+	tablaColumnsLabels=[
+		{ key: 'fechaOp', label: 'fechaOp' }
+	];
+	tableColumnsDisplay: string[] = [
+		'fechaOp',
+		'sys_delete'
+	];
 	constructor(
 		public globalService: GlobalService,
 		public toastr: ToastrManager
@@ -21,11 +30,17 @@ export class SafeMmOutOfLineComponent implements OnInit {
 		const month = d.month() + 1;
 		const year  = d.year();
 		const date  = d.format('MM/yyyy');
+		this.toastr.successToastr(date, 'Seleccionaste');
 	}
 	clickBtn1raCorrida(){
-
+		this.toastr.successToastr('1ra Corrida', 'Seleccionaste');
 	}
 	clickBtn2daCorrida(){
-		
+		this.toastr.successToastr('2da Corrida', 'Seleccionaste');
 	}
+	tableRowDelete(element){
+		this.toastr.successToastr('table Row Delete', 'Seleccionaste');
+		console.log(element);
+	}
+
 }
