@@ -61,4 +61,16 @@
 			</pre>
 		</div>
 	</div>
+
+	
+	<div class="row">
+		<div class="col">
+			<app-mat-table 
+				(clickSee)="tableRowSee($event)"
+				(clickEdit)="tableRowEdit($event)"
+				(clickDelete)="tableRowDelete($event)"
+				[data]="tableDataDemo"
+				></app-mat-table>
+		</div>
+	</div>
 </div>

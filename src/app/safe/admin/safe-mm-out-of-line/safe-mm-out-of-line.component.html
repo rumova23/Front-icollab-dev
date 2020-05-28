@@ -26,12 +26,14 @@
 
 	<div class="row">
 		<div class="col">
-			<app-mat-table 
+			<app-mat-table
 				(clickDelete)="tableRowDelete($event)"
 				[data]="tableData"
 				[columnsLabels]="tablaColumnsLabels"
 				[columnsDisplay]="tableColumnsDisplay"
+				[row_x_page]="tableRow_x_page"
 				></app-mat-table>
 		</div>
 	</div>
+
 </div>
