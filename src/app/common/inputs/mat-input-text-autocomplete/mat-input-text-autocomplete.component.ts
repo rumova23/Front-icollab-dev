@@ -24,7 +24,7 @@ export class MatInputTextAutocompleteComponent implements OnInit, OnChanges {
 	}
 	ngOnChanges(changes: SimpleChanges): void {
 		this.options = this.options
-		.map(o=>o.toLowerCase())
+		.map(o=>o.toLowerCase().trim())
 		.filter(
 			(el,index,arr)=>
 			arr.indexOf(el) === index
@@ -42,7 +42,8 @@ export class MatInputTextAutocompleteComponent implements OnInit, OnChanges {
 		.replace('é', 'e')
 		.replace('í', 'i')
 		.replace('ó', 'o')
-		.replace('ú', 'u');
+		.replace('ú', 'u')
+		.trim();
 		
 		return this.options
 			.filter(option => 
