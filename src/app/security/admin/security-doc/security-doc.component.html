@@ -66,8 +66,13 @@
 	</div>
 	<div class="row">
 		<div class="col">
-			<app-input-text label="Nombre" formControlName="name" [formGroup]="form" >
+			<app-input-text label="Nombre" controlName="name" [formGroup]="form" >
 			</app-input-text>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<app-mat-input-text-autocomplete label="aotucomplete" controlName="aotucomplete" [formGroup]="form" [options]="listOptionsAutocomplete" filter="includes"></app-mat-input-text-autocomplete>
 		</div>
 	</div>
 	

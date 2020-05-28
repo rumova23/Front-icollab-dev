@@ -9,6 +9,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 	styleUrls: ['./security-doc.component.scss']
 })
 export class SecurityDocComponent implements OnInit {
+	listOptionsAutocomplete = ['One', 'Two', 'Three','Three','Threes','María'];
 	form : FormGroup;
 	tableDataDemo = [
 		{order: 1, id:1,  name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
@@ -39,13 +40,13 @@ export class SecurityDocComponent implements OnInit {
 
 	ngOnInit() {
 		this.form = this.formBuilder.group({
-            name: [{ value: '', disabled: false }, Validators.required]
-        });
+			name: [{ value: '', disabled: false }, Validators.required],
+            aotucomplete: [{ value: '', disabled: false }, Validators.required]
+		});
 	}
 	
 	clickBtn() {
 		console.log(this.form.value);
-		
 		this.toastr.successToastr('Evento click', '¡Se ha logrado!');
 	}
 	chosenMonthHandler(d: Moment) {

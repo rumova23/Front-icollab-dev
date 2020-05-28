@@ -14,7 +14,7 @@ export class InputTextComponent implements OnInit {
 	@Input() label           : string = '';
 	@Input() sufijo          : string = '';
 	@Input() submitted       : boolean = false;
-	@Input() formControlName : string;
+	@Input() controlName     : string;
 	@Input() formGroup       : FormGroup;
   constructor() { }
 
