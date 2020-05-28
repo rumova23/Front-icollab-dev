@@ -216,6 +216,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		private confirmationDialogService: ConfirmationDialogService) { }
 
 	ngOnInit() {
+
 		this.maxDate = new Date(new Date().getFullYear(), (new Date().getMonth() - 1 ));
 		this.buttonDetected = true;
 		this.buttonCorrected = true;
@@ -390,8 +391,8 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		for (let index = 0; index < this.opt.xAxis.categories.length; index++) {
 			const element = this.opt.xAxis.categories[index].toLowerCase();
 			for (const bandera of data.estatusValueList) {
-				if (bandera.estatus.toLowerCase() == element) {
-					const porcentaje = (this.tablaDiasSeries[0].dia31 / 100) * bandera.cantidad;
+				if (bandera.estatus.toLowerCase() === element) {
+					const porcentaje = bandera.cantidad;
 					this.opt.series[0].data[index] = porcentaje;
 					this.tablaTotalPorcentajesBanderas[index].value = porcentaje;
 				}
