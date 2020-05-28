@@ -144,6 +144,7 @@ export class EvaluationComponent implements OnInit {
     this.addBlock(1, 'Cargando...');
     this.personalService.getEmpleadosEvaluaciones().subscribe(
         dataBack => {
+          debugger;
           this.result = dataBack;
           let i = 0;
           for (const element of this.result) {
@@ -156,12 +157,13 @@ export class EvaluationComponent implements OnInit {
             obj['secondName'] = element.materno;
             obj['department'] = element.departamento;
             obj['status']      = element.entidadEstatus;
-            if (element.entidadEstatus === 'Activo') {
+            obj['competenceDesc'] = element.competencia;
+            if (element.competencia === 'Activo') {
               obj['totalRating'] = '-';
               obj['competence'] = '-';
-              obj['totalEvaluations'] = element.totalEvaluaciones - 1;
+              obj['totalEvaluations'] = element.totalEvaluaciones === 0 ? element.totalEvaluaciones : element.totalEvaluaciones - 1;
             } else {
-              obj['totalRating'] = element.calificacionFinal !== undefined && element.calificacionFinal > 0 ? parseFloat(element.calificacionFinal).toFixed(2) : 0;
+              obj['totalRating'] = element.calificacionFinal !== undefined && element.calificacionFinal > 0 ? parseFloat(element.calificacionFinal).toFixed(2) : '-';
               obj['competence'] = element.competencia;
               obj['totalEvaluations'] = element.totalEvaluaciones;
             }
@@ -328,10 +330,23 @@ export class EvaluationComponent implements OnInit {
   }
 
   generarExamen(empleadoId: number) {
-    this.perfilService.generaExamen(empleadoId, '').subscribe(data => {
+    this.addBlock(1, 'Cargando...');
+    this.perfilService.generaExamen(empleadoId, '').subscribe(
+        data => {
           this.toastr.successToastr('Se generaron los examenes correctamente', '¡Se ha logrado!');
+          this.eventService.sendChangePage(new
+              EventMessage(11, {
+                idEmpleado: empleadoId,
+                tipo: 'editar'
+              }, 'Compliance.evaluatePersonal.11'));
+        },
+        error => {
+          this.toastr.errorToastr('Error al crear el exámen, favor de verificar', 'Lo siento,');
+          this.addBlock(2, null);
         }
-    );
+    ).add(() => {
+      this.addBlock(2, null);
+    });
   }
 
   getTimeLocale(dateString: string): Date {

@@ -7,6 +7,11 @@ import { CarasDocument } from 'src/app/compliance/models/CarasDocument';
 import { Comentario } from 'src/app/core/models/comentario';
 import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
 import { GlobalService } from 'src/app/core/globals/global.service';
+import {ConfirmationDialogService} from '../../../../core/services/confirmation-dialog.service';
+import {EventMessage} from '../../../../core/models/EventMessage';
+import {EventBlocked} from '../../../../core/models/EventBlocked';
+import {EventService} from '../../../../core/services/event.service';
+import {Constants} from '../../../../core/globals/Constants';
 
 @Component({
   selector: 'app-obsyComments',
@@ -32,16 +37,18 @@ export class ObsyCommentsComponent implements OnInit {
   constructor(
     private comentarios: PerfilComboService,
     public globalService: GlobalService,
+    private eventService: EventService,
+    private confirmationDialogService: ConfirmationDialogService,
     private formBuildier: FormBuilder, public toastr: ToastrManager) {
-    this.observacioes = [];
-    this.titleDocument = [];
-    this.calificacionId = 0;
-    this.comentarios.accion.subscribe(accion => {
+      this.observacioes = [];
       this.titleDocument = [];
-      if (accion === 'upload') {
-        this.ngOnInit();
-      }
-    });
+      this.calificacionId = 0;
+      this.comentarios.accion.subscribe(accion => {
+        this.titleDocument = [];
+        if (accion === 'upload') {
+          this.ngOnInit();
+        }
+      });
   }
   ngOnInit() {
     if (this.inTipo === 'ver') {
@@ -85,20 +92,32 @@ export class ObsyCommentsComponent implements OnInit {
   }
 
   obtieneObservaciones() {
+    this.addBlock(1, 'Cargando...');
     this.comentarios.obtenCalificacion(this.inIdEmpleado).subscribe(
       calificacion => {
-        this.comentarios.getComentarios(calificacion.calificacionId).subscribe(
-          data => {
-            data.comentario.forEach(comenta => {
-              this.resuelveDS(comenta);
-            });
-          });
-      });
+              this.comentarios.getComentarios(calificacion.calificacionId).subscribe(
+                data => {
+                        data.comentario.forEach(comenta => {
+                          this.resuelveDS(comenta);
+                        });
+                  },
+                  error1 => {
+                    this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+                    this.addBlock(2, null);
+                  });
+        },
+        error => {
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+          this.addBlock(2, null);
+        }).add(() => {
+      this.addBlock(2, null);
+    });
   }
 
   guardarObserv() {
     this.dataObservationSumbit = {};
     const obsva = this.obsForm.controls.fObserva.value;
+    this.addBlock(1, 'Cargando...');
     this.comentarios.obtenCalificacion(this.inIdEmpleado).subscribe(
       calificacion => {
         this.dataObservationSumbit['observacion'] = obsva;
@@ -106,19 +125,67 @@ export class ObsyCommentsComponent implements OnInit {
         this.dataObservationSumbit['fechaObservacion'] = new Date();
         this.dataObservationSumbit['activo'] = true;
         this.dataObservationSumbit['save'] = true;
-        this.comentarios.guardaObservacion(this.dataObservationSumbit).subscribe(comenta => {
-          this.observacioes.push(
-            new Comentario(comenta.idUsr, comenta.nombre, comenta.observacion, comenta.fecha_modificacion));
-          this.obsForm.controls.fObserva.setValue('');
-          this.toastr.successToastr('La observación fue registrada con éxito.', '¡Se ha logrado!');
-        });
-      });
+        this.comentarios.guardaObservacion(this.dataObservationSumbit).subscribe(
+            comenta => {
+              this.observacioes.push(
+                      new Comentario(comenta.idUsr, comenta.nombre, comenta.observacion, comenta.fecha_modificacion));
+              this.obsForm.controls.fObserva.setValue('');
+              this.toastr.successToastr('La observación fue registrada con éxito.', '¡Se ha logrado!');
+            },
+            error1 => {
+              debugger;
+              this.toastr.errorToastr('Ocurrió un error al intentar registrar la observación', 'Lo siento,');
+              this.addBlock(2, null);
+            });
+        },
+        error => {
+          this.toastr.errorToastr('Ocurrió un error al intentar eliminar la observación', 'Lo siento,');
+          this.addBlock(2, null);
+        }).add(() => {
+      this.addBlock(2, null);
+    });
   }
 
-  downloadFile(fileId: number) {
+  downloadFile(fileId: number, fileName: string) {
+    this.addBlock(1, 'Descargando archivo...');
     this.comentarios.downloadFile(fileId).subscribe(
         result => {
-        });
+          let dataType = result.type;
+          let binaryData = [];
+          binaryData.push(result);
+          let downloadLink = document.createElement('a');
+          downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: dataType}));
+          downloadLink.setAttribute('download', fileName);
+          downloadLink.click();
+        },
+        error => {
+          this.addBlock(2, null);
+        }).add(() => {
+      this.addBlock(2, null);
+    });
+  }
+
+  deleteFile(fileId: number) {
+    this.confirmationDialogService.confirm('Por favor, confirme..',
+        'Está seguro de eliminar el archivo?')
+        .then((confirmed) => {
+          if (confirmed) {
+            this.comentarios.deleteFile(fileId).subscribe(
+                result => {
+                  this.toastr.successToastr('Documento eliminado con éxito.', '¡Se ha logrado!');
+                  this.comentarios.accion.next('upload');
+                },
+                error => {
+                  if (error.error['text'] === 'OK') {
+                    this.toastr.successToastr('Documento eliminado con éxito.', '¡Se ha logrado!');
+                    this.comentarios.accion.next('upload');
+                  } else {
+                    this.toastr.errorToastr('Ocurrió un error al intentar eliminar el archivo', 'Lo siento,');
+                  }
+                });
+          }
+        })
+        .catch(() => console.log('Canceló eliminar'));
   }
 
   enableSaveButton() {
@@ -138,5 +205,9 @@ export class ObsyCommentsComponent implements OnInit {
 
   visibleObservation(comment: any) {
 
+  }
+
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 }
