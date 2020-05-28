@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Moment } from 'moment';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { GlobalService } from 'src/app/core/globals/global.service';
+import { ConfirmationDialogService } from 'src/app/core/services/confirmation-dialog.service';
 
 @Component({
 	selector: 'app-safe-mm-out-of-line',
@@ -21,11 +22,11 @@ export class SafeMmOutOfLineComponent implements OnInit {
 	];
 	tablaColumnsLabels=[
 		{ key: 'order', label: '#' },
-		{ key: 'fechaOp', label: 'fechaOp' },
-		{ key: 'proceso', label: 'proceso' },
-		{ key: 'usuario', label: 'usuario' },
-		{ key: 'fechaMod', label: 'fechaMod' },
-		{ key: 'estatus', label: 'estatus' }
+		{ key: 'fechaOp', label: 'Fecha de Operación Comercial' },
+		{ key: 'proceso', label: 'Proceso' },
+		{ key: 'usuario', label: 'Usuario' },
+		{ key: 'fechaMod', label: 'Fecha y Hora Ultima Modificación' },
+		{ key: 'estatus', label: 'Estatus del Proceso' }
 	];
 	tableColumnsDisplay: string[] = [
 		'order',
@@ -40,7 +41,8 @@ export class SafeMmOutOfLineComponent implements OnInit {
 
 	constructor(
 		public globalService: GlobalService,
-		public toastr: ToastrManager
+		public toastr: ToastrManager,
+		private confirmationDialogService: ConfirmationDialogService,
 	) { }
 
 	ngOnInit() {
@@ -58,8 +60,20 @@ export class SafeMmOutOfLineComponent implements OnInit {
 		this.toastr.successToastr('2da Corrida', 'Seleccionaste');
 	}
 	tableRowDelete(element){
-		this.toastr.successToastr('table Row Delete', 'Seleccionaste');
-		console.log(element);
+		this.confirmationDialogService.confirm(
+			'Confirmación',
+			'¿Está seguro de eliminar el Registro?'
+		)
+		.then((confirmed) => {
+			if ( confirmed ) {
+				this.toastr.successToastr('table Row Delete', 'Seleccionaste');
+				console.log(element);
+			}
+		})
+		.catch(() => {});
+	}
+	clickBtnDownloadMM(){
+		this.toastr.successToastr('Descarga de Modelo Matematico Fuera de Línea', 'Seleccionaste');
 	}
 
 }
