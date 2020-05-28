@@ -1,0 +1,14 @@
+<div [formGroup]="formGroup">
+	<div class="form-group">
+		<label>{{label | translate}}{{sufijo | translate}}</label>
+		<input 
+			class="form-control" 
+			[formControlName]="formControlName"
+			[ngClass]="{ 'is-invalid': (submitted || formGroup.get(formControlName).touched) && !formGroup.get(formControlName).valid }"
+		>
+		<ng-container *ngIf="(submitted || formGroup.get(formControlName).touched) && !formGroup.get(formControlName).valid">
+			<p class="p-input-error-message" *ngIf="formGroup.get(formControlName).errors.required">{{'Required' | translate}}</p>
+			<p class="p-input-error-message" *ngIf="formGroup.get(formControlName).errors.minlength">{{'Insufficient characters' | translate}}</p>
+		</ng-container>
+	</div>
+</div>
