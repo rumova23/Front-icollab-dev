@@ -233,6 +233,7 @@ export class EvaluationComponent implements OnInit {
       values.fDepto       !== '' ||
       values.fRating      !== '' ||
       values.fCompetence  !== '' ||
+      values.fEst         !== '' ||
       (values.fLastDate   !== '')
       ) {
 
@@ -284,7 +285,6 @@ export class EvaluationComponent implements OnInit {
     let resultElements: any[] = [];
     let values = this.filterForm.value;
     let dateLastUpdate =  values.fLastDate !== '' ? this.datePipe.transform(this.getTimeLocale(values.fLastDate), 'dd/MM/yyyy') : null;
-
     if (typeCondition === 'OR') {
       resultElements = arrayElements.filter(o =>
         ( values.fEmpNum     !== '' && o.numEmp.toLowerCase().startsWith(values.fEmpNum.toLowerCase()                    ) ) ||
@@ -294,6 +294,7 @@ export class EvaluationComponent implements OnInit {
         ( values.fDepto      !== '' && o.department.toLowerCase().startsWith(values.fDepto.toLowerCase()                 ) ) ||
         ( values.fRating     !== '' && o.totalRating.toString().startsWith(values.fRating.toLowerCase()                  ) ) ||
         ( values.fCompetence !== '' && o.competence.toLowerCase().startsWith(values.fCompetence.toLowerCase()            ) ) ||
+        ( values.fEst        !== '' && (o.status.toLowerCase() =='activo'?'1':'0').startsWith(values.fEst.toLowerCase()  ) ) ||
         ( values.fLastDate   !== '' && o.dateHourUpdate.toString().startsWith(dateLastUpdate))
       );
     } else {
@@ -304,11 +305,12 @@ export class EvaluationComponent implements OnInit {
           ['fSecondName', 'secondName'],
           ['fDepto',      'department'],
           ['fRating',     'totalRating'],
-          ['fCompetence', 'competence']
+          ['fCompetence', 'competence'],
+          ['fEst',        'status']
       ]);
       resultElements = arrayElements.filter(o => {
         let respuesta = true;
-
+        
         for (const key in values) {
           if (values.hasOwnProperty(key)) {
             const element = values[key];
@@ -318,8 +320,17 @@ export class EvaluationComponent implements OnInit {
               }
             }
             if (element !== '' && !['fSearchCondition', 'fLastDate'].includes(key)) {
-              if (! o[valuesMap.get(key)].toString().toLowerCase().startsWith(element.toLowerCase())) {
-                respuesta = false;
+              try {
+                if(key == 'fEst'){
+                  if(! (o[valuesMap.get(key)].toLowerCase() =='activo'?'1':'0').startsWith(element.toLowerCase())){
+                    respuesta = false;
+                  }
+                }
+                else if (! o[valuesMap.get(key)].toString().toLowerCase().startsWith(element.toLowerCase())) {
+                  respuesta = false;
+                }
+                
+              } catch (error) {
               }
             }
           }

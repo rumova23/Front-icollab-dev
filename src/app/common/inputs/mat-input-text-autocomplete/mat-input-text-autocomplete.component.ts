@@ -23,18 +23,21 @@ export class MatInputTextAutocompleteComponent implements OnInit, OnChanges {
 	ngOnInit() {
 	}
 	ngOnChanges(changes: SimpleChanges): void {
-		this.options = this.options
-		.map(o=>o.toLowerCase().trim())
-		.filter(
-			(el,index,arr)=>
-			arr.indexOf(el) === index
-		);
-
-		this.filteredOptions = this.formGroup.get(this.controlName).valueChanges
-		  .pipe(
-			startWith(''),
-			map(value => this._filter(value))
-		);
+		if(Array.isArray(this.options) && this.options.length > 0){
+			this.options = this.options
+			.map(o=>o.toLowerCase().trim())
+			.filter(
+				(el,index,arr)=>
+				arr.indexOf(el) === index
+			);
+	
+			this.filteredOptions = this.formGroup.get(this.controlName).valueChanges
+			  .pipe(
+				startWith(''),
+				map(value => this._filter(value))
+			);
+		}else{
+		}
 	}
 	private _filter(value: string): string[] {
 		const filterValue = value.toLowerCase()
