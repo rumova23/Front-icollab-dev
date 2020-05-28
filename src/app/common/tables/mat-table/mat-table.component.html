@@ -1,0 +1,32 @@
+<!-- Tabla de Catalogos -->
+
+<div class="mat-elevation-z0">
+	<table matSort (matSortChange)="sortData($event)" mat-table [dataSource]="dataSource" class="table_catalogo"
+		matSortActive="order" matSortDirection="asc" matSortDisableClear>
+		<ng-container [matColumnDef]="column.key" *ngFor="let column of columnsLabels">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header> {{column.label | translate}} </th>
+			<td mat-cell *matCellDef="let element;let i = index;">{{element[column.key]?element[column.key]:''}}</td>
+		</ng-container>
+
+		<ng-container [matColumnDef]="column.key" *ngFor="let column of displayedColumnsActions">
+			<th mat-header-cell *matHeaderCellDef> {{column.label | translate}}</th>
+			<td mat-cell *matCellDef="let element" [ngSwitch]="column.key">
+				<a (click)="see(element)" *ngSwitchCase="'sys_see'">
+					<img src="assets/images/skins/ico_Ver.png" alt="Visualizar">
+				</a>
+				<a (click)="edit(element)" *ngSwitchCase="'sys_edit'">
+					<img src="assets/images/skins/ico_Editar.png" alt="Editar">
+				</a>
+				<a (click)="delete(element)" *ngSwitchCase="'sys_delete'">
+					<img src="assets/images/skins/ico_Borrar.png" alt="Eliminar">
+				</a>
+			</td>
+		</ng-container>
+
+		<tr mat-header-row *matHeaderRowDef="columnsDisplay"></tr>
+		<tr mat-row *matRowDef="let row; columns: columnsDisplay;"></tr>
+	</table>
+	<mat-paginator [pageSizeOptions]="row_x_page" showFirstLastButtons></mat-paginator>
+</div>
+
+<!-- ./Tabla de Catalogos -->

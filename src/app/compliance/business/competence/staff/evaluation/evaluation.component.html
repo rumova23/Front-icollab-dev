@@ -225,12 +225,12 @@
               <a (click)="action(element.id, 'ver')" *ngSwitchCase="'sys_see'">
                 <img src="assets/images/skins/ico_Ver.png" alt="Visualizar">
               </a>
-              <div *ngIf="element.status === 'Activo'">
+              <div *ngIf="element.competenceDesc === 'Activo'">
                 <a (click)="action(element.id, 'editar')" *ngSwitchCase="'sys_edit'">
                   <img src="assets/images/skins/ico_Editar.png" alt="Editar">
                 </a>
               </div>
-              <div *ngIf="element.status !== 'Activo'">
+              <div *ngIf="element.competenceDesc !== 'Activo'">
                 <a (click)="generarExamen(element.id)" *ngSwitchCase="'sys_edit'">
                   <i class="fas fa-file-alt" style="color: #a3a3a3;font-size: 19px;"></i>
                 </a>

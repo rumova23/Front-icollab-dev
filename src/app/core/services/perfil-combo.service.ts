@@ -188,6 +188,11 @@ export class PerfilComboService {
 
   downloadFile(fileId: number) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get(`${ this.microuploaddbUrl }downloadFile/` + fileId, {params : this.parameters });
+    return this.http.get<Blob>(`${ this.microuploaddbUrl }downloadFile/` + fileId, {params : this.parameters, responseType: 'blob' as 'json' });
+  }
+
+  deleteFile(id): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.delete( `${ this.microuploaddbUrl }deleteFile/` + id, {params : this.parameters });
   }
 }

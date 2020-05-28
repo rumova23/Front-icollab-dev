@@ -16,88 +16,8 @@ import {OrderCatalogDTO} from '../../../../models/OrderCatalogDTO';
 import {Constants} from '../../../../../core/globals/Constants';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-
-export interface Personalcompetente {
-    orden: number;
-    empleadoId: number;
-    numEmpleado: string;
-    nombre: string;
-    apPaterno: string;
-    apMaterno: string;
-    genero: string;
-    generoId: number;
-    posicion: string;
-    departamento: string;
-    puesto: string;
-    lugarDeTrabajo: string;
-    lugarDeTrabajoId: number;
-    usuarioModifico: string;
-    fechaHoraUltimaModificacion: string;
-    status: string;
-    ver: string;
-    editar: string;
-    pdf: string;
-    eliminar: string;
-    nuevoexamen: string;
-    mensajeEliminar: string;
-}
-
-export class PersonalcompetenteImp implements Personalcompetente {
-    orden: number;
-    empleadoId: number;
-    numEmpleado: string;
-    nombre: string;
-    apPaterno: string;
-    apMaterno: string;
-    genero: string;
-    generoId: number;
-    posicion: string;
-    departamento: string;
-    puesto: string;
-    lugarDeTrabajo: string;
-    lugarDeTrabajoId: number;
-    status: string;
-    ver: string;
-    editar: string;
-    usuarioModifico: string;
-    fechaHoraUltimaModificacion: string;
-    pdf: string;
-    eliminar: string;
-    nuevoexamen: string;
-    mensajeEliminar: string;
-    constructor(orden: number, empleadoId: number, numEmpleado: string, nombre: string,
-                apPaterno: string, apMaterno: string, genero: string, generoId: number,
-                posicion: string, departamento: string, puesto: string,
-                lugarDeTrabajo: string, lugarDeTrabajoId: number, status: string,
-                usuarioModifico: string, fechaHoraUltimaModificacion: string,
-                ver: string, editar: string,
-                pdf: string, eliminar: string,
-                nuevoexamen: string, mensajeEliminar: string
-    ) {
-        this.orden = orden;
-        this.empleadoId = empleadoId;
-        this.numEmpleado = numEmpleado;
-        this.nombre = nombre;
-        this.apPaterno = apPaterno;
-        this.apMaterno = apMaterno;
-        this.genero = genero;
-        this.generoId = generoId;
-        this.posicion = posicion;
-        this.departamento = departamento;
-        this.puesto = puesto;
-        this.lugarDeTrabajo = lugarDeTrabajo;
-        this.lugarDeTrabajoId = lugarDeTrabajoId;
-        this.status = status;
-        this.ver = ver;
-        this.editar = editar;
-        this.usuarioModifico = usuarioModifico;
-        this.fechaHoraUltimaModificacion = fechaHoraUltimaModificacion;
-        this.pdf = pdf;
-        this.eliminar = eliminar;
-        this.nuevoexamen = nuevoexamen;
-        this.mensajeEliminar = mensajeEliminar;
-    }
-}
+import {Personalcompetente} from '../../../../models/Personalcompetente';
+import {PersonalcompetenteImp} from '../../../../models/PersonalcompetenteImp';
 
 @Component({
     selector: 'app-compliance-add-staff',
@@ -222,7 +142,6 @@ export class ComplianceAddStaffComponent implements OnInit {
                             if (estatus === 'exito') {
                                 let index: number = 1;
                                 Object.keys(resul['empleados']).forEach(key => {
-                                    debugger;
                                     const empleadoId = resul['empleados'][key].empleadoId;
                                     let empleadoStrId = resul['empleados'][key].userId;
                                     let nombres = resul['empleados'][key].nombres;
@@ -301,19 +220,13 @@ export class ComplianceAddStaffComponent implements OnInit {
         }
     }
 
-    generarExamen(empleadoId: number) {
-        this.preguntas.generaExamen(empleadoId, '').subscribe(data => {
-                this.toastr.successToastr('Se generaron los examenes correctamente', '¡Se ha logrado!');
-            }
-        );
-    }
-
 
     action(idEmpleado, tipo) {
         this.eventService.sendChangePage(new
         EventMessage(11, {
                 idEmpleado: idEmpleado,
-                tipo: tipo
+                tipo: tipo,
+                elementData: this.elementData
             }, 'Compliance.registerPersonal.11'
         ));
     }
@@ -331,6 +244,7 @@ export class ComplianceAddStaffComponent implements OnInit {
     search(typeCondition: string): Personalcompetente[] {
         let arrayElements: Personalcompetente[] = this.elementData;
         let resultElements: Personalcompetente[] = [];
+        let uniqueElements = new Set<Personalcompetente>();
 
         if (this.filterForm.controls['fEmpNum'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
@@ -354,27 +268,47 @@ export class ComplianceAddStaffComponent implements OnInit {
             arrayElements = arrayElements.filter(personal => {
                 return personal.apPaterno.toString().toUpperCase() === this.filterForm.controls['fLastName'].value.toString().trimLeft().trimRight().toUpperCase() ? true : false;
             });
+            if (typeCondition === 'OR') {
+                resultElements = resultElements.concat(arrayElements);
+                arrayElements = this.elementData;
+            }
         }
         if (this.filterForm.controls['fSecondName'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
                 return personal.apMaterno.toString().toUpperCase() === this.filterForm.controls['fSecondName'].value.toString().trimLeft().trimRight().toUpperCase() ? true : false;
             });
+            if (typeCondition === 'OR') {
+                resultElements = resultElements.concat(arrayElements);
+                arrayElements = this.elementData;
+            }
         }
         if (this.filterForm.controls['fPosition'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
                 console.log(personal.posicion.toString())
                 return personal.posicion.toString().toUpperCase() === this.filterForm.controls['fPosition'].value.toString().trimLeft().trimRight().toUpperCase() ? true : false;
             });
+            if (typeCondition === 'OR') {
+                resultElements = resultElements.concat(arrayElements);
+                arrayElements = this.elementData;
+            }
         }
         if (this.filterForm.controls['fDepto'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
                 return personal.departamento.toString().toUpperCase() === this.filterForm.controls['fDepto'].value.toString().trimLeft().trimRight().toUpperCase() ? true : false;
             });
+            if (typeCondition === 'OR') {
+                resultElements = resultElements.concat(arrayElements);
+                arrayElements = this.elementData;
+            }
         }
         if (this.filterForm.controls['fJob'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
                 return personal.puesto.toString().toUpperCase() === this.filterForm.controls['fJob'].value.toString().trimLeft().trimRight().toUpperCase() ? true : false;
             });
+            if (typeCondition === 'OR') {
+                resultElements = resultElements.concat(arrayElements);
+                arrayElements = this.elementData;
+            }
         }
         if (this.filterForm.controls['fEst'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
@@ -395,6 +329,10 @@ export class ComplianceAddStaffComponent implements OnInit {
                     return true;
                 }
             });
+            if (typeCondition === 'OR') {
+                resultElements = resultElements.concat(arrayElements);
+                arrayElements = this.elementData;
+            }
         }
         if (this.filterForm.controls['fPlaceWork'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
@@ -404,12 +342,25 @@ export class ComplianceAddStaffComponent implements OnInit {
                     return true;
                 }
             });
+            if (typeCondition === 'OR') {
+                resultElements = resultElements.concat(arrayElements);
+                arrayElements = this.elementData;
+            }
         }
         if (this.filterForm.controls['fLastDate'].value !== '') {
             let dateLastUpdate = this.datePipe.transform(this.getTimeLocale(this.filterForm.controls['fLastDate'].value), 'dd/MM/yyyy');
             arrayElements = arrayElements.filter(personal => {
                 return personal.fechaHoraUltimaModificacion.includes(dateLastUpdate) ? true : false;
             });
+            if (typeCondition === 'OR') {
+                resultElements = resultElements.concat(arrayElements);
+                arrayElements = this.elementData;
+            }
+        }
+
+        if (typeCondition === 'OR') {
+            uniqueElements = new Set(resultElements);
+            resultElements = Array.from(uniqueElements);
         }
 
         return typeCondition === 'AND' ? arrayElements : resultElements;

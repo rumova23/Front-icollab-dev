@@ -35,6 +35,7 @@ import { TreeviewModule } from 'ngx-treeview';
 import { BlockUIModule } from 'ng-block-ui';
 import { Constants } from '../core/globals/Constants';
 import { ComponentsModule } from '../common/components.module';
+import { SecurityDocComponent } from './admin/security-doc/security-doc.component';
 
 
 
@@ -54,6 +55,7 @@ import { ComponentsModule } from '../common/components.module';
         ,GrantsComponent
         ,GrantsEditComponent
         ,RolesGrantsComponent
+        ,SecurityDocComponent
     ],
     exports:[
     ],

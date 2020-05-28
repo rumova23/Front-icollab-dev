@@ -14,6 +14,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import {Constants} from '../../../../../../core/globals/Constants';
 import {EventBlocked} from '../../../../../../core/models/EventBlocked';
 import {ConfirmationDialogService} from '../../../../../../core/services/confirmation-dialog.service';
+import {Personalcompetente} from '../../../../../models/Personalcompetente';
 
 @Component({
     selector: 'app-compliance-profile',
@@ -25,6 +26,8 @@ export class ComplianceProfileComponent implements OnInit {
     @Input() inTipo: string;
     @Input() isViewable: string;
     @Input() accion: string;
+    @Input() inElementData: any[] = [];
+
     title = 'Competencia de los Recursos / Personal / Alta de Personal / Agregar';
     subtitle = 'Datos Personales / Perfil de Puesto';
     generos: Array<any>;
@@ -63,9 +66,9 @@ export class ComplianceProfileComponent implements OnInit {
     file: File;
     photo;
     byteArray;
-    elementData: any[] = [];
     result;
-    dropdownMenuChangeImage=false;
+    dropdownMenuChangeImage = false;
+
     constructor(private cmbos: PerfilComboService,
                 private formBuilder: FormBuilder,
                 public toastr: ToastrManager,
@@ -320,7 +323,7 @@ export class ComplianceProfileComponent implements OnInit {
             return;
         }
 
-        if (this.validatePersonalName()) {
+        if (this.inTipo === 'guardar' && this.validatePersonalName()) {
             this.confirmationDialogService.confirm('Por favor, confirme..',
                 'Ya existe un empleado con este nombre, ¿Desea guardarlo?')
                 .then((confirmed) => {
@@ -357,13 +360,13 @@ export class ComplianceProfileComponent implements OnInit {
             };
         }
     }
-    menuChangeImage(){
-        if(this.inTipo != 'ver')
-        this.dropdownMenuChangeImage = !this.dropdownMenuChangeImage;
+
+    menuChangeImage() {
+        if (this.inTipo !== 'ver') {
+            this.dropdownMenuChangeImage = !this.dropdownMenuChangeImage;
+        }
     }
-    removeImg(){
-        this.imageUrl = '../../../assets/img/foto.png';
-    }
+
     regresar() {
         this.eventService.sendChangePage(new EventMessage(11, {} , 'Compliance.registerPersonal'));
     }
@@ -395,22 +398,22 @@ export class ComplianceProfileComponent implements OnInit {
 
     validatePersonalName(): boolean {
 
-        let arrayElements: any[] = this.elementData;
+        let arrayElements: Personalcompetente[] = this.inElementData;
         let flag: boolean = false;
 
         if (this.perfilForm.controls['fNames'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
-                return personal.name.toString().toUpperCase() === this.perfilForm.controls['fNames'].value.toString().toUpperCase() ? true : false;
+                return personal.nombre.toString().toUpperCase() === this.perfilForm.controls['fNames'].value.toString().toUpperCase() ? true : false;
             });
         }
         if (this.perfilForm.controls['fLastName'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
-                return personal.lastName.toString().toUpperCase() === this.perfilForm.controls['fLastName'].value.toString().toUpperCase() ? true : false;
+                return personal.apPaterno.toString().toUpperCase() === this.perfilForm.controls['fLastName'].value.toString().toUpperCase() ? true : false;
             });
         }
         if (this.perfilForm.controls['fSecondName'].value !== '') {
             arrayElements = arrayElements.filter(personal => {
-                return personal.secondName.toString().toUpperCase() === this.perfilForm.controls['fSecondName'].value.toString().toUpperCase() ? true : false;
+                return personal.apMaterno.toString().toUpperCase() === this.perfilForm.controls['fSecondName'].value.toString().toUpperCase() ? true : false;
             });
         }
 
@@ -422,23 +425,4 @@ export class ComplianceProfileComponent implements OnInit {
         return flag;
     }
 
-    /*
-    getDataSource() {
-        this.elementData = [];
-        this.personal.getEmpleados().subscribe(
-            dataBack => {
-                this.result = dataBack;
-                let i = 1;
-                for (const element of this.result.empleados){
-
-                    const obj ={};
-
-                    obj['name'] = element.nombres;
-                    obj['lastName'] = element.paterno;
-                    obj['secondName'] = element.materno;
-
-                    this.elementData.push(obj);
-                }
-            });
-    } */
 }

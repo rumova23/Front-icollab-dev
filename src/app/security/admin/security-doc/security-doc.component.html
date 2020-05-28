@@ -1,0 +1,79 @@
+<div class="row my-2">
+
+</div>
+
+<div class="section">
+	<div class="row my-2">
+		<div class="col-4 my-2">Botones</div>
+	</div>
+	<div class="row">
+		<div class="col-4 my-2">
+			<app-btn-block (click)="clickBtn()" [label]="'Aplicar Detección Procedimiento'" [addClass]="['tester-00']">
+			</app-btn-block>
+		</div>
+		<div class="col-4 my-2">
+			<app-btn-block-download (click)="clickBtn()"></app-btn-block-download>
+		</div>
+		<div class="col-4 my-2">
+			<app-btn-block-import (click)="clickBtn()"></app-btn-block-import>
+		</div>
+		<div class="col-4 my-2">
+			<app-btn-block-save (click)="clickBtn()"></app-btn-block-save>
+		</div>
+		<div class="col-4 my-2">
+			<app-btn-block-save-update (click)="clickBtn()"></app-btn-block-save-update>
+		</div>
+		<div class="col-4 my-2">
+			<app-btn-block-finish (click)="clickBtn()"></app-btn-block-finish>
+		</div>
+		<div class="col-4 my-2">
+			<app-btn-block-acept (click)="clickBtn()"></app-btn-block-acept>
+		</div>
+		<div class="col-4 my-2">
+			<app-btn-block-cancel (click)="clickBtn()"></app-btn-block-cancel>
+		</div>
+		<div class="col-4 my-2">
+			<app-btn-block-graph (click)="clickBtn()"></app-btn-block-graph>
+		</div>
+
+	</div>
+	<div class="row">
+		<pre>
+&lt;app-btn-block             (click)=&quot;clickBtn()&quot; [label]=&quot;'Aplicar Detección Procedimiento'&quot; [addClass]=&quot;['tester-00']&quot;&gt;&lt;/app-btn-block&gt;
+&lt;app-btn-block-download    (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-download&gt;
+&lt;app-btn-block-import      (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-import&gt;
+&lt;app-btn-block-save        (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-save&gt;
+&lt;app-btn-block-save-update (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-save-update&gt;
+&lt;app-btn-block-finish      (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-finish&gt;
+&lt;app-btn-block-acept       (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-acept&gt;
+&lt;app-btn-block-cancel      (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-cancel&gt;
+		</pre>
+	</div>
+	<div class="row">
+		<div class="col"> Inputs</div>
+	</div>
+	<div class="row">
+		<div class="col-5">
+			<app-mat-input-datepicker-year-and-month (eventChange)="chosenMonthHandler($event)" [label]="'Fecha de Operación Comercial'"></app-mat-input-datepicker-year-and-month>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<pre>
+&lt;app-mat-input-datepicker-year-and-month (eventChange)=&quot;chosenMonthHandler($event)&quot; [label]=&quot;'Fecha de Operación Comercial'&quot;&gt;&lt;/app-mat-input-datepicker-year-and-month&gt;
+			</pre>
+		</div>
+	</div>
+
+	
+	<div class="row">
+		<div class="col">
+			<app-mat-table 
+				(clickSee)="tableRowSee($event)"
+				(clickEdit)="tableRowEdit($event)"
+				(clickDelete)="tableRowDelete($event)"
+				[data]="tableDataDemo"
+				></app-mat-table>
+		</div>
+	</div>
+</div>

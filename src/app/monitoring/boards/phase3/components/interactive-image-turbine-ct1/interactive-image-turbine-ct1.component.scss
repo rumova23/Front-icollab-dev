@@ -46,7 +46,10 @@
     50% { opacity: 0.0; }
     100% { opacity: 1.0; }
 }
-    
+.badge{
+    vertical-align:super;
+    font-size: .3rem; 
+}
 .icon-color{
 	color: #c0c0c0 !important;
 }

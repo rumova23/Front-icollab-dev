@@ -181,6 +181,7 @@ export class ComplianceHomeComponent implements OnInit {
 						refPerfil.instance.isViewable = 'true';
 						refPerfil.instance.isdisabled =  event.data.isdisabled;
 						refPerfil.instance.inTipo = event.data.tipo;
+						refPerfil.instance.inElementData = event.data.elementData;
 						refPerfil.changeDetectorRef.detectChanges();
 						break;
 					case 'shared.header.changePassword':
