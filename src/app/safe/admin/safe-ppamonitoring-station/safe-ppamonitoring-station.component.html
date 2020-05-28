@@ -42,10 +42,12 @@
 				</select>
 			</div>
 			<div
-				class="col col-xxxs-12 col-xxs-12 col-xs-12 col-lg-2 col-xxl-1 d-flex justify-content-end justify-content-xxl-start pt-xxl-1">
-				<button type="submit" class="btn w-100 align-self-end align-self-xxl-start mr-0 mt-xxl-4 mt-xxxs-4 mt-xxs-4 mt-xs-4"
+				class="col col-xxxs-12 col-xxs-12 col-xs-12 col-lg-4 col-xxl-4 d-flex justify-content-end justify-content-xxl-start pt-xxl-1">
+				<button type="submit" class="btn w-100 align-self-end align-self-xxl-start mr-0 mt-xxl-4 mt-xxxs-4 mt-xxs-4 mt-xs-5"
 					style="max-width: 175px;"
-					(click)="validaEjecutaProceso()" [disabled]="buttonExists">Carga</button>
+					(click)="validaEjecutaProceso()" [disabled]="buttonExists">
+					<i class="ti-cloud-up"></i>
+					{{ "Import" | translate }}</button>
 			</div>
 			<div class="col col-xxxs-12 col-xxs-12 col-xs-12 col-md-12 col-xl-12 col-xxl-6 col-xxxl-6 mt-lg-2 mt-xxl-2" *ngIf="manualImport">
 				<div class="row d-flex justify-content-end">
@@ -124,11 +126,6 @@
 			<p class="section_subtitulo_0"></p>
 		</div>
 	</div>
-	<div class="col-auto my-xxs-1">
-		<button type="button" (click)="download()" class="btn"><i class="ti-cloud-down"></i>
-			{{ "Download Zip Estación de Supervisión" | translate }}</button>
-
-	</div>
 	<form [formGroup]="filterDatesFormGroup" (ngSubmit)="searchTagsFromTo()">
 		<div class="row mb-3 mt-3">
 			<div class="col-12 col-lg-6 col-xxl-4">
@@ -144,10 +141,16 @@
 			<div class="col-12 col-lg-6 col-xxl-8 d-flex justify-content-end">
 				<div class="row align-self-end" style="margin-bottom: 1rem;">
 					<div class="col-auto my-xxs-1">
-						<button class="btn align-self-end" style="margin: auto;width: 175px;">
-							<mdb-icon far icon="save" class="mr-1"></mdb-icon> Graficar
+						<button class="btn align-self-end" style="width: 175px;">
+							<i class="ti-bar-chart-alt"></i> Graficar
 						</button>
 
+					</div>
+					<div class="col-auto my-xxs-1">
+						<button type="button" (click)="download()" class="btn align-self-end">
+							<i class="ti-cloud-down"></i>
+							{{ "Download Zip Estación de Supervisión" | translate }}</button>
+				
 					</div>
 				</div>
 			</div>
