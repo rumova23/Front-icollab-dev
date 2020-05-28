@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { Moment } from 'moment';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
 	selector: 'app-security-doc',
@@ -8,6 +9,7 @@ import { Moment } from 'moment';
 	styleUrls: ['./security-doc.component.scss']
 })
 export class SecurityDocComponent implements OnInit {
+	form : FormGroup;
 	tableDataDemo = [
 		{order: 1, id:1,  name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
 		{order: 2, id:2,  name: 'Helium', weight: 4.0026, symbol: 'He'},
@@ -31,13 +33,19 @@ export class SecurityDocComponent implements OnInit {
 		{order: 20, id:20,  name: 'Calcium', weight: 40.078, symbol: 'Ca'},
 	];
 	constructor(
-		public toastr: ToastrManager
+		public toastr: ToastrManager,
+		private formBuilder: FormBuilder
 	) { }
 
 	ngOnInit() {
+		this.form = this.formBuilder.group({
+            name: [{ value: '', disabled: false }, Validators.required]
+        });
 	}
 	
 	clickBtn() {
+		console.log(this.form.value);
+		
 		this.toastr.successToastr('Evento click', '¡Se ha logrado!');
 	}
 	chosenMonthHandler(d: Moment) {
