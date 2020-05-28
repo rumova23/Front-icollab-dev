@@ -39,6 +39,8 @@ export const MY_FORMATS = {
 export class MatInputDatepickerYearAndMonthComponent implements OnInit {
 	@Output() eventChange   = new EventEmitter<Moment>();
 	@Input () label = "";
+	@Input () minDate: Date;
+  	@Input () maxDate: Date;
 	date = new FormControl(moment());
 
 	constructor() { }
