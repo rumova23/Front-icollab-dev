@@ -38,6 +38,7 @@ import { BtnBlockGraphComponent } from './btn/btn-block/btn-block-graph.componen
 import { InputTextComponent } from './inputs/input-text/input-text.component';
 import { MatSelectComponent } from './inputs/mat-select/mat-select.component';
 import { MatSelectMultipleComponent } from './inputs/mat-select-multiple/mat-select-multiple.component';
+import { BtnBlockAddComponent } from './btn/btn-block/btn-block-add.component';
 
 @NgModule({
 	declarations: [
@@ -63,6 +64,7 @@ import { MatSelectMultipleComponent } from './inputs/mat-select-multiple/mat-sel
 		, InputTextComponent
 		, MatSelectComponent
 		, MatSelectMultipleComponent
+		, BtnBlockAddComponent
 	],
 	exports: [
 		 ProgressComponent
@@ -87,6 +89,7 @@ import { MatSelectMultipleComponent } from './inputs/mat-select-multiple/mat-sel
 		, InputTextComponent
 		, MatSelectComponent
 		, MatSelectMultipleComponent
+		, BtnBlockAddComponent
 
 	],
 	imports: [
