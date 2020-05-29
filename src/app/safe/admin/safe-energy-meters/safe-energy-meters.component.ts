@@ -59,13 +59,12 @@ export class SafeEnergyMetersComponent implements OnInit {
 		{id:"4",label:'variable 4'}
 	];
 
-	formImportFromDate : FormGroup;
+	fileUploadForm: FormGroup;
 	formvariables : FormGroup;
 	isManualLoad = false;
 
 	
 	valid = false;
-	fileUploadForm: FormGroup;
 	file: any;
 	fileName: any;
 	progress;
