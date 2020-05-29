@@ -79,6 +79,7 @@ import { SafeProcedureDetectionAndCorrectionComponent } from '../admin/safe-proc
 import {SafePpaMonitoringProfileStationComponent} from '../admin/safe-ppa-monitoring-profile-station/safe-ppa-monitoring-profile-station.component';
 import { SafeNewEventComponent } from 'src/app/safe/business/logBook/newEvent/safeNewEvent.component';
 import { SafeMmOutOfLineComponent } from '../admin/safe-mm-out-of-line/safe-mm-out-of-line.component';
+import { SafeEnergyMetersComponent } from '../admin/safe-energy-meters/safe-energy-meters.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -154,6 +155,7 @@ import { SafeMmOutOfLineComponent } from '../admin/safe-mm-out-of-line/safe-mm-o
 		, SafePpaMonitoringProfileStationComponent
 		, SafeNewEventComponent
 		, SafeMmOutOfLineComponent
+		, SafeEnergyMetersComponent
   	]
 })
 
@@ -183,10 +185,10 @@ export class SafeHomeComponent implements OnInit {
 	}
 
 	ngAfterViewInit() {
-		// this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceWelcomeComponent));
+		//this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(SafeEnergyMetersComponent));/*
 		this.eventService.sendMainSafe(new EventMessage(101, {
 			typeEnergy: 'Factor de Potencia'
-		}));
+		}));//*/
 	}
 
 	ngOnDestroy() {
@@ -205,14 +207,18 @@ export class SafeHomeComponent implements OnInit {
 				let banderaTemporal = false;
 				this.viewContainerRef.clear();
 				switch (event.descriptor) {
-
+					case 'Safe.SafeEnergyMetersComponent':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(SafeEnergyMetersComponent)
+						).changeDetectorRef.detectChanges();
+						break;
 					case 'Safe.SafeMmOutOfLineComponent':
 						banderaTemporal = true;
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(SafeMmOutOfLineComponent)
 						).changeDetectorRef.detectChanges();
 						break;
-					
 					case 'Safe.SafeppaSupervisionStationComponent':
 						banderaTemporal = true;
 						this.viewContainerRef.createComponent(

@@ -14,8 +14,8 @@ export class InputTextComponent implements OnInit {
 	@Input() label           : string = '';
 	@Input() sufijo          : string = '';
 	@Input() submitted       : boolean = false;
-	@Input() controlName     : string;
-	@Input() formGroup       : FormGroup;
+	@Input() controlName     : string = null;
+	@Input() formGroup       : FormGroup = null;
   constructor() { }
 
   ngOnInit() {

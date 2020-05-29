@@ -1,15 +1,19 @@
-
-
-<div class="form-group mb-0">
-  <label>{{label | translate}}:</label>
-  <mat-form-field class="form-control">
-    <input matInput [matDatepicker]="dp" [formControl]="date" [min]="minDate" [max]="maxDate"/>
-    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-    <mat-datepicker #dp 
-                    startView="multi-year" 
-                    (yearSelected)="chosenYearHandler($event)"
-                    (monthSelected)="chosenMonthHandler($event, dp)" 
-                    panelClass="example-month-picker">
-    </mat-datepicker>
-  </mat-form-field>
+<div [formGroup]="formGroup">
+	<div class="form-group">
+		<label>{{ label | translate }}{{ sufijo | translate }}</label>
+		<mat-form-field 
+			class="form-control w-100"
+			[ngClass]="{ 'is-invalid': (submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid }"
+			>
+			<input matInput 
+				[matDatepicker]="dp" 
+				[formControlName]="controlName" 
+				[min]="minDate" 
+				[max]="maxDate" />
+			<mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+			<mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+				(monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
+			</mat-datepicker>
+		</mat-form-field>
+	</div>
 </div>

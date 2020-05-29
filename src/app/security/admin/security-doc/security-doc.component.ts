@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { Moment } from 'moment';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { IdLabel } from 'src/app/core/models/IdLabel';
+import * as moment from 'moment';
 
 @Component({
 	selector: 'app-security-doc',
@@ -33,6 +35,12 @@ export class SecurityDocComponent implements OnInit {
 		{order: 19, id:19,  name: 'Potassium', weight: 39.0983, symbol: 'K'},
 		{order: 20, id:20,  name: 'Calcium', weight: 40.078, symbol: 'Ca'},
 	];
+	selectOptionsFuente : IdLabel[] = [
+		{id:"1",label:'FileZilla FTP'},
+		{id:"2",label:'PAYSERVER DB'},
+		{id:"3",label:'PI SERVER DB'},
+		{id:"4",label:'Manual'}
+	];
 	constructor(
 		public toastr: ToastrManager,
 		private formBuilder: FormBuilder
@@ -41,7 +49,9 @@ export class SecurityDocComponent implements OnInit {
 	ngOnInit() {
 		this.form = this.formBuilder.group({
 			name: [{ value: '', disabled: false }, Validators.required],
-            aotucomplete: [{ value: '', disabled: false }, Validators.required]
+			aotucomplete: [{ value: '', disabled: false }, Validators.required],
+			dateYearAndMonth:[{ value: moment(), disabled: false }],
+			select: [{ value: '', disabled: false }, Validators.required]
 		});
 	}
 	
@@ -53,6 +63,9 @@ export class SecurityDocComponent implements OnInit {
 		this.toastr.successToastr(d.format('MM/yyyy'), '¡Se ha logrado!');
 	}
 
+	onChangeSelectFuente(e){
+		this.toastr.successToastr('Evento change', '¡Fuente seleccionada!');
+	}
 	
 	tableRowDelete(element){
 		this.toastr.successToastr('table Row Delete', 'Seleccionaste');

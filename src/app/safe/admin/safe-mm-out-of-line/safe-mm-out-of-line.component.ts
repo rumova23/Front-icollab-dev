@@ -3,6 +3,8 @@ import { Moment } from 'moment';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { ConfirmationDialogService } from 'src/app/core/services/confirmation-dialog.service';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import * as moment from 'moment';
 
 @Component({
 	selector: 'app-safe-mm-out-of-line',
@@ -39,13 +41,21 @@ export class SafeMmOutOfLineComponent implements OnInit {
 	];
 	tableRow_x_page = [5,10];
 
+	
+	form : FormGroup;
+
 	constructor(
 		public globalService: GlobalService,
 		public toastr: ToastrManager,
+		private formBuilder: FormBuilder,
 		private confirmationDialogService: ConfirmationDialogService,
 	) { }
 
 	ngOnInit() {
+		
+		this.form = this.formBuilder.group({
+			date: new FormControl(moment(), Validators.required)
+		});	
 	}
 	chosenMonthHandler(d:Moment){
 		const month = d.month() + 1;

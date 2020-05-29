@@ -36,16 +36,18 @@ import { MatInputDatepickerYearAndMonthComponent } from './inputs/mat-input-date
 import { MatTableComponent } from './tables/mat-table/mat-table.component';
 import { BtnBlockGraphComponent } from './btn/btn-block/btn-block-graph.component';
 import { InputTextComponent } from './inputs/input-text/input-text.component';
+import { MatSelectComponent } from './inputs/mat-select/mat-select.component';
+import { MatSelectMultipleComponent } from './inputs/mat-select-multiple/mat-select-multiple.component';
 
 @NgModule({
 	declarations: [
 		 ProgressComponent
-		,FileUploadComponent
-		,ConfirmationModalComponent
-		,BreadcrumbsComponent
-		,ChangePasswordComponent
-		,ConfirmationDialogComponent
-		,CalendarComponent
+		, FileUploadComponent
+		, ConfirmationModalComponent
+		, BreadcrumbsComponent
+		, ChangePasswordComponent
+		, ConfirmationDialogComponent
+		, CalendarComponent
 		, BtnBlockComponent
 		, BtnBlockDownloadComponent
 		, BtnBlockImportComponent
@@ -59,18 +61,20 @@ import { InputTextComponent } from './inputs/input-text/input-text.component';
 		, MatTableComponent
 		, BtnBlockGraphComponent
 		, InputTextComponent
+		, MatSelectComponent
+		, MatSelectMultipleComponent
 	],
 	exports: [
 		 ProgressComponent
-		,FileUploadComponent
-		,ConfirmationModalComponent
-		,BreadcrumbsComponent
-		,ChangePasswordComponent
-		,ConfirmationDialogComponent
-		,CalendarComponent
-		,BtnBlockComponent
-		,BtnBlockDownloadComponent
-		,BtnBlockImportComponent
+		, FileUploadComponent
+		, ConfirmationModalComponent
+		, BreadcrumbsComponent
+		, ChangePasswordComponent
+		, ConfirmationDialogComponent
+		, CalendarComponent
+		, BtnBlockComponent
+		, BtnBlockDownloadComponent
+		, BtnBlockImportComponent
 		, BtnBlockCancelComponent
 		, BtnBlockAceptComponent
 		, BtnBlockFinishComponent
@@ -81,6 +85,8 @@ import { InputTextComponent } from './inputs/input-text/input-text.component';
 		, MatTableComponent
 		, BtnBlockGraphComponent
 		, InputTextComponent
+		, MatSelectComponent
+		, MatSelectMultipleComponent
 
 	],
 	imports: [

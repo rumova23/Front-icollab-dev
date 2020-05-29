@@ -5,9 +5,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 	templateUrl: './btn-block.component.html',
 })
 export class BtnBlockComponent implements OnInit {
-	@Output() eventClick   = new EventEmitter<any>();
+	//@Output() eventClick   = new EventEmitter<any>();
 	@Input () label        : string    = 'Boton';
-	@Input () isDisabled   : boolean   = false;
+	@Input () disabled     : boolean   = false;
 	@Input () type         : string    = 'button';
 	@Input () btnClass     : string[]  = ['btn','btn-block','my-0']; //'align-self-end'
 	@Input () addClass     : string[]  = [];
@@ -22,6 +22,6 @@ export class BtnBlockComponent implements OnInit {
 		this.btnClass = this.btnClass.concat(this.addClass);
 	}
 	myEventClick() {
-		this.eventClick.emit();
+		//this.eventClick.emit();
 	}
 }

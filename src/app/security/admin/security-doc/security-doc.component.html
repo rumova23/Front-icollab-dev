@@ -54,7 +54,12 @@
 	</div>
 	<div class="row">
 		<div class="col-5">
-			<app-mat-input-datepicker-year-and-month (eventChange)="chosenMonthHandler($event)" [label]="'Fecha de Operación Comercial'"></app-mat-input-datepicker-year-and-month>
+			<app-mat-input-datepicker-year-and-month 
+				[formGroup]="form"
+				controlName="dateYearAndMonth"
+				(eventChange)="chosenMonthHandler($event)" 
+				[label]="'Fecha de Operación Comercial'"
+			></app-mat-input-datepicker-year-and-month>
 		</div>
 	</div>
 	<div class="row">
@@ -84,7 +89,20 @@
 			</app-mat-input-text-autocomplete>
 		</div>
 	</div>
-	
+	<div class="row">
+		<div class="col">
+			<app-mat-select
+					[formGroup]="form"
+					controlName="select"
+					[options]="selectOptionsFuente"
+					label="select"
+					(eventChange)="onChangeSelectFuente($event)"
+			></app-mat-select>
+		</div>
+	</div>
+
+
+
 	<div class="row">
 		<div class="col">
 			<app-mat-table 

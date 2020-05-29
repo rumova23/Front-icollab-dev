@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
@@ -38,10 +38,14 @@ export const MY_FORMATS = {
 })
 export class MatInputDatepickerYearAndMonthComponent implements OnInit {
 	@Output() eventChange   = new EventEmitter<Moment>();
-	@Input () label = "";
-	@Input () minDate: Date;
-  	@Input () maxDate: Date;
-	date = new FormControl(moment());
+	@Input() minDate         : Date;
+  	@Input() maxDate         : Date;
+	@Input() label           : string = '';
+	@Input() sufijo          : string = '';
+	@Input() submitted       : boolean = false;
+	@Input() controlName     : string = null;
+	@Input() formGroup       : FormGroup = null;
+	//date = new FormControl(moment());
 
 	constructor() { }
 
@@ -49,16 +53,16 @@ export class MatInputDatepickerYearAndMonthComponent implements OnInit {
 	}
 
 	chosenYearHandler(normalizedYear: Moment) {
-		const ctrlValue = this.date.value;
+		const ctrlValue = this.formGroup.get(this.controlName).value;
 		ctrlValue.year(normalizedYear.year());
-		this.date.setValue(ctrlValue);
+		this.formGroup.get(this.controlName).setValue(ctrlValue);
 	}
 	chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
-		const ctrlValue = this.date.value;
+		const ctrlValue = this.formGroup.get(this.controlName).value;
 		ctrlValue.month(normalizedMonth.month());
-		this.date.setValue(ctrlValue);
+		this.formGroup.get(this.controlName).setValue(ctrlValue);
 		datepicker.close();
-		this.eventChange.emit(this.date.value);
+		this.eventChange.emit(this.formGroup.get(this.controlName).value);
 	}
 
 }
