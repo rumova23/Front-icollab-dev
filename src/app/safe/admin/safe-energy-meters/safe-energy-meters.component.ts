@@ -136,7 +136,7 @@ export class SafeEnergyMetersComponent implements OnInit {
 			// this.toastr.errorToastr('No es Proceso Manual.', 'Lo siento,');
 			return 0;
 		}
-		this.addBlock(1,'');
+		//this.addBlock(1,'');
 		this.valid = false;
 		const reader = new FileReader();
 		reader.onloadend = (e) => {
