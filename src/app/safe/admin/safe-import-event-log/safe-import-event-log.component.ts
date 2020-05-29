@@ -42,6 +42,7 @@ export class SafeImportEventLogComponent implements OnInit {
 	
 	fileUploadForm : FormGroup;
 
+	progress;
 	constructor(
 		private formBuilder: FormBuilder,
 		private confirmationDialogService: ConfirmationDialogService,
@@ -82,7 +83,7 @@ export class SafeImportEventLogComponent implements OnInit {
 	upload(value) {
 		this.toastr.successToastr("Upload File", 'Seleccionaste');
 
-		let typeVarhtml = this.fileUploadForm.controls.typeVarhtml.value;
+		let typeVarhtml = this.fileUploadForm.controls.typeVarhtml.value || '';
 		let date:Moment = this.fileUploadForm.controls.date.value;
 		if (typeVarhtml == null || date == null) {
 			this.toastr.errorToastr('Todos los campos son necesarios.', 'Lo siento,');

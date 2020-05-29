@@ -103,6 +103,7 @@ import { SafeMmOutOfLineComponent } from './admin/safe-mm-out-of-line/safe-mm-ou
 import { SafeEnergyMetersComponent } from './admin/safe-energy-meters/safe-energy-meters.component';
 import { SafeEnergyMetersChartComponent } from './admin/safe-energy-meters/safe-energy-meters-chart/safe-energy-meters-chart.component';
 import { SafeImportEventLogComponent } from './admin/safe-import-event-log/safe-import-event-log.component';
+import { SafeRegistrationOfEventsComponent } from './admin/safe-registration-of-events/safe-registration-of-events.component';
 
 
 @NgModule({
@@ -161,7 +162,8 @@ import { SafeImportEventLogComponent } from './admin/safe-import-event-log/safe-
         SafeMmOutOfLineComponent,
         SafeEnergyMetersComponent,
         SafeEnergyMetersChartComponent,
-        SafeImportEventLogComponent
+        SafeImportEventLogComponent,
+        SafeRegistrationOfEventsComponent
     ],
     exports: [],
     imports: [

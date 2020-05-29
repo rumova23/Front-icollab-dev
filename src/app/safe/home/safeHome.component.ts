@@ -81,6 +81,7 @@ import { SafeNewEventComponent } from 'src/app/safe/business/logBook/newEvent/sa
 import { SafeMmOutOfLineComponent } from '../admin/safe-mm-out-of-line/safe-mm-out-of-line.component';
 import { SafeEnergyMetersComponent } from '../admin/safe-energy-meters/safe-energy-meters.component';
 import { SafeImportEventLogComponent } from '../admin/safe-import-event-log/safe-import-event-log.component';
+import { SafeRegistrationOfEventsComponent } from '../admin/safe-registration-of-events/safe-registration-of-events.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -158,6 +159,7 @@ import { SafeImportEventLogComponent } from '../admin/safe-import-event-log/safe
 		, SafeMmOutOfLineComponent
 		, SafeEnergyMetersComponent
 		, SafeImportEventLogComponent
+		, SafeRegistrationOfEventsComponent
   	]
 })
 
@@ -209,6 +211,12 @@ export class SafeHomeComponent implements OnInit {
 				let banderaTemporal = false;
 				this.viewContainerRef.clear();
 				switch (event.descriptor) {
+					case 'Safe.SafeRegistrationOfEventsComponent':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(SafeRegistrationOfEventsComponent)
+						).changeDetectorRef.detectChanges();
+						break;
 					case 'Safe.SafeImportEventLogComponent':
 						banderaTemporal = true;
 						this.viewContainerRef.createComponent(

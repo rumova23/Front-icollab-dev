@@ -89,6 +89,11 @@
     ,"Required":"必須"
     ,"Graph":"グラフ"
     ,"Energy Meters":"エネルギーメーター"
+    ,"MM Out of Line":"オフラインの数学モデル"
+    ,"Monitoring station Profile":"モニタリングステーションのプロファイル"
+    ,"Import Event Log":"イベントログのインポート"
+    ,"Events Log":"イベントログ"
+    ,"Registration of Events":"イベントの登録"
 
     
     ,"legalAgreement" : "法的契約"
