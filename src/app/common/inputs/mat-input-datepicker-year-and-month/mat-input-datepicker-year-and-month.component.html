@@ -15,5 +15,9 @@
 				(monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
 			</mat-datepicker>
 		</mat-form-field>
+		<ng-container *ngIf="(submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid">
+			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.required">{{'Required' | translate}}</p>
+			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.minlength">{{'Insufficient characters' | translate}}</p>
+		</ng-container>
 	</div>
 </div>

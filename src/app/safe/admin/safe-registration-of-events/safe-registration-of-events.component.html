@@ -1,3 +1,50 @@
-<p>
-  safe-registration-of-events works!
-</p>
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Data Mining" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "Monitoring station" | translate }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+<div class="section">
+
+	<div class="row pb-2">
+		<div class="col">
+			<p class="section_titulo_0">{{ "Importa Variables de Estación de Supervisión" | translate }}</p>
+			<p class="section_subtitulo_0"></p>
+		</div>
+	</div>
+
+	<form [formGroup]="formNewEvent" (ngSubmit)="onSubmitFormNewEvent(formNewEvent.value)">
+
+
+<app-mat-input-time
+[formGroup]="formNewEvent"
+controlName="time"
+label="time"
+></app-mat-input-time>
+
+<app-mat-input-datepicker
+
+[formGroup]="formNewEvent"
+controlName="datepicker"
+label="time"
+></app-mat-input-datepicker>
+
+<app-mat-input-number
+[formGroup]="formNewEvent"
+controlName="number"
+label="number"
+
+></app-mat-input-number>
+<app-mat-input-text
+[formGroup]="formNewEvent"
+controlName="text"
+label="text"
+
+></app-mat-input-text>
+</form>
+</div>

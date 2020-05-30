@@ -3,8 +3,7 @@
 		<label>{{ label | translate }}{{ sufijo | translate }}</label>
 		<mat-form-field class="form-control w-100"
 			[ngClass]="{ 'is-invalid': (submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid }">
-      <mat-select
-        multiple
+      		<mat-select multiple
 				[formControlName]="controlName"
 				(selectionChange)="onSelectChange($event)"
 				>

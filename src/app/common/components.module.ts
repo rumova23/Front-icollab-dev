@@ -39,6 +39,13 @@ import { InputTextComponent } from './inputs/input-text/input-text.component';
 import { MatSelectComponent } from './inputs/mat-select/mat-select.component';
 import { MatSelectMultipleComponent } from './inputs/mat-select-multiple/mat-select-multiple.component';
 import { BtnBlockAddComponent } from './btn/btn-block/btn-block-add.component';
+import { MatInputTimeComponent } from './inputs/mat-input-time/mat-input-time.component';
+import { MatInputDatepickerComponent } from './inputs/mat-input-datepicker/mat-input-datepicker.component';
+import { MatInputNumberComponent } from './inputs/mat-input-number/mat-input-number.component';
+import { MatInputTextComponent } from './inputs/mat-input-text/mat-input-text.component';
+import { MatDatetimelocalComponent } from './inputs/mat-datetimelocal/mat-datetimelocal.component';
+import { MatInputPasswordComponent } from './inputs/mat-input-password/mat-input-password.component';
+import { MatInputTextareaComponent } from './inputs/mat-input-textarea/mat-input-textarea.component';
 
 @NgModule({
 	declarations: [
@@ -65,6 +72,13 @@ import { BtnBlockAddComponent } from './btn/btn-block/btn-block-add.component';
 		, MatSelectComponent
 		, MatSelectMultipleComponent
 		, BtnBlockAddComponent
+		, MatInputTimeComponent
+		, MatInputDatepickerComponent
+		, MatInputNumberComponent
+		, MatInputTextComponent
+		, MatDatetimelocalComponent
+		, MatInputPasswordComponent
+		, MatInputTextareaComponent
 	],
 	exports: [
 		 ProgressComponent
@@ -90,6 +104,13 @@ import { BtnBlockAddComponent } from './btn/btn-block/btn-block-add.component';
 		, MatSelectComponent
 		, MatSelectMultipleComponent
 		, BtnBlockAddComponent
+		, MatInputTimeComponent
+		, MatInputDatepickerComponent
+		, MatInputNumberComponent
+		, MatInputTextComponent
+		, MatDatetimelocalComponent
+		, MatInputPasswordComponent
+		, MatInputTextareaComponent
 
 	],
 	imports: [
