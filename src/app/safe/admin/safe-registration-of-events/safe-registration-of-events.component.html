@@ -21,36 +21,23 @@
 	<form [formGroup]="formNewEvent" (ngSubmit)="onSubmitFormNewEvent(formNewEvent.value)">
 
 
-<app-mat-input-time
-[formGroup]="formNewEvent"
-controlName="time"
-label="time"
-></app-mat-input-time>
+		<app-mat-input-time [formGroup]="formNewEvent" controlName="time" label="time"></app-mat-input-time>
 
-<app-mat-input-datepicker
+		<app-mat-input-datepicker [formGroup]="formNewEvent" controlName="datepicker" label="time">
+		</app-mat-input-datepicker>
 
-[formGroup]="formNewEvent"
-controlName="datepicker"
-label="time"
-></app-mat-input-datepicker>
+		<app-mat-input-number [formGroup]="formNewEvent" controlName="number" label="number"></app-mat-input-number>
+		<app-mat-input-text [formGroup]="formNewEvent" controlName="text" label="text"></app-mat-input-text>
+		<app-mat-datetimelocal [formGroup]="formNewEvent" controlName="datetimelocal" label="datetimelocal">
+		</app-mat-datetimelocal>
 
-<app-mat-input-number
-[formGroup]="formNewEvent"
-controlName="number"
-label="number"
-
-></app-mat-input-number>
-<app-mat-input-text
-[formGroup]="formNewEvent"
-controlName="text"
-label="text"
-
-></app-mat-input-text>
-<app-mat-datetimelocal
-[formGroup]="formNewEvent"
-controlName="datetimelocal"
-label="datetimelocal"
-
-></app-mat-datetimelocal>
-</form>
+		<div class="row">
+			<div class="col">
+				<app-btn-block-back (click)="btnClickBack()"></app-btn-block-back>
+			</div>
+			<div class="col">
+				<app-btn-block-save mytype="submit"></app-btn-block-save>
+			</div>
+		</div>
+	</form>
 </div>
