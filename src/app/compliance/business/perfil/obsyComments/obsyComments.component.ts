@@ -12,6 +12,7 @@ import {EventMessage} from '../../../../core/models/EventMessage';
 import {EventBlocked} from '../../../../core/models/EventBlocked';
 import {EventService} from '../../../../core/services/event.service';
 import {Constants} from '../../../../core/globals/Constants';
+import {Comment} from '../../../../efh/models/Comment';
 
 @Component({
   selector: 'app-obsyComments',
@@ -70,7 +71,7 @@ export class ObsyCommentsComponent implements OnInit {
 
   resuelveDS(comenta) {
     this.observacioes.push(
-      new Comentario(comenta.idUsr, comenta.nombre, comenta.observacion, comenta.fecha_modificacion));
+      new Comment(comenta.observacionId,  '0', comenta.usuario, comenta.observacion, comenta.fechaObservacion, comenta.activo, true));
   }
 
   getDocumentos() {
@@ -78,14 +79,20 @@ export class ObsyCommentsComponent implements OnInit {
       let documents: Documents;
       let carasDocumnts: Array<CarasDocument>;
       carasDocumnts =  [];
-      this.comentarios.obtenCalificacion(this.inIdEmpleado).subscribe(calificacion => {
-        this.calificacionId = calificacion.calificacionId;
-        this.comentarios.obtenDocumentos(this.calificacionId, this.typeDocuments[i]).subscribe(docto => {
-          for (let j = 0; j < docto.length; j++) {
-            carasDocumnts.push(new CarasDocument(docto[j].fileName, 'png', docto[j].fileId));
-          }
-        });
-      });
+      this.comentarios.obtenCalificacion(this.inIdEmpleado).subscribe(
+          calificacion => {
+                    this.calificacionId = calificacion.calificacionId;
+                    this.comentarios.obtenDocumentos(this.calificacionId, this.typeDocuments[i]).subscribe(
+                        docto => {
+                                for (let j = 0; j < docto.length; j++) {
+                                    carasDocumnts.push(new CarasDocument(docto[j].fileName, 'png', docto[j].fileId));
+                                }
+                             },
+                        error1 => {
+                        });
+                },
+          error => {
+          });
       documents = new Documents(this.typeDocuments[i], carasDocumnts);
       this.titleDocument.push(documents);
     }
@@ -95,18 +102,22 @@ export class ObsyCommentsComponent implements OnInit {
     this.addBlock(1, 'Cargando...');
     this.comentarios.obtenCalificacion(this.inIdEmpleado).subscribe(
       calificacion => {
+          debugger;
               this.comentarios.getComentarios(calificacion.calificacionId).subscribe(
                 data => {
+                    debugger;
                         data.comentario.forEach(comenta => {
                           this.resuelveDS(comenta);
                         });
                   },
                   error1 => {
+                    debugger;
                     this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
                     this.addBlock(2, null);
                   });
         },
         error => {
+          debugger;
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
           this.addBlock(2, null);
         }).add(() => {
@@ -128,12 +139,11 @@ export class ObsyCommentsComponent implements OnInit {
         this.comentarios.guardaObservacion(this.dataObservationSumbit).subscribe(
             comenta => {
               this.observacioes.push(
-                      new Comentario(comenta.idUsr, comenta.nombre, comenta.observacion, comenta.fecha_modificacion));
+                      new Comment(comenta.observacionId, calificacion.calificacionId, comenta.usuario, comenta.observacion, comenta.fechaObservacion, comenta.activo, true));
               this.obsForm.controls.fObserva.setValue('');
               this.toastr.successToastr('La observación fue registrada con éxito.', '¡Se ha logrado!');
             },
             error1 => {
-              debugger;
               this.toastr.errorToastr('Ocurrió un error al intentar registrar la observación', 'Lo siento,');
               this.addBlock(2, null);
             });

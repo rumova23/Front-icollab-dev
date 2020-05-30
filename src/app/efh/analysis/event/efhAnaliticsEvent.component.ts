@@ -23,6 +23,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
   @ViewChild('tableAnalitics') TABLE: ElementRef;
   analysisForm: FormGroup;
   unitsArr = [];
+  eventTypesArr = [];
   data: any[] = [];
   dataAnalysis: Array<any>;
   dataPartial: Array<any>;
@@ -108,8 +109,8 @@ export class EfhAnaliticsEventComponent implements OnInit {
     this.addBlock(1, 'Cargando...');
     this.catalogoMaestroService.getCatalogoIndividual('unit')
         .subscribe(
-            data => {
-              this.resultService = data;
+            data1 => {
+              this.resultService = data1;
               let k = 0;
               for (const element of this.resultService) {
                   k += 1;
@@ -128,6 +129,33 @@ export class EfhAnaliticsEventComponent implements OnInit {
                       this.unitsArr.push(obj);
                   }
               }
+
+              this.catalogoMaestroService.getCatalogoIndividual('typeEvent')
+                    .subscribe(
+                        data2 => {
+                            this.resultService = data2;
+                            let l = 0;
+                            for (const element of this.resultService) {
+                                l += 1;
+                                const obj            = {};
+                                // @ts-ignore
+                                obj.order       = l;
+                                // @ts-ignore
+                                obj.id          = element.id;
+                                // @ts-ignore
+                                obj.name        = element.code;
+                                // @ts-ignore
+                                obj.description = element.description;
+                                // @ts-ignore
+                                obj.active = element.active;
+                                this.eventTypesArr.push(obj);
+                            }
+                        },
+                        errorData => {
+                            this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+                            this.addBlock(2, null);
+                        }
+               );
             },
             errorData => {
               this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
@@ -160,6 +188,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
             obj['chargeafterrunback'] = element.chargeafterrunback;
             obj['chargebeforestop'] = element.chargebeforestop;
             obj['chargebeforestart'] = element.chargebeforestart;
+            obj['description'] = element.description;
             obj['programmed'] = element.programmed;
             obj['order'] = i;
             obj['spliced'] = element.spliced;
@@ -265,6 +294,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
     let date = '';
     let startTime = '';
     let stopTime = '';
+    let typeEvent = '';
     let runAOH;
     let runEFHi;
     let runESi;
@@ -295,6 +325,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
     let changeRange = 0;
     let changeRate = 0;
     let esi_lcj = 0.00;
+    let comment = '';
     this.dataAnalysis = [];
 
     // Auxiliares
@@ -314,6 +345,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
     obj['date'] = date;
     obj['startTime'] = startTime;
     obj['stopTime'] = stopTime;
+    obj['typeEvent'] = typeEvent;
     obj['runAOH'] = runAOH;
     obj['runEFHi'] = runEFHi;
     obj['runESi'] = runESi;
@@ -344,6 +376,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
     obj['changeRange'] = changeRange;
     obj['changeRate'] = changeRate;
     obj['esi_lcj'] = esi_lcj;
+    obj['comment'] = comment;
     this.dataAnalysis.push(obj);
 
     rateEFHi_costo = this.COSTO_EFHi;
@@ -360,6 +393,8 @@ export class EfhAnaliticsEventComponent implements OnInit {
         for (const event of this.dataPartial) {
             cont++;
             date = this.datePipe.transform(event.dateInit, 'dd/MM/yyyy');
+            typeEvent = this.eventTypesArr.find(x => x.id === event.idTypeEvent).name;
+            comment = event.description;
             // PRIMER EVENTO
             if (firstEvent) {
                 eventStartTime = new Date(event.dateInit);
@@ -613,6 +648,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
                 obj['date'] = date;
                 obj['startTime'] = startTime;
                 obj['stopTime'] = stopTime;
+                obj['typeEvent'] = typeEvent;
                 obj['runAOH'] = runAOH;
                 obj['runEFHi'] = runEFHi;
                 obj['runESi'] = runESi;
@@ -643,6 +679,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
                 obj['changeRange'] = changeRange;
                 obj['changeRate'] = changeRate;
                 obj['esi_lcj'] = esi_lcj;
+                obj['comment'] = comment;
                 this.dataAnalysis.push(obj);
 
                 canRegister = false;
