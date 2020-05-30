@@ -8,7 +8,7 @@ export class BtnBlockComponent implements OnInit {
 	//@Output() eventClick   = new EventEmitter<any>();
 	@Input () label        : string    = 'Boton';
 	@Input () disabled     : boolean   = false;
-	@Input () type         : string    = 'button';
+	@Input () mytype       : string    = 'button';
 	@Input () btnClass     : string[]  = ['btn','btn-block','my-0']; //'align-self-end'
 	@Input () addClass     : string[]  = [];
 	@Input () icon         : string[]  = [];

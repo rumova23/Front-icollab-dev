@@ -46,6 +46,7 @@ import { MatInputTextComponent } from './inputs/mat-input-text/mat-input-text.co
 import { MatDatetimelocalComponent } from './inputs/mat-datetimelocal/mat-datetimelocal.component';
 import { MatInputPasswordComponent } from './inputs/mat-input-password/mat-input-password.component';
 import { MatInputTextareaComponent } from './inputs/mat-input-textarea/mat-input-textarea.component';
+import { BtnBlockBackComponent } from './btn/btn-block/btn-block-back.component';
 
 @NgModule({
 	declarations: [
@@ -72,6 +73,7 @@ import { MatInputTextareaComponent } from './inputs/mat-input-textarea/mat-input
 		, MatSelectComponent
 		, MatSelectMultipleComponent
 		, BtnBlockAddComponent
+		, BtnBlockBackComponent
 		, MatInputTimeComponent
 		, MatInputDatepickerComponent
 		, MatInputNumberComponent
@@ -96,6 +98,7 @@ import { MatInputTextareaComponent } from './inputs/mat-input-textarea/mat-input
 		, BtnBlockFinishComponent
 		, BtnBlockSaveUpdateComponent
 		, BtnBlockSaveComponent
+		, BtnBlockBackComponent
 		, MatInputTextAutocompleteComponent
 		, MatInputDatepickerYearAndMonthComponent
 		, MatTableComponent
