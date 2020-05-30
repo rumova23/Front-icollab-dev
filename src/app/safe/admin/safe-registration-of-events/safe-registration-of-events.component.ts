@@ -20,6 +20,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				datepicker:[{ value: new Date(), disabled: false }, Validators.required],
 				number:[{ value: 1, disabled: false }, Validators.required],
 				text:[{ value: '', disabled: false }, Validators.required],
+				datetimelocal:[{ value: null, disabled: false }, Validators.required],
 			}
 		);
 	}

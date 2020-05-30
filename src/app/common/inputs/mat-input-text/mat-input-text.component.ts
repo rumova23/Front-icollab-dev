@@ -19,7 +19,6 @@ export class MatInputTextComponent implements OnInit {
 	}
 	onChange(e){
 		let d = this.formGroup.get(this.controlName).value;
-		debugger
 		this.eventChange.emit(d);
 	}
 }
