@@ -193,6 +193,6 @@ export class PerfilComboService {
 
   deleteFile(id): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.delete( `${ this.microuploaddbUrl }deleteFile/` + id, {params : this.parameters });
+    return this.http.delete( `${ this.microexamenUrl }exam/eliminaArchivo/` + id, {params : this.parameters });
   }
 }
