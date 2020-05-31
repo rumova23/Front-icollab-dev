@@ -13,23 +13,238 @@
 
 	<div class="row pb-2">
 		<div class="col">
-			<p class="section_titulo_0">{{ "Importa Variables de Estación de Supervisión" | translate }}</p>
+			<p class="section_titulo_0">{{ "Bitácora de Eventos" | translate }}</p>
 			<p class="section_subtitulo_0"></p>
 		</div>
 	</div>
-
+	<hr>
+	<br>
 	<form [formGroup]="formNewEvent" (ngSubmit)="onSubmitFormNewEvent(formNewEvent.value)">
 
+		<div style="border: solid 1px #ccc;" class="p-2 my-2">
+			<div class="row pb-2">
+				<div class="col">
+					<p class="section_titulo_0">{{ "Descripción / Clasificacion de Evento" | translate }}</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<app-mat-datetimelocal [formGroup]="formNewEvent" controlName="dateTimeStart" label="Hora y Fecha inicial" sufijo=":">
+					</app-mat-datetimelocal>
+				</div>
+				<div class="col">
+					<app-mat-datetimelocal [formGroup]="formNewEvent" controlName="dateTimeEnd" label="Hora y Fecha Final" sufijo=":">
+					</app-mat-datetimelocal>
+				</div>
+				<div class="col">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="eventsClassification"
+						[options]="lstEventClassification"
+						label="Clasificación de Eventos"
+						sufijo=":"
+					></app-mat-select>
+				</div>
+				<div class="col">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="events"
+						[options]="lstEvents"
+						label="Eventos"
+						sufijo=":"
+					></app-mat-select>
+				</div>
 
-		<app-mat-input-time [formGroup]="formNewEvent" controlName="time" label="time"></app-mat-input-time>
+				<div class="w-100"></div>
+				<div class="col">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="fuels"
+						[options]="lstFuels"
+						label="Combustible"
+						sufijo=":"
+					></app-mat-select>
+				</div>
+				<div class="col">
+					<app-mat-input-number [formGroup]="formNewEvent" controlName="PowerMw" label="Potencia MW" sufijo=":"></app-mat-input-number>
+				</div>
+				<div class="col">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="units"
+						[options]="lstUnits"
+						label="Unidad"
+						sufijo=":"
+					></app-mat-select>
+				</div>
+				<div class="col">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="impactContracts"
+						[options]="lstImpactContracts"
+						label="Contrato Impacto"
+						sufijo=":"
+					></app-mat-select>
+				</div>
+			</div>
+		</div>
 
-		<app-mat-input-datepicker [formGroup]="formNewEvent" controlName="datepicker" label="time">
-		</app-mat-input-datepicker>
+		<div style="border: solid 1px #ccc;" class="p-2 my-2">
+			<div class="row pb-2">
+				<div class="col">
+					<p class="section_titulo_0">{{ "Contrato de Compraventa de Energía (PPA)" | translate }}</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="realsCcdv"
+						[options]="lstRealsCcdv"
+						label="Unidad"
+						sufijo=":"
+					></app-mat-select>
+				</div>
+				<div class="col">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="toleranceBands"
+						[options]="lstToleranceBands"
+						label="Contrato Impacto"
+						sufijo=":"
+					></app-mat-select>
+				</div>
+			</div>
+		</div>
 
-		<app-mat-input-number [formGroup]="formNewEvent" controlName="number" label="number"></app-mat-input-number>
-		<app-mat-input-text [formGroup]="formNewEvent" controlName="text" label="text"></app-mat-input-text>
-		<app-mat-datetimelocal [formGroup]="formNewEvent" controlName="datetimelocal" label="datetimelocal">
-		</app-mat-datetimelocal>
+		<div style="border: solid 1px #ccc;" class="p-2 my-2">
+			<div class="row pb-2">
+				<div class="col">
+					<p class="section_titulo_0">{{ "Mercado Eléctrico Mayorista (MEM)" | translate }}</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="marketTypes"
+						[options]="lstMarketTypes"
+						label="Tipo de Mercado"
+						sufijo=":"
+					></app-mat-select>
+				</div>
+				<div class="col">
+					<app-mat-input-number [formGroup]="formNewEvent" controlName="mwOffered" label="MW Ofertados" sufijo=":"></app-mat-input-number>
+				</div>
+				<div class="col">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="relatedServices"
+						[options]="lstSelatedServices"
+						label="Contrato Impacto"
+						sufijo=":"
+					></app-mat-select>
+				</div>
+			</div>
+		</div>
+
+		<div style="border: solid 1px #ccc;" class="p-2 my-2">
+			<div class="row pb-2">
+				<div class="col">
+					<p class="section_titulo_0">{{ "Licencia / Orden de Trabajo" | translate }}</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<app-mat-input-text [formGroup]="formNewEvent" controlName="licenseNumber" label="# Licencia" sufijo=":"></app-mat-input-text>
+				</div>
+				<div class="col">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="equipment"
+						[options]="lstEquipment"
+						label="Equipo"
+						sufijo=":"
+					></app-mat-select>
+				</div>
+				<div class="col">
+					<app-mat-input-number [formGroup]="formNewEvent" controlName="initialCharge" label="Carga Inicial" sufijo=":"></app-mat-input-number>
+				</div>
+				<div class="col">
+					<app-mat-input-number [formGroup]="formNewEvent" controlName="finalCharge" label="Carga Final" sufijo=":"></app-mat-input-number>
+				</div>
+				<div class="w-100"></div>
+				<div class="col">
+					<app-mat-input-number [formGroup]="formNewEvent" controlName="mwPowerLoss" label="(-) Perdida Potencia MW" sufijo=":"></app-mat-input-number>
+				</div>
+				<div class="col">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="workOrder"
+						[options]="lstWorkOrder"
+						label="Equipo"
+						sufijo=":"
+					></app-mat-select>
+				</div>
+				<div class="w-100"></div>
+				<div class="col">
+					<app-mat-input-textarea
+						[formGroup]="formNewEvent"
+						controlName="licenseDescription"
+						label="Descripción / Concepto de la Licencia"
+						sufijo=":"
+					></app-mat-input-textarea>
+				</div>
+			</div>
+		</div>
+
+		<div style="border: solid 1px #ccc;" class="p-2 my-2">
+			<div class="row pb-2">
+				<div class="col">
+					<p class="section_titulo_0">{{ "Fuente" | translate }}</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="operatorPlantOpen"
+						[options]="lstOperatorPlantOpen"
+						label="Nombre(s)/Apellidos(s) Operador Planta Abrió"
+						sufijo=":"
+					></app-mat-select>
+				</div>
+				<div class="col">
+					<app-mat-input-text [formGroup]="formNewEvent" controlName="operatorCenaceOpen" label="Nombre(s)/Apellidos(s) Operador CENACE Abrió" sufijo=":"></app-mat-input-text>
+				</div>
+				<div class="w-100"></div>
+				<div class="col">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="operatorPlantClose"
+						[options]="lstOperatorPlantClose"
+						label="Nombre(s)/Apellidos(s) Operador Planta Cerro"
+						sufijo=":"
+					></app-mat-select>
+				</div>				
+				<div class="col">
+					<app-mat-input-text [formGroup]="formNewEvent" controlName="operatorCenaceClose" label="Nombre(s)/Apellidos(s) Operador CENACE Cerro" sufijo=":"></app-mat-input-text>
+				</div>
+				<div class="w-100"></div>
+				<div class="col">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="sourceEvent"
+						[options]="lstSourceEvent"
+						label="Fuente del Evento"
+						sufijo=":"
+					></app-mat-select>
+				</div>
+			</div>
+		</div>
+
+
+
 
 		<div class="row">
 			<div class="col">
