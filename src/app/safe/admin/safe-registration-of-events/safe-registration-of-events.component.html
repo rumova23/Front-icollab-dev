@@ -243,16 +243,131 @@
 			</div>
 		</div>
 
-
-
-
-		<div class="row">
-			<div class="col">
-				<app-btn-block-back (click)="btnClickBack()"></app-btn-block-back>
+		<div style="border: solid 1px #ccc;" class="p-2 my-2">
+			<div class="row pb-2">
+				<div class="col">
+					<p class="section_titulo_0">{{ "Estatus del Evento" | translate }}</p>
+				</div>
 			</div>
-			<div class="col">
-				<app-btn-block-save mytype="submit"></app-btn-block-save>
+			<div class="row">
+				<div class="col">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="eventStatus"
+						[options]="lstEventStatus"
+						label="Fuente del Evento"
+						sufijo=":"
+					></app-mat-select>
+				</div>
+				<div class="col">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="approvalStatus"
+						[options]="lstApprovalStatus"
+						label="Fuente del Evento"
+						sufijo=":"
+					></app-mat-select>
+				</div>
 			</div>
 		</div>
+
+		<div style="border: solid 1px #ccc;" class="p-2 my-2">
+			<div class="row pb-2">
+				<div class="col">
+					<p class="section_titulo_0">{{ "Observaciones y/o comentarios" | translate }}</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<app-mat-input-textarea
+						[formGroup]="formobservationsComments"
+						controlName="observationsComments"
+						sufijo=":"
+					></app-mat-input-textarea>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<app-btn-block-add (click)="BtnAddObservationsComments()"></app-btn-block-add>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col">
+					<app-mat-table 
+						[data]="tableObservationsComments"
+						[columnsDisplay]="tableColumnsDisplay"
+						[columnsLabels]="tablaColumnsLabels"
+						(clickEdit)="tableRowEdit($event)"
+						(clickDelete)="tableRowDelete($event)"
+					></app-mat-table>
+				</div>
+			</div>
+		</div>
+
+
+		<div style="border: solid 1px #ccc;" class="p-2 my-2">
+			<div class="row pb-2">
+				<div class="col">
+					<p class="section_titulo_0">{{ "Soportes" | translate }}</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="media" (click)="downloadFile()">
+						<img src="assets/img/zip.png" style="width: 64px; height: 64px;">
+						<div class="media-body">
+							<p>Descarga kiki_koo.zip</p>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div class="row" [formGroup]="fileUploadForm">
+						
+						<div class="col">
+							Carga Archivo:<br />
+							<app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+							<mat-error *ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
+								Requerido
+							</mat-error>
+						</div>
+						<div class="col">
+							<label style="visibility: hidden;" class="">boton</label>
+							<div class="row mt-2">
+								<div class="col">
+									<app-btn-block-import (click)="btnUploadFile()" [disabled]="!fileUploadForm.valid" ></app-btn-block-import>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		
+		<div style="border: solid 1px #ccc;" class="p-2 my-2">
+			<div class="row">
+				<div class="col">
+					<mat-checkbox formControlName="eventActivated">Activo</mat-checkbox>
+				</div>
+				<div class="col">
+					<div class="row">
+						<div class="col">
+							<app-btn-block-back (click)="btnClickBack()"></app-btn-block-back>
+						</div>
+						<div class="col">
+							<app-btn-block-save mytype="submit"></app-btn-block-save>
+						</div>
+						<div class="col">
+							<app-btn-block-finish (click)="btnFinish()"></app-btn-block-finish>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
 	</form>
 </div>

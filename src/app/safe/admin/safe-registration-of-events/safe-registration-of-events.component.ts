@@ -5,6 +5,8 @@ import { ConfirmationDialogService } from 'src/app/core/services/confirmation-di
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { IdLabel } from 'src/app/core/models/IdLabel';
+import { SecurityService } from 'src/app/core/services/security.service';
+import { requiredFileType } from 'src/app/core/helpers/requiredFileType';
 
 @Component({
 	selector: 'app-safe-registration-of-events',
@@ -12,7 +14,9 @@ import { IdLabel } from 'src/app/core/models/IdLabel';
 	styleUrls: ['./safe-registration-of-events.component.scss']
 })
 export class SafeRegistrationOfEventsComponent implements OnInit {
-	formNewEvent: FormGroup;
+	formobservationsComments : FormGroup;
+	fileUploadForm: FormGroup;
+	formNewEvent : FormGroup;
 
 	lstEventClassification : IdLabel[] = [
 		{id:"1",label:'Pruebas de CENACE'}
@@ -47,7 +51,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	lstWorkOrder : IdLabel[] = [
 		{id:"1",label:'Orden de trabajo'}
 	];
-
 	lstOperatorPlantOpen : IdLabel[] = [
 		{id:"1",label:'Operador 1'}
 	];
@@ -57,16 +60,49 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	lstSourceEvent : IdLabel[] = [
 		{id:"1",label:'fuente 1'}
 	];
+	lstEventStatus : IdLabel[] = [
+		{id:"1",label:'Estatus del evento 1'}
+	];
+	lstApprovalStatus : IdLabel[] = [
+		{id:"1",label:'Estatus de Aprovacion 1'}
+	];
 
+	tableObservationsComments = [
+		{name:this.getNameUser(),observation:"algo",dateUptade:moment(new Date()).format('YYYY-MM-DD'),visible:"¿¿??"}
+	];
+	tablaColumnsLabels = [
+		{ key: 'name', label: 'Nombre' },
+		{ key: 'observation', label: 'Observaciones' },
+		{ key: 'dateUptade', label: 'Fecha de Ultima Modificación' },
+		{ key: 'visible', label: 'Visible' },
+	];
+	tableColumnsDisplay = [
+		'sys_index',
+		'name',
+		'observation',
+		'dateUptade',
+		'visible',
+		'sys_edit',
+		'sys_delete',
+	];
 
+	
+	progress;
 	constructor(
 		private formBuilder:FormBuilder,
 		public globalService: GlobalService,
 		public toastr: ToastrManager,
+		private securityService: SecurityService,
 		private confirmationDialogService: ConfirmationDialogService,
 	) { }
 
 	ngOnInit() {
+		this.fileUploadForm = this.formBuilder.group({
+			file: new FormControl(null, [Validators.required, requiredFileType('zip')]),
+		});
+		this.formobservationsComments = this.formBuilder.group({
+			observationsComments: [{ value: null, disabled: false }],
+		});
 		this.formNewEvent = this.formBuilder.group(
 			{
 				//dateTimeStart:[{ value: moment(new Date()).format('h:mm'), disabled: false }, Validators.required],
@@ -95,7 +131,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				operatorPlantClose: [{ value: null, disabled: false }, Validators.required],
 				operatorCenaceClose: [{ value: null, disabled: false }, Validators.required],
 				sourceEvent: [{ value: null, disabled: false }, Validators.required],
-
+				eventStatus: [{ value: null, disabled: false }, Validators.required],
+				approvalStatus: [{ value: null, disabled: false }, Validators.required],
+				eventActivated: [{ value: false, disabled: false }],
+				
 			}
 		);
 	}
@@ -106,5 +145,46 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	}
 	btnClickBack(){
 		this.toastr.successToastr('btnClickBack', 'Seleccionaste');
+	}
+	BtnAddObservationsComments(){
+		let observation = this.formobservationsComments.get('observationsComments').value;
+		if(observation != null && observation != ""){
+			this.tableObservationsComments = this.tableObservationsComments.concat(
+					{name:this.getNameUser(),observation,dateUptade:moment(new Date()).format('YYYY-MM-DD'),visible:"¿¿??"}
+				);
+			this.formobservationsComments.get('observationsComments').setValue('');
+		}
+	}
+	btnUploadFile(){
+		this.toastr.successToastr('btnUploadFile', 'Seleccionaste');
+		let file = this.fileUploadForm.get('file').value;
+	}
+	btnFinish(){
+		this.toastr.successToastr('btnFinish', 'Seleccionaste');
+	}
+	tableRowEdit(element){
+		this.toastr.successToastr('tableRowEdit', 'Seleccionaste');
+	}
+	tableRowDelete(element){
+		this.confirmationDialogService.confirm(
+			'Confirmación',
+			'¿Está seguro de eliminar el Registro?'
+		)
+		.then((confirmed) => {
+			if ( confirmed ) {
+				this.toastr.successToastr('table Row Delete', 'Seleccionaste');
+				this.tableObservationsComments = this.tableObservationsComments.filter(
+					e => e !== element
+				);
+				console.log(element);
+			}
+		})
+		.catch(() => {});
+	}
+	downloadFile(){
+		this.toastr.successToastr('downloadFile', 'Seleccionaste');
+	}
+	getNameUser() {
+		return this.securityService.getNameUser() +" "+ this.securityService.getLastNameUser();
 	}
 }
