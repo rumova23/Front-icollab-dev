@@ -136,7 +136,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				sourceEvent: [{ value: null, disabled: false }, Validators.required],
 				eventStatus: [{ value: null, disabled: false }, Validators.required],
 				approvalStatus: [{ value: null, disabled: false }, Validators.required],
-				eventActivated: [{ value: false, disabled: false }],
+				eventActivated: [{ value: true, disabled: false }],
 				
 			}
 		);

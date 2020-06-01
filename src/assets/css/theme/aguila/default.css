@@ -10,6 +10,9 @@
 .mat-selected-row{
     background: #cfd8dc!important;
 }
+.mat-header-row{
+    background: #6EB1D620;
+}
 .sidebar_item:hover, .sidebar_item.itemActive{
     background-color : #cfd8dc!important;
     color            : Black!important;

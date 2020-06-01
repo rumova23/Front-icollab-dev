@@ -2,11 +2,12 @@
 	<div class="form-group">
 		<label>{{ label | translate }}{{ sufijo | translate }}</label>
 		<mat-form-field class="w-100">
-			<textarea matInput
+			<textarea matInput #mytextarea
 				class="my-form-control form-control"
 				[ngClass]="{ 'is-invalid': (submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid }"
 				[formControlName]="controlName"
 			></textarea>
+			<small class="form-text text-muted text-right">{{mytextarea.value?.length || 0}}/2000</small>
 		</mat-form-field>
 		<ng-container *ngIf="(submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid">
 			<p style="margin-top: -15px;" class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.required">{{'Required' | translate}}</p>
