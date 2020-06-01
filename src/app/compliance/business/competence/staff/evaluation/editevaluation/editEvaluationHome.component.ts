@@ -31,7 +31,8 @@ export class EditEvaluationHomeComponent implements OnInit {
   }
 
   guardaExamen() {
-    this.perfilComboService.accion.next('guardaExamen');
+    this.perfilComboService.accionSkills.next('guardaExamenSkills');
+    this.perfilComboService.accionBehavior.next('guardaExamenBehavior');
   }
 
   regresar() {

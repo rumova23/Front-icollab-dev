@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter, OnDestroy} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { Respuesta } from 'src/app/compliance/models/Respuesta';
@@ -17,7 +17,7 @@ import {Constants} from '../../../../core/globals/Constants';
   templateUrl: './skills.component.html',
   styleUrls: ['./skills.component.scss']
 })
-export class SkillsComponent implements OnInit {
+export class SkillsComponent implements OnInit, OnDestroy {
   @Input() inIdEmpleado: number;
   @Input() inTipo: string;
   @Input() entidadEstausTerminado: EntidadEstausDTO;
@@ -35,6 +35,7 @@ export class SkillsComponent implements OnInit {
   terminadoId: number;
   isdisabled = false;
   isdisabledFinish = false;
+  subscription;
 
   constructor(private cdRef: ChangeDetectorRef,
               public  globalService: GlobalService,
@@ -42,8 +43,9 @@ export class SkillsComponent implements OnInit {
               private preguntas: PerfilComboService,
               public  toastr: ToastrManager,
               private eventService: EventService) {
-      this.preguntas.accion.subscribe(accion => {
-          if (accion === 'guardaExamen') {
+      this.subscription = this.preguntas.accionSkills.subscribe(accion => {
+          console.log('Called: ' + accion);
+          if (accion === 'guardaExamenSkills') {
               this.guardaExamen();
           }
           if (accion === 'terminaExamen') {
@@ -116,6 +118,10 @@ export class SkillsComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+      this.subscription.unsubscribe();
+  }
+
   onSubmit() {
     this.SaveRespuestas = [];
     for (let i = 0; i < this.grupPregSkill.length; i++) {
@@ -147,6 +153,7 @@ export class SkillsComponent implements OnInit {
   }
 
   guardaExamen() {
+    this.preguntas.accionSkills.next('no_aplica');
     this.SaveRespuestas = [];
     for (let i = 0; i < this.grupPregSkill.length; i++) {
       for (let j = 0; j < this.grupPregSkill[i].length; j++) {

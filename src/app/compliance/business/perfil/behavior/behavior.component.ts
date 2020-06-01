@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter, OnDestroy} from '@angular/core';
 import { ToastrManager } from 'ng6-toastr-notifications';
 
 import { Router, ActivatedRoute } from '@angular/router';
@@ -17,7 +17,7 @@ import {Constants} from '../../../../core/globals/Constants';
   templateUrl: './behaviorV2.component.html',
   styleUrls: ['./behavior.component.scss']
 })
-export class BehaviorComponent implements OnInit {
+export class BehaviorComponent implements OnInit, OnDestroy {
   @Input() inIdEmpleado: number;
   @Input() inTipo: string;
   @Input() entidadEstausTerminado: EntidadEstausDTO;
@@ -32,6 +32,7 @@ export class BehaviorComponent implements OnInit {
   grupOpc = [[], []];
   grupPreg = [[], []];
   SaveRespuestas: Array<Respuesta>;
+  subscription;
 
   isdisabled = false;
   isdisabledFinishBehavior = false;
@@ -45,8 +46,9 @@ export class BehaviorComponent implements OnInit {
       private router: Router,
       private preguntas: PerfilComboService,
       public toastr: ToastrManager) {
-      this.preguntas.accion.subscribe(accion => {
-          if (accion === 'guardaExamen') {
+      this.subscription = this.preguntas.accionBehavior.subscribe(accion => {
+          console.log('Called: ' + accion);
+          if (accion === 'guardaExamenBehavior') {
               this.guardaExamen();
           }
           if (accion === 'terminaExamen') {
@@ -116,9 +118,13 @@ export class BehaviorComponent implements OnInit {
           }).add(() => {
           this.addBlock(2, null);
       });
- }
+  }
 
-  onSubmit() {
+  ngOnDestroy(): void {
+      this.subscription.unsubscribe();
+  }
+
+    onSubmit() {
     this.SaveRespuestas = [];
     for (let i = 0; i < this.grupPreg.length; i++) {
       for (let j = 0; j < this.grupPreg[i].length; j++) {
@@ -149,6 +155,7 @@ export class BehaviorComponent implements OnInit {
   }
 
   guardaExamen() {
+      this.preguntas.accionBehavior.next('no_aplica');
       let sonTodas = true;
       this.SaveRespuestas = [];
       for (let i = 0; i < this.grupPreg.length; i++) {

@@ -34,6 +34,8 @@ const httpOptions2 = {
 export class PerfilComboService {
 
   accion: BehaviorSubject<string> = new BehaviorSubject<string>('no aplica');
+  accionSkills: BehaviorSubject<string> = new BehaviorSubject<string>('no aplica');
+  accionBehavior: BehaviorSubject<string> = new BehaviorSubject<string>('no aplica');
 
   private catalogUrl = environment.catalogUrl;
   private microexamenUrl = environment.microexamenUrl;
