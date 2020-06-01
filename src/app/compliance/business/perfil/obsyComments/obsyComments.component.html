@@ -7,7 +7,7 @@
     </div>
     <div class="row">
       <div class="col-12">
-          <form [formGroup]="obsForm" (ngSubmit)="onSubmit()">
+          <form [formGroup]="obsForm">
               <div class="form-group">
                   <label>Observación</label>
                   <input mdbInput class="form-control" formControlName="fObserva" (keydown)="enableSaveButton();" #description maxlength="1000">
@@ -15,9 +15,9 @@
               </div>
               <div class="row justify-content-end mb-5">
                   <div class="col-md-auto">
-                      <button type="submit" class="btn" [disabled]="isAddObvsDisabled">
+                      <button type="button" (click)="addObservation();" class="btn" [disabled]="isAddObvsDisabled">
                           <i class="ti-bookmark-alt"></i>&nbsp;
-                          Guardar
+                          Guardar / Actualizar
                       </button>
                   </div>
               </div>

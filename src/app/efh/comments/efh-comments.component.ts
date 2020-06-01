@@ -174,7 +174,7 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
           this.efhService.accionComments.next('updatecommentscomponent');
         },
         error => {
-          this.toastr.errorToastr(error.error['text'], 'Lo siento, no fue posible eliminar la observación');
+          this.toastr.errorToastr(error.error['text'], 'Lo siento, no fue posible actualizar la observación');
         }
     );
   }

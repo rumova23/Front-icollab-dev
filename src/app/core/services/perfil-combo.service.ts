@@ -178,6 +178,11 @@ export class PerfilComboService {
     return this.http.post( `${ this.microexamenUrl }exam/guardaObservacion`, observacion, {params : this.parameters });
   }
 
+  eliminaObservacion(observacionId): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.delete( `${ this.microexamenUrl }exam/eliminaObservation/` + observacionId, {params : this.parameters });
+  }
+
   upload(fileObj: File, idCalificacion: number, typeDocument: number) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     const file: FormData = new FormData();

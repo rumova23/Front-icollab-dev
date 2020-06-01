@@ -199,6 +199,7 @@ export class ComplianceHomeComponent implements OnInit {
 						refEditEvaluationHome.instance.isViewable = true;
 						refEditEvaluationHome.instance.isdisabled = event.data.isdisabled;
 						refEditEvaluationHome.instance.tipo       = event.data.tipo;
+						refEditEvaluationHome.instance.entidadEstatusTerminado = event.data.entidadEstatusTerminado;
 						refEditEvaluationHome.changeDetectorRef.detectChanges();
 						break;
 					case 'Compliance.evaluatePersonal.history':

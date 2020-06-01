@@ -14,6 +14,7 @@ import {Combo} from '../../../../models/Combo';
 import {PerfilComboService} from '../../../../../core/services/perfil-combo.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import {EntidadEstausDTO} from '../../../../models/entidad-estaus-dto';
 
 @Component({
   selector: 'app-evaluation',
@@ -41,6 +42,7 @@ export class EvaluationComponent implements OnInit {
   showDelete = false;
   conditionSearch: Array<any> = [];
   condition;
+  entidadEstatusTerminado: EntidadEstausDTO;
 
   filteredfEmpNum     : string[];
   filteredfNames      : string[];
@@ -145,7 +147,7 @@ export class EvaluationComponent implements OnInit {
     this.addBlock(1, 'Cargando...');
     this.personalService.getEmpleadosEvaluaciones().subscribe(
         dataBack => {
-          
+
           this.result = dataBack;
           let i = 0;
           for (const element of this.result) {
@@ -210,6 +212,11 @@ export class EvaluationComponent implements OnInit {
           this.dataSource = new MatTableDataSource<any>(this.dataEmpleadoEvaluaciones);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+
+          this.perfilService.obtenEstatusTerminado('TX_EXAMEN_RESERVACION', 'Terminado').subscribe(
+              (entidadEstatus: EntidadEstausDTO) => {
+                this.entidadEstatusTerminado = entidadEstatus;
+              });
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
@@ -272,7 +279,8 @@ export class EvaluationComponent implements OnInit {
     this.eventService.sendChangePage(new
     EventMessage(11, {
       idEmpleado: idEmpleado,
-      tipo: tipo
+      tipo: tipo,
+      entidadEstatusTerminado: this.entidadEstatusTerminado
     }, descriptor));
   }
 

@@ -33,6 +33,7 @@ export class ObsyCommentsComponent implements OnInit {
   isAddObvsDisabled = true;
   currentComment: any;
   dataObservationSumbit = {};
+  resultService;
 
   // tslint:disable-next-line:max-line-length
   constructor(
@@ -47,7 +48,11 @@ export class ObsyCommentsComponent implements OnInit {
       this.comentarios.accion.subscribe(accion => {
         this.titleDocument = [];
         if (accion === 'upload') {
-          this.ngOnInit();
+            this.ngOnInit();
+        }
+        if (accion === 'updateobsycomments') {
+            this.observacioes = [];
+            this.ngOnInit();
         }
       });
   }
@@ -58,7 +63,7 @@ export class ObsyCommentsComponent implements OnInit {
     this.obsForm = this.formBuildier.group({
       fObserva: [{ value: '', disabled: this.isdisabled }, Validators.required]
     });
-    this.obtieneObservaciones();
+    this.getObservations();
     this.getDocumentos();
   }
 
@@ -66,12 +71,7 @@ export class ObsyCommentsComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    this.guardarObserv();
-  }
-
-  resuelveDS(comenta) {
-    this.observacioes.push(
-      new Comment(comenta.observacionId,  '0', comenta.usuario, comenta.observacion, comenta.fechaObservacion, comenta.activo, true));
+    this.saveObservation();
   }
 
   getDocumentos() {
@@ -98,62 +98,179 @@ export class ObsyCommentsComponent implements OnInit {
     }
   }
 
-  obtieneObservaciones() {
+  getObservations() {
     this.addBlock(1, 'Cargando...');
     this.comentarios.obtenCalificacion(this.inIdEmpleado).subscribe(
-      calificacion => {
-          debugger;
-              this.comentarios.getComentarios(calificacion.calificacionId).subscribe(
+        calificacion => {
+            this.comentarios.getComentarios(calificacion.calificacionId).subscribe(
                 data => {
-                    debugger;
-                        data.comentario.forEach(comenta => {
-                          this.resuelveDS(comenta);
-                        });
-                  },
-                  error1 => {
-                    debugger;
+                    this.resultService = data;
+                    for (const element of this.resultService) {
+                        if (this.inTipo === 'ver') {
+                            if (element.activo) {
+                                this.observacioes.push(new Comment(element.observacionId, element.calificacionId, element.usuario, element.observacion, new Date(element.dateUpdated), element.activo, true));
+                            }
+                        } else {
+                            this.observacioes.push(new Comment(element.observacionId, element.calificacionId, element.usuario, element.observacion, new Date(element.dateUpdated), element.activo, true));
+                        }
+                    }
+                },
+                error1 => {
                     this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
                     this.addBlock(2, null);
-                  });
+                }
+            );
         },
         error => {
-          debugger;
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-          this.addBlock(2, null);
-        }).add(() => {
-      this.addBlock(2, null);
+            this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+            this.addBlock(2, null);
+        }
+    ).add(() => {
+        this.addBlock(2, null);
     });
   }
 
-  guardarObserv() {
+  saveObservation() {
     this.dataObservationSumbit = {};
     const obsva = this.obsForm.controls.fObserva.value;
     this.addBlock(1, 'Cargando...');
     this.comentarios.obtenCalificacion(this.inIdEmpleado).subscribe(
       calificacion => {
-        this.dataObservationSumbit['observacion'] = obsva;
-        this.dataObservationSumbit['calificacionId'] = calificacion.calificacionId;
-        this.dataObservationSumbit['fechaObservacion'] = new Date();
-        this.dataObservationSumbit['activo'] = true;
-        this.dataObservationSumbit['save'] = true;
-        this.comentarios.guardaObservacion(this.dataObservationSumbit).subscribe(
+            this.dataObservationSumbit['observacion'] = obsva;
+            this.dataObservationSumbit['calificacionId'] = calificacion.calificacionId;
+            this.dataObservationSumbit['fechaObservacion'] = new Date();
+            this.dataObservationSumbit['activo'] = true;
+            this.dataObservationSumbit['save'] = true;
+            this.comentarios.guardaObservacion(this.dataObservationSumbit).subscribe(
             comenta => {
-              this.observacioes.push(
-                      new Comment(comenta.observacionId, calificacion.calificacionId, comenta.usuario, comenta.observacion, comenta.fechaObservacion, comenta.activo, true));
-              this.obsForm.controls.fObserva.setValue('');
-              this.toastr.successToastr('La observación fue registrada con éxito.', '¡Se ha logrado!');
+                this.toastr.successToastr('La observación fue registrada con éxito.', '¡Se ha logrado!');
+                this.comentarios.accion.next('updateobsycomments');
             },
             error1 => {
-              this.toastr.errorToastr('Ocurrió un error al intentar registrar la observación', 'Lo siento,');
-              this.addBlock(2, null);
+                this.toastr.errorToastr('Ocurrió un error al intentar registrar la observación', 'Lo siento,');
+                this.addBlock(2, null);
             });
         },
         error => {
-          this.toastr.errorToastr('Ocurrió un error al intentar eliminar la observación', 'Lo siento,');
-          this.addBlock(2, null);
+            this.toastr.errorToastr('Ocurrió un error al intentar eliminar la observación', 'Lo siento,');
+            this.addBlock(2, null);
         }).add(() => {
       this.addBlock(2, null);
     });
+  }
+
+  updateObservation(comment: any) {
+    this.dataObservationSumbit = {};
+    this.dataObservationSumbit['observacionId'] = comment.id;
+    this.dataObservationSumbit['calificacionId'] = comment.ideventconfig;
+    this.dataObservationSumbit['observacion'] = comment.observacion;
+    this.dataObservationSumbit['fechaObservacion'] = new Date();
+    this.dataObservationSumbit['activo'] = comment.active;
+    this.dataObservationSumbit['save'] = false;
+    this.addBlock(1, 'Cargando...');
+    this.comentarios.guardaObservacion(this.dataObservationSumbit).subscribe(
+        data => {
+            this.toastr.successToastr('La observación fue actualizada con éxito.', '¡Se ha logrado!');
+            this.comentarios.accion.next('updateobsycomments');
+        },
+        error => {
+            this.toastr.errorToastr(error.error['text'], 'Lo siento, no fue posible actualizar la observación');
+            this.addBlock(2, null);
+        }
+    ).add(() => {
+        this.addBlock(2, null);
+    });
+  }
+
+  visibleObservation(comment: any) {
+    this.dataObservationSumbit = {};
+    this.dataObservationSumbit['observacionId'] = comment.id;
+    this.dataObservationSumbit['calificacionId'] = comment.ideventconfig;
+    this.dataObservationSumbit['observacion'] = comment.observacion;
+    this.dataObservationSumbit['fechaObservacion'] = new Date();
+    this.dataObservationSumbit['activo'] = !comment.active;
+    this.dataObservationSumbit['save'] = false;
+    this.addBlock(1, 'Cargando...');
+    this.comentarios.guardaObservacion(this.dataObservationSumbit).subscribe(
+        data => {
+            this.toastr.successToastr('La observación fue actualizada con éxito.', '¡Se ha logrado!');
+            this.comentarios.accion.next('updateobsycomments');
+        },
+        error => {
+            this.toastr.errorToastr(error.error['text'], 'Lo siento, no fue posible eliminar la observación');
+            this.addBlock(2, null);
+        }
+    ).add(() => {
+        this.addBlock(2, null);
+    });
+  }
+
+  setToEdit(comment: any) {
+    this.currentComment = comment;
+    this.obsForm.controls.fObserva.setValue(comment.observacion);
+  }
+
+  addObservation() {
+     const obser = this.obsForm.controls.fObserva.value;
+     if (obser === null || obser === '') {
+         this.toastr.errorToastr('No se puede agregar una observación vacía', 'Lo siento,');
+     } else {
+         if (this.currentComment) {
+             this.currentComment.observacion = this.obsForm.controls.fObserva.value;
+             this.updateObservation(this.currentComment);
+             this.currentComment = null;
+         } else {
+             this.saveObservation();
+         }
+     }
+
+        /*
+    } else {
+        const obser = this.obsForm.controls.observations.value;
+        if (obser === null || obser === '') {
+            this.toastr.errorToastr('No se puede agregar una observación vacía', 'Lo siento,');
+        } else {
+            this.obsForm.controls.observations.setValue('');
+            if (this.inTipo === 'nuevo') {
+                if (this.currentComment) {
+                    const updateItem = this.observacioes.find(item => item.observacion === this.currentComment.observacion);
+                    const index = this.observacioes.indexOf(updateItem);
+                    this.observacioes[index].observacion = obser;
+                    this.currentComment = null;
+                } else {
+                    this.observacioes.push(new Comment('1', '', 'tester', obser, new Date(), true, false));
+                }
+            } else {
+                this.saveObservation();
+            }
+            this.isAddObvsDisabled = true;
+        }
+    }*/
+  }
+
+  eliminarRegistro(comment: any) {
+     this.confirmationDialogService.confirm('Por favor, confirme..',
+         'Está seguro de eliminar la observación?')
+         .then((confirmed) => {
+             if (confirmed) {
+                 this.comentarios.eliminaObservacion(comment.id)
+                     .subscribe(
+                         data => {
+                             this.toastr.successToastr('La observación fué eliminada correctamente', '¡Se ha logrado!');
+                             this.comentarios.accion.next('updateobsycomments');
+                         }
+                         , error => {
+                             if (error.error['text'] === 'OK') {
+                                 this.toastr.successToastr('La observación fué eliminada correctamente', '¡Se ha logrado!');
+                                 this.comentarios.accion.next('updateobsycomments');
+                             } else {
+                                 this.toastr.errorToastr(error.error['text'], 'Lo siento,');
+                             }
+                         },
+                     );
+             }
+         })
+         .catch(() => console.log('Canceló eliminar'));
   }
 
   downloadFile(fileId: number, fileName: string) {
@@ -202,19 +319,6 @@ export class ObsyCommentsComponent implements OnInit {
     if (this.inTipo !== 'ver') {
       this.isAddObvsDisabled = false;
     }
-  }
-
-  setToEdit(comment: any) {
-    this.currentComment = comment;
-    this.obsForm.controls.fObserva.setValue(comment.observacion);
-  }
-
-  eliminarRegistro(comment: any) {
-
-  }
-
-  visibleObservation(comment: any) {
-
   }
 
   private addBlock(type, msg): void {
