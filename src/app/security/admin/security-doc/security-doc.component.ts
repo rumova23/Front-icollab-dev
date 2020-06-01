@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { Moment } from 'moment';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { IdLabel } from 'src/app/core/models/IdLabel';
+import * as moment from 'moment';
 
 @Component({
 	selector: 'app-security-doc',
@@ -8,6 +11,8 @@ import { Moment } from 'moment';
 	styleUrls: ['./security-doc.component.scss']
 })
 export class SecurityDocComponent implements OnInit {
+	listOptionsAutocomplete = ['One', 'Two', 'Three','Three','Threes','María'];
+	form : FormGroup;
 	tableDataDemo = [
 		{order: 1, id:1,  name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
 		{order: 2, id:2,  name: 'Helium', weight: 4.0026, symbol: 'He'},
@@ -30,20 +35,37 @@ export class SecurityDocComponent implements OnInit {
 		{order: 19, id:19,  name: 'Potassium', weight: 39.0983, symbol: 'K'},
 		{order: 20, id:20,  name: 'Calcium', weight: 40.078, symbol: 'Ca'},
 	];
+	selectOptionsFuente : IdLabel[] = [
+		{id:"1",label:'FileZilla FTP'},
+		{id:"2",label:'PAYSERVER DB'},
+		{id:"3",label:'PI SERVER DB'},
+		{id:"4",label:'Manual'}
+	];
 	constructor(
-		public toastr: ToastrManager
+		public toastr: ToastrManager,
+		private formBuilder: FormBuilder
 	) { }
 
 	ngOnInit() {
+		this.form = this.formBuilder.group({
+			name: [{ value: '', disabled: false }, Validators.required],
+			aotucomplete: [{ value: '', disabled: false }, Validators.required],
+			dateYearAndMonth:[{ value: moment(), disabled: false }],
+			select: [{ value: '', disabled: false }, Validators.required]
+		});
 	}
 	
 	clickBtn() {
+		console.log(this.form.value);
 		this.toastr.successToastr('Evento click', '¡Se ha logrado!');
 	}
 	chosenMonthHandler(d: Moment) {
 		this.toastr.successToastr(d.format('MM/yyyy'), '¡Se ha logrado!');
 	}
 
+	onChangeSelectFuente(e){
+		this.toastr.successToastr('Evento change', '¡Fuente seleccionada!');
+	}
 	
 	tableRowDelete(element){
 		this.toastr.successToastr('table Row Delete', 'Seleccionaste');

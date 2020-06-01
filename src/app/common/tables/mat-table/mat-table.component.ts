@@ -25,6 +25,7 @@ export class MatTableComponent implements OnInit , OnChanges {
 	@Input() columnsLabels: ColumnLabel[] = [];
 	@Input() columnsDisplay: string[] = [];
 	@Input() row_x_page = [5,10,20,50, 100, 250, 500];
+	@Input() labelColIndex : string = '#';
 
 	constructor() { }
 
@@ -84,28 +85,32 @@ export class MatTableComponent implements OnInit , OnChanges {
 		this.init();
 	}
 	init(){
-		if(this.columnsLabels.length == 0 && this.data.length > 0){
-			const o = this.data[this.data.length-1];
-			for (const key in o) {
-				if (o.hasOwnProperty(key)) {
-					this.columnsLabels.push({key, label: key});
+		if(Array.isArray(this.data) && this.data.length > 0){
+			if(Array.isArray(this.columnsLabels) && this.columnsLabels.length == 0 ){
+				const o = this.data[0];
+				for (const key in o) {
+					if (o.hasOwnProperty(key)) {
+						this.columnsLabels.push({key, label: key});
+					}
 				}
 			}
-		}
-		if(this.columnsDisplay.length == 0 && this.data.length > 0){
-			const o = this.data[this.data.length-1];
-			for (const key in o) {
-				if (o.hasOwnProperty(key)) {
-					this.columnsDisplay.push(key);
+			if(Array.isArray(this.columnsDisplay) && this.columnsDisplay.length == 0 ){
+				const o = this.data[0];
+				this.columnsDisplay.push('sys_index');
+				for (const key in o) {
+					if (o.hasOwnProperty(key)) {
+						this.columnsDisplay.push(key);
+					}
 				}
+				this.columnsDisplay.push('sys_see');
+				this.columnsDisplay.push('sys_edit');
+				this.columnsDisplay.push('sys_delete');
 			}
-			this.columnsDisplay.push('sys_see');
-			this.columnsDisplay.push('sys_edit');
-			this.columnsDisplay.push('sys_delete');
+		
+			this.dataSource = new MatTableDataSource<any>(this.data);
+			this.dataSource.paginator = this.paginator;
+			this.dataSource.sort = this.sort;
 		}
-		this.dataSource = new MatTableDataSource<any>(this.data);
-		this.dataSource.paginator = this.paginator;
-		this.dataSource.sort = this.sort;
 	}
 	see(e){
 		this.clickSee.emit(e);

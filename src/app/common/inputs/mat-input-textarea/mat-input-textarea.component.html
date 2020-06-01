@@ -1,0 +1,16 @@
+<div [formGroup]="formGroup">
+	<div class="form-group">
+		<label>{{ label | translate }}{{ sufijo | translate }}</label>
+		<mat-form-field class="w-100">
+			<textarea matInput
+				class="my-form-control form-control"
+				[ngClass]="{ 'is-invalid': (submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid }"
+				[formControlName]="controlName"
+			></textarea>
+		</mat-form-field>
+		<ng-container *ngIf="(submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid">
+			<p style="margin-top: -15px;" class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.required">{{'Required' | translate}}</p>
+			<p style="margin-top: -15px;" class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.minlength">{{'Insufficient characters' | translate}}</p>
+		</ng-container>
+	</div>
+</div>

@@ -1,0 +1,22 @@
+<div [formGroup]="formGroup">
+	<div class="form-group">
+		<label>{{ label | translate }}{{ sufijo | translate }}</label>
+		<mat-form-field
+			class="form-control w-100"
+			[ngClass]="{ 'is-invalid': (submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid }"
+		>
+			<input matInput 
+				(dateChange)="onChange($event)"
+				[matDatepicker]="picker"
+				[formControlName]="controlName" 
+				[min]="minDate" 
+				[max]="maxDate">
+			<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+			<mat-datepicker #picker></mat-datepicker>
+		</mat-form-field>
+		<ng-container *ngIf="(submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid">
+			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.required">{{'Required' | translate}}</p>
+			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.minlength">{{'Insufficient characters' | translate}}</p>
+		</ng-container>
+	</div>
+</div>

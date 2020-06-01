@@ -101,6 +101,10 @@ import { SafeProcedureDetectionAndCorrectionComponent } from './admin/safe-proce
 import {SafePpaMonitoringProfileStationComponent} from './admin/safe-ppa-monitoring-profile-station/safe-ppa-monitoring-profile-station.component';
 import { SafeMmOutOfLineComponent } from './admin/safe-mm-out-of-line/safe-mm-out-of-line.component';
 import {GenericCatalogsComponent} from './admin/generic-catalogs/generic-catalogs.component';
+import { SafeEnergyMetersComponent } from './admin/safe-energy-meters/safe-energy-meters.component';
+import { SafeEnergyMetersChartComponent } from './admin/safe-energy-meters/safe-energy-meters-chart/safe-energy-meters-chart.component';
+import { SafeImportEventLogComponent } from './admin/safe-import-event-log/safe-import-event-log.component';
+import { SafeRegistrationOfEventsComponent } from './admin/safe-registration-of-events/safe-registration-of-events.component';
 
 
 @NgModule({
@@ -157,7 +161,11 @@ import {GenericCatalogsComponent} from './admin/generic-catalogs/generic-catalog
         SafeProcedureDetectionAndCorrectionComponent,
         SafePpaMonitoringProfileStationComponent,
         SafeMmOutOfLineComponent,
-        GenericCatalogsComponent
+        GenericCatalogsComponent,
+        SafeEnergyMetersComponent,
+        SafeEnergyMetersChartComponent,
+        SafeImportEventLogComponent,
+        SafeRegistrationOfEventsComponent
     ],
     exports: [],
     imports: [

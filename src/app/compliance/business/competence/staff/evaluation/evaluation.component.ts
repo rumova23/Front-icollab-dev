@@ -14,6 +14,7 @@ import {Combo} from '../../../../models/Combo';
 import {PerfilComboService} from '../../../../../core/services/perfil-combo.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import {EntidadEstausDTO} from '../../../../models/entidad-estaus-dto';
 
 @Component({
   selector: 'app-evaluation',
@@ -41,14 +42,16 @@ export class EvaluationComponent implements OnInit {
   showDelete = false;
   conditionSearch: Array<any> = [];
   condition;
+  entidadEstatusTerminado: EntidadEstausDTO;
 
-  filteredfEmpNum     : Observable<string[]>;
-  filteredfNames      : Observable<string[]>;
-  filteredfLastName   : Observable<string[]>;
-  filteredfSecondName : Observable<string[]>;
-  filteredfDepto      : Observable<string[]>;
-  filteredfRating     : Observable<string[]>;
-  filteredfCompetence : Observable<string[]>;
+  filteredfEmpNum     : string[];
+  filteredfNames      : string[];
+  filteredfLastName   : string[];
+  filteredfSecondName : string[];
+  filteredfDepto      : string[];
+  filteredfRating     : string[];
+  filteredfCompetence : string[];
+
   constructor(private globalService: GlobalService,
               private eventService: EventService,
               private formBuilder: FormBuilder,
@@ -116,35 +119,35 @@ export class EvaluationComponent implements OnInit {
     this.conditionSearch.push(new Combo('2', 'Al menos uno'));
 
     this.filterForm = this.formBuilder.group({
-      fEmpNum: ['', Validators.required],
-      fNames: ['', Validators.required],
-      fLastName: ['', Validators.required],
-      fSecondName: ['', Validators.required],
-      fCompetence: ['', Validators.required],
+      fEmpNum: [''],
+      fNames: [''],
+      fLastName: [''],
+      fSecondName: [''],
+      fCompetence: [''],
       fEst: ['', Validators.required],
       fLastDate: ['', Validators.required],
-      fDepto: ['', Validators.required],
-      fRating: ['', Validators.required],
+      fDepto: [''],
+      fRating: [''],
       fSearchCondition: ['', null]
     });
-    this.initAutoComplete();
+    //this.initAutoComplete();
   }
-
+  
   initAutoComplete() {
-      this.filteredfEmpNum     = this.filterForm.get('fEmpNum'     ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.numEmp.toLowerCase()                 ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
-      this.filteredfNames      = this.filterForm.get('fNames'      ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.name.toLowerCase()                   ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
-      this.filteredfLastName   = this.filterForm.get('fLastName'   ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.lastName.toLowerCase()               ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
-      this.filteredfSecondName = this.filterForm.get('fSecondName' ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.secondName.toLowerCase()             ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
-      this.filteredfDepto      = this.filterForm.get('fDepto'      ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.department.toLowerCase()             ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
-      this.filteredfRating     = this.filterForm.get('fRating'     ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.totalRating.toString().toLowerCase() ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
-      this.filteredfCompetence = this.filterForm.get('fCompetence' ).valueChanges.pipe(startWith(''),map(value => this.dataEmpleadoEvaluaciones.map(d=>d.competence.toLowerCase()             ).filter((el,index,arr)=>arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
+      this.filteredfEmpNum     = this.dataEmpleadoEvaluaciones.map(d=>d.numEmp.toLowerCase()                 ).filter((el,index,arr)=>arr.indexOf(el) === index);
+      this.filteredfNames      = this.dataEmpleadoEvaluaciones.map(d=>d.name.toLowerCase()                   ).filter((el,index,arr)=>arr.indexOf(el) === index);
+      this.filteredfLastName   = this.dataEmpleadoEvaluaciones.map(d=>d.lastName.toLowerCase()               ).filter((el,index,arr)=>arr.indexOf(el) === index);
+      this.filteredfSecondName = this.dataEmpleadoEvaluaciones.map(d=>d.secondName.toLowerCase()             ).filter((el,index,arr)=>arr.indexOf(el) === index);
+      this.filteredfDepto      = this.dataEmpleadoEvaluaciones.map(d=>d.department.toLowerCase()             ).filter((el,index,arr)=>arr.indexOf(el) === index);
+      this.filteredfRating     = this.dataEmpleadoEvaluaciones.map(d=>d.totalRating.toString().toLowerCase() ).filter((el,index,arr)=>arr.indexOf(el) === index);
+      this.filteredfCompetence = this.dataEmpleadoEvaluaciones.map(d=>d.competence.toLowerCase()             ).filter((el,index,arr)=>arr.indexOf(el) === index);
   }
   getDataSource() {
     this.dataEmpleadoEvaluaciones = [];
     this.addBlock(1, 'Cargando...');
     this.personalService.getEmpleadosEvaluaciones().subscribe(
         dataBack => {
-          debugger;
+
           this.result = dataBack;
           let i = 0;
           for (const element of this.result) {
@@ -209,6 +212,11 @@ export class EvaluationComponent implements OnInit {
           this.dataSource = new MatTableDataSource<any>(this.dataEmpleadoEvaluaciones);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+
+          this.perfilService.obtenEstatusTerminado('TX_EXAMEN_RESERVACION', 'Terminado').subscribe(
+              (entidadEstatus: EntidadEstausDTO) => {
+                this.entidadEstatusTerminado = entidadEstatus;
+              });
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
@@ -216,6 +224,7 @@ export class EvaluationComponent implements OnInit {
         }
     ).add(() => {
       this.addBlock(2, null);
+      this.initAutoComplete();
     });
 
   }
@@ -231,6 +240,7 @@ export class EvaluationComponent implements OnInit {
       values.fDepto       !== '' ||
       values.fRating      !== '' ||
       values.fCompetence  !== '' ||
+      values.fEst         !== '' ||
       (values.fLastDate   !== '')
       ) {
 
@@ -269,7 +279,8 @@ export class EvaluationComponent implements OnInit {
     this.eventService.sendChangePage(new
     EventMessage(11, {
       idEmpleado: idEmpleado,
-      tipo: tipo
+      tipo: tipo,
+      entidadEstatusTerminado: this.entidadEstatusTerminado
     }, descriptor));
   }
 
@@ -282,7 +293,6 @@ export class EvaluationComponent implements OnInit {
     let resultElements: any[] = [];
     let values = this.filterForm.value;
     let dateLastUpdate =  values.fLastDate !== '' ? this.datePipe.transform(this.getTimeLocale(values.fLastDate), 'dd/MM/yyyy') : null;
-
     if (typeCondition === 'OR') {
       resultElements = arrayElements.filter(o =>
         ( values.fEmpNum     !== '' && o.numEmp.toLowerCase().startsWith(values.fEmpNum.toLowerCase()                    ) ) ||
@@ -292,6 +302,7 @@ export class EvaluationComponent implements OnInit {
         ( values.fDepto      !== '' && o.department.toLowerCase().startsWith(values.fDepto.toLowerCase()                 ) ) ||
         ( values.fRating     !== '' && o.totalRating.toString().startsWith(values.fRating.toLowerCase()                  ) ) ||
         ( values.fCompetence !== '' && o.competence.toLowerCase().startsWith(values.fCompetence.toLowerCase()            ) ) ||
+        ( values.fEst        !== '' && (o.status.toLowerCase() =='activo'?'1':'0').startsWith(values.fEst.toLowerCase()  ) ) ||
         ( values.fLastDate   !== '' && o.dateHourUpdate.toString().startsWith(dateLastUpdate))
       );
     } else {
@@ -302,11 +313,12 @@ export class EvaluationComponent implements OnInit {
           ['fSecondName', 'secondName'],
           ['fDepto',      'department'],
           ['fRating',     'totalRating'],
-          ['fCompetence', 'competence']
+          ['fCompetence', 'competence'],
+          ['fEst',        'status']
       ]);
       resultElements = arrayElements.filter(o => {
         let respuesta = true;
-
+        
         for (const key in values) {
           if (values.hasOwnProperty(key)) {
             const element = values[key];
@@ -316,8 +328,17 @@ export class EvaluationComponent implements OnInit {
               }
             }
             if (element !== '' && !['fSearchCondition', 'fLastDate'].includes(key)) {
-              if (! o[valuesMap.get(key)].toString().toLowerCase().startsWith(element.toLowerCase())) {
-                respuesta = false;
+              try {
+                if(key == 'fEst'){
+                  if(! (o[valuesMap.get(key)].toLowerCase() =='activo'?'1':'0').startsWith(element.toLowerCase())){
+                    respuesta = false;
+                  }
+                }
+                else if (! o[valuesMap.get(key)].toString().toLowerCase().startsWith(element.toLowerCase())) {
+                  respuesta = false;
+                }
+                
+              } catch (error) {
               }
             }
           }

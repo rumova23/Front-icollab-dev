@@ -1,10 +1,175 @@
 <div class="row my-2">
 
 </div>
+<div class="section">
+	<div class="row">
+		<div class="col">
+			<p class="section_titulo_0">Textos</p>
+			<p class="section_subtitulo_0">Así seávisualizaran los diferentes textos en le sistema</p>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col">
+			<p class="section_titulo_0">Compomentes usados en la aplicación</p>
+			<p class="section_subtitulo_0">Subtitulo</p>
+			<p>Dentro de una etiqueta 'p'</p>
+			<div>Dentro de una etiqueta 'div'</div>
+			<label>Dentro de una etiqueta 'label'</label><br>
+			<a>Dentro de una etiqueta 'a'</a><br>
+			<span>Dentro de una etiqueta 'span'</span><br>
+			<strong>Dentro de una etiqueta 'strong'</strong><br>
+			<small>Dentro de una etiqueta 'small'</small><br>
+			<b>Dentro de una etiqueta 'b'</b><br>
+			<abbr title="Comisión Federal de Electricidad">CFE</abbr>
+			<pre>Dentro de una etiqueta 'pre'</pre>
+		</div>
+		<div class="col pt-4 codigo">
+			     &lt;p class=&quot;section_titulo_0&quot;&gt;Compomentes usados en la aplicación&lt;/p&gt;
+			<br> &lt;p class=&quot;section_subtitulo_0&quot;&gt;Subtitulo&lt;/p&gt;
+			<br> &lt;p&gt;Dentro de una etiqueta 'p'&lt;/p&gt;
+			<br> &lt;div&gt;Dentro de una etiqueta 'div'&lt;/div&gt;
+			<br> &lt;label&gt;Dentro de una etiqueta 'label'&lt;/label&gt;&lt;br&gt;
+			<br> &lt;a&gt;Dentro de una etiqueta 'a'&lt;/a&gt;&lt;br&gt;
+			<br> &lt;span&gt;Dentro de una etiqueta 'span'&lt;/span&gt;&lt;br&gt;
+			<br> &lt;strong&gt;Dentro de una etiqueta 'strong'&lt;/strong&gt;&lt;br&gt;
+			<br> &lt;small&gt;Dentro de una etiqueta 'small'&lt;/small&gt;&lt;br&gt;
+			<br> &lt;b&gt;Dentro de una etiqueta 'b'&lt;/b&gt;&lt;br&gt;
+			<br> &lt;abbr title=&quot;Comisión Federal de Electricidad&quot;&gt;CFE&lt;/abbr&gt;
+			<br> &lt;pre&gt;Dentro de una etiqueta 'pre'&lt;/pre&gt;
+		</div>
+	</div>
+</div>
+<div class="section">
+	<div class="row">
+		<div class="col">
+			<p class="section_titulo_0">Tablas</p>
+			<p class="section_subtitulo_0">Así seávisualizaran la tabla</p>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col">
+			<app-mat-table 
+				[data]="tableDataDemo"
+				(clickSee)="tableRowSee($event)"
+				(clickEdit)="tableRowEdit($event)"
+				(clickDelete)="tableRowDelete($event)"
+			></app-mat-table>
+		</div>
+	</div>
+	<div class="row mt-4">
+		<div class="col py-4 codigo">
+			<pre class="my-0">
+&lt;app-mat-table 
+	[data]="tableDataDemo"
+	(clickSee)="tableRowSee($event)"
+	(clickEdit)="tableRowEdit($event)"
+	(clickDelete)="tableRowDelete($event)"
+&gt;&lt;/app-mat-table&gt;</pre>
+		</div>
+	</div>
+	
+	<div class="row mt-4">
+		<div class="col">
+			<p class="section_titulo_0">--Propiedades obligatorias--</p>
+			<p><strong>[data]="tableDataDemo"</strong></p>
+			<p>
+				Esta tabla recibe una lista de objetos simples, a través de la propiedad [data] (no acepta objetos con propiedades anidadas). 
+				<br>
+				Al alterar la lista de objetos en el componente “padre”, la tabla detecta el cambio y se actualiza automáticamente.
+				<br>
+				Si no se especifican las demas listas seran generadas automaticamente.
+			</p>
 
+			<p class="section_titulo_0">--Eventos--</p>
+			<p>Esta tabla emite tres eventos diferentes:</p>
+			<p><strong>(clickSee)="tableRowSee($event)"</strong>: Para ver un registro.</p>
+			<p><strong>(clickEdit)="tableRowEdit($event)"</strong>: Para editar un registro.</p>
+			<p><strong>(clickDelete)="tableRowDelete($event)"</strong>: Para eliminar un registro.</p>
+
+			<p class="section_titulo_0">--Propiedades opcionales--</p>
+			<p><strong>[columnsLabels]="tablaColumnsLabels"</strong></p>
+			<p>Con “[columnsLabels]” se podrá remplazar el texto en el “header” de cada columna. 
+				Este es una lista de objetos donde se especifica el “key” y el nuevo “label” , 
+				el “key” tiene que coincidir con en nombre de la propiedad en el listado de datos principal “[data]”, tambien indica que columnas seran craedas.</p>
+			<p><strong>[columnsDisplay]="tableColumnsDisplay"</strong></p>
+			<p>Es una lista de "string" donde se especifican las columnas que seran visibles en la tabla, 
+				estas tienen que ser las mismas que el nombre de la propiedad de la lista de datos principal. 
+				</p>
+			<p>Existen 4 columnas que genera el componente de forma automatica (estas columnas seran agregadas si se especifican en la lista "[columnsDisplay]="tableColumnsDisplay""):</p>
+			<p><strong>"sys_index"</strong>,  genera una columna que muestra el index de la fila y aunque cambien el contenido de la tabla, esté siempre estará ordenado. 
+				Esta columna no puede ser ordenable al dar click en el herader</p>
+			<p><strong>“sys_see”</strong>, genera la columna con el botón para ver los detalles del registro.</p>
+			<p><strong>“sys_edit”</strong>, genera la columna con el botón para editar el registro.</p>
+			<p><strong>“sys_delete”</strong>, genera la columna con el botón para eliminar el registro.</p>
+			<p><strong>[row_x_page]="tableRow_x_page"</strong></p>
+			<p>Es un listado de números para poder seleccionar cuantos registros se mostrarán por página de la tabla</p>
+			
+			<div class="row mt-4">
+				<div class="col py-4 codigo">
+					<pre class="my-0">
+&lt;app-mat-table 
+	[data]="tableData"
+	[columnsLabels]="tablaColumnsLabels"
+	[columnsDisplay]="tableColumnsDisplay"
+	[row_x_page]="tableRow_x_page"
+	(clickSee)="tableRowSee($event)"
+	(clickEdit)="tableRowEdit($event)"
+	(clickDelete)="tableRowDelete($event)"
+&gt;&lt;/app-mat-table&gt;</pre>
+				</div>
+			</div>
+			<br>	
+			
+			<p class="section_titulo_0">Ejemplo de los datos que se le pasan al componente que crea la tabla.</p>
+			<div class="row mt-4">
+				<div class="col py-4 codigo">
+					<pre class="my-0">
+tableData = &#91;
+	&#123;order:1,fechaOp:'mar-20',fuenteImport:'2da Corrida MM',usuario:'Usuario'  ,fechaMod:'01/04/2020 01:40:00 pm',estatus:'exitosa'&#125;,
+	&#123;order:2,fechaOp:'mar-20',fuenteImport:'2da Corrida MM',usuario:'Sistema'  ,fechaMod:'01/04/2020 12:40:00 pm',estatus:'exitosa'&#125;,
+	&#123;order:3,fechaOp:'mar-20',fuenteImport:'1ra Corrida MM',usuario:'Usuario'  ,fechaMod:'01/04/2020 12:40:00 pm',estatus:'exitosa'&#125;,
+	&#123;order:4,fechaOp:'mar-20',fuenteImport:'1ra Corrida MM',usuario:'Sistema'  ,fechaMod:'01/04/2020 11:40:00 pm',estatus:'exitosa'&#125;,
+	&#123;order:5,fechaOp:'mar-20',fuenteImport:'1ra Corrida MM',usuario:'Sistema'  ,fechaMod:'01/04/2020 11:40:00 pm',estatus:'exitosa'&#125;
+&#93;;
+tablaColumnsLabels=&#91;
+	&#123; key: 'order'        , label: '#' &#125;,
+	&#123; key: 'fechaOp'      , label: 'Fecha de Operación Comercial' &#125;,
+	&#123; key: 'fuenteImport' , label: 'Fuente de Importación' &#125;,
+	&#123; key: 'usuario'      , label: 'Usuario' &#125;,
+	&#123; key: 'fechaMod'     , label: 'Fecha y Hora Ultima Modificación' &#125;,
+	&#123; key: 'estatus'      , label: 'Estatus de la Importación' &#125;
+&#93;;
+tableColumnsDisplay: string&#91;&#93; = &#91;
+	'sys_index',
+	'order',
+	'fechaOp',
+	'fuenteImport',
+	'usuario',
+	'fechaMod',
+	'estatus',
+	'sys_see',
+	'sys_edit',
+	'sys_delete'
+&#93;;
+tableRow_x_page = &#91;5,10&#93;;</pre>
+				</div>
+			</div>
+			
+	
+	
+	
+
+		</div>
+	</div>
+
+</div>
 <div class="section">
 	<div class="row my-2">
-		<div class="col-4 my-2">Botones</div>
+		<div class="col">
+			<p class="section_titulo_0">Botones</p>
+		</div>
 	</div>
 	<div class="row">
 		<div class="col-4 my-2">
@@ -35,7 +200,9 @@
 		<div class="col-4 my-2">
 			<app-btn-block-graph (click)="clickBtn()"></app-btn-block-graph>
 		</div>
-
+		<div class="col-4 my-2">
+			<app-btn-block-add (click)="clickBtn()"></app-btn-block-add>
+		</div>
 	</div>
 	<div class="row">
 		<pre>
@@ -54,7 +221,12 @@
 	</div>
 	<div class="row">
 		<div class="col-5">
-			<app-mat-input-datepicker-year-and-month (eventChange)="chosenMonthHandler($event)" [label]="'Fecha de Operación Comercial'"></app-mat-input-datepicker-year-and-month>
+			<app-mat-input-datepicker-year-and-month 
+				[formGroup]="form"
+				controlName="dateYearAndMonth"
+				(eventChange)="chosenMonthHandler($event)" 
+				[label]="'Fecha de Operación Comercial'"
+			></app-mat-input-datepicker-year-and-month>
 		</div>
 	</div>
 	<div class="row">
@@ -64,16 +236,42 @@
 			</pre>
 		</div>
 	</div>
-
-	
 	<div class="row">
 		<div class="col">
-			<app-mat-table 
-				(clickSee)="tableRowSee($event)"
-				(clickEdit)="tableRowEdit($event)"
-				(clickDelete)="tableRowDelete($event)"
-				[data]="tableDataDemo"
-				></app-mat-table>
+			<app-input-text 
+				[formGroup]="form"
+				controlName="name"
+				label="Nombre">
+			</app-input-text>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<app-mat-input-text-autocomplete 
+				[formGroup]="form"
+				controlName="aotucomplete"
+				[options]="listOptionsAutocomplete"
+				label="aotucomplete"
+				filter="includes">
+			</app-mat-input-text-autocomplete>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<app-mat-select
+					[formGroup]="form"
+					controlName="select"
+					[options]="selectOptionsFuente"
+					label="select"
+					(eventChange)="onChangeSelectFuente($event)"
+			></app-mat-select>
+		</div>
+	</div>
+
+
+
+	<div class="row">
+		<div class="col">
 		</div>
 	</div>
 </div>

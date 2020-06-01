@@ -35,16 +35,28 @@ import { MatInputTextAutocompleteComponent } from './inputs/mat-input-text-autoc
 import { MatInputDatepickerYearAndMonthComponent } from './inputs/mat-input-datepicker-year-and-month/mat-input-datepicker-year-and-month.component';
 import { MatTableComponent } from './tables/mat-table/mat-table.component';
 import { BtnBlockGraphComponent } from './btn/btn-block/btn-block-graph.component';
+import { InputTextComponent } from './inputs/input-text/input-text.component';
+import { MatSelectComponent } from './inputs/mat-select/mat-select.component';
+import { MatSelectMultipleComponent } from './inputs/mat-select-multiple/mat-select-multiple.component';
+import { BtnBlockAddComponent } from './btn/btn-block/btn-block-add.component';
+import { MatInputTimeComponent } from './inputs/mat-input-time/mat-input-time.component';
+import { MatInputDatepickerComponent } from './inputs/mat-input-datepicker/mat-input-datepicker.component';
+import { MatInputNumberComponent } from './inputs/mat-input-number/mat-input-number.component';
+import { MatInputTextComponent } from './inputs/mat-input-text/mat-input-text.component';
+import { MatDatetimelocalComponent } from './inputs/mat-datetimelocal/mat-datetimelocal.component';
+import { MatInputPasswordComponent } from './inputs/mat-input-password/mat-input-password.component';
+import { MatInputTextareaComponent } from './inputs/mat-input-textarea/mat-input-textarea.component';
+import { BtnBlockBackComponent } from './btn/btn-block/btn-block-back.component';
 
 @NgModule({
 	declarations: [
 		 ProgressComponent
-		,FileUploadComponent
-		,ConfirmationModalComponent
-		,BreadcrumbsComponent
-		,ChangePasswordComponent
-		,ConfirmationDialogComponent
-		,CalendarComponent
+		, FileUploadComponent
+		, ConfirmationModalComponent
+		, BreadcrumbsComponent
+		, ChangePasswordComponent
+		, ConfirmationDialogComponent
+		, CalendarComponent
 		, BtnBlockComponent
 		, BtnBlockDownloadComponent
 		, BtnBlockImportComponent
@@ -57,27 +69,51 @@ import { BtnBlockGraphComponent } from './btn/btn-block/btn-block-graph.componen
 		, MatInputDatepickerYearAndMonthComponent
 		, MatTableComponent
 		, BtnBlockGraphComponent
+		, InputTextComponent
+		, MatSelectComponent
+		, MatSelectMultipleComponent
+		, BtnBlockAddComponent
+		, BtnBlockBackComponent
+		, MatInputTimeComponent
+		, MatInputDatepickerComponent
+		, MatInputNumberComponent
+		, MatInputTextComponent
+		, MatDatetimelocalComponent
+		, MatInputPasswordComponent
+		, MatInputTextareaComponent
 	],
 	exports: [
 		 ProgressComponent
-		,FileUploadComponent
-		,ConfirmationModalComponent
-		,BreadcrumbsComponent
-		,ChangePasswordComponent
-		,ConfirmationDialogComponent
-		,CalendarComponent
-		,BtnBlockComponent
-		,BtnBlockDownloadComponent
-		,BtnBlockImportComponent
+		, FileUploadComponent
+		, ConfirmationModalComponent
+		, BreadcrumbsComponent
+		, ChangePasswordComponent
+		, ConfirmationDialogComponent
+		, CalendarComponent
+		, BtnBlockComponent
+		, BtnBlockDownloadComponent
+		, BtnBlockImportComponent
 		, BtnBlockCancelComponent
 		, BtnBlockAceptComponent
 		, BtnBlockFinishComponent
 		, BtnBlockSaveUpdateComponent
 		, BtnBlockSaveComponent
+		, BtnBlockBackComponent
 		, MatInputTextAutocompleteComponent
 		, MatInputDatepickerYearAndMonthComponent
 		, MatTableComponent
 		, BtnBlockGraphComponent
+		, InputTextComponent
+		, MatSelectComponent
+		, MatSelectMultipleComponent
+		, BtnBlockAddComponent
+		, MatInputTimeComponent
+		, MatInputDatepickerComponent
+		, MatInputNumberComponent
+		, MatInputTextComponent
+		, MatDatetimelocalComponent
+		, MatInputPasswordComponent
+		, MatInputTextareaComponent
 
 	],
 	imports: [

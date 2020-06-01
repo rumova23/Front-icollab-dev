@@ -17,12 +17,10 @@ export class EditEvaluationHomeComponent implements OnInit {
   tipo: string;
   isViewable = true;
   isdisabled = false;
-  isdisabledFinishBehavior = false;
   isBehaviorComplete = false;
   isSkillsComplete = false;
   finishedExam = false;
-
-  entidadEstausTerminado: EntidadEstausDTO;
+  entidadEstatusTerminado: EntidadEstausDTO;
 
   constructor(private perfilComboService: PerfilComboService,
               public toastr: ToastrManager,
@@ -30,10 +28,6 @@ export class EditEvaluationHomeComponent implements OnInit {
               public  globalService: GlobalService) { }
 
   ngOnInit() {
-    this.perfilComboService.obtenEstatusTerminado('TX_EXAMEN_RESERVACION', 'Terminado').subscribe(
-        (entidadEstatus: EntidadEstausDTO) => {
-          this.entidadEstausTerminado = entidadEstatus;
-        });
   }
 
   guardaExamen() {

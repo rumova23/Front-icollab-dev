@@ -43,13 +43,13 @@ export class ComplianceAddStaffComponent implements OnInit {
     stringToTrim = '';
     rowsPerPage = [50, 100, 250, 500];
 
-    filteredfEmpNum     : Observable<string[]>;
-    filteredfNames      : Observable<string[]>;
-    filteredfLastName   : Observable<string[]>;
-    filteredfSecondName : Observable<string[]>;
-    filteredfPosition   : Observable<string[]>;
-    filteredfDepto      : Observable<string[]>;
-    filteredfJob        : Observable<string[]>;
+    filteredfEmpNum     : string[];
+    filteredfNames      : string[];
+    filteredfLastName   : string[];
+    filteredfSecondName : string[];
+    filteredfPosition   : string[];
+    filteredfDepto      : string[];
+    filteredfJob        : string[];
 
     constructor(private personal: PersonalCompetenteService,
                 private catalogoMaestroService: CatalogoMaestroService,
@@ -96,29 +96,28 @@ export class ComplianceAddStaffComponent implements OnInit {
         this.conditionSearch.push(new Combo('2', 'Al menos uno'));
 
         this.filterForm = this.formBuilder.group({
-            fEmpNum: ['', Validators.required],
-            fNames: ['', Validators.required],
-            fLastName: ['', Validators.required],
-            fSecondName: ['', Validators.required],
-            fGender: ['', Validators.required],
-            fPosition: ['', Validators.required],
-            fEst: ['', Validators.required],
-            fLastDate: ['', Validators.required],
-            fDepto: ['', Validators.required],
-            fJob: ['', Validators.required],
-            fPlaceWork: ['', Validators.required],
-            fSearchCondition: ['', null]
+            fEmpNum: [''],
+            fNames: [''],
+            fLastName: [''],
+            fSecondName: [''],
+            fGender: [''],
+            fPosition: [''],
+            fEst: [''],
+            fLastDate: [''],
+            fDepto: [''],
+            fJob: [''],
+            fPlaceWork: [''],
+            fSearchCondition: ['']
         });
-        this.initAutoComplete();
     }
     initAutoComplete() {
-        this.filteredfEmpNum      = this.filterForm.get('fEmpNum'    ).valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.numEmpleado.toLowerCase()   ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
-        this.filteredfNames       = this.filterForm.get('fNames'     ).valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.nombre.toLowerCase()        ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
-        this.filteredfLastName    = this.filterForm.get('fLastName'  ).valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.apPaterno.toLowerCase()     ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
-        this.filteredfSecondName  = this.filterForm.get('fSecondName').valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.apMaterno.toLowerCase()     ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
-        this.filteredfPosition    = this.filterForm.get('fPosition'  ).valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.posicion.toLowerCase()      ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
-        this.filteredfDepto       = this.filterForm.get('fDepto'     ).valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.departamento.toLowerCase()  ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
-        this.filteredfJob         = this.filterForm.get('fJob'       ).valueChanges.pipe(startWith(''), map(value => this.elementData.map(d => d.puesto.toLowerCase()        ).filter((el, index, arr) => arr.indexOf(el) === index).filter(option => option.toLowerCase().startsWith(value.toLowerCase()))));
+        this.filteredfEmpNum      = this.elementData.map(d => d.numEmpleado.toLowerCase()   ).filter((el, index, arr) => arr.indexOf(el) === index);
+        this.filteredfNames       = this.elementData.map(d => d.nombre.toLowerCase()        ).filter((el, index, arr) => arr.indexOf(el) === index);
+        this.filteredfLastName    = this.elementData.map(d => d.apPaterno.toLowerCase()     ).filter((el, index, arr) => arr.indexOf(el) === index);
+        this.filteredfSecondName  = this.elementData.map(d => d.apMaterno.toLowerCase()     ).filter((el, index, arr) => arr.indexOf(el) === index);
+        this.filteredfPosition    = this.elementData.map(d => d.posicion.toLowerCase()      ).filter((el, index, arr) => arr.indexOf(el) === index);
+        this.filteredfDepto       = this.elementData.map(d => d.departamento.toLowerCase()  ).filter((el, index, arr) => arr.indexOf(el) === index);
+        this.filteredfJob         = this.elementData.map(d => d.puesto.toLowerCase()        ).filter((el, index, arr) => arr.indexOf(el) === index);
     }
     cargaTabla() {
         this.elementData = [];
@@ -191,6 +190,7 @@ export class ComplianceAddStaffComponent implements OnInit {
                                 this.registros.sort = this.sort;
 
 
+                                this.initAutoComplete();
                                 this.addBlock(2, null);
                             } else {
                                 console.log(resul['mensaje']);

@@ -1,11 +1,20 @@
 <!-- Tabla de Catalogos -->
-
-<div class="mat-elevation-z0">
+<!--
 	<table matSort (matSortChange)="sortData($event)" mat-table [dataSource]="dataSource" class="table_catalogo"
 		matSortActive="order" matSortDirection="asc" matSortDisableClear>
+-->
+<div class="mat-elevation-z0">
+	<table matSort (matSortChange)="sortData($event)" mat-table [dataSource]="dataSource" class="table_catalogo"
+		matSortDisableClear>
+
+		<ng-container matColumnDef="sys_index">
+			<th mat-header-cell *matHeaderCellDef> {{labelColIndex | translate}} </th>
+			<td mat-cell *matCellDef="let element;let i = index;"> {{i+1}} </td>
+		</ng-container>
+
 		<ng-container [matColumnDef]="column.key" *ngFor="let column of columnsLabels">
 			<th mat-header-cell *matHeaderCellDef mat-sort-header> {{column.label | translate}} </th>
-			<td mat-cell *matCellDef="let element;let i = index;">{{element[column.key]?element[column.key]:''}}</td>
+			<td mat-cell *matCellDef="let element">{{element[column.key]?element[column.key]:''}}</td>
 		</ng-container>
 
 		<ng-container [matColumnDef]="column.key" *ngFor="let column of displayedColumnsActions">

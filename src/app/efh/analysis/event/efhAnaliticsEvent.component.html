@@ -80,13 +80,14 @@
    <div class="row">
     <table #tableAnalitics>
       <thead>
-      <tr><th colspan="35"><small>EFG-ES Operating Data</small></th></tr>
+      <tr><th colspan="37"><small>EFG-ES Operating Data</small></th></tr>
       <tr>
         <th rowspan="2"><small>Total Starts</small></th>
         <th rowspan="2"><small>Start</small></th>
         <th rowspan="2" style="background-color: #7c7db3"><small>Date</small></th>
         <th rowspan="2" style="background-color: #7c7db3"><small>Start Time (FSNL)</small></th>
         <th rowspan="2" style="background-color: #7c7db3"><small>Stop Time (Flame off)</small></th>
+        <th rowspan="2" style="background-color: #7c7db3"><small>Type Event</small></th>
         <th rowspan="2" style="background-color: #85ce36"><small>Run AOH</small></th>
         <th rowspan="2" style="background-color: #85ce36"><small>Run EFHi</small></th>
         <th rowspan="2" style="background-color: #85ce36"><small>Run Esi</small></th>
@@ -107,6 +108,7 @@
         <th style="background-color: #7c7db3"><small>Change Range</small></th>
         <th style="background-color: #7c7db3"><small>Change Rate</small></th>
         <th style="background-color: #5fbae9"><small>ESi per</small></th>
+        <th rowspan="2" style="background-color: #7c7db3"><small>Comments</small></th>
       </tr>
       <tr>
         <th style="background-color: #85ce36"><small>Trips</small></th>
@@ -139,6 +141,7 @@
         <td>{{el.date}}</td>
         <td>{{el.startTime}}</td>
         <td>{{el.stopTime}}</td>
+        <td>{{el.typeEvent}}</td>
         <td>{{el.runAOH | number: '1.1-1'}}</td>
         <td>{{el.runEFHi | number: '1.1-1'}}</td>
         <td>{{el.runESi | number: '1.2'}}</td>
@@ -169,6 +172,7 @@
         <td>{{el.changeRange}}</td>
         <td>{{el.changeRate}}</td>
         <td>{{el.esi_lcj | number: '1.2' }}</td>
+        <td>{{el.comments}}</td>
       </tr>
       </tbody>
     </table>

@@ -10,15 +10,22 @@
 
 <div class="section">
 	<div class="row mb-4">
-		<div class="d-flex my-2 col-12 col-md-4 col-xl-3 col-xxl-3">
-			<app-mat-input-datepicker-year-and-month class="w-100 align-self-end" (eventChange)="chosenMonthHandler($event)" [label]="'Fecha de Operación Comercial'"></app-mat-input-datepicker-year-and-month>
+		<div class="my-2 col-12 col-md-4 col-xl-3 col-xxl-3">
+			<app-mat-input-datepicker-year-and-month 
+				[formGroup]="form"
+				controlName="date"
+				(eventChange)="chosenMonthHandler($event)" 
+				label="Fecha de Operación Comercial"
+			></app-mat-input-datepicker-year-and-month>
 		</div>
-		<div class="d-flex my-2 col-12 col-md-4 col-xl-3 col-xxl-2">
-			<app-btn-block class="w-100 align-self-end" (click)="clickBtn1raCorrida()" [label]="'1ra Corrida de MM'">
+		<div class="my-2 col-12 col-md-4 col-xl-3 col-xxl-2">
+			<label style="visibility: hidden;">boton</label>
+			<app-btn-block (click)="clickBtn1raCorrida()" [label]="'1ra Corrida de MM'">
 			</app-btn-block>
 		</div>
-		<div class="d-flex my-2 col-12 col-md-4 col-xl-3 col-xxl-2">
-			<app-btn-block class="w-100 align-self-end" (click)="clickBtn2daCorrida()" [label]="'2da Corrida de MM'">
+		<div class="my-2 col-12 col-md-4 col-xl-3 col-xxl-2">
+			<label style="visibility: hidden;">boton</label>
+			<app-btn-block (click)="clickBtn2daCorrida()" [label]="'2da Corrida de MM'">
 			</app-btn-block>
 		</div>
 	</div>
