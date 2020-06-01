@@ -100,6 +100,7 @@ import { SafeppaSupervisionStationComponent } from './admin/safeppa-supervision-
 import { SafeProcedureDetectionAndCorrectionComponent } from './admin/safe-procedure-detection-and-correction/safe-procedure-detection-and-correction.component';
 import {SafePpaMonitoringProfileStationComponent} from './admin/safe-ppa-monitoring-profile-station/safe-ppa-monitoring-profile-station.component';
 import { SafeMmOutOfLineComponent } from './admin/safe-mm-out-of-line/safe-mm-out-of-line.component';
+import {GenericCatalogsComponent} from './admin/generic-catalogs/generic-catalogs.component';
 
 
 @NgModule({
@@ -155,7 +156,8 @@ import { SafeMmOutOfLineComponent } from './admin/safe-mm-out-of-line/safe-mm-ou
         SafePPAMonitoringStationComponent,
         SafeProcedureDetectionAndCorrectionComponent,
         SafePpaMonitoringProfileStationComponent,
-        SafeMmOutOfLineComponent
+        SafeMmOutOfLineComponent,
+        GenericCatalogsComponent
     ],
     exports: [],
     imports: [

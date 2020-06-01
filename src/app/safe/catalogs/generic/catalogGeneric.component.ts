@@ -163,8 +163,7 @@ export class CatalogGenericComponent implements OnInit {
   }
 
   visible() {
-    return this.catalog !== "typesMem" 
-    && !this.catalog.includes('status');
+    return this.catalog !== "typesMem" && !this.catalog.includes('status');
   }
 
   newEntity() {

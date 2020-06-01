@@ -79,6 +79,7 @@ import { SafeProcedureDetectionAndCorrectionComponent } from '../admin/safe-proc
 import {SafePpaMonitoringProfileStationComponent} from '../admin/safe-ppa-monitoring-profile-station/safe-ppa-monitoring-profile-station.component';
 import { SafeNewEventComponent } from 'src/app/safe/business/logBook/newEvent/safeNewEvent.component';
 import { SafeMmOutOfLineComponent } from '../admin/safe-mm-out-of-line/safe-mm-out-of-line.component';
+import {GenericCatalogsComponent} from '../admin/generic-catalogs/generic-catalogs.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -154,6 +155,7 @@ import { SafeMmOutOfLineComponent } from '../admin/safe-mm-out-of-line/safe-mm-o
 		, SafePpaMonitoringProfileStationComponent
 		, SafeNewEventComponent
 		, SafeMmOutOfLineComponent
+		, GenericCatalogsComponent
   	]
 })
 
@@ -375,7 +377,6 @@ export class SafeHomeComponent implements OnInit {
 							)
 						).changeDetectorRef.detectChanges();
 						break;
-		
 
 					case 'Safe.AgraficaComponent':
 						banderaTemporal = true;
@@ -432,6 +433,15 @@ export class SafeHomeComponent implements OnInit {
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(
 								MonitoringJobsComponent
+							)
+						).changeDetectorRef.detectChanges();
+						break;
+
+					case 'Safe.Administracion Catalogos':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(
+								GenericCatalogsComponent
 							)
 						).changeDetectorRef.detectChanges();
 						break;
