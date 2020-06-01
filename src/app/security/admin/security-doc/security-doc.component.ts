@@ -4,6 +4,7 @@ import { Moment } from 'moment';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IdLabel } from 'src/app/core/models/IdLabel';
 import * as moment from 'moment';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
 	selector: 'app-security-doc',
@@ -41,12 +42,19 @@ export class SecurityDocComponent implements OnInit {
 		{id:"3",label:'PI SERVER DB'},
 		{id:"4",label:'Manual'}
 	];
+	selection : SelectionModel<any> = new SelectionModel<any>(true, []);
+	
 	constructor(
 		public toastr: ToastrManager,
 		private formBuilder: FormBuilder
 	) { }
 
 	ngOnInit() {
+		this.selection.select(this.tableDataDemo[2]);
+		this.selection.changed.subscribe(event=>{
+			let algo = this.selection.selected;
+			debugger;
+		});
 		this.form = this.formBuilder.group({
 			name: [{ value: '', disabled: false }, Validators.required],
 			aotucomplete: [{ value: '', disabled: false }, Validators.required],
@@ -56,6 +64,8 @@ export class SecurityDocComponent implements OnInit {
 	}
 	
 	clickBtn() {
+		console.log(this.selection.selected);
+		
 		console.log(this.form.value);
 		this.toastr.successToastr('Evento click', '¡Se ha logrado!');
 	}

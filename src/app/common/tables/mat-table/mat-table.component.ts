@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator, Sort } from '@angular/material';
 import { ColumnLabel } from '../../../core/models/ColumnLabel';
+import {SelectionModel} from '@angular/cdk/collections';
+
 @Component({
 	selector: 'app-mat-table',
 	templateUrl: './mat-table.component.html',
@@ -19,6 +21,8 @@ export class MatTableComponent implements OnInit , OnChanges {
 		{ key: 'sys_edit'   , label: 'Edit'   },
 		{ key: 'sys_delete' , label: 'Delete' }
 	];
+	@Input() selection : SelectionModel<any> = new SelectionModel<any>(true, []);
+	@Input() selectionLabel:string = '';
 	// LA PROPIEDAD 'ORDER' ES NECESARIA EN EL DATA SI SE DESEA QUE SEA ORDENABLE ESTA COLUMNA
 	// por eso se descarto dejar el incremental en el html
 	@Input() data: any[] = [];
@@ -96,6 +100,7 @@ export class MatTableComponent implements OnInit , OnChanges {
 			}
 			if(Array.isArray(this.columnsDisplay) && this.columnsDisplay.length == 0 ){
 				const o = this.data[0];
+				this.columnsDisplay.push('sys_checkbox');
 				this.columnsDisplay.push('sys_index');
 				for (const key in o) {
 					if (o.hasOwnProperty(key)) {
@@ -120,5 +125,28 @@ export class MatTableComponent implements OnInit , OnChanges {
 	}
 	delete(e){
 		this.clickDelete.emit(e);
+	}
+
+	
+	/** Whether the number of selected elements matches the total number of rows. */
+	isAllSelected() {
+		const numSelected = this.selection.selected.length;
+		const numRows = this.dataSource.data.length;
+		return numSelected === numRows;
+	}
+
+	/** Selects all rows if they are not all selected; otherwise clear selection. */
+	masterToggle() {
+		this.isAllSelected() ?
+			this.selection.clear() :
+			this.dataSource.data.forEach(row => this.selection.select(row));
+	}
+
+	/** The label for the checkbox on the passed row */
+	checkboxLabel(row?: any): string {
+		if (!row) {
+		return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+		}
+		return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
 	}
 }

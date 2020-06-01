@@ -7,6 +7,7 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 import { IdLabel } from 'src/app/core/models/IdLabel';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { requiredFileType } from 'src/app/core/helpers/requiredFileType';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
 	selector: 'app-safe-registration-of-events',
@@ -68,7 +69,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	];
 
 	tableObservationsComments = [
-		{name:this.getNameUser(),observation:"algo",dateUptade:moment(new Date()).format('YYYY-MM-DD'),visible:"¿¿??"}
+		{name:this.getNameUser(),observation:"algo",dateUptade:moment(new Date()).format('YYYY-MM-DD'),visible:true},
+		{name:this.getNameUser(),observation:"algo 2",dateUptade:moment(new Date()).format('YYYY-MM-DD'),visible:false}
 	];
 	tablaColumnsLabels = [
 		{ key: 'name', label: 'Nombre' },
@@ -81,10 +83,11 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		'name',
 		'observation',
 		'dateUptade',
-		'visible',
+		'sys_checkbox',
 		'sys_edit',
 		'sys_delete',
 	];
+	tableObservationsCommentsSelection : SelectionModel<any> = new SelectionModel<any>(true, []);
 
 	
 	progress;
@@ -106,8 +109,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.formNewEvent = this.formBuilder.group(
 			{
 				//dateTimeStart:[{ value: moment(new Date()).format('h:mm'), disabled: false }, Validators.required],
-				dateTimeStart : [{ value: moment(new Date()).format('YYYY-MM-DDTHH:mm'), disabled: false }, Validators.required],
-				dateTimeEnd   : [{ value: moment(new Date()).format('YYYY-MM-DDTHH:mm'), disabled: false }, Validators.required],
+				dateTimeStart : [{ value: null, disabled: false }, Validators.required],
+				dateTimeEnd   : [{ value: null, disabled: false }, Validators.required],
 				eventsClassification   : [{ value: null, disabled: false }, Validators.required],
 				events: [{ value: null, disabled: false }, Validators.required],
 				fuels : [{ value: null, disabled: false }, Validators.required],
@@ -137,6 +140,14 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				
 			}
 		);
+		this.setTableObservationsCommentsSelectionChecked()		
+	}
+	setTableObservationsCommentsSelectionChecked(){
+		this.tableObservationsCommentsSelection.select(...this.tableObservationsComments.filter(e=>e.visible===true));
+	}
+	getTableObservationsCommentsSelectionChecked(){
+		let seleccionados = this.tableObservationsCommentsSelection.selected;
+		console.log(seleccionados);
 	}
 	onSubmitFormNewEvent(v){
 		let casas = moment(v.datetimelocal);
@@ -150,11 +161,13 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		let observation = this.formobservationsComments.get('observationsComments').value;
 		if(observation != null && observation != ""){
 			this.tableObservationsComments = this.tableObservationsComments.concat(
-					{name:this.getNameUser(),observation,dateUptade:moment(new Date()).format('YYYY-MM-DD'),visible:"¿¿??"}
+					{name:this.getNameUser(),observation,dateUptade:moment(new Date()).format('YYYY-MM-DD'),visible:true}
 				);
 			this.formobservationsComments.get('observationsComments').setValue('');
 		}
+		this.getTableObservationsCommentsSelectionChecked();
 	}
+
 	btnUploadFile(){
 		this.toastr.successToastr('btnUploadFile', 'Seleccionaste');
 		let file = this.fileUploadForm.get('file').value;

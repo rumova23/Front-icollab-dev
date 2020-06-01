@@ -52,6 +52,7 @@
 		<div class="col">
 			<app-mat-table 
 				[data]="tableDataDemo"
+				[selection]="selection"
 				(clickSee)="tableRowSee($event)"
 				(clickEdit)="tableRowEdit($event)"
 				(clickDelete)="tableRowDelete($event)"
