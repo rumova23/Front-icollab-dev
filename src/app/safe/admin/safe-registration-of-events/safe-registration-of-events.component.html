@@ -8,9 +8,7 @@
 		<mdb-breadcrumb-item class="active">{{ "Monitoring station" | translate }}</mdb-breadcrumb-item>
 	</mdb-breadcrumb>
 </div>
-
 <div class="section">
-
 	<div class="row pb-2">
 		<div class="col">
 			<p class="section_titulo_0">{{ "Bitácora de Eventos" | translate }}</p>
@@ -20,7 +18,6 @@
 	<hr>
 	<br>
 	<form [formGroup]="formNewEvent" (ngSubmit)="onSubmitFormNewEvent(formNewEvent.value)">
-
 		<div style="border: solid 1px #ccc;" class="p-2 my-2">
 			<div class="row pb-2">
 				<div class="col">
@@ -39,7 +36,7 @@
 				<div class="col">
 					<app-mat-select
 						[formGroup]="formNewEvent"
-						controlName="eventsClassification"
+						controlName="eventsClassificationId"
 						[options]="lstEventClassification"
 						label="Clasificación de Eventos"
 						sufijo=":"
@@ -48,7 +45,7 @@
 				<div class="col">
 					<app-mat-select
 						[formGroup]="formNewEvent"
-						controlName="events"
+						controlName="eventsId"
 						[options]="lstEvents"
 						label="Eventos"
 						sufijo=":"
@@ -59,19 +56,19 @@
 				<div class="col">
 					<app-mat-select
 						[formGroup]="formNewEvent"
-						controlName="fuels"
+						controlName="fuelsId"
 						[options]="lstFuels"
 						label="Combustible"
 						sufijo=":"
 					></app-mat-select>
 				</div>
 				<div class="col">
-					<app-mat-input-number [formGroup]="formNewEvent" controlName="PowerMw" label="Potencia MW" sufijo=":"></app-mat-input-number>
+					<app-mat-input-number [formGroup]="formNewEvent" controlName="powerMw" label="Potencia MW" sufijo=":"></app-mat-input-number>
 				</div>
 				<div class="col">
 					<app-mat-select
 						[formGroup]="formNewEvent"
-						controlName="units"
+						controlName="unitsId"
 						[options]="lstUnits"
 						label="Unidad"
 						sufijo=":"
@@ -80,7 +77,7 @@
 				<div class="col">
 					<app-mat-select
 						[formGroup]="formNewEvent"
-						controlName="impactContracts"
+						controlName="impactContractsId"
 						[options]="lstImpactContracts"
 						label="Contrato Impacto"
 						sufijo=":"
@@ -99,7 +96,7 @@
 				<div class="col">
 					<app-mat-select
 						[formGroup]="formNewEvent"
-						controlName="realsCcdv"
+						controlName="realsCcdvId"
 						[options]="lstRealsCcdv"
 						label="Unidad"
 						sufijo=":"
@@ -108,7 +105,7 @@
 				<div class="col">
 					<app-mat-select
 						[formGroup]="formNewEvent"
-						controlName="toleranceBands"
+						controlName="toleranceBandsId"
 						[options]="lstToleranceBands"
 						label="Banda de Tolerancia"
 						sufijo=":"
@@ -127,7 +124,7 @@
 				<div class="col">
 					<app-mat-select
 						[formGroup]="formNewEvent"
-						controlName="marketTypes"
+						controlName="marketTypesId"
 						[options]="lstMarketTypes"
 						label="Tipo de mercado"
 						sufijo=":"
@@ -139,7 +136,7 @@
 				<div class="col">
 					<app-mat-select
 						[formGroup]="formNewEvent"
-						controlName="relatedServices"
+						controlName="relatedServicesId"
 						[options]="lstSelatedServices"
 						label="Servicios Conexos"
 						sufijo=":"
@@ -161,7 +158,7 @@
 				<div class="col">
 					<app-mat-select
 						[formGroup]="formNewEvent"
-						controlName="equipment"
+						controlName="equipmentId"
 						[options]="lstEquipment"
 						label="Equipo"
 						sufijo=":"
@@ -180,7 +177,7 @@
 				<div class="col">
 					<app-mat-select
 						[formGroup]="formNewEvent"
-						controlName="workOrder"
+						controlName="workOrderId"
 						[options]="lstWorkOrder"
 						label="Orden de Trabajo"
 						sufijo=":"
@@ -304,8 +301,6 @@
 				</div>
 			</div>
 		</div>
-
-
 		<div style="border: solid 1px #ccc;" class="p-2 my-2">
 			<div class="row pb-2">
 				<div class="col">
@@ -344,8 +339,6 @@
 				</div>
 			</div>
 		</div>
-
-
 		<div style="border: solid 1px #ccc;" class="p-2 my-2">
 			<div class="row">
 				<div class="col">
@@ -366,8 +359,5 @@
 				</div>
 			</div>
 		</div>
-
-
-
 	</form>
 </div>

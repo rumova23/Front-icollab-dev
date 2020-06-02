@@ -13,6 +13,9 @@ import {MaestroOpcionDTO} from '../../../compliance/models/maestro-opcion-dto';
 import {forEach} from '@angular/router/src/utils/collection';
 import {Combo} from '../../../compliance/models/Combo';
 import { SelectionModel } from '@angular/cdk/collections';
+import {EventMessage} from '../../../core/models/EventMessage';
+import {EventBlocked} from '../../../core/models/EventBlocked';
+import {EventService} from '../../../core/services/event.service';
 
 @Component({
 	selector: 'app-safe-registration-of-events',
@@ -42,8 +45,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	lstApprovalStatus: IdLabel[] = [];
 
 	tableObservationsComments = [
-		{name:this.getNameUser(),observation:"algo",dateUptade:moment(new Date()).format('YYYY-MM-DD'),visible:true},
-		{name:this.getNameUser(),observation:"algo 2",dateUptade:moment(new Date()).format('YYYY-MM-DD'),visible:false}
+		{name: this.getNameUser(), observation: 'algo', dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: true},
+		{name: this.getNameUser(), observation: ' algo 2', dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: false}
 	];
 	tablaColumnsLabels = [
 		{ key: 'name', label: 'Nombre' },
@@ -68,6 +71,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		private formBuilder: FormBuilder,
 		public globalService: GlobalService,
 		public toastr: ToastrManager,
+		public eventService: EventService,
 		private securityService: SecurityService,
 		private confirmationDialogService: ConfirmationDialogService,
 		private masterCatalogService: MasterCatalogService
@@ -86,26 +90,25 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.formNewEvent = this.formBuilder.group(
 			{
 				binnacleEventID: ['', null],
-				//dateTimeStart:[{ value: moment(new Date()).format('h:mm'), disabled: false }, Validators.required],
 				dateTimeStart : [{ value: null, disabled: false }, Validators.required],
 				dateTimeEnd   : [{ value: null, disabled: false }, Validators.required],
-				eventsClassification   : [{ value: null, disabled: false }, Validators.required],
-				events: [{ value: null, disabled: false }, Validators.required],
-				fuels : [{ value: null, disabled: false }, Validators.required],
-				PowerMw: [{ value: null, disabled: false }, Validators.required],
-				units: [{ value: null, disabled: false }, Validators.required],
-				impactContracts: [{ value: null, disabled: false }, Validators.required],
-				realsCcdv: [{ value: null, disabled: false }, Validators.required],
-				toleranceBands: [{ value: null, disabled: false }, Validators.required],
-				marketTypes: [{ value: null, disabled: false }, Validators.required],
+				eventsClassificationId   : [{ value: null, disabled: false }, Validators.required],
+				eventsId: [{ value: null, disabled: false }, Validators.required],
+				fuelsId : [{ value: null, disabled: false }, Validators.required],
+				powerMw: [{ value: null, disabled: false }, Validators.required],
+				unitsId: [{ value: null, disabled: false }, Validators.required],
+				impactContractsId: [{ value: null, disabled: false }, Validators.required],
+				realsCcdvId: [{ value: null, disabled: false }, Validators.required],
+				toleranceBandsId: [{ value: null, disabled: false }, Validators.required],
+				marketTypesId: [{ value: null, disabled: false }, Validators.required],
 				mwOffered: [{ value: null, disabled: false }, Validators.required],
-				relatedServices: [{ value: null, disabled: false }, Validators.required],
+				relatedServicesId: [{ value: null, disabled: false }, Validators.required],
 				licenseNumber: [{ value: null, disabled: false }, Validators.required],
-				equipment: [{ value: null, disabled: false }, Validators.required],
+				equipmentId: [{ value: null, disabled: false }, Validators.required],
 				initialCharge: [{ value: null, disabled: false }, Validators.required],
 				finalCharge: [{ value: null, disabled: false }, Validators.required],
 				mwPowerLoss: [{ value: null, disabled: false }, Validators.required],
-				workOrder: [{ value: null, disabled: false }, Validators.required],
+				workOrderId: [{ value: null, disabled: false }, Validators.required],
 				licenseDescription: [{ value: null, disabled: false }, Validators.required],
 				operatorPlantOpen: [{ value: null, disabled: false }, Validators.required],
 				operatorCenaceOpen: [{ value: null, disabled: false }, Validators.required],
@@ -114,17 +117,16 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				sourceEvent: [{ value: null, disabled: false }, Validators.required],
 				eventStatus: [{ value: null, disabled: false }, Validators.required],
 				approvalStatus: [{ value: null, disabled: false }, Validators.required],
-				eventActivated: [{ value: true, disabled: false }],
-				
+				eventActivated: [{ value: true, disabled: false }]
 			}
 		);
-		this.setTableObservationsCommentsSelectionChecked()		
+		this.setTableObservationsCommentsSelectionChecked();
 	}
-	setTableObservationsCommentsSelectionChecked(){
+	setTableObservationsCommentsSelectionChecked() {
 		this.tableObservationsCommentsSelection.select(...this.tableObservationsComments.filter(e=>e.visible===true));
 	}
-	getTableObservationsCommentsSelectionChecked(){
-		let seleccionados = this.tableObservationsCommentsSelection.selected;
+	getTableObservationsCommentsSelectionChecked() {
+		const seleccionados = this.tableObservationsCommentsSelection.selected;
 		console.log(seleccionados);
 	}
 
@@ -154,6 +156,16 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	onSubmitFormNewEvent(v) {
 		const casas = moment(v.datetimelocal);
 		const dsa = casas.format('YYYY-MM-DD HH:mm:ss');
+		this.addBlock(1, '');
+		this.masterCatalogService.saveMaster(v).subscribe(
+			data => {
+				this.toastr.successToastr('Guradado Completo', 'Exito!.');
+				this.addBlock(2, '');
+			},
+			errorData => {
+				this.addBlock(2, '');
+				this.toastr.errorToastr(errorData.error.message, 'Error!');
+			});
 	}
 	btnClickBack() {
 		this.toastr.successToastr('btnClickBack', 'Seleccionaste');
@@ -162,7 +174,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		const observation = this.formobservationsComments.get('observationsComments').value;
 		if (observation != null && observation !== '') {
 			this.tableObservationsComments = this.tableObservationsComments.concat(
-					{name:this.getNameUser(),observation,dateUptade:moment(new Date()).format('YYYY-MM-DD'),visible:true}
+					{
+						name:this.getNameUser(),observation,dateUptade:moment(new Date()).format('YYYY-MM-DD'),visible:true}
 				);
 			this.formobservationsComments.get('observationsComments').setValue('');
 		}
@@ -200,5 +213,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	}
 	getNameUser() {
 		return this.securityService.getNameUser() + ' ' + this.securityService.getLastNameUser();
+	}
+
+	private addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1,
+			new EventBlocked(type, msg)));
 	}
 }

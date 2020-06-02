@@ -20,7 +20,7 @@ import {MatrizCumplimientoDTO} from '../../../models/matriz-cumplimiento-dto';
 import {TagOutDTO} from '../../../models/tag-out-dto';
 import {GenerigResponseDTO} from '../../../models/GenerigResponseDTO';
 import {MaestroOpcionDTO} from '../../../models/maestro-opcion-dto';
-import {EntidadEstausDTO} from '../../../models/entidad-estaus-dto';
+import {EntidadEstatusDTO} from '../../../models/entidad-estatus-dto';
 
 @Component({
   selector: 'app-complianceConfiguration',
@@ -95,7 +95,7 @@ export class ComplianceConfigurationComponent implements OnInit {
    @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
-      this.tagService.getEntidadEstatus('TX_MATRIZ_CUMPLIMIENTO', 'Aprobada').subscribe( (data: EntidadEstausDTO) => {
+      this.tagService.getEntidadEstatus('TX_MATRIZ_CUMPLIMIENTO', 'Aprobada').subscribe( (data: EntidadEstatusDTO) => {
         this.idMatrizFree = data.entidadEstatusId;
       });
       for (const option of this.menu) {

@@ -1,7 +1,7 @@
 import {Deserializable} from './deserializable';
 import {TagDTO} from './tag-dto';
 import {ActorDTO} from './actor-dto';
-import {EntidadEstausDTO} from './entidad-estaus-dto';
+import {EntidadEstatusDTO} from './entidad-estatus-dto';
 import {MaestroOpcionDTO} from './maestro-opcion-dto';
 
 export class ComplianceDTO implements Deserializable {

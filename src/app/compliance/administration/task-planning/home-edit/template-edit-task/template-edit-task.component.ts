@@ -7,7 +7,7 @@ import {TagService} from '../../../../services/tag.service';
 import {OrderCatalogDTO} from '../../../../models/OrderCatalogDTO';
 import {Combo} from '../../../../models/Combo';
 import {ComplianceDTO} from '../../../../models/compliance-dto';
-import {EntidadEstausDTO} from '../../../../models/entidad-estaus-dto';
+import {EntidadEstatusDTO} from '../../../../models/entidad-estatus-dto';
 import {TaskFilesComponent} from '../task-files/task-files.component';
 import {TaskGanttComponent} from '../task-gantt/task-gantt.component';
 import {MaestroOpcionDTO} from '../../../../models/maestro-opcion-dto';

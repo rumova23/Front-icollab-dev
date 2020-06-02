@@ -37,7 +37,7 @@ import {CreditNoteProduct} from '../../../models/CreditNoteProduct';
 import {CreditNoteProductOutDTO} from '../../../models/credit-note-product-out-dto';
 import {MaestroOpcionDTO} from '../../../../compliance/models/maestro-opcion-dto';
 import {Combo} from '../../../../compliance/models/Combo';
-import {EntidadEstausDTO} from '../../../../compliance/models/entidad-estaus-dto';
+import {EntidadEstatusDTO} from '../../../../compliance/models/entidad-estatus-dto';
 
 @Component({
   selector: 'app-pre-document',
@@ -219,13 +219,13 @@ export class PreDocumentComponent implements OnInit {
       this.loadCatalogs();
       this.listFulPlanta = this.settlementInvoiceDT0.concepts;
       this.marketService.obtenEntidadEstatus('SETTLEMENT_INVOICE', 'Timbrado').subscribe(
-          (entidadEstatus: EntidadEstausDTO) => {
+          (entidadEstatus: EntidadEstatusDTO) => {
               this.timbradoId = entidadEstatus.entidadEstatusId;
               this.marketService.obtenEntidadEstatus('SETTLEMENT_INVOICE', 'Pendiente Facturacion').subscribe(
-                  (entidadEstatusa: EntidadEstausDTO) => {
+                  (entidadEstatusa: EntidadEstatusDTO) => {
                       this.pendienteFacturacionId = entidadEstatusa.entidadEstatusId;
                       this.marketService.obtenEntidadEstatus('SETTLEMENT_INVOICE', 'Facturado').subscribe(
-                          (entidadEstatusb: EntidadEstausDTO) => {
+                          (entidadEstatusb: EntidadEstatusDTO) => {
                               this.facturadoId = entidadEstatusb.entidadEstatusId;
                               this.initDisabled();
                           });

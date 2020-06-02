@@ -15,7 +15,7 @@ import {AccountStatusDT0} from '../../../models/account-status-dt0';
 import {ConceptDTO} from '../../../models/concept-dto';
 import {SettlementDT0} from '../../../models/settlement-dt0';
 import {Invoice} from '../../../models/Invoice';
-import {EntidadEstausDTO} from '../../../../compliance/models/entidad-estaus-dto';
+import {EntidadEstatusDTO} from '../../../../compliance/models/entidad-estatus-dto';
 
 @Component({
   selector: 'app-control-facturacion',
@@ -77,28 +77,28 @@ export class ControlFacturacionComponent implements OnInit {
       private fb: FormBuilder) {
 
     this.marketService.obtenEntidadEstatus('SETTLEMENT_INVOICE', 'Referencia No Facturada').subscribe(
-        (entidadEstatus: EntidadEstausDTO) => {
+        (entidadEstatus: EntidadEstatusDTO) => {
           this.referenciaNoFacturadaId = entidadEstatus.entidadEstatusId;
         });
 
     this.marketService.obtenEntidadEstatus('SETTLEMENT_INVOICE', 'Pendiente Facturacion').subscribe(
-        (entidadEstatus: EntidadEstausDTO) => {
+        (entidadEstatus: EntidadEstatusDTO) => {
           this.pendienteFacturacionId = entidadEstatus.entidadEstatusId;
         });
 
     this.marketService.obtenEntidadEstatus('SETTLEMENT_INVOICE', 'Facturado').subscribe(
-        (entidadEstatus: EntidadEstausDTO) => {
+        (entidadEstatus: EntidadEstatusDTO) => {
           this.facturadoId = entidadEstatus.entidadEstatusId;
         });
     this.marketService.obtenEntidadEstatus('SETTLEMENT_INVOICE', 'Timbrado').subscribe(
-        (entidadEstatus: EntidadEstausDTO) => {
+        (entidadEstatus: EntidadEstatusDTO) => {
           this.timbradoId = entidadEstatus.entidadEstatusId;
         });
     this.marketService.obtenEntidadEstatus('ACCOUNT_STATUS', 'Pendiente Aprobacion').subscribe(
-        (entidadEstatus: EntidadEstausDTO) => {
+        (entidadEstatus: EntidadEstatusDTO) => {
           this.accountPendienteAprobacionId = entidadEstatus.entidadEstatusId;
           this.marketService.obtenEntidadEstatus('ACCOUNT_STATUS', 'Aprobado').subscribe(
-              (entidadEstatusb: EntidadEstausDTO) => {
+              (entidadEstatusb: EntidadEstatusDTO) => {
                 this.accountAprobadoId = entidadEstatusb.entidadEstatusId;
               });
         });

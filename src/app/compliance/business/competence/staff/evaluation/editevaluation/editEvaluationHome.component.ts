@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {EntidadEstausDTO} from '../../../../../models/entidad-estaus-dto';
+import {EntidadEstatusDTO} from '../../../../../models/entidad-estatus-dto';
 import {PerfilComboService} from '../../../../../../core/services/perfil-combo.service';
 import {ToastrManager} from 'ng6-toastr-notifications';
 import {GlobalService} from '../../../../../../core/globals/global.service';
@@ -20,7 +20,7 @@ export class EditEvaluationHomeComponent implements OnInit {
   isBehaviorComplete = false;
   isSkillsComplete = false;
   finishedExam = false;
-  entidadEstatusTerminado: EntidadEstausDTO;
+  entidadEstatusTerminado: EntidadEstatusDTO;
 
   constructor(private perfilComboService: PerfilComboService,
               public toastr: ToastrManager,
