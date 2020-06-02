@@ -41,19 +41,22 @@ export class EditEvaluationHomeComponent implements OnInit {
 
   terminaExamen() {
     if (this.isBehaviorComplete && this.isSkillsComplete) {
-      this.perfilComboService.accion.next('terminaExamen');
+      this.perfilComboService.accionSkills.next('terminaExamen');
+      this.perfilComboService.accionBehavior.next('terminaExamen');
       this.finishedExam = true;
     } else {
-      this.toastr.errorToastr('Para terminar el examen, Todas las preguntas deben contestarse.', 'Lo siento,');
+      this.toastr.errorToastr('Para terminar el examen, todas las preguntas deben ser contestadas.', 'Lo siento,');
     }
   }
 
   validaBehavior(isComplete: boolean) {
     this.isBehaviorComplete = isComplete;
+    console.log('BehaviorComplete: ' + isComplete);
   }
 
   validaSkills(isComplete: boolean) {
     this.isSkillsComplete = isComplete;
+    console.log('SkillsComplete: ' + isComplete);
   }
 
 }

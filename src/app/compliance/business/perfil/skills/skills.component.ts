@@ -44,7 +44,6 @@ export class SkillsComponent implements OnInit, OnDestroy {
               public  toastr: ToastrManager,
               private eventService: EventService) {
       this.subscription = this.preguntas.accionSkills.subscribe(accion => {
-          console.log('Called: ' + accion);
           if (accion === 'guardaExamenSkills') {
               this.guardaExamen();
           }
@@ -150,6 +149,9 @@ export class SkillsComponent implements OnInit, OnDestroy {
             }
         }
     }
+    if (flag) {
+        this.isComplete.emit(true);
+    }
   }
 
   guardaExamen() {
@@ -166,32 +168,18 @@ export class SkillsComponent implements OnInit, OnDestroy {
     this.preguntas.respuestaExamen(this.examenReservacionId, this.SaveRespuestas).subscribe(
         respuesta => {
           this.toastr.successToastr('Se ha guardado la sección de Conocimiento y Habilidades', '¡Se ha logrado!');
+          this.validaExamen();
         }
     );
-
-    /*
-    if (sonTodas) {
-      this.preguntas.terminaExamen(this.examenReservacionId).subscribe(
-          respuesta => {
-            this.isdisabledFinish = true;
-            this.isdisabled = true;
-            this.toastr.successToastr('Se actualizo a examen Finalizado', '¡Se ha logrado!');
-            this.preguntas.accion.next('califica');
-          }
-      );
-
-    } else {
-      this.toastr.errorToastr(mensaje, 'Lo siento,');
-    }
-    */
   }
 
   terminarExamen() {
+      this.preguntas.accionSkills.next('no_aplica');
       this.preguntas.terminaExamen(this.examenReservacionId).subscribe(
           respuesta => {
               this.isdisabledFinish = true;
               this.isdisabled = true;
-              this.toastr.successToastr('Se actualizo a examen Finalizado', '¡Se ha logrado!');
+              this.toastr.successToastr('Examen finalizado con éxito', '¡Se ha logrado!');
               this.preguntas.accion.next('califica');
           }
       );
