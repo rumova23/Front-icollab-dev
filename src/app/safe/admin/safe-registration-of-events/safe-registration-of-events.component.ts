@@ -85,6 +85,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		});
 		this.formNewEvent = this.formBuilder.group(
 			{
+				binnacleEventID: ['', null],
 				//dateTimeStart:[{ value: moment(new Date()).format('h:mm'), disabled: false }, Validators.required],
 				dateTimeStart : [{ value: null, disabled: false }, Validators.required],
 				dateTimeEnd   : [{ value: null, disabled: false }, Validators.required],
