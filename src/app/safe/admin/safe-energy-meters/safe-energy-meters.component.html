@@ -15,6 +15,8 @@
 			<p class="section_titulo_0">Importa Medidores de Energía</p>
 		</div>
 	</div>
+	<hr>
+	<br>
   
 	<form [formGroup]="fileUploadForm" (ngSubmit)="upload(fileUploadForm.value)">
 		<div class="row mb-4">
@@ -32,7 +34,7 @@
 					[formGroup]="fileUploadForm"
 					controlName="typeVarhtml"
 					[options]="selectOptionsFuente"
-					label="select"
+					label="Fuente"
 					(eventChange)="onChangeSelectFuente($event)"
 				></app-mat-select>
 			</div>
@@ -54,7 +56,7 @@
 				<label style="visibility: hidden;" class="">boton</label>
 				<div class="row mb-2">
 					<div class="col">
-						<app-btn-block-download (click)="clickBtnDowloadImport()"></app-btn-block-download>
+						<app-btn-block-download-layout (click)="clickBtnDowloadImport()"></app-btn-block-download-layout>
 					</div>
 				</div>
 				<div class="row mt-2">

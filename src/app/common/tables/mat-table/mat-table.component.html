@@ -10,18 +10,22 @@
 		<!-- Checkbox Column -->
 		<ng-container matColumnDef="sys_checkbox">
 			<th mat-header-cell *matHeaderCellDef>
-				<mat-checkbox (change)="$event ? masterToggle() : null"
-								[checked]="selection.hasValue() && isAllSelected()"
-								[indeterminate]="selection.hasValue() && !isAllSelected()"
-								[aria-label]="checkboxLabel()">
+				<mat-checkbox 
+					color="primary"
+					(change)="$event ? masterToggle() : null"
+					[checked]="selection.hasValue() && isAllSelected()"
+					[indeterminate]="selection.hasValue() && !isAllSelected()"
+					[aria-label]="checkboxLabel()">
 				</mat-checkbox>
 				{{ selectionLabel | translate }}
 			</th>
 			<td mat-cell *matCellDef="let row">
-				<mat-checkbox (click)="$event.stopPropagation()"
-								(change)="$event ? selection.toggle(row) : null"
-								[checked]="selection.isSelected(row)"
-								[aria-label]="checkboxLabel(row)">
+				<mat-checkbox 
+					color="primary"
+					(click)="$event.stopPropagation()"
+					(change)="$event ? selection.toggle(row) : null"
+					[checked]="selection.isSelected(row)"
+					[aria-label]="checkboxLabel(row)">
 				</mat-checkbox>
 			</td>
 		</ng-container>

@@ -20,3 +20,6 @@
 .btn:hover{
     color:#eee;
 }
+.mat-checkbox-checked.mat-primary .mat-checkbox-background, .mat-checkbox-indeterminate.mat-primary .mat-checkbox-background {
+    background-color: #0F5787 !important;
+}
