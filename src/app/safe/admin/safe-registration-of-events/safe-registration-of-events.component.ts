@@ -1,3 +1,4 @@
+/* tslint:disable:indent */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
@@ -7,6 +8,10 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 import { IdLabel } from 'src/app/core/models/IdLabel';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { requiredFileType } from 'src/app/core/helpers/requiredFileType';
+import {MasterCatalogService} from '../../services/master-catalog.service';
+import {MaestroOpcionDTO} from '../../../compliance/models/maestro-opcion-dto';
+import {forEach} from '@angular/router/src/utils/collection';
+import {Combo} from '../../../compliance/models/Combo';
 
 @Component({
 	selector: 'app-safe-registration-of-events',
@@ -14,61 +19,29 @@ import { requiredFileType } from 'src/app/core/helpers/requiredFileType';
 	styleUrls: ['./safe-registration-of-events.component.scss']
 })
 export class SafeRegistrationOfEventsComponent implements OnInit {
-	formobservationsComments : FormGroup;
+	formobservationsComments: FormGroup;
 	fileUploadForm: FormGroup;
-	formNewEvent : FormGroup;
+	formNewEvent: FormGroup;
 
-	lstEventClassification : IdLabel[] = [
-		{id:"1",label:'Pruebas de CENACE'}
-	];
-	lstFuels : IdLabel[] = [
-		{id:"1",label:'Gas'}
-	];
-	lstEvents : IdLabel[] = [
-		{id:"1",label:'PVC(+) Mercado'}
-	];
-	lstUnits : IdLabel[] = [
-		{id:"1",label:'unidad 1'}
-	];
-	lstImpactContracts : IdLabel[] = [
-		{id:"1",label:'Contrato 1'}
-	];
-	lstRealsCcdv : IdLabel[] = [
-		{id:"1",label:'CCDV'}
-	];
-	lstToleranceBands : IdLabel[] = [
-		{id:"1",label:'Banda de tolerancia 1'}
-	];
-	lstMarketTypes : IdLabel[] = [
-		{id:"1",label:'Tipo de mercado 1'}
-	];
-	lstSelatedServices : IdLabel[] = [
-		{id:"1",label:'Servicio conexo 1'}
-	];
-	lstEquipment : IdLabel[] = [
-		{id:"1",label:'equipos'}
-	];
-	lstWorkOrder : IdLabel[] = [
-		{id:"1",label:'Orden de trabajo'}
-	];
-	lstOperatorPlantOpen : IdLabel[] = [
-		{id:"1",label:'Operador 1'}
-	];
-	lstOperatorPlantClose : IdLabel[] = [
-		{id:"1",label:'Operador 1'}
-	];
-	lstSourceEvent : IdLabel[] = [
-		{id:"1",label:'fuente 1'}
-	];
-	lstEventStatus : IdLabel[] = [
-		{id:"1",label:'Estatus del evento 1'}
-	];
-	lstApprovalStatus : IdLabel[] = [
-		{id:"1",label:'Estatus de Aprovacion 1'}
-	];
+	lstEventClassification: IdLabel[] = [];
+	lstFuels: IdLabel[] = [];
+	lstEvents: IdLabel[] = [];
+	lstUnits: IdLabel[] = [];
+	lstImpactContracts: IdLabel[] = [];
+	lstRealsCcdv: IdLabel[] = [];
+	lstToleranceBands: IdLabel[] = [];
+	lstMarketTypes: IdLabel[] = [];
+	lstSelatedServices: IdLabel[] = [];
+	lstEquipment: IdLabel[] = [];
+	lstWorkOrder: IdLabel[] = [];
+	lstOperatorPlantOpen: IdLabel[] = [];
+	lstOperatorPlantClose: IdLabel[] = [];
+	lstSourceEvent: IdLabel[] = [];
+	lstEventStatus: IdLabel[] = [];
+	lstApprovalStatus: IdLabel[] = [];
 
 	tableObservationsComments = [
-		{name:this.getNameUser(),observation:"algo",dateUptade:moment(new Date()).format('YYYY-MM-DD'),visible:"¿¿??"}
+		{name: this.getNameUser(), observation: 'algo', dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: '¿¿??'}
 	];
 	tablaColumnsLabels = [
 		{ key: 'name', label: 'Nombre' },
@@ -86,17 +59,21 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		'sys_delete',
 	];
 
-	
+
 	progress;
 	constructor(
-		private formBuilder:FormBuilder,
+		private formBuilder: FormBuilder,
 		public globalService: GlobalService,
 		public toastr: ToastrManager,
 		private securityService: SecurityService,
 		private confirmationDialogService: ConfirmationDialogService,
+		private masterCatalogService: MasterCatalogService
 	) { }
 
+
 	ngOnInit() {
+
+		this.loadCatalog();
 		this.fileUploadForm = this.formBuilder.group({
 			file: new FormControl(null, [Validators.required, requiredFileType('zip')]),
 		});
@@ -105,7 +82,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		});
 		this.formNewEvent = this.formBuilder.group(
 			{
-				//dateTimeStart:[{ value: moment(new Date()).format('h:mm'), disabled: false }, Validators.required],
+				// dateTimeStart:[{ value: moment(new Date()).format('h:mm'), disabled: false }, Validators.required],
 				dateTimeStart : [{ value: moment(new Date()).format('YYYY-MM-DDTHH:mm'), disabled: false }, Validators.required],
 				dateTimeEnd   : [{ value: moment(new Date()).format('YYYY-MM-DDTHH:mm'), disabled: false }, Validators.required],
 				eventsClassification   : [{ value: null, disabled: false }, Validators.required],
@@ -134,38 +111,61 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				eventStatus: [{ value: null, disabled: false }, Validators.required],
 				approvalStatus: [{ value: null, disabled: false }, Validators.required],
 				eventActivated: [{ value: false, disabled: false }],
-				
+
 			}
 		);
 	}
-	onSubmitFormNewEvent(v){
-		let casas = moment(v.datetimelocal);
-		let dsa = casas.format('YYYY-MM-DD HH:mm:ss');
-		debugger;
+
+	loadSelect(selectCombo: Array<any>, catalog: Array<MaestroOpcionDTO>) {
+		catalog.forEach((element: MaestroOpcionDTO ) => {
+			selectCombo.push({id: element.maestroOpcionId, label: element.opcion.codigo});
+		});
 	}
-	btnClickBack(){
+
+	loadCatalog() {
+		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'CONTRATO COMPRA VENTA ENERGIA PPA', 'BANDA TOLERANCIA',
+		'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'ORDEN TRABAJO'];
+		this.masterCatalogService.listCatalog(names).subscribe(data  => {
+			this.loadSelect(this.lstEventClassification, data['CLASIFICA EVENTO']);
+			this.loadSelect(this.lstEvents, data['EVENTO']);
+			this.loadSelect(this.lstFuels, data['COMBUSTIBLE']);
+			this.loadSelect(this.lstUnits, data['UNIDAD']);
+			this.loadSelect(this.lstImpactContracts, data['CONTRATO IMPACTADO']);
+			this.loadSelect(this.lstRealsCcdv, data['CONTRATO COMPRA VENTA ENERGIA PPA']);
+			this.loadSelect(this.lstToleranceBands, data['BANDA TOLERANCIA']);
+			this.loadSelect(this.lstMarketTypes, data['TIPO MERCADO MEM']);
+			this.loadSelect(this.lstSelatedServices, data['SERVICIOS CONEXOS MEM']);
+			this.loadSelect(this.lstEquipment, data['EQUIPO']);
+			this.loadSelect(this.lstWorkOrder, data['ORDEN TRABAJO']);
+		});
+	}
+	onSubmitFormNewEvent(v) {
+		const casas = moment(v.datetimelocal);
+		const dsa = casas.format('YYYY-MM-DD HH:mm:ss');
+	}
+	btnClickBack() {
 		this.toastr.successToastr('btnClickBack', 'Seleccionaste');
 	}
-	BtnAddObservationsComments(){
-		let observation = this.formobservationsComments.get('observationsComments').value;
-		if(observation != null && observation != ""){
+	BtnAddObservationsComments() {
+		const observation = this.formobservationsComments.get('observationsComments').value;
+		if (observation != null && observation !== '') {
 			this.tableObservationsComments = this.tableObservationsComments.concat(
-					{name:this.getNameUser(),observation,dateUptade:moment(new Date()).format('YYYY-MM-DD'),visible:"¿¿??"}
+					{name: this.getNameUser(), observation, dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: '¿¿??'}
 				);
 			this.formobservationsComments.get('observationsComments').setValue('');
 		}
 	}
-	btnUploadFile(){
+	btnUploadFile() {
 		this.toastr.successToastr('btnUploadFile', 'Seleccionaste');
-		let file = this.fileUploadForm.get('file').value;
+		const file = this.fileUploadForm.get('file').value;
 	}
-	btnFinish(){
+	btnFinish() {
 		this.toastr.successToastr('btnFinish', 'Seleccionaste');
 	}
-	tableRowEdit(element){
+	tableRowEdit(element) {
 		this.toastr.successToastr('tableRowEdit', 'Seleccionaste');
 	}
-	tableRowDelete(element){
+	tableRowDelete(element) {
 		this.confirmationDialogService.confirm(
 			'Confirmación',
 			'¿Está seguro de eliminar el Registro?'
@@ -181,10 +181,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		})
 		.catch(() => {});
 	}
-	downloadFile(){
+	downloadFile() {
 		this.toastr.successToastr('downloadFile', 'Seleccionaste');
 	}
 	getNameUser() {
-		return this.securityService.getNameUser() +" "+ this.securityService.getLastNameUser();
+		return this.securityService.getNameUser() + ' ' + this.securityService.getLastNameUser();
 	}
 }
