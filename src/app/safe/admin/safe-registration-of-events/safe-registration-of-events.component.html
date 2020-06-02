@@ -85,7 +85,6 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="row pb-2">
 			<div class="col">
 				<p class="section_titulo_1">{{ "Contrato de Compraventa de Energía (PPA)" | translate }}</p>
@@ -111,7 +110,6 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="row pb-2">
 			<div class="col">
 				<p class="section_titulo_1">{{ "Mercado Eléctrico Mayorista (MEM)" | translate }}</p>
@@ -140,7 +138,6 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="row pb-2">
 			<div class="col">
 				<p class="section_titulo_1">{{ "Licencia / Orden de Trabajo" | translate }}</p>
@@ -188,7 +185,6 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="row pb-2">
 			<div class="col">
 				<p class="section_titulo_1">{{ "Fuente" | translate }}</p>
@@ -216,7 +212,7 @@
 					label="Nombre(s)/Apellidos(s) Operador Planta Cerro"
 					sufijo=":"
 				></app-mat-select>
-			</div>				
+			</div>
 			<div class="col">
 				<app-mat-input-text [formGroup]="formNewEvent" controlName="operatorCenaceClose" label="Nombre(s)/Apellidos(s) Operador CENACE Cerro" sufijo=":"></app-mat-input-text>
 			</div>
@@ -231,7 +227,6 @@
 				></app-mat-select>
 			</div>
 		</div>
-
 		<div class="row pb-2">
 			<div class="col">
 				<p class="section_titulo_1">{{ "Estatus del Evento" | translate }}</p>
@@ -257,9 +252,7 @@
 				></app-mat-select>
 			</div>
 		</div>
-	</div>
-	<div class="section">
-		
+		<div class="section">
 			<div class="row pb-2">
 				<div class="col">
 					<p class="section_titulo_1">{{ "Observaciones y/o comentarios" | translate }}</p>
@@ -286,7 +279,7 @@
 			</div>
 			<div class="row">
 				<div class="col">
-					<app-mat-table 
+					<app-mat-table
 						[data]="tableObservationsComments"
 						[selection]="tableObservationsCommentsSelection"
 						selectionLabel="Visible"
@@ -316,7 +309,7 @@
 				</div>
 				<div class="col">
 					<div class="row" [formGroup]="fileUploadForm">
-						
+
 						<div class="col">
 							Carga Archivo:<br />
 							<app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
