@@ -26,7 +26,7 @@
         <i class="ti-bookmark-alt"></i>&nbsp;
         Guardar Exámen
       </button>
-      <button type="button" class="btn" (click)="terminaExamen()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" [disabled]="!isBehaviorComplete && !isSkillsComplete">
+      <button type="button" class="btn" (click)="terminaExamen()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" [disabled]="!(isBehaviorComplete && isSkillsComplete)">
         <i class="ti-save"></i>
         Termina Exámen
       </button>

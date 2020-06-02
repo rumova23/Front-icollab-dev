@@ -7,8 +7,8 @@
 				[formControlName]="controlName"
 				(selectionChange)="onSelectChange($event)"
 				>
-				<mat-option>None</mat-option>
-				<mat-option *ngFor="let option of options" [value]="option.id">{{ option.label }}</mat-option>
+				<mat-option>{{'None' | translate}}</mat-option>
+				<mat-option *ngFor="let option of options" [value]="option.id">{{ option.label | translate}}</mat-option>
 			</mat-select>
 		</mat-form-field>
 		<ng-container *ngIf="(submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid">

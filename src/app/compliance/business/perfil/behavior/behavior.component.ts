@@ -47,7 +47,6 @@ export class BehaviorComponent implements OnInit, OnDestroy {
       private preguntas: PerfilComboService,
       public toastr: ToastrManager) {
       this.subscription = this.preguntas.accionBehavior.subscribe(accion => {
-          console.log('Called: ' + accion);
           if (accion === 'guardaExamenBehavior') {
               this.guardaExamen();
           }
@@ -124,7 +123,7 @@ export class BehaviorComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
   }
 
-    onSubmit() {
+  onSubmit() {
     this.SaveRespuestas = [];
     for (let i = 0; i < this.grupPreg.length; i++) {
       for (let j = 0; j < this.grupPreg[i].length; j++) {
@@ -152,6 +151,9 @@ export class BehaviorComponent implements OnInit, OnDestroy {
               }
           }
       }
+      if (flag) {
+          this.isComplete.emit(true);
+      }
   }
 
   guardaExamen() {
@@ -174,29 +176,14 @@ export class BehaviorComponent implements OnInit, OnDestroy {
               this.validaExamen();
           }
       );
-
-      /*
-      if (sonTodas) {
-          this.preguntas.terminaExamen(this.examenReservacionId).subscribe(
-              respuesta => {
-                  this.isdisabledFinishBehavior = true;
-                  this.isdisabled = true;
-                  this.toastr.successToastr('Se actualizo a examen Finalizado', '¡Se ha logrado!');
-                  this.preguntas.accion.next('califica');
-              }
-          );
-
-      } else {
-          this.toastr.errorToastr('Para terminar el examen, Todas las preguntas deben contestarse.', 'Lo siento,');
-      } */
   }
 
   terminarExamen() {
+      this.preguntas.accionBehavior.next('no_aplica');
       this.preguntas.terminaExamen(this.examenReservacionId).subscribe(
           respuesta => {
               this.isdisabledFinishBehavior = true;
               this.isdisabled = true;
-              this.toastr.successToastr('Se actualizo a examen Finalizado', '¡Se ha logrado!');
               this.preguntas.accion.next('califica');
           }
       );

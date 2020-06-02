@@ -47,6 +47,7 @@ import { MatDatetimelocalComponent } from './inputs/mat-datetimelocal/mat-dateti
 import { MatInputPasswordComponent } from './inputs/mat-input-password/mat-input-password.component';
 import { MatInputTextareaComponent } from './inputs/mat-input-textarea/mat-input-textarea.component';
 import { BtnBlockBackComponent } from './btn/btn-block/btn-block-back.component';
+import { BtnBlockDownloadLayoutComponent } from './btn/btn-block/btn-block-download-layout.component';
 
 @NgModule({
 	declarations: [
@@ -81,6 +82,7 @@ import { BtnBlockBackComponent } from './btn/btn-block/btn-block-back.component'
 		, MatDatetimelocalComponent
 		, MatInputPasswordComponent
 		, MatInputTextareaComponent
+		, BtnBlockDownloadLayoutComponent
 	],
 	exports: [
 		 ProgressComponent
@@ -114,6 +116,7 @@ import { BtnBlockBackComponent } from './btn/btn-block/btn-block-back.component'
 		, MatDatetimelocalComponent
 		, MatInputPasswordComponent
 		, MatInputTextareaComponent
+		, BtnBlockDownloadLayoutComponent
 
 	],
 	imports: [

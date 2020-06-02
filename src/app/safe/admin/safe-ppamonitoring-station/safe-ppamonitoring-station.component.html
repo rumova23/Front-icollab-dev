@@ -10,115 +10,82 @@
 </div>
 
 <div class="section">
-
-	<div class="row pb-2">
+	<div class="row">
 		<div class="col">
 			<p class="section_titulo_0">{{ "Importa Variables de Estación de Supervisión" | translate }}</p>
-			<p class="section_subtitulo_0"></p>
 		</div>
 	</div>
-
+	<hr>
+	<br>
 	<form [formGroup]="fileUploadForm" (ngSubmit)="upload(fileUploadForm.value)">
 
-		<div class="form-row">
-			<div class="col col-xxxs-12 col-xxs-12 col-xs-6 col-lg-5 col-xxl-3">
-				<label>Fecha de operación Comercial:</label>
-				<mat-form-field class="form-control">
-					<input matInput [matDatepicker]="dp" [formControl]="date" [max]="maxDate"/>
-					<mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-					<mat-datepicker #dp startView="multi-year"  (yearSelected)="chosenYearHandler($event)"
-						(monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
-					</mat-datepicker>
-				</mat-form-field>
+		<div class="row mb-4">
+			
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-datepicker-year-and-month 
+					[formGroup]="fileUploadForm"
+					controlName="date"
+					(eventChange)="onChangeDatePicker($event)" 
+					[maxDate]="maxDate"
+					[label]="'Fecha de Operación Comercial'">
+				</app-mat-input-datepicker-year-and-month>
 			</div>
 
-			<div class="col col-xxxs-12 col-xxs-12 col-xs-6 col-lg-5 col-xxl-2">
-				<label>Fuente:</label>
-				<select formControlName="typeVarhtml" class="browser-default custom-select" [(ngModel)]="typeVarhtml" (change)="changeIn($event)">
-					<option [value]="1">FileZilla FTP</option>
-					<option [value]="2">PAYSERVER DB</option>
-					<option [value]="3">PI SERVER DB</option>
-					<option [value]="4">Manual</option>
-				</select>
+			<div class="my-2 col col-xxxs-12 col-xxs-12 col-xs-6 col-xl-3">
+				<app-mat-select
+					[formGroup]="fileUploadForm"
+					controlName="typeVarhtml"
+					[options]="selectOptionsFuente"
+					label="Fuente"
+					sufijo=":"
+					(eventChange)="changeIn($event)"
+				></app-mat-select>
 			</div>
-			<div
-				class="col col-xxxs-12 col-xxs-12 col-xs-12 col-lg-4 col-xxl-4 d-flex justify-content-end justify-content-xxl-start pt-xxl-1">
-				<button type="submit" class="btn w-100 align-self-end align-self-xxl-start mr-0 mt-xxl-4 mt-xxxs-4 mt-xxs-4 mt-xs-5"
-					style="max-width: 175px;"
-					(click)="validaEjecutaProceso()" [disabled]="buttonExists">
-					<i class="ti-cloud-up"></i>
-					{{ "Import" | translate }}</button>
+			
+			<div class="my-xl-2 col-12 col-xl-3 col-xxl-2" *ngIf="!manualImport">
+				<label style="visibility: hidden;">boton</label>
+				<app-btn-block-import  (click)="validaEjecutaProceso()">
+				</app-btn-block-import>
 			</div>
-			<div class="col col-xxxs-12 col-xxs-12 col-xs-12 col-md-12 col-xl-12 col-xxl-6 col-xxxl-6 mt-lg-2 mt-xxl-2" *ngIf="manualImport">
-				<div class="row d-flex justify-content-end">
 
-					<div class="col col-md-auto">
-						Carga Archivo:<br />
-						<app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
-						<mat-error
-							*ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
-							Requerido
-						</mat-error>
+			<div class="my-2 col-12 col-md-6 col-xl-3 col-xxl-4"  *ngIf="manualImport">
+				Carga Archivo:<br />
+				<app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+				<mat-error
+					*ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
+					Requerido
+				</mat-error>
+			</div>
+			
+			<div class="my-2 col-12 col-md-6 col-xl-3 col-xxl-2" *ngIf="manualImport">
+				<label style="visibility: hidden;" class="">boton</label>
+				<div class="row mb-2">
+					<div class="col">
+						<app-btn-block-download-layout (click)="clickBtnDowloadImport()"></app-btn-block-download-layout>
 					</div>
-
-					<div class="col-auto d-flex">
-						<div class="align-self-end">
-
-							<button type="button" class="btn mr-0" style="width: 175px;">
-								<i class="ti-cloud-down"></i>
-								{{ "Download" | translate }} {{ "Layout" | translate }}
-							</button>
-							<br>
-							<button type="submit" class="btn mr-0" [disabled]="!fileUploadForm.valid"
-								style="width: 175px;">
-								<i class="ti-cloud-up"></i>
-								{{ "Import" | translate }}
-							</button>
-
-						</div>
+				</div>
+				<div class="row mt-2">
+					<div class="col">
+						<app-btn-block-import mytype="submit" [disabled]="!fileUploadForm.valid" ></app-btn-block-import>
 					</div>
-
 				</div>
 			</div>
 		</div>
 	</form>
 
 	<!-- Tabla de Catalogos -->
-	<div class="row mt-4 mb-4">
+	<div class="row mt-4">
 		<div class="col">
-			<div class="mat-elevation-z0">
-				<table matSort (matSortChange)="sortData($event)" mat-table [dataSource]="dataSource"
-					class="table_catalogo" matSortActive="name" matSortDirection="asc" matSortDisableClear>
-					<ng-container [matColumnDef]="column.key" *ngFor="let column of displayedColumnsOrder">
-						<th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.label | translate }}</th>
-						<td mat-cell *matCellDef="let element">{{ element[column.key] }}</td>
-					</ng-container>
-
-					<ng-container [matColumnDef]="column.key" *ngFor="let column of displayedColumnsActions">
-						<th mat-header-cell *matHeaderCellDef>{{ column.label | translate }}</th>
-						<td mat-cell *matCellDef="let element" [ngSwitch]="column.key">
-							<a (click)="action(2, element.id)" *ngSwitchCase="'sys_see'">
-								<img src="assets/images/skins/ico_Ver.png" alt="Visualizar" />
-							</a>
-							<a (click)="action(3, element.id)" *ngSwitchCase="'sys_edit'">
-								<img src="assets/images/skins/ico_Editar.png" alt="Editar" />
-							</a>
-							<a (click)="eliminarRegistro(element.element)" *ngSwitchCase="'sys_delete'">
-								<img src="assets/images/skins/ico_Borrar.png" alt="Eliminar" />
-							</a>
-						</td>
-					</ng-container>
-
-					<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-					<tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
-				</table>
-				<mat-paginator [pageSizeOptions]="row_x_page" showFirstLastButtons></mat-paginator>
-			</div>
+			<app-mat-table
+				(clickDelete)="tableRowDelete($event)"
+				[data]="dataSource"
+				[columnsLabels]="displayedColumnsOrder"
+				[columnsDisplay]="columnsToDisplay"
+				[row_x_page]="tableRow_x_page"
+			></app-mat-table>
 		</div>
 	</div>
-	<!-- ./Tabla de Catalogos -->
 
-	<hr />
 
 	<div class="row pb-2">
 		<div class="col">
@@ -127,30 +94,25 @@
 		</div>
 	</div>
 	<form [formGroup]="filterDatesFormGroup" (ngSubmit)="searchTagsFromTo()">
-		<div class="row mb-3 mt-3">
-			<div class="col-12 col-lg-6 col-xxl-4">
-				<div class="form-group">
-					<label class="form-text" for="dateInihtml">Tags:</label>
-					<mat-form-field class="form-control">
-						<mat-select [formControl]="tags" multiple>
-							<mat-option *ngFor="let tag of tagsList" [value]="tag">{{ tag }}</mat-option>
-						</mat-select>
-					</mat-form-field>
-				</div>
+		<div class="row mt-2">
+			<div class="col-12 col-sm-6 col-xl-3">
+				<app-mat-select-multiple
+					[formGroup]="formvariables"
+					controlName="tags"
+					[options]="tagsList"
+					label="Variebles de Estación de Supervisión"
+					sufijo=":"
+				></app-mat-select-multiple>
 			</div>
-			<div class="col-12 col-lg-6 col-xxl-8 d-flex justify-content-end">
-				<div class="row align-self-end" style="margin-bottom: 1rem;">
-					<div class="col-auto my-xxs-1">
-						<button class="btn align-self-end" style="width: 175px;">
-							<i class="ti-bar-chart-alt"></i> Graficar
-						</button>
-
+			<div class="col-12 col-sm-6 col-xl-9">
+				<div class="row justify-content-end">
+					<div class="col-12 col-sm-6 col-xl-3">
+						<label style="visibility: hidden;">boton</label>
+						<app-btn-block-graph mytype="submit"></app-btn-block-graph>
 					</div>
-					<div class="col-auto my-xxs-1">
-						<button type="button" (click)="download()" class="btn align-self-end">
-							<i class="ti-cloud-down"></i>
-							{{ "Download Zip Estación de Supervisión" | translate }}</button>
-				
+					<div class="col-12 col-sm-6 col-xl-3">
+						<label style="visibility: hidden;">boton</label>
+						<app-btn-block-download (click)="download()"></app-btn-block-download>
 					</div>
 				</div>
 			</div>

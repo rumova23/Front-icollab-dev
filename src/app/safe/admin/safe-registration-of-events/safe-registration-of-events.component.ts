@@ -12,6 +12,7 @@ import {MasterCatalogService} from '../../services/master-catalog.service';
 import {MaestroOpcionDTO} from '../../../compliance/models/maestro-opcion-dto';
 import {forEach} from '@angular/router/src/utils/collection';
 import {Combo} from '../../../compliance/models/Combo';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
 	selector: 'app-safe-registration-of-events',
@@ -41,7 +42,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	lstApprovalStatus: IdLabel[] = [];
 
 	tableObservationsComments = [
-		{name: this.getNameUser(), observation: 'algo', dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: '¿¿??'}
+		{name:this.getNameUser(),observation:"algo",dateUptade:moment(new Date()).format('YYYY-MM-DD'),visible:true},
+		{name:this.getNameUser(),observation:"algo 2",dateUptade:moment(new Date()).format('YYYY-MM-DD'),visible:false}
 	];
 	tablaColumnsLabels = [
 		{ key: 'name', label: 'Nombre' },
@@ -54,10 +56,11 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		'name',
 		'observation',
 		'dateUptade',
-		'visible',
+		'sys_checkbox',
 		'sys_edit',
 		'sys_delete',
 	];
+	tableObservationsCommentsSelection : SelectionModel<any> = new SelectionModel<any>(true, []);
 
 
 	progress;
@@ -82,9 +85,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		});
 		this.formNewEvent = this.formBuilder.group(
 			{
-				// dateTimeStart:[{ value: moment(new Date()).format('h:mm'), disabled: false }, Validators.required],
-				dateTimeStart : [{ value: moment(new Date()).format('YYYY-MM-DDTHH:mm'), disabled: false }, Validators.required],
-				dateTimeEnd   : [{ value: moment(new Date()).format('YYYY-MM-DDTHH:mm'), disabled: false }, Validators.required],
+				//dateTimeStart:[{ value: moment(new Date()).format('h:mm'), disabled: false }, Validators.required],
+				dateTimeStart : [{ value: null, disabled: false }, Validators.required],
+				dateTimeEnd   : [{ value: null, disabled: false }, Validators.required],
 				eventsClassification   : [{ value: null, disabled: false }, Validators.required],
 				events: [{ value: null, disabled: false }, Validators.required],
 				fuels : [{ value: null, disabled: false }, Validators.required],
@@ -110,10 +113,18 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				sourceEvent: [{ value: null, disabled: false }, Validators.required],
 				eventStatus: [{ value: null, disabled: false }, Validators.required],
 				approvalStatus: [{ value: null, disabled: false }, Validators.required],
-				eventActivated: [{ value: false, disabled: false }],
-
+				eventActivated: [{ value: true, disabled: false }],
+				
 			}
 		);
+		this.setTableObservationsCommentsSelectionChecked()		
+	}
+	setTableObservationsCommentsSelectionChecked(){
+		this.tableObservationsCommentsSelection.select(...this.tableObservationsComments.filter(e=>e.visible===true));
+	}
+	getTableObservationsCommentsSelectionChecked(){
+		let seleccionados = this.tableObservationsCommentsSelection.selected;
+		console.log(seleccionados);
 	}
 
 	loadSelect(selectCombo: Array<any>, catalog: Array<MaestroOpcionDTO>) {
@@ -150,12 +161,14 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		const observation = this.formobservationsComments.get('observationsComments').value;
 		if (observation != null && observation !== '') {
 			this.tableObservationsComments = this.tableObservationsComments.concat(
-					{name: this.getNameUser(), observation, dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: '¿¿??'}
+					{name:this.getNameUser(),observation,dateUptade:moment(new Date()).format('YYYY-MM-DD'),visible:true}
 				);
 			this.formobservationsComments.get('observationsComments').setValue('');
 		}
+		this.getTableObservationsCommentsSelectionChecked();
 	}
-	btnUploadFile() {
+
+	btnUploadFile(){
 		this.toastr.successToastr('btnUploadFile', 'Seleccionaste');
 		const file = this.fileUploadForm.get('file').value;
 	}

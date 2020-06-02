@@ -10,10 +10,16 @@
 .mat-selected-row{
     background: #cfd8dc!important;
 }
+.mat-header-row{
+    background: #6EB1D620;
+}
 .sidebar_item:hover, .sidebar_item.itemActive{
     background-color : #cfd8dc!important;
     color            : Black!important;
 }
 .btn:hover{
     color:#eee;
+}
+.mat-checkbox-checked.mat-primary .mat-checkbox-background, .mat-checkbox-indeterminate.mat-primary .mat-checkbox-background {
+    background-color: #0F5787 !important;
 }

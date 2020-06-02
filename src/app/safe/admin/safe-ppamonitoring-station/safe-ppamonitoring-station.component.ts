@@ -39,6 +39,8 @@ import {Observable} from 'rxjs';
 import {environment} from '../../../../environments/environment';
 import {saveAs} from 'file-saver';
 // import theme           from 'highcharts/themes/dark-green';
+import { IdLabel } from 'src/app/core/models/IdLabel';
+import { Moment } from 'moment';
 HC_exporting(Highcharts);
 HC_stock(Highcharts);
 HC_customEvents(Highcharts);
@@ -70,14 +72,21 @@ export class SafePPAMonitoringStationComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-	tags = new FormControl();
-	tagsList: string[] = [];
+	selectOptionsFuente : IdLabel[] = [
+		{id:"1",label:'FileZilla FTP'},
+		{id:"2",label:'PAYSERVER DB'},
+		{id:"3",label:'PI SERVER DB'},
+		{id:"4",label:'Manual'}
+	];
+	formvariables : FormGroup;
+	
+	tagsList: IdLabel[] = [];
     dataSource;
     data: any[] = [];
     displayedColumnsOrder: any[] = [];
     displayedColumnsActions: any[] = [];
     columnsToDisplay: string[] = [];
-	row_x_page = [5];
+	tableRow_x_page = [5];
     showAdd = true;
     showView = false;
     showUpdate = false;
@@ -209,15 +218,18 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	}
 	resetScreen() {
 		// this.dataSource = new MatTableDataSource<any>([]);
-		this.tags.reset();
+		this.formvariables.get('tags').reset();
 		if (this.chartLine !== undefined) {
 			this.chartLine.destroy();
 			this.chartLine = undefined;
 		}
 	}
 	changeIn(evt){
-		const v = +evt.target.value; // el 4 es carga manual
+		const v = +evt.value; // el 4 es carga manual
 		this.manualImport = (v==4) ? true : false;
+	}
+	clickBtnDowloadImport(){
+
 	}
 	ordenar(arr) {
 		const l = arr.length;
@@ -237,6 +249,11 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		
+		this.formvariables = this.fb.group({
+			tags: new FormControl('', Validators.required),
+		});	
+
 		this.maxDate = new Date(new Date().getFullYear(), (new Date().getMonth() - 1 ));
 		this.existsLoad = true;
 		this.buttonExists = true;
@@ -246,7 +263,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			this.ppaMonitoringFormatService.getTags(this.etapa001).subscribe((dataInterno) => {
 				this.addBlock(2,'');
 				dataInterno.forEach(element => {
-					this.tagsList.push(element.tag);
+					this.tagsList.push({id:element.tag,label:element.tag});
 				});
 			});
 		});
@@ -265,9 +282,23 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		this.filterDatesFormGroup = new FormGroup({});
 		this.fileUploadForm = this.fb.group({
 			file: new FormControl(null, [Validators.required, requiredFileType('zip')]),
-			typeVarhtml: new FormControl('', Validators.required)
+			typeVarhtml: new FormControl('', Validators.required),
+			date: new FormControl(moment(), Validators.required)
 		});	
 		//this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
+	}
+	tableRowDelete(element){
+		this.confirmationDialogService.confirm(
+			'Confirmación',
+			'¿Está seguro de eliminar el Registro?'
+		)
+		.then((confirmed) => {
+			if ( confirmed ) {
+				this.toastr.successToastr('table Row Delete', 'Seleccionaste');
+				console.log(element);
+			}
+		})
+		.catch(() => {});
 	}
 	setChartData() {
 		/*this.dataSource = [
@@ -295,8 +326,8 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 					);
 					i+=1;
 				}
-				this.dataSource = new MatTableDataSource<any>(this.dataSource);
-				this.dataSource.paginator = this.paginator;
+				//this.dataSource = new MatTableDataSource<any>(this.dataSource);
+				//this.dataSource.paginator = this.paginator;
 
 			},
 			errorData => {
@@ -356,7 +387,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	searchTagsFromTo() {
 	
 		//let dateOpComm = this.datePipe.transform(this.dateOpComm, 'yyyy-MM-dd');
-		let tags     = this.tags.value;
+		let tags     = this.formvariables.get('tags').value;
 		let count = 0;
 		if(tags == null || tags.length == 0 || this.date.value == null){
 			this.toastr.errorToastr("Todos los campos son necesarios.", 'Lo siento,');
@@ -548,6 +579,9 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	private addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,
 			new EventBlocked(type, msg)));
+	}
+	onChangeDatePicker(d: Moment) {
+		this.date.setValue(d);
 	}
 
 	download() {

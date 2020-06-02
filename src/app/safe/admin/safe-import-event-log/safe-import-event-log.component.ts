@@ -38,7 +38,7 @@ export class SafeImportEventLogComponent implements OnInit {
 		'estatus',
 		'sys_delete'
 	];
-	tableRow_x_page = [5, 10];
+	tableRow_x_page = [50,100,150,200];
 	
 	fileUploadForm : FormGroup;
 
