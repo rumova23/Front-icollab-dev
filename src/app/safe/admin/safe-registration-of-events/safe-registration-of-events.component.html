@@ -85,9 +85,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="row pb-2">
-			<div class="col">
-				<p class="section_titulo_1">{{ "Contrato de Compraventa de Energía (PPA)" | translate }}</p>
+		<div style="border: solid 1px #ccc;" class="p-2 my-2">
+			<div class="row pb-2">
+				<div class="col">
+					<p class="section_titulo_1">{{ "Contrato de Compraventa de Energía (PPA)" | translate }}</p>
+				</div>
 			</div>
 			<div class="row">
 				<div class="col">
@@ -110,9 +112,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="row pb-2">
-			<div class="col">
-				<p class="section_titulo_1">{{ "Mercado Eléctrico Mayorista (MEM)" | translate }}</p>
+		<div style="border: solid 1px #ccc;" class="p-2 my-2">
+			<div class="row pb-2">
+				<div class="col">
+					<p class="section_titulo_1">{{ "Mercado Eléctrico Mayorista (MEM)" | translate }}</p>
+				</div>
 			</div>
 			<div class="row">
 				<div class="col">
@@ -138,9 +142,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="row pb-2">
-			<div class="col">
-				<p class="section_titulo_1">{{ "Licencia / Orden de Trabajo" | translate }}</p>
+		<div style="border: solid 1px #ccc;" class="p-2 my-2">
+			<div class="row pb-2">
+				<div class="col">
+					<p class="section_titulo_1">{{ "Licencia / Orden de Trabajo" | translate }}</p>
+				</div>
 			</div>
 			<div class="row">
 				<div class="col">
@@ -185,74 +191,78 @@
 				</div>
 			</div>
 		</div>
-		<div class="row pb-2">
-			<div class="col">
-				<p class="section_titulo_1">{{ "Fuente" | translate }}</p>
+		<div style="border: solid 1px #ccc;" class="p-2 my-2">
+			<div class="row pb-2">
+				<div class="col">
+					<p class="section_titulo_1">{{ "Fuente" | translate }}</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="operatorPlantOpen"
+						[options]="lstOperatorPlantOpen"
+						label="Nombre(s)/Apellidos(s) Operador Planta Abrió"
+						sufijo=":"
+					></app-mat-select>
+				</div>
+				<div class="col">
+					<app-mat-input-text [formGroup]="formNewEvent" controlName="operatorCenaceOpen" label="Nombre(s)/Apellidos(s) Operador CENACE Abrió" sufijo=":"></app-mat-input-text>
+				</div>
+				<div class="w-100"></div>
+				<div class="col">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="operatorPlantClose"
+						[options]="lstOperatorPlantClose"
+						label="Nombre(s)/Apellidos(s) Operador Planta Cerro"
+						sufijo=":"
+					></app-mat-select>
+				</div>
+				<div class="col">
+					<app-mat-input-text [formGroup]="formNewEvent" controlName="operatorCenaceClose" label="Nombre(s)/Apellidos(s) Operador CENACE Cerro" sufijo=":"></app-mat-input-text>
+				</div>
+				<div class="w-100"></div>
+				<div class="col-3">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="sourceEvent"
+						[options]="lstSourceEvent"
+						label="Fuente del Evento"
+						sufijo=":"
+					></app-mat-select>
+				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col">
-				<app-mat-select
-					[formGroup]="formNewEvent"
-					controlName="operatorPlantOpen"
-					[options]="lstOperatorPlantOpen"
-					label="Nombre(s)/Apellidos(s) Operador Planta Abrió"
-					sufijo=":"
-				></app-mat-select>
+		<div style="border: solid 1px #ccc;" class="p-2 my-2">
+			<div class="row pb-2">
+				<div class="col">
+					<p class="section_titulo_1">{{ "Estatus del Evento" | translate }}</p>
+				</div>
 			</div>
-			<div class="col">
-				<app-mat-input-text [formGroup]="formNewEvent" controlName="operatorCenaceOpen" label="Nombre(s)/Apellidos(s) Operador CENACE Abrió" sufijo=":"></app-mat-input-text>
-			</div>
-			<div class="w-100"></div>
-			<div class="col">
-				<app-mat-select
-					[formGroup]="formNewEvent"
-					controlName="operatorPlantClose"
-					[options]="lstOperatorPlantClose"
-					label="Nombre(s)/Apellidos(s) Operador Planta Cerro"
-					sufijo=":"
-				></app-mat-select>
-			</div>
-			<div class="col">
-				<app-mat-input-text [formGroup]="formNewEvent" controlName="operatorCenaceClose" label="Nombre(s)/Apellidos(s) Operador CENACE Cerro" sufijo=":"></app-mat-input-text>
-			</div>
-			<div class="w-100"></div>
-			<div class="col-3">
-				<app-mat-select
-					[formGroup]="formNewEvent"
-					controlName="sourceEvent"
-					[options]="lstSourceEvent"
-					label="Fuente del Evento"
-					sufijo=":"
-				></app-mat-select>
+			<div class="row">
+				<div class="col-3">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="eventStatus"
+						[options]="lstEventStatus"
+						label="Estatus del Evento"
+						sufijo=":"
+					></app-mat-select>
+				</div>
+				<div class="col-3">
+					<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="approvalStatus"
+						[options]="lstApprovalStatus"
+						label="Estatus de Aprovación"
+						sufijo=":"
+					></app-mat-select>
+				</div>
 			</div>
 		</div>
-		<div class="row pb-2">
-			<div class="col">
-				<p class="section_titulo_1">{{ "Estatus del Evento" | translate }}</p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-3">
-				<app-mat-select
-					[formGroup]="formNewEvent"
-					controlName="eventStatus"
-					[options]="lstEventStatus"
-					label="Estatus del Evento"
-					sufijo=":"
-				></app-mat-select>
-			</div>
-			<div class="col-3">
-				<app-mat-select
-					[formGroup]="formNewEvent"
-					controlName="approvalStatus"
-					[options]="lstApprovalStatus"
-					label="Estatus de Aprovación"
-					sufijo=":"
-				></app-mat-select>
-			</div>
-		</div>
-		<div class="section">
+		<div style="border: solid 1px #ccc;" class="p-2 my-2">
 			<div class="row pb-2">
 				<div class="col">
 					<p class="section_titulo_1">{{ "Observaciones y/o comentarios" | translate }}</p>
@@ -291,8 +301,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="section">
-
+		<div style="border: solid 1px #ccc;" class="p-2 my-2">
 			<div class="row pb-2">
 				<div class="col">
 					<p class="section_titulo_1">{{ "Soportes" | translate }}</p>
@@ -329,7 +338,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="section">
+		<div style="border: solid 1px #ccc;" class="p-2 my-2">
 			<div class="row">
 				<div class="col">
 					<div class="form-group">
@@ -352,4 +361,5 @@
 				</div>
 			</div>
 		</div>
-</form>
+	</form>
+</div>
