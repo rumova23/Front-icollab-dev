@@ -83,6 +83,10 @@ import {GenericCatalogsComponent} from '../admin/generic-catalogs/generic-catalo
 import { SafeEnergyMetersComponent } from '../admin/safe-energy-meters/safe-energy-meters.component';
 import { SafeImportEventLogComponent } from '../admin/safe-import-event-log/safe-import-event-log.component';
 import { SafeRegistrationOfEventsComponent } from '../admin/safe-registration-of-events/safe-registration-of-events.component';
+import { SafeCatalogRegistrationComponent } from '../admin/safe-catalog-registration/safe-catalog-registration.component';
+import { SafeCatalogRegistrationAbcComponent } from '../admin/safe-catalog-registration-abc/safe-catalog-registration-abc.component';
+import { SafeCatalogConfigurationComponent } from '../admin/safe-catalog-configuration/safe-catalog-configuration.component';
+import { SafeCatalogConfigurationComponentAbcComponent } from '../admin/safe-catalog-configuration-component-abc/safe-catalog-configuration-component-abc.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -162,6 +166,10 @@ import { SafeRegistrationOfEventsComponent } from '../admin/safe-registration-of
 		, SafeEnergyMetersComponent
 		, SafeImportEventLogComponent
 		, SafeRegistrationOfEventsComponent
+		, SafeCatalogRegistrationComponent
+        , SafeCatalogRegistrationAbcComponent
+		, SafeCatalogConfigurationComponent
+		, SafeCatalogConfigurationComponentAbcComponent
   	]
 })
 
@@ -191,7 +199,7 @@ export class SafeHomeComponent implements OnInit {
 	}
 
 	ngAfterViewInit() {
-		//this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(SafeRegistrationOfEventsComponent));/*
+		//this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(SafeCatalogConfigurationComponent));/*
 		this.eventService.sendMainSafe(new EventMessage(101, {
 			typeEnergy: 'Factor de Potencia'
 		}));//*/
@@ -208,11 +216,40 @@ export class SafeHomeComponent implements OnInit {
 	}
 
 	subscribeOnChangePage() {
+		let view;
 		this.subscriptions.push(this.eventService.onChangePage.subscribe({
 			next: (event: EventMessage) => {
 				let banderaTemporal = false;
 				this.viewContainerRef.clear();
 				switch (event.descriptor) {
+					case'Safe.SafeCatalogRegistrationComponent':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(SafeCatalogRegistrationComponent)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.SafeCatalogConfigurationComponentAbcComponent':
+						banderaTemporal = true;
+						view = this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(SafeCatalogConfigurationComponentAbcComponent)
+						);
+						view.instance.catalogType = event.data;
+						view.changeDetectorRef.detectChanges();
+						break;
+					case'Safe.SafeCatalogRegistrationAbcComponent':
+						banderaTemporal = true;
+						view = this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(SafeCatalogRegistrationAbcComponent)
+						);
+						view.instance.catalogType = event.data;
+						view.changeDetectorRef.detectChanges();
+						break;
+					case'Safe.SafeCatalogConfigurationComponent':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(SafeCatalogConfigurationComponent)
+						).changeDetectorRef.detectChanges();
+						break;
 					case 'Safe.SafeRegistrationOfEventsComponent':
 						banderaTemporal = true;
 						this.viewContainerRef.createComponent(

@@ -1,0 +1,58 @@
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Catálogos PPA" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "Configuración de Catálogos" | translate }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+<div class="section">
+	<div class="row pb-2">
+		<div class="col">
+			<p class="section_titulo_0">{{ "Configuración de Catálogos PPA" | translate }}</p>
+			<p class="section_subtitulo_0"></p>
+		</div>
+	</div>
+	<hr>
+	<br>
+	<form 
+		[formGroup]="genericOpcionForm" 
+		(ngSubmit)="onSubmitFormNewCatalogOption(genericOpcionForm.value)">
+
+		<div class="row">
+			<div class="col-12 col-lg-3">
+				<app-mat-select
+					[formGroup]="genericOpcionForm"
+					controlName="maestro"
+					(eventChange)="onChangeSelect($event)"
+					[options]="lstCatalogs"
+					label="Catálogos PPA"
+				></app-mat-select>
+			</div>
+		</div>		
+
+		<div class="row justify-content-end">
+			
+			<div class="col-12 col-lg-2">
+				<app-btn-block-add mytype="submit"></app-btn-block-add>
+			</div>
+		</div>
+	</form>
+
+	<div class="row mt-4">
+		<div class="col">
+			
+			<app-mat-table 
+				[data]="tableOpciones"
+				[columnsDisplay]="tableColumnsDisplay"
+				[columnsLabels]="tablaColumnsLabels"
+				[row_x_page]="tableRowPage"
+				(clickEdit)="tableRowEdit($event)"
+			></app-mat-table>
+		</div>
+	</div>
+
+</div>
