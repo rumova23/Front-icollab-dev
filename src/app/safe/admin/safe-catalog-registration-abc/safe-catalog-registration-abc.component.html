@@ -1,0 +1,60 @@
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{titulo}}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+<div class="section">
+	<div class="row pb-3">
+		<div class="col">
+			<p class="section_titulo_0">Configuración de {{titulo}}</p>
+			<p class="section_subtitulo_0">Aqui puedes {{titulo}}.</p>
+		</div>
+	</div>
+	<hr>
+	<br>
+	<form 
+		[formGroup]="formNewCatalog" 
+		(ngSubmit)="onSubmitFormNewCatalog(formNewCatalog.value)">
+
+		<div class="row">
+			<div class="col">
+				<app-mat-input-text 
+					[formGroup]="formNewCatalog" 
+					controlName="nombre" 
+					label="Name" 
+				></app-mat-input-text>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<app-mat-input-text 
+					[formGroup]="formNewCatalog" 
+					controlName="descripcion" 
+					label="Description" 
+				></app-mat-input-text>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<div class="form-group">
+					<label>{{'Item Status' | translate}}:</label><br>
+					<mat-checkbox color="primary" formControlName="activo">{{'Active'|translate}}</mat-checkbox>
+				</div>
+			</div>
+		</div>
+
+		<div class="row justify-content-end">
+			<div class="col-12 col-lg-3">
+				<app-btn-block-save-update mytype="submit" [disabled]="!isEnableBtnSave"></app-btn-block-save-update>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-btn-block-back (click)="btnClickBack()"></app-btn-block-back>
+			</div>
+		</div>
+	</form>
+
+</div>

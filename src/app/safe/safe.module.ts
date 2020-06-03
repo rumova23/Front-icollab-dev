@@ -105,6 +105,9 @@ import { SafeEnergyMetersComponent } from './admin/safe-energy-meters/safe-energ
 import { SafeEnergyMetersChartComponent } from './admin/safe-energy-meters/safe-energy-meters-chart/safe-energy-meters-chart.component';
 import { SafeImportEventLogComponent } from './admin/safe-import-event-log/safe-import-event-log.component';
 import { SafeRegistrationOfEventsComponent } from './admin/safe-registration-of-events/safe-registration-of-events.component';
+import { SafeCatalogRegistrationComponent } from './admin/safe-catalog-registration/safe-catalog-registration.component';
+import { SafeCatalogRegistrationAbcComponent } from './admin/safe-catalog-registration-abc/safe-catalog-registration-abc.component';
+import { SafeCatalogConfigurationComponent } from './admin/safe-catalog-configuration/safe-catalog-configuration.component';
 
 
 @NgModule({
@@ -165,7 +168,10 @@ import { SafeRegistrationOfEventsComponent } from './admin/safe-registration-of-
         SafeEnergyMetersComponent,
         SafeEnergyMetersChartComponent,
         SafeImportEventLogComponent,
-        SafeRegistrationOfEventsComponent
+        SafeRegistrationOfEventsComponent,
+        SafeCatalogRegistrationComponent, 
+        SafeCatalogRegistrationAbcComponent, 
+        SafeCatalogConfigurationComponent
     ],
     exports: [],
     imports: [

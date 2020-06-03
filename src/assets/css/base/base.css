@@ -221,3 +221,11 @@ option {
 .p-input-error-message{
     color: red;
 }
+.input-disabled{
+    background-color: #e9ecef;
+    opacity: 1;
+    color: #212529;
+}
+.mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after, .mat-input-element:disabled{
+    color: #212529;
+}

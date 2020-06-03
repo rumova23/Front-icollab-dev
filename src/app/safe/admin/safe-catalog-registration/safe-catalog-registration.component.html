@@ -1,0 +1,41 @@
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Catálogos PPA" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "Alta de Catálogos" | translate }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+<div class="section">
+	<div class="row pb-2">
+		<div class="col">
+			<p class="section_titulo_0">{{ "Alta de Catálogos PPA" | translate }}</p>
+			<p class="section_subtitulo_0"></p>
+		</div>
+	</div>
+	<hr>
+	<br>
+	<div class="row justify-content-end">
+		<div class="col-12 col-lg-3">
+			<app-btn-block-add (click)="btnClickAdd()"></app-btn-block-add>
+		</div>
+	</div>
+	
+	<div class="row mt-4">
+		<div class="col">
+			<app-mat-table 
+				[data]="tableCatalogos"
+				[columnsDisplay]="tableColumnsDisplay"
+				[columnsLabels]="tablaColumnsLabels"
+				[row_x_page]="tableRowPage"
+				(clickSee)="tableRowSee($event)"
+				(clickEdit)="tableRowEdit($event)"
+				(clickDelete)="tableRowDelete($event)"
+			></app-mat-table>
+		</div>
+	</div>
+
+</div>
