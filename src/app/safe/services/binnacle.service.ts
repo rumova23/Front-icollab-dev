@@ -18,6 +18,6 @@ export class BinnacleService {
 
   saveBinnacle(binnacle: BinnacleDTO): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post( `${ this.binnacle }`, binnacle, {params : this.parameters });
+    return this.http.post( `${ this.binnacle }binnacle/save/binnacle`, binnacle, {params : this.parameters });
   }
 }

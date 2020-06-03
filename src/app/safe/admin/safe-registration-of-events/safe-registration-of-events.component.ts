@@ -16,6 +16,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import {EventMessage} from '../../../core/models/EventMessage';
 import {EventBlocked} from '../../../core/models/EventBlocked';
 import {EventService} from '../../../core/services/event.service';
+import {BinnacleService} from '../../services/binnacle.service';
 
 @Component({
 	selector: 'app-safe-registration-of-events',
@@ -74,7 +75,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		public eventService: EventService,
 		private securityService: SecurityService,
 		private confirmationDialogService: ConfirmationDialogService,
-		private masterCatalogService: MasterCatalogService
+		private masterCatalogService: MasterCatalogService,
+		private binnacleService: BinnacleService
 	) { }
 
 
@@ -154,12 +156,13 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		});
 	}
 	onSubmitFormNewEvent(v) {
+		console.dir(v);
 		const casas = moment(v.datetimelocal);
 		const dsa = casas.format('YYYY-MM-DD HH:mm:ss');
 		this.addBlock(1, '');
-		this.masterCatalogService.saveMaster(v).subscribe(
+		this.binnacleService.saveBinnacle(v).subscribe(
 			data => {
-				this.toastr.successToastr('Guradado Completo', 'Exito!.');
+				this.toastr.successToastr('Guardado Completo', 'Exito!.');
 				this.addBlock(2, '');
 			},
 			errorData => {
