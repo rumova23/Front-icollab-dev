@@ -14,7 +14,7 @@ import {Combo} from '../../../../models/Combo';
 import {PerfilComboService} from '../../../../../core/services/perfil-combo.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import {EntidadEstausDTO} from '../../../../models/entidad-estaus-dto';
+import {EntidadEstatusDTO} from '../../../../models/entidad-estatus-dto';
 
 @Component({
   selector: 'app-evaluation',
@@ -42,7 +42,7 @@ export class EvaluationComponent implements OnInit {
   showDelete = false;
   conditionSearch: Array<any> = [];
   condition;
-  entidadEstatusTerminado: EntidadEstausDTO;
+  entidadEstatusTerminado: EntidadEstatusDTO;
 
   filteredfEmpNum     : string[];
   filteredfNames      : string[];
@@ -214,7 +214,7 @@ export class EvaluationComponent implements OnInit {
           this.dataSource.sort = this.sort;
 
           this.perfilService.obtenEstatusTerminado('TX_EXAMEN_RESERVACION', 'Terminado').subscribe(
-              (entidadEstatus: EntidadEstausDTO) => {
+              (entidadEstatus: EntidadEstatusDTO) => {
                 this.entidadEstatusTerminado = entidadEstatus;
               });
         },

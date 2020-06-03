@@ -48,4 +48,9 @@ export class MasterCatalogService {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.mastercatalog }mastercatalog/mastercatalog/saveOpcion`, opcion, {params : this.parameters });
   }
+
+  listCatalog(list: Array<string>): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.post( `${ this.mastercatalog }mastercatalog/list/catalog`, list, {params : this.parameters });
+  }
 }

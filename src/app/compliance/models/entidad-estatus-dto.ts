@@ -2,7 +2,7 @@ import {Deserializable} from './deserializable';
 import {EntidadDTO} from './entidad-dto';
 import {EstatusDTO} from './estatus-dto';
 
-export class EntidadEstausDTO implements Deserializable {
+export class EntidadEstatusDTO implements Deserializable {
     public entidadEstatusId: number;
     public entidad: EntidadDTO;
     public estatus: EstatusDTO;

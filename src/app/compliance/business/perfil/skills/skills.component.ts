@@ -8,7 +8,7 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
-import {EntidadEstausDTO} from '../../../models/entidad-estaus-dto';
+import {EntidadEstatusDTO} from '../../../models/entidad-estatus-dto';
 import {Entidad} from '../../../models/Entidad';
 import {Constants} from '../../../../core/globals/Constants';
 
@@ -20,7 +20,7 @@ import {Constants} from '../../../../core/globals/Constants';
 export class SkillsComponent implements OnInit, OnDestroy {
   @Input() inIdEmpleado: number;
   @Input() inTipo: string;
-  @Input() entidadEstausTerminado: EntidadEstausDTO;
+  @Input() entidadEstausTerminado: EntidadEstatusDTO;
   @Output() isComplete = new EventEmitter<boolean>();
   temas: Array<any>;
   idTemas: Array<any>;

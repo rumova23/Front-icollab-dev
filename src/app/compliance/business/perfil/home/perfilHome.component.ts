@@ -6,7 +6,7 @@ import { BehaviorComponent } from '../behavior/behavior.component';
 import { SkillsComponent } from '../skills/skills.component';
 import { DashboardsComponent } from '../dashboards/dashboards.component';
 import { ObsyCommentsComponent } from '../obsyComments/obsyComments.component';
-import {EntidadEstausDTO} from '../../../models/entidad-estaus-dto';
+import {EntidadEstatusDTO} from '../../../models/entidad-estatus-dto';
 import {PerfilComboService} from '../../../../core/services/perfil-combo.service';
 
 
@@ -29,7 +29,7 @@ export class PerfilHomeComponent implements OnInit {
   isViewable = true;
   isdisabled = false;
 
-  entidadEstausTerminado: EntidadEstausDTO;
+  entidadEstausTerminado: EntidadEstatusDTO;
 
   @ViewChild('perfil', { read: ViewContainerRef }) perfil: ViewContainerRef;
   @ViewChild('responsibilities', { read: ViewContainerRef }) responsibilities: ViewContainerRef;
@@ -47,7 +47,7 @@ export class PerfilHomeComponent implements OnInit {
 
   ngOnInit() {
     this.perfilComboService.obtenEstatusTerminado('TX_EXAMEN_RESERVACION', 'Terminado').subscribe(
-        (entidadEstatus: EntidadEstausDTO) => {
+        (entidadEstatus: EntidadEstatusDTO) => {
           this.entidadEstausTerminado = entidadEstatus;
           if (this.idEmpleado === 0) {
             this.isViewable = false;

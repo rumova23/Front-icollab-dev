@@ -60,6 +60,7 @@ export class GenericCatalogsComponent implements OnInit {
       descripcion: new FormControl('', Validators.required),
     });
     this.genericsMaestroForm = this.fbMaestro.group({
+      maestroId: new FormControl('', null),
       nombre: new FormControl('', Validators.required),
       descripcion: new FormControl('', Validators.required),
       activo: new FormControl(false)

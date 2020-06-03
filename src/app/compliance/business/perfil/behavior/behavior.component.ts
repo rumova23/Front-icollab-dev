@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Respuesta } from 'src/app/compliance/models/Respuesta';
 import { Tema } from 'src/app/compliance/models/Tema';
 import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
-import {EntidadEstausDTO} from '../../../models/entidad-estaus-dto';
+import {EntidadEstatusDTO} from '../../../models/entidad-estatus-dto';
 import {EventMessage} from '../../../../core/models/EventMessage';
 import {EventBlocked} from '../../../../core/models/EventBlocked';
 import {EventService} from '../../../../core/services/event.service';
@@ -20,7 +20,7 @@ import {Constants} from '../../../../core/globals/Constants';
 export class BehaviorComponent implements OnInit, OnDestroy {
   @Input() inIdEmpleado: number;
   @Input() inTipo: string;
-  @Input() entidadEstausTerminado: EntidadEstausDTO;
+  @Input() entidadEstausTerminado: EntidadEstatusDTO;
   @Output() isComplete = new EventEmitter<boolean>();
   temas: Array<any>;
   idTemas: Array<any>;

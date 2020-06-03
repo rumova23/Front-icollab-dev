@@ -1,8 +1,8 @@
 const hostGateway = 'http://200.52.85.140:1234/';
 export const environment = {
   production: false
-  , openoffline:false
-  , appVersion  : 'Desarrollo V 1.0'
+  , openoffline: false
+  , appVersion              : 'Desarrollo V 1.0'
   , securityUrl             : hostGateway + 'security/'
   , catalogUrl              : hostGateway + 'catalog/'
   , mastercatalog           : hostGateway + 'mastercatalog/'
@@ -24,6 +24,7 @@ export const environment = {
   , efhUrl                  : hostGateway + 'efh/'
   , dgctags                 : hostGateway + 'dgctags/dgctags/'
   , dycformato              : hostGateway + 'dycformato/dycformato/'
+  , binnacle                : hostGateway + 'binnacle/'
 };
 /*
 const hostGateway = 'http://200.52.85.140:8585/';
