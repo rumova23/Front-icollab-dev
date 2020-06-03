@@ -41,8 +41,8 @@ export class EditEvaluationHomeComponent implements OnInit {
 
   terminaExamen() {
     if (this.isBehaviorComplete && this.isSkillsComplete) {
-      this.perfilComboService.accionSkills.next('terminaExamen');
-      this.perfilComboService.accionBehavior.next('terminaExamen');
+      this.perfilComboService.accionSkills.next('terminaExamenSkills');
+      this.perfilComboService.accionBehavior.next('terminaExamenBehavior');
       this.finishedExam = true;
     } else {
       this.toastr.errorToastr('Para terminar el examen, todas las preguntas deben ser contestadas.', 'Lo siento,');

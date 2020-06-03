@@ -71,6 +71,7 @@ export class EventService {
     }
 
     public sendChangePage(message: EventMessage) {
+        console.log(message);
         this.onChangePage.emit(message);
     }
 
