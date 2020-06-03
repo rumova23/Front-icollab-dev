@@ -49,10 +49,7 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-	
 		this.genericOpcionForm = this.formBuilder.group({
-			codigo: new FormControl('', Validators.required),
-			descripcion: new FormControl('', Validators.required),
 			maestro: new FormControl('', Validators.required),
 		});
 		this.loadMasters();
@@ -90,75 +87,37 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 			});
 	}
 	onChangeSelect(catalog){
-		const nameCatalog = catalog.source.triggerValue;
 		const name = catalog.value;
 		this.loadOpciones(name);
 	}
 	onSubmitFormNewCatalogOption(value){
-		if( ! this.isUpdateOpcion ){
-			this.saveOpcion(value);
-		}else{
-			this.updateOpcion(value);
-		}
-	}
-	saveOpcion(value){
-		if(this.genericOpcionForm.valid){
-
-			this.addBlock(1, '');
-			this.masterCatalogService.saveCompleteOpcion(value).subscribe(
-				data => {
-				  this.toastr.successToastr('Guardado Completo', 'Exito!.');
-				  this.addBlock(2, '');
-				},
-				errorData => {
-				  this.addBlock(2, '');
-				  this.toastr.errorToastr(errorData.error.message, 'Error!');
-				},
-				() => {
-					this.addBlock(2, '');
-					this.loadOpciones(value.maestro);
-				});
-		}else{
-			this.toastr.errorToastr('Son necesarios todos los campos', 'Error.');
-		}
-
-	}
-	updateOpcion(value){
-		if(this.genericOpcionForm.valid && this.idOpcion != null){
-			value.opcionId = this.idOpcion+"";
-			this.addBlock(1, '');
-			this.masterCatalogService.updateOpcion(value).subscribe(
-				data => {
-				this.toastr.successToastr('Actualizacion Completa', 'Exito!.');
-				this.addBlock(2, '');
-				},
-				errorData => {
-				this.addBlock(2, '');
-				this.toastr.errorToastr(errorData.error.message, 'Error!');
-				},
-				() => {
-					this.addBlock(2, '');
-					this.loadOpciones(value.maestro);
-					this.cancelUpdateOpcion();
-				}
+		if( this.genericOpcionForm.valid ){
+			let type = {
+				id: null,
+				action: 'nuevo',
+				name: "",
+				element:value
+			};
+			this.eventService.sendChangePage(
+				new EventMessage(null, type, 'Safe.SafeCatalogConfigurationComponentAbcComponent')
 			);
 		}else{
 			this.toastr.errorToastr('Son necesarios todos los campos', 'Error.');
 		}
 	}
 	tableRowEdit(element){
-		this.idOpcion = element.opcionId;
-		this.isUpdateOpcion = true;
-		this.genericOpcionForm.get('codigo').setValue(element.codigo);
-		this.genericOpcionForm.get('descripcion').setValue(element.descripcion);
-	}
-	cancelUpdateOpcion(){
-		this.idOpcion = null;
-		this.isUpdateOpcion = false;
-		this.genericOpcionForm.get('codigo').reset();
-		this.genericOpcionForm.get('descripcion').reset();
-	}
+		element.maestro = this.genericOpcionForm.get('maestro').value
+		let type = {
+			id: null,
+			action: 'editar',
+			name: "",
+			element:element,
 
+		};
+		this.eventService.sendChangePage(
+			new EventMessage(null, type, 'Safe.SafeCatalogConfigurationComponentAbcComponent')
+		);
+	}
 	addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,
 			new EventBlocked(type, msg)));

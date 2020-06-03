@@ -5,7 +5,7 @@
 		</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item>{{ "Catálogos PPA" | translate }}</mdb-breadcrumb-item>
-		<mdb-breadcrumb-item class="active">{{ "Alta de Catálogos" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "Configuración de Catálogos" | translate }}</mdb-breadcrumb-item>
 	</mdb-breadcrumb>
 </div>
 
@@ -13,41 +13,40 @@
 	<div class="row pb-3">
 		<div class="col">
 			<p class="section_titulo_0">Configuración de {{titulo}}</p>
-			<p class="section_subtitulo_0">Aqui puedes {{titulo}}.</p>
 		</div>
 	</div>
 	<hr>
 	<br>
 	<form 
-		[formGroup]="formNewCatalog" 
-		(ngSubmit)="onSubmitFormNewCatalog(formNewCatalog.value)">
+		[formGroup]="genericOpcionForm" 
+		(ngSubmit)="onSubmitGenericOpcionForm(genericOpcionForm.value)">
 
 		<div class="row">
-			<div class="col">
+			<div class="col-12 col-lg-3">
 				<app-mat-input-text 
-					[formGroup]="formNewCatalog" 
-					controlName="nombre" 
-					label="Name" 
+					[formGroup]="genericOpcionForm" 
+					controlName="codigo" 
+					label="Codigo" 
 				></app-mat-input-text>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col">
 				<app-mat-input-text 
-					[formGroup]="formNewCatalog" 
+					[formGroup]="genericOpcionForm" 
 					controlName="descripcion" 
 					label="Description" 
 				></app-mat-input-text>
 			</div>
 		</div>
-		<div class="row">
+		<!--div class="row">
 			<div class="col">
 				<div class="form-group">
 					<label>{{'Item Status' | translate}}:</label><br>
 					<mat-checkbox color="primary" formControlName="activo">{{'Active'|translate}}</mat-checkbox>
 				</div>
 			</div>
-		</div>
+		</div-->
 
 		<div class="row justify-content-end">
 			<div class="col-12 col-lg-3">

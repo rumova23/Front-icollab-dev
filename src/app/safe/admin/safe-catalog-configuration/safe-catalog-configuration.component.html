@@ -32,33 +32,12 @@
 					label="Catálogos PPA"
 				></app-mat-select>
 			</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-12 col-lg-3">
-				<app-mat-input-text 
-					[formGroup]="genericOpcionForm" 
-					controlName="codigo" 
-					label="Código" 
-				></app-mat-input-text>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col">
-				<app-mat-input-text 
-					[formGroup]="genericOpcionForm" 
-					controlName="descripcion" 
-					label="Description" 
-				></app-mat-input-text>
-			</div>
-		</div>
+		</div>		
 
 		<div class="row justify-content-end">
-			<div class="col-12 col-lg-2" *ngIf="isUpdateOpcion">
-				<app-btn-block-cancel (click)="cancelUpdateOpcion()"></app-btn-block-cancel>
-			</div>
+			
 			<div class="col-12 col-lg-2">
-				<app-btn-block-save-update mytype="submit"></app-btn-block-save-update>
+				<app-btn-block-add mytype="submit"></app-btn-block-add>
 			</div>
 		</div>
 	</form>

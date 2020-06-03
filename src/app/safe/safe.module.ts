@@ -108,6 +108,7 @@ import { SafeRegistrationOfEventsComponent } from './admin/safe-registration-of-
 import { SafeCatalogRegistrationComponent } from './admin/safe-catalog-registration/safe-catalog-registration.component';
 import { SafeCatalogRegistrationAbcComponent } from './admin/safe-catalog-registration-abc/safe-catalog-registration-abc.component';
 import { SafeCatalogConfigurationComponent } from './admin/safe-catalog-configuration/safe-catalog-configuration.component';
+import { SafeCatalogConfigurationComponentAbcComponent } from './admin/safe-catalog-configuration-component-abc/safe-catalog-configuration-component-abc.component';
 
 
 @NgModule({
@@ -171,7 +172,8 @@ import { SafeCatalogConfigurationComponent } from './admin/safe-catalog-configur
         SafeRegistrationOfEventsComponent,
         SafeCatalogRegistrationComponent, 
         SafeCatalogRegistrationAbcComponent, 
-        SafeCatalogConfigurationComponent
+        SafeCatalogConfigurationComponent,
+        SafeCatalogConfigurationComponentAbcComponent
     ],
     exports: [],
     imports: [
