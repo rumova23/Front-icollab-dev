@@ -50,7 +50,7 @@ export class BehaviorComponent implements OnInit, OnDestroy {
           if (accion === 'guardaExamenBehavior') {
               this.guardaExamen();
           }
-          if (accion === 'terminaExamen') {
+          if (accion === 'terminaExamenBehavior') {
               this.terminarExamen();
           }
       });

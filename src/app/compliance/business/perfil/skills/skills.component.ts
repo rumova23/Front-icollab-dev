@@ -47,7 +47,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
           if (accion === 'guardaExamenSkills') {
               this.guardaExamen();
           }
-          if (accion === 'terminaExamen') {
+          if (accion === 'terminaExamenSkills') {
               this.terminarExamen();
           }
       });
