@@ -28,12 +28,18 @@
 		</div>
 		<div class="row">
 			<div class="col">
-				<app-mat-datetimelocal [formGroup]="formNewEvent" controlName="dateTimeStart" label="Hora y Fecha inicial" sufijo=":">
-				</app-mat-datetimelocal>
+				<app-mat-datetimelocal 
+					[formGroup]="formNewEvent" 
+					controlName="dateTimeStart" 
+					label="Hora y Fecha inicial"
+				></app-mat-datetimelocal>
 			</div>
 			<div class="col">
-				<app-mat-datetimelocal [formGroup]="formNewEvent" controlName="dateTimeEnd" label="Hora y Fecha Final" sufijo=":">
-				</app-mat-datetimelocal>
+				<app-mat-datetimelocal 
+					[formGroup]="formNewEvent"
+					controlName="dateTimeEnd" 
+					label="Hora y Fecha Final"
+				></app-mat-datetimelocal>
 			</div>
 			<div class="col">
 				<app-mat-select
@@ -41,7 +47,6 @@
 					controlName="eventsClassificationId"
 					[options]="lstEventClassification"
 					label="Clasificación de Eventos"
-					sufijo=":"
 				></app-mat-select>
 			</div>
 			<div class="col">
@@ -50,7 +55,6 @@
 					controlName="eventsId"
 					[options]="lstEvents"
 					label="Eventos"
-					sufijo=":"
 				></app-mat-select>
 			</div>
 
@@ -61,11 +65,14 @@
 					controlName="fuelsId"
 					[options]="lstFuels"
 					label="Combustible"
-					sufijo=":"
 				></app-mat-select>
 			</div>
 			<div class="col">
-				<app-mat-input-number [formGroup]="formNewEvent" controlName="powerMw" label="Potencia MW" sufijo=":"></app-mat-input-number>
+				<app-mat-input-number 
+					[formGroup]="formNewEvent" 
+					controlName="powerMw" 
+					label="Potencia MW"
+				></app-mat-input-number>
 			</div>
 			<div class="col">
 				<app-mat-select
@@ -73,7 +80,6 @@
 					controlName="unitsId"
 					[options]="lstUnits"
 					label="Unidad"
-					sufijo=":"
 				></app-mat-select>
 			</div>
 			<div class="col">
@@ -82,7 +88,6 @@
 					controlName="impactContractsId"
 					[options]="lstImpactContracts"
 					label="Contrato Impactado"
-					sufijo=":"
 				></app-mat-select>
 			</div>
 		</div>
@@ -99,7 +104,6 @@
 					controlName="realsCcdvId"
 					[options]="lstRealsCcdv"
 					label="Real/CCDV"
-					sufijo=":"
 				></app-mat-select>
 			</div>
 			<div class="col-3">
@@ -108,7 +112,6 @@
 					controlName="toleranceBandsId"
 					[options]="lstToleranceBands"
 					label="Banda de Tolerancia"
-					sufijo=":"
 				></app-mat-select>
 			</div>
 		</div>
@@ -125,11 +128,10 @@
 					controlName="marketTypesId"
 					[options]="lstMarketTypes"
 					label="Tipo de Mercado"
-					sufijo=":"
 				></app-mat-select>
 			</div>
 			<div class="col-3">
-				<app-mat-input-number [formGroup]="formNewEvent" controlName="mwOffered" label="MW Ofertados" sufijo=":"></app-mat-input-number>
+				<app-mat-input-number [formGroup]="formNewEvent" controlName="mwOffered" label="MW Ofertados" ></app-mat-input-number>
 			</div>
 			<div class="col-3">
 				<app-mat-select
@@ -137,7 +139,6 @@
 					controlName="relatedServicesId"
 					[options]="lstSelatedServices"
 					label="Servicios Conexos"
-					sufijo=":"
 				></app-mat-select>
 			</div>
 		</div>
@@ -149,7 +150,11 @@
 		</div>
 		<div class="row">
 			<div class="col">
-				<app-mat-input-text [formGroup]="formNewEvent" controlName="licenseNumber" label="# Licencia" sufijo=":"></app-mat-input-text>
+				<app-mat-input-text 
+					[formGroup]="formNewEvent" 
+					controlName="licenseNumber" 
+					label="# Licencia" 
+				></app-mat-input-text>
 			</div>
 			<div class="col">
 				<app-mat-select
@@ -157,18 +162,29 @@
 					controlName="equipmentId"
 					[options]="lstEquipment"
 					label="Equipo"
-					sufijo=":"
 				></app-mat-select>
 			</div>
 			<div class="col">
-				<app-mat-input-number [formGroup]="formNewEvent" controlName="initialCharge" label="Carga Inicial" sufijo=":"></app-mat-input-number>
+				<app-mat-input-number 
+					[formGroup]="formNewEvent" 
+					controlName="initialCharge" 
+					label="Carga Inicial" 
+				></app-mat-input-number>
 			</div>
 			<div class="col">
-				<app-mat-input-number [formGroup]="formNewEvent" controlName="finalCharge" label="Carga Final" sufijo=":"></app-mat-input-number>
+				<app-mat-input-number 
+					[formGroup]="formNewEvent" 
+					controlName="finalCharge" 
+					label="Carga Final" 
+				></app-mat-input-number>
 			</div>
 			<div class="w-100"></div>
 			<div class="col-3">
-				<app-mat-input-number [formGroup]="formNewEvent" controlName="mwPowerLoss" label="(-) Perdida Potencia MW" sufijo=":"></app-mat-input-number>
+				<app-mat-input-number 
+					[formGroup]="formNewEvent" 
+					controlName="mwPowerLoss" 
+					label="(-) Perdida Potencia MW" 
+				></app-mat-input-number>
 			</div>
 			<div class="col-3">
 				<app-mat-select
@@ -176,7 +192,6 @@
 					controlName="workOrderId"
 					[options]="lstWorkOrder"
 					label="Orden de Trabajo"
-					sufijo=":"
 				></app-mat-select>
 			</div>
 			<div class="w-100"></div>
@@ -185,7 +200,7 @@
 					[formGroup]="formNewEvent"
 					controlName="licenseDescription"
 					label="Descripción / Concepto de la Licencia"
-					sufijo=":"
+					maxLength="2000"
 				></app-mat-input-textarea>
 			</div>
 		</div>
@@ -202,11 +217,14 @@
 					controlName="operatorPlantOpen"
 					[options]="lstOperatorPlantOpen"
 					label="Nombre(s)/Apellidos(s) Operador Planta Abrió"
-					sufijo=":"
 				></app-mat-select>
 			</div>
 			<div class="col">
-				<app-mat-input-text [formGroup]="formNewEvent" controlName="operatorCenaceOpen" label="Nombre(s)/Apellidos(s) Operador CENACE Abrió" sufijo=":"></app-mat-input-text>
+				<app-mat-input-text 
+					[formGroup]="formNewEvent"
+					controlName="operatorCenaceOpen" 
+					label="Nombre(s)/Apellidos(s) Operador CENACE Abrió" 
+				></app-mat-input-text>
 			</div>
 			<div class="w-100"></div>
 			<div class="col">
@@ -215,11 +233,14 @@
 					controlName="operatorPlantClose"
 					[options]="lstOperatorPlantClose"
 					label="Nombre(s)/Apellidos(s) Operador Planta Cerro"
-					sufijo=":"
 				></app-mat-select>
 			</div>				
 			<div class="col">
-				<app-mat-input-text [formGroup]="formNewEvent" controlName="operatorCenaceClose" label="Nombre(s)/Apellidos(s) Operador CENACE Cerro" sufijo=":"></app-mat-input-text>
+				<app-mat-input-text 
+					[formGroup]="formNewEvent" 
+					controlName="operatorCenaceClose" 
+					label="Nombre(s)/Apellidos(s) Operador CENACE Cerro" 
+				></app-mat-input-text>
 			</div>
 			<div class="w-100"></div>
 			<div class="col-3">
@@ -228,7 +249,6 @@
 					controlName="sourceEvent"
 					[options]="lstSourceEvent"
 					label="Fuente del Evento"
-					sufijo=":"
 				></app-mat-select>
 			</div>
 		</div>
@@ -245,7 +265,6 @@
 					controlName="eventStatus"
 					[options]="lstEventStatus"
 					label="Estatus del Evento"
-					sufijo=":"
 				></app-mat-select>
 			</div>
 			<div class="col-3">
@@ -254,7 +273,6 @@
 					controlName="approvalStatus"
 					[options]="lstApprovalStatus"
 					label="Estatus de Aprovación"
-					sufijo=":"
 				></app-mat-select>
 			</div>
 		</div>
@@ -271,6 +289,7 @@
 					<app-mat-input-textarea
 						[formGroup]="formobservationsComments"
 						controlName="observationsComments"
+						maxLength="2000"
 					></app-mat-input-textarea>
 				</div>
 			</div>
@@ -360,7 +379,4 @@
 				</div>
 			</div>
 		</div>
-
-
-
 </form>

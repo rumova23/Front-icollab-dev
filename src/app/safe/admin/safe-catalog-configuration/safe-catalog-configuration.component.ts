@@ -15,6 +15,7 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 	styleUrls: ['./safe-catalog-configuration.component.scss']
 })
 export class SafeCatalogConfigurationComponent implements OnInit {
+	maestroId : any = null;
 	genericOpcionForm:FormGroup;
 	lstCatalogs : IdLabel[]=[];
 
@@ -49,10 +50,17 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		this.loadMasters();
+		
 		this.genericOpcionForm = this.formBuilder.group({
 			maestro: new FormControl('', Validators.required),
 		});
-		this.loadMasters();
+
+		if(this.maestroId != null){
+			
+			this.genericOpcionForm.get('maestro').setValue(this.maestroId);
+			this.loadOpciones(this.maestroId);
+		}
 	}
 	
 	loadMasters(){
@@ -79,8 +87,6 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 		this.masterCatalogService.getCatalogo(catalogo).subscribe(
 			(data: Array<OpcionDTO>) => {
 				this.tableOpciones = data;
-
-			  	console.dir(data);
 			},
 			errorData => {
 			  	console.dir(errorData);
@@ -112,7 +118,6 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 			action: 'editar',
 			name: "",
 			element:element,
-
 		};
 		this.eventService.sendChangePage(
 			new EventMessage(null, type, 'Safe.SafeCatalogConfigurationComponentAbcComponent')

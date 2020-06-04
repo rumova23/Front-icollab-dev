@@ -87,7 +87,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			file: new FormControl(null, [Validators.required, requiredFileType('zip')]),
 		});
 		this.formobservationsComments = this.formBuilder.group({
-			observationsComments: [{ value: null, disabled: false }],
+			observationsComments: [{ value: null, disabled: false }, [Validators.minLength(4),Validators.maxLength(2000)]]
 		});
 		this.formNewEvent = this.formBuilder.group(
 			{

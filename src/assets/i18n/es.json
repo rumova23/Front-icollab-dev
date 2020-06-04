@@ -103,6 +103,8 @@
     ,"Catalog Configuration":"Configuración de Catalogos"
     ,"User":"Usuario"
     ,"Last Modification Date":"Fecha de Ultima Modificación"
+    ,"The value is too long":"El valor es demasiado largo"
+    ,"The value is too short":"El valor es demasiado corto"
 
 
     ,"legalAgreement" : "Acuerdo legal"

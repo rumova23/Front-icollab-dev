@@ -199,7 +199,7 @@ export class SafeHomeComponent implements OnInit {
 	}
 
 	ngAfterViewInit() {
-		//this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(SafeCatalogConfigurationComponent));/*
+		this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(SafeCatalogRegistrationComponent));/*
 		this.eventService.sendMainSafe(new EventMessage(101, {
 			typeEnergy: 'Factor de Potencia'
 		}));//*/
@@ -224,9 +224,10 @@ export class SafeHomeComponent implements OnInit {
 				switch (event.descriptor) {
 					case'Safe.SafeCatalogRegistrationComponent':
 						banderaTemporal = true;
-						this.viewContainerRef.createComponent(
+						view = this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(SafeCatalogRegistrationComponent)
-						).changeDetectorRef.detectChanges();
+						);
+						view.changeDetectorRef.detectChanges();
 						break;
 					case 'Safe.SafeCatalogConfigurationComponentAbcComponent':
 						banderaTemporal = true;
@@ -246,9 +247,11 @@ export class SafeHomeComponent implements OnInit {
 						break;
 					case'Safe.SafeCatalogConfigurationComponent':
 						banderaTemporal = true;
-						this.viewContainerRef.createComponent(
+						view = this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(SafeCatalogConfigurationComponent)
-						).changeDetectorRef.detectChanges();
+						)
+						view.instance.maestroId = event.data.name;
+						view.changeDetectorRef.detectChanges();
 						break;
 					case 'Safe.SafeRegistrationOfEventsComponent':
 						banderaTemporal = true;

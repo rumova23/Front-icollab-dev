@@ -103,6 +103,8 @@
     ,"Catalog Configuration":"カタログ構成"
     ,"User":"ユーザー"
     ,"Last Modification Date":"最終変更日"
+    ,"The value is too long":"値が長すぎます"
+    ,"The value is too short":"値が短すぎます"
 
     
     ,"legalAgreement" : "法的契約"

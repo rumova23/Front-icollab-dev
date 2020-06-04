@@ -39,8 +39,6 @@ export class SafeCatalogConfigurationComponentAbcComponent implements OnInit {
 				break;
 
 		}
-		console.log(this.catalogType);
-
 	}
 
 	nuevoInit() {
@@ -127,7 +125,7 @@ export class SafeCatalogConfigurationComponentAbcComponent implements OnInit {
 
 	btnClickBack() {
 		this.eventService.sendChangePage(
-			new EventMessage(null, {}, 'Safe.SafeCatalogConfigurationComponent')
+			new EventMessage(null, {name:this.catalogType.element.maestro}, 'Safe.SafeCatalogConfigurationComponent')
 		);
 	}
 	addBlock(type, msg): void {

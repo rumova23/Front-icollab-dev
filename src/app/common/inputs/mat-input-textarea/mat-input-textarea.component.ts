@@ -13,6 +13,7 @@ export class MatInputTextareaComponent implements OnInit {
 	@Input() submitted: boolean = false;
 	@Input() controlName: string = null;
 	@Input() formGroup: FormGroup = null;
+	@Input() maxLength:string = '';
 	constructor() { }
 
 	ngOnInit() {

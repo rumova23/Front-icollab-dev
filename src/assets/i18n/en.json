@@ -104,6 +104,8 @@
     ,"Catalog Configuration":"Catalog Configuration"
     ,"User":"User"
     ,"Last Modification Date":"Last Modification Date"
+    ,"The value is too long":"The value is too long"
+    ,"The value is too short":"The value is too short"
 
     ,"legalAgreement" : "Legal agreement"
     ,"Catálogos" : "Catalogs"
