@@ -9,10 +9,9 @@
 				type="number"
 				(change)="onChange($event)"
 				[formControlName]="controlName"
-				[min]="minDate" 
-				[max]="maxDate"
-				[step]="step" 
-				pattern="^[0-9]+"
+				[min]="minValue" 
+				[max]="maxValue"
+				[step]="step"
 			>
 		</mat-form-field>
 		<ng-container *ngIf="(submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid">

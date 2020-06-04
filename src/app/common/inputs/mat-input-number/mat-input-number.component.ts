@@ -8,8 +8,8 @@ import { FormGroup } from '@angular/forms';
 })
 export class MatInputNumberComponent implements OnInit {
 	@Output() eventChange = new EventEmitter<any>();
-	@Input() minDate: Date;
-	@Input() maxDate: Date;
+	@Input() minValue: number;
+	@Input() maxValue: number;
 	@Input() label: string = '';
 	@Input() sufijo: string = '';
 	@Input() submitted: boolean = false;
