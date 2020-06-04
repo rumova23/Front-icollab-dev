@@ -17,6 +17,7 @@ export class SafeCatalogConfigurationComponentAbcComponent implements OnInit {
 	isEnableBtnSave = true;
 	idOpcion = null;
 	titulo='';
+	action='';
 	constructor(
 		private formBuilder: FormBuilder,
 		private eventService: EventService,
@@ -28,39 +29,44 @@ export class SafeCatalogConfigurationComponentAbcComponent implements OnInit {
 		this.titulo = this.catalogType.element.maestro;
 		switch (this.catalogType.action) {
 			case 'nuevo':
+				this.action='Add'
 				this.nuevoInit();
 				break;
 			case 'ver':
+				this.action='See'
 				this.isEnableBtnSave = false;
 				this.verInit();
 				break;
 			case 'editar':
+				this.action='Edit'
 				this.editarInit();
 				break;
-
 		}
 	}
 
 	nuevoInit() {
 		this.genericOpcionForm = this.formBuilder.group({
-			codigo: new FormControl('', Validators.required),
-			descripcion: new FormControl('', Validators.required),
+			codigo:[{value:'',disabled:false},[Validators.required,Validators.maxLength(30)]],
+			descripcion:[{value:'',disabled:false},[Validators.required,Validators.maxLength(100)]],
 			maestro: new FormControl(this.catalogType.element.maestro, Validators.required),
+			//activo:[{value:true,disabled:false}]
 		});
 	}
 	verInit() {
 		this.genericOpcionForm = this.formBuilder.group({
-			codigo: new FormControl('', Validators.required),
-			descripcion: new FormControl('', Validators.required),
-			maestro: new FormControl('', Validators.required),
+			codigo: [{value:this.catalogType.element.codigo,disabled:true}, Validators.required],
+			descripcion: [{value:this.catalogType.element.descripcion,disabled:true}, Validators.required],
+			maestro: [{value:this.catalogType.element.maestro,disabled:true}, Validators.required],
+			//activo:[{value:this.catalogType.element.activo,disabled:true}]
 		});
 	}
 	editarInit() {
 		this.idOpcion = this.catalogType.element.opcionId;
 		this.genericOpcionForm = this.formBuilder.group({
-			codigo: new FormControl(this.catalogType.element.codigo, Validators.required),
-			descripcion: new FormControl(this.catalogType.element.descripcion, Validators.required),
-			maestro: new FormControl(this.catalogType.element.maestro, Validators.required),
+			codigo: [{value:this.catalogType.element.codigo,disabled:false},[Validators.required,Validators.maxLength(30)]],
+			descripcion: [{value:this.catalogType.element.descripcion,disabled:false},[Validators.required,Validators.maxLength(100)]],
+			maestro: [{value:this.catalogType.element.maestro,disabled:false}, Validators.required],
+			//activo:[{value:this.catalogType.element.activo,disabled:false}]
 		});
 		this.genericOpcionForm.controls['codigo'].disable();
 	}

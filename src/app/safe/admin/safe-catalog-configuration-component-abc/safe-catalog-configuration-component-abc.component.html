@@ -5,7 +5,8 @@
 		</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item>{{ "Catálogos PPA" | translate }}</mdb-breadcrumb-item>
-		<mdb-breadcrumb-item class="active">{{ "Configuración de Catálogos" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Configuración de Catálogos" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ action | translate }}</mdb-breadcrumb-item>
 	</mdb-breadcrumb>
 </div>
 
@@ -27,6 +28,7 @@
 					[formGroup]="genericOpcionForm" 
 					controlName="codigo" 
 					label="Codigo" 
+					maxLength="30"
 				></app-mat-input-text>
 			</div>
 		</div>
@@ -36,17 +38,19 @@
 					[formGroup]="genericOpcionForm" 
 					controlName="descripcion" 
 					label="Description" 
+					maxLength="100"
 				></app-mat-input-text>
 			</div>
 		</div>
-		<!--div class="row">
+		<div class="row">
 			<div class="col">
 				<div class="form-group">
 					<label>{{'Item Status' | translate}}:</label><br>
-					<mat-checkbox color="primary" formControlName="activo">{{'Active'|translate}}</mat-checkbox>
+					<!--mat-checkbox color="primary" formControlName="activo">{{'Active'|translate}}</mat-checkbox-->
+					<mat-checkbox color="primary" >{{'Active'|translate}}</mat-checkbox>
 				</div>
 			</div>
-		</div-->
+		</div>
 
 		<div class="row justify-content-end">
 			<div class="col-12 col-lg-3">

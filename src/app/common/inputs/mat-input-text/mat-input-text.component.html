@@ -9,12 +9,18 @@
 				type="text"
 				[formControlName]="controlName"
 			>
-			<small *ngIf="maxLength != ''" class="form-text text-muted text-right">{{myInputText.value?.length || 0}}/{{maxLength}}</small>
 		</mat-form-field>
-		<ng-container *ngIf="(submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid">
-			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.required">{{'Required' | translate}}</p>
-			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.minlength">{{'The value is too short' | translate}}</p>
-			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.maxlength">{{'The value is too long' | translate}}</p>
-		</ng-container>
+		<div class="row">
+			<div class="col">
+				<ng-container *ngIf="(submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid">
+					<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.required">{{'Required' | translate}}</p>
+					<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.minlength">{{'The value is too short' | translate}}</p>
+					<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.maxlength">{{'The value is too long' | translate}}</p>
+				</ng-container>
+			</div>
+			<div class="col-auto" *ngIf="maxLength != ''">
+				<small class="form-text text-muted text-right">{{myInputText.value?.length || 0}}/{{maxLength}}</small>
+			</div>
+		</div>
 	</div>
 </div>

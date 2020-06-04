@@ -38,8 +38,7 @@ export class SafeCatalogRegistrationAbcComponent implements OnInit {
 				break;
 				
 		}
-		console.log(this.catalogType);
-		console.log(this.formNewCatalog);
+
 		
 		/*
 		this.formNewCatalog.controls['name'].disable();
@@ -50,23 +49,23 @@ export class SafeCatalogRegistrationAbcComponent implements OnInit {
 	nuevoInit(){
 		this.formNewCatalog = this.formBuilder.group({
 			maestroId: new FormControl('', null),
-			nombre:[{value:'',disabled:false},Validators.required],
-			descripcion:[{value:'',disabled:false},Validators.required],
+			nombre:[{value:'',disabled:false},[Validators.required,Validators.maxLength(30)]],
+			descripcion:[{value:'',disabled:false},[Validators.required,Validators.maxLength(100)]],
 			activo:[{value:true,disabled:false}]
 		});
 	}
 	verInit(){
 		this.formNewCatalog = this.formBuilder.group({
-			nombre:[{value:this.catalogType.element.name,disabled:true},Validators.required],
-			descripcion:[{value:this.catalogType.element.description,disabled:true},Validators.required],
+			nombre:[{value:this.catalogType.element.name,disabled:true},[Validators.required,Validators.maxLength(30)]],
+			descripcion:[{value:this.catalogType.element.description,disabled:true},[Validators.required,Validators.maxLength(100)]],
 			activo:[{value:this.catalogType.element.activo,disabled:true}]
 		});
 	}
 	editarInit(){
 		this.formNewCatalog = this.formBuilder.group({
 			maestroId: new FormControl(this.catalogType.element.maestroId, null),
-			nombre:[{value:this.catalogType.element.name,disabled:false},Validators.required],
-			descripcion:[{value:this.catalogType.element.description,disabled:false},Validators.required],
+			nombre:[{value:this.catalogType.element.name,disabled:false},[Validators.required,Validators.maxLength(30)]],
+			descripcion:[{value:this.catalogType.element.description,disabled:false},[Validators.required,Validators.maxLength(100)]],
 			activo:[{value:this.catalogType.element.activo,disabled:false}]
 		});
 	}

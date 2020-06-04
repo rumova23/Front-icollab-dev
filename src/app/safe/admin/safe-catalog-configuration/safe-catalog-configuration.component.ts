@@ -8,6 +8,7 @@ import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from '../../../core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import { ToastrManager } from 'ng6-toastr-notifications';
+import { ConfirmationDialogService } from 'src/app/core/services/confirmation-dialog.service';
 
 @Component({
 	selector: 'app-safe-catalog-configuration',
@@ -19,23 +20,26 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 	genericOpcionForm:FormGroup;
 	lstCatalogs : IdLabel[]=[];
 
-	public  opcionId: string;
-	public  codigo: string;
-	public  descripcion: number;
-	public maestro: string;
-
 	tableOpciones = [];
 	tablaColumnsLabels = [
 		{ key: 'opcionId', label: 'id' },
-		{ key: 'codigo', label: 'Codigo' },
+		{ key: 'codigo', label: 'Name' },
 		{ key: 'descripcion', label: 'Description' },
 		{ key: 'maestro', label: 'Maestro' },
+		{ key: 'user', label: 'User' },
+		{ key: 'dateUptade', label: 'Last Modification Date' },
+		{ key: 'status', label: 'Status' },
 	];
 	tableColumnsDisplay = [
 		'sys_index',
 		'codigo',
 		'descripcion',
+		'user',
+		'dateUptade',
+		'status',
+		'sys_see',
 		'sys_edit',
+		'sys_delete',
 	];
 	tableRowPage = [50,100,150,200];
 
@@ -45,6 +49,7 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 	constructor(
 		private formBuilder:FormBuilder,
 		public eventService: EventService,
+		private confirmationDialogService: ConfirmationDialogService,
 		private masterCatalogService: MasterCatalogService,
 		private toastr: ToastrManager
 	) { }
@@ -77,6 +82,8 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 			},
 			errorData => {
 			  console.dir(errorData);
+			  
+				this.addBlock(2, "");
 			},
 			()=>{
 				this.addBlock(2, "");
@@ -84,12 +91,31 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 	}
 	loadOpciones(catalogo) {
 		// nombre de tipo string
+		
+		this.addBlock(1, "");
 		this.masterCatalogService.getCatalogo(catalogo).subscribe(
 			(data: Array<OpcionDTO>) => {
-				this.tableOpciones = data;
+				let i = 0;
+				this.tableOpciones = data.map(e=>{
+					i++;
+					return {
+						order:i
+						,opcionId:e.opcionId
+						,codigo:e.codigo
+						,descripcion:e.descripcion
+						,maestro:e.maestro
+						,user:''
+						,dateUptade:''
+						//,status:e.activo?'Activo':'Inactivo'
+						,status:''
+					};
+				});
 			},
 			errorData => {
-			  	console.dir(errorData);
+				console.dir(errorData);				  
+				this.addBlock(2, "");
+			},()=>{
+				this.addBlock(2, "");
 			});
 	}
 	onChangeSelect(catalog){
@@ -122,6 +148,33 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 		this.eventService.sendChangePage(
 			new EventMessage(null, type, 'Safe.SafeCatalogConfigurationComponentAbcComponent')
 		);
+	}
+	
+	tableRowSee(element){
+		element.maestro = this.genericOpcionForm.get('maestro').value
+		let type = {
+			id: null,
+			action: 'ver',
+			name: '',
+			element
+		};
+		debugger
+		this.eventService.sendChangePage(
+            new EventMessage(null, type, 'Safe.SafeCatalogConfigurationComponentAbcComponent')
+        );
+	}
+	tableRowDelete(element){
+		this.confirmationDialogService.confirm(
+			'Confirmación',
+			'¿Está seguro de eliminar el Registro?'
+		)
+		.then((confirmed) => {
+			if ( confirmed ) {
+				this.toastr.successToastr('table Row Delete', 'Seleccionaste');
+				console.log(element);
+			}
+		})
+		.catch(() => {});
 	}
 	addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,

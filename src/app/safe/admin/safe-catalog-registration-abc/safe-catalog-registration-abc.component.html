@@ -5,7 +5,8 @@
 		</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item>{{ "Catálogos PPA" | translate }}</mdb-breadcrumb-item>
-		<mdb-breadcrumb-item class="active">{{ "Alta de Catálogos" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Alta de Catálogos" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "Add" | translate }}</mdb-breadcrumb-item>
 	</mdb-breadcrumb>
 </div>
 
@@ -22,11 +23,12 @@
 		(ngSubmit)="onSubmitFormNewCatalog(formNewCatalog.value)">
 
 		<div class="row">
-			<div class="col">
+			<div class="col-12 col-lg-3">
 				<app-mat-input-text 
 					[formGroup]="formNewCatalog" 
 					controlName="nombre" 
-					label="Name" 
+					label="Name"
+					maxLength="30"
 				></app-mat-input-text>
 			</div>
 		</div>
@@ -35,7 +37,8 @@
 				<app-mat-input-text 
 					[formGroup]="formNewCatalog" 
 					controlName="descripcion" 
-					label="Description" 
+					label="Description"
+					maxLength="100"
 				></app-mat-input-text>
 			</div>
 		</div>
