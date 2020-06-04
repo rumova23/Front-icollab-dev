@@ -115,6 +115,8 @@ export class MatTableComponent implements OnInit , OnChanges {
 			this.dataSource = new MatTableDataSource<any>(this.data);
 			this.dataSource.paginator = this.paginator;
 			this.dataSource.sort = this.sort;
+		}else if(Array.isArray(this.data) && this.data.length == 0){
+			this.dataSource = new MatTableDataSource<any>([]);
 		}
 	}
 	see(e){

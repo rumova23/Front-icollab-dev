@@ -17,9 +17,10 @@
 			<p class="section_subtitulo_0"></p>
 		</div>
 	</div>
+	<hr>
+	<br>
 
 	<form>
-
 		<div class="form-row">
 			<div class="col col-xxxs-12 col-xxs-12 col-xs-6 col-lg-5 col-xxl-3 my-1">
 				<label>Fecha de Operación Comercial:</label>
@@ -49,11 +50,11 @@
 			</div>
 		</div>
 	</form>
-	<hr>
 	
-	<button type="button" class="btn mr-0" (click)="download()" style="width: 175px;">
-		<i class="ti-cloud-down"></i>
-		{{ "Download" | translate }} {{ "XLS" | translate }}
-	</button>
+	<div class="mt-3 row justify-content-end ">
+		<div class="col-12 col-lg-3">
+			<app-btn-block-download (click)="download()"></app-btn-block-download>
+		</div>
+	</div>
 
 </div>

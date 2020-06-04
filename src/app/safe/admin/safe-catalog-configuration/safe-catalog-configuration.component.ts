@@ -95,21 +95,25 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 		this.addBlock(1, "");
 		this.masterCatalogService.getCatalogo(catalogo).subscribe(
 			(data: Array<OpcionDTO>) => {
-				let i = 0;
-				this.tableOpciones = data.map(e=>{
-					i++;
-					return {
-						order:i
-						,opcionId:e.opcionId
-						,codigo:e.codigo
-						,descripcion:e.descripcion
-						,maestro:e.maestro
-						,user:''
-						,dateUptade:''
-						//,status:e.activo?'Activo':'Inactivo'
-						,status:''
-					};
-				});
+				if(data.length>0){
+					let i = 0;
+					this.tableOpciones = data.map(e=>{
+						i++;
+						return {
+							order:i
+							,opcionId:e.opcionId
+							,codigo:e.codigo
+							,descripcion:e.descripcion
+							,maestro:e.maestro
+							,user:''
+							,dateUptade:''
+							//,status:e.activo?'Activo':'Inactivo'
+							,status:''
+						};
+					});
+				}else{
+					this.tableOpciones = [];
+				}
 			},
 			errorData => {
 				console.dir(errorData);				  

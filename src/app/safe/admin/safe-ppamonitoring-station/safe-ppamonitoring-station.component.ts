@@ -249,7 +249,21 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		
+		if(this.globalService.plant.name.toLowerCase() == 'aguila'){
+			this.selectOptionsFuente = [
+				{id:"1",label:'FileZilla FTP'},
+				{id:"2",label:'PAYSERVER DB'},
+				{id:"3",label:'PI SERVER DB'},
+				{id:"4",label:'Manual'}
+			];
+		}else{
+			this.selectOptionsFuente = [
+				{id:"1",label:'FileZilla FTP'},
+				{id:"2",label:'CTUNG DB'},
+				{id:"3",label:'PI SERVER DB'},
+				{id:"4",label:'Manual'}
+			];
+		}
 		this.formvariables = this.fb.group({
 			tags: new FormControl('', Validators.required),
 		});	
