@@ -158,7 +158,6 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 			name: '',
 			element
 		};
-		debugger
 		this.eventService.sendChangePage(
             new EventMessage(null, type, 'Safe.SafeCatalogConfigurationComponentAbcComponent')
         );

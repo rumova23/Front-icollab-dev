@@ -17,6 +17,7 @@ export class SafeCatalogRegistrationAbcComponent implements OnInit {
 	catalogType: any;
 	formNewCatalog:FormGroup;
 	isEnableBtnSave = true;
+	action='';
 	constructor(
 		private formBuilder:FormBuilder,
 		private eventService: EventService,
@@ -27,14 +28,17 @@ export class SafeCatalogRegistrationAbcComponent implements OnInit {
 	ngOnInit() {
 		switch(this.catalogType.action){
 			case 'nuevo':
+				this.action='Add'
 				this.nuevoInit();
 				break;
 			case 'ver':
 				this.isEnableBtnSave = false;
+				this.action='See'
 				this.verInit();
 				break;
 			case 'editar':
 				this.editarInit();
+				this.action='Edit'
 				break;
 				
 		}
