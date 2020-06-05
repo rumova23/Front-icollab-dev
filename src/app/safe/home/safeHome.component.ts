@@ -87,6 +87,13 @@ import { SafeCatalogRegistrationComponent } from '../admin/safe-catalog-registra
 import { SafeCatalogRegistrationAbcComponent } from '../admin/safe-catalog-registration-abc/safe-catalog-registration-abc.component';
 import { SafeCatalogConfigurationComponent } from '../admin/safe-catalog-configuration/safe-catalog-configuration.component';
 import { SafeCatalogConfigurationComponentAbcComponent } from '../admin/safe-catalog-configuration-component-abc/safe-catalog-configuration-component-abc.component';
+import { DataqDcfEnergymetersComponent } from '../admin/dataq-dcf-energymeters/dataq-dcf-energymeters.component';
+import { DataqDcprocessEnergymetersComponent } from '../admin/dataq-dcprocess-energymeters/dataq-dcprocess-energymeters.component';
+import { MiningIFIFinancialComponent } from '../admin/mining-if-i-financial/mining-if-i-financial.component';
+import { MiningIFIEconomicproposalComponent } from '../admin/mining-if-i-economicproposal/mining-if-i-economicproposal.component';
+import { MiningIFISalaryincreaseComponent } from '../admin/mining-if-i-salaryincrease/mining-if-i-salaryincrease.component';
+import { MiningIFCFuelComponent } from '../admin/mining-if-c-fuel/mining-if-c-fuel.component';
+import { MiningIFCWaterComponent } from '../admin/mining-if-c-water/mining-if-c-water.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -170,6 +177,13 @@ import { SafeCatalogConfigurationComponentAbcComponent } from '../admin/safe-cat
         , SafeCatalogRegistrationAbcComponent
 		, SafeCatalogConfigurationComponent
 		, SafeCatalogConfigurationComponentAbcComponent
+		, DataqDcfEnergymetersComponent
+		, DataqDcprocessEnergymetersComponent
+		, MiningIFIFinancialComponent
+		, MiningIFIEconomicproposalComponent
+		, MiningIFISalaryincreaseComponent
+		, MiningIFCFuelComponent
+		, MiningIFCWaterComponent
   	]
 })
 
@@ -222,6 +236,55 @@ export class SafeHomeComponent implements OnInit {
 				let banderaTemporal = false;
 				this.viewContainerRef.clear();
 				switch (event.descriptor) {
+					case'Safe.MiningIFIFinancialComponent':
+						banderaTemporal = true;
+						view = this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(MiningIFIFinancialComponent)
+						);
+						view.changeDetectorRef.detectChanges();
+						break;
+					case'Safe.MiningIFIEconomicproposalComponent':
+						banderaTemporal = true;
+						view = this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(MiningIFIEconomicproposalComponent)
+						);
+						view.changeDetectorRef.detectChanges();
+						break;
+					case'Safe.MiningIFISalaryincreaseComponent':
+						banderaTemporal = true;
+						view = this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(MiningIFISalaryincreaseComponent)
+						);
+						view.changeDetectorRef.detectChanges();
+						break;
+					case'Safe.MiningIFCFuelComponent':
+						banderaTemporal = true;
+						view = this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(MiningIFCFuelComponent)
+						);
+						view.changeDetectorRef.detectChanges();
+						break;
+					case'Safe.MiningIFCWaterComponent':
+						banderaTemporal = true;
+						view = this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(MiningIFCWaterComponent)
+						);
+						view.changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.DataqDcfEnergymetersComponent':
+						banderaTemporal = true;
+						view = this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(DataqDcfEnergymetersComponent)
+						);
+						view.changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.DataqDcprocessEnergymetersComponent':
+						banderaTemporal = true;
+						view = this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(DataqDcprocessEnergymetersComponent)
+						);
+						view.changeDetectorRef.detectChanges();
+						break;
 					case'Safe.SafeCatalogRegistrationComponent':
 						banderaTemporal = true;
 						view = this.viewContainerRef.createComponent(

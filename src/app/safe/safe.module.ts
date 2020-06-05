@@ -109,6 +109,13 @@ import { SafeCatalogRegistrationComponent } from './admin/safe-catalog-registrat
 import { SafeCatalogRegistrationAbcComponent } from './admin/safe-catalog-registration-abc/safe-catalog-registration-abc.component';
 import { SafeCatalogConfigurationComponent } from './admin/safe-catalog-configuration/safe-catalog-configuration.component';
 import { SafeCatalogConfigurationComponentAbcComponent } from './admin/safe-catalog-configuration-component-abc/safe-catalog-configuration-component-abc.component';
+import { DataqDcprocessEnergymetersComponent } from './admin/dataq-dcprocess-energymeters/dataq-dcprocess-energymeters.component';
+import { DataqDcfEnergymetersComponent } from './admin/dataq-dcf-energymeters/dataq-dcf-energymeters.component';
+import { MiningIFIFinancialComponent } from './admin/mining-if-i-financial/mining-if-i-financial.component';
+import { MiningIFIEconomicproposalComponent } from './admin/mining-if-i-economicproposal/mining-if-i-economicproposal.component';
+import { MiningIFISalaryincreaseComponent } from './admin/mining-if-i-salaryincrease/mining-if-i-salaryincrease.component';
+import { MiningIFCFuelComponent } from './admin/mining-if-c-fuel/mining-if-c-fuel.component';
+import { MiningIFCWaterComponent } from './admin/mining-if-c-water/mining-if-c-water.component';
 
 
 @NgModule({
@@ -173,7 +180,14 @@ import { SafeCatalogConfigurationComponentAbcComponent } from './admin/safe-cata
         SafeCatalogRegistrationComponent, 
         SafeCatalogRegistrationAbcComponent, 
         SafeCatalogConfigurationComponent,
-        SafeCatalogConfigurationComponentAbcComponent
+        SafeCatalogConfigurationComponentAbcComponent, 
+        DataqDcfEnergymetersComponent, 
+        DataqDcprocessEnergymetersComponent,        
+        MiningIFIFinancialComponent,
+        MiningIFIEconomicproposalComponent,
+        MiningIFISalaryincreaseComponent,
+        MiningIFCFuelComponent,
+        MiningIFCWaterComponent
     ],
     exports: [],
     imports: [

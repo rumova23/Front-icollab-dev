@@ -75,10 +75,20 @@ export class SharedSidebarMenuComponent {
             else if (item.label == "PPA")           item.order = 1;
             
                 else if (item.label == "Data Mining")           item.order = 0;
+                    else if (item.label == "Monitoring station")  item.order = 0;
+                    else if (item.label == "Energy Meters")       item.order = 1;
+                    else if (item.label == "Event Log")           item.order = 2;
+                    else if (item.label == "Financial Indices")   item.order = 3;
                 else if (item.label == "Data Quality")          item.order = 1;
                     else if (item.label == "Detection and Format Correction")           item.order = 0;
+                        else if (item.label == "Supervision Station")           item.order = 0;
+                        else if (item.label == "Energy Meters")           item.order = 1;
                     else if (item.label == "Detection and Correction by Procedure")     item.order = 1;
-
+                        else if (item.label == "Supervision Station")           item.order = 0;
+                        else if (item.label == "Energy Meters")           item.order = 1;
+                else if (item.label == "MM Out of Line")          item.order = 2;
+                else if (item.label == "Events Log")          item.order = 3;
+                else if (item.label == "PPA Catalogs")          item.order = 4;
 
             else if (item.label == "Market")        item.order = 2;
                 else if (item.label == "Planning")        item.order = 0;

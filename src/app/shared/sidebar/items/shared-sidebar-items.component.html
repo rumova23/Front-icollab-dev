@@ -11,7 +11,7 @@
 	
 
 	<div class="col pl-1 pr-0" >
-		<span *ngIf="globalService.aside_open" [attr.id_item]="item.id" [attr.deep]="deep">{{item.label | translate}}</span>
+		<span *ngIf="globalService.aside_open" [attr.name_item]="item.label" [attr.id_item]="item.id" [attr.deep]="deep">{{item.label | translate}}</span>
 	</div>
 
 	<span *ngIf="item.children && item.children.length && globalService.aside_open">
