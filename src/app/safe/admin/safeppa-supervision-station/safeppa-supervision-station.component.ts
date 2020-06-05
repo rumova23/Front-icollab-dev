@@ -1,9 +1,8 @@
+/* tslint:disable:indent */
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Sort, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import * as Highcharts from 'highcharts';
 import { FormControl } from '@angular/forms';
-
-
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {MatDatepicker} from '@angular/material/datepicker';
@@ -594,27 +593,28 @@ export class SafeppaSupervisionStationComponent implements OnInit {
 		this.addBlock(1, '');
 		const year = new Date(this.date.value).getFullYear();
 		const month =  new Date(this.date.value).getMonth() + 1;
-		this.ppaMonitoringFormatService.stageLoadRaw(year, month)
-			.subscribe(
-				data => {
-					console.dir(data);
-					this.isDetected = data.isDetected;
-					this.isCorrected = data.isCorrected;
-					this.buttonDetected = false;
-					this.buttonCorrected = true;
-					if (this.isDetected) {
-						this.buttonCorrected = false;
-					}
+		this.ppaMonitoringFormatService.stageLoadRaw(year, month).subscribe(
+		data => {
+			console.dir(data);
+			this.isDetected = data.isDetected;
+			this.isCorrected = data.isCorrected;
+			this.buttonDetected = false;
+			this.buttonCorrected = true;
+			if (this.isDetected) {
+				this.buttonCorrected = false;
+			}
 
-					this.setTable01(data);
-					this.setChartBanderas(data);
-					this.addBlock(2, '');
-				},
-				errorData => {
-					this.addBlock(2, '');
-					this.toastr.errorToastr(errorData.error.message, '¡Error!');
-					this.buttonDetected = true;
-					this.buttonCorrected = true;
-				});
+			if (this.isDetected) {
+				this.setTable01(data);
+				this.setChartBanderas(data);
+			}
+			this.addBlock(2, '');
+		},
+		errorData => {
+			this.addBlock(2, '');
+			this.toastr.errorToastr(errorData.error.message, '¡Error!');
+			this.buttonDetected = true;
+			this.buttonCorrected = true;
+		});
 	}
 }
