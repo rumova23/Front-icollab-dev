@@ -199,7 +199,9 @@ export class SafeProcedureDetectionAndCorrectionV2Component implements OnInit {
 		this.ppaMonitoringFormatService.stagenorm(year, month)
 			.subscribe(
 				data => {
+					console.log("Segunda Opcion????");
 					console.dir(data);
+					console.log("Segunda Opcion????");
 					this.isDetected = data.isDetected;
 					this.isCorrected = data.isCorrected;
 					this.buttonDetected = false;
