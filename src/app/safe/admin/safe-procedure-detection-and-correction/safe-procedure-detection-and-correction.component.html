@@ -5,9 +5,11 @@
 		</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item>{{ "Data Quality" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Detection and Correction by Procedure" | translate }}</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item class="active">{{ "Supervision Station" | translate }}</mdb-breadcrumb-item>
 	</mdb-breadcrumb>
 </div>
+
 
 <div class="section">
 
@@ -38,12 +40,12 @@
 				<div class="row h-100">
 					<div class="col col-xxxs-12 col-xxs-12 col-xs-12 col-lg-6 my-1 d-flex">
 						<button class="btn btn-block align-self-end my-0" (click)="validaAplicarDeteccion()" [disabled]="buttonDetected">
-							Aplicar Detección Procedimiento &nbsp;
+							Aplicar Detección &nbsp;
 						</button>
 					</div>
 					<div class="col col-xxxs-12 col-xxs-12 col-xs-12 col-lg-6 my-1 d-flex">
 						<button class="btn btn-block align-self-end my-0" (click)="validaAplicarCorreccion()" [disabled]="buttonCorrected">
-							Aplicar Corrección Procedimiento
+							Aplicar Corrección
 						</button>
 					</div>
 				</div>

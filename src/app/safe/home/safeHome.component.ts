@@ -94,6 +94,7 @@ import { MiningIFIEconomicproposalComponent } from '../admin/mining-if-i-economi
 import { MiningIFISalaryincreaseComponent } from '../admin/mining-if-i-salaryincrease/mining-if-i-salaryincrease.component';
 import { MiningIFCFuelComponent } from '../admin/mining-if-c-fuel/mining-if-c-fuel.component';
 import { MiningIFCWaterComponent } from '../admin/mining-if-c-water/mining-if-c-water.component';
+import { SafeProcedureDetectionAndCorrectionV2Component } from '../admin/safe-procedure-detection-and-correction-v2/safe-procedure-detection-and-correction-v2.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -184,6 +185,7 @@ import { MiningIFCWaterComponent } from '../admin/mining-if-c-water/mining-if-c-
 		, MiningIFISalaryincreaseComponent
 		, MiningIFCFuelComponent
 		, MiningIFCWaterComponent
+		, SafeProcedureDetectionAndCorrectionV2Component
   	]
 })
 
@@ -349,7 +351,7 @@ export class SafeHomeComponent implements OnInit {
 					case 'Safe.SafeProcedureDetectionAndCorrection':
 						banderaTemporal = true;
 						this.viewContainerRef.createComponent(
-							this.componentFactoryResolver.resolveComponentFactory(SafeProcedureDetectionAndCorrectionComponent)
+							this.componentFactoryResolver.resolveComponentFactory(SafeProcedureDetectionAndCorrectionV2Component)
 						).changeDetectorRef.detectChanges();
 						break;
 					case 'Safe.TemperatureComponent':

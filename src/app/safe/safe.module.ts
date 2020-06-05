@@ -116,6 +116,7 @@ import { MiningIFIEconomicproposalComponent } from './admin/mining-if-i-economic
 import { MiningIFISalaryincreaseComponent } from './admin/mining-if-i-salaryincrease/mining-if-i-salaryincrease.component';
 import { MiningIFCFuelComponent } from './admin/mining-if-c-fuel/mining-if-c-fuel.component';
 import { MiningIFCWaterComponent } from './admin/mining-if-c-water/mining-if-c-water.component';
+import { SafeProcedureDetectionAndCorrectionV2Component } from './admin/safe-procedure-detection-and-correction-v2/safe-procedure-detection-and-correction-v2.component';
 
 
 @NgModule({
@@ -187,7 +188,8 @@ import { MiningIFCWaterComponent } from './admin/mining-if-c-water/mining-if-c-w
         MiningIFIEconomicproposalComponent,
         MiningIFISalaryincreaseComponent,
         MiningIFCFuelComponent,
-        MiningIFCWaterComponent
+        MiningIFCWaterComponent,
+        SafeProcedureDetectionAndCorrectionV2Component
     ],
     exports: [],
     imports: [

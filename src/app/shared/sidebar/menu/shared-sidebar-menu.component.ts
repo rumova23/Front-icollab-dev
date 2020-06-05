@@ -121,8 +121,6 @@ export class SharedSidebarMenuComponent {
             label: "New Event",
             url: "SafeNewEventComponent"
         });
-
-        console.log(menu);     
     }
     hardcodeEfh() {
         let item0 = null;
