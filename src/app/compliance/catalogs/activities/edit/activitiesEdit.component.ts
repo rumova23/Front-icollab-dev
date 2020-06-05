@@ -232,11 +232,11 @@ export class ActivitiesEditComponent implements OnInit {
                             this.actividadesForm.controls.fPrefijo.disable();
                             this.deshabiliarEstatus = true;
                             this.disabledSave = true;
-                            this.showClone = true;
+                            // this.showClone = true;
                         } else {
                             this.deshabiliarEstatus = true;
                             this.disabledSave = true;
-                            this.showEditClonated = true;
+                            // this.showEditClonated = true;
                             // this.eventService.sendChangePage(new EventMessage(6, {} ,'Compliance.Categorías'));
                         }
                     }
@@ -316,7 +316,7 @@ export class ActivitiesEditComponent implements OnInit {
 
                 this.deshabiliarEstatus = true;
                 this.disabledSave = true;
-                this.showEditClonated = true;
+                // this.showEditClonated = true;
                 // this.eventService.sendChangePage(new EventMessage(6, {} ,'Compliance.Categorías'));
                 // this.addBlock(2, null)
             },

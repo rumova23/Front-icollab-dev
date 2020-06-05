@@ -208,12 +208,12 @@ export class ComplianceTypesEditComponent implements OnInit {
                     this.autoridadesForm.controls['opcionDescripcion'].disable();
                     this.deshabiliarEstatus = true;
                     this.disabledSave = true;
-                    this.verClonar = true;
+                    // this.verClonar = true;
                   } else {
                     this.deshabiliarEstatus = true;
                     this.disabledSave = true;
 
-                    this.showEditClonated = this.hasCloned;
+                    // this.showEditClonated = this.hasCloned;
                   }
                 });
           }
