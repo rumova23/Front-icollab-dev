@@ -177,7 +177,9 @@ export class SafeProcedureDetectionAndCorrectionComponent implements OnInit {
 		this.ppaMonitoringFormatService.stagenorm(year, month)
 			.subscribe(
 				data => {
+					console.log('RTC');
 					console.dir(data);
+					console.log('RTC');
 					this.isDetected = data.isDetected;
 					this.isCorrected = data.isCorrected;
 					this.buttonDetected = false;
