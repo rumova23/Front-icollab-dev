@@ -11,6 +11,7 @@ import { EventService } from 'src/app/core/services/event.service';
 import * as moment from 'moment';
 import { IdLabel } from 'src/app/core/models/IdLabel';
 import { MatSelectChange } from '@angular/material';
+import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format.service';
 
 @Component({
 	selector: 'app-safe-energy-meters',
@@ -76,7 +77,8 @@ export class SafeEnergyMetersComponent implements OnInit {
 		private confirmationDialogService: ConfirmationDialogService,
 		public globalService: GlobalService,
 		public toastr: ToastrManager,
-		public eventService: EventService
+		public eventService: EventService,
+		private ppaMonitoringFormatService: PpaMonitoringFormatService
 	) { }
 
 	ngOnInit() {
@@ -96,7 +98,7 @@ export class SafeEnergyMetersComponent implements OnInit {
 			];
 		}
 		this.fileUploadForm = this.formBuilder.group({
-			file: new FormControl(null, [Validators.required, requiredFileType('zip')]),
+			file: new FormControl(null, [Validators.required, requiredFileType('xlsx')]),
 			typeVarhtml: new FormControl('', Validators.required),
 			date: new FormControl(moment(), Validators.required)
 		});	
@@ -131,54 +133,40 @@ export class SafeEnergyMetersComponent implements OnInit {
 		this.toastr.successToastr("clickBtnDowloadImport", 'Seleccionaste');
 	}
 
-	
 	upload(value) {
-		this.toastr.successToastr("Upload File", 'Seleccionaste');
-
-		let typeVarhtml = this.fileUploadForm.controls.typeVarhtml.value;
-		let date:Moment = this.fileUploadForm.controls.date.value;
-		if (typeVarhtml == null || date == null) {
-			this.toastr.errorToastr('Todos los campos son necesarios.', 'Lo siento,');
-			return 0;
+		const mydate = this.fileUploadForm.get('date').value;
+		const month = mydate.month() + 1;
+		const year = mydate.year();
+		if (mydate == null) {
+		  this.toastr.errorToastr('Eliga una fecha.', 'Lo siento,');
+		  return 0;
 		}
-
-		if (this.fileUploadForm.controls.typeVarhtml.value === '4') {
-			const message = 'Procesando el mes: ' + (date.month() + 1) + ' del año: ' +  date.format('yyyy') + '. Upload Zip Manualmente; espere por favor.';
-			this.toastr.successToastr(message, '.... Procesando');
-		} else {
-			// this.toastr.errorToastr('No es Proceso Manual.', 'Lo siento,');
-			return 0;
-		}
-		//this.addBlock(1,'');
-		this.valid = false;
+		this.addBlock(1, '');
 		const reader = new FileReader();
 		reader.onloadend = (e) => {
-			this.file = reader.result;
-			this.file = this.file.replace(/^data:(.*;base64,)?/, '');
-			this.file = this.file.trim();
-			this.fileName = value.file.name;
-			/*
-			this.ppaMonitoringFormatService.entradaManual( new Date(this.date.value).getFullYear(),
-			 new Date(this.date.value).getMonth() + 1, {
+		  this.file = reader.result;
+		  this.file = this.file.replace(/^data:(.*;base64,)?/, '');
+		  this.file = this.file.trim();
+		  this.fileName = value.file.name;
+		  this.ppaMonitoringFormatService.uploadPerfil({
 				file: this.file,
 				name: this.fileName,
-				idTypeImport: 4,
-				nameImport: 'no aplica'
-			}).subscribe(
-				data => {
-					this.addBlock(2,'');
-					console.log(data);
-					this.toastr.successToastr('El archivo llego con exito', 'Ejecución lanzada con éxito.');
-				},
-				errorData => {
-					this.addBlock(2,'');
-					console.dir(errorData);
-					this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
-				});
-				//*/
-		}
+				year: year,
+				month: month
+			  }).subscribe (
+			  data => {
+				this.addBlock(2, '');
+				this.toastr.successToastr('El archivo llego con exito', 'Ejecución lanzada con éxito.');
+			  },
+			  errorData => {
+				this.addBlock(2, '');
+				console.dir(errorData);
+				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
+			  });
+		};
 		reader.readAsDataURL(value.file);
-	}
+	  }
+	
 	
 	tableRowDelete(element){
 		this.confirmationDialogService.confirm(
