@@ -35,6 +35,8 @@ export class DataqDcprocessEnergymetersComponent implements OnInit {
 	];
 	tableRow_x_page = [50, 100, 150, 200];
 	maxDate: Date;
+	buttonDetected=false;
+	buttonCorrected=false;
 	translateSuccess = 'Success';
 	constructor(
 		private formBuilder: FormBuilder,
