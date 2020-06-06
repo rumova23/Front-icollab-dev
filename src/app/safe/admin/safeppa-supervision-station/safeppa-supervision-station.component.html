@@ -21,12 +21,11 @@
 	<br>
 
 
-	<div class="row d-flex align-items-end">
-		<div class="col">
-		<!--div class="col d-flex align-items-center">
-			<div class="form-group" style="max-width: 230px; float: left;margin-bottom: 26px;margin-right: 10px;"-->
+	<div class="row">
+		<div class="my-2 col-12 col-md-4 col-xl-3 col-xxl-3">
+		
 			<div class="form-group" style="margin-bottom: 0px !important;">
-				<label class="form-text">Fecha de operación Comercial:</label>
+				<label class="form-text">{{'Commercial Operation Date'|translate}}</label>
 				<mat-form-field class="form-control">
 					<input matInput [matDatepicker]="dp" [formControl]="date" [max]="maxDate"/>
 					<mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
@@ -39,22 +38,25 @@
 				</mat-form-field>
 			</div>
 		</div>
-		<div class="col text-right text-lg-left">
-			<button class="btn mt-xxxs-4 mt-xxs-4 mt-xs-4 mt-xxl-4" (click)="validaAplicarDeteccion()" [disabled]="buttonDetected">
-				Aplicar Detección&nbsp;	
-			</button>
-			<button class="btn mt-xxxs-4 mt-xxs-4 mt-xs-4 mt-xxl-4" (click)="validaAplicarCorreccion()" [disabled]="buttonCorrected">
-				Aplicar Corrección
-			</button>
+		
+		<div class="my-2 col-12 col-md-4 col-xl-3 col-xxl-2 col-xxxxxl-1">
+			<label style="visibility: hidden;">boton</label>
+			<app-btn-block 
+				label="Apply Detection" 
+				(myClick)="validaAplicarDeteccion()"
+				[disabled]="buttonDetected"
+			></app-btn-block>
 		</div>
-		<!--div class="col">
-			<button class="btn" (click)="aplicarDeteccionProcedimiento()">
-				Aplicar Detección Procedimiento
-			</button>
-			<button class="btn" (click)="aplicarCorrecionProcedimiento()">
-				Aplicar Corrección Procedimiento
-			</button>
-		</div-->
+		
+		<div class="my-2 col-12 col-md-4 col-xl-3 col-xxl-2 col-xxxxxl-1">
+			<label style="visibility: hidden;">boton</label>
+			<app-btn-block 
+				label="Apply Correction" 
+				(myClick)="validaAplicarCorreccion()"
+				[disabled]="buttonCorrected"
+			></app-btn-block>
+		</div>
+
 	</div>
 
 	<!-- Tabla de Catalogos -->
@@ -93,13 +95,21 @@
 	</div>
 	<!-- ./Tabla de Catalogos -->
 
-	<div class="row">
-		<div class="col text-right">
-			<button type="button" class="btn" (click)="download()">
-				<i class="ti-cloud-down"></i>&nbsp;	&nbsp;	&nbsp;&nbsp;{{'Download' | translate}} &nbsp;	&nbsp;
-			</button>
+	<div class="row mt-4">
+		<div class="col-12 col-sm-6 col-xl-3">
+		</div>
+		<div class="col-12 col-sm-6 col-xl-9">
+			<div class="row justify-content-end">
+				<div class="col-12 col-sm-6 col-xl-3">
+				</div>
+				<div class="col-12 col-sm-6 col-xl-3">
+					<label style="visibility: hidden;">boton</label>
+					<app-btn-block-download (myClick)="download()"></app-btn-block-download>
+				</div>
+			</div>
 		</div>
 	</div>
+
 	<br>
 	<div class="row">
 		<div class="col" style="overflow-x: scroll;">

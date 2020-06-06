@@ -174,7 +174,7 @@ tableRow_x_page = &#91;5,10&#93;;</pre>
 	</div>
 	<div class="row">
 		<div class="col-4 my-2">
-			<app-btn-block (click)="clickBtn()" [label]="'Aplicar Detección Procedimiento'" [addClass]="['tester-00']">
+			<app-btn-block (click)="clickBtn()" label="Aplicar Detección Procedimiento" [addClass]="['tester-00']">
 			</app-btn-block>
 		</div>
 		<div class="col-4 my-2">
@@ -207,7 +207,7 @@ tableRow_x_page = &#91;5,10&#93;;</pre>
 	</div>
 	<div class="row">
 		<pre>
-&lt;app-btn-block             (click)=&quot;clickBtn()&quot; [label]=&quot;'Aplicar Detección Procedimiento'&quot; [addClass]=&quot;['tester-00']&quot;&gt;&lt;/app-btn-block&gt;
+&lt;app-btn-block             (click)=&quot;clickBtn()&quot; label=&quot;Aplicar Detección Procedimiento&quot; [addClass]=&quot;['tester-00']&quot;&gt;&lt;/app-btn-block&gt;
 &lt;app-btn-block-download    (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-download&gt;
 &lt;app-btn-block-import      (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-import&gt;
 &lt;app-btn-block-save        (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-save&gt;
@@ -226,14 +226,14 @@ tableRow_x_page = &#91;5,10&#93;;</pre>
 				[formGroup]="form"
 				controlName="dateYearAndMonth"
 				(eventChange)="chosenMonthHandler($event)" 
-				[label]="'Fecha de Operación Comercial'"
+				label="Commercial Operation Date"
 			></app-mat-input-datepicker-year-and-month>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col">
 			<pre>
-&lt;app-mat-input-datepicker-year-and-month (eventChange)=&quot;chosenMonthHandler($event)&quot; [label]=&quot;'Fecha de Operación Comercial'&quot;&gt;&lt;/app-mat-input-datepicker-year-and-month&gt;
+&lt;app-mat-input-datepicker-year-and-month (eventChange)=&quot;chosenMonthHandler($event)&quot; label=&quot;Fecha de Operación Comercial&quot;&gt;&lt;/app-mat-input-datepicker-year-and-month&gt;
 			</pre>
 		</div>
 	</div>

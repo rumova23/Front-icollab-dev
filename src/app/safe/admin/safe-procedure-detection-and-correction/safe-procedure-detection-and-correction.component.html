@@ -15,7 +15,7 @@
 
 	<div class="row pb-2">
 		<div class="col">
-			<p class="section_titulo_0">{{ "Detección y Corrección de Procedimiento" | translate }}</p>
+			<p class="section_titulo_0">{{ 'Detection and Correction' | translate }} {{'of'|translate}} {{'Supervision Station'|translate}} </p>
 			<p class="section_subtitulo_0"></p>
 		</div>
 	</div>
@@ -25,7 +25,7 @@
 	<form>
 		<div class="form-row">
 			<div class="col col-xxxs-12 col-xxs-12 col-xs-6 col-lg-5 col-xxl-3 my-1">
-				<label>Fecha de Operación Comercial:</label>
+				<label>{{'Commercial Operation Date'|translate}}</label>
 				<mat-form-field class="form-control">
 					<input matInput [matDatepicker]="dp" [formControl]="date" [max]="maxDate"/>
 					<mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>

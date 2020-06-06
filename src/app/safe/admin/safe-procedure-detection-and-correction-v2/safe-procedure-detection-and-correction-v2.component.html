@@ -15,7 +15,7 @@
 
 	<div class="row pb-2">
 		<div class="col">
-			<p class="section_titulo_0">{{ "Detección y Corrección de Procedimiento" | translate }}</p>
+			<p class="section_titulo_0">{{ 'Detection and Correction' | translate }} {{'of'|translate}} {{'Supervision Station'|translate}} </p>
 			<p class="section_subtitulo_0"></p>
 		</div>
 	</div>
@@ -30,7 +30,7 @@
 					[formGroup]="formQuery"
 					controlName="date"
 					(eventChange)="onChangeDatePicker($event)" 
-					[label]="'Fecha de Operación Comercial'"
+					label="Commercial Operation Date"
 					[maxDate]="maxDate"	
 				></app-mat-input-datepicker-year-and-month>
 			</div>
@@ -38,7 +38,7 @@
 			<div class="my-2 col-12 col-md-4 col-xl-3 col-xxl-2 col-xxxxxl-1">
 				<label style="visibility: hidden;">boton</label>
 				<app-btn-block 
-					label="Aplicar Detección" 
+					label="Apply Detection" 
 					(myClick)="onBtnApDeteccion()"
 					[disabled]="buttonDetected"
 				></app-btn-block>
@@ -47,7 +47,7 @@
 			<div class="my-2 col-12 col-md-4 col-xl-3 col-xxl-2 col-xxxxxl-1">
 				<label style="visibility: hidden;">boton</label>
 				<app-btn-block 
-					label="Aplicar Corrección" 
+					label="Apply Correction" 
 					(myClick)="onBtnApCorreccion()"
 					[disabled]="buttonCorrected"
 				></app-btn-block>
