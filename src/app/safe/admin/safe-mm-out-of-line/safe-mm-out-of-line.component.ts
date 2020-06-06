@@ -72,7 +72,7 @@ export class SafeMmOutOfLineComponent implements OnInit {
 		this.aplicarModeloPrimerTiempo();
 	}
 	clickBtn2daCorrida() {
-		this.aplicarCorrecionProcedimiento();
+		this.toastr.successToastr("clickBtn2daCorrida", 'Seleccionaste');
 	}
 	tableRowDelete(element) {
 		this.confirmationDialogService.confirm(
@@ -114,30 +114,6 @@ export class SafeMmOutOfLineComponent implements OnInit {
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
 	}
-	aplicarCorrecionProcedimiento() {
-		const mydate = this.formQuery.get('date').value;
-		const month = mydate.month() + 1;
-		const year = mydate.year(); //getFullYear()
-
-		if (mydate == null) {
-			this.toastr.errorToastr('Eliga una fecha.', 'Lo siento,');
-			return 0;
-		}
-		this.addBlock(1, '');
-		this.ppaMonitoringFormatService.procesaCorrecionProcedimientoProfile(
-			year, month
-		).subscribe(
-			data => {
-				this.addBlock(2, '');
-				this.toastr.successToastr('Deteccion de Norma en proceso: ' + mydate.format('yyyy/MM'), '¡Procesando!');
-			},
-			errorData => {
-				this.addBlock(2, '');
-				console.dir(errorData);
-				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
-			});
-	}
-
 	addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,
 			new EventBlocked(type, msg)));
