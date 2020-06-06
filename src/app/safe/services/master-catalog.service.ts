@@ -19,7 +19,7 @@ export class MasterCatalogService {
 
   catalogosAll(): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get( `${ this.mastercatalog }mastercatalog/mastercatalog/masters`,
+    return this.http.get( `${ this.mastercatalog }mastercatalog/mastercatalog/masters/2`,
         {params : this.parameters });
   }
 
