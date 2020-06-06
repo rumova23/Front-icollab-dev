@@ -113,14 +113,14 @@ export class SharedSidebarMenuComponent {
     }
     hardcodeSafe(menu){
         this.setOrderSafe(menu);
-        
+        /*
         this.menu.push({
             id: "hardcode",
             idFather: "",
             icon: "insert_chart",
             label: "New Event",
             url: "SafeNewEventComponent"
-        });
+        });//*/
     }
     hardcodeEfh() {
         let item0 = null;
