@@ -95,6 +95,7 @@ import { MiningIFISalaryincreaseComponent } from '../admin/mining-if-i-salaryinc
 import { MiningIFCFuelComponent } from '../admin/mining-if-c-fuel/mining-if-c-fuel.component';
 import { MiningIFCWaterComponent } from '../admin/mining-if-c-water/mining-if-c-water.component';
 import { SafeProcedureDetectionAndCorrectionV2Component } from '../admin/safe-procedure-detection-and-correction-v2/safe-procedure-detection-and-correction-v2.component';
+import {SafeListBinnacleEventsComponent} from '../admin/safe-import-event-log/safe-list-binnacle-events/safe-list-binnacle-events.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -186,6 +187,7 @@ import { SafeProcedureDetectionAndCorrectionV2Component } from '../admin/safe-pr
 		, MiningIFCFuelComponent
 		, MiningIFCWaterComponent
 		, SafeProcedureDetectionAndCorrectionV2Component
+		, SafeListBinnacleEventsComponent
   	]
 })
 
@@ -328,6 +330,12 @@ export class SafeHomeComponent implements OnInit {
 						banderaTemporal = true;
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(SafeImportEventLogComponent)
+						).changeDetectorRef.detectChanges();
+						break;
+					case 'Safe.SafeListBinnacleEventsComponent':
+						banderaTemporal = true;
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(SafeListBinnacleEventsComponent)
 						).changeDetectorRef.detectChanges();
 						break;
 					case 'Safe.SafeEnergyMetersComponent':

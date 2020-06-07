@@ -4,4 +4,5 @@ export class MaestroDTO {
     public descripcion: string;
     public entidadEstatusId: number;
     public activo: boolean;
+    public appId: number;
 }

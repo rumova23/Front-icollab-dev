@@ -117,6 +117,7 @@ import { MiningIFISalaryincreaseComponent } from './admin/mining-if-i-salaryincr
 import { MiningIFCFuelComponent } from './admin/mining-if-c-fuel/mining-if-c-fuel.component';
 import { MiningIFCWaterComponent } from './admin/mining-if-c-water/mining-if-c-water.component';
 import { SafeProcedureDetectionAndCorrectionV2Component } from './admin/safe-procedure-detection-and-correction-v2/safe-procedure-detection-and-correction-v2.component';
+import {SafeListBinnacleEventsComponent} from './admin/safe-import-event-log/safe-list-binnacle-events/safe-list-binnacle-events.component';
 
 
 @NgModule({
@@ -189,7 +190,8 @@ import { SafeProcedureDetectionAndCorrectionV2Component } from './admin/safe-pro
         MiningIFISalaryincreaseComponent,
         MiningIFCFuelComponent,
         MiningIFCWaterComponent,
-        SafeProcedureDetectionAndCorrectionV2Component
+        SafeProcedureDetectionAndCorrectionV2Component,
+        SafeListBinnacleEventsComponent
     ],
     exports: [],
     imports: [

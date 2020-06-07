@@ -29,7 +29,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	formNewEvent: FormGroup;
 
 	lstEventClassification: IdLabel[] = [];
+	lstEventClassificationDTO: Array<MaestroOpcionDTO>;
 	lstFuels: IdLabel[] = [];
+	lstEventsDTO: Array<MaestroOpcionDTO>;
 	lstEvents: IdLabel[] = [];
 	lstUnits: IdLabel[] = [];
 	lstImpactContracts: IdLabel[] = [];
@@ -64,7 +66,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		'sys_edit',
 		'sys_delete',
 	];
-	tableObservationsCommentsSelection : SelectionModel<any> = new SelectionModel<any>(true, []);
+	tableObservationsCommentsSelection: SelectionModel<any> = new SelectionModel<any>(true, []);
 
 
 	progress;
@@ -134,20 +136,25 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 
 	loadSelect(selectCombo: Array<any>, catalog: Array<MaestroOpcionDTO>) {
 		catalog.forEach((element: MaestroOpcionDTO ) => {
-			selectCombo.push({id: element.maestroOpcionId, label: element.opcion.codigo});
+			selectCombo.push({id: element.maestroOpcionId, label: element.opcion.codigo, maestroOpcionId: element.maestroOpcionId});
 		});
+	}
+	onBuildEventAssociated(event) {
+		this.lstEvents = [];
+		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === event.value));
 	}
 
 	loadCatalog() {
-		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'CONTRATO COMPRA VENTA ENERGIA PPA', 'BANDA TOLERANCIA',
+		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL/CCDV', 'BANDA TOLERANCIA',
 		'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'ORDEN TRABAJO'];
 		this.masterCatalogService.listCatalog(names).subscribe(data  => {
 			this.loadSelect(this.lstEventClassification, data['CLASIFICA EVENTO']);
-			this.loadSelect(this.lstEvents, data['EVENTO']);
+			this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
+			this.lstEventsDTO = data['EVENTO'];
 			this.loadSelect(this.lstFuels, data['COMBUSTIBLE']);
 			this.loadSelect(this.lstUnits, data['UNIDAD']);
 			this.loadSelect(this.lstImpactContracts, data['CONTRATO IMPACTADO']);
-			this.loadSelect(this.lstRealsCcdv, data['CONTRATO COMPRA VENTA ENERGIA PPA']);
+			this.loadSelect(this.lstRealsCcdv, data['REAL/CCDV']);
 			this.loadSelect(this.lstToleranceBands, data['BANDA TOLERANCIA']);
 			this.loadSelect(this.lstMarketTypes, data['TIPO MERCADO MEM']);
 			this.loadSelect(this.lstSelatedServices, data['SERVICIOS CONEXOS MEM']);
@@ -176,16 +183,15 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	BtnAddObservationsComments() {
 		const observation = this.formobservationsComments.get('observationsComments').value;
 		if (observation != null && observation !== '') {
-			this.tableObservationsComments = this.tableObservationsComments.concat(
-					{
-						name:this.getNameUser(),observation,dateUptade:moment(new Date()).format('YYYY-MM-DD'),visible:true}
-				);
+			this.tableObservationsComments = this.tableObservationsComments.concat({
+				name: this.getNameUser(), observation, dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: true
+			});
 			this.formobservationsComments.get('observationsComments').setValue('');
 		}
 		this.getTableObservationsCommentsSelectionChecked();
 	}
 
-	btnUploadFile(){
+	btnUploadFile() {
 		this.toastr.successToastr('btnUploadFile', 'Seleccionaste');
 		const file = this.fileUploadForm.get('file').value;
 	}

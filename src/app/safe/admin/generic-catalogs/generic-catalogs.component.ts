@@ -63,7 +63,8 @@ export class GenericCatalogsComponent implements OnInit {
       maestroId: new FormControl('', null),
       nombre: new FormControl('', Validators.required),
       descripcion: new FormControl('', Validators.required),
-      activo: new FormControl(false)
+      activo: new FormControl(false),
+      appId: new FormControl(2, null)
     });
     this.loadMasters();
   }
@@ -108,10 +109,11 @@ export class GenericCatalogsComponent implements OnInit {
 
   saveMaestro(value: any) {
     if (this.action === 'Guardar') {
+      console.dir(value)
       this.addBlock(1, '');
       this.masterCatalogService.saveMaster(value).subscribe(
           data => {
-            this.toastr.successToastr('Guradado Completo', 'Exito!.');
+            this.toastr.successToastr('Guardado Completo', 'Exito!.');
             this.addBlock(2, '');
           },
           errorData => {

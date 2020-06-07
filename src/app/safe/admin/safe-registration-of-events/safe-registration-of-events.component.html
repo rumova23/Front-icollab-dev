@@ -47,6 +47,7 @@
 					controlName="eventsClassificationId"
 					[options]="lstEventClassification"
 					label="Clasificación de Eventos"
+					(eventChange)="onBuildEventAssociated($event)"
 				></app-mat-select>
 			</div>
 			<div class="col">

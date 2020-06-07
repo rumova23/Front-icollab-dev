@@ -46,8 +46,8 @@ export class SafeCatalogConfigurationComponentAbcComponent implements OnInit {
 
 	nuevoInit() {
 		this.genericOpcionForm = this.formBuilder.group({
-			codigo:[{value:'',disabled:false},[Validators.required,Validators.maxLength(30)]],
-			descripcion:[{value:'',disabled:false},[Validators.required,Validators.maxLength(100)]],
+			codigo:[{value:'',disabled:false},[Validators.required,Validators.maxLength(120)]],
+			descripcion:[{value:'',disabled:false},[Validators.required,Validators.maxLength(250)]],
 			maestro: new FormControl(this.catalogType.element.maestro, Validators.required),
 			//activo:[{value:true,disabled:false}]
 		});

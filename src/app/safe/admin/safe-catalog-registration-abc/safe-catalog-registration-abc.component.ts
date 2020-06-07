@@ -55,7 +55,8 @@ export class SafeCatalogRegistrationAbcComponent implements OnInit {
 			maestroId: new FormControl('', null),
 			nombre:[{value:'',disabled:false},[Validators.required,Validators.maxLength(30)]],
 			descripcion:[{value:'',disabled:false},[Validators.required,Validators.maxLength(100)]],
-			activo:[{value:true,disabled:false}]
+			activo:[{value:true,disabled:false}],
+			appId: new FormControl(2, null)
 		});
 	}
 	verInit(){
@@ -83,14 +84,15 @@ export class SafeCatalogRegistrationAbcComponent implements OnInit {
 			switch(this.catalogType.action){
 				case 'nuevo':
 					this.save(v);
-					break;			
+					break;
 				case 'editar':
 					this.update(v);
 					break;
 			}
 		}
 	}
-	save(value: MaestroDTO){
+	save(value: MaestroDTO) {
+		console.dir(value);
 		this.addBlock(1, '');
 		this.masterCatalogService.saveMaster(value).subscribe(
 			data => {

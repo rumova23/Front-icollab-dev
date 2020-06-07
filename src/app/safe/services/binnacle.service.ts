@@ -20,4 +20,9 @@ export class BinnacleService {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.binnacle }binnacle/save/binnacle`, binnacle, {params : this.parameters });
   }
+
+  downloadExcel(year: number, month: number): Observable<any> {
+    this.parameters = this.globalService.setXTenantId_Plant();
+    return this.http.get(environment.dycformato + 'download/' + year + '/' + month, {params : this.parameters });
+  }
 }
