@@ -97,7 +97,6 @@ import { TemperatureComponent } from './admin/temperature/temperature.component'
 import { SafePPAMonitoringStationComponent } from './admin/safe-ppamonitoring-station/safe-ppamonitoring-station.component';
 import { AccuweatherComponent } from './admin/accuweather/accuweather.component';
 import { SafeppaSupervisionStationComponent } from './admin/safeppa-supervision-station/safeppa-supervision-station.component';
-import { SafeProcedureDetectionAndCorrectionComponent } from './admin/safe-procedure-detection-and-correction/safe-procedure-detection-and-correction.component';
 import {SafePpaMonitoringProfileStationComponent} from './admin/safe-ppa-monitoring-profile-station/safe-ppa-monitoring-profile-station.component';
 import { SafeMmOutOfLineComponent } from './admin/safe-mm-out-of-line/safe-mm-out-of-line.component';
 import {GenericCatalogsComponent} from './admin/generic-catalogs/generic-catalogs.component';
@@ -171,7 +170,6 @@ import {SafeListBinnacleEventsComponent} from './admin/safe-import-event-log/saf
         PreDocumentComponent,
         TemperatureComponent,
         SafePPAMonitoringStationComponent,
-        SafeProcedureDetectionAndCorrectionComponent,
         SafePpaMonitoringProfileStationComponent,
         SafeMmOutOfLineComponent,
         GenericCatalogsComponent,

@@ -75,7 +75,6 @@ import {MonitoringJobsComponent} from '../admin/monitoring/monitoringJobs.compon
 import { SafePPAMonitoringStationComponent } from '../admin/safe-ppamonitoring-station/safe-ppamonitoring-station.component';
 import { AccuweatherComponent } from '../admin/accuweather/accuweather.component';
 import { SafeppaSupervisionStationComponent } from '../admin/safeppa-supervision-station/safeppa-supervision-station.component';
-import { SafeProcedureDetectionAndCorrectionComponent } from '../admin/safe-procedure-detection-and-correction/safe-procedure-detection-and-correction.component';
 import {SafePpaMonitoringProfileStationComponent} from '../admin/safe-ppa-monitoring-profile-station/safe-ppa-monitoring-profile-station.component';
 import { SafeNewEventComponent } from 'src/app/safe/business/logBook/newEvent/safeNewEvent.component';
 import { SafeMmOutOfLineComponent } from '../admin/safe-mm-out-of-line/safe-mm-out-of-line.component';
@@ -167,7 +166,6 @@ import {SafeListBinnacleEventsComponent} from '../admin/safe-import-event-log/sa
 		, MonitoringJobsComponent
 		, SafePPAMonitoringStationComponent
 		, AccuweatherComponent
-		, SafeProcedureDetectionAndCorrectionComponent
 		, SafePpaMonitoringProfileStationComponent
 		, SafeNewEventComponent
 		, SafeMmOutOfLineComponent
