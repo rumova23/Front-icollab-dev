@@ -219,12 +219,17 @@
 		</div>
 		<div class="row">
 			<div class="col">
-				<app-mat-select
+				<!--app-mat-select
 					[formGroup]="formNewEvent"
 					controlName="operatorPlantOpen"
 					[options]="lstOperatorPlantOpen"
 					label="Nombre(s)/Apellidos(s) Operador Planta Abrió"
-				></app-mat-select>
+				></app-mat-select-->
+				<app-mat-input-text
+					[formGroup]="formNewEvent"
+					controlName="operatorPlantOpen"
+					label="Nombre(s)/Apellidos(s) Operador Planta Abrió"
+				></app-mat-input-text>
 			</div>
 			<div class="col">
 				<app-mat-input-text 
@@ -235,12 +240,17 @@
 			</div>
 			<div class="w-100"></div>
 			<div class="col">
-				<app-mat-select
+				<!--app-mat-select
 					[formGroup]="formNewEvent"
 					controlName="operatorPlantClose"
 					[options]="lstOperatorPlantClose"
 					label="Nombre(s)/Apellidos(s) Operador Planta Cerro"
-				></app-mat-select>
+				></app-mat-select-->
+				<app-mat-input-text
+					[formGroup]="formNewEvent"
+					controlName="operatorPlantClose"
+					label="Nombre(s)/Apellidos(s) Operador Planta Cerro"
+				></app-mat-input-text>
 			</div>				
 			<div class="col">
 				<app-mat-input-text 
