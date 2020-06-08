@@ -117,7 +117,8 @@ import { MiningIFCFuelComponent } from './admin/mining-if-c-fuel/mining-if-c-fue
 import { MiningIFCWaterComponent } from './admin/mining-if-c-water/mining-if-c-water.component';
 import { SafeProcedureDetectionAndCorrectionV2Component } from './admin/safe-procedure-detection-and-correction-v2/safe-procedure-detection-and-correction-v2.component';
 import {SafeListBinnacleEventsComponent} from './admin/safe-import-event-log/safe-list-binnacle-events/safe-list-binnacle-events.component';
-
+import {SafeConfigurationBinnacleComponent} from './admin/safe-configuration-binnacle/safe-configuration-binnacle.component';
+import {SafeConfigurationBinnacleEditComponent} from './admin/safe-configuration-binnacle/safe-configuration-binnacle-edit/safe-configuration-binnacle-edit.component';
 
 @NgModule({
     declarations: [
@@ -177,19 +178,22 @@ import {SafeListBinnacleEventsComponent} from './admin/safe-import-event-log/saf
         SafeEnergyMetersChartComponent,
         SafeImportEventLogComponent,
         SafeRegistrationOfEventsComponent,
-        SafeCatalogRegistrationComponent, 
-        SafeCatalogRegistrationAbcComponent, 
+        SafeCatalogRegistrationComponent,
+        SafeCatalogRegistrationAbcComponent,
         SafeCatalogConfigurationComponent,
-        SafeCatalogConfigurationComponentAbcComponent, 
-        DataqDcfEnergymetersComponent, 
-        DataqDcprocessEnergymetersComponent,        
+        SafeCatalogConfigurationComponentAbcComponent,
+        DataqDcfEnergymetersComponent,
+        DataqDcprocessEnergymetersComponent,
         MiningIFIFinancialComponent,
         MiningIFIEconomicproposalComponent,
         MiningIFISalaryincreaseComponent,
         MiningIFCFuelComponent,
         MiningIFCWaterComponent,
         SafeProcedureDetectionAndCorrectionV2Component,
-        SafeListBinnacleEventsComponent
+        SafeListBinnacleEventsComponent,
+        SafeConfigurationBinnacleComponent,
+        SafeConfigurationBinnacleComponent,
+        SafeConfigurationBinnacleEditComponent
     ],
     exports: [],
     imports: [

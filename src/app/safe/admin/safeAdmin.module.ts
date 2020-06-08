@@ -15,7 +15,6 @@ import {ComponentsModule} from '../../common/components.module';
         ComponentsModule
     ],
   declarations: [],
-  exports: [
-  ]
+  exports: []
 })
 export class SafeAdminModule { }

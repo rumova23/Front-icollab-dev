@@ -71,7 +71,8 @@ export class SafeCatalogRegistrationAbcComponent implements OnInit {
 			maestroId: new FormControl(this.catalogType.element.maestroId, null),
 			nombre:[{value:this.catalogType.element.name,disabled:false},[Validators.required,Validators.maxLength(30)]],
 			descripcion:[{value:this.catalogType.element.description,disabled:false},[Validators.required,Validators.maxLength(100)]],
-			activo:[{value:this.catalogType.element.activo,disabled:false}]
+			activo:[{value:this.catalogType.element.activo,disabled:false}],
+			appId: new FormControl(2, null)
 		});
 	}
 	btnClickBack(){

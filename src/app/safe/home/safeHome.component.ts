@@ -95,6 +95,8 @@ import { MiningIFCFuelComponent } from '../admin/mining-if-c-fuel/mining-if-c-fu
 import { MiningIFCWaterComponent } from '../admin/mining-if-c-water/mining-if-c-water.component';
 import { SafeProcedureDetectionAndCorrectionV2Component } from '../admin/safe-procedure-detection-and-correction-v2/safe-procedure-detection-and-correction-v2.component';
 import {SafeListBinnacleEventsComponent} from '../admin/safe-import-event-log/safe-list-binnacle-events/safe-list-binnacle-events.component';
+import {SafeConfigurationBinnacleComponent} from '../admin/safe-configuration-binnacle/safe-configuration-binnacle.component';
+import {SafeConfigurationBinnacleEditComponent} from '../admin/safe-configuration-binnacle/safe-configuration-binnacle-edit/safe-configuration-binnacle-edit.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -186,6 +188,8 @@ import {SafeListBinnacleEventsComponent} from '../admin/safe-import-event-log/sa
 		, MiningIFCWaterComponent
 		, SafeProcedureDetectionAndCorrectionV2Component
 		, SafeListBinnacleEventsComponent
+		, SafeConfigurationBinnacleComponent
+		, SafeConfigurationBinnacleEditComponent
   	]
 })
 
@@ -306,6 +310,20 @@ export class SafeHomeComponent implements OnInit {
 						banderaTemporal = true;
 						view = this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(SafeCatalogRegistrationAbcComponent)
+						);
+						view.instance.catalogType = event.data;
+						view.changeDetectorRef.detectChanges();
+						break;
+					case'Safe.SafeConfigurationBinnacleComponent':
+						banderaTemporal = true;
+						view = this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(SafeConfigurationBinnacleComponent)
+						);
+						break;
+					case'Safe.SafeConfigurationBinnacleEditComponent':
+						banderaTemporal = true;
+						view = this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(SafeConfigurationBinnacleEditComponent)
 						);
 						view.instance.catalogType = event.data;
 						view.changeDetectorRef.detectChanges();

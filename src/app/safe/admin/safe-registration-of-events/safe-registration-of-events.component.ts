@@ -17,6 +17,7 @@ import {EventMessage} from '../../../core/models/EventMessage';
 import {EventBlocked} from '../../../core/models/EventBlocked';
 import {EventService} from '../../../core/services/event.service';
 import {BinnacleService} from '../../services/binnacle.service';
+import {BinnacleEventConfigurationDTO} from '../../models/binnacle-event-configuration-dto';
 
 @Component({
 	selector: 'app-safe-registration-of-events',
@@ -24,15 +25,32 @@ import {BinnacleService} from '../../services/binnacle.service';
 	styleUrls: ['./safe-registration-of-events.component.scss']
 })
 export class SafeRegistrationOfEventsComponent implements OnInit {
+	templateConfiguration: BinnacleEventConfigurationDTO;
 	formobservationsComments: FormGroup;
 	fileUploadForm: FormGroup;
 	formNewEvent: FormGroup;
 
 	lstEventClassification: IdLabel[] = [];
 	lstEventClassificationDTO: Array<MaestroOpcionDTO>;
-	lstFuels: IdLabel[] = [];
 	lstEventsDTO: Array<MaestroOpcionDTO>;
 	lstEvents: IdLabel[] = [];
+
+	lstFuelsAll: IdLabel[] = [];
+	lstUnitsAll: IdLabel[] = [];
+	lstImpactContractsAll: IdLabel[] = [];
+	lstRealsCcdvAll: IdLabel[] = [];
+	lstToleranceBandsAll: IdLabel[] = [];
+	lstMarketTypesAll: IdLabel[] = [];
+	lstSelatedServicesAll: IdLabel[] = [];
+	lstEquipmentAll: IdLabel[] = [];
+	lstWorkOrderAll: IdLabel[] = [];
+	lstOperatorPlantOpenAll: IdLabel[] = [];
+	lstOperatorPlantCloseAll: IdLabel[] = [];
+	lstSourceEventAll: IdLabel[] = [];
+	lstEventStatusAll: IdLabel[] = [];
+	lstApprovalStatusAll: IdLabel[] = [];
+
+	lstFuels: IdLabel[] = [];
 	lstUnits: IdLabel[] = [];
 	lstImpactContracts: IdLabel[] = [];
 	lstRealsCcdv: IdLabel[] = [];
@@ -67,8 +85,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		'sys_delete',
 	];
 	tableObservationsCommentsSelection: SelectionModel<any> = new SelectionModel<any>(true, []);
-
-
 	progress;
 	constructor(
 		private formBuilder: FormBuilder,
@@ -83,7 +99,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 
 
 	ngOnInit() {
-
 		this.loadCatalog();
 		this.fileUploadForm = this.formBuilder.group({
 			file: new FormControl(null, [Validators.required, requiredFileType('zip')]),
@@ -98,22 +113,22 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				dateTimeEnd   : [{ value: null, disabled: false }, Validators.required],
 				eventsClassificationId   : [{ value: null, disabled: false }, Validators.required],
 				eventsId: [{ value: null, disabled: false }, Validators.required],
-				fuelsId : [{ value: null, disabled: false }, Validators.required],
-				powerMw: [{ value: null, disabled: false }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
-				unitsId: [{ value: null, disabled: false }, Validators.required],
-				impactContractsId: [{ value: null, disabled: false }, Validators.required],
-				realsCcdvId: [{ value: null, disabled: false }, Validators.required],
-				toleranceBandsId: [{ value: null, disabled: false }, Validators.required],
-				marketTypesId: [{ value: null, disabled: false }, Validators.required],
-				mwOffered: [{ value: null, disabled: false }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
-				relatedServicesId: [{ value: null, disabled: false }, Validators.required],
-				licenseNumber: [{ value: null, disabled: false }, [Validators.required]],
-				equipmentId: [{ value: null, disabled: false }, Validators.required],
-				initialCharge: [{ value: null, disabled: false }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
-				finalCharge: [{ value: null, disabled: false }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
-				mwPowerLoss: [{ value: null, disabled: false }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
-				workOrderId: [{ value: null, disabled: false }, Validators.required],
-				licenseDescription: [{ value: null, disabled: false }, [Validators.required,Validators.minLength(4),Validators.maxLength(2000)]],
+				fuelsId : [{ value: null, disabled: true }, Validators.required],
+				powerMw: [{ value: null, disabled: true }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
+				unitsId: [{ value: null, disabled: true }, Validators.required],
+				impactContractsId: [{ value: null, disabled: true }, Validators.required],
+				realsCcdvId: [{ value: null, disabled: true }, Validators.required],
+				toleranceBandsId: [{ value: null, disabled: true }, Validators.required],
+				marketTypesId: [{ value: null, disabled: true }, Validators.required],
+				mwOffered: [{ value: null, disabled: true }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
+				relatedServicesId: [{ value: null, disabled: true }, Validators.required],
+				licenseNumber: [{ value: null, disabled: true }, [Validators.required]],
+				equipmentId: [{ value: null, disabled: true }, Validators.required],
+				initialCharge: [{ value: null, disabled: true }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
+				finalCharge: [{ value: null, disabled: true }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
+				mwPowerLoss: [{ value: null, disabled: true }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
+				workOrderId: [{ value: null, disabled: true }, Validators.required],
+				licenseDescription: [{ value: null, disabled: true }, [Validators.required,Validators.minLength(4),Validators.maxLength(2000)]],
 				operatorPlantOpen: [{ value: null, disabled: false }, Validators.required],
 				operatorCenaceOpen: [{ value: null, disabled: false }, Validators.required],
 				operatorPlantClose: [{ value: null, disabled: false }, Validators.required],
@@ -131,18 +146,172 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	}
 	getTableObservationsCommentsSelectionChecked() {
 		const seleccionados = this.tableObservationsCommentsSelection.selected;
-		console.log(seleccionados);
 	}
 
 	loadSelect(selectCombo: Array<any>, catalog: Array<MaestroOpcionDTO>) {
-		catalog.forEach((element: MaestroOpcionDTO ) => {
-			selectCombo.push({id: element.maestroOpcionId, label: element.opcion.codigo, maestroOpcionId: element.maestroOpcionId});
-		});
+		if (catalog !== null) {
+			catalog.forEach((element: MaestroOpcionDTO) => {
+				selectCombo.push({id: element.maestroOpcionId, label: element.opcion.codigo, maestroOpcionId: element.maestroOpcionId});
+			});
+		}
 	}
+
+	loadSelectTemplate(selectCombo: Array<any>, opciones: Array<number>) {
+		const listPaso = [];
+		if (opciones !== null) {
+			opciones.forEach(option => {
+				selectCombo.forEach( element => {
+					if (element.id === option) {
+						listPaso.push(element);
+					}
+				});
+			});
+		}
+		return listPaso;
+	}
+
 	onBuildEventAssociated(event) {
 		this.lstEvents = [];
 		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === event.value));
 	}
+	onBuildTemplate(event) {
+		this.binnacleService.obtenTemplate(event.value).subscribe(
+			(data: BinnacleEventConfigurationDTO) => {
+				this.templateConfiguration = data;
+
+				console.log(this.templateConfiguration.disabledFuelsId);
+				if (this.templateConfiguration.disabledFuelsId) {
+					this.formNewEvent.controls.fuelsId.disable();
+				} else {
+					this.formNewEvent.controls.fuelsId.enable();
+				}
+				this.lstFuels = this.loadSelectTemplate(this.lstFuelsAll, this.templateConfiguration.fuelsId);
+
+				if (this.templateConfiguration.disabledConceptoLicencia) {
+					this.formNewEvent.controls.licenseDescription.disable();
+				} else {
+					this.formNewEvent.controls.licenseDescription.enable();
+				}
+				if (this.templateConfiguration.conceptoLicencia !==  null) {
+					this.formNewEvent.controls.licenseDescription.value(this.templateConfiguration.conceptoLicencia);
+				}
+
+				if (this.templateConfiguration.disabledEquipmentId) {
+					this.formNewEvent.controls.equipmentId.disable();
+				} else {
+					this.formNewEvent.controls.equipmentId.enable();
+				}
+				this.lstEquipment = this.loadSelectTemplate(this.lstEquipmentAll, this.templateConfiguration.equipmentId);
+
+				if (this.templateConfiguration.disabledFinalCharge) {
+					this.formNewEvent.controls.finalCharge.disable();
+				} else {
+					this.formNewEvent.controls.finalCharge.enable();
+				}
+				if (this.templateConfiguration.finalCharge !==  null) {
+					this.formNewEvent.controls.finalCharge.value(this.templateConfiguration.finalCharge);
+				}
+
+				if (this.templateConfiguration.disabledInitialCharge) {
+					this.formNewEvent.controls.initialCharge.disable();
+				} else {
+					this.formNewEvent.controls.initialCharge.enable();
+				}
+				if (this.templateConfiguration.initialCharge !==  null) {
+					this.formNewEvent.controls.initialCharge.value(this.templateConfiguration.initialCharge);
+				}
+
+				if (this.templateConfiguration.disabledImpactContractsId) {
+					this.formNewEvent.controls.impactContractsId.disable();
+				} else {
+					this.formNewEvent.controls.impactContractsId.enable();
+				}
+				this.lstEquipment = this.loadSelectTemplate(this.lstEquipmentAll, this.templateConfiguration.impactContractsId);
+
+				if (this.templateConfiguration.disabledLicenseNumber) {
+					this.formNewEvent.controls.licenseNumber.disable();
+				} else {
+					this.formNewEvent.controls.licenseNumber.enable();
+				}
+				if (this.templateConfiguration.licenseNumber !==  null) {
+					this.formNewEvent.controls.licenseNumber.value(this.templateConfiguration.licenseNumber);
+				}
+
+				if (this.templateConfiguration.disabledMarketTypesId) {
+					this.formNewEvent.controls.marketTypesId.disable();
+				} else {
+					this.formNewEvent.controls.marketTypesId.enable();
+				}
+				this.lstMarketTypes = this.loadSelectTemplate(this.lstMarketTypesAll, this.templateConfiguration.marketTypesId);
+
+				if (this.templateConfiguration.disabledMwOffered) {
+					this.formNewEvent.controls.mwOffered.disable();
+				} else {
+					this.formNewEvent.controls.mwOffered.enable();
+				}
+				if (this.templateConfiguration.mwOffered !==  null) {
+					this.formNewEvent.controls.mwOffered.value(this.templateConfiguration.mwOffered);
+				}
+
+				if (this.templateConfiguration.disabledMwPowerLoss) {
+					this.formNewEvent.controls.mwPowerLoss.disable();
+				} else {
+					this.formNewEvent.controls.mwPowerLoss.enable();
+				}
+				if (this.templateConfiguration.mwPowerLoss !==  null) {
+					this.formNewEvent.controls.mwPowerLoss.value(this.templateConfiguration.mwPowerLoss);
+				}
+
+				if (this.templateConfiguration.disabledPowerMw) {
+					this.formNewEvent.controls.powerMw.disable();
+				} else {
+					this.formNewEvent.controls.powerMw.enable();
+				}
+				if (this.templateConfiguration.powerMw !==  null) {
+					this.formNewEvent.controls.powerMw.value(this.templateConfiguration.powerMw);
+				}
+
+				if (this.templateConfiguration.disabledRealsCcdvId) {
+					this.formNewEvent.controls.realsCcdvId.disable();
+				} else {
+					this.formNewEvent.controls.realsCcdvId.enable();
+				}
+				this.lstRealsCcdv = this.loadSelectTemplate(this.lstRealsCcdvAll, this.templateConfiguration.realsCcdvId);
+
+				if (this.templateConfiguration.disabledRelatedServicesId) {
+					this.formNewEvent.controls.relatedServicesId.disable();
+				} else {
+					this.formNewEvent.controls.relatedServicesId.enable();
+				}
+				this.lstSelatedServices = this.loadSelectTemplate(this.lstSelatedServicesAll, this.templateConfiguration.relatedServicesId);
+
+				if (this.templateConfiguration.disabledToleranceBandsId) {
+					this.formNewEvent.controls.toleranceBandsId.disable();
+				} else {
+					this.formNewEvent.controls.toleranceBandsId.enable();
+				}
+				this.lstToleranceBands = this.loadSelectTemplate(this.lstToleranceBandsAll, this.templateConfiguration.toleranceBandsId);
+
+				console.log(this.templateConfiguration.disabledUnitsId);
+				if (this.templateConfiguration.disabledUnitsId) {
+					this.formNewEvent.controls.unitsId.disable();
+				} else {
+					this.formNewEvent.controls.unitsId.enable();
+				}
+				this.lstUnits = this.loadSelectTemplate(this.lstUnitsAll, this.templateConfiguration.unitsId);
+
+				if (this.templateConfiguration.disabledWorkOrderId) {
+					this.formNewEvent.controls.workOrderId.disable();
+				} else {
+					this.formNewEvent.controls.workOrderId.enable();
+				}
+				this.lstWorkOrder = this.loadSelectTemplate(this.lstWorkOrderAll, this.templateConfiguration.workOrderId);
+			},
+			errorData => {
+				this.toastr.errorToastr(errorData.error.message, 'Error!');
+			});
+	}
+
 
 	loadCatalog() {
 		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL/CCDV', 'BANDA TOLERANCIA',
@@ -151,19 +320,18 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			this.loadSelect(this.lstEventClassification, data['CLASIFICA EVENTO']);
 			this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
 			this.lstEventsDTO = data['EVENTO'];
-			this.loadSelect(this.lstFuels, data['COMBUSTIBLE']);
-			this.loadSelect(this.lstUnits, data['UNIDAD']);
-			this.loadSelect(this.lstImpactContracts, data['CONTRATO IMPACTADO']);
-			this.loadSelect(this.lstRealsCcdv, data['REAL/CCDV']);
-			this.loadSelect(this.lstToleranceBands, data['BANDA TOLERANCIA']);
-			this.loadSelect(this.lstMarketTypes, data['TIPO MERCADO MEM']);
-			this.loadSelect(this.lstSelatedServices, data['SERVICIOS CONEXOS MEM']);
-			this.loadSelect(this.lstEquipment, data['EQUIPO']);
-			this.loadSelect(this.lstWorkOrder, data['ORDEN TRABAJO']);
+			this.loadSelect(this.lstFuelsAll, data['COMBUSTIBLE']);
+			this.loadSelect(this.lstUnitsAll, data['UNIDAD']);
+			this.loadSelect(this.lstImpactContractsAll, data['CONTRATO IMPACTADO']);
+			this.loadSelect(this.lstRealsCcdvAll, data['REAL/CCDV']);
+			this.loadSelect(this.lstToleranceBandsAll, data['BANDA TOLERANCIA']);
+			this.loadSelect(this.lstMarketTypesAll, data['TIPO MERCADO MEM']);
+			this.loadSelect(this.lstSelatedServicesAll, data['SERVICIOS CONEXOS MEM']);
+			this.loadSelect(this.lstEquipmentAll, data['EQUIPO']);
+			this.loadSelect(this.lstWorkOrderAll, data['ORDEN TRABAJO']);
 		});
 	}
 	onSubmitFormNewEvent(v) {
-		console.dir(v);
 		const casas = moment(v.datetimelocal);
 		const dsa = casas.format('YYYY-MM-DD HH:mm:ss');
 		this.addBlock(1, '');
@@ -212,7 +380,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.tableObservationsComments = this.tableObservationsComments.filter(
 					e => e !== element
 				);
-				console.log(element);
 			}
 		})
 		.catch(() => {});
