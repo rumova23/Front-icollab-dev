@@ -346,7 +346,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			});
 	}
 	btnClickBack() {
-		this.toastr.successToastr('btnClickBack', 'Seleccionaste');
 	}
 	BtnAddObservationsComments() {
 		const observation = this.formobservationsComments.get('observationsComments').value;
@@ -360,14 +359,11 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	}
 
 	btnUploadFile() {
-		this.toastr.successToastr('btnUploadFile', 'Seleccionaste');
 		const file = this.fileUploadForm.get('file').value;
 	}
 	btnFinish() {
-		this.toastr.successToastr('btnFinish', 'Seleccionaste');
 	}
 	tableRowEdit(element) {
-		this.toastr.successToastr('tableRowEdit', 'Seleccionaste');
 	}
 	tableRowDelete(element) {
 		this.confirmationDialogService.confirm(
@@ -376,7 +372,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		)
 		.then((confirmed) => {
 			if ( confirmed ) {
-				this.toastr.successToastr('table Row Delete', 'Seleccionaste');
 				this.tableObservationsComments = this.tableObservationsComments.filter(
 					e => e !== element
 				);
@@ -385,7 +380,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		.catch(() => {});
 	}
 	downloadFile() {
-		this.toastr.successToastr('downloadFile', 'Seleccionaste');
 	}
 	getNameUser() {
 		return this.securityService.getNameUser() + ' ' + this.securityService.getLastNameUser();

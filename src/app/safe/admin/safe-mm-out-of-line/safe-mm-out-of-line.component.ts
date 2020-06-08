@@ -66,13 +66,11 @@ export class SafeMmOutOfLineComponent implements OnInit {
 		const month = d.month() + 1;
 		const year = d.year();
 		const date = d.format('MM/yyyy');
-		this.toastr.successToastr(date, 'Seleccionaste');
 	}
 	clickBtn1raCorrida() {
 		this.aplicarModeloPrimerTiempo();
 	}
 	clickBtn2daCorrida() {
-		this.toastr.successToastr("clickBtn2daCorrida", 'Seleccionaste');
 	}
 	tableRowDelete(element) {
 		this.confirmationDialogService.confirm(
@@ -81,14 +79,12 @@ export class SafeMmOutOfLineComponent implements OnInit {
 		)
 			.then((confirmed) => {
 				if (confirmed) {
-					this.toastr.successToastr('table Row Delete', 'Seleccionaste');
 					console.log(element);
 				}
 			})
 			.catch(() => { });
 	}
 	clickBtnDownloadMM() {
-		this.toastr.successToastr('Descarga de Modelo Matematico Fuera de Línea', 'Seleccionaste');
 	}
 
 

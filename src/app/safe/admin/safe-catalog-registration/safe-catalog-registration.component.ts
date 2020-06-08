@@ -37,7 +37,7 @@ export class SafeCatalogRegistrationComponent implements OnInit {
 		'sys_edit',
 		'sys_delete',
 	];
-	tableRowPage = [50,100,150,200];
+	tableRowPage = [5,10,20,50, 100, 250, 500];
 	constructor(
 		private masterCatalogService: MasterCatalogService,
 		private eventService: EventService,
@@ -105,7 +105,6 @@ export class SafeCatalogRegistrationComponent implements OnInit {
 		)
 		.then((confirmed) => {
 			if ( confirmed ) {
-				this.toastr.successToastr('table Row Delete', 'Seleccionaste');
 				console.log(element);
 			}
 		})

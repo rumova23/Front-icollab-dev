@@ -27,8 +27,8 @@
 				<app-mat-input-text 
 					[formGroup]="genericOpcionForm" 
 					controlName="codigo" 
-					label="Codigo" 
-					maxLength="120"
+					label="Name" 
+					maxLength="60"
 				></app-mat-input-text>
 			</div>
 		</div>
@@ -47,7 +47,7 @@
 				<div class="form-group">
 					<label>{{'Item Status' | translate}}:</label><br>
 					<!--mat-checkbox color="primary" formControlName="activo">{{'Active'|translate}}</mat-checkbox-->
-					<mat-checkbox color="primary" >{{'Active'|translate}}</mat-checkbox>
+					<mat-checkbox color="primary" [checked]="true">{{'Active'|translate}}</mat-checkbox>
 				</div>
 			</div>
 		</div>

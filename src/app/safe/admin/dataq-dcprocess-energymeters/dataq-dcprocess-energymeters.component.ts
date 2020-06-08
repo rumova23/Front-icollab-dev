@@ -29,11 +29,17 @@ export class DataqDcprocessEnergymetersComponent implements OnInit {
 		'user',
 		'dateUpdated',
 		'status',
-		'sys_see',
-		'sys_edit',
 		'sys_delete'
 	];
-	tableRow_x_page = [50, 100, 150, 200];
+	tableRow_x_page = [5,10,20,50, 100, 250, 500];
+	tablaColumnsLabels = [
+		{ key: 'order', label: '#' },
+		{ key: 'dateOpCom', label: 'Fecha de Operación Comercial' },
+		{ key: 'process', label: 'Proceso' },
+		{ key: 'user', label: 'Usuario' },
+		{ key: 'dateUpdated', label: 'Date and Time last modified'},
+		{ key: 'status', label: 'Estatus del Proceso' }
+	];
 	maxDate: Date;
 	buttonDetected=false;
 	buttonCorrected=false;
@@ -62,7 +68,6 @@ export class DataqDcprocessEnergymetersComponent implements OnInit {
 		const month = d.month() + 1;
 		const year = d.year();
 		const date = d.format('MM/yyyy');
-		this.toastr.successToastr(date, 'Seleccionaste');
 	}
 	onBtnApDeteccion() {
 		this.aplicarDeteccionProcedimiento();
@@ -73,10 +78,8 @@ export class DataqDcprocessEnergymetersComponent implements OnInit {
 	onBtnDownload() {
 	}
 	tableRowEdit(element) {
-		this.toastr.successToastr('table Row Edite', 'Seleccionaste');
 	}
 	tableRowSee(element) {
-		this.toastr.successToastr('table Row See', 'Seleccionaste');
 	}
 	tableRowDelete(element) {
 		this.confirmationDialogService.confirm(
@@ -85,7 +88,6 @@ export class DataqDcprocessEnergymetersComponent implements OnInit {
 		)
 			.then((confirmed) => {
 				if (confirmed) {
-					this.toastr.successToastr('table Row Delete', 'Seleccionaste');
 				}
 			})
 			.catch(() => { });

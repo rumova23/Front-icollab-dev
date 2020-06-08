@@ -38,7 +38,7 @@ export class SafeImportEventLogComponent implements OnInit {
 		'estatus',
 		'sys_delete'
 	];
-	tableRow_x_page = [50,100,150,200];
+	tableRow_x_page = [5,10,20,50, 100, 250, 500];
 	
 	fileUploadForm : FormGroup;
 
@@ -61,7 +61,6 @@ export class SafeImportEventLogComponent implements OnInit {
 		const month = d.month() + 1;
 		const year = d.year();
 		const date = d.format('MM/yyyy');
-		this.toastr.successToastr(date, 'Seleccionaste');
 	}
 	onTableRowDelete(element){
 		this.confirmationDialogService.confirm(
@@ -70,18 +69,15 @@ export class SafeImportEventLogComponent implements OnInit {
 		)
 		.then((confirmed) => {
 			if ( confirmed ) {
-				this.toastr.successToastr('table Row Delete', 'Seleccionaste');
 				console.log(element);
 			}
 		})
 		.catch(() => {});
 	}
 	clickBtnDownload(){
-		this.toastr.successToastr('clickBtnDownload', 'Seleccionaste');
 	}
 	
 	upload(value) {
-		this.toastr.successToastr("Upload File", 'Seleccionaste');
 
 		let typeVarhtml = this.fileUploadForm.controls.typeVarhtml.value || '';
 		let date:Moment = this.fileUploadForm.controls.date.value;

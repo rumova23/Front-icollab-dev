@@ -44,7 +44,7 @@ export class SafeppaSupervisionStationComponent implements OnInit {
     displayedColumnsOrder: any[]    = [];
     displayedColumnsActions: any[]    = [];
     columnsToDisplay: string[] = [];
-	row_x_page           = [50, 100, 250, 500];
+	row_x_page           = [5,10,20,50, 100, 250, 500];
     showAdd = true;
     showView = false;
     showUpdate = false;

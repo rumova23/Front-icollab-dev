@@ -15,7 +15,7 @@
 
 	<div class="row pb-2">
 		<div class="col">
-			<p class="section_titulo_0">{{ 'Detection and Correction' | translate }} {{'of'|translate}} {{'Fiscal Meters'|translate}} </p>
+			<p class="section_titulo_0">Detección y Corrección de Formato de Medidores Fiscales</p>
 			<p class="section_subtitulo_0"></p>
 		</div>
 	</div>
@@ -60,6 +60,7 @@
 			<app-mat-table
 				[data]="tableData"
 				[columnsDisplay]="tableColumnsDisplay"
+				[columnsLabels]="tablaColumnsLabels"
 				[row_x_page]="tableRow_x_page"
 				(clickSee)="tableRowSee($event)"
 				(clickEdit)="tableRowEdit($event)"

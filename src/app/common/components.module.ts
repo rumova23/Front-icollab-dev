@@ -35,7 +35,6 @@ import { MatInputTextAutocompleteComponent } from './inputs/mat-input-text-autoc
 import { MatInputDatepickerYearAndMonthComponent } from './inputs/mat-input-datepicker-year-and-month/mat-input-datepicker-year-and-month.component';
 import { MatTableComponent } from './tables/mat-table/mat-table.component';
 import { BtnBlockGraphComponent } from './btn/btn-block/btn-block-graph.component';
-import { InputTextComponent } from './inputs/input-text/input-text.component';
 import { MatSelectComponent } from './inputs/mat-select/mat-select.component';
 import { MatSelectMultipleComponent } from './inputs/mat-select-multiple/mat-select-multiple.component';
 import { BtnBlockAddComponent } from './btn/btn-block/btn-block-add.component';
@@ -70,7 +69,6 @@ import { BtnBlockDownloadLayoutComponent } from './btn/btn-block/btn-block-downl
 		, MatInputDatepickerYearAndMonthComponent
 		, MatTableComponent
 		, BtnBlockGraphComponent
-		, InputTextComponent
 		, MatSelectComponent
 		, MatSelectMultipleComponent
 		, BtnBlockAddComponent
@@ -105,7 +103,6 @@ import { BtnBlockDownloadLayoutComponent } from './btn/btn-block/btn-block-downl
 		, MatInputDatepickerYearAndMonthComponent
 		, MatTableComponent
 		, BtnBlockGraphComponent
-		, InputTextComponent
 		, MatSelectComponent
 		, MatSelectMultipleComponent
 		, BtnBlockAddComponent

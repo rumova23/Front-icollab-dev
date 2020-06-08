@@ -170,13 +170,10 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 
   }
   btnClickBack() {
-    this.toastr.successToastr('btnClickBack', 'Seleccionaste');
   }
   btnFinish() {
-    this.toastr.successToastr('btnFinish', 'Seleccionaste');
   }
   tableRowEdit(element) {
-    this.toastr.successToastr('tableRowEdit', 'Seleccionaste');
   }
   getNameUser() {
     return this.securityService.getNameUser() + ' ' + this.securityService.getLastNameUser();

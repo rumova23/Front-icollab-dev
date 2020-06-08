@@ -308,7 +308,6 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		)
 		.then((confirmed) => {
 			if ( confirmed ) {
-				this.toastr.successToastr('table Row Delete', 'Seleccionaste');
 				console.log(element);
 			}
 		})

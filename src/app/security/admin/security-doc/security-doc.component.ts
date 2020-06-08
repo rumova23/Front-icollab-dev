@@ -78,15 +78,12 @@ export class SecurityDocComponent implements OnInit {
 	}
 	
 	tableRowDelete(element){
-		this.toastr.successToastr('table Row Delete', 'Seleccionaste');
 		console.log(element);
 	}
 	tableRowSee(element){
-		this.toastr.successToastr('table Row See', 'Seleccionaste');
 		console.log(element);
 	}
 	tableRowEdit(element){
-		this.toastr.successToastr('table Row Edit', 'Seleccionaste');
 		console.log(element);
 	}
 }

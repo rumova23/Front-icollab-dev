@@ -189,12 +189,17 @@
 				></app-mat-input-number>
 			</div>
 			<div class="col-3">
-				<app-mat-select
+				<!--app-mat-select
 					[formGroup]="formNewEvent"
 					controlName="workOrderId"
 					[options]="lstWorkOrder"
 					label="Orden de Trabajo"
-				></app-mat-select>
+				></app-mat-select-->
+				<app-mat-input-text
+					[formGroup]="formNewEvent"
+					controlName="workOrderId"
+					label="Orden de Trabajo"
+				></app-mat-input-text>
 			</div>
 			<div class="w-100"></div>
 			<div class="col">
@@ -371,8 +376,8 @@
 						<div class="col-12 col-lg-3">
 							<app-btn-block-back (click)="btnClickBack()"></app-btn-block-back>
 						</div>
-						<div class="col-12 col-lg-3">
-							<app-btn-block-save mytype="submit"></app-btn-block-save>
+						<div class="col-12 col-lg-6">
+							<app-btn-block-save-update mytype="submit"></app-btn-block-save-update>
 						</div>
 						<div class="col-12 col-lg-3">
 							<app-btn-block-finish (click)="btnFinish()"></app-btn-block-finish>

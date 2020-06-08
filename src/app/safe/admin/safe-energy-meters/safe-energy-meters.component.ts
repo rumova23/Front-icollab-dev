@@ -108,29 +108,23 @@ export class SafeEnergyMetersComponent implements OnInit {
 	}
 	onChangeSelectFuente(e:MatSelectChange){
 		this.isManualLoad = e.value == '4' ? true:false;
-		this.toastr.successToastr(e.source.triggerValue, 'Seleccionaste');
 	}
 	onChangeDatePicker(d: Moment) {
 		const month = d.month() + 1;
 		const year = d.year();
 		const date = d.format('MM/yyyy');
-		this.toastr.successToastr(date, 'Seleccionaste');
 	}
 	onChangeSelectVariables(e){
 
 	}
 	clickBtnChart(){
-		this.toastr.successToastr("clickBtnChart", 'Seleccionaste');
 	}
 	clickBtnDownloadChart(){
-		this.toastr.successToastr("clickBtnDownloadChart", 'Seleccionaste');
 	}
 	clickBtnImportFromDate(){
 		console.log(this.fileUploadForm.value);
-		this.toastr.successToastr("clickBtnImportFromDate", 'Seleccionaste');
 	}
 	clickBtnDowloadImport(){
-		this.toastr.successToastr("clickBtnDowloadImport", 'Seleccionaste');
 	}
 
 	upload(value) {
@@ -175,7 +169,6 @@ export class SafeEnergyMetersComponent implements OnInit {
 		)
 		.then((confirmed) => {
 			if ( confirmed ) {
-				this.toastr.successToastr('table Row Delete', 'Seleccionaste');
 				console.log(element);
 			}
 		})
