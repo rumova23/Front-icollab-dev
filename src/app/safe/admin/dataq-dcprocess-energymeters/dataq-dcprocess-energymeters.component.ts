@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
+import {saveAs} from 'file-saver';
 
 @Component({
 	selector: 'app-dataq-dcprocess-energymeters',
@@ -74,8 +75,6 @@ export class DataqDcprocessEnergymetersComponent implements OnInit {
 	}
 	onBtnApCorreccion() {
 		this.aplicarCorrecionProcedimiento();
-	}
-	onBtnDownload() {
 	}
 	tableRowEdit(element) {
 	}
@@ -147,5 +146,44 @@ export class DataqDcprocessEnergymetersComponent implements OnInit {
 	addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,
 			new EventBlocked(type, msg)));
+	}
+
+	download() {
+		const mydate = this.formQuery.get('date').value;
+		const month = mydate.month() + 1;
+		const year = mydate.year();
+		this.addBlock(1, 'Bajando  crudos CSV ' + year + '/' + month + ': Generando');
+		this.ppaMonitoringFormatService.downloadCrudosProfileExcel(year, month)
+			.subscribe(
+				data => {
+					const blob = new Blob([this.base64toBlob(data.base64,
+						'application/CSV')], {});
+					saveAs(blob, data.nameFile);
+					this.addBlock(2, '');
+					this.toastr.successToastr('Download File: Correctamente ' + year + '/' + month + ': Generado Correctamente', '¡Exito!');
+				},
+				errorData => {
+					this.addBlock(2, '');
+					this.toastr.errorToastr(errorData.error.message, '¡Error!');
+				});
+	}
+
+	base64toBlob(base64Data, contentType) {
+		contentType = contentType || '';
+		const sliceSize = 1024;
+		const byteCharacters = atob(base64Data);
+		const bytesLength = byteCharacters.length;
+		const slicesCount = Math.ceil(bytesLength / sliceSize);
+		const byteArrays = new Array(slicesCount);
+		for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+			const begin = sliceIndex * sliceSize;
+			const end = Math.min(begin + sliceSize, bytesLength);
+			const bytes = new Array(end - begin);
+			for (let offset = begin, i = 0; offset < end; ++i, ++offset) {
+				bytes[i] = byteCharacters[offset].charCodeAt(0);
+			}
+			byteArrays[sliceIndex] = new Uint8Array(bytes);
+		}
+		return new Blob(byteArrays, { type: contentType });
 	}
 }

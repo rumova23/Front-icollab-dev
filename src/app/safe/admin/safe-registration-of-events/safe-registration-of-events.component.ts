@@ -175,137 +175,141 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === event.value));
 	}
 	onBuildTemplate(event) {
+		console.dir(event);
 		this.binnacleService.obtenTemplate(event.value).subscribe(
 			(data: BinnacleEventConfigurationDTO) => {
-				this.templateConfiguration = data;
+				console.dir(data);
+				if (data !== null) {
+					this.templateConfiguration = data;
+					if (this.templateConfiguration.disabledFuelsId) {
+						this.formNewEvent.controls.fuelsId.disable();
+					} else {
+						this.formNewEvent.controls.fuelsId.enable();
+					}
+					this.lstFuels = this.loadSelectTemplate(this.lstFuelsAll, this.templateConfiguration.fuelsId);
 
-				console.log(this.templateConfiguration.disabledFuelsId);
-				if (this.templateConfiguration.disabledFuelsId) {
-					this.formNewEvent.controls.fuelsId.disable();
-				} else {
-					this.formNewEvent.controls.fuelsId.enable();
-				}
-				this.lstFuels = this.loadSelectTemplate(this.lstFuelsAll, this.templateConfiguration.fuelsId);
+					if (this.templateConfiguration.disabledConceptoLicencia) {
+						this.formNewEvent.controls.licenseDescription.disable();
+					} else {
+						this.formNewEvent.controls.licenseDescription.enable();
+					}
+					if (this.templateConfiguration.conceptoLicencia !==  null) {
+						this.formNewEvent.controls.licenseDescription.value(this.templateConfiguration.conceptoLicencia);
+					}
 
-				if (this.templateConfiguration.disabledConceptoLicencia) {
-					this.formNewEvent.controls.licenseDescription.disable();
-				} else {
-					this.formNewEvent.controls.licenseDescription.enable();
-				}
-				if (this.templateConfiguration.conceptoLicencia !==  null) {
-					this.formNewEvent.controls.licenseDescription.value(this.templateConfiguration.conceptoLicencia);
-				}
+					if (this.templateConfiguration.disabledEquipmentId) {
+						this.formNewEvent.controls.equipmentId.disable();
+					} else {
+						this.formNewEvent.controls.equipmentId.enable();
+					}
+					this.lstEquipment = this.loadSelectTemplate(this.lstEquipmentAll, this.templateConfiguration.equipmentId);
 
-				if (this.templateConfiguration.disabledEquipmentId) {
-					this.formNewEvent.controls.equipmentId.disable();
-				} else {
-					this.formNewEvent.controls.equipmentId.enable();
-				}
-				this.lstEquipment = this.loadSelectTemplate(this.lstEquipmentAll, this.templateConfiguration.equipmentId);
+					if (this.templateConfiguration.disabledFinalCharge) {
+						this.formNewEvent.controls.finalCharge.disable();
+					} else {
+						this.formNewEvent.controls.finalCharge.enable();
+					}
+					if (this.templateConfiguration.finalCharge !==  null) {
+						this.formNewEvent.controls.finalCharge.value(this.templateConfiguration.finalCharge);
+					}
 
-				if (this.templateConfiguration.disabledFinalCharge) {
-					this.formNewEvent.controls.finalCharge.disable();
-				} else {
-					this.formNewEvent.controls.finalCharge.enable();
-				}
-				if (this.templateConfiguration.finalCharge !==  null) {
-					this.formNewEvent.controls.finalCharge.value(this.templateConfiguration.finalCharge);
-				}
+					if (this.templateConfiguration.disabledInitialCharge) {
+						this.formNewEvent.controls.initialCharge.disable();
+					} else {
+						this.formNewEvent.controls.initialCharge.enable();
+					}
+					if (this.templateConfiguration.initialCharge !==  null) {
+						this.formNewEvent.controls.initialCharge.value(this.templateConfiguration.initialCharge);
+					}
 
-				if (this.templateConfiguration.disabledInitialCharge) {
-					this.formNewEvent.controls.initialCharge.disable();
-				} else {
-					this.formNewEvent.controls.initialCharge.enable();
-				}
-				if (this.templateConfiguration.initialCharge !==  null) {
-					this.formNewEvent.controls.initialCharge.value(this.templateConfiguration.initialCharge);
-				}
+					if (this.templateConfiguration.disabledImpactContractsId) {
+						this.formNewEvent.controls.impactContractsId.disable();
+					} else {
+						this.formNewEvent.controls.impactContractsId.enable();
+					}
+					this.lstEquipment = this.loadSelectTemplate(this.lstEquipmentAll, this.templateConfiguration.impactContractsId);
 
-				if (this.templateConfiguration.disabledImpactContractsId) {
-					this.formNewEvent.controls.impactContractsId.disable();
-				} else {
-					this.formNewEvent.controls.impactContractsId.enable();
-				}
-				this.lstEquipment = this.loadSelectTemplate(this.lstEquipmentAll, this.templateConfiguration.impactContractsId);
+					if (this.templateConfiguration.disabledLicenseNumber) {
+						this.formNewEvent.controls.licenseNumber.disable();
+					} else {
+						this.formNewEvent.controls.licenseNumber.enable();
+					}
+					if (this.templateConfiguration.licenseNumber !==  null) {
+						this.formNewEvent.controls.licenseNumber.value(this.templateConfiguration.licenseNumber);
+					}
 
-				if (this.templateConfiguration.disabledLicenseNumber) {
-					this.formNewEvent.controls.licenseNumber.disable();
-				} else {
-					this.formNewEvent.controls.licenseNumber.enable();
-				}
-				if (this.templateConfiguration.licenseNumber !==  null) {
-					this.formNewEvent.controls.licenseNumber.value(this.templateConfiguration.licenseNumber);
-				}
+					if (this.templateConfiguration.disabledMarketTypesId) {
+						this.formNewEvent.controls.marketTypesId.disable();
+					} else {
+						this.formNewEvent.controls.marketTypesId.enable();
+					}
+					this.lstMarketTypes = this.loadSelectTemplate(this.lstMarketTypesAll, this.templateConfiguration.marketTypesId);
 
-				if (this.templateConfiguration.disabledMarketTypesId) {
-					this.formNewEvent.controls.marketTypesId.disable();
-				} else {
-					this.formNewEvent.controls.marketTypesId.enable();
-				}
-				this.lstMarketTypes = this.loadSelectTemplate(this.lstMarketTypesAll, this.templateConfiguration.marketTypesId);
+					if (this.templateConfiguration.disabledMwOffered) {
+						this.formNewEvent.controls.mwOffered.disable();
+					} else {
+						this.formNewEvent.controls.mwOffered.enable();
+					}
+					if (this.templateConfiguration.mwOffered !==  null) {
+						this.formNewEvent.controls.mwOffered.value(this.templateConfiguration.mwOffered);
+					}
 
-				if (this.templateConfiguration.disabledMwOffered) {
-					this.formNewEvent.controls.mwOffered.disable();
-				} else {
-					this.formNewEvent.controls.mwOffered.enable();
-				}
-				if (this.templateConfiguration.mwOffered !==  null) {
-					this.formNewEvent.controls.mwOffered.value(this.templateConfiguration.mwOffered);
-				}
+					if (this.templateConfiguration.disabledMwPowerLoss) {
+						this.formNewEvent.controls.mwPowerLoss.disable();
+					} else {
+						this.formNewEvent.controls.mwPowerLoss.enable();
+					}
+					if (this.templateConfiguration.mwPowerLoss !==  null) {
+						this.formNewEvent.controls.mwPowerLoss.value(this.templateConfiguration.mwPowerLoss);
+					}
 
-				if (this.templateConfiguration.disabledMwPowerLoss) {
-					this.formNewEvent.controls.mwPowerLoss.disable();
-				} else {
-					this.formNewEvent.controls.mwPowerLoss.enable();
-				}
-				if (this.templateConfiguration.mwPowerLoss !==  null) {
-					this.formNewEvent.controls.mwPowerLoss.value(this.templateConfiguration.mwPowerLoss);
-				}
+					if (this.templateConfiguration.disabledPowerMw) {
+						this.formNewEvent.controls.powerMw.disable();
+					} else {
+						this.formNewEvent.controls.powerMw.enable();
+					}
+					if (this.templateConfiguration.powerMw !==  null) {
+						this.formNewEvent.controls.powerMw.value(this.templateConfiguration.powerMw);
+					}
 
-				if (this.templateConfiguration.disabledPowerMw) {
-					this.formNewEvent.controls.powerMw.disable();
-				} else {
-					this.formNewEvent.controls.powerMw.enable();
-				}
-				if (this.templateConfiguration.powerMw !==  null) {
-					this.formNewEvent.controls.powerMw.value(this.templateConfiguration.powerMw);
-				}
+					if (this.templateConfiguration.disabledRealsCcdvId) {
+						this.formNewEvent.controls.realsCcdvId.disable();
+					} else {
+						this.formNewEvent.controls.realsCcdvId.enable();
+					}
+					this.lstRealsCcdv = this.loadSelectTemplate(this.lstRealsCcdvAll, this.templateConfiguration.realsCcdvId);
 
-				if (this.templateConfiguration.disabledRealsCcdvId) {
-					this.formNewEvent.controls.realsCcdvId.disable();
-				} else {
-					this.formNewEvent.controls.realsCcdvId.enable();
-				}
-				this.lstRealsCcdv = this.loadSelectTemplate(this.lstRealsCcdvAll, this.templateConfiguration.realsCcdvId);
+					if (this.templateConfiguration.disabledRelatedServicesId) {
+						this.formNewEvent.controls.relatedServicesId.disable();
+					} else {
+						this.formNewEvent.controls.relatedServicesId.enable();
+					}
+					this.lstSelatedServices = this.loadSelectTemplate(this.lstSelatedServicesAll, this.templateConfiguration.relatedServicesId);
 
-				if (this.templateConfiguration.disabledRelatedServicesId) {
-					this.formNewEvent.controls.relatedServicesId.disable();
-				} else {
-					this.formNewEvent.controls.relatedServicesId.enable();
-				}
-				this.lstSelatedServices = this.loadSelectTemplate(this.lstSelatedServicesAll, this.templateConfiguration.relatedServicesId);
+					if (this.templateConfiguration.disabledToleranceBandsId) {
+						this.formNewEvent.controls.toleranceBandsId.disable();
+					} else {
+						this.formNewEvent.controls.toleranceBandsId.enable();
+					}
+					this.lstToleranceBands = this.loadSelectTemplate(this.lstToleranceBandsAll, this.templateConfiguration.toleranceBandsId);
 
-				if (this.templateConfiguration.disabledToleranceBandsId) {
-					this.formNewEvent.controls.toleranceBandsId.disable();
-				} else {
-					this.formNewEvent.controls.toleranceBandsId.enable();
-				}
-				this.lstToleranceBands = this.loadSelectTemplate(this.lstToleranceBandsAll, this.templateConfiguration.toleranceBandsId);
+					console.log(this.templateConfiguration.disabledUnitsId);
+					if (this.templateConfiguration.disabledUnitsId) {
+						this.formNewEvent.controls.unitsId.disable();
+					} else {
+						this.formNewEvent.controls.unitsId.enable();
+					}
+					this.lstUnits = this.loadSelectTemplate(this.lstUnitsAll, this.templateConfiguration.unitsId);
 
-				console.log(this.templateConfiguration.disabledUnitsId);
-				if (this.templateConfiguration.disabledUnitsId) {
-					this.formNewEvent.controls.unitsId.disable();
+					if (this.templateConfiguration.disabledWorkOrderId) {
+						this.formNewEvent.controls.workOrderId.disable();
+					} else {
+						this.formNewEvent.controls.workOrderId.enable();
+					}
+					this.lstWorkOrder = this.loadSelectTemplate(this.lstWorkOrderAll, this.templateConfiguration.workOrderId);
 				} else {
-					this.formNewEvent.controls.unitsId.enable();
+					this.toastr.warningToastr('El template para el evento: ' + event.label  + ': Aun no es Configurado.', 'Advertencia!');
 				}
-				this.lstUnits = this.loadSelectTemplate(this.lstUnitsAll, this.templateConfiguration.unitsId);
-
-				if (this.templateConfiguration.disabledWorkOrderId) {
-					this.formNewEvent.controls.workOrderId.disable();
-				} else {
-					this.formNewEvent.controls.workOrderId.enable();
-				}
-				this.lstWorkOrder = this.loadSelectTemplate(this.lstWorkOrderAll, this.templateConfiguration.workOrderId);
 			},
 			errorData => {
 				this.toastr.errorToastr(errorData.error.message, 'Error!');
