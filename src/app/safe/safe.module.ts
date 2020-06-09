@@ -119,6 +119,9 @@ import { SafeProcedureDetectionAndCorrectionV2Component } from './admin/safe-pro
 import {SafeListBinnacleEventsComponent} from './admin/safe-import-event-log/safe-list-binnacle-events/safe-list-binnacle-events.component';
 import {SafeConfigurationBinnacleComponent} from './admin/safe-configuration-binnacle/safe-configuration-binnacle.component';
 import {SafeConfigurationBinnacleEditComponent} from './admin/safe-configuration-binnacle/safe-configuration-binnacle-edit/safe-configuration-binnacle-edit.component';
+import { MiningIFIFinancialChartComponent } from './admin/mining-if-i-financial/mining-ififinancial-chart/mining-ififinancial-chart.component';
+import { MiningIFIEconomicproposalChartComponent } from './admin/mining-if-i-economicproposal/mining-ifieconomicproposal-chart/mining-ifieconomicproposal-chart.component';
+import { MiningIFISalaryincreaseChartComponent } from './admin/mining-if-i-salaryincrease/mining-ifisalaryincrease-chart/mining-ifisalaryincrease-chart.component';
 
 @NgModule({
     declarations: [
@@ -193,7 +196,10 @@ import {SafeConfigurationBinnacleEditComponent} from './admin/safe-configuration
         SafeListBinnacleEventsComponent,
         SafeConfigurationBinnacleComponent,
         SafeConfigurationBinnacleComponent,
-        SafeConfigurationBinnacleEditComponent
+        SafeConfigurationBinnacleEditComponent,
+        MiningIFIFinancialChartComponent,
+        MiningIFIEconomicproposalChartComponent,
+        MiningIFISalaryincreaseChartComponent
     ],
     exports: [],
     imports: [

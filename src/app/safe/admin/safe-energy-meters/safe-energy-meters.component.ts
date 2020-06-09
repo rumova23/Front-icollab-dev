@@ -45,7 +45,7 @@ export class SafeEnergyMetersComponent implements OnInit {
 		'estatus',
 		'sys_delete'
 	];
-	tableRow_x_page = [5,10];
+	tableRow_x_page = [5,10,20,50, 100, 250, 500];
 
 	selectOptionsFuente : IdLabel[] = [
 		{id:"1",label:'FileZilla FTP'},

@@ -30,6 +30,7 @@ export class MatTableComponent implements OnInit , OnChanges {
 	@Input() columnsDisplay: string[] = [];
 	@Input() row_x_page = [5,10,20,50, 100, 250, 500];
 	@Input() labelColIndex : string = '#';
+	@Input() showPagination: boolean = true;
 
 	constructor() { }
 
