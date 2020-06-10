@@ -107,13 +107,17 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	date = new FormControl(moment());
 	// https://jsfiddle.net/highcharts/4jZ7T/
 	public opt: any = {
+		credits: {
+			enabled: false
+		},
 		time: {
 			timezone: 'America/Mexico_City',
 			useUTC: false
 		},
 		chart: {
 			zoomType: 'xy',
-			type: 'area'
+			type: 'spline',
+			height: 600,
 		},
 		title: {
 			text: 'Variables de Estación de Supervisión',
@@ -123,6 +127,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			tableCaption: ""
 		},
 		xAxis: {
+			gridLineWidth: 1,
 			type: 'datetime'
 		},
 		yAxis: [  ],
