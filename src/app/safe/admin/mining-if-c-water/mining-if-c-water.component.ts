@@ -142,7 +142,8 @@ export class MiningIFCWaterComponent implements OnInit {
 		})
 		.catch(() => {});
 	}
-	
+	onBtnCancel(){}
+	onBtnSaveUpdate(){}
 	formQuerySubmit(v){
 
 	}

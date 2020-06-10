@@ -142,7 +142,8 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 		})
 		.catch(() => {});
 	}
-	
+	onBtnCancel(){}
+	onBtnSaveUpdate(){}
 	formQuerySubmit(v){
 
 	}
