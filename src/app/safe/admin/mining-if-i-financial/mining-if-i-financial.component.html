@@ -88,13 +88,13 @@
 	<p>{{diaNOHabilBancarioDefinitivo}}</p>
 	<br>
 	<!--./Tabla Definitivo-->
-	<!--Tabla Provicional-->
-	<p>Provicional</p>
+	<!--Tabla Provisional-->
+	<p>Provisional</p>
 	<div class="row">
 		<div class="my-2 col-12 col-lg-6">
 			<app-mat-table
-				(clickEdit)="tableProvicionalRowEdit($event)"
-				[data]="tableProvicionalData"
+				(clickEdit)="tableProvisionalRowEdit($event)"
+				[data]="tableProvisionalData"
 				[columnsLabels]="tableDefinitivoColumnsLabels"
 				[columnsDisplay]="tableDefinitivoColumnsDisplay"
 				[row_x_page]="tableRow_x_page"
@@ -105,25 +105,25 @@
 			<div class="row justify-content-end">
 				<div class="col col-lg-4">
 					<app-mat-input-number
-						[formGroup]="formValorProvicional"
+						[formGroup]="formValorProvisional"
 						controlName="indice"
-						[label]="labelInputNumberProvicional"
+						[label]="labelInputNumberProvisional"
 					></app-mat-input-number>
 				</div>
 				<div class="col">
 					<label style="visibility: hidden;">boton</label>
-					<app-btn-block-cancel (myClick)="onBtnCancelProvicional()"></app-btn-block-cancel>
+					<app-btn-block-cancel (myClick)="onBtnCancelProvisional()"></app-btn-block-cancel>
 				</div>
 				<div class="col">
 					<label style="visibility: hidden;">boton</label>
-					<app-btn-block-save-update (myClick)="onBtnSaveUpdateProvicional()"></app-btn-block-save-update>
+					<app-btn-block-save-update (myClick)="onBtnSaveUpdateProvisional()"></app-btn-block-save-update>
 				</div>
 			</div>
 		</div>
 	</div>
-	<p>{{diaNOHabilBancarioProvicional}}</p>
+	<p>{{diaNOHabilBancarioProvisional}}</p>
 	<br>
-	<!--./Tabla Provicional-->
+	<!--./Tabla Provisional-->
 	
 	<div class="row mt-4">
 		<div class="col">

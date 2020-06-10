@@ -1,17 +1,25 @@
 <a mat-list-item 
 	id="{{item.id}}"
-	class="a-de-mat-list-item" 
+	[attr.deep]="deep"
+	class="a-de-mat-list-item sidebar_item" 
 	(click)="itemSelected(item)" 
-	
-	style="min-height: 70px; padding-top: 10px;">
-	<!--[ngStyle]="{'box-shadow':(deep===0 && viewHide)? '0 7px 7px 0 rgba(0, 0, 0, 0.2), 0 7px 3px 0 rgba(0, 0, 0, 0.19)':''}"	-->
+	[ngStyle]="{'padding-left': (deep>1) ? ((deep-1) * indent) + units : ''}"
+	style="min-height: 70px; padding-top: 6px;"
+>
 	<mat-icon class="itemIcon" *ngIf="item.icon && (deep===0 || item.children)">{{item.icon}}</mat-icon>
 	<mat-icon mat-list-icon *ngIf="deep!=0 && deep%2 != 0" style="font-size:4px; width: auto; height: auto;">brightness_1</mat-icon>
 	<mat-icon mat-list-icon *ngIf="deep!=0 && deep%2 == 0" style="font-size:10px; width: auto; height: auto;">remove</mat-icon>
 	
 
 	<div class="col pl-1 pr-0" >
-		<span *ngIf="globalService.aside_open" [attr.name_item]="item.label" [attr.id_item]="item.id" [attr.deep]="deep">{{item.label | translate}}</span>
+		<span 
+			*ngIf="globalService.aside_open" 
+			[ngStyle]="{'font-weight': deep!=0 ? 'bold':'','color':deep!=0 ? '#838383':''}"
+			[attr.name_item]="item.label" 
+			[attr.id_item]="item.id" 
+			[attr.deep]="deep">
+			{{item.label | translate}}
+		</span>
 	</div>
 
 	<span *ngIf="item.children && item.children.length && globalService.aside_open">
@@ -20,9 +28,11 @@
 </a>
 
 <!--div *ngIf="viewHide && globalService.aside_open"-->
-<div class="div-submenu" *ngIf="item.children && item.children.length > 0" [attr.padre]="item.label | translate" [attr.deep]="deep"
-[ngStyle]="{'padding-left': (deep>1) ? ((deep-1) * indent) + units : ''}" >
-
+<div class="div-submenu" 
+	*ngIf="item.children && item.children.length > 0" 
+	[attr.padre]="item.label | translate" 
+	[attr.deep]="deep"
+>
 	<app-shared-sidebar-items *ngFor="let itemIn of item.children" [item]="itemIn" [deep]="deep + 1"
 		[ngStyle]="{'display':viewHide && globalService.aside_open ? '' : 'none' }">
 	</app-shared-sidebar-items>

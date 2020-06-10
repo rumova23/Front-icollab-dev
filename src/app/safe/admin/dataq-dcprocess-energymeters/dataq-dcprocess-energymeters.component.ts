@@ -106,8 +106,12 @@ export class DataqDcprocessEnergymetersComponent implements OnInit {
 			year, month
 		).subscribe(
 			data => {
+				/*
+				data = {success: true, message: "ok", code: 0}
+				*/
 				this.addBlock(2, '');
 				this.toastr.successToastr('Deteccion de Norma en proceso: ' + mydate.format('yyyy/MM'), '¡Procesando!');
+				console.log(data);
 			},
 			errorData => {
 				this.addBlock(2, '');
@@ -130,8 +134,12 @@ export class DataqDcprocessEnergymetersComponent implements OnInit {
 			year, month
 		).subscribe(
 			data => {
+				/*
+				data = {success: true, message: "ok", code: 0}
+				*/
 				this.addBlock(2, '');
 				this.toastr.successToastr('Deteccion de Norma en proceso: ' + mydate.format('yyyy/MM'), '¡Procesando!');
+				console.log(data);
 			},
 			errorData => {
 				this.addBlock(2, '');

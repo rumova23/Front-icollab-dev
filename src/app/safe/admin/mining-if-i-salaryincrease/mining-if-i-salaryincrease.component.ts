@@ -45,7 +45,19 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 		'estatus',
 		'sys_delete'
 	];
+
 	tableRow_x_page = [5,10,20,50, 100, 250, 500];
+	tableData01 = [{date:'01/02/2020',isn:'90.02'}];
+	tableColumnsLabels01=[
+		{ key: 'date', label: 'Fecha' },
+		{ key: 'isn', label: '% ISN' }
+	];
+	tableColumnsDisplay01: string[] = [
+		'date',
+		'isn',
+		'sys_edit'
+	];
+
 
 	selectOptionsVariables : IdLabel[] = [
 		{id:"1",label:'CFC am'},
@@ -56,6 +68,7 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 	formQuery: FormGroup;
 	formvariables : FormGroup;
 	fileUploadForm :FormGroup;
+	formUpdateCosto:FormGroup;
 	isManualLoad = false;
 
 	
@@ -84,6 +97,10 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 		});	
 		this.fileUploadForm = this.formBuilder.group({
 			file: new FormControl(null, [Validators.required, requiredFileType('xlsx')]),
+		});
+		this.formUpdateCosto = this.formBuilder.group({
+			date: new FormControl(moment(), Validators.required),
+			value: new FormControl('', Validators.required),
 		});
 	}
 	onChangeDatePicker(d: Moment) {
@@ -125,9 +142,13 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 		})
 		.catch(() => {});
 	}
-	
+	onBtnCancel(){}
+	onBtnSaveUpdate(){}
 	formQuerySubmit(v){
 
+	}
+	tableRowEdit01(element){
+		
 	}
 	private addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,

@@ -7,14 +7,14 @@
 		<mdb-breadcrumb-item>{{ "Data Mining" | translate }}</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item>{{ "Financial Indices" | translate }}</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item>{{ "Indices" | translate }}</mdb-breadcrumb-item>
-		<mdb-breadcrumb-item class="active">{{ "Economic proposal" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "Incremento Salarial" | translate }}</mdb-breadcrumb-item>
 	</mdb-breadcrumb>
 </div>
 
-<div class="section" *ngIf="false">
+<div class="section">
 	<div class="row">
 		<div class="col">
-			<p class="section_titulo_0">Consulta / Edita Índices de Propuesta Económica</p>
+			<p class="section_titulo_0">Consulta / Edita Incremento Salarial</p>
 		</div>
 	</div>
 	<hr>
@@ -43,6 +43,47 @@
 		</div>
 	</form>
 
+	<!--Tabla Definitivo-->
+	<div class="row">
+		<div class="my-2 col-12 col-lg-6">
+			<app-mat-table
+				(clickEdit)="tableRowEdit01($event)"
+				[data]="tableData01"
+				[columnsLabels]="tableColumnsLabels01"
+				[columnsDisplay]="tableColumnsDisplay01"
+				[row_x_page]="tableRow_x_page"
+				[showPagination]="false"
+			></app-mat-table>
+		</div>
+		<div class="my-2 col-12 col-lg-6">
+			<div class="row justify-content-end">
+				<div class="col col-lg-4">
+					<app-mat-input-datepicker
+						[formGroup]="formUpdateCosto"
+						controlName="date"
+						label="Fecha"
+					></app-mat-input-datepicker>
+				</div>
+				<div class="col col-lg-4">
+					<app-mat-input-number
+						[formGroup]="formUpdateCosto"
+						controlName="value"
+						label="%ISN"
+					></app-mat-input-number>
+				</div>
+				<div class="col">
+					<label style="visibility: hidden;">boton</label>
+					<app-btn-block-cancel (myClick)="onBtnCancel()"></app-btn-block-cancel>
+				</div>
+				<div class="col">
+					<label style="visibility: hidden;">boton</label>
+					<app-btn-block-save-update (myClick)="onBtnSaveUpdate()"></app-btn-block-save-update>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<!--./Tabla Definitivo-->
 	
 	<div class="row mt-4">
 		<div class="col">
@@ -60,21 +101,12 @@
 	
 	<div class="mt-4 row pb-2">
 		<div class="col">
-			<p class="section_titulo_0">Consulta Variables de Índices Financieros</p>
+			<p class="section_titulo_0">Consulta Incrementos Salariales</p>
 			<p class="section_subtitulo_0"></p>
 		</div>
 	</div>
 
 	<div class="row mt-2">
-		<div class="col-12 col-sm-6 col-xl-3">
-			<app-mat-select-multiple
-				[formGroup]="formvariables"
-				controlName="selectVariables"
-				[options]="selectOptionsVariables"
-				label="Índices Financieros"
-				(eventChange)="onChangeSelectVariables($event)"
-			></app-mat-select-multiple>
-		</div>
 		<div class="col-12 col-sm-6 col-xl-9">
 			<div class="row justify-content-end">
 				<div class="col-12 col-sm-6 col-xl-3">
@@ -96,7 +128,7 @@
 	</div>
 
 </div>
-<div class="section" *ngIf="false">
+<div class="section">
 
 	<div class="row pb-2">
 		<div class="col">
@@ -114,7 +146,6 @@
 		</div>
 		<div class="col">
 			<div class="row" [formGroup]="fileUploadForm">
-				
 				<div class="col">
 					Carga Archivo:<br />
 					<app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
@@ -129,14 +160,13 @@
 						</div>
 					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>
 
 </div>
 
-<div class="section" *ngIf="false">
+<div class="section">
 	<div class="row justify-content-end">
 		<div class="col-12 col-lg-3">
 			<app-btn-block-finish (myClick)="onBtnFinish()" [disabled]="!fileUploadForm.valid"></app-btn-block-finish>
