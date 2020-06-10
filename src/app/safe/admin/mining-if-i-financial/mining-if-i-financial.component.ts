@@ -46,7 +46,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 		'sys_delete'
 	];
 	tableRow_x_page = [5,10,20,50, 100, 250, 500];
-	tableProvicionalData = [{index:'',date:'',value:''}];
+	tableProvisionalData = [{index:'',date:'',value:''}];
 	tableDefinitivoData = [{index:'',date:'',value:''}];
 	tableDefinitivoColumnsLabels=[
 		{ key: 'index', label: 'Índice' },
@@ -72,14 +72,14 @@ export class MiningIFIFinancialComponent implements OnInit {
 	];
 
 	labelInputNumberDefinitivo = 'Valor Definitivo';
-	labelInputNumberProvicional = 'Valor Definitivo';
-	diaNOHabilBancarioProvicional = null;
+	labelInputNumberProvisional = 'Valor Provisional';
+	diaNOHabilBancarioProvisional = null;
 	diaNOHabilBancarioDefinitivo = null;
 
 	formQuery: FormGroup;
 	formvariables : FormGroup;
 	formValorDefinitivo  : FormGroup;
-	formValorProvicional : FormGroup;
+	formValorProvisional : FormGroup;
 	fileUploadForm :FormGroup;
 	isManualLoad = false;
 
@@ -111,7 +111,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 		this.formValorDefinitivo = this.formBuilder.group({
 			indice:[]
 		});
-		this.formValorProvicional = this.formBuilder.group({
+		this.formValorProvisional = this.formBuilder.group({
 			indice:[]
 		});
 		this.fileUploadForm = this.formBuilder.group({
@@ -137,13 +137,13 @@ export class MiningIFIFinancialComponent implements OnInit {
 		 */
 		console.log(e.value);
 		this.labelInputNumberDefinitivo = `Valor ${e.source.triggerValue} Definitivo`;
-		this.labelInputNumberProvicional = `Valor ${e.source.triggerValue} Provicional`;
+		this.labelInputNumberProvisional = `Valor ${e.source.triggerValue} Provisional`;
 		
-		this.diaNOHabilBancarioProvicional = null;
+		this.diaNOHabilBancarioProvisional = null;
 		this.diaNOHabilBancarioDefinitivo = null;
 		switch (e.value) {
 			case '1':
-				this.tableProvicionalData = [
+				this.tableProvisionalData = [
 					{index:'INPPm',date:'05/2020',value:'ws'}
 				];
 				this.tableDefinitivoData = [
@@ -151,7 +151,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 				];
 				break;
 			case '2':
-				this.tableProvicionalData = [
+				this.tableProvisionalData = [
 					{index:'USPPIm',date:'05/2020',value:'ws'}
 				];
 				this.tableDefinitivoData = [
@@ -159,17 +159,17 @@ export class MiningIFIFinancialComponent implements OnInit {
 				];
 				break;
 			case '3':
-				this.tableProvicionalData = [
+				this.tableProvisionalData = [
 					{index:'TCp',date:'05/2020',value:'ws'}
 				];
 				this.tableDefinitivoData = [
 					{index:'TCp',date:'05/2020',value:'ws'}
 				];
-				this.diaNOHabilBancarioProvicional = '* Día NO hábil bancario';
+				this.diaNOHabilBancarioProvisional = '* Día NO hábil bancario';
 				this.diaNOHabilBancarioDefinitivo = '* Día NO hábil bancario';
 				break;
 			default:
-				this.tableProvicionalData= [];
+				this.tableProvisionalData= [];
 				this.tableDefinitivoData= [];
 				break;
 		}
@@ -190,8 +190,8 @@ export class MiningIFIFinancialComponent implements OnInit {
 	onBtnSaveUpdateDefinitivo(){
 
 	}
-	onBtnCancelProvicional(){}
-	onBtnSaveUpdateProvicional(){}
+	onBtnCancelProvisional(){}
+	onBtnSaveUpdateProvisional(){}
 	onBtnUploadFile() {
 		const mydate = this.formQuery.get('date').value;
 		const month = mydate.month() + 1;
@@ -215,7 +215,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 	tableDefinitivoRowEdit(element){
 
 	}
-	tableProvicionalRowEdit(element){
+	tableProvisionalRowEdit(element){
 
 	}
 	formQuerySubmit(v){

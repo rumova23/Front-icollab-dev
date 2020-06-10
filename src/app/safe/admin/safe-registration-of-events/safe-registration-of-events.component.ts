@@ -64,19 +64,20 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	lstSourceEvent: IdLabel[] = [];
 	lstEventStatus: IdLabel[] = [];
 	lstApprovalStatus: IdLabel[] = [];
-
+	tempOrder = 3;
 	tableObservationsComments = [
-		{name: this.getNameUser(), observation: 'algo', dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: true},
-		{name: this.getNameUser(), observation: ' algo 2', dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: false}
+		{order:1,name: this.getNameUser(), observation: 'algo', dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: true},
+		{order:2,name: this.getNameUser(), observation: ' algo 2', dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: false}
 	];
 	tablaColumnsLabels = [
+		{ key: 'order', label: '#' },
 		{ key: 'name', label: 'Nombre' },
 		{ key: 'observation', label: 'Observaciones' },
 		{ key: 'dateUptade', label: 'Fecha de Ultima Modificación' },
 		{ key: 'visible', label: 'Visible' },
 	];
 	tableColumnsDisplay = [
-		'sys_index',
+		'order',
 		'name',
 		'observation',
 		'dateUptade',
@@ -351,8 +352,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		const observation = this.formobservationsComments.get('observationsComments').value;
 		if (observation != null && observation !== '') {
 			this.tableObservationsComments = this.tableObservationsComments.concat({
-				name: this.getNameUser(), observation, dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: true
+				order:this.tempOrder, name: this.getNameUser(), observation, dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: true
 			});
+			this.tempOrder ++;
 			this.formobservationsComments.get('observationsComments').setValue('');
 		}
 		this.getTableObservationsCommentsSelectionChecked();
