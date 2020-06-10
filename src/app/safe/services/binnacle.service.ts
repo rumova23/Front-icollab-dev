@@ -34,7 +34,7 @@ export class BinnacleService {
 
   downloadExcel(year: number, month: number): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant();
-    return this.http.get(environment.dycformato + 'download/' + year + '/' + month, {params : this.parameters });
+    return this.http.get(this.binnacle + 'binnacle/download/' + year + '/' + month, {params : this.parameters });
   }
 
   listTemplates(): Observable<any> {
