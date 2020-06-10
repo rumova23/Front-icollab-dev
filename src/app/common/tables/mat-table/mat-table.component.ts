@@ -102,7 +102,6 @@ export class MatTableComponent implements OnInit , OnChanges {
 			if(Array.isArray(this.columnsDisplay) && this.columnsDisplay.length == 0 ){
 				const o = this.data[0];
 				this.columnsDisplay.push('sys_checkbox');
-				this.columnsDisplay.push('sys_index');
 				for (const key in o) {
 					if (o.hasOwnProperty(key)) {
 						this.columnsDisplay.push(key);

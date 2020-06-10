@@ -22,6 +22,7 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 
 	tableOpciones = [];
 	tablaColumnsLabels = [
+		{ key: 'order', label: '#' },
 		{ key: 'opcionId', label: 'id' },
 		{ key: 'codigo', label: 'Name' },
 		{ key: 'descripcion', label: 'Description' },
@@ -31,7 +32,7 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 		{ key: 'status', label: 'Status' },
 	];
 	tableColumnsDisplay = [
-		'sys_index',
+		'order',
 		'codigo',
 		'descripcion',
 		'user',

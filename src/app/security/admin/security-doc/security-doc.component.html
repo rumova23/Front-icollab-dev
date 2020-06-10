@@ -98,9 +98,8 @@
 			<p>Es una lista de "string" donde se especifican las columnas que seran visibles en la tabla, 
 				estas tienen que ser las mismas que el nombre de la propiedad de la lista de datos principal. 
 				</p>
-			<p>Existen 4 columnas que genera el componente de forma automatica (estas columnas seran agregadas si se especifican en la lista "[columnsDisplay]="tableColumnsDisplay""):</p>
-			<p><strong>"sys_index"</strong>,  genera una columna que muestra el index de la fila y aunque cambien el contenido de la tabla, esté siempre estará ordenado. 
-				Esta columna no puede ser ordenable al dar click en el herader</p>
+			<p>Existen 3 columnas que genera el componente de forma automatica (estas columnas seran agregadas si se especifican en la lista "[columnsDisplay]="tableColumnsDisplay""):</p>
+	
 			<p><strong>“sys_see”</strong>, genera la columna con el botón para ver los detalles del registro.</p>
 			<p><strong>“sys_edit”</strong>, genera la columna con el botón para editar el registro.</p>
 			<p><strong>“sys_delete”</strong>, genera la columna con el botón para eliminar el registro.</p>
@@ -143,7 +142,6 @@ tablaColumnsLabels=&#91;
 	&#123; key: 'estatus'      , label: 'Estatus de la Importación' &#125;
 &#93;;
 tableColumnsDisplay: string&#91;&#93; = &#91;
-	'sys_index',
 	'order',
 	'fechaOp',
 	'fuenteImport',

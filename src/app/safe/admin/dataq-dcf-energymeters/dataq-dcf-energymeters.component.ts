@@ -109,8 +109,12 @@ export class DataqDcfEnergymetersComponent implements OnInit {
 			year, month
 		).subscribe(
 			data => {
+				/*
+				data = {success: true, message: "ok", code: 0}
+				*/
 				this.addBlock(2, '');
 				this.toastr.successToastr('El archivo llego con exito', 'Ejecución lanzada con éxito.');
+				console.log(data);
 			},
 			errorData => {
 				this.addBlock(2, '');
@@ -132,8 +136,12 @@ export class DataqDcfEnergymetersComponent implements OnInit {
 			year, month
 		).subscribe(
 			data => {
+				/*
+				data = {success: true, message: "ok", code: 0}
+				*/
 				this.addBlock(2, '');
 				this.toastr.successToastr('El archivo llego con exito', 'Ejecución lanzada con éxito.');
+				console.log(data);
 			},
 			errorData => {
 				this.addBlock(2, '');
