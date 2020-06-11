@@ -28,7 +28,7 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 		{ key: 'descripcion', label: 'Description' },
 		{ key: 'maestro', label: 'Maestro' },
 		{ key: 'user', label: 'User' },
-		{ key: 'dateUptade', label: 'Last Modification Date' },
+		{ key: 'dateUptade', label: 'Date and Time of Last Modification' },
 		{ key: 'status', label: 'Status' },
 	];
 	tableColumnsDisplay = [

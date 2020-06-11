@@ -73,12 +73,16 @@ export class SharedSidebarMenuComponent {
             }
             if (item.label == "Home")               item.order = 0;
             else if (item.label == "PPA")           item.order = 1;
-            
                 else if (item.label == "Data Mining")           item.order = 0;
                     else if (item.label == "Monitoring station")  item.order = 0;
                     else if (item.label == "Energy Meters")       item.order = 1;
                     else if (item.label == "Event Log")           item.order = 2;
                     else if (item.label == "Financial Indices")   item.order = 3;
+                        else if (item.label == "Indices")   item.order = 0;
+                            else if (item.label == "Financial")           item.order = 0;
+                            else if (item.label == "Economic proposal")   item.order = 1;
+                            else if (item.label == "Salary increase")     item.order = 2;
+                        else if (item.label == "Costs")     item.order = 1;
                 else if (item.label == "Data Quality")          item.order = 1;
                     else if (item.label == "Detection and Format Correction")           item.order = 0;
                         else if (item.label == "Supervision Station")           item.order = 0;

@@ -277,20 +277,20 @@
 		</div>
 		<div class="row">
 			<div class="col-3">
-				<app-mat-select
+				<!--[options]="lstEventStatus"-->
+				<app-mat-input-text
 					[formGroup]="formNewEvent"
-					controlName="eventStatus"
-					[options]="lstEventStatus"
+					controlName="eventStatus"					
 					label="Estatus del Evento"
-				></app-mat-select>
+				></app-mat-input-text>
 			</div>
 			<div class="col-3">
-				<app-mat-select
+				<!--[options]="lstApprovalStatus"-->
+				<app-mat-input-text
 					[formGroup]="formNewEvent"
 					controlName="approvalStatus"
-					[options]="lstApprovalStatus"
 					label="Estatus de Aprobación"
-				></app-mat-select>
+				></app-mat-input-text>
 			</div>
 		</div>
 	</div>
@@ -323,11 +323,7 @@
 					</div>
 				</div>
 			</div-->
-			<div class="row">
-				<div class="col text-center">
-					<p class="section_titulo_1 my-0 py-2">Historial de observaciónes</p>
-				</div>
-			</div>
+			<br>
 			<div class="row">
 				<div class="col">
 					<app-mat-table 

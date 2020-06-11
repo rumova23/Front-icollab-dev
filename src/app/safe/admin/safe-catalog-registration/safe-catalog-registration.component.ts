@@ -23,7 +23,7 @@ export class SafeCatalogRegistrationComponent implements OnInit {
 		{ key: 'name', label: 'Name' },
 		{ key: 'description', label: 'Description' },
 		{ key: 'user', label: 'User' },
-		{ key: 'dateUptade', label: 'Last Modification Date' },
+		{ key: 'dateUptade', label: 'Date and Time of Last Modification' }, 
 		{ key: 'status', label: 'Status' },
 	];
 	tableColumnsDisplay = [

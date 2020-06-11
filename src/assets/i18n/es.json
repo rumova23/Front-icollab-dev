@@ -91,7 +91,7 @@
     ,"Detection and Format Correction":"Detección y corrección de formato"
     ,"Required":"Requerido"
     ,"Graph":"Gráfica"
-    ,"Energy Meters":"Medidores de energía"
+    ,"Energy Meters":"Medidores de Energía"
     ,"MM Out of Line":"MM fuera de línea"
     ,"Monitoring station Profile":"Perfil de estación de monitoreo"
     ,"Event Log":"Bitácora de Eventos"
@@ -109,9 +109,9 @@
     ,"Indices":"Índices"
     ,"Water":"Agua"
     ,"Fuel":"Combustible"
-    ,"Economic proposal":"Propuesta económica"
+    ,"Economic proposal":"Propuesta Económica"
     ,"Financial":"Financieros"
-    ,"Salary increase":"Incremento salarial"
+    ,"Salary increase":"Incremento Salarial"
     ,"Detection and Correction":"Detección y corrección"
     ,"of":"de"
     ,"Commercial Operation Date":"Fecha de Operación Comercial"
@@ -119,6 +119,7 @@
     ,"Apply Correction":"Aplicar Corrección"
     ,"Fiscal Meters":"Medidores Fiscales"
     ,"Success":"Éxito"
+    ,"Date and Time of Last Modification":"Fecha y Hora de Última Modificación"
 
 
     ,"legalAgreement" : "Acuerdo legal"

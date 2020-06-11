@@ -141,7 +141,7 @@
 	
 	<div class="mt-4 row pb-2">
 		<div class="col">
-			<p class="section_titulo_0">Consulta Variables de Índices Financieros</p>
+			<p class="section_titulo_0">Consulta Índices Financieros</p>
 			<p class="section_subtitulo_0"></p>
 		</div>
 	</div>
@@ -152,14 +152,13 @@
 				[formGroup]="formvariables"
 				controlName="selectVariables"
 				[options]="selectOptionsVariables"
-				label="Índices Financieros"
 				(eventChange)="onChangeSelectVariables($event)"
 			></app-mat-select-multiple>
 		</div>
 		<div class="col-12 col-sm-6 col-xl-9">
 			<div class="row justify-content-end">
 				<div class="col-12 col-sm-6 col-xl-3">
-					<label style="visibility: hidden;">boton</label>
+					<!--label style="visibility: hidden;">boton</label-->
 					<app-btn-block-graph (myClick)="clickBtnChart()" [disabled]="!formvariables.valid"></app-btn-block-graph>
 				</div>
 				<!--div class="col-12 col-sm-6 col-xl-3">
