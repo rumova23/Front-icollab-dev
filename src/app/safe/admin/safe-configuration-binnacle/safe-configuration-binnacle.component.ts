@@ -19,12 +19,18 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
     tablaColumnsLabels = [
         { key: 'order', label: '#' },
         { key: 'eventClassification', label: 'Clasificacion Evento' },
-        { key: 'event', label: 'Evento' }
+        { key: 'event', label: 'Evento' },
+		{ key: 'user', label: 'Usuario' },
+		{ key: 'dateUpdated', label: 'Date and Time last modified'},
+		{ key: 'status', label: 'Estatus' }
     ];
     tableColumnsDisplay = [
         'order',
         'eventClassification',
         'event',
+        'user',
+        'dateUpdated',
+        'status',
         'sys_see',
         'sys_edit',
         'sys_delete',
@@ -75,6 +81,9 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
                         , binnacleEventConfigurationDTO: e
                         , eventClassification: this.getOpcion(this.lstEventClassificationDTO, e.eventsClassificationId)
                         , event: this.getOpcion(this.lstEventsDTO, e.eventsId)
+                        , user:''
+                        , dateUpdated:''
+                        , status:''
                     };
                 });
             },

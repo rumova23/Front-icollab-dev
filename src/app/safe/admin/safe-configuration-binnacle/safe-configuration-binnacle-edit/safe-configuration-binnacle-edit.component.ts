@@ -75,6 +75,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
         disabledMwOffered: [false],
         relatedServicesId: [null],
         disabledRelatedServicesId: [false],
+        disabledlicenseNumber: [false],
         licenseNumber: [{ value: null, disabled: false }],
         disabledKLicenseNumber: [false],
         equipmentId: [null],

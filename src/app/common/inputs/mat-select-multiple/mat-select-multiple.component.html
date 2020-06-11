@@ -4,7 +4,16 @@
 		<mat-form-field class="form-control w-100"
 			[ngClass]="{ 'is-invalid': (submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid }">
       		<mat-select multiple
-				[formControlName]="controlName"
+				*ngIf="compareWith != null"
+				[compareWith]="compareWith"
+			  	[formControlName]="controlName"
+				(selectionChange)="onSelectChange($event)"
+				>
+				<mat-option *ngFor="let option of options" [value]="option.id">{{ option.label }}</mat-option>
+			</mat-select>
+			<mat-select multiple
+				*ngIf="compareWith == null"
+			  	[formControlName]="controlName"
 				(selectionChange)="onSelectChange($event)"
 				>
 				<mat-option *ngFor="let option of options" [value]="option.id">{{ option.label }}</mat-option>

@@ -47,6 +47,7 @@ import { MatInputPasswordComponent } from './inputs/mat-input-password/mat-input
 import { MatInputTextareaComponent } from './inputs/mat-input-textarea/mat-input-textarea.component';
 import { BtnBlockBackComponent } from './btn/btn-block/btn-block-back.component';
 import { BtnBlockDownloadLayoutComponent } from './btn/btn-block/btn-block-download-layout.component';
+import { MatInputCheckboxComponent } from './inputs/mat-input-checkbox/mat-input-checkbox.component';
 
 @NgModule({
 	declarations: [
@@ -81,6 +82,7 @@ import { BtnBlockDownloadLayoutComponent } from './btn/btn-block/btn-block-downl
 		, MatInputPasswordComponent
 		, MatInputTextareaComponent
 		, BtnBlockDownloadLayoutComponent
+		, MatInputCheckboxComponent
 	],
 	exports: [
 		 ProgressComponent
@@ -114,6 +116,7 @@ import { BtnBlockDownloadLayoutComponent } from './btn/btn-block/btn-block-downl
 		, MatInputPasswordComponent
 		, MatInputTextareaComponent
 		, BtnBlockDownloadLayoutComponent
+		, MatInputCheckboxComponent
 
 	],
 	imports: [

@@ -1,310 +1,489 @@
 <div class="row">
-  <mdb-breadcrumb customClass="white" class="w-100">
-    <mdb-breadcrumb-item class="">
-      <mdb-icon fas icon="cog"></mdb-icon>
-    </mdb-breadcrumb-item>
-    <mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
-    <mdb-breadcrumb-item>{{ "Bitacora de Eventos" | translate }}</mdb-breadcrumb-item>
-    <mdb-breadcrumb-item class="active">{{ "Alta de Eventos" | translate }}</mdb-breadcrumb-item>
-  </mdb-breadcrumb>
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Bitacora de Eventos" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "Alta de Eventos" | translate }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
 </div>
 
 <form [formGroup]="formNewEvent" (ngSubmit)="onSubmitFormNewEvent(formNewEvent.value)">
-  <div class="section">
+	<div class="section">
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_0">{{ "Bitácora de Eventos" | translate }}</p>
+				<p class="section_subtitulo_0"></p>
+			</div>
+		</div>
+		<hr>
+		<br>
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_1">{{ "Descripción / Clasificacion de Evento" | translate }}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 col-lg-3">
+				<app-mat-select 
+					[formGroup]="formNewEvent" 
+					controlName="eventsClassificationId"
+					[options]="lstEventClassification" 
+					label="Clasificación de Eventos"
+					(eventChange)="onBuildEventAssociated($event)"></app-mat-select>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-mat-select 
+					[formGroup]="formNewEvent" 
+					controlName="eventsId" 
+					[options]="lstEvents" 
+					label="Eventos">
+				</app-mat-select>
+			</div>
+			<div class="w-100"></div>
+			<div class="col-1">
+				<app-mat-input-checkbox  
+					[formGroup]="formNewEvent" 
+					controlName="disabledFuelsId"
+					label="label"
+				></app-mat-input-checkbox>
+			</div>
+			<div class="col">
+				<!--mat-form-field>
+					<mat-select [multiple]="true" placeholder="Combustible" [formGroup]="formNewEvent"
+						formControlName="fuelsId" [compareWith]="compareTech">
+						<mat-option *ngFor="let entry of lstFuels" [value]="entry.id">{{entry.label}}</mat-option>
+					</mat-select>
+				</mat-form-field-->
+				<app-mat-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="fuelsId" 
+					[options]="lstFuels"
+					[compareWith]="compareTech"
+					label="Combustible"
+				></app-mat-select-multiple>
+			</div>
+			<div class="col-1">
+			<!--
+				<input type="checkbox" 
+				[formGroup]="formNewEvent" 
+				controlName="disabledPowerMw" />
+			-->
+				<app-mat-input-checkbox  
+					[formGroup]="formNewEvent" 
+					controlName="disabledPowerMw"
+					label="label"
+				></app-mat-input-checkbox>
+			</div>
+			<div class="col">
+				<app-mat-input-number 
+					[formGroup]="formNewEvent" 
+					controlName="powerMw" 
+					label="Potencia MW">
+				</app-mat-input-number>
+			</div>
+			<div class="col-1">
+				<!--
+					<input type="checkbox" 
+					[formGroup]="formNewEvent" 
+					controlName="disabledUnitsId" />
+				-->
+				<app-mat-input-checkbox  
+					[formGroup]="formNewEvent" 
+					controlName="disabledUnitsId"
+					label="label"
+				></app-mat-input-checkbox>
+			</div>
+			<div class="col">
+				<!--mat-form-field>
+					<mat-select 
+						placeholder="Unidad" 
+						[formGroup]="formNewEvent" 
+						formControlName="unitsId" multiple>
+						<mat-option *ngFor="let entry of lstUnits" 
+						[value]="entry.id">{{entry.label}}</mat-option>
+					</mat-select>
+				</mat-form-field-->
+				
+				<app-mat-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="unitsId" 
+					[options]="lstUnits"
+					label="Unidad"
+				></app-mat-select-multiple>
+			</div>
+			<div class="col-1">
+				<!--
+					<input type="checkbox" [formGroup]="formNewEvent" 
+					controlName="disabledImpactContractsId" />
+				-->
+				
+				<app-mat-input-checkbox  
+					[formGroup]="formNewEvent" 
+					controlName="disabledImpactContractsId"
+					label="label"
+				></app-mat-input-checkbox>
+			</div>
+			<div class="col">
+				<!--mat-form-field>
+					<mat-select 
+						placeholder="Contrato Impactado" 
+						[formGroup]="formNewEvent"
+						formControlName="impactContractsId" multiple>
+						<mat-option 
+							*ngFor="let entry of lstImpactContracts" 
+							[value]="entry.id">{{entry.label}}
+						</mat-option>
+					</mat-select>
+				</mat-form-field-->
+				
+				<app-mat-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="impactContractsId" 
+					[options]="lstImpactContracts"
+					label="Contrato Impactado"
+				></app-mat-select-multiple>
+			</div>
+		</div>
 
-    <div class="row pb-2">
-      <div class="col">
-        <p class="section_titulo_0">{{ "Bitácora de Eventos" | translate }}</p>
-        <p class="section_subtitulo_0"></p>
-      </div>
-    </div>
-    <hr>
-    <br>
-    <div class="row pb-2">
-      <div class="col">
-        <p class="section_titulo_1">{{ "Descripción / Clasificacion de Evento" | translate }}</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <app-mat-select
-                [formGroup]="formNewEvent"
-                controlName="eventsClassificationId"
-                [options]="lstEventClassification"
-                label="Clasificación de Eventos"
-                (eventChange)="onBuildEventAssociated($event)"
-        ></app-mat-select>
-      </div>
-      <div class="col">
-        <app-mat-select
-                [formGroup]="formNewEvent"
-                controlName="eventsId"
-                [options]="lstEvents"
-                label="Eventos"
-        ></app-mat-select>
-      </div>
-      <div class="w-100"></div>
-      <div class="col-1">
-        <input
-                type="checkbox"
-                [formGroup]="formNewEvent"
-                controlName="disabledFuelsId"
-        />
-      </div>
-      <div class="col">
-        <mat-form-field>
-          <mat-select [multiple]="true" placeholder="Combustible" [formGroup]="formNewEvent"  formControlName="fuelsId" [compareWith]="compareTech">
-            <mat-option *ngFor="let entry of lstFuels" [value]="entry.id">{{entry.label}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col-1">
-        <input
-                type="checkbox"
-                [formGroup]="formNewEvent"
-                controlName="disabledPowerMw"
-        />
-      </div>
-      <div class="col">
-        <app-mat-input-number
-                [formGroup]="formNewEvent"
-                controlName="powerMw"
-                label="Potencia MW"
-        ></app-mat-input-number>
-      </div>
-      <div class="col-1">
-        <input
-                type="checkbox"
-                [formGroup]="formNewEvent"
-                controlName="disabledUnitsId"
-        />
-      </div>
-      <div class="col">
-        <mat-form-field>
-          <mat-select placeholder="Unidad" [formGroup]="formNewEvent"  formControlName="unitsId" multiple>
-            <mat-option *ngFor="let entry of lstUnits" [value]="entry.id">{{entry.label}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col-1">
-        <input
-                type="checkbox"
-                [formGroup]="formNewEvent"
-                controlName="disabledImpactContractsId"
-        />
-      </div>
-      <div class="col">
-        <mat-form-field>
-          <mat-select placeholder="Contrato Impactado" [formGroup]="formNewEvent"  formControlName="impactContractsId" multiple>
-            <mat-option *ngFor="let entry of lstImpactContracts" [value]="entry.id">{{entry.label}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_1">{{ "Contrato de Compraventa de Energía (PPA)" | translate }}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-1">
+				<!--
+					<input 
+					type="checkbox" 
+					[formGroup]="formNewEvent" 
+					controlName="disabledRealsCcdvId" />
+				-->
+				
+				<app-mat-input-checkbox  
+					[formGroup]="formNewEvent" 
+					controlName="disabledRealsCcdvId"
+					label="label"
+				></app-mat-input-checkbox>
 
-    <div class="row pb-2">
-      <div class="col">
-        <p class="section_titulo_1">{{ "Contrato de Compraventa de Energía (PPA)" | translate }}</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-1">
-        <input
-                type="checkbox"
-                [formGroup]="formNewEvent"
-                controlName="disabledRealsCcdvId"
-        />
-      </div>
-      <div class="col-3">
-        <mat-form-field>
-          <mat-select placeholder="Real/CCDV" [formGroup]="formNewEvent"  formControlName="realsCcdvId" multiple>
-            <mat-option *ngFor="let entry of lstRealsCcdv" [value]="entry.id">{{entry.label}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col-1">
-        <input
-                type="checkbox"
-                [formGroup]="formNewEvent"
-                controlName="disabledToleranceBandsId"
-        />
-      </div>
-      <div class="col-3">
-        <mat-form-field>
-          <mat-select placeholder="Banda de Tolerancia" [formGroup]="formNewEvent"  formControlName="toleranceBandsId" multiple>
-            <mat-option *ngFor="let entry of lstToleranceBands" [value]="entry.id">{{entry.label}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
+			</div>
+			<div class="col-3">
+				<!--mat-form-field>
+					<mat-select 
+						placeholder="Real/CCDV" 
+						[formGroup]="formNewEvent" 
+						formControlName="realsCcdvId"
+						multiple>
+						<mat-option *ngFor="let entry of lstRealsCcdv" [value]="entry.id">{{entry.label}}</mat-option>
+					</mat-select>
+				</mat-form-field-->
+				
+				<app-mat-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="realsCcdvId" 
+					[options]="lstRealsCcdv"
+					label="Real/CCDV"
+				></app-mat-select-multiple>
+			</div>
+			<div class="col-1">
+				<!--
+					<input type="checkbox" 
+					[formGroup]="formNewEvent" 
+					controlName="disabledToleranceBandsId" />
+				-->
+				
+				<app-mat-input-checkbox  
+					[formGroup]="formNewEvent" 
+					controlName="disabledToleranceBandsId"
+					label="label"
+				></app-mat-input-checkbox>
+			</div>
+			<div class="col-3">
+				<!--mat-form-field>
+					<mat-select 
+						placeholder="Banda de Tolerancia" 
+						[formGroup]="formNewEvent"
+						formControlName="toleranceBandsId" multiple>
+						<mat-option *ngFor="let entry of lstToleranceBands" [value]="entry.id">{{entry.label}}
+						</mat-option>
+					</mat-select>
+				</mat-form-field-->
+				
+				<app-mat-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="toleranceBandsId" 
+					[options]="lstToleranceBands"
+					label="Banda de Tolerancia"
+				></app-mat-select-multiple>
+			</div>
+		</div>
 
-    <div class="row pb-2">
-      <div class="col">
-        <p class="section_titulo_1">{{ "Mercado Eléctrico Mayorista (MEM)" | translate }}</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-1">
-        <input
-                type="checkbox"
-                [formGroup]="formNewEvent"
-                controlName="disabledMarketTypesId"
-        />
-      </div>
-      <div class="col-3">
-        <mat-form-field>
-          <mat-select placeholder="Tipo de Mercado" [formGroup]="formNewEvent"  formControlName="marketTypesId" multiple>
-            <mat-option *ngFor="let entry of lstMarketTypes" [value]="entry.id">{{entry.label}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col-1">
-        <input
-                type="checkbox"
-                [formGroup]="formNewEvent"
-                controlName="disabledMwOffered"
-        />
-      </div>
-      <div class="col-3">
-        <app-mat-input-number [formGroup]="formNewEvent" controlName="mwOffered" label="MW Ofertados" ></app-mat-input-number>
-      </div>
-      <div class="col-1">
-        <input
-                type="checkbox"
-                [formGroup]="formNewEvent"
-                controlName="disabledRelatedServicesId"
-        />
-      </div>
-      <div class="col-3">
-        <mat-form-field>
-          <mat-select placeholder="Servicios Conexos" [formGroup]="formNewEvent"  formControlName="relatedServicesId" multiple>
-            <mat-option *ngFor="let entry of lstSelatedServices" [value]="entry.id">{{entry.label}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_1">{{ "Mercado Eléctrico Mayorista (MEM)" | translate }}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-1">
+				<!--
+					<input type="checkbox" 
+					[formGroup]="formNewEvent" 
+					controlName="disabledMarketTypesId" />
+				-->
+				
+				<app-mat-input-checkbox  
+					[formGroup]="formNewEvent" 
+					controlName="disabledMarketTypesId"
+					label="label"
+				></app-mat-input-checkbox>
+			</div>
+			<div class="col-3">
+				<!--mat-form-field>
+					<mat-select 
+						placeholder="Tipo de Mercado" 
+						[formGroup]="formNewEvent" 
+						formControlName="marketTypesId"
+						multiple>
+						<mat-option *ngFor="let entry of lstMarketTypes" [value]="entry.id">{{entry.label}}</mat-option>
+					</mat-select>
+				</mat-form-field-->
+				
+				<app-mat-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="marketTypesId" 
+					[options]="lstMarketTypes"
+					label="Tipo de Mercado"
+				></app-mat-select-multiple>
+			</div>
+			<div class="col-1">
+				<!--
+					<input type="checkbox" [formGroup]="formNewEvent" 
+					controlName="disabledMwOffered" />
+				-->
+				
+				<app-mat-input-checkbox  
+					[formGroup]="formNewEvent" 
+					controlName="disabledMwOffered"
+					label="label"
+				></app-mat-input-checkbox>
+			</div>
+			<div class="col-3">
+				<app-mat-input-number 
+					[formGroup]="formNewEvent" 
+					controlName="mwOffered" 
+					label="MW Ofertados">
+				</app-mat-input-number>
+			</div>
+			<div class="col-1">
+				<!--
+					<input type="checkbox" [formGroup]="formNewEvent" 
+					controlName="disabledRelatedServicesId" />
+				-->
+				<app-mat-input-checkbox  
+					[formGroup]="formNewEvent" 
+					controlName="disabledRelatedServicesId"
+					label="label"
+				></app-mat-input-checkbox>
+			</div>
+			<div class="col-3">
+				<!--mat-form-field>
+					<mat-select 
+						placeholder="Servicios Conexos" 
+						[formGroup]="formNewEvent"
+						formControlName="relatedServicesId" multiple>
+						<mat-option *ngFor="let entry of lstSelatedServices" [value]="entry.id">{{entry.label}}
+						</mat-option>
+					</mat-select>
+				</mat-form-field-->
+				
+				<app-mat-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="relatedServicesId" 
+					[options]="lstSelatedServices"
+					label="Servicios Conexos"
+				></app-mat-select-multiple>
+			</div>
+		</div>
 
-    <div class="row pb-2">
-      <div class="col">
-        <p class="section_titulo_1">{{ "Licencia / Orden de Trabajo" | translate }}</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-1">
-        <input
-                type="checkbox"
-                [formGroup]="formNewEvent"
-                controlName="disabledlicenseNumber"
-        />
-      </div>
-      <div class="col">
-        <app-mat-input-text
-                [formGroup]="formNewEvent"
-                controlName="licenseNumber"
-                label="# Licencia"
-        ></app-mat-input-text>
-      </div>
-      <div class="col-1">
-        <input
-                type="checkbox"
-                [formGroup]="formNewEvent"
-                controlName="disabledEquipmentId"
-        />
-      </div>
-      <div class="col">
-        <mat-form-field>
-          <mat-select placeholder="Equipo" [formGroup]="formNewEvent"  formControlName="equipmentId" multiple>
-            <mat-option *ngFor="let entry of lstEquipment" [value]="entry.id">{{entry.label}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col-1">
-        <input
-                type="checkbox"
-                [formGroup]="formNewEvent"
-                controlName="disabledInitialCharge"
-        />
-      </div>
-      <div class="col">
-        <app-mat-input-number
-                [formGroup]="formNewEvent"
-                controlName="initialCharge"
-                label="Carga Inicial"
-        ></app-mat-input-number>
-      </div>
-      <div class="col-1">
-        <input
-                type="checkbox"
-                [formGroup]="formNewEvent"
-                controlName="disabledFinalCharge"
-        />
-      </div>
-      <div class="col">
-        <app-mat-input-number
-                [formGroup]="formNewEvent"
-                controlName="finalCharge"
-                label="Carga Final"
-        ></app-mat-input-number>
-      </div>
-      <div class="w-100"></div>
-      <div class="col-1">
-        <input
-                type="checkbox"
-                [formGroup]="formNewEvent"
-                controlName="disabledMwPowerLoss"
-        />
-      </div>
-      <div class="col-3">
-        <app-mat-input-number
-                [formGroup]="formNewEvent"
-                controlName="mwPowerLoss"
-                label="(-) Perdida Potencia MW"
-        ></app-mat-input-number>
-      </div>
-      <div class="col-1">
-        <input
-                type="checkbox"
-                [formGroup]="formNewEvent"
-                controlName="disabledWorkOrderId"
-        />
-      </div>
-      <div class="col-3">
-        <mat-form-field>
-          <mat-select placeholder="Orden de Trabajo" [formGroup]="formNewEvent"  formControlName="workOrderId" multiple>
-            <mat-option *ngFor="let entry of lstWorkOrder" [value]="entry.id">{{entry.label}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="w-100"></div>
-      <div class="col-1">
-        <input
-                type="checkbox"
-                [formGroup]="formNewEvent"
-                controlName="disabledLicenseDescription"
-        />
-      </div>
-      <div class="col">
-        <app-mat-input-textarea
-                [formGroup]="formNewEvent"
-                controlName="licenseDescription"
-                label="Descripción / Concepto de la Licencia"
-                maxLength="2000"
-        ></app-mat-input-textarea>
-      </div>
-    </div>
-  </div>
-  <div class="section">
-    <div class="row">
-      <div class="col">
-        <div class="row justify-content-end">
-          <div class="col-12 col-lg-3">
-            <app-btn-block-back (click)="btnClickBack()"></app-btn-block-back>
-          </div>
-          <div class="col-12 col-lg-3">
-            <app-btn-block-save mytype="submit"></app-btn-block-save>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_1">{{ "Licencia / Orden de Trabajo" | translate }}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-1">
+				<!--
+					<input type="checkbox" [formGroup]="formNewEvent" 
+					controlName="disabledlicenseNumber" />
+				-->
+				
+				<app-mat-input-checkbox  
+					[formGroup]="formNewEvent" 
+					controlName="disabledlicenseNumber"
+					label="label"
+				></app-mat-input-checkbox>
+			</div>
+			<div class="col">
+				<app-mat-input-text 
+					[formGroup]="formNewEvent" 
+					controlName="licenseNumber" 
+					label="# Licencia">
+				</app-mat-input-text>
+			</div>
+			<div class="col-1">
+				<!--
+					<input type="checkbox" [formGroup]="formNewEvent" 
+					controlName="disabledEquipmentId" />
+				-->
+				
+				<app-mat-input-checkbox  
+					[formGroup]="formNewEvent" 
+					controlName="disabledEquipmentId"
+					label="label"
+				></app-mat-input-checkbox>
+			</div>
+			<div class="col">
+				<!--mat-form-field>
+					<mat-select 
+						placeholder="Equipo" 
+						[formGroup]="formNewEvent" 
+						formControlName="equipmentId" multiple>
+						<mat-option *ngFor="let entry of lstEquipment" [value]="entry.id">{{entry.label}}</mat-option>
+					</mat-select>
+				</mat-form-field-->
+				
+				<app-mat-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="equipmentId" 
+					[options]="lstEquipment"
+					label="Equipo"
+				></app-mat-select-multiple>
+			</div>
+			<div class="col-1">
+				<!--
+					<input type="checkbox" [formGroup]="formNewEvent" 
+					controlName="disabledInitialCharge" />
+				-->
+				
+				<app-mat-input-checkbox  
+					[formGroup]="formNewEvent" 
+					controlName="disabledInitialCharge"
+					label="label"
+				></app-mat-input-checkbox>
+			</div>
+			<div class="col">
+				<app-mat-input-number 
+					[formGroup]="formNewEvent" 
+					controlName="initialCharge" 
+					label="Carga Inicial">
+				</app-mat-input-number>
+			</div>
+			<div class="col-1">
+				<!--
+					<input type="checkbox" [formGroup]="formNewEvent" 
+					controlName="disabledFinalCharge" />
+				-->
+				
+				<app-mat-input-checkbox  
+					[formGroup]="formNewEvent" 
+					controlName="disabledFinalCharge"
+					label="label"
+				></app-mat-input-checkbox>
+			</div>
+			<div class="col">
+				<app-mat-input-number 
+					[formGroup]="formNewEvent" 
+					controlName="finalCharge" 
+					label="Carga Final">
+				</app-mat-input-number>
+			</div>
+			<div class="w-100"></div>
+			<div class="col-1">
+				<!--
+					<input type="checkbox" [formGroup]="formNewEvent" 
+					controlName="disabledMwPowerLoss" />
+				-->
+				
+				<app-mat-input-checkbox  
+					[formGroup]="formNewEvent" 
+					controlName="disabledMwPowerLoss"
+					label="label"
+				></app-mat-input-checkbox>
+			</div>
+			<div class="col-3">
+				<app-mat-input-number 
+					[formGroup]="formNewEvent" 
+					controlName="mwPowerLoss"
+					label="(-) Perdida Potencia MW"
+				></app-mat-input-number>
+			</div>
+			<div class="col-1">
+				<!--
+					<input type="checkbox" [formGroup]="formNewEvent" 
+					controlName="disabledWorkOrderId" />
+				-->
+				
+				<app-mat-input-checkbox  
+					[formGroup]="formNewEvent" 
+					controlName="disabledWorkOrderId"
+					label="label"
+				></app-mat-input-checkbox>
+			</div>
+			<div class="col-3">
+				<!--mat-form-field>
+					<mat-select 
+						placeholder="Orden de Trabajo" 
+						[formGroup]="formNewEvent" 
+						formControlName="workOrderId"
+						multiple>
+						<mat-option *ngFor="let entry of lstWorkOrder" [value]="entry.id">{{entry.label}}</mat-option>
+					</mat-select>
+				</mat-form-field-->
+				
+				<app-mat-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="workOrderId" 
+					[options]="lstWorkOrder"
+					label="Orden de Trabajo"
+				></app-mat-select-multiple>
+			</div>
+			<div class="w-100"></div>
+			<div class="col-1">
+				<!--
+					<input type="checkbox" [formGroup]="formNewEvent" 
+					controlName="disabledLicenseDescription" />
+				-->
+				
+				<app-mat-input-checkbox  
+					[formGroup]="formNewEvent" 
+					controlName="disabledLicenseDescription"
+					label="label"
+				></app-mat-input-checkbox>
+			</div>
+			<div class="col">
+				<app-mat-input-textarea 
+					[formGroup]="formNewEvent" 
+					controlName="licenseDescription"
+					label="Descripción / Concepto de la Licencia" 
+					maxLength="2000"
+				></app-mat-input-textarea>
+			</div>
+		</div>
+	</div>
+	<div class="section">
+		<div class="row">
+			<div class="col"></div>
+			<div class="col">
+				<div class="row justify-content-end">
+					<div class="col-12 col-lg-3">
+						<app-btn-block-back (click)="btnClickBack()"></app-btn-block-back>
+					</div>
+					<div class="col-12 col-lg-3">
+						<app-btn-block-save mytype="submit"></app-btn-block-save>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </form>

@@ -14,6 +14,7 @@ export class MatSelectMultipleComponent implements OnInit {
 	@Input() submitted       : boolean = false;
 	@Input() controlName     : string = null;
   @Input() formGroup       : FormGroup = null;
+  @Input() compareWith     = null;
   @Input() options         : IdLabel[] = [
     {id:1,label:'Alabama'}
     , {id:1,label:'Alaska'}
