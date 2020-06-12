@@ -57,11 +57,17 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         this.masterCatalogService.listCatalog(names).subscribe(data  => {
             this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
             this.lstEventsDTO = data['EVENTO'];
+            console.log("loadCatalog:: ",data);
+            
         },
         error=>{
+            
+            console.log("loadCatalog:: ","Error");
             this.addBlock(2, '');
             this.toastr.errorToastr('Problemas en la consulta', 'Error');
         },()=>{
+            
+            console.log("loadCatalog:: ","Termino");
             this.addBlock(2, '');
             this.loadMasters();
         });
@@ -80,7 +86,7 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         this.addBlock(1, '');
         this.binnacleService.listTemplates().subscribe(
             (data: Array<BinnacleEventConfigurationDTO>) => {
-                console.dir(data);
+                console.log("loadMasters:: ",data);
                 let i = 0;
                 this.tableCatalogos = data.map( e => {
                     i++;
@@ -96,11 +102,12 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
                 });
             },
             errorData => {
-                debugger
+                console.log("loadMasters:: ","Error");
                 this.toastr.errorToastr('Problemas en la consulta', 'Error');
                 console.dir(errorData);
             },
             () => {
+                console.log("loadMasters:: ","Termino");
                 this.addBlock(2, '');
             });
     }
