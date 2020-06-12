@@ -49,14 +49,21 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
     ngOnInit() {
         //this.addBlock(1, "");
         this.loadCatalog();
-        this.loadMasters();
     }
 
     loadCatalog() {
+        this.addBlock(1, '');
         const names = ['CLASIFICA EVENTO', 'EVENTO'];
         this.masterCatalogService.listCatalog(names).subscribe(data  => {
             this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
             this.lstEventsDTO = data['EVENTO'];
+        },
+        error=>{
+            this.addBlock(2, '');
+            this.toastr.errorToastr('Problemas en la consulta', 'Error');
+        },()=>{
+            this.addBlock(2, '');
+            this.loadMasters();
         });
     }
     getOpcion(combo: Array<MaestroOpcionDTO>, opcion: number) {
@@ -70,6 +77,7 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
     }
 
     loadMasters() {
+        this.addBlock(1, '');
         this.binnacleService.listTemplates().subscribe(
             (data: Array<BinnacleEventConfigurationDTO>) => {
                 console.dir(data);
@@ -88,10 +96,12 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
                 });
             },
             errorData => {
+                debugger
+                this.toastr.errorToastr('Problemas en la consulta', 'Error');
                 console.dir(errorData);
             },
             () => {
-                //this.addBlock(2, '');
+                this.addBlock(2, '');
             });
     }
     tableRowSee(element) {

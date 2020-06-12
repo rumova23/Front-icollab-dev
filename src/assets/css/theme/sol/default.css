@@ -9,14 +9,14 @@
 }
 
 .mat-selected-row{
-    background: #FFD59F!important;
+    background: #ffebd4!important;
 }
 .mat-header-row{
-    background: #FFB251;
+    background: #fdd3a0;
 }
 .sidebar_item:hover, .sidebar_item.itemActive{
-    background-color : #FFB251!important;
-    color            : Black!important;
+    background-color : #ece4da !important;
+    color            : Black !important;
 }
 .btn:hover{
     color:#eee;

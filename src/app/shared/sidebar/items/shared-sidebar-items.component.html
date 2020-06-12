@@ -14,7 +14,7 @@
 	<div class="col pl-1 pr-0" >
 		<span 
 			*ngIf="globalService.aside_open" 
-			[ngStyle]="{'font-weight': deep!=0 ? 'bold':'','color':deep!=0 ? '#838383':''}"
+			[ngStyle]="{'font-weight': deep!=0 && deep%2 != 0 ? 'bold':'','color':deep!=0 && deep%2 != 0 ? '#838383':''}"
 			[attr.name_item]="item.label" 
 			[attr.id_item]="item.id" 
 			[attr.deep]="deep">
