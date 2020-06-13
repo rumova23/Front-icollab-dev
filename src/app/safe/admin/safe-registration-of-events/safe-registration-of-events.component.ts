@@ -58,7 +58,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	lstMarketTypes: IdLabel[] = [];
 	lstSelatedServices: IdLabel[] = [];
 	lstEquipment: IdLabel[] = [];
-	lstWorkOrder: IdLabel[] = [];
 	lstOperatorPlantOpen: IdLabel[] = [];
 	lstOperatorPlantClose: IdLabel[] = [];
 	lstSourceEvent: IdLabel[] = [];
@@ -307,7 +306,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 					} else {
 						this.formNewEvent.controls.workOrderId.enable();
 					}
-					this.lstWorkOrder = this.loadSelectTemplate(this.lstWorkOrderAll, this.templateConfiguration.workOrderId);
+					if (this.templateConfiguration.workOrderId !==  null) {
+						this.formNewEvent.controls.workOrderId.value(this.templateConfiguration.workOrderId);
+					}
 				} else {
 					this.toastr.warningToastr('El template para el evento: ' + event.label  + ': Aun no es Configurado.', 'Advertencia!');
 				}

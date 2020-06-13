@@ -114,8 +114,8 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
     }
 
     loadCatalog() {
-    const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL/CCDV', 'BANDA TOLERANCIA',
-      'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'ORDEN TRABAJO'];
+    const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL-CCDV', 'BANDA TOLERANCIA',
+      'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO'];
     this.masterCatalogService.listCatalog(names).subscribe(data  => {
       this.loadSelect(this.lstEventClassification, data['CLASIFICA EVENTO']);
       this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
@@ -123,12 +123,11 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
       this.loadSelect(this.lstFuels, data['COMBUSTIBLE']);
       this.loadSelect(this.lstUnits, data['UNIDAD']);
       this.loadSelect(this.lstImpactContracts, data['CONTRATO IMPACTADO']);
-      this.loadSelect(this.lstRealsCcdv, data['REAL/CCDV']);
+      this.loadSelect(this.lstRealsCcdv, data['REAL-CCDV']);
       this.loadSelect(this.lstToleranceBands, data['BANDA TOLERANCIA']);
       this.loadSelect(this.lstMarketTypes, data['TIPO MERCADO MEM']);
       this.loadSelect(this.lstSelatedServices, data['SERVICIOS CONEXOS MEM']);
       this.loadSelect(this.lstEquipment, data['EQUIPO']);
-      this.loadSelect(this.lstWorkOrder, data['ORDEN TRABAJO']);
     }, errorData => {
         this.toastr.errorToastr(errorData.error.message, 'Error!');
     }, () => {

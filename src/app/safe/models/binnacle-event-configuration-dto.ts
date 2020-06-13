@@ -36,7 +36,7 @@ export class BinnacleEventConfigurationDTO implements Deserializable {
     public disabledFinalCharge: boolean;
     public mwPowerLoss: number;
     public disabledMwPowerLoss: boolean;
-    public workOrderId: Array<number>;
+    public workOrderId: string;
     public disabledWorkOrderId: boolean;
     public billingAffects: boolean;
     deserialize(input: any) {

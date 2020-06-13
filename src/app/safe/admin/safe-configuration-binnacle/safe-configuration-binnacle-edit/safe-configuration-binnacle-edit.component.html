@@ -532,11 +532,11 @@
 						></app-mat-input-checkbox>
 					</div>
 				</div>
-				<app-mat-select-multiple
-					[formGroup]="formNewEvent" 
-					controlName="workOrderId" 
-					[options]="lstWorkOrder"
-				></app-mat-select-multiple>
+				<app-mat-input-textarea
+						[formGroup]="formNewEvent"
+						controlName="workOrderId"
+						maxLength="500"
+				></app-mat-input-textarea>
 			</div>
 			<div class="w-100"></div>
 			<!--
