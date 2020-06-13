@@ -97,7 +97,11 @@ export class SafeCatalogConfigurationComponentAbcComponent implements OnInit {
 				},
 				errorData => {
 					this.addBlock(2, '');
-					this.toastr.errorToastr(errorData.error.message, 'Error!');
+					if (errorData.error.message.indexOf('Notificacion') != null) {
+						this.toastr.warningToastr(errorData.error.message, 'Error!');
+					} else {
+						this.toastr.errorToastr(errorData.error.message, 'Error!');
+					}
 				},
 				() => {
 					this.addBlock(2, '');
