@@ -491,6 +491,9 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 				indexYAxis += 1;
 				// this.opt.xAxis.categories = lstX;
 			},error=>{
+				this.toastr.warningToastr(tag + ' no contiene datos en estas fechas', 'Lo siento,');
+				console.log("Error: "+tag+" solicitud Fallida");
+				
 				count +=1;
 				if(count == tags.length)this.addBlock(2,'');
 			});

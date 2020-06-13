@@ -206,6 +206,9 @@ export class SafeEnergyMetersComponent implements OnInit {
 				this.etapa001 = data.maestroOpcionId;
 				this.ppaMonitoringFormatService.getTags(this.etapa001).subscribe((dataInterno) => {
 					this.addBlock(2, '');
+					console.log("loadTags");
+					console.log(dataInterno);
+					console.log("./loadTags");
 					this.selectOptionsVariables = dataInterno.map(element=>{return{ id: element.tag, label: element.tag }});
 					/*
 					dataInterno.forEach(element => {
@@ -318,6 +321,8 @@ export class SafeEnergyMetersComponent implements OnInit {
 				indexYAxis += 1;
 				// this.opt.xAxis.categories = lstX;
 			},error=>{
+				this.toastr.warningToastr(tag + ' no contiene datos en estas fechas', 'Lo siento,');
+				console.log("Error: "+tag+" solicitud Fallida");
 				count +=1;
 				if(count == tags.length)this.addBlock(2,'');
 			});
