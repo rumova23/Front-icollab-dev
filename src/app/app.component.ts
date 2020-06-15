@@ -5,7 +5,27 @@ import { EventService } from './core/services/event.service';
 import { EventBlocked } from './core/models/EventBlocked';
 import { Validate } from './core/helpers/util.validator.';
 
+import * as Highcharts from 'highcharts';
+import HC_exporting    from 'highcharts/modules/exporting';
+import HC_stock        from 'highcharts/modules/stock';
+import HC_customEvents from 'highcharts-custom-events';
+import HC_exportdata   from 'highcharts/modules/export-data';
+import Highcharts3d    from 'highcharts/highcharts-3d';
+import HC_more         from 'highcharts/highcharts-more';
+import HC_extendExportXLS from 'src/app/core/highcharts/exportXLS';
+//require('highcharts/highcharts-more')(Highcharts);
+//require('highcharts/modules/solid-gauge')(Highcharts);
+//import theme           from 'highcharts/themes/gray';
+//import theme           from 'highcharts/themes/gray.src';
 
+HC_more(Highcharts);
+HC_exporting(Highcharts);
+HC_stock(Highcharts);
+HC_customEvents(Highcharts);
+HC_exportdata(Highcharts);
+Highcharts3d(Highcharts);
+HC_extendExportXLS(Highcharts);
+//theme(Highcharts);
 
 @Component({
 	selector    : 'app-root',

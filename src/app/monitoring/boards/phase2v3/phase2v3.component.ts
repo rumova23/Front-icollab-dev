@@ -15,18 +15,8 @@ import * as algo from './algo.json';
 
 import { Chart                           } from 'chart.js';
 
-/* Highcharts */
+
 import * as Highcharts from 'highcharts';
-import HC_exporting    from 'highcharts/modules/exporting';
-import HC_stock        from 'highcharts/modules/stock';
-import HC_customEvents from 'highcharts-custom-events';
-import HC_exportdata   from 'highcharts/modules/export-data';
-import Highcharts3d    from 'highcharts/highcharts-3d';
-import HC_more         from 'highcharts/highcharts-more';
-//require('highcharts/highcharts-more')(Highcharts);
-//require('highcharts/modules/solid-gauge')(Highcharts);
-//import theme           from 'highcharts/themes/gray';
-import theme           from 'highcharts/themes/gray.src';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import { MarketService } from 'src/app/safe/services/market.service';
@@ -36,16 +26,6 @@ import { DatePipe } from '@angular/common';
 
 
 
-HC_more(Highcharts);
-HC_exporting(Highcharts);
-HC_stock(Highcharts);
-HC_customEvents(Highcharts);
-HC_exportdata(Highcharts);
-Highcharts3d(Highcharts);
-//theme(Highcharts);
-
-
-/* ./ Highcharts */
 
 @Component({
 	selector: 'app-phase2v3',

@@ -37,11 +37,12 @@ import { EfhModule				   } from './efh/efh.module';
 /* ./Modules */
 //import  localePy                     from '@angular/common/locales/es-MX';
 import localeEsMx from '@angular/common/locales/es-MX';
+import localeEsMXExtra from '@angular/common/locales/extra/es-MX';
 import { TranslateService } from '@ngx-translate/core';
 
 
 //registerLocaleData(localePy, 'es');
-registerLocaleData(localeEsMx,'es-MX');
+registerLocaleData(localeEsMx,'es-MX',localeEsMXExtra);
 @NgModule({
 	declarations: [
 		 AppComponent

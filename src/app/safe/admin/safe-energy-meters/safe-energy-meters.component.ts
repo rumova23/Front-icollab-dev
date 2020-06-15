@@ -16,6 +16,8 @@ import { MaestroOpcionDTO } from '../../../compliance/models/maestro-opcion-dto'
 import { map } from 'rxjs/operators';
 import * as Highcharts from 'highcharts';
 
+
+
 @Component({
 	selector: 'app-safe-energy-meters',
 	templateUrl: './safe-energy-meters.component.html',
@@ -73,10 +75,9 @@ export class SafeEnergyMetersComponent implements OnInit {
 	file: any;
 	fileName: any;
 	progress;
-
 	@ViewChild('chartLineMs') chartLineMs: ElementRef;
 	chartLine: any;
-	idYAxis=[];
+	idYAxis = [];
 	public opt: any = {
 		credits: {
 			enabled: false
@@ -92,23 +93,29 @@ export class SafeEnergyMetersComponent implements OnInit {
 		},
 		title: {
 			text: 'Variables de Medidores de Energía',
-			
+
 		},
 		exporting: {
-			tableCaption: ""
+			tableCaption: "",
+			
+			csv: {
+			//	dateFormat: '%Y-%m-%d',
+				decimalPoint: '.',
+				itemDelimiter:",",
+			}
 		},
 		xAxis: {
 			gridLineWidth: 1,
 			type: 'datetime'
 		},
-		yAxis: [  ],
-		
+		yAxis: [],
+
 		plotOptions: {
 			series: {
 				fillOpacity: 0.2
 			}
 		},
-	
+
 		tooltip: {
 			shared: true
 		},
@@ -117,13 +124,13 @@ export class SafeEnergyMetersComponent implements OnInit {
 			align: 'right',
 			verticalAlign: 'bottom',
 			y: -20,
-            x: -10,
+			x: -10,
 			floating: true,
-            draggable: true,
+			draggable: true,
 			zIndex: 20,
 			title: {
-                text: 'Tags'
-            },
+				text: 'Tags'
+			},
 			backgroundColor:
 				Highcharts.defaultOptions.legend.backgroundColor || // theme
 				'rgba(255,255,255,0.25)'
@@ -209,7 +216,7 @@ export class SafeEnergyMetersComponent implements OnInit {
 					console.log("loadTags");
 					console.log(dataInterno);
 					console.log("./loadTags");
-					this.selectOptionsVariables = dataInterno.map(element=>{return{ id: element.tag, label: element.tag }});
+					this.selectOptionsVariables = dataInterno.map(element => { return { id: element.tag, label: element.tag } });
 					/*
 					dataInterno.forEach(element => {
 						this.tagsList.push({ id: element.tag, label: element.tag });
@@ -237,17 +244,17 @@ export class SafeEnergyMetersComponent implements OnInit {
 		this.resetScreen();
 	}
 	onChangeSelectVariables(e) {
-		
+
 	}
 	onBtnChart() {
-		
+
 		const mydate = this.fileUploadForm.get('date').value;
 		const month = mydate.month() + 1;
 		const year = mydate.year(); //getFullYear()
 
 		let tags = this.formvariables.get('selectVariables').value;
 		let count = 0;
-		if(tags == null || tags.length == 0 || mydate == null){
+		if (tags == null || tags.length == 0 || mydate == null) {
 			this.toastr.errorToastr("Todos los campos son necesarios.", 'Lo siento,');
 			return 0;
 		}
@@ -255,18 +262,18 @@ export class SafeEnergyMetersComponent implements OnInit {
 		for (const axis of this.idYAxis) {
 			this.chartLine.get(axis).remove();
 		}
-		if(this.chartLine)this.chartLine.destroy();
+		if (this.chartLine) this.chartLine.destroy();
 		this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
 		this.idYAxis = [];
-		let data:any = [
-			{nameParameter: "year",valueParameter: year},
-			{nameParameter: "mount",valueParameter: month}];
-		let indexYAxis=0;
-		this.addBlock(1,'Graficando');
+		let data: any = [
+			{ nameParameter: "year", valueParameter: year },
+			{ nameParameter: "mount", valueParameter: month }];
+		let indexYAxis = 0;
+		this.addBlock(1, 'Graficando');
 		for (const tag of tags) {
 			this.ppaMonitoringFormatService.get(tag, data).subscribe((data) => {
-				count +=1;
-				if(count == tags.length)this.addBlock(2,'');
+				count += 1;
+				if (count == tags.length) this.addBlock(2, '');
 				if (data == null) {
 					this.toastr.warningToastr(tag + ' no contiene datos en estas fechas', 'Lo siento,');
 					return false;
@@ -308,14 +315,14 @@ export class SafeEnergyMetersComponent implements OnInit {
 							color: Highcharts.getOptions().colors[indexYAxis]
 						}
 					},
-					title: {						
+					title: {
 						enabled: false,
 						style: {
 							color: Highcharts.getOptions().colors[indexYAxis]
 						},
 						align: 'high',
 						offset: 0,
-						text: " "+name+' ('+unidad+") ",
+						text: " " + name + ' (' + unidad + ") ",
 						rotation: 0,
 						y: -10
 					},
@@ -330,27 +337,27 @@ export class SafeEnergyMetersComponent implements OnInit {
 				);
 				indexYAxis += 1;
 				// this.opt.xAxis.categories = lstX;
-			},error=>{
+			}, error => {
 				this.toastr.warningToastr(tag + ' no contiene datos en estas fechas', 'Lo siento,');
-				console.log("Error: "+tag+" solicitud Fallida");
-				count +=1;
-				if(count == tags.length)this.addBlock(2,'');
+				console.log("Error: " + tag + " solicitud Fallida");
+				count += 1;
+				if (count == tags.length) this.addBlock(2, '');
 			});
 		}
 	}
-	
+
 	ordenar(arr) {
 		const l = arr.length;
 		let j, temp;
 
-		for ( let i = 1; i < l; i++ ) {
-		  j = i;
-		  temp = arr[ i ];
-		  while ( j > 0 && arr[ j - 1 ][0] > temp[0] ) {
-			arr[ j ] = arr[ j - 1 ];
-			j--;
-		  }
-		  arr[ j ] = temp;
+		for (let i = 1; i < l; i++) {
+			j = i;
+			temp = arr[i];
+			while (j > 0 && arr[j - 1][0] > temp[0]) {
+				arr[j] = arr[j - 1];
+				j--;
+			}
+			arr[j] = temp;
 		}
 
 		return arr;

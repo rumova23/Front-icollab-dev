@@ -1,20 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 /* Highcharts */
 import * as Highcharts from "highcharts";
-import HC_exporting from "highcharts/modules/exporting";
-import HC_stock from "highcharts/modules/stock";
-import HC_customEvents from "highcharts-custom-events";
-import HC_exportdata from "highcharts/modules/export-data";
-import Highcharts3d from "highcharts/highcharts-3d";
-import theme from 'highcharts/themes/sunset';
-//import theme           from 'highcharts/themes/gray.src';
-HC_exporting(Highcharts);
-HC_stock(Highcharts);
-HC_customEvents(Highcharts);
-HC_exportdata(Highcharts);
-Highcharts3d(Highcharts);
-//theme(Highcharts);
-/* ./ Highcharts */
+
 
 import { AccuweatherService } from './accuweather.service';
 import { DatePipe } from '@angular/common';

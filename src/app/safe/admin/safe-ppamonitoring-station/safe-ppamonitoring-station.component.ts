@@ -19,15 +19,7 @@ import * as moment from 'moment';
 
 
 import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format.service';
-/* Highcharts */
 import * as Highcharts from 'highcharts';
-import HC_exporting from 'highcharts/modules/exporting';
-import HC_stock from 'highcharts/modules/stock';
-import HC_customEvents from 'highcharts-custom-events';
-import HC_exportdata from 'highcharts/modules/export-data';
-import Highcharts3d from 'highcharts/highcharts-3d';
-// import theme from 'highcharts/themes/sunset';
-import theme           from 'highcharts/themes/gray.src';
 import { Sort, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import {Constants} from '../../../core/globals/Constants';
 import {MonitoringService} from '../../services/monitoring.service';
@@ -41,13 +33,8 @@ import {saveAs} from 'file-saver';
 // import theme           from 'highcharts/themes/dark-green';
 import { IdLabel } from 'src/app/core/models/IdLabel';
 import { Moment } from 'moment';
-HC_exporting(Highcharts);
-HC_stock(Highcharts);
-HC_customEvents(Highcharts);
-HC_exportdata(Highcharts);
-// Highcharts3d(Highcharts);
-// theme(Highcharts);
-/* ./ Highcharts */
+
+
 
 @Component({
 	selector: 'app-safe-ppamonitoring-station',
