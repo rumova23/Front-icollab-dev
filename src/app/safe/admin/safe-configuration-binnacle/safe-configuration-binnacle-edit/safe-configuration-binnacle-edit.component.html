@@ -44,7 +44,6 @@
 					label="Eventos"
 				></app-checkbox-with-select>
 			</div>
-			<div class="w-100"></div>
 			<div class="col-12 col-lg-3">
 				<app-checkbox-with-select-multiple
 					[formGroup]="formNewEvent" 
@@ -53,6 +52,15 @@
 					[options]="lstFuels"
 					[compareWith]="compareTech"
 					label="Combustible"
+				></app-checkbox-with-select-multiple>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="impactContractsId" 
+					controlNameCheckBox="disabledImpactContractsId"
+					[options]="lstImpactContracts"
+					label="Contrato Impactado"
 				></app-checkbox-with-select-multiple>
 			</div>
 			<div class="col-12 col-lg-3">
@@ -78,15 +86,6 @@
 					controlNameCheckBox="disabledUnitsId"
 					[options]="lstUnits"
 					label="Unidad"
-				></app-checkbox-with-select-multiple>
-			</div>
-			<div class="col-12 col-lg-3">
-				<app-checkbox-with-select-multiple
-					[formGroup]="formNewEvent" 
-					controlName="impactContractsId" 
-					controlNameCheckBox="disabledImpactContractsId"
-					[options]="lstImpactContracts"
-					label="Contrato Impactado"
 				></app-checkbox-with-select-multiple>
 			</div>
 		</div>
@@ -133,22 +132,6 @@
 				></app-checkbox-with-select-multiple>
 			</div>
 			<div class="col-12 col-lg-3">
-				<app-checkbox-with-number
-					[formGroup]="formNewEvent" 
-					controlName="mwOfferedLimitLower" 
-					controlNameCheckBox="disabledMwOfferedLimitLower"
-					label="MW Ofertados Limite Inferior"
-				></app-checkbox-with-number>
-			</div>
-			<div class="col-12 col-lg-3">
-				<app-checkbox-with-number
-					[formGroup]="formNewEvent" 
-					controlName="mwOfferedLimitUpper" 
-					controlNameCheckBox="disabledMwOfferedLimitUpper"
-					label="MW Ofertados Limite Superior"
-				></app-checkbox-with-number>
-			</div>
-			<div class="col-12 col-lg-3">
 				<app-checkbox-with-select-multiple
 					[formGroup]="formNewEvent" 
 					controlName="relatedServicesId" 
@@ -156,6 +139,23 @@
 					[options]="lstSelatedServices"
 					label="Servicios Conexos"
 				></app-checkbox-with-select-multiple>
+			</div>
+			<div class="w-100"></div>
+			<div class="col-12 col-lg-6">
+				<app-checkbox-with-number
+					[formGroup]="formNewEvent" 
+					controlName="mwOfferedLimitLower" 
+					controlNameCheckBox="disabledMwOfferedLimitLower"
+					label="MW Ofertados Limite Inferior"
+				></app-checkbox-with-number>
+			</div>
+			<div class="col-12 col-lg-6">
+				<app-checkbox-with-number
+					[formGroup]="formNewEvent" 
+					controlName="mwOfferedLimitUpper" 
+					controlNameCheckBox="disabledMwOfferedLimitUpper"
+					label="MW Ofertados Limite Superior"
+				></app-checkbox-with-number>
 			</div>
 		</div>
 
@@ -165,29 +165,15 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-12 col-lg-3">				
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label># Licencia</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledlicenseNumber"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
-
-				<!--app-checkbox-with-input-text
+			<div class="col-12 col-lg-4">
+				<app-checkbox-with-input-text
 					[formGroup]="formNewEvent" 
 					controlName="licenseNumber" 
 					controlNameCheckBox="disabledlicenseNumber"
 					label="# Licencia"
-				></app-checkbox-with-input-text-->
-				
+				></app-checkbox-with-input-text>
 			</div>
-			<div class="col-12 col-lg-3">
+			<div class="col-12 col-lg-4">
 				<app-checkbox-with-select-multiple
 					[formGroup]="formNewEvent" 
 					controlName="equipmentId" 
@@ -196,8 +182,8 @@
 					label="Equipo"
 				></app-checkbox-with-select-multiple>
 			</div>
-
-			<div class="col-12 col-lg-3">
+			<div class="w-100"></div>
+			<div class="col-12 col-lg-4">
 				<app-checkbox-with-number
 					[formGroup]="formNewEvent" 
 					controlName="initialChargeLimitLower" 
@@ -205,7 +191,7 @@
 					label="Carga Inicial Limite Inferior"
 				></app-checkbox-with-number>
 			</div>
-			<div class="col-12 col-lg-3">
+			<div class="col-12 col-lg-4">
 				<app-checkbox-with-number
 					[formGroup]="formNewEvent" 
 					controlName="initialChargeLimitUpper" 
@@ -213,7 +199,7 @@
 					label="Carga Inicial Limite Superior"
 				></app-checkbox-with-number>
 			</div>
-			<div class="col-12 col-lg-3">
+			<div class="col-12 col-lg-4">
 				<app-checkbox-with-number
 					[formGroup]="formNewEvent" 
 					controlName="finalChargeLimitLower" 
@@ -221,7 +207,7 @@
 					label="Carga Final Limite Inferior"
 				></app-checkbox-with-number>
 			</div>
-			<div class="col-12 col-lg-3">
+			<div class="col-12 col-lg-4">
 				<app-checkbox-with-number
 					[formGroup]="formNewEvent" 
 					controlName="finalChargeLimitUpper" 
@@ -229,8 +215,7 @@
 					label="Carga Final Limite Superior"
 				></app-checkbox-with-number>
 			</div>
-			<div class="w-100"></div>
-			<div class="col-12 col-lg-3">
+			<div class="col-12 col-lg-4">
 				<app-checkbox-with-number
 					[formGroup]="formNewEvent" 
 					controlName="mwPowerLossLI" 
@@ -238,7 +223,7 @@
 					label="(-) Perdida Potencia MW LI"
 				></app-checkbox-with-number>
 			</div>
-			<div class="col-12 col-lg-3">
+			<div class="col-12 col-lg-4">
 				<app-checkbox-with-number
 					[formGroup]="formNewEvent" 
 					controlName="mwPowerLossLS" 
@@ -246,33 +231,21 @@
 					label="(-) Perdida Potencia MW LS"
 				></app-checkbox-with-number>
 			</div>
-			<div class="col-12 col-lg-3">
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Orden de Trabajo</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledWorkOrderId"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
+			<div class="col-12 col-lg-4">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="workOrderId"
+					controlNameCheckBox="disabledWorkOrderId"
+					label="Orden de Trabajo"
+				></app-checkbox-with-input-text>
 			</div>
-			<div class="col-12 col-lg-3">
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Descripción / Concepto de la Licencia</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledLicenseDescription"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
+			<div class="col-12 col-lg-4">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="licenseDescription"
+					controlNameCheckBox="disabledLicenseDescription"
+					label="Descripción / Concepto de la Licencia"
+				></app-checkbox-with-input-text>
 			</div>
 		</div>
 		<div class="row pb-2">
@@ -281,64 +254,39 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-12 col-lg-3">
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Nombre(s) / Apellido(s) Operador Planta Abrió</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledOperatorPlantOpen"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
+			<div class="col-12 col-lg-4">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="operatorPlantOpen"
+					controlNameCheckBox="disabledOperatorPlantOpen"
+					label="Nombre(s) / Apellido(s) Operador Planta Abrió"
+				></app-checkbox-with-input-text>
 			</div>
-			<div class="col-12 col-lg-3">
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Nombre(s) / Apellido(s) Operador CENACE Abrió</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledOperatorCenaceOpen"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
+			<div class="col-12 col-lg-4">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="operatorCenaceOpen"
+					controlNameCheckBox="disabledOperatorCenaceOpen"
+					label="Nombre(s) / Apellido(s) Operador CENACE Abrió"
+				></app-checkbox-with-input-text>
 			</div>
-			<div class="col-12 col-lg-3">
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Nombre(s) / Apellido(s) Operador Planta Cerro</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledOperatorPlantClose"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
+			<div class="col-12 col-lg-4">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="operatorPlantClose"
+					controlNameCheckBox="disabledOperatorPlantClose"
+					label="Nombre(s) / Apellido(s) Operador Planta Cerro"
+				></app-checkbox-with-input-text>
 			</div>
-			<div class="col-12 col-lg-3">
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Nombre(s) / Apellido(s) Operador CENACE Cerro</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledOperatorCenaceClose"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
+			<div class="col-12 col-lg-4">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="operatorCenaceClose"
+					controlNameCheckBox="disabledOperatorCenaceClose"
+					label="Nombre(s) / Apellido(s) Operador CENACE Cerro"
+				></app-checkbox-with-input-text>
 			</div>
-			
-			<div class="col-12 col-lg-3">
+			<div class="col-12 col-lg-4">
 				<app-checkbox-with-select-multiple
 					[formGroup]="formNewEvent" 
 					controlName="sourceEvent" 
@@ -355,41 +303,40 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-12 col-lg-3">
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Estatus del Evento</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledEventStatus"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
+			<div class="col-12 col-lg-4">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="eventStatus"
+					controlNameCheckBox="disabledEventStatus"
+					label="Estatus del Evento"
+				></app-checkbox-with-input-text>
 			</div>
-			<div class="col-12 col-lg-3">
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Estatus de Aprobación</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledApprovalStatus"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
+			<div class="col-12 col-lg-4">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="approvalStatus"
+					controlNameCheckBox="disabledApprovalStatus"
+					label="Estatus de Aprobación"
+				></app-checkbox-with-input-text>
 			</div>
 		</div>
 	</div>
 	<div class="section">
 		
 		<div class="row pb-2">
-			<div class="col">
-				<p class="section_titulo_1">{{ "Observaciones y/o comentarios" | translate }}</p>
+			<div class="col-12 col-lg-3">
+				<div class="row mbLblCheck justify-content-between">
+					<div class="col">
+						<label>Observaciones y/o comentarios</label>
+					</div>
+					<div class="col-auto">
+						<app-mat-input-checkbox  
+							[formGroup]="formNewEvent" 
+							controlName="disabledObsComment"
+							val=""
+						></app-mat-input-checkbox>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="row">
@@ -415,10 +362,10 @@
 			<div class="col"></div>
 			<div class="col">
 				<div class="row justify-content-end">
-					<div class="col-12 col-lg-3">
+					<div class="col-12 col-lg-4">
 						<app-btn-block-back (click)="btnClickBack()"></app-btn-block-back>
 					</div>
-					<div class="col-12 col-lg-3">
+					<div class="col-12 col-lg-4">
 						<app-btn-block-save mytype="submit"></app-btn-block-save>
 					</div>
 				</div>

@@ -86,7 +86,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			relatedServicesId: [null],
 			disabledRelatedServicesId: [false],
 			disabledlicenseNumber: [false],
-			licenseNumber: [{ value: null, disabled: false }],
+			licenseNumber: [{ value: null, disabled: true }],
 			disabledKLicenseNumber: [false],
 			equipmentId: [null],
 			disabledEquipmentId: [false],
@@ -114,21 +114,26 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			mwPowerLossLS: [{ value: null, disabled: false }],
 			disabledMwPowerLossLS: [false],
 
-			workOrderId: [null],
+			workOrderId: [{ value: null, disabled: true }],
 			disabledWorkOrderId: [false],
-			licenseDescription: [{ value: null, disabled: false }],
+			licenseDescription: [{ value: null, disabled: true }],
 			disabledLicenseDescription: [false],
-
+			operatorPlantOpen: [{ value: null, disabled: true }],
 			disabledOperatorPlantOpen: [false],
+			operatorCenaceOpen: [{ value: null, disabled: true }],
 			disabledOperatorCenaceOpen: [false],
+			operatorPlantClose: [{ value: null, disabled: true }],
 			disabledOperatorPlantClose: [false],
+			operatorCenaceClose: [{ value: null, disabled: true }],
 			disabledOperatorCenaceClose: [false],
 			sourceEvent: [{ value: null, disabled: false }],
 			disabledSourceEvent: [false],
-
+			eventStatus: [{ value: null, disabled: true }],
 			disabledEventStatus: [false],
+			approvalStatus: [{ value: null, disabled: true }],
 			disabledApprovalStatus: [false],
 			disabledFile: [false],
+			disabledObsComment: [false],
 		}
 		);
 		this.loadCatalog();
