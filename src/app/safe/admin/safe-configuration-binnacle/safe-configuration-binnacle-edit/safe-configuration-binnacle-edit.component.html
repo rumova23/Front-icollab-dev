@@ -8,8 +8,7 @@
 		<mdb-breadcrumb-item class="active">{{ "Alta de Eventos" | translate }}</mdb-breadcrumb-item>
 	</mdb-breadcrumb>
 </div>
-
-<form [formGroup]="formNewEvent" (ngSubmit)="onSubmitFormNewEvent(formNewEvent.value)">
+<form [formGroup]="formNewEvent001" (ngSubmit)="onSubmitFormNewEvent001(formNewEvent001.value)">
 	<div class="section">
 		<div class="row pb-2">
 			<div class="col">
@@ -19,6 +18,39 @@
 		</div>
 		<hr>
 		<br>
+		
+		<div class="row">
+			<div class="col-12 col-lg-4">
+				<app-checkbox-with-select
+					[formGroup]="formNewEvent001" 
+					controlName="eventsClassificationId" 
+					controlNameCheckBox="disabledEventsClassificationId"
+					[options]="lstEventClassification_00"
+					label="Clasificación de Eventos"
+					(eventChangeSelect)="onBuildEventAssociated_00($event)"
+				></app-checkbox-with-select>
+			</div>
+			<div class="col-12 col-lg-4">
+				<app-checkbox-with-select-multiple
+					[formGroup]="formNewEvent001" 
+					controlName="eventsId" 
+					controlNameCheckBox="disabledEventsId"
+					[options]="lstEventsId_00"
+					[compareWith]="compareTech"
+					label="Eventos"
+				></app-checkbox-with-select-multiple>
+			</div>
+		</div>
+		
+		<div class="row justify-content-end">
+			<div class="col-12 col-lg-4">
+				<app-btn-block-save mytype="submit"></app-btn-block-save>
+			</div>
+		</div>
+	</div>
+</form>
+<form [formGroup]="formNewEvent" (ngSubmit)="onSubmitFormNewEvent(formNewEvent.value)">
+	<div class="section">
 		<div class="row pb-2">
 			<div class="col">
 				<p class="section_titulo_1">{{ "Descripción / Clasificacion de Evento" | translate }}</p>

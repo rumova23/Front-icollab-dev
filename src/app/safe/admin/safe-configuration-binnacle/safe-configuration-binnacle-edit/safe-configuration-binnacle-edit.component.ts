@@ -20,6 +20,7 @@ import { EventBlocked } from '../../../../core/models/EventBlocked';
 })
 export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	formNewEvent: FormGroup;
+	formNewEvent001:FormGroup;
 	catalogType: any;
 	lstEventClassification: IdLabel[] = [];
 	lstEventClassificationDTO: Array<MaestroOpcionDTO>;
@@ -39,6 +40,8 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	lstSourceEvent: IdLabel[] = [];
 	lstEventStatus: IdLabel[] = [];
 	lstApprovalStatus: IdLabel[] = [];
+	lstEventClassification_00: IdLabel[] = [{id:"1",label:"algo"}];
+	lstEventsId_00: IdLabel[] = [{id:"1",label:"algo"}];
 	progress;
 	constructor(
 		private formBuilder: FormBuilder,
@@ -53,6 +56,12 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 
 	ngOnInit() {
 		console.dir(this.catalogType);
+		this.formNewEvent001 = this.formBuilder.group({
+			eventsClassificationId: ['', null],
+			disabledEventsClassificationId: [false],
+			eventsId: ['', null],
+			disabledEventsId: [false],
+		});
 		this.formNewEvent = this.formBuilder.group({
 			binnacleEventID: ['', null],
 			disabledEventsClassificationId: [false],
@@ -148,6 +157,9 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			});
 		}
 	}
+	onBuildEventAssociated_00(event){
+		console.log(event);
+	}
 	onBuildEventAssociated(event) {
 		console.log("onBuildEventAssociated:: ",event);
 		
@@ -184,6 +196,9 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 				this.formNewEvent.controls.eventsId.disable();
 			}
 		});
+	}
+	onSubmitFormNewEvent001(v){
+		console.log(v);
 	}
 	onSubmitFormNewEvent(v) {
 		if (this.catalogType.action === 'Guardar') {
