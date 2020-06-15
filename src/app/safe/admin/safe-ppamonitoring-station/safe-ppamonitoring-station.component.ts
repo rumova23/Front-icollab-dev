@@ -207,20 +207,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		private monitoringService: MonitoringService,
 		private datePipe: DatePipe) { }
 
-	chosenYearHandler(normalizedYear: any) {
-		const ctrlValue = this.date.value;
-		ctrlValue.year(normalizedYear.year());
-		this.date.setValue(ctrlValue);
-	}
 
-	chosenMonthHandler(normalizedMonth: any, datepicker: MatDatepicker<any>) {
-		const ctrlValue = this.date.value;
-		ctrlValue.month(normalizedMonth.month());
-		this.date.setValue(ctrlValue);
-		datepicker.close();
-		this.resetScreen();
-		this.stangeLoadRaw();
-	}
 	resetScreen() {
 		// this.dataSource = new MatTableDataSource<any>([]);
 		this.formvariables.get('tags').reset();
@@ -603,6 +590,9 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	}
 	onChangeDatePicker(d: Moment) {
 		this.date.setValue(d);
+		
+		this.resetScreen();
+		this.stangeLoadRaw();
 	}
 
 	download() {

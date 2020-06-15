@@ -218,6 +218,14 @@ export class SafeEnergyMetersComponent implements OnInit {
 				});
 			});
 	}
+	resetScreen() {
+		// this.dataSource = new MatTableDataSource<any>([]);
+		this.formvariables.get('selectVariables').reset();
+		if (this.chartLine !== undefined) {
+			this.chartLine.destroy();
+			this.chartLine = undefined;
+		}
+	}
 	onChangeSelectFuente(e: MatSelectChange) {
 		this.isManualLoad = e.value == '4' ? true : false;
 	}
@@ -225,6 +233,8 @@ export class SafeEnergyMetersComponent implements OnInit {
 		const month = d.month() + 1;
 		const year = d.year();
 		const date = d.format('MM/yyyy');
+
+		this.resetScreen();
 	}
 	onChangeSelectVariables(e) {
 		
