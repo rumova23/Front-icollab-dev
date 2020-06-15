@@ -26,157 +26,68 @@
 		</div>
 		<div class="row">
 			<div class="col-12 col-lg-3">
-				<app-mat-select 
+				<app-checkbox-with-select
 					[formGroup]="formNewEvent" 
-					controlName="eventsClassificationId"
-					[options]="lstEventClassification" 
+					controlName="eventsClassificationId" 
+					controlNameCheckBox="disabledEventsClassificationId"
+					[options]="lstEventClassification"
 					label="Clasificación de Eventos"
-					(eventChange)="onBuildEventAssociated($event)"></app-mat-select>
+					(eventChangeSelect)="onBuildEventAssociated($event)"
+				></app-checkbox-with-select>
 			</div>
 			<div class="col-12 col-lg-3">
-				<app-mat-select 
+				<app-checkbox-with-select
 					[formGroup]="formNewEvent" 
 					controlName="eventsId" 
-					[options]="lstEvents" 
-					label="Eventos">
-				</app-mat-select>
+					controlNameCheckBox="disabledEventsId"
+					[options]="lstEvents"
+					label="Eventos"
+				></app-checkbox-with-select>
 			</div>
 			<div class="w-100"></div>
-			<!--div class="col-1">
-				<app-mat-input-checkbox  
-					[formGroup]="formNewEvent" 
-					controlName="disabledFuelsId"
-					label="label"
-				></app-mat-input-checkbox>
-			</div-->
 			<div class="col-12 col-lg-3">
-				<!--mat-form-field>
-					<mat-select [multiple]="true" placeholder="Combustible" [formGroup]="formNewEvent"
-						formControlName="fuelsId" [compareWith]="compareTech">
-						<mat-option *ngFor="let entry of lstFuels" [value]="entry.id">{{entry.label}}</mat-option>
-					</mat-select>
-				</mat-form-field-->
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Combustible</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledFuelsId"
-							label=""
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
-
-				<app-mat-select-multiple
+				<app-checkbox-with-select-multiple
 					[formGroup]="formNewEvent" 
 					controlName="fuelsId" 
+					controlNameCheckBox="disabledFuelsId"
 					[options]="lstFuels"
 					[compareWith]="compareTech"
-					label=""
-				></app-mat-select-multiple>
+					label="Combustible"
+				></app-checkbox-with-select-multiple>
 			</div>
-			<!--
-			<div class="col-1">
-				<input type="checkbox" 
-				[formGroup]="formNewEvent" 
-				controlName="disabledPowerMw" />
-				
-			</div>
-			-->
 			<div class="col-12 col-lg-3">
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Potencia MW</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledPowerMw"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
-				<app-mat-input-number 
+				<app-checkbox-with-number
 					[formGroup]="formNewEvent" 
-					controlName="powerMw" 
-				>
-				</app-mat-input-number>
+					controlName="powerMwLimitLower" 
+					controlNameCheckBox="disabledPowerMwLimitLower"
+					label="Potencia Limite Inferior"
+				></app-checkbox-with-number>
 			</div>
-			<!--
-			<div class="col-1">
-					<input type="checkbox" 
-					[formGroup]="formNewEvent" 
-					controlName="disabledUnitsId" />
-			</div>
-			-->
 			<div class="col-12 col-lg-3">
-				<!--mat-form-field>
-					<mat-select 
-						placeholder="Unidad" 
-						[formGroup]="formNewEvent" 
-						formControlName="unitsId" multiple>
-						<mat-option *ngFor="let entry of lstUnits" 
-						[value]="entry.id">{{entry.label}}</mat-option>
-					</mat-select>
-				</mat-form-field-->
-				
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Unidad</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledUnitsId"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
-				<app-mat-select-multiple
+				<app-checkbox-with-number
+					[formGroup]="formNewEvent" 
+					controlName="powerMwLimitUpper" 
+					controlNameCheckBox="disabledPowerMwLimitUpper"
+					label="Potencia Limite Superior"
+				></app-checkbox-with-number>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-select-multiple
 					[formGroup]="formNewEvent" 
 					controlName="unitsId" 
+					controlNameCheckBox="disabledUnitsId"
 					[options]="lstUnits"
-				></app-mat-select-multiple>
+					label="Unidad"
+				></app-checkbox-with-select-multiple>
 			</div>
-			<!--
-			<div class="col-1">
-					<input type="checkbox" [formGroup]="formNewEvent" 
-					controlName="disabledImpactContractsId" />
-			</div>
-			-->
 			<div class="col-12 col-lg-3">
-				<!--mat-form-field>
-					<mat-select 
-						placeholder="Contrato Impactado" 
-						[formGroup]="formNewEvent"
-						formControlName="impactContractsId" multiple>
-						<mat-option 
-							*ngFor="let entry of lstImpactContracts" 
-							[value]="entry.id">{{entry.label}}
-						</mat-option>
-					</mat-select>
-				</mat-form-field-->
-				
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Contrato Impactado</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledImpactContractsId"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
-				<app-mat-select-multiple
+				<app-checkbox-with-select-multiple
 					[formGroup]="formNewEvent" 
 					controlName="impactContractsId" 
+					controlNameCheckBox="disabledImpactContractsId"
 					[options]="lstImpactContracts"
-				></app-mat-select-multiple>
+					label="Contrato Impactado"
+				></app-checkbox-with-select-multiple>
 			</div>
 		</div>
 
@@ -186,78 +97,23 @@
 			</div>
 		</div>
 		<div class="row">
-			<!--
-			<div class="col-1">
-					<input 
-					type="checkbox" 
-					[formGroup]="formNewEvent" 
-					controlName="disabledRealsCcdvId" />
-			</div>
-			-->
 			<div class="col-12 col-lg-3">
-				<!--mat-form-field>
-					<mat-select 
-						placeholder="Real/CCDV" 
-						[formGroup]="formNewEvent" 
-						formControlName="realsCcdvId"
-						multiple>
-						<mat-option *ngFor="let entry of lstRealsCcdv" [value]="entry.id">{{entry.label}}</mat-option>
-					</mat-select>
-				</mat-form-field-->
-				
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Real/CCDV</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledRealsCcdvId"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
-				<app-mat-select-multiple
+				<app-checkbox-with-select-multiple
 					[formGroup]="formNewEvent" 
 					controlName="realsCcdvId" 
+					controlNameCheckBox="disabledRealsCcdvId"
 					[options]="lstRealsCcdv"
-				></app-mat-select-multiple>
+					label="Real/CCDV"
+				></app-checkbox-with-select-multiple>
 			</div>
-			<!--
-			<div class="col-1">
-					<input type="checkbox" 
-					[formGroup]="formNewEvent" 
-					controlName="disabledToleranceBandsId" />
-			</div>
-			-->
 			<div class="col-12 col-lg-3">
-				<!--mat-form-field>
-					<mat-select 
-						placeholder="Banda de Tolerancia" 
-						[formGroup]="formNewEvent"
-						formControlName="toleranceBandsId" multiple>
-						<mat-option *ngFor="let entry of lstToleranceBands" [value]="entry.id">{{entry.label}}
-						</mat-option>
-					</mat-select>
-				</mat-form-field-->
-				
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Banda de Tolerancia</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledToleranceBandsId"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
-				<app-mat-select-multiple
+				<app-checkbox-with-select-multiple
 					[formGroup]="formNewEvent" 
 					controlName="toleranceBandsId" 
+					controlNameCheckBox="disabledToleranceBandsId"
 					[options]="lstToleranceBands"
-				></app-mat-select-multiple>
+					label="Banda de Tolerancia"
+				></app-checkbox-with-select-multiple>
 			</div>
 		</div>
 
@@ -267,100 +123,39 @@
 			</div>
 		</div>
 		<div class="row">
-			<!--
-			<div class="col-1">
-					<input type="checkbox" 
-					[formGroup]="formNewEvent" 
-					controlName="disabledMarketTypesId" />
-			</div>
-			-->
 			<div class="col-12 col-lg-3">
-				<!--mat-form-field>
-					<mat-select 
-						placeholder="Tipo de Mercado" 
-						[formGroup]="formNewEvent" 
-						formControlName="marketTypesId"
-						multiple>
-						<mat-option *ngFor="let entry of lstMarketTypes" [value]="entry.id">{{entry.label}}</mat-option>
-					</mat-select>
-				</mat-form-field-->
-				
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Tipo de Mercado</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledMarketTypesId"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
-				<app-mat-select-multiple
+				<app-checkbox-with-select-multiple
 					[formGroup]="formNewEvent" 
 					controlName="marketTypesId" 
+					controlNameCheckBox="disabledMarketTypesId"
 					[options]="lstMarketTypes"
-				></app-mat-select-multiple>
+					label="Tipo de Mercado"
+				></app-checkbox-with-select-multiple>
 			</div>
-			<!--
-			<div class="col-1">
-					<input type="checkbox" [formGroup]="formNewEvent" 
-					controlName="disabledMwOffered" />
-			</div>
-			-->
 			<div class="col-12 col-lg-3">
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>MW Ofertados</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledMwOffered"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
-				<app-mat-input-number 
+				<app-checkbox-with-number
 					[formGroup]="formNewEvent" 
-					controlName="mwOffered" 
-				></app-mat-input-number>
+					controlName="mwOfferedLimitLower" 
+					controlNameCheckBox="disabledMwOfferedLimitLower"
+					label="MW Ofertados Limite Inferior"
+				></app-checkbox-with-number>
 			</div>
-			<!--
-			<div class="col-1">
-					<input type="checkbox" [formGroup]="formNewEvent" 
-					controlName="disabledRelatedServicesId" />
-			</div>
-			-->
 			<div class="col-12 col-lg-3">
-				<!--mat-form-field>
-					<mat-select 
-						placeholder="Servicios Conexos" 
-						[formGroup]="formNewEvent"
-						formControlName="relatedServicesId" multiple>
-						<mat-option *ngFor="let entry of lstSelatedServices" [value]="entry.id">{{entry.label}}
-						</mat-option>
-					</mat-select>
-				</mat-form-field-->
-				
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Servicios Conexos</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledRelatedServicesId"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
-				<app-mat-select-multiple
+				<app-checkbox-with-number
+					[formGroup]="formNewEvent" 
+					controlName="mwOfferedLimitUpper" 
+					controlNameCheckBox="disabledMwOfferedLimitUpper"
+					label="MW Ofertados Limite Superior"
+				></app-checkbox-with-number>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-select-multiple
 					[formGroup]="formNewEvent" 
 					controlName="relatedServicesId" 
+					controlNameCheckBox="disabledRelatedServicesId"
 					[options]="lstSelatedServices"
-				></app-mat-select-multiple>
+					label="Servicios Conexos"
+				></app-checkbox-with-select-multiple>
 			</div>
 		</div>
 
@@ -370,13 +165,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<!--
-			<div class="col-1">
-					<input type="checkbox" [formGroup]="formNewEvent" 
-					controlName="disabledlicenseNumber" />
-			</div>
-			-->
-			<div class="col-12 col-lg-3">
+			<div class="col-12 col-lg-3">				
 				<div class="row mbLblCheck justify-content-between">
 					<div class="col">
 						<label># Licencia</label>
@@ -389,137 +178,75 @@
 						></app-mat-input-checkbox>
 					</div>
 				</div>
-				<app-mat-input-text 
+
+				<!--app-checkbox-with-input-text
 					[formGroup]="formNewEvent" 
 					controlName="licenseNumber" 
-				></app-mat-input-text>
-			</div>
-			<!--
-			<div class="col-1">
-					<input type="checkbox" [formGroup]="formNewEvent" 
-					controlName="disabledEquipmentId" />
-			</div>
-			-->
-			<div class="col-12 col-lg-3">
-				<!--mat-form-field>
-					<mat-select 
-						placeholder="Equipo" 
-						[formGroup]="formNewEvent" 
-						formControlName="equipmentId" multiple>
-						<mat-option *ngFor="let entry of lstEquipment" [value]="entry.id">{{entry.label}}</mat-option>
-					</mat-select>
-				</mat-form-field-->
+					controlNameCheckBox="disabledlicenseNumber"
+					label="# Licencia"
+				></app-checkbox-with-input-text-->
 				
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Equipo</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledEquipmentId"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
-				<app-mat-select-multiple
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-select-multiple
 					[formGroup]="formNewEvent" 
 					controlName="equipmentId" 
+					controlNameCheckBox="disabledEquipmentId"
 					[options]="lstEquipment"
-				></app-mat-select-multiple>
+					label="Equipo"
+				></app-checkbox-with-select-multiple>
 			</div>
-			<!--
-			<div class="col-1">
-					<input type="checkbox" [formGroup]="formNewEvent" 
-					controlName="disabledInitialCharge" />
-			</div>
-			-->
-			<div class="col-12 col-lg-3">				
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Carga Inicial</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledInitialCharge"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
-				<app-mat-input-number 
-					[formGroup]="formNewEvent" 
-					controlName="initialCharge" 
-				></app-mat-input-number>
-			</div>
-			<!--
-			<div class="col-1">
-					<input type="checkbox" [formGroup]="formNewEvent" 
-					controlName="disabledFinalCharge" />
-			</div>
-			-->
+
 			<div class="col-12 col-lg-3">
-				
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Carga Final</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledFinalCharge"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
-				<app-mat-input-number 
+				<app-checkbox-with-number
 					[formGroup]="formNewEvent" 
-					controlName="finalCharge" 
-				></app-mat-input-number>
+					controlName="initialChargeLimitLower" 
+					controlNameCheckBox="disabledInitialChargeLimitLower"
+					label="Carga Inicial Limite Inferior"
+				></app-checkbox-with-number>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-number
+					[formGroup]="formNewEvent" 
+					controlName="initialChargeLimitUpper" 
+					controlNameCheckBox="disabledInitialChargeLimitUpper"
+					label="Carga Inicial Limite Superior"
+				></app-checkbox-with-number>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-number
+					[formGroup]="formNewEvent" 
+					controlName="finalChargeLimitLower" 
+					controlNameCheckBox="disabledFinalChargeLimitLower"
+					label="Carga Final Limite Inferior"
+				></app-checkbox-with-number>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-number
+					[formGroup]="formNewEvent" 
+					controlName="finalChargeLimitUpper" 
+					controlNameCheckBox="disabledFinalChargeLimitUpper"
+					label="Carga Final Limite Superior"
+				></app-checkbox-with-number>
 			</div>
 			<div class="w-100"></div>
-			<!--
-			<div class="col-1">
-					<input type="checkbox" [formGroup]="formNewEvent" 
-					controlName="disabledMwPowerLoss" />
-			</div>
-			-->
 			<div class="col-12 col-lg-3">
-				
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>(-) Perdida Potencia MW</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-input-checkbox  
-							[formGroup]="formNewEvent" 
-							controlName="disabledMwPowerLoss"
-							val=""
-						></app-mat-input-checkbox>
-					</div>
-				</div>
-				<app-mat-input-number 
+				<app-checkbox-with-number
 					[formGroup]="formNewEvent" 
-					controlName="mwPowerLoss"
-				></app-mat-input-number>
+					controlName="mwPowerLossLI" 
+					controlNameCheckBox="disabledMwPowerLossLI"
+					label="(-) Perdida Potencia MW LI"
+				></app-checkbox-with-number>
 			</div>
-			<!--
-			<div class="col-1">
-					<input type="checkbox" [formGroup]="formNewEvent" 
-					controlName="disabledWorkOrderId" />
-			</div>
-			-->
 			<div class="col-12 col-lg-3">
-				<!--mat-form-field>
-					<mat-select 
-						placeholder="Orden de Trabajo" 
-						[formGroup]="formNewEvent" 
-						formControlName="workOrderId"
-						multiple>
-						<mat-option *ngFor="let entry of lstWorkOrder" [value]="entry.id">{{entry.label}}</mat-option>
-					</mat-select>
-				</mat-form-field-->
-				
+				<app-checkbox-with-number
+					[formGroup]="formNewEvent" 
+					controlName="mwPowerLossLS" 
+					controlNameCheckBox="disabledMwPowerLossLS"
+					label="(-) Perdida Potencia MW LS"
+				></app-checkbox-with-number>
+			</div>
+			<div class="col-12 col-lg-3">
 				<div class="row mbLblCheck justify-content-between">
 					<div class="col">
 						<label>Orden de Trabajo</label>
@@ -532,20 +259,8 @@
 						></app-mat-input-checkbox>
 					</div>
 				</div>
-				<app-mat-input-textarea
-						[formGroup]="formNewEvent"
-						controlName="workOrderId"
-						maxLength="500"
-				></app-mat-input-textarea>
 			</div>
-			<div class="w-100"></div>
-			<!--
-			<div class="col-1">
-					<input type="checkbox" [formGroup]="formNewEvent" 
-					controlName="disabledLicenseDescription" />
-			</div>
-			-->
-			<div class="col-12">
+			<div class="col-12 col-lg-3">
 				<div class="row mbLblCheck justify-content-between">
 					<div class="col">
 						<label>Descripción / Concepto de la Licencia</label>
@@ -558,11 +273,140 @@
 						></app-mat-input-checkbox>
 					</div>
 				</div>
-				<app-mat-input-textarea 
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_1">{{ "Fuente" | translate }}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 col-lg-3">
+				<div class="row mbLblCheck justify-content-between">
+					<div class="col">
+						<label>Nombre(s) / Apellido(s) Operador Planta Abrió</label>
+					</div>
+					<div class="col-auto">
+						<app-mat-input-checkbox  
+							[formGroup]="formNewEvent" 
+							controlName="disabledOperatorPlantOpen"
+							val=""
+						></app-mat-input-checkbox>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-3">
+				<div class="row mbLblCheck justify-content-between">
+					<div class="col">
+						<label>Nombre(s) / Apellido(s) Operador CENACE Abrió</label>
+					</div>
+					<div class="col-auto">
+						<app-mat-input-checkbox  
+							[formGroup]="formNewEvent" 
+							controlName="disabledOperatorCenaceOpen"
+							val=""
+						></app-mat-input-checkbox>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-3">
+				<div class="row mbLblCheck justify-content-between">
+					<div class="col">
+						<label>Nombre(s) / Apellido(s) Operador Planta Cerro</label>
+					</div>
+					<div class="col-auto">
+						<app-mat-input-checkbox  
+							[formGroup]="formNewEvent" 
+							controlName="disabledOperatorPlantClose"
+							val=""
+						></app-mat-input-checkbox>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-3">
+				<div class="row mbLblCheck justify-content-between">
+					<div class="col">
+						<label>Nombre(s) / Apellido(s) Operador CENACE Cerro</label>
+					</div>
+					<div class="col-auto">
+						<app-mat-input-checkbox  
+							[formGroup]="formNewEvent" 
+							controlName="disabledOperatorCenaceClose"
+							val=""
+						></app-mat-input-checkbox>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-select-multiple
 					[formGroup]="formNewEvent" 
-					controlName="licenseDescription"
-					maxLength="2000"
-				></app-mat-input-textarea>
+					controlName="sourceEvent" 
+					controlNameCheckBox="disabledSourceEvent"
+					[options]="lstSourceEvent"
+					label="Fuente Del evento"
+				></app-checkbox-with-select-multiple>
+			</div>
+		</div>
+		
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_1">{{ "Estatus del Evento" | translate }}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 col-lg-3">
+				<div class="row mbLblCheck justify-content-between">
+					<div class="col">
+						<label>Estatus del Evento</label>
+					</div>
+					<div class="col-auto">
+						<app-mat-input-checkbox  
+							[formGroup]="formNewEvent" 
+							controlName="disabledEventStatus"
+							val=""
+						></app-mat-input-checkbox>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-3">
+				<div class="row mbLblCheck justify-content-between">
+					<div class="col">
+						<label>Estatus de Aprobación</label>
+					</div>
+					<div class="col-auto">
+						<app-mat-input-checkbox  
+							[formGroup]="formNewEvent" 
+							controlName="disabledApprovalStatus"
+							val=""
+						></app-mat-input-checkbox>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="section">
+		
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_1">{{ "Observaciones y/o comentarios" | translate }}</p>
+			</div>
+		</div>
+		<div class="row">
+
+			<div class="col-12 col-lg-3">
+				<div class="row mbLblCheck justify-content-between">
+					<div class="col">
+						<label>Soportes</label>
+					</div>
+					<div class="col-auto">
+						<app-mat-input-checkbox  
+							[formGroup]="formNewEvent" 
+							controlName="disabledFile"
+							val=""
+						></app-mat-input-checkbox>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

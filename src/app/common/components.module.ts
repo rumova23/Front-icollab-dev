@@ -48,6 +48,10 @@ import { MatInputTextareaComponent } from './inputs/mat-input-textarea/mat-input
 import { BtnBlockBackComponent } from './btn/btn-block/btn-block-back.component';
 import { BtnBlockDownloadLayoutComponent } from './btn/btn-block/btn-block-download-layout.component';
 import { MatInputCheckboxComponent } from './inputs/mat-input-checkbox/mat-input-checkbox.component';
+import { CheckboxWithSelectMultipleComponent } from './inputs/checkbox-with-select-multiple/checkbox-with-select-multiple.component';
+import { CheckboxWithSelectComponent } from './inputs/checkbox-with-select/checkbox-with-select.component';
+import { CheckboxWithNumberComponent } from './inputs/checkbox-with-number/checkbox-with-number.component';
+import { CheckboxWithInputTextComponent } from './inputs/checkbox-with-input-text/checkbox-with-input-text.component';
 
 @NgModule({
 	declarations: [
@@ -83,6 +87,10 @@ import { MatInputCheckboxComponent } from './inputs/mat-input-checkbox/mat-input
 		, MatInputTextareaComponent
 		, BtnBlockDownloadLayoutComponent
 		, MatInputCheckboxComponent
+		, CheckboxWithSelectMultipleComponent
+		, CheckboxWithSelectComponent
+		, CheckboxWithNumberComponent
+		, CheckboxWithInputTextComponent
 	],
 	exports: [
 		 ProgressComponent
@@ -117,6 +125,10 @@ import { MatInputCheckboxComponent } from './inputs/mat-input-checkbox/mat-input
 		, MatInputTextareaComponent
 		, BtnBlockDownloadLayoutComponent
 		, MatInputCheckboxComponent
+		, CheckboxWithSelectMultipleComponent
+		, CheckboxWithSelectComponent
+		, CheckboxWithNumberComponent
+		, CheckboxWithInputTextComponent
 
 	],
 	imports: [

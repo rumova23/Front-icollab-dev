@@ -2,7 +2,8 @@
 	<div class="form-group">
 		<label>{{ label | translate }}{{ sufijo | translate }}</label>
 		<mat-checkbox 
-			color="primary" 
+			color="primary"
+			(change)="onChange($event)"
 			[formControlName]="controlName"
 		>{{val | translate}}</mat-checkbox>
 		<ng-container *ngIf="(submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid">

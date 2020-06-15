@@ -1,0 +1,20 @@
+<div class="row mbLblCheck justify-content-between">
+	<div class="col">
+		<label>{{ label | translate }}{{ sufijo | translate }}</label>
+	</div>
+	<div class="col-auto">
+		<app-mat-input-checkbox 
+			[formGroup]="formGroup" 
+			[controlName]="controlNameCheckBox"
+			(eventChange)="onChangeCheckBox($event)"
+		></app-mat-input-checkbox>
+	</div>
+</div>
+<app-mat-input-number
+	[formGroup]="formGroup" 
+	[controlName]="controlName" 
+	(eventChange)="onChangeNumber($event)"
+	[minValue]="minValue"
+	[maxValue]="maxValue"
+	[step]="step"
+></app-mat-input-number>
