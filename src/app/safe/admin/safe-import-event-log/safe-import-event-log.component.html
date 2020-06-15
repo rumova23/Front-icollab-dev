@@ -18,7 +18,7 @@
 	<hr>
 	<br>
   
-	<form [formGroup]="fileUploadForm" (ngSubmit)="upload(fileUploadForm.value)">
+	<form [formGroup]="fileUploadForm" (submit)="upload(fileUploadForm.value)">
 		<div class="row mb-4">
 
 			<div class="my-2 col-12 col-xs-6 col-xl-3">
@@ -35,7 +35,7 @@
 
 			<div class="my-2 col-12 col-md-6 col-xl-3 col-xxl-4">
 				Carga Archivo:<br />
-				<app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+				<app-file-upload formControlName="file" [progress]="progress" ></app-file-upload>
 				<mat-error *ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
 					Requerido
 				</mat-error>
@@ -60,7 +60,7 @@
 				[data]="tableData"
 				[columnsLabels]="tablaColumnsLabels"
 				[columnsDisplay]="tableColumnsDisplay"
-				[row_x_page]="tableRow_x_page"
+				[row_x_page]="tableRowXpage"
 			></app-mat-table>
 		</div>
 	</div>
@@ -75,7 +75,7 @@
 				</div>
 				<div class="col-12 col-sm-6 col-xl-3">
 					<label style="visibility: hidden;">boton</label>
-					<app-btn-block-download (click)="clickBtnDownload()"></app-btn-block-download>
+					<app-btn-block-download (click)="downloadZipCenace()"></app-btn-block-download>
 				</div>
 			</div>
 		</div>

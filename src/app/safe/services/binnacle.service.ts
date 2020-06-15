@@ -46,4 +46,14 @@ export class BinnacleService {
     this.parameters = this.globalService.setXTenantId_Plant();
     return this.http.get(`${ this.binnacle }binnacle/template/${eventsId}`, {params : this.parameters });
   }
+
+  uploadZip(year: number, month: number, data): Observable<any> {
+    this.parameters = this.globalService.setXTenantId_Plant();
+    return this.http.post(environment.binnacle + 'binnacle/upload/zip/' + year + '/' + month, data, {params : this.parameters });
+  }
+
+  downloadZipCenace(year: number, month: number): Observable<any> {
+    this.parameters = this.globalService.setXTenantId_Plant();
+    return this.http.get(this.binnacle + 'binnacle/download/zip/cenance/' + year + '/' + month, {params : this.parameters });
+  }
 }

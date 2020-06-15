@@ -52,6 +52,7 @@ export class SafeListBinnacleEventsComponent implements OnInit {
               this.toastr.errorToastr(errorData.error.message, '¡Error!');
             });
   }
+
   base64toBlob(base64Data, contentType) {
     contentType = contentType || '';
     const sliceSize = 1024;

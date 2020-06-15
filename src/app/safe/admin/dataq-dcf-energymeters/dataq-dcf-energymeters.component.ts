@@ -99,7 +99,7 @@ export class DataqDcfEnergymetersComponent implements OnInit {
 	aplicarDeteccion() {
 		const mydate = this.formQuery.get('date').value;
 		const month = mydate.month() + 1;
-		const year = mydate.year(); //getFullYear()
+		const year = mydate.year();
 		if (mydate == null) {
 			this.toastr.errorToastr('Eliga una fecha.', 'Lo siento,');
 			return 0;
