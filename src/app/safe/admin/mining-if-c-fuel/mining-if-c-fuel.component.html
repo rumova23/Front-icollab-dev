@@ -1,3 +1,338 @@
-<p>
-  mining-if-c-fuel works!
-</p>
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Data Mining" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Financial Indices" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Costs" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "Costo del Combustible" | translate }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+<div class="section">
+	<div class="row">
+		<div class="col">
+			<p class="section_titulo_0">Consulta / Edita Costo del Combustible</p>
+		</div>
+	</div>
+	<hr>
+	<br>
+  
+	<form [formGroup]="formQuery" (ngSubmit)="onFormQuery(formQuery.value)">
+		<div class="row mb-4">
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-datepicker-year-and-month class="w-100 align-self-end"
+					[formGroup]="formQuery"
+					controlName="date"
+					(eventChange)="onChangeDatePicker($event)" 
+					label="Commercial Operation Date">
+				</app-mat-input-datepicker-year-and-month>
+			</div>
+			<div class="my-2 col col-xxxs-12 col-xxs-12 col-xs-6 col-xl-3">
+				<app-mat-select
+					[formGroup]="formQuery"
+					controlName="source"
+					[options]="selectOptionsFuente"
+					label="Fuente"
+					(eventChange)="onChangeSelectFuente($event)"
+				></app-mat-select>
+			</div>
+			<div class="my-xl-2 col-12 col-xl-3 col-xxl-2">
+				<label style="visibility: hidden;">boton</label>
+				<app-btn-block mytype="submit" label="Consulta">
+				</app-btn-block>
+			</div>
+		</div>
+	</form>
+	
+	
+	<div class="row my-4">
+		<div class="col">
+			<app-mat-table
+				(clickEdit)="onTableARowEdite($event)"
+				[data]="tableAData"
+				[columnsLabels]="tableAColumnsLabels"
+				[columnsDisplay]="tableAColumnsDisplay"
+				[row_x_page]="tableRowXpage"
+				[showPagination]="false"
+			></app-mat-table>
+		</div>
+	</div>
+	<form [formGroup]="formEditTableA" (ngSubmit)="onFormEditTableA(formEditTableA.value)">
+		<div class="row">
+			<div class="col-12 col-lg-2">
+				<app-mat-input-text
+					[formGroup]="formEditTableA"
+					controlName="concept"
+					label="Concepto"
+				></app-mat-input-text>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEditTableA"
+					controlName="m3"
+					label="M3"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEditTableA"
+					controlName="gjoule"
+					label="Gjoule"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEditTableA"
+					controlName="ctounit"
+					label="CTO.UNIT $/Gjoule"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEditTableA"
+					controlName="totalsiva"
+					label="Total S/IVA $M.X"
+				></app-mat-input-number>
+			</div>
+		</div>
+		
+		<div class="row justify-content-end">
+			<div class="col-12 col-lg-2">
+				<app-btn-block-cancel (myClick)="onBtnCancelEditTableA()"></app-btn-block-cancel>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-btn-block-save-update mytype="submit"></app-btn-block-save-update>
+			</div>
+		</div>
+	</form>
+
+
+	<div class="row my-4">
+		<div class="col">
+			<app-mat-table
+				(clickEdit)="onTableBRowEdite($event)"
+				[data]="tableBData"
+				[columnsLabels]="tableBColumnsLabels"
+				[columnsDisplay]="tableBColumnsDisplay"
+				[row_x_page]="tableRowXpage"
+				[showPagination]="false"
+			></app-mat-table>
+		</div>
+	</div>
+	<form [formGroup]="formEditTableB" (ngSubmit)="onFormEditTableB(formEditTableB.value)">
+		<div class="row">
+			<div class="col-12 col-lg-2">
+				<app-mat-input-text
+					[formGroup]="formEditTableB"
+					controlName="concept"
+					label="Concepto"
+				></app-mat-input-text>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEditTableB"
+					controlName="gjoule"
+					label="Gjoule"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEditTableB"
+					controlName="dls"
+					label="dls"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEditTableB"
+					controlName="dlsgjoule"
+					label="dls/Gjoule"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEditTableB"
+					controlName="mn"
+					label="$ M.N"
+				></app-mat-input-number>
+			</div>
+		</div>
+		
+		<div class="row justify-content-end">
+			<div class="col-12 col-lg-2">
+				<app-btn-block-cancel (myClick)="onBtnCancelEditTableB()"></app-btn-block-cancel>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-btn-block-save-update mytype="submit"></app-btn-block-save-update>
+			</div>
+		</div>
+	</form>
+	
+	<div class="row my-4">
+		<div class="col">
+			<app-mat-table
+				(clickEdit)="onTableCRowEdite($event)"
+				(clickDelete)="onTableCRowDelete($event)"
+				[data]="tableCData"
+				[columnsLabels]="tableCColumnsLabels"
+				[columnsDisplay]="tableCColumnsDisplay"
+				[row_x_page]="tableRowXpage"
+				[showPagination]="false"
+			></app-mat-table>
+		</div>
+	</div>
+	<form [formGroup]="formEditTableC" (ngSubmit)="onFormEditTableC(formEditTableC.value)">
+		<div class="row">
+			<div class="col-12 col-lg-2">
+				<app-mat-input-text
+					[formGroup]="formEditTableC"
+					controlName="settings"
+					label="Ajustes"
+				></app-mat-input-text>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEditTableC"
+					controlName="month"
+					label="Mes"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEditTableC"
+					controlName="invoiced"
+					label="Facturado"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEditTableC"
+					controlName="tight"
+					label="Ajustado"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEditTableC"
+					controlName="mn"
+					label="$ M.N"
+				></app-mat-input-number>
+			</div>
+		</div>
+		
+		<div class="row justify-content-end">
+			<div class="col-12 col-lg-2">
+				<app-btn-block-cancel (myClick)="onBtnCancelEditTableC()"></app-btn-block-cancel>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-btn-block-save-update mytype="submit"></app-btn-block-save-update>
+			</div>
+		</div>
+	</form>
+
+	
+	<div class="row my-4">
+		<div class="col">
+			<app-mat-table
+				(clickDelete)="onTableDRowDelete($event)"
+				[data]="tableDData"
+				[columnsLabels]="tableDColumnsLabels"
+				[columnsDisplay]="tableDColumnsDisplay"
+				[row_x_page]="tableRowXpage"
+			></app-mat-table>
+		</div>
+	</div>
+
+
+
+		
+	<div class="mt-4 row pb-2">
+		<div class="col">
+			<p class="section_titulo_0">Consulta Costo del Combustible</p>
+			<p class="section_subtitulo_0"></p>
+		</div>
+	</div>
+	
+	<div class="row mt-2">
+		<div class="col-12 col-sm-6 col-xl-3">
+			<app-mat-select-multiple
+				[formGroup]="formTags"
+				controlName="tags"
+				[options]="selectOptionsTags"
+				(eventChange)="onChangeSelectTags($event)"
+			></app-mat-select-multiple>
+		</div>
+		<div class="col-12 col-sm-6 col-xl-9">
+			<div class="row justify-content-end">
+				<div class="col-12 col-sm-6 col-xl-3">
+					<!--label style="visibility: hidden;">boton</label-->
+					<app-btn-block-graph (myClick)="onBtnChart()" [disabled]="!formTags.valid"></app-btn-block-graph>
+				</div>
+				<!--div class="col-12 col-sm-6 col-xl-3">
+					<label style="visibility: hidden;">boton</label>
+					<app-btn-block-download (click)="clickBtnDownloadChart()" [disabled]="!formvariables.valid"></app-btn-block-download>
+				</div-->
+			</div>
+		</div>
+	</div>
+
+	<div class="row mt-4">
+		<div class="col">
+			<app-mining-ififinancial-chart></app-mining-ififinancial-chart>
+		</div>
+	</div>
+
+</div>
+
+
+
+<div class="section">
+
+	<div class="row pb-2">
+		<div class="col">
+			<p class="section_titulo_1">{{ "Soportes" | translate }}</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<div class="media" (click)="downloadFile()">
+				<img src="assets/img/zip.png" style="width: 64px; height: 64px;">
+				<div class="media-body">
+					<p>Descarga kiki_koo.zip</p>
+				</div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="row" [formGroup]="fileUploadForm">
+				
+				<div class="col">
+					Carga Archivo:<br />
+					<app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+					<mat-error *ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
+						Requerido
+					</mat-error>
+				</div>
+				<div class="col-12 col-lg-3">
+					<div class="row mt-2">
+						<div class="col">
+							<app-btn-block-import (myClick)="onBtnUploadFile()" [disabled]="!fileUploadForm.valid" ></app-btn-block-import>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="section">
+	<div class="row justify-content-end">
+		<div class="col-12 col-lg-2">
+			<app-btn-block-finish (myClick)="onBtnFinish()"></app-btn-block-finish>
+		</div>
+	</div>
+</div>

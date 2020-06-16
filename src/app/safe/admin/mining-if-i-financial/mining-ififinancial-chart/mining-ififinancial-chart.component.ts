@@ -9,13 +9,16 @@ import * as chartDemo from '../../safe-ppamonitoring-station/chartDemo.json';
 export class MiningIFIFinancialChartComponent implements OnInit {
 	@ViewChild('chartLineMs') chartLineMs: ElementRef; chartLine: any;
 	public opt: any = {
+		credits: {
+			enabled: false
+		},
 		time: {
 			timezone: 'America/Mexico_City',
 			useUTC: false
 		},
 		chart: {
 			zoomType: 'xy',
-			type: 'area'
+			type: 'spline'
 		},
 		title: {
 			text: '',
@@ -25,7 +28,8 @@ export class MiningIFIFinancialChartComponent implements OnInit {
 			tableCaption: ""
 		},
 		xAxis: {
-			type: 'datetime'
+			type: 'datetime',
+			gridLineWidth: 1
 		},
 		yAxis: [  ],
 		
@@ -100,7 +104,7 @@ export class MiningIFIFinancialChartComponent implements OnInit {
 		this.opt.yAxis.push(
 			{
 				id: "y-axis-0",
-				gridLineWidth: 0,
+				gridLineWidth: 1,
 				labels: {
 					style: {
 						color: '#858',
