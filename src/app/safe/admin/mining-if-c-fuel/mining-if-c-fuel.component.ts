@@ -17,7 +17,7 @@ export class MiningIFCFuelComponent implements OnInit {
 	formTags: FormGroup;
 	fileUploadForm: FormGroup;
 	tableAData = [
-		{ order: 1, dateOp: 'mar-20', concept:'Día Natural', m3:'78,675,060.00', gjoule:'78,675,060.00',ctounit:'78,675,060.00'},
+		{ order: 1, dateOp: 'mar-20', concept:'Día Natural', m3:'78,675,060.00', gjoule:'78,675,060.00',ctounit:'78,675,060.00',totalsiva:'78,675,060.00'},
 	];
 	tableAColumnsLabels = [
 		{ key: 'order', label: '#' },
@@ -26,6 +26,7 @@ export class MiningIFCFuelComponent implements OnInit {
 		{ key: 'm3', label: 'M3' },
 		{ key: 'gjoule', label: 'Gjoule' },
 		{ key: 'ctounit', label: 'CTO.UNIT $/Gjoule' },
+		{ key: 'totalsiva', label: '$ MXN' }
 	];
 	tableAColumnsDisplay: string[] = [
 		'dateOp',
@@ -33,6 +34,7 @@ export class MiningIFCFuelComponent implements OnInit {
 		'm3',
 		'gjoule',
 		'ctounit',
+		'totalsiva',
 		'sys_edit'
 	];
 	tableRowXpage = [5, 10, 20, 50, 100, 250, 500];
@@ -137,6 +139,7 @@ export class MiningIFCFuelComponent implements OnInit {
 			m3: new FormControl('', Validators.required),
 			gjoule: new FormControl('', Validators.required),
 			ctounit: new FormControl('', Validators.required),
+			totalsiva: new FormControl('', Validators.required),
 		});
 		this.formEditTableB = this.formBuilder.group({
 			concept: new FormControl('', Validators.required),
@@ -218,8 +221,5 @@ export class MiningIFCFuelComponent implements OnInit {
 	onBtnFinish(){
 		console.log("onBtnFinish");
 	}
-	onBtnTableAdd(){
-		console.log("onBtnTableAdd");
-		
-	}
+	
 }
