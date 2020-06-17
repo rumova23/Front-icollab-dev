@@ -1,8 +1,8 @@
+/* tslint:disable:indent */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IdLabel } from '../../../../core/models/IdLabel';
 import { MaestroOpcionDTO } from '../../../../compliance/models/maestro-opcion-dto';
-import * as moment from 'moment';
 import { GlobalService } from '../../../../core/globals/global.service';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { EventService } from '../../../../core/services/event.service';
@@ -20,7 +20,7 @@ import { EventBlocked } from '../../../../core/models/EventBlocked';
 })
 export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	formNewEvent: FormGroup;
-	formNewEvent001:FormGroup;
+	formNewEvent001: FormGroup;
 	catalogType: any;
 	lstEventClassification: IdLabel[] = [];
 	lstEventClassificationDTO: Array<MaestroOpcionDTO>;
@@ -40,8 +40,8 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	lstSourceEvent: IdLabel[] = [];
 	lstEventStatus: IdLabel[] = [];
 	lstApprovalStatus: IdLabel[] = [];
-	lstEventClassification_00: IdLabel[] = [{id:"1",label:"algo"}];
-	lstEventsId_00: IdLabel[] = [{id:"1",label:"algo"}];
+	lstEventClassification00: IdLabel[] = [];
+	lstEvents00: IdLabel[] = [];
 	progress;
 	constructor(
 		private formBuilder: FormBuilder,
@@ -57,10 +57,10 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	ngOnInit() {
 		console.dir(this.catalogType);
 		this.formNewEvent001 = this.formBuilder.group({
-			eventsClassificationId: ['', null],
-			disabledEventsClassificationId: [false],
-			eventsId: ['', null],
-			disabledEventsId: [false],
+			eventsClassification00Id: ['', null],
+			disabledEventsClassification00Id: [false],
+			events00Id: ['', null],
+			disabledEvents00Id: [false],
 		});
 		this.formNewEvent = this.formBuilder.group({
 			binnacleEventID: ['', null],
@@ -143,8 +143,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			disabledApprovalStatus: [false],
 			disabledFile: [false],
 			disabledObsComment: [false],
-		}
-		);
+		});
 		this.loadCatalog();
 	}
 	get fuelsId() {
@@ -157,14 +156,13 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			});
 		}
 	}
-	onBuildEventAssociated_00(event){
+	onBuildEventAssociated_00(event) {
 		console.log(event);
 	}
 	onBuildEventAssociated(event) {
-		console.log("onBuildEventAssociated:: ",event);
-		
+		console.dir(event);
 		this.lstEvents = [];
-		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === event.value));
+		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === event));
 	}
 
 	compareTech(t1, t2): boolean {
@@ -177,6 +175,8 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 		this.masterCatalogService.listCatalog(names).subscribe(data => {
 			this.loadSelect(this.lstEventClassification, data['CLASIFICA EVENTO']);
 			this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
+			this.loadSelect(this.lstEventClassification00, data['CLASIFICA EVENTO']);
+			this.loadSelect(this.lstEvents00, data['EVENTO']);
 			this.lstEventsDTO = data['EVENTO'];
 			this.loadSelect(this.lstFuels, data['COMBUSTIBLE']);
 			this.loadSelect(this.lstUnits, data['UNIDAD']);

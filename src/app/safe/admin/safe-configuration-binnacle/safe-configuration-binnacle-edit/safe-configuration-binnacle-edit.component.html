@@ -24,9 +24,9 @@
 			<div class="col-12 col-lg-3">
 				<app-checkbox-with-select
 					[formGroup]="formNewEvent001" 
-					controlName="eventsClassificationId" 
-					controlNameCheckBox="disabledEventsClassificationId"
-					[options]="lstEventClassification_00"
+					controlName="eventsClassification00Id"
+					controlNameCheckBox="disabledEventsClassification00Id"
+					[options]="lstEventClassification00"
 					label="Clasificación de Eventos"
 					(eventChangeSelect)="onBuildEventAssociated_00($event)"
 				></app-checkbox-with-select>
@@ -34,9 +34,9 @@
 			<div class="col-12 col-lg-3">
 				<app-checkbox-with-select-multiple
 					[formGroup]="formNewEvent001" 
-					controlName="eventsId" 
-					controlNameCheckBox="disabledEventsId"
-					[options]="lstEventsId_00"
+					controlName="events00Id"
+					controlNameCheckBox="disabledEvents00Id"
+					[options]="lstEvents00"
 					[compareWith]="compareTech"
 					label="Eventos"
 				></app-checkbox-with-select-multiple>
