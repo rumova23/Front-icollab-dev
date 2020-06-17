@@ -47,12 +47,18 @@ export class MiningIFCWaterComponent implements OnInit {
 	];
 
 	tableRow_x_page = [5,10,20,50, 100, 250, 500];
-	tableData01 = [{date:'01/02/2020',pcam:'90.02'}];
+	tableData01 = [{order:1,fechaOp:'mar-20',index:'PCAm',date:'01/02/2020',pcam:'90.02'}];
 	tableColumnsLabels01=[
+		{ key: 'order', label: '#' },
+		{ key: 'fechaOp', label: 'Fecha de Operación Comercial' },
+		{ key: 'index', label: 'Indice' },
 		{ key: 'date', label: 'Fecha' },
 		{ key: 'pcam', label: 'PCAm' }
 	];
 	tableColumnsDisplay01: string[] = [
+		'order',
+		'fechaOp',
+		'index',
 		'date',
 		'pcam',
 		'sys_edit'
