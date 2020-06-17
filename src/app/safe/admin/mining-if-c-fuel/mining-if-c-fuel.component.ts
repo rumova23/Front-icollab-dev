@@ -17,7 +17,7 @@ export class MiningIFCFuelComponent implements OnInit {
 	formTags: FormGroup;
 	fileUploadForm: FormGroup;
 	tableAData = [
-		{ order: 1, dateOp: 'mar-20', concept:'Día Natural', m3:'78,675,060.00', gjoule:'78,675,060.00',ctounit:'78,675,060.00',totalsiva:'78,675,060.00'},
+		{ order: 1, dateOp: 'mar-20', concept:'Día Natural', m3:'78,675,060.00', gjoule:'78,675,060.00',ctounit:'78,675,060.00'},
 	];
 	tableAColumnsLabels = [
 		{ key: 'order', label: '#' },
@@ -26,7 +26,6 @@ export class MiningIFCFuelComponent implements OnInit {
 		{ key: 'm3', label: 'M3' },
 		{ key: 'gjoule', label: 'Gjoule' },
 		{ key: 'ctounit', label: 'CTO.UNIT $/Gjoule' },
-		{ key: 'totalsiva', label: 'Total S/IVA $M.X' }
 	];
 	tableAColumnsDisplay: string[] = [
 		'dateOp',
@@ -34,7 +33,6 @@ export class MiningIFCFuelComponent implements OnInit {
 		'm3',
 		'gjoule',
 		'ctounit',
-		'totalsiva',
 		'sys_edit'
 	];
 	tableRowXpage = [5, 10, 20, 50, 100, 250, 500];
@@ -46,9 +44,9 @@ export class MiningIFCFuelComponent implements OnInit {
 		{ key: 'dateOp', label: 'Fecha de Operación Comercial' },
 		{ key: 'concept', label: 'Concepto' },
 		{ key: 'gjoule', label: 'Gjoule' },
-		{ key: 'dls', label: 'dls' },
-		{ key: 'dlsgjoule', label: 'dls/Gjoule' },
-		{ key: 'mn', label: '$ M.N' },
+		{ key: 'dls', label: 'USD' },
+		{ key: 'dlsgjoule', label: 'USD/Gjoule' },
+		{ key: 'mn', label: '$ MXN' },
 	];
 	tableBColumnsDisplay: string[] = [
 		'dateOp',
@@ -69,7 +67,7 @@ export class MiningIFCFuelComponent implements OnInit {
 		{ key: 'month', label: 'Mes' },
 		{ key: 'invoiced', label: 'Facturado' },
 		{ key: 'tight', label: 'Ajustado' },
-		{ key: 'mn', label: '$ M.N' },
+		{ key: 'mn', label: '$ MXN' },
 	];
 	tableCColumnsDisplay: string[] = [
 		'dateOp',
@@ -108,10 +106,8 @@ export class MiningIFCFuelComponent implements OnInit {
 
 
 	selectOptionsFuente: IdLabel[] = [
-		{ id: "1", label: 'FileZilla FTP' },
-		{ id: "2", label: 'PAYSERVER DB' },
-		{ id: "3", label: 'PI SERVER DB' },
-		{ id: "4", label: 'Manual' }
+		{ id: "1", label: 'Gas' },
+		{ id: "2", label: 'Diesel' }
 	];
 	
 	selectOptionsTags : IdLabel[] = [
@@ -141,7 +137,6 @@ export class MiningIFCFuelComponent implements OnInit {
 			m3: new FormControl('', Validators.required),
 			gjoule: new FormControl('', Validators.required),
 			ctounit: new FormControl('', Validators.required),
-			totalsiva: new FormControl('', Validators.required),
 		});
 		this.formEditTableB = this.formBuilder.group({
 			concept: new FormControl('', Validators.required),
@@ -222,5 +217,9 @@ export class MiningIFCFuelComponent implements OnInit {
 	}
 	onBtnFinish(){
 		console.log("onBtnFinish");
+	}
+	onBtnTableAdd(){
+		console.log("onBtnTableAdd");
+		
 	}
 }

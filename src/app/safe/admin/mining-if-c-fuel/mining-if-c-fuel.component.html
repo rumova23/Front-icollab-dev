@@ -90,13 +90,6 @@
 					label="CTO.UNIT $/Gjoule"
 				></app-mat-input-number>
 			</div>
-			<div class="col-12 col-lg-2">
-				<app-mat-input-number
-					[formGroup]="formEditTableA"
-					controlName="totalsiva"
-					label="Total S/IVA $M.X"
-				></app-mat-input-number>
-			</div>
 		</div>
 		
 		<div class="row justify-content-end">
@@ -142,21 +135,21 @@
 				<app-mat-input-number
 					[formGroup]="formEditTableB"
 					controlName="dls"
-					label="dls"
+					label="USD"
 				></app-mat-input-number>
 			</div>
 			<div class="col-12 col-lg-2">
 				<app-mat-input-number
 					[formGroup]="formEditTableB"
 					controlName="dlsgjoule"
-					label="dls/Gjoule"
+					label="USD/Gjoule"
 				></app-mat-input-number>
 			</div>
 			<div class="col-12 col-lg-2">
 				<app-mat-input-number
 					[formGroup]="formEditTableB"
 					controlName="mn"
-					label="$ M.N"
+					label="$ MXN"
 				></app-mat-input-number>
 			</div>
 		</div>
@@ -170,8 +163,14 @@
 			</div>
 		</div>
 	</form>
-	
-	<div class="row my-4">
+
+
+	<div class="row mt-4 mb-2">
+		<div class="col-12 col-lg-2">
+			<app-btn-block-add (myClick)="onBtnTableAdd()"></app-btn-block-add>
+		</div>
+	</div>
+	<div class="row mb-4">
 		<div class="col">
 			<app-mat-table
 				(clickEdit)="onTableCRowEdite($event)"
@@ -218,7 +217,7 @@
 				<app-mat-input-number
 					[formGroup]="formEditTableC"
 					controlName="mn"
-					label="$ M.N"
+					label="$ MXN"
 				></app-mat-input-number>
 			</div>
 		</div>

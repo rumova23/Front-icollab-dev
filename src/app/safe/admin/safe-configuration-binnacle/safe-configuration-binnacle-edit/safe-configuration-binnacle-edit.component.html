@@ -164,16 +164,6 @@
 				></app-checkbox-with-select-multiple>
 			</div>
 			<div class="col-12 col-lg-3">
-				<app-checkbox-with-select-multiple
-					[formGroup]="formNewEvent" 
-					controlName="relatedServicesId" 
-					controlNameCheckBox="disabledRelatedServicesId"
-					[options]="lstSelatedServices"
-					label="Servicios Conexos"
-				></app-checkbox-with-select-multiple>
-			</div>
-			<div class="w-100"></div>
-			<div class="col-12 col-lg-6">
 				<app-checkbox-with-number
 					[formGroup]="formNewEvent" 
 					controlName="mwOfferedLimitLower" 
@@ -181,13 +171,22 @@
 					label="MW Ofertados Limite Inferior"
 				></app-checkbox-with-number>
 			</div>
-			<div class="col-12 col-lg-6">
+			<div class="col-12 col-lg-3">
 				<app-checkbox-with-number
 					[formGroup]="formNewEvent" 
 					controlName="mwOfferedLimitUpper" 
 					controlNameCheckBox="disabledMwOfferedLimitUpper"
 					label="MW Ofertados Limite Superior"
 				></app-checkbox-with-number>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="relatedServicesId" 
+					controlNameCheckBox="disabledRelatedServicesId"
+					[options]="lstSelatedServices"
+					label="Servicios Conexos"
+				></app-checkbox-with-select-multiple>
 			</div>
 		</div>
 
@@ -197,7 +196,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-12 col-lg-4">
+			<div class="col-12 col-lg-3">
 				<app-checkbox-with-input-text
 					[formGroup]="formNewEvent" 
 					controlName="licenseNumber" 
@@ -205,7 +204,7 @@
 					label="# Licencia"
 				></app-checkbox-with-input-text>
 			</div>
-			<div class="col-12 col-lg-4">
+			<div class="col-12 col-lg-3">
 				<app-checkbox-with-select-multiple
 					[formGroup]="formNewEvent" 
 					controlName="equipmentId" 
@@ -214,8 +213,7 @@
 					label="Equipo"
 				></app-checkbox-with-select-multiple>
 			</div>
-			<div class="w-100"></div>
-			<div class="col-12 col-lg-4">
+			<div class="col-12 col-lg-3">
 				<app-checkbox-with-number
 					[formGroup]="formNewEvent" 
 					controlName="initialChargeLimitLower" 
@@ -223,7 +221,7 @@
 					label="Carga Inicial Limite Inferior"
 				></app-checkbox-with-number>
 			</div>
-			<div class="col-12 col-lg-4">
+			<div class="col-12 col-lg-3">
 				<app-checkbox-with-number
 					[formGroup]="formNewEvent" 
 					controlName="initialChargeLimitUpper" 
@@ -231,7 +229,7 @@
 					label="Carga Inicial Limite Superior"
 				></app-checkbox-with-number>
 			</div>
-			<div class="col-12 col-lg-4">
+			<div class="col-12 col-lg-3">
 				<app-checkbox-with-number
 					[formGroup]="formNewEvent" 
 					controlName="finalChargeLimitLower" 
@@ -239,7 +237,7 @@
 					label="Carga Final Limite Inferior"
 				></app-checkbox-with-number>
 			</div>
-			<div class="col-12 col-lg-4">
+			<div class="col-12 col-lg-3">
 				<app-checkbox-with-number
 					[formGroup]="formNewEvent" 
 					controlName="finalChargeLimitUpper" 
@@ -247,7 +245,7 @@
 					label="Carga Final Limite Superior"
 				></app-checkbox-with-number>
 			</div>
-			<div class="col-12 col-lg-4">
+			<div class="col-12 col-lg-3">
 				<app-checkbox-with-number
 					[formGroup]="formNewEvent" 
 					controlName="mwPowerLossLI" 
@@ -255,7 +253,7 @@
 					label="(-) Perdida Potencia MW LI"
 				></app-checkbox-with-number>
 			</div>
-			<div class="col-12 col-lg-4">
+			<div class="col-12 col-lg-3">
 				<app-checkbox-with-number
 					[formGroup]="formNewEvent" 
 					controlName="mwPowerLossLS" 
@@ -263,7 +261,7 @@
 					label="(-) Perdida Potencia MW LS"
 				></app-checkbox-with-number>
 			</div>
-			<div class="col-12 col-lg-4">
+			<div class="col-12 col-lg-3">
 				<app-checkbox-with-input-text
 					[formGroup]="formNewEvent"
 					controlName="workOrderId"
@@ -271,7 +269,7 @@
 					label="Orden de Trabajo"
 				></app-checkbox-with-input-text>
 			</div>
-			<div class="col-12 col-lg-4">
+			<div class="col-12 col-lg-3">
 				<app-checkbox-with-input-text
 					[formGroup]="formNewEvent"
 					controlName="licenseDescription"
@@ -286,7 +284,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-12 col-lg-4">
+			<div class="col-12 col-lg-3">
 				<app-checkbox-with-input-text
 					[formGroup]="formNewEvent"
 					controlName="operatorPlantOpen"
@@ -294,7 +292,7 @@
 					label="Nombre(s) / Apellido(s) Operador Planta Abrió"
 				></app-checkbox-with-input-text>
 			</div>
-			<div class="col-12 col-lg-4">
+			<div class="col-12 col-lg-3">
 				<app-checkbox-with-input-text
 					[formGroup]="formNewEvent"
 					controlName="operatorCenaceOpen"
@@ -302,7 +300,7 @@
 					label="Nombre(s) / Apellido(s) Operador CENACE Abrió"
 				></app-checkbox-with-input-text>
 			</div>
-			<div class="col-12 col-lg-4">
+			<div class="col-12 col-lg-3">
 				<app-checkbox-with-input-text
 					[formGroup]="formNewEvent"
 					controlName="operatorPlantClose"
@@ -310,7 +308,7 @@
 					label="Nombre(s) / Apellido(s) Operador Planta Cerro"
 				></app-checkbox-with-input-text>
 			</div>
-			<div class="col-12 col-lg-4">
+			<div class="col-12 col-lg-3">
 				<app-checkbox-with-input-text
 					[formGroup]="formNewEvent"
 					controlName="operatorCenaceClose"
@@ -318,7 +316,7 @@
 					label="Nombre(s) / Apellido(s) Operador CENACE Cerro"
 				></app-checkbox-with-input-text>
 			</div>
-			<div class="col-12 col-lg-4">
+			<div class="col-12 col-lg-3">
 				<app-checkbox-with-select-multiple
 					[formGroup]="formNewEvent" 
 					controlName="sourceEvent" 
@@ -335,7 +333,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-12 col-lg-4">
+			<div class="col-12 col-lg-3">
 				<app-checkbox-with-input-text
 					[formGroup]="formNewEvent"
 					controlName="eventStatus"
@@ -343,7 +341,7 @@
 					label="Estatus del Evento"
 				></app-checkbox-with-input-text>
 			</div>
-			<div class="col-12 col-lg-4">
+			<div class="col-12 col-lg-3">
 				<app-checkbox-with-input-text
 					[formGroup]="formNewEvent"
 					controlName="approvalStatus"
