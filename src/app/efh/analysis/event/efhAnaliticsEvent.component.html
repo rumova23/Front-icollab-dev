@@ -95,6 +95,7 @@
         <th rowspan="2" style="background-color: #7c7db3"><small>Rate EFHi $</small></th>
         <th colspan="6" style="background-color: #85ce36"><small>Total</small></th>
         <th colspan="6" style="background-color: #85ce36"><small>Since Last Planned Outage</small></th>
+        <th rowspan="2" style="background-color: #7c7db3"><small>Event Summary</small></th>
         <th rowspan="2" style="background-color: #85ce36"><small>Esi</small></th>
         <th style="background-color: #7c7db3"><small>FF</small></th>
         <th rowspan="2" style="background-color: #7c7db3"><small>Start</small></th>
@@ -108,7 +109,6 @@
         <th style="background-color: #7c7db3"><small>Change Range</small></th>
         <th style="background-color: #7c7db3"><small>Change Rate</small></th>
         <th style="background-color: #5fbae9"><small>ESi per</small></th>
-        <th rowspan="2" style="background-color: #7c7db3"><small>Comments</small></th>
       </tr>
       <tr>
         <th style="background-color: #85ce36"><small>Trips</small></th>
@@ -159,6 +159,7 @@
         <td>{{el.sinceAOH | number: '1.1-1' }}</td>
         <td>{{el.sinceEFHi | number: '1.1-1' }}</td>
         <td>{{el.sinceEFHi_costo | currency:'USD':'symbol-narrow' }}</td>
+        <td>{{el.comments}}</td>
         <td>{{el.esi | number: '1.2'}}</td>
         <td>{{el.ff}}</td>
         <td>{{el.startFlag}}</td>
@@ -172,7 +173,6 @@
         <td>{{el.changeRange}}</td>
         <td>{{el.changeRate}}</td>
         <td>{{el.esi_lcj | number: '1.2' }}</td>
-        <td>{{el.comments}}</td>
       </tr>
       </tbody>
     </table>

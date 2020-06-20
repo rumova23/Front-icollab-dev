@@ -46,19 +46,24 @@ export class MiningIFIFinancialComponent implements OnInit {
 		'sys_delete'
 	];
 	tableRow_x_page = [5,10,20,50, 100, 250, 500];
-	tableProvisionalData = [{index:'',date:'',value:''}];
-	tableDefinitivoData = [{index:'',date:'',value:''}];
-	tableDefinitivoColumnsLabels=[
+	tableIndexFinancialData = [];
+	tableIndexFinancialColumnsLabels = [
+		{ key: 'order', label: '#' },
+		{ key: 'fechaOp', label: 'Fecha de Operación Comercial' },
 		{ key: 'index', label: 'Índice' },
 		{ key: 'date', label: 'Fecha' },
 		{ key: 'value', label: 'Valor' }
 	];
-	tableDefinitivoColumnsDisplay: string[] = [
+	tableIndexFinancialColumnsDisplay = [
+		'order',
+		'fechaOp',
 		'index',
 		'date',
 		'value',
 		'sys_edit'
 	];
+
+
 
 	selectIndiceFinanciero : IdLabel[] = [
 		{id:"1",label:'INPPm'},
@@ -71,15 +76,14 @@ export class MiningIFIFinancialComponent implements OnInit {
 		{id:"2",label:'INPPm Provisional'},
 	];
 
-	labelInputNumberDefinitivo = 'Valor Definitivo';
-	labelInputNumberProvisional = 'Valor Provisional';
+	labelInputNumberDefinitivo = 'Definitivo';
+	labelInputNumberProvisional = 'Provisional';
 	diaNOHabilBancarioProvisional = null;
 	diaNOHabilBancarioDefinitivo = null;
 
 	formQuery: FormGroup;
 	formvariables : FormGroup;
-	formValorDefinitivo  : FormGroup;
-	formValorProvisional : FormGroup;
+	formIndexFinancial  : FormGroup;
 	fileUploadForm :FormGroup;
 	isManualLoad = false;
 
@@ -108,14 +112,19 @@ export class MiningIFIFinancialComponent implements OnInit {
 		this.formvariables = this.formBuilder.group({
 			selectVariables: new FormControl('', Validators.required),
 		});	
-		this.formValorDefinitivo = this.formBuilder.group({
-			indice:[]
-		});
-		this.formValorProvisional = this.formBuilder.group({
-			indice:[]
-		});
 		this.fileUploadForm = this.formBuilder.group({
 			file: new FormControl(null, [Validators.required, requiredFileType('xlsx')]),
+		});
+		
+		this.initFormIndexFinancial();
+	}
+	initFormIndexFinancial(){
+		
+		this.formIndexFinancial = this.formBuilder.group({
+			dateProv: new FormControl(moment(), Validators.required),
+			dateDef: new FormControl(moment(), Validators.required),
+			valProv: new FormControl('', Validators.required),
+			valDef: new FormControl('', Validators.required),
 		});
 	}
 	onChangeDatePicker(d: Moment) {
@@ -128,51 +137,48 @@ export class MiningIFIFinancialComponent implements OnInit {
 		
 	}
 	onChangeselectIndiceFinanciero(e){
-		/**
-			selectIndiceFinanciero : IdLabel[] = [
-				{id:"1",label:'INPPm'},
-				{id:"2",label:'USPPIm'},
-				{id:"3",label:'TCp'},
-			];
-		 */
+		
+		this.initFormIndexFinancial();
+
 		console.log(e.value);
-		this.labelInputNumberDefinitivo = `Valor ${e.source.triggerValue} Definitivo`;
-		this.labelInputNumberProvisional = `Valor ${e.source.triggerValue} Provisional`;
+		this.labelInputNumberDefinitivo = `${e.source.triggerValue} Definitivo`;
+		this.labelInputNumberProvisional = `${e.source.triggerValue} Provisional`;
 		
 		this.diaNOHabilBancarioProvisional = null;
 		this.diaNOHabilBancarioDefinitivo = null;
 		switch (e.value) {
 			case '1':
-				this.tableProvisionalData = [
-					{index:'INPPm',date:'05/2020',value:'ws'}
-				];
-				this.tableDefinitivoData = [
-					{index:'INPPm',date:'05/2020',value:'ws'}
+				this.tableIndexFinancialData = [
+					{order:1,fechaOp:'mar-20',index:'INPPm Provisional',date:'05/2020',value:'ws'},
+					{order:1,fechaOp:'mar-20',index:'INPPm Definitivo',date:'05/2020',value:'ws'}
 				];
 				break;
 			case '2':
-				this.tableProvisionalData = [
-					{index:'USPPIm',date:'05/2020',value:'ws'}
-				];
-				this.tableDefinitivoData = [
-					{index:'USPPIm',date:'05/2020',value:'ws'}
+				this.tableIndexFinancialData = [
+					{order:1,fechaOp:'mar-20',index:'USPPIm Provisional',date:'05/2020',value:'ws'},
+					{order:1,fechaOp:'mar-20',index:'USPPIm Definitivo',date:'05/2020',value:'ws'}
 				];
 				break;
 			case '3':
-				this.tableProvisionalData = [
-					{index:'TCp',date:'05/2020',value:'ws'}
+				this.tableIndexFinancialData = [
+					{order:1,fechaOp:'mar-20',index:'TCp Provisional',date:'01/05/2020',value:'ws'},
+					{order:1,fechaOp:'mar-20',index:'TCp Definitivo',date:'01/05/2020',value:'ws'}
 				];
-				this.tableDefinitivoData = [
-					{index:'TCp',date:'05/2020',value:'ws'}
-				];
-				this.diaNOHabilBancarioProvisional = '* Día NO hábil bancario';
-				this.diaNOHabilBancarioDefinitivo = '* Día NO hábil bancario';
+				this.diaNOHabilBancarioProvisional = '* Provisional Día NO hábil bancario';
+				this.diaNOHabilBancarioDefinitivo = '* Definitivo Día NO hábil bancario';
 				break;
 			default:
-				this.tableProvisionalData= [];
-				this.tableDefinitivoData= [];
+				this.tableIndexFinancialData= [];
 				break;
 		}
+
+	}
+	onSubmitFormIndexFinancial(o){
+		console.log(this.formQuery.controls.typeVarhtml);
+		
+		console.log(o);
+	}
+	onBtnCancelFormIndexFinancial(){
 
 	}
 	clickBtnChart(){
@@ -220,6 +226,9 @@ export class MiningIFIFinancialComponent implements OnInit {
 	}
 	formQuerySubmit(v){
 
+	}
+	tableIndexFinancialRowEdit(o){
+		console.log(o);
 	}
 	private addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,

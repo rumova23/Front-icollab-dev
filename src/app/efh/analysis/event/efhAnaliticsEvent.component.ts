@@ -337,6 +337,8 @@ export class EfhAnaliticsEventComponent implements OnInit {
     let canRegister = false;
     let duration;
     let isWorkingWithDiesel = false;
+    let startDateFsnl = null;
+    let startHourFsnl = null;
 
     // Initialization
     const obj = {};
@@ -395,6 +397,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
             date = this.datePipe.transform(event.dateInit, 'dd/MM/yyyy');
             typeEvent = this.eventTypesArr.find(x => x.id === event.idTypeEvent).name;
             comment = event.description;
+
             // PRIMER EVENTO
             if (firstEvent) {
                 eventStartTime = new Date(event.dateInit);
@@ -501,22 +504,26 @@ export class EfhAnaliticsEventComponent implements OnInit {
 
             // RECHAZO DE CARGA
             if (event.idTypeEvent === 952 && this.FF > 0) {
+                startTime = this.datePipe.transform(new Date(event.dateInit), 'HH:mm:ss');
+                stopTime = this.datePipe.transform(new Date(event.dateEnd), 'HH:mm:ss');
                 rejectFlag = 1;
                 loadReject = event.chargebeforereject;
                 esi_lrj = this.calcularEsiForReject(loadReject);
                 rejectRegistered = true;
-                continue;
+                canRegister = true;
             }
 
             // RUNBACK
             if (event.idTypeEvent === 953  && this.FF > 0) {
+                startTime = this.datePipe.transform(new Date(event.dateInit), 'HH:mm:ss');
+                stopTime = startTime;
                 rapidLoad = 1;
                 const minutes = (event.dateEnd.getTime() - event.dateInit.getTime()) / 60000;
                 changeRange = event.chargebeforerunback - event.chargeafterrunback;
                 changeRate = (((changeRange) * 100) / this.MAX_LOAD) / minutes;
                 esi_lcj = this.calcularEsiForRunback(10, event.chargebeforerunback, event.chargeafterrunback);
                 runbackRegistered = true;
-                continue;
+                canRegister = true;
             }
 
             // DISPARO
@@ -598,8 +605,14 @@ export class EfhAnaliticsEventComponent implements OnInit {
                     canRegister = true;
                 }
             } else if (event.idTypeEvent === 4954 && this.FF > 0) {
-                start = 1;
-                startFlag = 1;
+                startDateFsnl = this.datePipe.transform(event.dateEnd, 'dd/MM/yyyy');
+                startHourFsnl = this.datePipe.transform(event.dateEnd, 'HH:mm:ss');
+
+                if (date !== startDateFsnl) {
+                    start = 0;
+                    startFlag = 0;
+                    typeEvent = this.eventTypesArr.find(x => x.name.includes('OPERA')).name;
+                }
 
                 totalStarts = totalStarts + start;
                 sinceStarts = sinceStarts + startFlag;
@@ -629,6 +642,17 @@ export class EfhAnaliticsEventComponent implements OnInit {
 
             // SE REALIZA REEGISTRO DE TIEMPO OPERADO NORMALMENTE
             if (canRegister) {
+
+                if (date === startDateFsnl && startDateFsnl !== null && this.FF > 0) {
+                    start = 1;
+                    startFlag = 1;
+                    totalStarts = totalStarts + start;
+                    sinceStarts = sinceStarts + startFlag;
+                    startTime = startHourFsnl;
+                    typeEvent = this.eventTypesArr.find(x => x.name.includes('ARRANQUE')).name;
+                    startDateFsnl = null;
+                }
+
                 totalAOH = totalAOH + runAOH;
                 totalEFHi = totalEFHi + runEFHi;
                 totalEFHi_costo = totalEFHi_costo + runEFHi_costo;

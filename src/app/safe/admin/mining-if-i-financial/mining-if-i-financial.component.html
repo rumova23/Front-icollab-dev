@@ -52,78 +52,82 @@
 		</div>
 	</form>
 
-	<!--Tabla Definitivo-->
-	<p>Definitivo</p>
-	<div class="row">
-		<div class="my-2 col-12 col-lg-6">
+	<div class="row my-4">
+		<div class="col">
 			<app-mat-table
-				(clickEdit)="tableDefinitivoRowEdit($event)"
-				[data]="tableDefinitivoData"
-				[columnsLabels]="tableDefinitivoColumnsLabels"
-				[columnsDisplay]="tableDefinitivoColumnsDisplay"
+				(clickEdit)="tableIndexFinancialRowEdit($event)"
+				[data]="tableIndexFinancialData"
+				[columnsLabels]="tableIndexFinancialColumnsLabels"
+				[columnsDisplay]="tableIndexFinancialColumnsDisplay"
 				[row_x_page]="tableRow_x_page"
 				[showPagination]="false"
 			></app-mat-table>
-		</div>
-		<div class="my-2 col-12 col-lg-6">
-			<div class="row justify-content-end">
-				<div class="col col-lg-4">
-					<app-mat-input-number
-						[formGroup]="formValorDefinitivo"
-						controlName="indice"
-						[label]="labelInputNumberDefinitivo"
-					></app-mat-input-number>
-				</div>
-				<div class="col">
-					<label style="visibility: hidden;">boton</label>
-					<app-btn-block-cancel (myClick)="onBtnCancelDefinitivo()"></app-btn-block-cancel>
-				</div>
-				<div class="col">
-					<label style="visibility: hidden;">boton</label>
-					<app-btn-block-save-update (myClick)="onBtnSaveUpdateDefinitivo()"></app-btn-block-save-update>
-				</div>
-			</div>
-		</div>
-	</div>
-	<p>{{diaNOHabilBancarioDefinitivo}}</p>
-	<br>
-	<!--./Tabla Definitivo-->
-	<!--Tabla Provisional-->
-	<p>Provisional</p>
-	<div class="row">
-		<div class="my-2 col-12 col-lg-6">
-			<app-mat-table
-				(clickEdit)="tableProvisionalRowEdit($event)"
-				[data]="tableProvisionalData"
-				[columnsLabels]="tableDefinitivoColumnsLabels"
-				[columnsDisplay]="tableDefinitivoColumnsDisplay"
-				[row_x_page]="tableRow_x_page"
-				[showPagination]="false"
-			></app-mat-table>
-		</div>
-		<div class="my-2 col-12 col-lg-6">
-			<div class="row justify-content-end">
-				<div class="col col-lg-4">
-					<app-mat-input-number
-						[formGroup]="formValorProvisional"
-						controlName="indice"
-						[label]="labelInputNumberProvisional"
-					></app-mat-input-number>
-				</div>
-				<div class="col">
-					<label style="visibility: hidden;">boton</label>
-					<app-btn-block-cancel (myClick)="onBtnCancelProvisional()"></app-btn-block-cancel>
-				</div>
-				<div class="col">
-					<label style="visibility: hidden;">boton</label>
-					<app-btn-block-save-update (myClick)="onBtnSaveUpdateProvisional()"></app-btn-block-save-update>
-				</div>
-			</div>
 		</div>
 	</div>
 	<p>{{diaNOHabilBancarioProvisional}}</p>
+	<p>{{diaNOHabilBancarioDefinitivo}}</p>
+	<form class="my-3" [formGroup]="formIndexFinancial" (ngSubmit)="onSubmitFormIndexFinancial(formIndexFinancial.value)">
+		<div class="row">
+			<div class="col col-lg-3" *ngIf="formQuery.controls.typeVarhtml.value != '3'">
+				<app-mat-input-datepicker-year-and-month 
+					class="w-100 align-self-end"
+					[formGroup]="formIndexFinancial"
+					controlName="dateProv"
+					label="Fecha">
+				</app-mat-input-datepicker-year-and-month>
+			</div>
+			<div class="col col-lg-3" *ngIf="formQuery.controls.typeVarhtml.value == '3'">
+				<app-mat-input-datepicker 
+					class="w-100 align-self-end"
+					[formGroup]="formIndexFinancial"
+					controlName="dateProv"
+					label="Fecha">
+				</app-mat-input-datepicker>
+			</div>
+			<div class="col col-lg-3">
+				<app-mat-input-number
+					[formGroup]="formIndexFinancial"
+					controlName="valProv"
+					[label]="labelInputNumberProvisional"
+				></app-mat-input-number>
+			</div>
+			<div class="col col-lg-3" *ngIf="formQuery.controls.typeVarhtml.value != '3'">
+				<app-mat-input-datepicker-year-and-month 
+					class="w-100 align-self-end"
+					[formGroup]="formIndexFinancial"
+					controlName="dateDef"
+					label="Fecha">
+				</app-mat-input-datepicker-year-and-month>
+			</div>
+			<div class="col col-lg-3" *ngIf="formQuery.controls.typeVarhtml.value == '3'">
+				<app-mat-input-datepicker 
+					class="w-100 align-self-end"
+					[formGroup]="formIndexFinancial"
+					controlName="dateDef"
+					label="Fecha">
+				</app-mat-input-datepicker>
+			</div>
+			<div class="col col-lg-3">
+				<app-mat-input-number
+					[formGroup]="formIndexFinancial"
+					controlName="valDef"
+					[label]="labelInputNumberDefinitivo"
+				></app-mat-input-number>
+			</div>
+		</div>
+		<div class="row justify-content-end">
+			<div class="col col-lg-2">
+				<label style="visibility: hidden;">boton</label>
+				<app-btn-block-cancel (myClick)="onBtnCancelFormIndexFinancial()"></app-btn-block-cancel>
+			</div>
+			<div class="col col-lg-2">
+				<label style="visibility: hidden;">boton</label>
+				<app-btn-block-save-update mytype="submit"></app-btn-block-save-update>
+			</div>
+		</div>
+	</form>
 	<br>
-	<!--./Tabla Provisional-->
+
 	
 	<div class="row mt-4">
 		<div class="col">
