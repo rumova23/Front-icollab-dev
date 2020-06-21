@@ -339,6 +339,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
     let isWorkingWithDiesel = false;
     let startDateFsnl = null;
     let startHourFsnl = null;
+    let shotDelayed = false;
 
     // Initialization
     const obj = {};
@@ -397,6 +398,8 @@ export class EfhAnaliticsEventComponent implements OnInit {
             date = this.datePipe.transform(event.dateInit, 'dd/MM/yyyy');
             typeEvent = this.eventTypesArr.find(x => x.id === event.idTypeEvent).name;
             comment = event.description;
+
+            debugger;
 
             // PRIMER EVENTO
             if (firstEvent) {
@@ -533,6 +536,9 @@ export class EfhAnaliticsEventComponent implements OnInit {
                 startTime = this.datePipe.transform(eventStartTime, 'HH:mm:ss');
                 stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
 
+                const shotStartDate = this.datePipe.transform(event.dateInit, 'dd/MM/yyyy');
+                const shotEndDate = this.datePipe.transform(event.dateEnd, 'dd/MM/yyyy');
+
                 runAOH = duration;
                 runEFHi = duration * this.FF;
                 runEFHi_costo = runEFHi * rateEFHi_costo;
@@ -548,6 +554,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
 
                 // Combustible -> 0
                 this.FF = this.FF_SC;
+                shotDelayed = true;
 
                 canRegister = true;
             }
@@ -591,6 +598,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
 
                 eventStartTime = new Date(event.dateEnd);
 
+                shotDelayed = false;
                 totalStarts = totalStarts + start;
                 sinceStarts = sinceStarts + startFlag;
 
@@ -604,6 +612,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
                     runEFHi_costo = runEFHi * rateEFHi_costo;
                     canRegister = true;
                 }
+
             } else if (event.idTypeEvent === 4954 && this.FF > 0) {
                 startDateFsnl = this.datePipe.transform(event.dateEnd, 'dd/MM/yyyy');
                 startHourFsnl = this.datePipe.transform(event.dateEnd, 'HH:mm:ss');
@@ -636,6 +645,10 @@ export class EfhAnaliticsEventComponent implements OnInit {
                     runEFHi_costo = runEFHi * rateEFHi_costo;
                     canRegister = true;
                 }
+            }
+
+            if (shotDelayed && this.FF === 0) {
+                typeEvent = this.eventTypesArr.find(x => x.name.includes('DISPARO')).name;
             }
 
             ff = this.FF;
