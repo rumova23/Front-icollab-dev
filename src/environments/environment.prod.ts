@@ -25,6 +25,7 @@ export const environment = {
   , dgctags                 : hostGateway + 'dgctags/dgctags/'
   , dycformato              : hostGateway + 'dycformato/dycformato/'
   , binnacle                : hostGateway + 'binnacle/'
+  , economicProposalUrl     : hostGateway + 'economicproposal/'
 };
 /*
 const hostGateway = 'http://200.52.85.140:8585/';

@@ -1,3 +1,4 @@
+/* tslint:disable:indent */
 import { Component, OnInit } from '@angular/core';
 import { Moment } from 'moment';
 import { GlobalService } from 'src/app/core/globals/global.service';
@@ -12,6 +13,8 @@ import * as moment from 'moment';
 import { IdLabel } from 'src/app/core/models/IdLabel';
 import { MatSelectChange } from '@angular/material';
 import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format.service';
+import {EconomicProposalService} from '../../services/economic-proposal.service';
+import {EconomicProposalDTO} from '../../models/economic-proposal-dto';
 
 @Component({
   selector: 'app-mining-if-i-economicproposal',
@@ -22,13 +25,13 @@ export class MiningIFIEconomicproposalComponent implements OnInit {
 	// LA PROPIEDAD 'ORDER' ES NECESARIA EN EL DATA SI SE DESEA QUE SEA ORDENABLE ESTA COLUMNA
 	// por eso se descarto dejar el incremental en el html
 	tableData = [
-		{order:1,fechaOp:'mar-20',fuenteImport:'2da Corrida MM',usuario:'Manuel Herrera',fechaMod:'01/04/2020 01:40:00 pm',estatus:'exitosa'},
-		{order:2,fechaOp:'mar-20',fuenteImport:'2da Corrida MM',usuario:'Sistema'       ,fechaMod:'01/04/2020 12:40:00 pm',estatus:'exitosa'},
-		{order:3,fechaOp:'mar-20',fuenteImport:'1ra Corrida MM',usuario:'Ivette Colin'  ,fechaMod:'01/04/2020 12:40:00 pm',estatus:'exitosa'},
-		{order:4,fechaOp:'mar-20',fuenteImport:'1ra Corrida MM',usuario:'Sistema'       ,fechaMod:'01/04/2020 11:40:00 pm',estatus:'exitosa'},
-		{order:5,fechaOp:'mar-20',fuenteImport:'1ra Corrida MM',usuario:'Sistema'       ,fechaMod:'01/04/2020 11:40:00 pm',estatus:'exitosa'}
+		{order: 1, fechaOp: 'mar-20', fuenteImport: '2da Corrida MM', usuario: 'Manuel Herrera', fechaMod: '01/04/2020 01:40:00 pm', estatus: 'exitosa'},
+		{order: 2, fechaOp: 'mar-20', fuenteImport: '2da Corrida MM', usuario: 'Sistema'       , fechaMod: '01/04/2020 12:40:00 pm', estatus: 'exitosa'},
+		{order: 3, fechaOp: 'mar-20', fuenteImport: '1ra Corrida MM', usuario: 'Ivette Colin'  , fechaMod: '01/04/2020 12:40:00 pm', estatus: 'exitosa'},
+		{order: 4, fechaOp: 'mar-20', fuenteImport: '1ra Corrida MM', usuario: 'Sistema'       , fechaMod: '01/04/2020 11:40:00 pm', estatus: 'exitosa'},
+		{order: 5, fechaOp: 'mar-20', fuenteImport: '1ra Corrida MM', usuario: 'Sistema'       , fechaMod: '01/04/2020 11:40:00 pm', estatus: 'exitosa'}
 	];
-	tablaColumnsLabels=[
+	tablaColumnsLabels = [
 		{ key: 'order', label: '#' },
 		{ key: 'fechaOp', label: 'Fecha de Operación Comercial' },
 		{ key: 'fuenteImport', label: 'Fuente de Importación' },
@@ -45,82 +48,82 @@ export class MiningIFIEconomicproposalComponent implements OnInit {
 		'estatus',
 		'sys_delete'
 	];
-	tableRow_x_page = [5,10,20,50, 100, 250, 500];
-	tableData01 = [
-		{mes:'1',cfc_am:'0.0000',cfom_mtm:'1.02020',cfom_dm:'0.46930',cfom_mom:'1.45900',cvo_m:'0.000828',cca_m:'0.09205',pdg_m:'98.08%',pi:'0.00%'}
-	];
-	tabla01ColumnsLabels=[
-		{ key: 'mes',label:'# de Mes desde COD'},
-		{ key: 'cfc_am',label:'CFC am'},
-		{ key: 'cfom_mtm',label:'CFOM mtm'},
-		{ key: 'cfom_dm',label:'CFOM dm'},
-		{ key: 'cfom_mom',label:'CFOM mom'},
-		{ key: 'cvo_m',label:'CVO m'},
-		{ key: 'cca_m',label:'CCA m'},
-		{ key: 'pdg_m',label:'PDGm'},
-		{ key: 'pi',label:'PI'}
+	tableRow_x_page = [5, 10, 20, 50, 100, 250, 500];
+	tableData01: Array<EconomicProposalDTO> = [];
+	tabla01ColumnsLabels = [
+		{ key: 'numeroMesCod', label: '# de Mes desde COD'},
+		{ key: 'cfcAm', label: 'CFC am'},
+		{ key: 'cfomMtm', label: 'CFOM mtm'},
+		{ key: 'cfomDm', label: 'CFOM dm'},
+		{ key: 'cfomMom', label: 'CFOM mom'},
+		{ key: 'cvoM', label: 'CVO m'},
+		{ key: 'ccaM', label: 'CCA m'},
+		{ key: 'pdgM', label: 'PDGm'},
+		{ key: 'pi', label: 'PI'}
 	];
 	table01ColumnsDisplay: string[] = [
-		'mes',
-		'cfc_am',
-		'cfom_mtm',
-		'cfom_dm',
-		'cfom_mom',
-		'cvo_m',
-		'cca_m',
-		'pdg_m',
+		'numeroMesCod',
+		'cfcAm',
+		'cfomMtm',
+		'cfomDm',
+		'cfomMom',
+		'cvoM',
+		'ccaM',
+		'pdgM',
 		'pi',
 		'sys_edit'
 	];
 
-	selectOptionsVariables : IdLabel[] = [
-		{id:"1",label:'CFC am'},
-		{id:"2",label:'CFOM mtm'},
+	selectOptionsVariables: IdLabel[] = [
+		{id: '1', label: 'CFC am'},
+		{id: '2', label: 'CFOM mtm'},
 	];
 
 
 	formQuery: FormGroup;
 	formEconomic: FormGroup;
-	formvariables : FormGroup;
-	fileUploadForm :FormGroup;
+	formvariables: FormGroup;
+	fileUploadForm: FormGroup;
 	isManualLoad = false;
 
-	
+
 	valid = false;
 	file: any;
 	fileName: any;
 	progress;
-	
-
 
 	constructor(
-		private formBuilder: FormBuilder,
-		private confirmationDialogService: ConfirmationDialogService,
+		public formBuilder: FormBuilder,
+		public confirmationDialogService: ConfirmationDialogService,
 		public globalService: GlobalService,
 		public toastr: ToastrManager,
 		public eventService: EventService,
-		private ppaMonitoringFormatService: PpaMonitoringFormatService
+		public economicProposalService: EconomicProposalService
 	) { }
 
 	ngOnInit() {
 		this.formQuery = this.formBuilder.group({
 			date: new FormControl(moment(), Validators.required)
-		});	
+		});
 		this.formvariables = this.formBuilder.group({
 			selectVariables: new FormControl('', Validators.required),
-		});	
+		});
 		this.fileUploadForm = this.formBuilder.group({
 			file: new FormControl(null, [Validators.required, requiredFileType('xlsx')]),
 		});
 		this.formEconomic = this.formBuilder.group({
-			cfc_am:[],
-			cfom_mtm:[],
-			cfom_dm:[],
-			cfom_mom:[],
-			cvo_m:[],
-			cca_m:[],
-			pdg_m:[],
-			pi:[],
+			economicProposalId: [],
+			proyecto: [],
+			numeroMesCod: [],
+			mesAnio: [],
+			cfcAm: [],
+			cfomMtm: [],
+			cfomDm: [],
+			cfomMom: [],
+			cvoM: [],
+			ccaM: [],
+			PDGm: [],
+			pi: []
 		});
 	}
 	onChangeDatePicker(d: Moment) {
@@ -128,29 +131,49 @@ export class MiningIFIEconomicproposalComponent implements OnInit {
 		const year = d.year();
 		const date = d.format('MM/yyyy');
 	}
-	onChangeSelectVariables(e){
+	onChangeSelectVariables(e) {
 		console.log(e);
-		
-	}
-	
-	clickBtnChart(){
-	}
-	clickBtnDownloadChart(){
-	}
-	clickBtnDowloadImport(){
-	}
-	onBtnConsultar(){
 
+	}
+
+	clickBtnChart() {
+	}
+	clickBtnDownloadChart() {
+	}
+	clickBtnDowloadImport() {
+	}
+	onBtnConsultar() {
+		const mydate = this.formQuery.get('date').value;
+		const month = mydate.month() + 1;
+		const year = mydate.year();
+		this.economicProposalService.obtenEconomicProposal(
+			year,
+			month
+		).subscribe (
+			(data: Array<EconomicProposalDTO>) => {
+				console.dir(data);
+				this.tableData01 = data;
+				this.formEconomic.patchValue(data);
+				this.addBlock(2, '');
+			},
+			errorData => {
+				this.addBlock(2, '');
+				if (errorData.error.message.indexOf('Notificacion 001') !== -1) {
+					this.toastr.warningToastr(errorData.error.message, 'Advertencia!');
+				} else {
+					this.toastr.errorToastr(errorData.error.message, 'Error!');
+				}
+			});
 	}
 	onBtnUploadFile() {
 		const mydate = this.formQuery.get('date').value;
 		const month = mydate.month() + 1;
 		const year = mydate.year();
 	}
-	onBtnFinish(){
+	onBtnFinish() {
 	}
-	downloadFile(){}
-	tableRowDelete(element){
+	downloadFile() {}
+	tableRowDelete(element) {
 		this.confirmationDialogService.confirm(
 			'Confirmación',
 			'¿Está seguro de eliminar el Registro?'
@@ -162,20 +185,21 @@ export class MiningIFIEconomicproposalComponent implements OnInit {
 		})
 		.catch(() => {});
 	}
-	table01RowEdit(element){
+	table01RowEdit(element) {
+		console.log('RTC');
 		console.log(element);
 	}
-	formQuerySubmit(v){
+	formQuerySubmit(v) {
 		console.log(v);
 	}
-	formEconomicSubmit(v){
+	formEconomicSubmit(v) {
 		console.log(v);
-		
-	}
-	onBtnCancelFormEconomic(){
 
 	}
-	private addBlock(type, msg): void {
+	onBtnCancelFormEconomic() {
+
+	}
+	 addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,
 			new EventBlocked(type, msg)));
 	}
