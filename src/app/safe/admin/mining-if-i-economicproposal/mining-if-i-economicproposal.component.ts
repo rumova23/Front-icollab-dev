@@ -122,7 +122,7 @@ export class MiningIFIEconomicproposalComponent implements OnInit {
 			cfomMom: [],
 			cvoM: [],
 			ccaM: [],
-			PDGm: [],
+			pdgM: [],
 			pi: []
 		});
 	}
@@ -153,7 +153,7 @@ export class MiningIFIEconomicproposalComponent implements OnInit {
 			(data: Array<EconomicProposalDTO>) => {
 				console.dir(data);
 				this.tableData01 = data;
-				this.formEconomic.patchValue(data);
+
 				this.addBlock(2, '');
 			},
 			errorData => {
@@ -186,14 +186,28 @@ export class MiningIFIEconomicproposalComponent implements OnInit {
 		.catch(() => {});
 	}
 	table01RowEdit(element) {
-		console.log('RTC');
-		console.log(element);
+		this.formEconomic.patchValue(element);
 	}
 	formQuerySubmit(v) {
 		console.log(v);
 	}
 	formEconomicSubmit(v) {
-		console.log(v);
+		this.economicProposalService.saveEconomicProposal(
+			v
+		).subscribe (
+			(data: EconomicProposalDTO) => {
+				console.dir(data);
+				this.toastr.successToastr('Actualizacion correcta', 'Exito!');
+				this.addBlock(2, '');
+			},
+			errorData => {
+				this.addBlock(2, '');
+				if (errorData.error.message.indexOf('Notificacion 001') !== -1) {
+					this.toastr.warningToastr(errorData.error.message, 'Advertencia!');
+				} else {
+					this.toastr.errorToastr(errorData.error.message, 'Error!');
+				}
+			});
 
 	}
 	onBtnCancelFormEconomic() {
