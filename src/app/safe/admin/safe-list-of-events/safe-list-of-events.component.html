@@ -1,0 +1,62 @@
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Bitacora de Eventos" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "List Of Events" | translate }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+<div class="section">
+	<div class="row">
+		<div class="col">
+			<p class="section_titulo_0">{{ "Lista de eventos" | translate }}</p>
+		</div>
+	</div>
+	<hr>
+	<br>
+	<p>Consulta Eventos</p>
+	<form [formGroup]="formQuery" (ngSubmit)="onFormQuerySubmit(formQuery.value)">
+		<div class="row">
+			<div class="my-2 col-12 col-md-4 col-xl-3 col-xxl-3">
+				<app-mat-input-datepicker [formGroup]="formQuery"
+					controlName="from" 
+					(eventChange)="onDateFromChange()"
+					label="De">
+				</app-mat-input-datepicker>
+			</div>
+			<div class="my-2 col-12 col-md-4 col-xl-3 col-xxl-3">
+				<app-mat-input-datepicker [formGroup]="formQuery"
+					controlName="to"
+					[minDate]="dateToMin"
+					label="Al">
+				</app-mat-input-datepicker>
+			</div>
+			<div class="my-2 col-12 col-md-4 col-xl-3 col-xxl-2 col-xxxxxl-1">
+				<label style="visibility: hidden;">boton</label>
+				<app-btn-block label="Consultar" mytype="submit"></app-btn-block>
+			</div>
+			
+			<div class="my-2 col-12 col-md-4 col-xl-3 col-xxl-2 col-xxxxxl-1 ml-auto">
+				<label style="visibility: hidden;">boton</label>
+				<app-btn-block-add (myClick)="onbtnAddEvent()" ></app-btn-block-add>
+			</div>
+		</div>
+	</form>
+
+	<div class="row my-4">
+		<div class="col">
+			<app-mat-table
+				(clickSee)="onTableRowSee($event)"
+				(clickEdit)="onTableRowEdit($event)"
+				(clickDelete)="onTableRowDelete($event)"
+				[data]="tableData"
+				[columnsLabels]="tablaColumnsLabels"
+				[columnsDisplay]="tableColumnsDisplay"
+				[row_x_page]="tableRowXpage"
+			></app-mat-table>
+		</div>
+	</div>
+</div>
