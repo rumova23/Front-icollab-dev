@@ -194,7 +194,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.licenseDescription.enable();
 					}
 					if (this.templateConfiguration.conceptoLicencia !==  null) {
-						this.formNewEvent.controls.licenseDescription.value(this.templateConfiguration.conceptoLicencia);
+						this.formNewEvent.controls.licenseDescription.setValue(this.templateConfiguration.conceptoLicencia);
 					}
 
 					if (this.templateConfiguration.disabledEquipmentId) {
@@ -222,12 +222,13 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.initialCharge.value(this.templateConfiguration.initialCharge);
 					}
 
+
 					if (this.templateConfiguration.disabledImpactContractsId) {
 						this.formNewEvent.controls.impactContractsId.disable();
 					} else {
 						this.formNewEvent.controls.impactContractsId.enable();
 					}
-					this.lstEquipment = this.loadSelectTemplate(this.lstEquipmentAll, this.templateConfiguration.impactContractsId);
+					this.lstImpactContracts = this.loadSelectTemplate(this.lstImpactContractsAll, this.templateConfiguration.impactContractsId);
 
 					if (this.templateConfiguration.disabledLicenseNumber) {
 						this.formNewEvent.controls.licenseNumber.disable();
@@ -307,7 +308,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.workOrderId.enable();
 					}
 					if (this.templateConfiguration.workOrderId !==  null) {
-						this.formNewEvent.controls.workOrderId.value(this.templateConfiguration.workOrderId);
+						this.formNewEvent.controls.workOrderId.setValue(this.templateConfiguration.workOrderId);
 					}
 				} else {
 					this.toastr.warningToastr('El template para el evento: ' + event.label  + ': Aun no es Configurado.', 'Advertencia!');
@@ -320,8 +321,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 
 
 	loadCatalog() {
-		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL/CCDV', 'BANDA TOLERANCIA',
-		'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'ORDEN TRABAJO'];
+		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL-CCDV', 'BANDA TOLERANCIA',
+		'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO'];
 		this.masterCatalogService.listCatalog(names).subscribe(data  => {
 			this.loadSelect(this.lstEventClassification, data['CLASIFICA EVENTO']);
 			this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
@@ -329,12 +330,11 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			this.loadSelect(this.lstFuelsAll, data['COMBUSTIBLE']);
 			this.loadSelect(this.lstUnitsAll, data['UNIDAD']);
 			this.loadSelect(this.lstImpactContractsAll, data['CONTRATO IMPACTADO']);
-			this.loadSelect(this.lstRealsCcdvAll, data['REAL/CCDV']);
+			this.loadSelect(this.lstRealsCcdvAll, data['REAL-CCDV']);
 			this.loadSelect(this.lstToleranceBandsAll, data['BANDA TOLERANCIA']);
 			this.loadSelect(this.lstMarketTypesAll, data['TIPO MERCADO MEM']);
 			this.loadSelect(this.lstSelatedServicesAll, data['SERVICIOS CONEXOS MEM']);
 			this.loadSelect(this.lstEquipmentAll, data['EQUIPO']);
-			this.loadSelect(this.lstWorkOrderAll, data['ORDEN TRABAJO']);
 		});
 	}
 	onSubmitFormNewEvent(v) {

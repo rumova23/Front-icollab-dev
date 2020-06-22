@@ -201,7 +201,9 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 		console.log(v);
 	}
 	onSubmitFormNewEvent(v) {
-		if (this.catalogType.action === 'Guardar') {
+		console.log('RTC: ' + this.catalogType.action);
+		console.dir(v);
+		if (this.catalogType.action === 'nuevo') {
 			this.addBlock(1, '');
 			this.binnacleService.saveBinnacleConfiguration(v).subscribe(
 				data => {

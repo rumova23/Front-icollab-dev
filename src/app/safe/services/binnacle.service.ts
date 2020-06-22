@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {GlobalService} from '../../core/globals/global.service';
 import {BinnacleDTO} from '../models/binnacle-dto';
 import {BinnacleEventConfigurationDTO} from '../models/binnacle-event-configuration-dto';
+import {BinnacleEventDTO} from '../models/binnacle-event-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class BinnacleService {
               private globalService: GlobalService) {
   }
 
-  saveBinnacle(binnacle: BinnacleDTO): Observable<any> {
+  saveBinnacle(binnacle: BinnacleEventDTO): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.binnacle }binnacle/save/binnacle`, binnacle, {params : this.parameters });
   }
