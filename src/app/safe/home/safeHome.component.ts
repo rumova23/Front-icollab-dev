@@ -97,6 +97,7 @@ import { SafeProcedureDetectionAndCorrectionV2Component } from '../admin/safe-pr
 import {SafeListBinnacleEventsComponent} from '../admin/safe-import-event-log/safe-list-binnacle-events/safe-list-binnacle-events.component';
 import {SafeConfigurationBinnacleComponent} from '../admin/safe-configuration-binnacle/safe-configuration-binnacle.component';
 import {SafeConfigurationBinnacleEditComponent} from '../admin/safe-configuration-binnacle/safe-configuration-binnacle-edit/safe-configuration-binnacle-edit.component';
+import { SafeListOfEventsComponent } from '../admin/safe-list-of-events/safe-list-of-events.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -190,6 +191,7 @@ import {SafeConfigurationBinnacleEditComponent} from '../admin/safe-configuratio
 		, SafeListBinnacleEventsComponent
 		, SafeConfigurationBinnacleComponent
 		, SafeConfigurationBinnacleEditComponent
+		, SafeListOfEventsComponent
   	]
 })
 
@@ -219,7 +221,7 @@ export class SafeHomeComponent implements OnInit {
 	}
 
 	ngAfterViewInit() {
-		//this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(SafeConfigurationBinnacleComponent));/*
+		//this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(SafeListOfEventsComponent));/*
 		this.eventService.sendMainSafe(new EventMessage(101, {
 			typeEnergy: 'Factor de Potencia'
 		}));//*/
@@ -242,6 +244,13 @@ export class SafeHomeComponent implements OnInit {
 				let banderaTemporal = false;
 				this.viewContainerRef.clear();
 				switch (event.descriptor) {
+					case'Safe.SafeListOfEventsComponent':
+						banderaTemporal = true;
+						view = this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(SafeListOfEventsComponent)
+						);
+						view.changeDetectorRef.detectChanges();
+						break;
 					case'Safe.MiningIFIFinancialComponent':
 						banderaTemporal = true;
 						view = this.viewContainerRef.createComponent(
@@ -338,9 +347,11 @@ export class SafeHomeComponent implements OnInit {
 						break;
 					case 'Safe.SafeRegistrationOfEventsComponent':
 						banderaTemporal = true;
-						this.viewContainerRef.createComponent(
+						view = this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(SafeRegistrationOfEventsComponent)
-						).changeDetectorRef.detectChanges();
+						);
+						view.instance.catalogType = event.data;
+						view.changeDetectorRef.detectChanges();
 						break;
 					case 'Safe.SafeImportEventLogComponent':
 						banderaTemporal = true;

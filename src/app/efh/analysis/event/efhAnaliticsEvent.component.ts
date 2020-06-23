@@ -396,10 +396,12 @@ export class EfhAnaliticsEventComponent implements OnInit {
         for (const event of this.dataPartial) {
             cont++;
             date = this.datePipe.transform(event.dateInit, 'dd/MM/yyyy');
-            typeEvent = this.eventTypesArr.find(x => x.id === event.idTypeEvent).name;
+            if (event.idTypeEvent !== -100 && event.idTypeEvent !== -200 && event.idTypeEvent !== -300) {
+                typeEvent = this.eventTypesArr.find(x => x.id === event.idTypeEvent).name;
+            } else {
+                typeEvent = this.eventTypesArr.find(x => x.name.includes('OPER')).name;
+            }
             comment = event.description;
-
-            debugger;
 
             // PRIMER EVENTO
             if (firstEvent) {
@@ -453,27 +455,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
                 canRegister = true;
             }
 
-            // TERMINA OPERACION CON NORMAL
-            if (event.idTypeEvent === -100 && event.idTypeFuel === 952 && !isWorkingWithDiesel) {
-                eventEndTime = new Date(event.dateInit);
-                duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
-                startTime = this.datePipe.transform(eventStartTime, 'HH:mm:ss');
-                stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
-
-                runAOH = duration;
-                runEFHi = duration * this.FF;
-                runEFHi_costo = runEFHi * rateEFHi_costo;
-                canRegister = true;
-                isWorkingWithDiesel = true;
-                this.FF = this.FF_DIESEL;
-            }
-
-            // INICIA OPERACION CON DIESEL
-            if (event.idTypeEvent === -200 && event.idTypeFuel === 952 && isWorkingWithDiesel) {
-                eventStartTime = new Date(event.dateInit);
-                continue;
-            }
-
+            debugger;
             // TERMINA OPERACION CON DIESEL
             if (event.idTypeEvent === -200 && event.idTypeFuel === 952 && isWorkingWithDiesel) {
                 eventEndTime = new Date(event.dateEnd);
@@ -488,7 +470,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
             }
 
             // SE REESTABLECE OPERACION NORMAL DE NUEVO
-            if (event.idTypeEvent === -100 && event.idTypeFuel === 952 && isWorkingWithDiesel) {
+            if (event.idTypeEvent === -300 && event.idTypeFuel === 952 && isWorkingWithDiesel) {
                 eventStartTime = new Date(event.dateInit);
                 isWorkingWithDiesel = false;
                 this.FF = this.FF_GAS;
@@ -505,6 +487,36 @@ export class EfhAnaliticsEventComponent implements OnInit {
                 }
             }
 
+            // TERMINA OPERACION CON NORMAL
+            if (event.idTypeEvent === -100 && event.idTypeFuel === 952 && !isWorkingWithDiesel && this.FF < this.FF_DIESEL) {
+                eventEndTime = new Date(event.dateInit);
+                duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
+                startTime = this.datePipe.transform(eventStartTime, 'HH:mm:ss');
+                stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
+
+                runAOH = duration;
+                runEFHi = duration * this.FF;
+                runEFHi_costo = runEFHi * rateEFHi_costo;
+                canRegister = true;
+            }
+
+            // INICIA OPERACION CON DIESEL
+            if (event.idTypeEvent === -200 && event.idTypeFuel === 952 && !isWorkingWithDiesel) {
+                eventStartTime = new Date(event.dateInit);
+                duration = (eventEndTime.valueOf() - eventStartTime.valueOf()) / (1000 * 3600);
+                startTime = this.datePipe.transform(eventStartTime, 'HH:mm:ss');
+                stopTime = this.datePipe.transform(eventEndTime, 'HH:mm:ss');
+
+                isWorkingWithDiesel = true;
+                this.FF = this.FF_DIESEL;
+
+                runAOH = duration;
+                runEFHi = duration * this.FF;
+                runEFHi_costo = runEFHi * rateEFHi_costo;
+                canRegister = true;
+
+            }
+
             // RECHAZO DE CARGA
             if (event.idTypeEvent === 952 && this.FF > 0) {
                 startTime = this.datePipe.transform(new Date(event.dateInit), 'HH:mm:ss');
@@ -513,6 +525,11 @@ export class EfhAnaliticsEventComponent implements OnInit {
                 loadReject = event.chargebeforereject;
                 esi_lrj = this.calcularEsiForReject(loadReject);
                 rejectRegistered = true;
+
+                runAOH = duration;
+                runEFHi = duration * this.FF;
+                runEFHi_costo = runEFHi * rateEFHi_costo;
+
                 canRegister = true;
             }
 

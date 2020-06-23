@@ -122,6 +122,7 @@ import {SafeConfigurationBinnacleEditComponent} from './admin/safe-configuration
 import { MiningIFIFinancialChartComponent } from './admin/mining-if-i-financial/mining-ififinancial-chart/mining-ififinancial-chart.component';
 import { MiningIFIEconomicproposalChartComponent } from './admin/mining-if-i-economicproposal/mining-ifieconomicproposal-chart/mining-ifieconomicproposal-chart.component';
 import { MiningIFISalaryincreaseChartComponent } from './admin/mining-if-i-salaryincrease/mining-ifisalaryincrease-chart/mining-ifisalaryincrease-chart.component';
+import { SafeListOfEventsComponent } from './admin/safe-list-of-events/safe-list-of-events.component';
 
 @NgModule({
     declarations: [
@@ -199,7 +200,8 @@ import { MiningIFISalaryincreaseChartComponent } from './admin/mining-if-i-salar
         SafeConfigurationBinnacleEditComponent,
         MiningIFIFinancialChartComponent,
         MiningIFIEconomicproposalChartComponent,
-        MiningIFISalaryincreaseChartComponent
+        MiningIFISalaryincreaseChartComponent,
+        SafeListOfEventsComponent
     ],
     exports: [],
     imports: [

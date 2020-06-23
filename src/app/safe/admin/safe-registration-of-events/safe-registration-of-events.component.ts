@@ -18,6 +18,7 @@ import {EventBlocked} from '../../../core/models/EventBlocked';
 import {EventService} from '../../../core/services/event.service';
 import {BinnacleService} from '../../services/binnacle.service';
 import {BinnacleEventConfigurationDTO} from '../../models/binnacle-event-configuration-dto';
+import { CatalogType } from 'src/app/compliance/models/CatalogType';
 
 @Component({
 	selector: 'app-safe-registration-of-events',
@@ -25,6 +26,8 @@ import {BinnacleEventConfigurationDTO} from '../../models/binnacle-event-configu
 	styleUrls: ['./safe-registration-of-events.component.scss']
 })
 export class SafeRegistrationOfEventsComponent implements OnInit {
+	catalogType: any;
+	actionPage="";
 	templateConfiguration: BinnacleEventConfigurationDTO;
 	formobservationsComments: FormGroup;
 	fileUploadForm: FormGroup;
@@ -99,6 +102,20 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 
 
 	ngOnInit() {
+		console.log("catalogType:: ",this.catalogType);
+		switch (this.catalogType.action) {
+			case 'nuevo':
+				this.actionPage = 'Add';		
+				break;
+			case 'editar':
+				this.actionPage = 'Edit';		
+				break;
+			case 'ver':
+				this.actionPage = 'See';		
+				break;
+		
+		}
+		
 		this.loadCatalog();
 		this.fileUploadForm = this.formBuilder.group({
 			file: new FormControl(null, [Validators.required, requiredFileType('zip')]),
@@ -352,6 +369,11 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			});
 	}
 	btnClickBack() {
+		const type = {
+		};
+        this.eventService.sendChangePage(
+            new EventMessage(null, type, 'Safe.SafeListOfEventsComponent')
+        );
 	}
 	BtnAddObservationsComments() {
 		const observation = this.formobservationsComments.get('observationsComments').value;
