@@ -5,6 +5,7 @@ import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs';
 import {MaestroDTO} from '../../compliance/models/maestro-dto';
 import {OpcionDTO} from '../../compliance/models/opcion-dto';
+import {ContainerClasificaDTO} from '../models/container-clasifica-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -52,5 +53,10 @@ export class MasterCatalogService {
   listCatalog(list: Array<string>): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.mastercatalog }mastercatalog/list/catalog`, list, {params : this.parameters });
+  }
+
+  setAssociate(container: ContainerClasificaDTO): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.post( `${ this.mastercatalog }mastercatalog/configure/associated`, container, {params : this.parameters });
   }
 }

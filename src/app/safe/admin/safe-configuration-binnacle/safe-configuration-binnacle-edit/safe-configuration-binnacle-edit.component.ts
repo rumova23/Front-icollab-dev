@@ -12,6 +12,7 @@ import { MasterCatalogService } from '../../../services/master-catalog.service';
 import { BinnacleService } from '../../../services/binnacle.service';
 import { EventMessage } from '../../../../core/models/EventMessage';
 import { EventBlocked } from '../../../../core/models/EventBlocked';
+import {ContainerClasificaDTO} from '../../../models/container-clasifica-dto';
 
 @Component({
 	selector: 'app-safe-configuration-binnacle-edit',
@@ -157,7 +158,14 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 		}
 	}
 	onBuildEventAssociated_00(event) {
-		console.log(event);
+		const lstIds: Array<number> = [];
+		for (let i = 0; i < this.lstEventsDTO.length; i ++) {
+			if (this.lstEventsDTO[i].opcionPadreId === event) {
+				lstIds.push(this.lstEventsDTO[i].maestroOpcionId);
+			}
+		}
+		console.dir(lstIds);
+		this.formNewEvent001.controls.events00Id.patchValue(lstIds);
 	}
 	onBuildEventAssociated(event) {
 		console.dir(event);
@@ -197,12 +205,31 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			}
 		});
 	}
-	onSubmitFormNewEvent001(v){
-		console.log(v);
+	onSubmitFormNewEvent001(v) {
+		if (this.catalogType.action === 'nuevo') {
+			const container = new ContainerClasificaDTO();
+			container.opcionPadreId = v.eventsClassification00Id;
+			container.nodesAssociated = v.events00Id;
+			this.masterCatalogService.setAssociate(container).subscribe(
+				data => {
+					this.toastr.successToastr('Actualizacion completa', 'Exito!.');
+					this.addBlock(2, '');
+				},
+				errorData => {
+					this.addBlock(2, '');
+					this.toastr.errorToastr(errorData.error.message, 'Error!');
+				}, () => {
+					const names = ['EVENTO'];
+					this.masterCatalogService.listCatalog(names).subscribe(data => {
+						this.loadSelect(this.lstEvents00, data['EVENTO']);
+						this.lstEventsDTO = data['EVENTO'];
+					}, errorData => {
+						this.toastr.errorToastr(errorData.error.message, 'Error!');
+					});
+				});
+		}
 	}
 	onSubmitFormNewEvent(v) {
-		console.log('RTC: ' + this.catalogType.action);
-		console.dir(v);
 		if (this.catalogType.action === 'nuevo') {
 			this.addBlock(1, '');
 			this.binnacleService.saveBinnacleConfiguration(v).subscribe(
