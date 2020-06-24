@@ -96,7 +96,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			relatedServicesId: [null],
 			disabledRelatedServicesId: [false],
 			disabledlicenseNumber: [false],
-			licenseNumber: [{ value: null, disabled: true }],
+			licenseNumber: [{ value: null, disabled: false }],
 			disabledKLicenseNumber: [false],
 			equipmentId: [null],
 			disabledEquipmentId: [false],
@@ -124,23 +124,23 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			mwPowerLossLS: [{ value: null, disabled: false }],
 			disabledMwPowerLossLS: [false],
 
-			workOrderId: [{ value: null, disabled: true }],
+			workOrderId: [{ value: null, disabled: false }],
 			disabledWorkOrderId: [false],
-			licenseDescription: [{ value: null, disabled: true }],
+			licenseDescription: [{ value: null, disabled: false }],
 			disabledLicenseDescription: [false],
-			operatorPlantOpen: [{ value: null, disabled: true }],
+			operatorPlantOpen: [{ value: null, disabled: false }],
 			disabledOperatorPlantOpen: [false],
-			operatorCenaceOpen: [{ value: null, disabled: true }],
+			operatorCenaceOpen: [{ value: null, disabled: false }],
 			disabledOperatorCenaceOpen: [false],
-			operatorPlantClose: [{ value: null, disabled: true }],
+			operatorPlantClose: [{ value: null, disabled: false }],
 			disabledOperatorPlantClose: [false],
-			operatorCenaceClose: [{ value: null, disabled: true }],
+			operatorCenaceClose: [{ value: null, disabled: false }],
 			disabledOperatorCenaceClose: [false],
-			sourceEvent: [{ value: null, disabled: false }],
-			disabledSourceEvent: [false],
-			eventStatus: [{ value: null, disabled: true }],
+			sourceEventId: [{ value: null, disabled: false }],
+			disabledSourceEventId: [false],
+			eventStatus: [{ value: null, disabled: false }],
 			disabledEventStatus: [false],
-			approvalStatus: [{ value: null, disabled: true }],
+			approvalStatus: [{ value: null, disabled: false }],
 			disabledApprovalStatus: [false],
 			disabledFile: [false],
 			disabledObsComment: [false],
@@ -179,7 +179,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 
 	loadCatalog() {
 		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL-CCDV', 'BANDA TOLERANCIA',
-			'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO'];
+			'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'FUENTE EVENTO'];
 		this.masterCatalogService.listCatalog(names).subscribe(data => {
 			this.loadSelect(this.lstEventClassification, data['CLASIFICA EVENTO']);
 			this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
@@ -194,6 +194,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			this.loadSelect(this.lstMarketTypes, data['TIPO MERCADO MEM']);
 			this.loadSelect(this.lstSelatedServices, data['SERVICIOS CONEXOS MEM']);
 			this.loadSelect(this.lstEquipment, data['EQUIPO']);
+			this.loadSelect(this.lstSourceEvent, data['FUENTE EVENTO']);
 		}, errorData => {
 			this.toastr.errorToastr(errorData.error.message, 'Error!');
 		}, () => {

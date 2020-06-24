@@ -57,4 +57,9 @@ export class BinnacleService {
     this.parameters = this.globalService.setXTenantId_Plant();
     return this.http.get(this.binnacle + 'binnacle/download/zip/cenance/' + year + '/' + month, {params : this.parameters });
   }
+
+  eventsBetween(timeInit: number, timeEnd: number): Observable<any> {
+    this.parameters = this.globalService.setXTenantId_Plant();
+    return this.http.get(this.binnacle + 'binnacle/events/between/' + timeInit + '/' + timeEnd, {params : this.parameters });
+  }
 }
