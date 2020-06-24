@@ -26,6 +26,7 @@ export const environment = {
   , dycformato              : hostGateway + 'dycformato/dycformato/'
   , binnacle                : hostGateway + 'binnacle/'
   , economicProposalUrl     : hostGateway + 'economicproposal/'
+  , externalData            : hostGateway + 'clientexternalapis/'
 };
 /*
 const hostGateway = 'http://200.52.85.140:8585/';

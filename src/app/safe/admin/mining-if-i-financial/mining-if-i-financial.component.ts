@@ -12,6 +12,9 @@ import * as moment from 'moment';
 import { IdLabel } from 'src/app/core/models/IdLabel';
 import { MatSelectChange } from '@angular/material';
 import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format.service';
+import { PpaFinancialindicesService } from '../../services/ppa-financialindices.service';
+import { map } from 'rxjs/operators';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-mining-if-i-financial',
@@ -21,13 +24,7 @@ import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format
 export class MiningIFIFinancialComponent implements OnInit {
 	// LA PROPIEDAD 'ORDER' ES NECESARIA EN EL DATA SI SE DESEA QUE SEA ORDENABLE ESTA COLUMNA
 	// por eso se descarto dejar el incremental en el html
-	tableData = [
-		{order:1,fechaOp:'mar-20',fuenteImport:'2da Corrida MM',usuario:'Manuel Herrera',fechaMod:'01/04/2020 01:40:00 pm',estatus:'exitosa'},
-		{order:2,fechaOp:'mar-20',fuenteImport:'2da Corrida MM',usuario:'Sistema'       ,fechaMod:'01/04/2020 12:40:00 pm',estatus:'exitosa'},
-		{order:3,fechaOp:'mar-20',fuenteImport:'1ra Corrida MM',usuario:'Ivette Colin'  ,fechaMod:'01/04/2020 12:40:00 pm',estatus:'exitosa'},
-		{order:4,fechaOp:'mar-20',fuenteImport:'1ra Corrida MM',usuario:'Sistema'       ,fechaMod:'01/04/2020 11:40:00 pm',estatus:'exitosa'},
-		{order:5,fechaOp:'mar-20',fuenteImport:'1ra Corrida MM',usuario:'Sistema'       ,fechaMod:'01/04/2020 11:40:00 pm',estatus:'exitosa'}
-	];
+	tableDataBitacora = [];
 	tablaColumnsLabels=[
 		{ key: 'order', label: '#' },
 		{ key: 'fechaOp', label: 'Fecha de Operación Comercial' },
@@ -101,6 +98,8 @@ export class MiningIFIFinancialComponent implements OnInit {
 		public globalService: GlobalService,
 		public toastr: ToastrManager,
 		public eventService: EventService,
+		public indicesService :PpaFinancialindicesService,
+		private datePipe: DatePipe,
 		private ppaMonitoringFormatService: PpaMonitoringFormatService
 	) { }
 
@@ -131,6 +130,9 @@ export class MiningIFIFinancialComponent implements OnInit {
 		const month = d.month() + 1;
 		const year = d.year();
 		const date = d.format('MM/yyyy');
+
+		this.tableIndexFinancialData = [];
+		this.tableDataBitacora = [];
 	}
 	onChangeSelectVariables(e){
 		console.log(e);
@@ -154,10 +156,6 @@ export class MiningIFIFinancialComponent implements OnInit {
 				];
 				break;
 			case '2':
-				this.tableIndexFinancialData = [
-					{order:1,fechaOp:'mar-20',index:'USPPIm Provisional',date:'05/2020',value:'ws'},
-					{order:1,fechaOp:'mar-20',index:'USPPIm Definitivo',date:'05/2020',value:'ws'}
-				];
 				break;
 			case '3':
 				this.tableIndexFinancialData = [
@@ -225,7 +223,89 @@ export class MiningIFIFinancialComponent implements OnInit {
 
 	}
 	formQuerySubmit(v){
+		console.log(v);
+		
 
+		switch (v.typeVarhtml) {
+			case '2': // USPPI
+					this.getUsppi();
+					this.usppiFindByDateOpBetween();
+				break;
+		
+			default:
+				break;
+		}
+
+	}
+	onUsppiQueryExternalData(){
+		const mydate = this.formQuery.get('date').value;
+		const mymonth  = mydate.month() + 1;
+		const myyear =  +mydate.year();
+		console.log("month:"+mymonth);
+		console.log("myyear:"+myyear);
+		this.addBlock(1,null);
+		this.indicesService.usppiQueryExternalData(myyear,mymonth).subscribe(data=>{
+			this.setDataUsppi(data);
+		},error=>{
+			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
+			this.addBlock(2,null);
+		},()=>{
+			this.addBlock(2,null);
+		});
+	}
+	getUsppi(){
+		const mydate = this.formQuery.get('date').value;
+		const mymonth  = mydate.month() + 1;
+		const myyear =  +mydate.year();
+		console.log("month:"+mymonth);
+		console.log("myyear:"+myyear);
+		this.addBlock(1,null);
+		this.indicesService.usppiFindByDateOp(myyear,mymonth).subscribe(data=>{
+			console.log(data);
+			this.setDataUsppi(data);
+
+		},error=>{
+			this.tableIndexFinancialData = [];
+			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
+			this.addBlock(2,null);
+		},()=>{
+			this.addBlock(2,null);
+		});
+	}
+	setDataUsppi(data){
+		this.tableIndexFinancialData = [
+			{order:1,fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),index:'USPPIm Provisional',date:this.datePipe.transform(new Date(data.dateProvisional) , 'MM/yyyy') ,value:data.valueProvisional},
+			{order:1,fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),index:'USPPIm Definitivo',date:this.datePipe.transform(new Date(data.dateDefinitivo) , 'MM/yyyy') ,value:data.yearDefinitivo}
+		];
+
+		let i = 0;
+		this.tableDataBitacora = data.lstUsppiBit.map(row=>{
+			i++;
+			return {order:i,fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),fuenteImport:'2da Corrida MM',usuario:row.userCreated,fechaMod:this.datePipe.transform(new Date(row.dateCreated) , 'dd/MM/yyyy HH:mm:ss'),estatus:row.status};
+		});
+	}
+	usppiFindByDateOpBetween(){
+		const date:Moment = this.formQuery.get('date').value;
+		const to = date.format("YYYY-M")+"-01";
+		const from = moment(to).subtract(1, 'years').format("YYYY-M")+"-01";
+		console.log('----------------- usppiFindByDateOpBetween');
+		console.log('from',from);
+		console.log('to',to);
+		console.log("v: ", this.formQuery.get('date').value);
+		
+		
+				
+		this.addBlock(1,null);
+		this.indicesService.usppiFindByDateOpBetween(from,to).subscribe(data=>{
+			console.log(data);
+			
+		},error=>{
+			this.addBlock(2,null);
+
+		},()=>{
+			this.addBlock(2,null);
+
+		});
 	}
 	tableIndexFinancialRowEdit(o){
 		console.log(o);

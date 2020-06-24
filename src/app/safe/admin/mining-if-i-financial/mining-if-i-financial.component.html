@@ -45,7 +45,16 @@
 				<label style="visibility: hidden;">boton</label>
 				<app-btn-block
 					label="Consultar"
-					(myClick)="onBtnConsultar()">
+					mytype="submit">
+				</app-btn-block>
+			</div>
+			
+			<div class="my-xl-2 col-12 col-xl-3 col-xxl-2" *ngIf="!isManualLoad">
+				<label style="visibility: hidden;">boton</label>
+				<app-btn-block
+					label="Consultar a datos Externos"
+					(myClick)="onUsppiQueryExternalData()"
+					>
 				</app-btn-block>
 			</div>
 
@@ -133,7 +142,7 @@
 		<div class="col">
 			<app-mat-table
 				(clickDelete)="tableRowDelete($event)"
-				[data]="tableData"
+				[data]="tableDataBitacora"
 				[columnsLabels]="tablaColumnsLabels"
 				[columnsDisplay]="tableColumnsDisplay"
 				[row_x_page]="tableRow_x_page"

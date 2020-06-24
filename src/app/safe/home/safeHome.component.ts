@@ -221,7 +221,7 @@ export class SafeHomeComponent implements OnInit {
 	}
 
 	ngAfterViewInit() {
-		//this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(SafeListOfEventsComponent));/*
+		//this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(MiningIFIFinancialComponent));/*
 		this.eventService.sendMainSafe(new EventMessage(101, {
 			typeEnergy: 'Factor de Potencia'
 		}));//*/
