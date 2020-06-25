@@ -52,6 +52,11 @@ import { CheckboxWithSelectMultipleComponent } from './inputs/checkbox-with-sele
 import { CheckboxWithSelectComponent } from './inputs/checkbox-with-select/checkbox-with-select.component';
 import { CheckboxWithNumberComponent } from './inputs/checkbox-with-number/checkbox-with-number.component';
 import { CheckboxWithInputTextComponent } from './inputs/checkbox-with-input-text/checkbox-with-input-text.component';
+import { BtnBlockSearchComponent } from './btn/btn-block/btn-block-search.component';
+import { BtnBlockConsultComponent } from './btn/btn-block/btn-block-consult.component';
+import { BtnBlockCleanComponent } from './btn/btn-block/btn-block-clean.component';
+import { MatRadioButtonComponent } from './inputs/mat-radio-button/mat-radio-button.component';
+import { MatTableBillingComponent } from './tables/mat-table-billing/mat-table-billing.component';
 
 @NgModule({
 	declarations: [
@@ -91,6 +96,11 @@ import { CheckboxWithInputTextComponent } from './inputs/checkbox-with-input-tex
 		, CheckboxWithSelectComponent
 		, CheckboxWithNumberComponent
 		, CheckboxWithInputTextComponent
+		, BtnBlockSearchComponent
+		, BtnBlockConsultComponent
+		, BtnBlockCleanComponent
+		, MatRadioButtonComponent
+		, MatTableBillingComponent
 	],
 	exports: [
 		 ProgressComponent
@@ -129,6 +139,11 @@ import { CheckboxWithInputTextComponent } from './inputs/checkbox-with-input-tex
 		, CheckboxWithSelectComponent
 		, CheckboxWithNumberComponent
 		, CheckboxWithInputTextComponent
+		, BtnBlockSearchComponent
+		, BtnBlockConsultComponent
+		, BtnBlockCleanComponent
+		, MatRadioButtonComponent
+		, MatTableBillingComponent
 
 	],
 	imports: [

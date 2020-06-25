@@ -98,6 +98,7 @@ import {SafeListBinnacleEventsComponent} from '../admin/safe-import-event-log/sa
 import {SafeConfigurationBinnacleComponent} from '../admin/safe-configuration-binnacle/safe-configuration-binnacle.component';
 import {SafeConfigurationBinnacleEditComponent} from '../admin/safe-configuration-binnacle/safe-configuration-binnacle-edit/safe-configuration-binnacle-edit.component';
 import { SafeListOfEventsComponent } from '../admin/safe-list-of-events/safe-list-of-events.component';
+import { SafePpaBillingComponent } from '../admin/safe-ppa-billing/safe-ppa-billing.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -192,6 +193,7 @@ import { SafeListOfEventsComponent } from '../admin/safe-list-of-events/safe-lis
 		, SafeConfigurationBinnacleComponent
 		, SafeConfigurationBinnacleEditComponent
 		, SafeListOfEventsComponent
+		, SafePpaBillingComponent
   	]
 })
 
@@ -221,7 +223,7 @@ export class SafeHomeComponent implements OnInit {
 	}
 
 	ngAfterViewInit() {
-		//this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(MiningIFIFinancialComponent));/*
+		//this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(SafePpaBillingComponent));/*
 		this.eventService.sendMainSafe(new EventMessage(101, {
 			typeEnergy: 'Factor de Potencia'
 		}));//*/
@@ -244,6 +246,13 @@ export class SafeHomeComponent implements OnInit {
 				let banderaTemporal = false;
 				this.viewContainerRef.clear();
 				switch (event.descriptor) {
+					case 'Safe.SafePpaBillingComponent':
+						banderaTemporal = true;
+						view = this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(SafePpaBillingComponent)
+						);
+						view.changeDetectorRef.detectChanges();
+					break;
 					case'Safe.SafeListOfEventsComponent':
 						banderaTemporal = true;
 						view = this.viewContainerRef.createComponent(

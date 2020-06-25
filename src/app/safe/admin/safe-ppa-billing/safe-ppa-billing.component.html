@@ -1,0 +1,236 @@
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "Facturación" | translate }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+<div class="section">
+	<div class="row">
+		<div class="col">
+			<p class="section_titulo_0">Buscar por</p>
+		</div>
+	</div>
+	<hr>
+	<br>
+	<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilter(formFilter.value)">
+		<div class="row mb-4">
+			<div class="my-2 col-12 col-xs-6 col-xl-4">
+				<label>&nbsp;</label>
+				<app-mat-input-datepicker-year-and-month class="w-100 align-self-end"
+					[formGroup]="formFilter"
+					controlName="ffechaOp"
+					label="Commercial Operation Date">
+				</app-mat-input-datepicker-year-and-month>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-2">
+				<label>Fecha de Emisión</label>
+				<app-mat-input-datepicker
+				[formGroup]="formFilter"
+				controlName="ffechaEmisionDe"
+				label="De"
+				></app-mat-input-datepicker>
+			</div>
+			
+			<div class="my-2 col-12 col-xs-6 col-xl-2">
+				<label>&nbsp;</label>
+				<app-mat-input-datepicker
+				[formGroup]="formFilter"
+				controlName="ffechaEmisionAl"
+				label="Al"
+				></app-mat-input-datepicker>
+			</div>
+			
+			<div class="my-2 col-12 col-xs-6 col-xl-2">
+				<label>Fecha de Entrega</label>
+				<app-mat-input-datepicker
+				[formGroup]="formFilter"
+				controlName="ffechaEntregaDe"
+				label="De"
+				></app-mat-input-datepicker>
+			</div>
+			
+			<div class="my-2 col-12 col-xs-6 col-xl-2">
+				<label>&nbsp;</label>
+				<app-mat-input-datepicker
+				[formGroup]="formFilter"
+				controlName="ffechaEntregaAl"
+				label="Al"
+				></app-mat-input-datepicker>
+			</div>
+
+			<div class="my-2 col-12 col-xs-6 col-xl-2">
+				<label>Fecha de Cancelacion</label>
+				<app-mat-input-datepicker
+				[formGroup]="formFilter"
+				controlName="ffechaCancelacionDe"
+				label="De"
+				></app-mat-input-datepicker>
+			</div>
+			
+			<div class="my-2 col-12 col-xs-6 col-xl-2">
+				<label>&nbsp;</label>
+				<app-mat-input-datepicker
+				[formGroup]="formFilter"
+				controlName="ffechaCancelacionAl"
+				label="Al"
+				></app-mat-input-datepicker>
+			</div>
+
+			
+
+			<div class="my-2 col-12 col-xs-6 col-xl-4">
+				<label>&nbsp;</label>
+				<app-mat-select
+				[formGroup]="formFilter"
+				controlName="ffechaCancelacionAl"
+				[options]="optionsConcepto"
+				label="Concepto"
+				></app-mat-select>
+			</div>
+			
+			<div class="my-2 col-12 col-xs-6 col-xl-4">
+				<label>&nbsp;</label>
+				<app-mat-select
+				[formGroup]="formFilter"
+				controlName="ftipoFactura"
+				[options]="optionsTipoFactura"
+				label="Tipo Factura"
+				></app-mat-select>
+			</div>
+			
+			<div class="my-2 col-12 col-xs-6 col-xl-4">
+				<label>&nbsp;</label>
+				<app-mat-select
+				[formGroup]="formFilter"
+				controlName="ffacturaNcNd"
+				[options]="optionsFacturaNcNd"
+				label="Factura/NC/ND"
+				></app-mat-select>
+			</div>
+			
+			<div class="my-2 col-12 col-xs-6 col-xl-4">
+				<label>&nbsp;</label>
+				<app-mat-input-text
+				[formGroup]="formFilter"
+				controlName="ffolio"
+				label="Folio"
+				></app-mat-input-text>
+			</div>
+			
+			<div class="my-2 col-12 col-xs-6 col-xl-4">
+				<label>&nbsp;</label>
+				<app-mat-input-text
+				[formGroup]="formFilter"
+				controlName="fuUID"
+				label="UUID"
+				></app-mat-input-text>
+			</div>
+			
+			<div class="my-2 col-12 col-xs-6 col-xl-2">
+				<label>&nbsp;</label>
+				<app-mat-input-text
+				[formGroup]="formFilter"
+				controlName="ftotalSinIVA"
+				label="Total sin IVA"
+				></app-mat-input-text>
+			</div>
+			
+			<div class="my-2 col-12 col-xs-6 col-xl-2">
+				<label>&nbsp;</label>
+				<app-mat-select
+				[formGroup]="formFilter"
+				controlName="fmoneda"
+				[options]="optionsMoneda"
+				label="Moneda"
+				></app-mat-select>
+			</div>
+			
+			<div class="my-2 col-12 col-xs-6 col-xl-4">
+				<label>&nbsp;</label>
+				<app-mat-select
+				[formGroup]="formFilter"
+				controlName="festatus"
+				[options]="optionsEstatus"
+				label="Estatus"
+				></app-mat-select>
+			</div>
+			
+			<div class="my-2 col-12 col-xs-6 col-xl-4">
+				<label>&nbsp;</label>
+				<app-mat-input-text
+				[formGroup]="formFilter"
+				controlName="fusuario"
+				label="Usuario"
+				></app-mat-input-text>
+			</div>
+			
+			<div class="my-2 col-12 col-xs-6 col-xl-2">
+				<label>Fecha de Modificación</label>
+				<app-mat-input-datepicker
+				[formGroup]="formFilter"
+				controlName="ffechaHoraUltimaModificacionDe"
+				label="Al"
+				></app-mat-input-datepicker>
+			</div>
+			
+			<div class="my-2 col-12 col-xs-6 col-xl-2">
+				<label>&nbsp;</label>
+				<app-mat-input-datepicker
+				[formGroup]="formFilter"
+				controlName="ffechaHoraUltimaModificacionAl"
+				label="Al"
+				></app-mat-input-datepicker>
+			</div>
+
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<label>&nbsp;</label>
+				<app-mat-radio-button
+					[formGroup]="formFilter"
+					controlName="fSearchCondition"
+					[options]="optionsSearchCondition"
+					label="Condición de búsqueda"
+				></app-mat-radio-button>
+			</div>
+		</div>
+		<div class="row justify-content-end">
+			
+			<div class="col-12 col-lg-2">
+				<app-btn-block-clean ></app-btn-block-clean>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-btn-block-search myType="submit"></app-btn-block-search>
+			</div>
+
+		</div>
+	</form>
+	<br>
+	<br>
+	<br>
+	
+	<div class="row my-4 justify-content-end">
+		<div class="col-12 col-lg-2">
+			<app-btn-block-add></app-btn-block-add>
+		</div>
+	</div>
+	<div class="row my-4">
+		<div class="col">
+			<app-mat-table-billing
+				(clickEdit)="onTableRowEdit($event)"
+				(clickSee)="onTableRowSee($event)"
+				(clickGenerateInvoice)="onTableRowGenerateInvoice($event)"
+				(clickStamp)="onTableRowStamp($event)"
+				(clickCancel)="onTableRowCancel($event)"
+
+				[data]="tableBillingData"
+				[columnsLabels]="tableBillingColumnsLabels"
+				[columnsDisplay]="tableBillingColumnsDisplay"
+				[row_x_page]="tableRow_x_page"
+				[showPagination]="false"
+			></app-mat-table-billing>
+		</div>
+	</div>
+</div>

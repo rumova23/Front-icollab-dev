@@ -34,10 +34,9 @@
 
 			<div class="my-xl-2 col-12 col-xl-3 col-xxl-2" *ngIf="!isManualLoad">
 				<label style="visibility: hidden;">boton</label>
-				<app-btn-block
-					label="Consultar"
+				<app-btn-block-consult
 					(myClick)="onBtnConsultar()">
-				</app-btn-block>
+				</app-btn-block-consult>
 			</div>
 
 		</div>
@@ -121,7 +120,7 @@
 				<app-btn-block-cancel (myClick)="onBtnCancelFormEconomic()"></app-btn-block-cancel>
 			</div>
 			<div class="col-12 col-lg-2">
-				<app-btn-block-save-update mytype="submit"></app-btn-block-save-update>
+				<app-btn-block-save-update myType="submit"></app-btn-block-save-update>
 			</div>
 		</div>
 	</form>

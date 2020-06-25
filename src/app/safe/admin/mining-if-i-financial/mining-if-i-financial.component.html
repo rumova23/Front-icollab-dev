@@ -44,11 +44,10 @@
 
 			<div class="my-xl-2 col-12 col-xl-3 col-xxl-2">
 				<label style="visibility: hidden;">boton</label>
-				<app-btn-block
-					label="Consultar"
+				<app-btn-block-consult
 					[disabled]="!formQuery.valid"
-					mytype="submit">
-				</app-btn-block>
+					myType="submit">
+				</app-btn-block-consult>
 			</div>
 			
 			<div class="my-xl-2 col-12 col-xl-3 col-xxl-2" *ngIf="formQuery.get('typeVarhtml').value == '2'">
@@ -134,7 +133,7 @@
 			</div>
 			<div class="col col-lg-2">
 				<label style="visibility: hidden;">boton</label>
-				<app-btn-block-save-update [disabled]="!isEdit" mytype="submit"></app-btn-block-save-update>
+				<app-btn-block-save-update [disabled]="!isEdit" myType="submit"></app-btn-block-save-update>
 			</div>
 		</div>
 	</form>
@@ -176,7 +175,7 @@
 				<div class="row justify-content-end">
 					<div class="col-12 col-sm-6 col-xl-3">
 						<!--label style="visibility: hidden;">boton</label-->
-						<app-btn-block-graph mytype="submit" [disabled]="!formvariables.valid"></app-btn-block-graph>
+						<app-btn-block-graph myType="submit" [disabled]="!formvariables.valid"></app-btn-block-graph>
 					</div>
 					<!--div class="col-12 col-sm-6 col-xl-3">
 						<label style="visibility: hidden;">boton</label>
