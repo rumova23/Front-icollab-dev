@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IdLabel } from 'src/app/core/models/IdLabel';
 
@@ -7,7 +7,7 @@ import { IdLabel } from 'src/app/core/models/IdLabel';
   templateUrl: './mat-select-multiple.component.html',
   styleUrls: ['./mat-select-multiple.component.scss']
 })
-export class MatSelectMultipleComponent implements OnInit {
+export class MatSelectMultipleComponent implements OnInit , OnChanges{
   @Output() eventChange   = new EventEmitter<any>();
 	@Input() label           : string = '';
 	@Input() sufijo          : string = '';
@@ -15,6 +15,7 @@ export class MatSelectMultipleComponent implements OnInit {
 	@Input() controlName     : string = null;
   @Input() formGroup       : FormGroup = null;
   @Input() compareWith     = null;
+  @Input() disabled       : boolean   = null;
   @Input() options         : IdLabel[] = [
     {id:1,label:'Alabama'}
     , {id:1,label:'Alaska'}
@@ -68,6 +69,13 @@ export class MatSelectMultipleComponent implements OnInit {
     , {id:1,label:'Wyoming'}
   ];
   constructor() { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.disabled != null){
+      if(this.disabled)this.formGroup.get(this.controlName).disable();
+      if(!this.disabled)this.formGroup.get(this.controlName).enable();
+    }
+  }
 
   ngOnInit() {
   }

@@ -30,4 +30,12 @@ export class PpaFinancialindicesService {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(environment.externalData + `usppi/${year}/${month}/get-data-external`, {params : this.parameters });
 	}
+	usppiFinalize(year: number,month:number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.put(environment.externalData + `usppi/${year}/${month}/finalize`,{}, {params : this.parameters });
+	}
+	usppiEdit(usppi): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.put(environment.externalData +  `usppi`, usppi, { params : this.parameters });
+	}
 }

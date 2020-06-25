@@ -27,7 +27,8 @@
 				<app-mat-input-datepicker-year-and-month class="w-100 align-self-end"
 					[formGroup]="formQuery"
 					controlName="date"
-					(eventChange)="onChangeDatePicker($event)" 
+					(eventChange)="onDatePickerQuery($event)" 
+					[maxDate]="maxDatetoQuery"
 					label="Commercial Operation Date">
 				</app-mat-input-datepicker-year-and-month>
 			</div>
@@ -37,22 +38,24 @@
 					controlName="typeVarhtml"
 					[options]="selectIndiceFinanciero "
 					label="Índice Financiero"
-					(eventChange)="onChangeselectIndiceFinanciero($event)"
+					(eventChange)="onSelectQuery($event)"
 				></app-mat-select>
 			</div>
 
-			<div class="my-xl-2 col-12 col-xl-3 col-xxl-2" *ngIf="!isManualLoad">
+			<div class="my-xl-2 col-12 col-xl-3 col-xxl-2">
 				<label style="visibility: hidden;">boton</label>
 				<app-btn-block
 					label="Consultar"
+					[disabled]="!formQuery.valid"
 					mytype="submit">
 				</app-btn-block>
 			</div>
 			
-			<div class="my-xl-2 col-12 col-xl-3 col-xxl-2" *ngIf="!isManualLoad">
+			<div class="my-xl-2 col-12 col-xl-3 col-xxl-2" *ngIf="formQuery.get('typeVarhtml').value == '2'">
 				<label style="visibility: hidden;">boton</label>
 				<app-btn-block
 					label="Consultar a datos Externos"
+					[disabled]="!formQuery.valid"
 					(myClick)="onUsppiQueryExternalData()"
 					>
 				</app-btn-block>
@@ -75,12 +78,12 @@
 	</div>
 	<p>{{diaNOHabilBancarioProvisional}}</p>
 	<p>{{diaNOHabilBancarioDefinitivo}}</p>
-	<form class="my-3" [formGroup]="formIndexFinancial" (ngSubmit)="onSubmitFormIndexFinancial(formIndexFinancial.value)">
+	<form class="my-3" [formGroup]="formEditIndexFinancial" (ngSubmit)="onSubmitFormEditIndexFinancial(formEditIndexFinancial.value)">
 		<div class="row">
 			<div class="col col-lg-3" *ngIf="formQuery.controls.typeVarhtml.value != '3'">
 				<app-mat-input-datepicker-year-and-month 
 					class="w-100 align-self-end"
-					[formGroup]="formIndexFinancial"
+					[formGroup]="formEditIndexFinancial"
 					controlName="dateProv"
 					label="Fecha">
 				</app-mat-input-datepicker-year-and-month>
@@ -88,14 +91,14 @@
 			<div class="col col-lg-3" *ngIf="formQuery.controls.typeVarhtml.value == '3'">
 				<app-mat-input-datepicker 
 					class="w-100 align-self-end"
-					[formGroup]="formIndexFinancial"
+					[formGroup]="formEditIndexFinancial"
 					controlName="dateProv"
 					label="Fecha">
 				</app-mat-input-datepicker>
 			</div>
 			<div class="col col-lg-3">
 				<app-mat-input-number
-					[formGroup]="formIndexFinancial"
+					[formGroup]="formEditIndexFinancial"
 					controlName="valProv"
 					[label]="labelInputNumberProvisional"
 				></app-mat-input-number>
@@ -103,7 +106,7 @@
 			<div class="col col-lg-3" *ngIf="formQuery.controls.typeVarhtml.value != '3'">
 				<app-mat-input-datepicker-year-and-month 
 					class="w-100 align-self-end"
-					[formGroup]="formIndexFinancial"
+					[formGroup]="formEditIndexFinancial"
 					controlName="dateDef"
 					label="Fecha">
 				</app-mat-input-datepicker-year-and-month>
@@ -111,14 +114,14 @@
 			<div class="col col-lg-3" *ngIf="formQuery.controls.typeVarhtml.value == '3'">
 				<app-mat-input-datepicker 
 					class="w-100 align-self-end"
-					[formGroup]="formIndexFinancial"
+					[formGroup]="formEditIndexFinancial"
 					controlName="dateDef"
 					label="Fecha">
 				</app-mat-input-datepicker>
 			</div>
 			<div class="col col-lg-3">
 				<app-mat-input-number
-					[formGroup]="formIndexFinancial"
+					[formGroup]="formEditIndexFinancial"
 					controlName="valDef"
 					[label]="labelInputNumberDefinitivo"
 				></app-mat-input-number>
@@ -127,11 +130,11 @@
 		<div class="row justify-content-end">
 			<div class="col col-lg-2">
 				<label style="visibility: hidden;">boton</label>
-				<app-btn-block-cancel (myClick)="onBtnCancelFormIndexFinancial()"></app-btn-block-cancel>
+				<app-btn-block-cancel [disabled]="!isEdit" (myClick)="onBtnCancelFormEditIndexFinancial()"></app-btn-block-cancel>
 			</div>
 			<div class="col col-lg-2">
 				<label style="visibility: hidden;">boton</label>
-				<app-btn-block-save-update mytype="submit"></app-btn-block-save-update>
+				<app-btn-block-save-update [disabled]="!isEdit" mytype="submit"></app-btn-block-save-update>
 			</div>
 		</div>
 	</form>
@@ -158,31 +161,38 @@
 			<p class="section_subtitulo_0"></p>
 		</div>
 	</div>
+	<form [formGroup]="formvariables" (ngSubmit)="onSubmitChart(formvariables.value)">
 
-	<div class="row mt-2">
-		<div class="col-12 col-sm-6 col-xl-3">
-			<app-mat-select-multiple
-				[formGroup]="formvariables"
-				controlName="selectVariables"
-				[options]="selectOptionsVariables"
-				(eventChange)="onChangeSelectVariables($event)"
-			></app-mat-select-multiple>
-		</div>
-		<div class="col-12 col-sm-6 col-xl-9">
-			<div class="row justify-content-end">
-				<div class="col-12 col-sm-6 col-xl-3">
-					<!--label style="visibility: hidden;">boton</label-->
-					<app-btn-block-graph (myClick)="clickBtnChart()" [disabled]="!formvariables.valid"></app-btn-block-graph>
+		<div class="row mt-2">
+			<div class="col-12 col-sm-6 col-xl-3">
+				<app-mat-select-multiple
+					[formGroup]="formvariables"
+					controlName="selectVariables"
+					[options]="selectOptionsVariables"
+					[disabled]="!formQuery.valid"
+				></app-mat-select-multiple>
+			</div>
+			<div class="col-12 col-sm-6 col-xl-9">
+				<div class="row justify-content-end">
+					<div class="col-12 col-sm-6 col-xl-3">
+						<!--label style="visibility: hidden;">boton</label-->
+						<app-btn-block-graph mytype="submit" [disabled]="!formvariables.valid"></app-btn-block-graph>
+					</div>
+					<!--div class="col-12 col-sm-6 col-xl-3">
+						<label style="visibility: hidden;">boton</label>
+						<app-btn-block-download (click)="clickBtnDownloadChart()" [disabled]="!formvariables.valid"></app-btn-block-download>
+					</div-->
 				</div>
-				<!--div class="col-12 col-sm-6 col-xl-3">
-					<label style="visibility: hidden;">boton</label>
-					<app-btn-block-download (click)="clickBtnDownloadChart()" [disabled]="!formvariables.valid"></app-btn-block-download>
-				</div-->
 			</div>
 		</div>
-	</div>
+	</form>
 
-	<div class="row mt-4">
+	<div class="row" *ngIf="formQuery.get('typeVarhtml').value == '2'">
+		<div class="col">
+			<div #chartLineMs></div>
+		</div>
+	</div>
+	<div class="row mt-4" *ngIf="formQuery.get('typeVarhtml').value != '2'">
 		<div class="col">
 			<app-mining-ififinancial-chart></app-mining-ififinancial-chart>
 		</div>
@@ -232,7 +242,7 @@
 <div class="section">
 	<div class="row justify-content-end">
 		<div class="col-12 col-lg-2">
-			<app-btn-block-finish (myClick)="onBtnFinish()"></app-btn-block-finish>
+			<app-btn-block-finish [disabled]="isFinalizedData" (myClick)="onBtnFinish()"></app-btn-block-finish>
 		</div>
 	</div>
 </div>
