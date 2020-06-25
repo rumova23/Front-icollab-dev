@@ -208,10 +208,10 @@
 	</div>
 	<div class="row">
 		<div class="col">
-			<div class="media" (click)="downloadFile()">
-				<img src="assets/img/zip.png" style="width: 64px; height: 64px;">
+			<div class="media" (click)="onBtndownloadFile()" *ngIf="originData?.fileHashCode != null">
+				<img src="assets/img/xlsx.png" style="width: 64px; height: 64px;">
 				<div class="media-body">
-					<p>Descarga kiki_koo.zip</p>
+					<p>{{originData.strDateOp}}.xlsx</p>
 				</div>
 			</div>
 		</div>

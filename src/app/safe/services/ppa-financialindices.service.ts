@@ -38,4 +38,8 @@ export class PpaFinancialindicesService {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.put(environment.externalData +  `usppi`, usppi, { params : this.parameters });
 	}
+	usppidownload(year: number,month:number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get<Blob>(environment.externalData + `usppi/${year}/${month}/download-file`, {params : this.parameters, responseType: 'blob' as 'json' });
+	}
 }

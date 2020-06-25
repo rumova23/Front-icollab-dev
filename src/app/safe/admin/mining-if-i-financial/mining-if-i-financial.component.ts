@@ -345,7 +345,13 @@ export class MiningIFIFinancialComponent implements OnInit {
 		}
 	}
 
-	downloadFile(){}
+	onBtndownloadFile(){
+		switch (this.formQuery.get('typeVarhtml').value) {
+			case '2': // USPPI
+				this.usppiDownload();
+				break;
+		}
+	}
 	tableRowDelete(element){
 		this.confirmationDialogService.confirm(
 			'Confirmación',
@@ -560,6 +566,27 @@ export class MiningIFIFinancialComponent implements OnInit {
 			this.reset();
 			this.usppiSetData(data);
 			this.toastr.successToastr('Finalizado');
+		},error=>{
+			this.tableIndexFinancialData = [];
+			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
+			this.addBlock(2,null);
+		},()=>{
+			this.addBlock(2,null);
+		});
+	}
+	usppiDownload(){
+		const mydate = this.formQuery.get('date').value;
+		const mymonth  = mydate.month() + 1;
+		const myyear =  +mydate.year();
+		this.addBlock(1,null);
+		this.indicesService.usppidownload(myyear,mymonth).subscribe(result=>{
+			let dataType = result.type;
+			let binaryData = [];
+			binaryData.push(result);
+			let downloadLink = document.createElement('a');
+			downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: dataType}));
+			downloadLink.setAttribute('download', `${this.originData.strDateOp}.xlsx`);
+			downloadLink.click();
 		},error=>{
 			this.tableIndexFinancialData = [];
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
