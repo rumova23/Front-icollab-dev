@@ -39,6 +39,16 @@ export class BinnacleEventConfigurationDTO implements Deserializable {
     public workOrderId: string;
     public disabledWorkOrderId: boolean;
     public billingAffects: boolean;
+    public plantOperatorOpened: string;
+    public disabledPlantOperatorOpened: boolean;
+    public plantOperatorClosed: string;
+    public disabledPlantOperatorClosed: boolean;
+    public cenaceOperatorOpened: string;
+    public disabledCenaceOperatorOpened: boolean;
+    public cenaceOperatorClosed: string;
+    public disabledCenaceOperatorClosed: boolean;
+    public sourceEventId: Array<number>;
+    public disabledSourceEventId: boolean;
     deserialize(input: any) {
         Object.assign(this, input);
         return this;

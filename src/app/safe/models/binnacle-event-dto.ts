@@ -53,6 +53,12 @@ export class BinnacleEventDTO implements Deserializable {
     public finalCharge: number;
     public mwPowerLoss: number;
     public workOrderId: string;
+    public plantOperatorOpened: string;
+    public plantOperatorClosed: string;
+    public cenaceOperatorOpened: string;
+    public cenaceOperatorClosed: string;
+    public sourceEventId: number;
+    public sourceEvent: string;
     deserialize(input: any) {
         Object.assign(this, input);
         return this;

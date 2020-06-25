@@ -102,20 +102,18 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 
 
 	ngOnInit() {
-		console.log("catalogType:: ",this.catalogType);
+		console.log('catalogType:: ', this.catalogType);
 		switch (this.catalogType.action) {
 			case 'nuevo':
-				this.actionPage = 'Add';		
+				this.actionPage = 'Add';
 				break;
 			case 'editar':
-				this.actionPage = 'Edit';		
+				this.actionPage = 'Edit';
 				break;
 			case 'ver':
-				this.actionPage = 'See';		
+				this.actionPage = 'See';
 				break;
-		
 		}
-		
 		this.loadCatalog();
 		this.fileUploadForm = this.formBuilder.group({
 			file: new FormControl(null, [Validators.required, requiredFileType('zip')]),
@@ -145,15 +143,15 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				finalCharge: [{ value: null, disabled: true }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
 				mwPowerLoss: [{ value: null, disabled: true }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
 				workOrderId: [{ value: null, disabled: true }, Validators.required],
-				licenseDescription: [{ value: null, disabled: true }, [Validators.required,Validators.minLength(4),Validators.maxLength(2000)]],
-				operatorPlantOpen: [{ value: null, disabled: false }, Validators.required],
-				operatorCenaceOpen: [{ value: null, disabled: false }, Validators.required],
-				operatorPlantClose: [{ value: null, disabled: false }, Validators.required],
-				operatorCenaceClose: [{ value: null, disabled: false }, Validators.required],
-				sourceEvent: [{ value: null, disabled: false }, Validators.required],
-				eventStatus: [{ value: null, disabled: false }, Validators.required],
-				approvalStatus: [{ value: null, disabled: false }, Validators.required],
-				eventActivated: [{ value: true, disabled: false }]
+				conceptoLicencia: [{ value: null, disabled: true }, [Validators.required, Validators.minLength(4), Validators.maxLength(2000)]],
+				plantOperatorOpened: [{ value: null, disabled: true }, Validators.required],
+				cenaceOperatorOpened: [{ value: null, disabled: true }, Validators.required],
+				plantOperatorClosed: [{ value: null, disabled: true }, Validators.required],
+				cenaceOperatorClosed: [{ value: null, disabled: true }, Validators.required],
+				sourceEventId: [{ value: null, disabled: true }, Validators.required],
+				eventStatus: [{ value: null, disabled: true }, Validators.required],
+				approvalStatus: [{ value: null, disabled: true }, Validators.required],
+				eventActivated: [{ value: true, disabled: true }]
 			}
 		);
 		this.setTableObservationsCommentsSelectionChecked();
@@ -192,8 +190,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === event.value));
 	}
 	onBuildTemplate(event) {
-		console.dir(event);
-		this.binnacleService.obtenTemplate(event.value).subscribe(
+		this.binnacleService.obtenTemplate(event).subscribe(
 			(data: BinnacleEventConfigurationDTO) => {
 				console.dir(data);
 				if (data !== null) {
@@ -206,12 +203,12 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 					this.lstFuels = this.loadSelectTemplate(this.lstFuelsAll, this.templateConfiguration.fuelsId);
 
 					if (this.templateConfiguration.disabledConceptoLicencia) {
-						this.formNewEvent.controls.licenseDescription.disable();
+						this.formNewEvent.controls.conceptoLicencia.disable();
 					} else {
-						this.formNewEvent.controls.licenseDescription.enable();
+						this.formNewEvent.controls.conceptoLicencia.enable();
 					}
 					if (this.templateConfiguration.conceptoLicencia !==  null) {
-						this.formNewEvent.controls.licenseDescription.setValue(this.templateConfiguration.conceptoLicencia);
+						this.formNewEvent.controls.conceptoLicencia.setValue(this.templateConfiguration.conceptoLicencia);
 					}
 
 					if (this.templateConfiguration.disabledEquipmentId) {
@@ -311,7 +308,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 					}
 					this.lstToleranceBands = this.loadSelectTemplate(this.lstToleranceBandsAll, this.templateConfiguration.toleranceBandsId);
 
-					console.log(this.templateConfiguration.disabledUnitsId);
 					if (this.templateConfiguration.disabledUnitsId) {
 						this.formNewEvent.controls.unitsId.disable();
 					} else {
@@ -327,6 +323,49 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 					if (this.templateConfiguration.workOrderId !==  null) {
 						this.formNewEvent.controls.workOrderId.setValue(this.templateConfiguration.workOrderId);
 					}
+
+					if (this.templateConfiguration.disabledPlantOperatorOpened) {
+						this.formNewEvent.controls.plantOperatorOpened.disable();
+					} else {
+						this.formNewEvent.controls.plantOperatorOpened.enable();
+					}
+					if (this.templateConfiguration.plantOperatorOpened !==  null) {
+						this.formNewEvent.controls.plantOperatorOpened.setValue(this.templateConfiguration.plantOperatorOpened);
+					}
+
+					if (this.templateConfiguration.disabledPlantOperatorClosed) {
+						this.formNewEvent.controls.plantOperatorClosed.disable();
+					} else {
+						this.formNewEvent.controls.plantOperatorClosed.enable();
+					}
+					if (this.templateConfiguration.plantOperatorClosed !==  null) {
+						this.formNewEvent.controls.plantOperatorClosed.setValue(this.templateConfiguration.plantOperatorClosed);
+					}
+
+					if (this.templateConfiguration.disabledCenaceOperatorOpened) {
+						this.formNewEvent.controls.cenaceOperatorOpened.disable();
+					} else {
+						this.formNewEvent.controls.cenaceOperatorOpened.enable();
+					}
+					if (this.templateConfiguration.cenaceOperatorOpened !==  null) {
+						this.formNewEvent.controls.cenaceOperatorOpened.setValue(this.templateConfiguration.cenaceOperatorOpened);
+					}
+
+					if (this.templateConfiguration.disabledCenaceOperatorClosed) {
+						this.formNewEvent.controls.cenaceOperatorClosed.disable();
+					} else {
+						this.formNewEvent.controls.cenaceOperatorClosed.enable();
+					}
+					if (this.templateConfiguration.cenaceOperatorClosed !==  null) {
+						this.formNewEvent.controls.cenaceOperatorClosed.setValue(this.templateConfiguration.cenaceOperatorClosed);
+					}
+
+					if (this.templateConfiguration.disabledSourceEventId) {
+						this.formNewEvent.controls.sourceEventId.disable();
+					} else {
+						this.formNewEvent.controls.sourceEventId.enable();
+					}
+					this.lstSourceEvent = this.loadSelectTemplate(this.lstSourceEventAll, this.templateConfiguration.sourceEventId);
 				} else {
 					this.toastr.warningToastr('El template para el evento: ' + event.label  + ': Aun no es Configurado.', 'Advertencia!');
 				}
@@ -339,7 +378,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 
 	loadCatalog() {
 		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL-CCDV', 'BANDA TOLERANCIA',
-		'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO'];
+		'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'FUENTE EVENTO'];
 		this.masterCatalogService.listCatalog(names).subscribe(data  => {
 			this.loadSelect(this.lstEventClassification, data['CLASIFICA EVENTO']);
 			this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
@@ -352,6 +391,19 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			this.loadSelect(this.lstMarketTypesAll, data['TIPO MERCADO MEM']);
 			this.loadSelect(this.lstSelatedServicesAll, data['SERVICIOS CONEXOS MEM']);
 			this.loadSelect(this.lstEquipmentAll, data['EQUIPO']);
+			this.loadSelect(this.lstSourceEventAll, data['FUENTE EVENTO']);
+		},
+			errorData => {
+				this.addBlock(2, '');
+				this.toastr.errorToastr(errorData.error.message, 'Error!');
+			}, () => {
+			if (this.catalogType.action === 'editar') {
+				this.onBuildTemplate(this.catalogType.element.eventsId);
+				this.formNewEvent.patchValue(this.catalogType.element);
+				this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.element.eventsClassificationId));
+				this.formNewEvent.controls.eventsClassificationId.disable();
+				this.formNewEvent.controls.eventsId.disable();
+			}
 		});
 	}
 	onSubmitFormNewEvent(v) {

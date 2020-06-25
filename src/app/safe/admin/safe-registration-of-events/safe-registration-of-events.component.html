@@ -57,7 +57,7 @@
 					controlName="eventsId"
 					[options]="lstEvents"
 					label="Eventos"
-					(eventChange)="onBuildTemplate($event)"
+					(eventChange)="onBuildTemplate($event.value)"
 				></app-mat-select>
 			</div>
 
@@ -206,7 +206,7 @@
 			<div class="col">
 				<app-mat-input-textarea
 					[formGroup]="formNewEvent"
-					controlName="licenseDescription"
+					controlName="conceptoLicencia"
 					label="Descripción / Concepto de la Licencia"
 					maxLength="2000"
 				></app-mat-input-textarea>
@@ -228,14 +228,14 @@
 				></app-mat-select-->
 				<app-mat-input-text
 					[formGroup]="formNewEvent"
-					controlName="operatorPlantOpen"
+					controlName="plantOperatorOpened"
 					label="Nombre(s)/Apellidos(s) Operador Planta Abrió"
 				></app-mat-input-text>
 			</div>
 			<div class="col">
 				<app-mat-input-text 
 					[formGroup]="formNewEvent"
-					controlName="operatorCenaceOpen" 
+					controlName="cenaceOperatorOpened"
 					label="Nombre(s)/Apellidos(s) Operador CENACE Abrió" 
 				></app-mat-input-text>
 			</div>
@@ -249,14 +249,14 @@
 				></app-mat-select-->
 				<app-mat-input-text
 					[formGroup]="formNewEvent"
-					controlName="operatorPlantClose"
+					controlName="plantOperatorClosed"
 					label="Nombre(s)/Apellidos(s) Operador Planta Cerro"
 				></app-mat-input-text>
 			</div>				
 			<div class="col">
 				<app-mat-input-text 
 					[formGroup]="formNewEvent" 
-					controlName="operatorCenaceClose" 
+					controlName="cenaceOperatorClosed"
 					label="Nombre(s)/Apellidos(s) Operador CENACE Cerro" 
 				></app-mat-input-text>
 			</div>
@@ -264,7 +264,7 @@
 			<div class="col-3">
 				<app-mat-select
 					[formGroup]="formNewEvent"
-					controlName="sourceEvent"
+					controlName="sourceEventId"
 					[options]="lstSourceEvent"
 					label="Fuente del Evento"
 				></app-mat-select>
