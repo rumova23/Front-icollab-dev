@@ -14,7 +14,9 @@ export class BinnacleEventDTO implements Deserializable {
     public estatusAprobacion: string;
     public estatusAprobacionDTO: EntidadEstatusDTO;
     public dateTimeStart: Date;
+    public dateTimeStartString: string;
     public dateTimeEnd: Date;
+    public dateTimeEndString: string;
     public powerMw: number;
     public eventsClassificationId: number;
     public eventsClassification: string;

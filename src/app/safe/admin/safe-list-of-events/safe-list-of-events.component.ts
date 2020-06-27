@@ -23,8 +23,8 @@ export class SafeListOfEventsComponent implements OnInit {
 	tablaColumnsLabels = [
 		{key: 'binnacleEventID'                                  , label: 'id'},
 		{key: 'order'                               , label: '#'},
-		{key: 'dateTimeStart'                   , label: 'Fecha y Hora Inicial'},
-		{key: 'dateTimeEnd'                     , label: 'Fecha y Hora Final'},
+		{key: 'dateTimeStartString'                   , label: 'Fecha y Hora Inicial'},
+		{key: 'dateTimeEndString'                     , label: 'Fecha y Hora Final'},
 		{key: 'eventsClassification'              , label: 'Clasificacion de Eventos'},
 		{key: 'events'                             , label: 'Eventos'},
 		{key: 'fuels'                         , label: 'Combustible'},
@@ -58,8 +58,8 @@ export class SafeListOfEventsComponent implements OnInit {
 	];
 	tableColumnsDisplay: string[] = [
 		'order',
-		'dateTimeStart',
-		'dateTimeEnd',
+		'dateTimeStartString',
+		'dateTimeEndString',
 		'eventsClassification',
 		'events',
 		'fuels',
