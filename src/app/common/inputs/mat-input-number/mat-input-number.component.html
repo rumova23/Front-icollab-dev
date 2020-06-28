@@ -3,7 +3,7 @@
 		<label>{{ label | translate }}{{ sufijo | translate }}</label>
 		<mat-form-field
 			class="form-control w-100"
-			[ngClass]="{ 'is-invalid': (submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid }"
+			[ngClass]="{ 'is-invalid': (submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid , 'input-disabled':formGroup.get(controlName).disabled}"
 		>
 			<input matInput 
 				type="number"

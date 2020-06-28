@@ -192,6 +192,11 @@ export class MiningIFIFinancialComponent implements OnInit {
 		}
 	};
 	originData;
+	soporte = null;
+	
+	currentFile: File;
+	dataFileSubmit = {};
+	selectedFiles: FileList;
 	constructor(
 		private formBuilder: FormBuilder,
 		private confirmationDialogService: ConfirmationDialogService,
@@ -348,7 +353,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 	onBtndownloadFile(){
 		switch (this.formQuery.get('typeVarhtml').value) {
 			case '2': // USPPI
-				this.usppiDownload();
+				this.usppiDownloadById();
 				break;
 		}
 	}
@@ -409,7 +414,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 		console.log("myyear:"+myyear);
 		this.addBlock(1,null);
 		this.indicesService.usppiFindByDateOp(myyear,mymonth).subscribe(data=>{
-			this.originData = data;
+			
 			this.isFinalizedData = data.finalized;
 			console.log(data);
 			this.usppiSetData(data);
@@ -423,16 +428,17 @@ export class MiningIFIFinancialComponent implements OnInit {
 		});
 	}
 	usppiSetData(data){
+		this.originData = data;
 		this.tableIndexFinancialData = [
 			{order:1,code:'p',fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),index:'USPPIm Provisional',dateProvisional:data.dateProvisional,date:this.datePipe.transform(new Date(data.dateProvisional) , 'MM/yyyy') ,value:data.valueProvisional},
 			{order:2,code:'d',fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),index:'USPPIm Definitivo',dateDefinitivo:data.dateDefinitivo,date:this.datePipe.transform(new Date(data.dateDefinitivo) , 'MM/yyyy') ,value:data.valueDefinitivo}
 		];
-
 		let i = 0;
-		this.tableDataBitacora = data.lstUsppiBit.map(row=>{
+		this.tableDataBitacora = data.logs.map(row=>{
 			i++;
-			return {order:i,fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),fuenteImport:'2da Corrida MM',usuario:row.userCreated,fechaMod:this.datePipe.transform(new Date(row.dateCreated) , 'dd/MM/yyyy HH:mm:ss'),estatus:row.status};
+			return {order:i,fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),fuenteImport:'2da Corrida MM',usuario:row.userCreated,fechaMod:this.datePipe.transform(new Date(row.dateCreated) , 'dd/MM/yyyy HH:mm:ss'),estatus:row.action};
 		});
+		this.soporte = data.filesCenter[data.filesCenter.length  -1];
 	}
 	usppiFindByDateOpBetween(){
 		const date:Moment = this.formQuery.get('date').value;
@@ -543,6 +549,10 @@ export class MiningIFIFinancialComponent implements OnInit {
 			this.addBlock(2,null);
 		});
 	}
+	
+	selectFile(event) {
+		this.selectedFiles = event.target.files;
+	}
 	usppiEdit(){
 		let v = this.formEditIndexFinancial.value;
 		this.originData;
@@ -574,6 +584,40 @@ export class MiningIFIFinancialComponent implements OnInit {
 			this.addBlock(2,null);
 		});
 	}
+	usppiUploadFileAndEdit(){
+		console.log(this.fileUploadForm.value);
+		
+		const mydate = this.formQuery.get('date').value;
+		const mymonth  = mydate.month() + 1;
+		const myyear =  +mydate.year();
+
+		let fileReader = new FileReader();
+		this.currentFile = this.selectedFiles.item(0);
+		this.addBlock(1, 'Guardando archivo...');
+	
+		fileReader.onloadend = (e) => {
+		  this.dataFileSubmit['fileName'] = this.currentFile.name;
+		  this.dataFileSubmit['fileType'] = this.currentFile.name.substr(this.currentFile.name.lastIndexOf('.') + 1);
+		  this.dataFileSubmit['fileContentType'] = this.currentFile.type;
+		  this.dataFileSubmit['fileSize'] = this.currentFile.size;
+		  this.dataFileSubmit['fileData'] = fileReader.result;
+		  this.dataFileSubmit['fileData'] = this.dataFileSubmit['fileData'].replace(/^data:(.*;base64,)?/, '');
+		  this.dataFileSubmit['fileData'] = this.dataFileSubmit['fileData'].trim();
+			console.log(this.dataFileSubmit);
+			
+		  this.indicesService.usppiUploadFile(myyear,mymonth,this.originData,this.dataFileSubmit).subscribe(
+			  respuesta => {
+				console.log(respuesta);
+				
+			  },
+			  error => {
+				  this.addBlock(2, null);
+			  }).add(() => {
+				this.addBlock(2, null);
+		  });
+		}
+		fileReader.readAsDataURL(this.currentFile);
+	}
 	usppiDownload(){
 		const mydate = this.formQuery.get('date').value;
 		const mymonth  = mydate.month() + 1;
@@ -593,6 +637,23 @@ export class MiningIFIFinancialComponent implements OnInit {
 			this.addBlock(2,null);
 		},()=>{
 			this.addBlock(2,null);
+		});
+	}
+	usppiDownloadById(){
+		this.indicesService.usppidownloadById(this.soporte['id']).subscribe(result=>{
+			this.soporte;
+			debugger
+			let dataType = result.type;
+			debugger
+			let binaryData = [];
+			binaryData.push(result);
+			let downloadLink = document.createElement('a');
+			downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: dataType}));
+			downloadLink.setAttribute('download', this.soporte.fileName);
+			downloadLink.click();
+		},error=>{
+			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
+		},()=>{
 		});
 	}
 	tableIndexFinancialRowEdit(o){

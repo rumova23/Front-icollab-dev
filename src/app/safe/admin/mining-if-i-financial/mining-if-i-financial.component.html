@@ -207,10 +207,10 @@
 	</div>
 	<div class="row">
 		<div class="col">
-			<div class="media" (click)="onBtndownloadFile()" *ngIf="originData?.fileHashCode != null">
+			<div class="media" (click)="onBtndownloadFile()" *ngIf="soporte != null">
 				<img src="assets/img/xlsx.png" style="width: 64px; height: 64px;">
 				<div class="media-body">
-					<p>{{originData.strDateOp}}.xlsx</p>
+					<p>{{soporte.fileName}}</p>
 				</div>
 			</div>
 		</div>
@@ -219,7 +219,9 @@
 				
 				<div class="col">
 					Carga Archivo:<br />
-					<app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+					<app-file-upload formControlName="file" [progress]="progress"
+					(change)="selectFile($event)"
+					></app-file-upload>
 					<mat-error *ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
 						Requerido
 					</mat-error>
@@ -227,7 +229,7 @@
 				<div class="col-12 col-lg-3">
 					<div class="row mt-2">
 						<div class="col">
-							<app-btn-block-import (myClick)="onBtnUploadFile()" [disabled]="!fileUploadForm.valid" ></app-btn-block-import>
+							<app-btn-block-import (myClick)="usppiUploadFileAndEdit()" [disabled]="!fileUploadForm.valid" ></app-btn-block-import>
 						</div>
 					</div>
 				</div>

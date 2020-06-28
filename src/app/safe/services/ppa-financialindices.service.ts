@@ -21,7 +21,6 @@ export class PpaFinancialindicesService {
 	}
 	usppiFindByDateOpBetween(from,to):Observable<any>{
 		///usppi/date-op-between/2019-01-01/2020-05-01
-
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(environment.externalData + `usppi/date-op-between/${from}/${to}`, {params : this.parameters });
 	}
@@ -41,5 +40,27 @@ export class PpaFinancialindicesService {
 	usppidownload(year: number,month:number): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get<Blob>(environment.externalData + `usppi/${year}/${month}/download-file`, {params : this.parameters, responseType: 'blob' as 'json' });
+	}
+	usppidownloadById(id:number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get<Blob>(environment.externalData + `usppi/${id}/download-file`, {params : this.parameters, responseType: 'blob' as 'json' });
+	}
+	usppiUploadFile(year: number,month:number,usppi,fileObj): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		let obj = {'file':fileObj, 'object':usppi};
+		return this.http.post(environment.externalData + `usppi/${year}/${month}/upload-file`,fileObj, {params : this.parameters });
+	}
+
+	salaryIncreaseFindByDateOp(year: number,month:number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.externalData + `salary-increase/${year}/${month}`, {params : this.parameters });
+	}
+	salaryIncreaseSaveAndEdit(year: number,month:number,salary): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.post(environment.externalData + `salary-increase/${year}/${month}`,salary ,{params : this.parameters });
+	}
+	salaryUploadFile(year: number,month:number,usppi,fileObj): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.post(environment.externalData + `salary-increase/${year}/${month}/upload-file`,fileObj, {params : this.parameters });
 	}
 }

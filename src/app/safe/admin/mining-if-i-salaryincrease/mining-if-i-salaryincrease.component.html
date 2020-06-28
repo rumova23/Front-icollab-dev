@@ -28,14 +28,14 @@
 					[formGroup]="formQuery"
 					controlName="date"
 					(eventChange)="onChangeDatePicker($event)" 
+					[maxDate]="maxDatetoQuery"
 					label="Commercial Operation Date">
 				</app-mat-input-datepicker-year-and-month>
 			</div>
 
 			<div class="my-xl-2 col-12 col-xl-3 col-xxl-2" *ngIf="!isManualLoad">
 				<label style="visibility: hidden;">boton</label>
-				<app-btn-block-consult
-					(myClick)="onBtnConsultar()">
+				<app-btn-block-consult myType="submit">
 				</app-btn-block-consult>
 			</div>
 
@@ -46,7 +46,7 @@
 	<div class="row">
 		<div class="my-2 col-12">
 			<app-mat-table
-				(clickEdit)="tableRowEdit01($event)"
+				(clickEdit)="ontableRowEdit01($event)"
 				[data]="tableData01"
 				[columnsLabels]="tableColumnsLabels01"
 				[columnsDisplay]="tableColumnsDisplay01"
@@ -62,7 +62,7 @@
 					<app-mat-input-datepicker
 						[formGroup]="formUpdateCosto"
 						controlName="date"
-						label="Fecha"
+						label="Fecha" 
 					></app-mat-input-datepicker>
 				</div>
 				<div class="col col-lg-3">
@@ -76,11 +76,11 @@
 			<div class="row justify-content-end">
 				<div class="col col-lg-2">
 					<label style="visibility: hidden;">boton</label>
-					<app-btn-block-cancel (myClick)="onBtnCancel()"></app-btn-block-cancel>
+					<app-btn-block-cancel (myClick)="onBtnCancel()" [disabled]="!formUpdateCosto.valid"></app-btn-block-cancel>
 				</div>
 				<div class="col col-lg-2">
 					<label style="visibility: hidden;">boton</label>
-					<app-btn-block-save-update (myClick)="onBtnSaveUpdate()"></app-btn-block-save-update>
+					<app-btn-block-save-update (myClick)="onBtnSaveUpdate()" [disabled]="!formUpdateCosto.valid"></app-btn-block-save-update>
 				</div>
 			</div>
 		</div>
@@ -127,7 +127,7 @@
 
 	<div class="row mt-4">
 		<div class="col">
-			<app-mining-ifisalaryincrease-chart></app-mining-ifisalaryincrease-chart>
+			<div #chartLineMs></div>
 		</div>
 	</div>
 
@@ -141,10 +141,10 @@
 	</div>
 	<div class="row">
 		<div class="col">
-			<div class="media" (click)="downloadFile()">
-				<img src="assets/img/zip.png" style="width: 64px; height: 64px;">
+			<div class="media" (click)="onBtndownloadFile()" *ngIf="soporte != null">
+				<img src="assets/img/xlsx.png" style="width: 64px; height: 64px;">
 				<div class="media-body">
-					<p>Descarga kiki_koo.zip</p>
+					<p>{{soporte.fileName}}</p>
 				</div>
 			</div>
 		</div>
@@ -152,7 +152,10 @@
 			<div class="row" [formGroup]="fileUploadForm">
 				<div class="col">
 					Carga Archivo:<br />
-					<app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+					<app-file-upload formControlName="file" 
+					[progress]="progress"
+					(change)="selectFile($event)"
+					></app-file-upload>
 					<mat-error *ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
 						Requerido
 					</mat-error>
