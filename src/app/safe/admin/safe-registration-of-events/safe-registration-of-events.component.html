@@ -12,7 +12,6 @@
 
 <form [formGroup]="formNewEvent" (ngSubmit)="onSubmitFormNewEvent(formNewEvent.value)">
 	<div class="section">
-
 		<div class="row pb-2">
 			<div class="col">
 				<p class="section_titulo_0">{{ "Bitácora de Eventos" | translate }}</p>
@@ -21,7 +20,6 @@
 		</div>
 		<hr>
 		<br>
-
 		<div class="row pb-2">
 			<div class="col">
 				<p class="section_titulo_1">{{ "Descripción / Clasificacion de Evento" | translate }}</p>
@@ -190,12 +188,6 @@
 				></app-mat-input-number>
 			</div>
 			<div class="col-3">
-				<!--app-mat-select
-					[formGroup]="formNewEvent"
-					controlName="workOrderId"
-					[options]="lstWorkOrder"
-					label="Orden de Trabajo"
-				></app-mat-select-->
 				<app-mat-input-text
 					[formGroup]="formNewEvent"
 					controlName="workOrderId"
@@ -220,12 +212,6 @@
 		</div>
 		<div class="row">
 			<div class="col">
-				<!--app-mat-select
-					[formGroup]="formNewEvent"
-					controlName="operatorPlantOpen"
-					[options]="lstOperatorPlantOpen"
-					label="Nombre(s)/Apellidos(s) Operador Planta Abrió"
-				></app-mat-select-->
 				<app-mat-input-text
 					[formGroup]="formNewEvent"
 					controlName="plantOperatorOpened"
@@ -241,12 +227,6 @@
 			</div>
 			<div class="w-100"></div>
 			<div class="col">
-				<!--app-mat-select
-					[formGroup]="formNewEvent"
-					controlName="operatorPlantClose"
-					[options]="lstOperatorPlantClose"
-					label="Nombre(s)/Apellidos(s) Operador Planta Cerro"
-				></app-mat-select-->
 				<app-mat-input-text
 					[formGroup]="formNewEvent"
 					controlName="plantOperatorClosed"
@@ -325,14 +305,6 @@
 					<app-btn-block-add (click)="BtnAddObservationsComments()"></app-btn-block-add>
 				</div>
 			</div>
-			<br>
-			<!--div class="row">
-				<div class="col text-center">
-					<div class="mat-header-row">
-						<p class="section_titulo_1 my-0 py-2" style="background: #6EB1D620;">Historial de observaciónes</p>
-					</div>
-				</div>
-			</div-->
 			<br>
 			<div class="row">
 				<div class="col">
