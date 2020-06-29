@@ -407,8 +407,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		});
 	}
 	onSubmitFormNewEvent(v) {
-		const casas = moment(v.datetimelocal);
-		const dsa = casas.format('YYYY-MM-DD HH:mm:ss');
+		console.dir(v);
 		this.addBlock(1, '');
 		this.binnacleService.saveBinnacle(v).subscribe(
 			data => {
