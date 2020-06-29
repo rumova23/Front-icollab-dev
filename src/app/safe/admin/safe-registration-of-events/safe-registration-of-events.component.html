@@ -188,11 +188,12 @@
 				></app-mat-input-number>
 			</div>
 			<div class="col-3">
-				<app-mat-input-text
-					[formGroup]="formNewEvent"
-					controlName="workOrderId"
-					label="Orden de Trabajo"
-				></app-mat-input-text>
+				<app-mat-input-textarea
+						[formGroup]="formNewEvent"
+						controlName="workOrderId"
+						label="Orden de Trabajo"
+						maxLength="500"
+				></app-mat-input-textarea>
 			</div>
 			<div class="w-100"></div>
 			<div class="col">
