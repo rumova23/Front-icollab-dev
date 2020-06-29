@@ -63,7 +63,6 @@ export class PpaFinancialindicesService {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.post(environment.externalData + `salary-increase/${year}/${month}/upload-file`,fileObj, {params : this.parameters });
 	}
-	
 	salaryFinalize(year: number,month:number): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.put(environment.externalData + `salary-increase/${year}/${month}/finalize`,{}, {params : this.parameters });
@@ -72,5 +71,31 @@ export class PpaFinancialindicesService {
 		///usppi/date-op-between/2019-01-01/2020-05-01
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(environment.externalData + `salary-increase/date-op-between/${from}/${to}`, {params : this.parameters });
+	}
+
+
+
+	
+
+	waterCostIncreaseFindByDateOp(year: number,month:number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.externalData + `watercost/${year}/${month}`, {params : this.parameters });
+	}
+	waterCostIncreaseSaveAndEdit(year: number,month:number,salary): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.post(environment.externalData + `watercost/${year}/${month}`,salary ,{params : this.parameters });
+	}
+	waterCostUploadFile(year: number,month:number,usppi,fileObj): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.post(environment.externalData + `watercost/${year}/${month}/upload-file`,fileObj, {params : this.parameters });
+	}
+	waterCostFinalize(year: number,month:number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.put(environment.externalData + `watercost/${year}/${month}/finalize`,{}, {params : this.parameters });
+	}
+	waterCostFindByDateOpBetween(from,to):Observable<any>{
+		///usppi/date-op-between/2019-01-01/2020-05-01
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.externalData + `watercost/date-op-between/${from}/${to}`, {params : this.parameters });
 	}
 }
