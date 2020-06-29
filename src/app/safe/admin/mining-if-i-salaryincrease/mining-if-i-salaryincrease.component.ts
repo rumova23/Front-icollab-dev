@@ -15,6 +15,8 @@ import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format
 import { PpaFinancialindicesService } from '../../services/ppa-financialindices.service';
 import { DatePipe } from '@angular/common';
 import Highcharts from 'highcharts';
+import { FileCenterService } from '../../../core/services/file-center.service';
+import { FileCenter } from '../../../core/models/FileCenter';
 
 @Component({
   selector: 'app-mining-if-i-salaryincrease',
@@ -197,6 +199,7 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 		public eventService: EventService,
 		public indicesService :PpaFinancialindicesService,
 		private datePipe: DatePipe,
+		private fileCenterService : FileCenterService,
 		private ppaMonitoringFormatService: PpaMonitoringFormatService
 	) { }
 
@@ -236,38 +239,42 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 	clickBtnDowloadImport(){
 	}
 	onBtnUploadFile() {
-		console.log(this.fileUploadForm.value);
-		
-		const mydate = this.formQuery.get('date').value;
-		const mymonth  = mydate.month() + 1;
-		const myyear =  +mydate.year();
+		if(this.originData && this.originData.id){
+			this.uploadFileByFileCenter(this.originData.ename,this.originData.id,this.selectedFiles.item(0));
+		}else{
 
-		let fileReader = new FileReader();
-		this.currentFile = this.selectedFiles.item(0);
-		this.addBlock(1, 'Guardando archivo...');
-	
-		fileReader.onloadend = (e) => {
-		  this.dataFileSubmit['fileName'] = this.currentFile.name;
-		  this.dataFileSubmit['fileType'] = this.currentFile.name.substr(this.currentFile.name.lastIndexOf('.') + 1);
-		  this.dataFileSubmit['fileContentType'] = this.currentFile.type;
-		  this.dataFileSubmit['fileSize'] = this.currentFile.size;
-		  this.dataFileSubmit['fileData'] = fileReader.result;
-		  this.dataFileSubmit['fileData'] = this.dataFileSubmit['fileData'].replace(/^data:(.*;base64,)?/, '');
-		  this.dataFileSubmit['fileData'] = this.dataFileSubmit['fileData'].trim();
-			console.log(this.dataFileSubmit);
+			console.log(this.originData);
 			
-		  this.indicesService.salaryUploadFile(myyear,mymonth,this.originData,this.dataFileSubmit).subscribe(
-			data => {
-				console.log(data);
-				this.salarySetData(data);
-			  },
-			  error => {
-				  this.addBlock(2, null);
-			  }).add(() => {
-				this.addBlock(2, null);
-		  });
 		}
-		fileReader.readAsDataURL(this.currentFile);
+
+	}
+	
+	uploadFileByFileCenter(father:string,fatherId:number|string, file : File){
+		let fileReader  = new FileReader();
+		let fileCenter  : FileCenter = {father,fatherId};
+		fileReader.onloadend = (e) => {
+			fileCenter['fileName'] = file.name;
+			fileCenter['fileType'] = file.name.substr(file.name.lastIndexOf('.') + 1);
+			fileCenter['fileContentType'] = file.type;
+			fileCenter['fileSize'] = file.size;
+			fileCenter['fileData'] = fileReader.result;
+			fileCenter['fileData'] = fileCenter['fileData'].replace(/^data:(.*;base64,)?/, '');
+			fileCenter['fileData'] = fileCenter['fileData'].trim();
+			console.log(fileCenter);
+			
+			this.addBlock(1, 'Guardando archivo...');
+			this.fileCenterService.uploadFile(fileCenter).subscribe(
+				data => {
+					console.log(data);
+					this.salarySetData(data);
+				  },
+				  error => {
+					  this.addBlock(2, null);
+				  }).add(() => {
+					this.addBlock(2, null);
+			});//*/
+		}
+		fileReader.readAsDataURL(file);
 	}
 	onBtnFinish(){
 	}
@@ -347,6 +354,8 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 	}
 
 	salarySetData(data){
+		console.log(data);
+		
 		this.originData = data;
 		this.tableData01 = [
 			{order:1,fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),index:'ISN',date:this.datePipe.transform(new Date(data.dateReference) , 'dd/MM/yyyy'),isn:data.value}
@@ -359,22 +368,7 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 		this.soporte = data.filesCenter[data.filesCenter.length  -1];
 	}
 	onBtndownloadFile(){
-		
-		this.indicesService.usppidownloadById(this.soporte['id']).subscribe(result=>{
-			this.soporte;
-			debugger
-			let dataType = result.type;
-			debugger
-			let binaryData = [];
-			binaryData.push(result);
-			let downloadLink = document.createElement('a');
-			downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: dataType}));
-			downloadLink.setAttribute('download', this.soporte.fileName);
-			downloadLink.click();
-		},error=>{
-			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-		},()=>{
-		});
+		this.fileCenterService.download(this.soporte);
 	}
 
 	private addBlock(type, msg): void {

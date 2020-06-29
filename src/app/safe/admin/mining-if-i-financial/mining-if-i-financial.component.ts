@@ -436,7 +436,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 		let i = 0;
 		this.tableDataBitacora = data.logs.map(row=>{
 			i++;
-			return {order:i,fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),fuenteImport:'2da Corrida MM',usuario:row.userCreated,fechaMod:this.datePipe.transform(new Date(row.dateCreated) , 'dd/MM/yyyy HH:mm:ss'),estatus:row.action};
+			return {order:i,fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),fuenteImport:'2da Corrida MM',usuario:row.userCreated,fechaMod:this.datePipe.transform(new Date(row.dateCreated) , 'dd/MM/yyyy HH:mm:ss'),estatus:row.action+" "+row.description};
 		});
 		this.soporte = data.filesCenter[data.filesCenter.length  -1];
 	}
