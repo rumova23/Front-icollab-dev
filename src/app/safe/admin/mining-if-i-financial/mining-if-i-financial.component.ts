@@ -16,6 +16,8 @@ import { PpaFinancialindicesService } from '../../services/ppa-financialindices.
 import { map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import Highcharts from 'highcharts';
+import { FileCenterService } from '../../../core/services/file-center.service';
+import { FileCenter } from '../../../core/models/FileCenter';
 
 @Component({
   selector: 'app-mining-if-i-financial',
@@ -205,6 +207,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 		public eventService: EventService,
 		public indicesService :PpaFinancialindicesService,
 		private datePipe: DatePipe,
+		private fileCenterService : FileCenterService,
 		private ppaMonitoringFormatService: PpaMonitoringFormatService
 	) { }
 
@@ -235,11 +238,6 @@ export class MiningIFIFinancialComponent implements OnInit {
 		
 	}
 	onDatePickerQuery(d: Moment) {
-		const month = d.month() + 1;
-		const year = d.year();
-		const date = d.format('MM/yyyy');
-
-
 		this.reset();
 	}
 	onSelectQuery(e){
@@ -353,7 +351,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 	onBtndownloadFile(){
 		switch (this.formQuery.get('typeVarhtml').value) {
 			case '2': // USPPI
-				this.usppiDownloadById();
+				this.usppiDownloadFile();
 				break;
 		}
 	}
@@ -436,7 +434,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 		let i = 0;
 		this.tableDataBitacora = data.logs.map(row=>{
 			i++;
-			return {order:i,fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),fuenteImport:'2da Corrida MM',usuario:row.userCreated,fechaMod:this.datePipe.transform(new Date(row.dateCreated) , 'dd/MM/yyyy HH:mm:ss'),estatus:row.action+" "+row.description};
+			return {order:i,fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),fuenteImport:'2da Corrida MM',usuario:row.userCreated,fechaMod:this.datePipe.transform(new Date(row.dateCreated) , 'dd/MM/yyyy HH:mm:ss'),estatus:row.action+" "+row.description?row.description:''};
 		});
 		this.soporte = data.filesCenter[data.filesCenter.length  -1];
 	}
@@ -584,77 +582,43 @@ export class MiningIFIFinancialComponent implements OnInit {
 			this.addBlock(2,null);
 		});
 	}
-	usppiUploadFileAndEdit(){
-		console.log(this.fileUploadForm.value);
-		
-		const mydate = this.formQuery.get('date').value;
-		const mymonth  = mydate.month() + 1;
-		const myyear =  +mydate.year();
-
-		let fileReader = new FileReader();
-		this.currentFile = this.selectedFiles.item(0);
-		this.addBlock(1, 'Guardando archivo...');
-	
-		fileReader.onloadend = (e) => {
-		  this.dataFileSubmit['fileName'] = this.currentFile.name;
-		  this.dataFileSubmit['fileType'] = this.currentFile.name.substr(this.currentFile.name.lastIndexOf('.') + 1);
-		  this.dataFileSubmit['fileContentType'] = this.currentFile.type;
-		  this.dataFileSubmit['fileSize'] = this.currentFile.size;
-		  this.dataFileSubmit['fileData'] = fileReader.result;
-		  this.dataFileSubmit['fileData'] = this.dataFileSubmit['fileData'].replace(/^data:(.*;base64,)?/, '');
-		  this.dataFileSubmit['fileData'] = this.dataFileSubmit['fileData'].trim();
-			console.log(this.dataFileSubmit);
-			
-		  this.indicesService.usppiUploadFile(myyear,mymonth,this.originData,this.dataFileSubmit).subscribe(
-			  respuesta => {
-				console.log(respuesta);
-				
-			  },
-			  error => {
-				  this.addBlock(2, null);
-			  }).add(() => {
-				this.addBlock(2, null);
-		  });
+	usppiUploadFile(){
+		if(this.originData && this.originData.id){
+			this.uploadFileByFileCenter(this.originData.ename,this.originData.id,this.selectedFiles.item(0));
+		}else{
+			console.log(this.originData);
 		}
-		fileReader.readAsDataURL(this.currentFile);
 	}
-	usppiDownload(){
-		const mydate = this.formQuery.get('date').value;
-		const mymonth  = mydate.month() + 1;
-		const myyear =  +mydate.year();
-		this.addBlock(1,null);
-		this.indicesService.usppidownload(myyear,mymonth).subscribe(result=>{
-			let dataType = result.type;
-			let binaryData = [];
-			binaryData.push(result);
-			let downloadLink = document.createElement('a');
-			downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: dataType}));
-			downloadLink.setAttribute('download', `${this.originData.strDateOp}.xlsx`);
-			downloadLink.click();
-		},error=>{
-			this.tableIndexFinancialData = [];
-			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			this.addBlock(2,null);
-		},()=>{
-			this.addBlock(2,null);
-		});
+	
+	uploadFileByFileCenter(father:string,fatherId:number|string, file : File){
+		let fileReader  = new FileReader();
+		let fileCenter  : FileCenter = {father,fatherId};
+		fileReader.onloadend = (e) => {
+			fileCenter['fileName'] = file.name;
+			fileCenter['fileType'] = file.name.substr(file.name.lastIndexOf('.') + 1);
+			fileCenter['fileContentType'] = file.type;
+			fileCenter['fileSize'] = file.size;
+			fileCenter['fileData'] = fileReader.result;
+			fileCenter['fileData'] = fileCenter['fileData'].replace(/^data:(.*;base64,)?/, '');
+			fileCenter['fileData'] = fileCenter['fileData'].trim();
+			console.log(fileCenter);
+			
+			this.addBlock(1, 'Guardando archivo...');
+			this.fileCenterService.uploadFile(fileCenter).subscribe(
+				data => {
+					console.log(data);
+					this.getUsppi();
+				  },
+				  error => {
+					  this.addBlock(2, null);
+				  }).add(() => {
+					this.addBlock(2, null);
+			});//*/
+		}
+		fileReader.readAsDataURL(file);
 	}
-	usppiDownloadById(){
-		this.indicesService.usppidownloadById(this.soporte['id']).subscribe(result=>{
-			this.soporte;
-			debugger
-			let dataType = result.type;
-			debugger
-			let binaryData = [];
-			binaryData.push(result);
-			let downloadLink = document.createElement('a');
-			downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: dataType}));
-			downloadLink.setAttribute('download', this.soporte.fileName);
-			downloadLink.click();
-		},error=>{
-			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-		},()=>{
-		});
+	usppiDownloadFile(){
+		this.fileCenterService.download(this.soporte);
 	}
 	tableIndexFinancialRowEdit(o){
 		this.isEdit = true;
