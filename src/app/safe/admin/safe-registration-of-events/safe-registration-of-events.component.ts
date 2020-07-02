@@ -19,6 +19,7 @@ import {EventService} from '../../../core/services/event.service';
 import {BinnacleService} from '../../services/binnacle.service';
 import {BinnacleEventConfigurationDTO} from '../../models/binnacle-event-configuration-dto';
 import { CatalogType } from 'src/app/compliance/models/CatalogType';
+import {BinnacleEventDTO} from '../../models/binnacle-event-dto';
 
 @Component({
 	selector: 'app-safe-registration-of-events',
@@ -27,7 +28,7 @@ import { CatalogType } from 'src/app/compliance/models/CatalogType';
 })
 export class SafeRegistrationOfEventsComponent implements OnInit {
 	catalogType: any;
-	actionPage="";
+	actionPage = '';
 	templateConfiguration: BinnacleEventConfigurationDTO;
 	formobservationsComments: FormGroup;
 	fileUploadForm: FormGroup;
@@ -68,8 +69,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	lstApprovalStatus: IdLabel[] = [];
 	tempOrder = 3;
 	tableObservationsComments = [
-		{order:1,name: this.getNameUser(), observation: 'algo', dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: true},
-		{order:2,name: this.getNameUser(), observation: ' algo 2', dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: false}
+		{order:1, name: this.getNameUser(), observation: 'algo', dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: true},
+		{order:2, name: this.getNameUser(), observation: ' algo 2', dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: false}
 	];
 	tablaColumnsLabels = [
 		{ key: 'order', label: '#' },
@@ -142,7 +143,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				initialCharge: [{ value: null, disabled: true }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
 				finalCharge: [{ value: null, disabled: true }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
 				mwPowerLoss: [{ value: null, disabled: true }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
-				workOrderId: [{ value: null, disabled: true }, Validators.required],
+				workOrderId: [{ value: null, disabled: true }, [Validators.required, Validators.minLength(4), Validators.maxLength(500)]],
 				conceptoLicencia: [{ value: null, disabled: true }, [Validators.required, Validators.minLength(4), Validators.maxLength(2000)]],
 				plantOperatorOpened: [{ value: null, disabled: true }, Validators.required],
 				cenaceOperatorOpened: [{ value: null, disabled: true }, Validators.required],
@@ -406,8 +407,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			}
 		});
 	}
-	onSubmitFormNewEvent(v) {
-		console.dir(v);
+	onSubmitFormNewEvent(v: BinnacleEventDTO) {
 		this.addBlock(1, '');
 		this.binnacleService.saveBinnacle(v).subscribe(
 			data => {
