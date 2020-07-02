@@ -195,7 +195,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 	};
 	originData;
 	soporte = null;
-	
+	isconsult = false;
 	currentFile: File;
 	dataFileSubmit = {};
 	selectedFiles: FileList;
@@ -253,19 +253,14 @@ export class MiningIFIFinancialComponent implements OnInit {
 		this.diaNOHabilBancarioDefinitivo = null;
 		switch (e.value) {
 			case '1':
-				this.tableIndexFinancialData = [
-					{order:1,fechaOp:'mar-20',index:'INPPm Provisional',date:'05/2020',value:'ws'},
-					{order:1,fechaOp:'mar-20',index:'INPPm Definitivo',date:'05/2020',value:'ws'}
-				];
-				break;
-			case '2':
+				
 				this.usppiSetView();
 				break;
+			case '2':
+				this.inppSetView();
+				break;
 			case '3':
-				this.tableIndexFinancialData = [
-					{order:1,fechaOp:'mar-20',index:'TCp Provisional',date:'01/05/2020',value:'ws'},
-					{order:1,fechaOp:'mar-20',index:'TCp Definitivo',date:'01/05/2020',value:'ws'}
-				];
+				this.tcSetView();
 				this.diaNOHabilBancarioProvisional = '* Provisional Día NO hábil bancario';
 				this.diaNOHabilBancarioDefinitivo = '* Definitivo Día NO hábil bancario';
 				break;
@@ -276,7 +271,9 @@ export class MiningIFIFinancialComponent implements OnInit {
 
 	}
 	reset(){
-		
+		this.isconsult=false;
+		this.soporte = null;
+		this.originData = null;
 		this.tableIndexFinancialData = [];
 		this.tableDataBitacora = [];
 
@@ -300,10 +297,30 @@ export class MiningIFIFinancialComponent implements OnInit {
 		];
 	}
 	
+	inppSetView(){
+		this.selectOptionsVariables = [
+			{id:"d",label:'INPPm Definitivo'},
+			{id:"p",label:'INPPm Provisional'},
+		];
+	}
+	
+	tcSetView(){
+		this.selectOptionsVariables = [
+			{id:"d",label:'TCp Definitivo'},
+			{id:"p",label:'TCp Provisional'},
+		];
+	}
+	
 	onSubmitFormEditIndexFinancial(o){
 		switch (this.formQuery.get('typeVarhtml').value) {
+			case '1': // inpp
+				this.inppEdit();
+				break;
 			case '2': // USPPI
 				this.usppiEdit();
+				break;
+			case '3': // tc
+				this.tcEdit();
 				break;
 		}
 		console.log(o);
@@ -315,8 +332,14 @@ export class MiningIFIFinancialComponent implements OnInit {
 	onSubmitChart(v){
 		console.log(v);
 		switch (this.formQuery.get('typeVarhtml').value) {
+			case '1':
+				this.inppFindByDateOpBetween();
+			break;
 			case '2': // USPPI
 				this.usppiFindByDateOpBetween();
+				break;
+			case '3': // tc
+				this.tcFindByDateOpBetween();
 				break;
 		}
 	}
@@ -342,31 +365,22 @@ export class MiningIFIFinancialComponent implements OnInit {
 	}
 	onBtnFinish(){
 		switch (this.formQuery.get('typeVarhtml').value) {
+			case '1': // inpp
+				this.inppFinalize();
+				break;
 			case '2': // USPPI
 				this.usppiFinalize();
+				break;
+			case '3': // tc
+				this.tcFinalize();
 				break;
 		}
 	}
 
 	onBtndownloadFile(){
-		switch (this.formQuery.get('typeVarhtml').value) {
-			case '2': // USPPI
-				this.usppiDownloadFile();
-				break;
-		}
+		this.usppiDownloadFile();
 	}
-	tableRowDelete(element){
-		this.confirmationDialogService.confirm(
-			'Confirmación',
-			'¿Está seguro de eliminar el Registro?'
-		)
-		.then((confirmed) => {
-			if ( confirmed ) {
-				console.log(element);
-			}
-		})
-		.catch(() => {});
-	}
+
 	tableDefinitivoRowEdit(element){
 
 	}
@@ -378,11 +392,15 @@ export class MiningIFIFinancialComponent implements OnInit {
 		
 
 		switch (v.typeVarhtml) {
-			case '2': // USPPI
-					this.getUsppi();
-					
+			case '1':
+				this.getInpp();
 				break;
-		
+			case '2': // USPPI
+				this.getUsppi();
+				break;
+			case '3' :
+				this.getTc();
+				break;
 			default:
 				break;
 		}
@@ -412,12 +430,52 @@ export class MiningIFIFinancialComponent implements OnInit {
 		console.log("myyear:"+myyear);
 		this.addBlock(1,null);
 		this.indicesService.usppiFindByDateOp(myyear,mymonth).subscribe(data=>{
-			
 			this.isFinalizedData = data.finalized;
 			console.log(data);
 			this.usppiSetData(data);
-
 		},error=>{
+			this.tableIndexFinancialData = [];
+			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
+			this.addBlock(2,null);
+		},()=>{
+			this.addBlock(2,null);
+		});
+	}
+	getInpp(){
+		const mydate = this.formQuery.get('date').value;
+		const mymonth  = mydate.month() + 1;
+		const myyear =  +mydate.year();
+		console.log("month:"+mymonth);
+		console.log("myyear:"+myyear);
+		this.addBlock(1,null);
+		this.indicesService.inppFindByDateOp(myyear,mymonth).subscribe(data=>{
+			this.isEdit = true;
+			this.isFinalizedData = data.finalized;
+			console.log(data);
+			this.inppSetData(data);
+		},error=>{
+			this.isEdit = true;
+			this.tableIndexFinancialData = [];
+			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
+			this.addBlock(2,null);
+		},()=>{
+			this.addBlock(2,null);
+		});
+	}
+	getTc(){
+		const mydate = this.formQuery.get('date').value;
+		const mymonth  = mydate.month() + 1;
+		const myyear =  +mydate.year();
+		console.log("month:"+mymonth);
+		console.log("myyear:"+myyear);
+		this.addBlock(1,null);
+		this.indicesService.tcFindByDateOp(myyear,mymonth).subscribe(data=>{
+			this.isEdit = true;
+			this.isFinalizedData = data.finalized;
+			console.log(data);
+			this.tcSetData(data);
+		},error=>{
+			this.isEdit = true;
 			this.tableIndexFinancialData = [];
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
 			this.addBlock(2,null);
@@ -434,7 +492,33 @@ export class MiningIFIFinancialComponent implements OnInit {
 		let i = 0;
 		this.tableDataBitacora = data.logs.map(row=>{
 			i++;
-			return {order:i,fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),fuenteImport:'2da Corrida MM',usuario:row.userCreated,fechaMod:this.datePipe.transform(new Date(row.dateCreated) , 'dd/MM/yyyy HH:mm:ss'),estatus:row.action+" "+row.description?row.description:''};
+			return {order:i,fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),fuenteImport:'2da Corrida MM',usuario:row.userCreated,fechaMod:this.datePipe.transform(new Date(row.dateCreated) , 'dd/MM/yyyy HH:mm:ss'),estatus:row.action};
+		});
+		this.soporte = data.filesCenter[data.filesCenter.length  -1];
+	}
+	inppSetData(data){
+		this.originData = data;
+		this.tableIndexFinancialData = [
+			{order:1,code:'p',fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),index:'INPPm Provisional',dateProvisional:data.dateProvisional,date:this.datePipe.transform(new Date(data.dateProvisional) , 'MM/yyyy') ,value:data.valueProvisional},
+			{order:2,code:'d',fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),index:'INPPm Definitivo',dateDefinitivo:data.dateDefinitivo,date:this.datePipe.transform(new Date(data.dateDefinitivo) , 'MM/yyyy') ,value:data.valueDefinitivo}
+		];
+		let i = 0;
+		this.tableDataBitacora = data.logs.map(row=>{
+			i++;
+			return {order:i,fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),fuenteImport:'2da Corrida MM',usuario:row.userCreated,fechaMod:this.datePipe.transform(new Date(row.dateCreated) , 'dd/MM/yyyy HH:mm:ss'),estatus:row.action};
+		});
+		this.soporte = data.filesCenter[data.filesCenter.length  -1];
+	}
+	tcSetData(data){
+		this.originData = data;
+		this.tableIndexFinancialData = [
+			{order:1,code:'p',fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),index:'TCp Provisional',dateProvisional:data.dateProvisional,date:this.datePipe.transform(new Date(data.dateProvisional) , 'dd/MM/yyyy') ,value:data.valueProvisional},
+			{order:2,code:'d',fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),index:'TCp Definitivo',dateDefinitivo:data.dateDefinitivo,date:this.datePipe.transform(new Date(data.dateDefinitivo) , 'dd/MM/yyyy') ,value:data.valueDefinitivo}
+		];
+		let i = 0;
+		this.tableDataBitacora = data.logs.map(row=>{
+			i++;
+			return {order:i,fechaOp:this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy'),fuenteImport:'2da Corrida MM',usuario:row.userCreated,fechaMod:this.datePipe.transform(new Date(row.dateCreated) , 'dd/MM/yyyy HH:mm:ss'),estatus:row.action};
 		});
 		this.soporte = data.filesCenter[data.filesCenter.length  -1];
 	}
@@ -444,6 +528,189 @@ export class MiningIFIFinancialComponent implements OnInit {
 		const from = moment(to).subtract(2, 'years').format("YYYY-M")+"-01";
 		this.addBlock(1,null);
 		this.indicesService.usppiFindByDateOpBetween(from,to).subscribe(data=>{
+			console.log(data);
+			
+			if (this.chartLine != null){
+				for (const axis of this.idYAxis) {
+					this.chartLine.get(axis).remove();
+				}
+				this.chartLine.destroy();
+				this.chartLine = null;
+			} 
+			this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
+			this.idYAxis = [];
+			let indexYAxis = 0;
+			let dataChartD = data.map(mes=>{return [new Date(mes.dateOp).getTime(), parseFloat(mes.valueDefinitivo)];});
+			let dataChartP = data.map(mes=>{return [new Date(mes.dateOp).getTime(), parseFloat(mes.valueProvisional)];});
+			dataChartD = this.ordenar(dataChartD);
+			dataChartP = this.ordenar(dataChartP);
+			
+			let axis = [];
+			let series = [];
+			axis['d'] = { // Primary yAxis
+				id: 'd',
+				labels: {
+					format: '{value}',
+					style: {
+						color: Highcharts.getOptions().colors[0]
+					}
+				},
+				title: {
+					enabled: false,
+					style: {
+						color: Highcharts.getOptions().colors[0]
+					},
+					align: 'high',
+					offset: 0,
+					text: "Definitivo" ,
+					rotation: 0,
+					y: -10
+				},
+			};
+			axis['p'] = { // Primary yAxis
+				id: 'p',
+				labels: {
+					format: '{value}',
+					style: {
+						color: Highcharts.getOptions().colors[1]
+					}
+				},
+				title: {
+					enabled: false,
+					style: {
+						color: Highcharts.getOptions().colors[1]
+					},
+					align: 'high',
+					offset: 0,
+					text: "Provicional",
+					rotation: 0,
+					y: -10
+				},
+			};
+			series['d'] = {
+				yAxis: 'd',
+				name: 'd',
+				data: dataChartD,
+			};
+			series['p'] = {
+				yAxis: 'p',
+				name: 'p',
+				data: dataChartP,
+			};
+			let tags : [] = this.formvariables.get('selectVariables').value;
+			for (let index = 0; index < tags.length; index++) {
+				const tag = tags[index];
+				this.idYAxis.push(tag);
+				this.chartLine.addAxis(axis[tag] );
+				this.chartLine.addSeries(series[tag] );
+			}
+		
+		},error=>{
+			this.addBlock(2,null);
+
+		},()=>{
+			this.addBlock(2,null);
+
+		});
+	}
+	inppFindByDateOpBetween(){
+		const date:Moment = this.formQuery.get('date').value;
+		const to = date.format("YYYY-M")+"-01";
+		const from = moment(to).subtract(2, 'years').format("YYYY-M")+"-01";
+		this.addBlock(1,null);
+		this.indicesService.inppFindByDateOpBetween(from,to).subscribe(data=>{
+			console.log(data);
+			
+			if (this.chartLine != null){
+				for (const axis of this.idYAxis) {
+					this.chartLine.get(axis).remove();
+				}
+				this.chartLine.destroy();
+				this.chartLine = null;
+			} 
+			this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, this.opt);
+			this.idYAxis = [];
+			let indexYAxis = 0;
+			let dataChartD = data.map(mes=>{return [new Date(mes.dateOp).getTime(), parseFloat(mes.valueDefinitivo)];});
+			let dataChartP = data.map(mes=>{return [new Date(mes.dateOp).getTime(), parseFloat(mes.valueProvisional)];});
+			dataChartD = this.ordenar(dataChartD);
+			dataChartP = this.ordenar(dataChartP);
+			
+			let axis = [];
+			let series = [];
+			axis['d'] = { // Primary yAxis
+				id: 'd',
+				labels: {
+					format: '{value}',
+					style: {
+						color: Highcharts.getOptions().colors[0]
+					}
+				},
+				title: {
+					enabled: false,
+					style: {
+						color: Highcharts.getOptions().colors[0]
+					},
+					align: 'high',
+					offset: 0,
+					text: "Definitivo" ,
+					rotation: 0,
+					y: -10
+				},
+			};
+			axis['p'] = { // Primary yAxis
+				id: 'p',
+				labels: {
+					format: '{value}',
+					style: {
+						color: Highcharts.getOptions().colors[1]
+					}
+				},
+				title: {
+					enabled: false,
+					style: {
+						color: Highcharts.getOptions().colors[1]
+					},
+					align: 'high',
+					offset: 0,
+					text: "Provicional",
+					rotation: 0,
+					y: -10
+				},
+			};
+			series['d'] = {
+				yAxis: 'd',
+				name: 'd',
+				data: dataChartD,
+			};
+			series['p'] = {
+				yAxis: 'p',
+				name: 'p',
+				data: dataChartP,
+			};
+			let tags : [] = this.formvariables.get('selectVariables').value;
+			for (let index = 0; index < tags.length; index++) {
+				const tag = tags[index];
+				this.idYAxis.push(tag);
+				this.chartLine.addAxis(axis[tag] );
+				this.chartLine.addSeries(series[tag] );
+			}
+		
+		},error=>{
+			this.addBlock(2,null);
+
+		},()=>{
+			this.addBlock(2,null);
+
+		});
+	}
+	
+	tcFindByDateOpBetween(){
+		const date:Moment = this.formQuery.get('date').value;
+		const to = date.format("YYYY-M")+"-01";
+		const from = moment(to).subtract(2, 'years').format("YYYY-M")+"-01";
+		this.addBlock(1,null);
+		this.indicesService.tcFindByDateOpBetween(from,to).subscribe(data=>{
 			console.log(data);
 			
 			if (this.chartLine != null){
@@ -548,6 +815,44 @@ export class MiningIFIFinancialComponent implements OnInit {
 		});
 	}
 	
+	inppFinalize(){
+		const mydate = this.formQuery.get('date').value;
+		const mymonth  = mydate.month() + 1;
+		const myyear =  +mydate.year();
+		console.log("month:"+mymonth);
+		console.log("myyear:"+myyear);
+		this.addBlock(1,null);
+		this.indicesService.inppFinalize(myyear,mymonth).subscribe(data=>{
+			this.inppSetData(data);
+			this.toastr.successToastr('Finalizado');
+		},error=>{
+			this.tableIndexFinancialData = [];
+			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
+			this.addBlock(2,null);
+		},()=>{
+			this.addBlock(2,null);
+		});
+	}
+	
+	tcFinalize(){
+		const mydate = this.formQuery.get('date').value;
+		const mymonth  = mydate.month() + 1;
+		const myyear =  +mydate.year();
+		console.log("month:"+mymonth);
+		console.log("myyear:"+myyear);
+		this.addBlock(1,null);
+		this.indicesService.tcFinalize(myyear,mymonth).subscribe(data=>{
+			this.tcSetData(data);
+			this.toastr.successToastr('Finalizado');
+		},error=>{
+			this.tableIndexFinancialData = [];
+			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
+			this.addBlock(2,null);
+		},()=>{
+			this.addBlock(2,null);
+		});
+	}
+	
 	selectFile(event) {
 		this.selectedFiles = event.target.files;
 	}
@@ -582,6 +887,164 @@ export class MiningIFIFinancialComponent implements OnInit {
 			this.addBlock(2,null);
 		});
 	}
+	inppCrear(){
+		
+		const mydate = this.formQuery.get('date').value;
+		const mymonth  = mydate.month() + 1;
+		const myyear =  +mydate.year();
+		let v = this.formEditIndexFinancial.value;
+		this.originData = {};
+		console.log(v);
+		
+		//this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy')
+		if(v.valDef != ""){
+			this.originData['valueDefinitivo'] = v.valDef;
+			this.originData['dateDefinitivo'] = new Date(v.dateDef).getTime();
+			this.originData['periodDefinitivo'] ="M"+this.datePipe.transform(new Date(v.dateDef) , 'MM');
+			this.originData['periodNameDefinitivo'] = this.datePipe.transform(new Date(v.dateDef) , 'MMMM');
+			this.originData['yearDefinitivo'] = this.datePipe.transform(new Date(v.dateDef) , 'yyyy');
+		}
+		if(v.valProv != ""){
+			this.originData['valueProvisional'] = v.valProv;
+			this.originData['dateProvisional'] = new Date(v.dateProv).getTime();
+			this.originData['periodProvisional'] ="M"+this.datePipe.transform(new Date(v.dateProv) , 'MM');
+			this.originData['periodNameProvisional'] = this.datePipe.transform(new Date(v.dateProv) , 'MMMM');
+			this.originData['yearProvisional'] = this.datePipe.transform(new Date(v.dateProv) , 'yyyy');
+		}
+		this.originData['strDateOp'] = this.datePipe.transform(new Date(this.formQuery.get('date').value) , 'yyyy-MM')
+		this.originData['dateOp'] = new Date(this.datePipe.transform(new Date(this.formQuery.get('date').value) , 'yyyy/MM')+'/01');
+
+		
+		this.addBlock(1,null);
+		this.indicesService.inppNew(myyear,mymonth, this.originData).subscribe(data=>{
+			this.reset();
+			this.inppSetData(data);
+			this.toastr.successToastr('Finalizado');
+		},error=>{
+			this.tableIndexFinancialData = [];
+			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
+			this.addBlock(2,null);
+		},()=>{
+			this.addBlock(2,null);
+		});
+	}
+	inppEdit(){
+		console.log(this.originData);
+		
+		if(this.originData == undefined || this.originData == null){
+			this.inppCrear();
+			return 0;
+		}
+		let v = this.formEditIndexFinancial.value;
+		this.originData;
+		//this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy')
+		if(v.valDef != ""){
+			this.originData.valueDefinitivo = v.valDef;
+			this.originData.dateDefinitivo = new Date(v.dateDef).getTime();
+			this.originData.periodDefinitivo ="M"+this.datePipe.transform(new Date(v.dateDef) , 'MM');
+			this.originData.periodNameDefinitivo = this.datePipe.transform(new Date(v.dateDef) , 'MMMM');
+			this.originData.yearDefinitivo = this.datePipe.transform(new Date(v.dateDef) , 'yyyy');
+		}
+		if(v.valProv != ""){
+			this.originData.valueProvisional = v.valProv;
+			this.originData.dateProvisional = new Date(v.dateProv).getTime();
+			this.originData.periodProvisional ="M"+this.datePipe.transform(new Date(v.dateProv) , 'MM');
+			this.originData.periodNameProvisional = this.datePipe.transform(new Date(v.dateProv) , 'MMMM');
+			this.originData.yearProvisional = this.datePipe.transform(new Date(v.dateProv) , 'yyyy');
+		}
+		this.addBlock(1,null);
+		this.indicesService.inppEdit(this.originData).subscribe(data=>{
+			this.reset();
+			this.inppSetData(data);
+			this.toastr.successToastr('Finalizado');
+		},error=>{
+			this.tableIndexFinancialData = [];
+			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
+			this.addBlock(2,null);
+		},()=>{
+			this.addBlock(2,null);
+		});
+	}
+	
+	tcCrear(){
+		
+		const mydate = this.formQuery.get('date').value;
+		const mymonth  = mydate.month() + 1;
+		const myyear =  +mydate.year();
+		let v = this.formEditIndexFinancial.value;
+		this.originData = {};
+		console.log(v);
+		
+		//this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy')
+		if(v.valDef != ""){
+			this.originData['valueDefinitivo'] = v.valDef;
+			this.originData['dateDefinitivo'] = new Date(v.dateDef).getTime();
+			this.originData['periodDefinitivo'] ="M"+this.datePipe.transform(new Date(v.dateDef) , 'MM');
+			this.originData['periodNameDefinitivo'] = this.datePipe.transform(new Date(v.dateDef) , 'MMMM');
+			this.originData['yearDefinitivo'] = this.datePipe.transform(new Date(v.dateDef) , 'yyyy');
+		}
+		if(v.valProv != ""){
+			this.originData['valueProvisional'] = v.valProv;
+			this.originData['dateProvisional'] = new Date(v.dateProv).getTime();
+			this.originData['periodProvisional'] ="M"+this.datePipe.transform(new Date(v.dateProv) , 'MM');
+			this.originData['periodNameProvisional'] = this.datePipe.transform(new Date(v.dateProv) , 'MMMM');
+			this.originData['yearProvisional'] = this.datePipe.transform(new Date(v.dateProv) , 'yyyy');
+		}
+		this.originData['strDateOp'] = this.datePipe.transform(new Date(this.formQuery.get('date').value) , 'yyyy-MM')
+		this.originData['dateOp'] = new Date(this.datePipe.transform(new Date(this.formQuery.get('date').value) , 'yyyy/MM')+'/01');
+
+		debugger
+		this.addBlock(1,null);
+		this.indicesService.tcNew(myyear,mymonth, this.originData).subscribe(data=>{
+			this.reset();
+			this.tcSetData(data);
+			this.toastr.successToastr('Finalizado');
+		},error=>{
+			this.tableIndexFinancialData = [];
+			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
+			this.addBlock(2,null);
+		},()=>{
+			this.addBlock(2,null);
+		});
+	}
+	tcEdit(){
+		let v = this.formEditIndexFinancial.value;
+		console.log(this.originData);
+		debugger;
+		if(this.originData == undefined || this.originData == null){
+			this.tcCrear();
+			return 0;
+		}
+		
+		this.originData;
+		//this.datePipe.transform(new Date(data.dateOp) , 'MM/yyyy')
+		if(v.valDef != ""){
+			this.originData.valueDefinitivo = v.valDef;
+			this.originData.dateDefinitivo = new Date(v.dateDef).getTime();
+			this.originData.periodDefinitivo ="M"+this.datePipe.transform(new Date(v.dateDef) , 'MM');
+			this.originData.periodNameDefinitivo = this.datePipe.transform(new Date(v.dateDef) , 'MMMM');
+			this.originData.yearDefinitivo = this.datePipe.transform(new Date(v.dateDef) , 'yyyy');
+		}
+		if(v.valProv != ""){
+			this.originData.valueProvisional = v.valProv;
+			this.originData.dateProvisional = new Date(v.dateProv).getTime();
+			this.originData.periodProvisional ="M"+this.datePipe.transform(new Date(v.dateProv) , 'MM');
+			this.originData.periodNameProvisional = this.datePipe.transform(new Date(v.dateProv) , 'MMMM');
+			this.originData.yearProvisional = this.datePipe.transform(new Date(v.dateProv) , 'yyyy');
+		}
+		this.addBlock(1,null);
+		this.indicesService.tcEdit(this.originData).subscribe(data=>{
+			this.reset();
+			this.tcSetData(data);
+			this.toastr.successToastr('Finalizado');
+		},error=>{
+			this.tableIndexFinancialData = [];
+			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
+			this.addBlock(2,null);
+		},()=>{
+			this.addBlock(2,null);
+		});
+	}
 	usppiUploadFile(){
 		if(this.originData && this.originData.id){
 			this.uploadFileByFileCenter(this.originData.ename,this.originData.id,this.selectedFiles.item(0));
@@ -607,7 +1070,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 			this.fileCenterService.uploadFile(fileCenter).subscribe(
 				data => {
 					console.log(data);
-					this.getUsppi();
+					this.soporte = data;
 				  },
 				  error => {
 					  this.addBlock(2, null);
@@ -622,6 +1085,21 @@ export class MiningIFIFinancialComponent implements OnInit {
 	}
 	tableIndexFinancialRowEdit(o){
 		this.isEdit = true;
+	
+		if('3' == this.formQuery.get('typeVarhtml').value){
+
+			switch (o.code) {
+				case 'p':
+					this.formEditIndexFinancial.get('dateProv').setValue(new Date(o.dateProvisional));
+					this.formEditIndexFinancial.get('valProv').setValue(o.value);
+					break;
+				case 'd':
+					this.formEditIndexFinancial.get('dateDef').setValue(new Date(o.dateDefinitivo));
+					this.formEditIndexFinancial.get('valDef').setValue(o.value);
+					break;
+			}
+			return 0;
+		}
 		switch (o.code) {
 			case 'p':
 				this.formEditIndexFinancial.get('dateProv').setValue(moment(o.dateProvisional));

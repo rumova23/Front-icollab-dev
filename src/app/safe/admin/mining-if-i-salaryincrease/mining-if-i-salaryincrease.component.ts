@@ -266,7 +266,7 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 			this.fileCenterService.uploadFile(fileCenter).subscribe(
 				data => {
 					console.log(data);
-					this.formQuerySubmit(null);
+					this.soporte = data;
 				  },
 				  error => {
 					  this.addBlock(2, null);

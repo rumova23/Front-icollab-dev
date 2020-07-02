@@ -98,4 +98,52 @@ export class PpaFinancialindicesService {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(environment.externalData + `watercost/date-op-between/${from}/${to}`, {params : this.parameters });
 	}
+
+
+
+	
+	inppFindByDateOp(year: number,month:number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.externalData + `inpp/${year}/${month}`, {params : this.parameters });
+	}
+	inppNew(year: number,month:number,obj): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.post(environment.externalData + `inpp/${year}/${month}`,obj, {params : this.parameters });
+	}
+	inppEdit(obj): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.put(environment.externalData + `inpp`,obj, {params : this.parameters });
+	}
+	inppFindByDateOpBetween(from,to):Observable<any>{
+		///usppi/date-op-between/2019-01-01/2020-05-01
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.externalData + `inpp/date-op-between/${from}/${to}`, {params : this.parameters });
+	}
+	inppFinalize(year: number,month:number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.put(environment.externalData + `inpp/${year}/${month}/finalize`,{}, {params : this.parameters });
+	}
+
+	
+	tcFindByDateOp(year: number,month:number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.externalData + `tc/${year}/${month}`, {params : this.parameters });
+	}
+	tcNew(year: number,month:number,obj): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.post(environment.externalData + `tc/${year}/${month}`,obj, {params : this.parameters });
+	}
+	tcEdit(obj): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.put(environment.externalData + `tc`,obj, {params : this.parameters });
+	}
+	tcFindByDateOpBetween(from,to):Observable<any>{
+		///usppi/date-op-between/2019-01-01/2020-05-01
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(environment.externalData + `tc/date-op-between/${from}/${to}`, {params : this.parameters });
+	}
+	tcFinalize(year: number,month:number): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.put(environment.externalData + `tc/${year}/${month}/finalize`,{}, {params : this.parameters });
+	}
 }
