@@ -48,8 +48,8 @@ export class SafeListOfEventsComponent implements OnInit {
 		{key: 'cenaceOperatorOpened'  , label: 'Nombre(s)/Apellidos(s) Operador CENACE Abrio'},
 		{key: 'cenaceOperatorClosed'  , label: 'Nombre(s)/Apellidos(s) Operador CENACE Cerro'},
 		{key: 'sourceEvent'                     , label: 'Fuente del Evento'},
-		{key: 'estatusDelEvento'                    , label: 'Estatus del Evento'},
-		{key: 'estatusDeAprobacion'                 , label: 'Estatus de Aprobacion'},
+		{key: 'estatusEvento'                    , label: 'Estatus del Evento'},
+		{key: 'estatusAprobacion'                 , label: 'Estatus de Aprobacion'},
 		{key: 'observacionesComentarios'            , label: 'Observaciones y/o comentarios'},
 		{key: 'usuario'                             , label: 'Usuario'},
 		{key: 'fechaYHoraDeUltimaModificacion'      , label: 'Fecha y Hora de Ultima Modificacion'},
@@ -83,8 +83,8 @@ export class SafeListOfEventsComponent implements OnInit {
 		'cenaceOperatorOpened',
 		'cenaceOperatorClosed',
 		'sourceEvent',
-		'estatusDelEvento',
-		'estatusDeAprobacion',
+		'estatusEvento',
+		'estatusAprobacion',
 		'observacionesComentarios',
 		'usuario',
 		'fechaYHoraDeUltimaModificacion',
@@ -107,10 +107,32 @@ export class SafeListOfEventsComponent implements OnInit {
 			from: [{ value: moment(), disabled: false }, Validators.required],
 			to: [{ value: moment(), disabled: false }, Validators.required],
 		});
+		this.onLoadInit();
 	}
 	onDateFromChange() {
 		this.dateToMin = new Date(this.formQuery.get('from').value);
 	}
+	onLoadInit() {
+		const twoMonthMoment = moment(Date.now()).subtract(2, 'month');
+		const dateTwo = new Date(twoMonthMoment.year(), twoMonthMoment.month(), 1);
+		const nowMoment =  moment(Date.now());
+		const dateNow = new Date(nowMoment.year(), nowMoment.month(), 1);
+
+		this.binnacleService.eventsBetween(
+			moment(dateTwo).toDate().getTime(),
+			moment(dateNow).toDate().getTime()).subscribe(
+			(data: Array<BinnacleEventDTO>) => {
+				console.dir(data);
+				this.tableData = data;
+			},
+			errorData => {
+				this.toastr.errorToastr('Problemas en la consulta', 'Error');
+			},
+			() => {
+				console.log('loadMasters:: ', 'Termino');
+			});
+	}
+
 	onFormQuerySubmit(o) {
 		this.binnacleService.eventsBetween(
 			moment(this.formQuery.get('from').value).toDate().getTime(),
@@ -151,6 +173,7 @@ export class SafeListOfEventsComponent implements OnInit {
         );
 	}
 	onTableRowEdit(element) {
+		console.dir(element);
 		const type = {
             dto: null,
             action: 'editar',

@@ -10,7 +10,7 @@
 	</mdb-breadcrumb>
 </div>
 
-<form [formGroup]="formNewEvent" (ngSubmit)="onSubmitFormNewEvent(formNewEvent.value)">
+<form [formGroup]="formNewEvent" (ngSubmit)="onSubmitFormNewEvent()">
 	<div class="section">
 		<div class="row pb-2">
 			<div class="col">
@@ -262,26 +262,16 @@
 				<!--[options]="lstEventStatus"-->
 				<app-mat-input-text
 					[formGroup]="formNewEvent"
-					controlName="eventStatus"					
+					controlName="estatusEvento"
 					label="Estatus del Evento"
 				></app-mat-input-text>
 			</div>
-			<div class="col-3" *ngIf="actionPage != 'Edit'">
-				<!--[options]="lstApprovalStatus"-->
+			<div class="col-3">
 				<app-mat-input-text
 					[formGroup]="formNewEvent"
-					controlName="approvalStatus"
+					controlName="estatusAprobacion"
 					label="Estatus de Aprobación"
 				></app-mat-input-text>
-			</div>
-			<div class="col-3" *ngIf="actionPage == 'Edit'">
-				<!--[options]="lstApprovalStatus"-->
-				<app-mat-select
-					[formGroup]="formNewEvent"
-					controlName="approvalStatus"
-					[options]="lstApprovalStatus"
-					label="Estatus de Aprobación"
-				></app-mat-select>
 			</div>
 		</div>
 	</div>

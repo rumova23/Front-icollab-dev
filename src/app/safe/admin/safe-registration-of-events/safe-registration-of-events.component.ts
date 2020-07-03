@@ -20,6 +20,8 @@ import {BinnacleService} from '../../services/binnacle.service';
 import {BinnacleEventConfigurationDTO} from '../../models/binnacle-event-configuration-dto';
 import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import {BinnacleEventDTO} from '../../models/binnacle-event-dto';
+import {EstatusMaestroService} from '../../../core/services/estatus-maestro.service';
+import {EntidadEstatusDTO} from '../../../compliance/models/entidad-estatus-dto';
 
 @Component({
 	selector: 'app-safe-registration-of-events',
@@ -51,8 +53,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	lstOperatorPlantOpenAll: IdLabel[] = [];
 	lstOperatorPlantCloseAll: IdLabel[] = [];
 	lstSourceEventAll: IdLabel[] = [];
-	lstEventStatusAll: IdLabel[] = [];
-	lstApprovalStatusAll: IdLabel[] = [];
 
 	lstFuels: IdLabel[] = [];
 	lstUnits: IdLabel[] = [];
@@ -65,12 +65,19 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	lstOperatorPlantOpen: IdLabel[] = [];
 	lstOperatorPlantClose: IdLabel[] = [];
 	lstSourceEvent: IdLabel[] = [];
+
 	lstEventStatus: IdLabel[] = [];
+	lstEventStatusAll: IdLabel[] = [];
+
 	lstApprovalStatus: IdLabel[] = [];
+	lstApprovalStatusAll: IdLabel[] = [];
+	eventStatus: string;
+	approvalStatus: string;
+
 	tempOrder = 3;
 	tableObservationsComments = [
-		{order:1, name: this.getNameUser(), observation: 'algo', dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: true},
-		{order:2, name: this.getNameUser(), observation: ' algo 2', dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: false}
+		{order: 1, name: this.getNameUser(), observation: 'algo', dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: true},
+		{order: 2, name: this.getNameUser(), observation: ' algo 2', dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: false}
 	];
 	tablaColumnsLabels = [
 		{ key: 'order', label: '#' },
@@ -98,7 +105,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		private securityService: SecurityService,
 		private confirmationDialogService: ConfirmationDialogService,
 		private masterCatalogService: MasterCatalogService,
-		private binnacleService: BinnacleService
+		private binnacleService: BinnacleService,
+		private estatusMaestroService: EstatusMaestroService
 	) { }
 
 
@@ -150,15 +158,15 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				plantOperatorClosed: [{ value: null, disabled: true }, Validators.required],
 				cenaceOperatorClosed: [{ value: null, disabled: true }, Validators.required],
 				sourceEventId: [{ value: null, disabled: true }, Validators.required],
-				eventStatus: [{ value: null, disabled: true }, Validators.required],
-				approvalStatus: [{ value: null, disabled: true }, Validators.required],
+				estatusEvento: [{ value: null, disabled: true }, Validators.required],
+				estatusAprobacion: [{ value: null, disabled: true }, Validators.required],
 				eventActivated: [{ value: true, disabled: true }]
 			}
 		);
 		this.setTableObservationsCommentsSelectionChecked();
 	}
 	setTableObservationsCommentsSelectionChecked() {
-		this.tableObservationsCommentsSelection.select(...this.tableObservationsComments.filter(e=>e.visible===true));
+		this.tableObservationsCommentsSelection.select(...this.tableObservationsComments.filter(e => e.visible === true));
 	}
 	getTableObservationsCommentsSelectionChecked() {
 		const seleccionados = this.tableObservationsCommentsSelection.selected;
@@ -376,6 +384,13 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			});
 	}
 
+	loadCatalogStatus(entidadEstatusId: number) {
+		this.estatusMaestroService.getEntidadEstatusById(entidadEstatusId).subscribe((data: EntidadEstatusDTO)  => {
+			return data.estatus.nombre;
+		}, errorData => {
+				return '';
+			});
+	}
 
 	loadCatalog() {
 		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL-CCDV', 'BANDA TOLERANCIA',
@@ -401,15 +416,19 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			if (this.catalogType.action === 'editar') {
 				this.onBuildTemplate(this.catalogType.element.eventsId);
 				this.formNewEvent.patchValue(this.catalogType.element);
+				this.formNewEvent.controls.dateTimeStart.patchValue(moment(this.catalogType.element.dateTimeStart).format('YYYY-MM-DDTHH:mm:ss'));
+				this.formNewEvent.controls.dateTimeEnd.patchValue(moment(this.catalogType.element.dateTimeEnd).format('YYYY-MM-DDTHH:mm:ss'));
 				this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.element.eventsClassificationId));
 				this.formNewEvent.controls.eventsClassificationId.disable();
 				this.formNewEvent.controls.eventsId.disable();
 			}
 		});
 	}
-	onSubmitFormNewEvent(v: BinnacleEventDTO) {
+	onSubmitFormNewEvent() {
+		this.formNewEvent.controls.eventsClassificationId.enable();
+		this.formNewEvent.controls.eventsId.enable();
 		this.addBlock(1, '');
-		this.binnacleService.saveBinnacle(v).subscribe(
+		this.binnacleService.saveBinnacle(this.formNewEvent.value).subscribe(
 			data => {
 				this.toastr.successToastr('Guardado Completo', 'Exito!.');
 				this.addBlock(2, '');
@@ -420,17 +439,16 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			});
 	}
 	btnClickBack() {
-		const type = {
-		};
-        this.eventService.sendChangePage(
-            new EventMessage(null, type, 'Safe.SafeListOfEventsComponent')
-        );
+		const type = {};
+		this.eventService.sendChangePage(
+			new EventMessage(null, type, 'Safe.SafeListOfEventsComponent')
+		);
 	}
 	BtnAddObservationsComments() {
 		const observation = this.formobservationsComments.get('observationsComments').value;
 		if (observation != null && observation !== '') {
 			this.tableObservationsComments = this.tableObservationsComments.concat({
-				order:this.tempOrder, name: this.getNameUser(), observation, dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: true
+				order: this.tempOrder, name: this.getNameUser(), observation, dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: true
 			});
 			this.tempOrder ++;
 			this.formobservationsComments.get('observationsComments').setValue('');

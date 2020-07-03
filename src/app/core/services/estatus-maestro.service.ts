@@ -21,7 +21,6 @@ const httpOptions = {
 
 export class EstatusMaestroService {
   private estatusmaestro = environment.estatusmaestro;
-  private catalog = environment.catalogUrl
 
   parameters: any;
 
@@ -30,10 +29,16 @@ export class EstatusMaestroService {
 
   getEntidadEstatus(entidad: string, estatus: string): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
-    return this.http.get(`${this.estatusmaestro}entidadEstatus/${entidad}/${estatus}`, {params : this.parameters });
+    return this.http.get(`${this.estatusmaestro}${entidad}/${estatus}`, {params : this.parameters });
   }
-  getEstatusMaestroOpcion() {
+
+  getEntidadEstatusById(entidadEstatusId: number): Observable<any> {
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    return this.http.get(`${this.estatusmaestro}${entidadEstatusId}`, {params : this.parameters });
+  }
+
+  getCatalogoEntidad(entidad: string): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get(`${this.catalog}getEstatusMaestroOpcion`, {params : this.parameters });
+    return this.http.get(`${this.estatusmaestro}obten/catalogo/${entidad}`, {params : this.parameters });
   }
 }
