@@ -88,11 +88,12 @@ export class SharedSidebarMenuComponent {
                         else if (item.label == "Supervision Station")           item.order = 0;
                         else if (item.label == "Energy Meters")           item.order = 1;
                     else if (item.label == "Detection and Correction by Procedure")     item.order = 1;
-                        else if (item.label == "Supervision Station")           item.order = 0;
+                        else if (item.label == "Supervision Station")     item.order = 0;
                         else if (item.label == "Energy Meters")           item.order = 1;
-                else if (item.label == "MM Out of Line")          item.order = 2;
-                else if (item.label == "Events Log")          item.order = 3;
-                else if (item.label == "PPA Catalogs")          item.order = 4;
+                else if (item.label == "Events Log")            item.order = 2;
+                else if (item.label == "MM Out of Line")        item.order = 3;
+                else if (item.label == "Billing" && item.idFather==121)         item.order = 4;
+                else if (item.label == "PPA Catalogs")          item.order = 5;
 
             else if (item.label == "Market")        item.order = 2;
                 else if (item.label == "Planning")        item.order = 0;
@@ -108,7 +109,7 @@ export class SharedSidebarMenuComponent {
                         else if (item.label == "Proyeccion MTR Participante") item.order = 0;
                         else if (item.label == "MTR Participante")            item.order = 1;
                         else if (item.label == "MTR CENACE")         item.order = 2;
-                else if (item.label == "Billing")         item.order = 2;
+                else if (item.label == "Billing" && item.idFather==122)         item.order = 2;
                 else if (item.label == "Analytic")        item.order = 3;
             else if (item.label == "Configuration") item.order = 3;
             else item.order = indice+30;

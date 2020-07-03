@@ -27,19 +27,64 @@
 		</div>
 		<div class="row">
 			<div class="col">
-				<app-mat-datetimelocal 
-					[formGroup]="formNewEvent" 
+				<app-mat-input-datepicker
+					[formGroup]="formTemp" 
 					controlName="dateTimeStart" 
-					label="Fecha y Hora inicial"
-				></app-mat-datetimelocal>
+					(eventChange)="onChangeDateTimeStart()"
+					label="Fecha Inicial"
+				></app-mat-input-datepicker>
 			</div>
 			<div class="col">
-				<app-mat-datetimelocal 
-					[formGroup]="formNewEvent"
-					controlName="dateTimeEnd" 
-					label="Fecha y Hora Final"
-				></app-mat-datetimelocal>
+				<app-mat-select 
+					[formGroup]="formTemp" 
+					controlName="ha" 
+					[options]="hours"
+					(eventChange)="onChangeDateTimeStart()"
+					[withEmptyOption]="false"
+					label="Hora Inicial"
+				></app-mat-select>
 			</div>
+			<div class="col">
+				<app-mat-select 
+					[formGroup]="formTemp" 
+					controlName="ma" 
+					[options]="minutes"
+					[withEmptyOption]="false"
+					(eventChange)="onChangeDateTimeStart()"
+					label="Minuto Inicial"
+				></app-mat-select>
+			</div>
+			
+			<div class="col">
+				<app-mat-input-datepicker
+					[formGroup]="formTemp" 
+					controlName="dateTimeEnd" 
+					(eventChange)="onChangeDateTimeEnd()"
+					label="Fecha Final"
+				></app-mat-input-datepicker>
+			</div>
+			<div class="col">
+				<app-mat-select 
+					[formGroup]="formTemp" 
+					controlName="hb" 
+					[options]="hours"
+					[withEmptyOption]="false"
+					(eventChange)="onChangeDateTimeEnd()"
+					label="Hora Final"
+				></app-mat-select>
+			</div>
+			
+			<div class="col">
+				<app-mat-select 
+					[formGroup]="formTemp" 
+					controlName="mb" 
+					[options]="minutes"
+					[withEmptyOption]="false"
+					(eventChange)="onChangeDateTimeEnd()"
+					label="Minuto Final"
+				></app-mat-select>
+			</div>
+
 			<div class="col">
 				<app-mat-select
 					[formGroup]="formNewEvent"
