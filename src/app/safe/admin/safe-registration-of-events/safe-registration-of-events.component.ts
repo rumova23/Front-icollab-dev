@@ -20,6 +20,8 @@ import {BinnacleService} from '../../services/binnacle.service';
 import {BinnacleEventConfigurationDTO} from '../../models/binnacle-event-configuration-dto';
 import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import {BinnacleEventDTO} from '../../models/binnacle-event-dto';
+import { map } from 'rxjs/operators';
+import { DatePipe } from '@angular/common';
 
 @Component({
 	selector: 'app-safe-registration-of-events',
@@ -27,12 +29,16 @@ import {BinnacleEventDTO} from '../../models/binnacle-event-dto';
 	styleUrls: ['./safe-registration-of-events.component.scss']
 })
 export class SafeRegistrationOfEventsComponent implements OnInit {
+	hours   : IdLabel[] =  new Array(24).fill(0).map((_valor,indice)=>{return {id:(indice<10?'0':'')+indice,label:(indice<10?'0':'')+indice};});
+	minutes : IdLabel[] =  new Array(60).fill(0).map((_valor,indice)=>{return {id:(indice<10?'0':'')+indice,label:(indice<10?'0':'')+indice};});
+
 	catalogType: any;
 	actionPage = '';
 	templateConfiguration: BinnacleEventConfigurationDTO;
 	formobservationsComments: FormGroup;
 	fileUploadForm: FormGroup;
 	formNewEvent: FormGroup;
+	formTemp: FormGroup;
 
 	lstEventClassification: IdLabel[] = [];
 	lstEventClassificationDTO: Array<MaestroOpcionDTO>;
@@ -96,6 +102,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		public toastr: ToastrManager,
 		public eventService: EventService,
 		private securityService: SecurityService,
+		private datePipe: DatePipe,
 		private confirmationDialogService: ConfirmationDialogService,
 		private masterCatalogService: MasterCatalogService,
 		private binnacleService: BinnacleService
@@ -122,6 +129,16 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.formobservationsComments = this.formBuilder.group({
 			observationsComments: [{ value: null, disabled: false }, [Validators.minLength(4), Validators.maxLength(2000)]]
 		});
+		this.formTemp = this.formBuilder.group(
+			{
+				dateTimeStart:[{ value: new Date(), disabled: false }, Validators.required],
+				dateTimeEnd:[{ value: new Date(), disabled: false }, Validators.required],
+				ha:[{ value: '00', disabled: false }, Validators.required],
+				ma:[{ value: '00', disabled: false }, Validators.required],
+				hb:[{ value: '00', disabled: false }, Validators.required],
+				mb:[{ value: '00', disabled: false }, Validators.required]
+			}
+		);
 		this.formNewEvent = this.formBuilder.group(
 			{
 				binnacleEventID: ['', null],
@@ -163,7 +180,16 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	getTableObservationsCommentsSelectionChecked() {
 		const seleccionados = this.tableObservationsCommentsSelection.selected;
 	}
-
+	onChangeDateTimeStart(){
+		// dateTimeStart: "2020-07-25T20:28"
+		let dateTimeStart = this.datePipe.transform(new Date(this.formTemp.get('dateTimeStart').value) , 'yyyy-MM-dd')+'T'+this.formTemp.get('ha').value+':'+this.formTemp.get('ma').value;
+		this.formNewEvent.get('dateTimeStart').setValue(dateTimeStart);
+	}
+	onChangeDateTimeEnd(){
+		// dateTimeStart: "2020-07-25T20:28"
+		let dateTimeStart = this.datePipe.transform(new Date(this.formTemp.get('dateTimeEnd').value) , 'yyyy-MM-dd')+'T'+this.formTemp.get('hb').value+':'+this.formTemp.get('mb').value;
+		this.formNewEvent.get('dateTimeEnd').setValue(dateTimeStart);
+	}
 	loadSelect(selectCombo: Array<any>, catalog: Array<MaestroOpcionDTO>) {
 		if (catalog !== null) {
 			catalog.forEach((element: MaestroOpcionDTO) => {
