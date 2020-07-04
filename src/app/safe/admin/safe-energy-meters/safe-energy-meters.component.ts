@@ -15,6 +15,7 @@ import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format
 import { MaestroOpcionDTO } from '../../../compliance/models/maestro-opcion-dto';
 import { map } from 'rxjs/operators';
 import * as Highcharts from 'highcharts';
+import { forEach } from '@angular/router/src/utils/collection';
 
 
 
@@ -245,15 +246,34 @@ export class SafeEnergyMetersComponent implements OnInit {
 				this.etapa001 = data.maestroOpcionId;
 				this.ppaMonitoringFormatService.getTags(this.etapa001).subscribe((dataInterno) => {
 					this.addBlock(2, '');
-					console.log("loadTags");
-					console.log(dataInterno);
-					console.log("./loadTags");
-					this.selectOptionsVariables = dataInterno.map(element => { return { id: element.tag, label: element.tag } });
-					/*
-					dataInterno.forEach(element => {
-						this.tagsList.push({ id: element.tag, label: element.tag });
+					let ordenado = [];
+					dataInterno.forEach(element=>{
+						if("EAT-P1AEN-001" == element.tag) ordenado[0]=element;
+						if("EAT-P1ARE-001" == element.tag) ordenado[1]=element;
+						if("EAT-P1RQ1-001" == element.tag) ordenado[2]=element;
+						if("EAT-P1RQ2-001" == element.tag) ordenado[3]=element;
+						if("EAT-P1RQ3-001" == element.tag) ordenado[4]=element;
+						if("EAT-P1RQ4-001" == element.tag) ordenado[5]=element;
+						if("EAT-R1AEN-001" == element.tag) ordenado[6]=element;
+						if("EAT-R1ARE-001" == element.tag) ordenado[7]=element;
+						if("EAT-R1RQ1-001" == element.tag) ordenado[8]=element;
+						if("EAT-R1RQ2-001" == element.tag) ordenado[9]=element;
+						if("EAT-R1RQ3-001" == element.tag) ordenado[10]=element;
+						if("EAT-R1RQ4-001" == element.tag) ordenado[11]=element;
+						if("EAT-P2AEN-001" == element.tag) ordenado[12]=element;
+						if("EAT-P2ARE-001" == element.tag) ordenado[13]=element;
+						if("EAT-P2RQ1-001" == element.tag) ordenado[14]=element;
+						if("EAT-P2RQ2-001" == element.tag) ordenado[15]=element;
+						if("EAT-P2RQ3-001" == element.tag) ordenado[16]=element;
+						if("EAT-P2RQ4-001" == element.tag) ordenado[17]=element;
+						if("EAT-R2AEN-001" == element.tag) ordenado[18]=element;
+						if("EAT-R2ARE-001" == element.tag) ordenado[19]=element;
+						if("EAT-R2RQ1-001" == element.tag) ordenado[20]=element;
+						if("EAT-R2RQ2-001" == element.tag) ordenado[21]=element;
+						if("EAT-R2RQ3-001" == element.tag) ordenado[22]=element;
+						if("EAT-R2RQ4-001" == element.tag) ordenado[23]=element;
 					});
-					//*/
+					this.selectOptionsVariables = ordenado.map(element => { return { id: element.tag, label: element.tag } });
 				});
 			});
 	}
@@ -454,7 +474,7 @@ export class SafeEnergyMetersComponent implements OnInit {
 					startOnTick: false
 
 				});
-				console.log(opt.yAxis);
+	
 				
 				fdss = this.ordenar(fdss);
 				opt.series.push(
@@ -465,7 +485,7 @@ export class SafeEnergyMetersComponent implements OnInit {
 						color: this.colors[indexYAxis]
 					}
 				);
-				console.log(fdss);
+		
 				
 				indexYAxis += 1;
 				// this.opt.xAxis.categories = lstX;
