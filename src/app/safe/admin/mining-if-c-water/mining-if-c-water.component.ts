@@ -210,7 +210,7 @@ export class MiningIFCWaterComponent implements OnInit {
 			selectVariables: new FormControl('', Validators.required),
 		});	
 		this.fileUploadForm = this.formBuilder.group({
-			file: new FormControl(null, [Validators.required, requiredFileType('xlsx')]),
+			file: new FormControl(null, [Validators.required]),
 		});
 		this.formUpdateCosto = this.formBuilder.group({
 			date: new FormControl(moment(), Validators.required),

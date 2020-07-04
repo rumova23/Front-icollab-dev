@@ -311,12 +311,21 @@
 					label="Estatus del Evento"
 				></app-mat-input-text>
 			</div>
-			<div class="col-3">
+			<div class="col-3" *ngIf="catalogType.action != 'editar'">
 				<app-mat-input-text
 					[formGroup]="formNewEvent"
 					controlName="estatusAprobacion"
 					label="Estatus de Aprobación"
 				></app-mat-input-text>
+			</div>
+			
+			<div class="col-3" *ngIf="catalogType.action == 'editar'">
+				<app-mat-select
+					[formGroup]="formNewEvent"
+					controlName="estatusAprobacion"
+					[options]="lstApprovalStatus"
+					label="Estatus de Aprobación"
+				></app-mat-select>
 			</div>
 		</div>
 	</div>
