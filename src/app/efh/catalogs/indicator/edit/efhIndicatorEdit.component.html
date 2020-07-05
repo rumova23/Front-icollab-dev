@@ -8,8 +8,8 @@
 <div class="section">
   <div class="row pb-3">
     <div class="col">
-      <p class="section_titulo_0">{{titulo}}</p>
-      <p class="section_subtitulo_0">Aqui puedes {{titulo}}.</p>
+      <p class="section_titulo_0">{{subtitulo}}</p>
+      <p class="section_subtitulo_0">Aqui puedes {{subtitulo}}.</p>
     </div>
   </div>
   <div class="row">
@@ -22,9 +22,9 @@
               <label>Nombre</label>
               <input mdbInput class="form-control" formControlName="nombreOpcion"
                      #code oninput="this.value = this.value.toUpperCase()"
-                     maxlength="50">
+                     maxlength="30">
               <small class="form-text text-muted text-right">
-                {{code.value?.length || 0}}/50
+                {{code.value?.length || 0}}/30
               </small>
               <div *ngIf="submitted && f.nombreOpcion.errors" style="color:red">
                 <div *ngIf="f.nombreOpcion.errors.required">Requerido</div>

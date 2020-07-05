@@ -22,7 +22,8 @@ export class EfhEditIndicatorComponent implements OnInit {
 
   @Input() accion: string;
   @Input() seccion: string;
-  titulo:string;
+  titulo: string;
+  subtitulo: string;
   indicatorType: IndicatorType;
   indicatorForm: FormGroup;
   dataSubmit = {};
@@ -150,17 +151,20 @@ export class EfhEditIndicatorComponent implements OnInit {
       this.selectControlsEnabled(true);
       this.deshabiliarEstatus = false;
       this.disabledSave = false;
-      this.titulo = 'Editar / Configuración de Indicadores';
+      this.titulo = 'Configuración / Indicadores / Editar Indicador / Editar';
+      this.subtitulo = 'Editar / Configuración de Indicadores';
     } else if (this.accion === 'ver') {
       this.deshabiliarEstatus = true;
       this.isAddObvsDisabled = true;
       this.indicatorForm.controls.indicatorTypeControl.disable();
-      this.titulo = 'Consultar / Configuración de Indicadores';
+      this.titulo = 'Configuración / Indicadores / Consultar Indicador / Consultar';
+      this.subtitulo = 'Consultar / Configuración de Indicadores';
     } else {
       this.checkedEstatus = true;
       this.deshabiliarEstatus = false;
       this.disabledSave = false;
-      this.titulo = 'Agregar / Configuración de Indicadores';
+      this.titulo = 'Configuración / Indicadores / Agregar Indicador / Agregar';
+      this.subtitulo = 'Agregar / Configuración de Indicadores';
     }
 
     if (this.accion === 'editar' || this.accion === 'ver') {

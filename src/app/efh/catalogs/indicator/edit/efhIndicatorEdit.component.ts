@@ -8,6 +8,8 @@ import { CatalogType                    } from 'src/app/compliance/models/Catalo
 import { EventService                   } from 'src/app/core/services/event.service';
 import { EventMessage                   } from 'src/app/core/models/EventMessage';
 import { DatePipe                       } from '@angular/common';
+import {EventBlocked} from '../../../../core/models/EventBlocked';
+import {Constants} from '../../../../core/globals/Constants';
 
 export interface Inputs {
   label: string;
@@ -28,6 +30,7 @@ export class EfhIndicatorEditComponent implements OnInit {
   @Input() accion: string;
   @Input() nombreCatalogo: string;
   titulo: string;
+  subtitulo: string;
   indicatorForm: FormGroup;
   soloLectura: boolean;
   estatus: string;
@@ -77,14 +80,17 @@ export class EfhIndicatorEditComponent implements OnInit {
     if (this.accion === 'editar') {
       this.deshabiliarEstatus = false;
       this.disabledSave = true;
-      this.titulo = 'Editar / Catálogo de Tipos de Indicador';
+      this.titulo = 'Catálogos / Tipo de Indicador / Editar';
+      this.subtitulo = 'Editar / Catálogo de Tipos de Indicador';
     } else if (this.accion === 'ver') {
       this.deshabiliarEstatus = true;
-      this.titulo = 'Consultar / Catálogo de Tipos de Indicador';
+      this.titulo = 'Catálogos / Tipo de Indicador / Consultar';
+      this.subtitulo = 'Consultar / Catálogo de Tipos de Indicador';
     } else {
       this.checkedEstatus = true;
       this.deshabiliarEstatus = false;
-      this.titulo = 'Agregar / Catálogo de Tipos de Indicador';
+      this.titulo = 'Catálogos / Tipo de Indicador / Agregar';
+      this.subtitulo = 'Agregar / Catálogo de Tipos de Indicador';
     }
 
     if (this.accion === 'editar' || this.accion === 'ver') {
@@ -128,7 +134,7 @@ export class EfhIndicatorEditComponent implements OnInit {
           }
 
           if (this.registroExistente && this.accion === 'nuevo') {
-            this.toastr.errorToastr('El nombre ya existe, favor de modificar.', 'Lo siento,');
+            this.toastr.errorToastr('El nombre ya existe, favor de modificar', 'Lo siento,');
             this.registroExistente = false;
             return;
           }
@@ -155,10 +161,10 @@ export class EfhIndicatorEditComponent implements OnInit {
             this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit, this.globalService.aguila).subscribe(
                 dataBack => {
                   if (this.accion === 'nuevo') {
-                    this.toastr.successToastr('El tipo de evento fue creado con éxito.', '¡Se ha logrado!');
+                    this.toastr.successToastr('El tipo de indicador fue creado con éxito', '¡Se ha logrado!');
                   }
                   if (this.accion === 'editar') {
-                    this.toastr.successToastr('El tipo de evento fue actualizado con éxito.', '¡Se ha logrado!');
+                    this.toastr.successToastr('El tipo de indicador fue actualizado con éxito', '¡Se ha logrado!');
                   }
 
                   if (this.accion === 'nuevo') {
@@ -172,9 +178,19 @@ export class EfhIndicatorEditComponent implements OnInit {
                     this.indicatorForm.controls['opcionDescripcion'].disable();
                     this.disabledSave = true;
                   }
+                },
+                error1 => {
+                  this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+                  this.addBlock(2, null);
+                }).add(() => {
+                  this.addBlock(2, null);
                 });
           }
 
+        },
+        error => {
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+          this.addBlock(2, null);
         }
     );
   }
@@ -193,9 +209,11 @@ export class EfhIndicatorEditComponent implements OnInit {
   }
 
   onSubmit() {
+    this.addBlock(1, 'Cargando...');
     this.submitted = true;
     if (this.indicatorForm.invalid) {
-      this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Lo siento,');
+      this.addBlock(2, null);
+      this.toastr.errorToastr('Todos los campos son obligatorios verifique', 'Lo siento,');
       return;
     }
     this.obtenerDatosTiposEvento(false);
@@ -216,6 +234,10 @@ export class EfhIndicatorEditComponent implements OnInit {
     if (this.accion === 'editar') {
       this.disabledSave = false;
     }
+  }
+
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 
   regresar() {
