@@ -452,6 +452,17 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.formNewEvent.controls.eventsId.disable();
 				this.formNewEvent.controls.estatusAprobacionId.enable();
 			}
+			if (this.catalogType.action === 'ver') {
+				this.onBuildTemplate(this.catalogType.element.eventsId);
+				this.formNewEvent.patchValue(this.catalogType.element);
+				this.formNewEvent.controls.dateTimeStart.patchValue(moment(this.catalogType.element.dateTimeStart).format('YYYY-MM-DDTHH:mm:ss'));
+				this.formNewEvent.controls.dateTimeEnd.patchValue(moment(this.catalogType.element.dateTimeEnd).format('YYYY-MM-DDTHH:mm:ss'));
+				this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.element.eventsClassificationId));
+				setTimeout(() => this.formNewEvent.disable(), 2000);
+				setTimeout(() => this.fileUploadForm.disable(), 2000);
+				setTimeout(() => this.formobservationsComments.disable(), 2000);
+				setTimeout(() => this.formTemp.disable(), 2000);
+			}
 			this.loadCatalogStatus('TX_BINNACLE_EVENT');
 		});
 	}
