@@ -57,6 +57,7 @@ import { BtnBlockConsultComponent } from './btn/btn-block/btn-block-consult.comp
 import { BtnBlockCleanComponent } from './btn/btn-block/btn-block-clean.component';
 import { MatRadioButtonComponent } from './inputs/mat-radio-button/mat-radio-button.component';
 import { MatTableBillingComponent } from './tables/mat-table-billing/mat-table-billing.component';
+import { ChartLineComponent } from './graphics/chart-line/chart-line.component';
 
 @NgModule({
 	declarations: [
@@ -101,6 +102,7 @@ import { MatTableBillingComponent } from './tables/mat-table-billing/mat-table-b
 		, BtnBlockCleanComponent
 		, MatRadioButtonComponent
 		, MatTableBillingComponent
+		, ChartLineComponent
 	],
 	exports: [
 		 ProgressComponent
@@ -144,6 +146,7 @@ import { MatTableBillingComponent } from './tables/mat-table-billing/mat-table-b
 		, BtnBlockCleanComponent
 		, MatRadioButtonComponent
 		, MatTableBillingComponent
+		, ChartLineComponent
 
 	],
 	imports: [

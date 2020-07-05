@@ -310,7 +310,7 @@
 						label="Estatus del Evento"
 				></app-mat-input-text>
 			</div>
-			<div class="col-3" *ngIf="actionPage != 'Edit'">
+			<div class="col-3" *ngIf="actionPage == 'Edit'">
 				<app-mat-input-text
 						[formGroup]="formNewEvent"
 						controlName="estatusAprobacion"
@@ -318,7 +318,6 @@
 				></app-mat-input-text>
 			</div>
 			<div class="col-3" *ngIf="actionPage == 'Edit'">
-				<!--[options]="lstApprovalStatus"-->
 				<app-mat-select
 						[formGroup]="formNewEvent"
 						controlName="estatusAprobacionId"
