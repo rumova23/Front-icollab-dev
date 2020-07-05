@@ -25,6 +25,7 @@ export class EfhAddIndicatorComponent implements OnInit {
 
   @Input() nombreCatalogo: string;
   title: String;
+  subtitle: String;
   menu: any[];
   catalogType: CatalogType;
   showAdd = true;
@@ -60,7 +61,8 @@ export class EfhAddIndicatorComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
-    this.title = 'Configuración de Indicadores / Indicadores configurados';
+    this.title = 'Configuración / Indicadores / ' + this.nombreCatalogo;
+    this.subtitle = 'Configuración de Indicadores / Indicadores configurados';
     this.getCatalogs();
     for (const option of this.menu) {
       if (option.children) {

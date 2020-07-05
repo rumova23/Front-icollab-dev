@@ -8,6 +8,8 @@ import { CatalogType                    } from 'src/app/compliance/models/Catalo
 import { EventService                   } from 'src/app/core/services/event.service';
 import { EventMessage                   } from 'src/app/core/models/EventMessage';
 import { DatePipe                       } from '@angular/common';
+import {EventBlocked} from '../../../../core/models/EventBlocked';
+import {Constants} from '../../../../core/globals/Constants';
 
 export interface Inputs {
   label: string;
@@ -29,6 +31,7 @@ export class EfhFuelTypeEditComponent implements OnInit {
   @Input() accion: string;
   @Input() nombreCatalogo: string;
   titulo: string;
+  subtitulo: string;
   fuelTypeForm: FormGroup;
   soloLectura: boolean;
   estatus: string;
@@ -78,14 +81,17 @@ export class EfhFuelTypeEditComponent implements OnInit {
     if (this.accion === 'editar') {
       this.deshabiliarEstatus = false;
       this.disabledSave = true;
-      this.titulo = 'Editar / Catálogo de Tipos de Combustible';
+      this.titulo = 'Catálogos / Tipo de Combustible / Editar';
+      this.subtitulo = 'Editar / Catálogo de Tipos de Combustible';
     } else if (this.accion === 'ver') {
       this.deshabiliarEstatus = true;
-      this.titulo = 'Consultar / Catálogo de Tipos de Combustible';
+      this.titulo = 'Catálogos / Tipo de Combustible / Consultar';
+      this.subtitulo = 'Consultar / Catálogo de Tipos de Combustible';
     } else {
       this.checkedEstatus = true;
       this.deshabiliarEstatus = false;
-      this.titulo = 'Agregar / Catálogo de Tipos de Combustible';
+      this.titulo = 'Catálogos / Tipo de Combustible / Agregar';
+      this.subtitulo = 'Agregar / Catálogo de Tipos de Combustible';
     }
 
     if (this.accion === 'editar' || this.accion === 'ver') {
@@ -129,7 +135,7 @@ export class EfhFuelTypeEditComponent implements OnInit {
           }
 
           if (this.registroExistente && this.accion === 'nuevo') {
-            this.toastr.errorToastr('El nombre ya existe, favor de modificar.', 'Lo siento,');
+            this.toastr.errorToastr('El nombre ya existe, favor de modificar', 'Lo siento,');
             this.registroExistente = false;
             return;
           }
@@ -173,8 +179,18 @@ export class EfhFuelTypeEditComponent implements OnInit {
                     this.fuelTypeForm.controls['opcionDescripcion'].disable();
                     this.disabledSave = true;
                   }
+                },
+                error1 => {
+                  this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+                  this.addBlock(2, null);
+                }).add(() => {
+                  this.addBlock(2, null);
                 });
           }
+        },
+        error => {
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
+          this.addBlock(2, null);
         }
     );
   }
@@ -193,9 +209,11 @@ export class EfhFuelTypeEditComponent implements OnInit {
   }
 
   onSubmit() {
+    this.addBlock(1, 'Cargando...');
     this.submitted = true;
     if (this.fuelTypeForm.invalid) {
-      this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Lo siento,');
+      this.addBlock(2, null);
+      this.toastr.errorToastr('Todos los campos son obligatorios verifique', 'Lo siento,');
       return;
     }
     this.obtenerDatosTiposEvento(false);
@@ -216,6 +234,10 @@ export class EfhFuelTypeEditComponent implements OnInit {
     if (this.accion === 'editar') {
       this.disabledSave = false;
     }
+  }
+
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 
   regresar() {
