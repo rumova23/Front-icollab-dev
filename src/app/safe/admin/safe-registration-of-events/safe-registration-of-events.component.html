@@ -304,19 +304,27 @@
 		</div>
 		<div class="row">
 			<div class="col-3">
-				<!--[options]="lstEventStatus"-->
 				<app-mat-input-text
-					[formGroup]="formNewEvent"
-					controlName="estatusEvento"
-					label="Estatus del Evento"
+						[formGroup]="formNewEvent"
+						controlName="estatusEvento"
+						label="Estatus del Evento"
 				></app-mat-input-text>
 			</div>
-			<div class="col-3">
+			<div class="col-3" *ngIf="actionPage != 'Edit'">
 				<app-mat-input-text
-					[formGroup]="formNewEvent"
-					controlName="estatusAprobacion"
-					label="Estatus de Aprobación"
+						[formGroup]="formNewEvent"
+						controlName="estatusAprobacion"
+						label="Estatus de Aprobación"
 				></app-mat-input-text>
+			</div>
+			<div class="col-3" *ngIf="actionPage == 'Edit'">
+				<!--[options]="lstApprovalStatus"-->
+				<app-mat-select
+						[formGroup]="formNewEvent"
+						controlName="estatusAprobacionId"
+						[options]="lstApprovalStatus"
+						label="Estatus de Aprobación"
+				></app-mat-select>
 			</div>
 		</div>
 	</div>

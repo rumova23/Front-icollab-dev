@@ -176,6 +176,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				cenaceOperatorClosed: [{ value: null, disabled: true }, Validators.required],
 				sourceEventId: [{ value: null, disabled: true }, Validators.required],
 				estatusEvento: [{ value: null, disabled: true }, Validators.required],
+				estatusAprobacionId: [{ value: null, disabled: true }, Validators.required],
 				estatusAprobacion: [{ value: null, disabled: true }, Validators.required],
 				eventActivated: [{ value: true, disabled: true }]
 			}
@@ -188,14 +189,14 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	getTableObservationsCommentsSelectionChecked() {
 		const seleccionados = this.tableObservationsCommentsSelection.selected;
 	}
-	onChangeDateTimeStart(){
+	onChangeDateTimeStart() {
 		// dateTimeStart: "2020-07-25T20:28"
-		let dateTimeStart = this.datePipe.transform(new Date(this.formTemp.get('dateTimeStart').value) , 'yyyy-MM-dd')+'T'+this.formTemp.get('ha').value+':'+this.formTemp.get('ma').value;
+		const dateTimeStart = this.datePipe.transform(new Date(this.formTemp.get('dateTimeStart').value) , 'yyyy-MM-dd') + 'T' + this.formTemp.get('ha').value + ':' + this.formTemp.get('ma').value;
 		this.formNewEvent.get('dateTimeStart').setValue(dateTimeStart);
 	}
-	onChangeDateTimeEnd(){
+	onChangeDateTimeEnd() {
 		// dateTimeStart: "2020-07-25T20:28"
-		let dateTimeStart = this.datePipe.transform(new Date(this.formTemp.get('dateTimeEnd').value) , 'yyyy-MM-dd')+'T'+this.formTemp.get('hb').value+':'+this.formTemp.get('mb').value;
+		const dateTimeStart = this.datePipe.transform(new Date(this.formTemp.get('dateTimeEnd').value) , 'yyyy-MM-dd') + 'T' + this.formTemp.get('hb').value + ':' + this.formTemp.get('mb').value;
 		this.formNewEvent.get('dateTimeEnd').setValue(dateTimeStart);
 	}
 	loadSelect(selectCombo: Array<any>, catalog: Array<MaestroOpcionDTO>) {
@@ -410,9 +411,11 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			});
 	}
 
-	loadCatalogStatus(entidadEstatusId: number) {
-		this.estatusMaestroService.getEntidadEstatusById(entidadEstatusId).subscribe((data: EntidadEstatusDTO)  => {
-			return data.estatus.nombre;
+	loadCatalogStatus(entidad: string) {
+		this.estatusMaestroService.getCatalogoEntidad(entidad).subscribe((data: Array<EntidadEstatusDTO>)  => {
+			data.forEach((element: EntidadEstatusDTO) => {
+				this.lstApprovalStatus.push({id: element.entidadEstatusId, label: element.estatus.nombre});
+			});
 		}, errorData => {
 				return '';
 			});
@@ -447,16 +450,18 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.element.eventsClassificationId));
 				this.formNewEvent.controls.eventsClassificationId.disable();
 				this.formNewEvent.controls.eventsId.disable();
+				this.formNewEvent.controls.estatusAprobacionId.enable();
 			}
+			this.loadCatalogStatus('TX_BINNACLE_EVENT');
 		});
 	}
 	onSubmitFormNewEvent() {
-		this.formNewEvent.controls.eventsClassificationId.enable();
-		this.formNewEvent.controls.eventsId.enable();
+		this.formNewEvent.enable();
 		this.addBlock(1, '');
 		this.binnacleService.saveBinnacle(this.formNewEvent.value).subscribe(
 			data => {
 				this.toastr.successToastr('Guardado Completo', 'Exito!.');
+				this.formNewEvent.disable();
 				this.addBlock(2, '');
 			},
 			errorData => {
