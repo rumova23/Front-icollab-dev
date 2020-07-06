@@ -29,7 +29,7 @@
   <div class="row mt-4 mb-4">
     <div class="col">
       <div class="mat-elevation-z0">
-        <table matSort mat-table [dataSource]="dataSource" class="table_catalogo">
+        <table matSort mat-table [dataSource]="dataSource" class="table_catalogo" matSortDisableClear>
           <ng-container [matColumnDef]="column.key" *ngFor="let column of displayedColumnsOrder">
             <th mat-header-cell *matHeaderCellDef mat-sort-header > {{column.label}} </th>
             <td [ngStyle]="{ 'background-color': element['spliced'] ? 'yellow' : '' }" mat-cell *matCellDef="let element">{{element[column.key]}}</td>
