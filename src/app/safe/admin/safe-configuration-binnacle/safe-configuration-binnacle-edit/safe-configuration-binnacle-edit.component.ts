@@ -65,83 +65,147 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 		});
 		this.formNewEvent = this.formBuilder.group({
 			binnacleEventID: ['', null],
+
 			disabledEventsClassificationId: [false],
 			eventsClassificationId: [{ value: null, disabled: false }],
+
 			disabledEventsId: [false],
 			eventsId: [{ value: null, disabled: false }],
+
 			fuelsId: [null],
 			disabledFuelsId: [false],
+			requiredFuelsId: [false],
+
 			powerMw: [{ value: null, disabled: false }],
 			disabledPowerMw: [false],
+			requiredPowerMw: [false],
+
 			powerMwLimitLower: [{ value: null, disabled: false }],
 			disabledPowerMwLimitLower: [false],
+			requiredPowerMwLimitLower: [false],
+
 			powerMwLimitUpper: [{ value: null, disabled: false }],
 			disabledPowerMwLimitUpper: [false],
+			requiredPowerMwLimitUpper: [false],
+
 			unitsId: [null],
 			disabledUnitsId: [false],
+			requiredUnitsId: [false],
+
 			impactContractsId: [null],
 			disabledImpactContractsId: [false],
+			requiredImpactContractsId: [false],
+
 			realsCcdvId: [null],
 			disabledRealsCcdvId: [false],
+			requiredRealsCcdvId: [false],
+
 			toleranceBandsId: [null],
 			disabledToleranceBandsId: [false],
+			requiredToleranceBandsId: [false],
+
 			marketTypesId: [null],
 			disabledMarketTypesId: [false],
+			requiredMarketTypesId: [false],
+
 			mwOffered: [{ value: null, disabled: false }],
+			disabledMwOffered: [false],
+			requiredMwOffered: [false],
+
 			mwOfferedLimitLower: [{ value: null, disabled: false }],
 			disabledMwOfferedLimitLower: [false],
+			requiredMwOfferedLimitLower: [false],
+
 			mwOfferedLimitUpper: [{ value: null, disabled: false }],
 			disabledMwOfferedLimitUpper: [false],
-			disabledMwOffered: [false],
+			requiredMwOfferedLimitUpper: [false],
+
+
+
 			relatedServicesId: [null],
 			disabledRelatedServicesId: [false],
-			disabledlicenseNumber: [false],
+			requiredRelatedServicesId: [false],
+
 			licenseNumber: [{ value: null, disabled: false }],
-			disabledKLicenseNumber: [false],
+			disabledLicenseNumber: [false],
+			requiredLicenseNumber: [false],
+
 			equipmentId: [null],
 			disabledEquipmentId: [false],
+			requiredEquipmentId: [false],
+
 			initialCharge: [{ value: null, disabled: false }],
 			disabledInitialCharge: [false],
+			requiredInitialCharge: [false],
 
 			initialChargeLimitLower: [{ value: null, disabled: false }],
 			disabledInitialChargeLimitLower: [false],
+			requiredInitialChargeLimitLower: [false],
+
 			initialChargeLimitUpper: [{ value: null, disabled: false }],
 			disabledInitialChargeLimitUpper: [false],
+			requiredInitialChargeLimitUpper: [false],
 
 			finalCharge: [{ value: null, disabled: false }],
 			disabledFinalCharge: [false],
+			requiredFinalCharge: [false],
 
 			finalChargeLimitLower: [{ value: null, disabled: false }],
 			disabledFinalChargeLimitLower: [false],
+			requiredFinalChargeLimitLower: [false],
+
 			finalChargeLimitUpper: [{ value: null, disabled: false }],
 			disabledFinalChargeLimitUpper: [false],
+			requiredFinalChargeLimitUpper: [false],
 
 			mwPowerLoss: [{ value: null, disabled: false }],
 			disabledMwPowerLoss: [false],
+			requiredMwPowerLoss: [false],
 
 			mwPowerLossLI: [{ value: null, disabled: false }],
 			disabledMwPowerLossLI: [false],
+			requiredMwPowerLossLI: [false],
+
 			mwPowerLossLS: [{ value: null, disabled: false }],
 			disabledMwPowerLossLS: [false],
+			requiredMwPowerLossLS: [false],
 
 			workOrderId: [{ value: null, disabled: false }],
 			disabledWorkOrderId: [false],
+			requiredWorkOrderId: [false],
+
 			licenseDescription: [{ value: null, disabled: false }],
 			disabledLicenseDescription: [false],
+			requiredLicenseDescription: [false],
+
 			operatorPlantOpen: [{ value: null, disabled: false }],
 			disabledOperatorPlantOpen: [false],
+			requiredOperatorPlantOpen: [false],
+
 			operatorCenaceOpen: [{ value: null, disabled: false }],
 			disabledOperatorCenaceOpen: [false],
+			requiredOperatorCenaceOpen: [false],
+
 			operatorPlantClose: [{ value: null, disabled: false }],
 			disabledOperatorPlantClose: [false],
+			requiredOperatorPlantClose: [false],
+
 			operatorCenaceClose: [{ value: null, disabled: false }],
 			disabledOperatorCenaceClose: [false],
+			requiredOperatorCenaceClose: [false],
+
 			sourceEventId: [{ value: null, disabled: false }],
 			disabledSourceEventId: [false],
+			requiredSourceEventId: [false],
+
 			eventStatus: [{ value: null, disabled: false }],
 			disabledEventStatus: [false],
+			requiredEventStatus: [false],
+
 			approvalStatus: [{ value: null, disabled: false }],
 			disabledApprovalStatus: [false],
+			requiredApprovalStatus: [false],
+
 			disabledFile: [false],
 			disabledObsComment: [false],
 		});
@@ -184,16 +248,16 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			this.loadSelect(this.lstEventClassification, data['CLASIFICA EVENTO']);
 			this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
 			this.loadSelect(this.lstEventClassification00, data['CLASIFICA EVENTO']);
-			this.loadSelect(this.lstEvents00, data['EVENTO']);
-			this.lstEventsDTO = data['EVENTO'];
-			this.loadSelect(this.lstFuels, data['COMBUSTIBLE']);
-			this.loadSelect(this.lstUnits, data['UNIDAD']);
+			this.loadSelect(this.lstEvents00, data.EVENTO);
+			this.lstEventsDTO = data.EVENTO;
+			this.loadSelect(this.lstFuels, data.COMBUSTIBLE);
+			this.loadSelect(this.lstUnits, data.UNIDAD);
 			this.loadSelect(this.lstImpactContracts, data['CONTRATO IMPACTADO']);
 			this.loadSelect(this.lstRealsCcdv, data['REAL-CCDV']);
 			this.loadSelect(this.lstToleranceBands, data['BANDA TOLERANCIA']);
 			this.loadSelect(this.lstMarketTypes, data['TIPO MERCADO MEM']);
 			this.loadSelect(this.lstSelatedServices, data['SERVICIOS CONEXOS MEM']);
-			this.loadSelect(this.lstEquipment, data['EQUIPO']);
+			this.loadSelect(this.lstEquipment, data.EQUIPO);
 			this.loadSelect(this.lstSourceEvent, data['FUENTE EVENTO']);
 		}, errorData => {
 			this.toastr.errorToastr(errorData.error.message, 'Error!');
@@ -222,8 +286,8 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 				}, () => {
 					const names = ['EVENTO'];
 					this.masterCatalogService.listCatalog(names).subscribe(data => {
-						this.loadSelect(this.lstEvents00, data['EVENTO']);
-						this.lstEventsDTO = data['EVENTO'];
+						this.loadSelect(this.lstEvents00, data.EVENTO);
+						this.lstEventsDTO = data.EVENTO;
 					}, errorData => {
 						this.toastr.errorToastr(errorData.error.message, 'Error!');
 					});
