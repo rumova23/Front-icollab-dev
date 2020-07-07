@@ -157,6 +157,7 @@ export class DataqDcprocessEnergymetersComponent implements OnInit {
 	}
 
 	download() {
+		console.log('intentndo reporte perfiles');
 		const mydate = this.formQuery.get('date').value;
 		const month = mydate.month() + 1;
 		const year = mydate.year();
