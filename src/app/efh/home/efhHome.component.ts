@@ -157,7 +157,7 @@ export class EfhHomeComponent implements OnInit {
           case 'Efh.addIndicadorComponent':
             const refAddIndicator = this.viewContainerRef
                 .createComponent(this.componentFactoryResolver.resolveComponentFactory(EfhAddIndicatorComponent));
-            refAddIndicator.instance.nombreCatalogo = 'Agregar Indicador';
+            refAddIndicator.instance.nombreCatalogo = 'Agregar indicador';
             refAddIndicator.changeDetectorRef.detectChanges();
             break;
           case 'Efh.addIndicadorComponent.ABC':

@@ -137,6 +137,7 @@ export class EfhUnitEditComponent implements OnInit {
           if (this.registroExistente && this.accion === 'nuevo') {
             this.toastr.errorToastr('El nombre ya existe, favor de modificar', 'Lo siento,');
             this.registroExistente = false;
+            this.addBlock(2, null);
             return;
           }
 

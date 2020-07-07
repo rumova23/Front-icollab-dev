@@ -12,6 +12,7 @@ import { EfhService} from '../../../../../core/services/efh.service';
 import {ConfirmationDialogService} from '../../../../../core/services/confirmation-dialog.service';
 import {Comment} from '../../../../models/Comment';
 import {MatSnackBar} from '@angular/material';
+import {EventBlocked} from '../../../../../core/models/EventBlocked';
 
 @Component({
   selector: 'app-efh-edit-event',
@@ -462,12 +463,16 @@ export class EfhEditEventComponent implements OnInit {
                                   },
                                   errorData => {
                                       this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
+                                      this.addBlock(2, null);
                                   }
-                              );
+                              ).add(() => {
+                              this.addBlock(2, null);
+                              });
                       }
                   },
                   errorData => {
                       this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
+                      this.addBlock(2, null);
                   }
               );
       } else {
@@ -589,8 +594,11 @@ export class EfhEditEventComponent implements OnInit {
                   },
                   errorData => {
                       this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
+                      this.addBlock(2, null);
                   }
-              );
+              ).add(() => {
+                this.addBlock(2, null);
+              });
       }
   }
 
@@ -715,6 +723,10 @@ export class EfhEditEventComponent implements OnInit {
     this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.Agregar eventos'));
   }
 
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
+
   onSubmit() {
       this.submittedData = true;
       if ((this.isShotSectionVisible && this.eventForm.controls['chargeShot'].invalid)
@@ -751,6 +763,7 @@ export class EfhEditEventComponent implements OnInit {
           || (this.selectedUnit === undefined || this.selectedUnit === null)
           || (this.isNormalOperationSectionVisible && (this.selectedFuelType === undefined || this.selectedFuelType === null)) ) {
           this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Lo siento,');
+          this.addBlock(2, null);
           return;
       }
 
@@ -759,6 +772,7 @@ export class EfhEditEventComponent implements OnInit {
               this.datePipe.transform(new Date(this.eventForm.controls['endDateRunback'].value + ' ' + this.eventForm.controls['endTimeRunback'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
           this.toastr.errorToastr('Fecha inicio debe ser menor a Fecha fin, verifique', 'Lo siento,');
           this.runbackDatesValidation = true;
+          this.addBlock(2, null);
           return;
       }
 
@@ -767,6 +781,7 @@ export class EfhEditEventComponent implements OnInit {
               this.datePipe.transform(new Date(this.eventForm.controls['fsnlDateStop'].value + ' ' + this.eventForm.controls['fsnlTimeStop'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
           this.toastr.errorToastr('Fecha de Paro debe ser menor a FSNL, verifique', 'Lo siento,');
           this.stopDatesValidation = true;
+          this.addBlock(2, null);
           return;
       }
 
@@ -775,6 +790,7 @@ export class EfhEditEventComponent implements OnInit {
               this.datePipe.transform(new Date(this.eventForm.controls['endDateDiesel'].value + ' ' + this.eventForm.controls['endTimeDiesel'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
           this.toastr.errorToastr('Fecha inicio debe ser menor a Fecha fin, verifique', 'Lo siento,');
           this.dieselDatesValidation = true;
+          this.addBlock(2, null);
           return;
       }
 
@@ -783,6 +799,7 @@ export class EfhEditEventComponent implements OnInit {
               this.datePipe.transform(new Date(this.eventForm.controls['endDateNormal'].value + ' ' + this.eventForm.controls['endTimeNormal'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
           this.toastr.errorToastr('Fecha inicio de Operación debe ser menor a Fecha fin, verifique', 'Lo siento,');
           this.normalDatesValidation = true;
+          this.addBlock(2, null);
           return;
       }
 
@@ -791,6 +808,7 @@ export class EfhEditEventComponent implements OnInit {
               this.datePipe.transform(new Date(this.eventForm.controls['fsnlDateStart'].value + ' ' + this.eventForm.controls['fsnlTimeStart'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
           this.toastr.errorToastr('Fecha de Arranque debe ser menor a FSNL, verifique', 'Lo siento,');
           this.startDatesValidation = true;
+          this.addBlock(2, null);
           return;
       }
 
