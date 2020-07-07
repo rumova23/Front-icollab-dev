@@ -31,8 +31,8 @@ import { DatePipe } from '@angular/common';
 	styleUrls: ['./safe-registration-of-events.component.scss']
 })
 export class SafeRegistrationOfEventsComponent implements OnInit {
-	hours   : IdLabel[] =  new Array(24).fill(0).map((_valor,indice)=>{return {id:(indice<10?'0':'')+indice,label:(indice<10?'0':'')+indice};});
-	minutes : IdLabel[] =  new Array(60).fill(0).map((_valor,indice)=>{return {id:(indice<10?'0':'')+indice,label:(indice<10?'0':'')+indice};});
+	hours: IdLabel[] =  new Array(24).fill(0).map((_valor, indice) => ({id: (indice < 10 ? '0' : '') + indice, label: (indice < 10 ? '0' : '') + indice}));
+	minutes: IdLabel[] =  new Array(60).fill(0).map((_valor, indice) => ({id: (indice < 10 ? '0' : '') + indice, label: (indice < 10 ? '0' : '') + indice}));
 
 	catalogType: any;
 	actionPage = '';
@@ -41,6 +41,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	fileUploadForm: FormGroup;
 	formNewEvent: FormGroup;
 	formTemp: FormGroup;
+
+	lstRequired: Array<string>;
 
 	lstEventClassification: IdLabel[] = [];
 	lstEventClassificationDTO: Array<MaestroOpcionDTO>;
@@ -79,6 +81,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	lstApprovalStatusAll: IdLabel[] = [];
 	eventStatus: string;
 	approvalStatus: string;
+	formValid: boolean;
 
 	tempOrder = 3;
 	tableObservationsComments = [
@@ -118,6 +121,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 
 
 	ngOnInit() {
+		this.lstRequired = [];
 		console.log('catalogType:: ', this.catalogType);
 		switch (this.catalogType.action) {
 			case 'nuevo':
@@ -139,42 +143,42 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		});
 		this.formTemp = this.formBuilder.group(
 			{
-				dateTimeStart:[{ value: new Date(), disabled: false }, Validators.required],
-				dateTimeEnd:[{ value: new Date(), disabled: false }, Validators.required],
-				ha:[{ value: '00', disabled: false }, Validators.required],
-				ma:[{ value: '00', disabled: false }, Validators.required],
-				hb:[{ value: '00', disabled: false }, Validators.required],
-				mb:[{ value: '00', disabled: false }, Validators.required]
+				dateTimeStart: [{ value: new Date(), disabled: false }, Validators.required],
+				dateTimeEnd: [{ value: new Date(), disabled: false }, Validators.required],
+				ha: [{ value: '00', disabled: false }, Validators.required],
+				ma: [{ value: '00', disabled: false }, Validators.required],
+				hb: [{ value: '00', disabled: false }, Validators.required],
+				mb: [{ value: '00', disabled: false }, Validators.required]
 			}
 		);
 		this.formNewEvent = this.formBuilder.group(
 			{
 				binnacleEventID: ['', null],
-				dateTimeStart : [{ value: null, disabled: false }, Validators.required],
+				dateTimeStart : [{ value: null, disabled: false }],
 				dateTimeEnd   : [{ value: null, disabled: false }, Validators.required],
 				eventsClassificationId   : [{ value: null, disabled: false }, Validators.required],
 				eventsId: [{ value: null, disabled: false }, Validators.required],
-				fuelsId : [{ value: null, disabled: true }, Validators.required],
-				powerMw: [{ value: null, disabled: true }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
-				unitsId: [{ value: null, disabled: true }, Validators.required],
-				impactContractsId: [{ value: null, disabled: true }, Validators.required],
-				realsCcdvId: [{ value: null, disabled: true }, Validators.required],
-				toleranceBandsId: [{ value: null, disabled: true }, Validators.required],
-				marketTypesId: [{ value: null, disabled: true }, Validators.required],
-				mwOffered: [{ value: null, disabled: true }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
-				relatedServicesId: [{ value: null, disabled: true }, Validators.required],
-				licenseNumber: [{ value: null, disabled: true }, [Validators.required]],
-				equipmentId: [{ value: null, disabled: true }, Validators.required],
-				initialCharge: [{ value: null, disabled: true }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
-				finalCharge: [{ value: null, disabled: true }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
-				mwPowerLoss: [{ value: null, disabled: true }, [Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]],
-				workOrderId: [{ value: null, disabled: true }, [Validators.required, Validators.minLength(4), Validators.maxLength(500)]],
-				conceptoLicencia: [{ value: null, disabled: true }, [Validators.required, Validators.minLength(4), Validators.maxLength(2000)]],
-				plantOperatorOpened: [{ value: null, disabled: true }, Validators.required],
-				cenaceOperatorOpened: [{ value: null, disabled: true }, Validators.required],
-				plantOperatorClosed: [{ value: null, disabled: true }, Validators.required],
-				cenaceOperatorClosed: [{ value: null, disabled: true }, Validators.required],
-				sourceEventId: [{ value: null, disabled: true }, Validators.required],
+				fuelsId : [{ value: null, disabled: true }],
+				powerMw: [{ value: null, disabled: true }],
+				unitsId: [{ value: null, disabled: true }],
+				impactContractsId: [{ value: null, disabled: true }],
+				realsCcdvId: [{ value: null, disabled: true }],
+				toleranceBandsId: [{ value: null, disabled: true }],
+				marketTypesId: [{ value: null, disabled: true }],
+				mwOffered: [{ value: null, disabled: true }],
+				relatedServicesId: [{ value: null, disabled: true }],
+				licenseNumber: [{ value: null, disabled: true }],
+				equipmentId: [{ value: null, disabled: true }],
+				initialCharge: [{ value: null, disabled: true }],
+				finalCharge: [{ value: null, disabled: true }],
+				mwPowerLoss: [{ value: null, disabled: true }],
+				workOrderId: [{ value: null, disabled: true }],
+				conceptoLicencia: [{ value: null, disabled: true }],
+				plantOperatorOpened: [{ value: null, disabled: true }],
+				cenaceOperatorOpened: [{ value: null, disabled: true }],
+				plantOperatorClosed: [{ value: null, disabled: true }],
+				cenaceOperatorClosed: [{ value: null, disabled: true }],
+				sourceEventId: [{ value: null, disabled: true }],
 				estatusEvento: [{ value: null, disabled: true }, Validators.required],
 				estatusAprobacionId: [{ value: null, disabled: true }, Validators.required],
 				estatusAprobacion: [{ value: null, disabled: true }, Validators.required],
@@ -235,14 +239,27 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.fuelsId.disable();
 					} else {
 						this.formNewEvent.controls.fuelsId.enable();
+						if (this.templateConfiguration.requiredFuelsId) {
+							this.lstRequired.push('fuelsId');
+							this.formNewEvent.controls.fuelsId.setValidators(Validators.required);
+						}
 					}
+					this.lstRequired.push('fuelsId');
+					this.formNewEvent.controls.fuelsId.setValidators(Validators.required);
 					this.lstFuels = this.loadSelectTemplate(this.lstFuelsAll, this.templateConfiguration.fuelsId);
 
 					if (this.templateConfiguration.disabledConceptoLicencia) {
 						this.formNewEvent.controls.conceptoLicencia.disable();
 					} else {
 						this.formNewEvent.controls.conceptoLicencia.enable();
+						if (this.templateConfiguration.requiredConceptoLicencia) {
+							this.lstRequired.push('conceptoLicencia');
+							this.formNewEvent.controls.conceptoLicencia.setValidators([Validators.required, Validators.minLength(4), Validators.maxLength(2000)]);
+						}
+
 					}
+					this.lstRequired.push('conceptoLicencia');
+					this.formNewEvent.controls.conceptoLicencia.setValidators([Validators.required, Validators.minLength(4), Validators.maxLength(2000)]);
 					if (this.templateConfiguration.conceptoLicencia !==  null) {
 						this.formNewEvent.controls.conceptoLicencia.setValue(this.templateConfiguration.conceptoLicencia);
 					}
@@ -251,6 +268,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.equipmentId.disable();
 					} else {
 						this.formNewEvent.controls.equipmentId.enable();
+						if (this.templateConfiguration.requiredEquipmentId) {
+							this.lstRequired.push('equipmentId');
+							this.formNewEvent.controls.equipmentId.setValidators(Validators.required);
+						}
 					}
 					this.lstEquipment = this.loadSelectTemplate(this.lstEquipmentAll, this.templateConfiguration.equipmentId);
 
@@ -258,6 +279,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.finalCharge.disable();
 					} else {
 						this.formNewEvent.controls.finalCharge.enable();
+						if (this.templateConfiguration.requiredFinalCharge) {
+							this.lstRequired.push('finalCharge');
+							this.formNewEvent.controls.finalCharge.setValidators([Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]);
+						}
 					}
 					if (this.templateConfiguration.finalCharge !==  null) {
 						this.formNewEvent.controls.finalCharge.value(this.templateConfiguration.finalCharge);
@@ -267,6 +292,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.initialCharge.disable();
 					} else {
 						this.formNewEvent.controls.initialCharge.enable();
+						if (this.templateConfiguration.requiredInitialCharge) {
+							this.lstRequired.push('initialCharge');
+							this.formNewEvent.controls.initialCharge.setValidators([Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]);
+						}
 					}
 					if (this.templateConfiguration.initialCharge !==  null) {
 						this.formNewEvent.controls.initialCharge.value(this.templateConfiguration.initialCharge);
@@ -277,6 +306,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.impactContractsId.disable();
 					} else {
 						this.formNewEvent.controls.impactContractsId.enable();
+						if (this.templateConfiguration.requiredImpactContractsId) {
+							this.lstRequired.push('impactContractsId');
+							this.formNewEvent.controls.impactContractsId.setValidators(Validators.required);
+						}
 					}
 					this.lstImpactContracts = this.loadSelectTemplate(this.lstImpactContractsAll, this.templateConfiguration.impactContractsId);
 
@@ -284,6 +317,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.licenseNumber.disable();
 					} else {
 						this.formNewEvent.controls.licenseNumber.enable();
+						if (this.templateConfiguration.requiredLicenseNumber) {
+							this.lstRequired.push('licenseNumber');
+							this.formNewEvent.controls.licenseNumber.setValidators([Validators.required]);
+						}
 					}
 					if (this.templateConfiguration.licenseNumber !==  null) {
 						this.formNewEvent.controls.licenseNumber.value(this.templateConfiguration.licenseNumber);
@@ -293,6 +330,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.marketTypesId.disable();
 					} else {
 						this.formNewEvent.controls.marketTypesId.enable();
+						if (this.templateConfiguration.requiredMarketTypesId) {
+							this.lstRequired.push('marketTypesId');
+							this.formNewEvent.controls.marketTypesId.setValidators(Validators.required);
+						}
 					}
 					this.lstMarketTypes = this.loadSelectTemplate(this.lstMarketTypesAll, this.templateConfiguration.marketTypesId);
 
@@ -300,6 +341,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.mwOffered.disable();
 					} else {
 						this.formNewEvent.controls.mwOffered.enable();
+						if (this.templateConfiguration.requiredMwOffered) {
+							this.lstRequired.push('mwOffered');
+							this.formNewEvent.controls.mwOffered.setValidators([Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]);
+						}
 					}
 					if (this.templateConfiguration.mwOffered !==  null) {
 						this.formNewEvent.controls.mwOffered.value(this.templateConfiguration.mwOffered);
@@ -309,6 +354,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.mwPowerLoss.disable();
 					} else {
 						this.formNewEvent.controls.mwPowerLoss.enable();
+						if (this.templateConfiguration.requiredMwPowerLoss) {
+							this.lstRequired.push('mwPowerLoss');
+							this.formNewEvent.controls.mwPowerLoss.setValidators([Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]);
+						}
 					}
 					if (this.templateConfiguration.mwPowerLoss !==  null) {
 						this.formNewEvent.controls.mwPowerLoss.value(this.templateConfiguration.mwPowerLoss);
@@ -318,6 +367,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.powerMw.disable();
 					} else {
 						this.formNewEvent.controls.powerMw.enable();
+						if (this.templateConfiguration.requiredPowerMw) {
+							this.lstRequired.push('powerMw');
+							this.formNewEvent.controls.powerMw.setValidators([Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]);
+						}
 					}
 					if (this.templateConfiguration.powerMw !==  null) {
 						this.formNewEvent.controls.powerMw.value(this.templateConfiguration.powerMw);
@@ -327,6 +380,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.realsCcdvId.disable();
 					} else {
 						this.formNewEvent.controls.realsCcdvId.enable();
+						if (this.templateConfiguration.requiredRealsCcdvId) {
+							this.lstRequired.push('realsCcdvId');
+							this.formNewEvent.controls.realsCcdvId.setValidators(Validators.required);
+						}
 					}
 					this.lstRealsCcdv = this.loadSelectTemplate(this.lstRealsCcdvAll, this.templateConfiguration.realsCcdvId);
 
@@ -334,6 +391,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.relatedServicesId.disable();
 					} else {
 						this.formNewEvent.controls.relatedServicesId.enable();
+						if (this.templateConfiguration.requiredRelatedServicesId) {
+							this.lstRequired.push('relatedServicesId');
+							this.formNewEvent.controls.relatedServicesId.setValidators(Validators.required);
+						}
 					}
 					this.lstSelatedServices = this.loadSelectTemplate(this.lstSelatedServicesAll, this.templateConfiguration.relatedServicesId);
 
@@ -341,6 +402,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.toleranceBandsId.disable();
 					} else {
 						this.formNewEvent.controls.toleranceBandsId.enable();
+						if (this.templateConfiguration.requiredToleranceBandsId) {
+							this.lstRequired.push('toleranceBandsId');
+							this.formNewEvent.controls.toleranceBandsId.setValidators(Validators.required);
+						}
 					}
 					this.lstToleranceBands = this.loadSelectTemplate(this.lstToleranceBandsAll, this.templateConfiguration.toleranceBandsId);
 
@@ -348,6 +413,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.unitsId.disable();
 					} else {
 						this.formNewEvent.controls.unitsId.enable();
+						if (this.templateConfiguration.requiredUnitsId) {
+							this.lstRequired.push('unitsId');
+							this.formNewEvent.controls.unitsId.setValidators(Validators.required);
+						}
 					}
 					this.lstUnits = this.loadSelectTemplate(this.lstUnitsAll, this.templateConfiguration.unitsId);
 
@@ -355,6 +424,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.workOrderId.disable();
 					} else {
 						this.formNewEvent.controls.workOrderId.enable();
+						if (this.templateConfiguration.requiredWorkOrderId) {
+							this.lstRequired.push('workOrderId');
+							this.formNewEvent.controls.workOrderId.setValidators([Validators.required, Validators.minLength(4), Validators.maxLength(500)]);
+						}
 					}
 					if (this.templateConfiguration.workOrderId !==  null) {
 						this.formNewEvent.controls.workOrderId.setValue(this.templateConfiguration.workOrderId);
@@ -364,6 +437,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.plantOperatorOpened.disable();
 					} else {
 						this.formNewEvent.controls.plantOperatorOpened.enable();
+						if (this.templateConfiguration.requiredPlantOperatorOpened) {
+							this.lstRequired.push('plantOperatorOpened');
+							this.formNewEvent.controls.plantOperatorOpened.setValidators(Validators.required);
+						}
 					}
 					if (this.templateConfiguration.plantOperatorOpened !==  null) {
 						this.formNewEvent.controls.plantOperatorOpened.setValue(this.templateConfiguration.plantOperatorOpened);
@@ -373,6 +450,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.plantOperatorClosed.disable();
 					} else {
 						this.formNewEvent.controls.plantOperatorClosed.enable();
+						if (this.templateConfiguration.requiredPlantOperatorClosed) {
+							this.lstRequired.push('plantOperatorClosed');
+							this.formNewEvent.controls.plantOperatorClosed.setValidators(Validators.required);
+						}
 					}
 					if (this.templateConfiguration.plantOperatorClosed !==  null) {
 						this.formNewEvent.controls.plantOperatorClosed.setValue(this.templateConfiguration.plantOperatorClosed);
@@ -382,6 +463,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.cenaceOperatorOpened.disable();
 					} else {
 						this.formNewEvent.controls.cenaceOperatorOpened.enable();
+						if (this.templateConfiguration.requiredCenaceOperatorOpened) {
+							this.lstRequired.push('cenaceOperatorOpened');
+							this.formNewEvent.controls.cenaceOperatorOpened.setValidators(Validators.required);
+						}
 					}
 					if (this.templateConfiguration.cenaceOperatorOpened !==  null) {
 						this.formNewEvent.controls.cenaceOperatorOpened.setValue(this.templateConfiguration.cenaceOperatorOpened);
@@ -391,6 +476,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.cenaceOperatorClosed.disable();
 					} else {
 						this.formNewEvent.controls.cenaceOperatorClosed.enable();
+						if (this.templateConfiguration.requiredCenaceOperatorClosed) {
+							this.lstRequired.push('cenaceOperatorClosed');
+							this.formNewEvent.controls.cenaceOperatorClosed.setValidators(Validators.required);
+						}
 					}
 					if (this.templateConfiguration.cenaceOperatorClosed !==  null) {
 						this.formNewEvent.controls.cenaceOperatorClosed.setValue(this.templateConfiguration.cenaceOperatorClosed);
@@ -400,6 +489,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.sourceEventId.disable();
 					} else {
 						this.formNewEvent.controls.sourceEventId.enable();
+						if (this.templateConfiguration.requiredSourceEventId) {
+							this.lstRequired.push('sourceEventId');
+							this.formNewEvent.controls.sourceEventId.setValidators(Validators.required);
+						}
 					}
 					this.lstSourceEvent = this.loadSelectTemplate(this.lstSourceEventAll, this.templateConfiguration.sourceEventId);
 				} else {
@@ -427,15 +520,15 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.masterCatalogService.listCatalog(names).subscribe(data  => {
 			this.loadSelect(this.lstEventClassification, data['CLASIFICA EVENTO']);
 			this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
-			this.lstEventsDTO = data['EVENTO'];
-			this.loadSelect(this.lstFuelsAll, data['COMBUSTIBLE']);
-			this.loadSelect(this.lstUnitsAll, data['UNIDAD']);
+			this.lstEventsDTO = data.EVENTO;
+			this.loadSelect(this.lstFuelsAll, data.COMBUSTIBLE);
+			this.loadSelect(this.lstUnitsAll, data.UNIDAD);
 			this.loadSelect(this.lstImpactContractsAll, data['CONTRATO IMPACTADO']);
 			this.loadSelect(this.lstRealsCcdvAll, data['REAL-CCDV']);
 			this.loadSelect(this.lstToleranceBandsAll, data['BANDA TOLERANCIA']);
 			this.loadSelect(this.lstMarketTypesAll, data['TIPO MERCADO MEM']);
 			this.loadSelect(this.lstSelatedServicesAll, data['SERVICIOS CONEXOS MEM']);
-			this.loadSelect(this.lstEquipmentAll, data['EQUIPO']);
+			this.loadSelect(this.lstEquipmentAll, data.EQUIPO);
 			this.loadSelect(this.lstSourceEventAll, data['FUENTE EVENTO']);
 		},
 			errorData => {
@@ -467,7 +560,17 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		});
 	}
 	onSubmitFormNewEvent() {
-		this.formNewEvent.enable();
+		this.formValid = true;
+		this.onSubmit();
+	}
+	onSubmit() {
+		if (this.formValid) {
+			this.formNewEvent.enable();
+		} else {
+			this.toastr.errorToastr('Todos los campos son necesarios.', 'Error!');
+			return;
+		}
+
 		this.addBlock(1, '');
 		this.binnacleService.saveBinnacle(this.formNewEvent.value).subscribe(
 			data => {
@@ -502,6 +605,12 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		const file = this.fileUploadForm.get('file').value;
 	}
 	btnFinish() {
+		this.lstRequired.forEach(field => {
+			if ( this.formNewEvent.controls[field].value == null) {
+				this.formValid = false;
+			}
+		});
+		this.onSubmit();
 	}
 	tableRowEdit(element) {
 	}

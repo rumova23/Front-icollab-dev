@@ -68,7 +68,7 @@ export class BinnacleEventConfigurationDTO implements Deserializable {
 
     public mwPowerLoss: number;
     public disabledMwPowerLoss: boolean;
-    public requireddMwPowerLoss: boolean;
+    public requiredMwPowerLoss: boolean;
 
     public workOrderId: string;
     public disabledWorkOrderId: boolean;
