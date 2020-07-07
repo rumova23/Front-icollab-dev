@@ -35,6 +35,7 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
   currentComment: any;
   obvsSaved = false;
   subscription;
+  rowPerPage = [5, 10, 25, 50];
   delay = ms => new Promise(res => setTimeout(res, ms));
 
   constructor(public efhService: EfhService,

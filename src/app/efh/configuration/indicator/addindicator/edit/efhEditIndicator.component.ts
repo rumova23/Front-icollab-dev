@@ -152,13 +152,13 @@ export class EfhEditIndicatorComponent implements OnInit {
       this.selectControlsEnabled(true);
       this.deshabiliarEstatus = false;
       this.disabledSave = false;
-      this.titulo = 'Configuración / Indicadores / Editar Indicador / Editar';
+      this.titulo = 'Configuración / Indicadores / Agregar Indicador / Editar';
       this.subtitulo = 'Editar / Configuración de Indicadores';
     } else if (this.accion === 'ver') {
       this.deshabiliarEstatus = true;
       this.isAddObvsDisabled = true;
       this.indicatorForm.controls.indicatorTypeControl.disable();
-      this.titulo = 'Configuración / Indicadores / Consultar Indicador / Consultar';
+      this.titulo = 'Configuración / Indicadores / Agregar Indicador / Consultar';
       this.subtitulo = 'Consultar / Configuración de Indicadores';
     } else {
       this.checkedEstatus = true;
@@ -410,37 +410,39 @@ export class EfhEditIndicatorComponent implements OnInit {
       this.efhService.setIndicator(this.dataSubmit)
           .subscribe(
               dataBack => {
-                  debugger;
-                if (this.accion === 'nuevo') {
-                  this.toastr.successToastr('El indicador fue creada con éxito.', '¡Se ha logrado!');
-                }
-                if (this.accion === 'editar') {
-                  this.toastr.successToastr('El indicador fue actualizado con éxito.', '¡Se ha logrado!');
-                }
+                  if (dataBack['code'] === -100) {
+                      this.toastr.errorToastr('No es posible agregar, existe un indicador activo que se empalma', 'Lo siento,');
+                  } else {
+                      if (this.accion === 'nuevo') {
+                          this.toastr.successToastr('El indicador fue creada con éxito.', '¡Se ha logrado!');
+                      }
+                      if (this.accion === 'editar') {
+                          this.toastr.successToastr('El indicador fue actualizado con éxito.', '¡Se ha logrado!');
+                      }
 
-                if (this.isInputSectionVisible && this.isEqFuelFactorSelected) {
-                  this.withFuelControlsEnabled(false);
-                } else if (this.isInputSectionVisible && this.isEqWithOutFuelFactorSelected) {
-                  this.withOutfuelControlsEnabled(false);
-                } else if (this.isInputSectionVisible && this.isMaxiumLoadSelected) {
-                  this.maxiumLoadControlsEnabled(false);
-                } else if (this.isInputSectionVisible && this.isEfhiSelected) {
-                  this.inputsControlsEnabled(false);
-                }
+                      if (this.isInputSectionVisible && this.isEqFuelFactorSelected) {
+                          this.withFuelControlsEnabled(false);
+                      } else if (this.isInputSectionVisible && this.isEqWithOutFuelFactorSelected) {
+                          this.withOutfuelControlsEnabled(false);
+                      } else if (this.isInputSectionVisible && this.isMaxiumLoadSelected) {
+                          this.maxiumLoadControlsEnabled(false);
+                      } else if (this.isInputSectionVisible && this.isEfhiSelected) {
+                          this.inputsControlsEnabled(false);
+                      }
 
-                this.selectControlsEnabled(false);
-                this.defaultConstrolsEnabled(false);
-                this.deshabiliarEstatus = true;
-                this.isAddObvsDisabled = true;
-                this.disabledSave = true;
+                      this.selectControlsEnabled(false);
+                      this.defaultConstrolsEnabled(false);
+                      this.deshabiliarEstatus = true;
+                      this.isAddObvsDisabled = true;
+                      this.disabledSave = true;
 
-                const idIndicator = dataBack['code'];
-                this.efhService.accionComments.next('savenewcommentsevent|' + idIndicator);
+                      const idIndicator = dataBack['code'];
+                      this.efhService.accionComments.next('savenewcommentsevent|' + idIndicator);
 
-                this.indicatorType.id = idIndicator;
+                      this.indicatorType.id = idIndicator;
+                  }
               },
               errorData => {
-                  debugger;
                 this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
                 this.addBlock(2, null);
               }
