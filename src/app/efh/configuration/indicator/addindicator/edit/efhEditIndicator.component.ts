@@ -277,10 +277,9 @@ export class EfhEditIndicatorComponent implements OnInit {
                   }
                   if (this.indicatorForm.controls['fuelTypeControl'].value != null && !this.isWithFuel) {
                     this.dataSubmit['idtypefuel'] = this.idFuelType;
-                  }
-                  /* else {
+                  } else {
                     this.dataSubmit['idtypefuel'] = this.indicatorForm.controls['fuelTypeControl'].value;
-                  } */
+                  }
 
                   if (this.indicatorForm.controls['unitControl'].value === null) {
                     this.dataSubmit['idunit'] = this.selectedUnit;
@@ -411,6 +410,7 @@ export class EfhEditIndicatorComponent implements OnInit {
       this.efhService.setIndicator(this.dataSubmit)
           .subscribe(
               dataBack => {
+                  debugger;
                 if (this.accion === 'nuevo') {
                   this.toastr.successToastr('El indicador fue creada con éxito.', '¡Se ha logrado!');
                 }
@@ -440,6 +440,7 @@ export class EfhEditIndicatorComponent implements OnInit {
                 this.indicatorType.id = idIndicator;
               },
               errorData => {
+                  debugger;
                 this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
                 this.addBlock(2, null);
               }
@@ -512,7 +513,7 @@ export class EfhEditIndicatorComponent implements OnInit {
     this.submittedData = true;
 
     if ((this.isInputSectionVisible && this.indicatorForm.controls['dateStartApplication'].invalid)
-        || (this.isInputSectionVisible && this.indicatorForm.controls['timeStartApplication'].invalid)
+        || (this.isInputSectionVisible && this.indicatorForm.controls['dateEndApplication'].invalid)
         || (this.isEqFuelFactorSelected && this.indicatorForm.controls['equivalenFuelFactor'].invalid)
         || (this.isEqWithOutFuelFactorSelected && this.indicatorForm.controls['equivalenWithOutFuelFactor'].invalid)
         || (this.isMaxiumLoadSelected && this.indicatorForm.controls['maxiumLoad'].invalid)
@@ -525,18 +526,19 @@ export class EfhEditIndicatorComponent implements OnInit {
       return;
     }
 
+    /*
     if ((this.isInputSectionVisible && this.indicatorForm.controls['dateEndApplication'].invalid)
         || (this.isInputSectionVisible && this.indicatorForm.controls['timeEndApplication'].invalid)){
       this.dateEndApplication = '2099-12-31';
       this.timeEndApplication = '00:00:00';
       this.indicatorForm.controls['dateEndApplication'].setValue(this.dateEndApplication);
       this.indicatorForm.controls['timeEndApplication'].setValue(this.timeEndApplication);
-    }
+    }*/
 
     if (this.isInputSectionVisible
         && this.compareDate(this.datePipe.transform(new Date(this.indicatorForm.controls['dateStartApplication'].value + ' ' + this.indicatorForm.controls['timeStartApplication'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'),
             this.datePipe.transform(new Date(this.indicatorForm.controls['dateEndApplication'].value + ' ' + this.indicatorForm.controls['timeEndApplication'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
-      this.toastr.errorToastr('Fecha-Hora Inicio debe ser menor a Fecha-Hora Fin, verifique', 'Lo siento,');
+      this.toastr.errorToastr('Fecha Inicio debe ser menor a Fecha Fin, verifique', 'Lo siento,');
       this.indicatorDatesValidation = true;
       this.addBlock(2, null);
       return;
@@ -637,7 +639,7 @@ export class EfhEditIndicatorComponent implements OnInit {
     // Check if the dates are equal
     let same = d1.getTime() === d2.getTime();
 
-    if (same) { return true; }
+    if (same) { return false; }
 
     // Check if the first is greater than second
     if (d1 > d2) { return true; }

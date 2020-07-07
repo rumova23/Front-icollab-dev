@@ -48,7 +48,7 @@
     <br/>
     <div style="border-style: groove; padding: 1%" *ngIf="isInputSectionVisible"><!-- Section Paro -->
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="form-group">
             <small class="form-text text-muted" >Fecha Inicio Aplicación:</small>
             <input class="form-control" type="date" min="{{initDate}}" formControlName="dateStartApplication"/>
@@ -60,66 +60,64 @@
             <div>Validar</div>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="form-group">
             <small class="form-text text-muted" >Fecha Fin Aplicación:</small>
             <input class="form-control" type="date" min="{{initDate}}" formControlName="dateEndApplication"/>
           </div>
+          <div *ngIf="submittedData && isInputSectionVisible && f.dateEndApplication.errors" style="color:red">
+            <div *ngIf="f.dateEndApplication.errors.required">Requerido</div>
+          </div>
+          <div *ngIf="indicatorDatesValidation && isInputSectionVisible" style="color:red">
+            <div>Validar</div>
+          </div>
         </div>
-      </div>
-      <div class="row" *ngIf="isEqFuelFactorSelected">
-        <div class="col-md-3">
+        <div class="col-md-4" *ngIf="isEqFuelFactorSelected">
           <div class="form-group">
-            <small class="form-text text-muted" >Factor equivalente de combustible:</small>
-            <input matTooltip="El valor debe ser mayor o igual a 0, puede incluir decimales" #cargaAntesParo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="equivalenFuelFactor" (ngModelChange)="isNumeric(cargaAntesParo)" min="0" max="200"/>
+              <small class="form-text text-muted" >Factor equivalente de combustible:</small>
+              <input matTooltip="El valor debe ser mayor o igual a 0, puede incluir decimales" #cargaAntesParo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="equivalenFuelFactor" (ngModelChange)="isNumeric(cargaAntesParo)" min="0" max="200"/>
           </div>
           <div *ngIf="submittedData && isEqFuelFactorSelected && f.equivalenFuelFactor.errors" style="color:red">
-            <div *ngIf="f.equivalenFuelFactor.errors.required">Requerido</div>
+              <div *ngIf="f.equivalenFuelFactor.errors.required">Requerido</div>
           </div>
           <div *ngIf="isEqFuelFactorSelected && chargeValidation" style="color:red">
-            <div>Verifica</div>
+              <div>Verifica</div>
           </div>
         </div>
-      </div>
-      <div class="row" *ngIf="isEqWithOutFuelFactorSelected">
-        <div class="col-md-3">
+        <div class="col-md-4" *ngIf="isEqWithOutFuelFactorSelected">
           <div class="form-group">
-            <small class="form-text text-muted" >Factor equivalente sin combustible:</small>
-            <input matTooltip="El valor debe ser mayor o igual a 0, puede incluir decimales" #cargaAntesParo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="equivalenWithOutFuelFactor" (ngModelChange)="isNumeric(cargaAntesParo)" min="0" max="200"/>
+              <small class="form-text text-muted" >Factor equivalente sin combustible:</small>
+              <input matTooltip="El valor debe ser mayor o igual a 0, puede incluir decimales" #cargaAntesParo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="equivalenWithOutFuelFactor" (ngModelChange)="isNumeric(cargaAntesParo)" min="0" max="200"/>
           </div>
           <div *ngIf="submittedData && isEqWithOutFuelFactorSelected && f.equivalenWithOutFuelFactor.errors" style="color:red">
-            <div *ngIf="f.equivalenWithOutFuelFactor.errors.required">Requerido</div>
+              <div *ngIf="f.equivalenWithOutFuelFactor.errors.required">Requerido</div>
           </div>
           <div *ngIf="isEqWithOutFuelFactorSelected && chargeValidation" style="color:red">
-            <div>Verifica</div>
+              <div>Verifica</div>
           </div>
         </div>
-      </div>
-      <div class="row" *ngIf="isMaxiumLoadSelected">
-        <div class="col-md-3">
+        <div class="col-md-4" *ngIf="isMaxiumLoadSelected">
           <div class="form-group">
-            <small class="form-text text-muted" >Máxima Carga(MW):</small>
-            <input matTooltip="El valor debe ser mayor o igual a 0, puede incluir decimales" #cargaAntesParo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="maxiumLoad" (ngModelChange)="isNumeric(cargaAntesParo)" min="0" max="200"/>
+              <small class="form-text text-muted" >Máxima Carga(MW):</small>
+              <input matTooltip="El valor debe ser mayor o igual a 0, puede incluir decimales" #cargaAntesParo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="maxiumLoad" (ngModelChange)="isNumeric(cargaAntesParo)" min="0" max="200"/>
           </div>
           <div *ngIf="submittedData && isMaxiumLoadSelected && f.maxiumLoad.errors" style="color:red">
-            <div *ngIf="f.maxiumLoad.errors.required">Requerido</div>
+              <div *ngIf="f.maxiumLoad.errors.required">Requerido</div>
           </div>
           <div *ngIf="isMaxiumLoadSelected && chargeValidation" style="color:red">
-            <div>Verifica</div>
+              <div>Verifica</div>
           </div>
         </div>
-      </div>
-      <div class="row" *ngIf="isEfhiSelected">
-        <div class="col-md-3">
+        <div class="col-md-4" *ngIf="isEfhiSelected">
           <div class="form-group">
-            <small class="form-text text-muted" >Costo EFHI$:</small>
-            <input matTooltip="El valor debe ser mayor o igual a 0, puede incluir decimales" #cargaAntesParo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="efhiCost" (ngModelChange)="isNumeric(cargaAntesParo)" min="0" max="200"/>
+              <small class="form-text text-muted" >Costo EFHI$ (USD):</small>
+              <input matTooltip="El valor debe ser mayor o igual a 0, puede incluir decimales" #cargaAntesParo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="efhiCost" (ngModelChange)="isNumeric(cargaAntesParo)" min="0" max="200"/>
           </div>
           <div *ngIf="submittedData && isEfhiSelected && f.efhiCost.errors" style="color:red">
-            <div *ngIf="f.efhiCost.errors.required">Requerido</div>
+              <div *ngIf="f.efhiCost.errors.required">Requerido</div>
           </div>
           <div *ngIf="isEfhiSelected && chargeValidation" style="color:red">
-            <div>Verifica</div>
+              <div>Verifica</div>
           </div>
         </div>
       </div>
