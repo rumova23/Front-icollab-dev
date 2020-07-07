@@ -79,6 +79,7 @@
 					[formGroup]="formNewEvent" 
 					controlName="fuelsId" 
 					controlNameCheckBox="disabledFuelsId"
+					controlNameCheckBoxRequired="requiredFuelsId"
 					[options]="lstFuels"
 					label="Combustible"
 				></app-checkbox-with-select-multiple>
@@ -88,6 +89,7 @@
 					[formGroup]="formNewEvent" 
 					controlName="impactContractsId" 
 					controlNameCheckBox="disabledImpactContractsId"
+					controlNameCheckBoxRequired="requiredImpactContractsId"
 					[options]="lstImpactContracts"
 					label="Contrato Impactado"
 				></app-checkbox-with-select-multiple>
@@ -97,6 +99,7 @@
 					[formGroup]="formNewEvent" 
 					controlName="powerMwLimitLower" 
 					controlNameCheckBox="disabledPowerMwLimitLower"
+					controlNameCheckBoxRequired="requiredPowerMwLimitLower"
 					label="Potencia Limite Inferior"
 				></app-checkbox-with-number>
 			</div>
@@ -105,6 +108,7 @@
 					[formGroup]="formNewEvent" 
 					controlName="powerMwLimitUpper" 
 					controlNameCheckBox="disabledPowerMwLimitUpper"
+					controlNameCheckBoxRequired="requiredPowerMwLimitUpper"
 					label="Potencia Limite Superior"
 				></app-checkbox-with-number>
 			</div>
@@ -113,6 +117,7 @@
 					[formGroup]="formNewEvent" 
 					controlName="unitsId" 
 					controlNameCheckBox="disabledUnitsId"
+					controlNameCheckBoxRequired="requiredUnitsId"
 					[options]="lstUnits"
 					label="Unidad"
 				></app-checkbox-with-select-multiple>
@@ -130,6 +135,7 @@
 					[formGroup]="formNewEvent" 
 					controlName="realsCcdvId" 
 					controlNameCheckBox="disabledRealsCcdvId"
+					controlNameCheckBoxRequired="requiredRealsCcdvId"
 					[options]="lstRealsCcdv"
 					label="Real/CCDV"
 				></app-checkbox-with-select-multiple>
@@ -139,6 +145,7 @@
 					[formGroup]="formNewEvent" 
 					controlName="toleranceBandsId" 
 					controlNameCheckBox="disabledToleranceBandsId"
+					controlNameCheckBoxRequired="requiredToleranceBandsId"
 					[options]="lstToleranceBands"
 					label="Banda de Tolerancia"
 				></app-checkbox-with-select-multiple>
@@ -156,6 +163,7 @@
 					[formGroup]="formNewEvent" 
 					controlName="marketTypesId" 
 					controlNameCheckBox="disabledMarketTypesId"
+					controlNameCheckBoxRequired="requiredMarketTypesId"
 					[options]="lstMarketTypes"
 					label="Tipo de Mercado"
 				></app-checkbox-with-select-multiple>
@@ -165,6 +173,7 @@
 					[formGroup]="formNewEvent" 
 					controlName="mwOfferedLimitLower" 
 					controlNameCheckBox="disabledMwOfferedLimitLower"
+					controlNameCheckBoxRequired="requiredMwOfferedLimitLower"
 					label="MW Ofertados Limite Inferior"
 				></app-checkbox-with-number>
 			</div>
@@ -173,6 +182,7 @@
 					[formGroup]="formNewEvent" 
 					controlName="mwOfferedLimitUpper" 
 					controlNameCheckBox="disabledMwOfferedLimitUpper"
+					controlNameCheckBoxRequired="requiredMwOfferedLimitUpper"
 					label="MW Ofertados Limite Superior"
 				></app-checkbox-with-number>
 			</div>
@@ -181,12 +191,12 @@
 					[formGroup]="formNewEvent" 
 					controlName="relatedServicesId" 
 					controlNameCheckBox="disabledRelatedServicesId"
+					controlNameCheckBoxRequired="requiredRelatedServicesId"
 					[options]="lstSelatedServices"
 					label="Servicios Conexos"
 				></app-checkbox-with-select-multiple>
 			</div>
 		</div>
-
 		<div class="row pb-2">
 			<div class="col">
 				<p class="section_titulo_1">{{ "Licencia / Orden de Trabajo" | translate }}</p>
@@ -197,7 +207,8 @@
 				<app-checkbox-with-input-text
 					[formGroup]="formNewEvent" 
 					controlName="licenseNumber" 
-					controlNameCheckBox="disabledlicenseNumber"
+					controlNameCheckBox="disabledLicenseNumber"
+					controlNameCheckBoxRequired="requiredLicenseNumber"
 					label="# Licencia"
 				></app-checkbox-with-input-text>
 			</div>
@@ -206,6 +217,7 @@
 					[formGroup]="formNewEvent" 
 					controlName="equipmentId" 
 					controlNameCheckBox="disabledEquipmentId"
+					controlNameCheckBoxRequired="requiredEquipmentId"
 					[options]="lstEquipment"
 					label="Equipo"
 				></app-checkbox-with-select-multiple>
@@ -215,6 +227,7 @@
 					[formGroup]="formNewEvent" 
 					controlName="initialChargeLimitLower" 
 					controlNameCheckBox="disabledInitialChargeLimitLower"
+					controlNameCheckBoxRequired="requiredInitialChargeLimitLower"
 					label="Carga Inicial Limite Inferior"
 				></app-checkbox-with-number>
 			</div>
@@ -223,6 +236,7 @@
 					[formGroup]="formNewEvent" 
 					controlName="initialChargeLimitUpper" 
 					controlNameCheckBox="disabledInitialChargeLimitUpper"
+					controlNameCheckBoxRequired="requiredInitialChargeLimitUpper"
 					label="Carga Inicial Limite Superior"
 				></app-checkbox-with-number>
 			</div>
@@ -231,6 +245,7 @@
 					[formGroup]="formNewEvent" 
 					controlName="finalChargeLimitLower" 
 					controlNameCheckBox="disabledFinalChargeLimitLower"
+					controlNameCheckBoxRequired="requiredFinalChargeLimitLower"
 					label="Carga Final Limite Inferior"
 				></app-checkbox-with-number>
 			</div>
@@ -239,6 +254,7 @@
 					[formGroup]="formNewEvent" 
 					controlName="finalChargeLimitUpper" 
 					controlNameCheckBox="disabledFinalChargeLimitUpper"
+					controlNameCheckBoxRequired="requiredFinalChargeLimitUpper"
 					label="Carga Final Limite Superior"
 				></app-checkbox-with-number>
 			</div>
@@ -247,6 +263,7 @@
 					[formGroup]="formNewEvent" 
 					controlName="mwPowerLossLI" 
 					controlNameCheckBox="disabledMwPowerLossLI"
+					controlNameCheckBoxRequired="requiredMwPowerLossLI"
 					label="(-) Perdida Potencia MW LI"
 				></app-checkbox-with-number>
 			</div>
@@ -255,6 +272,7 @@
 					[formGroup]="formNewEvent" 
 					controlName="mwPowerLossLS" 
 					controlNameCheckBox="disabledMwPowerLossLS"
+					controlNameCheckBoxRequired="requiredMwPowerLossLS"
 					label="(-) Perdida Potencia MW LS"
 				></app-checkbox-with-number>
 			</div>
@@ -263,6 +281,7 @@
 					[formGroup]="formNewEvent"
 					controlName="workOrderId"
 					controlNameCheckBox="disabledWorkOrderId"
+					controlNameCheckBoxRequired="requiredWorkOrderId"
 					label="Orden de Trabajo"
 				></app-checkbox-with-input-text>
 			</div>
@@ -271,6 +290,7 @@
 					[formGroup]="formNewEvent"
 					controlName="licenseDescription"
 					controlNameCheckBox="disabledLicenseDescription"
+					controlNameCheckBoxRequired="requiredLicenseDescription"
 					label="Descripción / Concepto de la Licencia"
 				></app-checkbox-with-input-text>
 			</div>
@@ -286,6 +306,7 @@
 					[formGroup]="formNewEvent"
 					controlName="operatorPlantOpen"
 					controlNameCheckBox="disabledOperatorPlantOpen"
+					controlNameCheckBoxRequired="requiredOperatorPlantOpen"
 					label="Nombre(s) / Apellido(s) Operador Planta Abrió"
 				></app-checkbox-with-input-text>
 			</div>
@@ -294,6 +315,7 @@
 					[formGroup]="formNewEvent"
 					controlName="operatorCenaceOpen"
 					controlNameCheckBox="disabledOperatorCenaceOpen"
+					controlNameCheckBoxRequired="requiredOperatorCenaceOpen"
 					label="Nombre(s) / Apellido(s) Operador CENACE Abrió"
 				></app-checkbox-with-input-text>
 			</div>
@@ -302,6 +324,7 @@
 					[formGroup]="formNewEvent"
 					controlName="operatorPlantClose"
 					controlNameCheckBox="disabledOperatorPlantClose"
+					controlNameCheckBoxRequired="requiredOperatorPlantClose"
 					label="Nombre(s) / Apellido(s) Operador Planta Cerro"
 				></app-checkbox-with-input-text>
 			</div>
@@ -310,6 +333,7 @@
 					[formGroup]="formNewEvent"
 					controlName="operatorCenaceClose"
 					controlNameCheckBox="disabledOperatorCenaceClose"
+					controlNameCheckBoxRequired="requiredOperatorCenaceClose"
 					label="Nombre(s) / Apellido(s) Operador CENACE Cerro"
 				></app-checkbox-with-input-text>
 			</div>
@@ -318,6 +342,7 @@
 					[formGroup]="formNewEvent" 
 					controlName="sourceEventId"
 					controlNameCheckBox="disabledSourceEventId"
+					controlNameCheckBoxRequired="requiredSourceEventId"
 					[options]="lstSourceEvent"
 					label="Fuente Del evento"
 				></app-checkbox-with-select-multiple>
@@ -335,6 +360,7 @@
 					[formGroup]="formNewEvent"
 					controlName="eventStatus"
 					controlNameCheckBox="disabledEventStatus"
+					controlNameCheckBoxRequired="requiredEventStatus"
 					label="Estatus del Evento"
 				></app-checkbox-with-input-text>
 			</div>
@@ -343,6 +369,7 @@
 					[formGroup]="formNewEvent"
 					controlName="approvalStatus"
 					controlNameCheckBox="disabledApprovalStatus"
+					controlNameCheckBoxRequired="requiredApprovalStatus"
 					label="Estatus de Aprobación"
 				></app-checkbox-with-input-text>
 			</div>

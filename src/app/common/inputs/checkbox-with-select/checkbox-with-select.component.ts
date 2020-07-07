@@ -20,6 +20,7 @@ export class CheckboxWithSelectComponent implements OnInit  {
 
 	
 	@Input() controlNameCheckBox: string = null;
+	@Input() controlNameCheckBoxRequired: string = null;
 	@Input() val:string = '';
 	constructor() { }
 

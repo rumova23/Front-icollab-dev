@@ -17,6 +17,7 @@ export class CheckboxWithNumberComponent implements OnInit {
 
 	
 	@Input() controlNameCheckBox: string = null;
+	@Input() controlNameCheckBoxRequired: string = null;
 	@Input() val:string = '';
 
 	@Input() minValue: number;
