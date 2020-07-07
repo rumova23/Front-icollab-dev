@@ -506,6 +506,16 @@ export class EfhEditIndicatorComponent implements OnInit {
     this.maxiumLoadControlsEnabled(false);
     this.withOutfuelControlsEnabled(false);
     this.withFuelControlsEnabled(false);
+
+    this.indicatorForm.controls.unitControl.setValue('');
+    this.indicatorForm.controls.fuelTypeControl.setValue('');
+    this.indicatorForm.controls.dateStartApplication.setValue('');
+    this.indicatorForm.controls.dateEndApplication.setValue('');
+    this.indicatorForm.controls.equivalenFuelFactor.setValue('');
+    this.indicatorForm.controls.equivalenWithOutFuelFactor.setValue('');
+    this.indicatorForm.controls.maxiumLoad.setValue('');
+    this.indicatorForm.controls.efhiCost.setValue('');
+    this.indicatorForm.controls.description.setValue('');
   }
 
   onSubmit() {

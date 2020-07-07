@@ -5,6 +5,9 @@ import {GlobalService} from '../../../core/globals/global.service';
 import {EfhService} from '../../../core/services/efh.service';
 import {ToastrManager} from 'ng6-toastr-notifications';
 import {EfhUploadComponent} from '../efh-upload.component';
+import {EventService} from '../../../core/services/event.service';
+import {EventMessage} from '../../../core/models/EventMessage';
+import {EventBlocked} from '../../../core/models/EventBlocked';
 
 @Component({
   selector: 'app-efh-upload-common',
@@ -27,7 +30,12 @@ export class EfhUploadCommonComponent implements OnInit {
   currentFile: File;
   dataFileSubmit = {};
 
-  constructor(private fb: FormBuilder, private efhService: EfhService, public  toastr: ToastrManager, private cd: ChangeDetectorRef, public globalService: GlobalService) {
+  constructor(private fb: FormBuilder,
+              private efhService: EfhService,
+              public  toastr: ToastrManager,
+              private cd: ChangeDetectorRef,
+              private eventService: EventService,
+              public globalService: GlobalService) {
   }
 
   ngOnInit() {
@@ -48,6 +56,7 @@ export class EfhUploadCommonComponent implements OnInit {
   upload() {
     let fileReader = new FileReader();
     this.currentFile = this.selectedFiles.item(0);
+    this.addBlock(1, 'Guardando archivo...');
 
     fileReader.onloadend = (e) => {
         if (this.inTypeConfig === 1) {
@@ -66,9 +75,17 @@ export class EfhUploadCommonComponent implements OnInit {
             respuesta => {
                 this.toastr.successToastr('Documento guardado con éxito.', '¡Se ha logrado!');
                 this.efhService.accion.next('upload');
-            });
+            },
+            error => {
+                this.addBlock(2, null);
+            }).add(() => {
+            this.addBlock(2, null);
+        });
     }
     fileReader.readAsDataURL(this.currentFile);
   }
 
+  private addBlock(type, msg): void {
+      this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
 }

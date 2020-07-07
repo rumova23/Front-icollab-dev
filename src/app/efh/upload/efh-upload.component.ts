@@ -9,6 +9,8 @@ import {EfhService} from '../../core/services/efh.service';
 import {Constants} from '../../core/globals/Constants';
 import {ConfirmationDialogService} from '../../core/services/confirmation-dialog.service';
 import {EventMessage} from '../../core/models/EventMessage';
+import {EventBlocked} from '../../core/models/EventBlocked';
+import {EventService} from '../../core/services/event.service';
 
 @Component({
   selector: 'app-efh-upload',
@@ -27,6 +29,7 @@ export class EfhUploadComponent implements OnInit, OnDestroy {
   subscription;
 
   constructor(public globalService: GlobalService,
+              private eventService: EventService,
               private efhService: EfhService,
               private confirmationDialogService: ConfirmationDialogService,
               public toastr: ToastrManager) {
@@ -75,6 +78,7 @@ export class EfhUploadComponent implements OnInit, OnDestroy {
   }
 
   downloadFile(fileId: number, fileName: string) {
+      this.addBlock(1, 'Descargando archivo...');
       this.efhService.downloadFile(this.inTypeConfig, fileId).subscribe(
           result => {
               let dataType = result.type;
@@ -87,7 +91,10 @@ export class EfhUploadComponent implements OnInit, OnDestroy {
           },
           error => {
               const error1 = error;
-          });
+              this.addBlock(2, null);
+          }).add(() => {
+          this.addBlock(2, null);
+      });
   }
 
   deleteFile(fileId: number) {
@@ -95,6 +102,7 @@ export class EfhUploadComponent implements OnInit, OnDestroy {
           'Está seguro de eliminar el archivo?')
           .then((confirmed) => {
               if (confirmed) {
+                  this.addBlock(1, 'Eliminando archivo...');
                   this.efhService.deleteFile(this.inTypeConfig, fileId).subscribe(
                       result => {
                           this.toastr.successToastr('Documento eliminado con éxito.', '¡Se ha logrado!');
@@ -106,10 +114,17 @@ export class EfhUploadComponent implements OnInit, OnDestroy {
                               this.efhService.accion.next('upload');
                           } else {
                               this.toastr.errorToastr('Ocurrió un error al intentar eliminar el archivo', 'Lo siento,');
+                              this.addBlock(2, null);
                           }
-                      });
+                      }).add(() => {
+                      this.addBlock(2, null);
+                  });
               }
           })
           .catch(() => console.log('Canceló eliminar'));
+  }
+
+  private addBlock(type, msg): void {
+      this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 }
