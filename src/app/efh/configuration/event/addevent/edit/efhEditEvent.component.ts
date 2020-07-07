@@ -24,6 +24,7 @@ export class EfhEditEventComponent implements OnInit {
   @Input() accion: string;
   @Input() seccion: string;
   titulo: string;
+  subtitulo: string;
   eventType: EventType;
   eventForm: FormGroup;
   resultService;
@@ -176,17 +177,20 @@ export class EfhEditEventComponent implements OnInit {
           this.selectControlsEnabled(true);
           this.deshabiliarEstatus = false;
           this.disabledSave = false;
-          this.titulo = 'Editar / Configuración de Eventos';
+          this.subtitulo = 'Editar / Configuración de Eventos';
+          this.titulo = 'Configuración / Eventos / Agregar Eventos / Editar';
       } else if (this.accion === 'ver') {
           this.deshabiliarEstatus = true;
           this.isAddObvsDisabled = true;
           this.eventForm.controls.eventTypeControl.disable();
-          this.titulo = 'Consultar / Configuración de Eventos';
+          this.subtitulo = 'Consultar / Configuración de Eventos';
+          this.titulo = 'Configuración / Eventos / Agregar Eventos / Consultar';
       } else {
           this.checkedEstatus = true;
           this.deshabiliarEstatus = false;
           this.disabledSave = false;
-          this.titulo = 'Agregar / Configuración de Eventos';
+          this.subtitulo = 'Agregar / Configuración de Eventos';
+          this.titulo = 'Configuración / Eventos / Agregar Eventos / Agregar';
       }
 
       if (this.accion === 'editar' || this.accion === 'ver') {

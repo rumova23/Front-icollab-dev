@@ -24,7 +24,8 @@ export class EfhAddEventComponent implements OnInit {
 
   public static mainCatalog = 'typeEvent';
   @Input() nombreCatalogo: string;
-  title: String;
+  title: string;
+  subtitle: string;
   menu: any[];
   catalogType: CatalogType;
   showAdd = false;
@@ -60,7 +61,8 @@ export class EfhAddEventComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
-    this.title = 'Configuración de Eventos / Eventos configurados';
+    this.title = 'Configuración / Eventos / Agregar Eventos';
+    this.subtitle = 'Configuración de Eventos / Eventos configurados';
     this.getCatalogs();
     for (const option of this.menu) {
       if (option.children) {
