@@ -244,8 +244,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 							this.formNewEvent.controls.fuelsId.setValidators(Validators.required);
 						}
 					}
-					this.lstRequired.push('fuelsId');
-					this.formNewEvent.controls.fuelsId.setValidators(Validators.required);
 					this.lstFuels = this.loadSelectTemplate(this.lstFuelsAll, this.templateConfiguration.fuelsId);
 
 					if (this.templateConfiguration.disabledConceptoLicencia) {
@@ -258,8 +256,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						}
 
 					}
-					this.lstRequired.push('conceptoLicencia');
-					this.formNewEvent.controls.conceptoLicencia.setValidators([Validators.required, Validators.minLength(4), Validators.maxLength(2000)]);
 					if (this.templateConfiguration.conceptoLicencia !==  null) {
 						this.formNewEvent.controls.conceptoLicencia.setValue(this.templateConfiguration.conceptoLicencia);
 					}
