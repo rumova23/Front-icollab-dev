@@ -210,8 +210,10 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
   }
 
   setToEdit(comment: any) {
-    this.currentComment = comment;
-    this.obsForm.controls.observations.setValue(comment.observacion);
+      if (this.inAction !== 'ver') {
+          this.currentComment = comment;
+          this.obsForm.controls.observations.setValue(comment.observacion);
+      }
   }
 
   addObservation() {
@@ -257,7 +259,7 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
           const updateItem = this.observationsArr.find(item => item.observacion === comment.observacion);
           const index = this.observationsArr.indexOf(updateItem);
           this.observationsArr.splice(index, 1);
-      } else {
+      } else if (this.inAction === 'editar') {
           this.confirmationDialogService.confirm('Por favor, confirme..',
               'Está seguro de eliminar la observación?')
               .then((confirmed) => {
