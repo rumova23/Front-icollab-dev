@@ -13,6 +13,7 @@ import {ConfirmationDialogService} from '../../../../../core/services/confirmati
 import {Comment} from '../../../../models/Comment';
 import {MatSnackBar} from '@angular/material';
 import {EventBlocked} from '../../../../../core/models/EventBlocked';
+import { IdLabel } from 'src/app/core/models/IdLabel';
 
 @Component({
   selector: 'app-efh-edit-event',
@@ -92,6 +93,12 @@ export class EfhEditEventComponent implements OnInit {
   selectedUnit;
   selectedFuelType;
 
+  hours:   IdLabel[] =  new Array(24).fill(0).map((_valor, indice) => ({id: (indice < 10 ? '0' : '') + indice, label: (indice < 10 ? '0' : '') + indice}));
+  minutes: IdLabel[] =  new Array(60).fill(0).map((_valor, indice) => ({id: (indice < 10 ? '0' : '') + indice, label: (indice < 10 ? '0' : '') + indice}));
+  seconds: IdLabel[] =  new Array(60).fill(0).map((_valor, indice) => ({id: (indice < 10 ? '0' : '') + indice, label: (indice < 10 ? '0' : '') + indice}));
+  formTemp: FormGroup;
+
+
   constructor(
       private catalogoMaestroService: CatalogoMaestroService,
       private efhService: EfhService,
@@ -146,6 +153,19 @@ export class EfhEditEventComponent implements OnInit {
           // observations: [{ value: '', disabled: this.isAddObvsDisabled }, Validators.required],
           file: [null, Validators.required]
       });
+      
+        this.formTemp = this.formBuilder.group(
+            {
+                dateTimeStart: [{ value: new Date(), disabled: false }],
+                dateTimeEnd: [{ value: new Date(), disabled: false }],
+                ha: [{ value: '00', disabled: false }],
+                ma: [{ value: '00', disabled: false }],
+                sa: [{ value: '00', disabled: false }],
+                hb: [{ value: '00', disabled: false }],
+                mb: [{ value: '00', disabled: false }],
+                sb: [{ value: '00', disabled: false }]
+            }
+        );
       this.selectControlsEnabled(false);
       this.shotControlsEnabled(false);
       this.startControlsEnabled(false);

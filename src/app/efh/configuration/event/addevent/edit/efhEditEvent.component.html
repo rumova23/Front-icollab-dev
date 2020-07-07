@@ -62,15 +62,33 @@
             <div *ngIf="f.flameOffDateShot.errors.required">Requerido</div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Hora Pérdida de Flama (Flame Off):</small>
-            <input type="time" class="form-control" min="00:00:00" max="23:59:59" formControlName="flameOffTimeShot" step="1"/>
-          </div>
-          <div *ngIf="submittedData && isShotSectionVisible && f.flameOffTimeShot.errors" style="color:red">
-            <div *ngIf="f.flameOffTimeShot.errors.required">Requerido</div>
-          </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ha" 
+            [options]="hours"
+            [withEmptyOption]="false"
+            label="Hora"
+          ></app-mat-select>
         </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ma" 
+            [options]="minutes"
+            [withEmptyOption]="false"
+            label="Minuto"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="sa" 
+            [options]="seconds"
+            [withEmptyOption]="false"
+            label="Segundo"
+          ></app-mat-select>
+        </div> 
         <div class="col-md-3">
           <div class="form-group">
               <small class="form-text text-muted" >Carga antes del disparo(MW):</small>
@@ -105,18 +123,34 @@
                 <div>Validar</div>
               </div>
           </div>
-          <div class="col-md-3">
-              <div class="form-group">
-                  <small class="form-text text-muted" >Hora de Arranque:</small>
-                  <input type="time" class="form-control" min="00:00:00" max="23:59:59" formControlName="flameOffTimeStart" step="1"/>
-              </div>
-              <div *ngIf="submittedData && isStartSectionVisible && f.flameOffTimeStart.errors" style="color:red">
-                  <div *ngIf="f.flameOffTimeStart.errors.required">Requerido</div>
-              </div>
-              <div *ngIf="startDatesValidation && isStartSectionVisible" style="color:red">
-                <div>Validar</div>
-              </div>
+          <div class="col-md-2 col-lg-1">
+            <app-mat-select 
+              [formGroup]="formTemp" 
+              controlName="ha" 
+              [options]="hours"
+              [withEmptyOption]="false"
+              label="Hora"
+            ></app-mat-select>
           </div>
+          <div class="col-md-2 col-lg-1">
+            <app-mat-select 
+              [formGroup]="formTemp" 
+              controlName="ma" 
+              [options]="minutes"
+              [withEmptyOption]="false"
+              label="Minuto"
+            ></app-mat-select>
+          </div>
+          <div class="col-md-2 col-lg-1">
+            <app-mat-select 
+              [formGroup]="formTemp" 
+              controlName="sa" 
+              [options]="seconds"
+              [withEmptyOption]="false"
+              label="Segundo"
+            ></app-mat-select>
+          </div> 
+          
           <div class="col-md-3">
             <div class="form-group">
               <small class="form-text text-muted" >Fecha Velocidad Plena sin Carga (FSNL):</small>
@@ -129,18 +163,34 @@
               <div>Validar</div>
             </div>
           </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <small class="form-text text-muted" >Hora Velocidad Plena sin Carga (FSNL):</small>
-              <input class="form-control" type="time" min="00:00:00" max="23:59:59" formControlName="fsnlTimeStart" step="1"/>
-            </div>
-            <div *ngIf="submittedData && isStartSectionVisible && f.fsnlTimeStart.errors" style="color:red">
-              <div *ngIf="f.fsnlTimeStart.errors.required">Requerido</div>
-            </div>
-            <div *ngIf="startDatesValidation && isStartSectionVisible" style="color:red">
-              <div>Validar</div>
-            </div>
+          <div class="col-md-2 col-lg-1">
+            <app-mat-select 
+              [formGroup]="formTemp" 
+              controlName="hb" 
+              [options]="hours"
+              [withEmptyOption]="false"
+              label="Hora"
+            ></app-mat-select>
           </div>
+          <div class="col-md-2 col-lg-1">
+            <app-mat-select 
+              [formGroup]="formTemp" 
+              controlName="mb" 
+              [options]="minutes"
+              [withEmptyOption]="false"
+              label="Minuto"
+            ></app-mat-select>
+          </div>
+          <div class="col-md-2 col-lg-1">
+            <app-mat-select 
+              [formGroup]="formTemp" 
+              controlName="sb" 
+              [options]="seconds"
+              [withEmptyOption]="false"
+              label="Segundo"
+            ></app-mat-select>
+          </div> 
+          
       </div>
     </div>
     <div style="border-style: groove; padding: 2%" *ngIf="isRejectSectionVisible"><!-- Section Rechazo Carga -->
@@ -160,15 +210,34 @@
             <div *ngIf="f.dateReject.errors.required">Requerido</div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Hora Rechazo de Carga:</small>
-            <input class="form-control" type="time" min="00:00:00" max="23:59:59" step="1" formControlName="timeReject"/>
-          </div>
-          <div *ngIf="submittedData && isRejectSectionVisible && f.timeReject.errors" style="color:red">
-            <div *ngIf="f.timeReject.errors.required">Requerido</div>
-          </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ha" 
+            [options]="hours"
+            [withEmptyOption]="false"
+            label="Hora"
+          ></app-mat-select>
         </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ma" 
+            [options]="minutes"
+            [withEmptyOption]="false"
+            label="Minuto"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="sa" 
+            [options]="seconds"
+            [withEmptyOption]="false"
+            label="Segundo"
+          ></app-mat-select>
+        </div> 
+        
         <div class="col-md-3">
           <div class="form-group">
             <small class="form-text text-muted" >Carga antes del rechazo(MW):</small>
@@ -202,19 +271,35 @@
           <div *ngIf="runbackDatesValidation && isRunbackSectionVisible" style="color:red">
             <div>Validar</div>
           </div>
+        </div>        
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ha" 
+            [options]="hours"
+            [withEmptyOption]="false"
+            label="Hora"
+          ></app-mat-select>
         </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Hora Inicio del runback:</small>
-            <input class="form-control" type="time" min="00:00:00" max="23:59:59" step="1" formControlName="startTimeRunback"/>
-          </div>
-          <div *ngIf="submittedData && isRunbackSectionVisible && f.startTimeRunback.errors" style="color:red">
-            <div *ngIf="f.startTimeRunback.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="runbackDatesValidation && isRunbackSectionVisible" style="color:red">
-            <div>Validar</div>
-          </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ma" 
+            [options]="minutes"
+            [withEmptyOption]="false"
+            label="Minuto"
+          ></app-mat-select>
         </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="sa" 
+            [options]="seconds"
+            [withEmptyOption]="false"
+            label="Segundo"
+          ></app-mat-select>
+        </div> 
+        
         <div class="col-md-3">
           <div class="form-group">
             <small class="form-text text-muted" >Fecha Fin del runback:</small>
@@ -227,18 +312,35 @@
             <div>Validar</div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Hora Fin del runback:</small>
-            <input class="form-control" type="time" min="00:00:00" max="23:59:59" step="1" formControlName="endTimeRunback"/>
-          </div>
-          <div *ngIf="submittedData && isRunbackSectionVisible && f.endTimeRunback.errors" style="color:red">
-            <div *ngIf="f.endTimeRunback.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="runbackDatesValidation && isRunbackSectionVisible" style="color:red">
-            <div>Validar</div>
-          </div>
+        
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="hb" 
+            [options]="hours"
+            [withEmptyOption]="false"
+            label="Hora"
+          ></app-mat-select>
         </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="mb" 
+            [options]="minutes"
+            [withEmptyOption]="false"
+            label="Minuto"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="sb" 
+            [options]="seconds"
+            [withEmptyOption]="false"
+            label="Segundo"
+          ></app-mat-select>
+        </div> 
+        
       </div>
       <div class="row">
         <div class="col-md-3">
@@ -287,18 +389,35 @@
             <div>Validar</div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Hora Pérdida de Flama (Flame Off):</small>
-            <input class="form-control" type="time" min="00:00:00" max="23:59:59" step="1" formControlName="flameOffTimeStop"/>
-          </div>
-          <div *ngIf="submittedData && isStopSectionVisible && f.flameOffTimeStop.errors" style="color:red">
-            <div *ngIf="f.flameOffTimeStop.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="stopDatesValidation && isStopSectionVisible" style="color:red">
-            <div>Validar</div>
-          </div>
+        
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ha" 
+            [options]="hours"
+            [withEmptyOption]="false"
+            label="Hora"
+          ></app-mat-select>
         </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ma" 
+            [options]="minutes"
+            [withEmptyOption]="false"
+            label="Minuto"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="sa" 
+            [options]="seconds"
+            [withEmptyOption]="false"
+            label="Segundo"
+          ></app-mat-select>
+        </div> 
+        
         <div class="col-md-3">
           <div class="form-group">
             <small class="form-text text-muted" >Fecha Velocidad Plena sin Carga (FSNL):</small>
@@ -311,18 +430,35 @@
             <div>Validar</div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Hora Velocidad Plena sin Carga (FSNL):</small>
-            <input class="form-control" type="time" min="00:00:00" max="23:59:59" step="1" formControlName="fsnlTimeStop"/>
-          </div>
-          <div *ngIf="submittedData && isStopSectionVisible && f.fsnlTimeStop.errors" style="color:red">
-            <div *ngIf="f.fsnlTimeStop.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="stopDatesValidation && isStopSectionVisible" style="color:red">
-            <div>Validar</div>
-          </div>
+        
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="hb" 
+            [options]="hours"
+            [withEmptyOption]="false"
+            label="Hora"
+          ></app-mat-select>
         </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="mb" 
+            [options]="minutes"
+            [withEmptyOption]="false"
+            label="Minuto"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="sb" 
+            [options]="seconds"
+            [withEmptyOption]="false"
+            label="Segundo"
+          ></app-mat-select>
+        </div> 
+        
       </div>
       <div class="row">
         <div class="col-md-3">
@@ -369,19 +505,35 @@
           <div *ngIf="dieselDatesValidation && isDieselSectionVisible" style="color:red">
             <div>Validar</div>
           </div>
+        </div>        
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ha" 
+            [options]="hours"
+            [withEmptyOption]="false"
+            label="Hora"
+          ></app-mat-select>
         </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Hora Inicio Operación en Diesel:</small>
-            <input class="form-control" type="time" min="00:00:00" max="23:59:59" step="1" formControlName="startTimeDiesel"/>
-          </div>
-          <div *ngIf="submittedData && isDieselSectionVisible && f.startTimeDiesel.errors" style="color:red">
-            <div *ngIf="f.startTimeDiesel.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="dieselDatesValidation && isDieselSectionVisible" style="color:red">
-            <div>Validar</div>
-          </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ma" 
+            [options]="minutes"
+            [withEmptyOption]="false"
+            label="Minuto"
+          ></app-mat-select>
         </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="sa" 
+            [options]="seconds"
+            [withEmptyOption]="false"
+            label="Segundo"
+          ></app-mat-select>
+        </div> 
+        
         <div class="col-md-3">
           <div class="form-group">
             <small class="form-text text-muted" >Fecha Fin Operación en Diesel:</small>
@@ -393,19 +545,35 @@
           <div *ngIf="dieselDatesValidation && isDieselSectionVisible" style="color:red">
             <div>Validar</div>
           </div>
+        </div>                
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="hb" 
+            [options]="hours"
+            [withEmptyOption]="false"
+            label="Hora"
+          ></app-mat-select>
         </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Hora Fin Operación en Diesel:</small>
-            <input class="form-control" type="time" min="00:00:00" max="23:59:59" step="1" formControlName="endTimeDiesel"/>
-          </div>
-          <div *ngIf="submittedData && isDieselSectionVisible && f.endTimeDiesel.errors" style="color:red">
-            <div *ngIf="f.endTimeDiesel.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="dieselDatesValidation && isDieselSectionVisible" style="color:red">
-            <div>Validar</div>
-          </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="mb" 
+            [options]="minutes"
+            [withEmptyOption]="false"
+            label="Minuto"
+          ></app-mat-select>
         </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="sb" 
+            [options]="seconds"
+            [withEmptyOption]="false"
+            label="Segundo"
+          ></app-mat-select>
+        </div> 
+        
       </div>
     </div>
     <div style="border-style: groove; padding: 2%" *ngIf="isNormalOperationSectionVisible"><!-- Section Normal Operation -->
@@ -427,19 +595,35 @@
           <div *ngIf="normalDatesValidation && isNormalOperationSectionVisible" style="color:red">
             <div>Validar</div>
           </div>
+        </div>        
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ha" 
+            [options]="hours"
+            [withEmptyOption]="false"
+            label="Hora"
+          ></app-mat-select>
         </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Hora Inicio Operación Normal:</small>
-            <input class="form-control" type="time" min="00:00:00" max="23:59:59" step="1" formControlName="startTimeNormal"/>
-          </div>
-          <div *ngIf="submittedData && isNormalOperationSectionVisible && f.startTimeNormal.errors" style="color:red">
-            <div *ngIf="f.startTimeNormal.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="normalDatesValidation && isNormalOperationSectionVisible" style="color:red">
-            <div>Validar</div>
-          </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ma" 
+            [options]="minutes"
+            [withEmptyOption]="false"
+            label="Minuto"
+          ></app-mat-select>
         </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="sa" 
+            [options]="seconds"
+            [withEmptyOption]="false"
+            label="Segundo"
+          ></app-mat-select>
+        </div> 
+        
         <div class="col-md-3">
           <div class="form-group">
             <small class="form-text text-muted" >Fecha Fin Operación Normal:</small>
@@ -452,18 +636,35 @@
             <div>Validar</div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Hora Fin Operación Normal:</small>
-            <input class="form-control" type="time" min="00:00:00" max="23:59:59" step="1" formControlName="endTimeNormal"/>
-          </div>
-          <div *ngIf="submittedData && isNormalOperationSectionVisible && f.endTimeNormal.errors" style="color:red">
-            <div *ngIf="f.endTimeNormal.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="normalDatesValidation && isNormalOperationSectionVisible" style="color:red">
-            <div>Validar</div>
-          </div>
+        
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="hb" 
+            [options]="hours"
+            [withEmptyOption]="false"
+            label="Hora"
+          ></app-mat-select>
         </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="mb" 
+            [options]="minutes"
+            [withEmptyOption]="false"
+            label="Minuto"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="sb" 
+            [options]="seconds"
+            [withEmptyOption]="false"
+            label="Segundo"
+          ></app-mat-select>
+        </div> 
+        
       </div>
     </div>
     <br/>
