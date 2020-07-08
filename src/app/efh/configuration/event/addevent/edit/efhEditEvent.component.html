@@ -667,7 +667,7 @@
         
       </div>
     </div>
-    <div style="border-style: groove; padding: 2%" class="my-2"><!-- Section Disparo And Arranque -->
+    <div style="border-style: groove; padding: 2%" class="my-2" *ngIf="isShotStartSectionVisible"><!-- Section Disparo And Arranque -->
       <div class="my-2"><!-- Section Disparo -->
         <div class="row">
           <div class="col">
@@ -817,7 +817,7 @@
         </div>
       </div>
     </div>
-    <div style="border-style: groove; padding: 2%" class="my-2"><!-- Section Paro And Arranque -->
+    <div style="border-style: groove; padding: 2%" class="my-2" *ngIf="isStopStartSectionVisible"><!-- Section Paro And Arranque -->
       <div class="my-2"><!-- Section Paro -->
         <div class="row">
           <div class="col">
@@ -1000,81 +1000,7 @@
       </div>
     </div>
   </div>
-  <!-- Aqui van la sección de observaciones
-  <div *ngIf="isDefaultSectionsVisible">
-      <div class="section">
-        <div class="row">
-          <div class="col">
-            <p class="section_titulo_0">Observaciones</p>
-            <p class="section_subtitulo_0"></p>
-          </div>
-        </div>
-        <hr>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="form-group">
-              <label>Observación</label>
-              <input mdbInput class="form-control" formControlName="observations" (keydown)="enableSaveButton();" #description maxlength="1000">
-              <small class="form-text text-muted text-right">{{description.value?.length || 0}}/1000</small>
-            </div>
-            <div *ngIf="submittedData && this.observationsArr.length == 0" style="color:red">
-              <div>Requerido</div>
-            </div>
-            <div class="row justify-content-end mb-5">
-              <div class="col-md-auto">
-                <button type="button" (click)="addObservation();" class="btn" [disabled]="isAddObvsDisabled">
-                  <i class="ti-bookmark-alt"></i>&nbsp;
-                  Agregar observación
-                </button>
-              </div>
-            </div>
-          </div>
-        </div> -->
-        <!-- Lista de observaciones
-        <div class="row">
-          <div class="col">
-            <div class="mat-elevation-z0">
-              <table mdbTable class="table_catalogo">
-                <thead>
-                <tr><th colspan="7">Historial de observaciones</th></tr>
-                <tr>
-                  <th *ngFor="let head of headObservaciones" scope="col">{{head}} </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr mdbTableCol *ngFor="let el of observationsArr; let i = index;">
-                  <th scope="row">{{i+1}}</th>
-                  <td>{{el.nombre}}</td>
-                  <td>{{el.observacion}}</td>
-                  <td>{{el.fecha_modificacion | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
-                  <td>
-                      <mat-checkbox class="active" color="primary"
-                                    (change)="dummy();"
-                                    [checked]="isAddObvsDisabled"
-                                    [disabled]="accion == 'ver'">
-                          <mat-label></mat-label>
-                      </mat-checkbox>
-                  </td>
-                  <td>
-                      <a (click)="dummy()" [ngClass]="{'linkDisabled': accion == 'ver'}">
-                          <img src="assets/images/skins/ico_Editar.png" alt="Editar">
-                      </a>
-                  </td>
-                  <td>
-                      <a (click)="dummy()" [ngClass]="{'linkDisabled': accion == 'ver'}">
-                          <img src="assets/images/skins/ico_Borrar.png" alt="Eliminar">
-                      </a>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-  </div> -->
   <!-- Observaciones -->
-  <!-- Test -->
   <div *ngIf="isDefaultSectionsVisible">
     <app-efh-comments [inIdEventConfig]="eventType.id" [inAction]="accion" [inTypeConfig]="1"></app-efh-comments>
   </div>

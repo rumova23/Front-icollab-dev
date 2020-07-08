@@ -55,6 +55,8 @@ export class EfhEditEventComponent implements OnInit {
   isDieselSectionVisible = false;
   isDefaultSectionsVisible = false;
   isNormalOperationSectionVisible = false;
+  isShotStartSectionVisible = false;
+  isStopStartSectionVisible = false;
 
   optionsSelectEnabled = true;
 
@@ -65,6 +67,8 @@ export class EfhEditEventComponent implements OnInit {
   isStopControlsEnabled = true;
   isDieselControlsEnabled = true;
   isNormalOperationControlsEnabled = true;
+  isShotStartControlsEnabled = false;
+  isStopStartControlsEnabled = false;
 
   startDatesValidation = false;
   runbackDatesValidation = false;
@@ -154,8 +158,8 @@ export class EfhEditEventComponent implements OnInit {
           // observations: [{ value: '', disabled: this.isAddObvsDisabled }, Validators.required],
           file: [null, Validators.required]
       });
-      
-        this.formTemp = this.formBuilder.group(
+
+      this.formTemp = this.formBuilder.group(
             {
                 dateTimeStart: [{ value: new Date(), disabled: false }],
                 dateTimeEnd: [{ value: new Date(), disabled: false }],
@@ -165,8 +169,7 @@ export class EfhEditEventComponent implements OnInit {
                 hb: [{ value: '00', disabled: false }],
                 mb: [{ value: '00', disabled: false }],
                 sb: [{ value: '00', disabled: false }]
-            }
-        );
+            });
       this.selectControlsEnabled(false);
       this.shotControlsEnabled(false);
       this.startControlsEnabled(false);

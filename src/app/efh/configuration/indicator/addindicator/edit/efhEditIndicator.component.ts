@@ -248,6 +248,7 @@ export class EfhEditIndicatorComponent implements OnInit {
                         this.indicatorForm.controls['dateStartApplication'].setValue(this.dateStartApplication)
                         this.indicatorForm.controls['dateEndApplication'].setValue(this.dateEndApplication);
                         this.indicatorForm.controls['equivalenWithOutFuelFactor'].setValue(this.equivalenWithOutFuelFactor);
+                        this.isWithFuel = false;
                         break;
                       case 3: this.dateStartApplication = this.datePipe.transform(new Date(element.dateinit) , 'yyyy-MM-dd');
                         this.dateEndApplication = this.datePipe.transform(new Date(element.dateend) , 'yyyy-MM-dd');
@@ -271,14 +272,14 @@ export class EfhEditIndicatorComponent implements OnInit {
 
                   if (this.indicatorForm.controls['fuelTypeControl'].value === null && this.isWithFuel) {
                     this.dataSubmit['idtypefuel'] = this.selectedFuelType;
+                  } else {
+                    this.dataSubmit['idtypefuel'] = this.indicatorForm.controls['fuelTypeControl'].value;
                   }
                   if (this.indicatorForm.controls['fuelTypeControl'].value === null && !this.isWithFuel) {
                     this.dataSubmit['idtypefuel'] = this.selectedFuelType;
                   }
                   if (this.indicatorForm.controls['fuelTypeControl'].value != null && !this.isWithFuel) {
                     this.dataSubmit['idtypefuel'] = this.idFuelType;
-                  } else {
-                    this.dataSubmit['idtypefuel'] = this.indicatorForm.controls['fuelTypeControl'].value;
                   }
 
                   if (this.indicatorForm.controls['unitControl'].value === null) {
@@ -509,15 +510,18 @@ export class EfhEditIndicatorComponent implements OnInit {
     this.withOutfuelControlsEnabled(false);
     this.withFuelControlsEnabled(false);
 
-    this.indicatorForm.controls.unitControl.setValue('');
-    this.indicatorForm.controls.fuelTypeControl.setValue('');
-    this.indicatorForm.controls.dateStartApplication.setValue('');
-    this.indicatorForm.controls.dateEndApplication.setValue('');
-    this.indicatorForm.controls.equivalenFuelFactor.setValue('');
-    this.indicatorForm.controls.equivalenWithOutFuelFactor.setValue('');
-    this.indicatorForm.controls.maxiumLoad.setValue('');
-    this.indicatorForm.controls.efhiCost.setValue('');
-    this.indicatorForm.controls.description.setValue('');
+    if (this.accion === 'nuevo') {
+      this.indicatorForm.controls.unitControl.setValue('');
+      this.indicatorForm.controls.fuelTypeControl.setValue('');
+      this.indicatorForm.controls.dateStartApplication.setValue('');
+      this.indicatorForm.controls.dateEndApplication.setValue('');
+      this.indicatorForm.controls.equivalenFuelFactor.setValue('');
+      this.indicatorForm.controls.equivalenWithOutFuelFactor.setValue('');
+      this.indicatorForm.controls.maxiumLoad.setValue('');
+      this.indicatorForm.controls.efhiCost.setValue('');
+      this.indicatorForm.controls.description.setValue('');
+    }
+
   }
 
   onSubmit() {
