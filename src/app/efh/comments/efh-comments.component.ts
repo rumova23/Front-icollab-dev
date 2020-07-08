@@ -12,6 +12,7 @@ import {first} from 'rxjs/operators';
 import {debug} from 'util';
 import {EventBlocked} from '../../core/models/EventBlocked';
 import {EventService} from '../../core/services/event.service';
+import { PageEvent } from '@angular/material';
 
 @Component({
   selector: 'app-efh-comments',
@@ -36,6 +37,8 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
   obvsSaved = false;
   subscription;
   rowPerPage = [5, 10, 25, 50];
+  paginatorData = [];
+  paginatorSizeOptions = [5, 10, 25, 100];
   delay = ms => new Promise(res => setTimeout(res, ms));
 
   constructor(public efhService: EfhService,
@@ -98,12 +101,17 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
                 this.observationsArr.push(new Comment(element.id, idConfig, 'tester', element.observation, new Date(element.dateobservation), element.active, true));
               }
           }
+          this.paginatorData = this.observationsArr.slice(0,this.paginatorSizeOptions[0]);
         }
     ).add(() => {
         this.addBlock(2, null);
     });
   }
-
+  paginar(e:PageEvent){
+    const i = e.pageIndex;
+    const s = e.pageSize;
+    this.paginatorData = this.observationsArr.slice(s*i,(s*i)+s);
+  }
   private addBlock(type, msg): void {
       this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
