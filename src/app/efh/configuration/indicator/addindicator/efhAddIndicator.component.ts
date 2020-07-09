@@ -216,8 +216,8 @@ export class EfhAddIndicatorComponent implements OnInit {
             obj['typeIndicator'] = this.indicatorTypesArr.find(x => x.id === element.idtypeindicator).name;
             obj['typeFuel'] = this.fuelTypesArr.find(x => x.id === element.idtypefuel).name;
             obj['unit'] = this.unitsArr.find(x => x.id === element.idunit).name;
-            obj['dateInit'] = this.datePipe.transform(new Date(element.dateinit) , 'dd/MM/yyyy HH:mm');
-            obj['dateEnd'] = this.datePipe.transform(new Date(element.dateinit) , 'dd/MM/yyyy HH:mm');
+            obj['dateInit'] = this.datePipe.transform(new Date(element.dateinit) , 'dd/MM/yyyy');
+            obj['dateEnd'] = this.datePipe.transform(new Date(element.dateend) , 'dd/MM/yyyy');
             obj['userCreated'] = element.userUpdated === null ? element.userCreated : element.userUpdated;
             obj['userUpdated'] = element.userUpdated === null ? element.userCreated : element.userUpdated;
             const dateUpdated = element.dateUpdated === null ? element.dateCreated : element.dateUpdated;
@@ -233,7 +233,8 @@ export class EfhAddIndicatorComponent implements OnInit {
           }
           this.displayedColumnsOrder = [
             {key: 'order', label: '#'}
-            , {key: 'dateInit', label: 'Fecha'}
+            , {key: 'dateInit', label: 'Fecha Inicio Aplicación'}
+            , {key: 'dateEnd', label: 'Fecha Fin Aplicación'}
             , {key: 'unit', label: 'Unidad'}
             , {key: 'typeIndicator', label: 'Tipo de indicador'}
             , {key: 'typeFuel', label: 'Combustible'}
@@ -243,7 +244,7 @@ export class EfhAddIndicatorComponent implements OnInit {
           ];
 
           this.displayedColumnsActions = [];
-          this.columnsToDisplay = [ 'order', 'dateInit', 'unit', 'typeIndicator', 'typeFuel', 'userUpdated', 'dateUpdated', 'status'];
+          this.columnsToDisplay = [ 'order', 'dateInit', 'dateEnd', 'unit', 'typeIndicator', 'typeFuel', 'userUpdated', 'dateUpdated', 'status'];
 
           if (this.showView) {
             this.displayedColumnsActions.push({key: 'sys_see', label: 'Ver'});
