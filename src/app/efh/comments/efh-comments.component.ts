@@ -39,6 +39,7 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
   rowPerPage = [5, 10, 25, 50];
   paginatorData = [];
   paginatorSizeOptions = [5, 10, 25, 100];
+  paginatorPageEvent=null;
   delay = ms => new Promise(res => setTimeout(res, ms));
 
   constructor(public efhService: EfhService,
@@ -101,15 +102,18 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
                 this.observationsArr.push(new Comment(element.id, idConfig, 'tester', element.observation, new Date(element.dateobservation), element.active, true));
               }
           }
-          this.paginatorData = this.observationsArr.slice(0,this.paginatorSizeOptions[0]);
+          this.paginar(null);
         }
     ).add(() => {
         this.addBlock(2, null);
     });
   }
   paginar(e:PageEvent){
-    const i = e.pageIndex;
-    const s = e.pageSize;
+    if(e!=null){
+      this.paginatorPageEvent = e;
+    }
+    let i=this.paginatorPageEvent!=null?this.paginatorPageEvent.pageIndex : 0;
+    let s=this.paginatorPageEvent!=null?this.paginatorPageEvent.pageSize : this.paginatorSizeOptions[0];
     this.paginatorData = this.observationsArr.slice(s*i,(s*i)+s);
   }
   private addBlock(type, msg): void {
@@ -255,6 +259,7 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
         this.isAddObvsDisabled = true;
       }
     }
+    this.paginar(null);
   }
 
   enableSaveButton() {
