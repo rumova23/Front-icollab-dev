@@ -29,7 +29,6 @@ export class EfhEditIndicatorComponent implements OnInit {
   indicatorForm: FormGroup;
   dataSubmit = {};
   submittedData = false;
-  observationsArr: Array<any>;
   result;
   indicatorTypesArr = [];
   unitsArr = [];
@@ -37,7 +36,6 @@ export class EfhEditIndicatorComponent implements OnInit {
   fuelTypesForSelect = [];
   checkedEstatus = false;
   deshabiliarEstatus = false;
-  headObservaciones = ['#', 'Nombre', 'Observaciones', 'Fecha de ultima modificación', 'Visible', 'Editar', 'Eliminar'];
   defaultCharge;
   defaultCharge2;
   currentYear = new Date().getFullYear();
@@ -99,7 +97,6 @@ export class EfhEditIndicatorComponent implements OnInit {
       private eventService: EventService,
       private efhService: EfhService) {
     this.indicatorForm = this.formBuilder.group({});
-    this.observationsArr = [];
   }
 
   get f() { return this.indicatorForm.controls; }
@@ -120,7 +117,6 @@ export class EfhEditIndicatorComponent implements OnInit {
       equivalenFuelFactor: ['', Validators.required],
       equivalenWithOutFuelFactor: ['', Validators.required],
       description: ['', Validators.required],
-      // observations: [{ value: '', disabled: this.isAddObvsDisabled }, Validators.required],
       file: [null, Validators.required]
     });
     this.selectControlsEnabled(false);
