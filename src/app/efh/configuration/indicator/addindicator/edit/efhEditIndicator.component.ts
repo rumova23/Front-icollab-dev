@@ -116,10 +116,10 @@ export class EfhEditIndicatorComponent implements OnInit {
       timeStartApplication: ['00:00:00'],
       dateEndApplication: ['', Validators.required],
       timeEndApplication: ['00:00:00'],
-      efhiCost: ['', [Validators.required,Validators.min(0), Validators.max(200)]],
-      maxiumLoad: ['', [Validators.required,Validators.min(0), Validators.max(200)]],
-      equivalenFuelFactor: ['', [Validators.required,Validators.min(0), Validators.max(200)]],
-      equivalenWithOutFuelFactor: ['', [Validators.required,Validators.min(0), Validators.max(200)]],
+      efhiCost: ['', [Validators.required,Validators.min(0), Validators.max(2000)]],
+      maxiumLoad: ['', [Validators.required,Validators.min(0), Validators.max(2000)]],
+      equivalenFuelFactor: ['', [Validators.required,Validators.min(0), Validators.max(2000)]],
+      equivalenWithOutFuelFactor: ['', [Validators.required,Validators.min(0), Validators.max(2000)]],
       description: ['', Validators.required],
       file: [null, Validators.required]
     });
@@ -234,8 +234,8 @@ export class EfhEditIndicatorComponent implements OnInit {
                         this.indicatorForm.controls['dateEndApplication'].setValue(this.dateEndApplication);
                         this.indicatorForm.controls['efhiCost'].setValue(this.efhiCost);
                         break;
-                      case 2: this.dateStartApplication = this.datePipe.transform(this.getTimeLocale(element.dateinit) , 'yyyy-MM-dd');
-                        this.dateEndApplication = this.datePipe.transform(this.getTimeLocale(element.dateend) , 'yyyy-MM-dd');
+                      case 2: this.dateStartApplication = this.datePipe.transform(new Date(element.dateinit) , 'yyyy-MM-dd');
+                        this.dateEndApplication = this.datePipe.transform(new Date(element.dateend) , 'yyyy-MM-dd');
                         this.equivalenFuelFactor = element.value;
                         this.indicatorForm.controls['dateStartApplication'].setValue(this.dateStartApplication)
                         this.indicatorForm.controls['dateEndApplication'].setValue(this.dateEndApplication);
