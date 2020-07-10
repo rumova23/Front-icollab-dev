@@ -3,6 +3,7 @@
 		<label>{{ label | translate }}{{ sufijo | translate }}</label>
 		<br>
 		<mat-checkbox 
+			[disabled]="formGroup.get(controlName).disabled"
 			color="primary"
 			(change)="onChange($event)"
 			[formControlName]="controlName"
