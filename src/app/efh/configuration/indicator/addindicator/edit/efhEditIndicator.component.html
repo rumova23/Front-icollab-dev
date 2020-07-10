@@ -54,6 +54,7 @@
           <app-mat-input-datepicker
             [formGroup]="indicatorForm"
             controlName="dateStartApplication"
+            [submitted]="submittedData"
             (eventChange)="onDateStartApplication($event)"
             label="Fecha Inicio Aplicación"
             [minDate]="initDate"
@@ -63,6 +64,7 @@
           <app-mat-input-datepicker
             [formGroup]="indicatorForm"
             controlName="dateEndApplication"
+            [submitted]="submittedData"
             [minDate]="minDateEndApplication"
             label="Fecha Fin Aplicación"
           ></app-mat-input-datepicker>
@@ -71,8 +73,9 @@
           <app-mat-input-number
             [formGroup]="indicatorForm"
             controlName="equivalenFuelFactor"
+            [submitted]="submittedData"
             minValue="0"
-            maxValue="200"
+            maxValue="2000"
             label="Factor equivalente de combustible"
           ></app-mat-input-number>
         </div>
@@ -80,8 +83,9 @@
           <app-mat-input-number
             [formGroup]="indicatorForm"
             controlName="equivalenWithOutFuelFactor"
+            [submitted]="submittedData"
             minValue="0"
-            maxValue="200"
+            maxValue="2000"
             label="Factor equivalente sin combustible"
           ></app-mat-input-number>
         </div>
@@ -89,8 +93,9 @@
           <app-mat-input-number
             [formGroup]="indicatorForm"
             controlName="maxiumLoad"
+            [submitted]="submittedData"
             minValue="0"
-            maxValue="200"
+            maxValue="2000"
             label="Máxima Carga(MW)"
           ></app-mat-input-number>
         </div>
@@ -98,8 +103,9 @@
           <app-mat-input-number
             [formGroup]="indicatorForm"
             controlName="efhiCost"
+            [submitted]="submittedData"
             minValue="0"
-            maxValue="200"
+            maxValue="2000"
             label="Costo EFHI$ (USD)"
           ></app-mat-input-number>
         </div>
@@ -110,6 +116,7 @@
       <app-mat-input-textarea
         [formGroup]="indicatorForm"
         controlName="description"
+        [submitted]="submittedData"
         label="Descripción"
         maxLength="1000"
         rows="9"

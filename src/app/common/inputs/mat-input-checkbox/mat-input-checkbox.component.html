@@ -7,7 +7,11 @@
 			(change)="onChange($event)"
 			[formControlName]="controlName"
 		>{{labelIn | translate}}</mat-checkbox>
-		<ng-container *ngIf="(submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid">
+		<ng-container 
+			*ngIf="
+				(submitted || formGroup.get(controlName).touched) 
+				&& !formGroup.get(controlName).valid
+				&& formGroup.get(controlName).errors != null">
 			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.required">{{'Required' | translate}}</p>
 		</ng-container>
 	</div>

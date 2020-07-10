@@ -2,13 +2,24 @@
 	<div class="form-group">
 		<label>{{ label | translate }}{{ sufijo | translate }}</label>
 		<div  class="form-control w-100"
-			[ngClass]="{ 'is-invalid': (submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid , 'input-disabled':formGroup.get(controlName).disabled}"
+			[ngClass]="{ 
+				'is-invalid': 
+					(submitted || formGroup.get(controlName).touched) 
+					&& !formGroup.get(controlName).valid 
+					&& formGroup.get(controlName).errors != null
+				,'input-disabled':
+					formGroup.get(controlName).disabled
+			}"
 			>
 			<mat-radio-group aria-label="Select an option" [formControlName]="controlName">
 				<mat-radio-button *ngFor="let option of options" [value]="option.id">{{ option.label | translate}}</mat-radio-button>
 			</mat-radio-group>
 		</div>
-		<ng-container *ngIf="(submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid">
+		<ng-container 
+			*ngIf="
+				(submitted || formGroup.get(controlName).touched) 
+				&& !formGroup.get(controlName).valid
+				&& formGroup.get(controlName).errors != null">
 			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.required">{{'Required' | translate}}</p>
 			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.minlength">{{'Insufficient characters' | translate}}</p>
 		</ng-container>
