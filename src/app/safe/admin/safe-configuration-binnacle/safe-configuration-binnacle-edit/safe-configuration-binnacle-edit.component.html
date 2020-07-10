@@ -394,7 +394,7 @@
 						<app-btn-block-back (click)="btnClickBack()"></app-btn-block-back>
 					</div>
 					<div class="col-12 col-lg-4">
-						<app-btn-block-save myType="submit"></app-btn-block-save>
+						<app-btn-block-save myType="submit" [disabled] = "catalogType.action === 'ver'"></app-btn-block-save>
 					</div>
 				</div>
 			</div>
