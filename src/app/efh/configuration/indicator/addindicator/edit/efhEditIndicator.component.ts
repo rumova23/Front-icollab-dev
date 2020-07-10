@@ -27,6 +27,7 @@ export class EfhEditIndicatorComponent implements OnInit {
   subtitulo: string;
   indicatorType: IndicatorType;
   indicatorForm: FormGroup;
+  formTemp: FormGroup;
   dataSubmit = {};
   submittedData = false;
   result;
@@ -86,7 +87,7 @@ export class EfhEditIndicatorComponent implements OnInit {
   selectedIndicatorType;
   selectedUnit;
   selectedFuelType;
-
+  minDateEndApplication;
   constructor(
       private formBuilder: FormBuilder,
       private catalogoMaestroService: CatalogoMaestroService,
@@ -104,18 +105,21 @@ export class EfhEditIndicatorComponent implements OnInit {
   ngOnInit() {
     this.titulo = 'Agregar Configuracion de Indicadores';
     this.submittedData = false;
+    this.formTemp = this.formBuilder.group({
+      statusElement: [ this.checkedEstatus, null],
+    });
     this.indicatorForm = this.formBuilder.group({
       indicatorTypeControl: [null, null],
-      unitControl: [ null, null],
-      fuelTypeControl: [ null, null],
+      unitControl: [ null, Validators.required],
+      fuelTypeControl: [ null, Validators.required],
       dateStartApplication: ['', Validators.required],
       timeStartApplication: ['00:00:00'],
       dateEndApplication: ['', Validators.required],
       timeEndApplication: ['00:00:00'],
-      efhiCost: ['', Validators.required],
-      maxiumLoad: ['', Validators.required],
-      equivalenFuelFactor: ['', Validators.required],
-      equivalenWithOutFuelFactor: ['', Validators.required],
+      efhiCost: ['', [Validators.required,Validators.min(0), Validators.max(200)]],
+      maxiumLoad: ['', [Validators.required,Validators.min(0), Validators.max(200)]],
+      equivalenFuelFactor: ['', [Validators.required,Validators.min(0), Validators.max(200)]],
+      equivalenWithOutFuelFactor: ['', [Validators.required,Validators.min(0), Validators.max(200)]],
       description: ['', Validators.required],
       file: [null, Validators.required]
     });
@@ -158,6 +162,7 @@ export class EfhEditIndicatorComponent implements OnInit {
       this.subtitulo = 'Consultar / Configuración de Indicadores';
     } else {
       this.checkedEstatus = true;
+      this.formTemp.controls.statusElement.setValue(this.checkedEstatus);
       this.deshabiliarEstatus = false;
       this.disabledSave = false;
       this.titulo = 'Configuración / Indicadores / Agregar Indicador / Agregar';
@@ -200,7 +205,9 @@ export class EfhEditIndicatorComponent implements OnInit {
       this.obtenerDatosConfiguracionIndicator(true, this.indicatorType.id);
     }
   }
-
+  onDateStartApplication(event){
+    this.minDateEndApplication = new Date(event);
+  }
   obtenerDatosConfiguracionIndicator(putData, id) {
     if (id !== 0) {
       this.efhService.getIndicator(id)
@@ -211,8 +218,11 @@ export class EfhEditIndicatorComponent implements OnInit {
                 for (let element of this.result) {
                   if (this.indicatorType.id === element.id && putData) {
                     this.selectedIndicatorType = this.indicatorTypesArr.find(x => x.id === element.idtypeindicator).id;
+                    this.indicatorForm.controls.indicatorTypeControl.setValue(this.selectedIndicatorType);
                     this.selectedUnit = this.unitsArr.find(x => x.id === element.idunit).id;
+                    this.indicatorForm.controls.unitControl.setValue(this.selectedUnit);
                     this.selectedFuelType = this.fuelTypesArr.find(x => x.id === element.idtypefuel).id;
+                    this.indicatorForm.controls.fuelTypeControl.setValue(this.selectedFuelType);
 
                     // this.getObservations(this.eventType.id);
 
@@ -256,6 +266,7 @@ export class EfhEditIndicatorComponent implements OnInit {
                     }
                     this.indicatorForm.controls['description'].setValue(element.description);
                     this.checkedEstatus = element.active;
+                    this.formTemp.controls.statusElement.setValue(this.checkedEstatus);
                   }
                 }
 
@@ -288,27 +299,27 @@ export class EfhEditIndicatorComponent implements OnInit {
                   // this.dataSubmit['observations'] = this.eventForm.controls['observations'].value;
 
                   switch (this.dataSubmit['idtypeindicator']) {
-                    case 1: this.dateStartApplication = this.indicatorForm.controls['dateStartApplication'].value;
-                      this.dateEndApplication = this.indicatorForm.controls['dateEndApplication'].value;
+                    case 1: this.dateStartApplication = this.datePipe.transform(this.indicatorForm.controls['dateStartApplication'].value , 'yyyy-MM-dd');
+                      this.dateEndApplication = this.datePipe.transform(this.indicatorForm.controls['dateEndApplication'].value , 'yyyy-MM-dd');
                       this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.dateStartApplication + 'T' + this.timeStartApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                       this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.dateEndApplication + 'T' + this.timeEndApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                       this.dataSubmit['value'] = this.indicatorForm.controls['efhiCost'].value;
                       break;
                     case 2:
-                    case 4: this.dateStartApplication = this.indicatorForm.controls['dateStartApplication'].value;
-                      this.dateEndApplication = this.indicatorForm.controls['dateEndApplication'].value;
+                    case 4: this.dateStartApplication = this.datePipe.transform(this.indicatorForm.controls['dateStartApplication'].value , 'yyyy-MM-dd');
+                      this.dateEndApplication = this.datePipe.transform(this.indicatorForm.controls['dateEndApplication'].value , 'yyyy-MM-dd');
                       this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.dateStartApplication + 'T' + this.timeStartApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                       this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.dateEndApplication + 'T' + this.timeEndApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                       this.dataSubmit['value'] = this.indicatorForm.controls['equivalenFuelFactor'].value;
                       break;
-                    case 5: this.dateStartApplication = this.indicatorForm.controls['dateStartApplication'].value;
-                      this.dateEndApplication = this.indicatorForm.controls['dateEndApplication'].value;
+                    case 5: this.dateStartApplication = this.datePipe.transform(this.indicatorForm.controls['dateStartApplication'].value , 'yyyy-MM-dd');
+                      this.dateEndApplication = this.datePipe.transform(this.indicatorForm.controls['dateEndApplication'].value , 'yyyy-MM-dd');
                       this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.dateStartApplication + 'T' + this.timeStartApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                       this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.dateEndApplication + 'T' + this.timeEndApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                       this.dataSubmit['value'] = this.indicatorForm.controls['equivalenWithOutFuelFactor'].value;
                       break;
-                    case 3: this.dateStartApplication = this.indicatorForm.controls['dateStartApplication'].value;
-                      this.dateEndApplication = this.indicatorForm.controls['dateEndApplication'].value;
+                    case 3: this.dateStartApplication = this.datePipe.transform(this.indicatorForm.controls['dateStartApplication'].value , 'yyyy-MM-dd');
+                      this.dateEndApplication = this.datePipe.transform(this.indicatorForm.controls['dateEndApplication'].value , 'yyyy-MM-dd');
                       this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.dateStartApplication + 'T' + this.timeStartApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                       this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.dateEndApplication + 'T' + this.timeEndApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                       this.dataSubmit['value'] = this.indicatorForm.controls['maxiumLoad'].value;
@@ -376,26 +387,26 @@ export class EfhEditIndicatorComponent implements OnInit {
       this.dataSubmit['active'] = this.checkedEstatus;
 
       if (this.isInputSectionVisible && this.isEqFuelFactorSelected) {
-        this.dateStartApplication = this.indicatorForm.controls['dateStartApplication'].value;
-        this.dateEndApplication = this.indicatorForm.controls['dateEndApplication'].value;
+        this.dateStartApplication = this.datePipe.transform(this.indicatorForm.controls['dateStartApplication'].value , 'yyyy-MM-dd');
+        this.dateEndApplication = this.datePipe.transform(this.indicatorForm.controls['dateEndApplication'].value , 'yyyy-MM-dd');
         this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.dateStartApplication + 'T' + this.timeStartApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
         this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.dateEndApplication + 'T' + this.timeEndApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
         this.dataSubmit['value'] = this.indicatorForm.controls['equivalenFuelFactor'].value;
       } else if (this.isInputSectionVisible && this.isEqWithOutFuelFactorSelected) {
-        this.dateStartApplication = this.indicatorForm.controls['dateStartApplication'].value;
-        this.dateEndApplication = this.indicatorForm.controls['dateEndApplication'].value;
+        this.dateStartApplication = this.datePipe.transform(this.indicatorForm.controls['dateStartApplication'].value , 'yyyy-MM-dd');
+        this.dateEndApplication = this.datePipe.transform(this.indicatorForm.controls['dateEndApplication'].value , 'yyyy-MM-dd');
         this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.dateStartApplication + 'T' + this.timeStartApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
         this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.dateEndApplication + 'T' + this.timeEndApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
         this.dataSubmit['value'] = this.indicatorForm.controls['equivalenWithOutFuelFactor'].value;
       } else if (this.isInputSectionVisible && this.isMaxiumLoadSelected) {
-        this.dateStartApplication = this.indicatorForm.controls['dateStartApplication'].value;
-        this.dateEndApplication = this.indicatorForm.controls['dateEndApplication'].value;
+        this.dateStartApplication = this.datePipe.transform(this.indicatorForm.controls['dateStartApplication'].value , 'yyyy-MM-dd');
+        this.dateEndApplication = this.datePipe.transform(this.indicatorForm.controls['dateEndApplication'].value , 'yyyy-MM-dd');
         this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.dateStartApplication + 'T' + this.timeStartApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
         this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.dateEndApplication + 'T' + this.timeEndApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
         this.dataSubmit['value'] = this.indicatorForm.controls['maxiumLoad'].value;
       } else if (this.isInputSectionVisible && this.isEfhiSelected) {
-        this.dateStartApplication = this.indicatorForm.controls['dateStartApplication'].value;
-        this.dateEndApplication = this.indicatorForm.controls['dateEndApplication'].value;
+        this.dateStartApplication = this.datePipe.transform(this.indicatorForm.controls['dateStartApplication'].value , 'yyyy-MM-dd');
+        this.dateEndApplication = this.datePipe.transform(this.indicatorForm.controls['dateEndApplication'].value , 'yyyy-MM-dd');
         this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.dateStartApplication + 'T' + this.timeStartApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
         this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.dateEndApplication + 'T' + this.timeEndApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
         this.dataSubmit['value'] = this.indicatorForm.controls['efhiCost'].value;
@@ -519,7 +530,12 @@ export class EfhEditIndicatorComponent implements OnInit {
     }
 
   }
-
+  onSelectedUnit(element){
+    this.selectedUnit = element.value;
+  }
+  onSelectedFuelType(element){
+    this.selectedFuelType = element.value;
+  }
   onSubmit() {
     this.addBlock(1, 'Cargando...');
     this.submittedData = true;
@@ -537,7 +553,6 @@ export class EfhEditIndicatorComponent implements OnInit {
       this.addBlock(2, null);
       return;
     }
-
     /*
     if ((this.isInputSectionVisible && this.indicatorForm.controls['dateEndApplication'].invalid)
         || (this.isInputSectionVisible && this.indicatorForm.controls['timeEndApplication'].invalid)){
@@ -548,8 +563,8 @@ export class EfhEditIndicatorComponent implements OnInit {
     }*/
 
     if (this.isInputSectionVisible
-        && this.compareDate(this.datePipe.transform(new Date(this.indicatorForm.controls['dateStartApplication'].value + ' ' + this.indicatorForm.controls['timeStartApplication'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'),
-            this.datePipe.transform(new Date(this.indicatorForm.controls['dateEndApplication'].value + ' ' + this.indicatorForm.controls['timeEndApplication'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
+        && this.compareDate(this.datePipe.transform(new Date(this.datePipe.transform(this.indicatorForm.controls['dateStartApplication'].value , 'yyyy-MM-dd') + ' ' + this.indicatorForm.controls['timeStartApplication'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'),
+            this.datePipe.transform(new Date(this.datePipe.transform(this.indicatorForm.controls['dateEndApplication'].value , 'yyyy-MM-dd') + ' ' + this.indicatorForm.controls['timeEndApplication'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
       this.toastr.errorToastr('Fecha Inicio debe ser menor a Fecha Fin, verifique', 'Lo siento,');
       this.indicatorDatesValidation = true;
       this.addBlock(2, null);
@@ -677,7 +692,7 @@ export class EfhEditIndicatorComponent implements OnInit {
     } else {
       this.checkedEstatus = true;
     }
-
+    this.formTemp.controls.statusElement.setValue(this.checkedEstatus);
     if (this.accion === 'editar') {
       this.disabledSave = false;
     }

@@ -15,126 +15,106 @@
     <!-- Combos encabezado -->
     <div class="row">
       <div class="col-md-3">
-        <div class="form-group">
-          <small class="form-text text-muted text-left">Tipo de Indicador:</small>
-          <mat-select class="form-control" formControlName="indicatorTypeControl" (selectionChange)="enableControls($event)" [(value)]="selectedIndicatorType">
-            <mat-option class="form-control" [value]="event.id" *ngFor="let event of indicatorTypesArr">{{event.name}}</mat-option>
-          </mat-select>
-        </div>
+        <app-mat-select
+          [formGroup]="indicatorForm"
+          controlName="indicatorTypeControl"
+          (eventChange)="enableControls($event)"
+          label="Tipo de Indicador"
+          sufijo=""
+          [options]="indicatorTypesArr"
+        ></app-mat-select>
       </div>
       <div class="col-md-3">
-        <div class="form-group">
-          <small class="form-text text-muted text-left">Unidad:</small>
-          <mat-select class="form-control" formControlName="unitControl" [(value)]="selectedUnit">
-            <mat-option class="form-control" [value]="unit.id" *ngFor="let unit of unitsArr">{{unit.name}}</mat-option>
-          </mat-select>
-        </div>
-        <div *ngIf="submittedData && !selectedUnit" style="color:red">
-          <div>Requerido</div>
-        </div>
+        <app-mat-select
+          [formGroup]="indicatorForm"
+          controlName="unitControl"
+          [submitted]="submittedData"
+          (eventChange)="onSelectedUnit($event)"
+          label="Unidad"
+          sufijo=""
+          [options]="unitsArr"
+        ></app-mat-select>
       </div>
       <div class="col-md-3" *ngIf="isWithFuel">
-        <div class="form-group">
-          <small class="form-text text-muted text-left">Tipo de combustible:</small>
-          <mat-select class="form-control" formControlName="fuelTypeControl" [(value)]="selectedFuelType">
-            <mat-option class="form-control" [value]="fuel.id" *ngFor="let fuel of fuelTypesArr">{{fuel.name}}</mat-option>
-          </mat-select>
-        </div>
-        <div *ngIf="submittedData && !selectedFuelType" style="color:red">
-          <div>Requerido</div>
-        </div>
+        <app-mat-select
+          [formGroup]="indicatorForm"
+          controlName="fuelTypeControl"
+          [submitted]="submittedData"
+          (eventChange)="onSelectedFuelType($event)"
+          label="Tipo de combustible"
+          sufijo=""
+          [options]="fuelTypesArr"
+        ></app-mat-select>
       </div>
     </div>
     <br/>
     <div style="border-style: groove; padding: 1%" *ngIf="isInputSectionVisible"><!-- Section Paro -->
       <div class="row">
         <div class="col-md-4">
-          <div class="form-group">
-            <small class="form-text text-muted" >Fecha Inicio Aplicación:</small>
-            <input class="form-control" type="date" min="{{initDate}}" formControlName="dateStartApplication"/>
-          </div>
-          <div *ngIf="submittedData && isInputSectionVisible && f.dateStartApplication.errors" style="color:red">
-            <div *ngIf="f.dateStartApplication.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="indicatorDatesValidation && isInputSectionVisible" style="color:red">
-            <div>Validar</div>
-          </div>
+          <app-mat-input-datepicker
+            [formGroup]="indicatorForm"
+            controlName="dateStartApplication"
+            (eventChange)="onDateStartApplication($event)"
+            label="Fecha Inicio Aplicación"
+            [minDate]="initDate"
+          ></app-mat-input-datepicker>
         </div>
         <div class="col-md-4">
-          <div class="form-group">
-            <small class="form-text text-muted" >Fecha Fin Aplicación:</small>
-            <input class="form-control" type="date" min="{{initDate}}" formControlName="dateEndApplication"/>
-          </div>
-          <div *ngIf="submittedData && isInputSectionVisible && f.dateEndApplication.errors" style="color:red">
-            <div *ngIf="f.dateEndApplication.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="indicatorDatesValidation && isInputSectionVisible" style="color:red">
-            <div>Validar</div>
-          </div>
+          <app-mat-input-datepicker
+            [formGroup]="indicatorForm"
+            controlName="dateEndApplication"
+            [minDate]="minDateEndApplication"
+            label="Fecha Fin Aplicación"
+          ></app-mat-input-datepicker>
         </div>
         <div class="col-md-4" *ngIf="isEqFuelFactorSelected">
-          <div class="form-group">
-              <small class="form-text text-muted" >Factor equivalente de combustible:</small>
-              <input matTooltip="El valor debe ser mayor o igual a 0, puede incluir decimales" #cargaAntesParo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="equivalenFuelFactor" (ngModelChange)="isNumeric(cargaAntesParo)" min="0" max="200"/>
-          </div>
-          <div *ngIf="submittedData && isEqFuelFactorSelected && f.equivalenFuelFactor.errors" style="color:red">
-              <div *ngIf="f.equivalenFuelFactor.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="isEqFuelFactorSelected && chargeValidation" style="color:red">
-              <div>Verifica</div>
-          </div>
+          <app-mat-input-number
+            [formGroup]="indicatorForm"
+            controlName="equivalenFuelFactor"
+            minValue="0"
+            maxValue="200"
+            label="Factor equivalente de combustible"
+          ></app-mat-input-number>
         </div>
         <div class="col-md-4" *ngIf="isEqWithOutFuelFactorSelected">
-          <div class="form-group">
-              <small class="form-text text-muted" >Factor equivalente sin combustible:</small>
-              <input matTooltip="El valor debe ser mayor o igual a 0, puede incluir decimales" #cargaAntesParo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="equivalenWithOutFuelFactor" (ngModelChange)="isNumeric(cargaAntesParo)" min="0" max="200"/>
-          </div>
-          <div *ngIf="submittedData && isEqWithOutFuelFactorSelected && f.equivalenWithOutFuelFactor.errors" style="color:red">
-              <div *ngIf="f.equivalenWithOutFuelFactor.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="isEqWithOutFuelFactorSelected && chargeValidation" style="color:red">
-              <div>Verifica</div>
-          </div>
+          <app-mat-input-number
+            [formGroup]="indicatorForm"
+            controlName="equivalenWithOutFuelFactor"
+            minValue="0"
+            maxValue="200"
+            label="Factor equivalente sin combustible"
+          ></app-mat-input-number>
         </div>
         <div class="col-md-4" *ngIf="isMaxiumLoadSelected">
-          <div class="form-group">
-              <small class="form-text text-muted" >Máxima Carga(MW):</small>
-              <input matTooltip="El valor debe ser mayor o igual a 0, puede incluir decimales" #cargaAntesParo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="maxiumLoad" (ngModelChange)="isNumeric(cargaAntesParo)" min="0" max="200"/>
-          </div>
-          <div *ngIf="submittedData && isMaxiumLoadSelected && f.maxiumLoad.errors" style="color:red">
-              <div *ngIf="f.maxiumLoad.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="isMaxiumLoadSelected && chargeValidation" style="color:red">
-              <div>Verifica</div>
-          </div>
+          <app-mat-input-number
+            [formGroup]="indicatorForm"
+            controlName="maxiumLoad"
+            minValue="0"
+            maxValue="200"
+            label="Máxima Carga(MW)"
+          ></app-mat-input-number>
         </div>
         <div class="col-md-4" *ngIf="isEfhiSelected">
-          <div class="form-group">
-              <small class="form-text text-muted" >Costo EFHI$ (USD):</small>
-              <input matTooltip="El valor debe ser mayor o igual a 0, puede incluir decimales" #cargaAntesParo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="efhiCost" (ngModelChange)="isNumeric(cargaAntesParo)" min="0" max="200"/>
-          </div>
-          <div *ngIf="submittedData && isEfhiSelected && f.efhiCost.errors" style="color:red">
-              <div *ngIf="f.efhiCost.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="isEfhiSelected && chargeValidation" style="color:red">
-              <div>Verifica</div>
-          </div>
+          <app-mat-input-number
+            [formGroup]="indicatorForm"
+            controlName="efhiCost"
+            minValue="0"
+            maxValue="200"
+            label="Costo EFHI$ (USD)"
+          ></app-mat-input-number>
         </div>
       </div>
     </div>
     <br/>
     <div *ngIf="isDefaultSectionsVisible">
-      <div class="col-md-12">
-        <div class="form-group">
-          <label>Descripción</label>
-          <textarea mdbInput class="form-control" formControlName="description" (keydown)="enableSaveButton();" #description maxlength="1000" rows="9"></textarea>
-          <small class="form-text text-muted text-right">{{description.value?.length || 0}}/1000</small>
-        </div>
-        <!--
-        <div *ngIf="submittedData && f.description.errors" style="color:red">
-          <div *ngIf="f.description.errors.required">Requerido</div>
-        </div> -->
-      </div>
+      <app-mat-input-textarea
+        [formGroup]="indicatorForm"
+        controlName="description"
+        label="Descripción"
+        maxLength="1000"
+        rows="9"
+        (eventChange)="enableSaveButton()"
+      ></app-mat-input-textarea>
     </div>
   </div>
 
@@ -147,38 +127,28 @@
   <!-- End Test -->
   <div class="section" *ngIf="isDefaultSectionsVisible">
     <div class="row">
+
       <div class="col-md-6 col-lg-4">
-        <ng-container>
-          <div class="form-group">
-            <label>Estado del elemento:</label><br>
-            <mat-checkbox class="active" color="primary"
-                          (change)="changeCheck();"
-                          [checked]="checkedEstatus"
-                          [disabled]="deshabiliarEstatus">
-              <mat-label>Activo</mat-label>
-            </mat-checkbox>
-          </div>
-        </ng-container>
+          <app-mat-input-checkbox  
+            [formGroup]="formTemp" 
+            controlName="statusElement"
+            (eventChange)="changeCheck()"
+            label="Estado del elemento"
+            labelIn="Activo"
+          ></app-mat-input-checkbox>
       </div>
     </div>
-    <div class="row pb-3">
-      <div class="col">
-        <div class="d-flex justify-content-end">
-          <button type="submit" class="btn"
-                  [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-                  [disabled]="disabledSave" *ngIf="accion != 'ver'">
-            <i class="ti-pencil"></i>
-            Guardar / Actualizar
-          </button>
-          <button type="button" class="btn"
-                  [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-                  (click)="regresar()">
-            <i class="ti-angle-double-left"></i>
-            Regresar
-          </button>
-        </div>
-      </div>
+ 
+    
+		<div class="row justify-content-end">
+			<div class="col-12 col-lg-3">
+				<app-btn-block-save-update myType="submit" [disabled]="disabledSave" *ngIf="accion != 'ver'"></app-btn-block-save-update>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-btn-block-back (click)="regresar()"></app-btn-block-back>
+			</div>
     </div>
+    
   </div>
   <div *ngIf="isDefaultSectionsVisible && indicatorType.id != 0">
       <app-efh-upload [inIdEventConfig]="indicatorType.id" [inAccion]="accion" [inTypeConfig]="2"></app-efh-upload>
