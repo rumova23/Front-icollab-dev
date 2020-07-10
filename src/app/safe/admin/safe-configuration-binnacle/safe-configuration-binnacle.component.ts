@@ -58,13 +58,12 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
             this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
             this.lstEventsDTO = data['EVENTO'];
             console.log("loadCatalog:: ",data);
-            
         },
-        error=>{
+        error => {
             console.log("loadCatalog:: ","Error");
             this.addBlock(2, '');
             this.toastr.errorToastr('Problemas en la consulta', 'Error');
-        },()=>{
+        },() => {
             console.log("loadCatalog:: ","Termino");
             this.addBlock(2, '');
             this.loadMasters();
