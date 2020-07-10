@@ -268,6 +268,12 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 				this.formNewEvent.controls.eventsClassificationId.disable();
 				this.formNewEvent.controls.eventsId.disable();
 			}
+
+			if (this.catalogType.action === 'ver') {
+				this.formNewEvent.patchValue(this.catalogType.dto);
+				this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.dto.eventsClassificationId));
+				this.formNewEvent.disable();
+			}
 		});
 	}
 	onSubmitFormNewEvent001(v) {
