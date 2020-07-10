@@ -3,7 +3,14 @@
 		<label>{{ label | translate }}{{ sufijo | translate }}</label>
 		<mat-form-field
 			class="form-control w-100"
-			[ngClass]="{ 'is-invalid': (submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid , 'input-disabled':formGroup.get(controlName).disabled}"
+			[ngClass]="{ 
+				'is-invalid': 
+					(submitted || formGroup.get(controlName).touched) 
+					&& !formGroup.get(controlName).valid 
+					&& formGroup.get(controlName).errors != null
+				,'input-disabled':
+					formGroup.get(controlName).disabled
+			}"
 		>
 			<input matInput 
 				(dateChange)="onChange($event)"
@@ -14,7 +21,11 @@
 			<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 			<mat-datepicker #picker></mat-datepicker>
 		</mat-form-field>
-		<ng-container *ngIf="(submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid">
+		<ng-container 
+			*ngIf="
+				(submitted || formGroup.get(controlName).touched) 
+				&& !formGroup.get(controlName).valid
+				&& formGroup.get(controlName).errors != null">
 			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.required">{{'Required' | translate}}</p>
 			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.matDatepickerMin">{{'It must not be less than' | translate}} {{formGroup.get(controlName).errors.matDatepickerMin.min | date:'shortDate'}}</p>
 			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.matDatepickerMax">{{'Must not be greater than' | translate}}</p>
