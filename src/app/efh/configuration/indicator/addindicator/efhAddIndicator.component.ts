@@ -207,6 +207,7 @@ export class EfhAddIndicatorComponent implements OnInit {
     this.data = [];
     this.efhService.getIndicatorsConfigurated().subscribe(
         dataBack => {
+          debugger;
           this.result = dataBack;
           let i = 0;
           for (const element of this.result) {
@@ -218,13 +219,10 @@ export class EfhAddIndicatorComponent implements OnInit {
             obj['unit'] = this.unitsArr.find(x => x.id === element.idunit).name;
             obj['dateInit'] = this.datePipe.transform(new Date(element.dateinit) , 'dd/MM/yyyy');
             obj['dateEnd'] = this.datePipe.transform(new Date(element.dateend) , 'dd/MM/yyyy');
-            obj['userCreated'] = element.userUpdated === null ? element.userCreated : element.userUpdated;
-            obj['userUpdated'] = element.userUpdated === null ? element.userCreated : element.userUpdated;
-            const dateUpdated = element.dateUpdated === null ? element.dateCreated : element.dateUpdated;
-            obj['dateUpdated'] = '.';
-            if (dateUpdated) {
-              obj['dateUpdated'] = this.datePipe.transform(new Date(dateUpdated) , 'dd/MM/yyyy HH:mm');
-            }
+            const dateCreated = this.datePipe.transform(new Date(element.dateCreated) , 'dd/MM/yyyy HH:mm');
+            const dateUpdated = this.datePipe.transform(new Date(element.dateUpdated) , 'dd/MM/yyyy HH:mm');
+            obj['userUpdated'] = dateCreated === dateUpdated ? element.userCreated : element.userUpdated;
+            obj['dateUpdated'] = dateCreated === dateUpdated ? dateCreated : dateUpdated;
             obj['status']      = element.active === true ? 'Activo' : 'Inactivo';
             obj['element']     = element;
             obj['order'] = i;
