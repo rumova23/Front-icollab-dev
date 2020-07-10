@@ -14,34 +14,33 @@
     </div>
     <div class="row"> <!-- Combos encabezado -->
       <div class="col-md-3">
-        <div class="form-group">
-          <small class="form-text text-muted text-left">Tipo de Evento:</small>
-          <mat-select class="form-control" formControlName="eventTypeControl" (selectionChange)="enableControls($event)" [(value)]="selectedEventType">
-            <mat-option class="form-control" [value]="event.id" *ngFor="let event of eventTypesArr">{{event.name}}</mat-option>
-          </mat-select>
-        </div>
+        <app-mat-select
+          [formGroup]="eventForm"
+          controlName="eventTypeControl"
+          (eventChange)="enableControls($event)"
+          label="Tipo de Evento"
+          [options]="eventTypesArr"
+        ></app-mat-select>
       </div>
       <div class="col-md-3">
-        <div class="form-group">
-          <small class="form-text text-muted text-left">Unidad:</small>
-          <mat-select class="form-control" formControlName="unitControl" [(value)]="selectedUnit">
-            <mat-option class="form-control" [value]="unit.id" *ngFor="let unit of unitsArr">{{unit.name}}</mat-option>
-          </mat-select>
-        </div>
-        <div *ngIf="submittedData && !selectedUnit" style="color:red">
-          <div>Requerido</div>
-        </div>
+        <app-mat-select
+          [formGroup]="eventForm"
+          controlName="unitControl"
+          [submitted]="submittedData"
+          (eventChange)="selectedUnit = $event.value"
+          label="Unidad"
+          [options]="unitsArr"
+        ></app-mat-select>
       </div>
       <div class="col-md-3">
-        <div class="form-group">
-          <small class="form-text text-muted text-left">Tipo de combustible:</small>
-          <mat-select class="form-control" formControlName="fuelTypeControl" [(value)]="selectedFuelType">
-            <mat-option class="form-control" [value]="fuel.id" *ngFor="let fuel of fuelTypesArr">{{fuel.name}}</mat-option>
-          </mat-select>
-        </div>
-        <div *ngIf="submittedData && !selectedFuelType" style="color:red">
-          <div>Requerido</div>
-        </div>
+        <app-mat-select
+          [formGroup]="eventForm"
+          controlName="fuelTypeControl"
+          [submitted]="submittedData"
+          (eventChange)="selectedFuelType = $event.value"
+          label="Tipo de combustible"
+          [options]="fuelTypesArr"
+        ></app-mat-select>
       </div>
     </div>
     <br/>
@@ -54,13 +53,13 @@
       </div>
       <div class="row">
         <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Fecha Rechazo de Carga:</small>
-            <input class="form-control" type="date" min="{{initDate}}" formControlName="dateReject"/>
-          </div>
-          <div *ngIf="submittedData && isRejectSectionVisible && f.dateReject.errors" style="color:red">
-            <div *ngIf="f.dateReject.errors.required">Requerido</div>
-          </div>
+          <app-mat-input-datepicker
+            [formGroup]="eventForm"
+            controlName="dateReject"
+            [submitted]="submittedData"
+            label="Fecha Rechazo de Carga"
+            [minDate]="initDate"
+          ></app-mat-input-datepicker>
         </div>
         <div class="col-md-2 col-lg-1">
           <app-mat-select 
@@ -91,16 +90,15 @@
         </div> 
         
         <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Carga antes del rechazo(MW):</small>
-            <input matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales" #cargaAntesRechazo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="chargeReject" (ngModelChange)="isNumeric(cargaAntesRechazo)" min="0" max="200"/>
-          </div>
-          <div *ngIf="submittedData && isRejectSectionVisible && f.chargeReject.errors" style="color:red">
-            <div *ngIf="f.chargeReject.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="isRejectSectionVisible && chargeValidation" style="color:red">
-            <div>Verifica</div>
-          </div>
+          <app-mat-input-number
+            [formGroup]="eventForm"
+            controlName="chargeReject"
+            [submitted]="submittedData"
+            minValue="0"
+            maxValue="2000"
+            (eventChange)="defaultCharge = $event.value"
+            label="Carga antes del rechazo(MW)"
+          ></app-mat-input-number>
         </div>
       </div>
     </div>
@@ -113,16 +111,13 @@
       </div>
       <div class="row">
         <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Fecha Inicio del runback:</small>
-            <input class="form-control" type="date" min="{{initDate}}" formControlName="startDateRunback"/>
-          </div>
-          <div *ngIf="submittedData && isRunbackSectionVisible && f.startDateRunback.errors" style="color:red">
-            <div *ngIf="f.startDateRunback.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="runbackDatesValidation && isRunbackSectionVisible" style="color:red">
-            <div>Validar</div>
-          </div>
+          <app-mat-input-datepicker
+            [formGroup]="eventForm"
+            controlName="startDateRunback"
+            [submitted]="submittedData"
+            label="Fecha Inicio del runback"
+            [minDate]="initDate"
+          ></app-mat-input-datepicker>
         </div>        
         <div class="col-md-2 col-lg-1">
           <app-mat-select 
@@ -153,16 +148,13 @@
         </div> 
         
         <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Fecha Fin del runback:</small>
-            <input class="form-control" type="date" min="{{initDate}}" formControlName="endDateRunback"/>
-          </div>
-          <div *ngIf="submittedData && isRunbackSectionVisible && f.endDateRunback.errors" style="color:red">
-            <div *ngIf="f.endDateRunback.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="runbackDatesValidation && isRunbackSectionVisible" style="color:red">
-            <div>Validar</div>
-          </div>
+          <app-mat-input-datepicker
+            [formGroup]="eventForm"
+            controlName="endDateRunback"
+            [submitted]="submittedData"
+            label="Fecha Fin del runback"
+            [minDate]="initDate"
+          ></app-mat-input-datepicker>
         </div>
         
         <div class="col-md-2 col-lg-1">
@@ -196,28 +188,26 @@
       </div>
       <div class="row">
         <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Carga antes del runback(MW):</small>
-            <input matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales" #cargaAntesRunback [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="chargeBeforeRunback" (ngModelChange)="isNumeric(cargaAntesRunback)" min="0" max="200"/>
-          </div>
-          <div *ngIf="submittedData && isRunbackSectionVisible && f.chargeBeforeRunback.errors" style="color:red">
-            <div *ngIf="f.chargeBeforeRunback.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="isRunbackSectionVisible && chargeValidation" style="color:red">
-            <div>Verifica</div>
-          </div>
+          <app-mat-input-number
+            [formGroup]="eventForm"
+            controlName="chargeBeforeRunback"
+            [submitted]="submittedData"
+            minValue="0"
+            maxValue="2000"
+            (eventChange)="defaultCharge = $event.value"
+            label="Carga antes del runback(MW)"
+          ></app-mat-input-number>
         </div>
         <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Carga después del runback(MW):</small>
-            <input matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales" #cargaDespuesRunback [(ngModel)]="defaultCharge2" class="form-control" type="number" formControlName="chargeAfterRunback" (ngModelChange)="isNumeric2(cargaDespuesRunback)" min="0" max="200"/>
-          </div>
-          <div *ngIf="submittedData && isRunbackSectionVisible && f.chargeAfterRunback.errors" style="color:red">
-            <div *ngIf="f.chargeAfterRunback.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="isRunbackSectionVisible && charge2Validation" style="color:red">
-            <div>Verifica</div>
-          </div>
+          <app-mat-input-number
+            [formGroup]="eventForm"
+            controlName="chargeAfterRunback"
+            [submitted]="submittedData"
+            minValue="0"
+            maxValue="2000"
+            (eventChange)="defaultCharge2 = $event.value"
+            label="Carga después del runback(MW)"
+          ></app-mat-input-number>       
         </div>
       </div>
     </div>
@@ -230,16 +220,13 @@
       </div>
       <div class="row">
         <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Fecha Inicio Operación en Diesel:</small>
-            <input class="form-control" type="date" min="{{initDate}}" formControlName="startDateDiesel"/>
-          </div>
-          <div *ngIf="submittedData && isDieselSectionVisible && f.startDateDiesel.errors" style="color:red">
-            <div *ngIf="f.startDateDiesel.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="dieselDatesValidation && isDieselSectionVisible" style="color:red">
-            <div>Validar</div>
-          </div>
+          <app-mat-input-datepicker
+            [formGroup]="eventForm"
+            controlName="startDateDiesel"
+            [submitted]="submittedData"
+            label="Fecha Inicio Operación en Diesel"
+            [minDate]="initDate"
+          ></app-mat-input-datepicker>
         </div>        
         <div class="col-md-2 col-lg-1">
           <app-mat-select 
@@ -270,16 +257,13 @@
         </div> 
         
         <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Fecha Fin Operación en Diesel:</small>
-            <input class="form-control" type="date" min="{{initDate}}" formControlName="endDateDiesel"/>
-          </div>
-          <div *ngIf="submittedData && isDieselSectionVisible && f.endDateDiesel.errors" style="color:red">
-            <div *ngIf="f.endDateDiesel.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="dieselDatesValidation && isDieselSectionVisible" style="color:red">
-            <div>Validar</div>
-          </div>
+          <app-mat-input-datepicker
+            [formGroup]="eventForm"
+            controlName="endDateDiesel"
+            [submitted]="submittedData"
+            label="Fecha Fin Operación en Diesel"
+            [minDate]="initDate"
+          ></app-mat-input-datepicker>
         </div>                
         <div class="col-md-2 col-lg-1">
           <app-mat-select 
@@ -320,16 +304,13 @@
       </div>
       <div class="row">
         <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Fecha Inicio Operación Normal:</small>
-            <input class="form-control" type="date" min="{{initDate}}" formControlName="startDateNormal"/>
-          </div>
-          <div *ngIf="submittedData && isNormalOperationSectionVisible && f.startDateNormal.errors" style="color:red">
-            <div *ngIf="f.startDateNormal.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="normalDatesValidation && isNormalOperationSectionVisible" style="color:red">
-            <div>Validar</div>
-          </div>
+          <app-mat-input-datepicker
+            [formGroup]="eventForm"
+            controlName="startDateNormal"
+            [submitted]="submittedData"
+            label="Fecha Inicio Operación Normal"
+            [minDate]="initDate"
+          ></app-mat-input-datepicker>
         </div>        
         <div class="col-md-2 col-lg-1">
           <app-mat-select 
@@ -360,16 +341,13 @@
         </div> 
         
         <div class="col-md-3">
-          <div class="form-group">
-            <small class="form-text text-muted" >Fecha Fin Operación Normal:</small>
-            <input class="form-control" type="date" min="{{initDate}}" formControlName="endDateNormal"/>
-          </div>
-          <div *ngIf="submittedData && isNormalOperationSectionVisible && f.endDateNormal.errors" style="color:red">
-            <div *ngIf="f.endDateNormal.errors.required">Requerido</div>
-          </div>
-          <div *ngIf="normalDatesValidation && isNormalOperationSectionVisible" style="color:red">
-            <div>Validar</div>
-          </div>
+          <app-mat-input-datepicker
+            [formGroup]="eventForm"
+            controlName="endDateNormal"
+            [submitted]="submittedData"
+            label="Fecha Fin Operación Normal"
+            [minDate]="initDate"
+          ></app-mat-input-datepicker>
         </div>
         
         <div class="col-md-2 col-lg-1">
@@ -412,13 +390,13 @@
         </div>
         <div class="row">
           <div class="col-md-3">
-            <div class="form-group">
-              <small class="form-text text-muted" >Fecha Pérdida de Flama (Flame Off):</small>
-              <input type="date" class="form-control" min="{{initDate}}" formControlName="flameOffDateShot"/>
-            </div>
-            <div *ngIf="submittedData && isShotSectionVisible && f.flameOffDateShot.errors" style="color:red">
-              <div *ngIf="f.flameOffDateShot.errors.required">Requerido</div>
-            </div>
+            <app-mat-input-datepicker
+              [formGroup]="eventForm"
+              controlName="flameOffDateShot"
+              [submitted]="submittedData"
+              label="Fecha Pérdida de Flama (Flame Off)"
+              [minDate]="initDate"
+            ></app-mat-input-datepicker>
           </div>
           <div class="col-md-2 col-lg-1">
             <app-mat-select 
@@ -448,16 +426,15 @@
             ></app-mat-select>
           </div> 
           <div class="col-md-3">
-            <div class="form-group">
-                <small class="form-text text-muted" >Carga antes del disparo(MW):</small>
-                <input matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales" #cargaDisparo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="chargeShot" (ngModelChange)="isNumeric(cargaDisparo)" min="0" max="200"/>
-            </div>
-            <div *ngIf="submittedData && isShotSectionVisible && f.chargeShot.errors" style="color:red">
-                <div *ngIf="f.chargeShot.errors.required">Requerido</div>
-            </div>
-            <div *ngIf="isShotSectionVisible && chargeValidation" style="color:red">
-                <div>Verifica</div>
-            </div>
+            <app-mat-input-number
+              [formGroup]="eventForm"
+              controlName="chargeShot"
+              [submitted]="submittedData"
+              minValue="0"
+              maxValue="2000"
+              (eventChange)="defaultCharge = $event.value"
+              label="Carga antes del disparo(MW)"
+            ></app-mat-input-number>
           </div>
         </div>
       </div>
@@ -470,16 +447,13 @@
         </div>
         <div class="row">
             <div class="col-md-3">
-                <div class="form-group">
-                    <small class="form-text text-muted" >Fecha de Arranque:</small>
-                    <input type="date" class="form-control" min="{{initDate}}" formControlName="flameOffDateStart"/>
-                </div>
-                <div *ngIf="submittedData && isStartSectionVisible && f.flameOffDateStart.errors" style="color:red">
-                    <div *ngIf="f.flameOffDateStart.errors.required">Requerido</div>
-                </div>
-                <div *ngIf="shotStartDatesValidation && isStartSectionVisible" style="color:red">
-                  <div>Validar</div>
-                </div>
+                <app-mat-input-datepicker
+                  [formGroup]="eventForm"
+                  controlName="flameOffDateStart"
+                  [submitted]="submittedData"
+                  label="Fecha de Arranque"
+                  [minDate]="initDate"
+                ></app-mat-input-datepicker>
             </div>
             <div class="col-md-2 col-lg-1">
               <app-mat-select 
@@ -510,16 +484,13 @@
             </div> 
             
             <div class="col-md-3">
-              <div class="form-group">
-                <small class="form-text text-muted" >Fecha Velocidad Plena sin Carga (FSNL):</small>
-                <input type="date" class="form-control" type="date" formControlName="fsnlDateStart"/>
-              </div>
-              <div *ngIf="submittedData && isStartSectionVisible && f.fsnlDateStart.errors" style="color:red">
-                <div *ngIf="f.fsnlDateStart.errors.required">Requerido</div>
-              </div>
-              <div *ngIf="shotStartDatesValidation && isStartSectionVisible" style="color:red">
-                <div>Validar</div>
-              </div>
+              <app-mat-input-datepicker
+                [formGroup]="eventForm"
+                controlName="fsnlDateStart"
+                [submitted]="submittedData"
+                label="Fecha Velocidad Plena sin Carga (FSNL)"
+                [minDate]="initDate"
+              ></app-mat-input-datepicker>
             </div>
             <div class="col-md-2 col-lg-1">
               <app-mat-select 
@@ -562,16 +533,13 @@
         </div>
         <div class="row">
           <div class="col-md-3">
-            <div class="form-group">
-              <small class="form-text text-muted" >Fecha Pérdida de Flama (Flame Off):</small>
-              <input class="form-control" type="date" min="{{initDate}}" formControlName="flameOffDateStop"/>
-            </div>
-            <div *ngIf="submittedData && isStopSectionVisible && f.flameOffDateStop.errors" style="color:red">
-              <div *ngIf="f.flameOffDateStop.errors.required">Requerido</div>
-            </div>
-            <div *ngIf="stopStartDatesValidation && isStopSectionVisible" style="color:red">
-              <div>Validar</div>
-            </div>
+            <app-mat-input-datepicker
+              [formGroup]="eventForm"
+              controlName="flameOffDateStop"
+              [submitted]="submittedData"
+              label="Fecha Pérdida de Flama (Flame Off)"
+              [minDate]="initDate"
+            ></app-mat-input-datepicker>
           </div>
           
           <div class="col-md-2 col-lg-1">
@@ -603,16 +571,15 @@
           </div> 
 
           <div class="col-md-3">
-            <div class="form-group">
-              <small class="form-text text-muted" >Carga antes del paro(MW):</small>
-              <input matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales" #cargaAntesParo [(ngModel)]="defaultCharge" class="form-control" type="number" formControlName="chargeStop" (ngModelChange)="isNumeric(cargaAntesParo)" min="0" max="200"/>
-            </div>
-            <div *ngIf="submittedData && isStopSectionVisible && f.chargeStop.errors" style="color:red">
-              <div *ngIf="f.chargeStop.errors.required">Requerido</div>
-            </div>
-            <div *ngIf="isStopSectionVisible && chargeValidation" style="color:red">
-              <div>Verifica</div>
-            </div>
+            <app-mat-input-number
+              [formGroup]="eventForm"
+              controlName="chargeStop"
+              [submitted]="submittedData"
+              minValue="0"
+              maxValue="2000"
+              (eventChange)="defaultCharge = $event.value"
+              label="Carga antes del paro(MW)"
+            ></app-mat-input-number>
           </div>
           <div class="col-md-3">
               <div><br></div>
@@ -636,16 +603,13 @@
         </div>
         <div class="row">
             <div class="col-md-3">
-                <div class="form-group">
-                    <small class="form-text text-muted" >Fecha de Arranque:</small>
-                    <input type="date" class="form-control" min="{{initDate}}" formControlName="flameOffDateStart"/>
-                </div>
-                <div *ngIf="submittedData && isStartSectionVisible && f.flameOffDateStart.errors" style="color:red">
-                    <div *ngIf="f.flameOffDateStart.errors.required">Requerido</div>
-                </div>
-                <div *ngIf="stopStartDatesValidation && isStartSectionVisible" style="color:red">
-                  <div>Validar</div>
-                </div>
+                <app-mat-input-datepicker
+                  [formGroup]="eventForm"
+                  controlName="flameOffDateStart"
+                  [submitted]="submittedData"
+                  label="Fecha de Arranque"
+                  [minDate]="initDate"
+                ></app-mat-input-datepicker>
             </div>
             <div class="col-md-2 col-lg-1">
               <app-mat-select 
@@ -676,16 +640,13 @@
             </div> 
             
             <div class="col-md-3">
-              <div class="form-group">
-                <small class="form-text text-muted" >Fecha Velocidad Plena sin Carga (FSNL):</small>
-                <input type="date" class="form-control" type="date" formControlName="fsnlDateStart"/>
-              </div>
-              <div *ngIf="submittedData && isStartSectionVisible && f.fsnlDateStart.errors" style="color:red">
-                <div *ngIf="f.fsnlDateStart.errors.required">Requerido</div>
-              </div>
-              <div *ngIf="stopStartDatesValidation && isStartSectionVisible" style="color:red">
-                <div>Validar</div>
-              </div>
+              <app-mat-input-datepicker
+                [formGroup]="eventForm"
+                controlName="fsnlDateStart"
+                [submitted]="submittedData"
+                label="Fecha Velocidad Plena sin Carga (FSNL)"
+                [minDate]="initDate"
+              ></app-mat-input-datepicker>
             </div>
             <div class="col-md-2 col-lg-1">
               <app-mat-select 
@@ -722,16 +683,15 @@
     <br/>
     <div *ngIf="isDefaultSectionsVisible">
       <div class="col-md-12">
-        <div class="form-group">
-          <label>Descripción</label>
-          <!--<input mdbInput class="form-control" formControlName="description" (keydown)="enableSaveButton();" #description maxlength="1000">-->
-          <textarea mdbInput class="form-control" formControlName="description" (keydown)="enableSaveButton();" #description maxlength="1000" rows="8"></textarea>
-          <small class="form-text text-muted text-right">{{description.value?.length || 0}}/1000</small>
-        </div>
-        <!--
-        <div *ngIf="submittedData && f.description.errors" style="color:red">
-          <div *ngIf="f.description.errors.required">Requerido</div>
-        </div> -->
+        <app-mat-input-textarea
+          [formGroup]="eventForm"
+          controlName="description"
+          [submitted]="submittedData"
+          label="Descripción"
+          maxLength="1000"
+          rows="9"
+          (eventChange)="enableSaveButton()"
+        ></app-mat-input-textarea>
       </div>
     </div>
   </div>
@@ -743,35 +703,22 @@
     <div class="section" *ngIf="isDefaultSectionsVisible">
       <div class="row">
         <div class="col-md-6 col-lg-4">
-          <ng-container>
-            <div class="form-group">
-              <label>Estado del elemento:</label><br>
-              <mat-checkbox class="active" color="primary"
-                            (change)="changeCheck();"
-                            [checked]="checkedEstatus"
-                            [disabled]="deshabiliarEstatus">
-                <mat-label>Activo</mat-label>
-              </mat-checkbox>
-            </div>
-          </ng-container>
+          <app-mat-input-checkbox  
+            [formGroup]="formTemp" 
+            controlName="statusElement"
+            (eventChange)="changeCheck()"
+            label="Estado del elemento"
+            labelIn="Activo"
+          ></app-mat-input-checkbox>
         </div>
       </div>
-      <div class="row pb-3">
-        <div class="col">
-            <div class="d-flex justify-content-end">
-                <button type="submit" class="btn"
-                        [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-                        [disabled]="disabledSave" *ngIf="accion != 'ver'">
-                    <i class="ti-pencil"></i>
-                    Guardar / Actualizar
-                </button>
-                <button type="button" class="btn"
-                        [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-                        (click)="regresar()">
-                    <i class="ti-angle-double-left"></i>
-                    Regresar
-                </button>
-            </div>
+      
+      <div class="row justify-content-end">
+        <div class="col-12 col-lg-3">
+          <app-btn-block-save-update myType="submit" [disabled]="disabledSave" *ngIf="accion != 'ver'"></app-btn-block-save-update>
+        </div>
+        <div class="col-12 col-lg-2">
+          <app-btn-block-back (myClick)="regresar()"></app-btn-block-back>
         </div>
       </div>
     </div>
