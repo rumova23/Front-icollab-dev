@@ -13,7 +13,7 @@ export class MatInputCheckboxComponent implements OnInit{
 	@Input() submitted: boolean = false;
 	@Input() controlName: string = null;
 	@Input() formGroup: FormGroup = null;
-	@Input() val:string = '';
+	@Input() labelIn:string = '';
 	constructor() { }
 
 	ngOnInit() {

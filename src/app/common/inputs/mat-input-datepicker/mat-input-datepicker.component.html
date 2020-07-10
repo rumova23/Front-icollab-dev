@@ -16,7 +16,8 @@
 		</mat-form-field>
 		<ng-container *ngIf="(submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid">
 			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.required">{{'Required' | translate}}</p>
-			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.minlength">{{'Insufficient characters' | translate}}</p>
+			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.matDatepickerMin">{{'It must not be less than' | translate}} {{formGroup.get(controlName).errors.matDatepickerMin.min | date:'shortDate'}}</p>
+			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.matDatepickerMax">{{'Must not be greater than' | translate}}</p>
 		</ng-container>
 	</div>
 </div>

@@ -3,8 +3,9 @@
 		<label>{{ label | translate }}{{ sufijo | translate }}</label>
 		<mat-form-field class="w-100">
 			<textarea matInput #mytextarea
+				[attr.rows]="rows"
 				class="my-form-control form-control"
-				[ngClass]="{ 'is-invalid': (submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid }"
+				[ngClass]="{ 'is-invalid': (submitted || formGroup.get(controlName).touched) && !formGroup.get(controlName).valid , 'input-disabled':formGroup.get(controlName).disabled}"
 				[formControlName]="controlName"
 			></textarea>
 			<small *ngIf="maxLength != ''" class="form-text text-muted text-right">{{mytextarea.value?.length || 0}}/{{maxLength}}</small>

@@ -1,4 +1,5 @@
 export interface IdLabel {
     id:string|number;
-    label:string;
+    label?:string;
+    name?:string;
 }
