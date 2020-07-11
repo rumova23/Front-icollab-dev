@@ -310,13 +310,12 @@
 						label="Estatus del Evento"
 				></app-mat-input-text>
 			</div>
-			<div class="col-3" *ngIf="actionPage == 'Edit'">
-				<app-mat-select
+			<div class="col-3">
+				<app-mat-input-text
 						[formGroup]="formNewEvent"
-						controlName="estatusAprobacionId"
-						[options]="lstApprovalStatus"
+						controlName="estatusAprobacion"
 						label="Estatus de Aprobación"
-				></app-mat-select>
+				></app-mat-input-text>
 			</div>
 		</div>
 	</div>
@@ -407,7 +406,7 @@
 							<app-btn-block-back (click)="btnClickBack()"></app-btn-block-back>
 						</div>
 						<div class="col-12 col-lg-6">
-							<app-btn-block-save-update myType="submit" [disabled]="actionPage === 'See'"></app-btn-block-save-update>
+							<app-btn-block-save-update myType="submit" [disabled]="(actionPage === 'See') ? true : (isStatus('Evento Aprobado', this.catalogType.element.estatusAprobacionId) ? true: false)"></app-btn-block-save-update>
 						</div>
 						<div class="col-12 col-lg-3">
 							<app-btn-block-finish (click)="btnFinish()" [disabled]="actionPage === 'See'"></app-btn-block-finish>

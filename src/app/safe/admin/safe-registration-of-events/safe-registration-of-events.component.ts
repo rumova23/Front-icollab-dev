@@ -507,7 +507,26 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			});
 		}, errorData => {
 				return '';
+			},
+			() => {
+				if (this.catalogType.action === 'editar') {
+					if (this.isStatus('Evento Aprobado', this.catalogType.element.estatusAprobacionId)) {
+						setTimeout(() => this.formNewEvent.disable(), 2000);
+					}
+				}
 			});
+	}
+
+	isStatus(nameStatus: string, idEstatus: number) {
+		let returnValue = false;
+		this.lstApprovalStatus.forEach(element => {
+			if (element.label === nameStatus) {
+				if (element.id === idEstatus) {
+					returnValue = true;
+				}
+			}
+		});
+		return returnValue;
 	}
 
 	loadCatalog() {
