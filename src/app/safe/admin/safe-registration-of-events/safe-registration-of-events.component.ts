@@ -653,4 +653,19 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.eventService.sendApp(new EventMessage(1,
 			new EventBlocked(type, msg)));
 	}
+
+	btnChangeStatus(statusName: string) {
+		this.binnacleService.changeStatus(statusName, this.catalogType.element.binnacleEventID).subscribe(data  => {
+				this.toastr.successToastr('Cambio de Estatus Correcto: ' + statusName, 'Exito!.');
+			}, errorData => {
+			console.dir(errorData);
+				this.toastr.errorToastr(errorData.error.message, 'Error!');
+			},
+			() => {
+				const type = {};
+				this.eventService.sendChangePage(
+					new EventMessage(null, type, 'Safe.SafeListOfEventsComponent')
+				);
+			});
+	}
 }

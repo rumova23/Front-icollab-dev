@@ -414,5 +414,19 @@
 					</div>
 				</div>
 			</div>
+		</div>s
+	<div class="section">
+		<div class="row">
+			<div class="col">
+				<div class="row justify-content-end">
+					<div class="col-12 col-lg-6">
+						<app-btn-block-acept label="Rechazar" (click)="btnChangeStatus('Evento Rechazado')" [disabled]="actionPage === 'See'"></app-btn-block-acept>
+					</div>
+					<div class="col-12 col-lg-6">
+						<app-btn-block-acept label="Aceptar" (click)="btnChangeStatus('Evento Aprobado')" [disabled]="actionPage === 'See'"></app-btn-block-acept>
+					</div>
+				</div>
+			</div>
 		</div>
+	</div>
 </form>
