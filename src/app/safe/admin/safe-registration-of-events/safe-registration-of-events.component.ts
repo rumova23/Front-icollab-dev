@@ -34,6 +34,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	hours: IdLabel[] =  new Array(24).fill(0).map((_valor, indice) => ({id: (indice < 10 ? '0' : '') + indice, label: (indice < 10 ? '0' : '') + indice}));
 	minutes: IdLabel[] =  new Array(60).fill(0).map((_valor, indice) => ({id: (indice < 10 ? '0' : '') + indice, label: (indice < 10 ? '0' : '') + indice}));
 
+	i = 0;
 	catalogType: any;
 	actionPage = '';
 	templateConfiguration: BinnacleEventConfigurationDTO;
@@ -81,6 +82,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	lstApprovalStatusAll: IdLabel[] = [];
 	eventStatus: string;
 	approvalStatus: string;
+	statusTerminado: number;
 	formValid: boolean;
 
 	tempOrder = 3;
@@ -117,7 +119,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		private masterCatalogService: MasterCatalogService,
 		private binnacleService: BinnacleService,
 		private estatusMaestroService: EstatusMaestroService
-	) { }
+	) {
+		this.loadCatalog();
+	}
 
 
 	ngOnInit() {
@@ -134,7 +138,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.actionPage = 'See';
 				break;
 		}
-		this.loadCatalog();
+
 		this.fileUploadForm = this.formBuilder.group({
 			file: new FormControl(null, [Validators.required, requiredFileType('zip')]),
 		});
@@ -179,9 +183,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				plantOperatorClosed: [{ value: null, disabled: true }],
 				cenaceOperatorClosed: [{ value: null, disabled: true }],
 				sourceEventId: [{ value: null, disabled: true }],
-				estatusEvento: [{ value: null, disabled: true }, Validators.required],
-				estatusAprobacionId: [{ value: null, disabled: true }, Validators.required],
-				estatusAprobacion: [{ value: null, disabled: true }, Validators.required],
+				estatusEvento: [{ value: null, disabled: true }],
+				estatusEventoId: [],
+				estatusAprobacionId: [],
+				estatusAprobacion: [{ value: null, disabled: true }],
 				eventActivated: [{ value: true, disabled: true }]
 			}
 		);
@@ -500,27 +505,22 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			});
 	}
 
-	loadCatalogStatus(entidad: string) {
+	loadCatalogStatus(entidad: string, lstStatus: IdLabel[]) {
 		this.estatusMaestroService.getCatalogoEntidad(entidad).subscribe((data: Array<EntidadEstatusDTO>)  => {
 			data.forEach((element: EntidadEstatusDTO) => {
-				this.lstApprovalStatus.push({id: element.entidadEstatusId, label: element.estatus.nombre});
+				lstStatus.push({id: element.entidadEstatusId, label: element.estatus.nombre});
 			});
 		}, errorData => {
 				return '';
-			},
-			() => {
-				if (this.catalogType.action === 'editar') {
-					if (this.isStatus('Evento Aprobado', this.catalogType.element.estatusAprobacionId)) {
-						setTimeout(() => this.formNewEvent.disable(), 2000);
-					}
-				}
 			});
 	}
 
-	isStatus(nameStatus: string, idEstatus: number) {
+	isStatus(nameStatus: string, idEstatus: number, lstEntidadEstaus: IdLabel[]) {
 		let returnValue = false;
-		this.lstApprovalStatus.forEach(element => {
+		lstEntidadEstaus.forEach(element => {
+			console.log(element.label + 'xxxxxxxxxxx')
 			if (element.label === nameStatus) {
+				console.log(element.id + ' === ' + idEstatus);
 				if (element.id === idEstatus) {
 					returnValue = true;
 				}
@@ -529,50 +529,78 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		return returnValue;
 	}
 
+	getIdEstatusEvent(nameStatus: string, lstEntidadEstaus: IdLabel[]) {
+		let returnValue: string | number;
+		lstEntidadEstaus.forEach(element => {
+			if (element.label === nameStatus) {
+				returnValue = element.id;
+			}
+		});
+		return returnValue;
+	}
+
+
+
 	loadCatalog() {
+		this.i++;
+		console.log(this.i);
 		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL-CCDV', 'BANDA TOLERANCIA',
 		'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'FUENTE EVENTO'];
 		this.masterCatalogService.listCatalog(names).subscribe(data  => {
 			this.loadSelect(this.lstEventClassification, data['CLASIFICA EVENTO']);
 			this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
-			this.lstEventsDTO = data.EVENTO;
-			this.loadSelect(this.lstFuelsAll, data.COMBUSTIBLE);
-			this.loadSelect(this.lstUnitsAll, data.UNIDAD);
+			this.lstEventsDTO = data['EVENTO'];
+			this.loadSelect(this.lstFuelsAll, data['COMBUSTIBLE']);
+			this.loadSelect(this.lstUnitsAll, data['UNIDAD']);
 			this.loadSelect(this.lstImpactContractsAll, data['CONTRATO IMPACTADO']);
 			this.loadSelect(this.lstRealsCcdvAll, data['REAL-CCDV']);
 			this.loadSelect(this.lstToleranceBandsAll, data['BANDA TOLERANCIA']);
 			this.loadSelect(this.lstMarketTypesAll, data['TIPO MERCADO MEM']);
 			this.loadSelect(this.lstSelatedServicesAll, data['SERVICIOS CONEXOS MEM']);
-			this.loadSelect(this.lstEquipmentAll, data.EQUIPO);
+			this.loadSelect(this.lstEquipmentAll, data['EQUIPO']);
 			this.loadSelect(this.lstSourceEventAll, data['FUENTE EVENTO']);
+
+			if (this.catalogType.action === 'editar') {
+				console.log(this.isStatus('Evento Cerrado', this.catalogType.element.estatusEventoId, this.lstEventStatus));
+				if (this.isStatus('Evento Cerrado', this.catalogType.element.estatusEventoId, this.lstEventStatus)) {
+					this.commonDisabled();
+				} else {
+					this.commonEnabled();
+				}
+			}
+			if (this.catalogType.action === 'ver') {
+				this.commonDisabled();
+			}
+			this.loadCatalogStatus('TX_BINNACLE_EVENT', this.lstApprovalStatus);
+			this.loadCatalogStatus('TX_BINNACLE_EVENT_II', this.lstEventStatus);
 		},
 			errorData => {
 				this.addBlock(2, '');
 				this.toastr.errorToastr(errorData.error.message, 'Error!');
-			}, () => {
-			if (this.catalogType.action === 'editar') {
-				this.onBuildTemplate(this.catalogType.element.eventsId);
-				this.formNewEvent.patchValue(this.catalogType.element);
-				this.formNewEvent.controls.dateTimeStart.patchValue(moment(this.catalogType.element.dateTimeStart).format('YYYY-MM-DDTHH:mm:ss'));
-				this.formNewEvent.controls.dateTimeEnd.patchValue(moment(this.catalogType.element.dateTimeEnd).format('YYYY-MM-DDTHH:mm:ss'));
-				this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.element.eventsClassificationId));
-				this.formNewEvent.controls.eventsClassificationId.disable();
-				this.formNewEvent.controls.eventsId.disable();
-				this.formNewEvent.controls.estatusAprobacionId.enable();
-			}
-			if (this.catalogType.action === 'ver') {
-				this.onBuildTemplate(this.catalogType.element.eventsId);
-				this.formNewEvent.patchValue(this.catalogType.element);
-				this.formNewEvent.controls.dateTimeStart.patchValue(moment(this.catalogType.element.dateTimeStart).format('YYYY-MM-DDTHH:mm:ss'));
-				this.formNewEvent.controls.dateTimeEnd.patchValue(moment(this.catalogType.element.dateTimeEnd).format('YYYY-MM-DDTHH:mm:ss'));
-				this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.element.eventsClassificationId));
-				setTimeout(() => this.formNewEvent.disable(), 2000);
-				setTimeout(() => this.fileUploadForm.disable(), 2000);
-				setTimeout(() => this.formobservationsComments.disable(), 2000);
-				setTimeout(() => this.formTemp.disable(), 2000);
-			}
-			this.loadCatalogStatus('TX_BINNACLE_EVENT');
-		});
+			});
+	}
+
+	commonDisabled() {
+		this.onBuildTemplate(this.catalogType.element.eventsId);
+		this.formNewEvent.patchValue(this.catalogType.element);
+		this.formNewEvent.controls.dateTimeStart.patchValue(moment(this.catalogType.element.dateTimeStart).format('YYYY-MM-DDTHH:mm:ss'));
+		this.formNewEvent.controls.dateTimeEnd.patchValue(moment(this.catalogType.element.dateTimeEnd).format('YYYY-MM-DDTHH:mm:ss'));
+		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.element.eventsClassificationId));
+		setTimeout(() => this.formNewEvent.disable(), 2000);
+		setTimeout(() => this.fileUploadForm.disable(), 2000);
+		setTimeout(() => this.formobservationsComments.disable(), 2000);
+		setTimeout(() => this.formTemp.disable(), 2000);
+	}
+
+	commonEnabled() {
+		this.onBuildTemplate(this.catalogType.element.eventsId);
+		this.formNewEvent.patchValue(this.catalogType.element);
+		this.formNewEvent.controls.dateTimeStart.patchValue(moment(this.catalogType.element.dateTimeStart).format('YYYY-MM-DDTHH:mm:ss'));
+		this.formNewEvent.controls.dateTimeEnd.patchValue(moment(this.catalogType.element.dateTimeEnd).format('YYYY-MM-DDTHH:mm:ss'));
+		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.element.eventsClassificationId));
+		this.formNewEvent.controls.eventsClassificationId.disable();
+		this.formNewEvent.controls.eventsId.disable();
+		this.formNewEvent.controls.estatusAprobacionId.enable();
 	}
 	onSubmitFormNewEvent() {
 		this.formValid = true;
@@ -620,8 +648,11 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		const file = this.fileUploadForm.get('file').value;
 	}
 	btnFinish() {
+		this.formNewEvent.controls.estatusEventoId.patchValue(this.getIdEstatusEvent('Evento Terminado', this.lstEventStatus));
+		this.formValid = true;
 		this.lstRequired.forEach(field => {
 			if ( this.formNewEvent.controls[field].value == null) {
+				console.log('field: ' + field);
 				this.formValid = false;
 			}
 		});
@@ -656,16 +687,15 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 
 	btnChangeStatus(statusName: string) {
 		this.binnacleService.changeStatus(statusName, this.catalogType.element.binnacleEventID).subscribe(data  => {
-				this.toastr.successToastr('Cambio de Estatus Correcto: ' + statusName, 'Exito!.');
-			}, errorData => {
+			this.toastr.successToastr('Cambio de Estatus Correcto: ' + statusName, 'Exito!.');
+		}, errorData => {
 			console.dir(errorData);
-				this.toastr.errorToastr(errorData.error.message, 'Error!');
-			},
-			() => {
-				const type = {};
-				this.eventService.sendChangePage(
-					new EventMessage(null, type, 'Safe.SafeListOfEventsComponent')
-				);
-			});
+			this.toastr.errorToastr(errorData.error.message, 'Error!');
+		}, () => {
+			const type = {};
+			this.eventService.sendChangePage(
+			new EventMessage(null, type, 'Safe.SafeListOfEventsComponent')
+			);
+		});
 	}
 }
