@@ -542,11 +542,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		return returnValue;
 	}
 
-
-
 	loadCatalog() {
-		this.i++;
-		console.log(this.i);
 		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL-CCDV', 'BANDA TOLERANCIA',
 		'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'FUENTE EVENTO'];
 		this.masterCatalogService.listCatalog(names).subscribe(data  => {
@@ -625,6 +621,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			return;
 		}
 
+		this.onChangeDateTimeStart();
+		this.onChangeDateTimeEnd();
+		console.dir(this.formNewEvent.value);
 		this.addBlock(1, '');
 		this.binnacleService.saveBinnacle(this.formNewEvent.value).subscribe(
 			data => {
