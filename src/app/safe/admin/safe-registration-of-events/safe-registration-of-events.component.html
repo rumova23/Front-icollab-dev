@@ -406,10 +406,10 @@
 							<app-btn-block-back (click)="btnClickBack()"></app-btn-block-back>
 						</div>
 						<div class="col-12 col-lg-6">
-							<app-btn-block-save-update myType="submit" [disabled]="(actionPage === 'See') ? true : (isStatus('Evento Aprobado', this.catalogType.element.estatusAprobacionId, this.lstApprovalStatus) ? true: false)"></app-btn-block-save-update>
+							<app-btn-block-save-update myType="submit" [disabled]="disabledSubmit"></app-btn-block-save-update>
 						</div>
 						<div class="col-12 col-lg-3">
-							<app-btn-block-finish (click)="btnFinish()" [disabled]="actionPage === 'See'"></app-btn-block-finish>
+							<app-btn-block-finish (click)="btnFinish()" [disabled]="disabledBtnFinish"></app-btn-block-finish>
 						</div>
 					</div>
 				</div>
@@ -420,10 +420,10 @@
 			<div class="col">
 				<div class="row justify-content-end">
 					<div class="col-12 col-lg-6">
-						<app-btn-block-acept label="Rechazar"  (click)="btnChangeStatus('Evento Rechazado')" [disabled]="actionPage === 'See'"></app-btn-block-acept>
+						<app-btn-block-acept label="Rechazar"  (click)="btnChangeStatus('Evento Rechazado')" [disabled]="disabledToRefuse"></app-btn-block-acept>
 					</div>
 					<div class="col-12 col-lg-6">
-						<app-btn-block-acept label="Aceptar"  (click)="btnChangeStatus('Evento Aprobado')" [disabled]="actionPage === 'See'"></app-btn-block-acept>
+						<app-btn-block-acept label="Aceptar"  (click)="btnChangeStatus('Evento Aprobado')" [disabled]="disabledToAccept"></app-btn-block-acept>
 					</div>
 				</div>
 			</div>

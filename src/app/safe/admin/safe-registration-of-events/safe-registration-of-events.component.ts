@@ -108,6 +108,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	];
 	tableObservationsCommentsSelection: SelectionModel<any> = new SelectionModel<any>(true, []);
 	progress;
+	disabledSubmit = false;
+	disabledBtnFinish = false;
+	disabledToRefuse = false;
+	disabledToAccept = false;
 	constructor(
 		private formBuilder: FormBuilder,
 		public globalService: GlobalService,
@@ -517,10 +521,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 
 	isStatus(nameStatus: string, idEstatus: number, lstEntidadEstaus: IdLabel[]) {
 		let returnValue = false;
-		lstEntidadEstaus.forEach(element => {
-			console.log(element.label + 'xxxxxxxxxxx')
+		lstEntidadEstaus.forEach((element: IdLabel) => {
 			if (element.label === nameStatus) {
-				console.log(element.id + ' === ' + idEstatus);
+				console.log(nameStatus + ' === ' + element.label + ' ' + idEstatus + ' === ' + element.id);
 				if (element.id === idEstatus) {
 					returnValue = true;
 				}
@@ -559,25 +562,33 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			this.loadSelect(this.lstSelatedServicesAll, data['SERVICIOS CONEXOS MEM']);
 			this.loadSelect(this.lstEquipmentAll, data['EQUIPO']);
 			this.loadSelect(this.lstSourceEventAll, data['FUENTE EVENTO']);
-
+		},
+		errorData => {
+			this.addBlock(2, '');
+			this.toastr.errorToastr(errorData.error.message, 'Error!');
+		},
+		() => {
+			console.log(this.catalogType.action);
 			if (this.catalogType.action === 'editar') {
-				console.log(this.isStatus('Evento Cerrado', this.catalogType.element.estatusEventoId, this.lstEventStatus));
-				if (this.isStatus('Evento Cerrado', this.catalogType.element.estatusEventoId, this.lstEventStatus)) {
+				if (this.catalogType.element.estatusEvento === 'Evento Cerrado' || this.catalogType.element.estatusEvento === 'Evento Terminado') {
 					this.commonDisabled();
+					this.disabledSubmit = true;
+					this.disabledBtnFinish = true;
+					if (this.catalogType.element.estatusAprobacion === 'Evento Aprobado') {
+						this.disabledToAccept = true;
+					}
 				} else {
 					this.commonEnabled();
 				}
 			}
 			if (this.catalogType.action === 'ver') {
+				this.disabledSubmit = true;
+				this.disabledBtnFinish = true;
 				this.commonDisabled();
 			}
 			this.loadCatalogStatus('TX_BINNACLE_EVENT', this.lstApprovalStatus);
 			this.loadCatalogStatus('TX_BINNACLE_EVENT_II', this.lstEventStatus);
-		},
-			errorData => {
-				this.addBlock(2, '');
-				this.toastr.errorToastr(errorData.error.message, 'Error!');
-			});
+		});
 	}
 
 	commonDisabled() {
@@ -624,6 +635,11 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			errorData => {
 				this.addBlock(2, '');
 				this.toastr.errorToastr(errorData.error.message, 'Error!');
+			}, () => {
+				const type = {};
+				this.eventService.sendChangePage(
+					new EventMessage(null, type, 'Safe.SafeListOfEventsComponent')
+				);
 			});
 	}
 	btnClickBack() {
@@ -657,6 +673,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			}
 		});
 		this.onSubmit();
+
 	}
 	tableRowEdit(element) {
 	}
