@@ -63,6 +63,15 @@ export class BinnacleEventDTO implements Deserializable {
     public cenaceOperatorClosed: string;
     public sourceEventId: number;
     public sourceEvent: string;
+
+    public usuario: string;
+    public userCreated: string;
+    public userUpdated: string;
+
+    public fechaYHoraDeUltimaModificacion: string;
+    public dateCreated: Date;
+    public dateUpdated: Date;
+    
     deserialize(input: any) {
         Object.assign(this, input);
         return this;
