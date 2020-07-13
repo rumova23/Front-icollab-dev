@@ -17,6 +17,12 @@ export class BinnacleEventDTO implements Deserializable {
     public dateTimeStartString: string;
     public dateTimeEnd: Date;
     public dateTimeEndString: string;
+    public yyyyMMddStart: string;
+    public yyyyMMddEnd: string;
+    public ha: string;
+    public ma: string;
+    public hb: string;
+    public mb: string;
     public powerMw: number;
     public eventsClassificationId: number;
     public eventsClassification: string;

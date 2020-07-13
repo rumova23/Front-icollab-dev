@@ -162,8 +162,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.formNewEvent = this.formBuilder.group(
 			{
 				binnacleEventID: ['', null],
-				dateTimeStart : [{ value: null, disabled: false }],
-				dateTimeEnd   : [{ value: null, disabled: false }, Validators.required],
+				dateTimeStart : [{ value: null, disabled: false }, Validators.required],
+				dateTimeEnd   : [{ value: null, disabled: false }],
 				eventsClassificationId   : [{ value: null, disabled: false }, Validators.required],
 				eventsId: [{ value: null, disabled: false }, Validators.required],
 				fuelsId : [{ value: null, disabled: true }],
@@ -590,6 +590,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	commonDisabled() {
 		this.onBuildTemplate(this.catalogType.element.eventsId);
 		this.formNewEvent.patchValue(this.catalogType.element);
+		this.formTemp.patchValue(this.catalogType.element);
+		this.formTemp.controls.dateTimeStart.patchValue(moment(this.catalogType.element.dateTimeStart).format('YYYY-MM-DD'));
+		this.formTemp.controls.dateTimeEnd.patchValue(moment(this.catalogType.element.dateTimeEnd).format('YYYY-MM-DD'));
+
 		this.formNewEvent.controls.dateTimeStart.patchValue(moment(this.catalogType.element.dateTimeStart).format('YYYY-MM-DDTHH:mm:ss'));
 		this.formNewEvent.controls.dateTimeEnd.patchValue(moment(this.catalogType.element.dateTimeEnd).format('YYYY-MM-DDTHH:mm:ss'));
 		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.element.eventsClassificationId));
@@ -602,6 +606,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	commonEnabled() {
 		this.onBuildTemplate(this.catalogType.element.eventsId);
 		this.formNewEvent.patchValue(this.catalogType.element);
+		this.formTemp.patchValue(this.catalogType.element);
+		this.formTemp.controls.dateTimeStart.patchValue(moment(this.catalogType.element.dateTimeStart).format('YYYY-MM-DD'));
+		this.formTemp.controls.dateTimeEnd.patchValue(moment(this.catalogType.element.dateTimeEnd).format('YYYY-MM-DD'));
 		this.formNewEvent.controls.dateTimeStart.patchValue(moment(this.catalogType.element.dateTimeStart).format('YYYY-MM-DDTHH:mm:ss'));
 		this.formNewEvent.controls.dateTimeEnd.patchValue(moment(this.catalogType.element.dateTimeEnd).format('YYYY-MM-DDTHH:mm:ss'));
 		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.element.eventsClassificationId));
