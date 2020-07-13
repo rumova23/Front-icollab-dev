@@ -591,8 +591,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.onBuildTemplate(this.catalogType.element.eventsId);
 		this.formNewEvent.patchValue(this.catalogType.element);
 		this.formTemp.patchValue(this.catalogType.element);
-		this.formTemp.controls.dateTimeStart.patchValue(moment(this.catalogType.element.dateTimeStart).format('YYYY-MM-DD'));
-		this.formTemp.controls.dateTimeEnd.patchValue(moment(this.catalogType.element.dateTimeEnd).format('YYYY-MM-DD'));
+		this.formTemp.controls.dateTimeStart.patchValue(new Date(this.catalogType.element.dateTimeStart));
+		this.formTemp.controls.dateTimeEnd.patchValue(new Date(this.catalogType.element.dateTimeEnd));
 
 		this.formNewEvent.controls.dateTimeStart.patchValue(moment(this.catalogType.element.dateTimeStart).format('YYYY-MM-DDTHH:mm:ss'));
 		this.formNewEvent.controls.dateTimeEnd.patchValue(moment(this.catalogType.element.dateTimeEnd).format('YYYY-MM-DDTHH:mm:ss'));
@@ -607,8 +607,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.onBuildTemplate(this.catalogType.element.eventsId);
 		this.formNewEvent.patchValue(this.catalogType.element);
 		this.formTemp.patchValue(this.catalogType.element);
-		this.formTemp.controls.dateTimeStart.patchValue(moment(this.catalogType.element.dateTimeStart).format('YYYY-MM-DD'));
-		this.formTemp.controls.dateTimeEnd.patchValue(moment(this.catalogType.element.dateTimeEnd).format('YYYY-MM-DD'));
+		this.formTemp.controls.dateTimeStart.patchValue(new Date(this.catalogType.element.dateTimeStart));
+		this.formTemp.controls.dateTimeEnd.patchValue(new Date(this.catalogType.element.dateTimeEnd));
 		this.formNewEvent.controls.dateTimeStart.patchValue(moment(this.catalogType.element.dateTimeStart).format('YYYY-MM-DDTHH:mm:ss'));
 		this.formNewEvent.controls.dateTimeEnd.patchValue(moment(this.catalogType.element.dateTimeEnd).format('YYYY-MM-DDTHH:mm:ss'));
 		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.element.eventsClassificationId));
