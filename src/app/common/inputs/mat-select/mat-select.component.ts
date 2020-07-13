@@ -11,10 +11,10 @@ import { IdLabel } from 'src/app/core/models/IdLabel';
 })
 export class MatSelectComponent implements OnInit {
   @Output() eventChange   = new EventEmitter<any>();
-	@Input() label           : string = '';
-	@Input() sufijo          : string = '';
-	@Input() submitted       : boolean = false;
-	@Input() controlName     : string = null;
+  @Input() label           : string = '';
+  @Input() sufijo          : string = '';
+  @Input() submitted       : boolean = false;
+  @Input() controlName     : string = null;
   @Input() formGroup       : FormGroup = null;
   @Input() withEmptyOption : boolean = true;
   @Input() options         : IdLabel[] = [
@@ -73,7 +73,7 @@ export class MatSelectComponent implements OnInit {
 
   ngOnInit() {
   }
-  onSelectChange(e){
-		this.eventChange.emit(e);
+  onSelectChange(e) {
+    this.eventChange.emit(e);
   }
 }

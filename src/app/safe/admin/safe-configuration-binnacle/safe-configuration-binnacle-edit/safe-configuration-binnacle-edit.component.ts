@@ -222,6 +222,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 		}
 	}
 	onBuildEventAssociated_00(event) {
+		console.log('Ingreso aqui RTC');
 		const lstIds: Array<number> = [];
 		for (let i = 0; i < this.lstEventsDTO.length; i ++) {
 			if (this.lstEventsDTO[i].opcionPadreId === event) {
@@ -331,6 +332,10 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 
 	}
 	btnClickBack() {
+		const type = {};
+		this.eventService.sendChangePage(
+			new EventMessage(null, type, 'Safe.SafeConfigurationBinnacleComponent')
+		);
 	}
 	btnFinish() {
 	}

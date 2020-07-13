@@ -96,6 +96,11 @@ export class BinnacleEventConfigurationDTO implements Deserializable {
     public disabledSourceEventId: boolean;
     public requiredSourceEventId: boolean;
 
+    public user: string;
+    public dateUpdated: string;
+    public status: boolean;
+    public nameStatus: string;
+
     deserialize(input: any) {
         Object.assign(this, input);
         return this;

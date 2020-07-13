@@ -22,7 +22,7 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         { key: 'event', label: 'Evento' },
 		{ key: 'user', label: 'Usuario' },
 		{ key: 'dateUpdated', label: 'Date and Time last modified'},
-		{ key: 'status', label: 'Estatus' }
+		{ key: 'nameStatus', label: 'Estatus' }
     ];
     tableColumnsDisplay = [
         'order',
@@ -30,7 +30,7 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         'event',
         'user',
         'dateUpdated',
-        'status',
+        'nameStatus',
         'sys_see',
         'sys_edit',
         'sys_delete',
@@ -83,6 +83,7 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         this.addBlock(1, '');
         this.binnacleService.listTemplates().subscribe(
             (data: Array<BinnacleEventConfigurationDTO>) => {
+                console.dir(data);
                 let i = 0;
                 this.tableCatalogos = data.map( e => {
                     i++;
@@ -91,9 +92,9 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
                         , binnacleEventConfigurationDTO: e
                         , eventClassification: this.getOpcion(this.lstEventClassificationDTO, e.eventsClassificationId)
                         , event: this.getOpcion(this.lstEventsDTO, e.eventsId)
-                        , user: ''
-                        , dateUpdated: ''
-                        , status: ''
+                        , user: e.user
+                        , dateUpdated: e.dateUpdated
+                        , nameStatus: e.nameStatus
                     };
                 });
             },
