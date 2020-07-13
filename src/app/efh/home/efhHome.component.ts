@@ -24,6 +24,7 @@ import { EfhIndicatorEditComponent        } from '../catalogs/indicator/edit/efh
 import { EfhAnaliticsEventComponent       } from '../analysis/event/efhAnaliticsEvent.component';
 import { EfhAddIndicatorComponent         } from '../configuration/indicator/addindicator/efhAddIndicator.component';
 import { EfhEditIndicatorComponent        } from '../configuration/indicator/addindicator/edit/efhEditIndicator.component';
+import { DashboardGeneralComponent } from '../dashboards/dashboard-general/dashboard-general.component';
 
 @Component({
   selector: 'app-efh-home',
@@ -45,7 +46,8 @@ import { EfhEditIndicatorComponent        } from '../configuration/indicator/add
     EfhIndicatorEditComponent,
     EfhAnaliticsEventComponent,
     EfhAddIndicatorComponent,
-    EfhEditIndicatorComponent
+    EfhEditIndicatorComponent,
+    DashboardGeneralComponent
   ]
 })
 export class EfhHomeComponent implements OnInit {
@@ -94,6 +96,12 @@ export class EfhHomeComponent implements OnInit {
                 .changeDetectorRef
                 .detectChanges();
             break;
+          case 'Efh.DashboardGeneral':
+            this.viewContainerRef
+            .createComponent(this.componentFactoryResolver.resolveComponentFactory(DashboardGeneralComponent))
+            .changeDetectorRef
+            .detectChanges();
+          break;
           case 'Efh.Tipo de evento':
             const refEventTypes = this.viewContainerRef
                 .createComponent(this.componentFactoryResolver.resolveComponentFactory(EfhEventTypeComponent));

@@ -461,6 +461,7 @@ export class EfhEditIndicatorComponent implements OnInit {
   }
 
   enableControls(selected) {
+    this.submittedData = false;
     this.selectControlsEnabled(true);
     this.resetSections();
     this.fuelTypesArr = this.fuelTypesForSelect;

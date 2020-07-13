@@ -1,0 +1,191 @@
+<div class="row">
+    <mdb-breadcrumb customClass="white" class="w-100">
+        <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+        <mdb-breadcrumb-item class="active">{{title}}</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
+</div>
+<form [formGroup]="analysisForm" (ngSubmit)="onSubmit()">
+    <div class="section">
+        <div class="row pb-2">
+            <div class="col">
+                <p class="section_titulo_0">{{title}}</p>
+                <p class="section_subtitulo_0"> </p>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <small class="form-text text-muted text-left">Unidad:</small>
+                    <mat-select class="form-control" formControlName="unitControl" [(value)]="selectedUnit">
+                        <mat-option class="form-control" [value]="unit.id" *ngFor="let unit of unitsArr">{{unit.name}}</mat-option>
+                    </mat-select>
+                </div>
+                <div *ngIf="submittedData && !selectedUnit" style="color:red">
+                    <div>Requerido</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <small class="form-text text-muted" >Mes:</small>
+                    <mat-select class="form-control" formControlName="monthControl">
+                        <mat-option class="form-control" [value]="01">ENERO</mat-option>
+                        <mat-option class="form-control" [value]="02">FEBRERO</mat-option>
+                        <mat-option class="form-control" [value]="03">MARZO</mat-option>
+                        <mat-option class="form-control" [value]="04">ABRIL</mat-option>
+                        <mat-option class="form-control" [value]="05">MAYO</mat-option>
+                        <mat-option class="form-control" [value]="06">JUNIO</mat-option>
+                        <mat-option class="form-control" [value]="07">JULIO</mat-option>
+                        <mat-option class="form-control" [value]="08">AGOSTO</mat-option>
+                        <mat-option class="form-control" [value]="09">SEPTIEMBRE</mat-option>
+                        <mat-option class="form-control" [value]="10">OCTUBRE</mat-option>
+                        <mat-option class="form-control" [value]="11">NOVIEMBRE</mat-option>
+                        <mat-option class="form-control" [value]="12">DICIEMBRE</mat-option>
+                    </mat-select>
+                </div>
+                <div *ngIf="submittedData && f.monthControl.errors" style="color:red">
+                    <div *ngIf="f.monthControl.errors.required">Requerido</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <small class="form-text text-muted" >Año:</small>
+                    <mat-select class="form-control" formControlName="yearControl">
+                        <mat-option class="form-control" [value]="2019">2019</mat-option>
+                        <mat-option class="form-control" [value]="2020">2020</mat-option>
+                    </mat-select>
+                </div>
+                <div *ngIf="submittedData && f.yearControl.errors" style="color:red">
+                    <div *ngIf="f.yearControl.errors.required">Requerido</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn"
+                            [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                        <i class="ti-pencil"></i>
+                        Consultar
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</form>
+<div class="section">
+    <div class="row">
+        <div class="col-md-9"></div>
+        <div class="col-md-3">
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn" [disabled]="exportDisabled"
+                        [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
+                        (click)="exportAsExcel()">
+                    <i class="ti-cloud-down"></i>
+                    Exportar
+                </button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <table #tableAnalitics>
+            <thead>
+            <tr><th colspan="37"><small>EFG-ES Operating Data</small></th></tr>
+            <tr>
+                <th rowspan="2"><small>Total Starts</small></th>
+                <th rowspan="2"><small>Start</small></th>
+                <th rowspan="2" style="background-color: #7c7db3"><small>Date</small></th>
+                <th rowspan="2" style="background-color: #7c7db3"><small>Start Time (FSNL)</small></th>
+                <th rowspan="2" style="background-color: #7c7db3"><small>Stop Time (Flame off)</small></th>
+                <th rowspan="2" style="background-color: #7c7db3"><small>Type Event</small></th>
+                <th rowspan="2" style="background-color: #85ce36"><small>Run AOH</small></th>
+                <th rowspan="2" style="background-color: #85ce36"><small>Run EFHi</small></th>
+                <th rowspan="2" style="background-color: #85ce36"><small>Run Esi</small></th>
+                <th rowspan="2" style="background-color: #85ce36"><small>Run EFHi $</small></th>
+                <th rowspan="2" style="background-color: #7c7db3"><small>Rate EFHi $</small></th>
+                <th colspan="6" style="background-color: #85ce36"><small>Total</small></th>
+                <th colspan="6" style="background-color: #85ce36"><small>Since Last Planned Outage</small></th>
+                <th rowspan="2" style="background-color: #7c7db3"><small>Event Summary</small></th>
+                <th rowspan="2" style="background-color: #85ce36"><small>Esi</small></th>
+                <th style="background-color: #7c7db3"><small>FF</small></th>
+                <th rowspan="2" style="background-color: #7c7db3"><small>Start</small></th>
+                <th style="background-color: #7c7db3"><small>Trip</small></th>
+                <th style="background-color: #7c7db3"><small>Load</small></th>
+                <th style="background-color: #5fbae9"><small>ESi per</small></th>
+                <th rowspan="2" style="background-color: #7c7db3"><small>Load Rejection</small></th>
+                <th style="background-color: #7c7db3"><small>Load</small></th>
+                <th style="background-color: #5fbae9"><small>ESi per</small></th>
+                <th rowspan="2" style="background-color: #7c7db3"><small>Rapid Load Change</small></th>
+                <th style="background-color: #7c7db3"><small>Change Range</small></th>
+                <th style="background-color: #7c7db3"><small>Change Rate</small></th>
+                <th style="background-color: #5fbae9"><small>ESi per</small></th>
+            </tr>
+            <tr>
+                <th style="background-color: #85ce36"><small>Trips</small></th>
+                <th style="background-color: #85ce36"><small>Starts</small></th>
+                <th style="background-color: #85ce36"><small>ESi</small></th>
+                <th style="background-color: #85ce36"><small>AOH</small></th>
+                <th style="background-color: #85ce36"><small>EFHi</small></th>
+                <th style="background-color: #85ce36"><small>EFHi $</small></th>
+                <th style="background-color: #85ce36"><small>Trips</small></th>
+                <th style="background-color: #85ce36"><small>Starts</small></th>
+                <th style="background-color: #85ce36"><small>ESi</small></th>
+                <th style="background-color: #85ce36"><small>AOH</small></th>
+                <th style="background-color: #85ce36"><small>EFHi</small></th>
+                <th style="background-color: #85ce36"><small>EFHi $</small></th>
+                <th style="background-color: #7c7db3"><small>GAS/OIL</small></th>
+                <th style="background-color: #7c7db3"></th>
+                <th style="background-color: #7c7db3"><small>MW @ Trip</small></th>
+                <th style="background-color: #5fbae9"><small>Tj</small></th>
+                <th style="background-color: #7c7db3"><small>MW @ Rej</small></th>
+                <th style="background-color: #5fbae9"><small>LRj</small></th>
+                <th style="background-color: #7c7db3"><small>% Load Yj</small></th>
+                <th style="background-color: #7c7db3"><small>%/min Xj</small></th>
+                <th style="background-color: #5fbae9"><small>LCj</small></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let el of dataAnalysis;">
+                <td>{{el.totalStarts}}</td>
+                <td>{{el.start}}</td>
+                <td>{{el.date}}</td>
+                <td>{{el.startTime}}</td>
+                <td>{{el.stopTime}}</td>
+                <td>{{el.typeEvent}}</td>
+                <td>{{el.runAOH | number: '1.1-1'}}</td>
+                <td>{{el.runEFHi | number: '1.1-1'}}</td>
+                <td>{{el.runESi | number: '1.2'}}</td>
+                <td>{{el.runEFHi_costo | currency:'USD':'symbol-narrow' }}</td>
+                <td>{{el.rateEFHi_costo | currency:'USD':'symbol-narrow' }}</td>
+                <td>{{el.totalTrips}}</td>
+                <td>{{el.totalStarts}}</td>
+                <td>{{el.totalESi | number: '1.2' }}</td>
+                <td>{{el.totalAOH | number: '1.1-1' }}</td>
+                <td>{{el.totalEFHi | number: '1.1-1' }}</td>
+                <td>{{el.totalEFHi_costo | currency:'USD':'symbol-narrow' }}</td>
+                <td>{{el.sinceTrips}}</td>
+                <td>{{el.sinceStarts}}</td>
+                <td>{{el.sinceESi | number: '1.2' }}</td>
+                <td>{{el.sinceAOH | number: '1.1-1' }}</td>
+                <td>{{el.sinceEFHi | number: '1.1-1' }}</td>
+                <td>{{el.sinceEFHi_costo | currency:'USD':'symbol-narrow' }}</td>
+                <td>{{el.comments}}</td>
+                <td>{{el.esi | number: '1.2'}}</td>
+                <td>{{el.ff}}</td>
+                <td>{{el.startFlag}}</td>
+                <td>{{el.tripFlag}}</td>
+                <td>{{el.loadTrip}}</td>
+                <td>{{el.esi_tj | number: '1.2' }}</td>
+                <td>{{el.rejectFlag}}</td>
+                <td>{{el.loadReject}}</td>
+                <td>{{el.esi_lrj | number: '1.2' }}</td>
+                <td>{{el.rapidLoad}}</td>
+                <td>{{el.changeRange}}</td>
+                <td>{{el.changeRate}}</td>
+                <td>{{el.esi_lcj | number: '1.2' }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <!--</div>-->
+    </div>
+</div>

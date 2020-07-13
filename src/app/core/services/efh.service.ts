@@ -137,4 +137,9 @@ export class EfhService {
         return this.http.delete( `${ this.microEfh }configuration/indicator/delete/` + id, {params : this.parameters });
   }
 
+  getOperationDataByPeriod(period: string, idUnit: number) {
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    return this.http.get(`${this.microEfh}operating/data/get/${period}/${idUnit}`, {params : this.parameters });
+  }
+
 }
