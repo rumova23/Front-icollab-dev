@@ -28,7 +28,7 @@
 		<div class="row">
 			<div class="col">
 				<app-mat-input-datepicker
-					[formGroup]="formTemp" 
+					[formGroup]="formTemp"
 					controlName="dateTimeStart" 
 					(eventChange)="onChangeDateTimeStart()"
 					label="Fecha Inicial"
@@ -36,7 +36,7 @@
 			</div>
 			<div class="col">
 				<app-mat-select 
-					[formGroup]="formTemp" 
+					[formGroup]="formTemp"
 					controlName="ha" 
 					[options]="hours"
 					(eventChange)="onChangeDateTimeStart()"
@@ -46,7 +46,7 @@
 			</div>
 			<div class="col">
 				<app-mat-select 
-					[formGroup]="formTemp" 
+					[formGroup]="formTemp"
 					controlName="ma" 
 					[options]="minutes"
 					[withEmptyOption]="false"
@@ -57,7 +57,7 @@
 			
 			<div class="col">
 				<app-mat-input-datepicker
-					[formGroup]="formTemp" 
+					[formGroup]="formTemp"
 					controlName="dateTimeEnd" 
 					(eventChange)="onChangeDateTimeEnd()"
 					label="Fecha Final"
@@ -65,7 +65,7 @@
 			</div>
 			<div class="col">
 				<app-mat-select 
-					[formGroup]="formTemp" 
+					[formGroup]="formTemp"
 					controlName="hb" 
 					[options]="hours"
 					[withEmptyOption]="false"
@@ -76,7 +76,7 @@
 			
 			<div class="col">
 				<app-mat-select 
-					[formGroup]="formTemp" 
+					[formGroup]="formTemp"
 					controlName="mb" 
 					[options]="minutes"
 					[withEmptyOption]="false"
@@ -406,24 +406,24 @@
 							<app-btn-block-back (click)="btnClickBack()"></app-btn-block-back>
 						</div>
 						<div class="col-12 col-lg-6">
-							<app-btn-block-save-update myType="submit" [disabled]="(actionPage === 'See') ? true : (isStatus('Evento Aprobado', this.catalogType.element.estatusAprobacionId) ? true: false)"></app-btn-block-save-update>
+							<app-btn-block-save-update myType="submit" [disabled]="disabledSubmit"></app-btn-block-save-update>
 						</div>
 						<div class="col-12 col-lg-3">
-							<app-btn-block-finish (click)="btnFinish()" [disabled]="actionPage === 'See'"></app-btn-block-finish>
+							<app-btn-block-finish (click)="btnFinish()" [disabled]="disabledBtnFinish"></app-btn-block-finish>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>s
-	<div class="section">
+		</div>
+	<div class="section" *ngIf="this.catalogType.element.estatusEvento === 'Evento Terminado' || this.catalogType.element.estatusEvento === 'Evento Cerrado'">
 		<div class="row">
 			<div class="col">
 				<div class="row justify-content-end">
 					<div class="col-12 col-lg-6">
-						<app-btn-block-acept label="Rechazar" (click)="btnChangeStatus('Evento Rechazado')" [disabled]="actionPage === 'See'"></app-btn-block-acept>
+						<app-btn-block-acept label="Rechazar"  (click)="btnChangeStatus('Evento Rechazado')" [disabled]="disabledToRefuse"></app-btn-block-acept>
 					</div>
 					<div class="col-12 col-lg-6">
-						<app-btn-block-acept label="Aceptar" (click)="btnChangeStatus('Evento Aprobado')" [disabled]="actionPage === 'See'"></app-btn-block-acept>
+						<app-btn-block-acept label="Aceptar"  (click)="btnChangeStatus('Evento Aprobado')" [disabled]="disabledToAccept"></app-btn-block-acept>
 					</div>
 				</div>
 			</div>

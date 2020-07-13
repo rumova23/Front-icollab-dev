@@ -17,6 +17,12 @@ export class BinnacleEventDTO implements Deserializable {
     public dateTimeStartString: string;
     public dateTimeEnd: Date;
     public dateTimeEndString: string;
+    public yyyyMMddStart: string;
+    public yyyyMMddEnd: string;
+    public ha: string;
+    public ma: string;
+    public hb: string;
+    public mb: string;
     public powerMw: number;
     public eventsClassificationId: number;
     public eventsClassification: string;
@@ -63,6 +69,15 @@ export class BinnacleEventDTO implements Deserializable {
     public cenaceOperatorClosed: string;
     public sourceEventId: number;
     public sourceEvent: string;
+
+    public usuario: string;
+    public userCreated: string;
+    public userUpdated: string;
+
+    public fechaYHoraDeUltimaModificacion: string;
+    public dateCreated: Date;
+    public dateUpdated: Date;
+    
     deserialize(input: any) {
         Object.assign(this, input);
         return this;

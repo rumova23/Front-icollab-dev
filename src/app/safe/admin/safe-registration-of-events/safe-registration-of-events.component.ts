@@ -34,6 +34,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	hours: IdLabel[] =  new Array(24).fill(0).map((_valor, indice) => ({id: (indice < 10 ? '0' : '') + indice, label: (indice < 10 ? '0' : '') + indice}));
 	minutes: IdLabel[] =  new Array(60).fill(0).map((_valor, indice) => ({id: (indice < 10 ? '0' : '') + indice, label: (indice < 10 ? '0' : '') + indice}));
 
+	i = 0;
 	catalogType: any;
 	actionPage = '';
 	templateConfiguration: BinnacleEventConfigurationDTO;
@@ -81,6 +82,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	lstApprovalStatusAll: IdLabel[] = [];
 	eventStatus: string;
 	approvalStatus: string;
+	statusTerminado: number;
 	formValid: boolean;
 
 	tempOrder = 3;
@@ -106,6 +108,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	];
 	tableObservationsCommentsSelection: SelectionModel<any> = new SelectionModel<any>(true, []);
 	progress;
+	disabledSubmit = false;
+	disabledBtnFinish = false;
+	disabledToRefuse = false;
+	disabledToAccept = false;
 	constructor(
 		private formBuilder: FormBuilder,
 		public globalService: GlobalService,
@@ -117,7 +123,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		private masterCatalogService: MasterCatalogService,
 		private binnacleService: BinnacleService,
 		private estatusMaestroService: EstatusMaestroService
-	) { }
+	) {
+		this.loadCatalog();
+	}
 
 
 	ngOnInit() {
@@ -134,7 +142,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.actionPage = 'See';
 				break;
 		}
-		this.loadCatalog();
+
 		this.fileUploadForm = this.formBuilder.group({
 			file: new FormControl(null, [Validators.required, requiredFileType('zip')]),
 		});
@@ -154,8 +162,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.formNewEvent = this.formBuilder.group(
 			{
 				binnacleEventID: ['', null],
-				dateTimeStart : [{ value: null, disabled: false }],
-				dateTimeEnd   : [{ value: null, disabled: false }, Validators.required],
+				dateTimeStart : [{ value: null, disabled: false }, Validators.required],
+				dateTimeEnd   : [{ value: null, disabled: false }],
 				eventsClassificationId   : [{ value: null, disabled: false }, Validators.required],
 				eventsId: [{ value: null, disabled: false }, Validators.required],
 				fuelsId : [{ value: null, disabled: true }],
@@ -179,9 +187,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				plantOperatorClosed: [{ value: null, disabled: true }],
 				cenaceOperatorClosed: [{ value: null, disabled: true }],
 				sourceEventId: [{ value: null, disabled: true }],
-				estatusEvento: [{ value: null, disabled: true }, Validators.required],
-				estatusAprobacionId: [{ value: null, disabled: true }, Validators.required],
-				estatusAprobacion: [{ value: null, disabled: true }, Validators.required],
+				estatusEvento: [{ value: null, disabled: true }],
+				estatusEventoId: [],
+				estatusAprobacionId: [],
+				estatusAprobacion: [{ value: null, disabled: true }],
 				eventActivated: [{ value: true, disabled: true }]
 			}
 		);
@@ -500,30 +509,34 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			});
 	}
 
-	loadCatalogStatus(entidad: string) {
+	loadCatalogStatus(entidad: string, lstStatus: IdLabel[]) {
 		this.estatusMaestroService.getCatalogoEntidad(entidad).subscribe((data: Array<EntidadEstatusDTO>)  => {
 			data.forEach((element: EntidadEstatusDTO) => {
-				this.lstApprovalStatus.push({id: element.entidadEstatusId, label: element.estatus.nombre});
+				lstStatus.push({id: element.entidadEstatusId, label: element.estatus.nombre});
 			});
 		}, errorData => {
 				return '';
-			},
-			() => {
-				if (this.catalogType.action === 'editar') {
-					if (this.isStatus('Evento Aprobado', this.catalogType.element.estatusAprobacionId)) {
-						setTimeout(() => this.formNewEvent.disable(), 2000);
-					}
-				}
 			});
 	}
 
-	isStatus(nameStatus: string, idEstatus: number) {
+	isStatus(nameStatus: string, idEstatus: number, lstEntidadEstaus: IdLabel[]) {
 		let returnValue = false;
-		this.lstApprovalStatus.forEach(element => {
+		lstEntidadEstaus.forEach((element: IdLabel) => {
 			if (element.label === nameStatus) {
+				console.log(nameStatus + ' === ' + element.label + ' ' + idEstatus + ' === ' + element.id);
 				if (element.id === idEstatus) {
 					returnValue = true;
 				}
+			}
+		});
+		return returnValue;
+	}
+
+	getIdEstatusEvent(nameStatus: string, lstEntidadEstaus: IdLabel[]) {
+		let returnValue: string | number;
+		lstEntidadEstaus.forEach(element => {
+			if (element.label === nameStatus) {
+				returnValue = element.id;
 			}
 		});
 		return returnValue;
@@ -535,44 +548,73 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.masterCatalogService.listCatalog(names).subscribe(data  => {
 			this.loadSelect(this.lstEventClassification, data['CLASIFICA EVENTO']);
 			this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
-			this.lstEventsDTO = data.EVENTO;
-			this.loadSelect(this.lstFuelsAll, data.COMBUSTIBLE);
-			this.loadSelect(this.lstUnitsAll, data.UNIDAD);
+			this.lstEventsDTO = data['EVENTO'];
+			this.loadSelect(this.lstFuelsAll, data['COMBUSTIBLE']);
+			this.loadSelect(this.lstUnitsAll, data['UNIDAD']);
 			this.loadSelect(this.lstImpactContractsAll, data['CONTRATO IMPACTADO']);
 			this.loadSelect(this.lstRealsCcdvAll, data['REAL-CCDV']);
 			this.loadSelect(this.lstToleranceBandsAll, data['BANDA TOLERANCIA']);
 			this.loadSelect(this.lstMarketTypesAll, data['TIPO MERCADO MEM']);
 			this.loadSelect(this.lstSelatedServicesAll, data['SERVICIOS CONEXOS MEM']);
-			this.loadSelect(this.lstEquipmentAll, data.EQUIPO);
+			this.loadSelect(this.lstEquipmentAll, data['EQUIPO']);
 			this.loadSelect(this.lstSourceEventAll, data['FUENTE EVENTO']);
 		},
-			errorData => {
-				this.addBlock(2, '');
-				this.toastr.errorToastr(errorData.error.message, 'Error!');
-			}, () => {
+		errorData => {
+			this.addBlock(2, '');
+			this.toastr.errorToastr(errorData.error.message, 'Error!');
+		},
+		() => {
+			console.log(this.catalogType.action);
 			if (this.catalogType.action === 'editar') {
-				this.onBuildTemplate(this.catalogType.element.eventsId);
-				this.formNewEvent.patchValue(this.catalogType.element);
-				this.formNewEvent.controls.dateTimeStart.patchValue(moment(this.catalogType.element.dateTimeStart).format('YYYY-MM-DDTHH:mm:ss'));
-				this.formNewEvent.controls.dateTimeEnd.patchValue(moment(this.catalogType.element.dateTimeEnd).format('YYYY-MM-DDTHH:mm:ss'));
-				this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.element.eventsClassificationId));
-				this.formNewEvent.controls.eventsClassificationId.disable();
-				this.formNewEvent.controls.eventsId.disable();
-				this.formNewEvent.controls.estatusAprobacionId.enable();
+				if (this.catalogType.element.estatusEvento === 'Evento Cerrado' || this.catalogType.element.estatusEvento === 'Evento Terminado') {
+					this.commonDisabled();
+					this.disabledSubmit = true;
+					this.disabledBtnFinish = true;
+					if (this.catalogType.element.estatusAprobacion === 'Evento Aprobado') {
+						this.disabledToAccept = true;
+					}
+				} else {
+					this.commonEnabled();
+				}
 			}
 			if (this.catalogType.action === 'ver') {
-				this.onBuildTemplate(this.catalogType.element.eventsId);
-				this.formNewEvent.patchValue(this.catalogType.element);
-				this.formNewEvent.controls.dateTimeStart.patchValue(moment(this.catalogType.element.dateTimeStart).format('YYYY-MM-DDTHH:mm:ss'));
-				this.formNewEvent.controls.dateTimeEnd.patchValue(moment(this.catalogType.element.dateTimeEnd).format('YYYY-MM-DDTHH:mm:ss'));
-				this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.element.eventsClassificationId));
-				setTimeout(() => this.formNewEvent.disable(), 2000);
-				setTimeout(() => this.fileUploadForm.disable(), 2000);
-				setTimeout(() => this.formobservationsComments.disable(), 2000);
-				setTimeout(() => this.formTemp.disable(), 2000);
+				this.disabledSubmit = true;
+				this.disabledBtnFinish = true;
+				this.commonDisabled();
 			}
-			this.loadCatalogStatus('TX_BINNACLE_EVENT');
+			this.loadCatalogStatus('TX_BINNACLE_EVENT', this.lstApprovalStatus);
+			this.loadCatalogStatus('TX_BINNACLE_EVENT_II', this.lstEventStatus);
 		});
+	}
+
+	commonDisabled() {
+		this.onBuildTemplate(this.catalogType.element.eventsId);
+		this.formNewEvent.patchValue(this.catalogType.element);
+		this.formTemp.patchValue(this.catalogType.element);
+		this.formTemp.controls.dateTimeStart.patchValue(new Date(this.catalogType.element.dateTimeStart));
+		this.formTemp.controls.dateTimeEnd.patchValue(new Date(this.catalogType.element.dateTimeEnd));
+
+		this.formNewEvent.controls.dateTimeStart.patchValue(moment(this.catalogType.element.dateTimeStart).format('YYYY-MM-DDTHH:mm:ss'));
+		this.formNewEvent.controls.dateTimeEnd.patchValue(moment(this.catalogType.element.dateTimeEnd).format('YYYY-MM-DDTHH:mm:ss'));
+		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.element.eventsClassificationId));
+		setTimeout(() => this.formNewEvent.disable(), 2000);
+		setTimeout(() => this.fileUploadForm.disable(), 2000);
+		setTimeout(() => this.formobservationsComments.disable(), 2000);
+		setTimeout(() => this.formTemp.disable(), 2000);
+	}
+
+	commonEnabled() {
+		this.onBuildTemplate(this.catalogType.element.eventsId);
+		this.formNewEvent.patchValue(this.catalogType.element);
+		this.formTemp.patchValue(this.catalogType.element);
+		this.formTemp.controls.dateTimeStart.patchValue(new Date(this.catalogType.element.dateTimeStart));
+		this.formTemp.controls.dateTimeEnd.patchValue(new Date(this.catalogType.element.dateTimeEnd));
+		this.formNewEvent.controls.dateTimeStart.patchValue(moment(this.catalogType.element.dateTimeStart).format('YYYY-MM-DDTHH:mm:ss'));
+		this.formNewEvent.controls.dateTimeEnd.patchValue(moment(this.catalogType.element.dateTimeEnd).format('YYYY-MM-DDTHH:mm:ss'));
+		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.element.eventsClassificationId));
+		this.formNewEvent.controls.eventsClassificationId.disable();
+		this.formNewEvent.controls.eventsId.disable();
+		this.formNewEvent.controls.estatusAprobacionId.enable();
 	}
 	onSubmitFormNewEvent() {
 		this.formValid = true;
@@ -586,6 +628,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			return;
 		}
 
+		this.onChangeDateTimeStart();
+		this.onChangeDateTimeEnd();
+		console.dir(this.formNewEvent.value);
 		this.addBlock(1, '');
 		this.binnacleService.saveBinnacle(this.formNewEvent.value).subscribe(
 			data => {
@@ -596,6 +641,11 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			errorData => {
 				this.addBlock(2, '');
 				this.toastr.errorToastr(errorData.error.message, 'Error!');
+			}, () => {
+				const type = {};
+				this.eventService.sendChangePage(
+					new EventMessage(null, type, 'Safe.SafeListOfEventsComponent')
+				);
 			});
 	}
 	btnClickBack() {
@@ -620,12 +670,16 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		const file = this.fileUploadForm.get('file').value;
 	}
 	btnFinish() {
+		this.formNewEvent.controls.estatusEventoId.patchValue(this.getIdEstatusEvent('Evento Terminado', this.lstEventStatus));
+		this.formValid = true;
 		this.lstRequired.forEach(field => {
 			if ( this.formNewEvent.controls[field].value == null) {
+				console.log('field: ' + field);
 				this.formValid = false;
 			}
 		});
 		this.onSubmit();
+
 	}
 	tableRowEdit(element) {
 	}
@@ -656,16 +710,15 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 
 	btnChangeStatus(statusName: string) {
 		this.binnacleService.changeStatus(statusName, this.catalogType.element.binnacleEventID).subscribe(data  => {
-				this.toastr.successToastr('Cambio de Estatus Correcto: ' + statusName, 'Exito!.');
-			}, errorData => {
+			this.toastr.successToastr('Cambio de Estatus Correcto: ' + statusName, 'Exito!.');
+		}, errorData => {
 			console.dir(errorData);
-				this.toastr.errorToastr(errorData.error.message, 'Error!');
-			},
-			() => {
-				const type = {};
-				this.eventService.sendChangePage(
-					new EventMessage(null, type, 'Safe.SafeListOfEventsComponent')
-				);
-			});
+			this.toastr.errorToastr(errorData.error.message, 'Error!');
+		}, () => {
+			const type = {};
+			this.eventService.sendChangePage(
+			new EventMessage(null, type, 'Safe.SafeListOfEventsComponent')
+			);
+		});
 	}
 }

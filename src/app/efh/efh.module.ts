@@ -32,9 +32,10 @@ import { EfhIndicatorEditComponent } from './catalogs/indicator/edit/efhIndicato
 import { EfhAnaliticsEventComponent } from './analysis/event/efhAnaliticsEvent.component';
 import { EfhAddIndicatorComponent } from './configuration/indicator/addindicator/efhAddIndicator.component';
 import { EfhEditIndicatorComponent } from './configuration/indicator/addindicator/edit/efhEditIndicator.component';
+import { DashboardGeneralComponent } from './dashboards/dashboard-general/dashboard-general.component';
 
 @NgModule({
-  declarations: [EfhHomeComponent, EfhWelcomeComponent, EfhEventTypeComponent, EfhEventTypeEditComponent, EfhFuelTypeComponent, EfhFuelTypeEditComponent, EfhUnitComponent, EfhUnitEditComponent, EfhAddEventComponent, EfhEditEventComponent, EfhCommentsComponent, EfhUploadComponent, EfhUploadCommonComponent, EfhIndicatorComponent, EfhIndicatorEditComponent, EfhAnaliticsEventComponent, EfhAddIndicatorComponent, EfhEditIndicatorComponent ],
+  declarations: [EfhHomeComponent, EfhWelcomeComponent, EfhEventTypeComponent, EfhEventTypeEditComponent, EfhFuelTypeComponent, EfhFuelTypeEditComponent, EfhUnitComponent, EfhUnitEditComponent, EfhAddEventComponent, EfhEditEventComponent, EfhCommentsComponent, EfhUploadComponent, EfhUploadCommonComponent, EfhIndicatorComponent, EfhIndicatorEditComponent, EfhAnaliticsEventComponent, EfhAddIndicatorComponent, EfhEditIndicatorComponent, DashboardGeneralComponent ],
   imports: [
     EFH_ROUTES,
     BrowserModule,

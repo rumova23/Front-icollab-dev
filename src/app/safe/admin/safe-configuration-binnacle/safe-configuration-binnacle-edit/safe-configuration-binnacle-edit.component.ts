@@ -1,4 +1,4 @@
-/* tslint:disable:indent */
+/* tslint:disable:indent no-string-literal */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IdLabel } from '../../../../core/models/IdLabel';
@@ -248,20 +248,18 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			this.loadSelect(this.lstEventClassification, data['CLASIFICA EVENTO']);
 			this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
 			this.loadSelect(this.lstEventClassification00, data['CLASIFICA EVENTO']);
-			this.loadSelect(this.lstEvents00, data.EVENTO);
-			this.lstEventsDTO = data.EVENTO;
-			this.loadSelect(this.lstFuels, data.COMBUSTIBLE);
-			this.loadSelect(this.lstUnits, data.UNIDAD);
+			this.loadSelect(this.lstEvents00, data['EVENTO']);
+			this.lstEventsDTO = data['EVENTO'];
+			this.loadSelect(this.lstFuels, data['COMBUSTIBLE']);
+			this.loadSelect(this.lstUnits, data['UNIDAD']);
 			this.loadSelect(this.lstImpactContracts, data['CONTRATO IMPACTADO']);
 			this.loadSelect(this.lstRealsCcdv, data['REAL-CCDV']);
 			this.loadSelect(this.lstToleranceBands, data['BANDA TOLERANCIA']);
 			this.loadSelect(this.lstMarketTypes, data['TIPO MERCADO MEM']);
 			this.loadSelect(this.lstSelatedServices, data['SERVICIOS CONEXOS MEM']);
-			this.loadSelect(this.lstEquipment, data.EQUIPO);
+			this.loadSelect(this.lstEquipment, data['EQUIPO']);
 			this.loadSelect(this.lstSourceEvent, data['FUENTE EVENTO']);
-		}, errorData => {
-			this.toastr.errorToastr(errorData.error.message, 'Error!');
-		}, () => {
+
 			if (this.catalogType.action === 'editar') {
 				this.formNewEvent.patchValue(this.catalogType.dto);
 				this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.dto.eventsClassificationId));
@@ -274,6 +272,8 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 				this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.dto.eventsClassificationId));
 				this.formNewEvent.disable();
 			}
+		}, errorData => {
+			this.toastr.errorToastr(errorData.error.message, 'Error!');
 		});
 	}
 	onSubmitFormNewEvent001(v) {
@@ -292,8 +292,8 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 				}, () => {
 					const names = ['EVENTO'];
 					this.masterCatalogService.listCatalog(names).subscribe(data => {
-						this.loadSelect(this.lstEvents00, data.EVENTO);
-						this.lstEventsDTO = data.EVENTO;
+						this.loadSelect(this.lstEvents00, data['EVENTO']);
+						this.lstEventsDTO = data['EVENTO'];
 					}, errorData => {
 						this.toastr.errorToastr(errorData.error.message, 'Error!');
 					});

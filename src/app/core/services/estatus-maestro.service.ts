@@ -37,7 +37,7 @@ export class EstatusMaestroService {
     return this.http.get(`${this.estatusmaestro}${entidadEstatusId}`, {params : this.parameters });
   }
 
-  getCatalogoEntidad(entidad: string): Observable<any> {
+  getCatalogoEntidad(entidad: string) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get(`${this.estatusmaestro}obten/catalogo/${entidad}`, {params : this.parameters });
   }
