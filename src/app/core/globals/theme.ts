@@ -17,10 +17,10 @@ export class ThemeService {
         let logo = "";
         switch(plant.name){
             case "AGUILA":
-                logo ="/assets/images/skins/shape_1.png";
+                logo ="assets/images/skins/shape_1.png";
             break;
             case "SOL":
-                logo ="/assets/images/skins/logobotonsol.png";
+                logo ="assets/images/skins/logobotonsol.png";
             break;
         }
         //return plant.logo; // lo ideal
@@ -87,19 +87,19 @@ export class ThemeService {
         let logo = "";
         switch(app.name){
             case "Administrative_monitoring":
-                logo ="/assets/img/common/ico_mod/ma.png";
+                logo ="assets/img/common/ico_mod/ma.png";
                 break;
             case "Safe":
-                logo ="/assets/img/common/ico_mod/Safe-v2.png";
+                logo ="assets/img/common/ico_mod/Safe-v2.png";
                 break;
             case "Compliance":
-                logo = "/assets/img/common/ico_mod/Compliance-v2.png";
+                logo = "assets/img/common/ico_mod/Compliance-v2.png";
                 break;
             case "Security":
-                logo = "/assets/img/common/ico_mod/Compliance-v2.png";
+                logo = "assets/img/common/ico_mod/Compliance-v2.png";
                 break;
             case "Efh":
-                logo = "/assets/img/efh2.png";
+                logo = "assets/img/efh2.png";
                 break;
             default:
                 logo ="default";

@@ -1,6 +1,11 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat:100,300,400,400i,700,900);
 @import url(https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css);
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+@font-face {
+    font-family: "digital";
+    src: url(../../../assets/font/display.ttf) format("truetype");
+}
+
 body{
     font-family   : Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif !important;
 }
@@ -229,4 +234,8 @@ option {
 }
 .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after, .mat-input-element:disabled{
     color: #212529;
+}
+.digital {
+    letter-spacing: 0.2em;
+    font-family: "digital";
 }
