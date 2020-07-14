@@ -182,6 +182,15 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			catalog.forEach((element: MaestroOpcionDTO) => {
 				selectCombo.push({ id: element.maestroOpcionId, label: element.opcion.codigo, maestroOpcionId: element.maestroOpcionId });
 			});
+			selectCombo.sort((a, b) => {
+				if (a.label > b.label) {
+					return 1;
+				}
+				if (a.label < b.label) {
+					return -1;
+				}
+				return 0;
+			});
 		}
 	}
 	onBuildEventAssociated_00(event) {
