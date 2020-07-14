@@ -147,21 +147,21 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			disabledLicenseDescription: [false],
 			requiredLicenseDescription: [false],
 
-			operatorPlantOpen: [{ value: null, disabled: false }],
-			disabledOperatorPlantOpen: [false],
-			requiredOperatorPlantOpen: [false],
+			plantOperatorOpened: [{ value: null, disabled: false }],
+			disabledPlantOperatorOpened: [false],
+			requiredPlantOperatorOpened: [false],
 
-			operatorCenaceOpen: [{ value: null, disabled: false }],
-			disabledOperatorCenaceOpen: [false],
-			requiredOperatorCenaceOpen: [false],
+			cenaceOperatorOpened: [{ value: null, disabled: false }],
+			disabledCenaceOperatorOpened: [false],
+			requiredCenaceOperatorOpened: [false],
 
-			operatorPlantClose: [{ value: null, disabled: false }],
-			disabledOperatorPlantClose: [false],
-			requiredOperatorPlantClose: [false],
+			plantOperatorClosed: [{ value: null, disabled: false }],
+			disabledPlantOperatorClosed: [false],
+			requiredPlantOperatorClosed: [false],
 
-			operatorCenaceClose: [{ value: null, disabled: false }],
-			disabledOperatorCenaceClose: [false],
-			requiredOperatorCenaceClose: [false],
+			cenaceOperatorClosed: [{ value: null, disabled: false }],
+			disabledCenaceOperatorClosed: [false],
+			requiredCenaceOperatorClosed: [false],
 
 			sourceEventId: [{ value: null, disabled: false }],
 			disabledSourceEventId: [false],
@@ -269,6 +269,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			}, () => {
 				const names = ['EVENTO'];
 				this.masterCatalogService.listCatalog(names).subscribe(data => {
+					this.lstEvents00 = [];
 					this.loadSelect(this.lstEvents00, data['EVENTO']);
 					this.lstEventsDTO = data['EVENTO'];
 				}, errorData => {
@@ -284,6 +285,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	onSubmitFormNewEvent(v) {
 		this.submitted = true;
 		if (this.formNewEvent.invalid) {
+			this.toastr.warningToastr('Configure las opciones en rojo: Son requeridas', 'Advertencia!.');
 			return;
 		}
 		if (this.catalogType.action === 'nuevo') {
@@ -298,14 +300,14 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 					this.toastr.errorToastr(errorData.error.message, 'Error!');
 				});
 		}
-
 		if (this.catalogType.action === 'editar') {
 			this.addBlock(1, '');
+			console.dir(this.formNewEvent.value);
 			this.formNewEvent.controls.eventsClassificationId.enable();
 			this.formNewEvent.controls.eventsId.enable();
 			this.binnacleService.updateBinnacleConfiguration(this.formNewEvent.value).subscribe(
 				data => {
-					this.toastr.successToastr('Actualzacion Completa', 'Exito!.');
+					this.toastr.successToastr('Actualizacion Completa', 'Exito!.');
 					this.addBlock(2, '');
 				},
 				errorData => {
