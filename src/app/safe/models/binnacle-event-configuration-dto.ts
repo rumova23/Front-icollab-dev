@@ -3,16 +3,14 @@ import {Deserializable} from '../../compliance/models/deserializable';
 export class BinnacleEventConfigurationDTO implements Deserializable {
     public binnacleEventConfigurationID: number;
 
-    public powerMw: number;
-    public disabledPowerMw = true;
-    public requiredPowerMw = true;
-
     public eventsClassificationId: number;
-    public disabledEventsClassificationId: boolean;
-    public requiredEventsClassificationId: boolean;
-
     public eventsId: number;
-    public disabledEventsId: boolean;
+
+    public powerMw: number;
+    public disabledPowerMw: boolean;
+    public requiredPowerMw: boolean;
+    public powerMwLimitLower: number;
+    public powerMwLimitUpper: number;
 
     public fuelsId: Array<number>;
     public disabledFuelsId: boolean;
@@ -41,6 +39,8 @@ export class BinnacleEventConfigurationDTO implements Deserializable {
     public mwOffered: number;
     public disabledMwOffered: boolean;
     public requiredMwOffered: boolean;
+    public mwOfferedLimitLower: number;
+    public mwOfferedLimitUpper: number;
 
     public relatedServicesId: Array<number>;
     public disabledRelatedServicesId: boolean;
@@ -50,10 +50,6 @@ export class BinnacleEventConfigurationDTO implements Deserializable {
     public disabledLicenseNumber: boolean;
     public requiredLicenseNumber: boolean;
 
-    public conceptoLicencia: string;
-    public disabledConceptoLicencia: boolean;
-    public requiredConceptoLicencia: boolean;
-
     public equipmentId: Array<number>;
     public disabledEquipmentId: boolean;
     public requiredEquipmentId: boolean;
@@ -61,14 +57,20 @@ export class BinnacleEventConfigurationDTO implements Deserializable {
     public initialCharge: number;
     public disabledInitialCharge: boolean;
     public requiredInitialCharge: boolean;
+    public initialChargeLimitLower: number;
+    public initialChargeLimitUpper: number;
 
     public finalCharge: number;
     public disabledFinalCharge: boolean;
     public requiredFinalCharge: boolean;
+    public finalChargeLimitLower: number;
+    public finalChargeLimitUpper: number;
 
     public mwPowerLoss: number;
     public disabledMwPowerLoss: boolean;
     public requiredMwPowerLoss: boolean;
+    public mwPowerLossLimitLower: number;
+    public mwPowerLossLimitUpper: number;
 
     public workOrderId: string;
     public disabledWorkOrderId: boolean;
@@ -96,10 +98,19 @@ export class BinnacleEventConfigurationDTO implements Deserializable {
     public disabledSourceEventId: boolean;
     public requiredSourceEventId: boolean;
 
+    public licenseDescription: string;
+    public disabledLicenseDescription: boolean;
+    public requiredLicenseDescription: boolean;
+
     public user: string;
     public dateUpdated: string;
     public status: boolean;
     public nameStatus: string;
+
+    public disabledFile: boolean;
+    public disabledObsComment: boolean;
+
+    public statusElement: boolean;
 
     deserialize(input: any) {
         Object.assign(this, input);

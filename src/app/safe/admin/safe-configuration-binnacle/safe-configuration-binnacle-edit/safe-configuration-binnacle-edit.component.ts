@@ -68,10 +68,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 		this.formNewEvent = this.formBuilder.group({
 			binnacleEventID: ['', null],
 
-			disabledEventsClassificationId: [false],
 			eventsClassificationId: [{ value: null, disabled: false }, Validators.required],
-
-			disabledEventsId: [false],
 			eventsId: [{ value: null, disabled: false }, Validators.required],
 
 			fuelsId: [null],
@@ -81,14 +78,8 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			powerMw: [{ value: null, disabled: false }],
 			disabledPowerMw: [false],
 			requiredPowerMw: [false],
-
 			powerMwLimitLower: [{ value: null, disabled: false }],
-			disabledPowerMwLimitLower: [false],
-			requiredPowerMwLimitLower: [false],
-
 			powerMwLimitUpper: [{ value: null, disabled: false }],
-			disabledPowerMwLimitUpper: [false],
-			requiredPowerMwLimitUpper: [false],
 
 			unitsId: [null],
 			disabledUnitsId: [false],
@@ -113,14 +104,8 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			mwOffered: [{ value: null, disabled: false }],
 			disabledMwOffered: [false],
 			requiredMwOffered: [false],
-
 			mwOfferedLimitLower: [{ value: null, disabled: false }],
-			disabledMwOfferedLimitLower: [false],
-			requiredMwOfferedLimitLower: [false],
-
 			mwOfferedLimitUpper: [{ value: null, disabled: false }],
-			disabledMwOfferedLimitUpper: [false],
-			requiredMwOfferedLimitUpper: [false],
 
 
 
@@ -139,38 +124,20 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			initialCharge: [{ value: null, disabled: false }],
 			disabledInitialCharge: [false],
 			requiredInitialCharge: [false],
-
 			initialChargeLimitLower: [{ value: null, disabled: false }],
-			disabledInitialChargeLimitLower: [false],
-			requiredInitialChargeLimitLower: [false],
-
 			initialChargeLimitUpper: [{ value: null, disabled: false }],
-			disabledInitialChargeLimitUpper: [false],
-			requiredInitialChargeLimitUpper: [false],
 
 			finalCharge: [{ value: null, disabled: false }],
 			disabledFinalCharge: [false],
 			requiredFinalCharge: [false],
-
 			finalChargeLimitLower: [{ value: null, disabled: false }],
-			disabledFinalChargeLimitLower: [false],
-			requiredFinalChargeLimitLower: [false],
-
 			finalChargeLimitUpper: [{ value: null, disabled: false }],
-			disabledFinalChargeLimitUpper: [false],
-			requiredFinalChargeLimitUpper: [false],
 
 			mwPowerLoss: [{ value: null, disabled: false }],
 			disabledMwPowerLoss: [false],
 			requiredMwPowerLoss: [false],
-
-			mwPowerLossLI: [{ value: null, disabled: false }],
-			disabledMwPowerLossLI: [false],
-			requiredMwPowerLossLI: [false],
-
-			mwPowerLossLS: [{ value: null, disabled: false }],
-			disabledMwPowerLossLS: [false],
-			requiredMwPowerLossLS: [false],
+			mwPowerLossLimitLower: [{ value: null, disabled: false }],
+			mwPowerLossLimitUpper: [{ value: null, disabled: false }],
 
 			workOrderId: [{ value: null, disabled: false }],
 			disabledWorkOrderId: [false],
@@ -200,36 +167,8 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			disabledSourceEventId: [false],
 			requiredSourceEventId: [false],
 
-			eventStatus: [{ value: null, disabled: false }],
-			disabledEventStatus: [false],
-			requiredEventStatus: [false],
-
-			approvalStatus: [{ value: null, disabled: false }],
-			disabledApprovalStatus: [false],
-			requiredApprovalStatus: [false],
-
 			disabledFile: [false],
 			disabledObsComment: [false],
-
-			power001: [{ value: null, disabled: false }],
-			disabledPower001: [false],
-			requiredPower001: [false],
-
-			mwOffered001: [{ value: null, disabled: false }],
-			disabledMwOffered001: [false],
-			requiredMwOffered001: [false],
-
-			initialCharge001: [{ value: null, disabled: false }],
-			disabledInitialCharge001: [false],
-			requiredInitialCharge001: [false],
-
-			finalCharge001: [{ value: null, disabled: false }],
-			disabledFinalCharge001: [false],
-			requiredFinalCharge001: [false],
-
-			MwPowerLossLI001: [{ value: null, disabled: false }],
-			disabledMwPowerLossLI001: [false],
-			requiredMwPowerLossLI001: [false],
 
 			statusElement: [true],
 		});
@@ -264,7 +203,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	}
 	onBuildEventAssociated(event) {
 		this.lstEvents = [];
-		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === event));
+		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === event.value));
 	}
 
 	compareTech(t1, t2): boolean {

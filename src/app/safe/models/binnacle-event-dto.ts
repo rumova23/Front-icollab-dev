@@ -53,7 +53,7 @@ export class BinnacleEventDTO implements Deserializable {
     public relatedServices: string;
     public relatedServicesDTO: MaestroOpcionDTO;
     public licenseNumber: string;
-    public conceptoLicencia: string;
+    public licenseDescription: string;
     public equipmentId: number;
     public equipment: string;
     public equipmentDTO: MaestroOpcionDTO;

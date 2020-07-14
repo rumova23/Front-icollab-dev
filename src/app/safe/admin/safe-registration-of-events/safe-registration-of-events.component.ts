@@ -181,7 +181,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				finalCharge: [{ value: null, disabled: true }],
 				mwPowerLoss: [{ value: null, disabled: true }],
 				workOrderId: [{ value: null, disabled: true }],
-				conceptoLicencia: [{ value: null, disabled: true }],
+				licenseDescription: [{ value: null, disabled: true }],
 				plantOperatorOpened: [{ value: null, disabled: true }],
 				cenaceOperatorOpened: [{ value: null, disabled: true }],
 				plantOperatorClosed: [{ value: null, disabled: true }],
@@ -244,6 +244,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				console.dir(data);
 				if (data !== null) {
 					this.templateConfiguration = data;
+
 					if (this.templateConfiguration.disabledFuelsId) {
 						this.formNewEvent.controls.fuelsId.disable();
 					} else {
@@ -255,18 +256,18 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 					}
 					this.lstFuels = this.loadSelectTemplate(this.lstFuelsAll, this.templateConfiguration.fuelsId);
 
-					if (this.templateConfiguration.disabledConceptoLicencia) {
-						this.formNewEvent.controls.conceptoLicencia.disable();
+					if (this.templateConfiguration.disabledLicenseDescription) {
+						this.formNewEvent.controls.licenseDescription.disable();
 					} else {
-						this.formNewEvent.controls.conceptoLicencia.enable();
-						if (this.templateConfiguration.requiredConceptoLicencia) {
-							this.lstRequired.push('conceptoLicencia');
-							this.formNewEvent.controls.conceptoLicencia.setValidators([Validators.required, Validators.minLength(4), Validators.maxLength(2000)]);
+						this.formNewEvent.controls.licenseDescription.enable();
+						if (this.templateConfiguration.requiredLicenseDescription) {
+							this.lstRequired.push('licenseDescription');
+							this.formNewEvent.controls.licenseDescription.setValidators([Validators.required, Validators.minLength(4), Validators.maxLength(2000)]);
 						}
 
 					}
-					if (this.templateConfiguration.conceptoLicencia !==  null) {
-						this.formNewEvent.controls.conceptoLicencia.setValue(this.templateConfiguration.conceptoLicencia);
+					if (this.templateConfiguration.licenseDescription !==  null) {
+						this.formNewEvent.controls.licenseDescription.setValue(this.templateConfiguration.licenseDescription);
 					}
 
 					if (this.templateConfiguration.disabledEquipmentId) {

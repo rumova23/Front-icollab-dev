@@ -100,9 +100,9 @@
 			<div class="col-12 col-lg-3">
 				<app-checkbox-with-input-text
 					[formGroup]="formNewEvent"
-					controlName="power001"
-					controlNameCheckBox="disabledPower001"
-					controlNameCheckBoxRequired="requiredPower001"
+					controlName="powerMw"
+					controlNameCheckBox="disabledPowerMw"
+					controlNameCheckBoxRequired="requiredPowerMw"
 					label="Potencia"
 				></app-checkbox-with-input-text>
 			</div>
@@ -182,9 +182,9 @@
 			<div class="col-12 col-lg-3">
 				<app-checkbox-with-input-text
 					[formGroup]="formNewEvent"
-					controlName="mwOffered001"
-					controlNameCheckBox="disabledMwOffered001"
-					controlNameCheckBoxRequired="requiredMwOffered001"
+					controlName="mwOffered"
+					controlNameCheckBox="disabledMwOffered"
+					controlNameCheckBoxRequired="requiredMwOffered"
 					label="MW Ofertados"
 				></app-checkbox-with-input-text>
 			</div>
@@ -244,9 +244,9 @@
 			<div class="col-12 col-lg-3">
 				<app-checkbox-with-input-text
 					[formGroup]="formNewEvent"
-					controlName="initialCharge001"
-					controlNameCheckBox="disabledInitialCharge001"
-					controlNameCheckBoxRequired="requiredInitialCharge001"
+					controlName="initialCharge"
+					controlNameCheckBox="disabledInitialCharge"
+					controlNameCheckBoxRequired="requiredInitialCharge"
 					label="Carga Inicial"
 				></app-checkbox-with-input-text>
 			</div>
@@ -269,9 +269,9 @@
 			<div class="col-12 col-lg-3">
 				<app-checkbox-with-input-text
 					[formGroup]="formNewEvent"
-					controlName="finalCharge001"
-					controlNameCheckBox="disabledFinalCharge001"
-					controlNameCheckBoxRequired="requiredFinalCharge001"
+					controlName="finalCharge"
+					controlNameCheckBox="disabledFinalCharge"
+					controlNameCheckBoxRequired="requiredFinalCharge"
 					label="Carga Final"
 				></app-checkbox-with-input-text>
 			</div>
@@ -295,9 +295,9 @@
 			<div class="col-12 col-lg-3">
 				<app-checkbox-with-input-text
 					[formGroup]="formNewEvent"
-					controlName="MwPowerLossLI001"
-					controlNameCheckBox="disabledMwPowerLossLI001"
-					controlNameCheckBoxRequired="requiredMwPowerLossLI001"
+					controlName="mwPowerLoss"
+					controlNameCheckBox="disabledMwPowerLoss"
+					controlNameCheckBoxRequired="requiredMwPowerLoss"
 					label="(-) Perdida Potencia"
 				></app-checkbox-with-input-text>
 			</div>
@@ -305,7 +305,7 @@
 				<p style="visibility: hidden;"><label>br</label></p>
 				<app-mat-input-number
 					[formGroup]="formNewEvent" 
-					controlName="mwPowerLossLI"
+					controlName="mwPowerLossLimitLower"
 					label="(-) Perdida Potencia MW LI"
 				></app-mat-input-number>
 			</div>
@@ -313,7 +313,7 @@
 				<p style="visibility: hidden;"><label>br</label></p>
 				<app-mat-input-number
 					[formGroup]="formNewEvent" 
-					controlName="mwPowerLossLS" 
+					controlName="mwPowerLossLimitUpper"
 					label="(-) Perdida Potencia MW LS"
 				></app-mat-input-number>
 			</div>
