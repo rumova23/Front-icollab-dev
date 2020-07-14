@@ -209,6 +209,28 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 
 			disabledFile: [false],
 			disabledObsComment: [false],
+
+			power001: [{ value: null, disabled: false }],
+			disabledPower001: [false],
+			requiredPower001: [false],
+
+			mwOffered001: [{ value: null, disabled: false }],
+			disabledMwOffered001: [false],
+			requiredMwOffered001: [false],
+
+			initialCharge001: [{ value: null, disabled: false }],
+			disabledInitialCharge001: [false],
+			requiredInitialCharge001: [false],
+
+			finalCharge001: [{ value: null, disabled: false }],
+			disabledFinalCharge001: [false],
+			requiredFinalCharge001: [false],
+
+			MwPowerLossLI001: [{ value: null, disabled: false }],
+			disabledMwPowerLossLI001: [false],
+			requiredMwPowerLossLI001: [false],
+
+			statusElement: [true],
 		});
 		this.loadCatalog();
 	}

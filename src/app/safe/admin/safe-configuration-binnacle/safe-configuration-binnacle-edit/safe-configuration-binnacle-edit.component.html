@@ -56,23 +56,23 @@
 		</div>
 		<div class="row">
 			<div class="col-12 col-lg-3">
-				<app-checkbox-with-select
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-select
 					[formGroup]="formNewEvent" 
-					controlName="eventsClassificationId" 
-					controlNameCheckBox="disabledEventsClassificationId"
+					controlName="eventsClassificationId"
 					[options]="lstEventClassification"
 					label="Clasificación de Eventos"
-					(eventChangeSelect)="onBuildEventAssociated($event)"
-				></app-checkbox-with-select>
+					(eventChange)="onBuildEventAssociated($event)"
+				></app-mat-select>
 			</div>
 			<div class="col-12 col-lg-3">
-				<app-checkbox-with-select
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-select
 					[formGroup]="formNewEvent" 
-					controlName="eventsId" 
-					controlNameCheckBox="disabledEventsId"
+					controlName="eventsId"
 					[options]="lstEvents"
 					label="Eventos"
-				></app-checkbox-with-select>
+				></app-mat-select>
 			</div>
 			<div class="col-12 col-lg-3">
 				<app-checkbox-with-select-multiple
@@ -94,23 +94,31 @@
 					label="Contrato Impactado"
 				></app-checkbox-with-select-multiple>
 			</div>
+			
 			<div class="col-12 col-lg-3">
-				<app-checkbox-with-number
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="power001"
+					controlNameCheckBox="disabledPower001"
+					controlNameCheckBoxRequired="requiredPower001"
+					label="Potencia"
+				></app-checkbox-with-input-text>
+			</div>
+			<div class="col-12 col-lg-3">				
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
 					[formGroup]="formNewEvent" 
-					controlName="powerMwLimitLower" 
-					controlNameCheckBox="disabledPowerMwLimitLower"
-					controlNameCheckBoxRequired="requiredPowerMwLimitLower"
+					controlName="powerMwLimitLower"
 					label="Potencia Limite Inferior"
-				></app-checkbox-with-number>
+				></app-mat-input-number>
 			</div>
 			<div class="col-12 col-lg-3">
-				<app-checkbox-with-number
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
 					[formGroup]="formNewEvent" 
-					controlName="powerMwLimitUpper" 
-					controlNameCheckBox="disabledPowerMwLimitUpper"
-					controlNameCheckBoxRequired="requiredPowerMwLimitUpper"
+					controlName="powerMwLimitUpper"
 					label="Potencia Limite Superior"
-				></app-checkbox-with-number>
+				></app-mat-input-number>
 			</div>
 			<div class="col-12 col-lg-3">
 				<app-checkbox-with-select-multiple
@@ -168,23 +176,31 @@
 					label="Tipo de Mercado"
 				></app-checkbox-with-select-multiple>
 			</div>
+			
 			<div class="col-12 col-lg-3">
-				<app-checkbox-with-number
-					[formGroup]="formNewEvent" 
-					controlName="mwOfferedLimitLower" 
-					controlNameCheckBox="disabledMwOfferedLimitLower"
-					controlNameCheckBoxRequired="requiredMwOfferedLimitLower"
-					label="MW Ofertados Limite Inferior"
-				></app-checkbox-with-number>
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="mwOffered001"
+					controlNameCheckBox="disabledMwOffered001"
+					controlNameCheckBoxRequired="requiredMwOffered001"
+					label="MW Ofertados"
+				></app-checkbox-with-input-text>
 			</div>
 			<div class="col-12 col-lg-3">
-				<app-checkbox-with-number
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
 					[formGroup]="formNewEvent" 
-					controlName="mwOfferedLimitUpper" 
-					controlNameCheckBox="disabledMwOfferedLimitUpper"
-					controlNameCheckBoxRequired="requiredMwOfferedLimitUpper"
+					controlName="mwOfferedLimitLower"
+					label="MW Ofertados Limite Inferior"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-3">
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
+					[formGroup]="formNewEvent" 
+					controlName="mwOfferedLimitUpper"
 					label="MW Ofertados Limite Superior"
-				></app-checkbox-with-number>
+				></app-mat-input-number>
 			</div>
 			<div class="col-12 col-lg-3">
 				<app-checkbox-with-select-multiple
@@ -222,59 +238,82 @@
 					label="Equipo"
 				></app-checkbox-with-select-multiple>
 			</div>
+			
 			<div class="col-12 col-lg-3">
-				<app-checkbox-with-number
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="initialCharge001"
+					controlNameCheckBox="disabledInitialCharge001"
+					controlNameCheckBoxRequired="requiredInitialCharge001"
+					label="Carga Inicial"
+				></app-checkbox-with-input-text>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-mat-input-number
 					[formGroup]="formNewEvent" 
-					controlName="initialChargeLimitLower" 
-					controlNameCheckBox="disabledInitialChargeLimitLower"
-					controlNameCheckBoxRequired="requiredInitialChargeLimitLower"
+					controlName="initialChargeLimitLower"
 					label="Carga Inicial Limite Inferior"
-				></app-checkbox-with-number>
+				></app-mat-input-number>
 			</div>
 			<div class="col-12 col-lg-3">
-				<app-checkbox-with-number
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
 					[formGroup]="formNewEvent" 
-					controlName="initialChargeLimitUpper" 
-					controlNameCheckBox="disabledInitialChargeLimitUpper"
-					controlNameCheckBoxRequired="requiredInitialChargeLimitUpper"
+					controlName="initialChargeLimitUpper"
 					label="Carga Inicial Limite Superior"
-				></app-checkbox-with-number>
+				></app-mat-input-number>
+			</div>
+			
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="finalCharge001"
+					controlNameCheckBox="disabledFinalCharge001"
+					controlNameCheckBoxRequired="requiredFinalCharge001"
+					label="Carga Final"
+				></app-checkbox-with-input-text>
 			</div>
 			<div class="col-12 col-lg-3">
-				<app-checkbox-with-number
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
 					[formGroup]="formNewEvent" 
-					controlName="finalChargeLimitLower" 
-					controlNameCheckBox="disabledFinalChargeLimitLower"
-					controlNameCheckBoxRequired="requiredFinalChargeLimitLower"
+					controlName="finalChargeLimitLower"
 					label="Carga Final Limite Inferior"
-				></app-checkbox-with-number>
+				></app-mat-input-number>
 			</div>
 			<div class="col-12 col-lg-3">
-				<app-checkbox-with-number
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
 					[formGroup]="formNewEvent" 
-					controlName="finalChargeLimitUpper" 
-					controlNameCheckBox="disabledFinalChargeLimitUpper"
-					controlNameCheckBoxRequired="requiredFinalChargeLimitUpper"
+					controlName="finalChargeLimitUpper"
 					label="Carga Final Limite Superior"
-				></app-checkbox-with-number>
+				></app-mat-input-number>
+			</div>
+			
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="MwPowerLossLI001"
+					controlNameCheckBox="disabledMwPowerLossLI001"
+					controlNameCheckBoxRequired="requiredMwPowerLossLI001"
+					label="(-) Perdida Potencia"
+				></app-checkbox-with-input-text>
 			</div>
 			<div class="col-12 col-lg-3">
-				<app-checkbox-with-number
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
 					[formGroup]="formNewEvent" 
-					controlName="mwPowerLossLI" 
-					controlNameCheckBox="disabledMwPowerLossLI"
-					controlNameCheckBoxRequired="requiredMwPowerLossLI"
+					controlName="mwPowerLossLI"
 					label="(-) Perdida Potencia MW LI"
-				></app-checkbox-with-number>
+				></app-mat-input-number>
 			</div>
 			<div class="col-12 col-lg-3">
-				<app-checkbox-with-number
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
 					[formGroup]="formNewEvent" 
 					controlName="mwPowerLossLS" 
-					controlNameCheckBox="disabledMwPowerLossLS"
-					controlNameCheckBoxRequired="requiredMwPowerLossLS"
 					label="(-) Perdida Potencia MW LS"
-				></app-checkbox-with-number>
+				></app-mat-input-number>
 			</div>
 			<div class="col-12 col-lg-3">
 				<app-checkbox-with-input-text
@@ -386,7 +425,15 @@
 	</div>
 	<div class="section">
 		<div class="row">
-			<div class="col"></div>
+			<div class="col">
+				
+			<app-mat-input-checkbox  
+				[formGroup]="formNewEvent" 
+				controlName="statusElement"
+				label="Estado del elemento"
+				labelIn="Activo"
+			></app-mat-input-checkbox>
+			</div>
 			<div class="col">
 				<div class="row justify-content-end">
 					<div class="col-12 col-lg-4">
