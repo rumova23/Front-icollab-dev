@@ -13,6 +13,7 @@ import { BinnacleService } from '../../../services/binnacle.service';
 import { EventMessage } from '../../../../core/models/EventMessage';
 import { EventBlocked } from '../../../../core/models/EventBlocked';
 import {ContainerClasificaDTO} from '../../../models/container-clasifica-dto';
+import {BinnacleEventConfigurationDTO} from '../../../models/binnacle-event-configuration-dto';
 
 @Component({
 	selector: 'app-safe-configuration-binnacle-edit',
@@ -334,5 +335,19 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	private addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,
 			new EventBlocked(type, msg)));
+	}
+
+	onBuildTemplate(value: any) {
+		console.dir(value);
+		this.binnacleService.obtenTemplate(value.value).subscribe(
+			(data: BinnacleEventConfigurationDTO) => {
+				if (data !== null) {
+					this.toastr.warningToastr('Existe ya, el template para el evento:  Seleccione de la lista para editar', 'Advertencia!');
+					const type = {};
+					this.eventService.sendChangePage(
+						new EventMessage(null, type, 'Safe.SafeConfigurationBinnacleComponent')
+					);
+				}
+			});
 	}
 }

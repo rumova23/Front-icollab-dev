@@ -74,6 +74,7 @@
 					controlName="eventsId"
 					[options]="lstEvents"
 					label="Eventos"
+					(eventChange)="onBuildTemplate($event)"
 				></app-mat-select>
 			</div>
 			<div class="col-12 col-lg-3">

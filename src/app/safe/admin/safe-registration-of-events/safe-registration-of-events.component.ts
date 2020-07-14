@@ -524,7 +524,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		let returnValue = false;
 		lstEntidadEstaus.forEach((element: IdLabel) => {
 			if (element.label === nameStatus) {
-				console.log(nameStatus + ' === ' + element.label + ' ' + idEstatus + ' === ' + element.id);
 				if (element.id === idEstatus) {
 					returnValue = true;
 				}
