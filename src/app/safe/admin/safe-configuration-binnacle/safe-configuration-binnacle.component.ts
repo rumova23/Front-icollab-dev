@@ -129,7 +129,7 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
                         , event: this.getOpcion(this.lstEventsDTO, e.eventsId)
                         , user: e.user
                         , dateUpdated: e.dateUpdated
-                        , nameStatus: e.nameStatus
+                        , nameStatus: (e.statusElement) ? 'Activo' : 'Inactivo'
                         , dateUpdatedDate : new Date(
                             +e.dateUpdated.split(" ")[0].split("/")[1]
                            ,+e.dateUpdated.split(" ")[0].split("/")[2]
