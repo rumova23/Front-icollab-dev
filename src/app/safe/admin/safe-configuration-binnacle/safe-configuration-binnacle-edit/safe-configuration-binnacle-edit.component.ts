@@ -45,6 +45,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	lstEvents00: IdLabel[] = [];
 	progress;
 	disabledSubmit: boolean;
+	submitted = false;
 	constructor(
 		private formBuilder: FormBuilder,
 		public globalService: GlobalService,
@@ -68,10 +69,10 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			binnacleEventID: ['', null],
 
 			disabledEventsClassificationId: [false],
-			eventsClassificationId: [{ value: null, disabled: false }],
+			eventsClassificationId: [{ value: null, disabled: false }, Validators.required],
 
 			disabledEventsId: [false],
-			eventsId: [{ value: null, disabled: false }],
+			eventsId: [{ value: null, disabled: false }, Validators.required],
 
 			fuelsId: [null],
 			disabledFuelsId: [false],
@@ -333,6 +334,10 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			});
 	}
 	onSubmitFormNewEvent(v) {
+		this.submitted = true;
+		if (this.formNewEvent.invalid) {
+			return;
+		}
 		if (this.catalogType.action === 'nuevo') {
 			this.addBlock(1, '');
 			this.binnacleService.saveBinnacleConfiguration(v).subscribe(
