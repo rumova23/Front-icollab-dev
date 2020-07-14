@@ -44,6 +44,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	lstEventClassification00: IdLabel[] = [];
 	lstEvents00: IdLabel[] = [];
 	progress;
+	disabledSubmit: boolean;
 	constructor(
 		private formBuilder: FormBuilder,
 		public globalService: GlobalService,
@@ -56,11 +57,11 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		console.dir(this.catalogType);
+		this.disabledSubmit = true;
 		this.formNewEvent001 = this.formBuilder.group({
 			eventsClassification00Id: ['', null],
 			disabledEventsClassification00Id: [false],
-			events00Id: ['', null],
+			events00Id: [{ value: null, disabled: true }],
 			disabledEvents00Id: [false],
 		});
 		this.formNewEvent = this.formBuilder.group({
@@ -222,15 +223,21 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 		}
 	}
 	onBuildEventAssociated_00(event) {
-		console.log('Ingreso aqui RTC');
 		const lstIds: Array<number> = [];
-		for (let i = 0; i < this.lstEventsDTO.length; i ++) {
-			if (this.lstEventsDTO[i].opcionPadreId === event) {
-				lstIds.push(this.lstEventsDTO[i].maestroOpcionId);
+		if(event.value) {
+			for (let i = 0; i < this.lstEventsDTO.length; i ++) {
+				if (this.lstEventsDTO[i].opcionPadreId === event.value) {
+					lstIds.push(this.lstEventsDTO[i].maestroOpcionId);
+				}
 			}
+			this.formNewEvent001.controls.events00Id.enable();
+			this.formNewEvent001.controls.events00Id.patchValue(lstIds);
+			this.disabledSubmit = false;
+		} else{
+			this.formNewEvent001.controls.events00Id.disable();
+			this.formNewEvent001.controls.events00Id.patchValue(lstIds);
+			this.disabledSubmit = true;
 		}
-		console.dir(lstIds);
-		this.formNewEvent001.controls.events00Id.patchValue(lstIds);
 	}
 	onBuildEventAssociated(event) {
 		console.dir(event);
@@ -278,28 +285,27 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 		});
 	}
 	onSubmitFormNewEvent001(v) {
-		if (this.catalogType.action === 'nuevo') {
-			const container = new ContainerClasificaDTO();
-			container.opcionPadreId = v.eventsClassification00Id;
-			container.nodesAssociated = v.events00Id;
-			this.masterCatalogService.setAssociate(container).subscribe(
-				data => {
-					this.toastr.successToastr('Actualizacion completa', 'Exito!.');
-					this.addBlock(2, '');
-				},
-				errorData => {
-					this.addBlock(2, '');
+		const container = new ContainerClasificaDTO();
+		container.opcionPadreId = v.eventsClassification00Id;
+		container.nodesAssociated = v.events00Id;
+		this.masterCatalogService.setAssociate(container).subscribe(
+			data => {
+				this.toastr.successToastr('Actualizacion completa', 'Exito!.');
+				this.addBlock(2, '');
+			},
+			errorData => {
+				this.addBlock(2, '');
+				this.toastr.errorToastr(errorData.error.message, 'Error!');
+			}, () => {
+				const names = ['EVENTO'];
+				this.masterCatalogService.listCatalog(names).subscribe(data => {
+					console.dir(data);
+					this.loadSelect(this.lstEvents00, data['EVENTO']);
+					this.lstEventsDTO = data['EVENTO'];
+				}, errorData => {
 					this.toastr.errorToastr(errorData.error.message, 'Error!');
-				}, () => {
-					const names = ['EVENTO'];
-					this.masterCatalogService.listCatalog(names).subscribe(data => {
-						this.loadSelect(this.lstEvents00, data['EVENTO']);
-						this.lstEventsDTO = data['EVENTO'];
-					}, errorData => {
-						this.toastr.errorToastr(errorData.error.message, 'Error!');
-					});
 				});
-		}
+			});
 	}
 	onSubmitFormNewEvent(v) {
 		if (this.catalogType.action === 'nuevo') {
