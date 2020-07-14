@@ -224,7 +224,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	}
 	onBuildEventAssociated_00(event) {
 		const lstIds: Array<number> = [];
-		if(event.value) {
+		if (event.value) {
 			for (let i = 0; i < this.lstEventsDTO.length; i ++) {
 				if (this.lstEventsDTO[i].opcionPadreId === event.value) {
 					lstIds.push(this.lstEventsDTO[i].maestroOpcionId);
@@ -233,14 +233,13 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			this.formNewEvent001.controls.events00Id.enable();
 			this.formNewEvent001.controls.events00Id.patchValue(lstIds);
 			this.disabledSubmit = false;
-		} else{
+		} else {
 			this.formNewEvent001.controls.events00Id.disable();
 			this.formNewEvent001.controls.events00Id.patchValue(lstIds);
 			this.disabledSubmit = true;
 		}
 	}
 	onBuildEventAssociated(event) {
-		console.dir(event);
 		this.lstEvents = [];
 		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === event));
 	}
@@ -299,12 +298,16 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			}, () => {
 				const names = ['EVENTO'];
 				this.masterCatalogService.listCatalog(names).subscribe(data => {
-					console.dir(data);
 					this.loadSelect(this.lstEvents00, data['EVENTO']);
 					this.lstEventsDTO = data['EVENTO'];
 				}, errorData => {
 					this.toastr.errorToastr(errorData.error.message, 'Error!');
 				});
+				const lstIds: Array<number> = [];
+				this.formNewEvent001.reset();
+				this.formNewEvent001.controls.events00Id.disable();
+				this.formNewEvent001.controls.events00Id.patchValue(lstIds);
+				this.disabledSubmit = true;
 			});
 	}
 	onSubmitFormNewEvent(v) {
