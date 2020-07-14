@@ -75,7 +75,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			disabledFuelsId: [false],
 			requiredFuelsId: [false],
 
-			powerMw: [{ value: null, disabled: false }],
+			powerMw: new FormControl({value: null, disabled: true}),
 			disabledPowerMw: [false],
 			requiredPowerMw: [false],
 			powerMwLimitLower: [{ value: null, disabled: false }],
@@ -101,7 +101,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			disabledMarketTypesId: [false],
 			requiredMarketTypesId: [false],
 
-			mwOffered: [{ value: null, disabled: false }],
+			mwOffered: new FormControl({value: null, disabled: true}),
 			disabledMwOffered: [false],
 			requiredMwOffered: [false],
 			mwOfferedLimitLower: [{ value: null, disabled: false }],
@@ -113,7 +113,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			disabledRelatedServicesId: [false],
 			requiredRelatedServicesId: [false],
 
-			licenseNumber: [{ value: null, disabled: false }],
+			licenseNumber: new FormControl({value: null, disabled: true}),
 			disabledLicenseNumber: [false],
 			requiredLicenseNumber: [false],
 
@@ -121,45 +121,45 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			disabledEquipmentId: [false],
 			requiredEquipmentId: [false],
 
-			initialCharge: [{ value: null, disabled: false }],
+			initialCharge: new FormControl({value: null, disabled: true}),
 			disabledInitialCharge: [false],
 			requiredInitialCharge: [false],
 			initialChargeLimitLower: [{ value: null, disabled: false }],
 			initialChargeLimitUpper: [{ value: null, disabled: false }],
 
-			finalCharge: [{ value: null, disabled: false }],
+			finalCharge: new FormControl({value: null, disabled: true}),
 			disabledFinalCharge: [false],
 			requiredFinalCharge: [false],
 			finalChargeLimitLower: [{ value: null, disabled: false }],
 			finalChargeLimitUpper: [{ value: null, disabled: false }],
 
-			mwPowerLoss: [{ value: null, disabled: false }],
+			mwPowerLoss: new FormControl({value: null, disabled: true}),
 			disabledMwPowerLoss: [false],
 			requiredMwPowerLoss: [false],
 			mwPowerLossLimitLower: [{ value: null, disabled: false }],
 			mwPowerLossLimitUpper: [{ value: null, disabled: false }],
 
-			workOrderId: [{ value: null, disabled: false }],
+			workOrderId: new FormControl({value: null, disabled: true}),
 			disabledWorkOrderId: [false],
 			requiredWorkOrderId: [false],
 
-			licenseDescription: [{ value: null, disabled: false }],
+			licenseDescription: new FormControl({value: null, disabled: true}),
 			disabledLicenseDescription: [false],
 			requiredLicenseDescription: [false],
 
-			plantOperatorOpened: [{ value: null, disabled: false }],
+			plantOperatorOpened: new FormControl({value: null, disabled: true}),
 			disabledPlantOperatorOpened: [false],
 			requiredPlantOperatorOpened: [false],
 
-			cenaceOperatorOpened: [{ value: null, disabled: false }],
+			cenaceOperatorOpened: new FormControl({value: null, disabled: true}),
 			disabledCenaceOperatorOpened: [false],
 			requiredCenaceOperatorOpened: [false],
 
-			plantOperatorClosed: [{ value: null, disabled: false }],
+			plantOperatorClosed: new FormControl({value: null, disabled: true}),
 			disabledPlantOperatorClosed: [false],
 			requiredPlantOperatorClosed: [false],
 
-			cenaceOperatorClosed: [{ value: null, disabled: false }],
+			cenaceOperatorClosed: new FormControl({value: null, disabled: true}),
 			disabledCenaceOperatorClosed: [false],
 			requiredCenaceOperatorClosed: [false],
 
