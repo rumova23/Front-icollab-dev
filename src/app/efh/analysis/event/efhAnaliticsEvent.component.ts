@@ -97,6 +97,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
 
   getDataSource(period: string, idUnit: number) {
     this.data = [];
+    this.dataAnalysis = [];
     this.addBlock(1, 'Cargando...');
     this.efhService.getOperationDataByPeriod(period, idUnit).subscribe(
         dataBack => {
@@ -109,9 +110,9 @@ export class EfhAnaliticsEventComponent implements OnInit {
               obj['id'] = element.id;
               obj['totalStarts'] = element.totalStarts;
               obj['start'] = element.starts;
-              obj['date'] = element.eventDate;
-              obj['startTime'] = element.startDate;
-              obj['stopTime'] = element.endDate;
+              obj['date'] = this.datePipe.transform(element.eventDate, 'dd/MM/yyyy');
+              obj['startTime'] = this.datePipe.transform(element.startDate, 'HH:mm:ss');
+              obj['stopTime'] = this.datePipe.transform(element.endDate, 'HH:mm:ss');
               obj['idType'] = element.idType;
               obj['typeEvent'] = element.typeEvent;
               obj['idUnit'] = element.idUnit;
@@ -155,12 +156,12 @@ export class EfhAnaliticsEventComponent implements OnInit {
         }
     ).add(() => {
       this.addBlock(2, null);
+      this.exportDisabled = false;
     });
   }
 
   onSubmit() {
     this.submittedData = true;
-
     if (this.analysisForm.controls['monthControl'].invalid
         || this.analysisForm.controls['yearControl'].invalid
         || (this.selectedUnit === undefined || this.selectedUnit === null)) {
@@ -168,7 +169,10 @@ export class EfhAnaliticsEventComponent implements OnInit {
       return;
     }
 
-    this.period = this.analysisForm.controls['monthControl'].value + this.analysisForm.controls['yearControl'].value;
+    let month: string = this.analysisForm.controls['monthControl'].value + '';
+    const year: string = this.analysisForm.controls['yearControl'].value + '';
+    month = month.padStart(2, '0');
+    this.period = month + year;
     this.getDataSource(this.period, this.selectedUnit);
   }
 
