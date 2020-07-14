@@ -21,6 +21,7 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         { key: 'eventClassification', label: 'Clasificacion Evento' },
         { key: 'event', label: 'Evento' },
 		{ key: 'user', label: 'Usuario' },
+		{ key: 'dateUpdatedDate', label: 'Date and Time last modified'},
 		{ key: 'dateUpdated', label: 'Date and Time last modified'},
 		{ key: 'nameStatus', label: 'Estatus' }
     ];
@@ -29,13 +30,14 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         'eventClassification',
         'event',
         'user',
+        //'dateUpdatedDate',
         'dateUpdated',
         'nameStatus',
         'sys_see',
         'sys_edit',
-        'sys_delete',
+        'sys_delete'
     ];
-    tableRowPage = [5, 10, 15, 20, 50];
+    tableRowPage = [50, 100, 250, 500];
     lstEventClassificationDTO: Array<MaestroOpcionDTO>;
     lstEventsDTO: Array<MaestroOpcionDTO>;
     constructor(
@@ -78,12 +80,45 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
             }
         }
     }
-
+    ordenarByDateUpdated (arr){	
+        //temp['dateUpdated'] =   "07/07/2020 03:03"
+        //"27/06/2020 17:52" // invalido por eso el split
+        //new Date(anio,mes,dia,hora,minuto,segundo);
+		let j, temp;
+		for ( let i = 1; i < arr.length; i++ ) {
+            j = i;
+            temp = arr[ i ];
+            let dateA = new Date(
+                 arr[ j - 1 ]['dateUpdated'].split(" ")[0].split("/")[1]
+                ,arr[ j - 1 ]['dateUpdated'].split(" ")[0].split("/")[2]
+                ,arr[ j - 1 ]['dateUpdated'].split(" ")[0].split("/")[0]
+                ,arr[ j - 1 ]['dateUpdated'].split(" ")[1].split(":")[0]
+                ,arr[ j - 1 ]['dateUpdated'].split(" ")[1].split(":")[1]
+                ,0
+            ).getTime();
+            let dateB = new Date(
+                 temp['dateUpdated'].split(" ")[0].split("/")[1]
+                ,temp['dateUpdated'].split(" ")[0].split("/")[2]
+                ,temp['dateUpdated'].split(" ")[0].split("/")[0]
+                ,temp['dateUpdated'].split(" ")[1].split(":")[0]
+                ,temp['dateUpdated'].split(" ")[1].split(":")[1]
+                ,0
+            ).getTime();
+            while ( j > 0 && dateA < dateB ) {
+                arr[ j ] = arr[ j - 1 ];
+                j--;
+            }
+            arr[ j ] = temp;
+		}
+		return arr;
+    }
     loadMasters() {
         this.addBlock(1, '');
         this.binnacleService.listTemplates().subscribe(
             (data: Array<BinnacleEventConfigurationDTO>) => {
                 console.dir(data);
+                data = this.ordenarByDateUpdated(data);
+                
                 let i = 0;
                 this.tableCatalogos = data.map( e => {
                     i++;
@@ -95,6 +130,14 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
                         , user: e.user
                         , dateUpdated: e.dateUpdated
                         , nameStatus: e.nameStatus
+                        , dateUpdatedDate : new Date(
+                            +e.dateUpdated.split(" ")[0].split("/")[1]
+                           ,+e.dateUpdated.split(" ")[0].split("/")[2]
+                           ,+e.dateUpdated.split(" ")[0].split("/")[0]
+                           ,+e.dateUpdated.split(" ")[1].split(":")[0]
+                           ,+e.dateUpdated.split(" ")[1].split(":")[1]
+                           ,0
+                       )
                     };
                 });
             },
