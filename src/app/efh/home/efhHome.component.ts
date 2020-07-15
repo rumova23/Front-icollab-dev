@@ -70,7 +70,7 @@ export class EfhHomeComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(EfhWelcomeComponent));
+    this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(DashboardGeneralComponent));
     /*
     const refEventTypes = this.viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(EfhUnitEditComponent));
     let catalog = { id: 1, action: 'ver' } as CatalogType;
