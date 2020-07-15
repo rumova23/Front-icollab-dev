@@ -1,6 +1,6 @@
 /* tslint:disable:indent */
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import {FormGroup, FormBuilder, FormControl, Validators, AbstractControl, FormArray} from '@angular/forms';
 import * as moment from 'moment';
 import { ConfirmationDialogService } from 'src/app/core/services/confirmation-dialog.service';
 import { GlobalService } from 'src/app/core/globals/global.service';
@@ -86,10 +86,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	formValid: boolean;
 
 	tempOrder = 3;
-	tableObservationsComments = [
-		{order: 1, name: this.getNameUser(), observation: 'algo', dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: true},
-		{order: 2, name: this.getNameUser(), observation: ' algo 2', dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: false}
-	];
+	tableObservationsComments = [];
 	tablaColumnsLabels = [
 		{ key: 'order', label: '#' },
 		{ key: 'name', label: 'Nombre' },
@@ -218,6 +215,11 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			catalog.forEach((element: MaestroOpcionDTO) => {
 				selectCombo.push({id: element.maestroOpcionId, label: element.opcion.codigo, maestroOpcionId: element.maestroOpcionId});
 			});
+			selectCombo.sort((a, b) => {
+				const nameA = a.label.toLowerCase();
+				const nameB = b.label.toLowerCase();
+				return -nameA.localeCompare(nameB);
+			});
 		}
 	}
 
@@ -230,6 +232,11 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						listPaso.push(element);
 					}
 				});
+			});
+			selectCombo.sort((a, b) => {
+				const nameA = a.label.toLowerCase();
+				const nameB = b.label.toLowerCase();
+				return -nameA.localeCompare(nameB);
 			});
 		}
 		return listPaso;
@@ -443,32 +450,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.workOrderId.setValue(this.templateConfiguration.workOrderId);
 					}
 
-					if (this.templateConfiguration.disabledPlantOperatorOpened) {
-						this.formNewEvent.controls.plantOperatorOpened.disable();
-					} else {
-						this.formNewEvent.controls.plantOperatorOpened.enable();
-						if (this.templateConfiguration.requiredPlantOperatorOpened) {
-							this.lstRequired.push('plantOperatorOpened');
-							this.formNewEvent.controls.plantOperatorOpened.setValidators(Validators.required);
-						}
-					}
-					if (this.templateConfiguration.plantOperatorOpened !==  null) {
-						this.formNewEvent.controls.plantOperatorOpened.setValue(this.templateConfiguration.plantOperatorOpened);
-					}
-
-					if (this.templateConfiguration.disabledPlantOperatorClosed) {
-						this.formNewEvent.controls.plantOperatorClosed.disable();
-					} else {
-						this.formNewEvent.controls.plantOperatorClosed.enable();
-						if (this.templateConfiguration.requiredPlantOperatorClosed) {
-							this.lstRequired.push('plantOperatorClosed');
-							this.formNewEvent.controls.plantOperatorClosed.setValidators(Validators.required);
-						}
-					}
-					if (this.templateConfiguration.plantOperatorClosed !==  null) {
-						this.formNewEvent.controls.plantOperatorClosed.setValue(this.templateConfiguration.plantOperatorClosed);
-					}
-
 					if (this.templateConfiguration.disabledCenaceOperatorOpened) {
 						this.formNewEvent.controls.cenaceOperatorOpened.disable();
 					} else {
@@ -639,19 +620,16 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			return;
 		}
 		this.formValid = true;
+		if (this.formNewEvent.controls.plantOperatorOpened.value !== null) {
+			this.formNewEvent.controls.plantOperatorOpened.patchValue(JSON.parse(localStorage.getItem('user')).username);
+		}
+
 		this.onSubmit();
 	}
 	onSubmit() {
-		if (this.formValid) {
-			this.formNewEvent.enable();
-		} else {
-			this.toastr.errorToastr('Todos los campos son necesarios.', 'Error!');
-			return;
-		}
-
+		this.formNewEvent.enable();
 		this.onChangeDateTimeStart();
 		this.onChangeDateTimeEnd();
-		console.dir(this.formNewEvent.value);
 		this.addBlock(1, '');
 		this.binnacleService.saveBinnacle(this.formNewEvent.value).subscribe(
 			data => {
@@ -690,17 +668,27 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	btnUploadFile() {
 		const file = this.fileUploadForm.get('file').value;
 	}
+
 	btnFinish() {
-		this.formNewEvent.controls.estatusEventoId.patchValue(this.getIdEstatusEvent('Evento Terminado', this.lstEventStatus));
+		const labelArray: Array<string> = [];
 		this.formValid = true;
 		this.lstRequired.forEach(field => {
 			if ( this.formNewEvent.controls[field].value == null) {
-				console.log('field: ' + field);
+				labelArray.push('El campo: ' + field + '. Es requerido.');
 				this.formValid = false;
 			}
 		});
-		this.onSubmit();
 
+		if (this.formValid) {
+			this.formNewEvent.controls.estatusEventoId.patchValue(this.getIdEstatusEvent('Evento Terminado', this.lstEventStatus));
+			this.formNewEvent.controls.plantOperatorClosed.patchValue(JSON.parse(localStorage.getItem('user')).username);
+			this.onSubmit();
+		} else {
+			labelArray.forEach(label => {
+				this.toastr.warningToastr(label, 'Notificacion!');
+			});
+			return;
+		}
 	}
 	tableRowEdit(element) {
 	}

@@ -93,7 +93,7 @@ export class SafeListOfEventsComponent implements OnInit {
 		'sys_edit',
 		'sys_delete'
 	];
-	tableRowXpage = [5, 10, 20, 50, 100, 250, 500];
+	tableRowXpage = [100, 250, 500];
 
 	constructor(
 		private formBuilder: FormBuilder,
@@ -126,7 +126,7 @@ export class SafeListOfEventsComponent implements OnInit {
 				data.forEach((element: BinnacleEventDTO) => {
 					element.usuario = (element.userUpdated !== null) ? element.userUpdated : element.userCreated;
 				})
-				this.tableData = data;
+				this.tableData = data.sort((a, b) =>  moment(a.dateTimeStart).toDate().getTime() - moment(b.dateTimeStart).toDate().getTime());
 			},
 			errorData => {
 				this.toastr.errorToastr('Problemas en la consulta', 'Error');
