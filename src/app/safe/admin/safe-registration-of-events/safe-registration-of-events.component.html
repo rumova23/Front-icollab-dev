@@ -64,7 +64,7 @@
 				></app-mat-input-datepicker>
 			</div>
 			<div class="col">
-				<app-mat-select 
+				<app-mat-select
 					[formGroup]="formTemp"
 					controlName="hb" 
 					[options]="hours"
@@ -75,7 +75,8 @@
 			</div>
 			
 			<div class="col">
-				<app-mat-select 
+				<app-mat-select
+						[submitted]="submitted"
 					[formGroup]="formTemp"
 					controlName="mb" 
 					[options]="minutes"
@@ -87,6 +88,7 @@
 
 			<div class="col">
 				<app-mat-select
+					[submitted]="submitted"
 					[formGroup]="formNewEvent"
 					controlName="eventsClassificationId"
 					[options]="lstEventClassification"
@@ -96,6 +98,7 @@
 			</div>
 			<div class="col">
 				<app-mat-select
+					[submitted]="submitted"
 					[formGroup]="formNewEvent"
 					controlName="eventsId"
 					[options]="lstEvents"
@@ -107,6 +110,7 @@
 			<div class="w-100"></div>
 			<div class="col">
 				<app-mat-select
+						[submitted]="submitted"
 					[formGroup]="formNewEvent"
 					controlName="fuelsId"
 					[options]="lstFuels"
@@ -114,7 +118,8 @@
 				></app-mat-select>
 			</div>
 			<div class="col">
-				<app-mat-input-number 
+				<app-mat-input-number
+						[submitted]="submitted"
 					[formGroup]="formNewEvent" 
 					controlName="powerMw" 
 					label="Potencia MW"
@@ -122,6 +127,7 @@
 			</div>
 			<div class="col">
 				<app-mat-select
+						[submitted]="submitted"
 					[formGroup]="formNewEvent"
 					controlName="unitsId"
 					[options]="lstUnits"
@@ -130,6 +136,7 @@
 			</div>
 			<div class="col">
 				<app-mat-select
+						[submitted]="submitted"
 					[formGroup]="formNewEvent"
 					controlName="impactContractsId"
 					[options]="lstImpactContracts"
@@ -146,6 +153,7 @@
 		<div class="row">
 			<div class="col-3">
 				<app-mat-select
+						[submitted]="submitted"
 					[formGroup]="formNewEvent"
 					controlName="realsCcdvId"
 					[options]="lstRealsCcdv"
@@ -154,6 +162,7 @@
 			</div>
 			<div class="col-3">
 				<app-mat-select
+						[submitted]="submitted"
 					[formGroup]="formNewEvent"
 					controlName="toleranceBandsId"
 					[options]="lstToleranceBands"
@@ -170,6 +179,7 @@
 		<div class="row">
 			<div class="col-3">
 				<app-mat-select
+						[submitted]="submitted"
 					[formGroup]="formNewEvent"
 					controlName="marketTypesId"
 					[options]="lstMarketTypes"
@@ -181,6 +191,7 @@
 			</div>
 			<div class="col-3">
 				<app-mat-select
+						[submitted]="submitted"
 					[formGroup]="formNewEvent"
 					controlName="relatedServicesId"
 					[options]="lstSelatedServices"
@@ -196,7 +207,8 @@
 		</div>
 		<div class="row">
 			<div class="col">
-				<app-mat-input-text 
+				<app-mat-input-text
+						[submitted]="submitted"
 					[formGroup]="formNewEvent" 
 					controlName="licenseNumber" 
 					label="# Licencia" 
@@ -204,6 +216,7 @@
 			</div>
 			<div class="col">
 				<app-mat-select
+						[submitted]="submitted"
 					[formGroup]="formNewEvent"
 					controlName="equipmentId"
 					[options]="lstEquipment"
@@ -211,14 +224,16 @@
 				></app-mat-select>
 			</div>
 			<div class="col">
-				<app-mat-input-number 
+				<app-mat-input-number
+						[submitted]="submitted"
 					[formGroup]="formNewEvent" 
 					controlName="initialCharge" 
 					label="Carga Inicial" 
 				></app-mat-input-number>
 			</div>
 			<div class="col">
-				<app-mat-input-number 
+				<app-mat-input-number
+						[submitted]="submitted"
 					[formGroup]="formNewEvent" 
 					controlName="finalCharge" 
 					label="Carga Final" 
@@ -226,7 +241,8 @@
 			</div>
 			<div class="w-100"></div>
 			<div class="col-3">
-				<app-mat-input-number 
+				<app-mat-input-number
+						[submitted]="submitted"
 					[formGroup]="formNewEvent" 
 					controlName="mwPowerLoss" 
 					label="(-) Perdida Potencia MW" 
@@ -234,6 +250,7 @@
 			</div>
 			<div class="col-3">
 				<app-mat-input-textarea
+						[submitted]="submitted"
 						[formGroup]="formNewEvent"
 						controlName="workOrderId"
 						label="Orden de Trabajo"
@@ -243,6 +260,7 @@
 			<div class="w-100"></div>
 			<div class="col">
 				<app-mat-input-textarea
+						[submitted]="submitted"
 					[formGroup]="formNewEvent"
 					controlName="licenseDescription"
 					label="Descripción / Concepto de la Licencia"
@@ -259,13 +277,15 @@
 		<div class="row">
 			<div class="col">
 				<app-mat-input-text
+						[submitted]="submitted"
 					[formGroup]="formNewEvent"
 					controlName="plantOperatorOpened"
 					label="Nombre(s)/Apellidos(s) Operador Planta Abrió"
 				></app-mat-input-text>
 			</div>
 			<div class="col">
-				<app-mat-input-text 
+				<app-mat-input-text
+						[submitted]="submitted"
 					[formGroup]="formNewEvent"
 					controlName="cenaceOperatorOpened"
 					label="Nombre(s)/Apellidos(s) Operador CENACE Abrió" 
@@ -274,13 +294,15 @@
 			<div class="w-100"></div>
 			<div class="col">
 				<app-mat-input-text
+						[submitted]="submitted"
 					[formGroup]="formNewEvent"
 					controlName="plantOperatorClosed"
 					label="Nombre(s)/Apellidos(s) Operador Planta Cerro"
 				></app-mat-input-text>
 			</div>				
 			<div class="col">
-				<app-mat-input-text 
+				<app-mat-input-text
+						[submitted]="submitted"
 					[formGroup]="formNewEvent" 
 					controlName="cenaceOperatorClosed"
 					label="Nombre(s)/Apellidos(s) Operador CENACE Cerro" 
@@ -289,6 +311,7 @@
 			<div class="w-100"></div>
 			<div class="col-3">
 				<app-mat-select
+						[submitted]="submitted"
 					[formGroup]="formNewEvent"
 					controlName="sourceEventId"
 					[options]="lstSourceEvent"
@@ -305,6 +328,7 @@
 		<div class="row">
 			<div class="col-3">
 				<app-mat-input-text
+						[submitted]="submitted"
 						[formGroup]="formNewEvent"
 						controlName="estatusEvento"
 						label="Estatus del Evento"
@@ -312,6 +336,7 @@
 			</div>
 			<div class="col-3">
 				<app-mat-input-text
+						[submitted]="submitted"
 						[formGroup]="formNewEvent"
 						controlName="estatusAprobacion"
 						label="Estatus de Aprobación"
@@ -329,6 +354,7 @@
 			<div class="row">
 				<div class="col">
 					<app-mat-input-textarea
+							[submitted]="submitted"
 						[formGroup]="formobservationsComments"
 						controlName="observationsComments"
 						maxLength="2000"
