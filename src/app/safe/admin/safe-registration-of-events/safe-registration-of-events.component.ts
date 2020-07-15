@@ -112,6 +112,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	disabledBtnFinish = false;
 	disabledToRefuse = false;
 	disabledToAccept = false;
+	submitted = false;
 	constructor(
 		private formBuilder: FormBuilder,
 		public globalService: GlobalService,
@@ -239,6 +240,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === event.value));
 	}
 	onBuildTemplate(event) {
+		if (event == null) {
+			return;
+		}
 		this.binnacleService.obtenTemplate(event).subscribe(
 			(data: BinnacleEventConfigurationDTO) => {
 				console.dir(data);
@@ -617,6 +621,23 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.formNewEvent.controls.estatusAprobacionId.enable();
 	}
 	onSubmitFormNewEvent() {
+		let mensaje = '';
+		let controlValid = true;
+		if (this.formNewEvent.controls.eventsClassificationId.value == null) {
+			mensaje += 'La clasificacion de evento es requerida.';
+			controlValid = false;
+		} else {
+			if (this.formNewEvent.controls.eventsId.value == null) {
+				mensaje += ' El evento es requerido.';
+				controlValid = false;
+			}
+		}
+
+		if (!controlValid) {
+			controlValid = true;
+			this.toastr.warningToastr(mensaje, 'Advertencia!.');
+			return;
+		}
 		this.formValid = true;
 		this.onSubmit();
 	}
