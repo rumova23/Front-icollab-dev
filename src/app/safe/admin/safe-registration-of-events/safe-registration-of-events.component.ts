@@ -110,6 +110,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	disabledToRefuse = false;
 	disabledToAccept = false;
 	submitted = false;
+	mapLabel: Map<string, string>;
 	constructor(
 		private formBuilder: FormBuilder,
 		public globalService: GlobalService,
@@ -127,6 +128,33 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 
 
 	ngOnInit() {
+		this.mapLabel = new Map();
+		this.mapLabel.set('binnacleEventID', 'Id');
+		this.mapLabel.set('dateTimeStart', 'Fecha Inicial');
+		this.mapLabel.set('dateTimeEnd', 'Fecha Final');
+		this.mapLabel.set('eventsClassificationId', 'Clasificación de Eventos');
+		this.mapLabel.set('eventsId', 'Eventos');
+		this.mapLabel.set('fuelsId', 'Combustible');
+		this.mapLabel.set('powerMw', 'Potencia MW');
+		this.mapLabel.set('unitsId', 'Unidad');
+		this.mapLabel.set('impactContractsId', 'Contrato Impactado');
+		this.mapLabel.set('realsCcdvId', 'Real-CCDV');
+		this.mapLabel.set('toleranceBandsId', 'Banda de Tolerancia');
+		this.mapLabel.set('marketTypesId', 'Tipo de Mercado');
+		this.mapLabel.set('mwOffered', 'MW Ofertados');
+		this.mapLabel.set('relatedServicesId', 'Servicios Conexos');
+		this.mapLabel.set('licenseNumber', '# Licencia');
+		this.mapLabel.set('equipmentId', 'Equipo');
+		this.mapLabel.set('initialCharge', 'Carga Inicial');
+		this.mapLabel.set('finalCharge', 'Carga Final');
+		this.mapLabel.set('mwPowerLoss', '(-) Perdida Potencia MW');
+		this.mapLabel.set('workOrderId', 'Orden de Trabajo');
+		this.mapLabel.set('licenseDescription', 'Descripción / Concepto de la Licencia');
+		this.mapLabel.set('plantOperatorOpened', 'Nombre(s)/Apellidos(s) Operador Planta Abrió');
+		this.mapLabel.set('cenaceOperatorOpened', 'Nombre(s)/Apellidos(s) Operador CENACE Abrió');
+		this.mapLabel.set('plantOperatorClosed', 'Nombre(s)/Apellidos(s) Operador Planta Cerro');
+		this.mapLabel.set('cenaceOperatorClosed', 'Nombre(s)/Apellidos(s) Operador CENACE Cerro');
+		this.mapLabel.set('sourceEventId', 'Fuente del Evento');
 		this.lstRequired = [];
 		console.log('catalogType:: ', this.catalogType);
 		switch (this.catalogType.action) {
@@ -215,11 +243,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			catalog.forEach((element: MaestroOpcionDTO) => {
 				selectCombo.push({id: element.maestroOpcionId, label: element.opcion.codigo, maestroOpcionId: element.maestroOpcionId});
 			});
-			selectCombo.sort((a, b) => {
-				const nameA = a.label.toLowerCase();
-				const nameB = b.label.toLowerCase();
-				return -nameA.localeCompare(nameB);
-			});
+			selectCombo.sort((a, b) => b.label.toLowerCase().localeCompare(a.label.toLowerCase()));
 		}
 	}
 
@@ -233,11 +257,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 					}
 				});
 			});
-			selectCombo.sort((a, b) => {
-				const nameA = a.label.toLowerCase();
-				const nameB = b.label.toLowerCase();
-				return -nameA.localeCompare(nameB);
-			});
+			listPaso.sort((a, b) => b.label.toLowerCase().localeCompare(a.label.toLowerCase()));
 		}
 		return listPaso;
 	}
@@ -674,7 +694,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.formValid = true;
 		this.lstRequired.forEach(field => {
 			if ( this.formNewEvent.controls[field].value == null) {
-				labelArray.push('El campo: ' + field + '. Es requerido.');
+				labelArray.push('El campo: ' + this.mapLabel.get(field) + '. Es requerido.');
 				this.formValid = false;
 			}
 		});
