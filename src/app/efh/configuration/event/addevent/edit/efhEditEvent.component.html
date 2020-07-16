@@ -97,7 +97,7 @@
             minValue="0"
             maxValue="200"
             matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales"
-            (eventChange)="defaultCharge = $event.value"
+            (eventChange)="onInputChargeReject($event)"
             label="Carga antes del rechazo(MW)"
           ></app-mat-input-number>
         </div>
@@ -196,7 +196,7 @@
             minValue="0"
             maxValue="200"
             matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales"
-            (eventChange)="defaultCharge = $event.value"
+            (eventChange)="onInputChargeBeforeRunback($event)"
             label="Carga antes del runback(MW)"
           ></app-mat-input-number>
         </div>
@@ -208,7 +208,7 @@
             minValue="0"
             maxValue="200"
             matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales"
-            (eventChange)="defaultCharge2 = $event.value"
+            (eventChange)="onInputChargeAfterRunback($event)"
             label="Carga después del runback(MW)"
           ></app-mat-input-number>       
         </div>
@@ -436,7 +436,7 @@
               minValue="0"
               maxValue="200"
               matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales"
-              (eventChange)="defaultCharge = $event.value"
+              (eventChange)="onInputChargeShot($event)"
               label="Carga antes del disparo(MW)"
             ></app-mat-input-number>
           </div>
@@ -582,7 +582,7 @@
               minValue="0"
               maxValue="200"
               matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales"
-              (eventChange)="defaultCharge = $event.value"
+              (eventChange)="onInputChargeStop($event)"
               label="Carga antes del paro(MW)"
             ></app-mat-input-number>
           </div>
