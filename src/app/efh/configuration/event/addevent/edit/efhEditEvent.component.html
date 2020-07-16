@@ -32,7 +32,7 @@
           [options]="unitsArr"
         ></app-mat-select>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3" *ngIf="!isShotStartSectionVisible && !isStopStartSectionVisible && !isRejectSectionVisible && !isRunbackSectionVisible">
         <app-mat-select
           [formGroup]="eventForm"
           controlName="fuelTypeControl"
@@ -66,7 +66,7 @@
             [formGroup]="formTemp" 
             controlName="ha" 
             [options]="hours"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Hora"
           ></app-mat-select>
         </div>
@@ -75,7 +75,7 @@
             [formGroup]="formTemp" 
             controlName="ma" 
             [options]="minutes"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Minuto"
           ></app-mat-select>
         </div>
@@ -84,7 +84,7 @@
             [formGroup]="formTemp" 
             controlName="sa" 
             [options]="seconds"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Segundo"
           ></app-mat-select>
         </div> 
@@ -95,7 +95,8 @@
             controlName="chargeReject"
             [submitted]="submittedData"
             minValue="0"
-            maxValue="2000"
+            maxValue="200"
+            matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales"
             (eventChange)="defaultCharge = $event.value"
             label="Carga antes del rechazo(MW)"
           ></app-mat-input-number>
@@ -124,7 +125,7 @@
             [formGroup]="formTemp" 
             controlName="ha" 
             [options]="hours"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Hora"
           ></app-mat-select>
         </div>
@@ -133,7 +134,7 @@
             [formGroup]="formTemp" 
             controlName="ma" 
             [options]="minutes"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Minuto"
           ></app-mat-select>
         </div>
@@ -142,7 +143,7 @@
             [formGroup]="formTemp" 
             controlName="sa" 
             [options]="seconds"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Segundo"
           ></app-mat-select>
         </div> 
@@ -162,7 +163,7 @@
             [formGroup]="formTemp" 
             controlName="hb" 
             [options]="hours"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Hora"
           ></app-mat-select>
         </div>
@@ -171,7 +172,7 @@
             [formGroup]="formTemp" 
             controlName="mb" 
             [options]="minutes"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Minuto"
           ></app-mat-select>
         </div>
@@ -180,7 +181,7 @@
             [formGroup]="formTemp" 
             controlName="sb" 
             [options]="seconds"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Segundo"
           ></app-mat-select>
         </div> 
@@ -193,7 +194,8 @@
             controlName="chargeBeforeRunback"
             [submitted]="submittedData"
             minValue="0"
-            maxValue="2000"
+            maxValue="200"
+            matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales"
             (eventChange)="defaultCharge = $event.value"
             label="Carga antes del runback(MW)"
           ></app-mat-input-number>
@@ -204,7 +206,8 @@
             controlName="chargeAfterRunback"
             [submitted]="submittedData"
             minValue="0"
-            maxValue="2000"
+            maxValue="200"
+            matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales"
             (eventChange)="defaultCharge2 = $event.value"
             label="Carga después del runback(MW)"
           ></app-mat-input-number>       
@@ -233,7 +236,7 @@
             [formGroup]="formTemp" 
             controlName="ha" 
             [options]="hours"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Hora"
           ></app-mat-select>
         </div>
@@ -242,7 +245,7 @@
             [formGroup]="formTemp" 
             controlName="ma" 
             [options]="minutes"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Minuto"
           ></app-mat-select>
         </div>
@@ -251,7 +254,7 @@
             [formGroup]="formTemp" 
             controlName="sa" 
             [options]="seconds"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Segundo"
           ></app-mat-select>
         </div> 
@@ -270,7 +273,7 @@
             [formGroup]="formTemp" 
             controlName="hb" 
             [options]="hours"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Hora"
           ></app-mat-select>
         </div>
@@ -279,7 +282,7 @@
             [formGroup]="formTemp" 
             controlName="mb" 
             [options]="minutes"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Minuto"
           ></app-mat-select>
         </div>
@@ -288,7 +291,7 @@
             [formGroup]="formTemp" 
             controlName="sb" 
             [options]="seconds"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Segundo"
           ></app-mat-select>
         </div> 
@@ -317,7 +320,7 @@
             [formGroup]="formTemp" 
             controlName="ha" 
             [options]="hours"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Hora"
           ></app-mat-select>
         </div>
@@ -326,7 +329,7 @@
             [formGroup]="formTemp" 
             controlName="ma" 
             [options]="minutes"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Minuto"
           ></app-mat-select>
         </div>
@@ -335,7 +338,7 @@
             [formGroup]="formTemp" 
             controlName="sa" 
             [options]="seconds"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Segundo"
           ></app-mat-select>
         </div> 
@@ -355,7 +358,7 @@
             [formGroup]="formTemp" 
             controlName="hb" 
             [options]="hours"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Hora"
           ></app-mat-select>
         </div>
@@ -364,7 +367,7 @@
             [formGroup]="formTemp" 
             controlName="mb" 
             [options]="minutes"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Minuto"
           ></app-mat-select>
         </div>
@@ -373,7 +376,7 @@
             [formGroup]="formTemp" 
             controlName="sb" 
             [options]="seconds"
-            [withEmptyOption]="false"
+            [submitted]="submittedData"
             label="Segundo"
           ></app-mat-select>
         </div> 
@@ -403,7 +406,7 @@
               [formGroup]="formTemp" 
               controlName="ha" 
               [options]="hours"
-              [withEmptyOption]="false"
+              [submitted]="submittedData"
               label="Hora"
             ></app-mat-select>
           </div>
@@ -412,7 +415,7 @@
               [formGroup]="formTemp" 
               controlName="ma" 
               [options]="minutes"
-              [withEmptyOption]="false"
+              [submitted]="submittedData"
               label="Minuto"
             ></app-mat-select>
           </div>
@@ -421,7 +424,7 @@
               [formGroup]="formTemp" 
               controlName="sa" 
               [options]="seconds"
-              [withEmptyOption]="false"
+              [submitted]="submittedData"
               label="Segundo"
             ></app-mat-select>
           </div> 
@@ -431,7 +434,8 @@
               controlName="chargeShot"
               [submitted]="submittedData"
               minValue="0"
-              maxValue="2000"
+              maxValue="200"
+              matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales"
               (eventChange)="defaultCharge = $event.value"
               label="Carga antes del disparo(MW)"
             ></app-mat-input-number>
@@ -460,7 +464,7 @@
                 [formGroup]="formTemp" 
                 controlName="hb"
                 [options]="hours"
-                [withEmptyOption]="false"
+                [submitted]="submittedData"
                 label="Hora"
               ></app-mat-select>
             </div>
@@ -469,7 +473,7 @@
                 [formGroup]="formTemp" 
                 controlName="mb"
                 [options]="minutes"
-                [withEmptyOption]="false"
+                [submitted]="submittedData"
                 label="Minuto"
               ></app-mat-select>
             </div>
@@ -478,7 +482,7 @@
                 [formGroup]="formTemp" 
                 controlName="sb"
                 [options]="seconds"
-                [withEmptyOption]="false"
+                [submitted]="submittedData"
                 label="Segundo"
               ></app-mat-select>
             </div> 
@@ -497,7 +501,7 @@
                 [formGroup]="formTemp" 
                 controlName="hc"
                 [options]="hours"
-                [withEmptyOption]="false"
+                [submitted]="submittedData"
                 label="Hora"
               ></app-mat-select>
             </div>
@@ -506,7 +510,7 @@
                 [formGroup]="formTemp" 
                 controlName="mc"
                 [options]="minutes"
-                [withEmptyOption]="false"
+                [submitted]="submittedData"
                 label="Minuto"
               ></app-mat-select>
             </div>
@@ -515,7 +519,7 @@
                 [formGroup]="formTemp" 
                 controlName="sc"
                 [options]="seconds"
-                [withEmptyOption]="false"
+                [submitted]="submittedData"
                 label="Segundo"
               ></app-mat-select>
             </div> 
@@ -547,7 +551,7 @@
               [formGroup]="formTemp" 
               controlName="ha" 
               [options]="hours"
-              [withEmptyOption]="false"
+              [submitted]="submittedData"
               label="Hora"
             ></app-mat-select>
           </div>
@@ -556,7 +560,7 @@
               [formGroup]="formTemp" 
               controlName="ma" 
               [options]="minutes"
-              [withEmptyOption]="false"
+              [submitted]="submittedData"
               label="Minuto"
             ></app-mat-select>
           </div>
@@ -565,7 +569,7 @@
               [formGroup]="formTemp" 
               controlName="sa" 
               [options]="seconds"
-              [withEmptyOption]="false"
+              [submitted]="submittedData"
               label="Segundo"
             ></app-mat-select>
           </div> 
@@ -576,7 +580,8 @@
               controlName="chargeStop"
               [submitted]="submittedData"
               minValue="0"
-              maxValue="2000"
+              maxValue="200"
+              matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales"
               (eventChange)="defaultCharge = $event.value"
               label="Carga antes del paro(MW)"
             ></app-mat-input-number>
@@ -616,7 +621,7 @@
                 [formGroup]="formTemp" 
                 controlName="hb"
                 [options]="hours"
-                [withEmptyOption]="false"
+                [submitted]="submittedData"
                 label="Hora"
               ></app-mat-select>
             </div>
@@ -625,7 +630,7 @@
                 [formGroup]="formTemp" 
                 controlName="mb"
                 [options]="minutes"
-                [withEmptyOption]="false"
+                [submitted]="submittedData"
                 label="Minuto"
               ></app-mat-select>
             </div>
@@ -634,7 +639,7 @@
                 [formGroup]="formTemp" 
                 controlName="sb"
                 [options]="seconds"
-                [withEmptyOption]="false"
+                [submitted]="submittedData"
                 label="Segundo"
               ></app-mat-select>
             </div> 
@@ -653,7 +658,7 @@
                 [formGroup]="formTemp" 
                 controlName="hc"
                 [options]="hours"
-                [withEmptyOption]="false"
+                [submitted]="submittedData"
                 label="Hora"
               ></app-mat-select>
             </div>
@@ -662,7 +667,7 @@
                 [formGroup]="formTemp" 
                 controlName="mc"
                 [options]="minutes"
-                [withEmptyOption]="false"
+                [submitted]="submittedData"
                 label="Minuto"
               ></app-mat-select>
             </div>
@@ -671,7 +676,7 @@
                 [formGroup]="formTemp" 
                 controlName="sc"
                 [options]="seconds"
-                [withEmptyOption]="false"
+                [submitted]="submittedData"
                 label="Segundo"
               ></app-mat-select>
             </div> 

@@ -96,10 +96,10 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
               }
               if (this.inAction === 'ver') {
                   if (element.active) {
-                      this.observationsArr.push(new Comment(element.id, idConfig, 'tester', element.observation, new Date(element.dateobservation), element.active, true));
+                      this.observationsArr.push(new Comment(element.id, idConfig, element.userUpdated, element.observation, new Date(element.dateUpdated), element.active, true));
                   }
               } else {
-                this.observationsArr.push(new Comment(element.id, idConfig, 'tester', element.observation, new Date(element.dateobservation), element.active, true));
+                this.observationsArr.push(new Comment(element.id, idConfig, element.userUpdated, element.observation, new Date(element.dateUpdated), element.active, true));
               }
           }
           this.paginar(null);

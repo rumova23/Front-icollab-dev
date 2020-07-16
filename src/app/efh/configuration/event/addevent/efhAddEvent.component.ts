@@ -141,9 +141,9 @@ export class EfhAddEventComponent implements OnInit {
             // debugger;
             obj['spliced'] = element.spliced;
             const dateCreated = this.datePipe.transform(new Date(element.dateCreated) , 'dd/MM/yyyy HH:mm');
-            const dateUpdated = this.datePipe.transform(new Date(element.dateUpdated) , 'dd/MM/yyyy HH:mm');
-            obj['userUpdated'] = dateCreated === dateUpdated ? element.userCreated : element.userUpdated;
-            obj['dateUpdated'] = dateCreated === dateUpdated ? dateCreated : dateUpdated;
+            const dateUpdated = element.dateUpdated !== null ? this.datePipe.transform(new Date(element.dateUpdated) , 'dd/MM/yyyy HH:mm') : null;
+            obj['userUpdated'] = dateUpdated === null ? element.userCreated : element.userUpdated;
+            obj['dateUpdated'] = dateUpdated === null ? dateCreated : dateUpdated;
             obj['status']      = element.active === true ? 'Activo' : 'Inactivo';
             obj['element']     = element;
 
