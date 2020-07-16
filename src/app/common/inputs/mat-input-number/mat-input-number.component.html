@@ -5,7 +5,7 @@
 			class="form-control w-100"
 			[ngClass]="{ 
 				'is-invalid': 
-					(submitted || formGroup.get(controlName).touched) 
+					(submitted || formGroup.get(controlName).touched || formGroup.get(controlName).dirty) 
 					&& !formGroup.get(controlName).valid 
 					&& formGroup.get(controlName).errors != null
 				,'input-disabled':
@@ -14,7 +14,8 @@
 		>
 			<input matInput 
 				type="number"
-				(change)="onChange($event)"
+				
+				(keyup)="onChange($event)" 
 				[formControlName]="controlName"
 				[min]="minValue" 
 				[max]="maxValue"
@@ -23,7 +24,7 @@
 		</mat-form-field>
 		<ng-container 
 			*ngIf="
-				(submitted || formGroup.get(controlName).touched) 
+				(submitted || formGroup.get(controlName).touched || formGroup.get(controlName).dirty) 
 				&& !formGroup.get(controlName).valid
 				&& formGroup.get(controlName).errors != null">
 			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.required">{{'Required' | translate}}</p>
