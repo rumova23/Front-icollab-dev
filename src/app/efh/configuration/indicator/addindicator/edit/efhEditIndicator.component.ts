@@ -205,6 +205,13 @@ export class EfhEditIndicatorComponent implements OnInit {
       this.obtenerDatosConfiguracionIndicator(true, this.indicatorType.id);
     }
   }
+  onInputMaxiumLoad(event){
+    console.log(event);
+    if(event > 2000){
+      this.indicatorForm.controls.maxiumLoad.setValue(null);
+    }
+    
+  }
   onDateStartApplication(event){
     this.minDateEndApplication = new Date(event);
   }

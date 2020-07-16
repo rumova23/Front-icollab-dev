@@ -96,6 +96,7 @@
             [submitted]="submittedData"
             minValue="0"
             maxValue="2000"
+            (eventChange)="onInputMaxiumLoad($event)"
             label="Máxima Carga(MW)"
           ></app-mat-input-number>
         </div>
