@@ -2,179 +2,39 @@
     
 }
 .v_fsize{
-    font-size: 12px;
+
 }
 .stamp{
     border-radius: 10%;
     padding-top: 3px;
 }
-
-.color01{
-    background: rgba($color: #000000, $alpha: 0.2);
+.bg-tit{
+    background: #c3c3c3;
 }
-.color02{
-    background: rgba($color: #b5c4b3, $alpha: 0.2);
+.bg-sub{
+    background: #e0e0e0;
 }
-.color03{
-    background: rgba($color: #dae1d8, $alpha: 0.2);
+.bg-ytd-1{
+    background: rgba($color: #bcebbd, $alpha: 1.0);
 }
-.color04{
-    background: rgba($color: #fff0f5, $alpha: 0.2);
+.bg-ytd-2{
+    background: rgba($color: #99d9ea, $alpha: 1.0);
 }
-.color05{
-    background: rgba($color: #00b347, $alpha: 0.2);
+.bg-ytd-3{
+    background: rgba($color: #a8bdd7, $alpha: 1.0);
 }
-.color06{
-    background: rgba($color: #0096d2, $alpha: 0.2);
+.bg-ytd-4{
+    background: rgba($color: #f9d99d, $alpha: 1.0);
 }
-.color07{
-    background: rgba($color: #eae6ca, $alpha: 0.2);
+.bg-mtd-1{
+    background: rgba($color: #def8c2, $alpha: 1.0);
 }
-.color08{
-    background: rgba($color: #31a84f, $alpha: 0.2);
+.bg-mtd-2{
+    background: rgba($color: #c1ffff, $alpha: 1.0);
 }
-.color09{
-    background: rgba($color: #95c799, $alpha: 0.2);
+.bg-mtd-3{
+    background: rgba($color: #bfcee1, $alpha: 1.0);
 }
-.color10{
-    background: rgba($color: #70b578, $alpha: 0.2);
-}
-.color11{
-    background: rgba($color: #FAEBD7, $alpha: 0.2);
-}
-.color12{
-    background: rgba($color: #F0F8FF, $alpha: 0.2);
-}
-.color13{
-    background: rgba($color: #F0FFFF, $alpha: 0.2);
-}
-.color14{
-    background: rgba($color: #FFEBCD, $alpha: 0.2);
-}
-.color15{
-    background: rgba($color: #DEB887, $alpha: 0.2);
-}
-.color16{
-    background: rgba($color: #FF7F50, $alpha: 0.2);
-}
-.color17{
-    background: rgba($color: #00FFFF, $alpha: 0.2);
-}
-.color18{
-    background: rgba($color: #E9967A, $alpha: 0.2);
-}
-.color19{
-    background: rgba($color: #7FFFD4, $alpha: 0.2);
-}
-.color20{
-    background: rgba($color: #ADFF2F, $alpha: 0.2);
-}
-.color21{
-    background: rgba($color: #4B0082, $alpha: 0.2);
-}
-.color22{
-    background: rgba($color: #FFF0F5, $alpha: 0.2);
-}
-.color23{
-    background: rgba($color: #F08080, $alpha: 0.2);
-}
-.color24{
-    background: rgba($color: #87CEFA, $alpha: 0.2);
-}
-.color25{
-    background: rgba($color: #00FF00, $alpha: 0.2);
-}
-.color26{
-    background: rgba($color: #800000, $alpha: 0.2);
-}
-.color27{
-    background: rgba($color: #9370D8, $alpha: 0.2);
-}
-.color28{
-    background: rgba($color: #48D1CC, $alpha: 0.2);
-}
-
-.color29{
-    background: rgba($color: #FFE4E1, $alpha: 0.2);
-}
-.color30{
-    background: rgba($color: #FDF5E6, $alpha: 0.2);
-}
-.color31{
-    background: rgba($color: #FF4500, $alpha: 0.2);
-}
-.color32{
-    background: rgba($color: #AFEEEE, $alpha: 0.2);
-}
-.color33{
-    background: rgba($color: #CD853F, $alpha: 0.2);
-}
-.color34{
-    background: rgba($color: #800080, $alpha: 0.2);
-}
-.color35{
-    background: rgba($color: #8B4513, $alpha: 0.2);
-}
-.color36{
-    background: rgba($color: #FFF5EE, $alpha: 0.2);
-}
-.color37{
-    background: rgba($color: #6A5ACD, $alpha: 0.2);
-}
-.color38{
-    background: rgba($color: #4682B4, $alpha: 0.2);
-}
-.color39{
-    background: rgba($color: #FF6347, $alpha: 0.2);
-}
-.color40{
-    background: rgba($color: #F5F5F5, $alpha: 0.2);
-}
-.color41{
-    background: rgba($color: #FFFF00, $alpha: 0.2);
-}
-.color42{
-    background: rgba($color: #9ACD32, $alpha: 0.2);
-}
-.color43{
-    background: rgba($color: #F5DEB3, $alpha: 0.2);
-}
-.color44{
-    background: rgba($color: #EE82EE, $alpha: 0.2);
-}
-.color45{
-    background: rgba($color: #D8BFD8, $alpha: 0.2);
-}
-.color46{
-    background: rgba($color: #00FF7F, $alpha: 0.2);
-}
-.color47{
-    background: rgba($color: #D2B48C, $alpha: 0.2);
-}
-.color48{
-    background: rgba($color: #87CEEB, $alpha: 0.2);
-}
-.color49{
-    background: rgba($color: #2E8B57, $alpha: 0.2);
-}
-.color50{
-    background: rgba($color: #F4A460, $alpha: 0.2);
-}
-.color51{
-    background: rgba($color: #4169E1, $alpha: 0.2);
-}
-.color52{
-    background: rgba($color: #BC8F8F, $alpha: 0.2);
-}
-.color53{
-    background: rgba($color: #DDA0DD, $alpha: 0.2);
-}
-.color54{
-    background: rgba($color: #FFC0CB, $alpha: 0.2);
-}
-.color55{
-    background: rgba($color: #98FB98, $alpha: 0.2);
-}
-.color56{
-    background: rgba($color: #EEE8AA, $alpha: 0.2);
+.bg-mtd-4{
+    background: rgba($color: #fbe4bb, $alpha: 1.0);
 }
