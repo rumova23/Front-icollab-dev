@@ -171,14 +171,18 @@ para pasarle elementos que seran los seleccionados.
 
 ...
 this.selection.select(this.tableDataDemo[2],this.tableDataDemo[3]);
-o
-this.selection.select(...this.tableObservationsComments.filter(e => e.visible === true));
+ó
+this.selection.select(...this.lst.filter(e => e.visible === true));
 ...
 
 para recuperar los elementos que tienen el checkbox activado:
 
 ...
 let seleccionados = this.selection.selected;
+ó
+this.selection.changed.subscribe(event=>&#123;
+	let algo = this.selection.selected;
+	&#125;);
 ...
 </pre>
 				</div>
