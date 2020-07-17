@@ -47,7 +47,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	progress;
 	disabledSubmit: boolean;
 	submitted = false;
-	disableOption = true;
+	disableOption = false;
 
 	constructor(
 		private formBuilder: FormBuilder,
@@ -62,6 +62,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 
 	ngOnInit() {
 		this.disabledSubmit = true;
+		this.disableOption = false;
 		this.formNewEvent001 = this.formBuilder.group({
 			eventsClassification00Id: ['', null],
 			disabledEventsClassification00Id: [false],
@@ -240,7 +241,6 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			this.loadSelect(this.lstSourceEvent, data['FUENTE EVENTO']);
 
 			if (this.catalogType.action === 'editar') {
-				this.disableOption = false;
 				this.formNewEvent.patchValue(this.catalogType.dto);
 				this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.dto.eventsClassificationId));
 				this.formNewEvent.controls.eventsClassificationId.disable();
