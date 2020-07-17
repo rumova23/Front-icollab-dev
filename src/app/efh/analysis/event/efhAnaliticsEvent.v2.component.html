@@ -88,6 +88,50 @@
     </div>
     <br>
     <div class="row">
+        <table #tableTotales>
+            <thead>
+                <tr>
+                    <th colspan="8"><small>Total</small></th>
+                    <th colspan="6"><small>Since Last Planned Outage</small></th>
+                </tr>
+                <tr>
+                    <th style="background-color: #7c7db3"><small>Rapid Chg</small></th>
+                    <th style="background-color: #7c7db3"><small>Load Rej</small></th>
+                    <th style="background-color: #7c7db3"><small>Trips</small></th>
+                    <th style="background-color: #7c7db3"><small>Starts</small></th>
+                    <th style="background-color: #7c7db3"><small>ESi</small></th>
+                    <th style="background-color: #7c7db3"><small>AOH</small></th>
+                    <th style="background-color: #7c7db3"><small>EFHi</small></th>
+                    <th style="background-color: #7c7db3"><small>EFHi $</small></th>
+                    <th style="background-color: #85ce36"><small>Trips</small></th>
+                    <th style="background-color: #85ce36"><small>Starts</small></th>
+                    <th style="background-color: #85ce36"><small>ESi</small></th>
+                    <th style="background-color: #85ce36"><small>AOH</small></th>
+                    <th style="background-color: #85ce36"><small>EFHi</small></th>
+                    <th style="background-color: #85ce36"><small>EFHi $</small></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ rapidChangeTotal | number: '1.1-1'}}</td>
+                    <td>{{ loadRejTotal | number: '1.1-1'}}</td>
+                    <td>{{ tripsTotal }}</td>
+                    <td>{{ startsTotal }}</td>
+                    <td>{{ esiTotal | number: '1.1-1'}}</td>
+                    <td>{{ aohTotal | number: '1.1-1'}}</td>
+                    <td>{{ efhiTotal | number: '1.1-1'}}</td>
+                    <td>{{ efhiCostTotal | number: '1.1-1'}}</td>
+                    <td>{{ tripsSlpo }}</td>
+                    <td>{{ startsSlpo }}</td>
+                    <td>{{ esiSlpo | number: '1.1-1'}}</td>
+                    <td>{{ aohSlpo | number: '1.1-1'}}</td>
+                    <td>{{ efhiSlpo | number: '1.1-1'}}</td>
+                    <td>{{ efhiCostSlpo | number: '1.1-1'}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <br>
         <table #tableAnalitics>
             <thead>
             <tr><th colspan="37"><small>EFG-ES Operating Data</small></th></tr>
