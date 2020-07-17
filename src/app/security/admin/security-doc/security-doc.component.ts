@@ -40,6 +40,12 @@ export class SecurityDocComponent implements OnInit {
 		{id:"3",label:'PI SERVER DB'},
 		{id:"4",label:'Manual'}
 	];
+	selectOptionsFuenteMultiselect : IdLabel[] = [
+		{id:"1",label:'FileZilla FTP'},
+		{id:"2",label:'PAYSERVER DB',disabled:false},
+		{id:"3",label:'PI SERVER DB',disabled:true},
+		{id:"4",label:'Manual'}
+	];
 	selection : SelectionModel<any> = new SelectionModel<any>(true, []);
 	
 	constructor(
