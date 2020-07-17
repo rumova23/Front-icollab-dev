@@ -38,7 +38,14 @@
 
 		<ng-container [matColumnDef]="column.key" *ngFor="let column of columnsLabels">
 			<th mat-header-cell *matHeaderCellDef mat-sort-header> {{column.label | translate}} </th>
-			<td mat-cell *matCellDef="let element">{{element[column.key]?element[column.key]:''}}</td>
+			<td mat-cell *matCellDef="let element" [ngSwitch]="true">
+				<div *ngSwitchCase="column.hasOwnProperty('dateFormat')">
+					{{element[column.key] | date:""+column.dateFormat }}
+				</div>
+				<div *ngSwitchDefault>
+					{{element[column.key]?element[column.key]:''}} 
+				</div>
+			</td>
 		</ng-container>
 
 		<ng-container [matColumnDef]="column.key" *ngFor="let column of displayedColumnsActions">
