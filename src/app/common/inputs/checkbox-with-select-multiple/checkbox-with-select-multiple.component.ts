@@ -12,6 +12,7 @@ export class CheckboxWithSelectMultipleComponent implements OnInit {
 	@Output() eventChangeCheckBox = new EventEmitter<any>();
 	@Input() label: string = '';
 	@Input() sufijo: string = '';
+	@Input() disableOption: boolean = false;
 	@Input() submitted: boolean = false;
 	@Input() controlName: string = null;
 	@Input() formGroup: FormGroup = null;

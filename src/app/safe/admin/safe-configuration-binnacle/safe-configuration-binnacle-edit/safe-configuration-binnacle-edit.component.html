@@ -35,6 +35,7 @@
 					[formGroup]="formNewEvent001" 
 					controlName="events00Id"
 					[options]="lstEvents00"
+					[disableOption]="disableOption"
 					label="Eventos"
 				></app-mat-select-multiple>
 			</div>
@@ -84,6 +85,7 @@
 					controlNameCheckBox="disabledFuelsId"
 					controlNameCheckBoxRequired="requiredFuelsId"
 					[options]="lstFuels"
+					[disableOption]="disableOption"
 					label="Combustible"
 				></app-checkbox-with-select-multiple>
 			</div>
@@ -94,6 +96,7 @@
 					controlNameCheckBox="disabledImpactContractsId"
 					controlNameCheckBoxRequired="requiredImpactContractsId"
 					[options]="lstImpactContracts"
+					[disableOption]="disableOption"
 					label="Contrato Impactado"
 				></app-checkbox-with-select-multiple>
 			</div>
@@ -130,6 +133,7 @@
 					controlNameCheckBox="disabledUnitsId"
 					controlNameCheckBoxRequired="requiredUnitsId"
 					[options]="lstUnits"
+					[disableOption]="disableOption"
 					label="Unidad"
 				></app-checkbox-with-select-multiple>
 			</div>
@@ -148,6 +152,7 @@
 					controlNameCheckBox="disabledRealsCcdvId"
 					controlNameCheckBoxRequired="requiredRealsCcdvId"
 					[options]="lstRealsCcdv"
+					[disableOption]="disableOption"
 					label="Real/CCDV"
 				></app-checkbox-with-select-multiple>
 			</div>
@@ -158,6 +163,7 @@
 					controlNameCheckBox="disabledToleranceBandsId"
 					controlNameCheckBoxRequired="requiredToleranceBandsId"
 					[options]="lstToleranceBands"
+					[disableOption]="disableOption"
 					label="Banda de Tolerancia"
 				></app-checkbox-with-select-multiple>
 			</div>
@@ -176,6 +182,7 @@
 					controlNameCheckBox="disabledMarketTypesId"
 					controlNameCheckBoxRequired="requiredMarketTypesId"
 					[options]="lstMarketTypes"
+					[disableOption]="disableOption"
 					label="Tipo de Mercado"
 				></app-checkbox-with-select-multiple>
 			</div>
@@ -212,6 +219,7 @@
 					controlNameCheckBox="disabledRelatedServicesId"
 					controlNameCheckBoxRequired="requiredRelatedServicesId"
 					[options]="lstSelatedServices"
+					[disableOption]="disableOption"
 					label="Servicios Conexos"
 				></app-checkbox-with-select-multiple>
 			</div>
@@ -238,6 +246,7 @@
 					controlNameCheckBox="disabledEquipmentId"
 					controlNameCheckBoxRequired="requiredEquipmentId"
 					[options]="lstEquipment"
+					[disableOption]="disableOption"
 					label="Equipo"
 				></app-checkbox-with-select-multiple>
 			</div>
@@ -388,6 +397,7 @@
 					controlNameCheckBox="disabledSourceEventId"
 					controlNameCheckBoxRequired="requiredSourceEventId"
 					[options]="lstSourceEvent"
+					[disableOption]="disableOption"
 					label="Fuente Del evento"
 				></app-checkbox-with-select-multiple>
 			</div>

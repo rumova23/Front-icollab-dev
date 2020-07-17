@@ -8,6 +8,7 @@ import {BinnacleService} from '../../services/binnacle.service';
 import {EventMessage} from '../../../core/models/EventMessage';
 import {EventBlocked} from '../../../core/models/EventBlocked';
 import {BinnacleEventConfigurationDTO} from '../../models/binnacle-event-configuration-dto';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-safe-configuration-binnacle',
@@ -117,8 +118,12 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         this.binnacleService.listTemplates().subscribe(
             (data: Array<BinnacleEventConfigurationDTO>) => {
                 console.dir(data);
-                data = this.ordenarByDateUpdated(data);
-                
+                //data = this.ordenarByDateUpdated(data);
+                data = data.sort((a, b) =>  {
+                    const da = new Date(a.dateUpdated.replace(' ', 'T'));
+                    const db = new Date(b.dateUpdated.replace(' ', 'T'));
+                    return moment(db).toDate().getTime() - moment(da).toDate().getTime();
+                });
                 let i = 0;
                 this.tableCatalogos = data.map( e => {
                     i++;
@@ -189,6 +194,7 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
                             this.toastr.errorToastr(errorData.error.message, 'Error');
                         },
                         () => {
+                            this.loadMasters();
                             this.addBlock(2, '');
                         });
                 }

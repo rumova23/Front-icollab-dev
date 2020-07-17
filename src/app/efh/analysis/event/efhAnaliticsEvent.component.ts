@@ -32,6 +32,22 @@ export class EfhAnaliticsEventComponent implements OnInit {
   period: string;
   exportDisabled = true;
 
+  rapidChangeTotal = 0;
+  loadRejTotal = 0;
+  tripsTotal = 0;
+  startsTotal = 0;
+  esiTotal = 0;
+  aohTotal = 0;
+  efhiTotal = 0;
+  efhiCostTotal = 0;
+
+  tripsSlpo = 0;
+  startsSlpo = 0;
+  esiSlpo = 0;
+  aohSlpo = 0;
+  efhiSlpo = 0;
+  efhiCostSlpo = 0;
+
   constructor(
       private catalogoMaestroService: CatalogoMaestroService,
       private efhService: EfhService,
@@ -98,6 +114,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
   getDataSource(period: string, idUnit: number) {
     this.data = [];
     this.dataAnalysis = [];
+    this.resetSummary();
     this.addBlock(1, 'Cargando...');
     this.efhService.getOperationDataByPeriod(period, idUnit).subscribe(
         dataBack => {
@@ -148,6 +165,25 @@ export class EfhAnaliticsEventComponent implements OnInit {
               obj['esi_lcj'] = element.esiPerLCj;
               obj['comment'] = element.eventSummary;
 
+              this.rapidChangeTotal = this.rapidChangeTotal + element.rapidLoadChange;
+              this.loadRejTotal = this.loadRejTotal + element.loadRejection;
+
+              if (i === this.result.length) {
+                  this.tripsTotal = element.totalTrips;
+                  this.startsTotal = element.totalStart;
+                  this.esiTotal = element.totalESi;
+                  this.aohTotal = element.totalAOH;
+                  this.efhiTotal = element.totalEFHi;
+                  this.efhiCostTotal = element.totalEFHiCost;
+
+                  this.tripsSlpo = element.slpoTrips;
+                  this.startsSlpo = element.slpoStarts;
+                  this.esiSlpo = element.slpoESi;
+                  this.aohSlpo = element.slpoAOH;
+                  this.efhiSlpo = element.slpoEFHi;
+                  this.efhiCostSlpo = element.slpoEFHiCost;
+              }
+
               this.dataAnalysis.push(obj);
           }
         }, errorData => {
@@ -181,11 +217,29 @@ export class EfhAnaliticsEventComponent implements OnInit {
   }
 
   regresar() {
-    this.eventService.sendChangePage(new EventMessage(4, {}, 'Efh.Inicio'));
+      this.eventService.sendChangePage(new EventMessage(4, {}, 'Efh.Inicio'));
   }
 
   exportAsExcel() {
       this.exportToExcelService.exportAsExcelFile(this.dataAnalysis, 'EFG-ES Operating Data');
+  }
+
+  resetSummary() {
+      this.rapidChangeTotal = 0;
+      this.loadRejTotal = 0;
+      this.tripsTotal = 0;
+      this.startsTotal = 0;
+      this.esiTotal = 0;
+      this.aohTotal = 0;
+      this.efhiTotal = 0;
+      this.efhiCostTotal = 0;
+
+      this.tripsSlpo = 0;
+      this.startsSlpo = 0;
+      this.esiSlpo = 0;
+      this.aohSlpo = 0;
+      this.efhiSlpo = 0;
+      this.efhiCostSlpo = 0;
   }
 
 }
