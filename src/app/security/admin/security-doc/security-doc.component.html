@@ -291,7 +291,29 @@ this.selection.changed.subscribe(event=>&#123;
 	</div>
 
 
+	<div class="row">
+		<div class="col">
+			<app-mat-select-multiple
+					[formGroup]="form"
+					controlName="select"
+					[options]="selectOptionsFuenteMultiselect"
+					label="select"
+			></app-mat-select-multiple>
+		</div>
+	</div>
 
+
+	<div class="row">
+		<div class="col">
+			<app-mat-select-multiple
+					[formGroup]="form"
+					controlName="select"
+					[options]="selectOptionsFuenteMultiselect"
+					[disableOption]="true"
+					label="select"
+			></app-mat-select-multiple>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col">
 		</div>
