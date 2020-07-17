@@ -53,7 +53,8 @@ export class MatInputDatepickerYearAndMonthComponent implements OnInit {
 	}
 
 	chosenYearHandler(normalizedYear: Moment) {
-		const ctrlValue = this.formGroup.get(this.controlName).value;
+		let ctrlValue = this.formGroup.get(this.controlName).value;
+		if(ctrlValue == null) ctrlValue = moment();
 		ctrlValue.year(normalizedYear.year());
 		this.formGroup.get(this.controlName).setValue(ctrlValue);
 	}

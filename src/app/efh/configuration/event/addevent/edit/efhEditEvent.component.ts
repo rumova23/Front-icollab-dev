@@ -828,35 +828,34 @@ export class EfhEditEventComponent implements OnInit {
       this.isAddObvsDisabled = false;
   }
 
-  isNumeric(link) {
-        // debugger;
-        this.chargeValidation = false;
-        if ( isNaN( Number(this.defaultCharge)) || 0 === Number(this.defaultCharge) ) {
-            link.value = this.defaultCharge;
-        }
-        if (link.value < 0) {
-            this.toastr.warningToastr('Carga debe ser mayor o igual a 0', 'Verifica carga');
-            this.chargeValidation = true;
-        }
-        if (link.value > 200) {
-            this.toastr.warningToastr('Carga debe ser menor o igual a 200', 'Verifica carga');
-            this.chargeValidation = true;
-        }
+  onInputChargeReject(event) {
+      if (event < 0 || event > 200) {
+          this.eventForm.controls.chargeReject.setValue(null);
+      }
   }
 
-  isNumeric2(link) {
-        this.charge2Validation = false;
-        if ( isNaN( Number(this.defaultCharge2)) || 0 === Number(this.defaultCharge2) ) {
-            link.value = this.defaultCharge2;
-        }
-        if (link.value < 0) {
-            this.toastr.warningToastr('Carga debe ser mayor o igual a 0', 'Verifica carga final');
-            this.charge2Validation = true;
-        }
-        if (link.value > 200) {
-            this.toastr.warningToastr('Carga debe ser menor o igual a 200', 'Verifica carga final');
-            this.charge2Validation = true;
-        }
+  onInputChargeBeforeRunback(event) {
+      if (event < 0 || event > 200) {
+            this.eventForm.controls.chargeBeforeRunback.setValue(null);
+      }
+  }
+
+  onInputChargeAfterRunback(event) {
+      if (event < 0 || event > 200) {
+            this.eventForm.controls.chargeAfterRunback.setValue(null);
+      }
+  }
+
+  onInputChargeShot(event) {
+      if (event < 0 || event > 200) {
+            this.eventForm.controls.chargeShot.setValue(null);
+      }
+  }
+
+  onInputChargeStop(event) {
+      if (event < 0 || event > 200) {
+            this.eventForm.controls.chargeStop.setValue(null);
+      }
   }
 
 }

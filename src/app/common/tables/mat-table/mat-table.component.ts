@@ -9,29 +9,27 @@ import {SelectionModel} from '@angular/cdk/collections';
 	styleUrls: ['./mat-table.component.scss']
 })
 export class MatTableComponent implements OnInit , OnChanges {
+	// LA PROPIEDAD 'ORDER' ES NECESARIA EN EL DATA SI SE DESEA QUE SEA ORDENABLE ESTA COLUMNA
+	// por eso se descarto dejar el incremental en el html
     @ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
 	@Output() clickSee    = new EventEmitter<any>();
 	@Output() clickEdit   = new EventEmitter<any>();
 	@Output() clickDelete = new EventEmitter<any>();
-	
+	@Input() row_x_page   = [5,10,20,50, 100, 250, 500];
+	@Input() selection      : SelectionModel<any> = new SelectionModel<any>(true, []);
+	@Input() selectionLabel : string = '';
+	@Input() data           : any[] = [];
+	@Input() columnsLabels  : ColumnLabel[] = [];
+	@Input() columnsDisplay : string[] = [];
+	@Input() showPagination : boolean = true;
+
 	dataSource;
 	displayedColumnsActions: any[] = [
 		{ key: 'sys_see'    , label: 'See'    },
 		{ key: 'sys_edit'   , label: 'Edit'   },
 		{ key: 'sys_delete' , label: 'Delete' }
 	];
-	@Input() selection : SelectionModel<any> = new SelectionModel<any>(true, []);
-	@Input() selectionLabel:string = '';
-	// LA PROPIEDAD 'ORDER' ES NECESARIA EN EL DATA SI SE DESEA QUE SEA ORDENABLE ESTA COLUMNA
-	// por eso se descarto dejar el incremental en el html
-	@Input() data: any[] = [];
-	@Input() columnsLabels: ColumnLabel[] = [];
-	@Input() columnsDisplay: string[] = [];
-	@Input() row_x_page = [5,10,20,50, 100, 250, 500];
-	@Input() labelColIndex : string = '#';
-	@Input() showPagination: boolean = true;
-
 	constructor() { }
 
 	ngOnInit() {
@@ -91,11 +89,12 @@ export class MatTableComponent implements OnInit , OnChanges {
 	}
 	init(){
 		if(Array.isArray(this.data) && this.data.length > 0){
-			if(Array.isArray(this.columnsLabels) && this.columnsLabels.length == 0 ){
-				const o = this.data[0];
-				for (const key in o) {
-					if (o.hasOwnProperty(key)) {
-						this.columnsLabels.push({key, label: key});
+			if(Array.isArray(this.columnsLabels) ){
+				for (const key in this.data[0]) {
+					if (this.data[0].hasOwnProperty(key)) {
+						if(! this.columnsLabels.some(element=>element.key==key)){
+							this.columnsLabels.push({key, label: key});
+						}
 					}
 				}
 			}
@@ -113,9 +112,16 @@ export class MatTableComponent implements OnInit , OnChanges {
 			}
 		
 			this.dataSource = new MatTableDataSource<any>(this.data);
-			this.dataSource.paginator = this.paginator;
+			this.dataSource.paginator = this.paginator;    // este no funcionara si la tabla se inicializa con datos ya que estos seran null 
 			this.dataSource.sort = this.sort;
 		}else if(Array.isArray(this.data) && this.data.length == 0){
+			if(Array.isArray(this.columnsDisplay) && this.columnsDisplay.length > 0){
+				this.columnsDisplay.forEach(key=>{
+					if(!key.includes("sys_") && ! this.columnsLabels.some(element=>element.key==key)){
+						this.columnsLabels.push({key, label: key});
+					}
+				});
+			}
 			this.dataSource = new MatTableDataSource<any>([]);
 		}
 	}

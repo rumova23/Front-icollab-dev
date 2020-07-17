@@ -14,7 +14,7 @@
 		>
 			<input matInput 
 				type="number"
-				
+				(change)="onChange($event)"
 				(keyup)="onChange($event)" 
 				[formControlName]="controlName"
 				[min]="minValue" 

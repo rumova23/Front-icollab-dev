@@ -21,7 +21,7 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         { key: 'eventClassification', label: 'Clasificacion Evento' },
         { key: 'event', label: 'Evento' },
 		{ key: 'user', label: 'Usuario' },
-		{ key: 'dateUpdatedDate', label: 'Date and Time last modified'},
+		{ key: 'dateUpdatedDate', label: 'Date and Time last modified' , dateFormat:'dd/MM/yyyy HH:mm:ss'},// esto para que la tabla pueda ordenarlo, se tiene que pasar como tipo Date y no como string
 		{ key: 'dateUpdated', label: 'Date and Time last modified'},
 		{ key: 'nameStatus', label: 'Estatus' }
     ];
@@ -30,8 +30,8 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         'eventClassification',
         'event',
         'user',
-        //'dateUpdatedDate',
-        'dateUpdated',
+        'dateUpdatedDate',
+        //'dateUpdated',
         'nameStatus',
         'sys_see',
         'sys_edit',
