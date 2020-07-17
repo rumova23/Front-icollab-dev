@@ -67,4 +67,8 @@ export class BinnacleService {
     this.parameters = this.globalService.setXTenantId_Plant();
     return this.http.get(this.binnacle + 'binnacle/change/status/' + statusName + '/' + binnacleEventId, {params : this.parameters });
   }
+  deleteEventConfiguration(binnacleEventConfigurationId: number): Observable<any> {
+    this.parameters = this.globalService.setXTenantId_Plant();
+    return this.http.get(this.binnacle + 'binnacle/delete/' + binnacleEventConfigurationId, {params : this.parameters });
+  }
 }

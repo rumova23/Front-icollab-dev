@@ -174,13 +174,23 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         );
     }
     tableRowDelete(element) {
+        console.dir(element);
         this.confirmationDialogService.confirm(
             'Confirmación',
             '¿Está seguro de eliminar el Registro?'
         )
             .then((confirmed) => {
                 if ( confirmed ) {
-                    console.log(element);
+                    this.binnacleService.deleteEventConfiguration(element.binnacleEventConfigurationDTO.binnacleEventConfigurationID).subscribe(
+                        data => {
+                            this.toastr.successToastr('Configuracion Event, borrada correctamente', '¡Exito!');
+                        },
+                        errorData => {
+                            this.toastr.errorToastr(errorData.error.message, 'Error');
+                        },
+                        () => {
+                            this.addBlock(2, '');
+                        });
                 }
             })
             .catch(() => {});
