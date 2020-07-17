@@ -47,6 +47,8 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	progress;
 	disabledSubmit: boolean;
 	submitted = false;
+	disableOption = true;
+
 	constructor(
 		private formBuilder: FormBuilder,
 		public globalService: GlobalService,
@@ -107,8 +109,6 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			requiredMwOffered: [false],
 			mwOfferedLimitLower: [{ value: null, disabled: false }],
 			mwOfferedLimitUpper: [{ value: null, disabled: false }],
-
-
 
 			relatedServicesId: [null],
 			disabledRelatedServicesId: [false],
@@ -240,6 +240,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			this.loadSelect(this.lstSourceEvent, data['FUENTE EVENTO']);
 
 			if (this.catalogType.action === 'editar') {
+				this.disableOption = false;
 				this.formNewEvent.patchValue(this.catalogType.dto);
 				this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.dto.eventsClassificationId));
 				this.formNewEvent.controls.eventsClassificationId.disable();
@@ -250,6 +251,17 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 				this.formNewEvent.patchValue(this.catalogType.dto);
 				this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.dto.eventsClassificationId));
 				this.formNewEvent.disable();
+				this.disableOption = true;
+
+				this.formNewEvent.controls.fuelsId.enable();
+				this.formNewEvent.controls.unitsId.enable();
+				this.formNewEvent.controls.impactContractsId.enable();
+				this.formNewEvent.controls.realsCcdvId.enable();
+				this.formNewEvent.controls.toleranceBandsId.enable();
+				this.formNewEvent.controls.marketTypesId.enable();
+				this.formNewEvent.controls.relatedServicesId.enable();
+				this.formNewEvent.controls.equipmentId.enable();
+				this.formNewEvent.controls.sourceEventId.enable();
 			}
 		}, errorData => {
 			this.toastr.errorToastr(errorData.error.message, 'Error!');

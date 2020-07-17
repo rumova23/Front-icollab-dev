@@ -16,6 +16,7 @@ export class MatSelectMultipleComponent implements OnInit , OnChanges{
   @Input() formGroup       : FormGroup = null;
   @Input() compareWith     = null;
   @Input() disabled       : boolean   = null;
+  @Input() disableOption: boolean = false;
   @Input() options         : IdLabel[] = [
     {id:1,label:'Alabama'}
     , {id:1,label:'Alaska'}
@@ -68,6 +69,7 @@ export class MatSelectMultipleComponent implements OnInit , OnChanges{
     , {id:1,label:'Wisconsin'}
     , {id:1,label:'Wyoming'}
   ];
+
   constructor() { }
 
   ngOnChanges(changes: SimpleChanges): void {

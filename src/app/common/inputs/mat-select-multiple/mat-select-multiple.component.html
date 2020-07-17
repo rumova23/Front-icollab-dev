@@ -17,14 +17,14 @@
 			  	[formControlName]="controlName"
 				(selectionChange)="onSelectChange($event)"
 				>
-				<mat-option *ngFor="let option of options" [value]="option.id">{{ option.label }}</mat-option>
+				<mat-option  *ngFor="let option of options" [value]="option.id" [disabled]="disableOption">{{ option.label }}</mat-option>
 			</mat-select>
 			<mat-select multiple
 				*ngIf="compareWith == null"
 			  	[formControlName]="controlName"
 				(selectionChange)="onSelectChange($event)"
 				>
-				<mat-option *ngFor="let option of options" [value]="option.id">{{ option.label }}</mat-option>
+				<mat-option *ngFor="let option of options" [value]="option.id"  [disabled]="disableOption">{{ option.label }}</mat-option>
 			</mat-select>
 		</mat-form-field>
 		<ng-container 
