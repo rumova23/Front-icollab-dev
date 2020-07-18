@@ -137,18 +137,18 @@
 				<div class="col py-4 codigo">
 					<pre class="my-0">
 tableData = &#91;
-	&#123;order:1,fechaOp:'mar-20',fuenteImport:'2da Corrida MM',usuario:'Usuario'  ,fechaMod:'01/04/2020 01:40:00 pm',estatus:'exitosa'&#125;,
-	&#123;order:2,fechaOp:'mar-20',fuenteImport:'2da Corrida MM',usuario:'Sistema'  ,fechaMod:'01/04/2020 12:40:00 pm',estatus:'exitosa'&#125;,
-	&#123;order:3,fechaOp:'mar-20',fuenteImport:'1ra Corrida MM',usuario:'Usuario'  ,fechaMod:'01/04/2020 12:40:00 pm',estatus:'exitosa'&#125;,
-	&#123;order:4,fechaOp:'mar-20',fuenteImport:'1ra Corrida MM',usuario:'Sistema'  ,fechaMod:'01/04/2020 11:40:00 pm',estatus:'exitosa'&#125;,
-	&#123;order:5,fechaOp:'mar-20',fuenteImport:'1ra Corrida MM',usuario:'Sistema'  ,fechaMod:'01/04/2020 11:40:00 pm',estatus:'exitosa'&#125;
+	&#123;order:1,fechaOp:new Date(),fuenteImport:'2da Corrida MM',usuario:'Usuario'  ,fechaMod:new Date(),estatus:'exitosa'&#125;,
+	&#123;order:2,fechaOp:new Date(),fuenteImport:'2da Corrida MM',usuario:'Sistema'  ,fechaMod:new Date(),estatus:'exitosa'&#125;,
+	&#123;order:3,fechaOp:new Date(),fuenteImport:'1ra Corrida MM',usuario:'Usuario'  ,fechaMod:new Date(),estatus:'exitosa'&#125;,
+	&#123;order:4,fechaOp:new Date(),fuenteImport:'1ra Corrida MM',usuario:'Sistema'  ,fechaMod:new Date(),estatus:'exitosa'&#125;,
+	&#123;order:5,fechaOp:new Date(),fuenteImport:'1ra Corrida MM',usuario:'Sistema'  ,fechaMod:new Date(),estatus:'exitosa'&#125;
 &#93;;
 tablaColumnsLabels=&#91;
 	&#123; key: 'order'        , label: '#' &#125;,
-	&#123; key: 'fechaOp'      , label: 'Fecha de Operación Comercial'           , dateFormat:'dd/MM/yyyy' &#125;,
+	&#123; key: 'fechaOp'      , label: 'Fecha de Operación Comercial'       , dateFormat:'dd/MM/yyyy' &#125;,
 	&#123; key: 'fuenteImport' , label: 'Fuente de Importación' &#125;,
 	&#123; key: 'usuario'      , label: 'Usuario' &#125;,
-	&#123; key: 'fechaMod'     , label: 'Fecha y Hora Ultima Modificación' &#125;,
+	&#123; key: 'fechaMod'     , label: 'Fecha y Hora Ultima Modificación'   , dateFormat:'dd/MM/yyyy' &#125;,
 	&#123; key: 'estatus'      , label: 'Estatus de la Importación' &#125;
 &#93;;
 tableColumnsDisplay: string&#91;&#93; = &#91;
