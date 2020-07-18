@@ -60,14 +60,11 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         this.masterCatalogService.listCatalog(names).subscribe(data  => {
             this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
             this.lstEventsDTO = data['EVENTO'];
-            console.log("loadCatalog:: ",data);
         },
         error => {
-            console.log("loadCatalog:: ","Error");
             this.addBlock(2, '');
             this.toastr.errorToastr('Problemas en la consulta', 'Error');
         },() => {
-            console.log("loadCatalog:: ","Termino");
             this.addBlock(2, '');
             this.loadMasters();
         });
@@ -118,12 +115,7 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         this.binnacleService.listTemplates().subscribe(
             (data: Array<BinnacleEventConfigurationDTO>) => {
                 console.dir(data);
-                //data = this.ordenarByDateUpdated(data);
-                data = data.sort((a, b) =>  {
-                    const da = new Date(a.dateUpdated.replace(' ', 'T'));
-                    const db = new Date(b.dateUpdated.replace(' ', 'T'));
-                    return moment(db).toDate().getTime() - moment(da).toDate().getTime();
-                });
+                data = data.sort((a, b) => moment(b.dateModification).toDate().getTime() - moment(a.dateModification).toDate().getTime());
                 let i = 0;
                 this.tableCatalogos = data.map( e => {
                     i++;

@@ -319,6 +319,16 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						if (this.templateConfiguration.requiredFinalCharge) {
 							this.lstRequired.push('finalCharge');
 							this.formNewEvent.controls.finalCharge.setValidators([Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]);
+							const arrayValidator = [];
+							arrayValidator.push(Validators.required);
+							arrayValidator.push(Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/));
+							if (this.templateConfiguration.finalChargeLimitLower !== null) {
+								arrayValidator.push(Validators.min(this.templateConfiguration.finalChargeLimitLower));
+							}
+							if (this.templateConfiguration.finalChargeLimitUpper !== null) {
+								arrayValidator.push(Validators.max(this.templateConfiguration.finalChargeLimitUpper));
+							}
+							this.formNewEvent.controls.finalCharge.setValidators(arrayValidator);
 						}
 					}
 					if (this.templateConfiguration.finalCharge !==  null) {
@@ -331,7 +341,16 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.initialCharge.enable();
 						if (this.templateConfiguration.requiredInitialCharge) {
 							this.lstRequired.push('initialCharge');
-							this.formNewEvent.controls.initialCharge.setValidators([Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]);
+							const arrayValidator = [];
+							arrayValidator.push(Validators.required);
+							arrayValidator.push(Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/));
+							if (this.templateConfiguration.initialChargeLimitLower !== null) {
+								arrayValidator.push(Validators.min(this.templateConfiguration.initialChargeLimitLower));
+							}
+							if (this.templateConfiguration.initialChargeLimitUpper !== null) {
+								arrayValidator.push(Validators.max(this.templateConfiguration.initialChargeLimitUpper));
+							}
+							this.formNewEvent.controls.initialCharge.setValidators(arrayValidator);
 						}
 					}
 					if (this.templateConfiguration.initialCharge !==  null) {
@@ -380,7 +399,16 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.mwOffered.enable();
 						if (this.templateConfiguration.requiredMwOffered) {
 							this.lstRequired.push('mwOffered');
-							this.formNewEvent.controls.mwOffered.setValidators([Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]);
+							const arrayValidator = [];
+							arrayValidator.push(Validators.required);
+							arrayValidator.push(Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/));
+							if (this.templateConfiguration.mwOfferedLimitLower !== null) {
+								arrayValidator.push(Validators.min(this.templateConfiguration.mwOfferedLimitLower));
+							}
+							if (this.templateConfiguration.mwOfferedLimitUpper !== null) {
+								arrayValidator.push(Validators.max(this.templateConfiguration.mwOfferedLimitUpper));
+							}
+							this.formNewEvent.controls.mwOffered.setValidators(arrayValidator);
 						}
 					}
 					if (this.templateConfiguration.mwOffered !==  null) {
@@ -393,7 +421,16 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.mwPowerLoss.enable();
 						if (this.templateConfiguration.requiredMwPowerLoss) {
 							this.lstRequired.push('mwPowerLoss');
-							this.formNewEvent.controls.mwPowerLoss.setValidators([Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]);
+							const arrayValidator = [];
+							arrayValidator.push(Validators.required);
+							arrayValidator.push(Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/));
+							if (this.templateConfiguration.mwPowerLossLimitLower !== null) {
+								arrayValidator.push(Validators.min(this.templateConfiguration.mwPowerLossLimitLower));
+							}
+							if (this.templateConfiguration.mwPowerLossLimitUpper !== null) {
+								arrayValidator.push(Validators.max(this.templateConfiguration.mwPowerLossLimitUpper));
+							}
+							this.formNewEvent.controls.mwPowerLoss.setValidators(arrayValidator);
 						}
 					}
 					if (this.templateConfiguration.mwPowerLoss !==  null) {
@@ -406,7 +443,16 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.formNewEvent.controls.powerMw.enable();
 						if (this.templateConfiguration.requiredPowerMw) {
 							this.lstRequired.push('powerMw');
-							this.formNewEvent.controls.powerMw.setValidators([Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]);
+							const arrayValidator = [];
+							arrayValidator.push(Validators.required);
+							arrayValidator.push(Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/));
+							if (this.templateConfiguration.powerMwLimitLower !== null) {
+								arrayValidator.push(Validators.min(this.templateConfiguration.powerMwLimitLower));
+							}
+							if (this.templateConfiguration.powerMwLimitUpper !== null) {
+								arrayValidator.push(Validators.max(this.templateConfiguration.powerMwLimitUpper));
+							}
+							this.formNewEvent.controls.powerMw.setValidators(arrayValidator);
 						}
 					}
 					if (this.templateConfiguration.powerMw !==  null) {
@@ -514,7 +560,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.toastr.errorToastr(errorData.error.message, 'Error!');
 			});
 	}
-
 	loadCatalogStatus(entidad: string, lstStatus: IdLabel[]) {
 		this.estatusMaestroService.getCatalogoEntidad(entidad).subscribe((data: Array<EntidadEstatusDTO>)  => {
 			data.forEach((element: EntidadEstatusDTO) => {
@@ -524,7 +569,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				return '';
 			});
 	}
-
 	isStatus(nameStatus: string, idEstatus: number, lstEntidadEstaus: IdLabel[]) {
 		let returnValue = false;
 		lstEntidadEstaus.forEach((element: IdLabel) => {
@@ -536,7 +580,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		});
 		return returnValue;
 	}
-
 	getIdEstatusEvent(nameStatus: string, lstEntidadEstaus: IdLabel[]) {
 		let returnValue: string | number;
 		lstEntidadEstaus.forEach(element => {
@@ -546,7 +589,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		});
 		return returnValue;
 	}
-
 	loadCatalog() {
 		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL-CCDV', 'BANDA TOLERANCIA',
 		'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'FUENTE EVENTO'];
@@ -591,7 +633,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			this.loadCatalogStatus('TX_BINNACLE_EVENT_II', this.lstEventStatus);
 		});
 	}
-
 	commonDisabled() {
 		this.onBuildTemplate(this.catalogType.element.eventsId);
 		this.formNewEvent.patchValue(this.catalogType.element);
@@ -607,7 +648,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		setTimeout(() => this.formobservationsComments.disable(), 2000);
 		setTimeout(() => this.formTemp.disable(), 2000);
 	}
-
 	commonEnabled() {
 		this.onBuildTemplate(this.catalogType.element.eventsId);
 		this.formNewEvent.patchValue(this.catalogType.element);
@@ -684,11 +724,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		}
 		this.getTableObservationsCommentsSelectionChecked();
 	}
-
 	btnUploadFile() {
 		const file = this.fileUploadForm.get('file').value;
 	}
-
 	btnFinish() {
 		const labelArray: Array<string> = [];
 		this.formValid = true;
@@ -731,12 +769,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	getNameUser() {
 		return this.securityService.getNameUser() + ' ' + this.securityService.getLastNameUser();
 	}
-
 	private addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,
 			new EventBlocked(type, msg)));
 	}
-
 	btnChangeStatus(statusName: string) {
 		this.binnacleService.changeStatus(statusName, this.catalogType.element.binnacleEventID).subscribe(data  => {
 			this.toastr.successToastr('Cambio de Estatus Correcto: ' + statusName, 'Exito!.');

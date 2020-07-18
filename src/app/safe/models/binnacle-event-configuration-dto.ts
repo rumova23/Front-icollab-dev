@@ -104,6 +104,7 @@ export class BinnacleEventConfigurationDTO implements Deserializable {
 
     public user: string;
     public dateUpdated: string;
+    public dateModification: Date;
     public status: boolean;
     public nameStatus: string;
 

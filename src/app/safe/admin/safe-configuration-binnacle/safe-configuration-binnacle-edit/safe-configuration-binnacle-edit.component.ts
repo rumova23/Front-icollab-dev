@@ -195,7 +195,6 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			});
 		}
 	}
-
 	loadSelect001(selectCombo: Array<any>, catalog: Array<MaestroOpcionDTO>) {
 		if (catalog !== null) {
 			catalog.forEach((element: MaestroOpcionDTO) => {
@@ -216,7 +215,6 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			});
 		}
 	}
-
 	onBuildEventAssociated_00(event) {
 		const lstIds: Array<number> = [];
 		if (event.value) {
@@ -240,7 +238,6 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 					}
 				}
 			}
-			console.dir(this.lstEvents00);
 			this.formNewEvent001.controls.events00Id.enable();
 			this.formNewEvent001.controls.events00Id.patchValue(lstIds);
 			this.disabledSubmit = false;
@@ -254,11 +251,9 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 		this.lstEvents = [];
 		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === event.value));
 	}
-
 	compareTech(t1, t2): boolean {
 		return t1 && t2 ? t1.id === t2.id : t1 === t2;
 	}
-
 	loadCatalog() {
 		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL-CCDV', 'BANDA TOLERANCIA',
 			'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'FUENTE EVENTO'];
@@ -332,10 +327,51 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 				this.disabledSubmit = true;
 			});
 	}
+	isValidateLimites() {
+		let returnValue = true;
+		if (this.formNewEvent.controls.powerMwLimitLower.value !== null && this.formNewEvent.controls.powerMwLimitUpper.value !== null) {
+			if (this.formNewEvent.controls.powerMwLimitLower.value - this.formNewEvent.controls.powerMwLimitUpper.value >= 0) {
+				this.toastr.errorToastr('El limit Inferior debe ser menor al limite superior, de la potencia.', 'Error!');
+				returnValue = false;
+			}
+		}
+
+		if (this.formNewEvent.controls.mwOfferedLimitLower.value !== null && this.formNewEvent.controls.mwOfferedLimitUpper.value !== null) {
+			if (this.formNewEvent.controls.mwOfferedLimitLower.value - this.formNewEvent.controls.mwOfferedLimitUpper.value >= 0) {
+				this.toastr.errorToastr('El limit Inferior debe ser menor al limite superior, de los MW Ofertados.', 'Error!');
+				returnValue = false;
+			}
+		}
+
+		if (this.formNewEvent.controls.initialChargeLimitLower.value !== null && this.formNewEvent.controls.initialChargeLimitUpper.value !== null) {
+			if (this.formNewEvent.controls.initialChargeLimitLower.value - this.formNewEvent.controls.initialChargeLimitUpper.value >= 0) {
+				this.toastr.errorToastr('El limit Inferior debe ser menor al limite superior, de la Carga Inicial.', 'Error!');
+				returnValue = false;
+			}
+		}
+
+		if (this.formNewEvent.controls.finalChargeLimitLower.value !== null && this.formNewEvent.controls.finalChargeLimitUpper.value !== null) {
+			if (this.formNewEvent.controls.finalChargeLimitLower.value - this.formNewEvent.controls.finalChargeLimitUpper.value >= 0) {
+				this.toastr.errorToastr('El limit Inferior debe ser menor al limite superior, de la Carga Final.', 'Error!');
+				returnValue = false;
+			}
+		}
+
+		if (this.formNewEvent.controls.mwPowerLossLimitLower.value !== null && this.formNewEvent.controls.mwPowerLossLimitUpper.value !== null) {
+			if (this.formNewEvent.controls.mwPowerLossLimitLower.value - this.formNewEvent.controls.mwPowerLossLimitUpper.value >= 0) {
+				this.toastr.errorToastr('El limit Inferior debe ser menor al limite superior, de la Carga Final.', 'Error!');
+				returnValue = false;
+			}
+		}
+		return returnValue;
+	}
 	onSubmitFormNewEvent(v) {
 		this.submitted = true;
 		if (this.formNewEvent.invalid) {
 			this.toastr.warningToastr('Configure las opciones en rojo: Son requeridas', 'Advertencia!.');
+			return;
+		}
+		if (!this.isValidateLimites()) {
 			return;
 		}
 		if (this.catalogType.action === 'nuevo') {
@@ -380,14 +416,11 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	getNameUser() {
 		return this.securityService.getNameUser() + ' ' + this.securityService.getLastNameUser();
 	}
-
 	private addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,
 			new EventBlocked(type, msg)));
 	}
-
 	onBuildTemplate(value: any) {
-		console.dir(value);
 		this.binnacleService.obtenTemplate(value.value).subscribe(
 			(data: BinnacleEventConfigurationDTO) => {
 				if (data !== null) {
