@@ -227,8 +227,12 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			}
 			for (let k = 0; k < this.lstEvents00.length; k ++) {
 				this.lstEvents00[k].disabled = true;
-				if(this.lstEvents00[k].maestroOpcionId === null){
-					this.lstEvents00[k].disabled = false;
+				for (let i = 0; i < this.lstEventsDTO.length; i ++) {
+					if (this.lstEvents00[k].id === this.lstEventsDTO[i].maestroOpcionId) {
+						if (this.lstEventsDTO[i].opcionPadreId === null) {
+							this.lstEvents00[k].disabled = false;
+						}
+					}
 				}
 				for (let j = 0; j < lstIds.length; j ++) {
 					if (this.lstEvents00[k].id === lstIds[j]) {
