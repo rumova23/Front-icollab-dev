@@ -195,6 +195,28 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			});
 		}
 	}
+
+	loadSelect001(selectCombo: Array<any>, catalog: Array<MaestroOpcionDTO>) {
+		if (catalog !== null) {
+			catalog.forEach((element: MaestroOpcionDTO) => {
+				let disabledValue = false;
+				if (element.opcionPadreId != null) {
+					disabledValue = true;
+				}
+				selectCombo.push({ id: element.maestroOpcionId, label: element.opcion.codigo, maestroOpcionId: element.maestroOpcionId, disabled: disabledValue});
+			});
+			selectCombo.sort((a, b) => {
+				if (a.label > b.label) {
+					return 1;
+				}
+				if (a.label < b.label) {
+					return -1;
+				}
+				return 0;
+			});
+		}
+	}
+
 	onBuildEventAssociated_00(event) {
 		const lstIds: Array<number> = [];
 		if (event.value) {
@@ -203,6 +225,18 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 					lstIds.push(this.lstEventsDTO[i].maestroOpcionId);
 				}
 			}
+			for (let k = 0; k < this.lstEvents00.length; k ++) {
+				this.lstEvents00[k].disabled = true;
+				if(this.lstEvents00[k].maestroOpcionId === null){
+					this.lstEvents00[k].disabled = false;
+				}
+				for (let j = 0; j < lstIds.length; j ++) {
+					if (this.lstEvents00[k].id === lstIds[j]) {
+						this.lstEvents00[k].disabled = false;
+					}
+				}
+			}
+			console.dir(this.lstEvents00);
 			this.formNewEvent001.controls.events00Id.enable();
 			this.formNewEvent001.controls.events00Id.patchValue(lstIds);
 			this.disabledSubmit = false;
@@ -228,7 +262,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			this.loadSelect(this.lstEventClassification, data['CLASIFICA EVENTO']);
 			this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
 			this.loadSelect(this.lstEventClassification00, data['CLASIFICA EVENTO']);
-			this.loadSelect(this.lstEvents00, data['EVENTO']);
+			this.loadSelect001(this.lstEvents00, data['EVENTO']);
 			this.lstEventsDTO = data['EVENTO'];
 			this.loadSelect(this.lstFuels, data['COMBUSTIBLE']);
 			this.loadSelect(this.lstUnits, data['UNIDAD']);
@@ -252,7 +286,6 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 				this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.dto.eventsClassificationId));
 				this.formNewEvent.disable();
 				this.disableOption = true;
-
 				this.formNewEvent.controls.fuelsId.enable();
 				this.formNewEvent.controls.unitsId.enable();
 				this.formNewEvent.controls.impactContractsId.enable();

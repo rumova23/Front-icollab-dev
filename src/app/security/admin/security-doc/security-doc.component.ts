@@ -55,12 +55,12 @@ export class SecurityDocComponent implements OnInit {
 
 	ngOnInit() {
 		this.setTableData();
-		this.selection.changed.subscribe(event=>{
+		this.selection.changed.subscribe(event=> {
 			let algo = this.selection.selected;
 		});
 		this.form = this.formBuilder.group({
 			name: [{ value: '', disabled: false }, Validators.required],
-			aotucomplete: [{ value: '', disabled: false }, Validators.required],			
+			aotucomplete: [{ value: '', disabled: false }, Validators.required],
 			dateYearAndMonth:[{ value: null, disabled: false }],
 			select: [{ value: '', disabled: false }, Validators.required]
 		});
