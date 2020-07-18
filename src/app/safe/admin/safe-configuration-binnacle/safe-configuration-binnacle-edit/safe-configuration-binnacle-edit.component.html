@@ -6,7 +6,7 @@
 		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item>{{ "Bitacora de Eventos" | translate }}</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item>{{ "Configuración de Eventos" | translate }}</mdb-breadcrumb-item>
-		<mdb-breadcrumb-item class="active">{{ "Agregar" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ title | translate }}</mdb-breadcrumb-item>
 	</mdb-breadcrumb>
 </div>
 <form [formGroup]="formNewEvent001" (ngSubmit)="onSubmitFormNewEvent001(formNewEvent001.value)">

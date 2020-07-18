@@ -48,6 +48,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	disabledSubmit: boolean;
 	submitted = false;
 	disableOption = false;
+	title: string;
 
 	constructor(
 		private formBuilder: FormBuilder,
@@ -175,6 +176,17 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			statusElement: [true],
 		});
 		this.loadCatalog();
+		switch (this.catalogType.action) {
+			case 'editar':
+				this.title = 'Editar';
+				break;
+			case 'nuevo':
+				this.title = 'Agregar';
+				break;
+			case 'ver':
+				this.title = 'Consultar';
+				break;
+		}
 	}
 	get fuelsId() {
 		return this.formNewEvent.get('fuelsId');
@@ -368,7 +380,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	onSubmitFormNewEvent(v) {
 		this.submitted = true;
 		if (this.formNewEvent.invalid) {
-			this.toastr.warningToastr('Configure las opciones en rojo: Son requeridas', 'Advertencia!.');
+			this.toastr.errorToastr('Configure las opciones en rojo: Son requeridas', 'Error!.');
 			return;
 		}
 		if (!this.isValidateLimites()) {
@@ -384,6 +396,12 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 				errorData => {
 					this.addBlock(2, '');
 					this.toastr.errorToastr(errorData.error.message, 'Error!');
+				},
+				() => {
+					const type = {};
+					this.eventService.sendChangePage(
+						new EventMessage(null, type, 'Safe.SafeConfigurationBinnacleComponent')
+					);
 				});
 		}
 		if (this.catalogType.action === 'editar') {
@@ -399,6 +417,12 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 				errorData => {
 					this.addBlock(2, '');
 					this.toastr.errorToastr(errorData.error.message, 'Error!');
+				},
+				() => {
+					const type = {};
+					this.eventService.sendChangePage(
+						new EventMessage(null, type, 'Safe.SafeConfigurationBinnacleComponent')
+					);
 				});
 		}
 
@@ -424,7 +448,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 		this.binnacleService.obtenTemplate(value.value).subscribe(
 			(data: BinnacleEventConfigurationDTO) => {
 				if (data !== null) {
-					this.toastr.warningToastr('Existe ya, el template para el evento:  Seleccione de la lista para editar', 'Advertencia!');
+					this.toastr.errorToastr('Existe ya, el template para el evento:  Seleccione de la lista para editar', 'Error!');
 					const type = {};
 					this.eventService.sendChangePage(
 						new EventMessage(null, type, 'Safe.SafeConfigurationBinnacleComponent')
