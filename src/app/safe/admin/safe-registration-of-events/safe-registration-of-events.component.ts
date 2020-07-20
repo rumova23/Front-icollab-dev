@@ -253,7 +253,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			catalog.forEach((element: MaestroOpcionDTO) => {
 				selectCombo.push({id: element.maestroOpcionId, label: element.opcion.codigo, maestroOpcionId: element.maestroOpcionId});
 			});
-			selectCombo.sort((a, b) => b.label.toLowerCase().localeCompare(a.label.toLowerCase()));
+			selectCombo.sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()));
 		}
 	}
 
@@ -636,12 +636,15 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				} else {
 					this.commonEnabled();
 				}
-				this.catalogType.element.observations.forEach( (obs: NoteDTO) => {
-					this.tableObservationsComments = this.tableObservationsComments.concat({
-						order: this.tempOrder, name: obs.usuario, observation: obs.note, dateUptade: obs.updateString, visible: obs.visible
+				if (this.catalogType.element.observations !== null) {
+					this.catalogType.element.observations.forEach( (obs: NoteDTO) => {
+						this.tableObservationsComments = this.tableObservationsComments.concat({
+							order: this.tempOrder, name: obs.usuario, observation: obs.note, dateUptade: obs.updateString, visible: obs.visible
+						});
+						this.tempOrder ++;
 					});
-					this.tempOrder ++;
-				});
+				}
+
 				this.files = this.catalogType.element.bearers;
 			}
 			if (this.catalogType.action === 'ver') {
@@ -658,7 +661,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		const a = this.datePipe.transform(new Date(this.formTemp.get('dateTimeStart').value) , 'yyyy-MM-dd') + 'T' + this.formTemp.get('ha').value + ':' + this.formTemp.get('ma').value;
 		const b = this.datePipe.transform(new Date(this.formTemp.get('dateTimeEnd').value) , 'yyyy-MM-dd') + 'T' + this.formTemp.get('hb').value + ':' + this.formTemp.get('mb').value;
 		const comparation = moment(a).toDate().getTime() - moment(b).toDate().getTime();
-		if (comparation > 0) {
+		if (comparation >= 0) {
 			returValue = false;
 		}
 		return returValue;
@@ -979,6 +982,13 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			if ( this.formNewEvent.controls[field].value == null) {
 				labelArray.push('El campo: ' + this.mapLabel.get(field) + '. Es requerido.');
 				this.formValid = false;
+			} else {
+				if ( typeof(this.formNewEvent.controls[field].value) === 'string') {
+					if (this.formNewEvent.controls[field].value.length <= 0) {
+						labelArray.push('El campo: ' + this.mapLabel.get(field) + '. Es requerido.');
+						this.formValid = false;
+					}
+				}
 			}
 		});
 
