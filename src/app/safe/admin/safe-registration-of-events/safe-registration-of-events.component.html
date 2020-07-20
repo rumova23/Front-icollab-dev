@@ -390,10 +390,10 @@
 			</div>
 			<div class="row">
 				<div class="col">
-					<div class="media" (click)="downloadFile()">
+					<div *ngFor="let file of files" class="media" (click)="downloadFile()">
 						<img src="assets/img/zip.png" style="width: 64px; height: 64px;">
 						<div class="media-body">
-							<p>Descarga kiki_koo.zip</p>
+							<p>Descarga {{file.bearerName}}</p>
 						</div>
 					</div>
 				</div>
@@ -435,7 +435,7 @@
 							<app-btn-block-save-update myType="submit" [disabled]="disabledSubmit"></app-btn-block-save-update>
 						</div>
 						<div class="col-12 col-lg-3">
-							<app-btn-block-finish (click)="btnFinish()" [disabled]="disabledBtnFinish"></app-btn-block-finish>
+							<app-btn-block-finish *ngIf="!disabledBtnFinish" (click)="btnFinish()" [disabled]="disabledBtnFinish"></app-btn-block-finish>
 						</div>
 					</div>
 				</div>

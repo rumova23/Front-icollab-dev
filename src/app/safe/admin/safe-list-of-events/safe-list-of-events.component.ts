@@ -122,11 +122,13 @@ export class SafeListOfEventsComponent implements OnInit {
 			moment(dateTwo).toDate().getTime(),
 			moment(dateNow).toDate().getTime()).subscribe(
 			(data: Array<BinnacleEventDTO>) => {
-				console.dir(data);
-				data.forEach((element: BinnacleEventDTO) => {
-					element.usuario = (element.userUpdated !== null) ? element.userUpdated : element.userCreated;
-				})
 				this.tableData = data.sort((a, b) =>  moment(a.dateTimeStart).toDate().getTime() - moment(b.dateTimeStart).toDate().getTime());
+				let i = 0;
+				this.tableData.forEach((element: BinnacleEventDTO) => {
+					i++;
+					element.order = i;
+					element.usuario = (element.userUpdated !== null) ? element.userUpdated : element.userCreated;
+				});
 			},
 			errorData => {
 				this.toastr.errorToastr('Problemas en la consulta', 'Error');

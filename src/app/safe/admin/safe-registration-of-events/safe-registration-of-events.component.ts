@@ -24,6 +24,9 @@ import {EstatusMaestroService} from '../../../core/services/estatus-maestro.serv
 import {EntidadEstatusDTO} from '../../../compliance/models/entidad-estatus-dto';
 import { map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
+import {NoteDTO} from '../../models/note-dto';
+import {Constants} from '../../../core/globals/Constants';
+import {BearerDTO} from '../../models/bearer-dto';
 
 @Component({
 	selector: 'app-safe-registration-of-events',
@@ -43,7 +46,11 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	formNewEvent: FormGroup;
 	formTemp: FormGroup;
 
+	file: any;
+
 	lstRequired: Array<string>;
+
+
 
 	lstEventClassification: IdLabel[] = [];
 	lstEventClassificationDTO: Array<MaestroOpcionDTO>;
@@ -87,6 +94,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 
 	tempOrder = 3;
 	tableObservationsComments = [];
+
+	newNotes: Array<NoteDTO> = [];
+	newFiles: Array<BearerDTO> = [];
+	files: Array<BearerDTO> = [];
 	tablaColumnsLabels = [
 		{ key: 'order', label: '#' },
 		{ key: 'name', label: 'Nombre' },
@@ -106,7 +117,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	tableObservationsCommentsSelection: SelectionModel<any> = new SelectionModel<any>(true, []);
 	progress;
 	disabledSubmit = false;
-	disabledBtnFinish = false;
+	disabledBtnFinish = true;
 	disabledToRefuse = false;
 	disabledToAccept = false;
 	submitted = false;
@@ -126,8 +137,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.loadCatalog();
 	}
 
-
 	ngOnInit() {
+		console.dir(this.catalogType);
 		this.mapLabel = new Map();
 		this.mapLabel.set('binnacleEventID', 'Id');
 		this.mapLabel.set('dateTimeStart', 'Fecha Inicial');
@@ -156,7 +167,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.mapLabel.set('cenaceOperatorClosed', 'Nombre(s)/Apellidos(s) Operador CENACE Cerro');
 		this.mapLabel.set('sourceEventId', 'Fuente del Evento');
 		this.lstRequired = [];
-		console.log('catalogType:: ', this.catalogType);
 		switch (this.catalogType.action) {
 			case 'nuevo':
 				this.actionPage = 'Add';
@@ -170,7 +180,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		}
 
 		this.fileUploadForm = this.formBuilder.group({
-			file: new FormControl(null, [Validators.required, requiredFileType('zip')]),
+			file: new FormControl(null),
 		});
 		this.formobservationsComments = this.formBuilder.group({
 			observationsComments: [{ value: null, disabled: false }, [Validators.minLength(4), Validators.maxLength(2000)]]
@@ -257,7 +267,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 					}
 				});
 			});
-			listPaso.sort((a, b) => b.label.toLowerCase().localeCompare(a.label.toLowerCase()));
+			listPaso.sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()));
 		}
 		return listPaso;
 	}
@@ -552,12 +562,16 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						}
 					}
 					this.lstSourceEvent = this.loadSelectTemplate(this.lstSourceEventAll, this.templateConfiguration.sourceEventId);
+					this.disabledBtnFinish = false;
 				} else {
 					this.toastr.warningToastr('El template para el evento: ' + event.label  + ': Aun no es Configurado.', 'Advertencia!');
 				}
 			},
 			errorData => {
 				this.toastr.errorToastr(errorData.error.message, 'Error!');
+			},
+			() => {
+				console.log('RTC');
 			});
 	}
 	loadCatalogStatus(entidad: string, lstStatus: IdLabel[]) {
@@ -611,7 +625,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			this.toastr.errorToastr(errorData.error.message, 'Error!');
 		},
 		() => {
-			console.log(this.catalogType.action);
 			if (this.catalogType.action === 'editar') {
 				if (this.catalogType.element.estatusEvento === 'Evento Cerrado' || this.catalogType.element.estatusEvento === 'Evento Terminado') {
 					this.commonDisabled();
@@ -623,6 +636,13 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				} else {
 					this.commonEnabled();
 				}
+				this.catalogType.element.observations.forEach( (obs: NoteDTO) => {
+					this.tableObservationsComments = this.tableObservationsComments.concat({
+						order: this.tempOrder, name: obs.usuario, observation: obs.note, dateUptade: obs.updateString, visible: obs.visible
+					});
+					this.tempOrder ++;
+				});
+				this.files = this.catalogType.element.bearers;
 			}
 			if (this.catalogType.action === 'ver') {
 				this.disabledSubmit = true;
@@ -632,6 +652,16 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			this.loadCatalogStatus('TX_BINNACLE_EVENT', this.lstApprovalStatus);
 			this.loadCatalogStatus('TX_BINNACLE_EVENT_II', this.lstEventStatus);
 		});
+	}
+	isValidDates() {
+		let returValue = true;
+		const a = this.datePipe.transform(new Date(this.formTemp.get('dateTimeStart').value) , 'yyyy-MM-dd') + 'T' + this.formTemp.get('ha').value + ':' + this.formTemp.get('ma').value;
+		const b = this.datePipe.transform(new Date(this.formTemp.get('dateTimeEnd').value) , 'yyyy-MM-dd') + 'T' + this.formTemp.get('hb').value + ':' + this.formTemp.get('mb').value;
+		const comparation = moment(a).toDate().getTime() - moment(b).toDate().getTime();
+		if (comparation > 0) {
+			returValue = false;
+		}
+		return returValue;
 	}
 	commonDisabled() {
 		this.onBuildTemplate(this.catalogType.element.eventsId);
@@ -690,10 +720,17 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.formNewEvent.enable();
 		this.onChangeDateTimeStart();
 		this.onChangeDateTimeEnd();
+		if (!this.isValidDates()) {
+			this.toastr.errorToastr('La fecha de inicio, debe ser menor a la fecha final del evento', 'Error!');
+			return;
+		}
 		this.addBlock(1, '');
-		this.binnacleService.saveBinnacle(this.formNewEvent.value).subscribe(
+		const binnacle: BinnacleEventDTO = this.formNewEvent.value;
+		binnacle.observations = this.newNotes;
+		binnacle.bearers = this.newFiles;
+		this.binnacleService.saveBinnacle(binnacle).subscribe(
 			data => {
-				this.toastr.successToastr('Guardado Completo', 'Exito!.');
+				this.toastr.successToastr('Guardado Completo', 'Exito!');
 				this.formNewEvent.disable();
 				this.addBlock(2, '');
 			},
@@ -713,20 +750,228 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			new EventMessage(null, type, 'Safe.SafeListOfEventsComponent')
 		);
 	}
+
 	BtnAddObservationsComments() {
 		const observation = this.formobservationsComments.get('observationsComments').value;
 		if (observation != null && observation !== '') {
 			this.tableObservationsComments = this.tableObservationsComments.concat({
 				order: this.tempOrder, name: this.getNameUser(), observation, dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: true
 			});
+			const noteDTO: NoteDTO = new NoteDTO();
+			noteDTO.note = observation;
+			noteDTO.visible = true
+			this.newNotes.push(noteDTO);
+
 			this.tempOrder ++;
 			this.formobservationsComments.get('observationsComments').setValue('');
+
+			const observations: Array<NoteDTO> = [];
 		}
 		this.getTableObservationsCommentsSelectionChecked();
 	}
+
 	btnUploadFile() {
-		const file = this.fileUploadForm.get('file').value;
+		const value = this.fileUploadForm.value;
+		const reader = new FileReader();
+		reader.onloadend = (e) => {
+			const fileBearer: BearerDTO = new BearerDTO();
+			this.file = reader.result;
+			this.file = this.file.replace(/^data:(.*;base64,)?/, '');
+			this.file = this.file.trim();
+			fileBearer.bearerData = this.file;
+			fileBearer.bearerName = value.file.name;
+			const splitName: string[] = fileBearer.bearerName.split('.');
+			fileBearer.bearerContentType = this.getContentType(splitName[1]);
+			this.newFiles.push(fileBearer);
+			this.files.push(fileBearer);
+		}
+		reader.readAsDataURL(value.file);
 	}
+
+	getContentType(extencion) {
+		let contentType = '';
+		switch (extencion) {
+			case'aac':
+				contentType =  'audio/aac';
+				break;
+			case'abw':
+				contentType =  'application/x-abiword';
+				break;
+			case'arc':
+				contentType =  'application/octet-stream';
+				break;
+			case'avi':
+				contentType =  'video/x-msvideo';
+				break;
+			case'azw':
+				contentType =  'application/vnd.amazon.ebook';
+				break;
+			case'bin':
+				contentType =  'application/octet-stream';
+				break;
+			case'bz':
+				contentType =  'application/x-bzip';
+				break;
+			case'bz2':
+				contentType =  'application/x-bzip2';
+				break;
+			case'csh':
+				contentType =  'application/x-csh';
+				break;
+			case'css':
+				contentType =  'text/css';
+				break;
+			case'csv':
+				contentType =  'text/csv';
+				break;
+			case'doc':
+				contentType =  'application/msword';
+				break;
+			case'epub':
+				contentType =  'application/epub+zip';
+				break;
+			case'gif':
+				contentType =  'image/gif';
+				break;
+			case'htm':
+			case'html':
+				contentType =  'text/html';
+				break;
+			case'ico':
+				contentType =  'image/x-icon';
+				break;
+			case'ics':
+				contentType =  'text/calendar';
+				break;
+			case'jar':
+				contentType =  'application/java-archive';
+				break;
+			case'jpeg':
+			case'jpg':
+				contentType =  'image/jpeg';
+				break;
+			case'js':
+				contentType =  'application/javascript';
+				break;
+			case'json':
+				contentType =  'application/json';
+				break;
+			case'mid':
+				contentType =  'audio/midi';
+				break;
+			case'mpeg':
+				contentType =  'video/mpeg';
+				break;
+			case'mpkg':
+				contentType =  'application/vnd.apple.installer+xml';
+				break;
+			case'odp':
+				contentType =  'application/vnd.oasis.opendocument.presentation';
+				break;
+			case'ods':
+				contentType =  'application/vnd.oasis.opendocument.spreadsheet';
+				break;
+			case'odt':
+				contentType =  'application/vnd.oasis.opendocument.text';
+				break;
+			case'oga':
+				contentType =  'audio/ogg';
+				break;
+			case'ogv':
+				contentType =  'video/ogg';
+				break;
+			case'':
+				contentType =  '';
+				break;
+			case'ogx':
+				contentType =  '';
+				break;
+			case'':
+				contentType =  'application/ogg';
+				break;
+			case'pdf':
+				contentType =  'application/pdf';
+				break;
+			case'ppt':
+				contentType =  'application/vnd.ms-powerpoint';
+				break;
+			case'rar':
+				contentType =  'application/x-rar-compressed';
+				break;
+			case'rtf':
+				contentType =  'application/rtf';
+				break;
+			case'sh':
+				contentType =  'application/x-sh';
+				break;
+			case'svg':
+				contentType =  'image/svg+xml';
+				break;
+			case'':
+				contentType =  'swf';
+				break;
+			case'':
+				contentType =  'application/x-shockwave-flash';
+				break;
+			case'tar':
+				contentType =  'application/x-tar';
+				break;
+			case'tif':
+			case'tiff':
+				contentType =  'image/tiff';
+				break;
+			case'ttf':
+				contentType =  'font/ttf';
+				break;
+			case'vsd':
+				contentType =  'application/vnd.visio';
+				break;
+			case'wav':
+				contentType =  'audio/x-wav';
+				break;
+			case'weba':
+				contentType =  'audio/webm';
+				break;
+			case'webm':
+				contentType =  'video/webm';
+				break;
+			case'webp':
+				contentType =  'image/webp';
+				break;
+			case'woff':
+				contentType =  'font/woff';
+				break;
+			case'woff2':
+				contentType =  'font/woff2';
+				break;
+			case'xhtml':
+				contentType =  'application/xhtml+xml';
+				break;
+			case'xls':
+				contentType =  'application/vnd.ms-excel';
+				break;
+			case'xml':
+				contentType =  'application/xml';
+				break;
+			case'xul':
+				contentType =  'application/vnd.mozilla.xul+xml';
+				break;
+			case'zip':
+				contentType =  'application/zip';
+				break;
+			case'gp':
+				contentType =  'video/3gpp';
+				break;
+			case'3g2':
+				contentType =  'video/3gpp2';
+				break;
+			case'7z':
+				contentType =  'application/x-7z-compressed';
+		}
+
+		return contentType;
+	}
+
 	btnFinish() {
 		const labelArray: Array<string> = [];
 		this.formValid = true;

@@ -2,6 +2,8 @@ import {Deserializable} from '../../compliance/models/deserializable';
 import {BinnacleDTO} from './binnacle-dto';
 import {MaestroOpcionDTO} from '../../compliance/models/maestro-opcion-dto';
 import {EntidadEstatusDTO} from '../../compliance/models/entidad-estatus-dto';
+import {NoteDTO} from './note-dto';
+import {BearerDTO} from './bearer-dto';
 
 export class BinnacleEventDTO implements Deserializable {
 
@@ -77,7 +79,11 @@ export class BinnacleEventDTO implements Deserializable {
     public fechaYHoraDeUltimaModificacion: string;
     public dateCreated: Date;
     public dateUpdated: Date;
-    
+
+    public observations: Array<NoteDTO>;
+    public bearers: Array<BearerDTO>;
+    public order: number;
+
     deserialize(input: any) {
         Object.assign(this, input);
         return this;
