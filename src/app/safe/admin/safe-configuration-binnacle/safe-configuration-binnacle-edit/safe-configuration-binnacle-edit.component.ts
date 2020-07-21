@@ -315,7 +315,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 		const container = new ContainerClasificaDTO();
 		container.opcionPadreId = v.eventsClassification00Id;
 		container.nodesAssociated = v.events00Id;
-		this.masterCatalogService.setAssociate(container).subscribe(
+		this.binnacleService.setAssociate(container).subscribe(
 			data => {
 				this.toastr.successToastr('Actualizacion completa', 'Exito!.');
 				this.addBlock(2, '');

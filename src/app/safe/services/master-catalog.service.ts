@@ -13,6 +13,7 @@ import {ContainerClasificaDTO} from '../models/container-clasifica-dto';
 export class MasterCatalogService {
 
   private mastercatalog = environment.mastercatalog;
+
   parameters: any;
   constructor(private http: HttpClient,
               private globalService: GlobalService) {
@@ -53,10 +54,5 @@ export class MasterCatalogService {
   listCatalog(list: Array<string>) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.mastercatalog }mastercatalog/list/catalog`, list, {params : this.parameters });
-  }
-
-  setAssociate(container: ContainerClasificaDTO): Observable<any> {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post( `${ this.mastercatalog }mastercatalog/configure/associated`, container, {params : this.parameters });
   }
 }

@@ -648,6 +648,16 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.files = this.catalogType.element.bearers;
 			}
 			if (this.catalogType.action === 'ver') {
+				if (this.catalogType.element.observations !== null) {
+					this.catalogType.element.observations.forEach( (obs: NoteDTO) => {
+						this.tableObservationsComments = this.tableObservationsComments.concat({
+							order: this.tempOrder, name: obs.usuario, observation: obs.note, dateUptade: obs.updateString, visible: obs.visible
+						});
+						this.tempOrder ++;
+					});
+				}
+
+				this.files = this.catalogType.element.bearers;
 				this.disabledSubmit = true;
 				this.disabledBtnFinish = true;
 				this.commonDisabled();
@@ -720,13 +730,13 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.onSubmit();
 	}
 	onSubmit() {
-		this.formNewEvent.enable();
 		this.onChangeDateTimeStart();
 		this.onChangeDateTimeEnd();
 		if (!this.isValidDates()) {
 			this.toastr.errorToastr('La fecha de inicio, debe ser menor a la fecha final del evento', 'Error!');
 			return;
 		}
+		this.formNewEvent.enable();
 		this.addBlock(1, '');
 		const binnacle: BinnacleEventDTO = this.formNewEvent.value;
 		binnacle.observations = this.newNotes;
@@ -984,7 +994,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.formValid = false;
 			} else {
 				if ( typeof(this.formNewEvent.controls[field].value) === 'string') {
-					if (this.formNewEvent.controls[field].value.length <= 0) {
+					if (this.formNewEvent.controls[field].value.trim().length <= 0) {
 						labelArray.push('El campo: ' + this.mapLabel.get(field) + '. Es requerido.');
 						this.formValid = false;
 					}
