@@ -726,9 +726,9 @@ export class EfhEditEventComponent implements OnInit {
       }
 
       if (this.accion === 'editar') {
-          // this.obtenerDatosConfiguracionEvento(false, this.eventType.id);
+          this.obtenerDatosConfiguracionEvento(false, this.eventType.id);
       } else {
-          // this.obtenerDatosConfiguracionEvento(false, 0);
+          this.obtenerDatosConfiguracionEvento(false, 0);
       }
   }
 
