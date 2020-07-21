@@ -445,7 +445,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			new EventBlocked(type, msg)));
 	}
 	onBuildTemplate(value: any) {
-		this.binnacleService.obtenTemplate(value.value).subscribe(
+		this.binnacleService.obtenTemplate(this.formNewEvent.controls.eventsClassificationId.value, value.value).subscribe(
 			(data: BinnacleEventConfigurationDTO) => {
 				if (data !== null) {
 					this.toastr.errorToastr('Existe ya, el template para el evento:  Seleccione de la lista para editar', 'Error!');

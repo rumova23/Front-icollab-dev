@@ -44,9 +44,9 @@ export class BinnacleService {
     return this.http.get(this.binnacle + 'binnacle/configuration/list', {params : this.parameters });
   }
 
-  obtenTemplate(eventsId: number): Observable<any> {
+  obtenTemplate(eventsClassificationId: number, eventsId: number): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant();
-    return this.http.get(`${ this.binnacle }binnacle/template/${eventsId}`, {params : this.parameters });
+    return this.http.get(`${ this.binnacle }binnacle/template/${eventsClassificationId}/${eventsId}`, {params : this.parameters });
   }
 
   uploadZip(year: number, month: number, data): Observable<any> {

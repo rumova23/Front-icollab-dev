@@ -114,7 +114,6 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         this.addBlock(1, '');
         this.binnacleService.listTemplates().subscribe(
             (data: Array<BinnacleEventConfigurationDTO>) => {
-                console.dir(data);
                 data = data.sort((a, b) => moment(b.dateModification).toDate().getTime() - moment(a.dateModification).toDate().getTime());
                 let i = 0;
                 this.tableCatalogos = data.map( e => {
@@ -139,12 +138,9 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
                 });
             },
             errorData => {
-                console.log("loadMasters:: ","Error");
                 this.toastr.errorToastr('Problemas en la consulta', 'Error');
-                console.dir(errorData);
             },
             () => {
-                console.log("loadMasters:: ","Termino");
                 this.addBlock(2, '');
             });
     }

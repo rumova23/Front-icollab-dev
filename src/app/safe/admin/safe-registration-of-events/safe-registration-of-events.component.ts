@@ -116,7 +116,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	];
 	tableObservationsCommentsSelection: SelectionModel<any> = new SelectionModel<any>(true, []);
 	progress;
-	disabledSubmit = false;
+	disabledSubmit = true;
 	disabledBtnFinish = true;
 	disabledToRefuse = false;
 	disabledToAccept = false;
@@ -280,9 +280,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		if (event == null) {
 			return;
 		}
-		this.binnacleService.obtenTemplate(event).subscribe(
+		this.binnacleService.obtenTemplate(this.formNewEvent.controls.eventsClassificationId.value, event).subscribe(
 			(data: BinnacleEventConfigurationDTO) => {
-				console.dir(data);
 				if (data !== null) {
 					this.templateConfiguration = data;
 
@@ -563,11 +562,18 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 					}
 					this.lstSourceEvent = this.loadSelectTemplate(this.lstSourceEventAll, this.templateConfiguration.sourceEventId);
 					this.disabledBtnFinish = false;
+					this.disabledSubmit = false;
 				} else {
+					this.ngOnInit();
+					this.disabledBtnFinish = true;
+					this.disabledSubmit = true;
 					this.toastr.warningToastr('El template para el evento: ' + event.label  + ': Aun no es Configurado.', 'Advertencia!');
 				}
 			},
 			errorData => {
+				this.ngOnInit();
+				this.disabledBtnFinish = true;
+				this.disabledSubmit = true;
 				this.toastr.errorToastr(errorData.error.message, 'Error!');
 			},
 			() => {
