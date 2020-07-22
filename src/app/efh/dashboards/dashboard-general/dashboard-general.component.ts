@@ -94,7 +94,9 @@ export class DashboardGeneralComponent extends ConnectSocketChannelComponent imp
 	chartControlLineChart2 : ChartControls       = new ChartControls('spline','dinamic',3);
 	mapWebIdToKeyTag       : Map<string, string> = new Map();
 	mapColors: Map<string, string> = new Map([
-		["potenciaNeta"          ,"#f3f315"],
+		["potenciaNeta"          ,"#FFC0CB"],
+		["ct_1_Potencia"         ,"#5d76d3"],
+		["ct_2_Potencia"         ,"#00ACEE"],
 		["potenciaCcdv"          ,"#00ACEE"],
 		["regimentermico"        ,"#39FF14"],
 		["temperatura_ambiente"  ,"#aff000"],
@@ -103,8 +105,6 @@ export class DashboardGeneralComponent extends ConnectSocketChannelComponent imp
 		["ct_1_gas"              ,"#c5f327"],
 		["ct_1_diesel"           ,"#5d76d3"],
 		["ct_1_RT"               ,"#CCFF00"],
-		["ct_1_Potencia"         ,"#5d76d3"],
-		["ct_2_Potencia"         ,"#00ACEE"],
 		["ct_1_RPM"              ,"#FF0000"],
 		["ct_2_gas"              ,"#FFA500"],
 		["ct_2_diesel"           ,"#FFC0CB"],
@@ -152,6 +152,15 @@ export class DashboardGeneralComponent extends ConnectSocketChannelComponent imp
 	}
 	/** chart and socket */
 	initTagsPI() {
+		this.tags.set("potenciaNeta", {
+			tagName: "",
+			min:0,
+  			max:590,
+			f: "setPotenciaNeta",
+			value: [],
+			webIdA: "P0uQAgHoBd0ku7P3cWOJL6IgJiUAAAU0VSVklET1JfUElcREFBMDgyMDY",
+			webIdS: "F1DP4rhZAwFMREKDf7s8vylUqg1gMAAAUElUVlxULkNFQS4yMjYz",
+		});
 		this.tags.set("ct_1_Potencia", {
 			tagName: "",
 			min:0,
@@ -275,7 +284,6 @@ export class DashboardGeneralComponent extends ConnectSocketChannelComponent imp
 				}
 			}
 		}
-		this.setDespachoAGC();
 	}
 	findLocalKeyTagByWebId(webId): string {
 		let result: string = null;
@@ -437,12 +445,16 @@ export class DashboardGeneralComponent extends ConnectSocketChannelComponent imp
 		}
 		this.chartLine2C.redraw(true);
 	}
-	/** ./ chart and socket */
-	setDespachoAGC(){
-		this.powerTg1 = this.tags.get('ct_1_Potencia')['value'][0][1];
-		this.powerTg2 = this.tags.get('ct_2_Potencia')['value'][0][1];
-		this.totalPowerTg1Tg2 = this.powerTg1+this.powerTg2;
+	getTagName(key): string {
+		return this.tags.has(key) ? this.tags.get(key)["tagName"]:'';
 	}
+	getValue(key) {
+		if(!this.tags.has(key))return [null, 0];
+		let tag = this.tags.get(key)["value"]["length"] > 0 ? this.tags.get(key)["value"][this.tags.get(key)["value"]["length"] - 1] : [null, 0];
+		return tag;
+	}
+	/** ./ chart and socket */
+	
 	addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
 	}
