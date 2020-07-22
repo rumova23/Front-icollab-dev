@@ -11,13 +11,28 @@
     font-size: 30px;
 }
 .h-min-50{
-    min-height: 50px;
+    min-height: 78px;
 }
 .stamp{
     border-radius: 10%;
 }
 .stamp2{
     border-radius: 2%;
+}
+.myborder{
+    border: solid #7f7f7f 5px;
+}
+.myborder-top{
+    border-top: solid #7f7f7f 5px;
+}
+.myborder-right{
+    border-right: solid #7f7f7f 5px;
+}
+.myborder-white{
+    border: solid white 5px;
+}
+.bg-bg{
+    background: #eee;
 }
 .bg-tit{
     background: #575354;

@@ -81,6 +81,10 @@ export class DashboardGeneralComponent extends ConnectSocketChannelComponent imp
 	tg2MtdLastI05 = 648.123;
 	tg2MtdLastI06 = 648.123;
 
+	totalPowerTg1Tg2 = 0;
+	powerTg1 = 0;
+	powerTg2 = 0;
+
 	/** chart and socket */
 	@ViewChild("LineChart2") LineChart2: ElementRef;
 	chartLine2C = null;
@@ -271,7 +275,7 @@ export class DashboardGeneralComponent extends ConnectSocketChannelComponent imp
 				}
 			}
 		}
-
+		this.setDespachoAGC();
 	}
 	findLocalKeyTagByWebId(webId): string {
 		let result: string = null;
@@ -434,7 +438,11 @@ export class DashboardGeneralComponent extends ConnectSocketChannelComponent imp
 		this.chartLine2C.redraw(true);
 	}
 	/** ./ chart and socket */
-	
+	setDespachoAGC(){
+		this.powerTg1 = this.tags.get('ct_1_Potencia')['value'][0][1];
+		this.powerTg2 = this.tags.get('ct_2_Potencia')['value'][0][1];
+		this.totalPowerTg1Tg2 = this.powerTg1+this.powerTg2;
+	}
 	addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
 	}
