@@ -22,7 +22,7 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         { key: 'eventClassification', label: 'Clasificacion Evento' },
         { key: 'event', label: 'Evento' },
 		{ key: 'user', label: 'Usuario' },
-		{ key: 'dateUpdatedDate', label: 'Date and Time last modified' , dateFormat:'dd/MM/yyyy HH:mm:ss'},// esto para que la tabla pueda ordenarlo, se tiene que pasar como tipo Date y no como string
+		{ key: 'dateUpdatedDate', label: 'Date and Time last modified' , dateFormat: 'dd/MM/yyyy HH:mm:ss'}, // esto para que la tabla pueda ordenarlo, se tiene que pasar como tipo Date y no como string
 		{ key: 'dateUpdated', label: 'Date and Time last modified'},
 		{ key: 'nameStatus', label: 'Estatus' }
     ];
@@ -32,7 +32,6 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         'event',
         'user',
         'dateUpdatedDate',
-        //'dateUpdated',
         'nameStatus',
         'sys_see',
         'sys_edit',
@@ -50,7 +49,6 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        //this.addBlock(1, "");
         this.loadCatalog();
     }
 
@@ -64,7 +62,7 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         error => {
             this.addBlock(2, '');
             this.toastr.errorToastr('Problemas en la consulta', 'Error');
-        },() => {
+        }, () => {
             this.addBlock(2, '');
             this.loadMasters();
         });
@@ -77,38 +75,6 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
                 return maestro.opcion.codigo;
             }
         }
-    }
-    ordenarByDateUpdated (arr){	
-        //temp['dateUpdated'] =   "07/07/2020 03:03"
-        //"27/06/2020 17:52" // invalido por eso el split
-        //new Date(anio,mes,dia,hora,minuto,segundo);
-		let j, temp;
-		for ( let i = 1; i < arr.length; i++ ) {
-            j = i;
-            temp = arr[ i ];
-            let dateA = new Date(
-                 arr[ j - 1 ]['dateUpdated'].split(" ")[0].split("/")[1]
-                ,arr[ j - 1 ]['dateUpdated'].split(" ")[0].split("/")[2]
-                ,arr[ j - 1 ]['dateUpdated'].split(" ")[0].split("/")[0]
-                ,arr[ j - 1 ]['dateUpdated'].split(" ")[1].split(":")[0]
-                ,arr[ j - 1 ]['dateUpdated'].split(" ")[1].split(":")[1]
-                ,0
-            ).getTime();
-            let dateB = new Date(
-                 temp['dateUpdated'].split(" ")[0].split("/")[1]
-                ,temp['dateUpdated'].split(" ")[0].split("/")[2]
-                ,temp['dateUpdated'].split(" ")[0].split("/")[0]
-                ,temp['dateUpdated'].split(" ")[1].split(":")[0]
-                ,temp['dateUpdated'].split(" ")[1].split(":")[1]
-                ,0
-            ).getTime();
-            while ( j > 0 && dateA < dateB ) {
-                arr[ j ] = arr[ j - 1 ];
-                j--;
-            }
-            arr[ j ] = temp;
-		}
-		return arr;
     }
     loadMasters() {
         this.addBlock(1, '');
@@ -127,12 +93,12 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
                         , dateUpdated: e.dateUpdated
                         , nameStatus: (e.statusElement) ? 'Activo' : 'Inactivo'
                         , dateUpdatedDate : new Date(
-                            +e.dateUpdated.split(" ")[0].split("/")[1]
-                           ,+e.dateUpdated.split(" ")[0].split("/")[2]
-                           ,+e.dateUpdated.split(" ")[0].split("/")[0]
-                           ,+e.dateUpdated.split(" ")[1].split(":")[0]
-                           ,+e.dateUpdated.split(" ")[1].split(":")[1]
-                           ,0
+                            +e.dateUpdated.split(' ')[0].split('/')[1]
+                           , +e.dateUpdated.split(' ')[0].split('/')[2]
+                           , +e.dateUpdated.split(' ')[0].split('/')[0]
+                           , +e.dateUpdated.split(' ')[1].split(':')[0]
+                           , +e.dateUpdated.split(' ')[1].split(':')[1]
+                           , 0
                        )
                     };
                 });

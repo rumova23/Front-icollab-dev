@@ -277,10 +277,22 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === event.value));
 	}
 	onBuildTemplate(event) {
+		let eventsClassificationId = 0;
 		if (event == null) {
 			return;
 		}
-		this.binnacleService.obtenTemplate(this.formNewEvent.controls.eventsClassificationId.value, event).subscribe(
+		switch (this.catalogType.action) {
+			case 'nuevo':
+				eventsClassificationId = this.formNewEvent.controls.eventsClassificationId.value;
+				break;
+			case 'editar':
+				eventsClassificationId = this.catalogType.element.eventsClassificationId;
+				break;
+			case 'ver':
+				eventsClassificationId = this.catalogType.element.eventsClassificationId;
+				break;
+		}
+		this.binnacleService.obtenTemplate(eventsClassificationId, event).subscribe(
 			(data: BinnacleEventConfigurationDTO) => {
 				if (data !== null) {
 					this.templateConfiguration = data;
