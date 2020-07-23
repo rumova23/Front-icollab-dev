@@ -77,4 +77,9 @@ export class BinnacleService {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.binnacle }binnacle/configure/associated`, container, {params : this.parameters });
   }
+
+  obtenSupports(binnacleEventId: number) {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ this.binnacle }binnacle/obten/support/${binnacleEventId}`, {params : this.parameters });
+  }
 }

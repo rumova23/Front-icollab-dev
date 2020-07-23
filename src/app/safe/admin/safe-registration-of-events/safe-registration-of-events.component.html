@@ -390,10 +390,11 @@
 			</div>
 			<div class="row">
 				<div class="col">
-					<div *ngFor="let file of files" class="media" (click)="downloadFile()">
-						<img src="assets/img/zip.png" style="width: 64px; height: 64px;">
+					<div *ngFor="let file of files" class="media" >
+						<img src="assets/img/zip.png" style="width: 64px; height: 64px;" (click)="downloadFile(file)">
 						<div class="media-body">
 							<p>Descarga {{file.bearerName}}</p>
+							<app-btn-block-import (click)="btnDeleteFile(file)" label="Delete" *ngIf="!file.bearerId" ></app-btn-block-import>
 						</div>
 					</div>
 				</div>

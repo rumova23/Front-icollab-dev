@@ -7,26 +7,21 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { IdLabel } from 'src/app/core/models/IdLabel';
 import { SecurityService } from 'src/app/core/services/security.service';
-import { requiredFileType } from 'src/app/core/helpers/requiredFileType';
 import {MasterCatalogService} from '../../services/master-catalog.service';
 import {MaestroOpcionDTO} from '../../../compliance/models/maestro-opcion-dto';
-import {forEach} from '@angular/router/src/utils/collection';
-import {Combo} from '../../../compliance/models/Combo';
 import { SelectionModel } from '@angular/cdk/collections';
 import {EventMessage} from '../../../core/models/EventMessage';
 import {EventBlocked} from '../../../core/models/EventBlocked';
 import {EventService} from '../../../core/services/event.service';
 import {BinnacleService} from '../../services/binnacle.service';
 import {BinnacleEventConfigurationDTO} from '../../models/binnacle-event-configuration-dto';
-import { CatalogType } from 'src/app/compliance/models/CatalogType';
 import {BinnacleEventDTO} from '../../models/binnacle-event-dto';
 import {EstatusMaestroService} from '../../../core/services/estatus-maestro.service';
 import {EntidadEstatusDTO} from '../../../compliance/models/entidad-estatus-dto';
-import { map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import {NoteDTO} from '../../models/note-dto';
-import {Constants} from '../../../core/globals/Constants';
 import {BearerDTO} from '../../models/bearer-dto';
+import {Constants} from '../../../core/globals/Constants';
 
 @Component({
 	selector: 'app-safe-registration-of-events',
@@ -95,9 +90,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 
 	lstApprovalStatus: IdLabel[] = [];
 	lstApprovalStatusAll: IdLabel[] = [];
-	eventStatus: string;
-	approvalStatus: string;
-	statusTerminado: number;
 	formValid: boolean;
 
 	tempOrder = 1;
@@ -252,10 +244,309 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		}
 		return listPaso;
 	}
-
 	onBuildEventAssociated(event) {
 		this.lstEvents = [];
 		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === event.value));
+	}
+	applyTemplate(data: BinnacleEventConfigurationDTO) {
+		if (data !== null) {
+			this.templateConfiguration = data;
+
+			if (this.templateConfiguration.disabledFuelsId) {
+				this.formNewEvent.controls.fuelsId.disable();
+			} else {
+				this.formNewEvent.controls.fuelsId.enable();
+				if (this.templateConfiguration.requiredFuelsId) {
+					this.lstRequired.push('fuelsId');
+					this.formNewEvent.controls.fuelsId.setValidators(Validators.required);
+				}
+			}
+			this.lstFuels = this.loadSelectTemplate(this.lstFuelsAll, this.templateConfiguration.fuelsId);
+
+			if (this.templateConfiguration.disabledLicenseDescription) {
+				this.formNewEvent.controls.licenseDescription.disable();
+			} else {
+				this.formNewEvent.controls.licenseDescription.enable();
+				if (this.templateConfiguration.requiredLicenseDescription) {
+					this.lstRequired.push('licenseDescription');
+					this.formNewEvent.controls.licenseDescription.setValidators([Validators.required, Validators.minLength(4), Validators.maxLength(2000)]);
+				}
+
+			}
+			if (this.templateConfiguration.licenseDescription !==  null) {
+				this.formNewEvent.controls.licenseDescription.setValue(this.templateConfiguration.licenseDescription);
+			}
+
+			if (this.templateConfiguration.disabledEquipmentId) {
+				this.formNewEvent.controls.equipmentId.disable();
+			} else {
+				this.formNewEvent.controls.equipmentId.enable();
+				if (this.templateConfiguration.requiredEquipmentId) {
+					this.lstRequired.push('equipmentId');
+					this.formNewEvent.controls.equipmentId.setValidators(Validators.required);
+				}
+			}
+			this.lstEquipment = this.loadSelectTemplate(this.lstEquipmentAll, this.templateConfiguration.equipmentId);
+
+			if (this.templateConfiguration.disabledFinalCharge) {
+				this.formNewEvent.controls.finalCharge.disable();
+			} else {
+				this.formNewEvent.controls.finalCharge.enable();
+				if (this.templateConfiguration.requiredFinalCharge) {
+					this.lstRequired.push('finalCharge');
+					this.formNewEvent.controls.finalCharge.setValidators([Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]);
+					const arrayValidator = [];
+					arrayValidator.push(Validators.required);
+					arrayValidator.push(Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/));
+					if (this.templateConfiguration.finalChargeLimitLower !== null) {
+						arrayValidator.push(Validators.min(this.templateConfiguration.finalChargeLimitLower));
+					}
+					if (this.templateConfiguration.finalChargeLimitUpper !== null) {
+						arrayValidator.push(Validators.max(this.templateConfiguration.finalChargeLimitUpper));
+					}
+					this.formNewEvent.controls.finalCharge.setValidators(arrayValidator);
+				}
+			}
+			if (this.templateConfiguration.finalCharge !==  null) {
+				this.formNewEvent.controls.finalCharge.value(this.templateConfiguration.finalCharge);
+			}
+
+			if (this.templateConfiguration.disabledInitialCharge) {
+				this.formNewEvent.controls.initialCharge.disable();
+			} else {
+				this.formNewEvent.controls.initialCharge.enable();
+				if (this.templateConfiguration.requiredInitialCharge) {
+					this.lstRequired.push('initialCharge');
+					const arrayValidator = [];
+					arrayValidator.push(Validators.required);
+					arrayValidator.push(Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/));
+					if (this.templateConfiguration.initialChargeLimitLower !== null) {
+						arrayValidator.push(Validators.min(this.templateConfiguration.initialChargeLimitLower));
+					}
+					if (this.templateConfiguration.initialChargeLimitUpper !== null) {
+						arrayValidator.push(Validators.max(this.templateConfiguration.initialChargeLimitUpper));
+					}
+					this.formNewEvent.controls.initialCharge.setValidators(arrayValidator);
+				}
+			}
+			if (this.templateConfiguration.initialCharge !==  null) {
+				this.formNewEvent.controls.initialCharge.value(this.templateConfiguration.initialCharge);
+			}
+
+
+			if (this.templateConfiguration.disabledImpactContractsId) {
+				this.formNewEvent.controls.impactContractsId.disable();
+			} else {
+				this.formNewEvent.controls.impactContractsId.enable();
+				if (this.templateConfiguration.requiredImpactContractsId) {
+					this.lstRequired.push('impactContractsId');
+					this.formNewEvent.controls.impactContractsId.setValidators(Validators.required);
+				}
+			}
+			this.lstImpactContracts = this.loadSelectTemplate(this.lstImpactContractsAll, this.templateConfiguration.impactContractsId);
+
+			if (this.templateConfiguration.disabledLicenseNumber) {
+				this.formNewEvent.controls.licenseNumber.disable();
+			} else {
+				this.formNewEvent.controls.licenseNumber.enable();
+				if (this.templateConfiguration.requiredLicenseNumber) {
+					this.lstRequired.push('licenseNumber');
+					this.formNewEvent.controls.licenseNumber.setValidators([Validators.required]);
+				}
+			}
+			if (this.templateConfiguration.licenseNumber !==  null) {
+				this.formNewEvent.controls.licenseNumber.value(this.templateConfiguration.licenseNumber);
+			}
+
+			if (this.templateConfiguration.disabledMarketTypesId) {
+				this.formNewEvent.controls.marketTypesId.disable();
+			} else {
+				this.formNewEvent.controls.marketTypesId.enable();
+				if (this.templateConfiguration.requiredMarketTypesId) {
+					this.lstRequired.push('marketTypesId');
+					this.formNewEvent.controls.marketTypesId.setValidators(Validators.required);
+				}
+			}
+			this.lstMarketTypes = this.loadSelectTemplate(this.lstMarketTypesAll, this.templateConfiguration.marketTypesId);
+
+			if (this.templateConfiguration.disabledMwOffered) {
+				this.formNewEvent.controls.mwOffered.disable();
+			} else {
+				this.formNewEvent.controls.mwOffered.enable();
+				if (this.templateConfiguration.requiredMwOffered) {
+					this.lstRequired.push('mwOffered');
+					const arrayValidator = [];
+					arrayValidator.push(Validators.required);
+					arrayValidator.push(Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/));
+					if (this.templateConfiguration.mwOfferedLimitLower !== null) {
+						arrayValidator.push(Validators.min(this.templateConfiguration.mwOfferedLimitLower));
+					}
+					if (this.templateConfiguration.mwOfferedLimitUpper !== null) {
+						arrayValidator.push(Validators.max(this.templateConfiguration.mwOfferedLimitUpper));
+					}
+					this.formNewEvent.controls.mwOffered.setValidators(arrayValidator);
+				}
+			}
+			if (this.templateConfiguration.mwOffered !==  null) {
+				this.formNewEvent.controls.mwOffered.value(this.templateConfiguration.mwOffered);
+			}
+
+			if (this.templateConfiguration.disabledMwPowerLoss) {
+				this.formNewEvent.controls.mwPowerLoss.disable();
+			} else {
+				this.formNewEvent.controls.mwPowerLoss.enable();
+				if (this.templateConfiguration.requiredMwPowerLoss) {
+					this.lstRequired.push('mwPowerLoss');
+					const arrayValidator = [];
+					arrayValidator.push(Validators.required);
+					arrayValidator.push(Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/));
+					if (this.templateConfiguration.mwPowerLossLimitLower !== null) {
+						arrayValidator.push(Validators.min(this.templateConfiguration.mwPowerLossLimitLower));
+					}
+					if (this.templateConfiguration.mwPowerLossLimitUpper !== null) {
+						arrayValidator.push(Validators.max(this.templateConfiguration.mwPowerLossLimitUpper));
+					}
+					this.formNewEvent.controls.mwPowerLoss.setValidators(arrayValidator);
+				}
+			}
+			if (this.templateConfiguration.mwPowerLoss !==  null) {
+				this.formNewEvent.controls.mwPowerLoss.value(this.templateConfiguration.mwPowerLoss);
+			}
+
+			if (this.templateConfiguration.disabledPowerMw) {
+				this.formNewEvent.controls.powerMw.disable();
+			} else {
+				this.formNewEvent.controls.powerMw.enable();
+				if (this.templateConfiguration.requiredPowerMw) {
+					this.lstRequired.push('powerMw');
+					const arrayValidator = [];
+					arrayValidator.push(Validators.required);
+					arrayValidator.push(Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/));
+					if (this.templateConfiguration.powerMwLimitLower !== null) {
+						arrayValidator.push(Validators.min(this.templateConfiguration.powerMwLimitLower));
+					}
+					if (this.templateConfiguration.powerMwLimitUpper !== null) {
+						arrayValidator.push(Validators.max(this.templateConfiguration.powerMwLimitUpper));
+					}
+					this.formNewEvent.controls.powerMw.setValidators(arrayValidator);
+				}
+			}
+			if (this.templateConfiguration.powerMw !==  null) {
+				this.formNewEvent.controls.powerMw.value(this.templateConfiguration.powerMw);
+			}
+
+			if (this.templateConfiguration.disabledRealsCcdvId) {
+				this.formNewEvent.controls.realsCcdvId.disable();
+			} else {
+				this.formNewEvent.controls.realsCcdvId.enable();
+				if (this.templateConfiguration.requiredRealsCcdvId) {
+					this.lstRequired.push('realsCcdvId');
+					this.formNewEvent.controls.realsCcdvId.setValidators(Validators.required);
+				}
+			}
+			this.lstRealsCcdv = this.loadSelectTemplate(this.lstRealsCcdvAll, this.templateConfiguration.realsCcdvId);
+
+			if (this.templateConfiguration.disabledRelatedServicesId) {
+				this.formNewEvent.controls.relatedServicesId.disable();
+			} else {
+				this.formNewEvent.controls.relatedServicesId.enable();
+				if (this.templateConfiguration.requiredRelatedServicesId) {
+					this.lstRequired.push('relatedServicesId');
+					this.formNewEvent.controls.relatedServicesId.setValidators(Validators.required);
+				}
+			}
+			this.lstSelatedServices = this.loadSelectTemplate(this.lstSelatedServicesAll, this.templateConfiguration.relatedServicesId);
+
+			if (this.templateConfiguration.disabledToleranceBandsId) {
+				this.formNewEvent.controls.toleranceBandsId.disable();
+			} else {
+				this.formNewEvent.controls.toleranceBandsId.enable();
+				if (this.templateConfiguration.requiredToleranceBandsId) {
+					this.lstRequired.push('toleranceBandsId');
+					this.formNewEvent.controls.toleranceBandsId.setValidators(Validators.required);
+				}
+			}
+			this.lstToleranceBands = this.loadSelectTemplate(this.lstToleranceBandsAll, this.templateConfiguration.toleranceBandsId);
+
+			if (this.templateConfiguration.disabledUnitsId) {
+				this.formNewEvent.controls.unitsId.disable();
+			} else {
+				this.formNewEvent.controls.unitsId.enable();
+				if (this.templateConfiguration.requiredUnitsId) {
+					this.lstRequired.push('unitsId');
+					this.formNewEvent.controls.unitsId.setValidators(Validators.required);
+				}
+			}
+			this.lstUnits = this.loadSelectTemplate(this.lstUnitsAll, this.templateConfiguration.unitsId);
+
+			if (this.templateConfiguration.disabledWorkOrderId) {
+				this.formNewEvent.controls.workOrderId.disable();
+			} else {
+				this.formNewEvent.controls.workOrderId.enable();
+				if (this.templateConfiguration.requiredWorkOrderId) {
+					this.lstRequired.push('workOrderId');
+					this.formNewEvent.controls.workOrderId.setValidators([Validators.required, Validators.minLength(4), Validators.maxLength(500)]);
+				}
+			}
+			if (this.templateConfiguration.workOrderId !==  null) {
+				this.formNewEvent.controls.workOrderId.setValue(this.templateConfiguration.workOrderId);
+			}
+
+			if (this.templateConfiguration.disabledCenaceOperatorOpened) {
+				this.formNewEvent.controls.cenaceOperatorOpened.disable();
+			} else {
+				this.formNewEvent.controls.cenaceOperatorOpened.enable();
+				if (this.templateConfiguration.requiredCenaceOperatorOpened) {
+					this.lstRequired.push('cenaceOperatorOpened');
+					this.formNewEvent.controls.cenaceOperatorOpened.setValidators(Validators.required);
+				}
+			}
+			if (this.templateConfiguration.cenaceOperatorOpened !==  null) {
+				this.formNewEvent.controls.cenaceOperatorOpened.setValue(this.templateConfiguration.cenaceOperatorOpened);
+			}
+
+			if (this.templateConfiguration.disabledCenaceOperatorClosed) {
+				this.formNewEvent.controls.cenaceOperatorClosed.disable();
+			} else {
+				this.formNewEvent.controls.cenaceOperatorClosed.enable();
+				if (this.templateConfiguration.requiredCenaceOperatorClosed) {
+					this.lstRequired.push('cenaceOperatorClosed');
+					this.formNewEvent.controls.cenaceOperatorClosed.setValidators(Validators.required);
+				}
+			}
+			if (this.templateConfiguration.cenaceOperatorClosed !==  null) {
+				this.formNewEvent.controls.cenaceOperatorClosed.setValue(this.templateConfiguration.cenaceOperatorClosed);
+			}
+
+			if (this.templateConfiguration.disabledSourceEventId) {
+				this.formNewEvent.controls.sourceEventId.disable();
+			} else {
+				this.formNewEvent.controls.sourceEventId.enable();
+				if (this.templateConfiguration.requiredSourceEventId) {
+					this.lstRequired.push('sourceEventId');
+					this.formNewEvent.controls.sourceEventId.setValidators(Validators.required);
+				}
+			}
+			this.lstSourceEvent = this.loadSelectTemplate(this.lstSourceEventAll, this.templateConfiguration.sourceEventId);
+			this.disabledBtnFinish = false;
+			this.disabledSubmit = false;
+		} else {
+			this.ngOnInit();
+			this.disabledBtnFinish = true;
+			this.disabledSubmit = true;
+			this.toastr.warningToastr('El template para el evento: Aun no es Configurado.', 'Advertencia!');
+		}
+	}
+	obtenSupports() {
+		this.binnacleService.obtenSupports(this.catalogType.element.binnacleEventID).subscribe((data: Array<BearerDTO>)  => {
+			this.files = data;
+		},
+		errorData => {
+			this.addBlock(2, '');
+			this.toastr.errorToastr(errorData.error.message, 'Error!');
+		},
+		() => {
+		});
 	}
 	onBuildTemplate(event) {
 		let eventsClassificationId = 0;
@@ -265,313 +556,25 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		switch (this.catalogType.action) {
 			case 'nuevo':
 				eventsClassificationId = this.formNewEvent.controls.eventsClassificationId.value;
+				this.binnacleService.obtenTemplate(eventsClassificationId, event).subscribe(
+					(data: BinnacleEventConfigurationDTO) => {
+						this.applyTemplate(data);
+					},
+					errorData => {
+						this.ngOnInit();
+						this.disabledBtnFinish = true;
+						this.disabledSubmit = true;
+						this.toastr.errorToastr(errorData.error.message, 'Error!');
+					},
+					() => {
+						console.log('RTC');
+					});
 				break;
 			case 'editar':
-				eventsClassificationId = this.catalogType.element.eventsClassificationId;
-				break;
 			case 'ver':
-				eventsClassificationId = this.catalogType.element.eventsClassificationId;
+				this.applyTemplate(this.catalogType.element.binnacleEventConfigurationDTO);
 				break;
 		}
-		this.binnacleService.obtenTemplate(eventsClassificationId, event).subscribe(
-			(data: BinnacleEventConfigurationDTO) => {
-				if (data !== null) {
-					this.templateConfiguration = data;
-
-					if (this.templateConfiguration.disabledFuelsId) {
-						this.formNewEvent.controls.fuelsId.disable();
-					} else {
-						this.formNewEvent.controls.fuelsId.enable();
-						if (this.templateConfiguration.requiredFuelsId) {
-							this.lstRequired.push('fuelsId');
-							this.formNewEvent.controls.fuelsId.setValidators(Validators.required);
-						}
-					}
-					this.lstFuels = this.loadSelectTemplate(this.lstFuelsAll, this.templateConfiguration.fuelsId);
-
-					if (this.templateConfiguration.disabledLicenseDescription) {
-						this.formNewEvent.controls.licenseDescription.disable();
-					} else {
-						this.formNewEvent.controls.licenseDescription.enable();
-						if (this.templateConfiguration.requiredLicenseDescription) {
-							this.lstRequired.push('licenseDescription');
-							this.formNewEvent.controls.licenseDescription.setValidators([Validators.required, Validators.minLength(4), Validators.maxLength(2000)]);
-						}
-
-					}
-					if (this.templateConfiguration.licenseDescription !==  null) {
-						this.formNewEvent.controls.licenseDescription.setValue(this.templateConfiguration.licenseDescription);
-					}
-
-					if (this.templateConfiguration.disabledEquipmentId) {
-						this.formNewEvent.controls.equipmentId.disable();
-					} else {
-						this.formNewEvent.controls.equipmentId.enable();
-						if (this.templateConfiguration.requiredEquipmentId) {
-							this.lstRequired.push('equipmentId');
-							this.formNewEvent.controls.equipmentId.setValidators(Validators.required);
-						}
-					}
-					this.lstEquipment = this.loadSelectTemplate(this.lstEquipmentAll, this.templateConfiguration.equipmentId);
-
-					if (this.templateConfiguration.disabledFinalCharge) {
-						this.formNewEvent.controls.finalCharge.disable();
-					} else {
-						this.formNewEvent.controls.finalCharge.enable();
-						if (this.templateConfiguration.requiredFinalCharge) {
-							this.lstRequired.push('finalCharge');
-							this.formNewEvent.controls.finalCharge.setValidators([Validators.required, Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/)]);
-							const arrayValidator = [];
-							arrayValidator.push(Validators.required);
-							arrayValidator.push(Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/));
-							if (this.templateConfiguration.finalChargeLimitLower !== null) {
-								arrayValidator.push(Validators.min(this.templateConfiguration.finalChargeLimitLower));
-							}
-							if (this.templateConfiguration.finalChargeLimitUpper !== null) {
-								arrayValidator.push(Validators.max(this.templateConfiguration.finalChargeLimitUpper));
-							}
-							this.formNewEvent.controls.finalCharge.setValidators(arrayValidator);
-						}
-					}
-					if (this.templateConfiguration.finalCharge !==  null) {
-						this.formNewEvent.controls.finalCharge.value(this.templateConfiguration.finalCharge);
-					}
-
-					if (this.templateConfiguration.disabledInitialCharge) {
-						this.formNewEvent.controls.initialCharge.disable();
-					} else {
-						this.formNewEvent.controls.initialCharge.enable();
-						if (this.templateConfiguration.requiredInitialCharge) {
-							this.lstRequired.push('initialCharge');
-							const arrayValidator = [];
-							arrayValidator.push(Validators.required);
-							arrayValidator.push(Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/));
-							if (this.templateConfiguration.initialChargeLimitLower !== null) {
-								arrayValidator.push(Validators.min(this.templateConfiguration.initialChargeLimitLower));
-							}
-							if (this.templateConfiguration.initialChargeLimitUpper !== null) {
-								arrayValidator.push(Validators.max(this.templateConfiguration.initialChargeLimitUpper));
-							}
-							this.formNewEvent.controls.initialCharge.setValidators(arrayValidator);
-						}
-					}
-					if (this.templateConfiguration.initialCharge !==  null) {
-						this.formNewEvent.controls.initialCharge.value(this.templateConfiguration.initialCharge);
-					}
-
-
-					if (this.templateConfiguration.disabledImpactContractsId) {
-						this.formNewEvent.controls.impactContractsId.disable();
-					} else {
-						this.formNewEvent.controls.impactContractsId.enable();
-						if (this.templateConfiguration.requiredImpactContractsId) {
-							this.lstRequired.push('impactContractsId');
-							this.formNewEvent.controls.impactContractsId.setValidators(Validators.required);
-						}
-					}
-					this.lstImpactContracts = this.loadSelectTemplate(this.lstImpactContractsAll, this.templateConfiguration.impactContractsId);
-
-					if (this.templateConfiguration.disabledLicenseNumber) {
-						this.formNewEvent.controls.licenseNumber.disable();
-					} else {
-						this.formNewEvent.controls.licenseNumber.enable();
-						if (this.templateConfiguration.requiredLicenseNumber) {
-							this.lstRequired.push('licenseNumber');
-							this.formNewEvent.controls.licenseNumber.setValidators([Validators.required]);
-						}
-					}
-					if (this.templateConfiguration.licenseNumber !==  null) {
-						this.formNewEvent.controls.licenseNumber.value(this.templateConfiguration.licenseNumber);
-					}
-
-					if (this.templateConfiguration.disabledMarketTypesId) {
-						this.formNewEvent.controls.marketTypesId.disable();
-					} else {
-						this.formNewEvent.controls.marketTypesId.enable();
-						if (this.templateConfiguration.requiredMarketTypesId) {
-							this.lstRequired.push('marketTypesId');
-							this.formNewEvent.controls.marketTypesId.setValidators(Validators.required);
-						}
-					}
-					this.lstMarketTypes = this.loadSelectTemplate(this.lstMarketTypesAll, this.templateConfiguration.marketTypesId);
-
-					if (this.templateConfiguration.disabledMwOffered) {
-						this.formNewEvent.controls.mwOffered.disable();
-					} else {
-						this.formNewEvent.controls.mwOffered.enable();
-						if (this.templateConfiguration.requiredMwOffered) {
-							this.lstRequired.push('mwOffered');
-							const arrayValidator = [];
-							arrayValidator.push(Validators.required);
-							arrayValidator.push(Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/));
-							if (this.templateConfiguration.mwOfferedLimitLower !== null) {
-								arrayValidator.push(Validators.min(this.templateConfiguration.mwOfferedLimitLower));
-							}
-							if (this.templateConfiguration.mwOfferedLimitUpper !== null) {
-								arrayValidator.push(Validators.max(this.templateConfiguration.mwOfferedLimitUpper));
-							}
-							this.formNewEvent.controls.mwOffered.setValidators(arrayValidator);
-						}
-					}
-					if (this.templateConfiguration.mwOffered !==  null) {
-						this.formNewEvent.controls.mwOffered.value(this.templateConfiguration.mwOffered);
-					}
-
-					if (this.templateConfiguration.disabledMwPowerLoss) {
-						this.formNewEvent.controls.mwPowerLoss.disable();
-					} else {
-						this.formNewEvent.controls.mwPowerLoss.enable();
-						if (this.templateConfiguration.requiredMwPowerLoss) {
-							this.lstRequired.push('mwPowerLoss');
-							const arrayValidator = [];
-							arrayValidator.push(Validators.required);
-							arrayValidator.push(Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/));
-							if (this.templateConfiguration.mwPowerLossLimitLower !== null) {
-								arrayValidator.push(Validators.min(this.templateConfiguration.mwPowerLossLimitLower));
-							}
-							if (this.templateConfiguration.mwPowerLossLimitUpper !== null) {
-								arrayValidator.push(Validators.max(this.templateConfiguration.mwPowerLossLimitUpper));
-							}
-							this.formNewEvent.controls.mwPowerLoss.setValidators(arrayValidator);
-						}
-					}
-					if (this.templateConfiguration.mwPowerLoss !==  null) {
-						this.formNewEvent.controls.mwPowerLoss.value(this.templateConfiguration.mwPowerLoss);
-					}
-
-					if (this.templateConfiguration.disabledPowerMw) {
-						this.formNewEvent.controls.powerMw.disable();
-					} else {
-						this.formNewEvent.controls.powerMw.enable();
-						if (this.templateConfiguration.requiredPowerMw) {
-							this.lstRequired.push('powerMw');
-							const arrayValidator = [];
-							arrayValidator.push(Validators.required);
-							arrayValidator.push(Validators.pattern(/(^-?\d+$|^-?\d+\.\d+$)/));
-							if (this.templateConfiguration.powerMwLimitLower !== null) {
-								arrayValidator.push(Validators.min(this.templateConfiguration.powerMwLimitLower));
-							}
-							if (this.templateConfiguration.powerMwLimitUpper !== null) {
-								arrayValidator.push(Validators.max(this.templateConfiguration.powerMwLimitUpper));
-							}
-							this.formNewEvent.controls.powerMw.setValidators(arrayValidator);
-						}
-					}
-					if (this.templateConfiguration.powerMw !==  null) {
-						this.formNewEvent.controls.powerMw.value(this.templateConfiguration.powerMw);
-					}
-
-					if (this.templateConfiguration.disabledRealsCcdvId) {
-						this.formNewEvent.controls.realsCcdvId.disable();
-					} else {
-						this.formNewEvent.controls.realsCcdvId.enable();
-						if (this.templateConfiguration.requiredRealsCcdvId) {
-							this.lstRequired.push('realsCcdvId');
-							this.formNewEvent.controls.realsCcdvId.setValidators(Validators.required);
-						}
-					}
-					this.lstRealsCcdv = this.loadSelectTemplate(this.lstRealsCcdvAll, this.templateConfiguration.realsCcdvId);
-
-					if (this.templateConfiguration.disabledRelatedServicesId) {
-						this.formNewEvent.controls.relatedServicesId.disable();
-					} else {
-						this.formNewEvent.controls.relatedServicesId.enable();
-						if (this.templateConfiguration.requiredRelatedServicesId) {
-							this.lstRequired.push('relatedServicesId');
-							this.formNewEvent.controls.relatedServicesId.setValidators(Validators.required);
-						}
-					}
-					this.lstSelatedServices = this.loadSelectTemplate(this.lstSelatedServicesAll, this.templateConfiguration.relatedServicesId);
-
-					if (this.templateConfiguration.disabledToleranceBandsId) {
-						this.formNewEvent.controls.toleranceBandsId.disable();
-					} else {
-						this.formNewEvent.controls.toleranceBandsId.enable();
-						if (this.templateConfiguration.requiredToleranceBandsId) {
-							this.lstRequired.push('toleranceBandsId');
-							this.formNewEvent.controls.toleranceBandsId.setValidators(Validators.required);
-						}
-					}
-					this.lstToleranceBands = this.loadSelectTemplate(this.lstToleranceBandsAll, this.templateConfiguration.toleranceBandsId);
-
-					if (this.templateConfiguration.disabledUnitsId) {
-						this.formNewEvent.controls.unitsId.disable();
-					} else {
-						this.formNewEvent.controls.unitsId.enable();
-						if (this.templateConfiguration.requiredUnitsId) {
-							this.lstRequired.push('unitsId');
-							this.formNewEvent.controls.unitsId.setValidators(Validators.required);
-						}
-					}
-					this.lstUnits = this.loadSelectTemplate(this.lstUnitsAll, this.templateConfiguration.unitsId);
-
-					if (this.templateConfiguration.disabledWorkOrderId) {
-						this.formNewEvent.controls.workOrderId.disable();
-					} else {
-						this.formNewEvent.controls.workOrderId.enable();
-						if (this.templateConfiguration.requiredWorkOrderId) {
-							this.lstRequired.push('workOrderId');
-							this.formNewEvent.controls.workOrderId.setValidators([Validators.required, Validators.minLength(4), Validators.maxLength(500)]);
-						}
-					}
-					if (this.templateConfiguration.workOrderId !==  null) {
-						this.formNewEvent.controls.workOrderId.setValue(this.templateConfiguration.workOrderId);
-					}
-
-					if (this.templateConfiguration.disabledCenaceOperatorOpened) {
-						this.formNewEvent.controls.cenaceOperatorOpened.disable();
-					} else {
-						this.formNewEvent.controls.cenaceOperatorOpened.enable();
-						if (this.templateConfiguration.requiredCenaceOperatorOpened) {
-							this.lstRequired.push('cenaceOperatorOpened');
-							this.formNewEvent.controls.cenaceOperatorOpened.setValidators(Validators.required);
-						}
-					}
-					if (this.templateConfiguration.cenaceOperatorOpened !==  null) {
-						this.formNewEvent.controls.cenaceOperatorOpened.setValue(this.templateConfiguration.cenaceOperatorOpened);
-					}
-
-					if (this.templateConfiguration.disabledCenaceOperatorClosed) {
-						this.formNewEvent.controls.cenaceOperatorClosed.disable();
-					} else {
-						this.formNewEvent.controls.cenaceOperatorClosed.enable();
-						if (this.templateConfiguration.requiredCenaceOperatorClosed) {
-							this.lstRequired.push('cenaceOperatorClosed');
-							this.formNewEvent.controls.cenaceOperatorClosed.setValidators(Validators.required);
-						}
-					}
-					if (this.templateConfiguration.cenaceOperatorClosed !==  null) {
-						this.formNewEvent.controls.cenaceOperatorClosed.setValue(this.templateConfiguration.cenaceOperatorClosed);
-					}
-
-					if (this.templateConfiguration.disabledSourceEventId) {
-						this.formNewEvent.controls.sourceEventId.disable();
-					} else {
-						this.formNewEvent.controls.sourceEventId.enable();
-						if (this.templateConfiguration.requiredSourceEventId) {
-							this.lstRequired.push('sourceEventId');
-							this.formNewEvent.controls.sourceEventId.setValidators(Validators.required);
-						}
-					}
-					this.lstSourceEvent = this.loadSelectTemplate(this.lstSourceEventAll, this.templateConfiguration.sourceEventId);
-					this.disabledBtnFinish = false;
-					this.disabledSubmit = false;
-				} else {
-					this.ngOnInit();
-					this.disabledBtnFinish = true;
-					this.disabledSubmit = true;
-					this.toastr.warningToastr('El template para el evento: ' + event.label  + ': Aun no es Configurado.', 'Advertencia!');
-				}
-			},
-			errorData => {
-				this.ngOnInit();
-				this.disabledBtnFinish = true;
-				this.disabledSubmit = true;
-				this.toastr.errorToastr(errorData.error.message, 'Error!');
-			},
-			() => {
-				console.log('RTC');
-			});
 	}
 	loadCatalogStatus(entidad: string, lstStatus: IdLabel[]) {
 		this.estatusMaestroService.getCatalogoEntidad(entidad).subscribe((data: Array<EntidadEstatusDTO>)  => {
@@ -643,8 +646,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.tempOrder ++;
 					});
 				}
-
-				this.files = this.catalogType.element.bearers;
+				this.obtenSupports();
 			}
 			if (this.catalogType.action === 'ver') {
 				if (this.catalogType.element.observations !== null) {
@@ -655,8 +657,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.tempOrder ++;
 					});
 				}
-
-				this.files = this.catalogType.element.bearers;
+				this.obtenSupports();
 				this.disabledSubmit = true;
 				this.disabledBtnFinish = true;
 				this.commonDisabled();
@@ -762,10 +763,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			new EventMessage(null, type, 'Safe.SafeListOfEventsComponent')
 		);
 	}
-
 	BtnAddObservationsComments() {
 		const observation = this.formobservationsComments.get('observationsComments').value;
-		if (observation != null && observation !== '') {
+		if (observation != null && observation.trim() !== '') {
 			this.tableObservationsComments = this.tableObservationsComments.concat({
 				order: this.tempOrder, name: this.getNameUser(), observation, dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: true
 			});
@@ -778,10 +778,11 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			this.formobservationsComments.get('observationsComments').setValue('');
 
 			const observations: Array<NoteDTO> = [];
+		} else {
+			this.toastr.errorToastr('La observacion no puede ser vacia', 'Error!');
 		}
 		this.getTableObservationsCommentsSelectionChecked();
 	}
-
 	btnUploadFile() {
 		const value = this.fileUploadForm.value;
 		const reader = new FileReader();
@@ -799,7 +800,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		}
 		reader.readAsDataURL(value.file);
 	}
-
 	getContentType(extencion) {
 		let contentType = '';
 		switch (extencion) {
@@ -983,12 +983,15 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 
 		return contentType;
 	}
-
 	btnFinish() {
 		this.submitted = true;
 		this.lstRequired.forEach(field => {
 			const control = this.formNewEvent.get(field);
-			control.patchValue(this.formNewEvent.get(field).value);
+			if ( typeof(this.formNewEvent.controls[field].value) === 'string') {
+				control.patchValue(this.formNewEvent.controls[field].value.trim());
+			} else {
+				control.patchValue(this.formNewEvent.get(field).value);
+			}
 		});
 
 		if (this.formNewEvent.valid) {
@@ -1015,7 +1018,28 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		})
 		.catch(() => {});
 	}
-	downloadFile() {
+	downloadFile(bearer: BearerDTO) {
+		const blob = new Blob([this.base64toBlob(bearer.bearerData,
+			bearer.bearerContentType)], {});
+		saveAs(blob, bearer.bearerName);
+	}
+	base64toBlob(base64Data, contentType) {
+		contentType = contentType || '';
+		const sliceSize = 1024;
+		const byteCharacters = atob(base64Data);
+		const bytesLength = byteCharacters.length;
+		const slicesCount = Math.ceil(bytesLength / sliceSize);
+		const byteArrays = new Array(slicesCount);
+		for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+			const begin = sliceIndex * sliceSize;
+			const end = Math.min(begin + sliceSize, bytesLength);
+			const bytes = new Array(end - begin);
+			for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+				bytes[i] = byteCharacters[offset].charCodeAt(0);
+			}
+			byteArrays[sliceIndex] = new Uint8Array(bytes);
+		}
+		return new Blob(byteArrays, { type: contentType });
 	}
 	getNameUser() {
 		return this.securityService.getNameUser() + ' ' + this.securityService.getLastNameUser();
@@ -1036,5 +1060,19 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			new EventMessage(null, type, 'Safe.SafeListOfEventsComponent')
 			);
 		});
+	}
+	btnDeleteFile(file: BearerDTO) {
+		this.confirmationDialogService.confirm(
+			'Confirmación',
+			'¿Está seguro de eliminar el Archivo?'
+		)
+			.then((confirmed) => {
+				if ( confirmed ) {
+					this.files = this.files.filter(
+						e => e !== file
+					);
+				}
+			})
+			.catch(() => {});
 	}
 }
