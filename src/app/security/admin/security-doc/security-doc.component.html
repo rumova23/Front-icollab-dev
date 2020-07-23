@@ -99,10 +99,9 @@
 			<p><strong>[selection]="selection"</strong></p>
 			<p>Es una lista de "objetos identicosa [data]" que representan los elementos con el checkbox seleccionado. 
 				</p>
-			<div class="codigo">
-				selection : SelectionModel&lt;any&gt; = new SelectionModel&lt;any&gt;(true, []);
+			<div class="codigo py-2">
+				{{codes.tableSelectionModel}}
 			</div>
-			<div class="codigo">-- this.selection.selected;--</div>
 			<p> esto retornara una lista con los elementos que se encuentran seleccionados.</p>
 			
 			<p>Existen 4 columnas que genera el componente de forma automatica (estas columnas seran agregadas si se especifican en la lista "[columnsDisplay]="tableColumnsDisplay""):</p>
@@ -116,18 +115,7 @@
 			
 			<div class="row mt-4">
 				<div class="col py-4 codigo">
-					<pre class="my-0">
-&lt;app-mat-table 
-	[data]="tableData"
-	[columnsLabels]="tablaColumnsLabels"
-	[columnsDisplay]="tableColumnsDisplay"
-	[row_x_page]="tableRow_x_page"
-	[selection]="selection"
-	selectionLabel="Visible"
-	(clickSee)="tableRowSee($event)"
-	(clickEdit)="tableRowEdit($event)"
-	(clickDelete)="tableRowDelete($event)"
-&gt;&lt;/app-mat-table&gt;</pre>
+					<pre class="my-0">{{codes.tableTable}}</pre>
 				</div>
 			</div>
 			<br>	
@@ -135,56 +123,7 @@
 			<p class="section_titulo_0">Ejemplo de los datos que se le pasan al componente que crea la tabla.</p>
 			<div class="row mt-4">
 				<div class="col py-4 codigo">
-					<pre class="my-0">
-tableData = &#91;
-	&#123;order:1,fechaOp:new Date(),fuenteImport:'2da Corrida MM',usuario:'Usuario'  ,fechaMod:new Date(),estatus:'exitosa'&#125;,
-	&#123;order:2,fechaOp:new Date(),fuenteImport:'2da Corrida MM',usuario:'Sistema'  ,fechaMod:new Date(),estatus:'exitosa'&#125;,
-	&#123;order:3,fechaOp:new Date(),fuenteImport:'1ra Corrida MM',usuario:'Usuario'  ,fechaMod:new Date(),estatus:'exitosa'&#125;,
-	&#123;order:4,fechaOp:new Date(),fuenteImport:'1ra Corrida MM',usuario:'Sistema'  ,fechaMod:new Date(),estatus:'exitosa'&#125;,
-	&#123;order:5,fechaOp:new Date(),fuenteImport:'1ra Corrida MM',usuario:'Sistema'  ,fechaMod:new Date(),estatus:'exitosa'&#125;
-&#93;;
-tablaColumnsLabels=&#91;
-	&#123; key: 'order'        , label: '#' &#125;,
-	&#123; key: 'fechaOp'      , label: 'Fecha de Operación Comercial'       , dateFormat:'dd/MM/yyyy' &#125;,
-	&#123; key: 'fuenteImport' , label: 'Fuente de Importación' &#125;,
-	&#123; key: 'usuario'      , label: 'Usuario' &#125;,
-	&#123; key: 'fechaMod'     , label: 'Fecha y Hora Ultima Modificación'   , dateFormat:'dd/MM/yyyy' &#125;,
-	&#123; key: 'estatus'      , label: 'Estatus de la Importación' &#125;
-&#93;;
-tableColumnsDisplay: string&#91;&#93; = &#91;
-	'sys_checkbox',
-	'order',
-	'fechaOp',
-	'fuenteImport',
-	'usuario',
-	'fechaMod',
-	'estatus',
-	'sys_see',
-	'sys_edit',
-	'sys_delete'
-&#93;;
-tableRow_x_page = &#91;5,10&#93;;
-
-selection : SelectionModel&lt;any&gt; = new SelectionModel&lt;any&gt;(true, []);
-
-para pasarle elementos que seran los seleccionados.
-
-...
-this.selection.select(this.tableDataDemo[2],this.tableDataDemo[3]);
-ó
-this.selection.select(...this.lst.filter(e => e.visible === true));
-...
-
-para recuperar los elementos que tienen el checkbox activado:
-
-...
-let seleccionados = this.selection.selected;
-ó
-this.selection.changed.subscribe(event=>&#123;
-	let algo = this.selection.selected;
-	&#125;);
-...
-</pre>
+					<pre class="my-0">{{codes.table01}}</pre>
 				</div>
 			</div>
 			
@@ -202,120 +141,145 @@ this.selection.changed.subscribe(event=>&#123;
 			<p class="section_titulo_0">Botones</p>
 		</div>
 	</div>
+	<hr>
 	<div class="row">
-		<div class="col-4 my-2">
-			<app-btn-block (click)="clickBtn()" label="Aplicar Detección Procedimiento" [addClass]="['tester-00']">
-			</app-btn-block>
-		</div>
-		<div class="col-4 my-2">
-			<app-btn-block-download (click)="clickBtn()"></app-btn-block-download>
-		</div>
-		<div class="col-4 my-2">
-			<app-btn-block-import (click)="clickBtn()"></app-btn-block-import>
-		</div>
-		<div class="col-4 my-2">
-			<app-btn-block-save (click)="clickBtn()"></app-btn-block-save>
-		</div>
-		<div class="col-4 my-2">
-			<app-btn-block-save-update (click)="clickBtn()"></app-btn-block-save-update>
-		</div>
-		<div class="col-4 my-2">
-			<app-btn-block-finish (click)="clickBtn()"></app-btn-block-finish>
-		</div>
-		<div class="col-4 my-2">
-			<app-btn-block-acept (click)="clickBtn()"></app-btn-block-acept>
-		</div>
-		<div class="col-4 my-2">
-			<app-btn-block-cancel (click)="clickBtn()"></app-btn-block-cancel>
-		</div>
-		<div class="col-4 my-2">
-			<app-btn-block-graph (click)="clickBtn()"></app-btn-block-graph>
-		</div>
-		<div class="col-4 my-2">
-			<app-btn-block-add (click)="clickBtn()"></app-btn-block-add>
+		<div class="col-4 my-2"><app-btn-block                    (myClick)="clickBtn()" label="Aplicar Detección Procedimiento" [addClass]="['tester-00']"></app-btn-block></div>
+		<div class="col-4 my-2"><app-btn-block-acept              (myClick)="clickBtn()"></app-btn-block-acept></div>
+		<div class="col-4 my-2"><app-btn-block-add                (myClick)="clickBtn()"></app-btn-block-add></div>
+		<div class="col-4 my-2"><app-btn-block-back               (myClick)="clickBtn()"></app-btn-block-back></div>
+		<div class="col-4 my-2"><app-btn-block-cancel             (myClick)="clickBtn()"></app-btn-block-cancel></div>
+		<div class="col-4 my-2"><app-btn-block-clean              (myClick)="clickBtn()"></app-btn-block-clean></div>
+		<div class="col-4 my-2"><app-btn-block-consult            (myClick)="clickBtn()"></app-btn-block-consult></div>
+		<div class="col-4 my-2"><app-btn-block-download-layout    (myClick)="clickBtn()"></app-btn-block-download-layout></div>
+		<div class="col-4 my-2"><app-btn-block-download           (myClick)="clickBtn()"></app-btn-block-download></div>
+		<div class="col-4 my-2"><app-btn-block-finish             (myClick)="clickBtn()"></app-btn-block-finish></div>
+		<div class="col-4 my-2"><app-btn-block-graph              (myClick)="clickBtn()"></app-btn-block-graph></div>
+		<div class="col-4 my-2"><app-btn-block-import             (myClick)="clickBtn()"></app-btn-block-import></div>
+		<div class="col-4 my-2"><app-btn-block-save-update        (myClick)="clickBtn()"></app-btn-block-save-update></div>
+		<div class="col-4 my-2"><app-btn-block-save               (myClick)="clickBtn()"></app-btn-block-save></div>
+		<div class="col-4 my-2"><app-btn-block-search             (myClick)="clickBtn()"></app-btn-block-search></div>
+	</div>
+	<div class="row mt-4">
+		<div class="col py-4 codigo">
+			<pre class="my-0">{{codes.btn}}</pre>
 		</div>
 	</div>
-	<div class="row">
-		<pre>
-&lt;app-btn-block             (click)=&quot;clickBtn()&quot; label=&quot;Aplicar Detección Procedimiento&quot; [addClass]=&quot;['tester-00']&quot;&gt;&lt;/app-btn-block&gt;
-&lt;app-btn-block-download    (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-download&gt;
-&lt;app-btn-block-import      (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-import&gt;
-&lt;app-btn-block-save        (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-save&gt;
-&lt;app-btn-block-save-update (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-save-update&gt;
-&lt;app-btn-block-finish      (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-finish&gt;
-&lt;app-btn-block-acept       (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-acept&gt;
-&lt;app-btn-block-cancel      (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-cancel&gt;
-		</pre>
-	</div>
-	<div class="row">
-		<div class="col"> Inputs</div>
-	</div>
-	<div class="row">
-		<div class="col-5">
-			<app-mat-input-datepicker-year-and-month 
-				[formGroup]="form"
-				controlName="dateYearAndMonth"
-				(eventChange)="chosenMonthHandler($event)" 
-				label="Commercial Operation Date"
-			></app-mat-input-datepicker-year-and-month>
+	<br>
+	<p>
+		A los botones se les puede indicar su tipo "Type" mediante el atributo "myType", este atrubuto por defecto es de tipo "button", pero se puede especificar para que sea de tipo "submit".
+	</p>
+	<p>
+		Tiene su propio evento "click" que se llama mediante su propiedad "myClick" , esto con el fin de que si el boton se desactiba no se lanza el evento.
+	</p>
+	<p>
+		mediante la propiedad "disabled" se le puede indicar que desactive el boton.
+	</p>
+	<p>
+		si dentro del boton requieres un texto muy particular que no este dentro de los botones que se utilizan , 
+		se puede hacer uso del atributo "label" con el componente {{codes.btnBase}}
+	</p>
+	<br>
+	<div class="col-4 my-2"><app-btn-block-acept (myClick)="clickBtn()" myType="submit" [disabled]="true"></app-btn-block-acept></div>
+	<div class="row mt-4">
+		<div class="col py-4 codigo">
+			<pre class="my-0">{{codes.btnAtributes}}</pre>
 		</div>
 	</div>
+</div>
+<div class="section">
 	<div class="row">
 		<div class="col">
-			<pre>
-&lt;app-mat-input-datepicker-year-and-month (eventChange)=&quot;chosenMonthHandler($event)&quot; label=&quot;Fecha de Operación Comercial&quot;&gt;&lt;/app-mat-input-datepicker-year-and-month&gt;
-			</pre>
+			<p class="section_titulo_0">Inputs</p>
+			<p class="section_subtitulo_0">Así seávisualizaran los diferentes Inputs en le sistema</p>
 		</div>
 	</div>
+	<hr>
 	<div class="row">
 		<div class="col">
-			<app-mat-input-text-autocomplete 
-				[formGroup]="form"
-				controlName="aotucomplete"
-				[options]="listOptionsAutocomplete"
-				label="aotucomplete"
-				filter="includes">
-			</app-mat-input-text-autocomplete>
+			<p>
+				Para los input se hace uso de formularios reactivos. 
+				en el .ts se debera crear una estructura similar a la siguiente:
+			</p>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col">
-			<app-mat-select
-					[formGroup]="form"
-					controlName="select"
-					[options]="selectOptionsFuente"
-					label="select"
-					(eventChange)="onChangeSelectFuente($event)"
-			></app-mat-select>
+	<div class="row my-4">
+		<div class="col py-4 codigo">
+			<pre class="my-0">{{codes.inputTs}}</pre>
 		</div>
 	</div>
+	<hr>
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-input-datepicker-year-and-month 
+			[formGroup]="form"
+			controlName="dateYearAndMonth"
+			(eventChange)="onDatepickeryearAndMonth($event)" 
+			label="Commercial Operation Date"
+		></app-mat-input-datepicker-year-and-month>
+	</div></div>
+	<div class="row my-4">
+		<div class="col py-4 codigo">
+			<pre class="my-0">{{codes.btnDatepickerYearAndMonth}}</pre>
+		</div>
+	</div>
+	<hr>
+
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-input-datepicker
+			[formGroup]="form"
+			controlName="datePicker"
+			(eventChange)="onDatePicker($event)" 
+			label="Commercial Operation Date"
+		></app-mat-input-datepicker>
+	</div></div>
+	<div class="row my-4">
+		<div class="col py-4 codigo">
+			<pre class="my-0">{{codes.btnDatepicker}}</pre>
+		</div>
+	</div>
+	<hr>
+
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-input-text-autocomplete 
+			[formGroup]="form"
+			controlName="aotucomplete"
+			[options]="listOptionsAutocomplete"
+			label="aotucomplete"
+			filter="includes">
+		</app-mat-input-text-autocomplete>
+	</div></div>
+	
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-select
+			[formGroup]="form"
+			controlName="select"
+			[options]="selectOptionsFuente"
+			label="select"
+			(eventChange)="onChangeSelectFuente($event)"
+		></app-mat-select>
+	</div></div>
+	
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-select-multiple
+			[formGroup]="form"
+			controlName="select"
+			[options]="selectOptionsFuenteMultiselect"
+			label="select"
+		></app-mat-select-multiple>
+	</div></div>
+	
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-select-multiple
+			[formGroup]="form"
+			controlName="select"
+			[options]="selectOptionsFuenteMultiselect"
+			[disableOption]="true"
+			label="select"
+		></app-mat-select-multiple>
+	</div></div>
+	
+	<div class="row"><div class="col-12 col-lg-4">
+		
+	</div></div>
 
 
-	<div class="row">
-		<div class="col">
-			<app-mat-select-multiple
-					[formGroup]="form"
-					controlName="select"
-					[options]="selectOptionsFuenteMultiselect"
-					label="select"
-			></app-mat-select-multiple>
-		</div>
-	</div>
-
-
-	<div class="row">
-		<div class="col">
-			<app-mat-select-multiple
-					[formGroup]="form"
-					controlName="select"
-					[options]="selectOptionsFuenteMultiselect"
-					[disableOption]="true"
-					label="select"
-			></app-mat-select-multiple>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col">
-		</div>
-	</div>
 </div>

@@ -6,6 +6,8 @@ import { IdLabel } from 'src/app/core/models/IdLabel';
 import * as moment from 'moment';
 import { SelectionModel } from '@angular/cdk/collections';
 import { timer } from 'rxjs';
+import { code } from './code';
+import { DatePipe } from '@angular/common';
 
 @Component({
 	selector: 'app-security-doc',
@@ -13,6 +15,7 @@ import { timer } from 'rxjs';
 	styleUrls: ['./security-doc.component.scss']
 })
 export class SecurityDocComponent implements OnInit {
+	codes = code;
 	listOptionsAutocomplete = ['One', 'Two', 'Three','Three','Threes','María'];
 	form : FormGroup;
 	tableDataDemo = [];
@@ -50,7 +53,8 @@ export class SecurityDocComponent implements OnInit {
 	
 	constructor(
 		public toastr: ToastrManager,
-		private formBuilder: FormBuilder
+		private formBuilder: FormBuilder,
+		private datePipe: DatePipe
 	) { }
 
 	ngOnInit() {
@@ -62,6 +66,7 @@ export class SecurityDocComponent implements OnInit {
 			name: [{ value: '', disabled: false }, Validators.required],
 			aotucomplete: [{ value: '', disabled: false }, Validators.required],
 			dateYearAndMonth:[{ value: null, disabled: false }],
+			datePicker:[{ value: null, disabled: false }],
 			select: [{ value: '', disabled: false }, Validators.required]
 		});
 	}
@@ -95,15 +100,15 @@ export class SecurityDocComponent implements OnInit {
 	}
 	
 	clickBtn() {
-		console.log(this.selection.selected);
-		
-		console.log(this.form.value);
 		this.toastr.successToastr('Evento click', '¡Se ha logrado!');
 	}
-	chosenMonthHandler(d: Moment) {
+	onDatepickeryearAndMonth(d: Moment) {
 		this.toastr.successToastr(d.format('MM/yyyy'), '¡Se ha logrado!');
 	}
-
+	onDatePicker(d :Date){
+		let a = this.datePipe.transform(d, 'dd/MM/yyyy')
+		this.toastr.successToastr(a, '¡Se ha logrado!');
+	}
 	onChangeSelectFuente(e){
 		this.toastr.successToastr('Evento change', '¡Fuente seleccionada!');
 	}

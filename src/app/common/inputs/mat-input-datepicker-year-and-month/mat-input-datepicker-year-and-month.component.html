@@ -16,7 +16,8 @@
 				[matDatepicker]="dp" 
 				[formControlName]="controlName" 
 				[min]="minDate" 
-				[max]="maxDate" />
+				[max]="maxDate" 
+				readonly/>
 			<mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
 			<mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
 				(monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
