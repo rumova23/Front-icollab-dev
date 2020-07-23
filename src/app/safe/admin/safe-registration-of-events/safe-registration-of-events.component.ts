@@ -47,6 +47,14 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	formTemp: FormGroup;
 
 	file: any;
+	formErrors = {
+		'powerMw': ''
+	};
+	validationMessages = {
+		'powerMw': {
+			'required': 'Title is required.'
+		}
+	};
 
 	lstRequired: Array<string>;
 
@@ -138,34 +146,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		console.dir(this.catalogType);
-		this.mapLabel = new Map();
-		this.mapLabel.set('binnacleEventID', 'Id');
-		this.mapLabel.set('dateTimeStart', 'Fecha Inicial');
-		this.mapLabel.set('dateTimeEnd', 'Fecha Final');
-		this.mapLabel.set('eventsClassificationId', 'Clasificación de Eventos');
-		this.mapLabel.set('eventsId', 'Eventos');
-		this.mapLabel.set('fuelsId', 'Combustible');
-		this.mapLabel.set('powerMw', 'Potencia MW');
-		this.mapLabel.set('unitsId', 'Unidad');
-		this.mapLabel.set('impactContractsId', 'Contrato Impactado');
-		this.mapLabel.set('realsCcdvId', 'Real-CCDV');
-		this.mapLabel.set('toleranceBandsId', 'Banda de Tolerancia');
-		this.mapLabel.set('marketTypesId', 'Tipo de Mercado');
-		this.mapLabel.set('mwOffered', 'MW Ofertados');
-		this.mapLabel.set('relatedServicesId', 'Servicios Conexos');
-		this.mapLabel.set('licenseNumber', '# Licencia');
-		this.mapLabel.set('equipmentId', 'Equipo');
-		this.mapLabel.set('initialCharge', 'Carga Inicial');
-		this.mapLabel.set('finalCharge', 'Carga Final');
-		this.mapLabel.set('mwPowerLoss', '(-) Perdida Potencia MW');
-		this.mapLabel.set('workOrderId', 'Orden de Trabajo');
-		this.mapLabel.set('licenseDescription', 'Descripción / Concepto de la Licencia');
-		this.mapLabel.set('plantOperatorOpened', 'Nombre(s)/Apellidos(s) Operador Planta Abrió');
-		this.mapLabel.set('cenaceOperatorOpened', 'Nombre(s)/Apellidos(s) Operador CENACE Abrió');
-		this.mapLabel.set('plantOperatorClosed', 'Nombre(s)/Apellidos(s) Operador Planta Cerro');
-		this.mapLabel.set('cenaceOperatorClosed', 'Nombre(s)/Apellidos(s) Operador CENACE Cerro');
-		this.mapLabel.set('sourceEventId', 'Fuente del Evento');
 		this.lstRequired = [];
 		switch (this.catalogType.action) {
 			case 'nuevo':
@@ -216,8 +196,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				initialCharge: [{ value: null, disabled: true }],
 				finalCharge: [{ value: null, disabled: true }],
 				mwPowerLoss: [{ value: null, disabled: true }],
-				workOrderId: [{ value: null, disabled: true }],
-				licenseDescription: [{ value: null, disabled: true }],
+				workOrderId: [{ value: null, disabled: true }, [Validators.minLength(4), Validators.maxLength(500)]],
+				licenseDescription: [{ value: null, disabled: true }, [Validators.minLength(4), Validators.maxLength(2000)]],
 				plantOperatorOpened: [{ value: null, disabled: true }],
 				cenaceOperatorOpened: [{ value: null, disabled: true }],
 				plantOperatorClosed: [{ value: null, disabled: true }],
@@ -1004,31 +984,18 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	}
 
 	btnFinish() {
-		const labelArray: Array<string> = [];
-		this.formValid = true;
+		this.submitted = true;
 		this.lstRequired.forEach(field => {
-			if ( this.formNewEvent.controls[field].value == null) {
-				labelArray.push('El campo: ' + this.mapLabel.get(field) + '. Es requerido.');
-				this.formValid = false;
-			} else {
-				if ( typeof(this.formNewEvent.controls[field].value) === 'string') {
-					if (this.formNewEvent.controls[field].value.trim().length <= 0) {
-						labelArray.push('El campo: ' + this.mapLabel.get(field) + '. Es requerido.');
-						this.formValid = false;
-					}
-				}
-			}
+			const control = this.formNewEvent.get(field);
+			control.patchValue(this.formNewEvent.get(field).value);
 		});
 
-		if (this.formValid) {
+		if (this.formNewEvent.valid) {
 			this.formNewEvent.controls.estatusEventoId.patchValue(this.getIdEstatusEvent('Evento Terminado', this.lstEventStatus));
 			this.formNewEvent.controls.plantOperatorClosed.patchValue(JSON.parse(localStorage.getItem('user')).username);
 			this.onSubmit();
 		} else {
-			labelArray.forEach(label => {
-				this.toastr.warningToastr(label, 'Notificacion!');
-			});
-			return;
+			this.toastr.errorToastr('Los campos en rojo son requeridos.', 'Error!');
 		}
 	}
 	tableRowEdit(element) {
