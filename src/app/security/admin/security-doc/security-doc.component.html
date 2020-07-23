@@ -141,120 +141,145 @@
 			<p class="section_titulo_0">Botones</p>
 		</div>
 	</div>
+	<hr>
 	<div class="row">
-		<div class="col-4 my-2">
-			<app-btn-block (click)="clickBtn()" label="Aplicar Detección Procedimiento" [addClass]="['tester-00']">
-			</app-btn-block>
-		</div>
-		<div class="col-4 my-2">
-			<app-btn-block-download (click)="clickBtn()"></app-btn-block-download>
-		</div>
-		<div class="col-4 my-2">
-			<app-btn-block-import (click)="clickBtn()"></app-btn-block-import>
-		</div>
-		<div class="col-4 my-2">
-			<app-btn-block-save (click)="clickBtn()"></app-btn-block-save>
-		</div>
-		<div class="col-4 my-2">
-			<app-btn-block-save-update (click)="clickBtn()"></app-btn-block-save-update>
-		</div>
-		<div class="col-4 my-2">
-			<app-btn-block-finish (click)="clickBtn()"></app-btn-block-finish>
-		</div>
-		<div class="col-4 my-2">
-			<app-btn-block-acept (click)="clickBtn()"></app-btn-block-acept>
-		</div>
-		<div class="col-4 my-2">
-			<app-btn-block-cancel (click)="clickBtn()"></app-btn-block-cancel>
-		</div>
-		<div class="col-4 my-2">
-			<app-btn-block-graph (click)="clickBtn()"></app-btn-block-graph>
-		</div>
-		<div class="col-4 my-2">
-			<app-btn-block-add (click)="clickBtn()"></app-btn-block-add>
+		<div class="col-4 my-2"><app-btn-block                    (myClick)="clickBtn()" label="Aplicar Detección Procedimiento" [addClass]="['tester-00']"></app-btn-block></div>
+		<div class="col-4 my-2"><app-btn-block-acept              (myClick)="clickBtn()"></app-btn-block-acept></div>
+		<div class="col-4 my-2"><app-btn-block-add                (myClick)="clickBtn()"></app-btn-block-add></div>
+		<div class="col-4 my-2"><app-btn-block-back               (myClick)="clickBtn()"></app-btn-block-back></div>
+		<div class="col-4 my-2"><app-btn-block-cancel             (myClick)="clickBtn()"></app-btn-block-cancel></div>
+		<div class="col-4 my-2"><app-btn-block-clean              (myClick)="clickBtn()"></app-btn-block-clean></div>
+		<div class="col-4 my-2"><app-btn-block-consult            (myClick)="clickBtn()"></app-btn-block-consult></div>
+		<div class="col-4 my-2"><app-btn-block-download-layout    (myClick)="clickBtn()"></app-btn-block-download-layout></div>
+		<div class="col-4 my-2"><app-btn-block-download           (myClick)="clickBtn()"></app-btn-block-download></div>
+		<div class="col-4 my-2"><app-btn-block-finish             (myClick)="clickBtn()"></app-btn-block-finish></div>
+		<div class="col-4 my-2"><app-btn-block-graph              (myClick)="clickBtn()"></app-btn-block-graph></div>
+		<div class="col-4 my-2"><app-btn-block-import             (myClick)="clickBtn()"></app-btn-block-import></div>
+		<div class="col-4 my-2"><app-btn-block-save-update        (myClick)="clickBtn()"></app-btn-block-save-update></div>
+		<div class="col-4 my-2"><app-btn-block-save               (myClick)="clickBtn()"></app-btn-block-save></div>
+		<div class="col-4 my-2"><app-btn-block-search             (myClick)="clickBtn()"></app-btn-block-search></div>
+	</div>
+	<div class="row mt-4">
+		<div class="col py-4 codigo">
+			<pre class="my-0">{{codes.btn}}</pre>
 		</div>
 	</div>
-	<div class="row">
-		<pre>
-&lt;app-btn-block             (click)=&quot;clickBtn()&quot; label=&quot;Aplicar Detección Procedimiento&quot; [addClass]=&quot;['tester-00']&quot;&gt;&lt;/app-btn-block&gt;
-&lt;app-btn-block-download    (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-download&gt;
-&lt;app-btn-block-import      (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-import&gt;
-&lt;app-btn-block-save        (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-save&gt;
-&lt;app-btn-block-save-update (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-save-update&gt;
-&lt;app-btn-block-finish      (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-finish&gt;
-&lt;app-btn-block-acept       (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-acept&gt;
-&lt;app-btn-block-cancel      (click)=&quot;clickBtn()&quot;&gt;&lt;/app-btn-block-cancel&gt;
-		</pre>
-	</div>
-	<div class="row">
-		<div class="col"> Inputs</div>
-	</div>
-	<div class="row">
-		<div class="col-5">
-			<app-mat-input-datepicker-year-and-month 
-				[formGroup]="form"
-				controlName="dateYearAndMonth"
-				(eventChange)="chosenMonthHandler($event)" 
-				label="Commercial Operation Date"
-			></app-mat-input-datepicker-year-and-month>
+	<br>
+	<p>
+		A los botones se les puede indicar su tipo "Type" mediante el atributo "myType", este atrubuto por defecto es de tipo "button", pero se puede especificar para que sea de tipo "submit".
+	</p>
+	<p>
+		Tiene su propio evento "click" que se llama mediante su propiedad "myClick" , esto con el fin de que si el boton se desactiba no se lanza el evento.
+	</p>
+	<p>
+		mediante la propiedad "disabled" se le puede indicar que desactive el boton.
+	</p>
+	<p>
+		si dentro del boton requieres un texto muy particular que no este dentro de los botones que se utilizan , 
+		se puede hacer uso del atributo "label" con el componente {{codes.btnBase}}
+	</p>
+	<br>
+	<div class="col-4 my-2"><app-btn-block-acept (myClick)="clickBtn()" myType="submit" [disabled]="true"></app-btn-block-acept></div>
+	<div class="row mt-4">
+		<div class="col py-4 codigo">
+			<pre class="my-0">{{codes.btnAtributes}}</pre>
 		</div>
 	</div>
+</div>
+<div class="section">
 	<div class="row">
 		<div class="col">
-			<pre>
-&lt;app-mat-input-datepicker-year-and-month (eventChange)=&quot;chosenMonthHandler($event)&quot; label=&quot;Fecha de Operación Comercial&quot;&gt;&lt;/app-mat-input-datepicker-year-and-month&gt;
-			</pre>
+			<p class="section_titulo_0">Inputs</p>
+			<p class="section_subtitulo_0">Así seávisualizaran los diferentes Inputs en le sistema</p>
 		</div>
 	</div>
+	<hr>
 	<div class="row">
 		<div class="col">
-			<app-mat-input-text-autocomplete 
-				[formGroup]="form"
-				controlName="aotucomplete"
-				[options]="listOptionsAutocomplete"
-				label="aotucomplete"
-				filter="includes">
-			</app-mat-input-text-autocomplete>
+			<p>
+				Para los input se hace uso de formularios reactivos. 
+				en el .ts se debera crear una estructura similar a la siguiente:
+			</p>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col">
-			<app-mat-select
-					[formGroup]="form"
-					controlName="select"
-					[options]="selectOptionsFuente"
-					label="select"
-					(eventChange)="onChangeSelectFuente($event)"
-			></app-mat-select>
+	<div class="row my-4">
+		<div class="col py-4 codigo">
+			<pre class="my-0">{{codes.inputTs}}</pre>
 		</div>
 	</div>
+	<hr>
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-input-datepicker-year-and-month 
+			[formGroup]="form"
+			controlName="dateYearAndMonth"
+			(eventChange)="onDatepickeryearAndMonth($event)" 
+			label="Commercial Operation Date"
+		></app-mat-input-datepicker-year-and-month>
+	</div></div>
+	<div class="row my-4">
+		<div class="col py-4 codigo">
+			<pre class="my-0">{{codes.btnDatepickerYearAndMonth}}</pre>
+		</div>
+	</div>
+	<hr>
+
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-input-datepicker
+			[formGroup]="form"
+			controlName="datePicker"
+			(eventChange)="onDatePicker($event)" 
+			label="Commercial Operation Date"
+		></app-mat-input-datepicker>
+	</div></div>
+	<div class="row my-4">
+		<div class="col py-4 codigo">
+			<pre class="my-0">{{codes.btnDatepicker}}</pre>
+		</div>
+	</div>
+	<hr>
+
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-input-text-autocomplete 
+			[formGroup]="form"
+			controlName="aotucomplete"
+			[options]="listOptionsAutocomplete"
+			label="aotucomplete"
+			filter="includes">
+		</app-mat-input-text-autocomplete>
+	</div></div>
+	
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-select
+			[formGroup]="form"
+			controlName="select"
+			[options]="selectOptionsFuente"
+			label="select"
+			(eventChange)="onChangeSelectFuente($event)"
+		></app-mat-select>
+	</div></div>
+	
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-select-multiple
+			[formGroup]="form"
+			controlName="select"
+			[options]="selectOptionsFuenteMultiselect"
+			label="select"
+		></app-mat-select-multiple>
+	</div></div>
+	
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-select-multiple
+			[formGroup]="form"
+			controlName="select"
+			[options]="selectOptionsFuenteMultiselect"
+			[disableOption]="true"
+			label="select"
+		></app-mat-select-multiple>
+	</div></div>
+	
+	<div class="row"><div class="col-12 col-lg-4">
+		
+	</div></div>
 
 
-	<div class="row">
-		<div class="col">
-			<app-mat-select-multiple
-					[formGroup]="form"
-					controlName="select"
-					[options]="selectOptionsFuenteMultiselect"
-					label="select"
-			></app-mat-select-multiple>
-		</div>
-	</div>
-
-
-	<div class="row">
-		<div class="col">
-			<app-mat-select-multiple
-					[formGroup]="form"
-					controlName="select"
-					[options]="selectOptionsFuenteMultiselect"
-					[disableOption]="true"
-					label="select"
-			></app-mat-select-multiple>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col">
-		</div>
-	</div>
 </div>
