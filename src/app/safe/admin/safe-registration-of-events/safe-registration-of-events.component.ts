@@ -987,6 +987,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.submitted = true;
 		this.lstRequired.forEach(field => {
 			const control = this.formNewEvent.get(field);
+			if (field === 'mwOffered') {
+				console.dir(typeof(this.formNewEvent.controls['mwOffered'].value));
+			}
+
 			if ( typeof(this.formNewEvent.controls[field].value) === 'string') {
 				control.patchValue(this.formNewEvent.controls[field].value.trim());
 			} else {

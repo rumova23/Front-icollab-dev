@@ -187,7 +187,12 @@
 				></app-mat-select>
 			</div>
 			<div class="col-3">
-				<app-mat-input-number [formGroup]="formNewEvent" controlName="mwOffered" label="MW Ofertados" ></app-mat-input-number>
+				<app-mat-input-number
+						[submitted]="submitted"
+						[formGroup]="formNewEvent"
+						controlName="mwOffered"
+						label="MW Ofertados"
+				></app-mat-input-number>
 			</div>
 			<div class="col-3">
 				<app-mat-select
@@ -354,7 +359,6 @@
 			<div class="row">
 				<div class="col">
 					<app-mat-input-textarea
-							[submitted]="submitted"
 						[formGroup]="formobservationsComments"
 						controlName="observationsComments"
 						maxLength="2000"
