@@ -99,10 +99,9 @@
 			<p><strong>[selection]="selection"</strong></p>
 			<p>Es una lista de "objetos identicosa [data]" que representan los elementos con el checkbox seleccionado. 
 				</p>
-			<div class="codigo">
-				selection : SelectionModel&lt;any&gt; = new SelectionModel&lt;any&gt;(true, []);
+			<div class="codigo py-2">
+				{{codes.tableSelectionModel}}
 			</div>
-			<div class="codigo">-- this.selection.selected;--</div>
 			<p> esto retornara una lista con los elementos que se encuentran seleccionados.</p>
 			
 			<p>Existen 4 columnas que genera el componente de forma automatica (estas columnas seran agregadas si se especifican en la lista "[columnsDisplay]="tableColumnsDisplay""):</p>
@@ -116,18 +115,7 @@
 			
 			<div class="row mt-4">
 				<div class="col py-4 codigo">
-					<pre class="my-0">
-&lt;app-mat-table 
-	[data]="tableData"
-	[columnsLabels]="tablaColumnsLabels"
-	[columnsDisplay]="tableColumnsDisplay"
-	[row_x_page]="tableRow_x_page"
-	[selection]="selection"
-	selectionLabel="Visible"
-	(clickSee)="tableRowSee($event)"
-	(clickEdit)="tableRowEdit($event)"
-	(clickDelete)="tableRowDelete($event)"
-&gt;&lt;/app-mat-table&gt;</pre>
+					<pre class="my-0">{{codes.tableTable}}</pre>
 				</div>
 			</div>
 			<br>	
@@ -135,56 +123,7 @@
 			<p class="section_titulo_0">Ejemplo de los datos que se le pasan al componente que crea la tabla.</p>
 			<div class="row mt-4">
 				<div class="col py-4 codigo">
-					<pre class="my-0">
-tableData = &#91;
-	&#123;order:1,fechaOp:new Date(),fuenteImport:'2da Corrida MM',usuario:'Usuario'  ,fechaMod:new Date(),estatus:'exitosa'&#125;,
-	&#123;order:2,fechaOp:new Date(),fuenteImport:'2da Corrida MM',usuario:'Sistema'  ,fechaMod:new Date(),estatus:'exitosa'&#125;,
-	&#123;order:3,fechaOp:new Date(),fuenteImport:'1ra Corrida MM',usuario:'Usuario'  ,fechaMod:new Date(),estatus:'exitosa'&#125;,
-	&#123;order:4,fechaOp:new Date(),fuenteImport:'1ra Corrida MM',usuario:'Sistema'  ,fechaMod:new Date(),estatus:'exitosa'&#125;,
-	&#123;order:5,fechaOp:new Date(),fuenteImport:'1ra Corrida MM',usuario:'Sistema'  ,fechaMod:new Date(),estatus:'exitosa'&#125;
-&#93;;
-tablaColumnsLabels=&#91;
-	&#123; key: 'order'        , label: '#' &#125;,
-	&#123; key: 'fechaOp'      , label: 'Fecha de Operación Comercial'       , dateFormat:'dd/MM/yyyy' &#125;,
-	&#123; key: 'fuenteImport' , label: 'Fuente de Importación' &#125;,
-	&#123; key: 'usuario'      , label: 'Usuario' &#125;,
-	&#123; key: 'fechaMod'     , label: 'Fecha y Hora Ultima Modificación'   , dateFormat:'dd/MM/yyyy' &#125;,
-	&#123; key: 'estatus'      , label: 'Estatus de la Importación' &#125;
-&#93;;
-tableColumnsDisplay: string&#91;&#93; = &#91;
-	'sys_checkbox',
-	'order',
-	'fechaOp',
-	'fuenteImport',
-	'usuario',
-	'fechaMod',
-	'estatus',
-	'sys_see',
-	'sys_edit',
-	'sys_delete'
-&#93;;
-tableRow_x_page = &#91;5,10&#93;;
-
-selection : SelectionModel&lt;any&gt; = new SelectionModel&lt;any&gt;(true, []);
-
-para pasarle elementos que seran los seleccionados.
-
-...
-this.selection.select(this.tableDataDemo[2],this.tableDataDemo[3]);
-ó
-this.selection.select(...this.lst.filter(e => e.visible === true));
-...
-
-para recuperar los elementos que tienen el checkbox activado:
-
-...
-let seleccionados = this.selection.selected;
-ó
-this.selection.changed.subscribe(event=>&#123;
-	let algo = this.selection.selected;
-	&#125;);
-...
-</pre>
+					<pre class="my-0">{{codes.table01}}</pre>
 				</div>
 			</div>
 			

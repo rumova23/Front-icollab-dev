@@ -6,6 +6,7 @@ import { IdLabel } from 'src/app/core/models/IdLabel';
 import * as moment from 'moment';
 import { SelectionModel } from '@angular/cdk/collections';
 import { timer } from 'rxjs';
+import { code } from './code';
 
 @Component({
 	selector: 'app-security-doc',
@@ -13,6 +14,7 @@ import { timer } from 'rxjs';
 	styleUrls: ['./security-doc.component.scss']
 })
 export class SecurityDocComponent implements OnInit {
+	codes = code;
 	listOptionsAutocomplete = ['One', 'Two', 'Three','Three','Threes','María'];
 	form : FormGroup;
 	tableDataDemo = [];
