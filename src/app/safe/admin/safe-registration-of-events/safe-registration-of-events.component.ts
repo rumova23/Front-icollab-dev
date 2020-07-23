@@ -100,7 +100,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	statusTerminado: number;
 	formValid: boolean;
 
-	tempOrder = 3;
+	tempOrder = 1;
 	tableObservationsComments = [];
 
 	newNotes: Array<NoteDTO> = [];
@@ -146,6 +146,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.lstEvents = [];
 		this.lstRequired = [];
 		switch (this.catalogType.action) {
 			case 'nuevo':
