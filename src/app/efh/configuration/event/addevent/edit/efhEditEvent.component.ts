@@ -632,7 +632,7 @@ export class EfhEditEventComponent implements OnInit {
           || (this.isRunbackSectionVisible && this.formTemp.controls['sb'].invalid)
           || (this.isStopStartSectionVisible && this.eventForm.controls['flameOffDateStop'].invalid)
           || (this.isStopStartSectionVisible && this.eventForm.controls['flameOffDateStart'].invalid)
-          || (this.isStopStartSectionVisible && this.eventForm.controls['fsnlDateStop'].invalid)
+          || (this.isStopStartSectionVisible && this.eventForm.controls['fsnlDateStart'].invalid)
           || (this.isStopStartSectionVisible && this.eventForm.controls['chargeStop'].invalid)
           || (this.isStopStartSectionVisible && this.formTemp.controls['ha'].invalid)
           || (this.isStopStartSectionVisible && this.formTemp.controls['ma'].invalid)
@@ -800,7 +800,6 @@ export class EfhEditEventComponent implements OnInit {
   }
 
   compareDate(date1: string, date2: string): boolean {
-      debugger;
       let d1 = new Date(date1);
       let d2 = new Date(date2);
 

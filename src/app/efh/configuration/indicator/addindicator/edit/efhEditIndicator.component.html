@@ -126,12 +126,6 @@
     </div>
   </div>
 
-  <!-- Observaciones -->
-  <!-- Test -->
-  <div *ngIf="isDefaultSectionsVisible">
-    <app-efh-comments [inIdEventConfig]="indicatorType.id" [inAction]="accion" [inTypeConfig]="2"></app-efh-comments>
-  </div>
-
   <!-- End Test -->
   <div class="section" *ngIf="isDefaultSectionsVisible">
     <div class="row">
@@ -158,6 +152,12 @@
     </div>
     
   </div>
+  <!-- Observaciones -->
+  <div *ngIf="isDefaultSectionsVisible && indicatorType.id != 0">
+    <app-efh-comments [inIdEventConfig]="indicatorType.id" [inAction]="accion" [inTypeConfig]="2"></app-efh-comments>
+  </div>
+
+  <!-- Soportes -->
   <div *ngIf="isDefaultSectionsVisible && indicatorType.id != 0">
       <app-efh-upload [inIdEventConfig]="indicatorType.id" [inAccion]="accion" [inTypeConfig]="2"></app-efh-upload>
   </div>
