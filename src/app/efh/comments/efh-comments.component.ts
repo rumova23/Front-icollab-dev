@@ -193,11 +193,12 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
   }
 
   visibleObservation(comment: any) {
+      /*
       if (this.inAction === 'nuevo') {
           const updateItem = this.observationsArr.find(item => item.observacion === comment.observacion);
           const index = this.observationsArr.indexOf(updateItem);
           this.observationsArr[index].active = comment.active;
-      } else {
+      } else { */
           this.dataObservationSumbit = {};
           this.dataObservationSumbit['id'] = comment.id;
           // this.dataObservationSumbit['ideventconfig'] = comment.ideventconfig;
@@ -219,7 +220,7 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
                   this.toastr.errorToastr(error.error['text'], 'Lo siento, no fue posible eliminar la observación');
               }
           );
-      }
+      // }
   }
 
   setToEdit(comment: any) {
@@ -230,6 +231,14 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
   }
 
   addObservation() {
+      if (this.currentComment) {
+          this.currentComment.observacion = this.obsForm.controls.observations.value;
+          this.updateObservation(this.currentComment);
+          this.currentComment = null;
+      } else {
+          this.saveObservation(this.inIdEventConfig, this.obsForm.controls.observations.value);
+      }
+    /*
     if (this.inAction === 'editar') {
       if (this.currentComment) {
         this.currentComment.observacion = this.obsForm.controls.observations.value;
@@ -258,7 +267,7 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
         }
         this.isAddObvsDisabled = true;
       }
-    }
+    }*/
     this.paginar(null);
   }
 
@@ -269,11 +278,13 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
   }
 
   eliminarRegistro(comment: any) {
+      /*
       if (this.inAction === 'nuevo') {
           const updateItem = this.observationsArr.find(item => item.observacion === comment.observacion);
           const index = this.observationsArr.indexOf(updateItem);
           this.observationsArr.splice(index, 1);
-      } else if (this.inAction === 'editar') {
+      } else if (this.inAction === 'editar') { */
+      if (this.inAction !== 'ver') {
           this.confirmationDialogService.confirm('Por favor, confirme..',
               'Está seguro de eliminar la observación?')
               .then((confirmed) => {
