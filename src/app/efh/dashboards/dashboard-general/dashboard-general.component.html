@@ -263,24 +263,24 @@
 	<div class="col-12 col-lg-3">
 		<div class="section text-center" style="background: #7092be;">
 			<div class="row">
-				<div class="col fz-fulldate text-white text-left text-capitalize font-weight-bold">
+				<div class="col fz-fulldate text-white text-left text-capitalize font-weight-bold p-0">
 					{{timeCurrent | date: "fullDate"}}
 				</div>
 			</div>
 			<div class="row mt-3">
-				<div class="col digital fz-datenumber bg-sub">
+				<div class="col digital fz-datenumber bg-sub myborder2 spacingNormal">
 					{{ timeCurrent | date: "HH" }}
 				</div>
 				<div class="col-auto fz-datenumber">
 					:
 				</div>
-				<div class="col digital fz-datenumber bg-sub">
+				<div class="col digital fz-datenumber bg-sub myborder2 spacingNormal">
 					{{ timeCurrent | date: "mm" }}
 				</div>
 				<div class="col-auto fz-datenumber">
 					:
 				</div>
-				<div class="col digital fz-datenumber bg-sub">
+				<div class="col digital fz-datenumber bg-sub myborder2 spacingNormal">
 					{{ timeCurrent | date: "ss" }}
 				</div>
 			</div>
@@ -291,7 +291,7 @@
 				<div class="col-6 p-3">
 					<div class="h-100 d-flex">
 						<div class="align-self-center m-auto">
-							<p class="fz-fulldate text-uppercase font-weight-bold text-white">
+							<p class="fz-fulldate text-uppercase font-weight-bold text-white parpadea">
 								Despacho AGC
 							</p>
 						</div>
@@ -299,7 +299,7 @@
 				</div>
 				
 				<div class="col-6 p-3" style="min-height: 90px; color: #000;">
-					<div class="h-100 d-flex bg-sub">
+					<div class="h-100 d-flex bg-sub myborder2">
 						<div class="align-self-center m-auto">
 							<div class="bg_a m-2" [ngbTooltip]="tippotencianeta" tooltipClass="mytooltip">
 								<p class="text-uppercase font-weight-bold px-2">
@@ -313,7 +313,7 @@
 				</div>
 				
 				<div class="col-6 p-3" style="min-height: 90px; color: #000;">
-					<div class="h-100 d-flex bg-sub">
+					<div class="h-100 d-flex bg-sub myborder2">
 						<div class="align-self-center m-auto">
 							<div class="bg_a m-2" [ngbTooltip]="tip_ct_1_Potencia" tooltipClass="mytooltip">
 								<p class="text-uppercase font-weight-bold px-2">
@@ -327,7 +327,7 @@
 				</div>
 				
 				<div class="col-6 p-3" style="min-height: 90px; color: #000;">
-					<div class="h-100 d-flex bg-sub">
+					<div class="h-100 d-flex bg-sub myborder2">
 						<div class="align-self-center m-auto">
 							<div class="bg_a m-2" [ngbTooltip]="tip_ct_2_Potencia" tooltipClass="mytooltip">
 								<p class="text-uppercase font-weight-bold px-2">
