@@ -521,7 +521,6 @@ export class SafeEnergyMetersComponent implements OnInit {
 		return arr;
 	}
 	clickBtnDownloadChart() {
-		
 	}
 	clickBtnImportFromDate() {
 		console.log(this.fileUploadForm.value);

@@ -1,3 +1,4 @@
+/* tslint:disable:indent */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ConfirmationDialogService } from 'src/app/core/services/confirmation-dialog.service';
@@ -10,6 +11,7 @@ import { PpaMonitoringFormatService } from '../../services/ppa-monitoring-format
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { TranslateService } from '@ngx-translate/core';
+import {saveAs} from 'file-saver';
 
 @Component({
 	selector: 'app-dataq-dcf-energymeters',
@@ -31,7 +33,7 @@ export class DataqDcfEnergymetersComponent implements OnInit {
 		'status',
 		'sys_delete'
 	];
-	tableRow_x_page = [5,10,20,50, 100, 250, 500];	
+	tableRowXpage = [5, 10, 20, 50, 100, 250, 500];
 	tablaColumnsLabels = [
 		{ key: 'order', label: '#' },
 		{ key: 'dateOpCom', label: 'Fecha de Operación Comercial' },
@@ -42,8 +44,8 @@ export class DataqDcfEnergymetersComponent implements OnInit {
 	];
 
 	maxDate: Date;
-	buttonDetected=false;
-	buttonCorrected=false;
+	buttonDetected = false;
+	buttonCorrected = false;
 	translateSuccess = 'Success';
 	constructor(
 		private formBuilder: FormBuilder,
@@ -77,8 +79,41 @@ export class DataqDcfEnergymetersComponent implements OnInit {
 		this.aplicarCorrecion();
 	}
 	onBtnDownload() {
-		this.translateMessages();
-		this.toastr.successToastr('table Row Edite', this.translateSuccess);
+		const mydate = this.formQuery.get('date').value;
+		const month = mydate.month() + 1;
+		const year = mydate.year();
+		this.addBlock(1, 'Bajando  crudos CSV ' + year + '/' + month + ': Generando');
+		this.ppaMonitoringFormatService.downloadCrudosProfileExcel(year, month)
+			.subscribe(
+				data => {
+					const blob = new Blob([this.base64toBlob(data.base64,
+						'application/CSV')], {});
+					saveAs(blob, data.nameFile);
+					this.addBlock(2, '');
+					this.toastr.successToastr('Download File: Correctamente ' + year + '/' + month + ': Generado Correctamente', '¡Exito!');
+				},
+				errorData => {
+					this.addBlock(2, '');
+					this.toastr.errorToastr(errorData.error.message, '¡Error!');
+				});
+	}
+	base64toBlob(base64Data, contentType) {
+		contentType = contentType || '';
+		const sliceSize = 1024;
+		const byteCharacters = atob(base64Data);
+		const bytesLength = byteCharacters.length;
+		const slicesCount = Math.ceil(bytesLength / sliceSize);
+		const byteArrays = new Array(slicesCount);
+		for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+			const begin = sliceIndex * sliceSize;
+			const end = Math.min(begin + sliceSize, bytesLength);
+			const bytes = new Array(end - begin);
+			for (let offset = begin, i = 0; offset < end; ++i, ++offset) {
+				bytes[i] = byteCharacters[offset].charCodeAt(0);
+			}
+			byteArrays[sliceIndex] = new Uint8Array(bytes);
+		}
+		return new Blob(byteArrays, { type: contentType });
 	}
 	tableRowEdit(element) {
 	}
