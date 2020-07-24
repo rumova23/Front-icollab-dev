@@ -31,7 +31,7 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         'eventClassification',
         'event',
         'user',
-        'dateUpdatedDate',
+        'dateUpdated',
         'nameStatus',
         'sys_see',
         'sys_edit',
@@ -133,7 +133,6 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         );
     }
     tableRowDelete(element) {
-        console.dir(element);
         this.confirmationDialogService.confirm(
             'Confirmación',
             '¿Está seguro de eliminar el Registro?'

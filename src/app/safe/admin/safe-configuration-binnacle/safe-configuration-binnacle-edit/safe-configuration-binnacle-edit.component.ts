@@ -371,7 +371,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 
 		if (this.formNewEvent.controls.mwPowerLossLimitLower.value !== null && this.formNewEvent.controls.mwPowerLossLimitUpper.value !== null) {
 			if (this.formNewEvent.controls.mwPowerLossLimitLower.value - this.formNewEvent.controls.mwPowerLossLimitUpper.value >= 0) {
-				this.toastr.errorToastr('El limit Inferior debe ser menor al limite superior, de la Carga Final.', 'Error!');
+				this.toastr.errorToastr('El limit Inferior debe ser menor al limite superior, de la Perdida de Potencia.', 'Error!');
 				returnValue = false;
 			}
 		}
