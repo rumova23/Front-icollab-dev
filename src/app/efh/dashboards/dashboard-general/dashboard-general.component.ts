@@ -302,6 +302,8 @@ export class DashboardGeneralComponent extends ConnectSocketChannelComponent imp
 			this.chartLine2C = null;
 		}
 		let opt: any = {
+			colors: ['#2b908f', '#90ee7e', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066',
+                '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
 			credits: {
 				enabled: false
 			},
@@ -311,19 +313,47 @@ export class DashboardGeneralComponent extends ConnectSocketChannelComponent imp
 			},
 			chart: {
 				zoomType: 'xy',
-				type: 'spline',
 				height: 600,
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+                    stops: [
+                        [0, '#2a2a2b'],
+                        [1, '#3e3e40']
+                    ]
+                },
+                style: {
+                    fontFamily: '\'Unica One\', sans-serif'
+                },
+                plotBorderColor: '#606063'
 			},
 			title: {
 				text: 'Titulo',
-				
+                style: {
+                    color: '#E0E0E3',
+                    textTransform: 'uppercase',
+                    fontSize: '20px'
+                }
 			},
 			exporting: {
 				tableCaption: ""
 			},
 			xAxis: {
 				gridLineWidth: 1,
-				type: 'datetime'
+				type: 'datetime',
+                gridLineColor: '#707073',
+                labels: {
+                    style: {
+                        color: '#E0E0E3'
+                    }
+                },
+                lineColor: '#707073',
+                minorGridLineColor: '#505053',
+                tickColor: '#707073',
+                title: {
+                    style: {
+                        color: '#A0A0A3'
+                    }
+                }
 			},
 			yAxis: [  ],
 			
@@ -393,6 +423,7 @@ export class DashboardGeneralComponent extends ConnectSocketChannelComponent imp
 		let ymin = undefined;
 
 		let a = this.tags.entries();
+		let iii = 0;
 		for (let nextValue = a.next(); nextValue.done !== true; nextValue = a.next()) {
 			if("static" == this.chartControlLineChart2.typeScale){
 				ymax = this.tags.get(nextValue.value[0])['max'];
@@ -424,6 +455,7 @@ export class DashboardGeneralComponent extends ConnectSocketChannelComponent imp
 			opt.series.push(
 				{
 					id : nextValue.value[0],
+					type: 'spline',
 					name: nextValue.value[1]['tagName'],
 					yAxis: "y-axis-"+nextValue.value[0],
 					visible: true,
@@ -431,6 +463,44 @@ export class DashboardGeneralComponent extends ConnectSocketChannelComponent imp
 					data: nextValue.value[1]["value"],
 				}
 			);
+			if(iii==1){
+
+				opt.yAxis.push(
+					{
+						id: "y-axis-"+nextValue.value[0]+"-2",
+						gridLineWidth: 0,
+						labels: {
+							style: {
+								color: this.mapColors.get('ct_2_RT'),
+								fontWeight: "bold",
+							}
+						},
+						title: {
+							enabled: false,
+							text: nextValue.value[0],
+							style: {
+								color: this.mapColors.get('ct_2_RT'),
+							},
+						},
+						showEmpty: false,
+						max:ymax,
+						min:ymin
+						//opposite: true
+					}
+				);
+				opt.series.push(
+					{
+						id : nextValue.value[0]+"-2",
+						type: 'column',
+						name: nextValue.value[1]['tagName']+"-2",
+						yAxis: "y-axis-"+nextValue.value[0]+"-2",
+						visible: true,
+						color: this.mapColors.get('ct_2_RT'),
+						data: nextValue.value[1]["value"].filter((e,i)=>{return i%2}).filter((e,i)=>{return i%2}).filter((e,i)=>{return i%2}).filter((e,i)=>{return i%2}).filter((e,i)=>{return i%2}).filter((e,i)=>{return i%2}),
+					}
+				);
+			}
+			iii++;
 		}
 		this.chartLine2C = Highcharts.chart(this.LineChart2.nativeElement, opt);
 	}
