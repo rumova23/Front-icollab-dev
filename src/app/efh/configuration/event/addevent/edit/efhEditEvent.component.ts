@@ -374,7 +374,7 @@ export class EfhEditEventComponent implements OnInit {
                                           }
 
                                           this.defaultControlsEnabled(false);
-                                          this.deshabiliarEstatus = true;                                          
+                                          this.deshabiliarEstatus = true;
                                           this.formTemp.controls.statusElement.disable();
                                           this.isAddObvsDisabled = true;
                                           this.disabledSave = true;
@@ -445,8 +445,9 @@ export class EfhEditEventComponent implements OnInit {
                       }
 
                       this.defaultControlsEnabled(false);
-                      this.deshabiliarEstatus = true;                      
+                      this.deshabiliarEstatus = true;
                       this.formTemp.controls.statusElement.disable();
+                      this.eventForm.controls.eventTypeControl.disable();
                       this.isAddObvsDisabled = true;
                       this.disabledSave = true;
 
@@ -559,35 +560,35 @@ export class EfhEditEventComponent implements OnInit {
       this.defaultControlsEnabled(false);
 
       if (this.accion === 'nuevo') {
-          this.eventForm.controls.unitControl.setValue('');
-          this.eventForm.controls.fuelTypeControl.setValue('');
-          this.eventForm.controls.flameOffDateShot.setValue('');
-          this.eventForm.controls.chargeShot.setValue('');
-          this.eventForm.controls.flameOffDateStart.setValue('');
-          this.eventForm.controls.fsnlDateStart.setValue('');
-          this.eventForm.controls.dateReject.setValue('');
-          this.eventForm.controls.chargeReject.setValue('');
-          this.eventForm.controls.startDateRunback.setValue('');
-          this.eventForm.controls.endDateRunback.setValue('');
-          this.eventForm.controls.chargeBeforeRunback.setValue('');
-          this.eventForm.controls.chargeAfterRunback.setValue('');
-          this.eventForm.controls.flameOffDateStop.setValue('');
-          this.eventForm.controls.fsnlDateStop.setValue('');
-          this.eventForm.controls.chargeStop.setValue('');
-          this.eventForm.controls.startDateDiesel.setValue('');
-          this.eventForm.controls.endDateDiesel.setValue('');
-          this.eventForm.controls.startDateNormal.setValue('');
-          this.eventForm.controls.endDateNormal.setValue('');
-          this.eventForm.controls.description.setValue('');
-          this.formTemp.controls.ha.setValue('');
-          this.formTemp.controls.ma.setValue('');
-          this.formTemp.controls.sa.setValue('');
-          this.formTemp.controls.hb.setValue('');
-          this.formTemp.controls.mb.setValue('');
-          this.formTemp.controls.sb.setValue('');
-          this.formTemp.controls.hc.setValue('');
-          this.formTemp.controls.mc.setValue('');
-          this.formTemp.controls.sc.setValue('');
+          this.eventForm.controls.unitControl.reset();
+          this.eventForm.controls.fuelTypeControl.reset();
+          this.eventForm.controls.flameOffDateShot.reset();
+          this.eventForm.controls.chargeShot.reset();
+          this.eventForm.controls.flameOffDateStart.reset();
+          this.eventForm.controls.fsnlDateStart.reset();
+          this.eventForm.controls.dateReject.reset();
+          this.eventForm.controls.chargeReject.reset();
+          this.eventForm.controls.startDateRunback.reset();
+          this.eventForm.controls.endDateRunback.reset();
+          this.eventForm.controls.chargeBeforeRunback.reset();
+          this.eventForm.controls.chargeAfterRunback.reset();
+          this.eventForm.controls.flameOffDateStop.reset();
+          this.eventForm.controls.fsnlDateStop.reset();
+          this.eventForm.controls.chargeStop.reset();
+          this.eventForm.controls.startDateDiesel.reset();
+          this.eventForm.controls.endDateDiesel.reset();
+          this.eventForm.controls.startDateNormal.reset();
+          this.eventForm.controls.endDateNormal.reset();
+          this.eventForm.controls.description.reset();
+          this.formTemp.controls.ha.reset();
+          this.formTemp.controls.ma.reset();
+          this.formTemp.controls.sa.reset();
+          this.formTemp.controls.hb.reset();
+          this.formTemp.controls.mb.reset();
+          this.formTemp.controls.sb.reset();
+          this.formTemp.controls.hc.reset();
+          this.formTemp.controls.mc.reset();
+          this.formTemp.controls.sc.reset();
       }
   }
 

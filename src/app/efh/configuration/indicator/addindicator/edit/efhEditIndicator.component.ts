@@ -120,7 +120,7 @@ export class EfhEditIndicatorComponent implements OnInit {
       maxiumLoad: ['', [Validators.required,Validators.min(0), Validators.max(2000)]],
       equivalenFuelFactor: ['', [Validators.required,Validators.min(0), Validators.max(2000)]],
       equivalenWithOutFuelFactor: ['', [Validators.required,Validators.min(0), Validators.max(2000)]],
-      description: ['', Validators.required],
+      description: [''],
       file: [null, Validators.required]
     });
     this.selectControlsEnabled(false);
@@ -150,6 +150,7 @@ export class EfhEditIndicatorComponent implements OnInit {
     if (this.accion === 'editar') {
       this.indicatorForm.controls.indicatorTypeControl.disable();
       this.selectControlsEnabled(true);
+      this.formTemp.controls.statusElement.enable();
       this.deshabiliarEstatus = false;
       this.disabledSave = false;
       this.titulo = 'Configuración / Indicadores / Agregar Indicador / Editar';
@@ -158,12 +159,14 @@ export class EfhEditIndicatorComponent implements OnInit {
       this.deshabiliarEstatus = true;
       this.isAddObvsDisabled = true;
       this.indicatorForm.controls.indicatorTypeControl.disable();
+      this.formTemp.controls.statusElement.disable();
       this.titulo = 'Configuración / Indicadores / Agregar Indicador / Consultar';
       this.subtitulo = 'Consultar / Configuración de Indicadores';
     } else {
       this.checkedEstatus = true;
       this.formTemp.controls.statusElement.setValue(this.checkedEstatus);
       this.deshabiliarEstatus = false;
+      this.formTemp.controls.statusElement.enable();
       this.disabledSave = false;
       this.titulo = 'Configuración / Indicadores / Agregar Indicador / Agregar';
       this.subtitulo = 'Agregar / Configuración de Indicadores';
@@ -228,6 +231,7 @@ export class EfhEditIndicatorComponent implements OnInit {
                     this.indicatorForm.controls.unitControl.setValue(this.selectedUnit);
                     this.selectedFuelType = this.fuelTypesArr.find(x => x.id === element.idtypefuel).id;
                     this.indicatorForm.controls.fuelTypeControl.setValue(this.selectedFuelType);
+                    this.indicatorForm.controls.indicatorTypeControl.disable();
 
                     // this.getObservations(this.eventType.id);
 
@@ -359,6 +363,7 @@ export class EfhEditIndicatorComponent implements OnInit {
                                 this.inputsControlsEnabled(false);
                               }
 
+                              this.formTemp.controls.statusElement.disable();
                               this.selectControlsEnabled(false);
                               this.defaultConstrolsEnabled(false);
                               this.deshabiliarEstatus = true;
@@ -448,6 +453,8 @@ export class EfhEditIndicatorComponent implements OnInit {
                       this.deshabiliarEstatus = true;
                       this.isAddObvsDisabled = true;
                       this.disabledSave = true;
+                      this.formTemp.controls.statusElement.disable();
+                      this.indicatorForm.controls.indicatorTypeControl.disable();
 
                       const idIndicator = dataBack['code'];
                       this.efhService.accionComments.next('savenewcommentsevent|' + idIndicator);
@@ -467,7 +474,6 @@ export class EfhEditIndicatorComponent implements OnInit {
 
   enableControls(selected) {
     this.submittedData = false;
-    debugger;
     if (selected.value === undefined) {
       this.selectControlsEnabled(false);
       this.resetSections();
@@ -532,15 +538,15 @@ export class EfhEditIndicatorComponent implements OnInit {
     this.withFuelControlsEnabled(false);
 
     if (this.accion === 'nuevo') {
-      this.indicatorForm.controls.unitControl.setValue('');
-      this.indicatorForm.controls.fuelTypeControl.setValue('');
-      this.indicatorForm.controls.dateStartApplication.setValue('');
-      this.indicatorForm.controls.dateEndApplication.setValue('');
-      this.indicatorForm.controls.equivalenFuelFactor.setValue('');
-      this.indicatorForm.controls.equivalenWithOutFuelFactor.setValue('');
-      this.indicatorForm.controls.maxiumLoad.setValue('');
-      this.indicatorForm.controls.efhiCost.setValue('');
-      this.indicatorForm.controls.description.setValue('');
+      this.indicatorForm.controls.unitControl.reset();
+      this.indicatorForm.controls.fuelTypeControl.reset();
+      this.indicatorForm.controls.dateStartApplication.reset();
+      this.indicatorForm.controls.dateEndApplication.reset();
+      this.indicatorForm.controls.equivalenFuelFactor.reset();
+      this.indicatorForm.controls.equivalenWithOutFuelFactor.reset();
+      this.indicatorForm.controls.maxiumLoad.reset();
+      this.indicatorForm.controls.efhiCost.reset();
+      this.indicatorForm.controls.description.reset();
     }
 
   }
