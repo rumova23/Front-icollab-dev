@@ -14,6 +14,7 @@
 				[attr.rows]="rows"
 				class="my-form-control form-control"
 				[formControlName]="controlName"
+				maxlength="{{ maxLength }}"
 			></textarea>
 			<small *ngIf="maxLength != ''" class="form-text text-muted text-right">{{mytextarea.value?.length || 0}}/{{maxLength}}</small>
 		</mat-form-field>

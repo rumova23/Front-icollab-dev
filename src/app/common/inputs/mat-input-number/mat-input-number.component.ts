@@ -22,6 +22,7 @@ export class MatInputNumberComponent implements OnInit {
 	}
 	onChange(e){
 		let d = this.formGroup.get(this.controlName).value;
+		if(d==null)this.formGroup.get(this.controlName).setValue(null);
 		this.eventChange.emit(d);
 	}
 }
