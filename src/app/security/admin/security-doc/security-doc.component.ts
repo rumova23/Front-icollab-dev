@@ -50,7 +50,8 @@ export class SecurityDocComponent implements OnInit {
 		{id:"4",label:'Manual'}
 	];
 	selection : SelectionModel<any> = new SelectionModel<any>(true, []);
-	
+	inputNumberMin = 0;
+	inputNumberMax = 100000;
 	constructor(
 		public toastr: ToastrManager,
 		private formBuilder: FormBuilder,
@@ -67,6 +68,7 @@ export class SecurityDocComponent implements OnInit {
 			aotucomplete: [{ value: '', disabled: false }, Validators.required],
 			dateYearAndMonth:[{ value: null, disabled: false }],
 			datePicker:[{ value: null, disabled: false }],
+			inputNumber:[{ value: null, disabled: false },[Validators.required,Validators.min(this.inputNumberMin),Validators.max(this.inputNumberMax)]],
 			select: [{ value: '', disabled: false }, Validators.required]
 		});
 	}

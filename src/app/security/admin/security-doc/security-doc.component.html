@@ -237,6 +237,21 @@
 		</div>
 	</div>
 	<hr>
+	
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-input-number
+			[formGroup]="form"
+			controlName="inputNumber"
+			[minValue] = "inputNumberMin"
+			[maxValue] = "inputNumberMax"
+		></app-mat-input-number>
+	</div></div>
+	<div class="row my-4">
+		<div class="col py-4 codigo">
+			<pre class="my-0"></pre>
+		</div>
+	</div>
+	<hr>
 
 	<div class="row"><div class="col-12 col-lg-4">
 		<app-mat-input-text-autocomplete 
