@@ -52,9 +52,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	};
 
 	lstRequired: Array<string>;
-
-
-
 	lstEventClassification: IdLabel[] = [];
 	lstEventClassificationDTO: Array<MaestroOpcionDTO>;
 	lstEventsDTO: Array<MaestroOpcionDTO>;
@@ -229,7 +226,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			selectCombo.sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()));
 		}
 	}
-
 	loadSelectTemplate(selectCombo: Array<any>, opciones: Array<number>) {
 		const listPaso = [];
 		if (opciones !== null) {
@@ -252,6 +248,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		if (data !== null) {
 			this.templateConfiguration = data;
 
+			this.formNewEvent.controls.fuelsId.setValidators([]);
 			if (this.templateConfiguration.disabledFuelsId) {
 				this.formNewEvent.controls.fuelsId.disable();
 			} else {
@@ -263,6 +260,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			}
 			this.lstFuels = this.loadSelectTemplate(this.lstFuelsAll, this.templateConfiguration.fuelsId);
 
+
+			this.formNewEvent.controls.licenseDescription.setValidators([Validators.minLength(4), Validators.maxLength(2000)]);
 			if (this.templateConfiguration.disabledLicenseDescription) {
 				this.formNewEvent.controls.licenseDescription.disable();
 			} else {
@@ -271,12 +270,13 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 					this.lstRequired.push('licenseDescription');
 					this.formNewEvent.controls.licenseDescription.setValidators([Validators.required, Validators.minLength(4), Validators.maxLength(2000)]);
 				}
-
 			}
 			if (this.templateConfiguration.licenseDescription !==  null) {
 				this.formNewEvent.controls.licenseDescription.setValue(this.templateConfiguration.licenseDescription);
 			}
 
+
+			this.formNewEvent.controls.equipmentId.setValidators([]);
 			if (this.templateConfiguration.disabledEquipmentId) {
 				this.formNewEvent.controls.equipmentId.disable();
 			} else {
@@ -288,6 +288,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			}
 			this.lstEquipment = this.loadSelectTemplate(this.lstEquipmentAll, this.templateConfiguration.equipmentId);
 
+
+			this.formNewEvent.controls.finalCharge.setValidators([]);
 			if (this.templateConfiguration.disabledFinalCharge) {
 				this.formNewEvent.controls.finalCharge.disable();
 			} else {
@@ -311,6 +313,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.formNewEvent.controls.finalCharge.value(this.templateConfiguration.finalCharge);
 			}
 
+
+			this.formNewEvent.controls.initialCharge.setValidators([]);
 			if (this.templateConfiguration.disabledInitialCharge) {
 				this.formNewEvent.controls.initialCharge.disable();
 			} else {
@@ -334,6 +338,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			}
 
 
+			this.formNewEvent.controls.impactContractsId.setValidators([]);
 			if (this.templateConfiguration.disabledImpactContractsId) {
 				this.formNewEvent.controls.impactContractsId.disable();
 			} else {
@@ -345,6 +350,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			}
 			this.lstImpactContracts = this.loadSelectTemplate(this.lstImpactContractsAll, this.templateConfiguration.impactContractsId);
 
+
+			this.formNewEvent.controls.licenseNumber.setValidators([]);
 			if (this.templateConfiguration.disabledLicenseNumber) {
 				this.formNewEvent.controls.licenseNumber.disable();
 			} else {
@@ -358,6 +365,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.formNewEvent.controls.licenseNumber.value(this.templateConfiguration.licenseNumber);
 			}
 
+
+			this.formNewEvent.controls.marketTypesId.setValidators([]);
 			if (this.templateConfiguration.disabledMarketTypesId) {
 				this.formNewEvent.controls.marketTypesId.disable();
 			} else {
@@ -369,6 +378,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			}
 			this.lstMarketTypes = this.loadSelectTemplate(this.lstMarketTypesAll, this.templateConfiguration.marketTypesId);
 
+
+			this.formNewEvent.controls.mwOffered.setValidators([]);
 			if (this.templateConfiguration.disabledMwOffered) {
 				this.formNewEvent.controls.mwOffered.disable();
 			} else {
@@ -391,6 +402,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.formNewEvent.controls.mwOffered.value(this.templateConfiguration.mwOffered);
 			}
 
+
+			this.formNewEvent.controls.mwPowerLoss.setValidators([]);
 			if (this.templateConfiguration.disabledMwPowerLoss) {
 				this.formNewEvent.controls.mwPowerLoss.disable();
 			} else {
@@ -413,6 +426,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.formNewEvent.controls.mwPowerLoss.value(this.templateConfiguration.mwPowerLoss);
 			}
 
+
+			this.formNewEvent.controls.powerMw.setValidators([]);
 			if (this.templateConfiguration.disabledPowerMw) {
 				this.formNewEvent.controls.powerMw.disable();
 			} else {
@@ -435,6 +450,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.formNewEvent.controls.powerMw.value(this.templateConfiguration.powerMw);
 			}
 
+
+			this.formNewEvent.controls.realsCcdvId.setValidators([]);
 			if (this.templateConfiguration.disabledRealsCcdvId) {
 				this.formNewEvent.controls.realsCcdvId.disable();
 			} else {
@@ -446,6 +463,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			}
 			this.lstRealsCcdv = this.loadSelectTemplate(this.lstRealsCcdvAll, this.templateConfiguration.realsCcdvId);
 
+
+			this.formNewEvent.controls.relatedServicesId.setValidators([]);
 			if (this.templateConfiguration.disabledRelatedServicesId) {
 				this.formNewEvent.controls.relatedServicesId.disable();
 			} else {
@@ -457,6 +476,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			}
 			this.lstSelatedServices = this.loadSelectTemplate(this.lstSelatedServicesAll, this.templateConfiguration.relatedServicesId);
 
+
+			this.formNewEvent.controls.toleranceBandsId.setValidators([]);
 			if (this.templateConfiguration.disabledToleranceBandsId) {
 				this.formNewEvent.controls.toleranceBandsId.disable();
 			} else {
@@ -468,6 +489,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			}
 			this.lstToleranceBands = this.loadSelectTemplate(this.lstToleranceBandsAll, this.templateConfiguration.toleranceBandsId);
 
+
+			this.formNewEvent.controls.unitsId.setValidators([]);
 			if (this.templateConfiguration.disabledUnitsId) {
 				this.formNewEvent.controls.unitsId.disable();
 			} else {
@@ -479,6 +502,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			}
 			this.lstUnits = this.loadSelectTemplate(this.lstUnitsAll, this.templateConfiguration.unitsId);
 
+
+			this.formNewEvent.controls.workOrderId.setValidators([Validators.minLength(4), Validators.maxLength(500)]);
 			if (this.templateConfiguration.disabledWorkOrderId) {
 				this.formNewEvent.controls.workOrderId.disable();
 			} else {
@@ -492,6 +517,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.formNewEvent.controls.workOrderId.setValue(this.templateConfiguration.workOrderId);
 			}
 
+
+			this.formNewEvent.controls.cenaceOperatorOpened.setValidators([]);
 			if (this.templateConfiguration.disabledCenaceOperatorOpened) {
 				this.formNewEvent.controls.cenaceOperatorOpened.disable();
 			} else {
@@ -505,6 +532,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.formNewEvent.controls.cenaceOperatorOpened.setValue(this.templateConfiguration.cenaceOperatorOpened);
 			}
 
+
+			this.formNewEvent.controls.cenaceOperatorClosed.setValidators([]);
 			if (this.templateConfiguration.disabledCenaceOperatorClosed) {
 				this.formNewEvent.controls.cenaceOperatorClosed.disable();
 			} else {
@@ -518,6 +547,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.formNewEvent.controls.cenaceOperatorClosed.setValue(this.templateConfiguration.cenaceOperatorClosed);
 			}
 
+
+			this.formNewEvent.controls.sourceEventId.setValidators([]);
 			if (this.templateConfiguration.disabledSourceEventId) {
 				this.formNewEvent.controls.sourceEventId.disable();
 			} else {
@@ -603,6 +634,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				returnValue = element.id;
 			}
 		});
+		console.log(returnValue);
 		return returnValue;
 	}
 	loadCatalog() {
@@ -705,6 +737,13 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.formNewEvent.controls.estatusAprobacionId.enable();
 	}
 	onSubmitFormNewEvent() {
+		this.onChangeDateTimeStart();
+		this.onChangeDateTimeEnd();
+		if (!this.isValidDates()) {
+			this.toastr.errorToastr('La fecha de inicio, debe ser menor a la fecha final del evento', 'Error!');
+			return;
+		}
+
 		let mensaje = '';
 		let controlValid = true;
 		if (this.formNewEvent.controls.eventsClassificationId.value == null) {
@@ -730,12 +769,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.onSubmit();
 	}
 	onSubmit() {
-		this.onChangeDateTimeStart();
-		this.onChangeDateTimeEnd();
-		if (!this.isValidDates()) {
-			this.toastr.errorToastr('La fecha de inicio, debe ser menor a la fecha final del evento', 'Error!');
-			return;
-		}
 		this.formNewEvent.enable();
 		this.addBlock(1, '');
 		const binnacle: BinnacleEventDTO = this.formNewEvent.value;
@@ -984,13 +1017,16 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		return contentType;
 	}
 	btnFinish() {
+		this.onChangeDateTimeStart();
+		this.onChangeDateTimeEnd();
+		if (!this.isValidDates()) {
+			this.toastr.errorToastr('La fecha de inicio, debe ser menor a la fecha final del evento', 'Error!');
+			return;
+		}
+
 		this.submitted = true;
 		this.lstRequired.forEach(field => {
 			const control = this.formNewEvent.get(field);
-			if (field === 'mwOffered') {
-				console.dir(typeof(this.formNewEvent.controls['mwOffered'].value));
-			}
-
 			if ( typeof(this.formNewEvent.controls[field].value) === 'string') {
 				control.patchValue(this.formNewEvent.controls[field].value.trim());
 			} else {
@@ -1003,6 +1039,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			this.formNewEvent.controls.plantOperatorClosed.patchValue(JSON.parse(localStorage.getItem('user')).username);
 			this.onSubmit();
 		} else {
+			console.dir(this.formNewEvent);
 			this.toastr.errorToastr('Los campos en rojo son requeridos.', 'Error!');
 		}
 	}
