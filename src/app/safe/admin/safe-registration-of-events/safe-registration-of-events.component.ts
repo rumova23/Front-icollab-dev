@@ -639,6 +639,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		return returnValue;
 	}
 	loadCatalog() {
+		this.addBlock(1, '');
 		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL-CCDV', 'BANDA TOLERANCIA',
 		'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'FUENTE EVENTO'];
 		this.masterCatalogService.listCatalog(names).subscribe(data  => {
@@ -660,6 +661,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			this.toastr.errorToastr(errorData.error.message, 'Error!');
 		},
 		() => {
+			this.addBlock(2, '')
 			if (this.catalogType.action === 'editar') {
 				if (this.catalogType.element.estatusEvento === 'Evento Cerrado' || this.catalogType.element.estatusEvento === 'Evento Terminado') {
 					this.addBlock(1, '');
