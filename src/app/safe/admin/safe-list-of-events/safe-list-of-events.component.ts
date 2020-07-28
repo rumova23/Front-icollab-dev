@@ -190,8 +190,17 @@ export class SafeListOfEventsComponent implements OnInit {
         );
 	}
 	onTableRowDelete(element) {
-		console.log(element);
-
+		this.binnacleService.deleteBinnacleEvent(element).subscribe(
+			data => {
+				this.toastr.successToastr('Elemento Correctamente Borrado', 'Exito');
+				this.onLoadInit();
+			},
+			errorData => {
+				this.toastr.errorToastr(errorData.error.message, 'Error');
+			},
+			() => {
+				console.log('deleteBinnacleEvent:: ', 'Termino');
+			});
 	}
 	addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,

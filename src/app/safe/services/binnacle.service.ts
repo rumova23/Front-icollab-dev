@@ -64,6 +64,11 @@ export class BinnacleService {
     return this.http.get(this.binnacle + 'binnacle/events/between/' + timeInit + '/' + timeEnd, {params : this.parameters });
   }
 
+  deleteBinnacleEvent(event: BinnacleEventDTO): Observable<any> {
+    this.parameters = this.globalService.setXTenantId_Plant();
+    return this.http.post(this.binnacle + 'binnacle/events/delete', event, {params : this.parameters });
+  }
+
   changeStatus(statusName: string, binnacleEventId: number): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant();
     return this.http.get(this.binnacle + 'binnacle/change/status/' + statusName + '/' + binnacleEventId, {params : this.parameters });

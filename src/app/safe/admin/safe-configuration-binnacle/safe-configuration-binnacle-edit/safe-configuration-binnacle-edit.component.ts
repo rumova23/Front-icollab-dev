@@ -71,6 +71,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			disabledEvents00Id: [false],
 		});
 		this.formNewEvent = this.formBuilder.group({
+			binnacleEventConfigurationID: ['', null],
 			binnacleEventID: ['', null],
 
 			eventsClassificationId: [{ value: null, disabled: false }, Validators.required],
@@ -286,6 +287,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			this.loadSelect(this.lstSourceEvent, data['FUENTE EVENTO']);
 
 			if (this.catalogType.action === 'editar') {
+				console.dir(this.catalogType.dto);
 				this.formNewEvent.patchValue(this.catalogType.dto);
 				this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.dto.eventsClassificationId));
 				this.formNewEvent.controls.eventsClassificationId.disable();
