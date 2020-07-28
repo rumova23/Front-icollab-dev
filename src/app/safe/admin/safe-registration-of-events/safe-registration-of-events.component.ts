@@ -137,7 +137,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 
 	ngOnInit() {
 		this.addBlock(1, '');
-		timer(20000).subscribe(()=>{this.addBlock(2, '');});// existen varios .subcribe()
+		timer(10000).subscribe(()=>{this.addBlock(2, '');});// existen varios .subcribe()
 		this.lstEvents = [];
 		this.lstRequired = [];
 		switch (this.catalogType.action) {
