@@ -22,6 +22,7 @@ import { DatePipe } from '@angular/common';
 import {NoteDTO} from '../../models/note-dto';
 import {BearerDTO} from '../../models/bearer-dto';
 import {Constants} from '../../../core/globals/Constants';
+import { timer } from 'rxjs';
 
 @Component({
 	selector: 'app-safe-registration-of-events',
@@ -135,6 +136,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.addBlock(1, '');
+		timer(20000).subscribe(()=>{this.addBlock(2, '');});// existen varios .subcribe()
 		this.lstEvents = [];
 		this.lstRequired = [];
 		switch (this.catalogType.action) {
@@ -817,6 +820,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.getTableObservationsCommentsSelectionChecked();
 	}
 	btnUploadFile() {
+		if( this.fileUploadForm.controls.file.value == null )return 0;
+		this.addBlock(1, 'Guardando archivo...');
 		const value = this.fileUploadForm.value;
 		const reader = new FileReader();
 		reader.onloadend = (e) => {
@@ -832,6 +837,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			this.files.push(fileBearer);
 		}
 		reader.readAsDataURL(value.file);
+		
+		timer(1000).subscribe(()=>this.addBlock(2, ''));
+		this.fileUploadForm.controls.file.setValue(null);
 	}
 	getContentType(extencion) {
 		let contentType = '';

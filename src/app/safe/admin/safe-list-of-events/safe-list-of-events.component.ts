@@ -103,6 +103,7 @@ export class SafeListOfEventsComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		this.addBlock(1, '');
 		this.formQuery = this.formBuilder.group({
 			from: [{ value: moment(), disabled: false }, Validators.required],
 			to: [{ value: moment(), disabled: false }, Validators.required],
@@ -129,12 +130,15 @@ export class SafeListOfEventsComponent implements OnInit {
 					element.order = i;
 					element.usuario = (element.userUpdated !== null) ? element.userUpdated : element.userCreated;
 				});
+				this.addBlock(2, '');
 			},
 			errorData => {
 				this.toastr.errorToastr('Problemas en la consulta', 'Error');
+				this.addBlock(2, '');
 			},
 			() => {
 				console.log('loadMasters:: ', 'Termino');
+				this.addBlock(2, '');
 			});
 	}
 
