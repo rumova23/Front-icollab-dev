@@ -426,10 +426,10 @@
 		<div class="section">
 			<div class="row">
 				<div class="col">
-					<div class="form-group">
+					<!--div class="form-group">
 						<label>Estado del elemento:</label><br>
 						<mat-checkbox color="primary" formControlName="eventActivated">Activo</mat-checkbox>
-					</div>
+					</div-->
 				</div>
 				<div class="col">
 					<div class="row justify-content-end">
@@ -439,8 +439,8 @@
 						<div class="col-12 col-lg-6">
 							<app-btn-block-save-update myType="submit" [disabled]="disabledSubmit"></app-btn-block-save-update>
 						</div>
-						<div class="col-12 col-lg-3">
-							<app-btn-block-finish *ngIf="!disabledBtnFinish" (click)="btnFinish()" [disabled]="disabledBtnFinish"></app-btn-block-finish>
+						<div class="col-12 col-lg-3" *ngIf="!disabledBtnFinish">
+							<app-btn-block-finish (click)="btnFinish()" [disabled]="disabledBtnFinish"></app-btn-block-finish>
 						</div>
 					</div>
 				</div>

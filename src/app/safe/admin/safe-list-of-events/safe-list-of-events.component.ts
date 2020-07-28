@@ -53,7 +53,7 @@ export class SafeListOfEventsComponent implements OnInit {
 		{key: 'observacionesComentarios'            , label: 'Observaciones y/o comentarios'},
 		{key: 'usuario'                             , label: 'Usuario'},
 		{key: 'fechaYHoraDeUltimaModificacion'      , label: 'Fecha y Hora de Ultima Modificacion'},
-		{key: 'estatus'                             , label: 'Estatus'}
+		{key: 'estatus'                             , label: 'Comentarios'}
 
 	];
 	tableColumnsDisplay: string[] = [
