@@ -573,14 +573,14 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	}
 	obtenSupports() {
 		this.binnacleService.obtenSupports(this.catalogType.element.binnacleEventID).subscribe((data: Array<BearerDTO>)  => {
-			this.files = data;
-		},
-		errorData => {
-			this.addBlock(2, '');
-			this.toastr.errorToastr(errorData.error.message, 'Error!');
-		},
-		() => {
-		});
+				this.files = data;
+			},
+			errorData => {
+				this.addBlock(2, '');
+				this.toastr.errorToastr(errorData.error.message, 'Error!');
+			},
+			() => {
+			});
 	}
 	onBuildTemplate(event) {
 		let eventsClassificationId = 0;
@@ -742,11 +742,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	onSubmitFormNewEvent() {
 		this.onChangeDateTimeStart();
 		this.onChangeDateTimeEnd();
-		if (!this.isValidDates()) {
-			this.toastr.errorToastr('La fecha de inicio, debe ser menor a la fecha final del evento', 'Error!');
-			return;
-		}
-
 		let mensaje = '';
 		let controlValid = true;
 		if (this.formNewEvent.controls.eventsClassificationId.value == null) {
@@ -1120,6 +1115,17 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 					this.files = this.files.filter(
 						e => e !== file
 					);
+				}
+				if (file.bearerId != null) {
+					this.binnacleService.deleteFile(file).subscribe(data  => {
+							console.log('echo');
+						},
+						errorData => {
+							this.addBlock(2, '');
+							this.toastr.errorToastr(errorData.error.message, 'Error!');
+						},
+						() => {
+						});
 				}
 			})
 			.catch(() => {});

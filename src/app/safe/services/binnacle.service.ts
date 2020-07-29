@@ -8,6 +8,7 @@ import {BinnacleDTO} from '../models/binnacle-dto';
 import {BinnacleEventConfigurationDTO} from '../models/binnacle-event-configuration-dto';
 import {BinnacleEventDTO} from '../models/binnacle-event-dto';
 import {ContainerClasificaDTO} from '../models/container-clasifica-dto';
+import {BearerDTO} from '../models/bearer-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -81,6 +82,11 @@ export class BinnacleService {
   setAssociate(container: ContainerClasificaDTO): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.binnacle }binnacle/configure/associated`, container, {params : this.parameters });
+  }
+
+  deleteFile(bearer: BearerDTO) {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.post( `${ this.binnacle }binnacle/delete/bearer`, bearer, {params : this.parameters });
   }
 
   obtenSupports(binnacleEventId: number) {

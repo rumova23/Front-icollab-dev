@@ -395,7 +395,7 @@
 			<div class="row">
 				<div class="col">
 					<div *ngFor="let file of files" class="media" >
-						<a *ngIf="!file.bearerId" (click)="btnDeleteFile(file)">
+						<a (click)="btnDeleteFile(file)">
 							<img matTooltip="Eliminar archivo" src="assets/img/icon_delete.png" style="width: 20px;" />
 						</a>
 						<img src="assets/img/zip.png" style="width: 64px; height: 64px;" (click)="downloadFile(file)">
