@@ -19,7 +19,7 @@ export class FileUploadComponent implements ControlValueAccessor {
   @Input() progress:number=0;
   onChange: Function;
   public file: File | null = null;
-
+  inputFile=null;
   @HostListener('change', ['$event.target.files']) emitFiles( event: FileList ) {
     const file = event && event.item(0);
     this.onChange(file);
@@ -41,5 +41,8 @@ export class FileUploadComponent implements ControlValueAccessor {
   }
 
   registerOnTouched( fn: Function ) {
+  }
+  clean(){
+    this.inputFile = null;
   }
 }

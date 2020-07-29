@@ -1,5 +1,5 @@
 /* tslint:disable:indent */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormGroup, FormBuilder, FormControl, Validators, AbstractControl, FormArray} from '@angular/forms';
 import * as moment from 'moment';
 import { ConfirmationDialogService } from 'src/app/core/services/confirmation-dialog.service';
@@ -23,6 +23,7 @@ import {NoteDTO} from '../../models/note-dto';
 import {BearerDTO} from '../../models/bearer-dto';
 import {Constants} from '../../../core/globals/Constants';
 import { timer } from 'rxjs';
+import { FileUploadComponent } from 'src/app/common/fileUpload/fileUpload.component';
 
 @Component({
 	selector: 'app-safe-registration-of-events',
@@ -30,6 +31,7 @@ import { timer } from 'rxjs';
 	styleUrls: ['./safe-registration-of-events.component.scss']
 })
 export class SafeRegistrationOfEventsComponent implements OnInit {
+	@ViewChild('appFileupload') appFileupload:FileUploadComponent;
 	hours: IdLabel[] =  new Array(24).fill(0).map((_valor, indice) => ({id: (indice < 10 ? '0' : '') + indice, label: (indice < 10 ? '0' : '') + indice}));
 	minutes: IdLabel[] =  new Array(60).fill(0).map((_valor, indice) => ({id: (indice < 10 ? '0' : '') + indice, label: (indice < 10 ? '0' : '') + indice}));
 
@@ -125,7 +127,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	) {
 		this.loadCatalog();
 	}
-
 	ngOnInit() {
 		this.lstEvents = [];
 		this.lstRequired = [];
@@ -875,6 +876,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		
 		timer(1000).subscribe(()=>this.addBlock(2, ''));
 		this.fileUploadForm.controls.file.setValue(null);
+		this.appFileupload.clean();
 	}
 	getContentType(extencion) {
 		let contentType = '';

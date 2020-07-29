@@ -423,7 +423,7 @@
 					<div class="row" [formGroup]="fileUploadForm">
 						<div class="col">
 							Carga Archivo:<br />
-							<app-file-upload formControlName="file" [progress]="progress" [disabled]="actionPage === 'See'"></app-file-upload>
+							<app-file-upload formControlName="file" [progress]="progress" [disabled]="actionPage === 'See'" #appFileupload></app-file-upload>
 							<mat-error *ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
 								Requerido
 							</mat-error>
