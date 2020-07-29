@@ -135,9 +135,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.loadCatalog();
 	}
 
-	ngOnInit() {
-		this.addBlock(1, '');
-		timer(10000).subscribe(()=>{this.addBlock(2, '');});// existen varios .subcribe()
+	ngOnInit() {		
 		this.lstEvents = [];
 		this.lstRequired = [];
 		switch (this.catalogType.action) {
@@ -641,6 +639,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		return returnValue;
 	}
 	loadCatalog() {
+		this.addBlock(1, '');
 		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL-CCDV', 'BANDA TOLERANCIA',
 		'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'FUENTE EVENTO'];
 		this.masterCatalogService.listCatalog(names).subscribe(data  => {
@@ -662,9 +661,12 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			this.toastr.errorToastr(errorData.error.message, 'Error!');
 		},
 		() => {
+			this.addBlock(2, '')
 			if (this.catalogType.action === 'editar') {
 				if (this.catalogType.element.estatusEvento === 'Evento Cerrado' || this.catalogType.element.estatusEvento === 'Evento Terminado') {
+					this.addBlock(1, '');
 					this.commonDisabled();
+					setTimeout(() => this.addBlock(2, ''), 4000);
 					this.disabledSubmit = true;
 					this.disabledBtnFinish = true;
 					if (this.catalogType.element.estatusAprobacion === 'Evento Aprobado') {
@@ -684,6 +686,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.obtenSupports();
 			}
 			if (this.catalogType.action === 'ver') {
+				this.addBlock(1, '');
 				if (this.catalogType.element.observations !== null) {
 					this.catalogType.element.observations.forEach( (obs: NoteDTO) => {
 						this.tableObservationsComments = this.tableObservationsComments.concat({
@@ -696,6 +699,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.disabledSubmit = true;
 				this.disabledBtnFinish = true;
 				this.commonDisabled();
+				
+				setTimeout(() => this.addBlock(2, ''), 4000);
 			}
 			this.loadCatalogStatus('TX_BINNACLE_EVENT', this.lstApprovalStatus);
 			this.loadCatalogStatus('TX_BINNACLE_EVENT_II', this.lstEventStatus);

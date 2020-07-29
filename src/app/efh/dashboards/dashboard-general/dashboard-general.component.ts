@@ -339,8 +339,9 @@ export class DashboardGeneralComponent extends ConnectSocketChannelComponent imp
 			},
 			xAxis: {
 				gridLineWidth: 1,
+				gridLineDashStyle: 'longdash',
+                gridLineColor: '#2b908f',
 				type: 'datetime',
-                gridLineColor: '#707073',
                 labels: {
                     style: {
                         color: '#E0E0E3'
@@ -432,7 +433,9 @@ export class DashboardGeneralComponent extends ConnectSocketChannelComponent imp
 			opt.yAxis.push(
 				{
 					id: "y-axis-"+nextValue.value[0],
-					gridLineWidth: 0,
+					gridLineWidth: 1,
+					gridLineDashStyle: 'longdash',
+					gridLineColor: '#2b908f',
 					labels: {
 						style: {
 							color: this.mapColors.get(nextValue.value[0]),
