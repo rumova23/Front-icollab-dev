@@ -41,17 +41,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	fileUploadForm: FormGroup;
 	formNewEvent: FormGroup;
 	formTemp: FormGroup;
-
 	file: any;
-	formErrors = {
-		'powerMw': ''
-	};
-	validationMessages = {
-		'powerMw': {
-			'required': 'Title is required.'
-		}
-	};
-
 	lstRequired: Array<string>;
 	lstEventClassification: IdLabel[] = [];
 	lstEventClassificationDTO: Array<MaestroOpcionDTO>;
@@ -118,8 +108,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	disabledBtnFinish = true;
 	disabledToRefuse = false;
 	disabledToAccept = false;
+	visibleAccepted = false;
+	visibleObservation = false;
 	submitted = false;
-	mapLabel: Map<string, string>;
 	constructor(
 		private formBuilder: FormBuilder,
 		public globalService: GlobalService,
@@ -135,7 +126,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.loadCatalog();
 	}
 
-	ngOnInit() {		
+	ngOnInit() {
 		this.lstEvents = [];
 		this.lstRequired = [];
 		switch (this.catalogType.action) {
@@ -202,6 +193,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			}
 		);
 		this.setTableObservationsCommentsSelectionChecked();
+
+		this.disiblesEnables();
 	}
 	setTableObservationsCommentsSelectionChecked() {
 		this.tableObservationsCommentsSelection.select(...this.tableObservationsComments.filter(e => e.visible === true));
@@ -560,12 +553,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				}
 			}
 			this.lstSourceEvent = this.loadSelectTemplate(this.lstSourceEventAll, this.templateConfiguration.sourceEventId);
-			this.disabledBtnFinish = false;
-			this.disabledSubmit = false;
 		} else {
 			this.ngOnInit();
-			this.disabledBtnFinish = true;
-			this.disabledSubmit = true;
 			this.toastr.warningToastr('El template para el evento: Aun no es Configurado.', 'Advertencia!');
 		}
 	}
@@ -594,8 +583,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 					},
 					errorData => {
 						this.ngOnInit();
-						this.disabledBtnFinish = true;
-						this.disabledSubmit = true;
 						this.toastr.errorToastr(errorData.error.message, 'Error!');
 					},
 					() => {
@@ -615,6 +602,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			});
 		}, errorData => {
 				return '';
+			},
+			() => {
+				console.log("cargo estatus");
 			});
 	}
 	isStatus(nameStatus: string, idEstatus: number, lstEntidadEstaus: IdLabel[]) {
@@ -667,8 +657,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 					this.addBlock(1, '');
 					this.commonDisabled();
 					setTimeout(() => this.addBlock(2, ''), 4000);
-					this.disabledSubmit = true;
-					this.disabledBtnFinish = true;
 					if (this.catalogType.element.estatusAprobacion === 'Evento Aprobado') {
 						this.disabledToAccept = true;
 					}
@@ -696,15 +684,62 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 					});
 				}
 				this.obtenSupports();
-				this.disabledSubmit = true;
-				this.disabledBtnFinish = true;
 				this.commonDisabled();
-				
+
 				setTimeout(() => this.addBlock(2, ''), 4000);
 			}
 			this.loadCatalogStatus('TX_BINNACLE_EVENT', this.lstApprovalStatus);
 			this.loadCatalogStatus('TX_BINNACLE_EVENT_II', this.lstEventStatus);
 		});
+	}
+	disiblesEnables() {
+		if (this.catalogType.action === 'editar') {
+			if (this.catalogType.element.estatusEvento === 'Evento Cerrado' || this.catalogType.element.estatusEvento === 'Evento Terminado') {
+				this.visibleAccepted = true;
+				if (this.catalogType.element.estatusAprobacion === 'Evento Aprobado') {
+					this.disabledToAccept = true;
+				}
+				this.visibleObservation = false;
+				this.tableColumnsDisplay = [
+					'order',
+					'name',
+					'observation',
+					'dateUptade'
+				];
+			}
+
+			if (this.catalogType.element.estatusEvento === 'Evento Abierto') {
+				this.visibleAccepted = false;
+				this.visibleObservation = true;
+				this.disabledSubmit = false;
+				this.disabledBtnFinish = false;
+			}
+		}
+		if (this.catalogType.action === 'nuevo') {
+			this.visibleAccepted = false;
+			this.visibleObservation = true;
+			this.disabledSubmit = false;
+			this.disabledBtnFinish = false;
+		}
+
+		if (this.catalogType.action === 'ver') {
+			setTimeout(() => {
+				this.disabledToRefuse = true;
+				this.disabledToAccept = true;
+				this.submitted = false;
+				this.disabledSubmit = true;
+				this.disabledBtnFinish = true;
+				this.disabledToAccept = true;
+				this.visibleAccepted = false;
+				this.tableColumnsDisplay = [
+					'order',
+					'name',
+					'observation',
+					'dateUptade'
+				];
+			}, 2000);
+
+		}
 	}
 	isValidDates() {
 		let returValue = true;

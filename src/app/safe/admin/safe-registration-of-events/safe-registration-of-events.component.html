@@ -356,7 +356,7 @@
 					<p class="section_titulo_1">{{ "Observaciones y/o comentarios" | translate }}</p>
 				</div>
 			</div>
-			<div class="row">
+			<div *ngIf="visibleObservation" class="row">
 				<div class="col">
 					<app-mat-input-textarea
 						[formGroup]="formobservationsComments"
@@ -365,7 +365,7 @@
 					></app-mat-input-textarea>
 				</div>
 			</div>
-			<div class="row justify-content-end">
+			<div *ngIf="visibleObservation" class="row justify-content-end">
 				<div class="col-12 col-lg-2">
 					<app-btn-block-add (click)="BtnAddObservationsComments()" [disabled]="actionPage === 'See'"></app-btn-block-add>
 				</div>
@@ -399,7 +399,7 @@
 						<div *ngFor="let file of files" class="media col-12 my-1" >
 							<div class="row">
 								<div class="col-auto  pr-0">
-									<a (click)="btnDeleteFile(file)">
+									<a *ngIf="!disabledSubmit" (click)="btnDeleteFile(file)">
 										<img matTooltip="Eliminar archivo" src="assets/img/icon_delete.png" style="width: 20px;" />
 									</a>
 								</div>
@@ -419,7 +419,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col">
+				<div class="col" *ngIf="!disabledSubmit">
 					<div class="row" [formGroup]="fileUploadForm">
 						<div class="col">
 							Carga Archivo:<br />
@@ -463,7 +463,7 @@
 				</div>
 			</div>
 		</div>
-	<div class="section" *ngIf="this.catalogType.element.estatusEvento === 'Evento Terminado' || this.catalogType.element.estatusEvento === 'Evento Cerrado'">
+	<div class="section" *ngIf="visibleAccepted">
 		<div class="row">
 			<div class="col">
 				<div class="row justify-content-end">
