@@ -9,6 +9,7 @@ import {BinnacleEventConfigurationDTO} from '../models/binnacle-event-configurat
 import {BinnacleEventDTO} from '../models/binnacle-event-dto';
 import {ContainerClasificaDTO} from '../models/container-clasifica-dto';
 import {BearerDTO} from '../models/bearer-dto';
+import {NoteDTO} from '../models/note-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -92,5 +93,14 @@ export class BinnacleService {
   obtenSupports(binnacleEventId: number) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.binnacle }binnacle/obten/support/${binnacleEventId}`, {params : this.parameters });
+  }
+
+  updateNote(noteDTO: NoteDTO) {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.post( `${ this.binnacle }binnacle/update/note`, noteDTO, {params : this.parameters });
+  }
+  deleteNote(noteDTO: NoteDTO) {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.post( `${ this.binnacle }binnacle/delete/note`, noteDTO, {params : this.parameters });
   }
 }

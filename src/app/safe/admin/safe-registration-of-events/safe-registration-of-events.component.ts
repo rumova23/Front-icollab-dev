@@ -85,6 +85,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	tempOrder = 1;
 	tableObservationsComments = [];
 
+	noteEdition: any;
 	newNotes: Array<NoteDTO> = [];
 	newFiles: Array<BearerDTO> = [];
 	files: Array<BearerDTO> = [];
@@ -667,7 +668,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				if (this.catalogType.element.observations !== null) {
 					this.catalogType.element.observations.forEach( (obs: NoteDTO) => {
 						this.tableObservationsComments = this.tableObservationsComments.concat({
-							order: this.tempOrder, name: obs.usuario, observation: obs.note, dateUptade: obs.updateString, visible: obs.visible
+							noteId: obs.noteId, order: this.tempOrder, name: obs.usuario, observation: obs.note, dateUptade: obs.updateString, visible: obs.visible
 						});
 						this.tempOrder ++;
 					});
@@ -837,15 +838,37 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	}
 	BtnAddObservationsComments() {
 		const observation = this.formobservationsComments.get('observationsComments').value;
+		if (this.noteEdition != null) {
+			this.tableObservationsComments.forEach(element => {
+				if (element.order === this.noteEdition.order) {
+					element.observation = observation;
+				}
+			});
+
+			if (this.noteEdition.noteId) {
+				const noteDTO: NoteDTO = new NoteDTO();
+				noteDTO.noteId = this.noteEdition.noteId;
+				noteDTO.note = observation;
+				noteDTO.visible = true;
+				this.binnacleService.updateNote(noteDTO).subscribe((data: NoteDTO)  => {
+					},
+					errorData => {
+					},
+					() => {
+					});
+			}
+			this.noteEdition = null;
+			this.formobservationsComments.get('observationsComments').setValue('');
+			return;
+		}
 		if (observation != null && observation.trim() !== '') {
 			this.tableObservationsComments = this.tableObservationsComments.concat({
 				order: this.tempOrder, name: this.getNameUser(), observation, dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: true
 			});
 			const noteDTO: NoteDTO = new NoteDTO();
 			noteDTO.note = observation;
-			noteDTO.visible = true
+			noteDTO.visible = true;
 			this.newNotes.push(noteDTO);
-
 			this.tempOrder ++;
 			this.formobservationsComments.get('observationsComments').setValue('');
 
@@ -854,6 +877,11 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			this.toastr.errorToastr('La observacion no puede ser vacia', 'Error!');
 		}
 		this.getTableObservationsCommentsSelectionChecked();
+	}
+	tableRowEdit(element) {
+		this.noteEdition = element;
+		this.formobservationsComments.controls.observationsComments.patchValue(element.observation);
+		console.dir(this.noteEdition);
 	}
 	btnUploadFile() {
 		if( this.fileUploadForm.controls.file.value == null )return 0;
@@ -1088,8 +1116,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			this.toastr.errorToastr('Los campos en rojo son requeridos.', 'Error!');
 		}
 	}
-	tableRowEdit(element) {
-	}
 	tableRowDelete(element) {
 		this.confirmationDialogService.confirm(
 			'Confirmación',
@@ -1100,6 +1126,18 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.tableObservationsComments = this.tableObservationsComments.filter(
 					e => e !== element
 				);
+				if (element.noteId) {
+					const noteDTO: NoteDTO = new NoteDTO();
+					noteDTO.noteId = element.noteId;
+					noteDTO.note = element.note;
+					noteDTO.visible = element.visible;
+					this.binnacleService.deleteNote(noteDTO).subscribe((data: NoteDTO)  => {
+						},
+						errorData => {
+						},
+						() => {
+						});
+				}
 			}
 		})
 		.catch(() => {});
