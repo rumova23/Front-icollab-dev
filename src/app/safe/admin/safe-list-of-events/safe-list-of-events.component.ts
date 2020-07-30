@@ -50,7 +50,7 @@ export class SafeListOfEventsComponent implements OnInit {
 		{key: 'sourceEvent'                     , label: 'Fuente del Evento'},
 		{key: 'estatusEvento'                    , label: 'Estatus del Evento'},
 		{key: 'estatusAprobacion'                 , label: 'Estatus de Aprobacion'},
-		{key: 'observacionesComentarios'            , label: 'Observaciones y/o comentarios'},
+		{key: 'SupervisorApprovedRejection'            , label: 'Nombre(s)/Apellidos(s) Supervisor (Aprobo / Rechazo)'},
 		{key: 'usuario'                             , label: 'Usuario'},
 		{key: 'fechaYHoraDeUltimaModificacion'      , label: 'Fecha y Hora de Ultima Modificacion'},
 		{key: 'estatus'                             , label: 'Comentarios'}
@@ -85,10 +85,9 @@ export class SafeListOfEventsComponent implements OnInit {
 		'sourceEvent',
 		'estatusEvento',
 		'estatusAprobacion',
-		'observacionesComentarios',
+		'SupervisorApprovedRejection',
 		'usuario',
 		'fechaYHoraDeUltimaModificacion',
-		'estatus',
 		'sys_see',
 		'sys_edit',
 		'sys_delete'
@@ -128,6 +127,7 @@ export class SafeListOfEventsComponent implements OnInit {
 				this.tableData.forEach((element) => {
 					i++;
 					element.order = i;
+					element.SupervisorApprovedRejection = '';
 					element.usuario = (element.userUpdated !== null) ? element.userUpdated : element.userCreated;
 					if(element.estatusEvento == "Evento Abierto" && element.estatusAprobacion == "Evento Rechazado"){
 						element.backgroundcolor = '#F08080';
