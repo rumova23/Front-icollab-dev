@@ -19,7 +19,7 @@ export class SafeListOfEventsComponent implements OnInit {
 	formQuery: FormGroup;
 	dateToMin = new Date();
 	// { order: '', dateOpCom: '', process: '', user: '', dateUpdated: '', status: '' }
-	tableData: Array<BinnacleEventDTO> = [];
+	tableData: Array<any> = []; //Array<BinnacleEventDTO>
 	tablaColumnsLabels = [
 		{key: 'binnacleEventID'                                  , label: 'id'},
 		{key: 'order'                               , label: '#'},
@@ -125,10 +125,19 @@ export class SafeListOfEventsComponent implements OnInit {
 			(data: Array<BinnacleEventDTO>) => {
 				this.tableData = data.sort((a, b) =>  moment(a.dateTimeStart).toDate().getTime() - moment(b.dateTimeStart).toDate().getTime());
 				let i = 0;
-				this.tableData.forEach((element: BinnacleEventDTO) => {
+				this.tableData.forEach((element) => {
 					i++;
 					element.order = i;
 					element.usuario = (element.userUpdated !== null) ? element.userUpdated : element.userCreated;
+					if(element.estatusEvento == "Evento Abierto" && element.estatusAprobacion == "Evento Rechazado"){
+						element.backgroundcolor = '#F08080';
+					}else if(element.estatusEvento == "Evento Cerrado" && element.estatusAprobacion == "Evento Aprobado"){
+						element.backgroundcolor = '#9ACD32';
+					}else if(element.estatusEvento == "Evento Terminado" && element.estatusAprobacion == "Evento Sin Aprobacion"){
+						element.backgroundcolor = '#FFD700';
+					}else if(element.estatusEvento == "Evento Abierto" && element.estatusAprobacion == "Evento Sin Aprobacion"){
+						element.backgroundcolor = '#DCDCDC';
+					}
 				});
 				this.addBlock(2, '');
 			},
