@@ -180,7 +180,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				initialCharge: [{ value: null, disabled: true }],
 				finalCharge: [{ value: null, disabled: true }],
 				mwPowerLoss: [{ value: null, disabled: true }],
-				workOrderId: [{ value: null, disabled: true }, [Validators.minLength(4), Validators.maxLength(500)]],
+				workOrderId: [{ value: null, disabled: true }, [Validators.maxLength(100)]],
 				licenseDescription: [{ value: null, disabled: true }, [Validators.minLength(4), Validators.maxLength(2000)]],
 				plantOperatorOpened: [{ value: null, disabled: true }],
 				cenaceOperatorOpened: [{ value: null, disabled: true }],
