@@ -152,18 +152,38 @@ export class SafeListOfEventsComponent implements OnInit {
 	}
 
 	onFormQuerySubmit(o) {
+		this.addBlock(1, '');
 		this.binnacleService.eventsBetween(
 			moment(this.formQuery.get('from').value).toDate().getTime(),
 			moment(this.formQuery.get('to').value).toDate().getTime()).subscribe(
 			(data: Array<BinnacleEventDTO>) => {
-				console.dir(data);
-				this.tableData = data;
+				this.tableData = data.sort((a, b) =>  moment(a.dateTimeStart).toDate().getTime() - moment(b.dateTimeStart).toDate().getTime());
+				let i = 0;
+				this.tableData.forEach((element) => {
+					i++;
+					element.order = i;
+					element.SupervisorApprovedRejection = '';
+					element.usuario = (element.userUpdated !== null) ? element.userUpdated : element.userCreated;
+					if(element.estatusEvento == "Evento Abierto" && element.estatusAprobacion == "Evento Rechazado"){
+						element.backgroundcolor = '#F08080';
+					}else if(element.estatusEvento == "Evento Cerrado" && element.estatusAprobacion == "Evento Aprobado"){
+						element.backgroundcolor = '#9ACD32';
+					}else if(element.estatusEvento == "Evento Terminado" && element.estatusAprobacion == "Evento Sin Aprobacion"){
+						element.backgroundcolor = '#FFD700';
+					}else if(element.estatusEvento == "Evento Abierto" && element.estatusAprobacion == "Evento Sin Aprobacion"){
+						element.backgroundcolor = '#DCDCDC';
+					}
+				});
+				
+				this.addBlock(2, '');
 			},
 			errorData => {
-				this.toastr.errorToastr('Problemas en la consulta', 'Error');
+				this.toastr.errorToastr('Problemas en la consulta', 'Error');				
+				this.addBlock(2, '');
 			},
 			() => {
 				console.log('loadMasters:: ', 'Termino');
+				this.addBlock(2, '');
 			});
 	}
 	onbtnAddEvent() {
