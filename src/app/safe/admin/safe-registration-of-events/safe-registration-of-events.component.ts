@@ -887,7 +887,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		}
 		if (observation != null && observation.trim() !== '') {
 			this.tableObservationsComments = this.tableObservationsComments.concat({
-				order: this.tempOrder, name: this.getNameUser(), observation, dateUptade: moment(new Date()).format('YYYY-MM-DD HH:mm'), visible: true
+				order: this.tempOrder, name: this.getNameUser(), observation, dateUptade: moment(new Date()).format('YYYY/MM/DD HH:mm'), visible: true
 			});
 			this.setTableObservationsCommentsSelectionChecked();
 			this.tempOrder ++;
