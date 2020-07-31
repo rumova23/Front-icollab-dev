@@ -814,9 +814,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		const binnacle: BinnacleEventDTO = this.formNewEvent.value;
 
 		this.newNotes = [];
-		console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXX');
 		this.tableObservationsComments.forEach(obs => {
-			console.dir(obs);
 			if (!obs.noteId) {
 				const noteDTO: NoteDTO = new NoteDTO();
 				noteDTO.note = obs.observation;
@@ -824,16 +822,12 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.newNotes.push(noteDTO);
 			}
 		});
-		console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXX');
 		this.newFiles = [];
-		console.log('yyyyyyyyyyyyyyyyyyyyyyyy');
 		this.files.forEach(file => {
-			console.dir(file);
 			if (!file.bearerId) {
 				this.newFiles.push(file);
 			}
 		});
-		console.log('yyyyyyyyyyyyyyyyyyyyyyyy');
 		binnacle.observations = this.newNotes;
 		binnacle.bearers = this.newFiles;
 		this.binnacleService.saveBinnacle(binnacle).subscribe(
@@ -885,7 +879,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		}
 		if (observation != null && observation.trim() !== '') {
 			this.tableObservationsComments = this.tableObservationsComments.concat({
-				order: this.tempOrder, name: this.getNameUser(), observation, dateUptade: moment(new Date()).format('YYYY-MM-DD'), visible: true
+				order: this.tempOrder, name: this.getNameUser(), observation, dateUptade: moment(new Date()).format('YYYY-MM-DD mm:HH'), visible: true
 			});
 			this.tempOrder ++;
 			this.formobservationsComments.get('observationsComments').setValue('');
