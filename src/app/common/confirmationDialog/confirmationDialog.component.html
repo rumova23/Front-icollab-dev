@@ -6,7 +6,9 @@
     </button>
 </div>
 <div class="modal-body">
-    {{ message | translate }}
+    <p style="word-wrap: break-word;">
+        {{ message | translate }}
+    </p>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="decline()">{{ btnCancelText | translate }}</button>
