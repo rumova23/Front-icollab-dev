@@ -194,8 +194,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				eventActivated: [{ value: true, disabled: true }]
 			}
 		);
-		this.setTableObservationsCommentsSelectionChecked();
-
 		this.disiblesEnables();
 	}
 	setTableObservationsCommentsSelectionChecked() {
@@ -203,6 +201,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	}
 	getTableObservationsCommentsSelectionChecked() {
 		const seleccionados = this.tableObservationsCommentsSelection.selected;
+		console.dir(seleccionados);
 	}
 	onChangeDateTimeStart() {
 		// dateTimeStart: "2020-07-25T20:28"
@@ -670,9 +669,11 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.tableObservationsComments = this.tableObservationsComments.concat({
 							noteId: obs.noteId, order: this.tempOrder, name: obs.usuario, observation: obs.note, dateUptade: obs.updateString, visible: obs.visible
 						});
+						this.setTableObservationsCommentsSelectionChecked();
 						this.tempOrder ++;
 					});
 				}
+
 				this.obtenSupports();
 			}
 			if (this.catalogType.action === 'ver') {
@@ -682,6 +683,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 						this.tableObservationsComments = this.tableObservationsComments.concat({
 							order: this.tempOrder, name: obs.usuario, observation: obs.note, dateUptade: obs.updateString, visible: obs.visible
 						});
+						this.setTableObservationsCommentsSelectionChecked();
 						this.tempOrder ++;
 					});
 				}
@@ -814,20 +816,25 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		const binnacle: BinnacleEventDTO = this.formNewEvent.value;
 
 		this.newNotes = [];
-		this.tableObservationsComments.forEach(obs => {
-			if (!obs.noteId) {
-				const noteDTO: NoteDTO = new NoteDTO();
-				noteDTO.note = obs.observation;
-				noteDTO.visible = obs.visible;
-				this.newNotes.push(noteDTO);
-			}
-		});
+		if(this.tableObservationsComments != null) {
+			this.tableObservationsComments.forEach(obs => {
+				if (!obs.noteId) {
+					const noteDTO: NoteDTO = new NoteDTO();
+					noteDTO.note = obs.observation;
+					noteDTO.visible = obs.visible;
+					this.newNotes.push(noteDTO);
+				}
+			});
+		}
 		this.newFiles = [];
-		this.files.forEach(file => {
-			if (!file.bearerId) {
-				this.newFiles.push(file);
-			}
-		});
+		if ( this.files != null) {
+			this.files.forEach(file => {
+				if (!file.bearerId) {
+					this.newFiles.push(file);
+				}
+			});
+		}
+
 		binnacle.observations = this.newNotes;
 		binnacle.bearers = this.newFiles;
 		this.binnacleService.saveBinnacle(binnacle).subscribe(
@@ -852,6 +859,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			new EventMessage(null, type, 'Safe.SafeListOfEventsComponent')
 		);
 	}
+
 	BtnAddObservationsComments() {
 		const observation = this.formobservationsComments.get('observationsComments').value;
 		if (this.noteEdition != null) {
@@ -881,6 +889,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			this.tableObservationsComments = this.tableObservationsComments.concat({
 				order: this.tempOrder, name: this.getNameUser(), observation, dateUptade: moment(new Date()).format('YYYY-MM-DD mm:HH'), visible: true
 			});
+			this.setTableObservationsCommentsSelectionChecked();
 			this.tempOrder ++;
 			this.formobservationsComments.get('observationsComments').setValue('');
 
@@ -888,8 +897,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		} else {
 			this.toastr.errorToastr('La observacion no puede ser vacia', 'Error!');
 		}
-		this.getTableObservationsCommentsSelectionChecked();
 	}
+
 	tableRowEdit(element) {
 		this.noteEdition = element;
 		this.formobservationsComments.controls.observationsComments.patchValue(element.observation);
@@ -1221,4 +1230,27 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			})
 			.catch(() => {});
 	}
+	onSelected(row: any) {
+		this.tableObservationsComments.forEach(element => {
+			if (element.order === row.order) {
+				element.visible = !element.visible;
+				if (row.noteId) {
+					const noteDTO: NoteDTO = new NoteDTO();
+					noteDTO.noteId = row.noteId;
+					noteDTO.note = row.observation;
+					noteDTO.visible = element.visible
+					this.binnacleService.updateNote(noteDTO).subscribe((data: NoteDTO)  => {
+					},
+					errorData => {
+					},
+					() => {
+					});
+					this.tableObservationsComments = this.tableObservationsComments.filter(
+						e => e !== row
+					);
+				}
+			}
+		});
+	}
+
 }
