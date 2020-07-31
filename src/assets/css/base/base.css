@@ -90,19 +90,18 @@ h6 {
     overflow: auto;
 }
 .mat-elevation-z0{
-    border: 1px solid #e6ebf5;
+    /*border: 1px solid #e6ebf5;*/
     width: auto;
     overflow: auto;
 }
 
 .table_catalogo {
-    width: 100%;
+    width: calc(100%);
 }
 .table_catalogo tr:nth-child(even){
     background: #F6F6F6;
 } 
 .table_catalogo th{
-    background:#6EB1D620;
     text-align: center !important;
 }
 .table_catalogo th button{
@@ -126,9 +125,22 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 
 
 .mat-elevation-z8 td, .mat-elevation-z0 td{
-    border-right: rgba(223,223,223,1.00) solid 1px;
+    border-right: 0.5px solid #dfdfdf;
+    border-left: 0.5px solid #dfdfdf;
     text-align: center;
     font-size: 0.7em !important;
+}
+.mat-table-sticky{
+    border-left: 0.5px solid #dfdfdf;
+    border-right: 0.5px solid #dfdfdf;
+}
+.mat-header-row{
+    border-top: 0.5px solid #dfdfdf;
+    border-left: 0.5px solid #dfdfdf;
+    border-right: 0.5px solid #dfdfdf;
+}
+.mat-paginator{
+    border: 0.5px solid #dfdfdf;
 }
 .tabla-responsi {
     width: auto;
