@@ -28,8 +28,8 @@
 				&& !formGroup.get(controlName).valid
 				&& formGroup.get(controlName).errors != null">
 			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.required">{{'Required' | translate}}</p>
-			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.min">{{'The value is less than the minimum required' | translate}}</p>
-			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.max">{{'The value is greater than the maximum allowed' | translate}}</p>
+			<!--p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.min">{{'The value is less than the minimum required' | translate}}</p>
+			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.max">{{'The value is greater than the maximum allowed' | translate}}</p-->
 		</ng-container>
 	</div>
 </div>

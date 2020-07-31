@@ -24,8 +24,8 @@
 				&& !formGroup.get(controlName).valid
 				&& formGroup.get(controlName).errors != null">
 			<p style="margin-top: -15px;" class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.required">{{'Required' | translate}}</p>
-			<p style="margin-top: -15px;" class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.minlength">{{'The value is too short' | translate}}</p>
-			<p style="margin-top: -15px;" class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.maxlength">{{'The value is too long' | translate}}</p>
+			<!--p style="margin-top: -15px;" class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.minlength">{{'The value is too short' | translate}}</p>
+			<p style="margin-top: -15px;" class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.maxlength">{{'The value is too long' | translate}}</p-->
 		</ng-container>
 	</div>
 </div>
