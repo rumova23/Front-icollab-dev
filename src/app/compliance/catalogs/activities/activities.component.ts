@@ -197,6 +197,7 @@ export class ActivitiesComponent implements OnInit {
           this.obtenerListaActividades();
           this.toastr.successToastr(res.mensaje, '¡Se ha logrado!');
 
+          /*
           this.confirmationDialogService.confirm('Por favor, confirme..'
           ,'Está seguro de eliminar los registros clonados? ')
           .then((confirmed) => {
@@ -210,7 +211,7 @@ export class ActivitiesComponent implements OnInit {
           }
         )
         .catch(() => console.log('Cancelo eliminar clones'));
-
+          //*/
 
         }else{
           this.toastr.errorToastr(res.mensaje, 'Lo siento,');

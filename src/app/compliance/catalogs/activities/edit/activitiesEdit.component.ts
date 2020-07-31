@@ -47,6 +47,7 @@ export class ActivitiesEditComponent implements OnInit {
     deshabiliarEstatus = true;
     idEstatusActivo;
     titulo: string;
+    titulo2: string;
     catalogType: CatalogType;
     tareaPorVencer = 40;
     tareaProximaVencer = 30;
@@ -92,14 +93,17 @@ export class ActivitiesEditComponent implements OnInit {
         if (this.accion === 'editar') {
             this.deshabiliarEstatus = false;
             this.disabledSave = true;
-            this.titulo = 'Editar / Catálogo de Categorías';
+            this.titulo = "Catálogos / Categorías / Editar";
+            this.titulo2 = "Editar Catálogo de Categorías";
         } else if (this.accion === 'ver') {
             this.deshabiliarEstatus = true;
-            this.titulo = 'Consultar / Catálogo de Categorías';
+            this.titulo = "Catálogos / Categorías / Consultar";
+            this.titulo2 = "Consultar Catálogo de Categorías";
         } else {
             this.checkedEstatus = true;
             this.deshabiliarEstatus = false;
-            this.titulo = 'Agregar / Catálogo de Categorías';
+            this.titulo = "Catálogos / Categorías / Agregar";
+            this.titulo2 = "Agregar Catálogo de Categorías";
         }
 
         if (this.accion === 'editar' || this.accion === 'ver') {

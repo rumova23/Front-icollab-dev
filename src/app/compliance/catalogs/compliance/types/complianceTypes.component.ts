@@ -313,20 +313,21 @@ export class ComplianceTypesComponent implements OnInit {
     }
 
     eliminarRegistro(maestroOpcion: any) {
-        this.confirmationDialogService.confirm('Por favor, confirme..', 'Está seguro de eliminar el registro?').then(confirmed => {
+        this.confirmationDialogService.confirm('Por favor, confirme..', `Está seguro de eliminar '${maestroOpcion.code}'?`).then(confirmed => {
             if (confirmed) {
                 this.catalogoMaestroService.outCatalogoItem(ComplianceTypesComponent.mainCatalog, maestroOpcion.id).subscribe((response: ResponseVO) => {
                     if (response.success) {
                         console.log('RTC: response.code = ' + response.code);
                         this.toastr.successToastr('El registro fue correctamente eliminado', '¡Se ha logrado!');
                         //if (response.code === 210) {
+                            /*
                             this.confirmationDialogService.confirm('Por favor, confirme..', 'Está seguro de eliminar los registros clonados? ').then( confirmedClone => {
                                 if (confirmedClone) {
                                     this.catalogoMaestroService.outCatalogItemCloned(ComplianceTypesComponent.mainCatalog, maestroOpcion['referenceclone']).subscribe(data => {
                                         this.toastr.successToastr('Los registros clonados fueron correctamente eliminados', '¡Se ha logrado!');
                                     });
                                 }
-                            });
+                            });//*/
                         //}
                     } else {
                         this.toastr.errorToastr(response.message, '¡Error!, codigo: ' + response.code);

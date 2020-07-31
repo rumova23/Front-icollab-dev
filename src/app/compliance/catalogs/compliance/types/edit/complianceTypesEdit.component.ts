@@ -28,6 +28,7 @@ export class ComplianceTypesEditComponent implements OnInit {
   @Input() accion: string;
   @Input() nombreCatalogo: string;
   titulo: string;
+  titulo2:string;
   autoridadesForm: FormGroup;
   soloLectura: boolean;
   estatus: string;
@@ -83,14 +84,17 @@ export class ComplianceTypesEditComponent implements OnInit {
     if (this.accion === 'editar') {
       this.deshabiliarEstatus = false;
       this.disabledSave = true;
-      this.titulo = "Editar / Catálogo de Autoridades";
+      this.titulo = "Catálogos / Autoridades / Editar";
+      this.titulo2 = "Editar Catálogo de Autoridades";
     } else if (this.accion === 'ver') {
       this.deshabiliarEstatus = true;
-      this.titulo = "Consultar / Catálogo de Autoridades";
+      this.titulo = "Catálogos / Autoridades / Consultar";
+      this.titulo2 = "Consultar Catálogo de Autoridades";
     } else {
       this.checkedEstatus = true;
       this.deshabiliarEstatus = false;
-      this.titulo = "Agregar / Catálogo de Autoridades";
+      this.titulo = " Catálogos / Autoridades / Agregar";
+      this.titulo2 = " Agregar Catálogo de Autoridades";
     }
 
     if (this.accion === 'editar' || this.accion === 'ver') {
