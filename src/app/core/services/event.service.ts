@@ -74,5 +74,4 @@ export class EventService {
         console.log(message);
         this.onChangePage.emit(message);
     }
-
 }

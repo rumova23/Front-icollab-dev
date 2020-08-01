@@ -43,7 +43,7 @@ export class SharedHeaderComponent implements OnInit {
 		this.eventService.sendChangeNavBar(new EventMessage(i, null));
 	}
 	
-	changePassword() {		
+	changePassword() {
 		this.eventService.sendChangePage(new EventMessage(100, null,'shared.header.changePassword'));
 	}
 	goToHome(){

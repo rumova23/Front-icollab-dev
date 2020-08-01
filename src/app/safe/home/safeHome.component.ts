@@ -616,6 +616,10 @@ export class SafeHomeComponent implements OnInit {
 							)
 						).changeDetectorRef.detectChanges();
 						break;
+					case 'shared.header.changePassword':
+						this.viewContainerRef
+							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ChangePasswordComponent)).changeDetectorRef.detectChanges();
+						break;
 				}
 				if (banderaTemporal) { return; }
 				let option = 0;
