@@ -180,7 +180,7 @@ export class ActivitiesComponent implements OnInit {
 
   public eliminarActividad(actividad: any) {
     this.confirmationDialogService.confirm('Por favor, confirme..', 
-          'Está seguro de eliminar la actividad? ' + actividad.name).then((confirmed) => {
+          'Está seguro de eliminar ' + actividad.name + ' ?').then((confirmed) => {
         if (confirmed){
           this.eliminarActividadConfirm(actividad)
         }
