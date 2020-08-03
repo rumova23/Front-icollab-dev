@@ -70,6 +70,7 @@ export class BinnacleEventDTO implements Deserializable {
     public plantOperatorClosed: string;
     public cenaceOperatorOpened: string;
     public cenaceOperatorClosed: string;
+    public plantOperatorAccepted: string;
     public sourceEventId: number;
     public sourceEvent: string;
 

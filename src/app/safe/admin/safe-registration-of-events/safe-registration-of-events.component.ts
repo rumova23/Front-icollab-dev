@@ -31,7 +31,7 @@ import { FileUploadComponent } from 'src/app/common/fileUpload/fileUpload.compon
 	styleUrls: ['./safe-registration-of-events.component.scss']
 })
 export class SafeRegistrationOfEventsComponent implements OnInit {
-	@ViewChild('appFileupload') appFileupload:FileUploadComponent;
+	@ViewChild('appFileupload') appFileupload: FileUploadComponent;
 	hours: IdLabel[] =  new Array(24).fill(0).map((_valor, indice) => ({id: (indice < 10 ? '0' : '') + indice, label: (indice < 10 ? '0' : '') + indice}));
 	minutes: IdLabel[] =  new Array(60).fill(0).map((_valor, indice) => ({id: (indice < 10 ? '0' : '') + indice, label: (indice < 10 ? '0' : '') + indice}));
 
@@ -84,6 +84,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 
 	tempOrder = 1;
 	tableObservationsComments = [];
+	tableTraking = [];
 
 	noteEdition: any;
 	newNotes: Array<NoteDTO> = [];
@@ -96,6 +97,13 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		{ key: 'dateUptade', label: 'Fecha de Ultima Modificación' },
 		{ key: 'visible', label: 'Visible' },
 	];
+	tablaTrakingColumnsLabels = [
+		{ key: 'order', label: '#' },
+		{ key: 'username', label: 'Usuario' },
+		{ key: 'observation', label: 'Observaciones' },
+		{ key: 'status', label: 'Estatus' },
+		{ key: 'updateString', label: 'Fecha de Ultima Modificación' },
+	];
 	tableColumnsDisplay = [
 		'order',
 		'name',
@@ -104,6 +112,14 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		'sys_checkbox',
 		'sys_edit',
 		'sys_delete',
+	];
+
+	tableTrakingColumnsDisplay = [
+		'order',
+		'username',
+		'observation',
+		'status',
+		'updateString'
 	];
 	tableObservationsCommentsSelection: SelectionModel<any> = new SelectionModel<any>(true, []);
 	progress;
@@ -689,6 +705,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				}
 				this.obtenSupports();
 				this.commonDisabled();
+				this.tableTraking = this.catalogType.element.traking.PLANT_SUPERVISOR_ACCEPT;
 
 				setTimeout(() => this.addBlock(2, ''), 4000);
 			}

@@ -50,7 +50,7 @@ export class SafeListOfEventsComponent implements OnInit {
 		{key: 'sourceEvent'                     , label: 'Fuente del Evento'},
 		{key: 'estatusEvento'                    , label: 'Estatus del Evento'},
 		{key: 'estatusAprobacion'                 , label: 'Estatus de Aprobacion'},
-		{key: 'SupervisorApprovedRejection'            , label: 'Nombre(s)/Apellidos(s) Supervisor (Aprobo / Rechazo)'},
+		{key: 'plantOperatorAccepted'            , label: 'Nombre(s)/Apellidos(s) Supervisor (Aprobo / Rechazo)'},
 		{key: 'usuario'                             , label: 'Usuario'},
 		{key: 'fechaYHoraDeUltimaModificacion'      , label: 'Fecha y Hora de Ultima Modificacion'},
 		{key: 'estatus'                             , label: 'Comentarios'}
@@ -85,7 +85,7 @@ export class SafeListOfEventsComponent implements OnInit {
 		'sourceEvent',
 		'estatusEvento',
 		'estatusAprobacion',
-		'SupervisorApprovedRejection',
+		'plantOperatorAccepted',
 		'usuario',
 		'fechaYHoraDeUltimaModificacion',
 		'sys_see',
@@ -127,7 +127,6 @@ export class SafeListOfEventsComponent implements OnInit {
 				this.tableData.forEach((element) => {
 					i++;
 					element.order = i;
-					element.SupervisorApprovedRejection = '';
 					element.usuario = (element.userUpdated !== null) ? element.userUpdated : element.userCreated;
 					if(element.estatusEvento == "Evento Abierto" && element.estatusAprobacion == "Evento Rechazado"){
 						element.backgroundcolor = '#F08080';
@@ -162,7 +161,6 @@ export class SafeListOfEventsComponent implements OnInit {
 				this.tableData.forEach((element) => {
 					i++;
 					element.order = i;
-					element.SupervisorApprovedRejection = '';
 					element.usuario = (element.userUpdated !== null) ? element.userUpdated : element.userCreated;
 					if(element.estatusEvento == "Evento Abierto" && element.estatusAprobacion == "Evento Rechazado"){
 						element.backgroundcolor = '#F08080';
@@ -178,7 +176,7 @@ export class SafeListOfEventsComponent implements OnInit {
 				this.addBlock(2, '');
 			},
 			errorData => {
-				this.toastr.errorToastr('Problemas en la consulta', 'Error');				
+				this.toastr.errorToastr('Problemas en la consulta', 'Error');
 				this.addBlock(2, '');
 			},
 			() => {
