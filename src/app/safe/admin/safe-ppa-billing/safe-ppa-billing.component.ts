@@ -6,6 +6,7 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 import { EventService } from 'src/app/core/services/event.service';
 import * as moment from 'moment';
 import { IdLabel } from 'src/app/core/models/IdLabel';
+import { EventMessage } from 'src/app/core/models/EventMessage';
 @Component({
 	selector: 'app-safe-ppa-billing',
 	templateUrl: './safe-ppa-billing.component.html',
@@ -127,7 +128,16 @@ export class SafePpaBillingComponent implements OnInit {
 			fSearchCondition: ['', null]
 		});
 	}
-	
+	onaddBilling(){
+		let type = {
+			id: null,
+			action: 'nuevo',
+			name: ""
+		};
+		this.eventService.sendChangePage(
+            new EventMessage(null, type, 'Safe.SafePpaBillingAbcComponent')
+        );
+	}
 	onSubmitFilter(v){
 		console.log(v);
 	}
@@ -146,4 +156,5 @@ export class SafePpaBillingComponent implements OnInit {
 	onTableRowCancel(v){
 		console.log(v);
 	}
+
 }

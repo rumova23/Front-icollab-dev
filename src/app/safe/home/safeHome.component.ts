@@ -99,6 +99,7 @@ import {SafeConfigurationBinnacleComponent} from '../admin/safe-configuration-bi
 import {SafeConfigurationBinnacleEditComponent} from '../admin/safe-configuration-binnacle/safe-configuration-binnacle-edit/safe-configuration-binnacle-edit.component';
 import { SafeListOfEventsComponent } from '../admin/safe-list-of-events/safe-list-of-events.component';
 import { SafePpaBillingComponent } from '../admin/safe-ppa-billing/safe-ppa-billing.component';
+import { SafePpaBillingAbcComponent } from '../admin/safe-ppa-billing-abc/safe-ppa-billing-abc.component';
 
 @Component({
 	selector        : 'app-safeHome',
@@ -194,6 +195,7 @@ import { SafePpaBillingComponent } from '../admin/safe-ppa-billing/safe-ppa-bill
 		, SafeConfigurationBinnacleEditComponent
 		, SafeListOfEventsComponent
 		, SafePpaBillingComponent
+		, SafePpaBillingAbcComponent
   	]
 })
 
@@ -246,6 +248,14 @@ export class SafeHomeComponent implements OnInit {
 				let banderaTemporal = false;
 				this.viewContainerRef.clear();
 				switch (event.descriptor) {
+
+					case 'Safe.SafePpaBillingAbcComponent':
+						banderaTemporal = true;
+						view = this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(SafePpaBillingAbcComponent)
+						);
+						view.changeDetectorRef.detectChanges();
+					break;
 					case 'Safe.SafePpaBillingComponent':
 						banderaTemporal = true;
 						view = this.viewContainerRef.createComponent(

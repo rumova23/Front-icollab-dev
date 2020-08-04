@@ -124,6 +124,7 @@ import { MiningIFIEconomicproposalChartComponent } from './admin/mining-if-i-eco
 import { MiningIFISalaryincreaseChartComponent } from './admin/mining-if-i-salaryincrease/mining-ifisalaryincrease-chart/mining-ifisalaryincrease-chart.component';
 import { SafeListOfEventsComponent } from './admin/safe-list-of-events/safe-list-of-events.component';
 import { SafePpaBillingComponent } from './admin/safe-ppa-billing/safe-ppa-billing.component';
+import { SafePpaBillingAbcComponent } from './admin/safe-ppa-billing-abc/safe-ppa-billing-abc.component';
 
 @NgModule({
     declarations: [
@@ -203,7 +204,8 @@ import { SafePpaBillingComponent } from './admin/safe-ppa-billing/safe-ppa-billi
         MiningIFIEconomicproposalChartComponent,
         MiningIFISalaryincreaseChartComponent,
         SafeListOfEventsComponent,
-        SafePpaBillingComponent
+        SafePpaBillingComponent,
+        SafePpaBillingAbcComponent
     ],
     exports: [],
     imports: [
