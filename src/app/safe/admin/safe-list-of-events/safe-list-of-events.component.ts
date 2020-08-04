@@ -129,13 +129,13 @@ export class SafeListOfEventsComponent implements OnInit {
 					element.order = i;
 					element.usuario = (element.userUpdated !== null) ? element.userUpdated : element.userCreated;
 					if(element.estatusEvento == "Evento Abierto" && element.estatusAprobacion == "Evento Rechazado"){
-						element.backgroundcolor = '#F08080';
+						element.backgroundColor = '#F08080';
 					}else if(element.estatusEvento == "Evento Cerrado" && element.estatusAprobacion == "Evento Aprobado"){
-						element.backgroundcolor = '#9ACD32';
+						element.backgroundColor = '#9ACD32';
 					}else if(element.estatusEvento == "Evento Terminado" && element.estatusAprobacion == "Evento Sin Aprobacion"){
-						element.backgroundcolor = '#FFD700';
+						element.backgroundColor = '#FFD700';
 					}else if(element.estatusEvento == "Evento Abierto" && element.estatusAprobacion == "Evento Sin Aprobacion"){
-						element.backgroundcolor = '#DCDCDC';
+						element.backgroundColor = '#DCDCDC';
 					}
 				});
 				this.addBlock(2, '');
@@ -163,13 +163,13 @@ export class SafeListOfEventsComponent implements OnInit {
 					element.order = i;
 					element.usuario = (element.userUpdated !== null) ? element.userUpdated : element.userCreated;
 					if(element.estatusEvento == "Evento Abierto" && element.estatusAprobacion == "Evento Rechazado"){
-						element.backgroundcolor = '#F08080';
+						element.backgroundColor = '#F08080';
 					}else if(element.estatusEvento == "Evento Cerrado" && element.estatusAprobacion == "Evento Aprobado"){
-						element.backgroundcolor = '#9ACD32';
+						element.backgroundColor = '#9ACD32';
 					}else if(element.estatusEvento == "Evento Terminado" && element.estatusAprobacion == "Evento Sin Aprobacion"){
-						element.backgroundcolor = '#FFD700';
+						element.backgroundColor = '#FFD700';
 					}else if(element.estatusEvento == "Evento Abierto" && element.estatusAprobacion == "Evento Sin Aprobacion"){
-						element.backgroundcolor = '#DCDCDC';
+						element.backgroundColor = '#DCDCDC';
 					}
 				});
 				

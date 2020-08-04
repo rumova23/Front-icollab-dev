@@ -56,7 +56,6 @@ import { BtnBlockSearchComponent } from './btn/btn-block/btn-block-search.compon
 import { BtnBlockConsultComponent } from './btn/btn-block/btn-block-consult.component';
 import { BtnBlockCleanComponent } from './btn/btn-block/btn-block-clean.component';
 import { MatRadioButtonComponent } from './inputs/mat-radio-button/mat-radio-button.component';
-import { MatTableBillingComponent } from './tables/mat-table-billing/mat-table-billing.component';
 import { ChartLineComponent } from './graphics/chart-line/chart-line.component';
 
 @NgModule({
@@ -101,7 +100,6 @@ import { ChartLineComponent } from './graphics/chart-line/chart-line.component';
 		, BtnBlockConsultComponent
 		, BtnBlockCleanComponent
 		, MatRadioButtonComponent
-		, MatTableBillingComponent
 		, ChartLineComponent
 	],
 	exports: [
@@ -145,7 +143,6 @@ import { ChartLineComponent } from './graphics/chart-line/chart-line.component';
 		, BtnBlockConsultComponent
 		, BtnBlockCleanComponent
 		, MatRadioButtonComponent
-		, MatTableBillingComponent
 		, ChartLineComponent
 
 	],

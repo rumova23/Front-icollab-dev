@@ -16,6 +16,7 @@ export class MatTableComponent implements OnInit , OnChanges {
 	@Output() clickSee    = new EventEmitter<any>();
 	@Output() clickEdit   = new EventEmitter<any>();
 	@Output() clickDelete = new EventEmitter<any>();
+	@Output() clickLink   = new EventEmitter<any>();
 	@Output() onSelected    = new EventEmitter<any>();
 	@Input() row_x_page   = [5,10,20,50, 100, 250, 500];
 	@Input() selection      : SelectionModel<any> = new SelectionModel<any>(true, []);
@@ -138,6 +139,9 @@ export class MatTableComponent implements OnInit , OnChanges {
 	selected(e, row: any) {
 		e.stopImmediatePropagation();
 		this.onSelected.emit(row);
+	}
+	link(element,identifier){
+		this.clickLink.emit({identifier,element});
 	}
 
 	

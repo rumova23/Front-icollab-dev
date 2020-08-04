@@ -16,10 +16,10 @@ export class SafePpaBillingComponent implements OnInit {
 	formFilter:FormGroup;
 	tableBillingData = [
 		{
-			order : '1',fechaOp : 'may.-20',fechaEmision : '06/06/2020',fechaEntrega : '06/07/2020',fechaCancelacion : '06/07/2020',concepto : 'PCFC',tipoFactura : 'Operación Comercial',facturaNcNd : 'Factura',folio : 'F300',uUID : 'RETTD-097999-OUI',totalSinIVA : '100',moneda : 'USD',estatus : '',usuario : '',fechaHoraUltimaModificacion : '',generarPrefactura : '',timbrar : '',cancelar : '',
+			order : '1',fechaOp : 'may.-20',fechaEmision : '06/06/2020',fechaEntrega : '06/07/2020',fechaCancelacion : '06/07/2020',concepto : 'PCFC',tipoFactura : 'Operación Comercial',facturaNcNd : 'Factura',folio : 'F300',uUID : 'RETTD-097999-OUI',totalSinIVA : '100',moneda : 'USD',estatus : '',usuario : '',fechaHoraUltimaModificacion : new Date('2020/02/02'),
 		},
 		{
-			order : '2',fechaOp : 'may.-20',fechaEmision : '06/06/2020',fechaEntrega : '06/07/2020',fechaCancelacion : '06/07/2020',concepto : 'PCC',tipoFactura : 'Ajuste INPP',facturaNcNd : 'Nota de crédito',folio : 'NC200',uUID : 'RETTD-097999-OUI',totalSinIVA : '100',moneda : 'MXN',estatus : '',usuario : '',fechaHoraUltimaModificacion : '',generarPrefactura : '',timbrar : '',cancelar : '',
+			order : '2',fechaOp : 'may.-20',fechaEmision : '06/06/2020',fechaEntrega : '06/07/2020',fechaCancelacion : '06/07/2020',concepto : 'PCC',tipoFactura : 'Ajuste INPP',facturaNcNd : 'Nota de crédito',folio : 'NC200',uUID : 'RETTD-097999-OUI',totalSinIVA : '100',moneda : 'MXN',estatus : '',usuario : '',fechaHoraUltimaModificacion : new Date('2020/03/03'),
 		},
 		{
 			order : '3',
@@ -36,10 +36,7 @@ export class SafePpaBillingComponent implements OnInit {
 			moneda : 'MXN',
 			estatus : '',
 			usuario : '',
-			fechaHoraUltimaModificacion : '',
-			generarPrefactura : '',
-			timbrar : '',
-			cancelar : '',
+			fechaHoraUltimaModificacion : new Date('2020/01/01'),
 		}
 	];
 
@@ -59,10 +56,10 @@ export class SafePpaBillingComponent implements OnInit {
 		{ key: 'moneda'                       ,label:'Moneda'},
 		{ key: 'estatus'                      ,label:'ESTATUS'},
 		{ key: 'usuario'                      ,label:'Usuario'},
-		{ key: 'fechaHoraUltimaModificacion'  ,label:'Fecha Y hora de Ultima Modificacion'},
-		{ key: 'generarPrefactura'            ,label:'Generar prefactura'},
-		{ key: 'timbrar'                      ,label:'Timbrar'},
-		{ key: 'cancelar'                     ,label:'Cancelar'}
+		{ key: 'fechaHoraUltimaModificacion'  ,label:'Fecha Y hora de Ultima Modificacion'  ,dateFormat:'dd/MM/yyyy'},
+		{ key: 'generarPrefactura'            ,label:'Generar prefactura'                   ,typeLink:{matIcon:'touch_app'}},
+		{ key: 'timbrar'                      ,label:'Timbrar'                              ,typeLink:{matIcon:'touch_app'}},
+		{ key: 'cancelar'                     ,label:'Cancelar'                             ,typeLink:{matIcon:'touch_app'}},
 	];
 	tableBillingColumnsDisplay: string[] = [
 		'order',
@@ -83,9 +80,6 @@ export class SafePpaBillingComponent implements OnInit {
 		'generarPrefactura',
 		'timbrar',
 		'cancelar',
-		'sys_generateInvoice',
-		'sys_stamp',
-		'sys_cancel',
 		'sys_see',
 		'sys_edit'
 	];
@@ -147,13 +141,7 @@ export class SafePpaBillingComponent implements OnInit {
 	onTableRowSee(v){
 		console.log(v);
 	}
-	onTableRowGenerateInvoice(v){
-		console.log(v);
-	}
-	onTableRowStamp(v){
-		console.log(v);
-	}
-	onTableRowCancel(v){
+	onTableRowLink(v){
 		console.log(v);
 	}
 

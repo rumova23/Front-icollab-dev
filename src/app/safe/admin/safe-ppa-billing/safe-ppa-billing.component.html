@@ -218,19 +218,16 @@
 	</div>
 	<div class="row my-4">
 		<div class="col">
-			<app-mat-table-billing
-				(clickEdit)="onTableRowEdit($event)"
-				(clickSee)="onTableRowSee($event)"
-				(clickGenerateInvoice)="onTableRowGenerateInvoice($event)"
-				(clickStamp)="onTableRowStamp($event)"
-				(clickCancel)="onTableRowCancel($event)"
-
+			<app-mat-table
 				[data]="tableBillingData"
 				[columnsLabels]="tableBillingColumnsLabels"
 				[columnsDisplay]="tableBillingColumnsDisplay"
 				[row_x_page]="tableRow_x_page"
-				[showPagination]="false"
-			></app-mat-table-billing>
+
+				(clickEdit)="onTableRowEdit($event)"
+				(clickSee)="onTableRowSee($event)"
+				(clickLink)="onTableRowLink($event)"
+			></app-mat-table>
 		</div>
 	</div>
 </div>
