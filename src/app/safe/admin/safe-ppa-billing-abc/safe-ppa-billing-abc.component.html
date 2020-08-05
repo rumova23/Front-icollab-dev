@@ -1,3 +1,509 @@
-<p>
-  safe-ppa-billing-abc works!
-</p>
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Facturación" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "Crear" | translate }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+	<div class="section">
+		<div class="row">
+			<div class="col">
+				<p class="section_titulo_0">Crear Factura</p>
+			</div>
+		</div>
+		<hr>
+		<br>
+		<div class="row mb-4">
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-datepicker-year-and-month 
+					[formGroup]="form"
+					controlName="ffechaOp"
+					label="Commercial Operation Date">
+				</app-mat-input-datepicker-year-and-month>
+			</div>
+			<div class="my-2 col col-xxxs-12 col-xxs-12 col-xs-6 col-xl-3">
+				<app-mat-select
+					[formGroup]="form"
+					controlName="fdocument"
+					label="Documento"
+					[options]="lstDocuments"
+					(eventChange)="changeDocument($event)"
+				></app-mat-select>
+			</div>
+		</div>
+		<hr>
+
+		<div class="row mb-4">
+			<div class="my-2 col-12 col-xs-6 col-xl-3"><label>Al seleccionar el tipo de documento aqui aparece</label></div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3"><label>Se une con serie y folio</label></div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3"><label>cuando se guardo</label></div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3"><label>Despues de obtener el timbre indica la hora en que se timbro en el PAC</label></div>
+		</div>
+		
+		<div class="row mb-4">
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-text
+					[formGroup]="form"
+					controlName="fbillingncnd"
+					label="Factura/NC/ND"
+				></app-mat-input-text>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-text
+					[formGroup]="form"
+					controlName="fInvoice"
+					label="Invoice"
+				></app-mat-input-text>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-datepicker
+					[formGroup]="form"
+					controlName="fdateissue"
+					label="Fecha y hora de Emision"
+				></app-mat-input-datepicker>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-select
+					[formGroup]="formTimedateissue"
+					controlName="ha"
+					label="Hora"
+					[options]="hours"
+				></app-mat-select>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-select
+					[formGroup]="formTimedateissue"
+					controlName="ma"
+					label="Minuto"
+					[options]="minutes"
+				></app-mat-select>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-datepicker
+					[formGroup]="form"
+					controlName="fdateCertification"
+					label="Fecha y hora de Certificación"
+				></app-mat-input-datepicker>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-select
+					[formGroup]="formTimeDateCertification"
+					controlName="ha"
+					label="Hora"
+					[options]="hours"
+				></app-mat-select>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-select
+					[formGroup]="formTimeDateCertification"
+					controlName="ma"
+					label="Minuto"
+					[options]="minutes"
+				></app-mat-select>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-text
+					[formGroup]="form"
+					controlName="fuuid"
+					label="UUID"
+				></app-mat-input-text>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-select
+					[formGroup]="form"
+					controlName="fstatus"
+					label="Estatus"
+					[options]="lstStatus"
+				></app-mat-select>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-select
+					[formGroup]="form"
+					controlName="ftypesdocuments"
+					label="Tipos de Documento"
+					[options]="lstTypeDocuments"
+				></app-mat-select>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-select
+					[formGroup]="form"
+					controlName="fconcept"
+					label="Concepto"
+					[options]="lstConcept"
+				></app-mat-select>
+			</div>
+		</div>
+	</div>
+	<div class="section">
+		<div class="row">
+			<div class="col">
+				<p class="section_titulo_0">Datos Generales</p>
+			</div>
+		</div>
+		<hr>
+		<br>
+		<div class="row">
+			<div class="my-2 col-12 col-xs-6 col-xl-6">
+				<app-mat-select
+					[formGroup]="form"
+					controlName="fclient"
+					label="Cliente"
+					[options]="lstClients"
+				></app-mat-select>
+			</div>
+			<div class="w-100"></div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-select
+					[formGroup]="form"
+					controlName="fcoin"
+					label="Moneda"
+					[options]="lstCoin"
+				></app-mat-select>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-text
+					[formGroup]="form"
+					controlName="fexchangerate"
+					label="Tipo de cambio"
+				></app-mat-input-text>
+			</div>
+			<div class="w-100"></div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-select
+					[formGroup]="form"
+					controlName="fusecfdi"
+					label="Uso CFDI"
+					[options]="lstUseCFDI"
+				></app-mat-select>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-select
+					[formGroup]="form"
+					controlName="fPaymentmethod"
+					label="Metodo de Pago"
+					[options]="lstPaymentMethod"
+				></app-mat-select>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-select
+					[formGroup]="form"
+					controlName="fWaytopay"
+					label="Forma de Pago"
+					[options]="lstWayToPay"
+				></app-mat-select>
+			</div>
+			<div class="w-100"></div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-text
+					[formGroup]="form"
+					controlName="fBill"
+					label="Cuenta"
+				></app-mat-input-text>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-text
+					[formGroup]="form"
+					controlName="fSATconfirmation"
+					label="Confirmación SAT"
+				></app-mat-input-text>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-select
+					[formGroup]="form"
+					controlName="fTypeRelationship"
+					label="Tipo Relación"
+					[options]="lstTypeRelationship"
+				></app-mat-select>
+			</div>
+			<div class="w-100"></div>
+			<div class="my-2 col-12 col-xs-6 col-xl-6">
+				<app-mat-input-text
+					[formGroup]="form"
+					controlName="fPaymentConditions"
+					label="Condiciones de Pago"
+				></app-mat-input-text>
+			</div>
+			<div class="w-100"></div>
+			<div class="my-2 col-12 col-xs-6 col-xl-6">
+				<app-mat-input-textarea
+					[formGroup]="form"
+					controlName="fObservations"
+					label="Observaciones"
+				></app-mat-input-textarea>
+			</div>
+		</div>
+	</div>
+	
+	<div class="section">
+		<div class="row">
+			<div class="col">
+				<p class="section_titulo_0">Condiciones Comerciales</p>
+			</div>
+		</div>
+		<hr>
+		<br>
+		<div class="row">
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-datepicker-year-and-month 
+					[formGroup]="form"
+					controlName="ffechaOpCommercialTerms"
+					label="Commercial Operation Date">
+				</app-mat-input-datepicker-year-and-month>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-datepicker-year-and-month 
+					[formGroup]="form"
+					controlName="ffechaDeliveryCommercialTerms"
+					label="Fecha de Entrega">
+				</app-mat-input-datepicker-year-and-month>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-datepicker-year-and-month 
+					[formGroup]="form"
+					controlName="ffechaPaymentCommercialTerms"
+					label="fecha de Pago">
+				</app-mat-input-datepicker-year-and-month>
+			</div>
+		</div>
+	</div>
+	<div class="section">
+		<div class="row">
+			<div class="col">
+				<p class="section_titulo_0">Totales</p>
+			</div>
+		</div>
+		<hr>
+		<br>
+		<div class="row">
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-number 
+					[formGroup]="form"
+					controlName="fDiscount"
+					label="Descuento">
+				</app-mat-input-number>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-number 
+					[formGroup]="form"
+					controlName="fSubtotal"
+					label="Subtotal">
+				</app-mat-input-number>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-number 
+					[formGroup]="form"
+					controlName="fRetention"
+					label="Retención">
+				</app-mat-input-number>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-number 
+					[formGroup]="form"
+					controlName="fiva"
+					label="IVA">
+				</app-mat-input-number>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-number 
+					[formGroup]="form"
+					controlName="tTotal"
+					label="Total">
+				</app-mat-input-number>
+			</div>
+		</div>
+	</div>
+	
+	<div class="section">
+		<div class="row">
+			<div class="col">
+				<p class="section_titulo_0">Servicios</p>
+			</div>
+		</div>
+		<hr>
+		<br>
+		<div class="row">
+
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-select
+					[formGroup]="formServices"
+					controlName="fservice"
+					label="Servicio"
+					[options]="lstServices"
+				></app-mat-select>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-number 
+					[formGroup]="formServices"
+					controlName="fquantity"
+					label="Cantidad">
+				</app-mat-input-number>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-number 
+					[formGroup]="formServices"
+					controlName="funitPrice"
+					label="Precio Unitario">
+				</app-mat-input-number>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-number 
+					[formGroup]="formServices"
+					controlName="fdiscount"
+					label="% Descuento">
+				</app-mat-input-number>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-number 
+					[formGroup]="formServices"
+					controlName="fdiscountV"
+					label="$ Descuento">
+				</app-mat-input-number>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-number 
+					[formGroup]="formServices"
+					controlName="fiva"
+					label="IVA">
+				</app-mat-input-number>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-number 
+					[formGroup]="formServices"
+					controlName="famount"
+					label="Importe">
+				</app-mat-input-number>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-6">
+				<app-mat-input-textarea
+					[formGroup]="formServices"
+					controlName="fObservations"
+					label="Observaciones"
+				></app-mat-input-textarea>
+			</div>
+		</div>
+		
+		<div class="row justify-content-end">
+			<div class="col-12 col-lg-2">
+				<app-btn-block-add (click)="onFormServiceAdd()"></app-btn-block-add>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-btn-block-cancel (click)="onFormServiceCancel()"></app-btn-block-cancel>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col">
+				<app-mat-table
+					[data]="tableServices"
+					[columnsLabels]="tableServicesColumnsLabels"
+					[columnsDisplay]="tableServicesColumnsDisplay"
+					[row_x_page]="tableRowXpage"
+
+					(clickEdit)="onTableServicesRowEdit($event)"
+					(clickDelete)="onTableServicesRowDelete($event)"
+				></app-mat-table>
+			</div>
+		</div>
+	</div>
+	
+	<div class="section">
+		<div class="row">
+			<div class="col">
+				<p class="section_titulo_0">UUID's Relacionados</p>
+			</div>
+		</div>
+		<hr>
+		<br>
+		<div class="row">
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-select
+					[formGroup]="formUuid"
+					controlName="fDocumentType"
+					label="Tipo de Documento"
+					[options]="lstDocuments"
+				></app-mat-select>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-text 
+					[formGroup]="formUuid"
+					controlName="fInvoice"
+					label="Folio">
+				</app-mat-input-text>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-text 
+					[formGroup]="formUuid"
+					controlName="fuuid"
+					label="UUID">
+				</app-mat-input-text>
+			</div>
+		</div>
+		<div class="row justify-content-end">
+			<div class="col-12 col-lg-2">
+				<app-btn-block-add (click)="onFormUuidAdd()"></app-btn-block-add>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-btn-block-cancel (click)="onFormUuidCancel()"></app-btn-block-cancel>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col">
+				<app-mat-table
+					[data]="tableRelated"
+					[columnsLabels]="tableRelatedColumnsLabels"
+					[columnsDisplay]="tableRelatedColumnsDisplay"
+					[row_x_page]="tableRowXpage"
+
+					(clickEdit)="onTableRelatedRowEdit($event)"
+					(clickDelete)="onTableRelatedRowDelete($event)"
+				></app-mat-table>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-text 
+					[formGroup]="formUuid2"
+					controlName="fUserCreo"
+					label="Usuario Creo">
+				</app-mat-input-text>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-text 
+					[formGroup]="formUuid2"
+					controlName="fUserTimbro"
+					label="Usuario Timbro">
+				</app-mat-input-text>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-text 
+					[formGroup]="formUuid2"
+					controlName="fUserCancelo"
+					label="Usuario Cancelo">
+				</app-mat-input-text>
+			</div>
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-datepicker 
+					[formGroup]="formUuid2"
+					controlName="fdateCancellation"
+					label="Fecha de Cancelación">
+				</app-mat-input-datepicker>
+			</div>
+		</div>
+	</div>
+	
+	<div class="section">
+
+		<div class="row justify-content-end">
+			<div class="col-12 col-lg-2">
+				<app-btn-block-save-update myType="submit"></app-btn-block-save-update>
+			</div>
+		</div>
+	</div>
+</form>
