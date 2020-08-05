@@ -243,13 +243,7 @@ export class EfhEditIndicatorComponent implements OnInit {
                         this.indicatorForm.controls['dateEndApplication'].setValue(this.dateEndApplication);
                         this.indicatorForm.controls['efhiCost'].setValue(this.efhiCost);
                         break;
-                      case 2: this.dateStartApplication = this.datePipe.transform(new Date(element.dateinit) , 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
-                        this.dateEndApplication = this.datePipe.transform(new Date(element.dateend) , 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
-                        this.equivalenFuelFactor = element.value;
-                        this.indicatorForm.controls['dateStartApplication'].setValue(this.dateStartApplication)
-                        this.indicatorForm.controls['dateEndApplication'].setValue(this.dateEndApplication);
-                        this.indicatorForm.controls['equivalenFuelFactor'].setValue(this.equivalenFuelFactor);
-                        break;
+                      case 161:
                       case 4: this.dateStartApplication = this.datePipe.transform(new Date(element.dateinit) , 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                         this.dateEndApplication = this.datePipe.transform(new Date(element.dateend) , 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                         this.equivalenFuelFactor = element.value;
@@ -265,6 +259,7 @@ export class EfhEditIndicatorComponent implements OnInit {
                         this.indicatorForm.controls['equivalenWithOutFuelFactor'].setValue(this.equivalenWithOutFuelFactor);
                         this.isWithFuel = false;
                         break;
+                      case 162:
                       case 3: this.dateStartApplication = this.datePipe.transform(new Date(element.dateinit) , 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                         this.dateEndApplication = this.datePipe.transform(new Date(element.dateend) , 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                         this.maxiumLoad = element.value;
@@ -314,7 +309,7 @@ export class EfhEditIndicatorComponent implements OnInit {
                       this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.dateEndApplication + 'T' + this.timeEndApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                       this.dataSubmit['value'] = this.indicatorForm.controls['efhiCost'].value;
                       break;
-                    case 2:
+                    case 161:
                     case 4: this.dateStartApplication = this.datePipe.transform(this.indicatorForm.controls['dateStartApplication'].value , 'yyyy-MM-dd');
                       this.dateEndApplication = this.datePipe.transform(this.indicatorForm.controls['dateEndApplication'].value , 'yyyy-MM-dd');
                       this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.dateStartApplication + 'T' + this.timeStartApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
@@ -327,6 +322,7 @@ export class EfhEditIndicatorComponent implements OnInit {
                       this.dataSubmit['dateend'] = this.datePipe.transform(new Date(this.dateEndApplication + 'T' + this.timeEndApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
                       this.dataSubmit['value'] = this.indicatorForm.controls['equivalenWithOutFuelFactor'].value;
                       break;
+                    case 162:
                     case 3: this.dateStartApplication = this.datePipe.transform(this.indicatorForm.controls['dateStartApplication'].value , 'yyyy-MM-dd');
                       this.dateEndApplication = this.datePipe.transform(this.indicatorForm.controls['dateEndApplication'].value , 'yyyy-MM-dd');
                       this.dataSubmit['dateinit'] = this.datePipe.transform(new Date(this.dateStartApplication + 'T' + this.timeStartApplication), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS');
@@ -491,13 +487,6 @@ export class EfhEditIndicatorComponent implements OnInit {
         this.isWithFuel = true;
         break;
       case 161:
-      case 2: this.withFuelControlsEnabled(true);
-        this.defaultConstrolsEnabled(true);
-        this.isInputSectionVisible = true;
-        this.isDefaultSectionsVisible = true;
-        this.isEqFuelFactorSelected = true;
-        this.isWithFuel = true;
-        break;
       case 4: this.withFuelControlsEnabled(true);
         this.defaultConstrolsEnabled(true);
         this.isInputSectionVisible = true;
