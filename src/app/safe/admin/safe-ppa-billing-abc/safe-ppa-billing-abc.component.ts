@@ -167,7 +167,7 @@ export class SafePpaBillingAbcComponent implements OnInit {
 		this.form = this.formBuilder.group({
 			ffechaOp: [null,null],
 			fdocument:[null,null],
-			fbillingncnd:[null,null],
+			fdocumentf:[null,null],
 			fInvoice:[null,null],
 			fdateissue:[null,null],
 			fdateCertification:[null,null],

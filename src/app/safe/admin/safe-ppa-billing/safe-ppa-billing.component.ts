@@ -7,6 +7,8 @@ import { EventService } from 'src/app/core/services/event.service';
 import * as moment from 'moment';
 import { IdLabel } from 'src/app/core/models/IdLabel';
 import { EventMessage } from 'src/app/core/models/EventMessage';
+import { timer } from 'rxjs';
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
 @Component({
 	selector: 'app-safe-ppa-billing',
 	templateUrl: './safe-ppa-billing.component.html',
@@ -14,31 +16,7 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 })
 export class SafePpaBillingComponent implements OnInit {
 	formFilter:FormGroup;
-	tableBillingData = [
-		{
-			order : '1',fechaOp : 'may.-20',fechaEmision : '06/06/2020',fechaEntrega : '06/07/2020',fechaCancelacion : '06/07/2020',concepto : 'PCFC',tipoFactura : 'Operación Comercial',facturaNcNd : 'Factura',folio : 'F300',uUID : 'RETTD-097999-OUI',totalSinIVA : '100',moneda : 'USD',estatus : '',usuario : '',fechaHoraUltimaModificacion : new Date('2020/02/02'),
-		},
-		{
-			order : '2',fechaOp : 'may.-20',fechaEmision : '06/06/2020',fechaEntrega : '06/07/2020',fechaCancelacion : '06/07/2020',concepto : 'PCC',tipoFactura : 'Ajuste INPP',facturaNcNd : 'Nota de crédito',folio : 'NC200',uUID : 'RETTD-097999-OUI',totalSinIVA : '100',moneda : 'MXN',estatus : '',usuario : '',fechaHoraUltimaModificacion : new Date('2020/03/03'),
-		},
-		{
-			order : '3',
-			fechaOp : 'may.-20',
-			fechaEmision : '06/06/2020',
-			fechaEntrega : '06/07/2020',
-			fechaCancelacion : '06/07/2020',
-			concepto : 'PCVOM',
-			tipoFactura : 'Ajuste Conciliacion',
-			facturaNcNd : 'Nota de debito',
-			folio : 'ND987',
-			uUID : 'RETTD-097999-OUI',
-			totalSinIVA : '100',
-			moneda : 'MXN',
-			estatus : '',
-			usuario : '',
-			fechaHoraUltimaModificacion : new Date('2020/01/01'),
-		}
-	];
+	tableBillingData = [];
 
 
 	tableBillingColumnsLabels = [
@@ -48,11 +26,13 @@ export class SafePpaBillingComponent implements OnInit {
 		{ key: 'fechaEntrega'                 ,label:'Fecha de Entrega'},
 		{ key: 'fechaCancelacion'             ,label:'Fecha de Cancelacion'},
 		{ key: 'concepto'                     ,label:'Concepto'},
-		{ key: 'tipoFactura'                  ,label:'Tipo de Factura'},
-		{ key: 'facturaNcNd'                  ,label:'Factura/NC/ND'},
+		{ key: 'typeDocument'                 ,label:'Tipo de Documento'},
+		{ key: 'document'                     ,label:'Documento'},
 		{ key: 'folio'                        ,label:'FOLIO'},
 		{ key: 'uUID'                         ,label:'UUID'},
-		{ key: 'totalSinIVA'                  ,label:'Total Sin IVA'},
+		{ key: 'subtotal'                     ,label:'Subtotal'},
+		{ key: 'iva'                          ,label:'IVA'},
+		{ key: 'total'                        ,label:'Total'},
 		{ key: 'moneda'                       ,label:'Moneda'},
 		{ key: 'estatus'                      ,label:'ESTATUS'},
 		{ key: 'usuario'                      ,label:'Usuario'},
@@ -68,11 +48,13 @@ export class SafePpaBillingComponent implements OnInit {
 		'fechaEntrega',
 		'fechaCancelacion',
 		'concepto',
-		'tipoFactura',
-		'facturaNcNd',
+		'typeDocument',
+		'document',
 		'folio',
 		'uUID',
-		'totalSinIVA',
+		'subtotal',
+		'iva',
+		'total',
 		'moneda',
 		'estatus',
 		'usuario',
@@ -91,6 +73,8 @@ export class SafePpaBillingComponent implements OnInit {
 	optionsFacturaNcNd:IdLabel[] = [];
 	optionsMoneda:IdLabel[] = [];
 	optionsEstatus:IdLabel[] = [];
+	optionsDocuments:IdLabel[] = [];
+	optionsTypeDocument:IdLabel[] = [];
 	constructor(
 		private formBuilder: FormBuilder,
 		private confirmationDialogService: ConfirmationDialogService,
@@ -100,6 +84,37 @@ export class SafePpaBillingComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		this.addBlock(1, '');
+		timer(2000).subscribe(()=>{
+			this.tableBillingData = [
+				{
+					order : '1',fechaOp : 'may.-20',fechaEmision : '06/06/2020',fechaEntrega : '06/07/2020',fechaCancelacion : '06/07/2020',concepto : 'PCFC',typeDocument : 'Operación Comercial',folio : 'F300',uUID : 'RETTD-097999-OUI',subtotal : '100',iva:'',total:'',moneda : 'USD',estatus : '',usuario : '',fechaHoraUltimaModificacion : new Date('2020/02/02'),document:''
+				},
+				{
+					order : '2',fechaOp : 'may.-20',fechaEmision : '06/06/2020',fechaEntrega : '06/07/2020',fechaCancelacion : '06/07/2020',concepto : 'PCC',typeDocument : 'Ajuste INPP',folio : 'NC200',uUID : 'RETTD-097999-OUI',subtotal : '100',iva:'',total:'',moneda : 'MXN',estatus : '',usuario : '',fechaHoraUltimaModificacion : new Date('2020/03/03'),document:''
+				},
+				{
+					order : '3',
+					fechaOp : 'may.-20',
+					fechaEmision : '06/06/2020',
+					fechaEntrega : '06/07/2020',
+					fechaCancelacion : '06/07/2020',
+					concepto : 'PCVOM',
+					typeDocument : 'Ajuste Conciliacion',
+					folio : 'ND987',
+					uUID : 'RETTD-097999-OUI',
+					subtotal : '100',
+					iva:'',
+					total:'',
+					moneda : 'MXN',
+					estatus : '',
+					usuario : '',
+					fechaHoraUltimaModificacion : new Date('2020/01/01'),
+					document:''
+				}
+			];
+			this.addBlock(2, '');
+		});
 		this.formFilter = this.formBuilder.group({
 			ffechaOp: new FormControl(moment(), Validators.required),
 			ffechaEmisionDe:['',null],
@@ -109,11 +124,14 @@ export class SafePpaBillingComponent implements OnInit {
 			ffechaCancelacionDe:['',null],
 			ffechaCancelacionAl:['',null],
 			fconcepto:['',null],
-			ftipoFactura:['',null],
+			ftypeDocument:['',null],
 			ffacturaNcNd:['',null],
+			fdocument:['',null],
 			ffolio:['',null],
 			fuUID:['',null],
-			ftotalSinIVA:['',null],
+			fsubtotal:['',null],
+			fiva:['',null],
+			ftotal:['',null],
 			fmoneda:['',null],
 			festatus:['',null],
 			fusuario:['',null],
@@ -145,4 +163,8 @@ export class SafePpaBillingComponent implements OnInit {
 		console.log(v);
 	}
 
+	addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1,
+			new EventBlocked(type, msg)));
+	}
 }

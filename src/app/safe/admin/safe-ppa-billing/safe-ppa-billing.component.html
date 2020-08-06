@@ -96,19 +96,29 @@
 				<label>&nbsp;</label>
 				<app-mat-select
 				[formGroup]="formFilter"
-				controlName="ftipoFactura"
-				[options]="optionsTipoFactura"
-				label="Tipo Factura"
+				controlName="ftypeDocument"
+				[options]="optionsTypeDocument"
+				label="Tipo de Documento"
 				></app-mat-select>
 			</div>
 			
-			<div class="my-2 col-12 col-xs-6 col-xl-4">
+			<!--div class="my-2 col-12 col-xs-6 col-xl-4">
 				<label>&nbsp;</label>
 				<app-mat-select
 				[formGroup]="formFilter"
 				controlName="ffacturaNcNd"
 				[options]="optionsFacturaNcNd"
 				label="Factura/NC/ND"
+				></app-mat-select>
+			</div-->
+			
+			<div class="my-2 col-12 col-xs-6 col-xl-4">
+				<label>&nbsp;</label>
+				<app-mat-select
+					[formGroup]="formFilter"
+					controlName="fdocument"
+					[options]="optionsDocuments"
+					label="Documento"
 				></app-mat-select>
 			</div>
 			
@@ -132,11 +142,29 @@
 			
 			<div class="my-2 col-12 col-xs-6 col-xl-2">
 				<label>&nbsp;</label>
-				<app-mat-input-text
+				<app-mat-input-number
 				[formGroup]="formFilter"
-				controlName="ftotalSinIVA"
-				label="Total sin IVA"
-				></app-mat-input-text>
+				controlName="fsubtotal"
+				label="Subtotal"
+				></app-mat-input-number>
+			</div>
+			
+			<div class="my-2 col-12 col-xs-6 col-xl-2">
+				<label>&nbsp;</label>
+				<app-mat-input-number
+				[formGroup]="formFilter"
+				controlName="fiva"
+				label="IVA"
+				></app-mat-input-number>
+			</div>
+			
+			<div class="my-2 col-12 col-xs-6 col-xl-2">
+				<label>&nbsp;</label>
+				<app-mat-input-number
+				[formGroup]="formFilter"
+				controlName="ftotal"
+				label="Total"
+				></app-mat-input-number>
 			</div>
 			
 			<div class="my-2 col-12 col-xs-6 col-xl-2">
