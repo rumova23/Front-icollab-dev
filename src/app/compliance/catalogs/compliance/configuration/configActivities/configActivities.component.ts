@@ -35,6 +35,7 @@ export class ConfigActivitiesComponent implements OnInit {
   comboUnitPeriod: Array<Combo>;
   comboTipoDias: Array<Combo>;
   comboEstatus: Array<Combo>;
+  comboGrupo: Array<Combo>;
   listaCombos: Array<any>;
   cabeceraTagPrecedentes: string[] = ['tagHijo', 'tagHijoNombreCumplimiento', 'opcion'];
   columnas: string[] = ['tag', 'descripcion', 'assignPrecedent'];
@@ -195,6 +196,7 @@ export class ConfigActivitiesComponent implements OnInit {
     this.comboUnitPeriod = new Array<Combo>();
     this.comboTipoDias = new Array<Combo>();
     this.comboEstatus = new Array<Combo>();
+    this.comboGrupo = new Array<Combo>();
     let statusConsult: string = null;
     if ( this.accion === 'edit' || 'ver' ) {
       statusConsult = 'TODOS';
@@ -203,14 +205,16 @@ export class ConfigActivitiesComponent implements OnInit {
     this.listaCombos = Array<OrderCatalogDTO>();
     this.listaCombos.push( new OrderCatalogDTO('typeCompliance', 1, 1));
     this.listaCombos.push( new OrderCatalogDTO('authority', 1, 1));
-    this.listaCombos.push( new OrderCatalogDTO('typeApplication',1, 1));
+    this.listaCombos.push( new OrderCatalogDTO('typeApplication', 1, 1));
     this.listaCombos.push( new OrderCatalogDTO('typeDay', 1, 1));
+    this.listaCombos.push( new OrderCatalogDTO('group', 1, 1));
     this.tagService.getlistCatalogoOrdenados(this.listaCombos).subscribe(
       poRespuesta => {
         this.resuelveDS(poRespuesta, this.comboTipoCumplimiento, 'typeCompliance');
         this.resuelveDS(poRespuesta, this.comboAutoridad, 'authority');
         this.resuelveDS(poRespuesta, this.comboTipoAplicacion, 'typeApplication');
         this.resuelveDS(poRespuesta, this.comboTipoDias, 'typeDay');
+        this.resuelveDS(poRespuesta, this.comboGrupo, 'group');
       }
     ).add(() => {
       this.addBlock(2, null);
