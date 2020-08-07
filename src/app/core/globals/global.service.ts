@@ -15,6 +15,7 @@ export class GlobalService {
 	aguila  = true; // no se debe seguir usando ya que puede haber n plantas  ahora se debe usar la variable plant
 	plantaDefaultId = '1';  // ahora se debe usar la variable plant el default es la primera planta que llega
 
+	public lockHeaderAndSidebar = {isLocked:false,msn:''};
 	public socketConnect       = false;
 	public plant: Plant        = { id: 0 , name: 'Default'             };
 	public app: App            = { id: 0 , name: 'Default'             };  // Representa al modulo activo
@@ -29,7 +30,9 @@ export class GlobalService {
 
 		}
 	}
-
+	lockHeaderSidebar(isLocked:boolean, msn:string=''){
+		this.lockHeaderAndSidebar = {isLocked, msn};
+	}
 	setPlant(plant: Plant): void {
 		localStorage.setItem('plant', JSON.stringify(plant));
 		this.plant = plant;
@@ -71,6 +74,7 @@ export class GlobalService {
 		 * ahora se debe usar la función setXTenantId_Plant
 		 *
 		 */
+		console.error("setXTenantId() 'Deprecated'  en su lugar usar setXTenantId_Plant()");
 		const user = JSON.parse(localStorage.getItem('user')).username;
 		return si ? new HttpParams().set('X-TENANT-ID', 'aguila').set('user', user) : new HttpParams().set('X-TENANT-ID', 'sol').set('user', user);
 	}

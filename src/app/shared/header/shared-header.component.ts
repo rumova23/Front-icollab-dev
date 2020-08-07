@@ -9,6 +9,7 @@ import { EventMessage      } from 'src/app/core/models/EventMessage';
 import { DOCUMENT          } from '@angular/common';
 import { EventBlocked      } from 'src/app/core/models/EventBlocked';
 import { Observable        } from 'rxjs';
+import { ToastrManager } from 'ng6-toastr-notifications';
 
 @Component({
   selector    : 'app-shared-header',
@@ -23,7 +24,8 @@ export class SharedHeaderComponent implements OnInit {
 		public theme            : ThemeService,
 		private eventService    : EventService,
 		private securityService : SecurityService,
-		private router          : Router
+		private router          : Router,
+		public toastr: ToastrManager
 	) { 
 	}
 
@@ -44,18 +46,38 @@ export class SharedHeaderComponent implements OnInit {
 	}
 	
 	changePassword() {
+		if(this.globalService.lockHeaderAndSidebar.isLocked){
+			this.toastr.errorToastr(this.globalService.lockHeaderAndSidebar.msn, 'Lo siento');
+			return 0;
+		}
 		this.eventService.sendChangePage(new EventMessage(100, null,'shared.header.changePassword'));
 	}
-	goToHome(){
+	goToHome(){		
+		if(this.globalService.lockHeaderAndSidebar.isLocked){
+			this.toastr.errorToastr(this.globalService.lockHeaderAndSidebar.msn, 'Lo siento');
+			return 0;
+		}
 		this.eventService.sendChangeNavBar(new EventMessage(101, null));
 	}
-	changeModule(){
+	changeModule(){		
+		if(this.globalService.lockHeaderAndSidebar.isLocked){
+			this.toastr.errorToastr(this.globalService.lockHeaderAndSidebar.msn, 'Lo siento');
+			return 0;
+		}
 	  	this.router.navigate(['/home']);
 	}
-	logout() {
+	logout() {		
+		if(this.globalService.lockHeaderAndSidebar.isLocked){
+			this.toastr.errorToastr(this.globalService.lockHeaderAndSidebar.msn, 'Lo siento');
+			return 0;
+		}
 	  	this.securityService.logout();
 	}
-	changePlant(plant){
+	changePlant(plant){		
+		if(this.globalService.lockHeaderAndSidebar.isLocked){
+			this.toastr.errorToastr(this.globalService.lockHeaderAndSidebar.msn, 'Lo siento');
+			return 0;
+		}
 		let plants = this.securityService.loadPlants();
 		for(let i = 0; i < plants.length;i++){
 			if(plants[i].name == plant){
