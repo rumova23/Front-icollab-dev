@@ -208,15 +208,15 @@ export class ComplianceConfigurationComponent implements OnInit {
 
             if (this.showView) {
                 // this.displayedColumnsActions.push({key:'see',label:'Ver'});
-                this.columnas.push('ver');
+                if(!this.columnas.includes('ver'))this.columnas.push('ver');
             }
             if (this.showUpdate) {
                 // this.displayedColumnsActions.push({key:'update',label:'Editar'});
-                this.columnas.push('modificar');
+                if(!this.columnas.includes('modificar'))this.columnas.push('modificar');
             }
             if (this.showUpdate) {
                 // this.displayedColumnsActions.push({key:'delete',label:'Eliminar'});
-                this.columnas.push('eliminar');
+                if(!this.columnas.includes('eliminar'))this.columnas.push('eliminar');
             }
       },
       error => {
