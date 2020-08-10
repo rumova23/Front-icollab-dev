@@ -30,7 +30,7 @@ import {EntidadEstatusDTO} from '../../../models/entidad-estatus-dto';
 })
 export class ComplianceConfigurationComponent implements OnInit {
     nombreCatalogo = 'Características';
-  titulo = 'Matriz Cumplimiento';
+  titulo = 'Características';
   registros;
   administradores;
   data: any[] = [];

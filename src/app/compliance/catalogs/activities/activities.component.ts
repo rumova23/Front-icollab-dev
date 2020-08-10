@@ -144,15 +144,15 @@ export class ActivitiesComponent implements OnInit {
 
         if (this.showView){
           //this.displayedColumnsActions.push({key:'see',label:'Ver'});
-          this.columnas.push('see');
+          if(!this.columnas.includes('see'))this.columnas.push('see');
         }
         if (this.showUpdate){
           //this.displayedColumnsActions.push({key:'update',label:'Editar'});
-          this.columnas.push('update');
+          if(!this.columnas.includes('update'))this.columnas.push('update');
         }
         if (this.showUpdate){
           //this.displayedColumnsActions.push({key:'delete',label:'Eliminar'});
-          this.columnas.push('delete');
+          if(!this.columnas.includes('delete'))this.columnas.push('delete');
         }
       
 

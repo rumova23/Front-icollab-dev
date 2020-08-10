@@ -268,14 +268,14 @@ export class ConfigActivitiesComponent implements OnInit {
 
     if (this.accion === 'edit') {
       this.deshabiliarEstatus = false;
-      this.titulo = 'Editar / Configuración de Cumplimiento';
+      this.titulo = 'Editar';
     } else if (this.accion === 'ver') {
       this.deshabiliarEstatus = true;
-      this.titulo = 'Consultar / Configuración de Cumplimiento';
+      this.titulo = 'Consultar';
     } else {
       this.checkedEstatus = true;
       this.deshabiliarEstatus = false;
-      this.titulo = 'Agregar / Configuración de Cumplimiento';
+      this.titulo = 'Agregar';
       this.configActividadesForm.controls['fTag'].disable();
     }
 
