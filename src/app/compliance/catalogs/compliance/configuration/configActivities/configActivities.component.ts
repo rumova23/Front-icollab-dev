@@ -25,7 +25,7 @@ import {MaestroOpcionDTO} from '../../../../models/maestro-opcion-dto';
 export class ConfigActivitiesComponent implements OnInit {
   // Simulación tuxpan
   plantaDefault = this.globalService.plantaDefaultId; // "70"; //"Planta Tuxpan II";
-  a326 = 1;
+  a326 = null;
   @Input() accion: string;
   @Input() tagId: string;
   comboActividades: Array<Combo>;
@@ -98,8 +98,8 @@ export class ConfigActivitiesComponent implements OnInit {
   isnumeric(link) {
     if ( isNaN( Number(this.a326)) || 0 === Number(this.a326) ) {
       // para no permitir letras, que en firefox si permite insertarlas
-      this.a326 = 1;
-      link.value = 1;
+      this.a326 = null;
+      link.value = null;
       this.formatPeriodo_entrega(false);
     } else if ( Number(this.a326) > 1) {
       this.formatPeriodo_entrega(true);
@@ -260,8 +260,9 @@ export class ConfigActivitiesComponent implements OnInit {
       fRequisitoLegal: ['', Validators.required],
       fAutoridad: ['', Validators.required],
       fTipoAplicacion: ['', Validators.required],
-      fPeriodoEntregaCantidad: ['', Validators.min(1)],
+      fPeriodoEntregaCantidad: ['',[ Validators.required, Validators.min(1)]],
       fPeriodoEntregaUnidad: ['', Validators.required],
+      fcomboGrupo: ['', Validators.required],
       fTipoDias: ['', Validators.required]
     });
     this.idsTagPrecedentes = [];
