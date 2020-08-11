@@ -303,8 +303,8 @@
             </div>
         </div>
         <div class="row">
-
             <div class="col-6">
+                <label>Grupo</label>
                 <select class="form-control" [compareWith]="compareFn" formControlName="fcomboGrupo"
                     [ngClass]="{ 'is-invalid': submitted && f.fcomboGrupo.errors}">
                     <option *ngFor="let operator of comboGrupo" [value]="operator.value" >
