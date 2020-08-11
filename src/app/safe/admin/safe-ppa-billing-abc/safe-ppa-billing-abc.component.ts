@@ -72,7 +72,7 @@ export class SafePpaBillingAbcComponent implements OnInit {
 	
 	tableRelatedColumnsLabels = [
 		{ key: 'order'                ,label:'#'},
-		{ key: 'documentType'         ,label:'Tipo de Documento'},
+		{ key: 'documentType'         ,label:'Documento'},
 		{ key: 'invoice'              ,label:'Folio'},
 		{ key: 'uuid'                 ,label:'UUID'}
 	];
