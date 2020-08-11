@@ -337,6 +337,7 @@ export class ConfigActivitiesComponent implements OnInit {
         this.configActividadesForm.controls['fPeriodoEntregaUnidad'].value,
         this.configActividadesForm.controls['fPeriodoEntregaCantidad'].value,
       this.configActividadesForm.controls['fTipoDias'].value,
+      this.configActividadesForm.controls['fcomboGrupo'].value,
       this.checkedEstatus,
       //this.plantas,
       listTagPrecedentes,
@@ -385,6 +386,7 @@ export class ConfigActivitiesComponent implements OnInit {
           this.configActividadesForm.controls['fPeriodoEntregaCantidad'].patchValue(tagActividad.period);
           this.configActividadesForm.controls['fPeriodoEntregaUnidad'].patchValue(tagActividad.unitPeriod);
           this.configActividadesForm.controls['fTipoDias'].patchValue(tagActividad.idDaysType);
+          this.configActividadesForm.controls['fcomboGrupo'].patchValue(tagActividad.idGroup);
           this.valueActiveStatus = tagActividad.active;
           this.checkedEstatus = tagActividad.active;
           /*
@@ -435,6 +437,7 @@ export class ConfigActivitiesComponent implements OnInit {
             this.configActividadesForm.controls['fPeriodoEntregaCantidad'].disable();
             this.configActividadesForm.controls['fPeriodoEntregaUnidad'].disable();
             this.configActividadesForm.controls['fTipoDias'].disable();
+            this.configActividadesForm.controls['fcomboGrupo'].disable();
             this.habilitarActividad = false;
             this.existeTagId = true;
           } else {
@@ -446,6 +449,7 @@ export class ConfigActivitiesComponent implements OnInit {
             this.configActividadesForm.controls['fPeriodoEntregaCantidad'].disable();
             this.configActividadesForm.controls['fPeriodoEntregaUnidad'].disable();
             this.configActividadesForm.controls['fTipoDias'].disable();
+            this.configActividadesForm.controls['fcomboGrupo'].disable();
             this.configActividadesForm.controls['fTipoCumplimiento'].disable();
 
             this.configActividadesForm.controls['fDescripcion'].enable();
@@ -498,6 +502,7 @@ export class ConfigActivitiesComponent implements OnInit {
       fPeriodoEntregaCantidad: { value: '', disabled: false },
       fPeriodoEntregaUnidad: { value: '', disabled: false },
       fTipoDias: { value: '', disabled: false },
+      fcomboGrupo: { value: '', disabled: false }
       // fPlanta: { value: arreglo, disabled: false },
       // fCheckStatus: { checked:true }
     });

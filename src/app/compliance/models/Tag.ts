@@ -15,6 +15,7 @@ export class Tag {
     public unitPeriod: number;
     public period: number;
     public idDaysType: number;
+    public idGroup: number;
     public active: boolean;
     public precedents: Array<TagPrecedente>;
     constructor(
@@ -30,6 +31,7 @@ export class Tag {
         unitPeriod: number,
         period: number,
         idDaysType: number,
+        idGroup: number,
         active: boolean,
         precedents: Array<TagPrecedente>
     ) {
@@ -45,6 +47,7 @@ export class Tag {
         this.unitPeriod = unitPeriod;
         this.period = period;
         this.idDaysType = idDaysType;
+        this.idGroup = idGroup;
         this.active = active;
         this.precedents = precedents;
     }

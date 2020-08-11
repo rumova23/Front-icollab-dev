@@ -197,6 +197,7 @@ export class ComplianceTypesEditComponent implements OnInit {
           } else {
             this.catalogoMaestroService.setCatalogoIndividual(this.dataSubmit, this.globalService.aguila).subscribe(
                 (responseVo: ResponseVO) => {
+                  debugger;
                   if (this.accion === 'nuevo') {
                     if (responseVo.success) {
                       this.toastr.successToastr('La autoridad fue creada con éxito.', '¡Se ha logrado!');
@@ -219,6 +220,10 @@ export class ComplianceTypesEditComponent implements OnInit {
 
                     // this.showEditClonated = this.hasCloned;
                   }
+                },
+                error => {
+                  debugger;
+                  this.toastr.errorToastr('Ocurrió un error', '¡Error!');
                 });
           }
         }
