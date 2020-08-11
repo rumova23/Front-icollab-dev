@@ -245,21 +245,21 @@ export class ComplianceTypesComponent implements OnInit {
                         key: 'sys_see',
                         label: 'See'
                     });
-                    this.columnsToDisplay.push('sys_see');
+                    if(!this.columnsToDisplay.includes('sys_see'))this.columnsToDisplay.push('sys_see');
                 }
                 if (this.showUpdate) {
                     this.displayedColumnsActions.push({
                         key: 'sys_edit',
                         label: 'Edit'
                     });
-                    this.columnsToDisplay.push('sys_edit');
+                    if(!this.columnsToDisplay.includes('sys_edit'))this.columnsToDisplay.push('sys_edit');
                 }
                 if (this.showUpdate) {
                     this.displayedColumnsActions.push({
                         key: 'sys_delete',
                         label: 'Delete'
                     });
-                    this.columnsToDisplay.push('sys_delete');
+                    if(!this.columnsToDisplay.includes('sys_delete'))this.columnsToDisplay.push('sys_delete');
                 }
                 this.dataSource = new MatTableDataSource<any>(this.data);
                 this.dataSource.paginator = this.paginator;

@@ -10,6 +10,7 @@ import { menuItem      } from './menuItem';
 import { EventService  } from 'src/app/core/services/event.service';
 import { EventMessage  } from 'src/app/core/models/EventMessage';
 import { GlobalService } from 'src/app/core/globals/global.service';
+import { ToastrManager } from 'ng6-toastr-notifications';
 
 @Component({
   selector: 'app-shared-sidebar-items',
@@ -34,10 +35,15 @@ export class SharedSidebarItemsComponent {
 
 	constructor(
 		private eventService : EventService,
-		public globalService : GlobalService
+		public globalService : GlobalService,
+		public toastr: ToastrManager
 	) { }
 
   	itemSelected(item: menuItem) {
+		if(this.globalService.lockHeaderAndSidebar.isLocked){
+			this.toastr.errorToastr(this.globalService.lockHeaderAndSidebar.msn, 'Lo siento');
+			return 0;
+		}
 		if (item.children && item.children.length) {
 			this.viewHide = !this.viewHide;
 		}else{

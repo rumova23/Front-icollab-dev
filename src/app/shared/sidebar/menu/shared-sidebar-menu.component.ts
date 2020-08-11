@@ -39,7 +39,7 @@ export class SharedSidebarMenuComponent {
                 this.hardcodeAdministrative_monitoring();
                 break;
             case "Compliance":
-                this.hardcodeCompliance();
+                this.hardcodeCompliance(this.menu);
                 break;
             case "Mock_Up":
             case "Default":
@@ -66,10 +66,10 @@ export class SharedSidebarMenuComponent {
             return 0;
         });
     }
-    setOrderSafe(menu){
+    hardcodeSafe(menu){
         menu.map((item, indice)=>{
             if(item.children && item.children.length > 0) {
-                this.setOrderSafe(item.children);
+                this.hardcodeSafe(item.children);
             }
             if (item.label == "Home")               item.order = 0;
             else if (item.label == "PPA")           item.order = 1;
@@ -115,17 +115,6 @@ export class SharedSidebarMenuComponent {
             else item.order = indice+30;
         });
         this.ordenar(menu);
-    }
-    hardcodeSafe(menu){
-        this.setOrderSafe(menu);
-        /*
-        this.menu.push({
-            id: "hardcode",
-            idFather: "",
-            icon: "insert_chart",
-            label: "New Event",
-            url: "SafeNewEventComponent"
-        });//*/
     }
     hardcodeEfh() {
         let item0 = null;
@@ -191,73 +180,31 @@ export class SharedSidebarMenuComponent {
         
         //*/
     }
-    hardcodeCompliance() {
-        let item0 = null;
-        let item1 = null;
-        let item2 = null;
-        let autoridades= null;
-        let categorias = null;
-        let personal = null;
-        let proveedores = null;
-        let altaProveedores = null;
-        let evaluacionProveedores = null;
-        let reevaluacionProveedores = null;
-        let array = [];
-        for (let option of this.menu) {
-            if (option.label == "Home") item0 = option;
-            else if (option.label == "Catálogos") item1 = option;
-            else if (option.label == "Configuración de Cumplimientos Legales") item2 = option;
-            else array.push(option);
-        }
-        this.menu = [];
-        this.menu[0] = item0;
-        this.menu[1] = item1;
-        this.menu[2] = item2;
-        for (const iterator of array) {
-            this.menu.push(iterator);
-        }
-        
-        for (let option of this.menu) {
-            if (option.label == "Catálogos") {
-                for (let cat of option.children) {
-                    if (cat.label == "authorities") {
-                        autoridades = cat;
-                    }else if (cat.label == "categories") {
-                        categorias =cat;
-                    }
-                }
-                option.children=[];
-                option.children.push(autoridades);
-                option.children.push(categorias);
+    hardcodeCompliance(menu){
+        menu.map((item, indice)=>{
+            if(item.children && item.children.length > 0) {
+                this.hardcodeCompliance(item.children);
             }
-            if (option.label == "Competencia de los Recursos") {
-                for (let cat of option.children) {
-                    if (cat.label == "Personal") {
-                        personal = cat;
-                    }else if (cat.label == "Proveedores") {
-                        for(let submenu of cat.children) {
-                            if (submenu.label == "Alta de Proveedores") {
-                                altaProveedores = submenu;
-                            } else if (submenu.label == "Evaluación de Proveedores") {
-                                evaluacionProveedores = submenu;
-                            } else if (submenu.label == "Reevaluación de Proveedores") {
-                                reevaluacionProveedores = submenu;
-                            }
-                        }
-                        cat.children = [];
-                        cat.children.push(altaProveedores);
-                        cat.children.push(evaluacionProveedores);
-                        cat.children.push(reevaluacionProveedores);
-
-                        proveedores = cat;
-                    }
-                }
-                option.children=[];
-                option.children.push(personal);
-                option.children.push(proveedores);
-            }
-        }
-
+            if (item.label == "Home")               item.order = 0;
+            else if (item.label == "Catálogos")     item.order = 1;
+                else if (item.label == "authorities")     item.order = 0;
+                else if (item.label == "categories")     item.order = 1;
+            else if (item.label == "Configuración de Cumplimiento Legal")     item.order = 2;
+                else if (item.label == "Características")     item.order = 0;
+                else if (item.label == "Planeación")     item.order = 1;
+            else if (item.label == "legalAgreement")     item.order = 3;
+            else if (item.label == "Cumplimiento Adquisiciones")     item.order = 4;
+            else if (item.label == "Competencia de los Recursos")     item.order = 5;
+                else if (item.label == "Personal")     item.order = 0;
+                    else if (item.label == "Alta de Personal")     item.order = 0;
+                    else if (item.label == "Evaluación de Competencias para el Personal")     item.order = 1;
+                else if (item.label == "Proveedores")     item.order = 1;
+                    else if (item.label == "Alta de Proveedores")     item.order = 0;
+                    else if (item.label == "Evaluación de Proveedores")     item.order = 1;
+                    else if (item.label == "Reevaluación de Proveedores")     item.order = 2;
+            else item.order = indice+30;
+        });
+        this.ordenar(menu);
     }
     hardcodemockUp() {
         /*

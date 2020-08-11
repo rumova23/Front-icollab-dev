@@ -25,7 +25,7 @@ import {MaestroOpcionDTO} from '../../../../models/maestro-opcion-dto';
 export class ConfigActivitiesComponent implements OnInit {
   // Simulación tuxpan
   plantaDefault = this.globalService.plantaDefaultId; // "70"; //"Planta Tuxpan II";
-  a326 = 1;
+  a326 = null;
   @Input() accion: string;
   @Input() tagId: string;
   comboActividades: Array<Combo>;
@@ -35,6 +35,7 @@ export class ConfigActivitiesComponent implements OnInit {
   comboUnitPeriod: Array<Combo>;
   comboTipoDias: Array<Combo>;
   comboEstatus: Array<Combo>;
+  comboGrupo: Array<Combo>;
   listaCombos: Array<any>;
   cabeceraTagPrecedentes: string[] = ['tagHijo', 'tagHijoNombreCumplimiento', 'opcion'];
   columnas: string[] = ['tag', 'descripcion', 'assignPrecedent'];
@@ -97,8 +98,8 @@ export class ConfigActivitiesComponent implements OnInit {
   isnumeric(link) {
     if ( isNaN( Number(this.a326)) || 0 === Number(this.a326) ) {
       // para no permitir letras, que en firefox si permite insertarlas
-      this.a326 = 1;
-      link.value = 1;
+      this.a326 = null;
+      link.value = null;
       this.formatPeriodo_entrega(false);
     } else if ( Number(this.a326) > 1) {
       this.formatPeriodo_entrega(true);
@@ -195,6 +196,7 @@ export class ConfigActivitiesComponent implements OnInit {
     this.comboUnitPeriod = new Array<Combo>();
     this.comboTipoDias = new Array<Combo>();
     this.comboEstatus = new Array<Combo>();
+    this.comboGrupo = new Array<Combo>();
     let statusConsult: string = null;
     if ( this.accion === 'edit' || 'ver' ) {
       statusConsult = 'TODOS';
@@ -203,14 +205,16 @@ export class ConfigActivitiesComponent implements OnInit {
     this.listaCombos = Array<OrderCatalogDTO>();
     this.listaCombos.push( new OrderCatalogDTO('typeCompliance', 1, 1));
     this.listaCombos.push( new OrderCatalogDTO('authority', 1, 1));
-    this.listaCombos.push( new OrderCatalogDTO('typeApplication',1, 1));
+    this.listaCombos.push( new OrderCatalogDTO('typeApplication', 1, 1));
     this.listaCombos.push( new OrderCatalogDTO('typeDay', 1, 1));
+    this.listaCombos.push( new OrderCatalogDTO('group', 1, 1));
     this.tagService.getlistCatalogoOrdenados(this.listaCombos).subscribe(
       poRespuesta => {
         this.resuelveDS(poRespuesta, this.comboTipoCumplimiento, 'typeCompliance');
         this.resuelveDS(poRespuesta, this.comboAutoridad, 'authority');
         this.resuelveDS(poRespuesta, this.comboTipoAplicacion, 'typeApplication');
         this.resuelveDS(poRespuesta, this.comboTipoDias, 'typeDay');
+        this.resuelveDS(poRespuesta, this.comboGrupo, 'group');
       }
     ).add(() => {
       this.addBlock(2, null);
@@ -256,22 +260,23 @@ export class ConfigActivitiesComponent implements OnInit {
       fRequisitoLegal: ['', Validators.required],
       fAutoridad: ['', Validators.required],
       fTipoAplicacion: ['', Validators.required],
-      fPeriodoEntregaCantidad: ['', Validators.min(1)],
+      fPeriodoEntregaCantidad: ['',[ Validators.required, Validators.min(1)]],
       fPeriodoEntregaUnidad: ['', Validators.required],
+      fcomboGrupo: ['', Validators.required],
       fTipoDias: ['', Validators.required]
     });
     this.idsTagPrecedentes = [];
 
     if (this.accion === 'edit') {
       this.deshabiliarEstatus = false;
-      this.titulo = 'Editar / Configuración de Cumplimiento';
+      this.titulo = 'Editar';
     } else if (this.accion === 'ver') {
       this.deshabiliarEstatus = true;
-      this.titulo = 'Consultar / Configuración de Cumplimiento';
+      this.titulo = 'Consultar';
     } else {
       this.checkedEstatus = true;
       this.deshabiliarEstatus = false;
-      this.titulo = 'Agregar / Configuración de Cumplimiento';
+      this.titulo = 'Agregar';
       this.configActividadesForm.controls['fTag'].disable();
     }
 

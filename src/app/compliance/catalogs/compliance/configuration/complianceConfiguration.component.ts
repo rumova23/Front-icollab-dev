@@ -30,7 +30,7 @@ import {EntidadEstatusDTO} from '../../../models/entidad-estatus-dto';
 })
 export class ComplianceConfigurationComponent implements OnInit {
     nombreCatalogo = 'Características';
-  titulo = 'Matriz Cumplimiento';
+  titulo = 'Características';
   registros;
   administradores;
   data: any[] = [];
@@ -49,7 +49,7 @@ export class ComplianceConfigurationComponent implements OnInit {
   showDelete = false;
   plural = "";
 
-  columnas: string[] = ['order', 'tag', 'nombre', 'clasificacion', 'cumplimiento_legal', 'periodo_entrega', 'countTasks', 'autoridad', 'tipo_aplicacion', 'userUpdated', 'dateUpdated', 'estatus'];
+  columnas: string[] = ['order', 'tag', 'nombre', 'clasificacion', 'cumplimiento_legal', 'periodo_entrega', 'countTasks', 'autoridad', 'tipo_aplicacion','grupo', 'userUpdated', 'dateUpdated', 'estatus'];
   columnasResponsabilidad: string[] = ['order', 'admin', 'responsabilidad'];
   filtros = [
     {label: 'TAG', inputtype: 'text'},

@@ -251,6 +251,7 @@ export class ComplianceProfileComponent implements OnInit {
     get f() { return this.perfilForm.controls; }
 
     saveEmployee() {
+        this.globalService.lockHeaderSidebar(true,'No se puede avanzar si no se guarda un soporte al menos');
         let empresaPrefijo = this.enterprisePreffix.find(x => x.value === parseInt(this.perfilForm.controls['fEnterprise'].value, 10)).label;
         let det = new Detalle(
             null,

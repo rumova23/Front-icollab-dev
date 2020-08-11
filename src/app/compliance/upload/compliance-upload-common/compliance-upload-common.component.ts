@@ -67,6 +67,7 @@ export class ComplianceUploadCommonComponent implements OnInit {
       this.dataFileSubmit['fileData'] = this.dataFileSubmit['fileData'].trim();
       this.personalCompetenteService.uploadFile(this.dataFileSubmit).subscribe(
           respuesta => {
+            this.globalService.lockHeaderSidebar(false);
             this.toastr.successToastr('Documento guardado con éxito.', '¡Se ha logrado!');
             this.personalCompetenteService.accion.next('upload');
           },

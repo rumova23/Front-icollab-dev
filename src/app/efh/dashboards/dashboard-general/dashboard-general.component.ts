@@ -131,6 +131,9 @@ export class DashboardGeneralComponent extends ConnectSocketChannelComponent imp
 
 	ngOnInit() {
 		this.addBlock(1, "");
+		timer(15000).subscribe(()=>{
+			this.addBlock(2, "");
+		});
 		this.subscribeEverySecond();
 		this.initTagsPI();
 	}
@@ -466,7 +469,7 @@ export class DashboardGeneralComponent extends ConnectSocketChannelComponent imp
 					data: nextValue.value[1]["value"],
 				}
 			);
-			if(iii==1){
+			if(false){
 
 				opt.yAxis.push(
 					{
