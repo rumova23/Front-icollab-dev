@@ -68,6 +68,8 @@ export class ComplianceConfigurationComponent implements OnInit {
 
   serviceSubscription: any;
 
+  formFiltersTable:FormGroup;
+
   constructor(
     private tagService: TagService,
     private formBuilder: FormBuilder,
@@ -142,6 +144,9 @@ export class ComplianceConfigurationComponent implements OnInit {
         fActividad: [{ value: '', disabled: false }, Validators.required],
         fAnio: [{ value: '', disabled: false }, Validators.required]
     });
+      this.formFiltersTable = this.formBuilder.group({
+        fftag:['']
+      });
 
 
     /*
@@ -349,5 +354,12 @@ export class ComplianceConfigurationComponent implements OnInit {
 
     obtenMatrizCumplimiento() {
         this.obtenerListaTags(this.filtrosForm.controls.fAnio.value);
+    }
+    onFiltersTable(){
+      console.log(this.formFiltersTable.value);
+      
+    }
+    limpiarFiltros(){
+      
     }
 }
