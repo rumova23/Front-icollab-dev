@@ -89,17 +89,18 @@
   <form [formGroup]="formFiltersTable" (ngSubmit)="onFiltersTable()">
     <div class="row mt-3">
       <div class="col-12 col-lg-4">
-        <app-mat-input-text
+        <app-mat-input-text-autocomplete
           [formGroup]="formFiltersTable"
-          controlName="fftag"
+          controlName="tag"
+          [options]="filteredAutoTag"
           label="Tag"
-        ></app-mat-input-text>
+        ></app-mat-input-text-autocomplete>
       </div>
     </div>
     
 		<div class="row justify-content-end">
 			<div class="col-12 col-lg-3">
-				<app-btn-block-search myType="submit"  ></app-btn-block-search>
+				<app-btn-block-search myType="submit"></app-btn-block-search>
 			</div>
 			<div class="col-12 col-lg-2">
 				<app-btn-block-clean (myClick)="limpiarFiltros()"></app-btn-block-clean>
@@ -116,7 +117,7 @@
       </div>
     </div>
     <div class="row mt-4">
-      <div class="col">
+      <div class="col-6" *ngIf="false">
         <div class="tabla-responsi mat-elevation-z0">
           <table matSort mat-table [dataSource]="registros" class="table_catalogo"  (matSortChange)="sortData($event)" matSortActive="tag" matSortDirection="asc" matSortDisableClear>
             <ng-container matColumnDef="order">
@@ -202,6 +203,17 @@
           </table>
           <mat-paginator [pageSizeOptions]="registros_x_pagina" showFirstLastButtons></mat-paginator>
         </div>
+      </div>
+      <div class="col-12">
+        <app-mat-table
+          [data] = "tableDataFiltered"
+          [columnsLabels]  = "tablaColumnsLabels"
+          [columnsDisplay] = "tableColumnsDisplay"
+				  [row_x_page]     = "tableRowXPage"
+          (clickSee)       = "action(2,$event.tag)"
+          (clickEdit)      = "action(3,$event.tag)"
+          (clickDelete)    = "eliminarTag($event)"
+        ></app-mat-table>
       </div>
     </div>
 </div>

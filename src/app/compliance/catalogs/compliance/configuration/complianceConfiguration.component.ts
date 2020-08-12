@@ -21,6 +21,7 @@ import {TagOutDTO} from '../../../models/tag-out-dto';
 import {GenerigResponseDTO} from '../../../models/GenerigResponseDTO';
 import {MaestroOpcionDTO} from '../../../models/maestro-opcion-dto';
 import {EntidadEstatusDTO} from '../../../models/entidad-estatus-dto';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-complianceConfiguration',
@@ -68,7 +69,44 @@ export class ComplianceConfigurationComponent implements OnInit {
 
   serviceSubscription: any;
 
+  tableData;
+  tableDataFiltered;
+  tablaColumnsLabels = [
+    { key:'order'               ,label: '#' },
+    { key:"tag"                 ,label:'TAG'},
+    { key:"nombre"              ,label:'Nombre del Cumplimiento'},
+    { key:"clasificacion"       ,label:'Categoría'},
+    { key:"cumplimiento_legal"  ,label:'Tipo de Cumplimiento'},
+    { key:"autoridad"           ,label:'Autoridad'},
+    { key:"tipo_aplicacion"     ,label:'Tipo de Aplicación'},
+    { key:"grupo"               ,label:'Grupo'},
+    { key:"periodo_entrega"     ,label:'Período de Entrega'},
+    { key:"countTasks"          ,label:'Generados'},
+    { key:"estatus"             ,label:'Estatus'},
+    { key:"userUpdated"         ,label:'Usuario Última Modificación'},
+    { key:"dateUpdated"         ,label:'Fecha y Hora de Última Modificación', dateFormat:'dd/MM/yyyy HH:mm'},
+  ];
+  tableColumnsDisplay: string[] = [
+    'order',
+    'tag',
+    'nombre',
+    'clasificacion',
+    'cumplimiento_legal',
+    'periodo_entrega',
+    'countTasks',
+    'autoridad',
+    'tipo_aplicacion',
+    'grupo',
+    'userUpdated',
+    'dateUpdated',
+    'estatus',
+		'sys_see',
+		'sys_edit',
+		'sys_delete'
+  ];
+  tableRowXPage = [50, 100, 250, 500];
   formFiltersTable:FormGroup;
+  filteredAutoTag     : string[];
 
   constructor(
     private tagService: TagService,
@@ -145,7 +183,7 @@ export class ComplianceConfigurationComponent implements OnInit {
         fAnio: [{ value: '', disabled: false }, Validators.required]
     });
       this.formFiltersTable = this.formBuilder.group({
-        fftag:['']
+        tag:[null]
       });
 
 
@@ -186,6 +224,8 @@ export class ComplianceConfigurationComponent implements OnInit {
         if (data.entidadEstatus.entidadEstatusId === this.idMatrizFree) {
             this.isFree = true;
         }
+        this.setTableData(data.matriz);
+
         this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
         console.dir(data.matriz);
         this.registros =  new MatTableDataSource<TagOutDTO>(data.matriz);
@@ -341,6 +381,7 @@ export class ComplianceConfigurationComponent implements OnInit {
                 this.filtrosForm.controls.fTipoCumplimiento.value,
                 this.filtrosForm.controls.fActividad.value).subscribe(
                 (data: MatrizCumplimientoDTO) => {
+                    this.setTableData(data.matriz);
                     console.dir(data);
                     this.registros =  new MatTableDataSource<any>(data.matriz);
                     this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
@@ -355,11 +396,70 @@ export class ComplianceConfigurationComponent implements OnInit {
     obtenMatrizCumplimiento() {
         this.obtenerListaTags(this.filtrosForm.controls.fAnio.value);
     }
+    setTableData(matriz:TagOutDTO[]){
+      
+      this.tableData = matriz
+      .sort((a, b) =>  moment((a.dateUpdated != null) ? a.dateUpdated : a.dateCreated).toDate().getTime() - moment((b.dateUpdated != null) ? b.dateUpdated : b.dateCreated).toDate().getTime())
+      .map((e:TagOutDTO,i)=>{return {
+        'order':i+1,
+        'idTag':e.idTag,
+        'tag':e.tag,
+        'nombre':e.classificationActivity,
+        'clasificacion':e.activity.name,
+        'cumplimiento_legal':e.typeCompliance.code,
+        'periodo_entrega':this.formatPeriodo_entrega(e.period,  (e.unitPeriod && e.unitPeriod.code) ? e.unitPeriod.code : '' ),
+        'countTasks':e.countCompliance,
+        'autoridad': (e.authority && e.authority.code) ? e.authority.code : '',
+        'tipo_aplicacion':e.applicationType.code,
+        'grupo':'',
+        'userUpdated':(e.userUpdated) ? e.userUpdated : e.userCreated,
+        'dateUpdated':((e.dateUpdated != null) ? e.dateUpdated : e.dateCreated),
+        'estatus': (e.active) ? 'Activo' : 'Inactivo',
+      };});
+      this.initAutoComplete();
+
+      this.tableDataFiltered = [].concat(this.tableData);
+    }
+    initAutoComplete() {
+      this.filteredAutoTag     = this.tableData.map(d=>d.tag).filter((el,index,arr)=>arr.indexOf(el) === index);
+    }
     onFiltersTable(){
       console.log(this.formFiltersTable.value);
-      
+      let typeSearch = 'OR';
+      this.tableDataFiltered = this.search(typeSearch);
     }
     limpiarFiltros(){
+      this.formFiltersTable.reset();
+      this.tableDataFiltered = [].concat(this.tableData);
+    }
+    search(typeCondition: string){
+      let arrayElements: any[] = this.tableData;
+      let resultElements: any[] = [];
+      let values = this.formFiltersTable.value;
+      if (typeCondition === 'OR') {
+        resultElements = arrayElements.filter(o =>{
+          for (const key in values) {
+              const filter = values[key];
+              if(filter !== null && o[key].toLowerCase().startsWith(filter.toLowerCase())){
+                return true;
+              }
+          }
+          return false;
+          
+          ( values.fEmpNum     !== '' && o.numEmp.toLowerCase().startsWith(values.fEmpNum.toLowerCase()                    ) ) ||
+          ( values.fNames      !== '' && o.name.toLowerCase().startsWith(values.fNames.toLowerCase()                       ) ) ||
+          ( values.fLastName   !== '' && o.lastName.toLowerCase().startsWith(values.fLastName.toLowerCase()                ) ) ||
+          ( values.fSecondName !== '' && o.secondName.toLowerCase().startsWith(values.fSecondName.toLowerCase()            ) ) ||
+          ( values.fDepto      !== '' && o.department.toLowerCase().startsWith(values.fDepto.toLowerCase()                 ) ) ||
+          ( values.fRating     !== '' && o.totalRating.toString().startsWith(values.fRating.toLowerCase()                  ) ) ||
+          ( values.fCompetence !== '' && o.competence.toLowerCase().startsWith(values.fCompetence.toLowerCase()            ) ) ||
+          ( values.fEst        !== '' && (o.status.toLowerCase() =='activo'?'1':'0').startsWith(values.fEst.toLowerCase()  ) ) 
+        }
+
+        );
+      }
+
       
+      return resultElements;
     }
 }

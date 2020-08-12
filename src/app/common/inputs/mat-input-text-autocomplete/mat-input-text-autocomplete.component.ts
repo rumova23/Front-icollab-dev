@@ -16,6 +16,7 @@ export class MatInputTextAutocompleteComponent implements OnInit, OnChanges {
 	@Input() formGroup       : FormGroup;
 	@Input() options         : string[] = [];
 	@Input() filter          : 'startsWith' | 'includes' = 'startsWith';
+	@Input() isCaseSensitive : boolean = false;
 	filteredOptions          : Observable<string[]>;
 	
 	constructor() { }
@@ -25,7 +26,6 @@ export class MatInputTextAutocompleteComponent implements OnInit, OnChanges {
 	ngOnChanges(changes: SimpleChanges): void {
 		if(Array.isArray(this.options) && this.options.length > 0){
 			this.options = this.options
-			.map(o=>o.toLowerCase().trim())
 			.filter(
 				(el,index,arr)=>
 				arr.indexOf(el) === index
@@ -40,22 +40,29 @@ export class MatInputTextAutocompleteComponent implements OnInit, OnChanges {
 		}
 	}
 	private _filter(value: string): string[] {
-		const filterValue = value.toLowerCase()
+		let filterValue = value
 		.replace('á', 'a')
 		.replace('é', 'e')
 		.replace('í', 'i')
 		.replace('ó', 'o')
 		.replace('ú', 'u')
 		.trim();
+		if (!this.isCaseSensitive) {
+			filterValue = filterValue.toLowerCase()
+		}
 		
-		return this.options
-			.filter(option => 
-				option
+		return this.options		
+			.filter(option => {
+				if (!this.isCaseSensitive) {
+					option = option.toLowerCase()
+				}
+				return option
 				.replace('á', 'a')
 				.replace('é', 'e')
 				.replace('í', 'i')
 				.replace('ó', 'o')
 				.replace('ú', 'u')
-				[this.filter](filterValue));
+				[this.filter](filterValue)
+			});
 	}
 }
