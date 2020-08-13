@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { Observable,of  } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -130,6 +130,7 @@ export class PpaMonitoringFormatService {
 
     procesaModeloTiempo(year: number, month: number) {
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get(environment.dycformato + 'mmmppa/calculaFactores/' + year + '/' + month, {params : this.parameters });
+		return this.http.get(environment.dycformato + 'mmmppa/calculaFactores/' + year + '/' + month
+			, {params : this.parameters , headers: new HttpHeaders({ timeout: `${2000000}` })});
     }
 }
