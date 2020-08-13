@@ -493,32 +493,24 @@ export class ComplianceConfigurationComponent implements OnInit {
     }
     search(){
       const typeSearch = this.formFiltersTypeTable.value.typeFilter.toString() === '1' ? 'AND' : 'OR'; // 1. OR \ 2. AND for search conditions
-      let arrayElements: any[] = this.tableData;
-      let resultElements: any[] = [];
-      let values = this.formFiltersTable.value;
-      if (typeSearch === 'OR') {
-        resultElements = arrayElements.filter(o =>{
-          for (const key in values) {
-              const filter = values[key];
+      let values       = this.formFiltersTable.value;
+
+      return this.tableData.filter(o =>{
+        let r = true;
+        for (const key in values) {
+            const filter = values[key];
+            if (typeSearch === 'OR') {
               if(filter !== null && filter !== '' && o[key].toLowerCase().startsWith(filter.trim().toLowerCase())){
                 return true;
               }
-          }
-          return false;          
-        });
-      }else{
-        resultElements = arrayElements.filter(o =>{
-          let r = true;
-          for (const key in values) {
-              const filter = values[key];
+            }else{
               if(filter !== null && filter !== '' && !o[key].toLowerCase().startsWith(filter.trim().toLowerCase())){
                 r = false;
               }
-          }
-          return r;          
-        });
-      }
-      return resultElements;
+            }
+        }
+        return (typeSearch === 'OR') ?  false : r ;          
+      });
     }
     isnumeric(v){
       if ( isNaN( Number(v)) || 0 === Number(v) ) {
