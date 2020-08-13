@@ -108,6 +108,8 @@ export class BinnacleEventConfigurationDTO implements Deserializable {
     public status: boolean;
     public nameStatus: string;
 
+    public notSpliceId: Array<number>;
+
     public disabledFile: boolean;
     public disabledObsComment: boolean;
 

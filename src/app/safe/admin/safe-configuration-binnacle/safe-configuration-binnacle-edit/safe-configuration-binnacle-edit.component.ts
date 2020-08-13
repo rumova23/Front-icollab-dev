@@ -175,6 +175,8 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			disabledObsComment: [false],
 
 			statusElement: [true],
+
+			notSpliceId: [{ value: null, disabled: false }]
 		});
 		this.loadCatalog();
 		switch (this.catalogType.action) {
