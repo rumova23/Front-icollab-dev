@@ -122,14 +122,13 @@
 				<div class="row">
 					<div class="col-12 col-lg-4">
 						<app-mat-input-number [formGroup]="formDeliveryPeriod" controlName="n"
-							(eventChange)="isnumeric($event)" [submitted]="formDeliveryPeriodSubmited" [touched]="false"
-							[dirty]="false"></app-mat-input-number>
+							(eventChange)="isnumeric($event)" [submitted]="formDeliveryPeriodSubmited"></app-mat-input-number>
 					</div>
 
 					<div class="col-12 col-lg-8">
 						<app-mat-select [formGroup]="formDeliveryPeriod" controlName="t" [options]="optionsPeriod"
 							(blur)="onBlurPeriod()" (closed)="onchangePeriod()" [submitted]="formDeliveryPeriodSubmited"
-							[touched]="false"></app-mat-select>
+							></app-mat-select>
 					</div>
 				</div>
 			</div>
