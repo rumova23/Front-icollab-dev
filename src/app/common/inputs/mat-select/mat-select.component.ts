@@ -11,12 +11,15 @@ import { IdLabel } from 'src/app/core/models/IdLabel';
 })
 export class MatSelectComponent implements OnInit {
   @Output() eventChange   = new EventEmitter<any>();
+  @Output() blur     = new EventEmitter<any>();
+  @Output() closed   = new EventEmitter<any>();
   @Input() label           : string = '';
   @Input() sufijo          : string = '';
   @Input() submitted       : boolean = false;
   @Input() controlName     : string = null;
   @Input() formGroup       : FormGroup = null;
   @Input() withEmptyOption : boolean = true;
+	@Input() touched = true;
   @Input() options         : IdLabel[] = [
     {id:1,label:'Alabama'}
     , {id:1,label:'Alaska'}
@@ -75,5 +78,11 @@ export class MatSelectComponent implements OnInit {
   }
   onSelectChange(e) {
     this.eventChange.emit(e);
+  }
+  onBlur(e){
+    this.blur.emit(e);
+  }
+  onClosed(e){
+    this.closed.emit(e);
   }
 }

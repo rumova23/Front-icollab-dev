@@ -1,62 +1,73 @@
 <div class="row">
-    <mdb-breadcrumb customClass="white" class="w-100">
-      <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
-      <mdb-breadcrumb-item class="active">Configuracion de Cumplimiento Legal</mdb-breadcrumb-item>
-      <mdb-breadcrumb-item class="active">{{titulo}}</mdb-breadcrumb-item>
-    </mdb-breadcrumb>
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">Configuracion de Cumplimiento Legal</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ titulo }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
 </div>
 <div class="section">
-  <form class="mt-5" [formGroup]="filtrosForm">
-    <div class="row" *ngIf="isSupervisor">
-      <div class="form-group col-12 col-md-6 col-lg-4">
-        <button type="button" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" (click)="aprobarMatriz()">Aprobar Matriz Cumplimiento</button>
-      </div>
-      <div class="form-group col-12 col-md-6 col-lg-4" *ngIf="isFree">
-        <button type="button" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" (click)="liberarMatriz()">Liberar Matriz Cumplimiento</button>
-      </div>
-      <div class="form-group col-12 col-md-6 col-lg-4" *ngIf="!isFree">
-        <label>Estatus Matriz de cumplimiento: {{statusMatriz}}</label>
-      </div>
-    </div>
-    <div class="row" *ngIf="isSupervisor">
-
-      <div class="form-group col-12 col-md-6 col-lg-4">
-        <label>Año</label>
-        <select class="form-control"
-                formControlName="fAnio"
-                (change)="obtenMatrizCumplimiento()">
-          <option
-                  *ngFor="let operator of anios;"
-                  [value]="operator.value">
-            {{operator.label}}
-          </option>
-        </select>
-      </div>
-      <div class="form-group col-12 col-md-6 col-lg-4">
-        <table matSort mat-table [dataSource]="administradores" class="table_catalogo">
-          <ng-container matColumnDef="order">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> # </th>
-            <td mat-cell *matCellDef="let element; let i = index;" class="p-2 border-none">
-              {{i + 1}}
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="admin" sticky>
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Administrador </th>
-            <td mat-cell *matCellDef="let element"> {{element.username}} </td>
-          </ng-container>
-          <ng-container matColumnDef="responsabilidad">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Aprobada </th>
-            <td mat-cell *matCellDef="let element">
-              <i class="material-icons">
-              {{(element.estatusResponsabilidad === 2960) ? 'check':'close'}}
-            </i> </td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="columnasResponsabilidad"></tr>
-          <tr mat-row *matRowDef="let row; columns: columnasResponsabilidad;"></tr>
-        </table>
-      </div>
-    </div>
-    <div class="row">
+	
+	<div class="row pb-2">
+		<div class="col">
+			<p class="section_titulo_0">Matriz Cumplimiento Legal</p>
+			<p class="section_subtitulo_0"></p>
+		</div>
+	</div>
+	<hr>
+	<br>
+	<form class="mt-5" [formGroup]="filtrosForm">
+		<!--div class="row" *ngIf="isSupervisor">
+			<div class="form-group col-12 col-md-6 col-lg-4">
+				<button type="button" class="btn"
+					[ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }"
+					(click)="aprobarMatriz()">Aprobar Matriz Cumplimiento</button>
+			</div>
+			<div class="form-group col-12 col-md-6 col-lg-4" *ngIf="isFree">
+				<button type="button" class="btn"
+					[ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }"
+					(click)="liberarMatriz()">Liberar Matriz Cumplimiento</button>
+			</div>
+			<div class="form-group col-12 col-md-6 col-lg-4" *ngIf="!isFree">
+				<label>Estatus Matriz de cumplimiento: {{ statusMatriz }}</label>
+			</div>
+		</div>
+		<div class="row" *ngIf="isSupervisor">
+			<div class="form-group col-12 col-md-6 col-lg-4">
+				<label>Año</label>
+				<select class="form-control" formControlName="fAnio" (change)="obtenMatrizCumplimiento()">
+					<option *ngFor="let operator of anios" [value]="operator.value">
+						{{ operator.label }}
+					</option>
+				</select>
+			</div>
+			<div class="form-group col-12 col-md-6 col-lg-4">
+				<table matSort mat-table [dataSource]="administradores" class="table_catalogo">
+					<ng-container matColumnDef="order">
+						<th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center">#</th>
+						<td mat-cell *matCellDef="let element; let i = index" class="p-2 border-none">
+							{{ i + 1 }}
+						</td>
+					</ng-container>
+					<ng-container matColumnDef="admin" sticky>
+						<th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center">Administrador</th>
+						<td mat-cell *matCellDef="let element">{{ element.username }}</td>
+					</ng-container>
+					<ng-container matColumnDef="responsabilidad">
+						<th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center">Aprobada</th>
+						<td mat-cell *matCellDef="let element">
+							<i class="material-icons">
+								{{ element.estatusResponsabilidad === 2960 ? "check" : "close" }}
+							</i>
+						</td>
+					</ng-container>
+					<tr mat-header-row *matHeaderRowDef="columnasResponsabilidad"></tr>
+					<tr mat-row *matRowDef="let row; columns: columnasResponsabilidad"></tr>
+				</table>
+			</div>
+		</div-->
+		<!--div class="row">
       <div class="form-group col-12 col-md-6 col-lg-4">
         <label>Tipo Cumplimiento</label>
         <select class="form-control"
@@ -84,124 +95,96 @@
         </select>
       </div>
 
-    </div>
-  </form>
-  <form [formGroup]="formFiltersTable" (ngSubmit)="onFiltersTable()">
-    <div class="row mt-3">
-      <div class="col-12 col-lg-4">
-        <app-mat-input-text
-          [formGroup]="formFiltersTable"
-          controlName="fftag"
-          label="Tag"
-        ></app-mat-input-text>
-      </div>
-    </div>
-    
+    </div-->
+	</form>
+	<form [formGroup]="formFiltersTable" (ngSubmit)="onFiltersTable()">
+		<div class="row mt-3">
+			<div class="col-12 col-lg-4">
+				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="tag"
+					[options]="filteredAutoTag" label="Tag"></app-mat-input-text-autocomplete>
+			</div>
+			<div class="col-12 col-lg-4">
+				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="nombre"
+					[options]="filteredAutoName" label="Nombre del Cumplimiento"></app-mat-input-text-autocomplete>
+			</div>
+			<div class="col-12 col-lg-4">
+				<app-mat-select [formGroup]="formFiltersTable" controlName="clasificacion"
+					[options]="optionsClasificacion" label="Categoría"></app-mat-select>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col col-lg-4">
+				<div class="row">
+					<div class="col">
+						<label>Período de entrega</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-lg-4">
+						<app-mat-input-number [formGroup]="formDeliveryPeriod" controlName="n"
+							(eventChange)="isnumeric($event)" [submitted]="formDeliveryPeriodSubmited" [touched]="false"
+							[dirty]="false"></app-mat-input-number>
+					</div>
+
+					<div class="col-12 col-lg-8">
+						<app-mat-select [formGroup]="formDeliveryPeriod" controlName="t" [options]="optionsPeriod"
+							(blur)="onBlurPeriod()" (closed)="onchangePeriod()" [submitted]="formDeliveryPeriodSubmited"
+							[touched]="false"></app-mat-select>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-4">
+				<app-mat-select [formGroup]="formFiltersTable" controlName="autoridad" [options]="comboAutoridad"
+					label="Autoridad"></app-mat-select>
+			</div>
+			<div class="col-12 col-lg-4">
+				<app-mat-select [formGroup]="formFiltersTable" controlName="tipo_aplicacion"
+					[options]="comboTipoAplicacion" label="Tipo de Aplicación"></app-mat-select>
+			</div>
+			<div class="col-12 col-lg-4">
+				<app-mat-select [formGroup]="formFiltersTable" controlName="grupo" [options]="comboGrupo" label="Grupo">
+				</app-mat-select>
+			</div>
+			<div class="col-12 col-lg-4">
+				<app-mat-select [formGroup]="formFiltersTable" controlName="estatus" [options]="comboEstatus"
+					label="Estatus"></app-mat-select>
+			</div>
+
+			<div class="col-12 col-lg-4">
+				<app-mat-input-datepicker [formGroup]="formFilterDate" controlName="dateUpdated"
+					(eventChange)="onChangeDateUpdate($event)" label="Fecha y Hora de Última Modificación">
+				</app-mat-input-datepicker>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<app-mat-radio-button [formGroup]="formFiltersTypeTable" controlName="typeFilter"
+					[options]="optionsFiltersType"></app-mat-radio-button>
+			</div>
+		</div>
+
 		<div class="row justify-content-end">
-			<div class="col-12 col-lg-3">
-				<app-btn-block-search myType="submit"  ></app-btn-block-search>
+			<div class="col-12 col-lg-2">
+				<app-btn-block-search myType="submit"></app-btn-block-search>
 			</div>
 			<div class="col-12 col-lg-2">
 				<app-btn-block-clean (myClick)="limpiarFiltros()"></app-btn-block-clean>
 			</div>
-    </div>
+		</div>
+	</form>
 
-  </form>
 
+	<div class="row justify-content-end mt-4">
+		<div class="col-12 col-lg-2">
+			<app-btn-block-add (myClick)="action(1, 0)"></app-btn-block-add>
+		</div>
+	</div>
 
-    <div class="row mb-3 mt-3">
-      <div class="col text-right">
-        <button type="button" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
-        (click)="action(1, 0)"><mdb-icon fas icon="plus"></mdb-icon>&nbsp;Agregar</button>
-      </div>
-    </div>
-    <div class="row mt-4">
-      <div class="col">
-        <div class="tabla-responsi mat-elevation-z0">
-          <table matSort mat-table [dataSource]="registros" class="table_catalogo"  (matSortChange)="sortData($event)" matSortActive="tag" matSortDirection="asc" matSortDisableClear>
-            <ng-container matColumnDef="order">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> # </th>
-              <td mat-cell *matCellDef="let element; let i = index;" class="p-2 border-none">
-                {{i + 1}}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="tag" sticky>
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> TAG </th>
-              <td mat-cell *matCellDef="let element"> {{element.tag}} </td>
-            </ng-container>
-            <ng-container matColumnDef="nombre">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Nombre del Cumplimiento </th>
-              <td mat-cell *matCellDef="let element"> {{element.classificationActivity}} </td>
-            </ng-container>
-            <ng-container matColumnDef="clasificacion">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Categoría </th>
-              <td mat-cell *matCellDef="let element"> {{ element.activity?.name}} </td>
-            </ng-container>
-            <ng-container matColumnDef="cumplimiento_legal">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Tipo de Cumplimiento </th>
-              <td mat-cell *matCellDef="let element"> {{element.typeCompliance.code}} </td>
-            </ng-container>
-            <ng-container matColumnDef="autoridad">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Autoridad </th>
-              <td mat-cell *matCellDef="let element"> {{element.authority?.code}} </td>
-            </ng-container>
-            <ng-container matColumnDef="tipo_aplicacion">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Tipo de Aplicación </th>
-              <td mat-cell *matCellDef="let element"> {{element.applicationType.code}}</td>
-            </ng-container>
-            <ng-container matColumnDef="grupo">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Grupo </th>
-              <td mat-cell *matCellDef="let element"> {{element.grupo}}</td>
-            </ng-container>
-            <ng-container matColumnDef="periodo_entrega">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Período de Entrega </th>
-              <td mat-cell *matCellDef="let element"> {{ formatPeriodo_entrega(element.period,element.unitPeriod?.code )}} </td>
-            </ng-container>
-            <ng-container matColumnDef="countTasks">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Generados </th>
-              <td mat-cell *matCellDef="let element"> {{element.countCompliance }} </td>
-            </ng-container>
-            <ng-container matColumnDef="estatus">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Estatus </th>
-              <td mat-cell *matCellDef="let element"> {{(element.active) ? 'Activo' : 'Inactivo'}} </td>
-            </ng-container>
-            <ng-container matColumnDef="userUpdated">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Usuario Última Modificación </th>
-              <td mat-cell *matCellDef="let element"> {{(element.userUpdated) ? element.userUpdated : element.userCreated}} </td>
-            </ng-container>
-            <ng-container matColumnDef="dateUpdated">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> Fecha y Hora de Última Modificación </th>
-              <td mat-cell *matCellDef="let element"> {{ (element.dateUpdated ? element.dateUpdated : element.dateCreated) | date:'dd/MM/yyyy HH:mm'}} </td>
-            </ng-container>
-            <ng-container matColumnDef="ver">
-              <th mat-header-cell *matHeaderCellDef class="txt-center"> Ver </th>
-              <td mat-cell *matCellDef="let element">
-                <a (click)="action(2, element.tag)">
-                  <img src="assets/images/skins/ico_Ver.png" alt="Visualizar">
-                </a>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="modificar">
-              <th mat-header-cell *matHeaderCellDef class="txt-center"> Modificar </th>
-              <td mat-cell *matCellDef="let element">
-                <a (click)="action(3, element.tag)">
-                  <img src="assets/images/skins/ico_Editar.png" alt="Visualizar">
-                </a>
-              </td> 
-            </ng-container>
-            <ng-container matColumnDef="eliminar">
-              <th mat-header-cell *matHeaderCellDef class="txt-center"> Eliminar </th>
-              <td mat-cell *matCellDef="let element">
-                <a (click)="eliminarTag(element)">
-                  <img src="assets/images/skins/ico_Borrar.png" alt="eliminar">
-                </a>
-              </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="columnas"></tr>
-            <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
-          </table>
-          <mat-paginator [pageSizeOptions]="registros_x_pagina" showFirstLastButtons></mat-paginator>
-        </div>
-      </div>
-    </div>
+	<div class="row mt-4">
+		<div class="col">
+			<app-mat-table [data]="tableDataFiltered" [columnsLabels]="tablaColumnsLabels"
+				[columnsDisplay]="tableColumnsDisplay" [row_x_page]="tableRowXPage" (clickSee)="action(2, $event.tag)"
+				(clickEdit)="action(3, $event.tag)" (clickDelete)="eliminarTag($event)"></app-mat-table>
+		</div>
+	</div>
 </div>

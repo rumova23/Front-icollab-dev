@@ -21,6 +21,10 @@ import {TagOutDTO} from '../../../models/tag-out-dto';
 import {GenerigResponseDTO} from '../../../models/GenerigResponseDTO';
 import {MaestroOpcionDTO} from '../../../models/maestro-opcion-dto';
 import {EntidadEstatusDTO} from '../../../models/entidad-estatus-dto';
+import * as moment from 'moment';
+import { IdLabel } from 'src/app/core/models/IdLabel';
+import { ColumnLabel } from '../../../../core/models/ColumnLabel';
+import { OrderCatalogDTO } from 'src/app/compliance/models/OrderCatalogDTO';
 
 @Component({
   selector: 'app-complianceConfiguration',
@@ -29,9 +33,8 @@ import {EntidadEstatusDTO} from '../../../models/entidad-estatus-dto';
   , providers: [DatePipe]
 })
 export class ComplianceConfigurationComponent implements OnInit {
-    nombreCatalogo = 'Características';
+  nombreCatalogo = 'Características';
   titulo = 'Características';
-  registros;
   administradores;
   data: any[] = [];
   userResult;
@@ -41,7 +44,7 @@ export class ComplianceConfigurationComponent implements OnInit {
   isSupervisor = false;
   isFree = false;
   idMatrizFree: number;
-    statusMatriz: string;
+  statusMatriz: string;
   menu: any[];
   showAdd = false;
   showView = false;
@@ -49,18 +52,9 @@ export class ComplianceConfigurationComponent implements OnInit {
   showDelete = false;
   plural = "";
 
-  columnas: string[] = ['order', 'tag', 'nombre', 'clasificacion', 'cumplimiento_legal', 'periodo_entrega', 'countTasks', 'autoridad', 'tipo_aplicacion','grupo', 'userUpdated', 'dateUpdated', 'estatus'];
+  
   columnasResponsabilidad: string[] = ['order', 'admin', 'responsabilidad'];
-  filtros = [
-    {label: 'TAG', inputtype: 'text'},
-    {label: 'Nombre', inputtype: 'text'},
-    {label: 'Clasificación', inputtype: 'select'},
-    {label: 'Cumplimiento Legal', inputtype: 'text'},
-    {label: 'Autoridad', inputtype: 'text'},
-    {label: 'Tipo de Aplicación', inputtype: 'text'},
-    {label: 'Periodo de Entrega', inputtype: 'text'},
-    {label: 'Estatus', inputtype: 'text'},
-  ];
+ 
   filtrobtn = {label: 'buscar'};
   registros_x_pagina = [50, 100, 250, 500];
 
@@ -68,7 +62,54 @@ export class ComplianceConfigurationComponent implements OnInit {
 
   serviceSubscription: any;
 
-  formFiltersTable:FormGroup;
+  tableData;
+  tableDataFiltered;
+  tablaColumnsLabels : ColumnLabel[] = [
+    { key:'order'               ,label: '#' },
+    { key:"tag"                 ,label:'TAG'},
+    { key:"nombre"              ,label:'Nombre del Cumplimiento'},
+    { key:"clasificacion"       ,label:'Categoría'},
+    { key:"cumplimiento_legal"  ,label:'Tipo de Cumplimiento'},
+    { key:"autoridad"           ,label:'Autoridad'},
+    { key:"tipo_aplicacion"     ,label:'Tipo de Aplicación'},
+    { key:"grupo"               ,label:'Grupo'},
+    { key:"periodo_entrega"     ,label:'Período de Entrega'},
+    { key:"countTasks"          ,label:'Generados'},
+    { key:"estatus"             ,label:'Estatus'},
+    { key:"userUpdated"         ,label:'Usuario Última Modificación'},
+    { key:"dateUpdated"         ,label:'Fecha y Hora de Última Modificación', dateFormat:'dd/MM/yyyy HH:mm'},
+  ];
+  tableColumnsDisplay: string[] = [
+    'order',
+    'tag',
+    'nombre',
+    'clasificacion',
+    'cumplimiento_legal',
+    'periodo_entrega',
+    'autoridad',
+    'tipo_aplicacion',
+    'grupo',
+    'userUpdated',
+    'dateUpdated',
+    'estatus'
+  ];
+  tableRowXPage = [50, 100, 250, 500];
+  formFiltersTable     : FormGroup;
+  formFiltersTypeTable : FormGroup;
+  formDeliveryPeriod   : FormGroup;
+  formFilterDate       : FormGroup;
+  formDeliveryPeriodSubmited = false;
+  optionsFiltersType   : IdLabel[] = [{id:1,label:'Todos'},{id:2,label:'Al menos uno'}];
+  optionsPeriod        : IdLabel[] = [];
+  comboAutoridad       : IdLabel[] = [];
+  comboTipoAplicacion  : IdLabel[] = [];
+  comboGrupo           : IdLabel[] = [];
+  comboEstatus         : IdLabel[] = [{id:'Activo',label:'Activo'},{id:'Inactivo',label:'Inactivo'}];
+  comboUnitPeriod      : any[]     = [];
+  filteredAutoTag      : string[];
+  filteredAutoName     : string[];
+
+  optionsClasificacion : IdLabel[];
 
   constructor(
     private tagService: TagService,
@@ -145,7 +186,25 @@ export class ComplianceConfigurationComponent implements OnInit {
         fAnio: [{ value: '', disabled: false }, Validators.required]
     });
       this.formFiltersTable = this.formBuilder.group({
-        fftag:['']
+        tag:[null],
+        nombre:[null],
+        clasificacion:[null],
+        periodo_entrega:[null],
+        autoridad:[null],
+        tipo_aplicacion:[null],
+        grupo:[null],
+        estatus:[null],
+        sDateUpdated:[null],
+      });
+      this.formFiltersTypeTable = this.formBuilder.group({
+        typeFilter:[2,Validators.required]
+      });
+      this.formDeliveryPeriod = this.formBuilder.group({
+        n:[null,Validators.required],
+        t:[null,Validators.required]
+      });
+      this.formFilterDate = this.formBuilder.group({
+        dateUpdated:[null]
       });
 
 
@@ -186,43 +245,28 @@ export class ComplianceConfigurationComponent implements OnInit {
         if (data.entidadEstatus.entidadEstatusId === this.idMatrizFree) {
             this.isFree = true;
         }
+        this.setTableData(data.matriz);
+
         this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
-        console.dir(data.matriz);
-        this.registros =  new MatTableDataSource<TagOutDTO>(data.matriz);
-        this.registros.paginator = this.paginator;
+        
+        
+ 
         let dateUpdated = null;
         let autoridad = null;
-        this.registros.sortingDataAccessor = (item, property) => {
-          switch(property) {
-              case 'tag': return item.tag;
-              case 'nombre': return item.classificationActivity;
-              case 'clasificacion': return item.activity.name;
-              case 'cumplimiento_legal': return item.typeCompliance.code;
-              case 'periodo_entrega': return item.period + ' ' + (item.unitPeriod && item.unitPeriod.code) ? item.unitPeriod.code : '';
-              case 'autoridad': return (item.authority && item.authority.code) ? item.authority.code : '';
-              case 'tipo_aplicacion': return item.applicationType.code;
-              case 'estatus': return item.active;
-              case 'dateUpdated' : dateUpdated = ((item.dateUpdated != null) ? item.dateUpdated : item.dateCreated);
-                                   return new Date(dateUpdated).getTime();
-              case 'userUpdated': return (item.userUpdated) ? item.userUpdated : item.userCreated;
-              default: return item[property];
-            }
-      }
-        this.registros.sort = this.sort;
+        
+
         this.addBlock(2, null);
 
-            if (this.showView) {
-                // this.displayedColumnsActions.push({key:'see',label:'Ver'});
-                if(!this.columnas.includes('ver'))this.columnas.push('ver');
-            }
-            if (this.showUpdate) {
-                // this.displayedColumnsActions.push({key:'update',label:'Editar'});
-                if(!this.columnas.includes('modificar'))this.columnas.push('modificar');
-            }
-            if (this.showUpdate) {
-                // this.displayedColumnsActions.push({key:'delete',label:'Eliminar'});
-                if(!this.columnas.includes('eliminar'))this.columnas.push('eliminar');
-            }
+        
+        if (this.showView) {
+            if(!this.tableColumnsDisplay.includes('sys_see'))this.tableColumnsDisplay.push('sys_see');
+        }
+        if (this.showUpdate) {
+            if(!this.tableColumnsDisplay.includes('sys_edit'))this.tableColumnsDisplay.push('sys_edit');
+        }
+        if (this.showUpdate) {
+            if(!this.tableColumnsDisplay.includes('sys_delete'))this.tableColumnsDisplay.push('sys_delete');
+        }
       },
       error => {
         this.addBlock(2, null);
@@ -341,11 +385,8 @@ export class ComplianceConfigurationComponent implements OnInit {
                 this.filtrosForm.controls.fTipoCumplimiento.value,
                 this.filtrosForm.controls.fActividad.value).subscribe(
                 (data: MatrizCumplimientoDTO) => {
-                    console.dir(data);
-                    this.registros =  new MatTableDataSource<any>(data.matriz);
+                    this.setTableData(data.matriz);
                     this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
-                    this.registros.paginator = this.paginator;
-                    this.registros.sort = this.sort;
                     this.addBlock(2, null);
                 }
             );
@@ -355,11 +396,166 @@ export class ComplianceConfigurationComponent implements OnInit {
     obtenMatrizCumplimiento() {
         this.obtenerListaTags(this.filtrosForm.controls.fAnio.value);
     }
-    onFiltersTable(){
-      console.log(this.formFiltersTable.value);
+    setTableData(matriz:TagOutDTO[]){
       
+      this.tableData = matriz
+      .sort((a, b) =>  moment((a.dateUpdated != null) ? a.dateUpdated : a.dateCreated).toDate().getTime() - moment((b.dateUpdated != null) ? b.dateUpdated : b.dateCreated).toDate().getTime())
+      .map((e:TagOutDTO,i)=>{
+        let dateUpdated = ((e.dateUpdated != null) ? e.dateUpdated : e.dateCreated);
+        return {
+          'order':i+1,
+          'idTag':e.idTag,
+          'tag':e.tag,
+          'nombre':e.classificationActivity,
+          'clasificacion':e.activity.name,
+          'cumplimiento_legal':e.typeCompliance.code,
+          'periodo_entrega':this.formatPeriodo_entrega(e.period,  (e.unitPeriod && e.unitPeriod.code) ? e.unitPeriod.code : '' ),
+          'countTasks':e.countCompliance,
+          'autoridad': (e.authority && e.authority.code) ? e.authority.code : '',
+          'tipo_aplicacion':e.applicationType.code,
+          'grupo':'',
+          'userUpdated':(e.userUpdated) ? e.userUpdated : e.userCreated,
+          'dateUpdated':dateUpdated,
+          'estatus': (e.active) ? 'Activo' : 'Inactivo',
+          'sDateUpdated':this.datePipe.transform(new Date(dateUpdated),'dd/MM/yyyy')
+        };
+      });
+      this.initAutoComplete();
+
+      this.tableDataFiltered = [].concat(this.tableData);
+    }
+    initAutoComplete() {
+      this.filteredAutoTag     = this.tableData.map(d=>d.tag).filter((el,index,arr)=>arr.indexOf(el) === index);
+      this.filteredAutoName    = this.tableData.map(d=>d.nombre).filter((el,index,arr)=>arr.indexOf(el) === index);
+
+      let statusConsultActivity = 'TODOS'; // 'TODOS' || 'ACTIVOS'
+      this.tagService.getCatalogoActividades(statusConsultActivity)
+        .subscribe(catalogoResult => {
+          this.optionsClasificacion = catalogoResult.map(e=>{return {id:e.name,label:e.name};});
+        },
+        error => {
+          this.toastr.errorToastr('Error al cargar catálogo de Categoría.', 'Lo siento,');
+        }
+      );
+      
+      this.tagService.comboUnitPeriod().subscribe(
+      (lista: Array<MaestroOpcionDTO>) => {
+        console.dir(lista);
+        this.comboUnitPeriod = lista.map(e=>{return {id:e.maestroOpcionId.toString(),singular:e.opcion.codigo,plural:e.opcion.codigo +''+ (e.opcion.codigo == 'MES' ?'ES':'S')};});
+        this.optionsPeriod   = this.comboUnitPeriod.map(e=>{return {id:e.id,label:e.singular}}); 
+      });
+
+      let listaCombos = Array<OrderCatalogDTO>();
+      listaCombos.push( new OrderCatalogDTO('typeCompliance', 1, 1));
+      listaCombos.push( new OrderCatalogDTO('authority', 1, 1));
+      listaCombos.push( new OrderCatalogDTO('typeApplication', 1, 1));
+      listaCombos.push( new OrderCatalogDTO('typeDay', 1, 1));
+      listaCombos.push( new OrderCatalogDTO('group', 1, 1));
+      this.tagService.getlistCatalogoOrdenados(listaCombos).subscribe(
+        (catalogs:any) => {
+          /*this.resuelveDS(catalogs, this.comboAutoridad, 'authority');
+          this.resuelveDS(poRespuesta, this.comboTipoCumplimiento, 'typeCompliance');
+          this.resuelveDS(poRespuesta, this.comboTipoAplicacion, 'typeApplication');
+          this.resuelveDS(poRespuesta, this.comboTipoDias, 'typeDay');
+          this.resuelveDS(poRespuesta, this.comboGrupo, 'group');//*/
+          catalogs.forEach(element => {
+            if ( element.catalog === 'authority' )
+              this.comboAutoridad = element.data.map(e=>{return {id:e.code,label:e.code};});
+            else if ( element.catalog === 'typeApplication' )
+              this.comboTipoAplicacion = element.data.map(e=>{return {id:e.code,label:e.code};});
+            else if ( element.catalog === 'group' )
+              this.comboGrupo = element.data.map(e=>{return {id:e.code,label:e.code};});
+            
+          });
+        }
+      ).add(() => {
+        this.addBlock(2, null);
+      });
+
+    }
+    
+    onFiltersTable(){      
+      let isEmptyFilters = true;
+      for (const key in this.formFiltersTable.value) {
+        const filter = this.formFiltersTable.value[key];
+        if(filter !== null && filter !== '' ){
+          isEmptyFilters = false
+        }
+      }
+      isEmptyFilters ? this.limpiarFiltros() : this.tableDataFiltered = this.search();
     }
     limpiarFiltros(){
-      
+      this.tableDataFiltered = this.tableData.concat([]);
+      this.formFiltersTable.reset();
+      this.formDeliveryPeriod.reset();
+      this.formFilterDate.reset();
+      this.formDeliveryPeriodSubmited = false;
     }
+    search(){
+      const typeSearch = this.formFiltersTypeTable.value.typeFilter.toString() === '1' ? 'AND' : 'OR'; // 1. OR \ 2. AND for search conditions
+      let arrayElements: any[] = this.tableData;
+      let resultElements: any[] = [];
+      let values = this.formFiltersTable.value;
+      if (typeSearch === 'OR') {
+        resultElements = arrayElements.filter(o =>{
+          for (const key in values) {
+              const filter = values[key];
+              if(filter !== null && filter !== '' && o[key].toLowerCase().startsWith(filter.trim().toLowerCase())){
+                return true;
+              }
+          }
+          return false;          
+        });
+      }else{
+        resultElements = arrayElements.filter(o =>{
+          let r = true;
+          for (const key in values) {
+              const filter = values[key];
+              if(filter !== null && filter !== '' && !o[key].toLowerCase().startsWith(filter.trim().toLowerCase())){
+                r = false;
+              }
+          }
+          return r;          
+        });
+      }
+      return resultElements;
+    }
+    isnumeric(v){
+      if ( isNaN( Number(v)) || 0 === Number(v) ) {
+        // para no permitir letras, que en firefox si permite insertarlas
+        v = null;
+        this.formDeliveryPeriod.controls.n.setValue(null);        
+      }
+      if ( Number(v) > 1) {
+        this.optionsPeriod = this.comboUnitPeriod.map(e=>{return {id:e.id,label:e.plural}}); 
+      } else if( Number(v) <= 1) {
+        this.optionsPeriod = this.comboUnitPeriod.map(e=>{return {id:e.id,label:e.singular}}); 
+      }
+      this.onchangePeriod();
+    }
+    onchangePeriod(){
+      this.formDeliveryPeriodSubmited = true;
+      let t = (this.formDeliveryPeriod.value.t !== null) ? ' ' +this.optionsPeriod.filter(e=>e.id == this.formDeliveryPeriod.value.t)[0].label : ''; 
+      let n = (this.formDeliveryPeriod.value.n !== null) ? this.formDeliveryPeriod.value.n : '';
+      let s = n + t;
+
+      if(this.formDeliveryPeriod.value.n == null && this.formDeliveryPeriod.value.t == null ){
+        s = null;
+        this.formDeliveryPeriodSubmited = false;
+        this.formDeliveryPeriod.reset();
+      } 
+      this.formFiltersTable.controls.periodo_entrega.setValue(s);
+    }
+    onBlurPeriod(){
+      if(this.formDeliveryPeriod.value.n == null && this.formDeliveryPeriod.value.t == null ){
+        this.formDeliveryPeriod.reset();
+      } 
+    }
+    onChangeDateUpdate(v){
+      let d = this.datePipe.transform(new Date(v),'dd/MM/yyyy');
+      this.formFiltersTable.controls.sDateUpdated.setValue(d);
+    }
+
+    
+    
 }

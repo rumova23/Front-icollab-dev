@@ -4,7 +4,7 @@
 		<mat-form-field class="form-control w-100"
 			[ngClass]="{ 
 				'is-invalid': 
-					(submitted || formGroup.get(controlName).touched) 
+					(submitted || (touched && formGroup.get(controlName).touched)) 
 					&& !formGroup.get(controlName).valid 
 					&& formGroup.get(controlName).errors != null
 				,'input-disabled':
@@ -14,14 +14,16 @@
 			<mat-select
 				[formControlName]="controlName"
 				(selectionChange)="onSelectChange($event)"
+				(blur)="onBlur($event)"
+				(closed)="onClosed($event)"
 				>
-				<mat-option *ngIf="withEmptyOption"></mat-option>
+				<mat-option *ngIf="withEmptyOption" [value]="null"></mat-option>
 				<mat-option *ngFor="let option of options" [value]="option.id">{{ option.label?option.label:option.name?option.name:'' | translate}}</mat-option>
 			</mat-select>
 		</mat-form-field>
 		<ng-container 
 			*ngIf="
-				(submitted || formGroup.get(controlName).touched) 
+				(submitted || (touched && formGroup.get(controlName).touched)) 
 				&& !formGroup.get(controlName).valid
 				&& formGroup.get(controlName).errors != null">
 			<p class="p-input-error-message" *ngIf="formGroup.get(controlName).errors.required">{{'Required' | translate}}</p>

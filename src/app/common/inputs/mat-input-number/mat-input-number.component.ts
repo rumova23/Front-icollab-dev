@@ -15,6 +15,8 @@ export class MatInputNumberComponent implements OnInit {
 	@Input() submitted: boolean = false;
 	@Input() controlName: string = null;
 	@Input() formGroup: FormGroup = null;
+	@Input() touched = true;
+	@Input() dirty   = true;
 	@Input() step = 1;
 	constructor() { }
 
