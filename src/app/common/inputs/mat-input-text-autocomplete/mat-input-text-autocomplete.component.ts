@@ -40,6 +40,7 @@ export class MatInputTextAutocompleteComponent implements OnInit, OnChanges {
 		}
 	}
 	private _filter(value: string): string[] {
+		if(value == null) return this.options;
 		let filterValue = value
 		.replace('á', 'a')
 		.replace('é', 'e')
