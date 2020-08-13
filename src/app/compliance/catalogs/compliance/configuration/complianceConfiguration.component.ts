@@ -413,7 +413,7 @@ export class ComplianceConfigurationComponent implements OnInit {
           'countTasks':e.countCompliance,
           'autoridad': (e.authority && e.authority.code) ? e.authority.code : '',
           'tipo_aplicacion':e.applicationType.code,
-          'grupo':'',
+          'grupo': e.group.code,
           'userUpdated':(e.userUpdated) ? e.userUpdated : e.userCreated,
           'dateUpdated':dateUpdated,
           'estatus': (e.active) ? 'Activo' : 'Inactivo',
