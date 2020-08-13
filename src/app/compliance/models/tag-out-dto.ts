@@ -19,7 +19,7 @@ export class TagOutDTO implements Deserializable  {
     public period: number;
     public unitPeriod: CatalogDTO;
     public countCompliance: number;
-
+    public group: CatalogDTO;
 
     public userCreated: string;
     public dateCreated: string;
