@@ -131,6 +131,6 @@ export class PpaMonitoringFormatService {
     procesaModeloTiempo(year: number, month: number) {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(environment.dycformato + 'mmmppa/calculaFactores/' + year + '/' + month
-			, {params : this.parameters , headers: new HttpHeaders({ timeout: `${2000000}` })});
+			, {params : this.parameters , headers: new HttpHeaders({ timeout: `${4000000}` })});
     }
 }
