@@ -164,9 +164,15 @@ export class ConfigActivitiesComponent implements OnInit {
       catalogs.forEach(element => {
         if ( element.catalog === comp ) {
           element.data.forEach ( elementCatalog => {
-            let value = elementCatalog.id;
-            let label = elementCatalog.code;
-            combo.push(new Combo(value, label));
+              let value = elementCatalog.id;
+              let label = elementCatalog.code;
+              if (this.accion === 'nuevo') {
+                  if (elementCatalog.active) {
+                      combo.push(new Combo(value, label));
+                  }
+              } else {
+                  combo.push(new Combo(value, label));
+              }
           });
         }
       });
@@ -203,11 +209,11 @@ export class ConfigActivitiesComponent implements OnInit {
     }
 
     this.listaCombos = Array<OrderCatalogDTO>();
-    this.listaCombos.push( new OrderCatalogDTO('typeCompliance', 1, 1));
-    this.listaCombos.push( new OrderCatalogDTO('authority', 1, 1));
-    this.listaCombos.push( new OrderCatalogDTO('typeApplication', 1, 1));
-    this.listaCombos.push( new OrderCatalogDTO('typeDay', 1, 1));
-    this.listaCombos.push( new OrderCatalogDTO('group', 1, 1));
+    this.listaCombos.push( new OrderCatalogDTO('typeCompliance', 1, 3));
+    this.listaCombos.push( new OrderCatalogDTO('authority', 1, 3));
+    this.listaCombos.push( new OrderCatalogDTO('typeApplication', 1, 3));
+    this.listaCombos.push( new OrderCatalogDTO('typeDay', 1, 3));
+    this.listaCombos.push( new OrderCatalogDTO('group', 1, 3));
     this.tagService.getlistCatalogoOrdenados(this.listaCombos).subscribe(
       poRespuesta => {
         this.resuelveDS(poRespuesta, this.comboTipoCumplimiento, 'typeCompliance');
@@ -219,7 +225,6 @@ export class ConfigActivitiesComponent implements OnInit {
     ).add(() => {
       this.addBlock(2, null);
     });
-
     this.addBlock(1, 'Cargando...');
     let statusConsultActivity = 'ACTIVOS';
     if ( this.accion === 'edit' || this.accion === 'ver' ) {
