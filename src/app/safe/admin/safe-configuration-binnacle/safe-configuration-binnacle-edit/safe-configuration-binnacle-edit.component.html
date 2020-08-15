@@ -386,25 +386,62 @@
 			</div>
 		</div>
 	</div>
-	<div class="section">
-		<div class="row pb-2">
-			<div class="col-12 col-lg-3">
-				<div class="row mbLblCheck justify-content-between">
-					<div class="col">
-						<label>Clasificacion No Empalmable</label>
-					</div>
-					<div class="col-auto">
-						<app-mat-select-multiple
-								[formGroup]="formNewEvent"
-								controlName="notSpliceId"
-								[options]="lstEventClassification"
-						></app-mat-select-multiple>
-					</div>
+	<form [formGroup]="formNewEvent002" (ngSubmit)="onSubmitFormNewEvent002(formNewEvent002.value)">
+		<div class="section" *ngIf="catalogType.action !== 'nuevo'">
+			<div class="row pb-2">
+				<div class="col">
+					<p class="section_titulo_0">{{ "Configuración de Eventos" | translate }}</p>
+					<p class="section_subtitulo_0"></p>
+				</div>
+			</div>
+			<hr>
+			<br>
+			<div class="row">
+				<div class="col-12 col-lg-3">
+					<app-mat-select
+							[formGroup]="formNewEvent002"
+							controlName="eventsClassificationId"
+							[options]="lstEventClassification"
+							label="Clasificación de Eventos"
+					></app-mat-select>
+				</div>
+				<div class="col-12 col-lg-3">
+					<app-mat-select
+							[formGroup]="formNewEvent002"
+							controlName="restrictionLevelId"
+							[options]="lstRestrictionLevels"
+							label="Clasificación de Eventos"
+					></app-mat-select>
+				</div>
+				<div class="col-12 col-lg-3">
+					<app-mat-select
+							[formGroup]="formNewEvent002"
+							controlName="colorId"
+							[options]="lstColors"
+							label="Clasificación de Eventos"
+							(eventChange)="onBuildEventAssociated_00($event)"
+					></app-mat-select>
+				</div>
+			</div>
+			<div class="row justify-content-end">
+				<div class="col-12 col-lg-2">
+					<app-btn-block-save myType="submit" [disabled]="disabledSubmit"></app-btn-block-save>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<app-mat-table
+							[data]="tableSplices"
+							selectionLabel="Visible"
+							[columnsDisplay]="tableColumnsDisplay"
+							[columnsLabels]="tablaColumnsLabels"
+							(clickEdit)="tableRowEdit($event)"
+							(clickDelete)="tableRowDelete($event)">
+					</app-mat-table>
 				</div>
 			</div>
 		</div>
-
-	</div>
+	</form>
 	<div class="section">
 		
 		<div class="row pb-2">

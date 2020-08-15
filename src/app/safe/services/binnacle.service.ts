@@ -10,6 +10,7 @@ import {BinnacleEventDTO} from '../models/binnacle-event-dto';
 import {ContainerClasificaDTO} from '../models/container-clasifica-dto';
 import {BearerDTO} from '../models/bearer-dto';
 import {NoteDTO} from '../models/note-dto';
+import {SpliceDTO} from '../models/splice-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -102,5 +103,18 @@ export class BinnacleService {
   deleteNote(noteDTO: NoteDTO) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.binnacle }binnacle/delete/note`, noteDTO, {params : this.parameters });
+  }
+
+  obtenSplices(eventsClassificationId: number) {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ this.binnacle }binnacle/obten/splices/` + eventsClassificationId, {params : this.parameters });
+  }
+  saveSplice(splice: SpliceDTO) {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.post( `${ this.binnacle }binnacle/save/splice`, splice, {params : this.parameters });
+  }
+  deleteSplice(splice: SpliceDTO) {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.post( `${ this.binnacle }binnacle/delete/splice`, splice, {params : this.parameters });
   }
 }

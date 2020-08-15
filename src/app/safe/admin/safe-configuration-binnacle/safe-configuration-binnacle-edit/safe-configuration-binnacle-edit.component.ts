@@ -14,6 +14,8 @@ import { EventMessage } from '../../../../core/models/EventMessage';
 import { EventBlocked } from '../../../../core/models/EventBlocked';
 import {ContainerClasificaDTO} from '../../../models/container-clasifica-dto';
 import {BinnacleEventConfigurationDTO} from '../../../models/binnacle-event-configuration-dto';
+import {NoteDTO} from '../../../models/note-dto';
+import {SpliceDTO} from '../../../models/splice-dto';
 
 @Component({
 	selector: 'app-safe-configuration-binnacle-edit',
@@ -23,6 +25,7 @@ import {BinnacleEventConfigurationDTO} from '../../../models/binnacle-event-conf
 export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	formNewEvent: FormGroup;
 	formNewEvent001: FormGroup;
+	formNewEvent002: FormGroup;
 	catalogType: any;
 	lstEventClassification: IdLabel[] = [];
 	lstEventClassificationDTO: Array<MaestroOpcionDTO>;
@@ -50,6 +53,24 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	disableOption = false;
 	title: string;
 
+	spliceDTO: SpliceDTO;
+	lstRestrictionLevels: IdLabel[] = [];
+	lstColors: IdLabel[] = [];
+	tableSplices = [];
+	tablaColumnsLabels = [
+		{ key: 'order', label: '#' },
+		{ key: 'eventsClassification', label: 'Clasificacion' },
+		{ key: 'restrictionLevel', label: 'Nivel' },
+		{ key: 'color', label: 'Color' }
+	];
+	tableColumnsDisplay = [
+		'order',
+		'eventsClassification',
+		'restrictionLevel',
+		'color',
+		'sys_delete',
+	];
+
 	constructor(
 		private formBuilder: FormBuilder,
 		public globalService: GlobalService,
@@ -69,6 +90,11 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			disabledEventsClassification00Id: [false],
 			events00Id: [{ value: null, disabled: true }],
 			disabledEvents00Id: [false],
+		});
+		this.formNewEvent002 = this.formBuilder.group({
+			eventsClassificationId: ['', null],
+			restrictionLevelId: [{ value: null}],
+			colorId: [{ value: null}],
 		});
 		this.formNewEvent = this.formBuilder.group({
 			binnacleEventConfigurationID: ['', null],
@@ -271,7 +297,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	}
 	loadCatalog() {
 		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL-CCDV', 'BANDA TOLERANCIA',
-			'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'FUENTE EVENTO'];
+			'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'FUENTE EVENTO', 'RESTRICTION LEVEL', 'COLOR LEVEL'];
 		this.masterCatalogService.listCatalog(names).subscribe(data => {
 			this.loadSelect(this.lstEventClassification, data['CLASIFICA EVENTO']);
 			this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
@@ -287,6 +313,8 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			this.loadSelect(this.lstSelatedServices, data['SERVICIOS CONEXOS MEM']);
 			this.loadSelect(this.lstEquipment, data['EQUIPO']);
 			this.loadSelect(this.lstSourceEvent, data['FUENTE EVENTO']);
+			this.loadSelect(this.lstRestrictionLevels, data['RESTRICTION LEVEL']);
+			this.loadSelect(this.lstColors, data['COLOR LEVEL']);
 
 			if (this.catalogType.action === 'editar') {
 				console.dir(this.catalogType.dto);
@@ -294,6 +322,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 				this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === this.catalogType.dto.eventsClassificationId));
 				this.formNewEvent.controls.eventsClassificationId.disable();
 				this.formNewEvent.controls.eventsId.disable();
+				this.getSplices(this.catalogType.dto.binnacleEventConfigurationID);
 			}
 
 			if (this.catalogType.action === 'ver') {
@@ -437,10 +466,6 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			new EventMessage(null, type, 'Safe.SafeConfigurationBinnacleComponent')
 		);
 	}
-	btnFinish() {
-	}
-	tableRowEdit(element) {
-	}
 	getNameUser() {
 		return this.securityService.getNameUser() + ' ' + this.securityService.getLastNameUser();
 	}
@@ -458,6 +483,57 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 						new EventMessage(null, type, 'Safe.SafeConfigurationBinnacleComponent')
 					);
 				}
+			});
+	}
+	tableRowEdit(element: SpliceDTO) {
+		this.spliceDTO = element;
+		this.formNewEvent002.patchValue(element);
+		console.dir(this.spliceDTO);
+	}
+	tableRowDelete(element: SpliceDTO) {
+		this.confirmationDialogService.confirm(
+			'Confirmación',
+			'¿Está seguro de eliminar el Registro?'
+		)
+			.then((confirmed) => {
+				if ( confirmed ) {
+					this.tableSplices = this.tableSplices.filter(
+						e => e !== element
+					);
+					if (element.spliceId) {
+						this.binnacleService.deleteSplice(element).subscribe((data: SpliceDTO)  => {
+							},
+							errorData => {
+							},
+							() => {
+							});
+					}
+				}
+			})
+			.catch(() => {});
+	}
+	onSubmitFormNewEvent002(value: SpliceDTO) {
+		value.binnacleEventConfigurationId = this.catalogType.dto.binnacleEventConfigurationID;
+		console.dir(this.catalogType);
+		this.binnacleService.saveSplice(value).subscribe((data: SpliceDTO)  => {
+			},
+			errorData => {
+				this.toastr.errorToastr(errorData.error.message, 'Error!');
+			},
+			() => {
+				this.getSplices(this.catalogType.dto.binnacleEventConfigurationID);
+			});
+	}
+
+	getSplices(binnacleEventConfigurationId: number) {
+		this.binnacleService.obtenSplices(binnacleEventConfigurationId).subscribe((data: Array<SpliceDTO>)  => {
+			this.tableSplices = []
+			this.tableSplices = data;
+			},
+			errorData => {
+				this.toastr.errorToastr(errorData.error.message, 'Error!');
+			},
+			() => {
 			});
 	}
 }
