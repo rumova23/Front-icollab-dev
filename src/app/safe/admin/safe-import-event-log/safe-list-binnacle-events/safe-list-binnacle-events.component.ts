@@ -53,6 +53,25 @@ export class SafeListBinnacleEventsComponent implements OnInit {
             });
   }
 
+  downloadBinnacleReal() {
+    const year = new Date(this.date.value).getFullYear();
+    const month =  new Date(this.date.value).getMonth() + 1;
+    this.addBlock(1, 'Bajando CSV ' + year + '/' + month + ': Generando');
+    this.binnacleService.downloadBinnacleReal(year, month)
+        .subscribe(
+            data => {
+              const blob = new Blob([this.base64toBlob(data.base64,
+                  'application/CSV')], {});
+              saveAs(blob, data.nameFile);
+              this.addBlock(2, '');
+              this.toastr.successToastr('Download File: Correctamente ' + year + '/' + month + ': Generado Correctamente', '¡Exito!');
+            },
+            errorData => {
+              this.addBlock(2, '');
+              this.toastr.errorToastr(errorData.error.message, '¡Error!');
+            });
+  }
+
   base64toBlob(base64Data, contentType) {
     contentType = contentType || '';
     const sliceSize = 1024;

@@ -42,6 +42,11 @@ export class BinnacleService {
     return this.http.get(this.binnacle + 'binnacle/download/' + year + '/' + month, {params : this.parameters });
   }
 
+  downloadBinnacleReal(year: number, month: number): Observable<any> {
+    this.parameters = this.globalService.setXTenantId_Plant();
+    return this.http.get(this.binnacle + 'binnacle/download/binnacle/real/' + year + '/' + month, {params : this.parameters });
+  }
+
   listTemplates(): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant();
     return this.http.get(this.binnacle + 'binnacle/configuration/list', {params : this.parameters });
