@@ -35,22 +35,22 @@ export class EfhService {
   }
 
   getEvent(id) {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${ this.microEfh }configuration/event/get/` + id, { params : this.parameters });
   }
 
   setEvent(event) {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.post( `${ this.microEfh }configuration/event/save` , event, {params : this.parameters });
   }
 
   deleteEvent(id) {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.delete( `${ this.microEfh }configuration/event/delete/` + id, {params : this.parameters });
   }
 
   getObservations(idTypeConfig: number, id: number): Observable<any>  {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     if (idTypeConfig === 1) {
       return this.http.get(`${this.microEfh}configuration/event/listObservations/${id}`, {params : this.parameters });
     } else {
@@ -59,7 +59,7 @@ export class EfhService {
   }
 
   saveObservation(idTypeConfig: number, observation): Observable<any> {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     if (idTypeConfig === 1) {
       return this.http.post( `${ this.microEfh }configuration/event/saveObservation`, observation, {params : this.parameters });
     } else {
@@ -68,7 +68,7 @@ export class EfhService {
   }
 
   deleteObservation(idTypeConfig: number, id): Observable<any> {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     if (idTypeConfig === 1) {
       return this.http.delete( `${ this.microEfh }configuration/event/deleteObservation/` + id, {params : this.parameters });
     } else {
@@ -77,7 +77,7 @@ export class EfhService {
   }
 
   upload(idTypeConfig: number, fileObj) {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     if (idTypeConfig === 1) {
       return this.http.post(`${this.microEfh}configuration/event/saveFile`, fileObj, {params: this.parameters});
     } else {
@@ -104,7 +104,7 @@ export class EfhService {
   }
 
   deleteFile(idTypeConfig: number, id): Observable<any> {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     if (idTypeConfig === 1) {
       return this.http.delete( `${ this.microEfh }configuration/event/deleteFile/` + id, {params : this.parameters });
     } else {
@@ -123,17 +123,17 @@ export class EfhService {
   }
 
   getIndicator(id) {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${ this.microEfh }configuration/indicator/get/` + id, { params : this.parameters });
   }
 
   setIndicator(event) {
-        this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+        this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
         return this.http.post( `${ this.microEfh }configuration/indicator/save` , event, {params : this.parameters });
   }
 
   deleteIndicator(id) {
-        this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+        this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
         return this.http.delete( `${ this.microEfh }configuration/indicator/delete/` + id, {params : this.parameters });
   }
 
