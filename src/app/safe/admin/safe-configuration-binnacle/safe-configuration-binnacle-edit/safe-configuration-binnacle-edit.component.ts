@@ -32,6 +32,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	lstFuels: IdLabel[] = [];
 	lstEventsDTO: Array<MaestroOpcionDTO>;
 	lstEvents: IdLabel[] = [];
+	lstEventsRelation: IdLabel[] = [];
 	lstUnits: IdLabel[] = [];
 	lstImpactContracts: IdLabel[] = [];
 	lstRealsCcdv: IdLabel[] = [];
@@ -60,15 +61,17 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	tablaColumnsLabels = [
 		{ key: 'order', label: '#' },
 		{ key: 'eventsClassification', label: 'Clasificacion' },
+		{ key: 'events', label: 'Evento' },
 		{ key: 'restrictionLevel', label: 'Nivel' },
 		{ key: 'color', label: 'Color' }
 	];
 	tableColumnsDisplay = [
 		'order',
 		'eventsClassification',
+		'events',
 		'restrictionLevel',
 		'color',
-		'sys_delete',
+		'sys_delete'
 	];
 
 	constructor(
@@ -93,6 +96,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 		});
 		this.formNewEvent002 = this.formBuilder.group({
 			eventsClassificationId: ['', null],
+			eventsId: ['', null],
 			restrictionLevelId: [{ value: null}],
 			colorId: [{ value: null}],
 		});
@@ -288,6 +292,26 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			this.disabledSubmit = true;
 		}
 	}
+
+	onBuildEventAssociated_11(event) {
+		const lstEventsAsociatteDTO: Array<MaestroOpcionDTO> = [];
+		this.lstEventsRelation = [];
+		if (event.value) {
+			for (let i = 0; i < this.lstEventsDTO.length; i ++) {
+				if (this.lstEventsDTO[i].opcionPadreId === event.value) {
+					lstEventsAsociatteDTO.push(this.lstEventsDTO[i]);
+				}
+			}
+
+			this.loadSelect(this.lstEventsRelation, lstEventsAsociatteDTO);
+			this.formNewEvent001.controls.eventsId.enable();
+			this.disabledSubmit = false;
+		} else {
+			this.lstEventsRelation = [];
+			this.formNewEvent001.controls.eventsId.disable();
+			this.disabledSubmit = true;
+		}
+	}
 	onBuildEventAssociated(event) {
 		this.lstEvents = [];
 		this.loadSelect(this.lstEvents, this.lstEventsDTO.filter(a => a.opcionPadreId === event.value));
@@ -339,6 +363,14 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 				this.formNewEvent.controls.relatedServicesId.enable();
 				this.formNewEvent.controls.equipmentId.enable();
 				this.formNewEvent.controls.sourceEventId.enable();
+				this.tableColumnsDisplay = [
+					'order',
+					'eventsClassification',
+					'events',
+					'restrictionLevel',
+					'color'
+				];
+				this.getSplices(this.catalogType.dto.binnacleEventConfigurationID);
 			}
 		}, errorData => {
 			this.toastr.errorToastr(errorData.error.message, 'Error!');
@@ -527,7 +559,12 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 
 	getSplices(binnacleEventConfigurationId: number) {
 		this.binnacleService.obtenSplices(binnacleEventConfigurationId).subscribe((data: Array<SpliceDTO>)  => {
-			this.tableSplices = []
+			this.tableSplices = [];
+			let order = 0;
+			data.forEach(splice => {
+				order++;
+				splice.order = order;
+			})
 			this.tableSplices = data;
 			},
 			errorData => {

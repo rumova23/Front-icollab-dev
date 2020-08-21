@@ -386,16 +386,16 @@
 			</div>
 		</div>
 	</div>
-	<form [formGroup]="formNewEvent002" (ngSubmit)="onSubmitFormNewEvent002(formNewEvent002.value)">
-		<div class="section" *ngIf="catalogType.action !== 'nuevo'">
-			<div class="row pb-2">
-				<div class="col">
-					<p class="section_titulo_0">{{ "Configuración de Eventos" | translate }}</p>
-					<p class="section_subtitulo_0"></p>
-				</div>
+	<div class="section" *ngIf="catalogType.action === 'editar' || catalogType.action === 'ver'">
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_0">{{ "Configuración de Eventos" | translate }}</p>
+				<p class="section_subtitulo_0"></p>
 			</div>
-			<hr>
-			<br>
+		</div>
+		<hr>
+		<br>
+		<form *ngIf="catalogType.action === 'editar'" [formGroup]="formNewEvent002" (ngSubmit)="onSubmitFormNewEvent002(formNewEvent002.value)">
 			<div class="row">
 				<div class="col-12 col-lg-3">
 					<app-mat-select
@@ -403,6 +403,15 @@
 							controlName="eventsClassificationId"
 							[options]="lstEventClassification"
 							label="Clasificación de Eventos"
+							(eventChange)="onBuildEventAssociated_11($event)"
+					></app-mat-select>
+				</div>
+				<div class="col-12 col-lg-3">
+					<app-mat-select
+							[formGroup]="formNewEvent002"
+							controlName="eventsId"
+							[options]="lstEventsRelation"
+							label="Eventos"
 					></app-mat-select>
 				</div>
 				<div class="col-12 col-lg-3">
@@ -410,7 +419,7 @@
 							[formGroup]="formNewEvent002"
 							controlName="restrictionLevelId"
 							[options]="lstRestrictionLevels"
-							label="Clasificación de Eventos"
+							label="Nivel"
 					></app-mat-select>
 				</div>
 				<div class="col-12 col-lg-3">
@@ -418,7 +427,7 @@
 							[formGroup]="formNewEvent002"
 							controlName="colorId"
 							[options]="lstColors"
-							label="Clasificación de Eventos"
+							label="Alerta"
 							(eventChange)="onBuildEventAssociated_00($event)"
 					></app-mat-select>
 				</div>
@@ -428,20 +437,20 @@
 					<app-btn-block-save myType="submit" [disabled]="disabledSubmit"></app-btn-block-save>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col">
-					<app-mat-table
-							[data]="tableSplices"
-							selectionLabel="Visible"
-							[columnsDisplay]="tableColumnsDisplay"
-							[columnsLabels]="tablaColumnsLabels"
-							(clickEdit)="tableRowEdit($event)"
-							(clickDelete)="tableRowDelete($event)">
-					</app-mat-table>
-				</div>
+		</form>
+		<div class="row">
+			<div class="col">
+				<app-mat-table
+						[data]="tableSplices"
+						selectionLabel="Visible"
+						[columnsDisplay]="tableColumnsDisplay"
+						[columnsLabels]="tablaColumnsLabels"
+						(clickEdit)="tableRowEdit($event)"
+						(clickDelete)="tableRowDelete($event)">
+				</app-mat-table>
 			</div>
 		</div>
-	</form>
+	</div>
 	<div class="section">
 		
 		<div class="row pb-2">
