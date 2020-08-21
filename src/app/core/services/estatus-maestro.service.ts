@@ -28,17 +28,17 @@ export class EstatusMaestroService {
               private globalService: GlobalService) { }
 
   getEntidadEstatus(entidad: string, estatus: string): Observable<any> {
-    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    this.parameters = this.globalService.setXTenantId_Plant();
     return this.http.get(`${this.estatusmaestro}${entidad}/${estatus}`, {params : this.parameters });
   }
 
   getEntidadEstatusById(entidadEstatusId: number): Observable<any> {
-    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    this.parameters = this.globalService.setXTenantId_Plant();
     return this.http.get(`${this.estatusmaestro}${entidadEstatusId}`, {params : this.parameters });
   }
 
   getCatalogoEntidad(entidad: string) {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    this.parameters = this.globalService.setXTenantId_Plant();
     return this.http.get(`${this.estatusmaestro}obten/catalogo/${entidad}`, {params : this.parameters });
   }
 }

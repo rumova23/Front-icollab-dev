@@ -9,6 +9,11 @@ import * as moment from 'moment';
 import {BinnacleService} from '../../services/binnacle.service';
 import {BinnacleEventConfigurationDTO} from '../../models/binnacle-event-configuration-dto';
 import {BinnacleEventDTO} from '../../models/binnacle-event-dto';
+import { IdLabel } from 'src/app/core/models/IdLabel';
+import { MasterCatalogService } from '../../services/master-catalog.service';
+import { MaestroOpcionDTO } from '../../../compliance/models/maestro-opcion-dto';
+import { EstatusMaestroService } from '../../../core/services/estatus-maestro.service';
+import { EntidadEstatusDTO } from '../../../compliance/models/entidad-estatus-dto';
 
 @Component({
 	selector: 'app-safe-list-of-events',
@@ -94,20 +99,73 @@ export class SafeListOfEventsComponent implements OnInit {
 	];
 	tableRowXpage = [100, 250, 500];
 
+	optionsFiltersType   : IdLabel[] = [{id:1,label:'Todos'},{id:2,label:'Al menos uno'}];
+	comboClasificacionEventos : IdLabel[] = [];
+	comboEventos : IdLabel[] = [];
+	comboCobustible : IdLabel[] = [];
+	comboUnidad : IdLabel[] = [];
+	comboContratoImpactado : IdLabel[] = [];
+	comboRealCCDV : IdLabel[] = [];
+	comboBandaTolerancia : IdLabel[] = [];
+	comboTipoMercado : IdLabel[] = [];
+	comboServiciosConexos : IdLabel[] = [];
+	comboEquipo : IdLabel[] = [];
+	comboNombreOpePlantaA : IdLabel[] = [{id:1,label:'option'}];
+	comboNombreOpePlantaC : IdLabel[] = [{id:1,label:'option'}];
+	comboFuenteEvento : IdLabel[] = [];
+	comboEstatusEvento : IdLabel[] = [];
+	comboEstatusAprovacion : IdLabel[] = [];
+	comboUsuarioModifico : IdLabel[] = [{id:1,label:'option'}];
 	constructor(
 		private formBuilder: FormBuilder,
 		public toastr: ToastrManager,
 		public eventService: EventService,
-		public binnacleService: BinnacleService
+		public binnacleService: BinnacleService,
+		private masterCatalogService: MasterCatalogService,
+		private estatusMaestroService: EstatusMaestroService
 	) { }
 
 	ngOnInit() {
 		this.addBlock(1, '');
 		this.formQuery = this.formBuilder.group({
-			from: [{ value: moment(), disabled: false }, Validators.required],
-			to: [{ value: moment(), disabled: false }, Validators.required],
+			from: [null],
+			to: [null],
+			typeFilter:[2],
+			clasificacionEventos: [null],
+			eventos: [null],
+			cobustible: [null],
+			potenciaMWDe: [null],
+			potenciaMWAl: [null],
+			unidad: [null],
+			contratoImpactado: [null],
+			realCCDV: [null],
+			bandaTolerancia: [null],
+			tipoMercado: [null],
+			ofertadosMWDe: [null],
+			ofertadosMWAl: [null],
+			serviciosConexos: [null],
+			licencia: [null],
+			equipo: [null],
+			cargaInicialDe: [null],
+			cargaInicialAl: [null],
+			cargaFinalDe: [null],
+			cargaFinalAl: [null],
+			nPotenciaMWDe: [null],
+			nPotenciaMWAl: [null],
+			ordenTrabajo: [null],
+			nombreOpePlantaA : [null],
+			nombreOpePlantaC : [null],
+			nombreOpeCENACEA : [null],
+			nombreOpeCENACEC : [null],
+			fuenteEvento : [null],
+			estatusEvento : [null],
+			estatusAprovacion : [null],
+			usuarioModifico : [null],
+			FechaUltimaModificacionFrom : [null],
+			FechaUltimaModificacionTo : [null],
 		});
 		this.onLoadInit();
+		this.loadCatalog();
 	}
 	onDateFromChange() {
 		this.dateToMin = new Date(this.formQuery.get('from').value);
@@ -151,6 +209,10 @@ export class SafeListOfEventsComponent implements OnInit {
 	}
 
 	onFormQuerySubmit(o) {
+		console.log(o);
+		console.log(this.formQuery.value);
+		
+		
 		this.addBlock(1, '');
 		this.binnacleService.eventsBetween(
 			moment(this.formQuery.get('from').value).toDate().getTime(),
@@ -236,5 +298,51 @@ export class SafeListOfEventsComponent implements OnInit {
 	addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,
 			new EventBlocked(type, msg)));
+	}
+	clearFilters(){
+		this.formQuery.reset();
+		this.formQuery.controls.typeFilter.setValue(2);
+	}
+	loadCatalog() {
+		this.addBlock(1, '');
+		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL-CCDV', 'BANDA TOLERANCIA',
+		'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'FUENTE EVENTO'];
+		this.masterCatalogService.listCatalog(names).subscribe(data  => {
+			this.loadSelect(this.comboClasificacionEventos, data['CLASIFICA EVENTO']);
+			this.loadSelect(this.comboEventos, data['EVENTO']);
+			this.loadSelect(this.comboCobustible, data['COMBUSTIBLE']);
+			this.loadSelect(this.comboUnidad, data['UNIDAD']);
+			this.loadSelect(this.comboContratoImpactado, data['CONTRATO IMPACTADO']);
+			this.loadSelect(this.comboRealCCDV, data['REAL-CCDV']);
+			this.loadSelect(this.comboBandaTolerancia, data['BANDA TOLERANCIA']);
+			this.loadSelect(this.comboTipoMercado, data['TIPO MERCADO MEM']);
+			this.loadSelect(this.comboServiciosConexos, data['SERVICIOS CONEXOS MEM']);
+			this.loadSelect(this.comboEquipo, data['EQUIPO']);
+			this.loadSelect(this.comboFuenteEvento, data['FUENTE EVENTO']);
+		},error => {});
+		
+		this.loadCatalogStatus('TX_BINNACLE_EVENT', this.comboEstatusAprovacion);
+		this.loadCatalogStatus('TX_BINNACLE_EVENT_II', this.comboEstatusEvento);
+	}
+	loadSelect(selectCombo: Array<any>, catalog: Array<MaestroOpcionDTO>) {
+		if (catalog !== null) {
+			catalog.forEach((element: MaestroOpcionDTO) => {
+				selectCombo.push({id: element.maestroOpcionId, label: element.opcion.codigo, maestroOpcionId: element.maestroOpcionId});
+			});
+			selectCombo.sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()));
+		}
+	}
+	
+	loadCatalogStatus(entidad: string, lstStatus: IdLabel[]) {
+		this.estatusMaestroService.getCatalogoEntidad(entidad).subscribe((data: Array<EntidadEstatusDTO>)  => {
+			data.forEach((element: EntidadEstatusDTO) => {
+				lstStatus.push({id: element.entidadEstatusId, label: element.estatus.nombre});
+			});
+		}, errorData => {
+				return '';
+			},
+			() => {
+				console.log("cargo estatus");
+			});
 	}
 }
