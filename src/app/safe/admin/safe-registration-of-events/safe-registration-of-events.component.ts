@@ -226,20 +226,14 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		//const dateTimeStart = this.datePipe.transform(new Date(this.formTemp.get('dateTimeStart').value) , 'yyyy-MM-dd') + 'T' + this.formTemp.get('ha').value + ':' + this.formTemp.get('ma').value;
 		//this.formNewEvent.get('dateTimeStart').setValue(dateTimeStart);
 		let s = moment(this.formTemp.get('dateTimeStart').value).hour(this.formTemp.get('ha').value).minute(this.formTemp.get('ma').value);
-		this.formNewEvent.controls.dateTimeStartLong.setValue(s.unix());
-		console.log(s);
-		console.log(s.unix());
-		console.log(new Date(s.toDate()).getMilliseconds());
-		console.log(s.toDate().getMilliseconds());
-		console.log(s.get('millisecond'));
+		this.formNewEvent.controls.dateTimeStartLong.setValue(s.valueOf());
 	}
 	onChangeDateTimeEnd() {
 		// dateTimeStart: "2020-07-25T20:28"
 		//const dateTimeStart = this.datePipe.transform(new Date(this.formTemp.get('dateTimeEnd').value) , 'yyyy-MM-dd') + 'T' + this.formTemp.get('hb').value + ':' + this.formTemp.get('mb').value;
 		//this.formNewEvent.get('dateTimeEnd').setValue(dateTimeStart);
 		let s = moment(this.formTemp.get('dateTimeEnd').value).hour(this.formTemp.get('hb').value).minute(this.formTemp.get('mb').value);
-		this.formNewEvent.controls.dateTimeEndLong.setValue(s.unix());
-		console.log(s);
+		this.formNewEvent.controls.dateTimeEndLong.setValue(s.valueOf());
 	}
 	loadSelect(selectCombo: Array<any>, catalog: Array<MaestroOpcionDTO>) {
 		if (catalog !== null) {
@@ -843,6 +837,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		this.formNewEvent.enable();
 		this.addBlock(1, '');
 		const binnacle: BinnacleEventDTO = this.formNewEvent.value;
+		console.dir(binnacle);
 
 		this.newNotes = [];
 		if(this.tableObservationsComments != null) {
