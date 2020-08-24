@@ -452,7 +452,7 @@ export class EfhEditEventComponent implements OnInit {
                       this.disabledSave = true;
 
                       const idEvent = dataBack['code'];
-                      this.efhService.accionComments.next('savenewcommentsevent|' + idEvent);
+                      // this.efhService.accionComments.next('savenewcommentsevent|' + idEvent);
 
                       this.eventType.id = idEvent;
                   },
