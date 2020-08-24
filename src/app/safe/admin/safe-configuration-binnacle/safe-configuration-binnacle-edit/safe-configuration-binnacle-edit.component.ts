@@ -63,7 +63,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 		{ key: 'eventsClassification', label: 'Clasificacion' },
 		{ key: 'events', label: 'Evento' },
 		{ key: 'restrictionLevel', label: 'Nivel' },
-		{ key: 'color', label: 'Color' }
+		{ key: 'color', label: 'Alerta' }
 	];
 	tableColumnsDisplay = [
 		'order',

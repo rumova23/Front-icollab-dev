@@ -128,47 +128,47 @@ export class SafeListOfEventsComponent implements OnInit {
 	ngOnInit() {
 		this.addBlock(1, '');
 		this.formQuery = this.formBuilder.group({
-			from: [null],
-			to: [null],
-			typeFilter:[2],
-			clasificacionEventos: [null],
-			eventos: [null],
-			cobustible: [null],
-			potenciaMWDe: [null],
-			potenciaMWAl: [null],
-			unidad: [null],
-			contratoImpactado: [null],
-			realCCDV: [null],
-			bandaTolerancia: [null],
-			tipoMercado: [null],
-			ofertadosMWDe: [null],
-			ofertadosMWAl: [null],
-			serviciosConexos: [null],
-			licencia: [null],
-			equipo: [null],
-			cargaInicialDe: [null],
-			cargaInicialAl: [null],
-			cargaFinalDe: [null],
-			cargaFinalAl: [null],
-			nPotenciaMWDe: [null],
-			nPotenciaMWAl: [null],
-			ordenTrabajo: [null],
-			nombreOpePlantaA : [null],
-			nombreOpePlantaC : [null],
-			nombreOpeCENACEA : [null],
-			nombreOpeCENACEC : [null],
-			fuenteEvento : [null],
-			estatusEvento : [null],
-			estatusAprovacion : [null],
-			usuarioModifico : [null],
-			FechaUltimaModificacionFrom : [null],
-			FechaUltimaModificacionTo : [null],
+			typeFilter: [2],
+			dateTimeStartFrom: [null],
+			dateTimeStartTo: [null],
+			eventsClassificationId: [null],
+			eventsId: [null],
+			fuelsId: [null],
+			powerMwFrom: [null],
+			powerMwTo: [null],
+			unitsId: [null],
+			impactContractsId: [null],
+			realsCcdvId: [null],
+			toleranceBandsId: [null],
+			marketTypesId: [null],
+			mwOfferedFrom: [null],
+			mwOfferedTo: [null],
+			relatedServicesId: [null],
+			licenseNumber: [null],
+			equipmentId: [null],
+			initialChargeFrom: [null],
+			initialChargeTo: [null],
+			finalChargeFrom: [null],
+			finalChargeTo: [null],
+			mwPowerLossFrom: [null],
+			mwPowerLossTo: [null],
+			workOrderId: [null],
+			plantOperatorOpened: [null],
+			plantOperatorClosed: [null],
+			cenaceOperatorOpened: [null],
+			cenaceOperatorClosed: [null],
+			sourceEventId: [null],
+			estatusAprobacionId: [null],
+			estatusEventoId: [null],
+			usuario: [null],
+			fechaUltimaModificacionFrom: [null],
+			fechaUltimaModificacionTo: [null]
 		});
 		this.onLoadInit();
 		this.loadCatalog();
 	}
 	onDateFromChange() {
-		this.dateToMin = new Date(this.formQuery.get('from').value);
+		this.dateToMin = new Date(this.formQuery.get('dateTimeStartFrom').value);
 	}
 	onLoadInit() {
 		const twoMonthMoment = moment(Date.now()).subtract(2, 'month');
@@ -208,15 +208,9 @@ export class SafeListOfEventsComponent implements OnInit {
 			});
 	}
 
-	onFormQuerySubmit(o) {
-		console.log(o);
-		console.log(this.formQuery.value);
-		
-		
+	onFormQuerySubmitBack(o) {
 		this.addBlock(1, '');
-		this.binnacleService.eventsBetween(
-			moment(this.formQuery.get('from').value).toDate().getTime(),
-			moment(this.formQuery.get('to').value).toDate().getTime()).subscribe(
+		this.binnacleService.searchEvents(o.searchText).subscribe(
 			(data: Array<BinnacleEventDTO>) => {
 				this.tableData = data.sort((a, b) =>  moment(a.dateTimeStart).toDate().getTime() - moment(b.dateTimeStart).toDate().getTime());
 				let i = 0;
@@ -234,7 +228,39 @@ export class SafeListOfEventsComponent implements OnInit {
 						element.backgroundColor = '#DCDCDC';
 					}
 				});
-				
+
+				this.addBlock(2, '');
+			},
+			errorData => {
+				this.toastr.errorToastr('Problemas en la consulta', 'Error');
+				this.addBlock(2, '');
+			},
+			() => {
+				console.log('loadMasters:: ', 'Termino');
+				this.addBlock(2, '');
+			});
+	}
+	onFormQuerySubmit(o) {
+		this.addBlock(1, '');
+		this.binnacleService.eventsSearch(o).subscribe(
+			(data: Array<BinnacleEventDTO>) => {
+				this.tableData = data.sort((a, b) =>  moment(a.dateTimeStart).toDate().getTime() - moment(b.dateTimeStart).toDate().getTime());
+				let i = 0;
+				this.tableData.forEach((element) => {
+					i++;
+					element.order = i;
+					element.usuario = (element.userUpdated !== null) ? element.userUpdated : element.userCreated;
+					if(element.estatusEvento == "Evento Abierto" && element.estatusAprobacion == "Evento Rechazado"){
+						element.backgroundColor = '#F08080';
+					}else if(element.estatusEvento == "Evento Cerrado" && element.estatusAprobacion == "Evento Aprobado"){
+						element.backgroundColor = '#9ACD32';
+					}else if(element.estatusEvento == "Evento Terminado" && element.estatusAprobacion == "Evento Sin Aprobacion"){
+						element.backgroundColor = '#FFD700';
+					}else if(element.estatusEvento == "Evento Abierto" && element.estatusAprobacion == "Evento Sin Aprobacion"){
+						element.backgroundColor = '#DCDCDC';
+					}
+				});
+
 				this.addBlock(2, '');
 			},
 			errorData => {

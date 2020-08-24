@@ -72,6 +72,16 @@ export class BinnacleService {
     return this.http.get(this.binnacle + 'binnacle/events/between/' + timeInit + '/' + timeEnd, {params : this.parameters });
   }
 
+  eventsSearch(binnacleEventDTO: BinnacleEventDTO): Observable<any> {
+    this.parameters = this.globalService.setXTenantId_Plant();
+    return this.http.post(this.binnacle + 'binnacle/search/filter/events', binnacleEventDTO, {params : this.parameters });
+  }
+
+  searchEvents(searchText: string): Observable<any> {
+    this.parameters = this.globalService.setXTenantId_Plant();
+    return this.http.get(this.binnacle + 'binnacle/search/events/' + searchText, {params : this.parameters });
+  }
+
   deleteBinnacleEvent(event: BinnacleEventDTO): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant();
     return this.http.post(this.binnacle + 'binnacle/events/delete', event, {params : this.parameters });

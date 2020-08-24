@@ -18,8 +18,8 @@ export class BinnacleEventDTO implements Deserializable {
     public estatusAprobacionDTO: EntidadEstatusDTO;
     public dateTimeStart: Date;
     public dateTimeStartString: string;
-    public dateTimeStartLong :number;
-    public dateTimeEndLong :number;
+    public dateTimeStartLong: number;
+    public dateTimeEndLong: number;
     public dateTimeEnd: Date;
     public dateTimeEndString: string;
     public yyyyMMddStart: string;
@@ -90,6 +90,19 @@ export class BinnacleEventDTO implements Deserializable {
 
 
     public binnacleEventConfigurationDTO: BinnacleEventConfigurationDTO;
+
+    public dateTimeStartFrom: Date;
+    public dateTimeStartTo: Date;
+    public powerMwFrom: number;
+    public powerMwTo: number;
+    public mwOfferedFrom: number;
+    public mwOfferedTo: number;
+    public initialChargeFrom: number;
+    public initialChargeTo: number;
+    public finalChargeFrom: number;
+    public finalChargeTo: number;
+    public mwPowerLossFrom: number;
+    public mwPowerLossTo: number;
 
     deserialize(input: any) {
         Object.assign(this, input);
