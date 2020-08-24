@@ -148,10 +148,18 @@
 				<app-mat-select [formGroup]="formFiltersTable" controlName="estatus" [options]="comboEstatus"
 					label="Estatus"></app-mat-select>
 			</div>
-
+		</div>
+		<div class="row">
 			<div class="col-12 col-lg-4">
-				<app-mat-input-datepicker [formGroup]="formFilterDate" controlName="dateUpdated"
-					(eventChange)="onChangeDateUpdate($event)" label="Fecha y Hora de Última Modificación">
+				<label>Fecha de Última Modificación</label><br>
+				<app-mat-input-datepicker [formGroup]="formFiltersTable" controlName="minDate__dateUpdated"
+					label="De">
+				</app-mat-input-datepicker>
+			</div>
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-input-datepicker [formGroup]="formFiltersTable" controlName="maxDate__dateUpdated"
+					label="Al">
 				</app-mat-input-datepicker>
 			</div>
 		</div>

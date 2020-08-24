@@ -97,7 +97,6 @@ export class ComplianceConfigurationComponent implements OnInit {
   formFiltersTable     : FormGroup;
   formFiltersTypeTable : FormGroup;
   formDeliveryPeriod   : FormGroup;
-  formFilterDate       : FormGroup;
   formDeliveryPeriodSubmited = false;
   optionsFiltersType   : IdLabel[] = [{id:1,label:'Todos'},{id:2,label:'Al menos uno'}];
   optionsPeriod        : IdLabel[] = [];
@@ -194,7 +193,8 @@ export class ComplianceConfigurationComponent implements OnInit {
         tipo_aplicacion:[null],
         grupo:[null],
         estatus:[null],
-        sDateUpdated:[null],
+        minDate__dateUpdated:[null],
+        maxDate__dateUpdated:[null]
       });
       this.formFiltersTypeTable = this.formBuilder.group({
         typeFilter:[2,Validators.required]
@@ -202,9 +202,6 @@ export class ComplianceConfigurationComponent implements OnInit {
       this.formDeliveryPeriod = this.formBuilder.group({
         n:[null,Validators.required],
         t:[null,Validators.required]
-      });
-      this.formFilterDate = this.formBuilder.group({
-        dateUpdated:[null]
       });
 
 
@@ -400,10 +397,10 @@ export class ComplianceConfigurationComponent implements OnInit {
       
       this.tableData = matriz
       .sort((a, b) =>  moment((a.dateUpdated != null) ? a.dateUpdated : a.dateCreated).toDate().getTime() - moment((b.dateUpdated != null) ? b.dateUpdated : b.dateCreated).toDate().getTime())
-      .map((e:TagOutDTO,i)=>{
+      .map((e:TagOutDTO,index)=>{
         let dateUpdated = ((e.dateUpdated != null) ? e.dateUpdated : e.dateCreated);
         return {
-          'order':i+1,
+          'order':index+1,
           'idTag':e.idTag,
           'tag':e.tag,
           'nombre':e.classificationActivity,
@@ -416,8 +413,7 @@ export class ComplianceConfigurationComponent implements OnInit {
           'grupo': e.group.code,
           'userUpdated':(e.userUpdated) ? e.userUpdated : e.userCreated,
           'dateUpdated':dateUpdated,
-          'estatus': (e.active) ? 'Activo' : 'Inactivo',
-          'sDateUpdated':this.datePipe.transform(new Date(dateUpdated),'dd/MM/yyyy')
+          'estatus': (e.active) ? 'Activo' : 'Inactivo'
         };
       });
       this.initAutoComplete();
@@ -479,38 +475,72 @@ export class ComplianceConfigurationComponent implements OnInit {
       for (const key in this.formFiltersTable.value) {
         const filter = this.formFiltersTable.value[key];
         if(filter !== null && filter !== '' ){
-          isEmptyFilters = false
+          isEmptyFilters = false;
         }
       }
-      isEmptyFilters ? this.limpiarFiltros() : this.tableDataFiltered = this.search();
+      const filterMinDate = this.formFiltersTable.value['minDate__dateUpdated'];
+      const filterMaxDate = this.formFiltersTable.value['maxDate__dateUpdated'];
+      if(filterMinDate !== null && filterMaxDate !== null){
+        let minD = new Date(filterMinDate).getTime();
+        let maxD = new Date(filterMaxDate);
+        maxD.setHours(23);
+        maxD.setMinutes(59);
+
+        isEmptyFilters ? this.limpiarFiltros() : this.tableDataFiltered = this.search(
+          this.tableData.filter(o=>
+            new Date(o['dateUpdated']).getTime() >= minD && new Date(o['dateUpdated']).getTime() <= maxD.getTime()
+          )
+        );
+      }else{
+        isEmptyFilters ? this.limpiarFiltros() : this.tableDataFiltered = this.search();
+      }
     }
     limpiarFiltros(){
       this.tableDataFiltered = this.tableData.concat([]);
       this.formFiltersTable.reset();
-      this.formDeliveryPeriod.reset();
-      this.formFilterDate.reset();
+      this.formDeliveryPeriod.reset();      
       this.formDeliveryPeriodSubmited = false;
     }
-    search(){
+    search(tableData = this.tableData){
       const typeSearch = this.formFiltersTypeTable.value.typeFilter.toString() === '1' ? 'AND' : 'OR'; // 1. OR \ 2. AND for search conditions
-      let values       = this.formFiltersTable.value;
-
-      return this.tableData.filter(o =>{
+      return tableData.filter(o =>{
         let r = true;
-        for (const key in values) {
-            const filter = values[key];
-            if (typeSearch === 'OR') {
+        for (const key in this.formFiltersTable.value) {
+          const filter = this.formFiltersTable.value[key];
+          if (typeSearch === 'OR') {
+            if (key.startsWith('minDate__')){
+              if(filter !== null && (new Date(filter).getTime() <= new Date(o[key.split('minDate__')[1]]).getTime())) 
+                return true;
+            }else if (key.startsWith('maxDate__')){
+              let maxDate = new Date(filter)
+              maxDate.setHours(23);
+              maxDate.setMinutes(59);
+              if(filter !== null && (maxDate.getTime() >= new Date(o[key.split('maxDate__')[1]]).getTime()))
+                return true;
+            }else{
               if(filter !== null && filter !== '' && o[key].toLowerCase().startsWith(filter.trim().toLowerCase())){
                 return true;
               }
+            }
+          }else{
+            if (key.startsWith('minDate__')){
+              if(filter !== null && (new Date(filter).getTime() >= new Date(o[key.split('minDate__')[1]]).getTime()))
+                r =  false;
+            }else if (key.startsWith('maxDate__')){
+              let maxDate = new Date(filter)
+              maxDate.setHours(23);
+              maxDate.setMinutes(59);
+              if(filter !== null && (maxDate.getTime() <= new Date(o[key.split('maxDate__')[1]]).getTime()))
+                r =  false;
             }else{
               if(filter !== null && filter !== '' && !o[key].toLowerCase().startsWith(filter.trim().toLowerCase())){
                 r = false;
               }
             }
+          }
         }
         return (typeSearch === 'OR') ?  false : r ;          
-      });
+      }).map((e,index)=>{e['order']=index+1;return e;});
     }
     isnumeric(v){
       if ( isNaN( Number(v)) || 0 === Number(v) ) {
@@ -542,11 +572,7 @@ export class ComplianceConfigurationComponent implements OnInit {
       if(this.formDeliveryPeriod.value.n == null && this.formDeliveryPeriod.value.t == null ){
         this.formDeliveryPeriod.reset();
       } 
-    }
-    onChangeDateUpdate(v){
-      let d = this.datePipe.transform(new Date(v),'dd/MM/yyyy');
-      this.formFiltersTable.controls.sDateUpdated.setValue(d);
-    }
+    }    
 
     
     

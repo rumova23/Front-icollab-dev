@@ -124,4 +124,19 @@ export class SecurityDocComponent implements OnInit {
 	tableRowEdit(element){
 		console.log(element);
 	}
+	errorToastr() {
+		this.toastr.errorToastr('errorToastr', 'errorToastr');
+	}
+	infoToastr() {
+		this.toastr.infoToastr('errorToastr', 'infoToastr');
+	}
+	successToastr() {
+		this.toastr.successToastr('successToastr', 'successToastr');
+	}
+	warningToastr() {
+		this.toastr.warningToastr('warningToastr', 'warningToastr');
+	}
+	customToastr() {
+		this.toastr.customToastr('customToastr', 'customToastr');
+	}
 }
