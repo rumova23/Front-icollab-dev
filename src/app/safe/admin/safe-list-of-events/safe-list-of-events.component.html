@@ -152,13 +152,13 @@
 			<div class="w-100"></div>
 			<div class="col-12 col-lg-4">
 				<label style="visibility: hidden;">.</label><br>
-				<app-mat-select [formGroup]="formQuery" controlName="plantOperatorOpened" [options]="comboNombreOpePlantaA"
-					label="Nombre Ope. Planta (A)"></app-mat-select>
+				<app-mat-input-text [formGroup]="formQuery" controlName="plantOperatorOpened"
+									label="Nombre Ope. Planta (A)"></app-mat-input-text>
 			</div>			
 			<div class="col-12 col-lg-4">
 				<label style="visibility: hidden;">.</label><br>
-				<app-mat-select [formGroup]="formQuery" controlName="plantOperatorClosed" [options]="comboNombreOpePlantaC"
-					label="Nombre Ope. Planta (C)"></app-mat-select>
+				<app-mat-input-text [formGroup]="formQuery" controlName="plantOperatorClosed"
+									label="Nombre Ope. Planta (C)"></app-mat-input-text>
 			</div>
 			<div class="col-12 col-lg-4">
 				<label style="visibility: hidden;">.</label><br>
@@ -188,8 +188,8 @@
 			</div>	
 			<div class="col-12 col-lg-4">
 				<label style="visibility: hidden;">.</label><br>
-				<app-mat-select [formGroup]="formQuery" controlName="usuario" [options]="comboUsuarioModifico"
-					label="Usuario Modifico"></app-mat-select>
+				<app-mat-input-text [formGroup]="formQuery" controlName="usuario"
+									label="Usuario Modifico"></app-mat-input-text>
 			</div>	
 			<div class="col-12 col-lg-4">
 				<label>Fecha de Última Modificación</label><br>
