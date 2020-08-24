@@ -93,6 +93,8 @@ export class BinnacleEventDTO implements Deserializable {
 
     public dateTimeStartFrom: Date;
     public dateTimeStartTo: Date;
+    public fechaUltimaModificacionFrom: Date;
+    public fechaUltimaModificacionTo: Date;
     public powerMwFrom: number;
     public powerMwTo: number;
     public mwOfferedFrom: number;
@@ -103,6 +105,7 @@ export class BinnacleEventDTO implements Deserializable {
     public finalChargeTo: number;
     public mwPowerLossFrom: number;
     public mwPowerLossTo: number;
+    public typeFilter: number;
 
     deserialize(input: any) {
         Object.assign(this, input);
