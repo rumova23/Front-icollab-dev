@@ -135,7 +135,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
               obj['idUnit'] = element.idUnit;
               obj['runAOH'] = element.runAOH;
               obj['runEFHi'] = element.runEFHi;
-              obj['runESi'] = element.runESi;
+              obj['runESi'] = element.runEsi;
               obj['runEFHi_costo'] = element.runEFHiCost;
               obj['rateEFHi_costo'] = element.rateEFHiCost;
               obj['totalTrips'] = element.totalTrips;
