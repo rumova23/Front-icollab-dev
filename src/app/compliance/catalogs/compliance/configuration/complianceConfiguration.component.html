@@ -17,7 +17,7 @@
 	</div>
 	<hr>
 	<br>
-	<form class="mt-5" [formGroup]="filtrosForm">
+	<form [formGroup]="filtrosForm">
 		<!--div class="row" *ngIf="isSupervisor">
 			<div class="form-group col-12 col-md-6 col-lg-4">
 				<button type="button" class="btn"
@@ -147,6 +147,10 @@
 			<div class="col-12 col-lg-4">
 				<app-mat-select [formGroup]="formFiltersTable" controlName="estatus" [options]="comboEstatus"
 					label="Estatus"></app-mat-select>
+			</div>
+			<div class="col-12 col-lg-4">
+				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="userUpdated"
+					[options]="filteredUserUpdated" label="Usuario Modifico"></app-mat-input-text-autocomplete>
 			</div>
 		</div>
 		<div class="row">

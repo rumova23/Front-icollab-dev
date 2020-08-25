@@ -93,7 +93,7 @@ export class ComplianceConfigurationComponent implements OnInit {
     'dateUpdated',
     'estatus'
   ];
-  tableRowXPage = [50, 100, 250, 500];
+  tableRowXPage = [100, 500, 1000, 1500, 2000];
   formFiltersTable     : FormGroup;
   formFiltersTypeTable : FormGroup;
   formDeliveryPeriod   : FormGroup;
@@ -107,6 +107,7 @@ export class ComplianceConfigurationComponent implements OnInit {
   comboUnitPeriod      : any[]     = [];
   filteredAutoTag      : string[];
   filteredAutoName     : string[];
+  filteredUserUpdated  : string[];
 
   optionsClasificacion : IdLabel[];
 
@@ -147,7 +148,6 @@ export class ComplianceConfigurationComponent implements OnInit {
                   flag = false;
                   for (let ins = 0; ins < option.children.length; ins++) {
 
-                      console.dir("nombres: " + option.children[ins]['label']);
                       if (option.children[ins]['label'] === this.nombreCatalogo) {
                           if (option.children[ins].actions) {
                               for (let action = 0; action < option.children[ins].actions.length ; action++) {
@@ -172,7 +172,6 @@ export class ComplianceConfigurationComponent implements OnInit {
       }
 
       const user = JSON.parse(localStorage.getItem('user'));
-      console.dir(user);
       user.roles.forEach( role => {
           if (role.name === 'ROLE_ADMIN_CUMPLIMIENTO_COMPLIANCE') {
               this.isSupervisor = true;
@@ -193,6 +192,7 @@ export class ComplianceConfigurationComponent implements OnInit {
         tipo_aplicacion:[null],
         grupo:[null],
         estatus:[null],
+        userUpdated:[null],
         minDate__dateUpdated:[null],
         maxDate__dateUpdated:[null]
       });
@@ -423,7 +423,7 @@ export class ComplianceConfigurationComponent implements OnInit {
     initAutoComplete() {
       this.filteredAutoTag     = this.tableData.map(d=>d.tag).filter((el,index,arr)=>arr.indexOf(el) === index);
       this.filteredAutoName    = this.tableData.map(d=>d.nombre).filter((el,index,arr)=>arr.indexOf(el) === index);
-
+      this.filteredUserUpdated = this.tableData.map(d=>d.userUpdated).filter((el,index,arr)=>arr.indexOf(el) === index);
       let statusConsultActivity = 'TODOS'; // 'TODOS' || 'ACTIVOS'
       this.tagService.getCatalogoActividades(statusConsultActivity)
         .subscribe(catalogoResult => {

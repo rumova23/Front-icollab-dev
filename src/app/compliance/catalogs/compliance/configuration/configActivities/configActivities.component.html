@@ -85,13 +85,16 @@
                 <div class="form-group">
                     <label>Requisito Legal</label>
                     <textarea
+                        #lfRequisitoLegal
                         formControlName="fRequisitoLegal"
                         class="form-control"
+                        maxlength="254"
                         [ngClass]="{
                             'is-invalid': submitted && f.fRequisitoLegal.errors
                         }"
                     >
                     </textarea>
+                    <small class="form-text text-muted text-right">{{lfRequisitoLegal.value?.length || 0}}/254</small>
                     <!--input formControlName="fRequisitoLegal" class="form-control"
           [ngClass]="{ 'is-invalid': submitted && f.fRequisitoLegal.errors }" -->
                     <div
@@ -112,14 +115,17 @@
                     <label>Descripción</label>
 
                     <textarea
+                        #lfDescripcion
                         rows="4"
                         formControlName="fDescripcion"
                         class="form-control"
+                        maxlength="254"
                         [ngClass]="{
                             'is-invalid': submitted && f.fDescripcion.errors
                         }"
                     >
                     </textarea>
+                    <small class="form-text text-muted text-right">{{lfDescripcion.value?.length || 0}}/254</small>
                     <!--input class="form-control" formControlName="fDescripcion" [readonly]="soloLectura"
           [ngClass]="{ 'is-invalid': submitted && f.fDescripcion.errors }"-->
                     <div
@@ -162,14 +168,17 @@
                     <label>Nombre del Cumplimiento</label>
 
                     <textarea
+                        #lfClasificacionActividad
                         formControlName="fClasificacionActividad"
                         class="form-control"
+                        maxlength="254"
                         [ngClass]="{
                             'is-invalid':
                                 submitted && f.fClasificacionActividad.errors
                         }"
                     >
                     </textarea>
+                    <small class="form-text text-muted text-right">{{lfClasificacionActividad.value?.length || 0}}/254</small>
                     <!--input class="form-control" formControlName="fClasificacionActividad"
                 [ngClass]="{ 'is-invalid': submitted && f.fClasificacionActividad.errors }"-->
                     <div
