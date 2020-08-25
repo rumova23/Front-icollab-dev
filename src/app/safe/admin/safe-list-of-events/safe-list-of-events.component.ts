@@ -161,8 +161,8 @@ export class SafeListOfEventsComponent implements OnInit {
 			estatusAprobacionId: [null],
 			estatusEventoId: [null],
 			usuario: [null],
-			fechaUltimaModificacionFrom: [null],
-			fechaUltimaModificacionTo: [null]
+			dateUpdatedFrom: [null],
+			dateUpdatedTo: [null]
 		});
 		this.onLoadInit();
 		this.loadCatalog();

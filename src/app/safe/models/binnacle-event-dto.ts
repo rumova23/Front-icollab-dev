@@ -93,8 +93,8 @@ export class BinnacleEventDTO implements Deserializable {
 
     public dateTimeStartFrom: Date;
     public dateTimeStartTo: Date;
-    public fechaUltimaModificacionFrom: Date;
-    public fechaUltimaModificacionTo: Date;
+    public dateUpdatedFrom: Date;
+    public dateUpdatedTo: Date;
     public powerMwFrom: number;
     public powerMwTo: number;
     public mwOfferedFrom: number;
