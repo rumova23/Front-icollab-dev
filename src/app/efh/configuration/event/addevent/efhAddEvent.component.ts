@@ -147,7 +147,9 @@ export class EfhAddEventComponent implements OnInit {
             obj['status']      = element.active === true ? 'Activo' : 'Inactivo';
             obj['element']     = element;
 
-            this.data.push(obj);
+            if (obj['userUpdated'] !== 'system') {
+                this.data.push(obj);
+            }
           }
 
           this.displayedColumnsOrder = [
