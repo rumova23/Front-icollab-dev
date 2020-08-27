@@ -371,4 +371,8 @@ export class SafeListOfEventsComponent implements OnInit {
 				console.log("cargo estatus");
 			});
 	}
+	onbtndownload(){
+		console.log("onbtndownload");
+		
+	}
 }
