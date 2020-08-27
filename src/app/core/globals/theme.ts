@@ -74,6 +74,9 @@ export class ThemeService {
             case "Efh":
                 label ="EFH";
                 break;
+            case "Bits":
+                label ="Bits";
+                break;
             default:
                 label ="default";
                 break;
@@ -100,6 +103,9 @@ export class ThemeService {
                 break;
             case "Efh":
                 logo = "assets/img/efh2.png";
+                break;
+            case "Bits":
+                logo = "assets/img/bits.png";
                 break;
             default:
                 logo ="default";

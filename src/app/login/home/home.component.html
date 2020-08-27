@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="rotater" [ngStyle]="{filter: !existApp('Bits') ? 'grayscale(80%)':''}">
-                <div class="btn btn-icon">
+                <div class="btn btn-icon" (click)="goToModule('/bits')">
                 <img src="assets/img/bits.png" class="icon-image" />
                 <p class="icon-text">Bits</p>
                 </div>

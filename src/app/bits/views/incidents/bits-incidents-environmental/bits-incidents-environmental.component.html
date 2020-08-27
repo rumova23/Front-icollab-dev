@@ -1,0 +1,40 @@
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>Configuración</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Incidentes" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "Ambiental" | translate }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+<div class="section">
+	<div class="row">
+		<div class="col">
+			<p class="section_titulo_0">{{ "Lista de Incidentes Ambientales" | translate }}</p>
+			<p class="section_subtitulo_0">{{ "Buscar por" | translate }}</p>
+		</div>
+	</div>
+	<hr>
+	<br>
+	
+
+
+	<div class="row justify-content-end mt-4">
+		<div class="col-12 col-lg-2">
+			<app-btn-block-add (myClick)="onbtnAdd()"></app-btn-block-add>
+		</div>
+	</div>
+	<div class="row my-4">
+		<div class="col">
+			<app-mat-table
+				(clickSee)="onTableRowSee($event)"
+				(clickEdit)="onTableRowEdit($event)"
+				(clickDelete)="onTableRowDelete($event)"
+				[data]="tableData"
+				[row_x_page]="tableRowXpage"
+			></app-mat-table>
+		</div>
+	</div>
+</div>
