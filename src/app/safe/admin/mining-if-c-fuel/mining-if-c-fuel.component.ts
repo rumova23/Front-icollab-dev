@@ -16,9 +16,11 @@ export class MiningIFCFuelComponent implements OnInit {
 	formEditTableC:FormGroup;
 	formTags: FormGroup;
 	fileUploadForm: FormGroup;
+	/*
 	tableAData = [
 		{ order: 1, dateOp: 'mar-20', concept:'Día Natural', m3:'78,675,060.00', gjoule:'78,675,060.00',ctounit:'78,675,060.00',totalsiva:'78,675,060.00'},
-	];
+	];*/
+	tableAData = [];
 	tableAColumnsLabels = [
 		{ key: 'order', label: '#' },
 		{ key: 'dateOp', label: 'Fecha de Operación Comercial' },
@@ -38,9 +40,12 @@ export class MiningIFCFuelComponent implements OnInit {
 		'sys_edit'
 	];
 	tableRowXpage = [5, 10, 20, 50, 100, 250, 500];
+	/*
 	tableBData = [
 		{ order: 1, dateOp: 'mar-20', concept:'Día Natural', gjoule:'78,675,060.00',dls:'',dlsgjoule:'',mn:''},
-	];
+	];*/
+
+	tableBData = [];
 	tableBColumnsLabels = [
 		{ key: 'order', label: '#' },
 		{ key: 'dateOp', label: 'Fecha de Operación Comercial' },
@@ -81,13 +86,16 @@ export class MiningIFCFuelComponent implements OnInit {
 		'sys_edit',
 		'sys_delete'
 	];
+	/*
 	tableDData = [
 		{order:1,fechaOp:'mar-20',fuenteImport:'2da Corrida MM',usuario:'Manuel Herrera',fechaMod:'01/04/2020 01:40:00 pm',estatus:'exitosa'},
 		{order:2,fechaOp:'mar-20',fuenteImport:'2da Corrida MM',usuario:'Sistema'       ,fechaMod:'01/04/2020 12:40:00 pm',estatus:'exitosa'},
 		{order:3,fechaOp:'mar-20',fuenteImport:'1ra Corrida MM',usuario:'Ivette Colin'  ,fechaMod:'01/04/2020 12:40:00 pm',estatus:'exitosa'},
 		{order:4,fechaOp:'mar-20',fuenteImport:'1ra Corrida MM',usuario:'Sistema'       ,fechaMod:'01/04/2020 11:40:00 pm',estatus:'exitosa'},
 		{order:5,fechaOp:'mar-20',fuenteImport:'1ra Corrida MM',usuario:'Sistema'       ,fechaMod:'01/04/2020 11:40:00 pm',estatus:'exitosa'}
-	];
+	];*/
+	tableDData = [];
+
 	tableDColumnsLabels = [
 		{ key: 'order', label: '#' },
 		{ key: 'fechaOp', label: 'Fecha de Operación Comercial' },
