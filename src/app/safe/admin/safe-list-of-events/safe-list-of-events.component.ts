@@ -176,6 +176,7 @@ export class SafeListOfEventsComponent implements OnInit {
 		const nowMoment =  moment(Date.now());
 		const dateNow = new Date(nowMoment.year(), nowMoment.month(), 1);
 
+		this.addBlock(1, '');
 		this.binnacleService.eventsBetween(
 			moment(dateTwo).toDate().getTime(),
 			moment(dateNow).toDate().getTime()).subscribe(
@@ -328,6 +329,7 @@ export class SafeListOfEventsComponent implements OnInit {
 	clearFilters(){
 		this.formQuery.reset();
 		this.formQuery.controls.typeFilter.setValue(2);
+		this.onLoadInit();
 	}
 	loadCatalog() {
 		this.addBlock(1, '');
