@@ -26,6 +26,7 @@ export const environment = {
   , dycformato              : hostGateway + 'dycformato/dycformato/'
   , binnacle                : hostGateway + 'binnacle/'
   , economicProposalUrl     : hostGateway + 'economicproposal/'
+  , fuelcostUrl             : hostGateway + 'fuelcost/'
   // , externalData            : hostGateway + 'clientexternalapis/'
   , externalData            : 'http://localhost:1030/'
 };

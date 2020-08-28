@@ -52,8 +52,8 @@ export class SafeListBinnacleEventsComponent implements OnInit {
               this.toastr.errorToastr(errorData.error.message, '¡Error!');
             });
   }
-
-  downloadBinnacleReal() {
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  downloadSearchBinacleEvent() {
     const year = new Date(this.date.value).getFullYear();
     const month =  new Date(this.date.value).getMonth() + 1;
     this.addBlock(1, 'Bajando CSV ' + year + '/' + month + ': Generando');

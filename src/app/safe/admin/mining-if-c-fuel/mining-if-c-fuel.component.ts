@@ -1,8 +1,10 @@
+/* tslint:disable:indent */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import moment from 'moment';
 import { IdLabel } from 'src/app/core/models/IdLabel';
 import { requiredFileType } from 'src/app/core/helpers/requiredFileType';
+import {FuelCostService} from '../../services/fuel-cost.service';
 
 @Component({
 	selector: 'app-mining-if-c-fuel',
@@ -10,10 +12,10 @@ import { requiredFileType } from 'src/app/core/helpers/requiredFileType';
 	styleUrls: ['./mining-if-c-fuel.component.scss']
 })
 export class MiningIFCFuelComponent implements OnInit {
-	formQuery:FormGroup;
-	formEditTableA:FormGroup;
-	formEditTableB:FormGroup;
-	formEditTableC:FormGroup;
+	formQuery: FormGroup;
+	formEditTableA: FormGroup;
+	formEditTableB: FormGroup;
+	formEditTableC: FormGroup;
 	formTags: FormGroup;
 	fileUploadForm: FormGroup;
 	/*
@@ -64,9 +66,11 @@ export class MiningIFCFuelComponent implements OnInit {
 		'mn',
 		'sys_edit'
 	];
+	/*
 	tableCData = [
 		{ order: 1, dateOp: 'mar-20', settings:'',month:'',invoiced:'',tight:'',mn:''},
-	];
+	];*/
+	tableCData = [];
 	tableCColumnsLabels = [
 		{ key: 'order', label: '#' },
 		{ key: 'dateOp', label: 'Fecha de Operación Comercial' },
@@ -116,28 +120,27 @@ export class MiningIFCFuelComponent implements OnInit {
 
 
 	selectOptionsFuente: IdLabel[] = [
-		{ id: "1", label: 'Gas' },
-		{ id: "2", label: 'Diesel' }
+		{ id: '1', label: 'Gas' },
+		{ id: '2', label: 'Diesel' }
 	];
-	
-	selectOptionsTags : IdLabel[] = [
-		{id:"1",label:'Tag 1'},
-		{id:"2",label:'Tag 2'},
+	selectOptionsTags: IdLabel[] = [
+		{id: '1', label: 'Tag 1'},
+		{id: '2', label: 'Tag 2'},
 	];
 
 	valid = false;
 	file: any;
 	fileName: any;
 	progress;
-	
 	constructor(
 		private formBuilder: FormBuilder,
+		private fuelCostService: FuelCostService
 	) { }
 
 	ngOnInit() {
 		this.initForms();
 	}
-	initForms(){
+	initForms() {
 		this.formQuery = this.formBuilder.group({
 			date: new FormControl(moment(), Validators.required),
 			source: new FormControl('', Validators.required),
@@ -166,68 +169,67 @@ export class MiningIFCFuelComponent implements OnInit {
 
 		this.formTags = this.formBuilder.group({
 			tags: new FormControl('', Validators.required),
-		});	
-		
+		});
+
 		this.fileUploadForm = this.formBuilder.group({
 			file: new FormControl(null, [Validators.required, requiredFileType('xlsx')]),
 		});
 	}
-	onFormQuery(o){
+	onFormQuery(o) {
 		console.log(o);
 	}
-	onChangeDatePicker(o){
+	onChangeDatePicker(o) {
 		console.log(o);
 	}
-	onChangeSelectFuente(o){
+	onChangeSelectFuente(o) {
 		console.log(o);
 	}
-	onTableARowEdite(o){
+	onTableARowEdite(o) {
 		console.log(o);
 	}
-	onTableBRowEdite(o){
+	onTableBRowEdite(o) {
 		console.log(o);
 	}
-	onTableCRowEdite(o){
+	onTableCRowEdite(o) {
 		console.log(o);
 	}
-	onTableCRowDelete(o){
+	onTableCRowDelete(o) {
 		console.log(o);
 	}
-	onTableDRowDelete(o){
+	onTableDRowDelete(o) {
 		console.log(o);
 	}
-	onFormEditTableA(o){
+	onFormEditTableA(o) {
 		console.log(o);
 	}
-	onFormEditTableB(o){
+	onFormEditTableB(o) {
 		console.log(o);
 	}
-	onFormEditTableC(o){
+	onFormEditTableC(o) {
 		console.log(o);
 	}
-	onBtnCancelEditTableA(){
-		console.log("onBtnCancelEditTableA");
+	onBtnCancelEditTableA() {
+		console.log('onBtnCancelEditTableA');
 	}
-	onBtnCancelEditTableB(){
-		console.log("onBtnCancelEditTableB");
+	onBtnCancelEditTableB() {
+		console.log('onBtnCancelEditTableB');
 	}
-	onBtnCancelEditTableC(){
-		console.log("onBtnCancelEditTableC");
+	onBtnCancelEditTableC() {
+		console.log('onBtnCancelEditTableC');
 	}
-	onChangeSelectTags(o){
+	onChangeSelectTags(o) {
 		console.log(o);
 	}
-	onBtnChart(){
-		console.log("onBtnChart");
+	onBtnChart() {
+		console.log('onBtnChart');
 	}
-	downloadFile(){
-		console.log("downloadFile");
+	downloadFile() {
+		console.log('downloadFile');
 	}
-	onBtnUploadFile(){
-		console.log("onBtnUploadFile");
+	onBtnUploadFile() {
+		console.log('onBtnUploadFile');
 	}
-	onBtnFinish(){
-		console.log("onBtnFinish");
+	onBtnFinish() {
+		console.log('onBtnFinish');
 	}
-	
 }

@@ -377,4 +377,40 @@ export class SafeListOfEventsComponent implements OnInit {
 		console.log("onbtndownload");
 		
 	}
+
+	downloadBinnacleReal() {
+		this.addBlock(1, 'Bajando CSV : Generando');
+		this.binnacleService.dowloadSearchEvents(this.formQuery.value)
+			.subscribe(
+				data => {
+					const blob = new Blob([this.base64toBlob(data.base64,
+						'application/CSV')], {});
+					saveAs(blob, data.nameFile);
+					this.addBlock(2, '');
+					this.toastr.successToastr('Download File: Correctamente : Generado Correctamente', '¡Exito!');
+				},
+				errorData => {
+					this.addBlock(2, '');
+					this.toastr.errorToastr(errorData.error.message, '¡Error!');
+				});
+	}
+
+	base64toBlob(base64Data, contentType) {
+		contentType = contentType || '';
+		const sliceSize = 1024;
+		const byteCharacters = atob(base64Data);
+		const bytesLength = byteCharacters.length;
+		const slicesCount = Math.ceil(bytesLength / sliceSize);
+		const byteArrays = new Array(slicesCount);
+		for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+			const begin = sliceIndex * sliceSize;
+			const end = Math.min(begin + sliceSize, bytesLength);
+			const bytes = new Array(end - begin);
+			for (let offset = begin, i = 0; offset < end; ++i, ++offset) {
+				bytes[i] = byteCharacters[offset].charCodeAt(0);
+			}
+			byteArrays[sliceIndex] = new Uint8Array(bytes);
+		}
+		return new Blob(byteArrays, { type: contentType });
+	}
 }
