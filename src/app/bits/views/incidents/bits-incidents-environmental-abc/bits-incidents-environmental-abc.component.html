@@ -5,20 +5,76 @@
 		</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item>Configuración</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item>{{ "Incidentes" | translate }}</mdb-breadcrumb-item>
-		<mdb-breadcrumb-item class="active">{{ "Ambiental" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Agregar Incidente" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Ambiental" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "Agregar" | translate }}</mdb-breadcrumb-item>
 	</mdb-breadcrumb>
 </div>
 
-<div class="section">
-	<div class="row">
-		<div class="col">
-			<p class="section_titulo_0">{{ "Lista de Incidentes Ambientales" | translate }}</p>
-			<p class="section_subtitulo_0">{{ "Buscar por" | translate }}</p>
+<form [formGroup]="formNew" (ngSubmit)="onFomrNew(formNew.value)">
+	<div class="section">
+		<div class="row">
+			<div class="col">
+				<p class="section_titulo_0">{{ "Agregar / Configuración de Incidente Ambiental" | translate }}</p>
+				<p class="section_subtitulo_0">{{ "Descripción del Incidente" | translate }}</p>
+			</div>
+		</div>
+		<hr>
+		<br>
+
+		<div class="row">
+			<div class="col-12 col-xl-3">
+				<app-mat-input-text
+					[formGroup]="formNew" 
+					controlName="tag" 
+					label="Tag" 
+				></app-mat-input-text>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="section">
+		<div class="row">
+			<div class="col-12 col-xl-4">
+			</div>
+			<div class="col-12 col-xl-8">
+				<div class="row justify-content-end">
+					<div class="col">
+						<app-btn-block-back (click)="btnClickBack()"></app-btn-block-back>
+					</div>
+					<div class="col">
+						<app-btn-block-save-update myType="submit" [disabled]="disabledSubmit">
+						</app-btn-block-save-update>
+					</div>
+					<div class="col" *ngIf="!disabledBtnFinish">
+						<app-btn-block-send (click)="btnSend()">
+						</app-btn-block-send>
+					</div>
+					<div class="col" *ngIf="!disabledBtnFinish">
+						<app-btn-block-finish (click)="btnFinish()" [disabled]="disabledBtnFinish">
+						</app-btn-block-finish>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
-	<hr>
-	<br>
-	
-
-
-</div>
+	<div class="section">
+		<div class="row">
+			<div class="col-12 col-xl-8">
+			</div>
+			<div class="col-12 col-xl-4">
+				<div class="row justify-content-end">
+					<div class="col-12 col-lg-6">
+						<app-btn-block-reject (click)="btnChangeStatus('Evento Rechazado')"
+							[disabled]="disabledToRefuse"></app-btn-block-reject>
+					</div>
+					<div class="col-12 col-lg-6">
+						<app-btn-block-acept (click)="btnChangeStatus('Evento Aprobado')"
+							[disabled]="disabledToAccept"></app-btn-block-acept>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

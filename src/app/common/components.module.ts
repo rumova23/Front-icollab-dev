@@ -57,6 +57,8 @@ import { BtnBlockConsultComponent } from './btn/btn-block/btn-block-consult.comp
 import { BtnBlockCleanComponent } from './btn/btn-block/btn-block-clean.component';
 import { MatRadioButtonComponent } from './inputs/mat-radio-button/mat-radio-button.component';
 import { ChartLineComponent } from './graphics/chart-line/chart-line.component';
+import { BtnBlockSendComponent } from './btn/btn-block/btn-block-send.component';
+import { BtnBlockRejectComponent } from './btn/btn-block/btn-block-reject.component';
 
 @NgModule({
 	declarations: [
@@ -101,6 +103,8 @@ import { ChartLineComponent } from './graphics/chart-line/chart-line.component';
 		, BtnBlockCleanComponent
 		, MatRadioButtonComponent
 		, ChartLineComponent
+		, BtnBlockSendComponent
+		, BtnBlockRejectComponent
 	],
 	exports: [
 		 ProgressComponent
@@ -144,6 +148,8 @@ import { ChartLineComponent } from './graphics/chart-line/chart-line.component';
 		, BtnBlockCleanComponent
 		, MatRadioButtonComponent
 		, ChartLineComponent
+		, BtnBlockSendComponent
+		, BtnBlockRejectComponent
 
 	],
 	imports: [
