@@ -27,6 +27,7 @@ export const environment = {
   , binnacle                : hostGateway + 'binnacle/'
   , economicProposalUrl     : hostGateway + 'economicproposal/'
   , externalData            : hostGateway + 'clientexternalapis/'
+  , fuelcostUrl             : hostGateway + 'fuelcost/'
 };
 /*
 const hostGateway = 'http://200.52.85.140:8585/';

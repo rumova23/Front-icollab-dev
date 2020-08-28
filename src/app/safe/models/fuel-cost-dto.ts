@@ -1,17 +1,18 @@
 import {Deserializable} from '../../compliance/models/deserializable';
 
 export class FuelCostDTO implements Deserializable {
-    private concepto: string;
-    private m3: number;
-    private gjoule;
-    private ctoUnit;
-    private MXN: number;
-    private usd: number;
-    private usdGjoule: number;
-    private ajustes: string;
-    private mes: number;
-    private facturado: number;
-    private ajustado: number;
+    public concepto: string;
+    public indexId: number;
+    public m3: number;
+    public gjoule;
+    public ctoUnit;
+    public MXN: number;
+    public usd: number;
+    public usdGjoule: number;
+    public ajustes: string;
+    public mes: number;
+    public facturado: number;
+    public ajustado: number;
     deserialize(input: any) {
         Object.assign(this, input);
         return this;

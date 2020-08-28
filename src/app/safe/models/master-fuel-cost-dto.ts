@@ -5,16 +5,18 @@ import {FuelCostDTO} from './fuel-cost-dto';
 
 export class MasterFuelCostDTO implements Deserializable {
 
-    private masterFuelCostId: number;
-    private commercialDate: Date;
-    private yearMountId: number;
-    private yearMountDTO: YearMountDTO;
-    private sourceId: number;
-    private source: string;
-    private sourceDTO: MaestroOpcionDTO;
-    private m3: FuelCostDTO;
-    private usa: FuelCostDTO;
-    private adjustments: Array<FuelCostDTO>;
+    public masterFuelCostId: number;
+    public commercialDate: Date;
+    public yearMountId: number;
+    public yearMountDTO: YearMountDTO;
+    public sourceId: number;
+    public source: string;
+    public sourceDTO: MaestroOpcionDTO;
+    public m3: FuelCostDTO;
+    public usa: FuelCostDTO;
+    public adjustment: FuelCostDTO;
+    public adjustments: Array<FuelCostDTO>;
+    public group: string;
 
     deserialize(input: any) {
         Object.assign(this, input);

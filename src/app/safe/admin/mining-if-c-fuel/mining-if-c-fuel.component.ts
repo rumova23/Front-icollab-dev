@@ -5,6 +5,16 @@ import moment from 'moment';
 import { IdLabel } from 'src/app/core/models/IdLabel';
 import { requiredFileType } from 'src/app/core/helpers/requiredFileType';
 import {FuelCostService} from '../../services/fuel-cost.service';
+import {EconomicProposalDTO} from '../../models/economic-proposal-dto';
+import {MasterFuelCostDTO} from '../../models/master-fuel-cost-dto';
+import {EventMessage} from '../../../core/models/EventMessage';
+import {EventBlocked} from '../../../core/models/EventBlocked';
+import {ToastrManager} from 'ng6-toastr-notifications';
+import {EventService} from '../../../core/services/event.service';
+import {FuelCostDTO} from '../../models/fuel-cost-dto';
+import {YearMountDTO} from '../../models/year-mount-dto';
+import {MasterCatalogService} from '../../services/master-catalog.service';
+import {MaestroOpcionDTO} from '../../../compliance/models/maestro-opcion-dto';
 
 @Component({
 	selector: 'app-mining-if-c-fuel',
@@ -18,6 +28,8 @@ export class MiningIFCFuelComponent implements OnInit {
 	formEditTableC: FormGroup;
 	formTags: FormGroup;
 	fileUploadForm: FormGroup;
+	comboFuente: IdLabel[] = [];
+	m3: FuelCostDTO;
 	/*
 	tableAData = [
 		{ order: 1, dateOp: 'mar-20', concept:'Día Natural', m3:'78,675,060.00', gjoule:'78,675,060.00',ctounit:'78,675,060.00',totalsiva:'78,675,060.00'},
@@ -26,19 +38,19 @@ export class MiningIFCFuelComponent implements OnInit {
 	tableAColumnsLabels = [
 		{ key: 'order', label: '#' },
 		{ key: 'dateOp', label: 'Fecha de Operación Comercial' },
-		{ key: 'concept', label: 'Concepto' },
+		{ key: 'concepto', label: 'Concepto' },
 		{ key: 'm3', label: 'M3' },
 		{ key: 'gjoule', label: 'Gjoule' },
-		{ key: 'ctounit', label: 'CTO.UNIT $/Gjoule' },
-		{ key: 'totalsiva', label: '$ MXN' }
+		{ key: 'ctoUnit', label: 'CTO.UNIT $/Gjoule' },
+		{ key: 'mxn', label: '$ MXN' }
 	];
 	tableAColumnsDisplay: string[] = [
 		'dateOp',
-		'concept',
+		'concepto',
 		'm3',
 		'gjoule',
-		'ctounit',
-		'totalsiva',
+		'ctoUnit',
+		'mxn',
 		'sys_edit'
 	];
 	tableRowXpage = [5, 10, 20, 50, 100, 250, 500];
@@ -46,47 +58,46 @@ export class MiningIFCFuelComponent implements OnInit {
 	tableBData = [
 		{ order: 1, dateOp: 'mar-20', concept:'Día Natural', gjoule:'78,675,060.00',dls:'',dlsgjoule:'',mn:''},
 	];*/
-
 	tableBData = [];
 	tableBColumnsLabels = [
 		{ key: 'order', label: '#' },
 		{ key: 'dateOp', label: 'Fecha de Operación Comercial' },
-		{ key: 'concept', label: 'Concepto' },
+		{ key: 'concepto', label: 'Concepto' },
 		{ key: 'gjoule', label: 'Gjoule' },
-		{ key: 'dls', label: 'USD' },
-		{ key: 'dlsgjoule', label: 'USD/Gjoule' },
-		{ key: 'mn', label: '$ MXN' },
+		{ key: 'usd', label: 'USD' },
+		{ key: 'usdGjoule', label: 'USD/Gjoule' },
+		{ key: 'mxn', label: '$ MXN' },
 	];
 	tableBColumnsDisplay: string[] = [
 		'dateOp',
-		'concept',
+		'concepto',
 		'gjoule',
-		'dls',
-		'dlsgjoule',
-		'mn',
+		'usd',
+		'usdGjoule',
+		'mxn',
 		'sys_edit'
 	];
 	/*
 	tableCData = [
 		{ order: 1, dateOp: 'mar-20', settings:'',month:'',invoiced:'',tight:'',mn:''},
 	];*/
-	tableCData = [];
+	tableCData: Array<FuelCostDTO> = [];
 	tableCColumnsLabels = [
 		{ key: 'order', label: '#' },
 		{ key: 'dateOp', label: 'Fecha de Operación Comercial' },
-		{ key: 'settings', label: 'Ajustes' },
-		{ key: 'month', label: 'Mes' },
-		{ key: 'invoiced', label: 'Facturado' },
-		{ key: 'tight', label: 'Ajustado' },
-		{ key: 'mn', label: '$ MXN' },
+		{ key: 'ajustes', label: 'Ajustes' },
+		{ key: 'mes', label: 'Mes' },
+		{ key: 'facturado', label: 'Facturado' },
+		{ key: 'ajustado', label: 'Ajustado' },
+		{ key: 'mxn', label: '$ MXN' },
 	];
 	tableCColumnsDisplay: string[] = [
 		'dateOp',
-		'settings',
-		'month',
-		'invoiced',
-		'tight',
-		'mn',
+		'ajustes',
+		'mes',
+		'facturado',
+		'ajustado',
+		'mxn',
 		'sys_edit',
 		'sys_delete'
 	];
@@ -134,11 +145,15 @@ export class MiningIFCFuelComponent implements OnInit {
 	progress;
 	constructor(
 		private formBuilder: FormBuilder,
-		private fuelCostService: FuelCostService
+		private fuelCostService: FuelCostService,
+		public toastr: ToastrManager,
+		public eventService: EventService,
+		private masterCatalogService: MasterCatalogService
 	) { }
 
 	ngOnInit() {
 		this.initForms();
+		this.loadCatalog();
 	}
 	initForms() {
 		this.formQuery = this.formBuilder.group({
@@ -146,25 +161,25 @@ export class MiningIFCFuelComponent implements OnInit {
 			source: new FormControl('', Validators.required),
 		});
 		this.formEditTableA = this.formBuilder.group({
-			concept: new FormControl('', Validators.required),
+			concepto: new FormControl('', Validators.required),
 			m3: new FormControl('', Validators.required),
 			gjoule: new FormControl('', Validators.required),
-			ctounit: new FormControl('', Validators.required),
-			totalsiva: new FormControl('', Validators.required),
+			ctoUnit: new FormControl('', Validators.required),
+			mxn: new FormControl('', Validators.required),
 		});
 		this.formEditTableB = this.formBuilder.group({
-			concept: new FormControl('', Validators.required),
+			concepto: new FormControl('', Validators.required),
 			gjoule: new FormControl('', Validators.required),
-			dls: new FormControl('', Validators.required),
-			dlsgjoule: new FormControl('', Validators.required),
-			mn: new FormControl('', Validators.required),
+			usd: new FormControl('', Validators.required),
+			usdGjoule: new FormControl('', Validators.required),
+			mxn: new FormControl('', Validators.required),
 		});
 		this.formEditTableC = this.formBuilder.group({
-			settings: new FormControl('', Validators.required),
-			month: new FormControl('', Validators.required),
-			invoiced: new FormControl('', Validators.required),
-			tight: new FormControl('', Validators.required),
-			mn: new FormControl('', Validators.required),
+			ajustes: new FormControl('', Validators.required),
+			mes: new FormControl('', Validators.required),
+			facturado: new FormControl('', Validators.required),
+			ajustado: new FormControl('', Validators.required),
+			mxn: new FormControl('', Validators.required),
 		});
 
 		this.formTags = this.formBuilder.group({
@@ -176,7 +191,26 @@ export class MiningIFCFuelComponent implements OnInit {
 		});
 	}
 	onFormQuery(o) {
-		console.log(o);
+		const mydate = this.formQuery.get('date').value;
+		const month = mydate.month() + 1;
+		const year = mydate.year();
+		this.fuelCostService.findTradeDate(year, month).subscribe (
+		(data: MasterFuelCostDTO) => {
+			this.tableAData = [];
+			this.tableAData.push(data.m3);
+
+			this.tableBData = [];
+			this.tableBData.push(data.usa);
+
+			this.tableCData = [];
+			this.tableCData = data.adjustments;
+
+			this.addBlock(2, '');
+		},
+		errorData => {
+			this.addBlock(2, '');
+			this.toastr.errorToastr(errorData.error.message, 'Error!');
+		});
 	}
 	onChangeDatePicker(o) {
 		console.log(o);
@@ -185,13 +219,13 @@ export class MiningIFCFuelComponent implements OnInit {
 		console.log(o);
 	}
 	onTableARowEdite(o) {
-		console.log(o);
+		this.formEditTableA.patchValue(o);
 	}
 	onTableBRowEdite(o) {
-		console.log(o);
+		this.formEditTableB.patchValue(o);
 	}
 	onTableCRowEdite(o) {
-		console.log(o);
+		this.formEditTableC.patchValue(o);
 	}
 	onTableCRowDelete(o) {
 		console.log(o);
@@ -199,14 +233,75 @@ export class MiningIFCFuelComponent implements OnInit {
 	onTableDRowDelete(o) {
 		console.log(o);
 	}
-	onFormEditTableA(o) {
-		console.log(o);
+	onFormEditTableA(o: FuelCostDTO) {
+		const mydate = this.formQuery.get('date').value;
+		const masterFuelCostDTO: MasterFuelCostDTO = new MasterFuelCostDTO();
+		masterFuelCostDTO.sourceId = this.formQuery.get('source').value;
+		masterFuelCostDTO.group = 'M3';
+		const yearMountDTO: YearMountDTO = new YearMountDTO();
+		yearMountDTO.year = mydate.year();
+		yearMountDTO.mount = mydate.month() + 1;
+		masterFuelCostDTO.yearMountDTO = yearMountDTO;
+		masterFuelCostDTO.m3 = o;
+		this.fuelCostService.saveFuelCost(masterFuelCostDTO).subscribe (
+		(data: MasterFuelCostDTO) => {
+			this.toastr.successToastr('Guardado con exito', 'Exito!');
+			this.addBlock(2, '');
+		},
+		errorData => {
+			this.addBlock(2, '');
+			this.toastr.errorToastr(errorData.error.message, 'Error!');
+		},
+		() => {
+			this.onFormQuery(this.formQuery.value);
+		});
 	}
+
 	onFormEditTableB(o) {
-		console.log(o);
+		const mydate = this.formQuery.get('date').value;
+		const masterFuelCostDTO: MasterFuelCostDTO = new MasterFuelCostDTO();
+		masterFuelCostDTO.sourceId = this.formQuery.get('source').value;
+		masterFuelCostDTO.group = 'USD';
+		const yearMountDTO: YearMountDTO = new YearMountDTO();
+		yearMountDTO.year = mydate.year();
+		yearMountDTO.mount = mydate.month() + 1;
+		masterFuelCostDTO.yearMountDTO = yearMountDTO;
+		masterFuelCostDTO.usa = o;
+		this.fuelCostService.saveFuelCost(masterFuelCostDTO).subscribe (
+		(data: MasterFuelCostDTO) => {
+			this.toastr.successToastr('Guardado con exito', 'Exito!');
+			this.addBlock(2, '');
+		},
+		errorData => {
+			this.addBlock(2, '');
+			this.toastr.errorToastr(errorData.error.message, 'Error!');
+		},
+		() => {
+			this.onFormQuery(this.formQuery.value);
+		});
 	}
 	onFormEditTableC(o) {
-		console.log(o);
+		const mydate = this.formQuery.get('date').value;
+		const masterFuelCostDTO: MasterFuelCostDTO = new MasterFuelCostDTO();
+		masterFuelCostDTO.sourceId = this.formQuery.get('source').value;
+		masterFuelCostDTO.group = 'ADJUSTMENT';
+		const yearMountDTO: YearMountDTO = new YearMountDTO();
+		yearMountDTO.year = mydate.year();
+		yearMountDTO.mount = mydate.month() + 1;
+		masterFuelCostDTO.yearMountDTO = yearMountDTO;
+		masterFuelCostDTO.adjustment = o;
+		this.fuelCostService.saveFuelCost(masterFuelCostDTO).subscribe (
+		(data: MasterFuelCostDTO) => {
+			this.toastr.successToastr('Guardado con exito', 'Exito!');
+			this.addBlock(2, '');
+		},
+		errorData => {
+			this.addBlock(2, '');
+			this.toastr.errorToastr(errorData.error.message, 'Error!');
+		},
+		() => {
+			this.onFormQuery(this.formQuery.value);
+		});
 	}
 	onBtnCancelEditTableA() {
 		console.log('onBtnCancelEditTableA');
@@ -231,5 +326,24 @@ export class MiningIFCFuelComponent implements OnInit {
 	}
 	onBtnFinish() {
 		console.log('onBtnFinish');
+	}
+	addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1,
+			new EventBlocked(type, msg)));
+	}
+
+	loadCatalog() {
+		const names = ['SOURCE FUEL COST'];
+		this.masterCatalogService.listCatalog(names).subscribe(data  => {
+			this.loadSelect(this.comboFuente, data['SOURCE FUEL COST']);
+		}, error => {});
+	}
+	loadSelect(selectCombo: Array<any>, catalog: Array<MaestroOpcionDTO>) {
+		if (catalog !== null) {
+			catalog.forEach((element: MaestroOpcionDTO) => {
+				selectCombo.push({id: element.maestroOpcionId, label: element.opcion.codigo, maestroOpcionId: element.maestroOpcionId});
+			});
+			selectCombo.sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()));
+		}
 	}
 }

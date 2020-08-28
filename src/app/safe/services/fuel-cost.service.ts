@@ -17,11 +17,6 @@ export class FuelCostService {
               private globalService: GlobalService) {
   }
 
-  obtenEconomicProposal(year: any, month: any): Observable<any> {
-    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get( `${ this.fuelcostUrl }fuelcost/${year}/${month}`, {params : this.parameters });
-  }
-
   public saveFuelCost( masterFuelCostDTO: MasterFuelCostDTO): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.post( `${ this.fuelcostUrl }fuelcost/save/masterFuelCost`, masterFuelCostDTO, {params : this.parameters });
@@ -37,7 +32,7 @@ export class FuelCostService {
     return this.http.get( `${ this.fuelcostUrl }fuelcost/finalized/${year}/${month}`, {params : this.parameters });
   }
 
-  public closedMaterFuelCost(year: number, month: number): Observable<any> {
+  public findTradeDate(year: number, month: number): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.fuelcostUrl }fuelcost/find/${year}/${month}`, {params : this.parameters });
   }

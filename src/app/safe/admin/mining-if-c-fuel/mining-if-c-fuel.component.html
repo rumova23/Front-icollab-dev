@@ -34,9 +34,8 @@
 				<app-mat-select
 					[formGroup]="formQuery"
 					controlName="source"
-					[options]="selectOptionsFuente"
+					[options]="comboFuente"
 					label="Fuente"
-					(eventChange)="onChangeSelectFuente($event)"
 				></app-mat-select>
 			</div>
 			<div class="my-xl-2 col-12 col-xl-3 col-xxl-2">
@@ -65,7 +64,7 @@
 			<div class="col-12 col-lg-2">
 				<app-mat-input-text
 					[formGroup]="formEditTableA"
-					controlName="concept"
+					controlName="concepto"
 					label="Concepto"
 				></app-mat-input-text>
 			</div>
@@ -86,14 +85,14 @@
 			<div class="col-12 col-lg-2">
 				<app-mat-input-number
 					[formGroup]="formEditTableA"
-					controlName="ctounit"
+					controlName="ctoUnit"
 					label="CTO.UNIT $/Gjoule"
 				></app-mat-input-number>
 			</div>
 			<div class="col-12 col-lg-2">
 				<app-mat-input-number
 					[formGroup]="formEditTableA"
-					controlName="totalsiva"
+					controlName="mxn"
 					label="$ MXN"
 				></app-mat-input-number>
 			</div>
@@ -127,7 +126,7 @@
 			<div class="col-12 col-lg-2">
 				<app-mat-input-text
 					[formGroup]="formEditTableB"
-					controlName="concept"
+					controlName="concepto"
 					label="Concepto"
 				></app-mat-input-text>
 			</div>
@@ -141,21 +140,21 @@
 			<div class="col-12 col-lg-2">
 				<app-mat-input-number
 					[formGroup]="formEditTableB"
-					controlName="dls"
+					controlName="usd"
 					label="USD"
 				></app-mat-input-number>
 			</div>
 			<div class="col-12 col-lg-2">
 				<app-mat-input-number
 					[formGroup]="formEditTableB"
-					controlName="dlsgjoule"
+					controlName="usdGjoule"
 					label="USD/Gjoule"
 				></app-mat-input-number>
 			</div>
 			<div class="col-12 col-lg-2">
 				<app-mat-input-number
 					[formGroup]="formEditTableB"
-					controlName="mn"
+					controlName="mxn"
 					label="$ MXN"
 				></app-mat-input-number>
 			</div>
@@ -189,35 +188,35 @@
 			<div class="col-12 col-lg-2">
 				<app-mat-input-text
 					[formGroup]="formEditTableC"
-					controlName="settings"
+					controlName="ajustes"
 					label="Ajustes"
 				></app-mat-input-text>
 			</div>
 			<div class="col-12 col-lg-2">
 				<app-mat-input-number
 					[formGroup]="formEditTableC"
-					controlName="month"
+					controlName="mes"
 					label="Mes"
 				></app-mat-input-number>
 			</div>
 			<div class="col-12 col-lg-2">
 				<app-mat-input-number
 					[formGroup]="formEditTableC"
-					controlName="invoiced"
+					controlName="facturado"
 					label="Facturado"
 				></app-mat-input-number>
 			</div>
 			<div class="col-12 col-lg-2">
 				<app-mat-input-number
 					[formGroup]="formEditTableC"
-					controlName="tight"
+					controlName="ajustado"
 					label="Ajustado"
 				></app-mat-input-number>
 			</div>
 			<div class="col-12 col-lg-2">
 				<app-mat-input-number
 					[formGroup]="formEditTableC"
-					controlName="mn"
+					controlName="mxn"
 					label="$ MXN"
 				></app-mat-input-number>
 			</div>
