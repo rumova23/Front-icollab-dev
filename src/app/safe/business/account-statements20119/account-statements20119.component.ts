@@ -5,16 +5,16 @@ import {MatTableDataSource} from '@angular/material/table';
 
 const ELEMENT_DATA: any[] = [
   {
-    order:'order',
-    FUECD:'FUECD',
-    fechaOperacion:'fechaOperacion',
-    fechaEmision:'fechaEmision',
-    claveParticipante:'claveParticipante',
-    claveSubcuenta:'claveSubcuenta',
-    claveSistema:'claveSistema',
-    sys_see:'sys_see',
-    sys_edit:'sys_edit',
-    sys_delete:'sys_delete'
+    order: 'order',
+    FUECD: 'FUECD',
+    fechaOperacion: 'fechaOperacion',
+    fechaEmision: 'fechaEmision',
+    claveParticipante: 'claveParticipante',
+    claveSubcuenta: 'claveSubcuenta',
+    claveSistema: 'claveSistema',
+    sys_see: 'sys_see',
+    sys_edit: 'sys_edit',
+    sys_delete: 'sys_delete'
   },
 ];
 @Component({
@@ -30,7 +30,7 @@ export class AccountStatements20119Component implements OnInit {
     { key: 'FUECD', label: 'FUECD' },
     { key: 'fechaOperacion', label: 'fechaOperacion' },
     { key: 'fechaEmision', label: 'fechaEmision' },
-    { key: 'claveParticipante',label: 'claveParticipante'},
+    { key: 'claveParticipante', label: 'claveParticipante'},
     { key: 'claveSubcuenta', label: 'claveSubcuenta' },
     { key: 'claveSistema', label: 'claveSistema' }
 ];

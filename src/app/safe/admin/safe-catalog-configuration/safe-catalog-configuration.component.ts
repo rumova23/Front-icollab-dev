@@ -1,3 +1,4 @@
+/* tslint:disable:indent */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { OpcionDTO } from '../../../compliance/models/opcion-dto';
@@ -16,9 +17,9 @@ import { ConfirmationDialogService } from 'src/app/core/services/confirmation-di
 	styleUrls: ['./safe-catalog-configuration.component.scss']
 })
 export class SafeCatalogConfigurationComponent implements OnInit {
-	maestroId : any = null;
-	genericOpcionForm:FormGroup;
-	lstCatalogs : IdLabel[]=[];
+	maestroId: any = null;
+	genericOpcionForm: FormGroup;
+	lstCatalogs: IdLabel[] = [];
 
 	tableOpciones = [];
 	tablaColumnsLabels = [
@@ -57,23 +58,23 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 
 	ngOnInit() {
 		this.loadMasters();
-		
+
 		this.genericOpcionForm = this.formBuilder.group({
 			maestro: new FormControl('', Validators.required),
 		});
 
-		if(this.maestroId != null){
-			
+		if (this.maestroId != null) {
+
 			this.genericOpcionForm.get('maestro').setValue(this.maestroId);
 			this.loadOpciones(this.maestroId);
 		}
 	}
-	
-	loadMasters(){
+
+	loadMasters() {
 		this.addBlock(1, "");
 		this.masterCatalogService.catalogosAll().subscribe(
 			(data: Array<MaestroDTO>) => {
-				this.lstCatalogs = data.map(e=>{
+				this.lstCatalogs = data.map( e => {
 					return {
 						//id:e.maestroId
 						id:e.nombre

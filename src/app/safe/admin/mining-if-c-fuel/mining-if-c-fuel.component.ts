@@ -30,6 +30,7 @@ export class MiningIFCFuelComponent implements OnInit {
 	fileUploadForm: FormGroup;
 	comboFuente: IdLabel[] = [];
 	m3: FuelCostDTO;
+	submitted = false;
 	/*
 	tableAData = [
 		{ order: 1, dateOp: 'mar-20', concept:'Día Natural', m3:'78,675,060.00', gjoule:'78,675,060.00',ctounit:'78,675,060.00',totalsiva:'78,675,060.00'},
@@ -234,6 +235,16 @@ export class MiningIFCFuelComponent implements OnInit {
 		console.log(o);
 	}
 	onFormEditTableA(o: FuelCostDTO) {
+		this.submitted = true;
+		if (!this.formQuery.valid) {
+			this.toastr.errorToastr('La fecha de operacion y la fuente, son requeridas', 'Error!');
+			return;
+		}
+		if (!this.formEditTableA.valid) {
+			this.toastr.errorToastr('campos requeridos', 'Error!');
+			return;
+		}
+
 		const mydate = this.formQuery.get('date').value;
 		const masterFuelCostDTO: MasterFuelCostDTO = new MasterFuelCostDTO();
 		masterFuelCostDTO.sourceId = this.formQuery.get('source').value;
@@ -258,6 +269,15 @@ export class MiningIFCFuelComponent implements OnInit {
 	}
 
 	onFormEditTableB(o) {
+		this.submitted = true;
+		if (!this.formQuery.valid) {
+			this.toastr.errorToastr('La fecha de operacion y la fuente, son requeridas', 'Error!');
+			return;
+		}
+		if (!this.formEditTableA.valid) {
+			this.toastr.errorToastr('campos requeridos', 'Error!');
+			return;
+		}
 		const mydate = this.formQuery.get('date').value;
 		const masterFuelCostDTO: MasterFuelCostDTO = new MasterFuelCostDTO();
 		masterFuelCostDTO.sourceId = this.formQuery.get('source').value;
@@ -281,6 +301,15 @@ export class MiningIFCFuelComponent implements OnInit {
 		});
 	}
 	onFormEditTableC(o) {
+		this.submitted = true;
+		if (!this.formQuery.valid) {
+			this.toastr.errorToastr('La fecha de operacion y la fuente, son requeridas', 'Error!');
+			return;
+		}
+		if (!this.formEditTableA.valid) {
+			this.toastr.errorToastr('campos requeridos', 'Error!');
+			return;
+		}
 		const mydate = this.formQuery.get('date').value;
 		const masterFuelCostDTO: MasterFuelCostDTO = new MasterFuelCostDTO();
 		masterFuelCostDTO.sourceId = this.formQuery.get('source').value;
