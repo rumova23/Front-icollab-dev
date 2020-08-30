@@ -5,6 +5,7 @@ import {EntidadEstatusDTO} from '../../compliance/models/entidad-estatus-dto';
 import {NoteDTO} from './note-dto';
 import {BearerDTO} from './bearer-dto';
 import {BinnacleEventConfigurationDTO} from './binnacle-event-configuration-dto';
+import {ActorDTO} from './actor-dto';
 
 export class BinnacleEventDTO implements Deserializable {
 
@@ -87,6 +88,8 @@ export class BinnacleEventDTO implements Deserializable {
     public observations: Array<NoteDTO>;
     public bearers: Array<BearerDTO>;
     public order: number;
+
+    private traking: Map<string, Array<ActorDTO>>;
 
 
     public binnacleEventConfigurationDTO: BinnacleEventConfigurationDTO;

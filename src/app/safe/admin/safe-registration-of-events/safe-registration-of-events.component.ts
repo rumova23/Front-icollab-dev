@@ -24,6 +24,7 @@ import {BearerDTO} from '../../models/bearer-dto';
 import {Constants} from '../../../core/globals/Constants';
 import { timer } from 'rxjs';
 import { FileUploadComponent } from 'src/app/common/fileUpload/fileUpload.component';
+import {ActorDTO} from '../../models/actor-dto';
 
 @Component({
 	selector: 'app-safe-registration-of-events',
@@ -100,6 +101,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	tablaTrakingColumnsLabels = [
 		{ key: 'order', label: '#' },
 		{ key: 'username', label: 'Usuario' },
+		{ key: 'rol', label: 'Rol' },
+		{ key: 'action', label: 'Accion' },
 		{ key: 'observation', label: 'Observaciones' },
 		{ key: 'status', label: 'Estatus' },
 		{ key: 'updateString', label: 'Fecha de Ultima Modificación' },
@@ -117,6 +120,8 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	tableTrakingColumnsDisplay = [
 		'order',
 		'username',
+		'rol',
+		'action',
 		'observation',
 		'status',
 		'updateString'
@@ -713,6 +718,13 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.commonDisabled();
 				this.tableTraking = this.catalogType.element.traking.PLANT_SUPERVISOR_ACCEPT;
 
+				let order = 0;
+				if (this.tableTraking !== null && this.tableTraking.length > 0) {
+					this.tableTraking.forEach((actor: ActorDTO) => {
+						order++;
+						actor.order = order;
+					});
+				}
 				setTimeout(() => this.addBlock(2, ''), 4000);
 			}
 			this.loadCatalogStatus('TX_BINNACLE_EVENT', this.lstApprovalStatus);
