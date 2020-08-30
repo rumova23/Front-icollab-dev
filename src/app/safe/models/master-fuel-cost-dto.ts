@@ -2,6 +2,7 @@ import {Deserializable} from '../../compliance/models/deserializable';
 import {YearMountDTO} from './year-mount-dto';
 import {MaestroOpcionDTO} from '../../compliance/models/maestro-opcion-dto';
 import {FuelCostDTO} from './fuel-cost-dto';
+import {BearerDTO} from './bearer-dto';
 
 export class MasterFuelCostDTO implements Deserializable {
 
@@ -17,6 +18,7 @@ export class MasterFuelCostDTO implements Deserializable {
     public adjustment: FuelCostDTO;
     public adjustments: Array<FuelCostDTO>;
     public group: string;
+    public bearers: Array<BearerDTO>;
 
     deserialize(input: any) {
         Object.assign(this, input);

@@ -1,5 +1,5 @@
 /* tslint:disable:indent */
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import moment from 'moment';
 import { IdLabel } from 'src/app/core/models/IdLabel';
@@ -15,6 +15,10 @@ import {FuelCostDTO} from '../../models/fuel-cost-dto';
 import {YearMountDTO} from '../../models/year-mount-dto';
 import {MasterCatalogService} from '../../services/master-catalog.service';
 import {MaestroOpcionDTO} from '../../../compliance/models/maestro-opcion-dto';
+import {BearerDTO} from '../../models/bearer-dto';
+import {ConfirmationDialogService} from '../../../core/services/confirmation-dialog.service';
+import {timer} from 'rxjs';
+import {FileUploadComponent} from '../../../common/fileUpload/fileUpload.component';
 
 @Component({
 	selector: 'app-mining-if-c-fuel',
@@ -22,6 +26,13 @@ import {MaestroOpcionDTO} from '../../../compliance/models/maestro-opcion-dto';
 	styleUrls: ['./mining-if-c-fuel.component.scss']
 })
 export class MiningIFCFuelComponent implements OnInit {
+	// ************* configuracion de soportes *********
+	@ViewChild('appFileupload') appFileupload: FileUploadComponent;
+	files: Array<BearerDTO> = [];
+	disabledSubmit = false;
+	actionPage = 'edit';
+	newFiles: Array<BearerDTO> = [];
+	// ************* Fin de configuracion de soportes *********
 	formQuery: FormGroup;
 	formEditTableA: FormGroup;
 	formEditTableB: FormGroup;
@@ -31,10 +42,6 @@ export class MiningIFCFuelComponent implements OnInit {
 	comboFuente: IdLabel[] = [];
 	m3: FuelCostDTO;
 	submitted = false;
-	/*
-	tableAData = [
-		{ order: 1, dateOp: 'mar-20', concept:'Día Natural', m3:'78,675,060.00', gjoule:'78,675,060.00',ctounit:'78,675,060.00',totalsiva:'78,675,060.00'},
-	];*/
 	tableAData = [];
 	tableAColumnsLabels = [
 		{ key: 'order', label: '#' },
@@ -55,10 +62,6 @@ export class MiningIFCFuelComponent implements OnInit {
 		'sys_edit'
 	];
 	tableRowXpage = [5, 10, 20, 50, 100, 250, 500];
-	/*
-	tableBData = [
-		{ order: 1, dateOp: 'mar-20', concept:'Día Natural', gjoule:'78,675,060.00',dls:'',dlsgjoule:'',mn:''},
-	];*/
 	tableBData = [];
 	tableBColumnsLabels = [
 		{ key: 'order', label: '#' },
@@ -78,10 +81,6 @@ export class MiningIFCFuelComponent implements OnInit {
 		'mxn',
 		'sys_edit'
 	];
-	/*
-	tableCData = [
-		{ order: 1, dateOp: 'mar-20', settings:'',month:'',invoiced:'',tight:'',mn:''},
-	];*/
 	tableCData: Array<FuelCostDTO> = [];
 	tableCColumnsLabels = [
 		{ key: 'order', label: '#' },
@@ -102,14 +101,6 @@ export class MiningIFCFuelComponent implements OnInit {
 		'sys_edit',
 		'sys_delete'
 	];
-	/*
-	tableDData = [
-		{order:1,fechaOp:'mar-20',fuenteImport:'2da Corrida MM',usuario:'Manuel Herrera',fechaMod:'01/04/2020 01:40:00 pm',estatus:'exitosa'},
-		{order:2,fechaOp:'mar-20',fuenteImport:'2da Corrida MM',usuario:'Sistema'       ,fechaMod:'01/04/2020 12:40:00 pm',estatus:'exitosa'},
-		{order:3,fechaOp:'mar-20',fuenteImport:'1ra Corrida MM',usuario:'Ivette Colin'  ,fechaMod:'01/04/2020 12:40:00 pm',estatus:'exitosa'},
-		{order:4,fechaOp:'mar-20',fuenteImport:'1ra Corrida MM',usuario:'Sistema'       ,fechaMod:'01/04/2020 11:40:00 pm',estatus:'exitosa'},
-		{order:5,fechaOp:'mar-20',fuenteImport:'1ra Corrida MM',usuario:'Sistema'       ,fechaMod:'01/04/2020 11:40:00 pm',estatus:'exitosa'}
-	];*/
 	tableDData = [];
 
 	tableDColumnsLabels = [
@@ -144,12 +135,14 @@ export class MiningIFCFuelComponent implements OnInit {
 	file: any;
 	fileName: any;
 	progress;
+
 	constructor(
 		private formBuilder: FormBuilder,
 		private fuelCostService: FuelCostService,
 		public toastr: ToastrManager,
 		public eventService: EventService,
-		private masterCatalogService: MasterCatalogService
+		private masterCatalogService: MasterCatalogService,
+		private confirmationDialogService: ConfirmationDialogService
 	) { }
 
 	ngOnInit() {
@@ -192,10 +185,19 @@ export class MiningIFCFuelComponent implements OnInit {
 		});
 	}
 	onFormQuery(o) {
+		this.submitted = true;
+		if (!this.formQuery.valid) {
+			this.toastr.errorToastr('La fecha de operacion y la fuente, son requeridas', 'Error!');
+			return;
+		}
+		const masterFuelCostDTO: MasterFuelCostDTO = new MasterFuelCostDTO();
+		masterFuelCostDTO.sourceId = this.formQuery.get('source').value;
+		const yearMountDTO: YearMountDTO = new YearMountDTO();
 		const mydate = this.formQuery.get('date').value;
-		const month = mydate.month() + 1;
-		const year = mydate.year();
-		this.fuelCostService.findTradeDate(year, month).subscribe (
+		yearMountDTO.year = mydate.year();
+		yearMountDTO.mount = mydate.month() + 1;
+		masterFuelCostDTO.yearMountDTO = yearMountDTO;
+		this.fuelCostService.findTradeDate(masterFuelCostDTO).subscribe (
 		(data: MasterFuelCostDTO) => {
 			this.tableAData = [];
 			this.tableAData.push(data.m3);
@@ -206,12 +208,24 @@ export class MiningIFCFuelComponent implements OnInit {
 			this.tableCData = [];
 			this.tableCData = data.adjustments;
 
+			this.obtenSupports(data.masterFuelCostId);
 			this.addBlock(2, '');
 		},
 		errorData => {
 			this.addBlock(2, '');
 			this.toastr.errorToastr(errorData.error.message, 'Error!');
 		});
+	}
+	obtenSupports(masterFuelCostId: number) {
+		this.fuelCostService.obtenSupports(masterFuelCostId).subscribe((data: Array<BearerDTO>)  => {
+				this.files = data;
+			},
+			errorData => {
+				this.addBlock(2, '');
+				this.toastr.errorToastr(errorData.error.message, 'Error!');
+			},
+			() => {
+			});
 	}
 	onChangeDatePicker(o) {
 		console.log(o);
@@ -229,6 +243,38 @@ export class MiningIFCFuelComponent implements OnInit {
 		this.formEditTableC.patchValue(o);
 	}
 	onTableCRowDelete(o) {
+		this.confirmationDialogService.confirm(
+			'Confirmación',
+			'¿Está seguro de eliminar el Archivo?'
+		)
+			.then((confirmed) => {
+				this.submitted = true;
+				if (!this.formQuery.valid) {
+					this.toastr.errorToastr('La fecha de operacion y la fuente, son requeridas', 'Error!');
+					return;
+				}
+				const mydate = this.formQuery.get('date').value;
+				const masterFuelCostDTO: MasterFuelCostDTO = new MasterFuelCostDTO();
+				masterFuelCostDTO.sourceId = this.formQuery.get('source').value;
+				const yearMountDTO: YearMountDTO = new YearMountDTO();
+				yearMountDTO.year = mydate.year();
+				yearMountDTO.mount = mydate.month() + 1;
+				masterFuelCostDTO.yearMountDTO = yearMountDTO;
+				masterFuelCostDTO.adjustment = o;
+				masterFuelCostDTO.group = 'ADJUSTMENT';
+				this.fuelCostService.deleteFuelCost(masterFuelCostDTO).subscribe(data  => {
+						console.log('echo');
+					},
+					errorData => {
+						this.addBlock(2, '');
+						this.toastr.errorToastr(errorData.error.message, 'Error!');
+					},
+					() => {
+						this.onFormQuery(this.formQuery.value);
+					});
+
+			})
+			.catch(() => {});
 		console.log(o);
 	}
 	onTableDRowDelete(o) {
@@ -244,6 +290,7 @@ export class MiningIFCFuelComponent implements OnInit {
 			this.toastr.errorToastr('campos requeridos', 'Error!');
 			return;
 		}
+
 
 		const mydate = this.formQuery.get('date').value;
 		const masterFuelCostDTO: MasterFuelCostDTO = new MasterFuelCostDTO();
@@ -274,7 +321,7 @@ export class MiningIFCFuelComponent implements OnInit {
 			this.toastr.errorToastr('La fecha de operacion y la fuente, son requeridas', 'Error!');
 			return;
 		}
-		if (!this.formEditTableA.valid) {
+		if (!this.formEditTableB.valid) {
 			this.toastr.errorToastr('campos requeridos', 'Error!');
 			return;
 		}
@@ -306,7 +353,7 @@ export class MiningIFCFuelComponent implements OnInit {
 			this.toastr.errorToastr('La fecha de operacion y la fuente, son requeridas', 'Error!');
 			return;
 		}
-		if (!this.formEditTableA.valid) {
+		if (!this.formEditTableC.valid) {
 			this.toastr.errorToastr('campos requeridos', 'Error!');
 			return;
 		}
@@ -354,6 +401,44 @@ export class MiningIFCFuelComponent implements OnInit {
 		console.log('onBtnUploadFile');
 	}
 	onBtnFinish() {
+		this.submitted = true;
+		if (!this.formQuery.valid) {
+			this.toastr.errorToastr('La fecha de operacion y la fuente, son requeridas', 'Error!');
+			return;
+		}
+		const mydate = this.formQuery.get('date').value;
+		const masterFuelCostDTO: MasterFuelCostDTO = new MasterFuelCostDTO();
+		masterFuelCostDTO.sourceId = this.formQuery.get('source').value;
+		const yearMountDTO: YearMountDTO = new YearMountDTO();
+		yearMountDTO.year = mydate.year();
+		yearMountDTO.mount = mydate.month() + 1;
+		masterFuelCostDTO.yearMountDTO = yearMountDTO;
+
+		this.newFiles = [];
+		if ( this.files != null) {
+			this.files.forEach(file => {
+				if (!file.bearerId) {
+					this.newFiles.push(file);
+				}
+			});
+		}
+
+		if (this.newFiles.length <= 0 ) {
+			this.toastr.errorToastr('Cerrar la fecha comercial: Requiere de al menos un archivo', 'Error!');
+			return;
+		}
+		masterFuelCostDTO.bearers = this.newFiles;
+
+		this.fuelCostService.changeStatus(masterFuelCostDTO).subscribe(data  => {
+				console.log('echo');
+			},
+			errorData => {
+				this.addBlock(2, '');
+				this.toastr.errorToastr(errorData.error.message, 'Error!');
+			},
+			() => {
+			});
+
 		console.log('onBtnFinish');
 	}
 	addBlock(type, msg): void {
@@ -375,4 +460,240 @@ export class MiningIFCFuelComponent implements OnInit {
 			selectCombo.sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()));
 		}
 	}
+
+// ********************************************* soportes ********************************
+	btnDeleteFile(file: BearerDTO) {
+		this.confirmationDialogService.confirm(
+			'Confirmación',
+			'¿Está seguro de eliminar el Archivo?'
+		)
+			.then((confirmed) => {
+				if ( confirmed ) {
+					this.files = this.files.filter(
+						e => e !== file
+					);
+				}
+				if (file.bearerId != null) {
+					this.fuelCostService.deleteFile(file).subscribe(data  => {
+							console.log('echo');
+						},
+						errorData => {
+							this.addBlock(2, '');
+							this.toastr.errorToastr(errorData.error.message, 'Error!');
+						},
+						() => {
+						});
+				}
+			})
+			.catch(() => {});
+	}
+
+	btnUploadFile() {
+		if ( this.fileUploadForm.controls.file.value == null ) {
+			return 0;
+		}
+		this.addBlock(1, 'Guardando archivo...');
+		const value = this.fileUploadForm.value;
+		const reader = new FileReader();
+		reader.onloadend = (e) => {
+			const fileBearer: BearerDTO = new BearerDTO();
+			this.file = reader.result;
+			this.file = this.file.replace(/^data:(.*;base64,)?/, '');
+			this.file = this.file.trim();
+			fileBearer.bearerData = this.file;
+			fileBearer.bearerName = value.file.name;
+			const splitName: string[] = fileBearer.bearerName.split('.');
+			fileBearer.bearerContentType = this.getContentType(splitName[1]);
+			this.files.push(fileBearer);
+		}
+		reader.readAsDataURL(value.file);
+
+		timer(1000).subscribe(() => this.addBlock(2, ''));
+		this.fileUploadForm.controls.file.setValue(null);
+		this.appFileupload.clean();
+	}
+	getContentType(extencion) {
+		let contentType = '';
+		switch (extencion) {
+			case'aac':
+				contentType =  'audio/aac';
+				break;
+			case'abw':
+				contentType =  'application/x-abiword';
+				break;
+			case'arc':
+				contentType =  'application/octet-stream';
+				break;
+			case'avi':
+				contentType =  'video/x-msvideo';
+				break;
+			case'azw':
+				contentType =  'application/vnd.amazon.ebook';
+				break;
+			case'bin':
+				contentType =  'application/octet-stream';
+				break;
+			case'bz':
+				contentType =  'application/x-bzip';
+				break;
+			case'bz2':
+				contentType =  'application/x-bzip2';
+				break;
+			case'csh':
+				contentType =  'application/x-csh';
+				break;
+			case'css':
+				contentType =  'text/css';
+				break;
+			case'csv':
+				contentType =  'text/csv';
+				break;
+			case'doc':
+				contentType =  'application/msword';
+				break;
+			case'epub':
+				contentType =  'application/epub+zip';
+				break;
+			case'gif':
+				contentType =  'image/gif';
+				break;
+			case'htm':
+			case'html':
+				contentType =  'text/html';
+				break;
+			case'ico':
+				contentType =  'image/x-icon';
+				break;
+			case'ics':
+				contentType =  'text/calendar';
+				break;
+			case'jar':
+				contentType =  'application/java-archive';
+				break;
+			case'jpeg':
+			case'jpg':
+				contentType =  'image/jpeg';
+				break;
+			case'js':
+				contentType =  'application/javascript';
+				break;
+			case'json':
+				contentType =  'application/json';
+				break;
+			case'mid':
+				contentType =  'audio/midi';
+				break;
+			case'mpeg':
+				contentType =  'video/mpeg';
+				break;
+			case'mpkg':
+				contentType =  'application/vnd.apple.installer+xml';
+				break;
+			case'odp':
+				contentType =  'application/vnd.oasis.opendocument.presentation';
+				break;
+			case'ods':
+				contentType =  'application/vnd.oasis.opendocument.spreadsheet';
+				break;
+			case'odt':
+				contentType =  'application/vnd.oasis.opendocument.text';
+				break;
+			case'oga':
+				contentType =  'audio/ogg';
+				break;
+			case'ogv':
+				contentType =  'video/ogg';
+				break;
+			case'':
+				contentType =  '';
+				break;
+			case'ogx':
+				contentType =  '';
+				break;
+			case'':
+				contentType =  'application/ogg';
+				break;
+			case'pdf':
+				contentType =  'application/pdf';
+				break;
+			case'ppt':
+				contentType =  'application/vnd.ms-powerpoint';
+				break;
+			case'rar':
+				contentType =  'application/x-rar-compressed';
+				break;
+			case'rtf':
+				contentType =  'application/rtf';
+				break;
+			case'sh':
+				contentType =  'application/x-sh';
+				break;
+			case'svg':
+				contentType =  'image/svg+xml';
+				break;
+			case'':
+				contentType =  'swf';
+				break;
+			case'':
+				contentType =  'application/x-shockwave-flash';
+				break;
+			case'tar':
+				contentType =  'application/x-tar';
+				break;
+			case'tif':
+			case'tiff':
+				contentType =  'image/tiff';
+				break;
+			case'ttf':
+				contentType =  'font/ttf';
+				break;
+			case'vsd':
+				contentType =  'application/vnd.visio';
+				break;
+			case'wav':
+				contentType =  'audio/x-wav';
+				break;
+			case'weba':
+				contentType =  'audio/webm';
+				break;
+			case'webm':
+				contentType =  'video/webm';
+				break;
+			case'webp':
+				contentType =  'image/webp';
+				break;
+			case'woff':
+				contentType =  'font/woff';
+				break;
+			case'woff2':
+				contentType =  'font/woff2';
+				break;
+			case'xhtml':
+				contentType =  'application/xhtml+xml';
+				break;
+			case'xls':
+				contentType =  'application/vnd.ms-excel';
+				break;
+			case'xml':
+				contentType =  'application/xml';
+				break;
+			case'xul':
+				contentType =  'application/vnd.mozilla.xul+xml';
+				break;
+			case'zip':
+				contentType =  'application/zip';
+				break;
+			case'gp':
+				contentType =  'video/3gpp';
+				break;
+			case'3g2':
+				contentType =  'video/3gpp2';
+				break;
+			case'7z':
+				contentType =  'application/x-7z-compressed';
+		}
+
+		return contentType;
+	}
+	// ********************************************* fin de Soportes ********************************
 }

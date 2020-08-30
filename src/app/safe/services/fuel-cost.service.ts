@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {GlobalService} from '../../core/globals/global.service';
 import {Observable} from 'rxjs';
 import {MasterFuelCostDTO} from '../models/master-fuel-cost-dto';
+import {BearerDTO} from '../models/bearer-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -22,18 +23,28 @@ export class FuelCostService {
     return this.http.post( `${ this.fuelcostUrl }fuelcost/save/masterFuelCost`, masterFuelCostDTO, {params : this.parameters });
   }
 
-  public updateFuelCost(masterFuelCostDTO: MasterFuelCostDTO ): Observable<any> {
+  public deleteFuelCost(masterFuelCostDTO: MasterFuelCostDTO ): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post( `${ this.fuelcostUrl }fuelcost/update/masterFuelCost`, {params : this.parameters });
+    return this.http.post( `${ this.fuelcostUrl }fuelcost/delete/fuelCost`, masterFuelCostDTO, {params : this.parameters });
   }
 
-  public changeStatus(year: number, month: number): Observable<any> {
+  public changeStatus(masterFuelCostDTO: MasterFuelCostDTO): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get( `${ this.fuelcostUrl }fuelcost/finalized/${year}/${month}`, {params : this.parameters });
+    return this.http.post( `${ this.fuelcostUrl }fuelcost/finalized`, masterFuelCostDTO, {params : this.parameters });
   }
 
-  public findTradeDate(year: number, month: number): Observable<any> {
+  public findTradeDate(masterFuelCostDTO: MasterFuelCostDTO): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get( `${ this.fuelcostUrl }fuelcost/find/${year}/${month}`, {params : this.parameters });
+    return this.http.post( `${ this.fuelcostUrl }fuelcost/find`, masterFuelCostDTO,{params : this.parameters });
+  }
+
+  deleteFile(bearer: BearerDTO) {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.post( `${ this.fuelcostUrl }fuelcost/delete/bearer`, bearer, {params : this.parameters });
+  }
+
+  obtenSupports(binnacleEventId: number) {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.get( `${ this.fuelcostUrl }fuelcost/obten/support/${binnacleEventId}`, {params : this.parameters });
   }
 }
