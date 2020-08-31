@@ -317,7 +317,7 @@ export class SafeListOfEventsComponent implements OnInit {
 			'¿Desea eliminar el registro de la fecha ' + element.dateTimeStartString + ', la clasificación de evento ' + element.eventsClassification + ' , del evento ' + element.events + '?'
 		)
 			.then((confirmed) => {
-				if ( confirmed ) {s
+				if ( confirmed ) {
 					this.binnacleService.deleteBinnacleEvent(element).subscribe(
 						data => {
 							this.toastr.successToastr('Elemento Correctamente Borrado', 'Exito');
