@@ -41,6 +41,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	actionPage = '';
 	templateConfiguration: BinnacleEventConfigurationDTO;
 	formobservationsComments: FormGroup;
+	formObservationsActor: FormGroup;
 	fileUploadForm: FormGroup;
 	formNewEvent: FormGroup;
 	formTemp: FormGroup;
@@ -85,6 +86,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 
 	tempOrder = 1;
 	tableObservationsComments = [];
+	tableObservationsActor = [];
 	tableTraking = [];
 
 	noteEdition: any;
@@ -100,11 +102,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	];
 	tablaTrakingColumnsLabels = [
 		{ key: 'order', label: '#' },
-		{ key: 'username', label: 'Usuario' },
-		{ key: 'rol', label: 'Rol' },
 		{ key: 'action', label: 'Accion' },
+		{ key: 'username', label: 'Usuario' },
 		{ key: 'observation', label: 'Observaciones' },
-		{ key: 'status', label: 'Estatus' },
 		{ key: 'updateString', label: 'Fecha de Ultima Modificación' },
 	];
 	tableColumnsDisplay = [
@@ -119,11 +119,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 
 	tableTrakingColumnsDisplay = [
 		'order',
-		'username',
-		'rol',
 		'action',
+		'username',
 		'observation',
-		'status',
 		'updateString'
 	];
 	tableObservationsCommentsSelection: SelectionModel<any> = new SelectionModel<any>(true, []);
@@ -169,6 +167,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		});
 		this.formobservationsComments = this.formBuilder.group({
 			observationsComments: [{ value: null, disabled: false }, [Validators.minLength(4), Validators.maxLength(2000)]]
+		});
+		this.formObservationsActor = this.formBuilder.group({
+			observation: [{ value: null, disabled: false }, [Validators.minLength(4), Validators.maxLength(2000)]]
 		});
 		this.formTemp = this.formBuilder.group(
 			{
@@ -227,16 +228,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		console.dir(seleccionados);
 	}
 	onChangeDateTimeStart() {
-		// dateTimeStart: "2020-07-25T20:28"
-		//const dateTimeStart = this.datePipe.transform(new Date(this.formTemp.get('dateTimeStart').value) , 'yyyy-MM-dd') + 'T' + this.formTemp.get('ha').value + ':' + this.formTemp.get('ma').value;
-		//this.formNewEvent.get('dateTimeStart').setValue(dateTimeStart);
 		let s = moment(this.formTemp.get('dateTimeStart').value).hour(this.formTemp.get('ha').value).minute(this.formTemp.get('ma').value);
 		this.formNewEvent.controls.dateTimeStartLong.setValue(s.valueOf());
 	}
 	onChangeDateTimeEnd() {
-		// dateTimeStart: "2020-07-25T20:28"
-		//const dateTimeStart = this.datePipe.transform(new Date(this.formTemp.get('dateTimeEnd').value) , 'yyyy-MM-dd') + 'T' + this.formTemp.get('hb').value + ':' + this.formTemp.get('mb').value;
-		//this.formNewEvent.get('dateTimeEnd').setValue(dateTimeStart);
 		let s = moment(this.formTemp.get('dateTimeEnd').value).hour(this.formTemp.get('hb').value).minute(this.formTemp.get('mb').value);
 		this.formNewEvent.controls.dateTimeEndLong.setValue(s.valueOf());
 	}
@@ -497,7 +492,6 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				}
 			}
 			this.lstSelatedServices = this.loadSelectTemplate(this.lstSelatedServicesAll, this.templateConfiguration.relatedServicesId);
-
 
 			this.formNewEvent.controls.toleranceBandsId.setValidators([]);
 			if (this.templateConfiguration.disabledToleranceBandsId) {
@@ -935,11 +929,56 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		}
 	}
 
+	BtnAddObservationsCommentsActor() {
+		const observation = this.formObservationsActor.get('observation').value;
+		if (this.noteEdition != null) {
+			this.tableObservationsActor.forEach(element => {
+				if (element.order === this.noteEdition.order) {
+					element.observation = observation;
+				}
+			});
+
+			if (this.noteEdition.noteId) {
+				const noteDTO: NoteDTO = new NoteDTO();
+				noteDTO.noteId = this.noteEdition.noteId;
+				noteDTO.note = observation;
+				noteDTO.visible = true;
+				this.binnacleService.updateNote(noteDTO).subscribe((data: NoteDTO)  => {
+					},
+					errorData => {
+					},
+					() => {
+					});
+			}
+			this.noteEdition = null;
+			this.formObservationsActor.get('observationsComments').setValue('');
+			return;
+		}
+		if (observation != null && observation.trim() !== '') {
+			this.tableObservationsActor = this.tableObservationsActor.concat({
+				order: this.tempOrder, name: this.getNameUser(), observation, dateUptade: moment(new Date()).format('YYYY/MM/DD HH:mm'), visible: true
+			});
+			this.setTableObservationsCommentsSelectionChecked();
+			this.tempOrder ++;
+			this.formObservationsActor.get('observationsComments').setValue('');
+
+			const observations: Array<NoteDTO> = [];
+		} else {
+			this.toastr.errorToastr('La observacion no puede ser vacia', 'Error!');
+		}
+	}
+
 	tableRowEdit(element) {
 		this.noteEdition = element;
 		this.formobservationsComments.controls.observationsComments.patchValue(element.observation);
 		console.dir(this.noteEdition);
 	}
+
+	tableRowEditActor(element) {
+		this.noteEdition = element;
+		this.formObservationsActor.controls.observation.patchValue(element.observation);
+	}
+
 	btnUploadFile() {
 		if( this.fileUploadForm.controls.file.value == null )return 0;
 		this.addBlock(1, 'Guardando archivo...');
@@ -1197,6 +1236,33 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			}
 		})
 		.catch(() => {});
+	}
+
+	tableRowDeleteActor(element) {
+		this.confirmationDialogService.confirm(
+			'Confirmación',
+			'¿Está seguro de eliminar el Registro?'
+		)
+			.then((confirmed) => {
+				if ( confirmed ) {
+					this.tableObservationsComments = this.tableObservationsComments.filter(
+						e => e !== element
+					);
+					if (element.noteId) {
+						const noteDTO: NoteDTO = new NoteDTO();
+						noteDTO.noteId = element.noteId;
+						noteDTO.note = element.note;
+						noteDTO.visible = element.visible;
+						this.binnacleService.deleteNote(noteDTO).subscribe((data: NoteDTO)  => {
+							},
+							errorData => {
+							},
+							() => {
+							});
+					}
+				}
+			})
+			.catch(() => {});
 	}
 	downloadFile(bearer: BearerDTO) {
 		const blob = new Blob([this.base64toBlob(bearer.bearerData,

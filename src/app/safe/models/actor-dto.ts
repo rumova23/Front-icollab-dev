@@ -19,7 +19,6 @@ export class ActorDTO  implements Deserializable {
     public updateString: string;
 
     public order: number;
-
     deserialize(input: any) {
         Object.assign(this, input);
         return this;

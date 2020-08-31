@@ -13,6 +13,9 @@ export class FuelCostDTO implements Deserializable {
     public mes: number;
     public facturado: number;
     public ajustado: number;
+
+    public dateOp: string;
+
     deserialize(input: any) {
         Object.assign(this, input);
         return this;

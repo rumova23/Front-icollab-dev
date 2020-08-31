@@ -380,22 +380,19 @@ export class MiningIFCFuelComponent implements OnInit {
 		});
 	}
 	onBtnCancelEditTableA() {
-		console.log('onBtnCancelEditTableA');
+		this.formEditTableA.reset();
 	}
 	onBtnCancelEditTableB() {
-		console.log('onBtnCancelEditTableB');
+		this.formEditTableB.reset();
 	}
 	onBtnCancelEditTableC() {
-		console.log('onBtnCancelEditTableC');
+		this.formEditTableC.reset();
 	}
 	onChangeSelectTags(o) {
 		console.log(o);
 	}
 	onBtnChart() {
 		console.log('onBtnChart');
-	}
-	downloadFile() {
-		console.log('downloadFile');
 	}
 	onBtnUploadFile() {
 		console.log('onBtnUploadFile');
@@ -511,6 +508,30 @@ export class MiningIFCFuelComponent implements OnInit {
 		timer(1000).subscribe(() => this.addBlock(2, ''));
 		this.fileUploadForm.controls.file.setValue(null);
 		this.appFileupload.clean();
+	}
+
+	downloadFile(bearer: BearerDTO) {
+		const blob = new Blob([this.base64toBlob(bearer.bearerData,
+			bearer.bearerContentType)], {});
+		saveAs(blob, bearer.bearerName);
+	}
+	base64toBlob(base64Data, contentType) {
+		contentType = contentType || '';
+		const sliceSize = 1024;
+		const byteCharacters = atob(base64Data);
+		const bytesLength = byteCharacters.length;
+		const slicesCount = Math.ceil(bytesLength / sliceSize);
+		const byteArrays = new Array(slicesCount);
+		for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+			const begin = sliceIndex * sliceSize;
+			const end = Math.min(begin + sliceSize, bytesLength);
+			const bytes = new Array(end - begin);
+			for (let offset = begin, i = 0; offset < end; ++i, ++offset) {
+				bytes[i] = byteCharacters[offset].charCodeAt(0);
+			}
+			byteArrays[sliceIndex] = new Uint8Array(bytes);
+		}
+		return new Blob(byteArrays, { type: contentType });
 	}
 	getContentType(extencion) {
 		let contentType = '';
