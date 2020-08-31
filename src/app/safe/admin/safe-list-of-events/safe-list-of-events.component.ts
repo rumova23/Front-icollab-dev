@@ -14,6 +14,7 @@ import { MasterCatalogService } from '../../services/master-catalog.service';
 import { MaestroOpcionDTO } from '../../../compliance/models/maestro-opcion-dto';
 import { EstatusMaestroService } from '../../../core/services/estatus-maestro.service';
 import { EntidadEstatusDTO } from '../../../compliance/models/entidad-estatus-dto';
+import {ConfirmationDialogService} from '../../../core/services/confirmation-dialog.service';
 
 @Component({
 	selector: 'app-safe-list-of-events',
@@ -122,7 +123,8 @@ export class SafeListOfEventsComponent implements OnInit {
 		public eventService: EventService,
 		public binnacleService: BinnacleService,
 		private masterCatalogService: MasterCatalogService,
-		private estatusMaestroService: EstatusMaestroService
+		private estatusMaestroService: EstatusMaestroService,
+		private confirmationDialogService: ConfirmationDialogService
 	) { }
 
 	ngOnInit() {
@@ -310,17 +312,26 @@ export class SafeListOfEventsComponent implements OnInit {
         );
 	}
 	onTableRowDelete(element) {
-		this.binnacleService.deleteBinnacleEvent(element).subscribe(
-			data => {
-				this.toastr.successToastr('Elemento Correctamente Borrado', 'Exito');
-				this.onLoadInit();
-			},
-			errorData => {
-				this.toastr.errorToastr(errorData.error.message, 'Error');
-			},
-			() => {
-				console.log('deleteBinnacleEvent:: ', 'Termino');
-			});
+		this.confirmationDialogService.confirm(
+			'ALERTA DE CONFIRMACIÓN DEREGISTRO',
+			'¿Desea eliminar el registro de la fecha ' + element.dateTimeStartString + ', la clasificación de evento ' + element.eventsClassification + ' , del evento ' + element.events + '?'
+		)
+			.then((confirmed) => {
+				if ( confirmed ) {s
+					this.binnacleService.deleteBinnacleEvent(element).subscribe(
+						data => {
+							this.toastr.successToastr('Elemento Correctamente Borrado', 'Exito');
+							this.onLoadInit();
+						},
+						errorData => {
+							this.toastr.errorToastr(errorData.error.message, 'Error');
+						},
+						() => {
+							console.log('deleteBinnacleEvent:: ', 'Termino');
+						});
+				}
+			})
+			.catch(() => {});
 	}
 	addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,
