@@ -170,7 +170,7 @@ export class MiningIFCFuelComponent implements OnInit {
 		});
 		this.formEditTableC = this.formBuilder.group({
 			ajustes: new FormControl('', Validators.required),
-			mes: new FormControl('', Validators.required),
+			mes: new FormControl(moment(), Validators.required),
 			facturado: new FormControl('', Validators.required),
 			ajustado: new FormControl('', Validators.required),
 			mxn: new FormControl('', Validators.required),
