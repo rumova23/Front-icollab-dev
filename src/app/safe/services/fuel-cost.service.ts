@@ -25,6 +25,9 @@ export class FuelCostService {
 
   public deleteFuelCost(masterFuelCostDTO: MasterFuelCostDTO ): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    console.log('RTC');
+    console.dir(masterFuelCostDTO);
+    console.log('RTC');
     return this.http.post( `${ this.fuelcostUrl }fuelcost/delete/fuelCost`, masterFuelCostDTO, {params : this.parameters });
   }
 

@@ -86,7 +86,7 @@ export class MiningIFCFuelComponent implements OnInit {
 		{ key: 'order', label: '#' },
 		{ key: 'dateOp', label: 'Fecha de Operación Comercial' },
 		{ key: 'ajustes', label: 'Ajustes' },
-		{ key: 'mes', label: 'Mes' },
+		{ key: 'mesString', label: 'Mes' },
 		{ key: 'facturado', label: 'Facturado' },
 		{ key: 'ajustado', label: 'Ajustado' },
 		{ key: 'mxn', label: '$ MXN' },
@@ -94,7 +94,7 @@ export class MiningIFCFuelComponent implements OnInit {
 	tableCColumnsDisplay: string[] = [
 		'dateOp',
 		'ajustes',
-		'mes',
+		'mesString',
 		'facturado',
 		'ajustado',
 		'mxn',
@@ -169,6 +169,7 @@ export class MiningIFCFuelComponent implements OnInit {
 			mxn: new FormControl('', Validators.required),
 		});
 		this.formEditTableC = this.formBuilder.group({
+			indexId: new FormControl(''),
 			ajustes: new FormControl('', Validators.required),
 			mes: new FormControl(null, Validators.required),
 			facturado: new FormControl('', Validators.required),
@@ -269,36 +270,39 @@ export class MiningIFCFuelComponent implements OnInit {
 	onTableCRowDelete(o) {
 		this.confirmationDialogService.confirm(
 			'Confirmación',
-			'¿Está seguro de eliminar el Archivo?'
-		)
-			.then((confirmed) => {
-				this.submitted = true;
-				if (!this.formQuery.valid) {
-					this.toastr.errorToastr('La fecha de operacion y la fuente, son requeridas', 'Error!');
-					return;
-				}
-				const mydate = this.formQuery.get('date').value;
-				const masterFuelCostDTO: MasterFuelCostDTO = new MasterFuelCostDTO();
-				masterFuelCostDTO.sourceId = this.formQuery.get('source').value;
-				const yearMountDTO: YearMountDTO = new YearMountDTO();
-				yearMountDTO.year = mydate.year();
-				yearMountDTO.mount = mydate.month() + 1;
-				masterFuelCostDTO.yearMountDTO = yearMountDTO;
-				masterFuelCostDTO.adjustment = o;
-				masterFuelCostDTO.group = 'ADJUSTMENT';
-				this.fuelCostService.deleteFuelCost(masterFuelCostDTO).subscribe(data  => {
-						console.log('echo');
-					},
-					errorData => {
-						this.addBlock(2, '');
-						this.toastr.errorToastr(errorData.error.message, 'Error!');
-					},
-					() => {
-						this.onFormQuery(this.formQuery.value);
-					});
+			'¿Está seguro de eliminar el Registro?'
+		).then((confirmed) => {
+			console.log('[a]');
+			this.submitted = true;
+			if (!this.formQuery.valid) {
+				this.toastr.errorToastr('La fecha de operacion y la fuente, son requeridas', 'Error!');
+				return;
+			}
+			console.log('[b]');
+			const mydate = this.formQuery.get('date').value;
+			const masterFuelCostDTO: MasterFuelCostDTO = new MasterFuelCostDTO();
+			masterFuelCostDTO.sourceId = this.formQuery.get('source').value;
+			const yearMountDTO: YearMountDTO = new YearMountDTO();
+			yearMountDTO.year = mydate.year();
+			yearMountDTO.mount = mydate.month() + 1;
+			masterFuelCostDTO.yearMountDTO = yearMountDTO;
+			masterFuelCostDTO.adjustment = o;
+			masterFuelCostDTO.group = 'ADJUSTMENT';
+			console.log('[c]');
+			this.fuelCostService.deleteFuelCost(masterFuelCostDTO).subscribe(data  => {
+				console.log('echo');
+			},
+			errorData => {
+				this.addBlock(2, '');
+				this.toastr.errorToastr(errorData.error.message, 'Error!');
+			},
+			() => {
+				this.onFormQuery(this.formQuery.value);
+			});
+			console.log('[d]');
 
-			})
-			.catch(() => {});
+		})
+		.catch(() => {});
 		console.log(o);
 	}
 	onTableDRowDelete(o) {
@@ -338,7 +342,6 @@ export class MiningIFCFuelComponent implements OnInit {
 			this.onFormQuery(this.formQuery.value);
 		});
 	}
-
 	onFormEditTableB(o) {
 		this.submitted = true;
 		if (!this.formQuery.valid) {
@@ -401,6 +404,7 @@ export class MiningIFCFuelComponent implements OnInit {
 		},
 		() => {
 			this.onFormQuery(this.formQuery.value);
+			this.formEditTableC.reset();
 		});
 	}
 	onBtnCancelEditTableA() {
