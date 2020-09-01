@@ -90,6 +90,7 @@ export class BinnacleEventDTO implements Deserializable {
     public order: number;
 
     private traking: Map<string, Array<ActorDTO>>;
+    public reasonObservation: string;
 
 
     public binnacleEventConfigurationDTO: BinnacleEventConfigurationDTO;

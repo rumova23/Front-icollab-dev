@@ -42,6 +42,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	templateConfiguration: BinnacleEventConfigurationDTO;
 	formobservationsComments: FormGroup;
 	formObservationsActor: FormGroup;
+	formObservationsAprueba: FormGroup;
 	fileUploadForm: FormGroup;
 	formNewEvent: FormGroup;
 	formTemp: FormGroup;
@@ -104,7 +105,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		{ key: 'order', label: '#' },
 		{ key: 'action', label: 'Accion' },
 		{ key: 'username', label: 'Usuario' },
-		{ key: 'observation', label: 'Observaciones' },
+		{ key: 'reasonObservation', label: 'Observaciones' },
 		{ key: 'updateString', label: 'Fecha de Ultima Modificación' },
 	];
 	tableColumnsDisplay = [
@@ -121,7 +122,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		'order',
 		'action',
 		'username',
-		'observation',
+		'reasonObservation',
 		'updateString'
 	];
 	tableObservationsCommentsSelection: SelectionModel<any> = new SelectionModel<any>(true, []);
@@ -167,6 +168,9 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		});
 		this.formobservationsComments = this.formBuilder.group({
 			observationsComments: [{ value: null, disabled: false }, [Validators.minLength(4), Validators.maxLength(2000)]]
+		});
+		this.formObservationsAprueba = this.formBuilder.group({
+			observation: [{ value: null, disabled: false }, [Validators.minLength(4), Validators.maxLength(2000)]]
 		});
 		this.formObservationsActor = this.formBuilder.group({
 			observation: [{ value: null, disabled: false }, [Validators.minLength(4), Validators.maxLength(2000)]]
@@ -713,7 +717,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				this.tableTraking = this.catalogType.element.traking.PLANT_SUPERVISOR_ACCEPT;
 
 				let order = 0;
-				if (this.tableTraking !== null && this.tableTraking.length > 0) {
+				if (this.tableTraking && this.tableTraking.length > 0) {
 					this.tableTraking.forEach((actor: ActorDTO) => {
 						order++;
 						actor.order = order;
@@ -951,16 +955,15 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 					});
 			}
 			this.noteEdition = null;
-			this.formObservationsActor.get('observationsComments').setValue('');
+			this.formObservationsActor.reset();
 			return;
 		}
 		if (observation != null && observation.trim() !== '') {
 			this.tableObservationsActor = this.tableObservationsActor.concat({
 				order: this.tempOrder, name: this.getNameUser(), observation, dateUptade: moment(new Date()).format('YYYY/MM/DD HH:mm'), visible: true
 			});
-			this.setTableObservationsCommentsSelectionChecked();
 			this.tempOrder ++;
-			this.formObservationsActor.get('observationsComments').setValue('');
+			this.formObservationsActor.reset();
 
 			const observations: Array<NoteDTO> = [];
 		} else {
@@ -980,7 +983,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	}
 
 	btnUploadFile() {
-		if( this.fileUploadForm.controls.file.value == null )return 0;
+		if ( this.fileUploadForm.controls.file.value == null )return 0;
 		this.addBlock(1, 'Guardando archivo...');
 		const value = this.fileUploadForm.value;
 		const reader = new FileReader();
@@ -997,7 +1000,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		}
 		reader.readAsDataURL(value.file);
 		
-		timer(1000).subscribe(()=>this.addBlock(2, ''));
+		timer(1000).subscribe(()=> this.addBlock(2, ''));
 		this.fileUploadForm.controls.file.setValue(null);
 		this.appFileupload.clean();
 	}
@@ -1295,7 +1298,28 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			new EventBlocked(type, msg)));
 	}
 	btnChangeStatus(statusName: string) {
-		this.binnacleService.changeStatus(statusName, this.catalogType.element.binnacleEventID).subscribe(data  => {
+		const binnacle: BinnacleEventDTO = this.catalogType.element;
+		switch (statusName) {
+			case 'Evento Aprobado':
+				this.submitted = true;
+				binnacle.reasonObservation = this.formObservationsAprueba.controls.observation.value;
+				if (binnacle.reasonObservation == null || binnacle.reasonObservation.trim().length < 0) {
+					this.toastr.errorToastr('Es requerido, una razon de Aprobacion', 'Error!');
+					return;
+				}
+				break;
+			case 'Evento Rechazado':
+				this.submitted = true;
+				binnacle.reasonObservation = this.formObservationsActor.controls.observation.value;
+				if (binnacle.reasonObservation == null || binnacle.reasonObservation.trim().length < 0) {
+					this.toastr.errorToastr('Es requerido, una razon de rechazo', 'Error!');
+					return;
+				}
+				break;
+		}
+
+		binnacle.estatusAprobacion = statusName;
+		this.binnacleService.changeStatus(binnacle).subscribe(data  => {
 			this.toastr.successToastr('Cambio de Estatus Correcto: ' + statusName, 'Exito!.');
 		}, errorData => {
 			console.dir(errorData);

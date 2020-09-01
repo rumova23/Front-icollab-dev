@@ -485,14 +485,16 @@
 			<div class="col">
 				<div class="row justify-content-end">
 					<div class="col-12 col-lg-6">
-						<app-btn-block-acept label="Rechazar"  (click)="btnChangeStatus('Evento Rechazado')" [disabled]="disabledToRefuse"></app-btn-block-acept>
-						<button type="button" class="btn" data-toggle="modal" data-target="#exampleModal">
+						<button type="button" class="btn" data-toggle="modal" data-target="#rechazarModal" [disabled]="disabledToRefuse">
 						<i class="ti-tag"></i>
-						{{'Reactivate' | translate}}
+						{{'Rechazar' | translate}}
 						</button>
 					</div>
 					<div class="col-12 col-lg-6">
-						<app-btn-block-acept label="Aceptar"  (click)="btnChangeStatus('Evento Aprobado')" [disabled]="disabledToAccept"></app-btn-block-acept>
+						<button type="button" class="btn" data-toggle="modal" data-target="#ApruebaModal" [disabled]="disabledToRefuse">
+							<i class="ti-tag"></i>
+							{{'Aprobar' | translate}}
+						</button>
 					</div>
 				</div>
 			</div>
@@ -501,19 +503,18 @@
 </form>
 
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="document" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="rechazarModal" tabindex="-1" role="document" aria-labelledby="exampleModalLabel"
 	 aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Solicitud para Reactivar</h5>
+				<h5 class="modal-title" id="exampleModalLabel">Rechazando evento</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
 				<div class="section">
-
 					<div class="row pb-2">
 						<div class="col">
 							<p class="section_titulo_1">{{ "Observaciones y/o comentarios" | translate }}</p>
@@ -522,37 +523,55 @@
 					<div class="row">
 						<div class="col">
 							<app-mat-input-textarea
+									[submitted] = "submitted"
 									[formGroup]="formObservationsActor"
 									controlName="observation"
 									maxLength="2000"
 							></app-mat-input-textarea>
 						</div>
 					</div>
-					<div class="row justify-content-end">
-						<div class="col-12 col-lg-2">
-							<app-btn-block-add (click)="BtnAddObservationsCommentsActor()"></app-btn-block-add>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar Modal</button>
+				<button type="button" class="btn" (click)="btnChangeStatus('Evento Rechazado')" data-dismiss="modal">Rechazar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="ApruebaModal" tabindex="-1" role="document" aria-labelledby="exampleModalLabel"
+	 aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="apruebaModalLabel">Aprobar Evento</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="section">
+					<div class="row pb-2">
+						<div class="col">
+							<p class="section_titulo_1">{{ "Observaciones y/o comentarios" | translate }}</p>
 						</div>
 					</div>
-					<br>
 					<div class="row">
 						<div class="col">
-							<app-mat-table
-									[data]="tableObservationsActor"
-									[selection]="tableObservationsCommentsSelection"
-									selectionLabel="Visible"
-									[columnsDisplay]="tableColumnsDisplay"
-									[columnsLabels]="tablaColumnsLabels"
-									(clickEdit)="tableRowEditActor($event)"
-									(clickDelete)="tableRowDeleteActor($event)"
-									(onSelected)="onSelected($event)"
-							></app-mat-table>
+							<app-mat-input-textarea
+									[submitted] = "submitted"
+									[formGroup] = "formObservationsAprueba"
+									controlName = "observation"
+									maxLength = "2000"
+							></app-mat-input-textarea>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" class="btn">Save changes</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar Modal</button>
+				<button type="button" class="btn" (click)="btnChangeStatus('Evento Aprobado')" data-dismiss="modal">Aprobar</button>
 			</div>
 		</div>
 	</div>
