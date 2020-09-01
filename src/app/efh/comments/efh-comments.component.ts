@@ -147,6 +147,7 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
   }
 
   saveObservation(idEventConfig: number, comment: string) {
+    this.addBlock(1, 'Cargando...');
     this.dataObservationSumbit = {};
     if (this.inTypeConfig === 1) {
         this.dataObservationSumbit['ideventconfig'] = idEventConfig;
@@ -164,11 +165,15 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.errorToastr(error.error['text'], 'Lo siento,');
+          this.addBlock(2, null);
         }
-    );
+    ).add(() => {
+        this.addBlock(2, null);
+    });
   }
 
   updateObservation(comment: any) {
+    this.addBlock(1, 'Cargando...');
     this.dataObservationSumbit = {};
     this.dataObservationSumbit['id'] = comment.id;
     // this.dataObservationSumbit['ideventconfig'] = comment.ideventconfig;
@@ -188,8 +193,11 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.errorToastr(error.error['text'], 'Lo siento, no fue posible actualizar la observación');
+          this.addBlock(2, null);
         }
-    );
+    ).add(() => {
+        this.addBlock(2, null);
+    });
   }
 
   visibleObservation(comment: any) {
@@ -199,6 +207,7 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
           const index = this.observationsArr.indexOf(updateItem);
           this.observationsArr[index].active = comment.active;
       } else { */
+      this.addBlock(1, 'Cargando...');
           this.dataObservationSumbit = {};
           this.dataObservationSumbit['id'] = comment.id;
           // this.dataObservationSumbit['ideventconfig'] = comment.ideventconfig;
@@ -218,8 +227,11 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
               },
               error => {
                   this.toastr.errorToastr(error.error['text'], 'Lo siento, no fue posible eliminar la observación');
+                  this.addBlock(2, null);
               }
-          );
+          ).add(() => {
+              this.addBlock(2, null);
+          });
       // }
   }
 
@@ -292,10 +304,12 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
                       this.efhService.deleteObservation(this.inTypeConfig, comment.id)
                           .subscribe(
                               data => {
+                                  this.addBlock(1, 'Cargando...');
                                   this.toastr.successToastr('La observación fué eliminada correctamente', '¡Se ha logrado!');
                                   this.efhService.accionComments.next('updatecommentscomponent');
                               }
                               , error => {
+                                  this.addBlock(2, null);
                                   if (error.error['text'] === 'OK') {
                                       this.toastr.successToastr('La observación fué eliminada correctamente', '¡Se ha logrado!');
                                       this.efhService.accionComments.next('updatecommentscomponent');
@@ -303,7 +317,9 @@ export class EfhCommentsComponent implements OnInit, OnDestroy {
                                       this.toastr.errorToastr(error.error['text'], 'Lo siento,');
                                   }
                               },
-                          );
+                          ).add(() => {
+                            this.addBlock(2, null);
+                          });
                   }
               })
               .catch(() => console.log('Canceló eliminar'));
