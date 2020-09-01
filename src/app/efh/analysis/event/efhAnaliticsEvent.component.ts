@@ -166,7 +166,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
               obj['comment'] = element.eventSummary;
 
               this.rapidChangeTotal = this.rapidChangeTotal + element.rapidLoadChange;
-              this.loadRejTotal = this.loadRejTotal + element.loadRejection;
+              this.loadRejTotal = this.loadRejTotal + element.rejectFlag;
 
               if (i === this.result.length) {
                   this.tripsTotal = element.totalTrips;
