@@ -47,4 +47,9 @@ export class FuelCostService {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
     return this.http.get( `${ this.fuelcostUrl }fuelcost/obten/support/${binnacleEventId}`, {params : this.parameters });
   }
+
+  uploadSupport(masterFuelCostDTO: MasterFuelCostDTO): Observable<any> {
+    this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
+    return this.http.post( `${ this.fuelcostUrl }fuelcost/upload/support`, masterFuelCostDTO, {params : this.parameters });
+  }
 }

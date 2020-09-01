@@ -216,16 +216,40 @@ export class MiningIFCFuelComponent implements OnInit {
 			this.toastr.errorToastr(errorData.error.message, 'Error!');
 		});
 	}
-	obtenSupports(masterFuelCostId: number) {
-		this.fuelCostService.obtenSupports(masterFuelCostId).subscribe((data: Array<BearerDTO>)  => {
-				this.files = data;
+	uploadSupport(fileBearer: BearerDTO) {
+		const masterFuelCostDTO: MasterFuelCostDTO = new MasterFuelCostDTO();
+		masterFuelCostDTO.sourceId = this.formQuery.get('source').value;
+		const yearMountDTO: YearMountDTO = new YearMountDTO();
+		const mydate = this.formQuery.get('date').value;
+		yearMountDTO.year = mydate.year();
+		yearMountDTO.mount = mydate.month() + 1;
+		masterFuelCostDTO.yearMountDTO = yearMountDTO;
+		this.newFiles = [];
+		this.newFiles.push(fileBearer);
+		masterFuelCostDTO.bearers = this.newFiles;
+		this.fuelCostService.uploadSupport(masterFuelCostDTO).subscribe (
+			(data: MasterFuelCostDTO) => {
+				this.obtenSupports(data.masterFuelCostId);
+				this.addBlock(2, '');
 			},
 			errorData => {
 				this.addBlock(2, '');
 				this.toastr.errorToastr(errorData.error.message, 'Error!');
-			},
-			() => {
 			});
+	}
+	obtenSupports(masterFuelCostId: number) {
+		this.fuelCostService.obtenSupports(masterFuelCostId).subscribe((data: Array<BearerDTO>)  => {
+			this.files = [];
+			if (data && data.length > 0) {
+				this.files = data;
+			}
+		},
+		errorData => {
+			this.addBlock(2, '');
+			this.toastr.errorToastr(errorData.error.message, 'Error!');
+		},
+		() => {
+		});
 	}
 	onChangeDatePicker(o) {
 		console.log(o);
@@ -420,7 +444,7 @@ export class MiningIFCFuelComponent implements OnInit {
 			});
 		}
 
-		if (this.newFiles.length <= 0 ) {
+		if (this.files.length <= 0 ) {
 			this.toastr.errorToastr('Cerrar la fecha comercial: Requiere de al menos un archivo', 'Error!');
 			return;
 		}
@@ -486,10 +510,15 @@ export class MiningIFCFuelComponent implements OnInit {
 	}
 
 	btnUploadFile() {
+		this.submitted = true;
+		if (!this.formQuery.valid) {
+			this.toastr.errorToastr('La fecha de operacion y la fuente, son requeridas', 'Error!');
+			return;
+		}
 		if ( this.fileUploadForm.controls.file.value == null ) {
+			console.dir(this.fileUploadForm.controls.file)
 			return 0;
 		}
-		this.addBlock(1, 'Guardando archivo...');
 		const value = this.fileUploadForm.value;
 		const reader = new FileReader();
 		reader.onloadend = (e) => {
@@ -502,6 +531,7 @@ export class MiningIFCFuelComponent implements OnInit {
 			const splitName: string[] = fileBearer.bearerName.split('.');
 			fileBearer.bearerContentType = this.getContentType(splitName[1]);
 			this.files.push(fileBearer);
+			this.uploadSupport(fileBearer);
 		}
 		reader.readAsDataURL(value.file);
 
