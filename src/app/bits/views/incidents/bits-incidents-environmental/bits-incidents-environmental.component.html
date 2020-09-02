@@ -19,6 +19,101 @@
 	<hr>
 	<br>
 	
+	<form [formGroup]="formFilters" (ngSubmit)="onFiltersTable()">
+		<div class="row mt-3">
+			<div class="col-12 col-lg-3">
+				<app-mat-input-text-autocomplete [formGroup]="formFilters" controlName="a"
+					[options]="filteredAutoTag" label="Tag"></app-mat-input-text-autocomplete>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-mat-input-text-autocomplete [formGroup]="formFilters" controlName="a"
+					[options]="filteredAutoTag" label="Tipo de Incidente"></app-mat-input-text-autocomplete>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-mat-input-text-autocomplete [formGroup]="formFilters" controlName="a"
+					[options]="filteredAutoTag" label="Departamento"></app-mat-input-text-autocomplete>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-mat-input-text-autocomplete [formGroup]="formFilters" controlName="a"
+					[options]="filteredAutoTag" label="Ubicación"></app-mat-input-text-autocomplete>
+			</div>
+			<div class="col-12 col-lg-3">
+				<label>Fecha en que ocurrió el Incidente</label><br>
+				<app-mat-input-datepicker [formGroup]="formFilters" controlName="a"
+					label="De">
+				</app-mat-input-datepicker>
+			</div>
+			<div class="col-12 col-lg-3">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-input-datepicker [formGroup]="formFilters" controlName="a"
+					label="Al">
+				</app-mat-input-datepicker>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-mat-radio-button [formGroup]="formFilters" controlName="a" label="Aplica RCA"
+				[options]="optionsYoN"></app-mat-radio-button>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-mat-radio-button [formGroup]="formFilters" controlName="a" label="Procedente"
+				[options]="optionsYoN"></app-mat-radio-button>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-mat-input-text [formGroup]="formFilters" controlName="a"
+					label="Nombre(s) Apellidos Usuario Reportador"></app-mat-input-text>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-mat-input-text [formGroup]="formFilters" controlName="a"
+					label="Nombre(s) Apellidos Usuario Supervisor"></app-mat-input-text>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-mat-input-text [formGroup]="formFilters" controlName="a"
+					label="Nombre(s) Apellidos Usuario Aprobador"></app-mat-input-text>
+			</div>
+			<div class="w-100"></div>
+			<div class="col-12 col-lg-3">
+				<app-mat-select [formGroup]="formFilters" controlName="a" [options]="comboX" label="Estatus del Evento">
+				</app-mat-select>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-mat-select [formGroup]="formFilters" controlName="a" [options]="comboX" label="Estatus de Aprobación">
+				</app-mat-select>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-mat-input-text-autocomplete [formGroup]="formFilters" controlName="a"
+					[options]="filteredAutoTag" label="Usuario Última Modificación"></app-mat-input-text-autocomplete>
+			</div>
+			<div class="w-100"></div>
+
+			<div class="col-12 col-lg-3">
+				<label>Fecha de Última Modificación</label><br>
+				<app-mat-input-datepicker [formGroup]="formFilters" controlName="a"
+					label="De">
+				</app-mat-input-datepicker>
+			</div>
+			<div class="col-12 col-lg-3">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-input-datepicker [formGroup]="formFilters" controlName="a"
+					label="Al">
+				</app-mat-input-datepicker>
+			</div>
+		</div>
+	
+		<div class="row">
+			<div class="col">
+				<app-mat-radio-button [formGroup]="formFiltersType" controlName="typeFilter"
+					[options]="optionsFiltersType"></app-mat-radio-button>
+			</div>
+		</div>
+
+		<div class="row justify-content-end">
+			<div class="col-12 col-lg-2">
+				<app-btn-block-search myType="submit"></app-btn-block-search>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-btn-block-clean (myClick)="limpiarFiltros()"></app-btn-block-clean>
+			</div>
+		</div>
+	</form>
 
 
 	<div class="row justify-content-end mt-4">
@@ -29,11 +124,13 @@
 	<div class="row my-4">
 		<div class="col">
 			<app-mat-table
+				[data]="tableData"
+				[columnsLabels]="tablaColumnsLabels"
+				[columnsDisplay]="tableColumnsDisplay"
+				[row_x_page]="tableRowXpage"
 				(clickSee)="onTableRowSee($event)"
 				(clickEdit)="onTableRowEdit($event)"
 				(clickDelete)="onTableRowDelete($event)"
-				[data]="tableData"
-				[row_x_page]="tableRowXpage"
 			></app-mat-table>
 		</div>
 	</div>

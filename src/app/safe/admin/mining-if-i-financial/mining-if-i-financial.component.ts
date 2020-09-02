@@ -222,7 +222,8 @@ export class MiningIFIFinancialComponent implements OnInit {
 			selectVariables: new FormControl('', Validators.required),
 		});	
 		this.fileUploadForm = this.formBuilder.group({
-			file: new FormControl(null, [Validators.required, requiredFileType('xlsx')]),
+			file: new FormControl(null, [Validators.required]),
+			//file: new FormControl(null, [Validators.required, requiredFileType('xlsx')]),
 		});
 		
 		this.reset();
