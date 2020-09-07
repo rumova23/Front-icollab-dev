@@ -206,7 +206,9 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 
 			statusElement: [true],
 
-			notSpliceId: [{ value: null, disabled: false }]
+			notSpliceId: [{ value: null, disabled: false }],
+
+			prioritySplice: [{ value: null, disabled: false },[Validators.min(0)]]
 		});
 		this.loadCatalog();
 		switch (this.catalogType.action) {
@@ -572,5 +574,12 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			},
 			() => {
 			});
+	}
+	
+    isnumeric(v){
+		if ( isNaN( Number(v)) ||  Number(v) <= 0 || ! Number.isInteger(v) ) {
+		  // para no permitir letras, que en firefox si permite insertarlas
+		  this.formNewEvent.controls.prioritySplice.setValue(null);        
+		}
 	}
 }

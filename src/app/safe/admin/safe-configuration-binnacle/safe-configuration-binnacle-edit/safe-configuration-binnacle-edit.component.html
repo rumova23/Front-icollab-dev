@@ -385,6 +385,22 @@
 				></app-checkbox-with-select-multiple>
 			</div>
 		</div>
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_1">{{ "Prioridad de Cálculo" | translate }}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 col-lg-3">
+				<app-mat-input-number
+					[formGroup]="formNewEvent" 
+					controlName="prioritySplice" 
+					(eventChange)="isnumeric($event)"
+					minValue="0"
+					step="1"
+				></app-mat-input-number>
+			</div>
+		</div>
 	</div>
 	<div class="section" *ngIf="catalogType.action === 'editar' || catalogType.action === 'ver'">
 		<div class="row pb-2">
