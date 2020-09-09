@@ -18,7 +18,7 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
 			,TipoIncidente:"TipoIncidente"
 			,Departamento:"Departamento"
 			,Ubicacion:"Ubicacion"
-			,FechaOcurrioIncidente:"FechaOcurrioIncidente"
+			,FechaOcurrioIncidente:new Date()
 			,AplicaRCA:"AplicaRCA"
 			,EsProcedente:"EsProcedente"
 			,NombreApellidosUsuarioReportador:"NombreApellidosUsuarioReportador"
@@ -36,7 +36,7 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
 		,{key:'TipoIncidente'                    ,label:'Tipo de Incidente'}
 		,{key:'Departamento'                     ,label:'Departamento'}
 		,{key:'Ubicacion'                        ,label:'Ubicación'}
-		,{key:'FechaOcurrioIncidente'            ,label:'Fecha en que ocurrió el incidente'}
+		,{key:'FechaOcurrioIncidente'            ,label:'Fecha en que ocurrió el incidente', dateFormat:'dd/MM/yyyy HH:mm'}
 		,{key:'AplicaRCA'                        ,label:'Aplica RCA'}
 		,{key:'EsProcedente'                     ,label:'Es Procedente'}
 		,{key:'NombreApellidosUsuarioReportador' ,label:'Nombre(s) Apellidos Usuario Reportador'}
@@ -94,17 +94,35 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
             dto: null,
             action: 'nuevo',
 			name: '',
-			element: {tester: 'tester'}
+			element: null
         };
   		this.eventService.sendChangePage(
             new EventMessage(null, type, 'Bits.BitsIncidentsEnvironmentalABC')
         );
 	}
-	onTableRowSee(e){
-		console.log(e);		
+	onTableRowSee(element){
+		console.log(element);	
+		const type = {
+            dto: null,
+            action: 'ver',
+			name: '',
+			element
+		};
+  		this.eventService.sendChangePage(
+            new EventMessage(null, type, 'Bits.BitsIncidentsEnvironmentalABC')
+        );	
 	}
-	onTableRowEdit(e){
-		console.log(e);		
+	onTableRowEdit(element){
+		console.log(element);
+		const type = {
+            dto: null,
+            action: 'editar',
+			name: '',
+			element
+		};
+  		this.eventService.sendChangePage(
+            new EventMessage(null, type, 'Bits.BitsIncidentsEnvironmentalABC')
+        );		
 	}
 	onTableRowDelete(e){
 		console.log(e);		

@@ -52,6 +52,7 @@ export class BitsHomeComponent implements OnInit {
 	}
 
 	subscribeOnChangePage() {
+		let view;
 		this.subscriptions.push(this.eventService.onChangePage.subscribe({
 			next: (event: EventMessage) => {
 				this.globalService.setPage(event);
@@ -65,11 +66,13 @@ export class BitsHomeComponent implements OnInit {
 							.detectChanges();
 						break;
 					case 'Bits.BitsIncidentsEnvironmentalABC':
-						this.viewContainerRef
-							.createComponent(this.componentFactoryResolver
-								.resolveComponentFactory(BitsIncidentsEnvironmentalABCComponent))
-							.changeDetectorRef
-							.detectChanges();
+						view = this.viewContainerRef
+							.createComponent(
+								this.componentFactoryResolver
+								.resolveComponentFactory(BitsIncidentsEnvironmentalABCComponent)
+							);
+						view.instance.catalogType = event.data;
+						view.changeDetectorRef.detectChanges();
 						break;
 					case 'Bits.Home':
 						this.viewContainerRef

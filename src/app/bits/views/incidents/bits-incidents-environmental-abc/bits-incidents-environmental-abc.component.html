@@ -26,7 +26,7 @@
 			<div class="col-12 col-xl-3">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="tag" 
+					controlName="TAG" 
 					label="Tag" 
 				></app-mat-input-text>
 			</div>
@@ -35,7 +35,7 @@
 			<div class="col-12 col-xl-6">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="tag" 
+					controlName="TipoIncidente" 
 					label="Tipo de Incidente" 
 					maxLength="100"
 				></app-mat-input-text>
@@ -43,7 +43,7 @@
 			<div class="col-12 col-xl-6">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="tag" 
+					controlName="Departamento" 
 					label="Departamento" 
 					maxLength="100"
 				></app-mat-input-text>
@@ -51,7 +51,7 @@
 			<div class="col-12 col-xl-6">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="tag" 
+					controlName="Ubicacion" 
 					label="Ubicación Especifica" 
 					maxLength="100"
 				></app-mat-input-text>
@@ -60,32 +60,33 @@
 			<div class="col-12 col-xl-4">
 				<app-mat-input-datepicker
 					[formGroup]="formNew" 
-					controlName="tag" 
+					controlName="FechaOcurrioIncidente" 
 					label="Fecha en que Ocurrio el Incidente" 
+					(eventChange)="onChangeDateFechaOcurrioIncidente()"
 				></app-mat-input-datepicker>
 			</div>
 			<div class="col-12 col-xl-1">
 				<app-mat-select 
-					[formGroup]="formNew"
-					controlName="tag" 
+					[formGroup]="formTim"
+					controlName="h1" 
 					[options]="hours"
-					(eventChange)="onChangeDateTimeStart()"
+					(eventChange)="onChangeDateFechaOcurrioIncidente()"
 					label="Hora"
 				></app-mat-select>
 			</div>
 			<div class="col-12 col-xl-1">
 				<app-mat-select 
-					[formGroup]="formNew"
-					controlName="tag" 
+					[formGroup]="formTim"
+					controlName="m1" 
 					[options]="hours"
-					(eventChange)="onChangeDateTimeStart()"
+					(eventChange)="onChangeDateFechaOcurrioIncidente()"
 					label="Minuto"
 				></app-mat-select>
 			</div>
 			<div class="col-12">
 				<app-mat-input-textarea
 					[formGroup]="formNew" 
-					controlName="tag" 
+					controlName="DescripcionIncidente" 
 					label="Descripción del incidente" 
 					maxLength="1000"
 				></app-mat-input-textarea>
@@ -97,21 +98,21 @@
 			<div class="col-12 col-xl-2">
 				<app-mat-input-checkbox
 					[formGroup]="formNew" 
-					controlName="tag" 
+					controlName="AnalisisCausaRaizRCA" 
 					label="Analisis de Causa Raiz (RCA)" 
 				></app-mat-input-checkbox>
 			</div>
 			<div class="col-12 col-xl-4">
 				<app-mat-input-datepicker
 					[formGroup]="formNew" 
-					controlName="tag" 
+					controlName="FechaObjetivoEntregaRCA" 
 					label="Fecha Objetivo Entrega RCA" 
 				></app-mat-input-datepicker>
 			</div>
 			<div class="col-12 col-xl-1">
 				<app-mat-select 
-					[formGroup]="formNew"
-					controlName="tag" 
+					[formGroup]="formTimFechaObjetivoEntregaRCA"
+					controlName="h1" 
 					[options]="hours"
 					(eventChange)="onChangeDateTimeStart()"
 					label="Hora"
@@ -119,8 +120,8 @@
 			</div>
 			<div class="col-12 col-xl-1">
 				<app-mat-select 
-					[formGroup]="formNew"
-					controlName="tag" 
+					[formGroup]="formTimFechaObjetivoEntregaRCA"
+					controlName="m1" 
 					[options]="hours"
 					(eventChange)="onChangeDateTimeStart()"
 					label="Minuto"
@@ -129,7 +130,7 @@
 			<div class="col-12 col-xl-4">
 				<app-mat-input-datepicker
 					[formGroup]="formNew" 
-					controlName="tag" 
+					controlName="FechaHoraEntregaRCA" 
 					label="Fecha y hora Entrega RCA" 
 				></app-mat-input-datepicker>
 			</div>
@@ -158,7 +159,7 @@
 					<div class="col-12 col-lg-3">
 						<div class="row mt-2">
 							<div class="col">
-								<app-btn-block-import (myClick)="uploadFile()" [disabled]="!formNew.valid" ></app-btn-block-import>
+								<app-btn-block-import (myClick)="uploadFile()" [disabled]="!formNew.valid || isReadOnly" ></app-btn-block-import>
 							</div>
 						</div>
 					</div>
@@ -170,7 +171,7 @@
 			<div class="col-12 col-xl-2">
 				<app-mat-input-checkbox
 					[formGroup]="formNew" 
-					controlName="tag" 
+					controlName="Procede" 
 					label="¿Procede?" 
 				></app-mat-input-checkbox>
 			</div>
@@ -187,42 +188,42 @@
 			<div class="col-12 col-xl-3">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="tag" 
+					controlName="NombresApellidosUsuarioReporto" 
 					label="Nombre(s)/Apellido(s) Usuario Reporto" 
 				></app-mat-input-text>
 			</div>
 			<div class="col-12 col-xl-3">
-				<app-mat-input-text
+				<app-mat-input-datepicker
 					[formGroup]="formNew" 
-					controlName="tag" 
+					controlName="FechaHoraReporto" 
 					label="Fecha y Hora Reporto" 
-				></app-mat-input-text>
+				></app-mat-input-datepicker>
 			</div>
 			<div class="col-12 col-xl-3">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="tag" 
+					controlName="NombresApellidosUsuarioSuperviso" 
 					label="Nombre(s)/Apellido(s) Usuario Superviso" 
 				></app-mat-input-text>
 			</div>
 			<div class="col-12 col-xl-3">
-				<app-mat-input-text
+				<app-mat-input-datepicker
 					[formGroup]="formNew" 
-					controlName="tag" 
+					controlName="FechaHoraSuperviso" 
 					label="Fecha y Hora Superviso" 
-				></app-mat-input-text>
+				></app-mat-input-datepicker>
 			</div>
 			<div class="col-12 col-xl-3">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="tag" 
+					controlName="NombresApellidosUsuarioAproboRechazo" 
 					label="Nombre(s)/Apellido(s) Usuario Aprobo/Rechazo" 
 				></app-mat-input-text>
 			</div>
 			<div class="col-12 col-xl-3">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="tag" 
+					controlName="FechaHoraAproboRechazo" 
 					label="Fecha y Hora Aprobo/Rechazo" 
 				></app-mat-input-text>
 			</div>
@@ -240,14 +241,14 @@
 			<div class="col-12 col-xl-3">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="tag" 
+					controlName="EstatusDelEvento" 
 					label="Estatus del Evento" 
 				></app-mat-input-text>
 			</div>
 			<div class="col-12 col-xl-3">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="tag" 
+					controlName="EstatusDeAprovacion" 
 					label="Estatus de Aprovacion" 
 				></app-mat-input-text>
 			</div>
@@ -263,8 +264,8 @@
 		<div class="row">
 			<div class="col-12">
 				<app-mat-input-textarea
-					[formGroup]="formNew" 
-					controlName="tag" 
+					[formGroup]="formObs" 
+					controlName="obs" 
 					label="Observaciones" 
 					maxLength="1000"
 				></app-mat-input-textarea>
@@ -273,7 +274,7 @@
 		
 		<div class="row justify-content-end">
 			<div class="col-12 col-lg-2">
-				<app-btn-block-add (click)="BtnAddObservationsComments()"></app-btn-block-add>
+				<app-btn-block-add (myClick)="BtnAddObservationsComments()" [disabled]="!formObs.valid || isReadOnly"></app-btn-block-add>
 			</div>
 		</div>
 		<br>
@@ -287,7 +288,6 @@
 					[columnsLabels]="tablaColumnsLabels"
 					(clickEdit)="tableRowEdit($event)"
 					(clickDelete)="tableRowDelete($event)"
-					(onSelected)="onSelected($event)"
 				></app-mat-table>
 			</div>
 		</div>
@@ -309,21 +309,21 @@
 				</div>
 			</div>
 			<div class="col">
-				<div class="row" [formGroup]="formNew">
+				<div class="row" [formGroup]="fileUploadForm">
 					
 					<div class="col">
 						Carga Archivo:<br />
 						<app-file-upload formControlName="file" [progress]="progress"
 						(change)="selectFile($event)"
 						></app-file-upload>
-						<mat-error *ngIf="!formNew.controls['file'].valid && formNew.controls['file'].touched">
+						<mat-error *ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
 							Requerido
 						</mat-error>
 					</div>
 					<div class="col-12 col-lg-3">
 						<div class="row mt-2">
 							<div class="col">
-								<app-btn-block-import (myClick)="uploadFile()" [disabled]="!formNew.valid" ></app-btn-block-import>
+								<app-btn-block-import (myClick)="uploadFile()" [disabled]="!fileUploadForm.valid" ></app-btn-block-import>
 							</div>
 						</div>
 					</div>
@@ -357,18 +357,21 @@
 			<div class="col-12 col-xl-8">
 				<div class="row justify-content-end">
 					<div class="col">
-						<app-btn-block-back (click)="btnClickBack()"></app-btn-block-back>
+						<app-btn-block-back (myClick)="btnClickBack()"></app-btn-block-back>
 					</div>
 					<div class="col">
-						<app-btn-block-save-update myType="submit" [disabled]="disabledSubmit">
+						<app-btn-block-save-update myType="submit" 
+						[disabled]="disabledSubmit || isReadOnly || !formNew.valid">
 						</app-btn-block-save-update>
 					</div>
 					<div class="col" *ngIf="!disabledBtnFinish">
-						<app-btn-block-send (click)="btnSend()">
+						<app-btn-block-send (myClick)="btnSend()" 
+						[disabled]="isReadOnly || !formNew.valid">
 						</app-btn-block-send>
 					</div>
 					<div class="col" *ngIf="!disabledBtnFinish">
-						<app-btn-block-finish (click)="btnFinish()" [disabled]="disabledBtnFinish">
+						<app-btn-block-finish (myClick)="btnFinish()" 
+						[disabled]="disabledBtnFinish || isReadOnly || !formNew.valid">
 						</app-btn-block-finish>
 					</div>
 				</div>
@@ -382,12 +385,12 @@
 			<div class="col-12 col-xl-4">
 				<div class="row justify-content-end">
 					<div class="col-12 col-lg-6">
-						<app-btn-block-reject (click)="btnChangeStatus('Evento Rechazado')"
-							[disabled]="disabledToRefuse"></app-btn-block-reject>
+						<app-btn-block-reject (myClick)="btnChangeStatus('Evento Rechazado')"
+							[disabled]="disabledToRefuse || isReadOnly || !formNew.valid"></app-btn-block-reject>
 					</div>
 					<div class="col-12 col-lg-6">
-						<app-btn-block-acept (click)="btnChangeStatus('Evento Aprobado')"
-							[disabled]="disabledToAccept"></app-btn-block-acept>
+						<app-btn-block-acept (myClick)="btnChangeStatus('Evento Aprobado')"
+							[disabled]="disabledToAccept || isReadOnly || !formNew.valid"></app-btn-block-acept>
 					</div>
 				</div>
 			</div>
