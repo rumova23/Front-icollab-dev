@@ -587,6 +587,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	obtenSupports() {
 		this.binnacleService.obtenSupports(this.catalogType.element.binnacleEventID).subscribe((data: Array<BearerDTO>)  => {
 				this.files = data;
+				if(this.files==null)this.files=[];	
 			},
 			errorData => {
 				this.addBlock(2, '');
