@@ -403,13 +403,13 @@
 										<img matTooltip="Eliminar archivo" src="assets/img/icon_delete.png" style="width: 20px;" />
 									</a>
 								</div>
-								<div class="col pl-0" [ngSwitch]="file.bearerName.split('.')[1]">
-									<img *ngSwitchCase="'png'" src="assets/img/jpg.png" style="width: 64px; height: 64px;" (click)="downloadFile(file)">
-									<img *ngSwitchCase="'jpg'" src="assets/img/jpg.png" style="width: 64px; height: 64px;" (click)="downloadFile(file)">
-									<img *ngSwitchCase="'zip'" src="assets/img/zip.png" style="width: 64px; height: 64px;" (click)="downloadFile(file)">
-									<img *ngSwitchCase="'xls'" src="assets/img/xls.png" style="width: 64px; height: 64px;" (click)="downloadFile(file)">
-									<img *ngSwitchCase="'xlsx'" src="assets/img/xls.png" style="width: 64px; height: 64px;" (click)="downloadFile(file)">
-									<img *ngSwitchCase="'pdf'" src="assets/img/pdf.png" style="width: 64px; height: 64px;" (click)="downloadFile(file)">
+								<div class="col pl-0" [ngSwitch]="file.bearerName.split('.')[1]" (click)="downloadFile(file)" style="cursor: pointer;">
+									<img *ngSwitchCase="'png'" src="assets/img/jpg.png" style="width: 64px; height: 64px;">
+									<img *ngSwitchCase="'jpg'" src="assets/img/jpg.png" style="width: 64px; height: 64px;">
+									<img *ngSwitchCase="'zip'" src="assets/img/zip.png" style="width: 64px; height: 64px;">
+									<img *ngSwitchCase="'xls'" src="assets/img/xls.png" style="width: 64px; height: 64px;">
+									<img *ngSwitchCase="'xlsx'" src="assets/img/xls.png" style="width: 64px; height: 64px;">
+									<img *ngSwitchCase="'pdf'" src="assets/img/pdf.png" style="width: 64px; height: 64px;">
 									<div class="media-body">
 										<p>Descarga {{file.bearerName}}</p>
 									</div>
