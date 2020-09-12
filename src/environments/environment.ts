@@ -27,8 +27,8 @@ export const environment = {
   , binnacle                : hostGateway + 'binnacle/'
   , economicProposalUrl     : hostGateway + 'economicproposal/'
   , fuelcostUrl             : hostGateway + 'fuelcost/'
-  // , externalData            : hostGateway + 'clientexternalapis/'
-  , externalData            : 'http://localhost:1030/'
+  , externalData            : hostGateway + 'clientexternalapis/'
+  , incidentsUrl            : hostGateway + 'incidents/'
 };
 
 /*

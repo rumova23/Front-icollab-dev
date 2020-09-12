@@ -4,6 +4,7 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventService } from 'src/app/core/services/event.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IdLabel } from 'src/app/core/models/IdLabel';
+import { IncidentService } from '../../../services/incident.service';
 
 @Component({
 	selector: 'app-bits-incidents-environmental',
@@ -78,9 +79,13 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
 	constructor(
 		public eventService : EventService
 		,private formBuilder: FormBuilder
+		,private incidentService : IncidentService
 	) { }
 
 	ngOnInit() {
+		this.incidentService.getListObservations(1).subscribe(data=>{
+			console.log(data);
+		});
 		this.formFilters = this.formBuilder.group({
 			a:[null]
 		});

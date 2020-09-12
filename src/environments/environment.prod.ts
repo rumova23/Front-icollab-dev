@@ -28,6 +28,7 @@ export const environment = {
   , economicProposalUrl     : hostGateway + 'economicproposal/'
   , externalData            : hostGateway + 'clientexternalapis/'
   , fuelcostUrl             : hostGateway + 'fuelcost/'
+  , incidentsUrl            : hostGateway + 'incidents/'
 };
 /*
 const hostGateway = 'http://200.52.85.140:8585/';
