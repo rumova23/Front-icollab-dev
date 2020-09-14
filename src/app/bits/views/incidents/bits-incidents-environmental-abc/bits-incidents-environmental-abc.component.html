@@ -26,7 +26,7 @@
 			<div class="col-12 col-xl-3">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="TAG" 
+					controlName="tag" 
 					label="Tag" 
 				></app-mat-input-text>
 			</div>
@@ -35,7 +35,7 @@
 			<div class="col-12 col-xl-6">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="TipoIncidente" 
+					controlName="incidentType" 
 					label="Tipo de Incidente" 
 					maxLength="100"
 				></app-mat-input-text>
@@ -43,7 +43,7 @@
 			<div class="col-12 col-xl-6">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="Departamento" 
+					controlName="department" 
 					label="Departamento" 
 					maxLength="100"
 				></app-mat-input-text>
@@ -51,7 +51,7 @@
 			<div class="col-12 col-xl-6">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="Ubicacion" 
+					controlName="specificLocation" 
 					label="Ubicación Especifica" 
 					maxLength="100"
 				></app-mat-input-text>
@@ -60,7 +60,7 @@
 			<div class="col-12 col-xl-4">
 				<app-mat-input-datepicker
 					[formGroup]="formNew" 
-					controlName="FechaOcurrioIncidente" 
+					controlName="incidentDate" 
 					label="Fecha en que Ocurrio el Incidente" 
 					(eventChange)="onChangeDateFechaOcurrioIncidente()"
 				></app-mat-input-datepicker>
@@ -86,7 +86,7 @@
 			<div class="col-12">
 				<app-mat-input-textarea
 					[formGroup]="formNew" 
-					controlName="DescripcionIncidente" 
+					controlName="description" 
 					label="Descripción del incidente" 
 					maxLength="1000"
 				></app-mat-input-textarea>

@@ -8,6 +8,9 @@ import { EventMessage } from 'src/app/core/models/EventMessage';
 import { IdLabel } from 'src/app/core/models/IdLabel';
 import { SelectionModel } from '@angular/cdk/collections';
 import * as moment from 'moment';
+import { IncidentService } from '../../../services/incident.service';
+import { map } from 'rxjs/operators';
+import { IncidentInDTO } from '../../../models/incident-in-dto';
 
 @Component({
 	selector: 'app-bits-incidents-environmental-abc',
@@ -66,11 +69,12 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		{ key: 'dateUpdate', label: 'Fecha de Ultima Modificación' , dateFormat:'dd/MM/yyyy HH:mm'},
 	];
 	constructor(
-		private formBuilder: FormBuilder,
-		public globalService: GlobalService,
-		public toastr: ToastrManager,
-		public eventService: EventService,
-		private datePipe: DatePipe,
+		private formBuilder   : FormBuilder
+		,private datePipe     : DatePipe
+		,public globalService : GlobalService
+		,public toastr        : ToastrManager
+		,public eventService  : EventService
+		,public incidentService : IncidentService
 	) { }
 
 	ngOnDestroy(): void {
@@ -91,13 +95,13 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		this.formNew = this.formBuilder.group({
 			file:[{value:null,disabled:false},[]]
 			,order:[{value:null,disabled:false},[]]
-			,tag:[{value:null,disabled:true},[]]
-			,TAG:[{value:null,disabled:true},[]]
-			,TipoIncidente:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
-			,Departamento:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
-			,Ubicacion:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
-			,FechaOcurrioIncidente:[{value:null,disabled:false},[Validators.required]]
-			,DescripcionIncidente:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(1000)]]
+			,tag:[{value:'test-01',disabled:true},[]]
+			,incidentType:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
+			,department:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
+			,specificLocation:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
+			,incidentDate:[{value:null,disabled:false},[Validators.required]]
+			,description:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(1000)]]
+			,save:[true]
 			,AnalisisCausaRaizRCA:[{value:null,disabled:false},[]]
 			,FechaObjetivoEntregaRCA:[{value:null,disabled:false},[]]
 			,FechaHoraEntregaRCA:[{value:null,disabled:false},[]]
@@ -151,18 +155,31 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		}
 	}
 	onChangeDateFechaOcurrioIncidente(){
-		if(this.formNew.controls.FechaOcurrioIncidente.value != null){
+		if(this.formNew.controls.incidentDate.value != null){
 			let h = this.formTim.controls.h1.value;
 			let m = this.formTim.controls.m1.value;
-			let date = moment(this.formNew.controls.FechaOcurrioIncidente.value);
+			let date = moment(this.formNew.controls.incidentDate.value);
 			if(h!=null)date.hour(h);
 			if(m!=null)date.minute(m);
-			this.formNew.controls.FechaOcurrioIncidente.setValue(date.toDate());
+			this.formNew.controls.incidentDate.setValue(date.toDate());
 		}
-		console.log(this.formNew.controls.FechaOcurrioIncidente.value);
+		console.log(this.formNew.controls.incidentDate.value);
 	}
 	onFomrNew(o){
-		console.log(o);
+		let incident : IncidentInDTO = [this.formNew.controls].map(e=>{
+			return {
+				 tag               :e.tag.value
+				,incidentType      :e.incidentType.value
+				,department        :e.department.value
+				,specificLocation  :e.specificLocation.value
+				,incidentDate      :this.datePipe.transform(e.incidentDate.value, 'dd/MM/yyyy HH:mm:ss')
+				,description       :e.description.value
+				,save              :e.save.value
+			};
+		})[0];
+		this.incidentService.saveIncident(incident).subscribe(data=>{
+			console.log(data);
+		});
 	}
 	btnClickBack(){
 		const type = {};
