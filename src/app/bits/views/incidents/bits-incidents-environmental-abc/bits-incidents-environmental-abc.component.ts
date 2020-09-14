@@ -95,6 +95,7 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		this.formNew = this.formBuilder.group({
 			file:[{value:null,disabled:false},[]]
 			,order:[{value:null,disabled:false},[]]
+			,id:[null]
 			,tag:[{value:'test-01',disabled:true},[]]
 			,incidentType:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
 			,department:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
@@ -168,7 +169,8 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 	onFomrNew(o){
 		let incident : IncidentInDTO = [this.formNew.controls].map(e=>{
 			return {
-				 tag               :e.tag.value
+				 id                :e.id.value
+				,tag               :e.tag.value
 				,incidentType      :e.incidentType.value
 				,department        :e.department.value
 				,specificLocation  :e.specificLocation.value
