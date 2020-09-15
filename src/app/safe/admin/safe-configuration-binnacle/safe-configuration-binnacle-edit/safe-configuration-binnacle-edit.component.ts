@@ -44,6 +44,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	lstOperatorPlantOpen: IdLabel[] = [];
 	lstOperatorPlantClose: IdLabel[] = [];
 	lstSourceEvent: IdLabel[] = [];
+	lstAvailability: IdLabel[] = [];
 	lstEventStatus: IdLabel[] = [];
 	lstApprovalStatus: IdLabel[] = [];
 	lstEventClassification00: IdLabel[] = [];
@@ -207,8 +208,8 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			statusElement: [true],
 
 			notSpliceId: [{ value: null, disabled: false }],
-
-			prioritySplice: [{ value: null, disabled: false },[Validators.min(0)]]
+			prioritySplice: [{ value: null, disabled: false }, [Validators.min(0)]],
+			availabilityId: [null]
 		});
 		this.loadCatalog();
 		switch (this.catalogType.action) {
@@ -323,7 +324,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	}
 	loadCatalog() {
 		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL-CCDV', 'BANDA TOLERANCIA',
-			'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'FUENTE EVENTO', 'RESTRICTION LEVEL', 'COLOR LEVEL'];
+			'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'FUENTE EVENTO', 'RESTRICTION LEVEL', 'COLOR LEVEL', 'DISPONIBIlIDAD'];
 		this.masterCatalogService.listCatalog(names).subscribe(data => {
 			this.loadSelect(this.lstEventClassification, data['CLASIFICA EVENTO']);
 			this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
@@ -341,6 +342,7 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			this.loadSelect(this.lstSourceEvent, data['FUENTE EVENTO']);
 			this.loadSelect(this.lstRestrictionLevels, data['RESTRICTION LEVEL']);
 			this.loadSelect(this.lstColors, data['COLOR LEVEL']);
+			this.loadSelect(this.lstAvailability, data['DISPONIBIlIDAD']);
 
 			if (this.catalogType.action === 'editar') {
 				console.dir(this.catalogType.dto);

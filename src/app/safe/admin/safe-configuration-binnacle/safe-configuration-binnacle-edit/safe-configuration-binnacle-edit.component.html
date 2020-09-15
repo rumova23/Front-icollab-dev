@@ -401,6 +401,21 @@
 				></app-mat-input-number>
 			</div>
 		</div>
+		<div class=" col-12 col-lg-3">
+			<div class="row pb-2">
+				<div class="col">
+					<p class="section_titulo_1">{{ "Disponibilidad" | translate }}</p>
+				</div>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-mat-select-multiple
+						[formGroup]="formNewEvent"
+						controlName="availabilityId"
+						[options]="lstAvailability"
+						[disableOption]="disableOption"
+				></app-mat-select-multiple>
+			</div>
+		</div>
 	</div>
 	<div class="section" *ngIf="catalogType.action === 'editar' || catalogType.action === 'ver'">
 		<div class="row pb-2">

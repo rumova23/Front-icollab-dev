@@ -113,6 +113,9 @@ export class BinnacleEventConfigurationDTO implements Deserializable {
 
     public statusElement: boolean;
 
+    public prioritySplice: number;
+    public availabilityId: Array<number>;
+
     deserialize(input: any) {
         Object.assign(this, input);
         return this;
