@@ -4,6 +4,7 @@ import { GlobalService } from 'src/app/core/globals/global.service';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { IncidentInDTO } from '../models/incident-in-dto';
+import { EventObservationInDTO } from '../models/event-observation-in-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,14 @@ export class IncidentService {
 			`${ this.url }incident/save`
 			,incidentInDTO
 			,{params : this.parameters }
-			);
+		);
+	}
+	saveObservation(eventObservationInDTO: EventObservationInDTO) {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.post( 
+			`${ this.url }incident/saveObservation`
+			,eventObservationInDTO
+			,{params : this.parameters }
+		);
 	}
 }

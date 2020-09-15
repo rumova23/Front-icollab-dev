@@ -4,8 +4,7 @@ export interface IncidentInDTO {
     incidentType      :String;
     department        :String;
     specificLocation  :String;
-    //@ApiModelProperty(value = "Fecha en que sucedió el evento", example = "12/03/2020 13:35:56")
-    incidentDate      :string|Date;
+    incidentDate      :string|Date; //example = "12/03/2020 13:35:56")
     description       :String;
     save              :boolean;
 }

@@ -11,6 +11,7 @@ import * as moment from 'moment';
 import { IncidentService } from '../../../services/incident.service';
 import { map } from 'rxjs/operators';
 import { IncidentInDTO } from '../../../models/incident-in-dto';
+import { EventObservationInDTO } from '../../../models/event-observation-in-dto';
 
 @Component({
 	selector: 'app-bits-incidents-environmental-abc',
@@ -95,6 +96,7 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		this.formNew = this.formBuilder.group({
 			file:[{value:null,disabled:false},[]]
 			,order:[{value:null,disabled:false},[]]
+
 			,id:[null]
 			,tag:[{value:'test-01',disabled:true},[]]
 			,incidentType:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
@@ -103,6 +105,7 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 			,incidentDate:[{value:null,disabled:false},[Validators.required]]
 			,description:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(1000)]]
 			,save:[true]
+
 			,AnalisisCausaRaizRCA:[{value:null,disabled:false},[]]
 			,FechaObjetivoEntregaRCA:[{value:null,disabled:false},[]]
 			,FechaHoraEntregaRCA:[{value:null,disabled:false},[]]
@@ -118,7 +121,7 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		});
 		this.formObs = this.formBuilder.group({
 			id:[null],
-			obs:[null,[Validators.required,Validators.minLength(2),Validators.maxLength(1000)]]
+			observation:[null,[Validators.required,Validators.minLength(2),Validators.maxLength(1000)]]
 		});
 		this.fileUploadForm = this.formBuilder.group({
 			file:[null]
@@ -219,8 +222,23 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		reader.readAsDataURL(this.fileUploadForm.value.file);
 	}
 	BtnAddObservationsComments(){
-		console.log(this.formObs.value);
-		/** eniviar a guardar */
+		let eventObservationInDTO : EventObservationInDTO = [this.formObs.value].map(e=>{
+			return {
+				 id               : e.id
+				,ideventconfig    : this.formNew.get('id').value
+				,observation      : e.observation
+				,dateobservation  : new Date()
+				,save             : e.id == null
+				,active           : true
+			};
+		})[0];
+		this.incidentService.saveObservation(eventObservationInDTO).subscribe(data=>{
+			console.log(data);
+		}
+		,err=>{
+			this.toastr.errorToastr('Ocurrió un error al intentar registrar la observación', 'Lo siento,');
+		}
+		);
 		this.formObs.reset();
 	}
 	tableRowEdit(e){
