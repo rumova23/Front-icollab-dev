@@ -20,7 +20,7 @@ export class IncidentService {
 	getListObservations(incidentId: number): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(
-			`${this.url}incident/listObservations/${incidentId}`
+			`${this.url}incidents/listObservations/${incidentId}`
 			,{params : this.parameters }
 		);
 	}
@@ -28,7 +28,7 @@ export class IncidentService {
 	saveIncident(incidentInDTO: IncidentInDTO) {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.post( 
-			`${ this.url }incident/save`
+			`${ this.url }incidents/save`
 			,incidentInDTO
 			,{params : this.parameters }
 		);
@@ -36,7 +36,7 @@ export class IncidentService {
 	saveObservation(eventObservationInDTO: EventObservationInDTO) {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.post( 
-			`${ this.url }incident/saveObservation`
+			`${ this.url }incidents/saveObservation`
 			,eventObservationInDTO
 			,{params : this.parameters }
 		);

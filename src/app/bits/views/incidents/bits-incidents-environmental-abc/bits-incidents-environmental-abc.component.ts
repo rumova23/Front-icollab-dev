@@ -12,6 +12,7 @@ import { IncidentService } from '../../../services/incident.service';
 import { map } from 'rxjs/operators';
 import { IncidentInDTO } from '../../../models/incident-in-dto';
 import { EventObservationInDTO } from '../../../models/event-observation-in-dto';
+import { ResponseVO } from '../../../models/response-vo';
 
 @Component({
 	selector: 'app-bits-incidents-environmental-abc',
@@ -98,13 +99,13 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 			,order:[{value:null,disabled:false},[]]
 
 			,id:[null]
-			,tag:[{value:'test-01',disabled:true},[]]
+			,tag:[{value:null,disabled:true},[]]
 			,incidentType:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
 			,department:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
 			,specificLocation:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
 			,incidentDate:[{value:null,disabled:false},[Validators.required]]
 			,description:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(1000)]]
-			,save:[true]
+			
 
 			,AnalisisCausaRaizRCA:[{value:null,disabled:false},[]]
 			,FechaObjetivoEntregaRCA:[{value:null,disabled:false},[]]
@@ -146,7 +147,8 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 			this.tableObservationsCommentsSelection.changed.subscribe(event=> {
 				this.onSelectedUpdate(event);
 			});
-	}	
+	}
+	get fformNew() { return this.formNew.controls; }
 	formsDisabled(){
 		this.formNew.disable();
 		this.formObs.disable();
@@ -171,20 +173,28 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 	}
 	onFomrNew(o){
 		let incident : IncidentInDTO = [this.formNew.controls].map(e=>{
-			return {
-				 id                :e.id.value
-				,tag               :e.tag.value
-				,incidentType      :e.incidentType.value
-				,department        :e.department.value
-				,specificLocation  :e.specificLocation.value
-				,incidentDate      :this.datePipe.transform(e.incidentDate.value, 'dd/MM/yyyy HH:mm:ss')
-				,description       :e.description.value
-				,save              :e.save.value
-			};
-		})[0];
-		this.incidentService.saveIncident(incident).subscribe(data=>{
-			console.log(data);
-		});
+				return {
+					 id                :e.id.value
+					,tag               :e.tag.value
+					,incidentType      :e.incidentType.value
+					,department        :e.department.value
+					,specificLocation  :e.specificLocation.value
+					,incidentDate      :this.datePipe.transform(e.incidentDate.value, 'dd/MM/yyyy HH:mm:ss')
+					,description       :e.description.value
+					,save              :e.id.value == null
+				};
+			})[0];
+			this.incidentService.saveIncident(incident).subscribe((data:ResponseVO)=>{
+				this.formNew.get('id').setValue(data.code);
+				console.log(data);
+			}
+			,err=>{
+				this.formNew.get('id').setValue(1);
+				console.log(err);
+				this.toastr.errorToastr('Ocurrió un error al intentar registrar la observación', 'Lo siento,');
+			}
+
+		);
 	}
 	btnClickBack(){
 		const type = {};
