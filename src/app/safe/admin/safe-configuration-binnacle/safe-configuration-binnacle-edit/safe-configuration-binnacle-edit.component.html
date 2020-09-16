@@ -387,7 +387,7 @@
 		</div>
 		<div class="row pb-2">
 			<div class="col">
-				<p class="section_titulo_1">{{ "Prioridad de Cálculo" | translate }}</p>
+				<p class="section_titulo_1">{{ "Cálculos" | translate }}</p>
 			</div>
 		</div>
 		<div class="row">
@@ -398,14 +398,8 @@
 					(eventChange)="isnumeric($event)"
 					minValue="0"
 					step="1"
+					label="Prioridad"
 				></app-mat-input-number>
-			</div>
-		</div>
-		<div class=" col-12 col-lg-3">
-			<div class="row pb-2">
-				<div class="col">
-					<p class="section_titulo_1">{{ "Disponibilidad" | translate }}</p>
-				</div>
 			</div>
 			<div class="col-12 col-lg-3">
 				<app-mat-select-multiple
@@ -413,6 +407,7 @@
 						controlName="availabilityId"
 						[options]="lstAvailability"
 						[disableOption]="disableOption"
+						label="Disponibilidad"
 				></app-mat-select-multiple>
 			</div>
 		</div>
