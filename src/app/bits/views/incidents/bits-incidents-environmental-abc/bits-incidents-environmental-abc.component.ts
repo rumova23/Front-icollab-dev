@@ -148,7 +148,7 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 				this.onSelectedUpdate(event);
 			});
 	}
-	get fformNew() { return this.formNew.controls; }
+	get ctrlFNew() { return this.formNew.controls; }
 	formsDisabled(){
 		this.formNew.disable();
 		this.formObs.disable();
@@ -172,19 +172,17 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		console.log(this.formNew.controls.incidentDate.value);
 	}
 	onFomrNew(o){
-		let incident : IncidentInDTO = [this.formNew.controls].map(e=>{
-				return {
-					 id                :e.id.value
-					,tag               :e.tag.value
-					,incidentType      :e.incidentType.value
-					,department        :e.department.value
-					,specificLocation  :e.specificLocation.value
-					,incidentDate      :this.datePipe.transform(e.incidentDate.value, 'dd/MM/yyyy HH:mm:ss')
-					,description       :e.description.value
-					,save              :e.id.value == null
-				};
-			})[0];
-			this.incidentService.saveIncident(incident).subscribe((data:ResponseVO)=>{
+		let incident : IncidentInDTO = {
+			 id                :this.ctrlFNew.id.value
+			,tag               :this.ctrlFNew.tag.value
+			,incidentType      :this.ctrlFNew.incidentType.value
+			,department        :this.ctrlFNew.department.value
+			,specificLocation  :this.ctrlFNew.specificLocation.value
+			,incidentDate      :this.datePipe.transform(this.ctrlFNew.incidentDate.value, 'dd/MM/yyyy HH:mm:ss')
+			,description       :this.ctrlFNew.description.value
+			,save              :this.ctrlFNew.id.value == null
+		};			
+		this.incidentService.saveIncident(incident).subscribe((data:ResponseVO)=>{
 				this.formNew.get('id').setValue(data.code);
 				console.log(data);
 			}
@@ -193,7 +191,6 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 				console.log(err);
 				this.toastr.errorToastr('Ocurrió un error al intentar registrar la observación', 'Lo siento,');
 			}
-
 		);
 	}
 	btnClickBack(){
