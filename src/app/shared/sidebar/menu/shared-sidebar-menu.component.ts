@@ -36,7 +36,7 @@ export class SharedSidebarMenuComponent {
     hardcode(name) {
         switch (name) {
             case "Administrative_monitoring":
-                this.hardcodeAdministrative_monitoring();
+                this.hardcodeAdministrative_monitoring(this.menu);
                 break;
             case "Compliance":
                 this.hardcodeCompliance(this.menu);
@@ -166,9 +166,8 @@ export class SharedSidebarMenuComponent {
             }
         }
     }
-    hardcodeAdministrative_monitoring() {
-        ///*
-
+    hardcodeAdministrative_monitoring(menu) {
+        /*
         this.menu.push({
             id: "hardcode",
             idFather: "",
@@ -176,9 +175,21 @@ export class SharedSidebarMenuComponent {
             label: "phase 3v6",
             url: "phase3v6"
         });
-
-        
         //*/
+        
+        menu.map((item, indice)=>{
+            if(item.children && item.children.length > 0) {
+                this.hardcodeAdministrative_monitoring(item.children);
+            }
+            if (item.label == "home")               item.order = 0;
+            else if (item.label == "Phase2v1")     item.order = 1;
+            else if (item.label == "phase 3")     item.order = 2;
+            else if (item.label == "Dashboard 4")     item.order = 3;
+            else if (item.label == "Dashboard 5")     item.order = 3;
+          
+            else item.order = indice+30;
+        });
+        this.ordenar(menu);
     }
     hardcodeCompliance(menu){
         menu.map((item, indice)=>{

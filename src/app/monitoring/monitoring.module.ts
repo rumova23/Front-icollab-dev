@@ -22,6 +22,8 @@ import { Phase2v3Component } from './boards/phase2v3/phase2v3.component';
 import { Phase3v3Component } from './boards/phase3v3/phase3v3.component';
 import { Phase3v6Component } from './boards/phase3v6/phase3v6.component';
 import { HighChartsControlsComponent } from './common/high-charts-controls/high-charts-controls.component';
+import { Dashboard4Component } from './boards/dashboard4/dashboard4.component';
+import { Dashboard5Component } from './boards/dashboard5/dashboard5.component';
 
 @NgModule({
     declarations:[
@@ -39,7 +41,9 @@ import { HighChartsControlsComponent } from './common/high-charts-controls/high-
         Phase2v3Component,
         Phase3v3Component,
         Phase3v6Component,
-        HighChartsControlsComponent
+        HighChartsControlsComponent,
+        Dashboard4Component,
+        Dashboard5Component
     ],
     exports:[
     ],

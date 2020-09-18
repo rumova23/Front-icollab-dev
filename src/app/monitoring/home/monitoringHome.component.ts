@@ -21,6 +21,8 @@ import { Phase2v2Component } from '../boards/phase2v2/phase2v2.component';
 import { Phase2v3Component } from '../boards/phase2v3/phase2v3.component';
 import { Phase3v3Component } from '../boards/phase3v3/phase3v3.component';
 import { Phase3v6Component } from '../boards/phase3v6/phase3v6.component';
+import { Dashboard4Component } from '../boards/dashboard4/dashboard4.component';
+import { Dashboard5Component } from '../boards/dashboard5/dashboard5.component';
 
 
 @Component({
@@ -38,6 +40,8 @@ import { Phase3v6Component } from '../boards/phase3v6/phase3v6.component';
 		,Phase2v3Component
 		,Phase3v3Component
 		,Phase3v6Component
+		,Dashboard4Component
+		,Dashboard5Component
 	]
 })
 export class MonitoringHomeComponent extends ConnectSocketComponent implements OnInit, OnDestroy {
@@ -79,6 +83,16 @@ export class MonitoringHomeComponent extends ConnectSocketComponent implements O
 			next: (event: EventMessage) => {
 				this.viewContainerRef.clear();
 				switch (event.descriptor) {
+					case 'Administrative_monitoring.Dashboard4Component':
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(Dashboard4Component)
+						).changeDetectorRef.detectChanges();
+					break;
+					case 'Administrative_monitoring.Dashboard5Component':
+						this.viewContainerRef.createComponent(
+							this.componentFactoryResolver.resolveComponentFactory(Dashboard5Component)
+						).changeDetectorRef.detectChanges();
+					break;
 					case 'Administrative_monitoring.MonitoringWelcomeComponent':
 						this.viewContainerRef.createComponent(
 							this.componentFactoryResolver.resolveComponentFactory(MonitoringWelcomeComponent)
