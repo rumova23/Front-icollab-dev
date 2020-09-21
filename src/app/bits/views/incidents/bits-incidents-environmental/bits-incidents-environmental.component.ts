@@ -83,8 +83,9 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.incidentService.getListObservations(1).subscribe(data=>{
+		this.incidentService.list().subscribe(data=>{
 			console.log(data);
+			debugger;
 		});
 		this.formFilters = this.formBuilder.group({
 			a:[null]

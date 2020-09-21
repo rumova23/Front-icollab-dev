@@ -10,7 +10,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import * as moment from 'moment';
 import { IncidentService } from '../../../services/incident.service';
 import { map } from 'rxjs/operators';
-import { IncidentInDTO } from '../../../models/incident-in-dto';
+import { IncidentInDTO } from '../../../models/IncidentInDTO';
 import { EventObservationInDTO } from '../../../models/event-observation-in-dto';
 import { ResponseVO } from '../../../models/response-vo';
 
@@ -148,7 +148,7 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 				this.onSelectedUpdate(event);
 			});
 	}
-	get ctrlFNew() { return this.formNew.controls; }
+	get cFNew() { return this.formNew.controls; }
 	formsDisabled(){
 		this.formNew.disable();
 		this.formObs.disable();
@@ -173,18 +173,24 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 	}
 	onFomrNew(o){
 		let incident : IncidentInDTO = {
-			 id                :this.ctrlFNew.id.value
-			,tag               :this.ctrlFNew.tag.value
-			,incidentType      :this.ctrlFNew.incidentType.value
-			,department        :this.ctrlFNew.department.value
-			,specificLocation  :this.ctrlFNew.specificLocation.value
-			,incidentDate      :this.datePipe.transform(this.ctrlFNew.incidentDate.value, 'dd/MM/yyyy HH:mm:ss')
-			,description       :this.ctrlFNew.description.value
-			,save              :this.ctrlFNew.id.value == null
+			 id                :this.cFNew.id.value
+			,tag               :this.cFNew.tag.value
+			,incidentTypeId    :null
+			,incidentTypeDesc  :this.cFNew.incidentType.value
+			,department        :this.cFNew.department.value
+			,specificLocation  :this.cFNew.specificLocation.value
+			,incidentDate      :this.datePipe.transform(this.cFNew.incidentDate.value, 'dd/MM/yyyy HH:mm:ss')
+			,description       :this.cFNew.description.value
+			,save              :this.cFNew.id.value == null
+			,rca               :null
+			,rcaTargetDate     :null
+			,rcaDeliveredDate  :null
+			,proceed           :null
 		};			
-		this.incidentService.saveIncident(incident).subscribe((data:ResponseVO)=>{
-				this.formNew.get('id').setValue(data.code);
+		this.incidentService.saveIncident(incident).subscribe((data)=>{
+				//this.formNew.get('id').setValue(data);
 				console.log(data);
+				debugger;
 			}
 			,err=>{
 				this.formNew.get('id').setValue(1);

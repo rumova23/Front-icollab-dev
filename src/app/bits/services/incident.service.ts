@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { IncidentInDTO } from '../models/incident-in-dto';
+import { IncidentInDTO } from '../models/IncidentInDTO';
 import { EventObservationInDTO } from '../models/event-observation-in-dto';
 
 @Injectable({
@@ -16,6 +16,13 @@ export class IncidentService {
 		 private http          : HttpClient
 		,private globalService : GlobalService
 	) {}
+	list(): Observable<any> {
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.get(
+			`${this.url}incidents/list/`
+			,{params : this.parameters }
+		);
+	}
 	
 	getListObservations(incidentId: number): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
