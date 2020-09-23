@@ -12,6 +12,7 @@ import HC_customEvents from 'highcharts-custom-events';
 import HC_exportdata   from 'highcharts/modules/export-data';
 import Highcharts3d    from 'highcharts/highcharts-3d';
 import HC_more         from 'highcharts/highcharts-more';
+import HC_gantt        from 'highcharts/modules/gantt';
 import HC_extendExportXLS from 'src/app/core/highcharts/exportXLS';
 //require('highcharts/highcharts-more')(Highcharts);
 //require('highcharts/modules/solid-gauge')(Highcharts);
@@ -25,6 +26,7 @@ HC_customEvents(Highcharts);
 HC_exportdata(Highcharts);
 Highcharts3d(Highcharts);
 HC_extendExportXLS(Highcharts);
+HC_gantt(Highcharts);
 //theme(Highcharts);
 
 @Component({
