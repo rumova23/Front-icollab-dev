@@ -28,10 +28,10 @@ export class SafeListOfEventsComponent implements OnInit {
 	tableData: Array<any> = []; //Array<BinnacleEventDTO>
 	tablaColumnsLabels = [
 		{key: 'binnacleEventID'                                  , label: 'id'},
-		{key: 'order'                               , label: '#'},
+		{key: 'order'                               , label: '#',isSticky:true},
 		{key: 'dateTimeStartString'                   , label: 'Fecha y Hora Inicial'},
 		{key: 'dateTimeEndString'                     , label: 'Fecha y Hora Final'},
-		{key: 'eventsClassification'              , label: 'Clasificacion de Eventos'},
+		{key: 'eventsClassification'              , label: 'Clasificacion de Eventos',isSticky:true},
 		{key: 'events'                             , label: 'Eventos'},
 		{key: 'fuels'                         , label: 'Combustible'},
 		{key: 'powerMw'                           , label: 'Potencia (MW)'},

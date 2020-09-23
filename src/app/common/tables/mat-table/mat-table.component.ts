@@ -25,6 +25,7 @@ export class MatTableComponent implements OnInit , OnChanges {
 	@Input() columnsLabels  : ColumnLabel[] = [];
 	@Input() columnsDisplay : string[] = [];
 	@Input() showPagination : boolean = true;
+	@Input() maxHeight      : String = null;
 
 	dataSource;
 	displayedColumnsActions: any[] = [
