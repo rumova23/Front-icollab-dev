@@ -84,6 +84,16 @@ export class ComplianceProfileComponent implements OnInit {
 
         this.setCombos();
 
+        switch (this.inTipo) {
+            case 'ver':
+                this.title = 'Competencia de los Recursos / Personal / Alta de Personal / Consultar';
+                break;
+            case 'editar':
+                this.title = 'Competencia de los Recursos / Personal / Alta de Personal / Editar';
+                break;
+            default:
+                break;
+        }
 
         if (this.inTipo === 'ver') {
             this.isdisabled = true;
@@ -134,7 +144,6 @@ export class ComplianceProfileComponent implements OnInit {
             this.addBlock(1, 'Cargando...');
             this.cmbos.getEmpleado(this.inIdEmpleado).subscribe(
                 respuesta => {
-                    debugger;
                     const currentDate = new Date().toISOString().substring(0, 10);
                     this.perfilForm.controls['fEmpNum'].setValue(respuesta[ 'userId' ]);
                     this.enterprise = (respuesta['userId'] as string).split('-')[0];

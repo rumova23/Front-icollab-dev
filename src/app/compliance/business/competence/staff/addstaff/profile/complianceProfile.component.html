@@ -300,7 +300,7 @@
                 <div class="row mb-4">
                     <div class="col">
                         <label>Descripción del puesto</label>
-                        <textarea formControlName="fJobDescription" class="form-control" #description maxlength="1000" rows="9"
+                        <textarea formControlName="fJobDescription" class="form-control textareadesc" #description maxlength="1000" rows="9"
                                   [ngClass]="{ 'is-invalid': submitted && f.fJobDescription.errors }" >
                         </textarea>
                         <small class="form-text text-muted text-right">{{description.value?.length || 0}}/1000</small>
