@@ -11,25 +11,27 @@ export var code = {
         [row_x_page]="tableRow_x_page"
         [selection]="selection"
         selectionLabel="Visible"
+        (clickLink)="onTableRowLink($event)"
         (clickSee)="tableRowSee($event)"
         (clickEdit)="tableRowEdit($event)"
         (clickDelete)="tableRowDelete($event)"
     ></app-mat-table>`
     ,table01:
-    `tableData = [
+`   tableData = [
         {order:1,fechaOp:new Date(),fuenteImport:'2da Corrida MM',usuario:'Usuario'  ,fechaMod:new Date(),estatus:'exitosa'},
-        {order:2,fechaOp:new Date(),fuenteImport:'2da Corrida MM',usuario:'Sistema'  ,fechaMod:new Date(),estatus:'exitosa'},
+        {order:2,fechaOp:new Date(),fuenteImport:'2da Corrida MM',usuario:'Sistema'  ,fechaMod:new Date(),estatus:'exitosa' ,backgroundColor: 'gold' },
         {order:3,fechaOp:new Date(),fuenteImport:'1ra Corrida MM',usuario:'Usuario'  ,fechaMod:new Date(),estatus:'exitosa'},
         {order:4,fechaOp:new Date(),fuenteImport:'1ra Corrida MM',usuario:'Sistema'  ,fechaMod:new Date(),estatus:'exitosa'},
         {order:5,fechaOp:new Date(),fuenteImport:'1ra Corrida MM',usuario:'Sistema'  ,fechaMod:new Date(),estatus:'exitosa'}
     ];
     tablaColumnsLabels=[
-        { key: 'order'        , label: '#' },
-        { key: 'fechaOp'      , label: 'Fecha de Operación Comercial'       , dateFormat:'dd/MM/yyyy' },
+        { key: 'order'        , label: '#'                                  , isSticky   : true},
+        { key: 'fechaOp'      , label: 'Fecha de Operación Comercial'       , dateFormat : 'dd/MM/yyyy' },
         { key: 'fuenteImport' , label: 'Fuente de Importación' },
         { key: 'usuario'      , label: 'Usuario' },
-        { key: 'fechaMod'     , label: 'Fecha y Hora Ultima Modificación'   , dateFormat:'dd/MM/yyyy' },
-        { key: 'estatus'      , label: 'Estatus de la Importación' }
+        { key: 'fechaMod'     , label: 'Fecha y Hora Ultima Modificación'   , dateFormat : 'dd/MM/yyyy' },
+        { key: 'estatus'      , label: 'Estatus de la Importación' },
+        { key: 'timbrar'      , label: 'Timbrar'                            , typeLink   : {matIcon:'touch_app'}},
     ];
     tableColumnsDisplay: string[] = [
         'sys_checkbox',
@@ -39,6 +41,7 @@ export var code = {
         'usuario',
         'fechaMod',
         'estatus',
+        'timbrar',
         'sys_see',
         'sys_edit',
         'sys_delete'

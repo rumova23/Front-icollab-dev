@@ -21,8 +21,9 @@ export class SecurityDocComponent implements OnInit {
 	form: FormGroup;
 	tableDataDemo = [];
 	tablaColumnsLabels = [
-		{ key: 'order', label: '#' },
-		{ key: 'date', label: 'Fecha', dateFormat: 'dd/MM/yyyy HH:mm:ss' }
+		{ key: 'order'   ,label: '#'       ,isSticky   : true},
+		{ key: 'date'    ,label: 'Fecha'   ,dateFormat : 'dd/MM/yyyy HH:mm:ss' },
+		{ key: 'timbrar' ,label: 'Timbrar' ,typeLink   : {matIcon:'touch_app'}},
 	];
 	tableColumnsDisplay: string[] = [
 		'sys_checkbox',
@@ -32,6 +33,7 @@ export class SecurityDocComponent implements OnInit {
 		'name',
 		'weight',
 		'symbol',
+		'timbrar',
 		'sys_see',
 		'sys_edit',
 		'sys_delete'
@@ -53,6 +55,11 @@ export class SecurityDocComponent implements OnInit {
 	selection: SelectionModel<any> = new SelectionModel<any>(true, []);
 	inputNumberMin = 0;
 	inputNumberMax = 100000;
+
+	
+	@ViewChild("LineChart2") LineChart2: ElementRef;
+	chartLine2C = null;
+
 	constructor(
 		public toastr: ToastrManager,
 		private formBuilder: FormBuilder,
@@ -72,7 +79,7 @@ export class SecurityDocComponent implements OnInit {
 			inputNumber: [{ value: null, disabled: false }, [Validators.required, Validators.min(this.inputNumberMin), Validators.max(this.inputNumberMax)]],
 			select: [{ value: '', disabled: false }, Validators.required]
 		});
-		this.chartCreate();
+		//this.chartCreate();
 	}
 	setTableData() {
 		timer(2000).subscribe(() => {
@@ -116,7 +123,9 @@ export class SecurityDocComponent implements OnInit {
 	onChangeSelectFuente(e) {
 		this.toastr.successToastr('Evento change', '¡Fuente seleccionada!');
 	}
-
+	onTableRowLink(element) {
+		console.log(element);
+	}
 	tableRowDelete(element) {
 		console.log(element);
 	}
@@ -141,8 +150,6 @@ export class SecurityDocComponent implements OnInit {
 	customToastr() {
 		this.toastr.customToastr('customToastr', 'customToastr');
 	}
-	@ViewChild("LineChart2") LineChart2: ElementRef;
-	chartLine2C = null;
 	chartCreate() {
 		//https://jsfiddle.net/jwpxte12/53/
 		let today2 = new Date(),
