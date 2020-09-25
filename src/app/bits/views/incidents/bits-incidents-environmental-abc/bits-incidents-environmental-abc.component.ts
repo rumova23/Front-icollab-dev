@@ -99,7 +99,7 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 			,order:[{value:null,disabled:false},[]]
 
 			,id:[null]
-			,tag:[{value:null,disabled:true},[]]
+			,tag:[{value:'AMB',disabled:true},[]]
 			,incidentType:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
 			,department:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
 			,specificLocation:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
