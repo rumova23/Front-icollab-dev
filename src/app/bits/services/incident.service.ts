@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { IncidentInDTO } from '../models/IncidentInDTO';
 import { EventObservationInDTO } from '../models/event-observation-in-dto';
+import { IncidentOutDTO } from '../models/IncidentOutDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +17,19 @@ export class IncidentService {
 		 private http          : HttpClient
 		,private globalService : GlobalService
 	) {}
-	list(): Observable<any> {
+	list(): Observable<IncidentOutDTO[]> {
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get(
+		return this.http.get<IncidentOutDTO[]>(
 			`${this.url}incidents/list/`
 			,{params : this.parameters }
 		);
 	}
-	
+	delete(id:number):Observable<any>{
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.delete(
+			`${this.url}incidents/delete/${id}`  
+			, {params : this.parameters });
+	}
 	getListObservations(incidentId: number): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get(
@@ -32,9 +38,9 @@ export class IncidentService {
 		);
 	}
 	
-	saveIncident(incidentInDTO: IncidentInDTO) {
+	saveIncident(incidentInDTO: IncidentInDTO): Observable<IncidentOutDTO>  {
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.post( 
+		return this.http.post<IncidentOutDTO>( 
 			`${ this.url }incidents/save`
 			,incidentInDTO
 			,{params : this.parameters }

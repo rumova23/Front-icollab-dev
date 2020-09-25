@@ -5,6 +5,10 @@ import { EventService } from 'src/app/core/services/event.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IdLabel } from 'src/app/core/models/IdLabel';
 import { IncidentService } from '../../../services/incident.service';
+import { IncidentOutDTO } from 'src/app/bits/models/IncidentOutDTO';
+import { ToastrManager } from 'ng6-toastr-notifications';
+import { ConfirmationDialogService } from 'src/app/core/services/confirmation-dialog.service';
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 @Component({
 	selector: 'app-bits-incidents-environmental',
@@ -12,58 +16,50 @@ import { IncidentService } from '../../../services/incident.service';
 	styleUrls: ['./bits-incidents-environmental.component.scss']
 })
 export class BitsIncidentsEnvironmentalComponent implements OnInit {
-	tableData = [
-		{
-			order:"1"
-			,TAG:"TAG"
-			,TipoIncidente:"TipoIncidente"
-			,Departamento:"Departamento"
-			,Ubicacion:"Ubicacion"
-			,FechaOcurrioIncidente:new Date()
-			,AplicaRCA:"AplicaRCA"
-			,EsProcedente:"EsProcedente"
-			,NombreApellidosUsuarioReportador:"NombreApellidosUsuarioReportador"
-			,NombreApellidosUsuarioSupervisor:"NombreApellidosUsuarioSupervisor"
-			,NombreApellidosUsuarioAprobador:"NombreApellidosUsuarioAprobador"
-			,EstatusEvento:"EstatusEvento"
-			,EstatusAprobacion:"EstatusAprobacion"
-			,UsuarioUltimaModificacion:"UsuarioUltimaModificacion"
-			,FechaUltimaModificacion:new Date()
-		}
-	];
+	tableData = [];
 	tablaColumnsLabels : ColumnLabel[] = [
 		 {key:'order'                            ,label:'#'}
-		,{key:'TAG'                              ,label:'TAG'}
-		,{key:'TipoIncidente'                    ,label:'Tipo de Incidente'}
-		,{key:'Departamento'                     ,label:'Departamento'}
-		,{key:'Ubicacion'                        ,label:'Ubicación'}
-		,{key:'FechaOcurrioIncidente'            ,label:'Fecha en que ocurrió el incidente', dateFormat:'dd/MM/yyyy HH:mm'}
-		,{key:'AplicaRCA'                        ,label:'Aplica RCA'}
-		,{key:'EsProcedente'                     ,label:'Es Procedente'}
-		,{key:'NombreApellidosUsuarioReportador' ,label:'Nombre(s) Apellidos Usuario Reportador'}
-		,{key:'NombreApellidosUsuarioSupervisor' ,label:'Nombre(s) Apellidos Usuario Supervisor'}
-		,{key:'NombreApellidosUsuarioAprobador'  ,label:'Nombre(s) Apellidos Usuario Aprobador'}
-		,{key:'EstatusEvento'                    ,label:'Estatus del Evento'}
-		,{key:'EstatusAprobacion'                ,label:'Estatus de Aprobación'}
-		,{key:'UsuarioUltimaModificacion'        ,label:'Usuario Última Modificación'}
-		,{key:'FechaUltimaModificacion'          ,label:'Fecha de Última Modificación', dateFormat:'dd/MM/yyyy HH:mm'}
+		//,{key:'id'}
+		,{key:'tag',label:'TAG'}
+		//,{key:'incidentTypeId',label:'Tipo de Incidente'}
+		,{key:'incidentTypeDesc',label:'Tipo de Incidente'}
+		,{key:'department',label:'Departamento'}
+		,{key:'specificLocation',label:'Ubicación'}
+		,{key:'incidentDate',label:'Fecha en que ocurrió el incidente', dateFormat:'dd/MM/yyyy HH:mm'}
+		,{key:'description',label:'Descripción'}
+		,{key:'rca',label:'Aplica RCA'}
+		,{key:'rcaTargetDate',label:'rcaTargetDate'}
+		,{key:'rcaDeliveredDate',label:'rcaDeliveredDate'}
+		,{key:'active',label:'Estatus del Evento'}
+		,{key:'proceed',label:'Estatus de Aprobación'}
+		//,{key:'userCreated'}
+		//,{key:'dateCreated'}
+		,{key:'userUpdated',label:'Usuario Última Modificación'}
+		,{key:'dateUpdated',label:'Fecha de Última Modificación', dateFormat:'dd/MM/yyyy HH:mm'}
 	];
 	tableColumnsDisplay: string[] = [
 		'order'
-		,'TAG'
-		,'TipoIncidente'
-		,'Departamento'
-		,'Ubicacion'
-		,'FechaOcurrioIncidente'
-		,'AplicaRCA'
+		,'tag'
+		//,'incidentTypeId'
+		,'incidentTypeDesc'
+		,'department'
+		,'specificLocation'
+		,'incidentDate'
+		,'description'
+		,'active'
+		,'rca'
 		,'EsProcedente'
 		,'NombreApellidosUsuarioReportador'
 		,'NombreApellidosUsuarioSupervisor'
 		,'NombreApellidosUsuarioAprobador'
-		,'EstatusEvento'
-		,'EstatusAprobacion'
-		,'UsuarioUltimaModificacion'
-		,'FechaUltimaModificacion'
+		//,'rcaTargetDate'
+		//,'rcaDeliveredDate'
+		//,'proceed'
+		//,'userCreated'
+		//,'dateCreated'
+		,'userUpdated'
+		,'dateUpdated'
+
 		,'sys_see'
 		,'sys_edit'
 		,'sys_delete'
@@ -80,18 +76,31 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
 		public eventService : EventService
 		,private formBuilder: FormBuilder
 		,private incidentService : IncidentService
+		,private toastr: ToastrManager
+		,private confirmationDialogService: ConfirmationDialogService
 	) { }
 
 	ngOnInit() {
-		this.incidentService.list().subscribe(data=>{
-			console.log(data);
-			debugger;
-		});
+		this.onLoadInit()
 		this.formFilters = this.formBuilder.group({
 			a:[null]
 		});
 		this.formFiltersType = this.formBuilder.group({
 			typeFilter:[2,Validators.required]
+		});
+	}
+	onLoadInit(){
+		this.addBlock(1, '');
+		this.incidentService.list().subscribe((data:IncidentOutDTO[])=>{
+			console.log(data);
+			this.tableData = data.map((e,i)=>{
+				e.order = i+1;				
+				return e;
+			});
+		}
+		,err=>{}
+		,()=>{
+			this.addBlock(2, '');
 		});
 	}
 	onbtnAdd(){
@@ -131,7 +140,29 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
         );		
 	}
 	onTableRowDelete(e){
-		console.log(e);		
+		console.log(e);
+		this.confirmationDialogService.confirm(
+			'ALERTA DE CONFIRMACIÓN DEREGISTRO',
+			`¿Desea eliminar el registro ${e.tag} ?`
+		)
+			.then((confirmed) => {
+				if ( confirmed ) {
+					this.incidentService.delete(e.id).subscribe(
+						data => {
+							console.log(data);
+							this.toastr.successToastr('Elemento Correctamente Borrado', 'Exito');
+						},
+						errorData => {
+							console.log(errorData);
+							this.toastr.errorToastr('Error', 'Error');
+							this.onLoadInit();
+						},
+						() => {
+							this.onLoadInit();
+						});
+				}
+			})
+			.catch(() => {});
 	}
 	limpiarFiltros(){
 		this.formFilters.reset();
@@ -143,5 +174,10 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
 		console.log(b);
 		
 		
+	}
+	
+	addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1,
+			new EventBlocked(type, msg)));
 	}
 }

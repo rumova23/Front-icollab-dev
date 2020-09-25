@@ -12,7 +12,8 @@ import { IncidentService } from '../../../services/incident.service';
 import { map } from 'rxjs/operators';
 import { IncidentInDTO } from '../../../models/IncidentInDTO';
 import { EventObservationInDTO } from '../../../models/event-observation-in-dto';
-import { ResponseVO } from '../../../models/response-vo';
+import { IncidentOutDTO } from 'src/app/bits/models/IncidentOutDTO';
+
 
 @Component({
 	selector: 'app-bits-incidents-environmental-abc',
@@ -100,7 +101,7 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 
 			,id:[null]
 			,tag:[{value:'AMB',disabled:true},[]]
-			,incidentType:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
+			,incidentTypeDesc:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
 			,department:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
 			,specificLocation:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
 			,incidentDate:[{value:null,disabled:false},[Validators.required]]
@@ -157,7 +158,21 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 	setData(){
 		for (const key in this.catalogType.element) {
 			const propertie = this.catalogType.element[key];
-			this.formNew.controls[key].setValue(propertie);
+			switch (key) {
+				case 'incidentDate':
+					let date = moment(propertie);
+					let h = date.hour();
+					let m = date.minute();
+					this.formNew.controls.incidentDate.setValue(date.toDate());
+					this.formTim.controls.h1.setValue((h < 10 ? '0' : '')+h);
+			        this.formTim.controls.m1.setValue((m < 10 ? '0' : '')+m);
+				break;			
+				default:
+					if(this.formNew.get(key)){
+						this.formNew.controls[key].setValue(propertie);
+					}
+				break;
+			}
 		}
 	}
 	onChangeDateFechaOcurrioIncidente(){
@@ -171,14 +186,18 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		}
 		console.log(this.formNew.controls.incidentDate.value);
 	}
+	getTimeA(): string {
+		return this.formTim.controls.h1.value + ':' + this.formTim.controls.m1.value + ':00';
+	}
 	onFomrNew(o){
 		let incident : IncidentInDTO = {
 			 id                :this.cFNew.id.value
 			,tag               :this.cFNew.tag.value
 			,incidentTypeId    :null
-			,incidentTypeDesc  :this.cFNew.incidentType.value
+			,incidentTypeDesc  :this.cFNew.incidentTypeDesc.value
 			,department        :this.cFNew.department.value
 			,specificLocation  :this.cFNew.specificLocation.value
+			//,incidentDate      :this.datePipe.transform(new Date( this.datePipe.transform(this.cFNew.incidentDate.value, 'yyyy-MM-dd') + 'T' + this.getTimeA()), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS')
 			,incidentDate      :this.datePipe.transform(this.cFNew.incidentDate.value, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS')
 			,description       :this.cFNew.description.value
 			,save              :this.cFNew.id.value == null
@@ -187,10 +206,11 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 			,rcaDeliveredDate  :null
 			,proceed           :null
 		};			
-		this.incidentService.saveIncident(incident).subscribe((data)=>{
-				//this.formNew.get('id').setValue(data);
+		this.incidentService.saveIncident(incident).subscribe((data:IncidentOutDTO)=>{
+				this.formNew.get('id').setValue(data.id);
+				this.formNew.get('tag').setValue(data.tag);
 				console.log(data);
-				debugger;
+				this.toastr.successToastr('Elemento Guardado Correctamente', 'Exito');
 			}
 			,err=>{
 				this.formNew.get('id').setValue(1);
