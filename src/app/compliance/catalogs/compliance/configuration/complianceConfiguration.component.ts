@@ -25,6 +25,7 @@ import * as moment from 'moment';
 import { IdLabel } from 'src/app/core/models/IdLabel';
 import { ColumnLabel } from '../../../../core/models/ColumnLabel';
 import { OrderCatalogDTO } from 'src/app/compliance/models/OrderCatalogDTO';
+import * as Util from 'src/app/core/helpers/util.general';
 
 @Component({
   selector: 'app-complianceConfiguration',
@@ -471,76 +472,18 @@ export class ComplianceConfigurationComponent implements OnInit {
     }
     
     onFiltersTable(){      
-      let isEmptyFilters = true;
-      for (const key in this.formFiltersTable.value) {
-        const filter = this.formFiltersTable.value[key];
-        if(filter !== null && filter !== '' ){
-          isEmptyFilters = false;
-        }
-      }
-      const filterMinDate = this.formFiltersTable.value['minDate__dateUpdated'];
-      const filterMaxDate = this.formFiltersTable.value['maxDate__dateUpdated'];
-      if(filterMinDate !== null && filterMaxDate !== null){
-        let minD = new Date(filterMinDate).getTime();
-        let maxD = new Date(filterMaxDate);
-        maxD.setHours(23);
-        maxD.setMinutes(59);
-
-        isEmptyFilters ? this.limpiarFiltros() : this.tableDataFiltered = this.search(
-          this.tableData.filter(o=>
-            new Date(o['dateUpdated']).getTime() >= minD && new Date(o['dateUpdated']).getTime() <= maxD.getTime()
-          )
-        );
-      }else{
-        isEmptyFilters ? this.limpiarFiltros() : this.tableDataFiltered = this.search();
-      }
+      const typeSearch = this.formFiltersTypeTable.value.typeFilter.toString() === '1' ? 'AND' : 'OR'; // 1. OR \ 2. AND for search conditions
+      
+      Util.isEmptyFilters(this.formFiltersTable.value) 
+        ? this.limpiarFiltros() 
+        : this.tableDataFiltered = Util.tableFilter(this.tableData,this.formFiltersTable.value,typeSearch,'dateUpdated');
+      
     }
     limpiarFiltros(){
       this.tableDataFiltered = this.tableData.concat([]);
       this.formFiltersTable.reset();
       this.formDeliveryPeriod.reset();      
       this.formDeliveryPeriodSubmited = false;
-    }
-    search(tableData = this.tableData){
-      const typeSearch = this.formFiltersTypeTable.value.typeFilter.toString() === '1' ? 'AND' : 'OR'; // 1. OR \ 2. AND for search conditions
-      return tableData.filter(o =>{
-        let r = true;
-        for (const key in this.formFiltersTable.value) {
-          const filter = this.formFiltersTable.value[key];
-          if (typeSearch === 'OR') {
-            if (key.startsWith('minDate__')){
-              if(filter !== null && (new Date(filter).getTime() <= new Date(o[key.split('minDate__')[1]]).getTime())) 
-                return true;
-            }else if (key.startsWith('maxDate__')){
-              let maxDate = new Date(filter)
-              maxDate.setHours(23);
-              maxDate.setMinutes(59);
-              if(filter !== null && (maxDate.getTime() >= new Date(o[key.split('maxDate__')[1]]).getTime()))
-                return true;
-            }else{
-              if(filter !== null && filter !== '' && o[key].toLowerCase().startsWith(filter.trim().toLowerCase())){
-                return true;
-              }
-            }
-          }else{
-            if (key.startsWith('minDate__')){
-              if(filter !== null && (new Date(filter).getTime() >= new Date(o[key.split('minDate__')[1]]).getTime()))
-                r =  false;
-            }else if (key.startsWith('maxDate__')){
-              let maxDate = new Date(filter)
-              maxDate.setHours(23);
-              maxDate.setMinutes(59);
-              if(filter !== null && (maxDate.getTime() <= new Date(o[key.split('maxDate__')[1]]).getTime()))
-                r =  false;
-            }else{
-              if(filter !== null && filter !== '' && !o[key].toLowerCase().startsWith(filter.trim().toLowerCase())){
-                r = false;
-              }
-            }
-          }
-        }
-        return (typeSearch === 'OR') ?  false : r ;          
-      }).map((e,index)=>{e['order']=index+1;return e;});
     }
     isnumeric(v){
       if ( isNaN( Number(v)) || 0 === Number(v) ) {
