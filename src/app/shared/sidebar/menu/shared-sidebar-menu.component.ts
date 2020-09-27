@@ -200,8 +200,8 @@ export class SharedSidebarMenuComponent {
             else if (item.label == "Catálogos")     item.order = 1;
                 else if (item.label == "authorities")     item.order = 0;
                 else if (item.label == "categories")     item.order = 1;
-            else if (item.label == "Configuración de Cumplimiento Legal")     item.order = 2;
-                else if (item.label == "Características")     item.order = 0;
+            else if (item.label == "Cumplimiento Legal")     item.order = 2;
+                else if (item.label == "Configuración de Cumplimiento")     item.order = 0;
                 else if (item.label == "Planeación")     item.order = 1;
             else if (item.label == "legalAgreement")     item.order = 3;
             else if (item.label == "Cumplimiento Adquisiciones")     item.order = 4;
