@@ -27,6 +27,14 @@ import {ComplianceProfileComponent        } from '../business/competence/staff/a
 import {EvaluationComponent               } from '../business/competence/staff/evaluation/evaluation.component';
 import {EditEvaluationHomeComponent} from '../business/competence/staff/evaluation/editevaluation/editEvaluationHome.component';
 import {HistoryEvaluationComponent} from '../business/competence/staff/evaluation/historyevaluation/historyEvaluation.component';
+import { TaskTrackingComponent } from '../business/legalCompliance/task-tracking/task-tracking.component';
+import { ApprovalComplianceComponent } from '../business/legalCompliance/approval-compliance/approval-compliance.component';
+import { GenerationTasksAssignmentResponsibilitiesComponent } from '../business/legalCompliance/generation-tasks-assignment-responsibilities/generation-tasks-assignment-responsibilities.component';
+import { ICTaskTrackingComponent } from '../business/internalCompliance/ictask-tracking/ictask-tracking.component';
+import { ICPlanningConfigurationComponent } from '../business/internalCompliance/icplanning-configuration/icplanning-configuration.component';
+import { ICGenerationTasksAssignmentResponsibilitiesComponent } from '../business/internalCompliance/icgeneration-tasks-assignment-responsibilities/icgeneration-tasks-assignment-responsibilities.component';
+import { ICComplianceConfigurationComponent } from '../business/internalCompliance/iccompliance-configuration/iccompliance-configuration.component';
+import { ICApprovalComplianceComponent } from '../business/internalCompliance/icapproval-compliance/icapproval-compliance.component';
 
 @Component({
 	selector        : 'app-compliance-home',
@@ -50,7 +58,17 @@ import {HistoryEvaluationComponent} from '../business/competence/staff/evaluatio
 		ComplianceProfileComponent,
 		EvaluationComponent,
 		EditEvaluationHomeComponent,
-		HistoryEvaluationComponent]
+		HistoryEvaluationComponent
+	
+		,TaskTrackingComponent
+		,GenerationTasksAssignmentResponsibilitiesComponent
+		,ApprovalComplianceComponent
+		,ICTaskTrackingComponent
+		,ICPlanningConfigurationComponent
+		,ICGenerationTasksAssignmentResponsibilitiesComponent
+		,ICComplianceConfigurationComponent
+		,ICApprovalComplianceComponent
+	]
 })
 export class ComplianceHomeComponent implements OnInit {
 	@ViewChild('container', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
@@ -90,6 +108,63 @@ export class ComplianceHomeComponent implements OnInit {
 					case 'Compliance.Home':
 						this.viewContainerRef
 							.createComponent(this.componentFactoryResolver.resolveComponentFactory(ComplianceWelcomeComponent))
+							.changeDetectorRef
+							.detectChanges();
+						break;
+						
+					case 'Compliance.TaskTrackingComponent':
+						this.viewContainerRef
+							.createComponent(this.componentFactoryResolver
+								.resolveComponentFactory(TaskTrackingComponent))
+							.changeDetectorRef
+							.detectChanges();
+						break;
+					case 'Compliance.GenerationTasksAssignmentResponsibilitiesComponent':
+						this.viewContainerRef
+							.createComponent(this.componentFactoryResolver
+								.resolveComponentFactory(GenerationTasksAssignmentResponsibilitiesComponent))
+							.changeDetectorRef
+							.detectChanges();
+						break;
+					case 'Compliance.ApprovalComplianceComponent':
+						this.viewContainerRef
+							.createComponent(this.componentFactoryResolver
+								.resolveComponentFactory(ApprovalComplianceComponent))
+							.changeDetectorRef
+							.detectChanges();
+						break;
+					case 'Compliance.ICTaskTrackingComponent':
+						this.viewContainerRef
+							.createComponent(this.componentFactoryResolver
+								.resolveComponentFactory(ICTaskTrackingComponent))
+							.changeDetectorRef
+							.detectChanges();
+						break;
+					case 'Compliance.ICPlanningConfigurationComponent':
+						this.viewContainerRef
+							.createComponent(this.componentFactoryResolver
+								.resolveComponentFactory(ICPlanningConfigurationComponent))
+							.changeDetectorRef
+							.detectChanges();
+						break;
+					case 'Compliance.ICGenerationTasksAssignmentResponsibilitiesComponent':
+						this.viewContainerRef
+							.createComponent(this.componentFactoryResolver
+								.resolveComponentFactory(ICGenerationTasksAssignmentResponsibilitiesComponent))
+							.changeDetectorRef
+							.detectChanges();
+						break;
+					case 'Compliance.ICComplianceConfigurationComponent':
+						this.viewContainerRef
+							.createComponent(this.componentFactoryResolver
+								.resolveComponentFactory(ICComplianceConfigurationComponent))
+							.changeDetectorRef
+							.detectChanges();
+						break;
+					case 'Compliance.ICApprovalComplianceComponent':
+						this.viewContainerRef
+							.createComponent(this.componentFactoryResolver
+								.resolveComponentFactory(ICApprovalComplianceComponent))
 							.changeDetectorRef
 							.detectChanges();
 						break;

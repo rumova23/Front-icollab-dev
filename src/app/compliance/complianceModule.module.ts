@@ -70,6 +70,14 @@ import { EvaluationComponent                    } from './business/competence/st
 import {EditEvaluationHomeComponent				} from './business/competence/staff/evaluation/editevaluation/editEvaluationHome.component';
 import {HistoryEvaluationComponent				} from './business/competence/staff/evaluation/historyevaluation/historyEvaluation.component';
 import {TrimContentDirective} from '../core/helpers/trim-content.directive';
+import { TaskTrackingComponent } from './business/legalCompliance/task-tracking/task-tracking.component';
+import { GenerationTasksAssignmentResponsibilitiesComponent } from './business/legalCompliance/generation-tasks-assignment-responsibilities/generation-tasks-assignment-responsibilities.component';
+import { ApprovalComplianceComponent } from './business/legalCompliance/approval-compliance/approval-compliance.component';
+import { ICTaskTrackingComponent } from './business/internalCompliance/ictask-tracking/ictask-tracking.component';
+import { ICPlanningConfigurationComponent } from './business/internalCompliance/icplanning-configuration/icplanning-configuration.component';
+import { ICGenerationTasksAssignmentResponsibilitiesComponent } from './business/internalCompliance/icgeneration-tasks-assignment-responsibilities/icgeneration-tasks-assignment-responsibilities.component';
+import { ICComplianceConfigurationComponent } from './business/internalCompliance/iccompliance-configuration/iccompliance-configuration.component';
+import { ICApprovalComplianceComponent } from './business/internalCompliance/icapproval-compliance/icapproval-compliance.component';
 
 @NgModule({
     declarations:[
@@ -114,6 +122,16 @@ import {TrimContentDirective} from '../core/helpers/trim-content.directive';
 		,EditEvaluationHomeComponent
 		,HistoryEvaluationComponent
 		,TrimContentDirective
+
+		,TaskTrackingComponent
+		,GenerationTasksAssignmentResponsibilitiesComponent
+		,ApprovalComplianceComponent
+		,ICTaskTrackingComponent
+		,ICPlanningConfigurationComponent
+		,ICGenerationTasksAssignmentResponsibilitiesComponent
+		,ICComplianceConfigurationComponent
+		,ICApprovalComplianceComponent
+
     ],
     exports:[
     ],
