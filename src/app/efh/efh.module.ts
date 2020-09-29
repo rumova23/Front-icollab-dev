@@ -52,6 +52,9 @@ import { DashboardGeneralComponent } from './dashboards/dashboard-general/dashbo
     FlatpickrModule.forRoot(),
     ToastrModule.forRoot(),
     BlockUIModule.forRoot({message: Constants.LOADING_MEESSAGE})
+  ],
+  exports:[
+    EfhUploadComponent
   ]
 })
 export class EfhModule { }

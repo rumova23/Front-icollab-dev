@@ -299,7 +299,11 @@
 				<p class="section_subtitulo_0"></p>
 			</div>
 		</div>
-		<div class="row my-5">
+		<!-- Soportes -->
+		<div>
+			<app-efh-upload [inIdEventConfig]="cFNew.id.value" [inAccion]="accion" [inTypeConfig]="1"></app-efh-upload>
+		</div>
+		<!--div class="row my-5">
 			<div class="col">
 				<div class="media">
 					<img src="assets/img/xlsx.png" style="width: 64px; height: 64px;">
@@ -330,7 +334,7 @@
 
 				</div>
 			</div>
-		</div>
+		</div-->
 	</div>
 	<div class="section" *ngIf="cFNew.id.value != null">
 		<div class="row">

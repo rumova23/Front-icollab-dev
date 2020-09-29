@@ -17,6 +17,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { ToastrModule } from 'ng6-toastr-notifications';
 import { BlockUIModule } from 'ng-block-ui';
 import { Constants } from '../core/globals/Constants';
+import { EfhModule } from '../efh/efh.module';
 
 @NgModule({
     declarations:[
@@ -32,6 +33,8 @@ import { Constants } from '../core/globals/Constants';
         BrowserModule,
         FormsModule,
         SharedModule,
+
+        EfhModule,
 
         MDBBootstrapModule.forRoot(),
         ComponentsModule,

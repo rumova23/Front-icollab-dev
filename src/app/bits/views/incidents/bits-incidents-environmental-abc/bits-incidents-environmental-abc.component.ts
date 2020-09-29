@@ -72,6 +72,7 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		{ key: 'status', label: 'Estatus' },
 		{ key: 'dateUpdate', label: 'Fecha de Ultima Modificación' , dateFormat:'dd/MM/yyyy HH:mm'},
 	];
+	accion="nuevo";
 	constructor(
 		private formBuilder   : FormBuilder
 		,private datePipe     : DatePipe
@@ -131,14 +132,17 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		});
 		switch (this.catalogType.action) {
 			case 'nuevo':
+				this.accion="nuevo";
 				this.actionPage = 'Add';
 				this.globalService.lockHeaderSidebar(true,'');
 				break;
 			case 'editar':
+				this.accion="editar";
 				this.actionPage = 'Edit';
 				this.setData();
 				break;
 			case 'ver':
+				this.accion="ver";
 				this.actionPage = 'See';
 				this.isReadOnly = true;
 				this.formsDisabled();
