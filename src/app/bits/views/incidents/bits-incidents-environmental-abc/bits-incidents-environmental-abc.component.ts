@@ -11,8 +11,9 @@ import * as moment from 'moment';
 import { IncidentService } from '../../../services/incident.service';
 import { map } from 'rxjs/operators';
 import { IncidentInDTO } from '../../../models/IncidentInDTO';
-import { EventObservationInDTO } from '../../../models/event-observation-in-dto';
+import { EventObservationInDTO } from '../../../models/EventObservationInDTO';
 import { IncidentOutDTO } from 'src/app/bits/models/IncidentOutDTO';
+import { EventObservationOutDTO } from 'src/app/bits/models/EventObservationOutDTO';
 
 
 @Component({
@@ -148,6 +149,8 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 			this.tableObservationsCommentsSelection.changed.subscribe(event=> {
 				this.onSelectedUpdate(event);
 			});
+
+		this.getListObservations();
 	}
 	get cFNew() { return this.formNew.controls; }
 	formsDisabled(){
@@ -260,16 +263,19 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 				 id               : e.id
 				,ideventconfig    : this.formNew.get('id').value
 				,observation      : e.observation
-				,dateobservation  : new Date()
+				,dateobservation  : this.datePipe.transform(new Date(), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS')
 				,save             : e.id == null
 				,active           : true
 			};
 		})[0];
 		this.incidentService.saveObservation(eventObservationInDTO).subscribe(data=>{
 			console.log(data);
+			debugger
 		}
 		,err=>{
 			this.toastr.errorToastr('Ocurrió un error al intentar registrar la observación', 'Lo siento,');
+			console.log(err);
+			
 		}
 		);
 		this.formObs.reset();
@@ -288,5 +294,18 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 	}
 	onChangeDateTimeStart(){
 
+	}
+
+	getListObservations(){
+		if(this.cFNew.id.value != null){
+			this.incidentService.getListObservations(this.cFNew.id.value).subscribe(
+				(data:EventObservationOutDTO[])=>{
+					console.log(data);
+				},
+				err=>{
+					console.log(err);
+				}
+			);
+		}
 	}
 }
