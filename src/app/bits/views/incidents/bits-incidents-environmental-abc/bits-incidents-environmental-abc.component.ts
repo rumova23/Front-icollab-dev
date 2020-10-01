@@ -14,6 +14,12 @@ import { IncidentInDTO } from '../../../models/IncidentInDTO';
 import { EventObservationInDTO } from '../../../models/EventObservationInDTO';
 import { IncidentOutDTO } from 'src/app/bits/models/IncidentOutDTO';
 import { EventObservationOutDTO } from 'src/app/bits/models/EventObservationOutDTO';
+import { IncidentObservationInDTO } from '../../../models/IncidentObservationInDTO';
+import { IncidentObservationOutDTO } from 'src/app/bits/models/IncidentObservationOutDTO';
+import { ResponseVO } from 'src/app/bits/models/ResponseVO';
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
+import { ConfirmationDialogService } from 'src/app/core/services/confirmation-dialog.service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 
 @Component({
@@ -40,22 +46,22 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 	disabledToRefuse = false;
 	disabledToAccept = false;
 
-	tableObservationsComments = [{id:1,order:1,name:'tester',observation:'obs',dateUpdate:new Date()}];
+	tableObservationsComments : IncidentObservationOutDTO[] = [];
 	tableObservationsCommentsSelection: SelectionModel<any> = new SelectionModel<any>(true, []);
 	tableColumnsDisplay = [
 		'order',
-		'name',
+		'userUpdated',
 		'observation',
-		'dateUpdate',
+		'dateUpdated',
 		'sys_checkbox',
 		'sys_edit',
 		'sys_delete',
 	];
 	tablaColumnsLabels = [
 		{ key: 'order', label: '#' },
-		{ key: 'name', label: 'Nombre' },
+		{ key: 'userUpdated', label: 'Nombre' },
 		{ key: 'observation', label: 'Observaciones' },
-		{ key: 'dateUpdate', label: 'Fecha de Ultima Modificación' , dateFormat:'dd/MM/yyyy HH:mm' },
+		{ key: 'dateUpdated', label: 'Fecha de Ultima Modificación' , dateFormat:'dd/MM/yyyy HH:mm' },
 	];
 	tableSeguimiento = [{order:1,user:'',observation:'',status:'',dateUpdate:new Date()}];
 	tableSeguimientoColumnsDisplay = [
@@ -73,6 +79,7 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		{ key: 'dateUpdate', label: 'Fecha de Ultima Modificación' , dateFormat:'dd/MM/yyyy HH:mm'},
 	];
 	accion="nuevo";
+	isGetObservations = false;
 	constructor(
 		private formBuilder   : FormBuilder
 		,private datePipe     : DatePipe
@@ -80,6 +87,7 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		,public toastr        : ToastrManager
 		,public eventService  : EventService
 		,public incidentService : IncidentService
+		,private confirmationDialogService: ConfirmationDialogService
 	) { }
 
 	ngOnDestroy(): void {
@@ -262,39 +270,76 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		reader.readAsDataURL(this.fileUploadForm.value.file);
 	}
 	BtnAddObservationsComments(){
-		let eventObservationInDTO : EventObservationInDTO = [this.formObs.value].map(e=>{
+		this.addBlock(1,null);
+		let incidentObservationInDTO = [this.formObs.value].map(e=>{
 			return {
-				 id               : e.id
-				,ideventconfig    : this.formNew.get('id').value
+					id               : e.id
+				,incidentId       : this.formNew.get('id').value
 				,observation      : e.observation
 				,dateobservation  : this.datePipe.transform(new Date(), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS')
 				,save             : e.id == null
 				,active           : true
 			};
 		})[0];
-		this.incidentService.saveObservation(eventObservationInDTO).subscribe(data=>{
-			console.log(data);
-			debugger
+		this.incidentService.saveObservation(incidentObservationInDTO).subscribe((data:ResponseVO)=>{
+			if(data.success){
+				this.getListObservations();
+			}
 		}
 		,err=>{
 			this.toastr.errorToastr('Ocurrió un error al intentar registrar la observación', 'Lo siento,');
 			console.log(err);
 			
 		}
+		,()=>{
+			this.addBlock(2,null);
+		}
 		);
 		this.formObs.reset();
 	}
 	tableRowEdit(e){
-		this.formObs.controls.id.setValue(e.id);
-		this.formObs.controls.obs.setValue(e.observation);
 		console.log(e);
+		this.formObs.controls.id.setValue(e.id);
+		this.formObs.controls.observation.setValue(e.observation);
 	}
 	tableRowDelete(e){
 		console.log(e);
+		this.confirmationDialogService.confirm(
+			'ALERTA DE CONFIRMACIÓN DEREGISTRO',
+			`¿Desea eliminar el registro ${e.observation} ?`
+		)
+			.then((confirmed) => {
+				if ( confirmed ) {
+					this.incidentService.deleteObservation(e.id).subscribe(
+						data => {
+							console.log(data);
+							this.toastr.successToastr('Elemento Correctamente Borrado', 'Exito');
+						},
+						errorData => {
+							console.log(errorData);
+							this.toastr.errorToastr('Error', 'Error');
+							
+						},
+						() => {
+							this.getListObservations();
+						});
+				}
+			})
+			.catch(() => {});
 	}
 	onSelectedUpdate(event){
-		console.log("event:::",event);
-		let selecteds = this.tableObservationsCommentsSelection.selected;
+		if(this.isGetObservations) return 0;
+		event.removed.map(e=>{
+			e.active = false;
+			e.save   = false;
+			return e;
+		}).concat(event.added.map(e=>{
+			e.active = true;
+			e.save   = false;
+			return e;
+		})).forEach((e)=>{
+			this.incidentService.saveObservation(e).subscribe();
+		});
 	}
 	onChangeDateTimeStart(){
 
@@ -303,13 +348,28 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 	getListObservations(){
 		if(this.cFNew.id.value != null){
 			this.incidentService.getListObservations(this.cFNew.id.value).subscribe(
-				(data:EventObservationOutDTO[])=>{
-					console.log(data);
+				(data:IncidentObservationOutDTO[])=>{
+					this.tableObservationsComments=data.map((e,index)=>{
+						e.order = index;
+						return e;
+					});
+					
+					this.isGetObservations = true;
+					this.tableObservationsCommentsSelection.clear();
+					this.tableObservationsCommentsSelection.select(...this.tableObservationsComments.filter(e=>e.active));					
 				},
 				err=>{
 					console.log(err);
 				}
+				,()=>{
+					this.isGetObservations = false;
+				}
 			);
 		}
+	}
+	
+	addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1,
+			new EventBlocked(type, msg)));
 	}
 }

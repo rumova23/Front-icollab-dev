@@ -7,6 +7,8 @@ import { IncidentInDTO } from '../models/IncidentInDTO';
 import { EventObservationInDTO } from '../models/EventObservationInDTO';
 import { IncidentOutDTO } from '../models/IncidentOutDTO';
 import { EventObservationOutDTO } from '../models/EventObservationOutDTO';
+import { IncidentObservationOutDTO } from '../models/IncidentObservationOutDTO';
+import { IncidentObservationInDTO } from '../models/IncidentObservationInDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -39,20 +41,26 @@ export class IncidentService {
 			,{params : this.parameters }
 		);
 	}
-	saveObservation(eventObservationInDTO: EventObservationInDTO) {
+	saveObservation(data: IncidentObservationInDTO) {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.post( 
 			`${ this.url }incidents/saveObservation`
-			,eventObservationInDTO
+			,data
 			,{params : this.parameters }
 		);
 	}
 	
-	getListObservations(incidentId: number): Observable<EventObservationOutDTO[]> {
+	getListObservations(incidentId: number): Observable<IncidentObservationOutDTO[]> {
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.get<EventObservationOutDTO[]>(
+		return this.http.get<IncidentObservationOutDTO[]>(
 			`${this.url}incidents/listObservations/${incidentId}`
 			,{params : this.parameters }
 		);
+	}
+	deleteObservation(id:number):Observable<any>{
+		this.parameters = this.globalService.setXTenantId_Plant();
+		return this.http.delete(
+			`${this.url}incidents/deleteObservation/${id}`  
+			, {params : this.parameters });
 	}
 }
