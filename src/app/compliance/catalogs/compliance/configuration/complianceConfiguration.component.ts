@@ -34,8 +34,10 @@ import * as Util from 'src/app/core/helpers/util.general';
   , providers: [DatePipe]
 })
 export class ComplianceConfigurationComponent implements OnInit {
-  nombreCatalogo = 'Características';
-  titulo = 'Características';
+  //nombreCatalogo = 'Características';
+  //titulo = 'Características';
+  nombreCatalogo = 'Configuración de Cumplimiento';
+  titulo = 'Configuración de Cumplimiento';
   administradores;
   data: any[] = [];
   userResult;
@@ -405,13 +407,13 @@ export class ComplianceConfigurationComponent implements OnInit {
           'idTag':e.idTag,
           'tag':e.tag,
           'nombre':e.classificationActivity,
-          'clasificacion':e.activity.name,
+          'clasificacion':e.activity?e.activity.name:'',
           'cumplimiento_legal':e.typeCompliance.code,
           'periodo_entrega':this.formatPeriodo_entrega(e.period,  (e.unitPeriod && e.unitPeriod.code) ? e.unitPeriod.code : '' ),
           'countTasks':e.countCompliance,
           'autoridad': (e.authority && e.authority.code) ? e.authority.code : '',
           'tipo_aplicacion':e.applicationType.code,
-          'grupo': e.group.code,
+          'grupo': e.group?e.group.code:'',
           'userUpdated':(e.userUpdated) ? e.userUpdated : e.userCreated,
           'dateUpdated':dateUpdated,
           'estatus': (e.active) ? 'Activo' : 'Inactivo'

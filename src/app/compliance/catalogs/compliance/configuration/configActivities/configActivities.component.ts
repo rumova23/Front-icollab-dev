@@ -261,14 +261,14 @@ export class ConfigActivitiesComponent implements OnInit {
       fDescripcion: ['', Validators.required],
       fActividad: ['', Validators.required],
       fClasificacionActividad: ['', Validators.required],
-      fTipoCumplimiento: ['', Validators.required],
+      fTipoCumplimiento: [{ value: '1', disabled: true }, Validators.required],
       fRequisitoLegal: ['', Validators.required],
       fAutoridad: ['', Validators.required],
       fTipoAplicacion: ['', Validators.required],
       fPeriodoEntregaCantidad: ['',[ Validators.required, Validators.min(1)]],
       fPeriodoEntregaUnidad: ['', Validators.required],
       fcomboGrupo: ['', Validators.required],
-      fTipoDias: ['', Validators.required]
+      fTipoDias: [{ value: '2', disabled: true }, Validators.required]
     });
     this.idsTagPrecedentes = [];
 
@@ -501,12 +501,12 @@ export class ConfigActivitiesComponent implements OnInit {
       fClasificacionActividad: '',
       fRequisitoLegal: '',
       fActividad: { value: '', disabled: false },
-      fTipoCumplimiento: { value: '', disabled: false },
+      fTipoCumplimiento: { value: '1', disabled: true },
       fAutoridad: { value: '', disabled: false },
       fTipoAplicacion: { value: '', disabled: false },
       fPeriodoEntregaCantidad: { value: '', disabled: false },
       fPeriodoEntregaUnidad: { value: '', disabled: false },
-      fTipoDias: { value: '', disabled: false },
+      fTipoDias: { value: '2', disabled: true },
       fcomboGrupo: { value: '', disabled: false }
       // fPlanta: { value: arreglo, disabled: false },
       // fCheckStatus: { checked:true }
