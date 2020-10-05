@@ -54,7 +54,8 @@ import { DashboardGeneralComponent } from './dashboards/dashboard-general/dashbo
     BlockUIModule.forRoot({message: Constants.LOADING_MEESSAGE})
   ],
   exports:[
-    EfhUploadComponent
+     EfhUploadComponent
+    ,EfhUploadCommonComponent
   ]
 })
 export class EfhModule { }

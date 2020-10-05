@@ -8,6 +8,7 @@ import {EfhUploadComponent} from '../efh-upload.component';
 import {EventService} from '../../../core/services/event.service';
 import {EventMessage} from '../../../core/models/EventMessage';
 import {EventBlocked} from '../../../core/models/EventBlocked';
+import { IncidentService } from '../../../bits/services/incident.service';
 
 @Component({
   selector: 'app-efh-upload-common',
@@ -35,8 +36,9 @@ export class EfhUploadCommonComponent implements OnInit {
               public  toastr: ToastrManager,
               private cd: ChangeDetectorRef,
               private eventService: EventService,
-              public globalService: GlobalService) {
-  }
+              public globalService: GlobalService
+		          ,public incidentService : IncidentService
+  ) {}
 
   ngOnInit() {
     if (this.inAccion === 'ver') {
@@ -71,7 +73,17 @@ export class EfhUploadCommonComponent implements OnInit {
         this.dataFileSubmit['fileData'] = fileReader.result;
         this.dataFileSubmit['fileData'] = this.dataFileSubmit['fileData'].replace(/^data:(.*;base64,)?/, '');
         this.dataFileSubmit['fileData'] = this.dataFileSubmit['fileData'].trim();
-        this.efhService.upload(this.inTypeConfig, this.dataFileSubmit).subscribe(
+        let temServiceUpload = "efhService";
+        switch (this.inTypeConfig) {
+          case 3:
+            temServiceUpload = "incidentService";
+            break;
+          default:
+            temServiceUpload = "efhService";
+            break;
+        }
+        //this.efhService.upload(this.inTypeConfig, this.dataFileSubmit);
+        this[temServiceUpload].upload(this.inTypeConfig, this.dataFileSubmit).subscribe(
             respuesta => {
                 this.toastr.successToastr('Documento guardado con éxito.', '¡Se ha logrado!');
                 this.efhService.accion.next('upload');

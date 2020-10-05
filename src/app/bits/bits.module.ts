@@ -18,13 +18,15 @@ import { ToastrModule } from 'ng6-toastr-notifications';
 import { BlockUIModule } from 'ng-block-ui';
 import { Constants } from '../core/globals/Constants';
 import { EfhModule } from '../efh/efh.module';
+import { BitsUploadComponentComponent } from "./common/bits-upload-component/BitsUploadComponentComponent";
 
 @NgModule({
     declarations:[
         BitsHomeComponent,
         BitsWelcomeComponent,
         BitsIncidentsEnvironmentalComponent,
-        BitsIncidentsEnvironmentalABCComponent
+        BitsIncidentsEnvironmentalABCComponent,
+        BitsUploadComponentComponent
     ],
     exports:[
     ],
