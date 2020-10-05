@@ -80,11 +80,45 @@
                     </div>
                 </div>
             </div>
-            <!--  Requisito Legal  -->
+
+            <!-- Nombre del Cumplimiento -->
             <div class="col-md-6">
+                <div class="form-group">
+                    <label>Nombre del Cumplimiento</label>
+
+                    <textarea
+                        #lfClasificacionActividad
+                        rows="1"
+                        formControlName="fClasificacionActividad"
+                        class="form-control"
+                        maxlength="100"
+                        [ngClass]="{
+                            'is-invalid':
+                                submitted && f.fClasificacionActividad.errors
+                        }"
+                    >
+                    </textarea>
+                    <small class="form-text text-muted text-right">{{lfClasificacionActividad.value?.length || 0}}/100</small>
+                    <!--input class="form-control" formControlName="fClasificacionActividad"
+                [ngClass]="{ 'is-invalid': submitted && f.fClasificacionActividad.errors }"-->
+                    <div
+                        *ngIf="submitted && f.fClasificacionActividad.errors"
+                        style="color:red"
+                    >
+                        <div *ngIf="f.fClasificacionActividad.errors.required">
+                            Requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!--  Requisito Legal  -->
+            <div class="col-md-12">
                 <div class="form-group">
                     <label>Requisito Legal</label>
                     <textarea
+                        rows="4"
                         #lfRequisitoLegal
                         formControlName="fRequisitoLegal"
                         class="form-control"
@@ -162,37 +196,6 @@
                     </select>
                 </div>
             </div>
-            <!-- Nombre del Cumplimiento -->
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Nombre del Cumplimiento</label>
-
-                    <textarea
-                        #lfClasificacionActividad
-                        formControlName="fClasificacionActividad"
-                        class="form-control"
-                        maxlength="254"
-                        [ngClass]="{
-                            'is-invalid':
-                                submitted && f.fClasificacionActividad.errors
-                        }"
-                    >
-                    </textarea>
-                    <small class="form-text text-muted text-right">{{lfClasificacionActividad.value?.length || 0}}/254</small>
-                    <!--input class="form-control" formControlName="fClasificacionActividad"
-                [ngClass]="{ 'is-invalid': submitted && f.fClasificacionActividad.errors }"-->
-                    <div
-                        *ngIf="submitted && f.fClasificacionActividad.errors"
-                        style="color:red"
-                    >
-                        <div *ngIf="f.fClasificacionActividad.errors.required">
-                            Requerido
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
             <!--  Autoridad  -->
             <div class="col-md-6">
                 <div class="form-group">
@@ -222,6 +225,8 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
             <!--  Tipo de Aplicación  -->
             <div class="col-md-6">
                 <div class="form-group">
@@ -248,6 +253,21 @@
                         <div *ngIf="f.fTipoAplicacion.errors.required">
                             Requerido
                         </div>
+                    </div>
+                </div>
+            </div>
+            <!--  Grupo  -->
+            <div class="col-6">
+                <label>Grupo</label>
+                <select class="form-control" [compareWith]="compareFn" formControlName="fcomboGrupo"
+                    [ngClass]="{ 'is-invalid': submitted && f.fcomboGrupo.errors}">
+                    <option *ngFor="let operator of comboGrupo" [value]="operator.value" >
+                        {{ operator.label }}
+                    </option>
+                </select>
+                <div *ngIf="submitted && f.fcomboGrupo.errors" style="color:red" >
+                    <div *ngIf="f.fcomboGrupo.errors.required" >
+                        Requerido
                     </div>
                 </div>
             </div>
@@ -307,22 +327,6 @@
                         style="color:red"
                     >
                         <div *ngIf="f.fTipoDias.errors.required">Requerido</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <label>Grupo</label>
-                <select class="form-control" [compareWith]="compareFn" formControlName="fcomboGrupo"
-                    [ngClass]="{ 'is-invalid': submitted && f.fcomboGrupo.errors}">
-                    <option *ngFor="let operator of comboGrupo" [value]="operator.value" >
-                        {{ operator.label }}
-                    </option>
-                </select>
-                <div *ngIf="submitted && f.fcomboGrupo.errors" style="color:red" >
-                    <div *ngIf="f.fcomboGrupo.errors.required" >
-                        Requerido
                     </div>
                 </div>
             </div>
