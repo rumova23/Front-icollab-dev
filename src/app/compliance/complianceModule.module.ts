@@ -78,6 +78,7 @@ import { ICPlanningConfigurationComponent } from './business/internalCompliance/
 import { ICGenerationTasksAssignmentResponsibilitiesComponent } from './business/internalCompliance/icgeneration-tasks-assignment-responsibilities/icgeneration-tasks-assignment-responsibilities.component';
 import { ICComplianceConfigurationComponent } from './business/internalCompliance/iccompliance-configuration/iccompliance-configuration.component';
 import { ICApprovalComplianceComponent } from './business/internalCompliance/icapproval-compliance/icapproval-compliance.component';
+import { ApprovalComplianceVComponent } from './business/legalCompliance/approval-compliance-v/approval-compliance-v.component';
 
 @NgModule({
     declarations:[
@@ -131,6 +132,7 @@ import { ICApprovalComplianceComponent } from './business/internalCompliance/ica
 		,ICGenerationTasksAssignmentResponsibilitiesComponent
 		,ICComplianceConfigurationComponent
 		,ICApprovalComplianceComponent
+		,ApprovalComplianceVComponent
 
     ],
     exports:[

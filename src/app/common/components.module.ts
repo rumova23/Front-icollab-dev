@@ -59,6 +59,7 @@ import { MatRadioButtonComponent } from './inputs/mat-radio-button/mat-radio-but
 import { ChartLineComponent } from './graphics/chart-line/chart-line.component';
 import { BtnBlockSendComponent } from './btn/btn-block/btn-block-send.component';
 import { BtnBlockRejectComponent } from './btn/btn-block/btn-block-reject.component';
+import { MatInputDatepickerYearComponent } from './inputs/mat-input-datepicker-year/mat-input-datepicker-year.component';
 
 @NgModule({
 	declarations: [
@@ -105,6 +106,7 @@ import { BtnBlockRejectComponent } from './btn/btn-block/btn-block-reject.compon
 		, ChartLineComponent
 		, BtnBlockSendComponent
 		, BtnBlockRejectComponent
+		, MatInputDatepickerYearComponent
 	],
 	exports: [
 		 ProgressComponent
@@ -150,6 +152,7 @@ import { BtnBlockRejectComponent } from './btn/btn-block/btn-block-reject.compon
 		, ChartLineComponent
 		, BtnBlockSendComponent
 		, BtnBlockRejectComponent
+		, MatInputDatepickerYearComponent
 
 	],
 	imports: [

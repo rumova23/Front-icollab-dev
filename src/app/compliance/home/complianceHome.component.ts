@@ -35,6 +35,7 @@ import { ICPlanningConfigurationComponent } from '../business/internalCompliance
 import { ICGenerationTasksAssignmentResponsibilitiesComponent } from '../business/internalCompliance/icgeneration-tasks-assignment-responsibilities/icgeneration-tasks-assignment-responsibilities.component';
 import { ICComplianceConfigurationComponent } from '../business/internalCompliance/iccompliance-configuration/iccompliance-configuration.component';
 import { ICApprovalComplianceComponent } from '../business/internalCompliance/icapproval-compliance/icapproval-compliance.component';
+import { ApprovalComplianceVComponent } from '../business/legalCompliance/approval-compliance-v/approval-compliance-v.component';
 
 @Component({
 	selector        : 'app-compliance-home',
@@ -63,6 +64,7 @@ import { ICApprovalComplianceComponent } from '../business/internalCompliance/ic
 		,TaskTrackingComponent
 		,GenerationTasksAssignmentResponsibilitiesComponent
 		,ApprovalComplianceComponent
+		,ApprovalComplianceVComponent
 		,ICTaskTrackingComponent
 		,ICPlanningConfigurationComponent
 		,ICGenerationTasksAssignmentResponsibilitiesComponent
@@ -100,6 +102,7 @@ export class ComplianceHomeComponent implements OnInit {
 	}
 	  	
 	subscribeOnChangePage() {
+		let view;
 		this.subscriptions.push(this.eventService.onChangePage.subscribe({
 			next: (event: EventMessage) => {
 				this.globalService.setPage(event);
@@ -132,6 +135,16 @@ export class ComplianceHomeComponent implements OnInit {
 								.resolveComponentFactory(ApprovalComplianceComponent))
 							.changeDetectorRef
 							.detectChanges();
+						break;
+					
+					case 'Compliance.ApprovalComplianceVComponent':
+						view = this.viewContainerRef
+							.createComponent(
+								this.componentFactoryResolver
+								.resolveComponentFactory(ApprovalComplianceVComponent)
+							);
+						view.instance.oData = event.data;
+						view.changeDetectorRef.detectChanges();
 						break;
 					case 'Compliance.ICTaskTrackingComponent':
 						this.viewContainerRef
