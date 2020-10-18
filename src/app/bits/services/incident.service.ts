@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GlobalService } from 'src/app/core/globals/global.service';
-import { environment } from 'src/environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IncidentInDTO } from '../models/IncidentInDTO';
-import { EventObservationInDTO } from '../models/EventObservationInDTO';
 import { IncidentOutDTO } from '../models/IncidentOutDTO';
-import { EventObservationOutDTO } from '../models/EventObservationOutDTO';
 import { IncidentObservationOutDTO } from '../models/IncidentObservationOutDTO';
 import { IncidentObservationInDTO } from '../models/IncidentObservationInDTO';
+import { EPs } from 'src/app/core/globals/endpoints';
 
 @Injectable({
 	providedIn: 'root'
@@ -18,7 +16,6 @@ export class IncidentService {
 	accion: BehaviorSubject<string> = new BehaviorSubject<string>('no aplica');
 	accionComments: BehaviorSubject<string> = new BehaviorSubject<string>('no aplica');
   
-	private url = environment.incidentsUrl;
 	private parameters: any;
 	constructor(
 		private http: HttpClient
@@ -27,20 +24,20 @@ export class IncidentService {
 	list(): Observable<IncidentOutDTO[]> {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get<IncidentOutDTO[]>(
-			`${this.url}incidents/list/`
+			`${ EPs.incident.list }`
 			, { params: this.parameters }
 		);
 	}
 	delete(id: number): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.delete(
-			`${this.url}incidents/delete/${id}`
+			`${ EPs.incident.delete }/${id}`
 			, { params: this.parameters });
 	}
 	saveIncident(incidentInDTO: IncidentInDTO): Observable<IncidentOutDTO> {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.post<IncidentOutDTO>(
-			`${this.url}incidents/save`
+			`${ EPs.incident.save }`
 			, incidentInDTO
 			, { params: this.parameters }
 		);
@@ -48,7 +45,7 @@ export class IncidentService {
 	saveObservation(data: IncidentObservationInDTO) {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.post(
-			`${this.url}incidents/saveObservation`
+			`${ EPs.incident.saveObservation }`
 			, data
 			, { params: this.parameters }
 		);
@@ -57,49 +54,41 @@ export class IncidentService {
 	getListObservations(incidentId: number): Observable<IncidentObservationOutDTO[]> {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.get<IncidentObservationOutDTO[]>(
-			`${this.url}incidents/listObservations/${incidentId}`
+			`${ EPs.incident.listObservation }/${incidentId}`
 			, { params: this.parameters }
 		);
 	}
 	deleteObservation(id: number): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		return this.http.delete(
-			`${this.url}incidents/deleteObservation/${id}`
+			`${ EPs.incident.deleteObservation }/${id}`
 			, { params: this.parameters });
 	}
 
 	upload(idTypeConfig: number, fileObj) {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		if (idTypeConfig === 3) {
-			return this.http.post(`${this.url}incidents/saveFile`, fileObj, { params: this.parameters });
-		} else {
-			//return this.http.post(`${this.url}configuration/indicator/saveFile`, fileObj, { params: this.parameters });
+			return this.http.post(`${ EPs.incident.saveFile }`, fileObj, { params: this.parameters });
 		}
 	}
 
 	downloadFile(idTypeConfig: number, fileId: number) {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		if (idTypeConfig === 3) {
-			return this.http.get<Blob>(`${this.url}incidents/downloadFile/${fileId}`, { params: this.parameters, responseType: 'blob' as 'json' });
-		} else {
-			//return this.http.get<Blob>(`${this.url}configuration/indicator/downloadFile/` + fileId, { params: this.parameters, responseType: 'blob' as 'json' });
+			return this.http.get<Blob>(`${ EPs.incident.downloadFile }/${fileId}`, { params: this.parameters, responseType: 'blob' as 'json' });
 		}
 	}
 	getDocuments(idTypeConfig: number, id: number, typeDocument: string): Observable<any> {
 	  this.parameters = this.globalService.setXTenantId_Plant();
 	  if (idTypeConfig === 3) {
-		return this.http.get(`${this.url}incidents/listFiles/${id}`, {params : this.parameters });
-	  } else {
-		//return this.http.get(`${this.url}configuration/indicator/listFiles/${id}`, {params : this.parameters });
+		return this.http.get(`${ EPs.incident.listFile }/${id}`, {params : this.parameters });
 	  }
 	}
   
 	deleteFile(idTypeConfig: number, id): Observable<any> {
 		this.parameters = this.globalService.setXTenantId_Plant();
 		if (idTypeConfig === 3) {
-		  return this.http.delete( `${ this.url }incidents/deleteFile/${id}`, {params : this.parameters });
-		} else {
-		  //return this.http.delete( `${ this.url }configuration/indicator/deleteFile/` + id, {params : this.parameters });
+		  return this.http.delete( `${ EPs.incident.deleteFile }/${id}`, {params : this.parameters });
 		}
 	  }
 	

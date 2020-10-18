@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy               } from '@angular/core';
-import { environment                     } from 'src/environments/environment';
 import { Subscription, Observable, timer } from 'rxjs';
 import { EventMessage                    } from 'src/app/core/models/EventMessage';
 import { SocketService                   } from 'src/app/core/services/socket.service';
@@ -50,7 +49,7 @@ export class ConnectSocketComponent implements OnInit, OnDestroy {
 								this.globalService.socketConnect = true;
 								this.unsubscribeOpenSocket();
 								this.eventService.sendSocketConnect(new EventMessage(1, null));
-								if( ! environment.production )console.log( "Socket Conectado::",this.globalService.socketConnect);
+//								if( ! environment.production )console.log( "Socket Conectado::",this.globalService.socketConnect);
 						});
 					this.subscriptions['socketDisconnect']
 					= 	this.socketService.onEvent(EventSocket.DISCONNECT)
@@ -59,7 +58,7 @@ export class ConnectSocketComponent implements OnInit, OnDestroy {
 							this.unsubscribeSocket();
 							this.subscribeOpenSocket();
 							this.eventService.sendSocketConnect(new EventMessage(0, null));
-							if( ! environment.production )console.log("Socket Conectado::",this.globalService.socketConnect);
+//							if( ! environment.production )console.log("Socket Conectado::",this.globalService.socketConnect);
 						});
 					this.subscriptions['socketOnError']
 					=   this.socketService.onError()
@@ -68,7 +67,7 @@ export class ConnectSocketComponent implements OnInit, OnDestroy {
 							this.unsubscribeSocket();
 							this.subscribeOpenSocket();
 							this.eventService.sendSocketConnect(new EventMessage(0, null));
-							if( ! environment.production )console.log("Socket ERROR::",error);
+//							if( ! environment.production )console.log("Socket ERROR::",error);
 						});
 					
 							
@@ -76,7 +75,7 @@ export class ConnectSocketComponent implements OnInit, OnDestroy {
 					=   this.socketService.login()
 						.subscribe((errorLogin: any) => {
 							if (errorLogin) {
-								if( ! environment.production )console.log("Socket ERROR Login::",errorLogin);
+//								if( ! environment.production )console.log("Socket ERROR Login::",errorLogin);
 								this.globalService.socketConnect = false;
 								this.unsubscribeSocket();
 								this.subscribeOpenSocket();
@@ -91,7 +90,7 @@ export class ConnectSocketComponent implements OnInit, OnDestroy {
 				}
 			}else {
 				this.globalService.socketConnect = false;
-				if( ! environment.production )console.log('Token inválido');
+//				if( ! environment.production )console.log('Token inválido');
 				this.unsubscribeSocket();
 				//this.subscribeOpenSocket(); // no tiene caso correr esto ya que no esta adecuadamente logueado el usuario
 				this.eventService.sendSocketConnect(new EventMessage(0, null));
@@ -112,7 +111,7 @@ export class ConnectSocketComponent implements OnInit, OnDestroy {
 			if(this.subscriptions['openSocket']  == undefined || this.subscriptions["openSocket"].isStopped==true){
 				this.subscriptions['openSocket']
 				= this.time_to_reconnect_socket.subscribe(second=>{
-					if( ! environment.production )console.log("Socket Reconnection in::",second);
+//					if( ! environment.production )console.log("Socket Reconnection in::",second);
 					this.openSocket();
 				});
 			}

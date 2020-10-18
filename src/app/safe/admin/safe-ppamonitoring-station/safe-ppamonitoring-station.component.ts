@@ -27,8 +27,6 @@ import { EventService } from 'src/app/core/services/event.service';
 import { EventMessage } from 'src/app/core/models/EventMessage';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import {MaestroOpcionDTO} from '../../../compliance/models/maestro-opcion-dto';
-import {Observable} from 'rxjs';
-import {environment} from '../../../../environments/environment';
 import {saveAs} from 'file-saver';
 // import theme           from 'highcharts/themes/dark-green';
 import { IdLabel } from 'src/app/core/models/IdLabel';

@@ -1,8 +1,152 @@
-{
-  "/*": {
-    "target": "http://localhost:3000",
-    "secure": false,
-    "logLevel": "debug",
-    "changeOrigin": true
-  }
+{    
+    "/security" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+    "/catalog" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+    "/market/market" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+    "/mastercatalog/mastercatalog" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+    "/tags/tags" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+    "/exam/exam" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/configuration" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/knowledge" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/seguimiento" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/estatusmaestro/status" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/fuecd/fuecd" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/weather" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/ftpconsumer/ftpconsume" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/pml" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/tr" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/mmmercado/mmmercado" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/microuploaddb" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/pi" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/efh" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/dgctags/dgctags" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/dycformato/dycformato" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/binnacle/binnacle" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/economicproposal/economicproposal" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/fuelcost/fuelcost" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/clientexternalapis" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/incidents/incidents" : {
+        "target": "http://200.52.85.140:1234",
+        "secure": false,
+        "changeOrigin": true
+    }
 }

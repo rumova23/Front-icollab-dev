@@ -25,7 +25,7 @@ export class TaskPlanningComponent implements OnInit {
   personas: Array<any>;
   munecoTasks: Array<Task>;
   persona: any;
-  titulo = 'Asignacion Tareas';
+  titulo = 'Configuración de Planeación';
   submitted = false;
   tiposCumplimientos: Array<any>;
   actividades: Array<any>;

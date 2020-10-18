@@ -2,10 +2,10 @@ import { Injectable    } from '@angular/core';
 import { HttpClient    } from '@angular/common/http';
 import { Observable    } from 'rxjs';
 import { map           } from 'rxjs/operators';
-import { environment   } from 'src/environments/environment';
 import { SocketService } from 'src/app/core/services/socket.service';
 import { PiServerBox   } from '../models/piServer/piServerBox';
 import { GlobalService } from 'src/app/core/globals/global.service';
+import { EPs } from 'src/app/core/globals/endpoints';
 
 
 
@@ -51,7 +51,7 @@ export class MonitoringTrService {
 		// tslint:disable-next-line:max-line-length
 		// https://192.168.1.175/piwebapi/streamsets/interpolated?webId=P0uQAgHoBd0ku7P3cWOJL6IgGCUAAAU0VSVklET1JfUElcREFBMDgxMDM&webId=P0uQAgHoBd0ku7P3cWOJL6IglyQAAAU0VSVklET1JfUElcUDJBMDgyMTE&
 		// startTime='21-08-19 00:00:00 GMT'&endTime=*-10h&interval=1h&selectedFields=Items.WebId;Items.Name;Items.Items.Timestamp;Items.Items.Value&timeZone=America/New_York
-		return this.http.get<PiServerBox>(environment.urlTrPi + 'piwebapi/streamsets/interpolated?' + params).pipe(
+		return this.http.get<PiServerBox>( EPs.pi.piwebapi.streamsets.interpolated + '?' + params).pipe(
 			map(data => new PiServerBox().deserialize(data))
 		);
 		//*/
@@ -105,6 +105,6 @@ export class MonitoringTrService {
 	
 	getModelMarketSol(time): Observable<any> {
 		let parameters = this.globalService.setXTenantId_Plant('Sol');
-		return this.http.get(environment.mmmercadoUrl + 'prediction/planning/' + time, {params : parameters });
+		return this.http.get( EPs.mmmarket.prediction.planning + time, {params : parameters });
 	}
 }

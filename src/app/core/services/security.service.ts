@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpParams } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { Role } from 'src/app/security/models/Role';
 import { Parameter } from 'src/app/security/models/Parameter';
 import { Grant } from 'src/app/security/models/Grant';
@@ -12,7 +11,7 @@ import { RoleGrant } from 'src/app/security/models/RoleGrant';
 import { Validate } from '../helpers/util.validator.';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-
+import { EPs } from 'src/app/core/globals/endpoints'
 
 const HEADERS = {
   headers: new HttpHeaders({
@@ -146,7 +145,7 @@ export class SecurityService {
   }
 
   login(login: any): Observable<any> {
-    return this.http.post(environment.securityUrl + 'user/login', login);
+    return this.http.post(EPs.security.login, login);
   }
 
   logout(): void {
@@ -156,75 +155,73 @@ export class SecurityService {
   }
 
   saveUser(usuario: User): Observable<any> {
-    return this.http.post(environment.securityUrl + 'user/save', usuario);
+    return this.http.post(EPs.security.user.save, usuario);
   }
 
   loadUsers(): Observable<any> {
-    return this.http.get(environment.securityUrl + 'user/list');
+    return this.http.get(EPs.security.user.list);
   }
 
   getUser(idUser): Observable<any> {
-    return this.http.get(environment.securityUrl + 'user/get/' + idUser);
+    return this.http.get( EPs.security.user.get + idUser );
   }
 
   loadRoles(): Observable<any> {
-    return this.http.get(environment.securityUrl + 'role/list');
+    return this.http.get(EPs.security.role.list);
   }
 
   saveRole(role: Role): Observable<any> {
-    return this.http.post(environment.securityUrl + 'role/save', role);
+    return this.http.post(EPs.security.role.save, role);
   }
 
   loadPlants() {
-    if(environment.openoffline )return [{ id: 1 , name: 'AGUILA'             }];
+//    if(environment.openoffline )return [{ id: 1 , name: 'AGUILA' }];
     return JSON.parse(localStorage.getItem('user')).plants;
-    // return this.http.get(environment.securityUrl + 'plant/list');
   }
 
   getPlant(idPlant): Observable<any> {
-    return this.http.get(environment.securityUrl + 'plant/get/' + idPlant);
+    return this.http.get(EPs.security.plant.get + idPlant);
   }
 
   loadApps() {
-    if(environment.openoffline )return [{id:"1",name:"Administrative_monitoring"}]
+//    if(environment.openoffline )return [{id:"1",name:"Administrative_monitoring"}]
     return JSON.parse(localStorage.getItem('user')).apps;
-    // return this.http.get(environment.securityUrl + 'app/list');
   }
 
   loadParameters(): Observable<any> {
-    return this.http.get(environment.securityUrl + 'parameter/list');
+    return this.http.get(EPs.security.parameter.list);
   }
 
   saveParameter(parameter: Parameter): Observable<any> {
-    return this.http.post(environment.securityUrl + 'parameter/save', parameter);
+    return this.http.post(EPs.security.parameter.save, parameter);
   }
 
   loadGrants(): Observable<any> {
-    return this.http.get(environment.securityUrl + 'grant/list');
+    return this.http.get(EPs.security.grant.list);
   }
 
   saveGrant(grant: Grant): Observable<any> {
-    return this.http.post(environment.securityUrl + 'grant/save', grant);
+    return this.http.post(EPs.security.grant.save, grant);
   }
 
   loadFathers(): Observable<any> {
-    return this.http.get(environment.securityUrl + 'grant/father/list');
+    return this.http.get(EPs.security.grant.father);
   }
 
   loadGrantsRole(idRole: any): Observable<any> {
-    return this.http.get(environment.securityUrl + 'grant/list/' + idRole);
+    return this.http.get(EPs.security.grant.list + idRole);
   }
 
   loadGrantsTree(idApp: number): Observable<any> {
-    return this.http.get(environment.securityUrl + 'grant/tree/list/' + idApp);
+    return this.http.get(EPs.security.grant.tree + idApp);
   }
 
   changePassword(changePassword: any): Observable<any> {
     this.setUserId();
-    return this.http.post(environment.securityUrl + 'user/password/change', changePassword ,{params : this.parameters });
+    return this.http.post(EPs.security.user.pwd, changePassword ,{params : this.parameters });
   }
 
   saveRoleGrants(roleGrant: RoleGrant): Observable<any> {
-    return this.http.post(environment.securityUrl + 'grant/role/save', roleGrant);
+    return this.http.post(EPs.security.grant.role.save, roleGrant);
   }
 }

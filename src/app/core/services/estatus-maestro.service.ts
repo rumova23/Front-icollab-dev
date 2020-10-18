@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import {GlobalService} from '../globals/global.service';
+import { EPs } from '../globals/endpoints';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -20,7 +20,6 @@ const httpOptions = {
 })
 
 export class EstatusMaestroService {
-  private estatusmaestro = environment.estatusmaestro;
 
   parameters: any;
 
@@ -29,16 +28,16 @@ export class EstatusMaestroService {
 
   getEntidadEstatus(entidad: string, estatus: string): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant();
-    return this.http.get(`${this.estatusmaestro}${entidad}/${estatus}`, {params : this.parameters });
+    return this.http.get(`${ EPs.statusMaster.status }${entidad}/${estatus}`, {params : this.parameters });
   }
 
   getEntidadEstatusById(entidadEstatusId: number): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant();
-    return this.http.get(`${this.estatusmaestro}${entidadEstatusId}`, {params : this.parameters });
+    return this.http.get(`${ EPs.statusMaster.status }${entidadEstatusId}`, {params : this.parameters });
   }
 
   getCatalogoEntidad(entidad: string) {
     this.parameters = this.globalService.setXTenantId_Plant();
-    return this.http.get(`${this.estatusmaestro}obten/catalogo/${entidad}`, {params : this.parameters });
+    return this.http.get(`${ EPs.statusMaster.get.catalog }/${entidad}`, {params : this.parameters });
   }
 }

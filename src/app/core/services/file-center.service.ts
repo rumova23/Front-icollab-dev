@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GlobalService } from '../globals/global.service';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { FileCenter } from '../models/FileCenter';
+import { EPs } from '../globals/endpoints';
 
 @Injectable({
 	providedIn: 'root'
@@ -19,7 +19,7 @@ export class FileCenterService {
 	) { }
 	download(file: FileCenter): void {
 		this.parameters = this.globalService.setXTenantId_Plant();
-		this.http.get<Blob>(environment.externalData + `file-center/${file.id}`, { params: this.parameters, responseType: 'blob' as 'json' })
+		this.http.get<Blob>(`${EPs.clientexternalapis.fileCenter}/${file.id}`, { params: this.parameters, responseType: 'blob' as 'json' })
 		.subscribe(result=>{
 			let dataType = result.type;
 			let binaryData = [];
@@ -37,6 +37,6 @@ export class FileCenterService {
 	}
 	uploadFile(fileCenter  : FileCenter): Observable<any>{
 		this.parameters = this.globalService.setXTenantId_Plant();
-		return this.http.post(environment.externalData + `file-center`,fileCenter, {params : this.parameters });
+		return this.http.post(`${EPs.clientexternalapis.fileCenter}`,fileCenter, {params : this.parameters });
 	}
 }

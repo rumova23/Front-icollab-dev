@@ -72,13 +72,19 @@ export function tableFilter<T>(tableData: T[], filters, typeSearch, fieldForBetw
 		return (typeSearch === 'OR') ? false : r;
 	}).map((e, index) => { e['order'] = index + 1; return e; });
 }
-export function isEmptyFilters(filters):boolean{
+export function isEmptyFilters(filters, typeSearch:any): boolean {
 	let isEmptyFilters = true;
 	for (const key in filters) {
-	  const filter = filters[key];
-	  if(filter !== null && filter !== '' ){
-		isEmptyFilters = false;
-	  }
+		const filter = filters[key];
+		if (typeSearch === "OR") {
+			if (filter !== null && filter !== '') {
+				return false;
+			}
+		} else {
+			if ( filter === null || filter === '') {
+				return true;
+			}
+		}
 	}
-	return isEmptyFilters;
+	return typeSearch === "OR" ? isEmptyFilters : false;
 }

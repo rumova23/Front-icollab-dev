@@ -202,13 +202,13 @@ export class SharedSidebarMenuComponent {
                 else if (item.label == "categories")     item.order = 1;
             else if (item.label == "Cumplimiento Legal")     item.order = 2;
                 else if (item.label == "Configuración de Cumplimiento")     item.order = 0;
-                else if (item.label == "Aprobación de Cumplimiento/Generación de Tareas")     item.order = 1;
+                else if (item.label == "Aprobación / Generación de Tareas")     item.order = 1;
                 else if (item.label == "Asignación de Responsabilidades" && item.id==202)     item.order = 2;
                 else if (item.label == "Configuración de Planeación")     item.order = 3;
                 else if (item.label == "Seguimiento de Tareas")     item.order = 4;
             else if (item.label == "Cumplimiento Interno")     item.order = 3;
                 else if (item.label == "Configuración de Cumplimiento")     item.order = 0;
-                else if (item.label == "Aprobación de Cumplimiento / Generacion de Tareas")     item.order = 1;
+                else if (item.label == "Aprobación / Generacion de Tareas")     item.order = 1;
                 else if (item.label == "Asignación de Responsabilidades" && item.id==207)     item.order = 2;
                 else if (item.label == "Configuración de Planeación")     item.order = 3;
                 else if (item.label == "Seguimiento de Tareas")     item.order = 4;

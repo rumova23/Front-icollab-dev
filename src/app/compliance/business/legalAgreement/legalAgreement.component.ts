@@ -40,7 +40,7 @@ export class LegalAgreementComponent implements OnInit {
   multi = true;
   expandCloseAll = false;
   anios: Array<any>;
-  titulo = 'Cumplimiento Legal';
+  titulo = 'Acuerdo Legal';
   filtrosForm: FormGroup;
 
   columnas: string[] = ['tag', 'actividad', 'elaboradoPor', 'responsable', 'supervisor',
