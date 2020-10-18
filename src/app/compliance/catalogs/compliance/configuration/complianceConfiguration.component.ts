@@ -237,8 +237,8 @@ export class ComplianceConfigurationComponent implements OnInit {
 		this.addBlock(1, 'Cargando...');
 		this.data = [];
 		const params : HttpParams = this.assamblerRequest ();
-//		this.tagService.obtenTagFiltros(params).subscribe((data: MatrizCumplimientoDTO) => {
-		this.tagService.obtenTagPorFiltros(2021).subscribe((data: MatrizCumplimientoDTO) => {
+		this.tagService.obtenTagFiltros(params).subscribe((data: MatrizCumplimientoDTO) => {
+//		this.tagService.obtenTagPorFiltros(2021).subscribe((data: MatrizCumplimientoDTO) => {
 			this.statusMatriz = data.entidadEstatus.estatus.nombre;
 			if (data.entidadEstatus.entidadEstatusId === this.idMatrizFree) {
 				this.isFree = true;
