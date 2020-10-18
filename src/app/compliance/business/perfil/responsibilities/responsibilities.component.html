@@ -1,0 +1,187 @@
+<div class="section">
+    <div class="row pb-4">
+      <div class="col">
+          <p class="section_titulo_0">Funciones y Responsabilidades de Cumplimiento</p>
+      </div>
+    </div>
+    <div class=" row">
+      <div class="col-12">
+
+          <!-- Filtros -->
+          <div class="mitab">
+            <div class="row justify-content-end">
+              <div class="col-md-auto">
+                <label for="">Tag</label><br>
+                <input type="text">
+              </div>
+              <div class="col-md-auto">
+                <label for="">Tarea</label><br>
+                <input type="text">
+              </div>
+              <div class="col-md-auto">
+                <button type="button" mdbBtn class="btn" mdbWavesEffect>
+                    Buscar
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Tabla 1 -->
+          <div class="row mt-5 mb-5">
+            <div class="col">
+              <div style="overflow: auto;">
+                <div class="tabla-tareas-asignadas">
+                  <div class="row asignacion-tareas-header py-3">
+                    <div class="col col-tag">TAG</div>
+                    <div class="col col-actividad">Actividad</div>
+                  </div>
+
+                  <div class="row mr--15">
+                    <div class="col col-tag"></div>
+                    <div class="col ls-tags" style="min-width: 400px!important;">
+                      <br>
+                      <ul class="pl-0" style="list-style: none;">
+                        <li *ngFor="let level_1 of actividades; let l = index;">
+                          <span (click)="toggle_leve_1_.toggle()" mdbWavesEffect>
+                            <mdb-icon fas icon="plus" *ngIf="toggle_leve_1_.isCollapsed == true"></mdb-icon>
+                            <mdb-icon fas icon="minus" *ngIf="toggle_leve_1_.isCollapsed == false"></mdb-icon>
+                            <span class="ml-2">{{level_1.valor}}</span>
+                          </span>
+                          <ul mdbCollapse [isCollapsed]="true" #toggle_leve_1_="bs-collapse">
+                            <li *ngFor="let level_2 of level_1.hijo">
+                              <span (click)="toggle_leve_2_.toggle()" mdbWavesEffect>
+                                <mdb-icon fas icon="plus" *ngIf="toggle_leve_2_.isCollapsed == true"></mdb-icon>
+                                <mdb-icon fas icon="minus" *ngIf="toggle_leve_2_.isCollapsed == false"></mdb-icon>
+                                <span class="ml-2">{{level_2.valor}}</span>
+                              </span>
+                              <ul mdbCollapse [isCollapsed]="true" #toggle_leve_2_="bs-collapse">
+                                <li *ngFor="let level_3 of level_2.hijo; let i = index;">
+                                  <input type="hidden" [(ngModel)]="tagsId[l][i]=level_3.id"
+                                    [ngModelOptions]="{standalone: true}" />
+                                  <mat-checkbox [(ngModel)]="tagsValor[l][i]" [checked]="false" disabled="false"
+                                    (change)="onChange($event, level_3)">
+                                    {{level_3.valor}}
+                                  </mat-checkbox>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col text-right">
+                    <button type="button" mdbBtn class="btn" (click)="salvarTarea()">
+                      <i class="ti-save"></i>&nbsp;
+                      Agregar Tarea
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <div style="overflow: auto;">
+                <div class="tabla-tareas-asignadas">
+                  <div class="row asignacion-tareas-header py-3">
+                    <div class="col col-tag">TAG</div>
+                    <div class="col col-actividad">Actividad</div>
+                    <div class="col col-eliminar">Eliminar</div>
+                    <div *ngFor="let item of plantas;">
+                      <div class="col col-md-auto m-0">
+                        <div class="row">
+                          <div class="col txt-center">{{item.valor}}</div>
+                        </div>
+                        <div class="row">
+                          <div *ngFor="let item of perfiles;">
+                            <div class="col col-radio">{{item.valor}}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <ng-container *ngFor="let level_1 of actividadesAsignados; let j = index">
+                    <div class="row " [ngClass]="{'background-pares': j%2 == 0}">
+                      <div class="col col-tag"></div>
+                      <div class="col col-actividad" (click)="toggle_leve_1_.toggle()" mdbWavesEffect>
+                        <mdb-icon fas icon="plus" *ngIf="toggle_leve_1_.isCollapsed == true"></mdb-icon>
+                        <mdb-icon fas icon="minus" *ngIf="toggle_leve_1_.isCollapsed == false"></mdb-icon>
+                        <span class="ml-2">{{level_1.valor}}</span>
+                      </div>
+                      <div class="col col-eliminar"></div>
+                      <div class="col col-radio"></div>
+                      <div class="col col-radio"></div>
+                      <div class="col col-radio"></div>
+                      <div class="col col-radio"></div>
+                      <div class="col col-radio"></div>
+                      <div class="col col-radio"></div>
+                    </div>
+                    <div mdbCollapse [isCollapsed]="true" #toggle_leve_1_="bs-collapse">
+                      <ng-container *ngFor="let level_2 of level_1.hijo">
+                        <div class="row mr--15">
+                          <div class="col col-tag"></div>
+                          <div class="col col-actividad" (click)="toggle_leve_2_.toggle()" mdbWavesEffect>
+                            <div class="ml-2">
+                              <mdb-icon fas icon="plus" *ngIf="toggle_leve_2_.isCollapsed == true"></mdb-icon>
+                              <mdb-icon fas icon="minus" *ngIf="toggle_leve_2_.isCollapsed == false"></mdb-icon>
+                              <span class="ml-2">{{level_2.valor}}</span>
+                            </div>
+                          </div>
+                          <div class="col col-eliminar"></div>
+                          <div class="col col-radio"></div>
+                          <div class="col col-radio"></div>
+                          <div class="col col-radio"></div>
+                          <div class="col col-radio"></div>
+                          <div class="col col-radio"></div>
+                          <div class="col col-radio"></div>
+                        </div>
+
+                        <div mdbCollapse [isCollapsed]="true" #toggle_leve_2_="bs-collapse">
+                          <ng-container *ngFor="let level_3 of level_2.hijo; let i = index ">
+                            <div class="row">
+                              <input type="hidden" [(ngModel)]="plantaOpcTag[i]=level_3.id"
+                                [ngModelOptions]="{standalone: true}" />
+                              <div class="col">{{level_3.id}}</div>
+                              <div class="col">
+                                <div lass="col">{{level_3.valor}}</div>
+                              </div>
+                              <div class="col">
+                                <app-confirmationModal [strMensaje]='"hola"' [inTitulo]='"hola"'
+                                  (salida)="eliminar($event,1)"></app-confirmationModal>
+                              </div>
+                              <ng-container *ngFor="let item of plantas; let i = index ">
+                                <input type="hidden" [(ngModel)]="plantaOpc[i]=item.id"
+                                  [ngModelOptions]="{standalone: true}" />
+                                <mat-radio-group *ngFor="let item of perfiles;" [(ngModel)]="plantaPerfilOpc[i]"
+                                  [ngModelOptions]="{standalone: true}">
+                                  <mat-radio-button class="col" [value]="item.id"></mat-radio-button>
+                                </mat-radio-group>
+                              </ng-container>
+                            </div>
+                          </ng-container>
+                        </div>
+                      </ng-container>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="row">
+                  <div class="col text-right">
+                    <button type="button" mdbBtn class="btn" mdbWavesEffect (click)="salvarPlantaPerfil()">
+                      <i class="ti-save"></i>&nbsp;
+                      Asignar Tarea
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+    </div>
+  </div>
+</div>

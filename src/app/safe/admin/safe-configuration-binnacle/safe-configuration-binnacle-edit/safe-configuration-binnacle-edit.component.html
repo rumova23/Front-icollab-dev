@@ -1,0 +1,538 @@
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Bitacora de Eventos" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Configuración de Eventos" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ title | translate }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+<form [formGroup]="formNewEvent001" (ngSubmit)="onSubmitFormNewEvent001(formNewEvent001.value)">
+	<div class="section" *ngIf="catalogType.action === 'nuevo'">
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_0">{{ "Configuración de Eventos" | translate }}</p>
+				<p class="section_subtitulo_0"></p>
+			</div>
+		</div>
+		<hr>
+		<br>
+		
+		<div class="row">
+			<div class="col-12 col-lg-3">
+				<app-mat-select
+					[formGroup]="formNewEvent001" 
+					controlName="eventsClassification00Id"
+					[options]="lstEventClassification00"
+					label="Clasificación de Eventos"
+					(eventChange)="onBuildEventAssociated_00($event)"
+				></app-mat-select>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-mat-select-multiple
+					[formGroup]="formNewEvent001" 
+					controlName="events00Id"
+					[options]="lstEvents00"
+					[disableOption]="disableOption"
+					label="Eventos"
+				></app-mat-select-multiple>
+			</div>
+		</div>
+		
+		<div class="row justify-content-end">
+			<div class="col-12 col-lg-2">
+				<app-btn-block-save myType="submit" [disabled]="disabledSubmit"></app-btn-block-save>
+			</div>
+		</div>
+	</div>
+</form>
+<form [formGroup]="formNewEvent" (ngSubmit)="onSubmitFormNewEvent(formNewEvent.value)">
+	<div class="section">
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_1">{{ "Descripción / Clasificación de Evento" | translate }}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 col-lg-3">
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-select
+					[submitted]="submitted"
+					[formGroup]="formNewEvent"
+					controlName="eventsClassificationId"
+					[options]="lstEventClassification"
+					label="Clasificación de Eventos"
+					(eventChange)="onBuildEventAssociated($event)"
+				></app-mat-select>
+			</div>
+			<div class="col-12 col-lg-3">
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-select
+					[submitted]="submitted"
+					[formGroup]="formNewEvent"
+					controlName="eventsId"
+					[options]="lstEvents"
+					label="Eventos"
+					(eventChange)="onBuildTemplate($event)"
+				></app-mat-select>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="fuelsId" 
+					controlNameCheckBox="disabledFuelsId"
+					controlNameCheckBoxRequired="requiredFuelsId"
+					[options]="lstFuels"
+					[disableOption]="disableOption"
+					label="Combustible"
+				></app-checkbox-with-select-multiple>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="impactContractsId" 
+					controlNameCheckBox="disabledImpactContractsId"
+					controlNameCheckBoxRequired="requiredImpactContractsId"
+					[options]="lstImpactContracts"
+					[disableOption]="disableOption"
+					label="Contrato Impactado"
+				></app-checkbox-with-select-multiple>
+			</div>
+			
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="powerMw"
+					controlNameCheckBox="disabledPowerMw"
+					controlNameCheckBoxRequired="requiredPowerMw"
+					label="Potencia"
+				></app-checkbox-with-input-text>
+			</div>
+			<div class="col-12 col-lg-3">				
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
+					[formGroup]="formNewEvent" 
+					controlName="powerMwLimitLower"
+					maxValue="powerMwLimitUpper"
+					label="Potencia Límite Inferior"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-3">
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
+					[formGroup]="formNewEvent"
+					minValue="powerMwLimitLower"
+					controlName="powerMwLimitUpper"
+					label="Potencia Límite Superior"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="unitsId" 
+					controlNameCheckBox="disabledUnitsId"
+					controlNameCheckBoxRequired="requiredUnitsId"
+					[options]="lstUnits"
+					[disableOption]="disableOption"
+					label="Unidad"
+				></app-checkbox-with-select-multiple>
+			</div>
+		</div>
+
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_1">{{ "Contrato de Compraventa de Energía (PPA)" | translate }}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="realsCcdvId" 
+					controlNameCheckBox="disabledRealsCcdvId"
+					controlNameCheckBoxRequired="requiredRealsCcdvId"
+					[options]="lstRealsCcdv"
+					[disableOption]="disableOption"
+					label="Real/CCDV"
+				></app-checkbox-with-select-multiple>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="toleranceBandsId" 
+					controlNameCheckBox="disabledToleranceBandsId"
+					controlNameCheckBoxRequired="requiredToleranceBandsId"
+					[options]="lstToleranceBands"
+					[disableOption]="disableOption"
+					label="Banda de Tolerancia"
+				></app-checkbox-with-select-multiple>
+			</div>
+		</div>
+
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_1">{{ "Mercado Eléctrico Mayorista (MEM)" | translate }}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="marketTypesId" 
+					controlNameCheckBox="disabledMarketTypesId"
+					controlNameCheckBoxRequired="requiredMarketTypesId"
+					[options]="lstMarketTypes"
+					[disableOption]="disableOption"
+					label="Tipo de Mercado"
+				></app-checkbox-with-select-multiple>
+			</div>
+			
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="mwOffered"
+					controlNameCheckBox="disabledMwOffered"
+					controlNameCheckBoxRequired="requiredMwOffered"
+					label="MW Ofertados"
+				></app-checkbox-with-input-text>
+			</div>
+			<div class="col-12 col-lg-3">
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
+					[formGroup]="formNewEvent" 
+					controlName="mwOfferedLimitLower"
+					label="MW Ofertados Límite Inferior"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-3">
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
+					[formGroup]="formNewEvent" 
+					controlName="mwOfferedLimitUpper"
+					label="MW Ofertados Límite Superior"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="relatedServicesId" 
+					controlNameCheckBox="disabledRelatedServicesId"
+					controlNameCheckBoxRequired="requiredRelatedServicesId"
+					[options]="lstSelatedServices"
+					[disableOption]="disableOption"
+					label="Servicios Conexos"
+				></app-checkbox-with-select-multiple>
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_1">{{ "Licencia / Orden de Trabajo" | translate }}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent" 
+					controlName="licenseNumber" 
+					controlNameCheckBox="disabledLicenseNumber"
+					controlNameCheckBoxRequired="requiredLicenseNumber"
+					label="# Licencia"
+				></app-checkbox-with-input-text>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="equipmentId" 
+					controlNameCheckBox="disabledEquipmentId"
+					controlNameCheckBoxRequired="requiredEquipmentId"
+					[options]="lstEquipment"
+					[disableOption]="disableOption"
+					label="Equipo"
+				></app-checkbox-with-select-multiple>
+			</div>
+			
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="initialCharge"
+					controlNameCheckBox="disabledInitialCharge"
+					controlNameCheckBoxRequired="requiredInitialCharge"
+					label="Carga Inicial"
+				></app-checkbox-with-input-text>
+			</div>
+			<div class="col-12 col-lg-3">
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
+					[formGroup]="formNewEvent" 
+					controlName="initialChargeLimitLower"
+					label="Carga Inicial Límite Inferior"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-3">
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
+					[formGroup]="formNewEvent" 
+					controlName="initialChargeLimitUpper"
+					label="Carga Inicial Límite Superior"
+				></app-mat-input-number>
+			</div>
+			
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="finalCharge"
+					controlNameCheckBox="disabledFinalCharge"
+					controlNameCheckBoxRequired="requiredFinalCharge"
+					label="Carga Final"
+				></app-checkbox-with-input-text>
+			</div>
+			<div class="col-12 col-lg-3">
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
+					[formGroup]="formNewEvent" 
+					controlName="finalChargeLimitLower"
+					label="Carga Final Límite Inferior"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-3">
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
+					[formGroup]="formNewEvent" 
+					controlName="finalChargeLimitUpper"
+					label="Carga Final Límite Superior"
+				></app-mat-input-number>
+			</div>
+			
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="mwPowerLoss"
+					controlNameCheckBox="disabledMwPowerLoss"
+					controlNameCheckBoxRequired="requiredMwPowerLoss"
+					label="(-) Perdida Potencia"
+				></app-checkbox-with-input-text>
+			</div>
+			<div class="col-12 col-lg-3">
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
+					[formGroup]="formNewEvent" 
+					controlName="mwPowerLossLimitLower"
+					label="(-) Perdida Potencia MW LI"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-3">
+				<p style="visibility: hidden;"><label>br</label></p>
+				<app-mat-input-number
+					[formGroup]="formNewEvent" 
+					controlName="mwPowerLossLimitUpper"
+					label="(-) Perdida Potencia MW LS"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="workOrderId"
+					controlNameCheckBox="disabledWorkOrderId"
+					controlNameCheckBoxRequired="requiredWorkOrderId"
+					label="Orden de Trabajo"
+				></app-checkbox-with-input-text>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="licenseDescription"
+					controlNameCheckBox="disabledLicenseDescription"
+					controlNameCheckBoxRequired="requiredLicenseDescription"
+					label="Descripción / Concepto de la Licencia"
+				></app-checkbox-with-input-text>
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_1">{{ "Fuente" | translate }}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="cenaceOperatorOpened"
+					controlNameCheckBox="disabledCenaceOperatorOpened"
+					controlNameCheckBoxRequired="requiredCenaceOperatorOpened"
+					label="Nombre(s) / Apellido(s) Operador CENACE Abrió"
+				></app-checkbox-with-input-text>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-input-text
+					[formGroup]="formNewEvent"
+					controlName="cenaceOperatorClosed"
+					controlNameCheckBox="disabledCenaceOperatorClosed"
+					controlNameCheckBoxRequired="requiredCenaceOperatorClosed"
+					label="Nombre(s) / Apellido(s) Operador CENACE Cerro"
+				></app-checkbox-with-input-text>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-checkbox-with-select-multiple
+					[formGroup]="formNewEvent" 
+					controlName="sourceEventId"
+					controlNameCheckBox="disabledSourceEventId"
+					controlNameCheckBoxRequired="requiredSourceEventId"
+					[options]="lstSourceEvent"
+					[disableOption]="disableOption"
+					label="Fuente Del evento"
+				></app-checkbox-with-select-multiple>
+			</div>
+		</div>
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_1">{{ "Cálculos" | translate }}</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 col-lg-3">
+				<app-mat-input-number
+					[formGroup]="formNewEvent" 
+					controlName="prioritySplice" 
+					(eventChange)="isnumeric($event)"
+					minValue="0"
+					step="1"
+					label="Prioridad"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-3">
+				<app-mat-select-multiple
+						[formGroup]="formNewEvent"
+						controlName="availabilityId"
+						[options]="lstAvailability"
+						[disableOption]="disableOption"
+						label="Disponibilidad"
+				></app-mat-select-multiple>
+			</div>
+		</div>
+	</div>
+	<div class="section" *ngIf="catalogType.action === 'editar' || catalogType.action === 'ver'">
+		<div class="row pb-2">
+			<div class="col">
+				<p class="section_titulo_0">{{ "Configuración de Eventos" | translate }}</p>
+				<p class="section_subtitulo_0"></p>
+			</div>
+		</div>
+		<hr>
+		<br>
+		<form *ngIf="catalogType.action === 'editar'" [formGroup]="formNewEvent002" (ngSubmit)="onSubmitFormNewEvent002(formNewEvent002.value)">
+			<div class="row">
+				<div class="col-12 col-lg-3">
+					<app-mat-select
+							[formGroup]="formNewEvent002"
+							controlName="eventsClassificationId"
+							[options]="lstEventClassification"
+							label="Clasificación de Eventos"
+							(eventChange)="onBuildEventAssociated_11($event)"
+					></app-mat-select>
+				</div>
+				<div class="col-12 col-lg-3">
+					<app-mat-select
+							[formGroup]="formNewEvent002"
+							controlName="eventsId"
+							[options]="lstEventsRelation"
+							label="Eventos"
+					></app-mat-select>
+				</div>
+				<div class="col-12 col-lg-3">
+					<app-mat-select
+							[formGroup]="formNewEvent002"
+							controlName="restrictionLevelId"
+							[options]="lstRestrictionLevels"
+							label="Nivel"
+					></app-mat-select>
+				</div>
+				<div class="col-12 col-lg-3">
+					<app-mat-select
+							[formGroup]="formNewEvent002"
+							controlName="colorId"
+							[options]="lstColors"
+							label="Alerta"
+							(eventChange)="onBuildEventAssociated_00($event)"
+					></app-mat-select>
+				</div>
+			</div>
+			<div class="row justify-content-end">
+				<div class="col-12 col-lg-2">
+					<app-btn-block-save myType="submit" [disabled]="disabledSubmit"></app-btn-block-save>
+				</div>
+			</div>
+		</form>
+		<div class="row">
+			<div class="col">
+				<app-mat-table
+						[data]="tableSplices"
+						selectionLabel="Visible"
+						[columnsDisplay]="tableColumnsDisplay"
+						[columnsLabels]="tablaColumnsLabels"
+						(clickEdit)="tableRowEdit($event)"
+						(clickDelete)="tableRowDelete($event)">
+				</app-mat-table>
+			</div>
+		</div>
+	</div>
+	<div class="section">
+		
+		<div class="row pb-2">
+			<div class="col-12 col-lg-3">
+				<div class="row mbLblCheck justify-content-between">
+					<div class="col">
+						<label>Observaciones y/o comentarios</label>
+					</div>
+					<div class="col-auto">
+						<app-mat-input-checkbox  
+							[formGroup]="formNewEvent" 
+							controlName="disabledObsComment"
+							labelIn=""
+						></app-mat-input-checkbox>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 col-lg-3">
+				<div class="row mbLblCheck justify-content-between">
+					<div class="col">
+						<label>Soportes</label>
+					</div>
+					<div class="col-auto">
+						<app-mat-input-checkbox  
+							[formGroup]="formNewEvent" 
+							controlName="disabledFile"
+							labelIn=""
+						></app-mat-input-checkbox>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="section">
+		<div class="row">
+			<div class="col">
+				
+			<app-mat-input-checkbox  
+				[formGroup]="formNewEvent" 
+				controlName="statusElement"
+				label="Estado del elemento"
+				labelIn="Activo"
+			></app-mat-input-checkbox>
+			</div>
+			<div class="col">
+				<div class="row justify-content-end">
+					<div class="col-12 col-lg-4">
+						<app-btn-block-back (click)="btnClickBack()"></app-btn-block-back>
+					</div>
+					<div class="col-12 col-lg-4">
+						<app-btn-block-save myType="submit" [disabled] = "catalogType.action === 'ver'"></app-btn-block-save>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

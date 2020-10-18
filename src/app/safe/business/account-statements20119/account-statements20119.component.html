@@ -1,0 +1,100 @@
+<div class="section">
+	<div class="p-5">
+		<h1>Interfaz de estados de cuenta</h1>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<form>
+					<div class="form-group">
+						
+						<label>Año:</label>
+						<select class="form-control">
+							<option value="2018">2018</option>
+							<option value="2019">2019</option>
+							<option value="2020">2020</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Mes:</label>
+						<select class="form-control">
+							<option value="Enero">Enero</option>
+							<option value="Febrero">Febrero</option>
+							<option value="Marzo">Marzo</option>
+							<option value="Abril">Abril</option>
+							<option value="Mayo">Mayo</option>
+							<option value="Junio">Junio</option>
+							<option value="Julio">Julio</option>
+							<option value="Agosto">Agosto</option>
+							<option value="Septiembre">Septiembre</option>
+							<option value="Octubre">Octubre</option>
+							<option value="Noviembre">Noviembre</option>
+							<option value="Diciembre">Diciembre</option>
+						</select>
+					</div>
+					<div class="text-right">
+						<button type="submit" class="btn">Buscar</button>
+					</div>
+				</form>
+			</div>
+			<div class="col">
+				<form>
+					<div class="form-group">
+						<label for="exampleInputEmail1">Fecha de operación</label>
+						<input type="date" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="exampleInputPassword1">Fecha de Emisión</label>
+						<input type="date" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="exampleInputPassword1">FUECD</label>
+						<input type="text" class="form-control">
+					</div>
+					<div class="text-right">
+						<button type="submit" class="btn">Buscar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<br>
+		<br>
+		<hr>
+		<br>
+		<br>
+		<div class="row">
+			<div class="col">
+
+				<div class="mat-elevation-z0">
+					<table matSort (matSortChange)="sortData($event)" mat-table [dataSource]="dataSource"
+						class="table_catalogo" matSortActive="name" matSortDirection="asc" matSortDisableClear>
+						<ng-container [matColumnDef]="column.key" *ngFor="let column of displayedColumnsOrder">
+							<th mat-header-cell *matHeaderCellDef mat-sort-header> {{column.label | translate}} </th>
+							<td mat-cell *matCellDef="let element">{{element[column.key]}}</td>
+
+						</ng-container>
+
+						<ng-container [matColumnDef]="column.key" *ngFor="let column of displayedColumnsActions">
+							<th mat-header-cell *matHeaderCellDef> {{column.label | translate}}</th>
+							<td mat-cell *matCellDef="let element" [ngSwitch]="column.key">
+								<a (click)="action(2, element.id)" *ngSwitchCase="'sys_see'">
+									<img src="assets/images/skins/ico_Ver.png" alt="Visualizar">
+								</a>
+								<a (click)="action(3, element.id)" *ngSwitchCase="'sys_edit'">
+									<img src="assets/images/skins/ico_Editar.png" alt="Editar">
+								</a>
+								<a (click)="eliminarRegistro(element.element)" *ngSwitchCase="'sys_delete'">
+									<img src="assets/images/skins/ico_Borrar.png" alt="Eliminar">
+								</a>
+							</td>
+						</ng-container>
+
+						<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+						<tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+					</table>
+					<mat-paginator [pageSizeOptions]="row_x_page" showFirstLastButtons></mat-paginator>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

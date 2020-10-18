@@ -1,0 +1,35 @@
+<div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">{{title}}</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+
+<app-perfil [inIdEmpleado]="idEmpleado" [inTipo]="'ver'"></app-perfil>
+
+<app-behavior [inIdEmpleado]="idEmpleado" [inTipo]="tipo" [entidadEstausTerminado]="entidadEstatusTerminado" (isComplete)="validaBehavior($event)"></app-behavior>
+
+<app-skills [inIdEmpleado]="idEmpleado" [inTipo]="tipo" [entidadEstausTerminado]="entidadEstatusTerminado" (isComplete)="validaSkills($event)"></app-skills>
+
+<app-dashboards *ngIf="isBehaviorComplete && isSkillsComplete && finishedExam" [inIdEmpleado]="idEmpleado" [inTipo]="tipo"></app-dashboards>
+
+<app-obsyComments [inIdEmpleado]="idEmpleado" [inTipo]="tipo"></app-obsyComments>
+
+<div class="section">
+  <div class="row">
+    <div class="col-12 text-right">
+      <button type="button" class="btn" (click)="regresar()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+        <i class="ti-angle-double-left"></i>
+        Regresar
+      </button>
+      <button type="button" class="btn" (click)="guardaExamen()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" [disabled]="isdisabled">
+        <i class="ti-bookmark-alt"></i>&nbsp;
+        Guardar Exámen
+      </button>
+      <button type="button" class="btn" (click)="terminaExamen()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}" [disabled]="!(isBehaviorComplete && isSkillsComplete)">
+        <i class="ti-save"></i>
+        Termina Exámen
+      </button>
+    </div>
+  </div>
+</div>

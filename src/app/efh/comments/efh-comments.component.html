@@ -1,0 +1,77 @@
+<div class="section">
+  <div class="row">
+    <div class="col">
+      <p class="section_titulo_0">Observaciones</p>
+      <p class="section_subtitulo_0"></p>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup]="obsForm">
+        <div class="form-group">
+          <label>Observación</label>
+          <input mdbInput class="form-control" formControlName="observations" (keydown)="enableSaveButton();" #description maxlength="1000">
+          <small class="form-text text-muted text-right">{{description.value?.length || 0}}/1000</small>
+        </div>
+        <!--
+        <div *ngIf="submittedData && this.observationsArr.length == 0" style="color:red">
+          <div>Requerido</div>
+        </div>-->
+        <div class="row justify-content-end mb-5">
+          <div class="col-md-auto">
+            <button type="button" (click)="addObservation();" class="btn" [disabled]="isAddObvsDisabled">
+              <i class="ti-bookmark-alt"></i>&nbsp;
+              Agregar / Actualizar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Lista de observaciones -->
+  <div class="row">
+    <div class="col">
+      <div class="mat-elevation-z0">
+        <table mdbTable class="table_catalogo" style="border-bottom: 1px solid #e6ebf5;">
+          <thead>
+          <tr><th colspan="7">Historial de observaciones</th></tr>
+          <tr>
+            <th *ngFor="let head of headObservaciones" scope="col">{{head}} </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr mdbTableCol *ngFor="let el of paginatorData; let i = index;">
+            <th scope="row">{{i+1}}</th>
+            <td>{{el.nombre}}</td>
+            <td>{{el.observacion}}</td>
+            <td>{{el.fecha_modificacion | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+            <td>
+              <mat-checkbox class="active" color="primary"
+                            (change)="visibleObservation(el);"
+                            [checked]="el.active"
+                            [disabled]="inAction == 'ver'">
+                <mat-label></mat-label>
+              </mat-checkbox>
+            </td>
+            <td>
+              <a (click)="setToEdit(el)" [ngClass]="{'linkDisabled': inAction == 'ver' || inAction == 'nuevo'}">
+                <img src="assets/images/skins/ico_Editar.png" alt="Editar">
+              </a>
+            </td>
+            <td>
+              <a (click)="eliminarRegistro(el)" [ngClass]="{'linkDisabled': inAction == 'ver' || inAction == 'nuevo'}">
+                <img src="assets/images/skins/ico_Borrar.png" alt="Eliminar">
+              </a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <mat-paginator [length]="observationsArr.length"
+              [pageSizeOptions]="paginatorSizeOptions"
+              (page)="paginar($event)">
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

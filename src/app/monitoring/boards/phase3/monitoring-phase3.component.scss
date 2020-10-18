@@ -1,0 +1,185 @@
+.monitoreo{
+	color: #ffffff !important; 
+}
+
+.w_ambientales{
+	max-width: 240px;
+}
+hr{
+	background: #ffffff;
+	height: 1px;
+}
+.myicon_main{
+	font-size: 20px;
+}
+.mydatatxt_main{
+	font-size: 16px;
+}
+.sub_main{
+	font-size: 14px;
+}
+.myicon{
+	font-size: 18px;
+}
+.mydatatxt{
+	font-size: 14px;
+}
+.sub{
+	font-size: 12px;
+}
+.w550{
+	max-width: 550px;
+}
+.h309{
+	height: 309px;
+}
+.border-r{
+	border-right: solid #ffffff 2px;
+}
+.grafica_principal{
+	width: 100% !important;
+	height: 329px !important;
+}
+.grafica_modal{
+	width: 100% !important;
+	height: 200px !important;
+}
+.heightnav{
+	height: 1216px;
+}
+.eclipse-gris{
+	background-color: #434343;
+}
+.eclipse-azul{
+	background-color: #5d76d3;
+}
+.eclipse-morado{
+	background-color: #9741f6;
+}
+.eclipse-rojo{
+	background-color: red;
+}
+.eclipse-verde{
+	background-color: #4cc900
+}
+.txtcenter{
+	text-align: center;
+}
+.tituloct{
+	font-size: 1.5em;
+}
+.icon-color{
+	color: #c0c0c0 !important;
+}
+.icon-rojo{
+	color: red !important;
+}
+.icon-amarillo{
+	color:yellow !important;
+}
+.icon-verde{
+	color: #4cc900 !important;
+}
+.icon-azul{
+	color: #00a1c9 !important;
+}
+/*https://css-tricks.com/change-color-of-svg-on-hover/*/
+/*https://css-tricks.com/almanac/properties/f/fill/*/
+.iconsvg_gris{
+	fill: #c0c0c0 !important; 
+}
+.iconsvg_verde{
+	fill: #4cc900 !important; 
+}
+.iconsvg_rojo{
+	fill: #FF0000 !important; 
+}
+.iconsvg_azul{
+	fill: #00a1c9 !important;
+}
+.icon-rt-eficiencia{
+	margin-top: -10px;
+}
+
+.hiden{
+	visibility: hidden;
+}
+.ct-header{
+	min-height: 155px;
+}
+
+.iconowiffi{
+	position: absolute;
+	right: 15px;
+	top:90px;
+}
+.text {
+	font-size:14px;
+	font-family:helvetica;
+	font-weight:bold;
+	color:#71d90b;
+	text-transform:uppercase;
+  }
+
+.parpadea {
+
+animation-name: parpadeo;
+animation-duration: 1s;
+animation-timing-function: linear;
+animation-iteration-count: infinite;
+
+-webkit-animation-name:parpadeo;
+-webkit-animation-duration: 1s;
+-webkit-animation-timing-function: linear;
+-webkit-animation-iteration-count: infinite;
+}
+
+@-moz-keyframes parpadeo{  
+0% { opacity: 1.0; }
+50% { opacity: 0.0; }
+100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes parpadeo {  
+0% { opacity: 1.0; }
+50% { opacity: 0.0; }
+100% { opacity: 1.0; }
+}
+
+@keyframes parpadeo {  
+0% { opacity: 1.0; }
+50% { opacity: 0.0; }
+100% { opacity: 1.0; }
+}
+
+
+.running {
+
+animation-name: running;
+animation-duration: 1s;
+animation-timing-function: linear;
+animation-iteration-count: infinite;
+
+-webkit-animation-name:running;
+-webkit-animation-duration: 1s;
+-webkit-animation-timing-function: linear;
+-webkit-animation-iteration-count: infinite;
+}
+
+@-moz-keyframes running{  
+0% { opacity: 1.0; transform: translate(10px); }
+50% { opacity: 0.0; transform: translate(0px);}
+100% { opacity: 1.0; transform: translate(10px);}
+}
+
+@-webkit-keyframes running {  
+0% { opacity: 1.0;transform: translate(10px); }
+50% { opacity: 0.0; transform: translate(0px);}
+100% { opacity: 1.0;transform: translate(10px); }
+}
+
+@keyframes running {  
+0% { opacity: 1.0;transform: translate(10px); }
+50% { opacity: 0.0; transform: translate(0px);}
+100% { opacity: 1.0;transform: translate(10px); }
+}

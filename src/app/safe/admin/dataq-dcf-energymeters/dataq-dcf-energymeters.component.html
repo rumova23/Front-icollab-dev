@@ -1,0 +1,87 @@
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Data Quality" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Detection and Format Correction" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "Fiscal Meters" | translate }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+
+<div class="section">
+
+	<div class="row pb-2">
+		<div class="col">
+			<p class="section_titulo_0">Detección y Corrección de Formato de Medidores Fiscales</p>
+			<p class="section_subtitulo_0"></p>
+		</div>
+	</div>
+	<hr>
+	<br>
+
+	<form [formGroup]="formQuery" (ngSubmit)="onFormQuery(formQuery.value)">
+		<div class="row">
+
+			<div class="my-2 col-12 col-md-4 col-xl-3 col-xxl-3">
+				<app-mat-input-datepicker-year-and-month class="w-100 align-self-end"
+					[formGroup]="formQuery"
+					controlName="date"
+					(eventChange)="onChangeDatePicker($event)" 
+					label="Commercial Operation Date"
+					[maxDate]="maxDate"	
+				></app-mat-input-datepicker-year-and-month>
+			</div>
+			
+			<div class="my-2 col-12 col-md-4 col-xl-3 col-xxl-2 col-xxxxxl-1">
+				<label style="visibility: hidden;">boton</label>
+				<app-btn-block 
+					label="Apply Detection" 
+					(myClick)="onBtnApDeteccion()"
+					[disabled]="buttonDetected"
+				></app-btn-block>
+			</div>
+			
+			<div class="my-2 col-12 col-md-4 col-xl-3 col-xxl-2 col-xxxxxl-1">
+				<label style="visibility: hidden;">boton</label>
+				<app-btn-block 
+					label="Apply Correction" 
+					(myClick)="onBtnApCorreccion()"
+					[disabled]="buttonCorrected"
+				></app-btn-block>
+			</div>
+		</div>
+	</form>
+	
+	<div class="row mt-4">
+		<div class="col">
+			<app-mat-table
+				[data]="tableData"
+				[columnsDisplay]="tableColumnsDisplay"
+				[columnsLabels]="tablaColumnsLabels"
+				[row_x_page]="tableRowXpage"
+				(clickSee)="tableRowSee($event)"
+				(clickEdit)="tableRowEdit($event)"
+				(clickDelete)="tableRowDelete($event)"
+			></app-mat-table>
+		</div>
+	</div>
+
+	<div class="row mt-4">
+		<div class="col-12 col-sm-6 col-xl-3">
+		</div>
+		<div class="col-12 col-sm-6 col-xl-9">
+			<div class="row justify-content-end">
+				<div class="col-12 col-sm-6 col-xl-3">
+				</div>
+				<div class="col-12 col-sm-6 col-xl-3">
+					<label style="visibility: hidden;">boton</label>
+					<app-btn-block-download (click)="onBtnDownload()"></app-btn-block-download>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

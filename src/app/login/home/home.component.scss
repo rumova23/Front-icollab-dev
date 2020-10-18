@@ -1,0 +1,48 @@
+:host{
+    color:#fff;
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url('/assets/img/bg-max.png');
+    background-size: 100% 200%;
+}
+.full-height {
+	height: 100vh;
+	overflow: scroll;
+}
+
+
+.parpadea {
+
+    animation-name: parpadeo;
+    animation-duration: 4s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    
+    -webkit-animation-name:parpadeo;
+    -webkit-animation-duration: 4s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    }
+    
+    @-moz-keyframes parpadeo{  
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+    }
+    
+    @-webkit-keyframes parpadeo {  
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+    }
+    
+    @keyframes parpadeo {  
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+    }
+    
+    

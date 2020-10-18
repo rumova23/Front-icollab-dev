@@ -1,0 +1,119 @@
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">Cumplimiento Legal</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ titulo }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+<div class="section">
+
+	<div class="row pb-2">
+		<div class="col">
+			<p class="section_titulo_0">Matriz Cumplimiento Legal</p>
+			<p class="section_subtitulo_0">{{ "Buscar por" | translate }}</p>
+		</div>
+	</div>
+	<hr>
+	<form [formGroup]="formFiltersTable" (ngSubmit)="onFiltersTable()">
+		<div class="row mt-3">
+			<div class="col-12 col-lg-4">
+				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="tag"
+					[options]="filteredAutoTag" label="Tag"></app-mat-input-text-autocomplete>
+			</div>
+			<div class="col-12 col-lg-4">
+				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="nombre"
+					[options]="filteredAutoName" label="Nombre del Cumplimiento"></app-mat-input-text-autocomplete>
+			</div>
+			<div class="col-12 col-lg-4">
+				<app-mat-select [formGroup]="formFiltersTable" controlName="clasificacion"
+					[options]="optionsClasificacion" label="Categoría"></app-mat-select>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col col-lg-4">
+				<div class="row">
+					<div class="col">
+						<label>Período de entrega</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-lg-4">
+						<app-mat-input-number [formGroup]="formFiltersTable" controlName="periodo_entrega_cantidad"
+							(eventChange)="isnumeric($event)">
+						</app-mat-input-number>
+					</div>
+
+					<div class="col-12 col-lg-8">
+						<app-mat-select [formGroup]="formFiltersTable" controlName="periodo_entrega_unidad"
+							[options]="optionsPeriod">
+						</app-mat-select>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-4">
+				<app-mat-select [formGroup]="formFiltersTable" controlName="autoridad" [options]="comboAutoridad"
+					label="Autoridad"></app-mat-select>
+			</div>
+			<div class="col-12 col-lg-4">
+				<app-mat-select [formGroup]="formFiltersTable" controlName="tipo_aplicacion"
+					[options]="comboTipoAplicacion" label="Tipo de Aplicación"></app-mat-select>
+			</div>
+			<div class="col-12 col-lg-4">
+				<app-mat-select [formGroup]="formFiltersTable" controlName="grupo" [options]="comboGrupo" label="Grupo">
+				</app-mat-select>
+			</div>
+			<div class="col-12 col-lg-4">
+				<app-mat-select [formGroup]="formFiltersTable" controlName="estatus" [options]="comboEstatus"
+					label="Estatus"></app-mat-select>
+			</div>
+			<div class="col-12 col-lg-4">
+				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="userUpdated"
+					[options]="filteredUserUpdated" label="Usuario Modifico"></app-mat-input-text-autocomplete>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 col-lg-4">
+				<label>Fecha de Última Modificación</label><br>
+				<app-mat-input-datepicker [formGroup]="formFiltersTable" controlName="minDate__dateUpdated" label="De">
+				</app-mat-input-datepicker>
+			</div>
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-input-datepicker [formGroup]="formFiltersTable" controlName="maxDate__dateUpdated" label="Al">
+				</app-mat-input-datepicker>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<app-mat-radio-button [formGroup]="formFiltersTypeTable" controlName="typeFilter"
+					[options]="optionsFiltersType"></app-mat-radio-button>
+			</div>
+		</div>
+
+		<div class="row justify-content-end">
+			<div class="col-12 col-lg-2">
+				<app-btn-block-search myType="submit"></app-btn-block-search>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-btn-block-clean (myClick)="limpiarFiltros()"></app-btn-block-clean>
+			</div>
+		</div>
+	</form>
+
+
+	<div class="row justify-content-end mt-4">
+		<div class="col-12 col-lg-2">
+			<app-btn-block-add (myClick)="action(1, 0)"></app-btn-block-add>
+		</div>
+	</div>
+
+	<div class="row mt-4">
+		<div class="col">
+			<app-mat-table [data]="tableDataFiltered" [columnsLabels]="tablaColumnsLabels"
+				[columnsDisplay]="tableColumnsDisplay" [row_x_page]="tableRowXPage" (clickSee)="action(2, $event.tag)"
+				(clickEdit)="action(3, $event.tag)" (clickDelete)="eliminarTag($event)"></app-mat-table>
+		</div>
+	</div>
+</div>

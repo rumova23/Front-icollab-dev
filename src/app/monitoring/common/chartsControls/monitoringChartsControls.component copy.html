@@ -1,0 +1,52 @@
+    <div class="btn-group">
+        <a  class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa-cog fas"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform)">
+                <div class="form-group">
+                    <label>Cantidad de datos:</label>
+                    <input type="number" class="form-control" [(ngModel)]="chartsControl.data_per_graph" name="data_per_graph">
+                </div>
+                <div class="form-group">
+                    <label>Segundos:</label>
+                    <input type="number" [(ngModel)]="chartsControl.time_refreseh" 
+                    class="form-control" name="time_refreseh" min="1">
+                </div>
+                
+                <div class="form-group mystopPropagation">
+                    <label>Tipo</label>
+                    <select class="form-control" [(ngModel)]="chartsControl.type_graph" name="type_graph">
+                    <option value="line">Lineas</option>
+                    <option value="bar">Barras</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Tamaño punto:</label>
+                    <input type="number" class="form-control" [(ngModel)]="chartsControl.point_radius" name="point_radius" min="0">
+                </div>
+                <div class="form-group mystopPropagation">
+                    <label>Tipo Lineas con fondo</label>
+                    <select class="form-control" [(ngModel)]="chartsControl.fill" name="fill">
+                    <option value="false">none</option>
+                    <option value="start">start</option>
+                    <option value="origin">origin</option>
+                    <option value="end">end</option>
+                    </select>
+                </div>
+                
+                <div class="form-group mystopPropagation">
+                    <label>Escalas</label>
+                    <select class="form-control" [(ngModel)]="chartsControl.type_scale" name="type_scale">
+                        <option value="dynamic">Dinámicas</option>
+                        <option value="dynamic_with_0">Dinámicas incluyendo el Cero</option>
+                        <option value="static">Estática</option>
+                        <option value="static_min">Solo base Estática</option>
+                    </select>
+                </div>
+                <div class="text-right">
+                    <button type="submit" class="btn mybtn">Actualizar</button>
+                </div>
+            </form>
+        </div>
+    </div>

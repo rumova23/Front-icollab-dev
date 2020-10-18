@@ -1,0 +1,180 @@
+<div class="section">
+  <div class="row pb-2">
+    <div class="col">
+      <p class="section_titulo_0">{{titulo}}</p>
+      <p class="section_subtitulo_0"> </p>
+    </div>
+  </div>
+  <hr>
+  <form class="mt-5" [formGroup]="estatusForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-md-6">
+        <label>Período de entrega</label>
+        <div class="row">
+          <div class="col-2">
+            <input #periodoEntregaNumero [min]="1" type="number"
+                   [(ngModel)] = "a326" class="form-control" [ngClass]="{'is-invalid':submitted && f.fPeriodoEntregaCantidad.errors }"
+                   name="value" formControlName="fPeriodoEntregaCantidad" (ngModelChange)="isnumeric(periodoEntregaNumero)" />
+            <div *ngIf="submitted && f.fPeriodoEntregaCantidad.errors" style="color:red">
+              <div *ngIf="f.fPeriodoEntregaCantidad.errors.required">
+                Requerido
+              </div>
+            </div>
+          </div>
+
+          <div class="col-10">
+            <select class="form-control" [compareWith]="compareFn" formControlName="fPeriodoEntregaUnidad"
+                    [ngClass]="{ 'is-invalid': submitted && f.fPeriodoEntregaUnidad.errors}">
+              <option *ngFor="let operator of comboUnitPeriod" [value]="operator.value" >
+                {{ operator.label }}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.fPeriodoEntregaUnidad.errors" style="color:red" >
+              <div *ngIf="f.fPeriodoEntregaUnidad.errors.required" >
+                Requerido
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-xl-4">
+        <!-- Material input -->
+        <div class="md-form">
+          <mat-form-field>
+            <input matInput formControlName="fFechaInicioProgramada" [matDatepicker]="fechaInicioProgramada"  placeholder="Fecha Inicio Programada" [formControl]="fFechaInicioProgramada">
+            <mat-datepicker-toggle matSuffix [for]="fechaInicioProgramada"></mat-datepicker-toggle>
+            <mat-datepicker #fechaInicioProgramada disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-12 col-xl-4">
+        <!-- Material input -->
+        <div class="md-form">
+          <mat-form-field>
+            <input matInput formControlName="fFechaFinProgramada" [matDatepicker]="fechaFinProgramada" placeholder="Fecha Fin Programada" [formControl]="fFechaFinProgramada">
+            <mat-datepicker-toggle matSuffix [for]="fechaFinProgramada"></mat-datepicker-toggle>
+            <mat-datepicker #fechaFinProgramada disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-xl-4">
+        <div class="md-form">
+          <mat-label>Tipo de dias</mat-label>
+          <mat-select formControlName="fTipoDias"
+                      [compareWith]="compareFn"
+                      [ngClass]="{ 'is-invalid': submitted && f.fTipoDias.errors }">
+            <mat-option *ngFor="let operator of comboTipoDias;" [value]="operator.value">{{operator.label}}</mat-option>
+          </mat-select>
+          <div *ngIf="submitted && f.fTipoDias.errors" style="color:red">
+            <div *ngIf="f.fTipoDias.errors.required">Requerido</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-xl-4">
+        <!-- Material input -->
+        <div class="md-form">
+          <mat-form-field>
+            <input matInput formControlName="fFechaInicioReal" [matDatepicker]="fechaInicioReal" placeholder="Fecha Inicio Real" [formControl]="fFechaInicioReal">
+            <mat-datepicker-toggle matSuffix [for]="fechaInicioReal"></mat-datepicker-toggle>
+            <mat-datepicker #fechaInicioReal disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-12 col-xl-4">
+        <!-- Material input -->
+        <div class="md-form">
+          <mat-form-field>
+            <input matInput formControlName="fFechaFinReal" [matDatepicker]="fechaFinReal" placeholder="Fecha Fin Real" [formControl]="fFechaFinReal">
+            <mat-datepicker-toggle matSuffix [for]="fechaFinReal"></mat-datepicker-toggle>
+            <mat-datepicker #fechaFinReal disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-xl-4">
+        <div class="md-form">
+          <mat-label>Estatus de la tarea</mat-label>
+          <mat-select formControlName="fEstatusTarea"
+                      [compareWith]="compareFn"
+                      [ngClass]="{ 'is-invalid': submitted && f.fEstatusTarea.errors }">
+            <mat-option *ngFor="let operator of comboEstatus;" [value]="operator.value">{{operator.label}}</mat-option>
+          </mat-select>
+          <div *ngIf="submitted && f.fEstatusTarea.errors" style="color:red">
+            <div *ngIf="f.fEstatusTarea.errors.required">Requerido</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-xl-4">
+        <div class="md-form">
+          <mat-label>Estatus Interno</mat-label>
+          <mat-select formControlName="fEstatusInterno"
+                      [compareWith]="compareFn"
+                      [ngClass]="{ 'is-invalid': submitted && f.fEstatusInterno.errors }">
+            <mat-option *ngFor="let operator of comboEstatusInterno;" [value]="operator.value">{{operator.label}}</mat-option>
+          </mat-select>
+          <div *ngIf="submitted && f.fEstatusInterno.errors" style="color:red">
+            <div *ngIf="f.fEstatusInterno.errors.required">Requerido</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-xl-4">
+        <!-- Material input -->
+        <div class="md-form">
+          <mat-form-field>
+            <input matInput formControlName="fFechaUltimaModificacion" [matDatepicker]="fechaUltimaModificacion" placeholder="Fecha ultima Modificacion" [formControl]="fFechaUltimaModificacion">
+            <mat-datepicker-toggle matSuffix [for]="fechaUltimaModificacion"></mat-datepicker-toggle>
+            <mat-datepicker #fechaUltimaModificacion disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="row" [hidden]="hiddenDivButtonFreeTask">
+      <div class="col-md-2">
+        <div class="md-form">
+          <button type="button" (click)="guardaTarea()" class="btn btn-primary btn-md">Guarda Tarea</button>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="md-form">
+          <button type="button" (click)="liberaTarea()"  class="btn btn-primary btn-md">Liberar Tarea</button>
+        </div>
+      </div>
+    </div>
+    <div class="row" [hidden]="hiddenDivButtonAcceptTask">
+      <div class="col-md-2">
+        <div class="md-form">
+          <button type="button" (click)="acceptTask()" class="btn btn-primary btn-md">Acepta Tarea</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <!--div *ngFor="let item of titleDocument">
+    <div class="row">
+      <div class="col">
+        <mdb-card>
+          <mdb-card-header>{{item.titleDocument}}</mdb-card-header>
+          <mdb-card-body>
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-6"  >
+                  <div class="row">
+                    <div class="col" *ngFor="let itemInterno of item.carasDocuments" >
+                      <a (click)="downloadFile(itemInterno.fileDownloadUri)"><img src="../../../../assets/img/{{itemInterno.type}}.png" style="width: 40px;" />&nbsp;{{itemInterno.name}}</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <app-upload [inTipo]='inTipo' [typeDocument]='item.titleDocument' [inIdEmpleado]='inIdEmpleado' [calificacionId]='calificacionId'></app-upload>
+                </div>
+              </div>
+            </div>
+          </mdb-card-body>
+        </mdb-card>
+      </div>
+    </div>
+  </div-->
+</div>

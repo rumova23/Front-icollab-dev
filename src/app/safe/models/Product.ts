@@ -1,0 +1,19 @@
+export interface Product {
+    id?;
+    code?;
+    name?;
+    description?;
+    active?;
+    price?;
+    idRateIvaSat?;
+    rateIvaSat?;
+    idProductSat?;
+    productSat?;
+    idUnityProduct?;
+    unityProduct?;
+    idTypeProduct?;
+    typeProduct?;
+    save?;
+    sys?;
+    system?;
+}

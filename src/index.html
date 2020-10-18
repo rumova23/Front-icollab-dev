@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<title>DGC</title>
+		<link rel="icon" type="image/x-icon" href="assets/images/logosafe.png">
+		<base href="/">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<style>
+			.my00loader {
+				position: fixed;
+				left: 0px;
+				top: 0px;
+				width: 100%;
+				height: 100%;
+				z-index: 9999;
+				background : url('/assets/img/icollab-loader-min.png') 50% 50% no-repeat rgb(0,0,0);
+				/*opacity: .8;*/
+			}
+			#my00msn-loader{
+				position: fixed; color: aliceblue; width: 100%; text-align: center;bottom: 0;z-index: 99999;
+			}
+
+			.my00parpadea {
+
+			animation-name: parpadeo;
+			animation-duration: 4s;
+			animation-timing-function: linear;
+			animation-iteration-count: infinite;
+			
+			-webkit-animation-name:parpadeo;
+			-webkit-animation-duration: 4s;
+			-webkit-animation-timing-function: linear;
+			-webkit-animation-iteration-count: infinite;
+			}
+			
+			@-moz-keyframes parpadeo{  
+			0% { transform: scale(1); }
+			50% { transform: scale(1.2); }
+			100% { transform: scale(1); }
+			}
+			
+			@-webkit-keyframes parpadeo {  
+			0% { transform: scale(1); }
+			50% { transform: scale(1.2); }
+			100% { transform: scale(1); }
+			}
+			
+			@keyframes parpadeo {  
+			0% { transform: scale(1); }
+			50% { transform: scale(1.2); }
+			100% { transform: scale(1); }
+			}
+			
+  
+		</style>
+	</head>
+	<body class="scroll_design">
+		<div class="my00loader my00parpadea" id="my00loader"></div>
+		<h2 id="my00msn-loader">Cargando ...</h2>
+		<app-root id="app-root" style="visibility: hidden;"></app-root>
+	</body>
+</html>

@@ -1,0 +1,314 @@
+<div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">{{titulo}}</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+
+<div class="section">
+
+  <div class="row pb-2">
+    <div class="col">
+      <p class="section_titulo_0">{{subtitulo}}</p>
+      <p class="section_subtitulo_0"></p>
+    </div>
+  </div>
+
+  <form [formGroup]="filterForm" >
+    <p class="section_titulo_0">Buscar por</p>
+    <hr>
+    <div class=" row">
+      <div class="col-12">
+        <div class="row">
+
+          
+
+          <div class="col-4">
+            
+            <app-mat-input-text-autocomplete 
+              [formGroup]="filterForm"
+              controlName="fEmpNum"
+              [options]="filteredfEmpNum"
+              label="Numero de Empleado"
+            ></app-mat-input-text-autocomplete>
+
+          </div>
+          <div class="col-4">
+            
+            <app-mat-input-text-autocomplete 
+              [formGroup]="filterForm"
+              controlName="fNames"
+              [options]="filteredfNames"
+              label="Nombre(s)"
+            ></app-mat-input-text-autocomplete>
+
+          </div>
+          <div class="col-4">
+            
+            <app-mat-input-text-autocomplete 
+              [formGroup]="filterForm"
+              controlName="fLastName"
+              [options]="filteredfLastName"
+              label="Apellido Paterno"
+            ></app-mat-input-text-autocomplete>
+
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="col">
+            
+            <app-mat-input-text-autocomplete 
+              [formGroup]="filterForm"
+              controlName="fSecondName"
+              [options]="filteredfSecondName"
+              label="Apellido Materno"
+            ></app-mat-input-text-autocomplete>
+
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label>Género</label>
+              <select class="browser-default custom-select"
+                      formControlName="fGender">
+                <option *ngFor="let genero of generos;"
+                        [value]="genero.value">
+                  {{genero.label}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-4">
+            
+            <app-mat-input-text-autocomplete 
+              [formGroup]="filterForm"
+              controlName="fPosition"
+              [options]="filteredfPosition"
+              label="Posición"
+            ></app-mat-input-text-autocomplete>
+
+          </div>
+          <div class="col-4">
+            
+            <app-mat-input-text-autocomplete 
+              [formGroup]="filterForm"
+              controlName="fDepto"
+              [options]="filteredfDepto"
+              label="Departamento"
+            ></app-mat-input-text-autocomplete>
+
+          </div>
+
+          <div class="col-4">
+            
+            <app-mat-input-text-autocomplete 
+              [formGroup]="filterForm"
+              controlName="fJob"
+              [options]="filteredfJob"
+              label="Puesto de trabajo"
+            ></app-mat-input-text-autocomplete>
+
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label>Lugar de trabajo</label>
+              <select class="browser-default custom-select"
+                      formControlName="fPlaceWork">
+                <option *ngFor="let lugar of lugares;"
+                        [value]="lugar.value">
+                  {{lugar.label}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label>Estatus</label>
+              <!--                                            <input mdbInput class="form-control" formControlName="fEst">-->
+              <select class="browser-default custom-select"
+                      formControlName="fEst">
+                <option *ngFor="let operator of comboStatus;"
+                        [value]="operator.value">
+                  {{operator.label}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label>Fecha Ultima de modificacion</label>
+              <input mdbInput class="form-control" type="date" formControlName="fLastDate">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label>Condición de búsqueda</label><br>
+              <mat-radio-group formControlName="fSearchCondition" [(ngModel)]="condition">
+                <mat-radio-button *ngFor="let data of conditionSearch; " [value]="data.value">{{data.label}}</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <div class="d-flex justify-content-end">
+                <button type="button" (click) = "limpiarFiltros()" class="btn">
+                  Limpiar
+                </button>
+                <button type="button" (click) = "filtros()" class="btn">
+                  Buscar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- </div>-->
+  </form>
+
+  <hr>
+  <!--Boton nuevo emoleado-->
+  <div class="row mb-3 mt-3">
+    <div class="col text-right">
+      <button type="button" class="btn"
+              (click)="action(0, 'guardar')">
+        <mdb-icon fas icon="plus"></mdb-icon>&nbsp;Agregar
+      </button>
+    </div>
+  </div>
+
+  <div class="row mt-4 mb-4">
+    <div class="col">
+
+      <div class="mat-elevation-z0">
+        <table mat-table [dataSource]="registros" matSort>
+          <!-- Position Column -->
+          <ng-container matColumnDef="orden" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> No. </th>
+            <td mat-cell *matCellDef="let element"> {{element.orden}} </td>
+          </ng-container>
+          <!-- Name Column -->
+          <ng-container matColumnDef="numEmpleado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><a>No. Empleado</a></th>
+            <td mat-cell *matCellDef="let element"> {{element.numEmpleado}} </td>
+          </ng-container>
+          <!-- Name Column -->
+          <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Nombre (s)</a></th>
+            <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+          </ng-container>
+          <!-- Weight Column -->
+          <ng-container matColumnDef="apPaterno">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Apellido Paterno</a></th>
+            <td mat-cell *matCellDef="let element"> {{element.apPaterno}} </td>
+          </ng-container>
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="apMaterno">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Apellido Materno</a></th>
+            <td mat-cell *matCellDef="let element"> {{element.apMaterno}} </td>
+          </ng-container>
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="genero">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Género</a></th>
+            <td mat-cell *matCellDef="let element"> {{element.genero}} </td>
+          </ng-container>
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="posicion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Posición</a></th>
+            <td mat-cell *matCellDef="let element"> {{element.posicion}} </td>
+          </ng-container>
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="departamento">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Departamento</a></th>
+            <td mat-cell *matCellDef="let element"> {{element.departamento}} </td>
+          </ng-container>
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="puesto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Puesto de trabajo</a></th>
+            <td mat-cell *matCellDef="let element"> {{element.puesto}} </td>
+          </ng-container>-->
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="lugarDeTrabajo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Lugar de trabajo</a></th>
+            <td mat-cell *matCellDef="let element"> {{element.lugarDeTrabajo}} </td>
+          </ng-container>
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="usuarioModifico">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Usuario Modificó</a></th>
+            <td mat-cell *matCellDef="let element"> {{element.usuarioModifico}} </td>
+          </ng-container>
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="fechaHoraUltimaModificacion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Fecha y Hora Última Modificación</a></th>
+            <td mat-cell *matCellDef="let element"> {{element.fechaHoraUltimaModificacion}} </td>
+          </ng-container>
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><a>Estatus</a></th>
+            <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+          </ng-container>
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="ver">
+            <th mat-header-cell *matHeaderCellDef class="text-center"> Ver </th>
+            <td mat-cell *matCellDef="let element">
+              <!-- <a routerLink="{{element.editar}}/{{element.empleadoId}}/ver">
+                   </a>
+              -->
+              <a (click)="action(element.empleadoId, 'ver')">
+                <img src="assets/images/skins/ico_Ver.png" alt="Visualizar">
+              </a>
+            </td>
+          </ng-container>
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="editar">
+            <th mat-header-cell *matHeaderCellDef class="text-center"> Editar </th>
+            <td mat-cell *matCellDef="let element">
+              <!--  <a routerLink="{{element.editar}}/{{element.empleadoId}}/editar">
+                    </a>
+              -->
+              <a (click)="action(element.empleadoId, 'editar')">
+                <img src="assets/images/skins/ico_Editar.png" alt="Visualizar">
+              </a>
+            </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="eliminar">
+            <th mat-header-cell *matHeaderCellDef class="text-center"> Eliminar </th>
+            <td mat-cell *matCellDef="let element">
+              <app-confirmationModal [strMensaje]='element.mensajeEliminar' [inTitulo]='inTitulo'
+                                     (salida)="eliminar($event,element.empleadoId)"></app-confirmationModal>
+            </td>
+          </ng-container>
+
+          <!--
+          <ng-container matColumnDef="nuevoexamen">
+            <th mat-header-cell *matHeaderCellDef class="text-center"> Nuevo Examen </th>
+            <td mat-cell *matCellDef="let element">
+              <a (click)="generarExamen(element.empleadoId)">
+                <i class="fas fa-file-alt" style="color: #a3a3a3;font-size: 19px;"></i>
+              </a>
+            </td>
+          </ng-container>
+          -->
+
+          <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="rowsPerPage" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+
+</div>

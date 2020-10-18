@@ -1,0 +1,9 @@
+<button 
+	[type]="myType" 
+	[ngClass]="btnClass" 
+	[disabled]="disabled"
+	(click)="myEventClick()"
+>
+	<i *ngIf="icon.length > 0" [ngClass]="icon"></i>
+	{{label | translate}}
+</button>

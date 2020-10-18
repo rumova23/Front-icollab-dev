@@ -1,0 +1,21 @@
+<div class="row pb-5">
+  <div class="col">
+    <span class="agila-cda-titulo">{{getTitle()}}</span>
+  </div>
+</div>
+<ngx-treeview [config]="config"  
+[items]="items"
+(selectedChange)="selectedChange($event)">
+</ngx-treeview>
+<div class="row">
+  <div class="col-md-4"></div>
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <div class="d-flex justify-content-end">
+      <button type="buton" class="btn"(click) = "save()"
+        [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+          Guardar</button>
+    </div>
+  </div>
+</div>

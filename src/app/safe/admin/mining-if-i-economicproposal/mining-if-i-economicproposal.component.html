@@ -1,0 +1,226 @@
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Data Mining" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Financial Indices" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Indices" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "Economic proposal" | translate }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+<div class="section">
+	<div class="row">
+		<div class="col">
+			<p class="section_titulo_0">Consulta / Edita Índices de Propuesta Económica</p>
+		</div>
+	</div>
+	<hr>
+	<br>
+  
+	<form [formGroup]="formQuery" (ngSubmit)="formQuerySubmit(formQuery.value)">
+		<div class="row mb-4">
+
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-datepicker-year-and-month class="w-100 align-self-end"
+					[formGroup]="formQuery"
+					controlName="date"
+					(eventChange)="onChangeDatePicker($event)" 
+					label="Commercial Operation Date">
+				</app-mat-input-datepicker-year-and-month>
+			</div>
+
+			<div class="my-xl-2 col-12 col-xl-3 col-xxl-2" *ngIf="!isManualLoad">
+				<label style="visibility: hidden;">boton</label>
+				<app-btn-block-consult
+					(myClick)="onBtnConsultar()">
+				</app-btn-block-consult>
+			</div>
+
+		</div>
+	</form>
+
+	
+	<div class="row my-4">
+		<div class="col">
+			<app-mat-table
+				(clickEdit)="table01RowEdit($event)"
+				[data]="tableData01"
+				[columnsLabels]="tabla01ColumnsLabels"
+				[columnsDisplay]="table01ColumnsDisplay"
+				[row_x_page]="tableRow_x_page"
+				[showPagination]="false"
+			></app-mat-table>
+		</div>
+	</div>
+	<form [formGroup]="formEconomic" (ngSubmit)="formEconomicSubmit(formEconomic.value)">
+		<div class="row">
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEconomic"
+					controlName="cfcAm"
+					label="CFC am"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEconomic"
+					controlName="cfomMtm"
+					label="CFOM mtm"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEconomic"
+					controlName="cfomDm"
+					label="CFOM dm"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEconomic"
+					controlName="cfomMom"
+					label="CFOM mom"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEconomic"
+					controlName="cvoM"
+					label="CVO m"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEconomic"
+					controlName="ccaM"
+					label="CCA m"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEconomic"
+					controlName="pdgM"
+					label="PDGm"
+				></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-mat-input-number
+					[formGroup]="formEconomic"
+					controlName="pi"
+					label="PI"
+				></app-mat-input-number>
+			</div>
+			
+		</div>
+		<div class="row justify-content-end">
+			<div class="col-12 col-lg-2">
+				<app-btn-block-cancel (myClick)="onBtnCancelFormEconomic()"></app-btn-block-cancel>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-btn-block-save-update myType="submit"></app-btn-block-save-update>
+			</div>
+		</div>
+	</form>
+	<br>
+	<div class="row mt-4">
+		<div class="col">
+			<app-mat-table
+				(clickDelete)="tableRowDelete($event)"
+				[data]="tableData"
+				[columnsLabels]="tablaColumnsLabels"
+				[columnsDisplay]="tableColumnsDisplay"
+				[row_x_page]="tableRow_x_page"
+			></app-mat-table>
+		</div>
+	</div>
+
+	
+	
+	<div class="mt-4 row pb-2">
+		<div class="col">
+			<p class="section_titulo_0">Consulta Índices de Propuesta Económica</p>
+			<p class="section_subtitulo_0"></p>
+		</div>
+	</div>
+
+	<div class="row mt-2">
+		<div class="col-12 col-sm-6 col-xl-3">
+			<app-mat-select-multiple
+				[formGroup]="formvariables"
+				controlName="selectVariables"
+				[options]="selectOptionsVariables"
+				(eventChange)="onChangeSelectVariables($event)"
+			></app-mat-select-multiple>
+		</div>
+		<div class="col-12 col-sm-6 col-xl-9">
+			<div class="row justify-content-end">
+				<div class="col-12 col-sm-6 col-xl-3">
+					<!--label style="visibility: hidden;">boton</label-->
+					<app-btn-block-graph (myClick)="clickBtnChart()" [disabled]="!formvariables.valid"></app-btn-block-graph>
+				</div>
+				<!--div class="col-12 col-sm-6 col-xl-3">
+					<label style="visibility: hidden;">boton</label>
+					<app-btn-block-download (click)="clickBtnDownloadChart()" [disabled]="!formvariables.valid"></app-btn-block-download>
+				</div-->
+			</div>
+		</div>
+	</div>
+
+	<div class="row mt-4">
+		<div class="col">
+			<app-mining-ifieconomicproposal-chart></app-mining-ifieconomicproposal-chart>
+		</div>
+	</div>
+
+</div>
+<div class="section">
+
+	<div class="row pb-2">
+		<div class="col">
+			<p class="section_titulo_1">{{ "Soportes" | translate }}</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<div class="media" (click)="downloadFile()">
+				<img src="assets/img/zip.png" style="width: 64px; height: 64px;">
+				<div class="media-body">
+					<p>Descarga kiki_koo.zip</p>
+				</div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="row" [formGroup]="fileUploadForm">
+				
+				<div class="col">
+					Carga Archivo:<br />
+					<app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+					<mat-error *ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
+						Requerido
+					</mat-error>
+				</div>
+				<div class="col-12 col-lg-3">
+					<div class="row mt-2">
+						<div class="col">
+							<app-btn-block-import (myClick)="onBtnUploadFile()" [disabled]="!fileUploadForm.valid" ></app-btn-block-import>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="section">
+	<div class="row justify-content-end">
+		<div class="col-12 col-lg-2">
+			<app-btn-block-finish (myClick)="onBtnFinish()"></app-btn-block-finish>
+		</div>
+	</div>
+</div>
+

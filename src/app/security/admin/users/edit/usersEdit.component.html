@@ -1,0 +1,159 @@
+<div class="row pb-5">
+  <div class="col">
+    <span class="agila-cda-titulo">{{getTitle()}}</span>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <form [formGroup]="userForm" (ngSubmit)="save(userForm.value)">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Nombre de Usuario" formControlName="username">
+              <div *ngIf="!userForm.controls['username'].valid 
+                  && userForm.controls['username'].touched">
+                Requerido
+              </div>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Contraseña del usuario" formControlName="password">
+              <div *ngIf="!userForm.controls['password'].valid 
+                  && userForm.controls['password'].touched">
+                Requerido
+              </div>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Nombre de la persona" formControlName="name">
+              <div *ngIf="!userForm.controls['name'].valid 
+                  && userForm.controls['name'].touched">
+                Requerido
+              </div>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Apellido Paterno" formControlName="lastName">
+              <div *ngIf="!userForm.controls['lastName'].valid 
+                  && userForm.controls['lastName'].touched">
+                Requerido
+              </div>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Apellido Materno" formControlName="maidenName">
+              <div *ngIf="!userForm.controls['maidenName'].valid 
+                    && userForm.controls['maidenName'].touched">
+                Requerido
+              </div>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Email" formControlName="email">
+              <div *ngIf="!userForm.controls['email'].valid 
+                    && userForm.controls['email'].touched">
+                Requerido
+              </div>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+              <label>Activo</label>
+              <input
+                  class="form-control active"
+                  type="checkbox"
+                  formControlName="active"
+                  id="active"
+                  color="primary"
+                  style="
+                  height: auto;
+                  width: auto;"
+              />
+          </div>
+          <!--mat-checkbox id="active" class="active" color="primary" formControlName="active">Activo
+          </mat-checkbox-->
+          <div *ngIf="!userForm.controls['active'].valid 
+                      && userForm.controls['active'].touched">
+            Requerido
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <mat-label>Roles</mat-label>
+              <mat-select formControlName="roles" [compareWith]="compareObjects" multiple>
+                <mat-option *ngFor="let role of roles" [value]="role">{{role.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <mat-label>Plantas</mat-label>
+              <mat-select formControlName="plants" [compareWith]="compareObjects" multiple>
+                <mat-option *ngFor="let plant of plants" [value]="plant">{{plant.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <mat-label>Aplicaciones</mat-label>
+              <mat-select formControlName="apps" [compareWith]="compareObjects" multiple>
+                <mat-option *ngFor="let app of apps" [value]="app">{{app.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="d-flex justify-content-end" *ngIf="!entity.readOnly">
+            <button type="submit" class="btn" [disabled]="!userForm.valid"
+              [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

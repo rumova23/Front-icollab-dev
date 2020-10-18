@@ -1,0 +1,48 @@
+<div class="row">
+    <mdb-breadcrumb customClass="white" class="w-100">
+      <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+      <mdb-breadcrumb-item>Modelo de Mercado</mdb-breadcrumb-item>
+      <mdb-breadcrumb-item class="active">{{typeCharge}}</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
+  </div>
+  <div class="section">
+    <div class="row pb-2">
+        <div class="col">
+            <p class="section_titulo_0">{{typeCharge}}</p>
+            <p class="section_subtitulo_0"> </p>
+        </div>
+    </div>
+    
+    <hr>
+  
+    <div class="row mb-3 mt-3">
+      <div class="col">
+        <form [formGroup]="chargeForm" (ngSubmit)="upload(chargeForm.value)">
+          <div class="row">
+            <div class="col txt-r">
+              <button type="button" class="btn right" (click)="download()" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                <mdb-icon far icon="save" class="mr-1"></mdb-icon> Descarga Layout
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              Carga de Soportes<br>
+              <app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+              <mat-error *ngIf="!chargeForm.controls['file'].valid 
+                && chargeForm.controls['file'].touched">
+                Requerido
+              </mat-error>
+            </div>
+            <div class="col txt-r">
+              <button type="submit" class="btn right" 
+                  [disabled]="!chargeForm.valid"
+                [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

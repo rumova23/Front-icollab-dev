@@ -1,0 +1,133 @@
+<div class="row pb-5">
+  <div class="col">
+    <span class="agila-cda-titulo">{{getTitle()}}</span>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <form [formGroup]="grantForm" (ngSubmit)="save(grantForm.value)">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Nombre" formControlName="name">
+              <div *ngIf="!grantForm.controls['name'].valid 
+                  && grantForm.controls['name'].touched">
+                Requerido
+              </div>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Label" formControlName="label">
+              <div *ngIf="!grantForm.controls['label'].valid 
+                  && grantForm.controls['label'].touched">
+                Requerido
+              </div>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Icono" formControlName="icon">
+              <div *ngIf="!grantForm.controls['icon'].valid 
+                  && grantForm.controls['icon'].touched">
+                Requerido
+              </div>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="md-form">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Url" formControlName="url">
+              <div *ngIf="!grantForm.controls['url'].valid 
+                  && grantForm.controls['url'].touched">
+                Requerido
+              </div>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field>
+            <mat-label>Applicación</mat-label>
+            <mat-select formControlName="app" [compareWith]="compareObjects"
+            (selectionChange)="selectApp($event.value)" 
+            >
+              <mat-option *ngFor="let app of apps" [value]="app">
+                {{ app.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="!grantForm.controls['app'].valid 
+                        && grantForm.controls['app'].touched">
+            Requerido
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+              <label>Es padre</label>
+              <input
+                  class="form-control active"
+                  type="checkbox"
+                  formControlName="isFather"
+                  id="isFather"
+                  color="primary"
+                  (change)="changeFather($event)"
+                  style="
+                  height: auto;
+                  width: auto;"
+              />
+          </div>
+          <!--mat-checkbox id="isFather" (change)="changeFather($event)" class="active" color="primary"
+            formControlName="isFather">Es padre
+          </mat-checkbox-->
+          <div *ngIf="!grantForm.controls['isFather'].valid 
+                      && grantForm.controls['isFather'].touched">
+            Requerido
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="!isFather">
+        <div class="col-md-4">
+          <mat-form-field>
+            <mat-label>Padre</mat-label>
+            <mat-select formControlName="father" [compareWith]="compareObjects">
+              <mat-option *ngFor="let father of fathers" [value]="father">
+                {{ father.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="!grantForm.controls['father'].valid 
+                        && grantForm.controls['father'].touched">
+            Requerido
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="d-flex justify-content-end" *ngIf="!entity.readOnly">
+            <button type="submit" class="btn" [disabled]="!grantForm.valid"
+              [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

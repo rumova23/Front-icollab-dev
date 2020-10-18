@@ -1,0 +1,373 @@
+<div class="section mb-0 bg-bg p-0">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12 col-lg-12">
+				<div class="row text-center text-white"><!-- TG 1-->
+					<div class="col col-lg-1 pr-1 pl-0">
+						
+						<div class="bg-tit h-100 container-fluid myborder">
+							<div class="row h-100">
+								<div class="col">
+									<div class="h-100 d-flex"><div class="align-self-center m-auto"><p class="text-uppercase font-weight-bold">{{ timeCurrent | date: "MMMM yyyy" }}</p></div></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col col-lg-6 pr-1 pl-1">
+						<div class="bg-tit h-100 container-fluid myborder">
+							<div class="row">
+								<div class="col">
+									<p class="py-2 text-uppercase font-weight-bold">
+										Total
+									</p>	
+								</div>
+							</div>
+							<div class="row h-min-50 p-2 myborder-top">
+								<div class="col p-1"><div class="h-100 d-flex bf-tit-sub stamp"><div class="align-self-center m-auto"><p>Runback</p></div></div></div>
+								<div class="col p-1"><div class="h-100 d-flex bf-tit-sub stamp"><div class="align-self-center m-auto"><p>Rechazo de Carga</p></div></div></div>
+								<div class="col p-1"><div class="h-100 d-flex bf-tit-sub stamp"><div class="align-self-center m-auto"><p>Disparo</p></div></div></div>
+								<div class="col p-1"><div class="h-100 d-flex bf-tit-sub stamp"><div class="align-self-center m-auto"><p>Arranque</p></div></div></div>
+								<div class="col p-1"><div class="h-100 d-flex bf-tit-sub stamp"><div class="align-self-center m-auto"><p>ESi</p></div></div></div>
+								<div class="col p-1"><div class="h-100 d-flex bf-tit-sub stamp"><div class="align-self-center m-auto"><p>AOH</p></div></div></div>
+								<div class="col p-1"><div class="h-100 d-flex bf-tit-sub stamp"><div class="align-self-center m-auto"><p>EFHi</p></div></div></div>
+								<div class="col p-1"><div class="h-100 d-flex bf-tit-sub stamp"><div class="align-self-center m-auto"><p>EFHi$</p></div></div></div>
+							</div>
+						</div>
+					</div>
+					<div class="col col-lg-5 pl-1 pr-0">
+						<div class="bg-tit h-100 container-fluid myborder">
+							<div class="row">
+								<div class="col">
+									<p class="py-2 text-uppercase font-weight-bold">
+										Desde el Ultimo Mantenimiento Planeado
+									</p>
+								</div>
+							</div>
+							<div class="row h-min-50 p-2 myborder-top">
+								<div class="col p-1"><div class="h-100 d-flex bf-tit-sub stamp"><div class="align-self-center m-auto"><p>Disparo</p></div></div></div>
+								<div class="col p-1"><div class="h-100 d-flex bf-tit-sub stamp"><div class="align-self-center m-auto"><p>Arranque</p></div></div></div>
+								<div class="col p-1"><div class="h-100 d-flex bf-tit-sub stamp"><div class="align-self-center m-auto"><p>ESi</p></div></div></div>
+								<div class="col p-1"><div class="h-100 d-flex bf-tit-sub stamp"><div class="align-self-center m-auto"><p>AOH</p></div></div></div>
+								<div class="col p-1"><div class="h-100 d-flex bf-tit-sub stamp"><div class="align-self-center m-auto"><p>EFHi</p></div></div></div>
+								<div class="col p-1"><div class="h-100 d-flex bf-tit-sub stamp"><div class="align-self-center m-auto"><p>EFHi$</p></div></div></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-2"><!-- TG 1-->
+					<div class="col col-lg-1 bg-tit myborder text-white">
+						<div class="row h-100">
+							<div class="col p-0 myborder-right">
+								<div class="h-100 d-flex">
+									<div class="align-self-center m-auto">
+										<p class="text-uppercase font-weight-bold text-white">
+											TG 1
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="col p-0">
+								<div class="container-fluid h-100">
+									<div class="row h-100">
+										<div class="col-12 p-1">
+											<div class="h-100 d-flex bf-tit-sub stamp">
+												<div class="align-self-center m-auto">
+													<p class="text-uppercase font-weight-bold">
+														YTD
+													</p>
+												</div>
+											</div>
+										</div>
+										<div class="col-12 p-1">
+											<div class="h-100 d-flex bf-tit-sub stamp">
+												<div class="align-self-center m-auto">
+													<p class="text-uppercase font-weight-bold">
+														MTD
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					
+					</div>
+	
+					<div class="col col-lg-6">
+						<div class="row">
+							<div class="col-6 col-lg-12">
+								<div class="row">
+									<div class="col p-0 text-center m-1 py-1 border-ytd-1 bg-ytd-1"><p class="digital v_fsize">{{tg1YtdTotal01 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-1 bg-ytd-1"><p class="digital v_fsize">{{tg1YtdTotal02 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-1 bg-ytd-1"><p class="digital v_fsize">{{tg1YtdTotal03 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-1 bg-ytd-1"><p class="digital v_fsize">{{tg1YtdTotal04 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-2 bg-ytd-2"><p class="digital v_fsize">{{tg1YtdTotal05 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-3 bg-ytd-3"><p class="digital v_fsize">{{tg1YtdTotal06 | number:'4.2-2'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-3 bg-ytd-3"><p class="digital v_fsize">{{tg1YtdTotal07 | number:'4.2-2'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-4 bg-ytd-4"><p class="digital v_fsize">{{tg1YtdTotal08 | number:'7.2-2'}}</p></div>
+								</div>
+							</div>
+							<div class="col-6 col-lg-12">
+								<div class="row">
+									<div class="col p-0 text-center m-1 py-1 border-mtd-1 bg-mtd-1"><p class="digital v_fsize">{{tg1YtdLastI01 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-1 bg-mtd-1"><p class="digital v_fsize">{{tg1YtdLastI02 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-1 bg-mtd-1"><p class="digital v_fsize">{{tg1YtdLastI03 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-1 bg-mtd-1"><p class="digital v_fsize">{{tg1YtdLastI04 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-2 bg-mtd-2"><p class="digital v_fsize">{{tg1YtdLastI05 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-3 bg-mtd-3"><p class="digital v_fsize">{{tg1YtdLastI06 | number:'4.2-2'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-3 bg-mtd-3"><p class="digital v_fsize">{{tg1YtdLastI07 | number:'4.2-2'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-4 bg-mtd-4"><p class="digital v_fsize">{{tg1YtdLastI08 | number:'7.2-2'}}</p></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col col-lg-5">
+						<div class="row">
+							<div class="col-6 col-lg-12">
+								<div class="row">
+									<div class="col p-0 text-center m-1 py-1 border-ytd-1 bg-ytd-1"><p class="digital v_fsize">{{tg1MtdTotal01 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-1 bg-ytd-1"><p class="digital v_fsize">{{tg1MtdTotal02 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-2 bg-ytd-2"><p class="digital v_fsize">{{tg1MtdTotal03 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-3 bg-ytd-3"><p class="digital v_fsize">{{tg1MtdTotal04 | number:'4.2-2'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-3 bg-ytd-3"><p class="digital v_fsize">{{tg1MtdTotal05 | number:'4.2-2'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-4 bg-ytd-4"><p class="digital v_fsize">{{tg1MtdTotal06 | number:'7.2-2'}}</p></div>
+								</div>
+							</div>
+							<div class="col-6 col-lg-12">
+								<div class="row">
+									<div class="col p-0 text-center m-1 py-1 border-mtd-1 bg-mtd-1"><p class="digital v_fsize">{{tg1MtdLastI01 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-1 bg-mtd-1"><p class="digital v_fsize">{{tg1MtdLastI02 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-2 bg-mtd-2"><p class="digital v_fsize">{{tg1MtdLastI03 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-3 bg-mtd-3"><p class="digital v_fsize">{{tg1MtdLastI04 | number:'4.2-2'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-3 bg-mtd-3"><p class="digital v_fsize">{{tg1MtdLastI05 | number:'4.2-2'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-4 bg-mtd-4"><p class="digital v_fsize">{{tg1MtdLastI06 | number:'7.2-2'}}</p></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+		
+				<div class="row mt-2"><!-- TG 2-->
+					<div class="col col-lg-1 bg-tit myborder text-white">
+						<div class="row h-100">
+							<div class="col p-0 myborder-right">
+								<div class="h-100 d-flex">
+									<div class="align-self-center m-auto">
+										<p class="text-uppercase font-weight-bold text-white">
+											TG 2
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="col p-0">
+								<div class="container-fluid h-100">
+									<div class="row h-100">
+										<div class="col-12 p-1">
+											<div class="h-100 d-flex bf-tit-sub stamp">
+												<div class="align-self-center m-auto">
+													<p class="text-uppercase font-weight-bold">
+														YTD
+													</p>
+												</div>
+											</div>
+											
+										</div>
+										<div class="col-12 p-1">
+											<div class="h-100 d-flex bf-tit-sub stamp">
+												<div class="align-self-center m-auto">
+													<p class="text-uppercase font-weight-bold">
+														MTD
+													</p>
+												</div>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					
+					</div>
+					<div class="col col-lg-6">
+						<div class="row">
+							<div class="col-6 col-lg-12">
+								<div class="row">
+									<div class="col p-0 text-center m-1 py-1 border-ytd-1 bg-ytd-1"><p class="digital v_fsize">{{tg2YtdTotal01 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-1 bg-ytd-1"><p class="digital v_fsize">{{tg2YtdTotal02 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-1 bg-ytd-1"><p class="digital v_fsize">{{tg2YtdTotal03 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-1 bg-ytd-1"><p class="digital v_fsize">{{tg2YtdTotal04 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-2 bg-ytd-2"><p class="digital v_fsize">{{tg2YtdTotal05 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-3 bg-ytd-3"><p class="digital v_fsize">{{tg2YtdTotal06 | number:'4.2-2'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-3 bg-ytd-3"><p class="digital v_fsize">{{tg2YtdTotal07 | number:'4.2-2'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-4 bg-ytd-4"><p class="digital v_fsize">{{tg2YtdTotal08 | number:'7.2-2'}}</p></div>
+								</div>
+							</div>
+							<div class="col-6 col-lg-12">
+								<div class="row">
+									<div class="col p-0 text-center m-1 py-1 border-mtd-1 bg-mtd-1"><p class="digital v_fsize">{{tg2YtdLastI01 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-1 bg-mtd-1"><p class="digital v_fsize">{{tg2YtdLastI02 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-1 bg-mtd-1"><p class="digital v_fsize">{{tg2YtdLastI03 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-1 bg-mtd-1"><p class="digital v_fsize">{{tg2YtdLastI04 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-2 bg-mtd-2"><p class="digital v_fsize">{{tg2YtdLastI05 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-3 bg-mtd-3"><p class="digital v_fsize">{{tg2YtdLastI06 | number:'4.2-2'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-3 bg-mtd-3"><p class="digital v_fsize">{{tg2YtdLastI07 | number:'4.2-2'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-4 bg-mtd-4"><p class="digital v_fsize">{{tg2YtdLastI08 | number:'7.2-2'}}</p></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col col-lg-5">
+						<div class="row">
+							<div class="col-6 col-lg-12">
+								<div class="row">
+									<div class="col p-0 text-center m-1 py-1 border-ytd-1 bg-ytd-1"><p class="digital v_fsize">{{tg2MtdTotal01 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-1 bg-ytd-1"><p class="digital v_fsize">{{tg2MtdTotal02 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-2 bg-ytd-2"><p class="digital v_fsize">{{tg2MtdTotal03 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-3 bg-ytd-3"><p class="digital v_fsize">{{tg2MtdTotal04 | number:'4.2-2'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-3 bg-ytd-3"><p class="digital v_fsize">{{tg2MtdTotal05 | number:'4.2-2'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-ytd-4 bg-ytd-4"><p class="digital v_fsize">{{tg2MtdTotal06 | number:'7.2-2'}}</p></div>
+								</div>
+							</div>
+							<div class="col-6 col-lg-12">
+								<div class="row">
+									<div class="col p-0 text-center m-1 py-1 border-mtd-1 bg-mtd-1"><p class="digital v_fsize">{{tg2MtdLastI01 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-1 bg-mtd-1"><p class="digital v_fsize">{{tg2MtdLastI02 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-2 bg-mtd-2"><p class="digital v_fsize">{{tg2MtdLastI03 | number:'3.0-0'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-3 bg-mtd-3"><p class="digital v_fsize">{{tg2MtdLastI04 | number:'4.2-2'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-3 bg-mtd-3"><p class="digital v_fsize">{{tg2MtdLastI05 | number:'4.2-2'}}</p></div>
+									<div class="col p-0 text-center m-1 py-1 border-mtd-4 bg-mtd-4"><p class="digital v_fsize">{{tg2MtdLastI06 | number:'7.2-2'}}</p></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+
+	<div class="col-12 col-lg-9 pr-0">
+		<div class="section" style="background: #3e3e40;">
+			<div class="row"><!-- Grafica -->
+				<div class="col">
+					<div #LineChart2></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-12 col-lg-3">
+		<div class="section text-center" style="background: #7092be;">
+			<div class="row">
+				<div class="col fz-fulldate text-white text-left text-capitalize font-weight-bold p-0">
+					{{timeCurrent | date: "fullDate"}}
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col digital fz-datenumber bg-sub myborder2 spacingNormal">
+					{{ timeCurrent | date: "HH" }}
+				</div>
+				<div class="col-auto fz-datenumber">
+					:
+				</div>
+				<div class="col digital fz-datenumber bg-sub myborder2 spacingNormal">
+					{{ timeCurrent | date: "mm" }}
+				</div>
+				<div class="col-auto fz-datenumber">
+					:
+				</div>
+				<div class="col digital fz-datenumber bg-sub myborder2 spacingNormal">
+					{{ timeCurrent | date: "ss" }}
+				</div>
+			</div>
+		</div>
+		
+		<div class="section text-white" style="background: #8d889f;">
+			<div class="row">
+				<div class="col-6 p-3">
+					<div class="h-100 d-flex">
+						<div class="align-self-center m-auto">
+							<p class="fz-fulldate text-uppercase font-weight-bold text-white parpadea">
+								Despacho AGC
+							</p>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-6 p-3" style="min-height: 90px; color: #000;">
+					<div class="h-100 d-flex bg-sub myborder2">
+						<div class="align-self-center m-auto">
+							<div class="bg_a m-2" [ngbTooltip]="tippotencianeta" tooltipClass="mytooltip">
+								<p class="text-uppercase font-weight-bold px-2">
+									<i class="fas fa-bolt"></i>&nbsp;
+									<i class="fas fa-circle" [style.color]="mapColors.get('potenciaNeta')"></i>
+									Total <br>{{ getValue("potenciaNeta")[1] | number:'1.3' }} MW
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-6 p-3" style="min-height: 90px; color: #000;">
+					<div class="h-100 d-flex bg-sub myborder2">
+						<div class="align-self-center m-auto">
+							<div class="bg_a m-2" [ngbTooltip]="tip_ct_1_Potencia" tooltipClass="mytooltip">
+								<p class="text-uppercase font-weight-bold px-2">
+									<i class="fas fa-bolt"></i>&nbsp;
+									<i class="fas fa-circle" [style.color]="mapColors.get('ct_1_Potencia')"></i>
+									TG 1 <br>{{ getValue("ct_1_Potencia")[1] | number:'1.3' }} MW
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-6 p-3" style="min-height: 90px; color: #000;">
+					<div class="h-100 d-flex bg-sub myborder2">
+						<div class="align-self-center m-auto">
+							<div class="bg_a m-2" [ngbTooltip]="tip_ct_2_Potencia" tooltipClass="mytooltip">
+								<p class="text-uppercase font-weight-bold px-2">
+									<i class="fas fa-bolt"></i>&nbsp;
+									<i class="fas fa-circle" [style.color]="mapColors.get('ct_2_Potencia')"></i>
+									TG 2 <br>{{ getValue("ct_2_Potencia")[1] | number:'1.3' }} MW
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="section text-white" style="background: #78a0ad;">
+			<div class="row">
+				<div class="col">calendario</div>
+			</div>
+		</div>
+		<div class="section text-white" style="background: #63c0c2;">
+			<div class="row">
+				<div class="col">tareas</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<div>
+	<ng-template #tippotencianeta>
+		<p>POTENCIA NETA</p>
+		<p>{{ getTagName("potenciaNeta") }}</p>
+	</ng-template>
+	<ng-template #tip_ct_1_Potencia>
+		<p>{{ 'Power' | translate }}</p>
+		<p>{{ getTagName("ct_1_Potencia") }}</p>
+	</ng-template>
+	<ng-template #tip_ct_2_Potencia>
+		<p>{{ 'Power' | translate }}</p>
+		<p>{{ getTagName("ct_2_Potencia") }}</p>
+	</ng-template>
+</div>

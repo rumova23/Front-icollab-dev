@@ -1,0 +1,88 @@
+<div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">{{titulo}}</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+
+<div class="section">
+  <div class="row pb-3">
+    <div class="col">
+      <p class="section_titulo_0">{{subtitulo}}</p>
+      <p class="section_subtitulo_0">Aqui puedes {{subtitulo}}.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <form [formGroup]="eventTypeForm" (ngSubmit)="onSubmit()">
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input mdbInput class="form-control" formControlName="nombreOpcion"
+                     #code oninput="this.value = this.value.toUpperCase()"
+                     maxlength="30">
+              <small class="form-text text-muted text-right">
+                {{code.value?.length || 0}}/30
+              </small>
+              <div *ngIf="submitted && f.nombreOpcion.errors" style="color:red">
+                <div *ngIf="f.nombreOpcion.errors.required">Requerido</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Descripción</label>
+              <input mdbInput class="form-control" formControlName="opcionDescripcion" (keydown)="changeDescription();"
+                     #description maxlength="100">
+              <small class="form-text text-muted text-right">{{description.value?.length || 0}}/100</small>
+              <div *ngIf="submitted && f.opcionDescripcion.errors" style="color:red">
+                <div *ngIf="f.opcionDescripcion.errors.required">Requerido</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="row">
+          <div class="col-md-auto col-md-6 col-lg-4">
+            <ng-container>
+              <div class="form-group">
+                <label>Estado del elemento:</label><br>
+                <mat-checkbox class="active" color="primary"
+                              (change)="changeCheck();"
+                              [checked]="checkedEstatus"
+                              [disabled]="deshabiliarEstatus">
+                  <mat-label>Activo</mat-label>
+                </mat-checkbox>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- /inputs -->
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn"
+                  [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
+                  [disabled]="disabledSave" *ngIf="accion != 'ver'">
+            <i class="ti-pencil"></i>
+            Guardar / Actualizar
+          </button>
+          <button type="button" class="btn"
+                  [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
+                  (click)="regresar()">
+            <i class="ti-angle-double-left"></i>
+            Regresar
+          </button>
+        </div>
+        <!-- /btn guardar -->
+      </form>
+      <div class="" style="text-align: right;">
+      </div>
+    </div>
+  </div>
+</div>

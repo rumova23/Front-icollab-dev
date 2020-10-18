@@ -1,0 +1,17 @@
+<div class="container">
+    <form [formGroup]="formGroup">
+        <div class="row">
+            <div class="col">
+                Carga de Soportes<br>
+                <app-file-upload formControlName="file" [progress]="progress" (change)="selectFile($event)"></app-file-upload>
+            </div>
+            <div class="col txt-r">
+                <button [disabled]="!selectedFiles" (click)="upload()" class="btn right"
+                        [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+                    <i class="ti-cloud-up"></i>&nbsp;
+                    Importar
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

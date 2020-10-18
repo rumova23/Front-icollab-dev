@@ -1,0 +1,253 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:100,300,400,400i,700,900);
+@import url(https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css);
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+@font-face {
+    font-family: "digital";
+    src: url(../../../assets/font/display.ttf) format("truetype");
+}
+
+body{
+    font-family   : Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif !important;
+}
+p{
+    margin: 0;
+}
+.btn,.mybtn{
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-transform: none;
+}
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: Montserrat, sans-serif
+}
+.section_titulo_0{
+    margin-top: 12px;
+    margin-bottom: 10px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+    font-weight: bold;
+}
+
+.section_titulo_1{
+    margin-top: 12px;
+    margin-bottom: 10px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+    font-weight: bold;
+    color: #838383;
+}
+
+
+/* sobreescribor estilos de material angular*/
+.mat-list-item {
+    font-family   : Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif !important;
+}
+.mat-list-base .mat-list-item {
+    font-size: 14px;
+}
+.mat-icon{
+    opacity: .5;
+}
+/*   ./sobreescribor estilos de material angular*/
+
+/* Estilos para las tablas en catalogos */
+.mat-elevation-z8{
+    box-shadow: 0 0 0 0 rgba(0,0,0,.2), 0 0 0 0 rgba(0,0,0,.14), 0 0 0 0 rgba(0,0,0,.12);
+    border: 1px solid #e6ebf5;
+    width: auto;
+    overflow: auto;
+}
+.mat-elevation-z0{
+    /*border: 1px solid #e6ebf5;*/
+    width: auto;
+    overflow: auto;
+}
+
+.table_catalogo {
+    width: calc(100%);
+}
+.table_catalogo tr:nth-child(even){
+    background: #F6F6F6;
+} 
+.table_catalogo th{
+    text-align: center !important;
+}
+.table_catalogo th button{
+    margin: auto;
+}
+
+
+
+td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type, th.mat-header-cell:first-of-type {
+    padding-left: 10px;
+}
+td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:last-of-type {
+    padding-right: 10px;
+}
+.mat-elevation-z8 th, .mat-elevation-z0 th,
+.mat-elevation-z8 td, .mat-elevation-z0 td{
+    /*min-width: 100px;*/
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+.mat-elevation-z8 td, .mat-elevation-z0 td{
+    border-right: 0.5px solid #dfdfdf;
+    border-left: 0.5px solid #dfdfdf;
+    text-align: center;
+    font-size: 0.7em !important;
+}
+.mat-table-sticky{
+    border-left: 0.5px solid #dfdfdf;
+    border-right: 0.5px solid #dfdfdf;
+}
+.mat-header-row{
+    border-top: 0.5px solid #dfdfdf;
+    border-left: 0.5px solid #dfdfdf;
+    border-right: 0.5px solid #dfdfdf;
+}
+.mat-paginator{
+    border: 0.5px solid #dfdfdf;
+}
+.tabla-responsi {
+    width: auto;
+    overflow: auto;
+}
+/* ./Estilos para las tablas en catalogos */
+
+#columna{
+    /*direction: rtl;*/
+}
+#columna div{
+    /*direction: ltr;*/
+}
+/* Tamaño del scroll */
+.scroll_design::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+/* Estilos barra (thumb) de scroll */
+.scroll_design::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+.scroll_design::-webkit-scrollbar-thumb:active {
+    background-color: #999999;
+}
+
+.scroll_design::-webkit-scrollbar-thumb:hover {
+    background: #b3b3b3;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos track de scroll */
+.scroll_design::-webkit-scrollbar-track {
+    background: #e1e1e1;
+    border-radius: 4px;
+}
+
+.scroll_design::-webkit-scrollbar-track:hover, 
+.scroll_design::-webkit-scrollbar-track:active {
+    background: #d4d4d4;
+}
+/***/
+.form-control{
+    font-size: 14px;
+    line-height: 1.5;
+    color: #212529;
+    font-family: Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif ;
+    font-weight: 300;
+}
+option {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #212529;
+    font-family: Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif ;
+    font-weight: 300;
+}
+.mat-input-underline {
+    display: none;
+}
+.mat-form-field-underline {
+    display: none;
+}
+.mat-form-field-infix{
+    padding: 0 !important;
+    border-top: 0;
+}
+.mat-form-field-flex{
+    align-items: normal !important;
+}
+
+#columna span {
+    font-size: 10px;
+}
+.span10px {
+    font-size: 10px;
+}
+.color-aguila{
+    color:#0F5787;
+}
+.color-sol{
+    color:#D67700;
+}
+.bg-black{
+    background: black;
+}
+.f12{
+	font-size: 12px;
+}
+.my-form-control{
+	border: 1px solid rgb(206, 212, 218);
+	border-radius: 0.25rem;
+}
+.p-input-error-message{
+    color: red;
+}
+.input-disabled{
+    background-color: #e9ecef;
+    opacity: 1;
+    color: #212529;
+}
+.mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after, .mat-input-element:disabled{
+    color: #212529;
+}
+.digital {
+    letter-spacing: 0.2em;
+    font-family: "digital";
+}

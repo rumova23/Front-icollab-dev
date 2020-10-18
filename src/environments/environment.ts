@@ -1,0 +1,41 @@
+const hostGateway = 'http://200.52.85.140:1234/';
+export const environment = {
+  production: false
+  , openoffline: false
+  , appVersion              : 'Desarrollo V 1.0'
+  , securityUrl             : hostGateway + 'security/'
+  , catalogUrl              : hostGateway + 'catalog/'
+  , mastercatalog           : hostGateway + 'mastercatalog/'
+  , tagsUrl                 : hostGateway + 'tags/tags/'
+  , microexamenUrl          : hostGateway + 'exam/'
+  , evaluacionExamenUrl     : hostGateway + 'configuration/'
+  , knowledgeUrl            : hostGateway + 'knowledge/'
+  , seguimientoUrl          : hostGateway + 'seguimiento/'
+  , estatusmaestro          : hostGateway + 'estatusmaestro/status/'
+  , marketUrl               : hostGateway + 'market/market/'
+  , fuecdUrl                : hostGateway + 'fuecd/'
+  , weatherUrl              : hostGateway + 'weather/'
+  , ftpconsumerUrl          : hostGateway + 'ftpconsumer/ftpconsumer/'
+  , pmlUrl                  : hostGateway + 'pml/'
+  , trUrl                   : hostGateway + 'tr/'
+  , mmmercadoUrl            : hostGateway + 'mmmercado/mmmercado/'
+  , microuploaddbUrl        : hostGateway + 'microuploaddb/'
+  , urlTrPi                 : hostGateway + 'pi/'
+  , efhUrl                  : hostGateway + 'efh/'
+  , dgctags                 : hostGateway + 'dgctags/dgctags/'
+  , dycformato              : hostGateway + 'dycformato/dycformato/'
+  , binnacle                : hostGateway + 'binnacle/'
+  , economicProposalUrl     : hostGateway + 'economicproposal/'
+  , fuelcostUrl             : hostGateway + 'fuelcost/'
+  , externalData            : hostGateway + 'clientexternalapis/'
+  , incidentsUrl            : hostGateway + 'incidents/'
+};
+
+/*
+ * For easier debugging in development mode, you can import the following file
+ * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
+ *
+ * This import should be commented out in production mode because it will have a negative impact
+ * on performance if an error is thrown.
+ */
+// import 'zone.js/dist/zone-error';  // Included with Angular CLI.

@@ -1,0 +1,249 @@
+<div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">{{titulo}}</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+<div class="section">
+  <div class="row pb-2">
+    <div class="col">
+      <p class="section_titulo_0">{{titulo}}</p>
+      <p class="section_subtitulo_0"> </p>
+    </div>
+  </div>
+  <hr>
+  <form  [formGroup]="configActividadesForm" (ngSubmit)="onSubmit()">
+    <input type="hidden" formControlName="fIdTag" placeholder="Id Tag">
+    <!--  Tag  -->
+    <div class="row">
+      <div class="col-4">
+        <div class="form-group">
+          <label>Tag</label>
+          <input mdbInput formControlName="fTag" disabled="true" class="form-control"
+                 [ngClass]="{ 'is-invalid': submitted && f.fTag.errors }">
+          <div *ngIf="submitted && f.fTag.errors" style="color:red">
+            <div *ngIf="f.fTag.errors.required">Requerido</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4" *ngIf="false">
+        <div>
+          <button type="button" class="btn" [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
+                  (click)="obtenerActividad()">Buscar</button>
+          <button type="button" class="btn" [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
+                  (click)="limpiarFormulario()"> Nuevo </button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <!--  Tipo de Cumplimiento  -->
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Tipo de Cumplimiento</label>
+          <select class="form-control"
+                  formControlName="fTipoCumplimiento"
+                  [compareWith]="compareFn"
+                  [ngClass]="{ 'is-invalid': submitted && f.fTipoCumplimiento.errors }"
+          >
+            <option
+                    *ngFor="let operator of comboTipoCumplimiento;"
+                    [value]="operator.value"
+            >
+              {{operator.label}}
+            </option>
+          </select>
+          <div *ngIf="submitted && f.fTipoCumplimiento.errors" style="color:red">
+            <div *ngIf="f.fTipoCumplimiento.errors.required">Requerido</div>
+          </div>
+        </div>
+      </div>
+      <!--  Requisito Legal  -->
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Requisito Legal</label>
+          <textarea formControlName="fRequisitoLegal" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.fRequisitoLegal.errors }">
+          </textarea>
+          <div *ngIf="submitted && f.fRequisitoLegal.errors" style="color:red">
+            <div *ngIf="f.fRequisitoLegal.errors.required">Requerido</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  Descripción  -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Descripción</label>
+
+          <textarea rows="4"  formControlName="fDescripcion" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.fDescripcion.errors }">
+          </textarea>
+          <!--input mdbInput class="form-control" formControlName="fDescripcion" [readonly]="soloLectura"
+          [ngClass]="{ 'is-invalid': submitted && f.fDescripcion.errors }"-->
+          <div *ngIf="submitted && f.fDescripcion.errors" style="color:red">
+            <div *ngIf="f.fDescripcion.errors.required">Requerido</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Categoría -->
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Categoría</label>
+          <select class="form-control"
+                  formControlName="fActividad"
+                  [compareWith]="compareFn"
+                  [ngClass]="{ 'is-invalid': submitted && f.fActividad.errors }"
+          >
+            <option
+                    *ngFor="let operator of comboActividades;"
+                    [value]="operator.value"
+            >
+              {{operator.label}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <!-- Nombre del Cumplimiento -->
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Nombre del Cumplimiento</label>
+
+          <textarea formControlName="fClasificacionActividad" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.fClasificacionActividad.errors }">
+          </textarea>
+          <!--input mdbInput class="form-control" formControlName="fClasificacionActividad"
+                [ngClass]="{ 'is-invalid': submitted && f.fClasificacionActividad.errors }"-->
+          <div *ngIf="submitted && f.fClasificacionActividad.errors" style="color:red">
+            <div *ngIf="f.fClasificacionActividad.errors.required">Requerido</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!--  Autoridad  -->
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Autoridad</label>
+          <select class="form-control"
+                  [compareWith]="compareFn"
+                  formControlName="fAutoridad"
+                  [ngClass]="{ 'is-invalid': submitted && f.fAutoridad.errors }"
+          >
+            <option
+                    *ngFor="let operator of comboAutoridad;"
+                    [value]="operator.value"
+            >
+              {{operator.label}}
+            </option>
+          </select>
+          <div *ngIf="submitted && f.fAutoridad.errors" style="color:red">
+            <div *ngIf="f.fAutoridad.errors.required">Requerido</div>
+          </div>
+        </div>
+      </div>
+      <!--  Tipo de Aplicación  -->
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Tipo de Aplicación</label>
+          <select class="form-control"
+                  [compareWith]="compareFn"
+                  formControlName="fTipoAplicacion"
+                  [ngClass]="{ 'is-invalid': submitted && f.fTipoAplicacion.errors }"
+          >
+            <option
+                    *ngFor="let operator of comboTipoAplicacion;"
+                    [value]="operator.value"
+            >
+              {{operator.label}}
+            </option>
+          </select>
+          <div *ngIf="submitted && f.fTipoAplicacion.errors" style="color:red">
+            <div *ngIf="f.fTipoAplicacion.errors.required">Requerido</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!--  Período de entrega  -->
+      <div class="col-md-6">
+        <label>Período de entrega</label>
+        <div class="row">
+            <div class="col-2">
+              <input
+                      type="number"
+                      class="form-control"
+                      [ngClass]="{'is-invalid': submitted && f.fPeriod.errors}"
+                      name="value"
+                      formControlName="fPeriod"/>
+              <div *ngIf="submitted && f.fPeriod.errors" style="color:red">
+                <div *ngIf="f.fPeriod.errors.required">
+                  Requerido
+                </div>
+              </div>
+            </div>
+            <div class="col-10">
+              <select class="form-control"
+                      [compareWith]="compareFn"
+                      formControlName="fUnitPeriod"
+                      [ngClass]="{
+                                    'is-invalid':
+                                        submitted &&
+                                        f.fUnitPeriod.errors
+                                }"
+              >
+                <option
+                        *ngFor="let operator of comboUnitPeriod"
+                        [value]="operator.value"
+                >
+                  {{ operator.label }}
+                </option>
+              </select>
+              <div
+                      *ngIf="
+                                    submitted && f.fUnitPeriod.errors
+                                "
+                      style="color:red"
+              >
+                <div
+                        *ngIf="
+                                        f.fUnitPeriod.errors.required
+                                    "
+                >
+                  Requerido
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <!--  Tipo de días  -->
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Tipo de días</label>
+          <select class="form-control"
+                  [compareWith]="compareFn"
+                  formControlName="fTipoDias"
+                  [ngClass]="{ 'is-invalid': submitted && f.fTipoDias.errors }"
+          >
+            <option
+                    *ngFor="let operator of comboTipoDias;"
+                    [value]="operator.value"
+            >
+              {{operator.label}}
+            </option>
+          </select>
+          <div *ngIf="submitted && f.fTipoDias.errors" style="color:red">
+            <div *ngIf="f.fTipoDias.errors.required">Requerido</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

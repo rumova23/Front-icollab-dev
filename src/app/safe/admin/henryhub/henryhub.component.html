@@ -1,0 +1,66 @@
+<div class="row">
+    <mdb-breadcrumb customClass="white" class="w-100">
+        <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+        <mdb-breadcrumb-item>Mercado</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item>Análisis</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item class="active">HenryHub</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
+</div>
+
+<div class="section">
+	<div class="row">
+		<form [formGroup]="filterDatesFormGroup" (ngSubmit)="searchTagsFromTo()">
+			<div class="col">
+				<div class="form-group">
+					<label class="form-text" for="dateInihtml">De:</label>
+					<mat-form-field class="form-control">
+						<input matInput [matDatepicker]="dateInihtml" [(ngModel)]="dateIni"
+							[ngModelOptions]="{ standalone: true }" (dateChange)="dateChangeIni($event)" />
+						<mat-datepicker-toggle matSuffix [for]="dateInihtml"></mat-datepicker-toggle>
+						<mat-datepicker #dateInihtml></mat-datepicker>
+					</mat-form-field>
+				</div>
+			</div>
+			<div class="col">
+				<div class="form-group">
+					<label class="form-text" for="dateFinhtml"> Al:</label>
+					<mat-form-field class="form-control">
+						<input matInput [min]="dateIni" [matDatepicker]="dateFinhtml" [(ngModel)]="dateFin"
+							[ngModelOptions]="{ standalone: true }" (dateChange)="dateChangeFin($event)" />
+						<mat-datepicker-toggle matSuffix [for]="dateFinhtml"></mat-datepicker-toggle>
+						<mat-datepicker #dateFinhtml></mat-datepicker>
+					</mat-form-field>
+				</div>
+			</div>
+			<div class="col">
+				<button class="btn align-self-end" style="margin: auto;">
+					<mdb-icon far icon="save" class="mr-1"></mdb-icon> Graficar
+				</button>
+			</div>
+		</form>
+	</div>
+	<div class="row pb-2">
+		<div class="col">
+			<div #charthenryhub></div>
+		</div>
+	</div>
+
+	
+    <!-- Tabla de Catalogos -->
+    <div class="row mt-4 mb-4">
+		<div class="col">
+		  <div class="mat-elevation-z0">
+			<table matSort mat-table [dataSource]="dataSource" class="table_catalogo"  matSortActive="name" matSortDirection="asc" matSortDisableClear>
+			  <ng-container [matColumnDef]="column.key" *ngFor="let column of displayedColumnsOrder">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header > {{column.label | translate}} </th>
+				<td mat-cell *matCellDef="let element">{{element[column.key]}}</td>
+			  </ng-container>
+			  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+			  <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+			</table>
+			<mat-paginator [pageSizeOptions]="row_x_page" showFirstLastButtons></mat-paginator>
+		  </div>
+		</div>
+	  </div>
+	  <!-- ./Tabla de Catalogos -->
+</div>

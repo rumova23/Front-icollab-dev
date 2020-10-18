@@ -1,0 +1,1320 @@
+<div class="monitoreo">
+    <div class="text-right parpadea text iconowiffi">
+        <div style="text-align: center">
+            <div>
+                <i class="fas fa-wifi fa-2x " [ngClass]="{ 'icon-verde': wifi, 'icon-rojo': !wifi }"></i>
+            </div>
+            <span *ngIf="!wifi" [ngClass]="{ 'icon-verde': wifi, 'icon-rojo': !wifi }">
+                {{ "_general.offline" | translate }}
+            </span>
+            <span *ngIf="wifi" [ngClass]="{ 'icon-verde': wifi, 'icon-rojo': !wifi }">
+                {{ "_general.online" | translate }}
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <!--  CONDICIONES AMBIENTALES  -->
+        <div class="col-md-auto">
+            <div class="txtcenter mb-4">
+                <strong class="nameplanta">
+                    {{
+                        "monitoring.phase3.environmentalConditions" | translate
+                    }}
+                </strong>
+            </div>
+            <!--div class="row">
+              <div class="col">
+                  <div class="dropdown" mdbDropdown>
+                      <div mdbDropdownToggle mdbWavesEffect class="dropdown-toggle hiddenDropdownAfter">
+                          <span class="badge badge-pill" 
+                                style="vertical-align:super;font-size: .3rem; "
+                                [ngStyle]="{'background-color':dataSets['canvas1-getTemperaturaAmbiente'].borderColor}"
+                                *ngIf="(dataSets['canvas1-getTemperaturaAmbiente'] !== undefined) && !dataSets['canvas1-getTemperaturaAmbiente'].hidden"
+                          >&nbsp;</span>&nbsp;
+                          <span class="myicon">
+                              <i class="fas"
+                                  [ngClass]="{
+                                      'icon-rojo'                      : tagValue['getTemperaturaAmbiente'] == 0 || tagValue['getTemperaturaAmbiente'] > 21,
+                                      'fa-thermometer-empty'           : tagValue['getTemperaturaAmbiente'] == 0, 
+                                      'fa-thermometer-half  icon-azul' : tagValue['getTemperaturaAmbiente'] > 0 && tagValue['getTemperaturaAmbiente'] <= 21, 
+                                      'fa-thermometer-full '           : tagValue['getTemperaturaAmbiente'] > 21
+                                  }"    
+                              ></i>
+                          </span>
+                          &nbsp;&nbsp;
+                          <span class="mydatatxt">
+                              {{ tagValue['getTemperaturaAmbiente'] | number:'1.1-1' }}
+                          </span>
+                          <span class="sub">°C</span>
+                      </div>
+                      
+                      <div class="dropdown-menu">
+                          <div class="col">
+                              <p class="dropdownMenuheader">Visualizar en:</p>
+                          </div>
+                          <div class="divider dropdown-divider"></div>
+                          <a class="dropdown-item" 
+                          <ng-template #tip_getTemperaturaAmbiente><b>{{tagName['getTemperaturaAmbiente']['Name']}}</b></ng-template>    
+                          (click)="datasetToggleChart('canvas1','getTemperaturaAmbiente')  placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTemperaturaAmbiente""
+                              [ngStyle]="{'background-color':
+                              (dataSets['canvas1-getTemperaturaAmbiente'] !== undefined) && (!dataSets['canvas1-getTemperaturaAmbiente'].hidden)
+                                  ? 
+                                  dataSets['canvas1-getTemperaturaAmbiente'].borderColor:''}"
+                               
+                          >
+                              Grafica principal
+                          </a>
+                          <a class="dropdown-item"
+                              (click)="openModal_01([
+                                  'getTemperaturaAmbiente'
+                                  ,'getPresionAtmosferica'
+                                  ])" >
+                              Ventana emergente 
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          </div-->
+
+            <div class="row">
+                <div class="col">
+                    <ng-template #tip_getTemperaturaAmbiente><b>{{
+                            tagName["getTemperaturaAmbiente"]
+                        }}</b></ng-template>
+                    <div (click)="
+                            datasetToggleChart('canvas1','getTemperaturaAmbiente')
+                        " placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTemperaturaAmbiente">
+                        <span class="badge" style="vertical-align:super;font-size: .3rem; " [ngStyle]="{
+                                'background-color':
+                                    dataSets['canvas1-getTemperaturaAmbiente']
+                                        .borderColor
+                            }" *ngIf="
+                                dataSets['canvas1-getTemperaturaAmbiente'] !==
+                                    undefined &&
+                                !dataSets['canvas1-getTemperaturaAmbiente'].hidden
+                            ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon">
+                            <i class="fas" [ngClass]="{
+                                    'icon-rojo':
+                                        tagValue['getTemperaturaAmbiente'] ==
+                                            0 ||
+                                        tagValue['getTemperaturaAmbiente'] > 21,
+                                    'fa-thermometer-empty':
+                                        tagValue['getTemperaturaAmbiente'] == 0,
+                                    'fa-thermometer-half  icon-azul':
+                                        tagValue['getTemperaturaAmbiente'] >
+                                            0 &&
+                                        tagValue['getTemperaturaAmbiente'] <=
+                                            21,
+                                    'fa-thermometer-full ':
+                                        tagValue['getTemperaturaAmbiente'] > 21
+                                }"></i>
+                        </span>
+                        &nbsp;
+                        <span class="mydatatxt" [attr.real_value]='tagValue["getTemperaturaAmbiente"]'>
+                            {{
+                                tagValue["getTemperaturaAmbiente"]
+                                    | number: "1.2-2"
+                            }}
+                        </span>
+                        <span class="sub">
+                            °C
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col">
+                    <ng-template #tip_getPresionAtmosferica><b>{{
+                            tagName["getPresionAtmosferica"]
+                        }}</b></ng-template>
+                    <div (click)="
+                            datasetToggleChart('canvas1','getPresionAtmosferica')
+                        " placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getPresionAtmosferica">
+                        <span class="badge" style="vertical-align:super;font-size: .3rem; " [ngStyle]="{
+                                'background-color':
+                                    dataSets['canvas1-getPresionAtmosferica']
+                                        .borderColor
+                            }" *ngIf="
+                                dataSets['canvas1-getPresionAtmosferica'] !==
+                                    undefined &&
+                                !dataSets['canvas1-getPresionAtmosferica'].hidden
+                            ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon">
+                            <i class="fas fa-tachometer-alt icon-color" [ngClass]="{
+                                    'icon-rojo':
+                                        tagValue['getPresionAtmosferica'] == 0
+                                }">
+                            </i>
+                        </span>
+                        &nbsp;
+                        <span class="mydatatxt" [attr.real_value]='tagValue["getPresionAtmosferica"]'>
+                            {{
+                                tagValue["getPresionAtmosferica"]
+                                    | number: "1.2-2"
+                            }}
+                        </span>
+                        <span class="sub">
+                            MBAR
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-11">
+                    <ng-template #tip_gethumedad><b>{{
+                            tagName["gethumedad"]
+                        }}</b></ng-template>
+                    <div (click)="datasetToggleChart('canvas1','gethumedad')" placement="top" tooltipClass="mytooltip"
+                        [ngbTooltip]="tip_gethumedad">
+                        <span class="badge" style="vertical-align:super;font-size: .3rem; " [ngStyle]="{
+                                'background-color':
+                                    dataSets['canvas1-gethumedad'].borderColor
+                            }" *ngIf="
+                                dataSets['canvas1-gethumedad'] !== undefined &&
+                                !dataSets['canvas1-gethumedad'].hidden
+                            ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon">
+                            <svg width="25" height="25" viewBox="0 0 35 35">
+                                <path class="" [ngClass]="{
+                                        iconsvg_rojo:
+                                            tagValue['gethumedad'] == 0,
+                                        iconsvg_azul: tagValue['gethumedad'] > 0
+                                    }"
+                                    d="m 22.919922,0.00585938 c -0.154877,-0.15939001 -2.287128,2.82259252 -2.597656,3.63281252 -0.153279,0.39992 -0.280102,0.9791025 -0.283204,1.2890625 -0.01041,1.11936 0.835098,2.3283637 1.900391,2.7148437 1.829771,0.66351 3.890811,-0.9653656 3.689453,-2.9160156 C 25.533547,3.8025725 25.1193,2.968085 23.984375,1.421875 23.453567,0.698695 22.974052,0.06155936 22.919922,0.00585938 Z m -8.16211,0.80859374 C 13.74167,0.78300813 12.717657,0.8576225 11.765625,1.0390625 9.516744,1.4677325 7.4883584,2.3615763 5.6777344,3.7226562 4.6161944,4.5206664 2.9773899,6.2680981 2.2636719,7.3613281 0.50441775,10.056278 -0.32004572,13.746686 0.11523438,16.978516 c 0.8732796,6.48401 6.09454012,11.607038 12.59960962,12.361328 1.324838,0.15337 2.001514,0.14513 3.433594,-0.04687 1.282862,-0.17198 3.382812,-0.742712 3.382812,-0.919922 0,-0.04887 -0.250253,-0.221363 -0.554688,-0.382813 -0.304404,-0.16155 -0.88164,-0.558529 -1.283203,-0.880859 -0.680653,-0.54665 -0.763503,-0.580294 -1.230468,-0.496094 -0.275512,0.0494 -1.269469,0.08866 -2.208985,0.09766 -1.440642,0.0061 -1.901424,-0.04189 -2.935547,-0.310547 C 9.2603028,25.865683 6.8447244,24.401758 5.5820312,22.923828 3.1962363,20.131248 2.2274877,16.709733 2.8085938,13.126953 3.0166818,11.843903 3.2116865,11.22675 3.7734375,10.0625 6.1958405,5.04192 11.8413,2.4071019 17.203125,3.7949219 c 0.544839,0.14098 1.004908,0.2578125 1.023437,0.2578125 0.01856,0 0.122666,-0.31002 0.232422,-0.6875 0.109737,-0.37749 0.31925,-0.8880258 0.464844,-1.1347656 C 19.09017,1.9485786 19.144742,1.7385625 19.070312,1.6640625 19.005192,1.5989725 18.391722,1.4000963 17.707031,1.2226562 16.782653,0.9831263 15.773957,0.84589813 14.757812,0.81445312 Z M 30.761719,5.640625 c -0.02349,-0.00944 -0.04461,-0.00807 -0.06445,0.00391 -0.02646,0.015968 -0.05167,0.049256 -0.08008,0.097656 -0.07106,0.12116 -0.383424,0.5596163 -0.69336,0.9726563 -1.266221,1.68758 -1.523274,2.0598343 -1.830078,2.6464843 -0.393499,0.7526399 -0.668875,1.6380409 -0.671875,2.1503909 -0.0047,1.34143 0.993102,2.754333 2.253906,3.189453 0.844105,0.29136 1.148206,0.298866 1.990235,0.04883 1.287973,-0.38255 2.390625,-1.820814 2.390625,-3.121094 0,-1.22808 -0.713309,-2.7153823 -2.13086,-4.4453122 C 31.671784,6.8736819 31.303038,6.3718425 31.105469,6.0703125 30.927889,5.799255 30.832195,5.668934 30.761719,5.640625 Z M 7.3789062,10.580078 c -0.3142778,0.0016 -0.6296566,0.07921 -0.9628906,0.230469 -1.359197,0.61702 -1.3795652,2.489525 -0.033203,3.166015 l 0.00195,-0.002 c 0.23969,0.1204 0.7079688,0.21865 1.0429688,0.21875 2.131935,7.3e-4 2.8064266,-2.528768 0.9042968,-3.392578 -0.3266615,-0.147595 -0.638847,-0.222287 -0.953125,-0.220703 z m 5.8515628,0.234375 c -0.869462,0 -0.932872,0.01943 -1.298828,0.40625 -0.88286,0.93337 -5.3007816,6.907169 -5.3007816,7.167969 0,0.02528 0.1001751,0.07212 0.2207031,0.103516 0.414546,0.108249 0.6741136,0.08539 1.2597656,-0.109376 0.489383,-0.162949 0.7002953,-0.345163 1.2695313,-1.095703 0.375574,-0.49529 1.3861766,-1.830325 2.2460936,-2.966797 0.859892,-1.136468 1.778435,-2.338475 2.041016,-2.671874 0.262578,-0.333271 0.478515,-0.657904 0.478515,-0.720704 0,-0.06286 -0.412964,-0.113281 -0.916015,-0.113281 z m 9.220703,0.285156 -0.763672,1.140625 c -0.419925,0.62756 -1.169722,1.647678 -1.666016,2.267578 -1.252617,1.564521 -1.973432,2.67707 -2.070312,3.19336 -0.04525,0.24107 -0.211457,0.613732 -0.369141,0.826172 -0.58161,0.78328 -0.896786,2.48891 -0.68164,3.6875 0.376799,2.09921 1.76113,3.74567 3.757812,4.46875 0.689568,0.24606 0.994202,0.2878 2.001953,0.25 1.010582,-0.03794 1.318433,-0.102814 2.035156,-0.433594 0.950443,-0.43881 2.081255,-1.436644 2.5625,-2.257812 0.460824,-0.786371 0.789063,-1.947692 0.789063,-2.800782 0,-2.08829 -0.973589,-4.126504 -3.517578,-7.371094 -0.351029,-0.44772 -0.961422,-1.299498 -1.357422,-1.892578 z M 7.3085938,11.578125 c 0.158258,-0.03319 0.3345197,0.01419 0.5039062,0.183594 0.274183,0.27413 0.2537828,1.089949 -0.033203,1.349609 C 7.4761225,13.385951 7.3170658,13.37276 7.0117188,13.044922 6.517489,12.514484 6.8338195,11.677697 7.3085938,11.578125 Z m 6.0195312,3.535156 c -1.134526,-0.0534 -2.1875,0.776392 -2.1875,1.845703 0,0.46129 0.394029,1.121686 0.863281,1.447266 0.392343,0.28001 0.560238,0.308384 1.279297,0.271484 0.667809,-0.03418 0.913937,-0.108632 1.273438,-0.382812 1.178149,-0.89861 0.751796,-2.683793 -0.740235,-3.101563 -0.162543,-0.04551 -0.326206,-0.07245 -0.488281,-0.08008 z m -0.121094,0.960938 c 0.342369,0 0.6875,0.42093 0.6875,0.83789 0,0.45053 -0.397515,0.9934 -0.6875,0.9375 -0.411894,-0.07956 -0.689453,-0.412525 -0.689453,-0.828125 0,-0.5147 0.315391,-0.947265 0.689453,-0.947265 z" />
+                            </svg>
+                        </span>
+                        <span class="mydatatxt" [attr.real_value]='tagValue["gethumedad"]'>
+                            {{ tagValue["gethumedad"] | number: "1.2-2" }}
+                        </span>
+                        <span class="sub">
+                            %
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <canvas id="mychart" #canvas2tester></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="border-r d-none d-lg-block"></div>
+        <div class="col" style="width: 70% !important;">
+            <div class="txtcenter mb-4">
+                <strong class="nameplanta">{{
+                    "monitoring.phase3.mainParametersOfGeneration" | translate
+                }}</strong>
+            </div>
+            <div class="row">
+                <ng-template #tip_getPotenciaNeta><b>{{
+                        tagName["getPotenciaNeta"]
+                    }}</b></ng-template>
+                <div class="col text-center" (click)="datasetToggleChart('canvas1','getPotenciaNeta')" placement="top"
+                    tooltipClass="mytooltip" [ngbTooltip]="tip_getPotenciaNeta">
+                    <span class="badge badge-pill myicon" [ngClass]="{
+                            'eclipse-azul':
+                                dataSets['canvas1-getPotenciaNeta'] !== undefined &&
+                                !dataSets['canvas1-getPotenciaNeta'].hidden,
+                            'eclipse-gris':
+                                dataSets['canvas1-getPotenciaNeta'] !== undefined &&
+                                dataSets['canvas1-getPotenciaNeta'].hidden,
+                            'eclipse-rojo':
+                                dataSets['canvas1-getPotenciaNeta'] == undefined ||
+                                tagValue['getPotenciaNeta'] == 0
+                        }">&nbsp;</span>
+                    <br />
+                    <span class="mydatatxt font-weight-bold">
+                        {{ "monitoring.phase3.netPower" | translate }}
+                    </span>
+                    <br />
+                    <span class="mydatatxt" [attr.real_value]='tagValue["getPotenciaNeta"]'>
+                        {{ tagValue["getPotenciaNeta"] | number: "3.2-2" }}
+                    </span>
+                    <span class="sub">MW</span>
+                    <br />
+                    <span class="sub">
+                        {{ timeCurrent | date: "dd/MM/yyyy" }}
+                        {{ timeCurrent | date: "HH:mm:ss" }}
+                    </span>
+                </div>
+                <ng-template #tip_getPotenciaCCDV><b>{{
+                        tagName["getPotenciaCCDV"]
+                    }}</b></ng-template>
+                <div class="col text-center" (click)="datasetToggleChart('canvas1','getPotenciaCCDV')" placement="top"
+                    tooltipClass="mytooltip" [ngbTooltip]="tip_getPotenciaCCDV">
+                    <span class="badge badge-pill myicon" [ngClass]="{
+                            'eclipse-morado':
+                                dataSets['canvas1-getPotenciaCCDV'] !== undefined &&
+                                !dataSets['canvas1-getPotenciaCCDV'].hidden,
+                            'eclipse-gris':
+                                dataSets['canvas1-getPotenciaCCDV'] !== undefined &&
+                                dataSets['canvas1-getPotenciaCCDV'].hidden,
+                            'eclipse-rojo':
+                                dataSets['canvas1-getPotenciaCCDV'] == undefined ||
+                                tagValue['getPotenciaCCDV'] == 0
+                        }">&nbsp;</span>
+                    <br />
+                    <span class="mydatatxt font-weight-bold">
+                        {{ "monitoring.phase3.powerCCDV" | translate }}
+                    </span>
+                    <br />
+                    <span class="mydatatxt" [attr.real_value]='tagValue["getPotenciaCCDV"]'>
+                        {{ tagValue["getPotenciaCCDV"] | number: "3.2-2" }}
+                    </span>
+                    <span class="sub">MW</span>
+                    <br />
+                    <span class="sub">
+                        {{ timeCurrent | date: "dd/MM/yyyy" }}
+                        {{ timeCurrent | date: "HH:mm:ss" }}
+                    </span>
+                </div>
+                <ng-template #tip_getRegimenTermico><b>{{
+                        tagName["getRegimenTermico"]
+                    }}</b></ng-template>
+                <div class="col text-center" (click)="datasetToggleChart('canvas1','getRegimenTermico')" placement="top"
+                    tooltipClass="mytooltip" [ngbTooltip]="tip_getRegimenTermico">
+                    <span class="badge badge-pill myicon" [ngClass]="{
+                            'eclipse-verde':
+                                dataSets['canvas1-getRegimenTermico'] !==
+                                    undefined &&
+                                !dataSets['canvas1-getRegimenTermico'].hidden &&
+                                tagValue['getRegimenTermico'] != 0,
+                            'eclipse-gris':
+                                dataSets['canvas1-getRegimenTermico'] !==
+                                    undefined &&
+                                dataSets['canvas1-getRegimenTermico'].hidden &&
+                                tagValue['getRegimenTermico'] != 0,
+                            'eclipse-rojo': tagValue['getRegimenTermico'] == 0
+                        }">&nbsp;</span>
+                    <br />
+                    <span class="mydatatxt font-weight-bold">
+                        {{ "monitoring.phase3.heatRate" | translate }}
+                    </span>
+                    <br />
+                    <span class="mydatatxt" [attr.real_value]='tagValue["getRegimenTermico"]'>
+                        {{ tagValue["getRegimenTermico"] | number: "4.0-0" }}
+                    </span>
+                    <span class="sub">KJ/KWh</span>
+                    <br />
+                    <span class="sub">
+                        {{ timeCurrent | date: "dd/MM/yyyy" }}
+                        {{ timeCurrent | date: "HH:mm:ss" }}
+                    </span>
+                </div>
+            </div>
+            <div class="row justify-content-end">
+                <div class="col-4  text-right">
+
+                    <app-monitoringChartsControls [chartsControl]="
+                        getchartControl(
+                            'canvas1'
+                        )
+                    " (chartsControlOutPut)="modifyChart($event)"></app-monitoringChartsControls>
+                </div>
+            </div>
+            <div class="row">
+                <!--<div class="col" style="position: relative; min-height: 393px;"> -->
+                <div class="col">
+                    <div class="chart-container">
+                        <canvas id="canvas1" #canvas1></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col">
+            <!-- CT-1 -->
+            <div class="ct-header">
+                <div class="row">
+                    <div class="col">
+                        <strong class="nameplanta">
+                            {{ 'CT' | translate }} - 1
+                        </strong>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <ng-template #tip_getCTUnoGas><b>{{
+                            tagName["getCTUnoGas"]
+                        }}</b></ng-template>
+                    <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoGas">
+                        <div class="btn-group w-100">
+                            <a class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTUnoGas'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="
+                                        updateChart(myform, 'getCTUnoGas')
+                                    ">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getCTUnoGas'][
+                                                    'scale_min'
+                                                ]
+                                            " name="scale_min" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getCTUnoGas'][
+                                                    'scale_max'
+                                                ]
+                                            " name="scale_max" />
+                                    </div>
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn">
+                                            Actualizar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <span class="badge" style="vertical-align:super;font-size: .3rem; " [ngStyle]="{
+                                'background-color':
+                                    dataSets['canvas1-getCTUnoGas'].borderColor
+                            }" *ngIf="
+                                dataSets['canvas1-getCTUnoGas'] !== undefined &&
+                                !dataSets['canvas1-getCTUnoGas'].hidden
+                            ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon" (click)="datasetToggleChart('canvas1','getCTUnoGas')">
+                            <i class="fab fa-gripfire" [ngClass]="{
+                                    'icon-rojo': tagValue['getCTUnoGas'] < 1000,
+                                    'icon-verde':
+                                        tagValue['getCTUnoGas'] >= 1000
+                                }"></i>
+                        </span>
+                        <span class="mydatatxt" (click)="datasetToggleChart('canvas1','getCTUnoGas')">
+                            {{ 'Gas' | translate }}
+                        </span>
+                        <br />
+                        <span class="mydatatxt" (click)="datasetToggleChart('canvas1','getCTUnoGas')"
+                            [attr.real_value]='tagValue["getCTUnoGas"]'>
+                            {{ tagValue["getCTUnoGas"] | number: "5.0-0" }}
+                        </span>
+                        <span class="sub" (click)="datasetToggleChart('canvas1','getCTUnoGas')">
+                            NM3/h
+                        </span>
+                    </div>
+
+                    <ng-template #tip_getCTUnoDiesel><b>{{
+                            tagName["getCTUnoDiesel"]
+                        }}</b></ng-template>
+                    <div class="col txtcenter" *ngIf="theme.visibilityTag('getCTUnoDiesel')" placement="top"
+                        tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoDiesel">
+                        <div class="btn-group w-100">
+                            <a class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTUnoDiesel'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="
+                                        updateChart(myform, 'getCTUnoDiesel')
+                                    ">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getCTUnoDiesel'][
+                                                    'scale_min'
+                                                ]
+                                            " name="scale_min" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getCTUnoDiesel'][
+                                                    'scale_max'
+                                                ]
+                                            " name="scale_max" />
+                                    </div>
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn">
+                                            Actualizar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <span class="badge" style="vertical-align:super;font-size: .3rem; " [ngStyle]="{
+                                'background-color':
+                                    dataSets['canvas1-getCTUnoDiesel'].borderColor
+                            }" *ngIf="
+                                dataSets['canvas1-getCTUnoDiesel'] !== undefined &&
+                                !dataSets['canvas1-getCTUnoDiesel'].hidden
+                            ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon" (click)="datasetToggleChart('canvas1','getCTUnoDiesel')">
+                            <i class="fas fa-gas-pump" [ngClass]="{
+                                    'icon-rojo': tagValue['getCTUnoDiesel'] < 5,
+                                    'icon-verde':
+                                        tagValue['getCTUnoDiesel'] >= 5
+                                }"></i>
+                        </span>
+                        <span class="mydatatxt" (click)="datasetToggleChart('canvas1','getCTUnoDiesel')">
+                            {{ 'Diesel' | translate }}
+                        </span>
+                        <br />
+                        <span class="mydatatxt" (click)="datasetToggleChart('canvas1','getCTUnoDiesel')"
+                            [attr.real_value]='tagValue["getCTUnoDiesel"]'>
+                            {{ tagValue["getCTUnoDiesel"] | number: "1.1-2" }}
+                        </span>
+                        <span class="sub" (click)="datasetToggleChart('canvas1','getCTUnoDiesel')">
+                            T/h
+                        </span>
+                    </div>
+                    <ng-template #tip_getCTUnoRT><b>{{
+                            tagName["getCTUnoRT"]
+                        }}</b></ng-template>
+                    <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoRT">
+                        <div class="btn-group w-100">
+                            <a class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTUnoRT'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="
+                                        updateChart(myform, 'getCTUnoRT')
+                                    ">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getCTUnoRT'][
+                                                    'scale_min'
+                                                ]
+                                            " name="scale_min" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getCTUnoRT'][
+                                                    'scale_max'
+                                                ]
+                                            " name="scale_max" />
+                                    </div>
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn">
+                                            Actualizar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <span class="badge" style="vertical-align:super;font-size: .3rem; " [ngStyle]="{
+                                'background-color':
+                                    dataSets['canvas1-getCTUnoRT'].borderColor
+                            }" *ngIf="
+                                dataSets['canvas1-getCTUnoRT'] !== undefined &&
+                                !dataSets['canvas1-getCTUnoRT'].hidden
+                            ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon" (click)="datasetToggleChart('canvas1','getCTUnoRT')">
+                            <i class="fas fa-chart-line" [ngClass]="{
+                                    'icon-rojo': tagValue['getCTUnoRT'] < 1000,
+                                    'icon-verde': tagValue['getCTUnoRT'] >= 1000
+                                }"></i>
+                        </span>
+                        <span class="mydatatxt" (click)="datasetToggleChart('canvas1','getCTUnoRT')">
+                            {{ 'HR' | translate }}
+                        </span>
+                        <br />
+                        <span class="mydatatxt" (click)="datasetToggleChart('canvas1','getCTUnoRT')"
+                            [attr.real_value]='tagValue["getCTUnoRT"]'>
+                            {{ tagValue["getCTUnoRT"] | number: "4.0-0" }}
+                        </span>
+                        <span class="sub" (click)="datasetToggleChart('canvas1','getCTUnoRT')">
+                            KJ/KWh
+                        </span>
+                    </div>
+                    <ng-template #tip_getCTUnoMW><b>{{
+                            tagName["getCTUnoMW"]
+                        }}</b></ng-template>
+                    <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoMW">
+                        <div class="btn-group w-100">
+                            <a class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTUnoMW'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="
+                                        updateChart(myform, 'getCTUnoMW')
+                                    ">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getCTUnoMW'][
+                                                    'scale_min'
+                                                ]
+                                            " name="scale_min" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getCTUnoMW'][
+                                                    'scale_max'
+                                                ]
+                                            " name="scale_max" />
+                                    </div>
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn">
+                                            Actualizar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <span class="badge" style="vertical-align:super;font-size: .3rem; " [ngStyle]="{
+                                'background-color':
+                                    dataSets['canvas1-getCTUnoMW'].borderColor
+                            }" *ngIf="
+                                dataSets['canvas1-getCTUnoMW'] !== undefined &&
+                                !dataSets['canvas1-getCTUnoMW'].hidden
+                            ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon" (click)="datasetToggleChart('canvas1','getCTUnoMW')">
+                            <i class="fas fa-bolt" [ngClass]="{
+                                    'icon-rojo': tagValue['getCTUnoMW'] <= 10,
+                                    'icon-amarillo':
+                                        tagValue['getCTUnoMW'] > 10,
+                                    'icon-verde': tagValue['getCTUnoMW'] >= 80
+                                }"></i>
+                        </span>
+                        <span class="mydatatxt"
+                            (click)="datasetToggleChart('canvas1','getCTUnoMW')">{{ 'Power' | translate }}
+                        </span>
+                        <br />
+                        <span class="mydatatxt" (click)="datasetToggleChart('canvas1','getCTUnoMW')"
+                            [attr.real_value]='tagValue["getCTUnoMW"]'>
+                            {{ tagValue["getCTUnoMW"] | number: "3.2-2" }}
+                        </span>
+                        <span class="sub" (click)="datasetToggleChart('canvas1','getCTUnoMW')">
+                            MW
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!--<div class="col text-center" (click)="openModalCt_1()" style="padding: 20%;
+    min-height: 229px;
+    padding-top: 85px;
+    padding-bottom: 5px;" *ngIf="!globalService.aguila">
+                    <img src="/assets/monitoring/phase3/turbina-gas.png" style="width: 100%;" />
+                </div>-->
+
+                <div class="col text-center" (click)="openModalCt_1()" style="padding: 19%;padding-top: 12%;
+                min-height: 237px;" *ngIf="!globalService.aguila">
+                    <video style="width: 100%;" src="/assets/monitoring/phase3/turbina-gas-animada.mp4"
+                        type="video/webm" autoplay loop width="320" *ngIf="!globalService.aguila">
+                    </video>
+                </div>
+
+                <div class="col text-center" (click)="openModalCt_1()" style="padding: 17%;padding-top: 7%;
+                min-height: 237px;" *ngIf="globalService.aguila">
+                    <!--
+                    <img
+                        src="/assets/monitoring/phase3/turbina-gas.png"
+                        style="width: 100%;"
+                    />-->
+                    <video style="width: 100%;" src="/assets/monitoring/phase3/turbina-gas-animada.mp4"
+                        type="video/webm" autoplay loop width="320" *ngIf="globalService.aguila">
+                    </video>
+
+                    <!--
+                    <video src="/assets/monitoring/phase3/turbina-gas-animada.mp4"  type="video/webm" autoplay loop *ngIf="tagValue['getCTUnoRPM'] > 10" width="320">
+                    </video>
+                  <video src="/assets/monitoring/phase3/turbina-gas-animada.mp4"  type="video/webm" *ngIf="tagValue['getCTUnoRPM'] <= 10" width="320">
+                  </video>
+                -->
+                </div>
+            </div>
+            <div class="row mt-1">
+                <ng-template #tip_getCTUnoRPM><b>{{
+                        tagName["getCTUnoRPM"]
+                    }}</b></ng-template>
+                <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTUnoRPM">
+                    <div class="btn-group w-100">
+                        <a class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            style="margin:auto">
+                            &nbsp;
+                            <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTUnoRPM'].borderColor}"></i-->
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                            <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform, 'getCTUnoRPM')">
+                                <div class="form-group">
+                                    <label>Escala min:</label>
+                                    <input type="number" class="form-control" [(ngModel)]="
+                                            anyConfig['getCTUnoRPM'][
+                                                'scale_min'
+                                            ]
+                                        " name="scale_min" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Escala max:</label>
+                                    <input type="number" class="form-control" [(ngModel)]="
+                                            anyConfig['getCTUnoRPM'][
+                                                'scale_max'
+                                            ]
+                                        " name="scale_max" />
+                                </div>
+
+                                <div class="text-right">
+                                    <button type="submit" class="btn mybtn">
+                                        Actualizar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <span class="badge" style="vertical-align:super;font-size: .3rem; " [ngStyle]="{
+                            'background-color':
+                                dataSets['canvas1-getCTUnoRPM'].borderColor
+                        }" *ngIf="
+                            dataSets['canvas1-getCTUnoRPM'] !== undefined &&
+                            !dataSets['canvas1-getCTUnoRPM'].hidden
+                        ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                    <span class="myicon" (click)="datasetToggleChart('canvas1','getCTUnoRPM')">
+                        <i class="fas fa-running icon-verde running" *ngIf="tagValue['getCTUnoRPM'] > 10"></i>
+                        <i class="fas fa-bed icon-rojo" *ngIf="tagValue['getCTUnoRPM'] <= 10"></i>
+                    </span>
+                    <br />
+                    <span class="mydatatxt" (click)="datasetToggleChart('canvas1','getCTUnoRPM')"
+                        [attr.real_value]='tagValue["getCTUnoRPM"]'>
+                        {{ tagValue["getCTUnoRPM"] | number: "4.0-0" }}
+                    </span>
+                    <span class="sub" (click)="datasetToggleChart('canvas1','getCTUnoRPM')">
+                        {{ 'RPM' | translate }}
+                    </span>
+                </div>
+            </div>
+            <!-- ./CT-1 -->
+        </div>
+        <div class="col">
+            <!-- CT-2 -->
+            <div class="ct-header">
+                <div class="row">
+                    <div class="col">
+                        <strong class="nameplanta">
+                            {{ 'CT' | translate }} - 2
+                        </strong>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <ng-template #tip_getCTDosGas><b>{{
+                            tagName["getCTDosGas"]
+                        }}</b></ng-template>
+                    <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosGas">
+                        <div class="btn-group w-100">
+                            <a class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTDosGas'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="
+                                        updateChart(myform, 'getCTDosGas')
+                                    ">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getCTDosGas'][
+                                                    'scale_min'
+                                                ]
+                                            " name="scale_min" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getCTDosGas'][
+                                                    'scale_max'
+                                                ]
+                                            " name="scale_max" />
+                                    </div>
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn">
+                                            Actualizar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <span class="badge" style="vertical-align:super;font-size: .3rem; " [ngStyle]="{
+                                'background-color':
+                                    dataSets['canvas1-getCTDosGas'].borderColor
+                            }" *ngIf="
+                                dataSets['canvas1-getCTDosGas'] !== undefined &&
+                                !dataSets['canvas1-getCTDosGas'].hidden
+                            ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon" (click)="datasetToggleChart('canvas1','getCTDosGas')">
+                            <i class="fab fa-gripfire" [ngClass]="{
+                                    'icon-rojo': tagValue['getCTDosGas'] < 1000,
+                                    'icon-verde':
+                                        tagValue['getCTDosGas'] >= 1000
+                                }"></i>
+                        </span>
+                        <span class="mydatatxt"
+                            (click)="datasetToggleChart('canvas1','getCTDosGas')">{{ 'Gas' | translate }}
+                        </span>
+                        <br />
+                        <span class="mydatatxt" (click)="datasetToggleChart('canvas1','getCTDosGas')"
+                            [attr.real_value]='tagValue["getCTDosGas"]'>
+                            {{ tagValue["getCTDosGas"] | number: "5.0-0" }}
+                        </span>
+                        <span class="sub" (click)="datasetToggleChart('canvas1','getCTDosGas')">
+                            NM3/h
+                        </span>
+                    </div>
+                    <ng-template #tip_getCTDosDiesel><b>{{
+                            tagName["getCTDosDiesel"]
+                        }}</b></ng-template>
+                    <div class="col txtcenter" *ngIf="theme.visibilityTag('getCTDosDiesel')" placement="top"
+                        tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosDiesel">
+                        <div class="btn-group w-100">
+                            <a class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTDosDiesel'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="
+                                        updateChart(myform, 'getCTDosDiesel')
+                                    ">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getCTDosDiesel'][
+                                                    'scale_min'
+                                                ]
+                                            " name="scale_min" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getCTDosDiesel'][
+                                                    'scale_max'
+                                                ]
+                                            " name="scale_max" />
+                                    </div>
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn">
+                                            Actualizar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <span class="badge" style="vertical-align:super;font-size: .3rem; " [ngStyle]="{
+                                'background-color':
+                                    dataSets['canvas1-getCTDosDiesel'].borderColor
+                            }" *ngIf="
+                                dataSets['canvas1-getCTDosDiesel'] !== undefined &&
+                                !dataSets['canvas1-getCTDosDiesel'].hidden
+                            ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon" (click)="datasetToggleChart('canvas1','getCTDosDiesel')">
+                            <i class="fas fa-gas-pump" [ngClass]="{
+                                    'icon-rojo': tagValue['getCTDosDiesel'] < 5,
+                                    'icon-verde':
+                                        tagValue['getCTDosDiesel'] >= 5
+                                }"></i>
+                        </span>
+                        <span class="mydatatxt"
+                            (click)="datasetToggleChart('canvas1','getCTDosDiesel')">{{ 'Diesel' | translate }}
+
+                            <!--{{ "PANEL.TITULO_DIESEL" | translate }} -->
+                        </span>
+                        <br />
+                        <span class="mydatatxt" (click)="datasetToggleChart('canvas1','getCTDosDiesel')"
+                            [attr.real_value]='tagValue["getCTDosDiesel"]'>
+                            {{ tagValue["getCTDosDiesel"] | number: "1.1-2" }}
+                        </span>
+                        <span class="sub" (click)="datasetToggleChart('canvas1','getCTDosDiesel')">
+                            T/h
+                        </span>
+                    </div>
+                    <ng-template #tip_getCTDosRT><b>{{
+                            tagName["getCTDosRT"]
+                        }}</b></ng-template>
+                    <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosRT">
+                        <div class="btn-group w-100">
+                            <a class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTDosRT'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="
+                                        updateChart(myform, 'getCTDosRT')
+                                    ">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getCTDosRT'][
+                                                    'scale_min'
+                                                ]
+                                            " name="scale_min" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getCTDosRT'][
+                                                    'scale_max'
+                                                ]
+                                            " name="scale_max" />
+                                    </div>
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn">
+                                            Actualizar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <span class="badge" style="vertical-align:super;font-size: .3rem; " [ngStyle]="{
+                                'background-color':
+                                    dataSets['canvas1-getCTDosRT'].borderColor
+                            }" *ngIf="
+                                dataSets['canvas1-getCTDosRT'] !== undefined &&
+                                !dataSets['canvas1-getCTDosRT'].hidden
+                            ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon" (click)="datasetToggleChart('canvas1','getCTDosRT')">
+                            <i class="fas fa-chart-line" [ngClass]="{
+                                    'icon-rojo': tagValue['getCTDosRT'] < 1000,
+                                    'icon-verde': tagValue['getCTDosRT'] >= 1000
+                                }"></i>
+                        </span>
+                        <span class="mydatatxt"
+                            (click)="datasetToggleChart('canvas1','getCTDosRT')">{{ 'HR' | translate }}
+
+                        </span>
+                        <br />
+                        <span class="mydatatxt" (click)="datasetToggleChart('canvas1','getCTDosRT')"
+                            [attr.real_value]='tagValue["getCTDosRT"]'>
+                            {{ tagValue["getCTDosRT"] | number: "4.0-0" }}
+                        </span>
+                        <span class="sub" (click)="datasetToggleChart('canvas1','getCTDosRT')">
+                            KJ/KWh
+                        </span>
+                    </div>
+                    <ng-template #tip_getCTDosMW><b>{{
+                            tagName["getCTDosMW"]
+                        }}</b></ng-template>
+                    <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosMW">
+                        <div class="btn-group w-100">
+                            <a class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTDosMW'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="
+                                        updateChart(myform, 'getCTDosMW')
+                                    ">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getCTDosMW'][
+                                                    'scale_min'
+                                                ]
+                                            " name="scale_min" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getCTDosMW'][
+                                                    'scale_max'
+                                                ]
+                                            " name="scale_max" />
+                                    </div>
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn">
+                                            Actualizar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <span class="badge" style="vertical-align:super;font-size: .3rem; " [ngStyle]="{
+                                'background-color':
+                                    dataSets['canvas1-getCTDosMW'].borderColor
+                            }" *ngIf="
+                                dataSets['canvas1-getCTDosMW'] !== undefined &&
+                                !dataSets['canvas1-getCTDosMW'].hidden
+                            ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon" (click)="datasetToggleChart('canvas1','getCTDosMW')">
+                            <i class="fas fa-bolt" [ngClass]="{
+                                    'icon-rojo': tagValue['getCTDosMW'] <= 10,
+                                    'icon-amarillo':
+                                        tagValue['getCTDosMW'] > 10,
+                                    'icon-verde': tagValue['getCTDosMW'] >= 80
+                                }"></i>
+                        </span>
+                        <span class="mydatatxt"
+                            (click)="datasetToggleChart('canvas1','getCTDosMW')">{{ 'Power' | translate }}
+                        </span>
+                        <br />
+                        <span class="mydatatxt" (click)="datasetToggleChart('canvas1','getCTDosMW')"
+                            [attr.real_value]='tagValue["getCTDosMW"]'>
+                            {{ tagValue["getCTDosMW"] | number: "3.2-2" }}
+                        </span>
+                        <span class="sub" (click)="datasetToggleChart('canvas1','getCTDosMW')">
+                            MW
+                        </span>
+                    </div>
+                </div>
+                <div class="row"></div>
+            </div>
+            <!-- Imagen de turbina -->
+            <div class="row">
+<!--
+                <div class="col text-center" (click)="openModalCt_1()" style="padding: 20%;
+    min-height: 229px;
+    padding-top: 51px;
+    padding-bottom: 5px;" *ngIf="!globalService.aguila">
+
+                    <img src="/assets/monitoring/phase3/turbina-gas.png" style="width: 100%;" />
+            -->
+            
+            <div class="col text-center" (click)="openModalCt_1()" style="padding: 19%;padding-top: 12%;
+            min-height: 237px;" *ngIf="!globalService.aguila">
+                    <video style="width: 100%;" src="/assets/monitoring/phase3/turbina-gas-animada.mp4"
+                        type="video/webm" autoplay loop width="320">
+                    </video>
+                </div>
+                <div class="col text-center" (click)="openModalCt_2()" style="padding: 17%;padding-top: 7%;
+                min-height: 229px;" *ngIf="globalService.aguila">
+                    <!--
+                    <img
+                        src="/assets/monitoring/phase3/turbina-gas.png"
+                        style="width: 100%;"
+                    />-->
+                    <video style="width: 100%;" src="/assets/monitoring/phase3/turbina-gas-animada.mp4"
+                        type="video/webm" autoplay loop width="320" *ngIf="globalService.aguila">
+                    </video>
+                    <!--
+                  <video src="/assets/monitoring/phase3/turbina_gas_02.mp4"  type="video/webm" autoplay loop *ngIf="tagValue['getCTDosRPM'] > 10" width="320">
+                  </video>
+                  <video src="/assets/monitoring/phase3/turbina_gas_02.mp4"  type="video/webm" *ngIf="tagValue['getCTDosRPM'] <= 10" width="320">
+                  </video>
+                -->
+                </div>
+            </div>
+            <div class="row mt-3">
+                <ng-template #tip_getCTDosRPM><b>{{
+                        tagName["getCTDosRPM"]
+                    }}</b></ng-template>
+                <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getCTDosRPM">
+                    <div class="btn-group w-100">
+                        <a class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            style="margin:auto">
+                            &nbsp;
+                            <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getCTDosRPM'].borderColor}"></i-->
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                            <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform, 'getCTDosRPM')">
+                                <div class="form-group">
+                                    <label>Escala min:</label>
+                                    <input type="number" class="form-control" [(ngModel)]="
+                                            anyConfig['getCTDosRPM'][
+                                                'scale_min'
+                                            ]
+                                        " name="scale_min" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Escala max:</label>
+                                    <input type="number" class="form-control" [(ngModel)]="
+                                            anyConfig['getCTDosRPM'][
+                                                'scale_max'
+                                            ]
+                                        " name="scale_max" />
+                                </div>
+
+                                <div class="text-right">
+                                    <button type="submit" class="btn mybtn">
+                                        Actualizar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <span class="badge" style="vertical-align:super;font-size: .3rem; " [ngStyle]="{
+                            'background-color':
+                                dataSets['canvas1-getCTDosRPM'].borderColor
+                        }" *ngIf="
+                            dataSets['canvas1-getCTDosRPM'] !== undefined &&
+                            !dataSets['canvas1-getCTDosRPM'].hidden
+                        ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                    <span class="myicon" (click)="datasetToggleChart('canvas1','getCTDosRPM')">
+                        <i class="fas fa-running icon-verde running" *ngIf="tagValue['getCTDosRPM'] > 10"></i>
+                        <i class="fas fa-bed icon-rojo" *ngIf="tagValue['getCTDosRPM'] <= 10"></i>
+                    </span>
+                    <span class="mydatatxt" (click)="datasetToggleChart('canvas1','getCTDosRPM')"></span>
+                    <br />
+                    <span class="mydatatxt" (click)="datasetToggleChart('canvas1','getCTDosRPM')"
+                        [attr.real_value]='tagValue["getCTDosRPM"]'>
+                        {{ tagValue["getCTDosRPM"] | number: "4.0-0" }}
+                    </span>
+                    <span class="sub" (click)="datasetToggleChart('canvas1','getCTDosRPM')">
+                        {{ 'RPM' | translate }}
+                    </span>
+                </div>
+            </div>
+            <!-- ./CT-2 -->
+        </div>
+        <div class="col">
+            <!-- CT-3 -->
+            <div class="ct-header">
+                <div class="row">
+                    <div class="col">
+                        <strong class="nameplanta">{{ 'TV' | translate }}
+                        </strong>
+                    </div>
+                </div>
+                <hr />
+
+                <div class="row w550">
+                    <ng-template #tip_getTVRT><b>{{
+                            tagName["getTVRT"]
+                        }}</b></ng-template>
+                    <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTVRT">
+                        <div class="btn-group w-100">
+                            <a class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getTVRT'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform, 'getTVRT')">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getTVRT'][
+                                                    'scale_min'
+                                                ]
+                                            " name="scale_min" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getTVRT'][
+                                                    'scale_max'
+                                                ]
+                                            " name="scale_max" />
+                                    </div>
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn">
+                                            Actualizar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <span class="badge" style="vertical-align:super;font-size: .3rem; " [ngStyle]="{
+                                'background-color':
+                                    dataSets['canvas1-getTVRT'].borderColor
+                            }" *ngIf="
+                                dataSets['canvas1-getTVRT'] !== undefined &&
+                                !dataSets['canvas1-getTVRT'].hidden
+                            ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon" (click)="datasetToggleChart('canvas1','getTVRT')">
+                            <i class="fas fa-chart-line" [ngClass]="{
+                                    'icon-rojo': tagValue['getTVRT'] < 1000,
+                                    'icon-verde': tagValue['getTVRT'] >= 1000
+                                }"></i>
+                        </span>
+                        <span class="mydatatxt" (click)="datasetToggleChart('canvas1','getTVRT')">{{ 'HR' | translate }}
+                        </span>
+                        <br />
+                        <span class="mydatatxt" (click)="datasetToggleChart('canvas1','getTVRT')"
+                            [attr.real_value]='tagValue["getTVRT"]'>
+                            {{ tagValue["getTVRT"] | number: "4.0-0" }}
+                        </span>
+                        <span class="sub" (click)="datasetToggleChart('canvas1','getTVRT')">
+                            KJ/KWh
+                        </span>
+                    </div>
+                    <ng-template #tip_getTVMW><b>{{
+                            tagName["getTVMW"]
+                        }}</b></ng-template>
+                    <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTVMW">
+                        <div class="btn-group w-100">
+                            <a class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" style="margin:auto">
+                                &nbsp;
+                                <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getTVMW'].borderColor}"></i-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                                <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform, 'getTVMW')">
+                                    <div class="form-group">
+                                        <label>Escala min:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getTVMW'][
+                                                    'scale_min'
+                                                ]
+                                            " name="scale_min" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Escala max:</label>
+                                        <input type="number" class="form-control" [(ngModel)]="
+                                                anyConfig['getTVMW'][
+                                                    'scale_max'
+                                                ]
+                                            " name="scale_max" />
+                                    </div>
+
+                                    <div class="text-right">
+                                        <button type="submit" class="btn mybtn">
+                                            Actualizar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <span class="badge" style="vertical-align:super;font-size: .3rem; " [ngStyle]="{
+                                'background-color':
+                                    dataSets['canvas1-getTVMW'].borderColor
+                            }" *ngIf="
+                                dataSets['canvas1-getTVMW'] !== undefined &&
+                                !dataSets['canvas1-getTVMW'].hidden
+                            ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                        <span class="myicon" (click)="datasetToggleChart('canvas1','getTVMW')">
+                            <i class="fas fa-bolt" [ngClass]="{
+                                    'icon-rojo': tagValue['getTVMW'] <= 10,
+                                    'icon-amarillo': tagValue['getTVMW'] > 10,
+                                    'icon-verde': tagValue['getTVMW'] >= 80
+                                }"></i>
+                        </span>
+                        <span class="mydatatxt"
+                            (click)="datasetToggleChart('canvas1','getTVMW')">{{ 'Power' | translate }}
+                        </span>
+                        <br />
+                        <span class="mydatatxt" (click)="datasetToggleChart('canvas1','getTVMW')"
+                            [attr.real_value]='tagValue["getTVMW"]'>
+                            {{ tagValue["getTVMW"] | number: "3.2-2" }}
+                        </span>
+                        <span class="sub" (click)="datasetToggleChart('canvas1','getTVMW')">
+                            MW
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col hiden">
+                        ...
+                    </div>
+                </div>
+            </div>
+            <!-- Imagen de turbina -->
+            <div class="row">
+                <div class="col text-center" (click)="openModalCt_3()" style="
+                min-height: 245px; padding-top: 46px;">
+                    <!--<img src="/assets/monitoring/phase3/turbina-vapor.png" style="width: 100%;"
+                        *ngIf="!globalService.aguila" />-->
+                    <!--
+                    <img
+                        src="/assets/monitoring/phase3/turbina-vapor.png"
+                        style="width: 100%;"
+                        *ngIf="globalService.aguila"
+                    />-->
+                    <video style="width: 100%;"
+                        src="/assets/monitoring/phase3/vapor-efectos_02.mp4" type="video/webm" autoplay loop
+                        width="320">
+                    </video>
+                    <!--   condicion para el video *ngIf="tagValue['getCTDosRPM'] > 10"   -->
+
+                    <!--img id="layer_31" src="/assets/monitoring/phase3/turbina_vapor_1.png" name="layer_31" style="width: 320px; height:180px;" /-->
+                </div>
+            </div>
+            <div class="row mt-3">
+                <ng-template #tip_getTVRPM><b>{{ tagName["getTVRPM"] }}</b></ng-template>
+                <div class="col txtcenter" placement="top" tooltipClass="mytooltip" [ngbTooltip]="tip_getTVRPM">
+                    <div class="btn-group w-100">
+                        <a class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            style="margin:auto">
+                            &nbsp;
+                            <!--i class="fa-cog fas" [ngStyle]="{'color':dataSets['canvas1-getTVRPM'].borderColor}"></i-->
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" style="z-index: 999999;min-width: 250px;">
+                            <form class="px-4 py-3" #myform="ngForm" (ngSubmit)="updateChart(myform, 'getTVRPM')">
+                                <div class="form-group">
+                                    <label>Escala min:</label>
+                                    <input type="number" class="form-control" [(ngModel)]="
+                                            anyConfig['getTVRPM']['scale_min']
+                                        " name="scale_min" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Escala max:</label>
+                                    <input type="number" class="form-control" [(ngModel)]="
+                                            anyConfig['getTVRPM']['scale_max']
+                                        " name="scale_max" />
+                                </div>
+
+                                <div class="text-right">
+                                    <button type="submit" class="btn mybtn">
+                                        Actualizar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <span class="badge" style="vertical-align:super;font-size: .3rem; " [ngStyle]="{
+                            'background-color':
+                                dataSets['canvas1-getTVRPM'].borderColor
+                        }" *ngIf="
+                            dataSets['canvas1-getTVRPM'] !== undefined &&
+                            !dataSets['canvas1-getTVRPM'].hidden
+                        ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+                    <span class="myicon" (click)="datasetToggleChart('canvas1','getTVRPM')">
+                        <i class="fas fa-running icon-verde running" *ngIf="tagValue['getTVRPM'] > 10"></i>
+                        <i class="fas fa-bed icon-rojo" *ngIf="tagValue['getTVRPM'] <= 10"></i>
+                    </span>
+                    <!--<span class="tituloct hiden">
+                      {{ "PANEL.TITULO_HR" | translate }}
+                  </span>-->
+                    <br />
+                    <span class="mydatatxt" (click)="datasetToggleChart('canvas1','getTVRPM')"
+                        [attr.real_value]='tagValue["getTVRPM"]'>
+                        {{ tagValue["getTVRPM"] | number: "4.0-0" }}
+                    </span>
+                    <span class="sub" (click)="datasetToggleChart('canvas1','getTVRPM')">
+                        {{ 'RPM' | translate }}
+                    </span>
+                </div>
+            </div>
+            <!-- ./CT-3 -->
+        </div>
+    </div>
+
+    <br /><br /><br />
+</div>
+<app-interactive-image-turbine-ct1 [ct]="'ct1'" [timeCurrent]="timeCurrent" #modal_turbine_ct_1>
+</app-interactive-image-turbine-ct1>
+<app-interactive-image-turbine-ct1 [ct]="'ct2'" [timeCurrent]="timeCurrent" #modal_turbine_ct_2>
+</app-interactive-image-turbine-ct1>
+<app-interactive-image-turbine-ct1 [ct]="'tv'" [timeCurrent]="timeCurrent" #modal_turbine_ct_3>
+</app-interactive-image-turbine-ct1>

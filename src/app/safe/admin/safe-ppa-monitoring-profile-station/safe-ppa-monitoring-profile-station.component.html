@@ -1,0 +1,84 @@
+<div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class="">
+      <mdb-icon fas icon="cog"></mdb-icon>
+    </mdb-breadcrumb-item>
+    <mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+    <mdb-breadcrumb-item>{{ "Data Mining" | translate }}</mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">{{ "Monitoring station" | translate }}</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+
+<div class="section">
+  <div class="row pb-2">
+    <div class="col">
+      <p class="section_titulo_0">{{ "Importa Variables de Estación de Supervisión" | translate }}</p>
+      <p class="section_subtitulo_0"></p>
+    </div>
+  </div>
+  <form [formGroup]="fileUploadForm" (ngSubmit)="upload(fileUploadForm.value)">
+    <div class="form-row">
+      <div class="col col-xxxs-12 col-xxs-12 col-xs-6 col-lg-5 col-xxl-3">
+        <label>{{'Commercial Operation Date'|translate}}</label>
+        <mat-form-field class="form-control">
+          <input matInput [matDatepicker]="dp" [formControl]="date" />
+          <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+          <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+                          (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
+          </mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col col-xxxs-12 col-xxs-12 col-xs-12 col-md-12 col-xl-12 col-xxl-6 col-xxxl-6 mt-lg-2 mt-xxl-2">
+        <div class="row d-flex justify-content-end">
+          <div class="col col-md-auto">
+            Carga Archivo<br />
+            <app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+            <mat-error
+                    *ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
+              Requerido
+            </mat-error>
+          </div>
+          <div class="col-auto d-flex">
+            <div class="align-self-end">
+              <button type="submit" class="btn mr-0" style="width: 175px;">
+                <i class="ti-cloud-up"></i>
+                {{ "Import" | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div><hr>
+      <div class="col text-right text-lg-left">
+        <button type="button" class="btn mt-xxxs-4 mt-xxs-4 mt-xs-4 mt-xxl-4" (click)="aplicarDeteccion()">
+          Aplicar Detección&nbsp;Formato
+        </button>
+        <button type="button" class="btn mt-xxxs-4 mt-xxs-4 mt-xs-4 mt-xxl-4" (click)="aplicarCorrecion()">
+          Aplicar Corrección Formato
+        </button>
+      </div><hr>
+      <div class="col text-right text-lg-left">
+        <button type="button" class="btn mt-xxxs-4 mt-xxs-4 mt-xs-4 mt-xxl-4" (click)="aplicarDeteccionProcedimiento()">
+          Aplicar Detección&nbsp;Procedimiento
+        </button>
+        <button type="button" class="btn mt-xxxs-4 mt-xxs-4 mt-xs-4 mt-xxl-4" (click)="aplicarCorrecionProcedimiento()">
+          Aplicar Corrección Procedimiento
+        </button>
+      </div><hr>
+      <div class="col text-right text-lg-left">
+        <button type="button" class="btn mt-xxxs-4 mt-xxs-4 mt-xs-4 mt-xxl-4" (click)="aplicarModeloPrimerTiempo()">
+          Aplicar Modelo Primer Tiempo
+        </button>
+        <button type="button" class="btn mt-xxxs-4 mt-xxs-4 mt-xs-4 mt-xxl-4" (click)="aplicarCorrecionProcedimiento()">
+          Aplicar Modelo Segundo Tiempo
+        </button>
+      </div><hr>
+      <div class="row">
+        <div class="col text-right">
+          <button class="btn" (click)="download()">
+            <i class="ti-cloud-down"></i>&nbsp;	&nbsp;	&nbsp;&nbsp;{{'Download' | translate}} &nbsp;	&nbsp;
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

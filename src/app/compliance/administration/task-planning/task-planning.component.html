@@ -1,0 +1,149 @@
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">Cumplimiento Legal</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ titulo }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+<div class="section">
+  <div class="row pb-2">
+    <div class="col">
+      <p class="section_titulo_0">Asignación Tareas</p>
+      <p class="section_subtitulo_0"> </p>
+    </div>
+  </div>
+  <hr>
+
+  	<form class="mt-5" [formGroup]="filtrosForm" (ngSubmit)="onSubmit()">
+		<div class="row">
+			<div class="form-group col-12 col-md-2 col-lg-2">
+				<label>Año</label>
+				<select class="form-control"
+						formControlName="fAnio">
+					<option
+							*ngFor="let operator of anios;"
+							[value]="operator.value">
+						{{operator.label}}
+					</option>
+				</select>
+			</div>
+				<div class="form-group col-12 col-md-6 col-lg-4">
+					<label>Tipo Cumplimiento</label>
+					<select class="form-control"
+							formControlName="fTipoCumplimiento"
+							[ngClass]="{ 'is-invalid': submitted && f.fTipoCumplimiento.errors }"
+							(change)="getTasks()">
+						<option
+								*ngFor="let operator of tiposCumplimientos;"
+								[value]="operator.value">
+						{{operator.label}}
+						</option>
+					</select>
+					<div *ngIf="submitted && f.fTipoCumplimiento.errors" style="color:red">
+						<div *ngIf="f.fTipoCumplimiento.errors.required">Requerido</div>
+					</div>
+				</div>
+				<div class="form-group col-12 col-md-6 col-lg-4">
+					<label>Actividad</label>
+					<select class="form-control"
+							formControlName="fActividad"
+							[ngClass]="{ 'is-invalid': submitted && f.fActividad.errors }"
+							(change)="getTasks()">
+						<option
+								*ngFor="let operator of actividades;"
+								[value]="operator.value">
+						{{operator.label}}
+						</option>
+					</select>
+					<div *ngIf="submitted && f.fActividad.errors" style="color:red">
+						<div *ngIf="f.fActividad.errors.required">Requerido</div>
+					</div>
+				</div>
+	
+				<div class="form-group col-12 text-right align-self-end">
+					<button type="button" class="btn" (click)="asignaTarea()">
+						<i class="ti-tag"></i> &nbsp;
+						Asignar Tareas
+					</button>
+				</div>
+		</div>
+    <div class="row">
+      <div class="col">
+        <table mdbTable bordered="true" class="table_catalogo">
+          <thead class=" ">
+          <tr>
+            <th *ngFor="let head of headTasks" scope="col">{{head}} </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr mdbTableCol *ngFor="let el of tagTasks; let i = index;">
+			  <th scope="row">{{i+1}}</th>
+            <td>{{el.description}}</td>
+			  <td>{{el.period + ' '+ el.unitPeriod.code}}</td>
+			  <td>{{el.countCompliance}}</td>
+            <td>
+				<div class="form-group col-12">
+				<select class="form-control"
+						multiple
+						[id]="'ejecutor_' + el.idTag"
+						(change)="agregarActor('ejecutor_' + el.idTag)"
+						[ngClass]="{ 'is-invalid': submitted && f.fPersonaId.errors }">
+					<option *ngFor="let operator of personas;"
+							[value]="operator.value">{{operator.label}}
+					</option>
+				</select>
+				<div *ngIf="submitted && f.fPersonaId.errors" style="color:red">
+					<div *ngIf="f.fPersonaId.errors.required">Requerido</div>
+				</div>
+			</div>
+			</td>
+            <td>
+				<div class="form-group">
+					<select class="form-control"
+							[id]="'responsable_' + el.idTag"
+							multiple
+							[name]="'responsable_' + el.idTag"
+							(change)="agregarActor('responsable_' + el.idTag)"
+							[ngClass]="{ 'is-invalid': submitted && f.fPersonaId.errors }">
+
+						<option
+								*ngFor="let operator of personas;"
+								[value]="operator.value">
+							{{operator.label}}
+						</option>
+					</select>
+					<div *ngIf="submitted && f.fPersonaId.errors" style="color:red">
+						<div *ngIf="f.fPersonaId.errors.required">Requerido</div>
+					</div>
+				</div>
+			</td>
+            <td>
+				<div class="form-group col-12">
+					<select class="form-control"
+							multiple
+							[id]="'supervisor_' + el.idTag"
+							[name]="'supervisor_' + el.idTag"
+							(change)="agregarActor('supervisor_' + el.idTag)"
+							[ngClass]="{ 'is-invalid': submitted && f.fPersonaId.errors }">
+
+						<option
+								*ngFor="let operator of personas;"
+								[value]="operator.value">
+							{{operator.label}}
+						</option>
+					</select>
+					<div *ngIf="submitted && f.fPersonaId.errors" style="color:red">
+						<div *ngIf="f.fPersonaId.errors.required">Requerido</div>
+					</div>
+				</div>
+			</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </form>
+</div>

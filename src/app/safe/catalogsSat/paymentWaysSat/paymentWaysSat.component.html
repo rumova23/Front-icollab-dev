@@ -1,0 +1,49 @@
+<div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+    <mdb-breadcrumb-item>Catálogos SAT</mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">Formas de Pago SAT</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+
+<div class="section">
+  <div class="row pb-2">
+      <div class="col">
+          <p class="section_titulo_0">Formas de Pago SAT</p>
+          <p class="section_subtitulo_0"> </p>
+      </div>
+  </div>
+  <hr>
+  <div class="row mb-3 mt-3">
+    <div class="col">
+      <div class="tabla-responsi mat-elevation-z8">
+        <table mat-table [dataSource]="paymentWaysSat" class="table_catalogo">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef class="txt-center"> # </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+          </ng-container>
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Código </th>
+            <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Nombre </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="active">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Estatus</th>
+            <td mat-cell *matCellDef="let element"> {{getStatus(element)}} </td>
+          </ng-container>
+          <ng-container matColumnDef="banked">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Bancarizado</th>
+            <td mat-cell *matCellDef="let element"> {{getBanked(element)}} </td>
+          </ng-container>
+          <!-- header -->
+          <tr mat-header-row *matHeaderRowDef="cols"></tr>
+          <tr mat-row *matRowDef="let row; columns: cols;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

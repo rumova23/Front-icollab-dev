@@ -1,0 +1,81 @@
+.tagpoint{
+    z-index: 3;
+    color:greenyellow;
+    font-size: 40px;
+    
+	
+    animation-name: rotation;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+    -webkit-animation-name:rotation;
+    -webkit-animation-duration: 5s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+}
+.tagpoint:hover{
+    transition    : 0.5s;
+    color: blue;
+    font-size: 50px;
+    animation-iteration-count: 1;
+}
+.tagpoint.active{
+    color: blue;
+    font-size: 50px;
+
+    
+    animation-name: parpadeo;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes rotation {
+    from {
+            -webkit-transform: rotate(0deg);
+    }
+    to {
+            -webkit-transform: rotate(359deg);
+    }
+}
+
+
+@keyframes parpadeo {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+.badge{
+    vertical-align:super;
+    font-size: .3rem; 
+}
+.icon-color{
+	color: #c0c0c0 !important;
+}
+.icon-rojo{
+	color: red !important;
+}
+.icon-amarillo{
+	color:yellow !important;
+}
+.icon-verde{
+	color: #4cc900 !important;
+}
+.icon-azul{
+	color: #00a1c9 !important;
+}
+/*https://css-tricks.com/change-color-of-svg-on-hover/*/
+/*https://css-tricks.com/almanac/properties/f/fill/*/
+.iconsvg_gris{
+	fill: #c0c0c0 !important; 
+}
+.iconsvg_verde{
+	fill: #4cc900 !important; 
+}
+.iconsvg_rojo{
+	fill: #FF0000 !important; 
+}
+.iconsvg_azul{
+	fill: #00a1c9 !important;
+}

@@ -1,0 +1,92 @@
+.agila-cda-titulo{
+    font-size: 30px;
+    font-weight: bold;   
+}
+table {
+    width: 100%;
+}
+tr:nth-child(even){
+    /*background: #F6F6F6;*/
+} 
+th{
+    background:rgba(213,233,246,1.00);
+}
+tr:first-child{
+    /*background:rgba(213,233,246,1.00);*/
+}
+td{
+    border-right: rgba(223,223,223,1.00) solid 1px;
+    text-align: center;
+}
+td:last-child{
+    border-right: none;
+}
+td:first-child{
+    border-right: 2px solid #e0e0e0;
+}
+.example-container {
+    /*height: 400px;*/
+    width: auto;
+    overflow: auto;
+}
+.col-md-auto{
+    margin-bottom: 15px ;
+}
+.col-md-auto > label{
+    margin-bottom: 0;
+}
+.col-md-auto > input{
+    margin-right: 5px;
+}
+
+.ls-tags ul{
+    list-style: none;
+}
+.txt-center{
+    text-align: center;
+}
+.mitab{
+    max-width: 1502px !important;
+    margin: auto;
+}
+.tabla-tareas-asignadas{
+    min-width: 1502px !important;
+    max-width: 1502px !important;
+    border-right: #dfdfdf solid 1px;
+    border-left: #dfdfdf solid 1px;
+    border-bottom: #dfdfdf solid 1px;
+    margin: auto;
+}
+.asignacion-tareas-header{
+    background:rgba(213,233,246,1.00);
+}
+.col-tag{
+    max-width: 100px !important;
+    min-width: 100px !important;
+    text-align: center;
+    border-right: #dfdfdf solid 1px;
+}
+.col-actividad{
+    max-width: 400px !important;
+    min-width: 400px !important;
+}
+.col-radio{
+    max-width: 150px !important;
+    min-width: 150px !important;
+    text-align: center;
+    border-right: #dfdfdf solid 1px;
+}
+.col-eliminar{
+    max-width: 100px !important;
+    min-width: 100px !important;
+    text-align: center;
+    border-left: #dfdfdf solid 1px;
+    border-right: #dfdfdf solid 1px;
+}
+.background-pares{
+    background: #F6F6F6;
+}
+.mr--15{
+    margin-right: 0;
+    margin-left: 0;
+}

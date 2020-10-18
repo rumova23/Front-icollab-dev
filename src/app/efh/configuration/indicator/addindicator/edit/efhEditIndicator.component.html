@@ -1,0 +1,164 @@
+<div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">{{titulo}}</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+
+<form [formGroup]="indicatorForm" (ngSubmit)="onSubmit()">
+  <div class="section">
+    <div class="row pb-3">
+      <div class="col">
+        <p class="section_titulo_0">{{subtitulo}}</p>
+      </div>
+    </div>
+    <!-- Combos encabezado -->
+    <div class="row">
+      <div class="col-md-3">
+        <app-mat-select
+          [formGroup]="indicatorForm"
+          controlName="indicatorTypeControl"
+          (eventChange)="enableControls($event)"
+          label="Tipo de Indicador"
+          sufijo=""
+          [options]="indicatorTypesArr"
+        ></app-mat-select>
+      </div>
+      <div class="col-md-3">
+        <app-mat-select
+          [formGroup]="indicatorForm"
+          controlName="unitControl"
+          [submitted]="submittedData"
+          (eventChange)="onSelectedUnit($event)"
+          label="Unidad"
+          sufijo=""
+          [options]="unitsArr"
+        ></app-mat-select>
+      </div>
+      <div class="col-md-3" *ngIf="isWithFuel">
+        <app-mat-select
+          [formGroup]="indicatorForm"
+          controlName="fuelTypeControl"
+          [submitted]="submittedData"
+          (eventChange)="onSelectedFuelType($event)"
+          label="Tipo de combustible"
+          sufijo=""
+          [options]="fuelTypesArr"
+        ></app-mat-select>
+      </div>
+    </div>
+    <br/>
+    <div style="border-style: groove; padding: 1%" *ngIf="isInputSectionVisible"><!-- Section Paro -->
+      <div class="row">
+        <div class="col-md-4">
+          <app-mat-input-datepicker
+            [formGroup]="indicatorForm"
+            controlName="dateStartApplication"
+            [submitted]="submittedData"
+            (eventChange)="onDateStartApplication($event)"
+            label="Fecha Inicio Aplicación"
+            [minDate]="initDate"
+          ></app-mat-input-datepicker>
+        </div>
+        <div class="col-md-4">
+          <app-mat-input-datepicker
+            [formGroup]="indicatorForm"
+            controlName="dateEndApplication"
+            [submitted]="submittedData"
+            [minDate]="minDateEndApplication"
+            label="Fecha Fin Aplicación"
+          ></app-mat-input-datepicker>
+        </div>
+        <div class="col-md-4" *ngIf="isEqFuelFactorSelected">
+          <app-mat-input-number
+            [formGroup]="indicatorForm"
+            controlName="equivalenFuelFactor"
+            [submitted]="submittedData"
+            minValue="0"
+            maxValue="2000"
+            label="Factor equivalente de combustible"
+          ></app-mat-input-number>
+        </div>
+        <div class="col-md-4" *ngIf="isEqWithOutFuelFactorSelected">
+          <app-mat-input-number
+            [formGroup]="indicatorForm"
+            controlName="equivalenWithOutFuelFactor"
+            [submitted]="submittedData"
+            minValue="0"
+            maxValue="2000"
+            label="Factor equivalente sin combustible"
+          ></app-mat-input-number>
+        </div>
+        <div class="col-md-4" *ngIf="isMaxiumLoadSelected">
+          <app-mat-input-number
+            [formGroup]="indicatorForm"
+            controlName="maxiumLoad"
+            [submitted]="submittedData"
+            minValue="0"
+            maxValue="2000"
+            (eventChange)="onInputMaxiumLoad($event)"
+            label="Máxima Carga(MW)"
+          ></app-mat-input-number>
+        </div>
+        <div class="col-md-4" *ngIf="isEfhiSelected">
+          <app-mat-input-number
+            [formGroup]="indicatorForm"
+            controlName="efhiCost"
+            [submitted]="submittedData"
+            minValue="0"
+            maxValue="2000"
+            label="Costo EFHI$ (USD)"
+          ></app-mat-input-number>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <div *ngIf="isDefaultSectionsVisible">
+      <app-mat-input-textarea
+        [formGroup]="indicatorForm"
+        controlName="description"
+        [submitted]="submittedData"
+        label="Descripción"
+        maxLength="1000"
+        rows="9"
+        (eventChange)="enableSaveButton()"
+      ></app-mat-input-textarea>
+    </div>
+  </div>
+
+  <!-- End Test -->
+  <div class="section" *ngIf="isDefaultSectionsVisible">
+    <div class="row">
+
+      <div class="col-md-6 col-lg-4">
+          <app-mat-input-checkbox  
+            [formGroup]="formTemp" 
+            controlName="statusElement"
+            (eventChange)="changeCheck()"
+            label="Estado del elemento"
+            labelIn="Activo"
+          ></app-mat-input-checkbox>
+      </div>
+    </div>
+ 
+    
+		<div class="row justify-content-end">
+			<div class="col-12 col-lg-3">
+				<app-btn-block-save-update myType="submit" [disabled]="disabledSave" *ngIf="accion != 'ver'"></app-btn-block-save-update>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-btn-block-back (myClick)="regresar()"></app-btn-block-back>
+			</div>
+    </div>
+    
+  </div>
+  <!-- Observaciones -->
+  <div *ngIf="isDefaultSectionsVisible && indicatorType.id != 0">
+    <app-efh-comments [inIdEventConfig]="indicatorType.id" [inAction]="accion" [inTypeConfig]="2"></app-efh-comments>
+  </div>
+
+  <!-- Soportes -->
+  <div *ngIf="isDefaultSectionsVisible && indicatorType.id != 0">
+      <app-efh-upload [inIdEventConfig]="indicatorType.id" [inAccion]="accion" [inTypeConfig]="2"></app-efh-upload>
+  </div>
+</form>

@@ -1,0 +1,123 @@
+<div class="row">
+    <mdb-breadcrumb customClass="white" class="w-100">
+        <mdb-breadcrumb-item class=""
+            ><mdb-icon fas icon="cog"></mdb-icon
+        ></mdb-breadcrumb-item>
+        <mdb-breadcrumb-item>Administración</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item class="active">Importar XML - Estado de Cuenta Diario</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
+</div>
+
+<div class="section">
+    <div class="row pb-2">
+        <div class="col">
+            <span class="agila-cda-titulo">Importar XML - Estado de Cuenta Diario</span>
+        </div>
+    </div>
+
+
+  <ng-container>
+      <mdb-card class="mt-4">
+        <mdb-card-body>
+          <form [formGroup]="fuecdForm" (ngSubmit)="validate(fuecdForm.value)">
+            <div class="row">
+              <div class="col">
+                Carga<br>
+                <app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+                <mat-error *ngIf="!fuecdForm.controls['file'].valid 
+                  && fuecdForm.controls['file'].touched">
+                  Requerido
+                </mat-error>
+              </div>
+              <div class="col txt-r">
+                <button type="submit" class="btn btn-info right" 
+                    [disabled]="!fuecdForm.valid"
+                  [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+                  <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+                </button>
+              </div>
+            </div>
+          </form>
+        </mdb-card-body>
+      </mdb-card>
+    </ng-container>
+
+  <div class="row" *ngIf="timeRegisters.length > 0">
+    <div class="col">
+      <span class="agila-cda-titulo">Resultado de la importación</span>
+    </div>
+  </div>
+  <div class=" row"></div>
+  <div class="table-container mat-elevation-z8" *ngIf="timeRegisters.length > 0">
+    <table matSort mat-table [dataSource]="timeRegisters">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>#</th>
+        <td mat-cell *matCellDef="let element" class="p-2 border-none">
+          {{element.id}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="fuecd">
+        <th mat-header-cell *matHeaderCellDef>FUECD</th>
+        <td mat-cell *matCellDef="let element" class="p-2 border-none">
+          {{element.fuecd}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="ful">
+        <th mat-header-cell *matHeaderCellDef>FUL</th>
+        <td mat-cell *matCellDef="let element" class="p-2 border-none">
+          {{element.ful}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Fecha de pago</th>
+        <td mat-cell *matCellDef="let element" class="p-2 border-none">
+          {{element.date | date:'dd/MM/yyyy'}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="concept">
+        <th mat-header-cell *matHeaderCellDef>Concepto</th>
+        <td mat-cell *matCellDef="let element" class="p-2 border-none">
+          {{element.concept}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="iva">
+        <th mat-header-cell *matHeaderCellDef>Iva</th>
+        <td mat-cell *matCellDef="let element" class="p-2 border-none">
+          {{element.iva}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalNet">
+        <th mat-header-cell *matHeaderCellDef>Total Neto</th>
+        <td mat-cell *matCellDef="let element" class="p-2 border-none">
+          {{element.totalNet}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalAmount">
+        <th mat-header-cell *matHeaderCellDef>Monto total</th>
+        <td mat-cell *matCellDef="let element" class="p-2 border-none">
+          {{element.totalAmount}}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[50,100,250,500]" showFirstLastButtons></mat-paginator>
+  </div>
+  <div class="row" *ngIf="valid">
+    <div class="col">
+      <div class="col-md-3">
+        <div class="d-flex justify-content-end">
+          <button type="button" class="btn"  (click)="save()"
+            [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}">
+            Validar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

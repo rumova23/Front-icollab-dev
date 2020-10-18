@@ -1,0 +1,141 @@
+<div class="p-5">
+
+  <!-- Titulo -->
+  <div class="row">
+    <div class="col">
+      <span class="agila-cda-titulo">Modelo Matemático - PPA
+      </span>
+    </div>
+  </div>
+  <br>
+
+<!--
+  <f orm [formGroup]="modelMarketForm" (ngSubmit)="addModelMarket(modelMarketForm.value)">
+-->
+ 
+  <form>
+    <div class="row">
+      <div class="col-md-4">
+        <div style="border-style: solid;border-width: 0.1em">
+          &nbsp;&nbsp;<b>Tipo de Combustible
+          </b>
+          <br>
+          <mat-radio-group aria-label="Selecciona">
+            &nbsp;&nbsp;
+            <mat-radio-button value="1">Gas
+            </mat-radio-button> &nbsp;&nbsp;&nbsp;&nbsp;
+            <mat-radio-button value="2">Aceite
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div class="col-md-6">
+      </div>
+    </div>
+    <br>
+
+    <div class="row">
+      <!--  Lado izquierdo-->
+      <div class="col-md-6" style="border-style: solid;border-width: 0.1em">
+        <b>Datos de la Entrada
+        </b>
+        <br>
+
+        <mat-form-field class="full-width">
+          <input matInput formControlName="TXT_1" placeholder="Capacidad actual">
+        </mat-form-field>
+        MW
+        <br>
+
+        <mat-form-field class="full-width">
+          <input matInput formControlName="TXT_2" placeholder="Entrada Manual de Capacidad Neta">
+        </mat-form-field>
+        MW
+        <br>
+
+        <mat-form-field class="full-width">
+          <input matInput formControlName="TXT_3" placeholder="Temp. de Bulbo Seco">
+        </mat-form-field>
+        ºC
+        <br>
+
+        <mat-form-field class="full-width">
+          <input matInput formControlName="TXT_4" placeholder="Presión Atmosférica">
+        </mat-form-field>
+        bar(A)
+        <br>
+
+        <mat-form-field class="full-width">
+          <input matInput formControlName="TXT_5" placeholder="Humedad Relativa">
+        </mat-form-field>
+        %
+        <br>
+
+        <mat-form-field class="full-width">
+          <input matInput formControlName="TXT_6" placeholder="Poder Calorífico Inf.">
+        </mat-form-field>
+        kJ/kg
+        <br>
+
+        <mat-form-field class="full-width">
+          <input matInput formControlName="TXT_7" placeholder="Presión del Cond.">
+        </mat-form-field>
+        mmHg(A)
+        <br>
+
+       <mat-form-field class="full-width">
+          <input matInput formControlName="TXT_8" placeholder="Factor de Potencia">
+        </mat-form-field>        
+      </div>
+
+
+      <!--  Lado derecho-->
+      <div class="col-md-6" style="border-style: solid;border-width: 0.1em">
+        <b>Resultado del Cálculo
+        </b>
+        <br>
+
+        <mat-form-field class="full-width">
+          <input matInput readonly placeholder="Carga Actual de la Planta al 100% [Carga(%)]">
+        </mat-form-field>
+        %
+        <br>
+
+        <mat-form-field class="full-width">
+          <input matInput readonly placeholder="100% de la Capacidad Neta en las Cond. Act. de Operación">
+        </mat-form-field>
+        MW
+        <br>
+
+        <mat-form-field class="full-width">
+          <input matInput readonly placeholder="Capacidad Actual Corregida la Condición de Diseño de Verano">
+        </mat-form-field>
+        MW
+        <br>
+
+        <mat-form-field class="full-width">
+          <input matInput readonly placeholder="CTUNG a Carga XX%[NPxx]">
+        </mat-form-field>
+        kJ/kWh
+        <br>
+
+        <mat-form-field class="full-width">
+          <input matInput readonly placeholder="CTUNG">
+        </mat-form-field>
+        kJ/kWh        
+
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+  </form>
+</div>

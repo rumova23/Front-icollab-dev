@@ -1,0 +1,623 @@
+
+ 
+<div class="monitoreo">
+    
+    <!--*****************************************************************************************************************-->
+    <!-- OVERVIEW -->
+    <!--*****************************************************************************************************************-->
+    <div class="row bg-gray text-center">
+        <div class="col-12">            
+            <h4 class="m-0" (click)="eventExportAsExcelFile()">OverView</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-5    col-lg-4   col-xl-2        py-2 order-md-1 bg-gray">
+            <div class="row my-2">
+                <div class="col-auto pr-0 align-self-center invisible"><div class="row">
+                    <div class="col align-self-center"><i class="fas fa-bolt"></i></div>
+                    <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;"><br></div>
+                </div></div>
+                <div class="col text-center">Actuals</div>
+                <div class="col text-center px-0">Dif</div>
+                <div class="col text-center">Expected</div>
+            </div>
+            <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-bolt"></i><br> Power OutPut</div></div>
+            <div class="row">
+                <div class="col-auto pr-0 align-self-center d-none d-sm-block">
+                    <ng-template #tipOvePowerOutPut>
+                        <p>Power OutPut</p>
+                        <p>{{getTagName('setOveA1')}}</p>
+                    </ng-template>
+                    <div class="row" [ngbTooltip]="tipOvePowerOutPut" tooltipClass="mytooltip">
+                        <div class="col align-self-center"><i class="fas fa-bolt" (click)="showOve(1)"></i></div>
+                        <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Power <br> OutPut</div>
+                    </div>
+                </div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveA1'" [ngbTooltip]="tipOvePowerOutPut" tooltipClass="mytooltip"><canvas #chartOveA1></canvas></div><p class="doughnut_p" [attr.valor]="getOveA1()[0]">{{getOveA1()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartOveB1'"><canvas #chartOveB1></canvas></div><p class="doughnut_p" [attr.valor]="getOveB1()[0]">{{getOveB1()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveC1'"><canvas #chartOveC1></canvas></div><p class="doughnut_p" [attr.valor]="getOveC1()[0]">{{getOveC1()[0] | number: "1.2-2"}}</p></div>
+            </div>
+            <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-thermometer-three-quarters"></i><br> Heat Rate</div></div>
+            <div class="row">
+                <ng-template #tipOveHeatRateC2>
+                    <p>Heat Rate</p>
+                    <p>{{getTagName('setOveC2')}}</p>
+                </ng-template>
+                <div class="col-auto pr-0 align-self-center d-none d-sm-block">
+                    <ng-template #tipOveHeatRate>
+                        <p>Heat Rate</p>
+                        <p>{{getTagName('setOveA2')}}</p>
+                    </ng-template>
+                    <div class="row" [ngbTooltip]="tipOveHeatRate" tooltipClass="mytooltip">
+                        <div class="col align-self-center"><i class="fas fa-thermometer-three-quarters" (click)="showOve(2)"></i></div>
+                        <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Heat <br> Rate</div>
+                    </div>
+                </div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveA2'" [ngbTooltip]="tipOveHeatRate" tooltipClass="mytooltip"><canvas #chartOveA2></canvas></div><p class="doughnut_p" [attr.oveA2PorFormula]="oveA2PorFormula" [attr.valor]="getOveA2()[0]">{{getOveA2()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartOveB2'"><canvas #chartOveB2></canvas></div><p class="doughnut_p" [attr.valor]="getOveB2()[0]">{{getOveB2()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveC2'" [ngbTooltip]="tipOveHeatRateC2" tooltipClass="mytooltip"><canvas #chartOveC2></canvas></div><p class="doughnut_p" [attr.oveC2PorFormula]="oveC2PorFormula" [attr.valor]="getOveC2()[0]">{{getOveC2()[0] | number: "1.2-2"}}</p></div>
+            </div>
+            <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-battery-three-quarters"></i><br> Capacity Factor</div></div>
+            <div class="row">
+                <div class="col-auto pr-0 align-self-center d-none d-sm-block">
+                    <ng-template #tipOveCapacityFactor>
+                        <p>Capacity Factor</p>
+                        <p>{{getTagName('setOveA3')}}</p>
+                    </ng-template>
+                    <div class="row" [ngbTooltip]="tipOveCapacityFactor" tooltipClass="mytooltip">
+                        <div class="col align-self-center pr-1"><i class="fas fa-battery-three-quarters" (click)="showOve(3)"></i></div>
+                        <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Capacity <br> Factor</div>
+                    </div>
+                </div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveA3'" [ngbTooltip]="tipOveCapacityFactor" tooltipClass="mytooltip"><canvas #chartOveA3></canvas></div><p class="doughnut_p" [attr.valor]="getOveA3()[0]">{{getOveA3()[0] | number: "1.2-2"}}%</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartOveB3'"><canvas #chartOveB3></canvas></div><p class="doughnut_p" [attr.valor]="getOveB3()[0]">{{getOveB3()[0] | number: "1.2-2"}}%</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveC3'"><canvas #chartOveC3></canvas></div><p class="doughnut_p" [attr.valor]="getOveC3()[0]">{{getOveC3()[0] | number: "1.2-2"}}%</p></div>
+            </div>
+            <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-gas-pump"></i><br> Fuel Gain /lost</div></div>
+            <div class="row">
+                <div class="col-auto pr-0 align-self-center d-none d-sm-block">
+                    <ng-template #tipOveFuelGainlost>
+                        <p>Fuel Gain/lost</p>
+                        <p>{{getTagName('setOveA4')}}</p>
+                    </ng-template>
+                    <div class="row" [ngbTooltip]="tipOveFuelGainlost" tooltipClass="mytooltip">
+                        <div class="col align-self-center pr-2"><i class="fas fa-gas-pump" (click)="showOve(4)"></i></div>
+                        <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Fuel <br> Gain /lost</div>
+                    </div>
+                </div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveA4'" [ngbTooltip]="tipOveFuelGainlost" tooltipClass="mytooltip"><canvas #chartOveA4></canvas></div><p class="doughnut_p" [attr.valor]="getOveA4()[0]">{{getOveA4()[0] | number: "1.2-5"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartOveB4'"><canvas #chartOveB4></canvas></div><p class="doughnut_p" [attr.valor]="getOveB4()[0]">{{getOveB4()[0] | number: "1.2-5"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartOveC4'"><canvas #chartOveC4></canvas></div><p class="doughnut_p" [attr.valor]="getOveC4()[0]">{{getOveC4()[0] | number: "1.2-5"}}</p></div>
+            </div>
+        </div>
+        <div class="col-12 col-md-7    col-lg-7   col-xl-4        py-2 order-md-2 text-center bg-black">
+            <div class="row">
+                <div class="col">
+                    <div #chartLineOve1></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4    col-lg-4   col-xl-2        py-2 order-md-4 text-center bg-black">
+            <div class="row h-100">
+                <div class="col-12"><label class="titlem">Villa Mar</label></div>
+                <div class="col">
+                    <p>{{ stringDate  | titlecase}}</p>
+                    <p>{{ weatherText }}</p>
+                    <p>Temperatura {{temperatura}}  ℃</p>
+                    <p>Sensación Real®: {{ realFeelTemp }} ℃</p>
+                    <p>UV-index: {{ UVIndex }}, {{ UVIndexText }}</p>
+                    <p>Presión {{ pressureTendency }}</p>
+                    <div class="row mt-2">
+                        <div class="col-4">
+                            <div class="humidity">{{ humidity }}%</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="pressure">{{ pressure }}mb</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="wind-speed">{{ windSpeed }} km/h</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-8    col-lg-8   col-xl-4        py-2 order-md-5 text-center bg-black">
+            <div class="row h-100">
+                <div class="col-12"><label class="titlem">Excess Capacity</label></div>
+                <div class="col align-self-center">
+                    <div><h3 class="color-aguila">EAT</h3></div>
+                    <div>
+                        <radial-gauge
+                            [value]="excessCapacityEAT"
+                            units="Mw"
+                            width="170"
+                            height="170"
+                            min-value="0"
+                            max-value="50"
+                            major-ticks="0, ,10, ,20, ,30, ,40, ,50"
+                            minor-ticks="2"
+                            font-numbers-size="25"
+                            color-plate="#000"
+                            color-plate-end="#222"
+                            color-major-ticks="#888"
+                            color-minor-ticks="#ddd"
+                            color-title="#eee"
+                            color-units="#ccc"
+                            color-numbers="#bb1"
+                            highlights='[
+                                {"from": 0, "to": 12, "color": "rgba(210, 27, 3, 100)"},
+                                {"from": 12, "to": 24, "color": "rgba(210, 103, 3, 100)"},
+                                {"from": 24, "to": 36, "color": "rgba(210, 165, 3, 100)"},
+                                {"from": 36, "to": 50, "color": "rgba(20, 217, 6, 100)"}
+                            ]'
+                        
+                            needle-type="arrow"
+                            needle-width="2"
+                            needle-circle-size="7"
+                            needle-circle-outer="true"
+                            needle-circle-inner="false"
+                            color-needle-shadow-down="#550"
+                            color-needle-circle-outer="#333"
+                            color-needle-circle-outer-end="#111"
+                            animation-duration="900"
+                            animation-rule="linear"
+                            
+                            borders="false"
+                            border-inner-width="0"
+                            border-middle-width="0"
+                            border-outer-width="0"
+                            border-shadow-width="0"
+                            color-border-outer="#111"
+                            color-border-middle="#888"
+                            color-border-middle-end="#555"
+                            color-border-inner="#111"
+                            
+                            value-box="false"
+                        >
+                        </radial-gauge>
+                    </div>
+                    <div>
+                        {{excessCapacityEAT}} Mw
+                    </div>                    
+                </div>
+                <div class="col align-self-center">
+                    <div><h3 class="color-sol">EST</h3></div>
+                    <div>
+                        <radial-gauge
+                            [value]="excessCapacityEST"
+                            units="Mw"
+                            width="170"
+                            height="170"
+                            min-value="0"
+                            max-value="50"
+                            major-ticks="0, ,10, ,20, ,30, ,40, ,50"
+                            minor-ticks="2"
+                            font-numbers-size="25"
+                            color-plate="#000"
+                            color-plate-end="#222"
+                            color-major-ticks="#888"
+                            color-minor-ticks="#ddd"
+                            color-title="#eee"
+                            color-units="#ccc"
+                            color-numbers="#bb1"
+                            highlights='[
+                                {"from": 0, "to": 12, "color": "rgba(210, 27, 3, 100)"},
+                                {"from": 12, "to": 24, "color": "rgba(210, 103, 3, 100)"},
+                                {"from": 24, "to": 36, "color": "rgba(210, 165, 3, 100)"},
+                                {"from": 36, "to": 50, "color": "rgba(20, 217, 6, 100)"}
+                            ]'
+                        
+                            needle-type="arrow"
+                            needle-width="2"
+                            needle-circle-size="7"
+                            needle-circle-outer="true"
+                            needle-circle-inner="false"
+                            color-needle-shadow-down="#550"
+                            color-needle-circle-outer="#333"
+                            color-needle-circle-outer-end="#111"
+                            animation-duration="900"
+                            animation-rule="linear"
+                            
+                            borders="false"
+                            border-inner-width="0"
+                            border-middle-width="0"
+                            border-outer-width="0"
+                            border-shadow-width="0"
+                            color-border-outer="#111"
+                            color-border-middle="#888"
+                            color-border-middle-end="#555"
+                            color-border-inner="#111"
+                            
+                            value-box="false"
+                        >
+                        </radial-gauge>
+                    </div> 
+                    <div>
+                        {{excessCapacityEST}} Mw
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div class="col-12             col-lg-1   col-xl-1   py-2 order-md-3  order-xl-5  d-none d-lg-block d-xl-none bg-black">
+            <div class="row">
+                <div class="col-12">
+                    <img src="assets/monitoring/phase2/sol.png" alt="demo-dougnut" style="max-width: 50px;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--*****************************************************************************************************************-->
+    <!-- ./OVERVIEW -->
+    <!--*****************************************************************************************************************-->
+    <!--*****************************************************************************************************************-->
+    <!-- EAT -->
+    <!--*****************************************************************************************************************-->
+    <div class="row bg-gray color-aguila text-center">
+        <div class="col-12 pt-2 d-block d-lg-none d-xl-none">
+            <img src="assets/monitoring/phase2/aguila.png" alt="demo-dougnut" style="max-width: 50px;">
+        </div>
+        <div class="col-12">
+            <h4 class="m-0">EAT</h4>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12 col-md-5    col-lg-4   col-xl-2        py-2 order-md-1 bg-gray">
+            <div class="row my-2">
+                <div class="col-auto pr-0 align-self-center invisible"><div class="row">
+                    <div class="col align-self-center"><i class="fas fa-bolt"></i></div>
+                    <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;"><br></div>
+                </div></div>
+                <div class="col text-center">Actuals</div>
+                <div class="col text-center px-0">Dif</div>
+                <div class="col text-center">Expected</div>
+            </div>
+            <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-bolt"></i><br> Power OutPut</div></div>
+            <div class="row">
+                <div class="col-auto pr-0 align-self-center d-none d-sm-block">
+                    <ng-template #tipEatPowerOutput>
+                        <p>Power OutPut</p>
+                        <p>{{getTagName('setEatA1')}}</p>
+                    </ng-template>
+                    <div class="row" [ngbTooltip]="tipEatPowerOutput" tooltipClass="mytooltip">
+                        <div class="col align-self-center"><i class="fas fa-bolt" (click)="showEat(1)"></i></div>
+                        <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Power <br> OutPut</div>
+                    </div>
+                </div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatA1'" [ngbTooltip]="tipEatPowerOutput" tooltipClass="mytooltip"><canvas #chartEatA1></canvas></div><p class="doughnut_p" [attr.valor]="getEatA1()[0]">{{getEatA1()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEatB1'"><canvas #chartEatB1></canvas></div><p class="doughnut_p" [attr.valor]="getEatB1()[0]">{{getEatB1()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatC1'"><canvas #chartEatC1></canvas></div><p class="doughnut_p" [attr.valor]="getEatC1()[0]">{{getEatC1()[0] | number: "1.2-2"}}</p></div>
+            </div>
+            <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-thermometer-three-quarters"></i><br> Heat Rate</div></div>
+            <div class="row">
+                <ng-template #tipEatHeatRateC2>
+                    <p>Heat Rate</p>
+                    <p>{{getTagName('setEatC2')}}</p>
+                </ng-template>
+                <div class="col-auto pr-0 align-self-center d-none d-sm-block">
+                    <ng-template #tipEatHeatRate>
+                        <p>Heat Rate</p>
+                        <p>{{getTagName('setEatA2')}}</p>
+                    </ng-template>
+                    <div class="row" [ngbTooltip]="tipEatHeatRate" tooltipClass="mytooltip">
+                        <div class="col align-self-center"><i class="fas fa-thermometer-three-quarters" (click)="showEat(2)"></i></div>
+                        <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Heat <br> Rate</div>
+                    </div>
+                </div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatA2'" [ngbTooltip]="tipEatHeatRate" tooltipClass="mytooltip"><canvas #chartEatA2></canvas></div><p class="doughnut_p" [attr.valor]="getEatA2()[0]">{{getEatA2()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEatB2'"><canvas #chartEatB2></canvas></div><p class="doughnut_p" [attr.valor]="getEatB2()[0]">{{getEatB2()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatC2'" [ngbTooltip]="tipEatHeatRateC2" tooltipClass="mytooltip"><canvas #chartEatC2></canvas></div><p class="doughnut_p" [attr.valor]="getEatC2()[0]">{{getEatC2()[0] | number: "1.2-2"}}</p></div>
+            </div>
+            <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-battery-three-quarters"></i><br> Capacity Factor</div></div>
+            <div class="row">
+                <div class="col-auto pr-0 align-self-center d-none d-sm-block">
+                    <ng-template #tipEatCapacityFactor>
+                        <p>Capacity Factor</p>
+                        <p>{{getTagName('setEatA3')}}</p>
+                    </ng-template>
+                    <div class="row" [ngbTooltip]="tipEatCapacityFactor" tooltipClass="mytooltip">
+                        <div class="col align-self-center pr-1"><i class="fas fa-battery-three-quarters" (click)="showEat(3)"></i></div>
+                        <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Capacity <br> Factor</div>
+                    </div>
+                </div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatA3'" [ngbTooltip]="tipEatCapacityFactor" tooltipClass="mytooltip"><canvas #chartEatA3></canvas></div><p class="doughnut_p" [attr.valor]="getEatA3()[0]">{{getEatA3()[0] | number: "1.2-2"}}%</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEatB3'"><canvas #chartEatB3></canvas></div><p class="doughnut_p" [attr.valor]="getEatB3()[0]">{{getEatB3()[0] | number: "1.2-2"}}%</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatC3'"><canvas #chartEatC3></canvas></div><p class="doughnut_p" [attr.valor]="getEatC3()[0]">{{getEatC3()[0] | number: "1.2-2"}}%</p></div>
+            </div>
+            <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-gas-pump"></i><br> Fuel Gain /lost</div></div>
+            <div class="row">
+                <div class="col-auto pr-0 align-self-center d-none d-sm-block">
+                    <ng-template #tipEatFuelGainlost>
+                        <p>Fuel Gain/lost</p>
+                        <p>{{getTagName('setEatA4')}}</p>
+                    </ng-template>
+                    <div class="row" [ngbTooltip]="tipEatFuelGainlost" tooltipClass="mytooltip">
+                        <div class="col align-self-center pr-2"><i class="fas fa-gas-pump" (click)="showEat(4)"></i></div>
+                        <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Fuel <br> Gain /lost</div>
+                    </div>
+                </div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatA4'" [ngbTooltip]="tipEatFuelGainlost" tooltipClass="mytooltip"><canvas #chartEatA4></canvas></div><p class="doughnut_p" [attr.valor]="getEatA4()[0]">{{getEatA4()[0] | number: "1.2-5"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEatB4'"><canvas #chartEatB4></canvas></div><p class="doughnut_p" [attr.valor]="getEatB4()[0]">{{getEatB4()[0] | number: "1.2-5"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEatC4'"><canvas #chartEatC4></canvas></div><p class="doughnut_p" [attr.valor]="getEatC4()[0]">{{getEatC4()[0] | number: "1.2-5"}}</p></div>
+            </div>
+        </div>
+        <div class="col-12 col-md-7    col-lg-7   col-xl-4        py-2 order-md-2 text-center bg-black">
+            <div class="row">
+                <div class="col">
+                    <div #chartLineEat1></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-8    col-lg-8   col-xl-4        py-2 order-md-4 text-center bg-black">
+            <div class="row">
+                <div class="col">
+                    <div #chartLineEat2></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4    col-lg-4   col-xl-2        py-2 order-md-5 text-center bg-black">
+            <ng-template #tipViewDieselTagName>
+                <p>Diesel Tank</p>
+                <p>{{getTagName('setPercentageDieselTank')}}</p>
+            </ng-template>
+            <div class="row h-100" [ngbTooltip]="tipViewDieselTagName" tooltipClass="mytooltip">
+                <div class="col-12"><label class="titlem">Diesel Tank</label></div>
+                <div class="col align-self-center">
+                    <div>
+                        <!--[value]="viewDieselRadialGauge"-->
+                        <radial-gauge 
+                            style="margin-left: -85px;"                            
+                            [value]="viewDieselRadialGauge"
+                            id="GasTankId2"
+                            class="Tacometro"
+                            title="F"
+                            units="E"
+                            width="200"
+                            height="200"
+                            start-angle="220"
+                            ticks-angle="100"
+                            value-box="false"
+    
+                            min-value="80"
+                            max-value="120"
+                            major-ticks="80, ,100"
+                            minor-ticks="2"
+                            font-numbers-size="0"
+                            color-plate= "rgba(0,0,255,0)"
+                            opacity-plate="100"
+                            color-major-ticks="#888"
+                            color-minor-ticks="#ddd"
+                            color-title="#eee"
+                            color-units="#ccc"
+                            color-numbers="#bb1"
+                            highlights='[
+                                {"from": 262, "to": 263, "color": "rgba(245, 4, 44, 100)"}
+                            ]'
+    
+                            needle-type="arrow"
+                            needle-circle-outer="true"
+                            needle-circle-inner="false"
+                            color-needle-shadow-down="#550"
+                            color-needle-circle-outer="#333"
+                            color-needle-circle-outer-end="#111"
+                            animation-duration="900"
+                            animation-rule="linear"
+                            borders="false"
+                            border-inner-width="0"
+                            border-middle-width="0"
+                            border-outer-width="0"
+                            border-shadow-width="0"
+                            color-border-outer="#111"
+                            color-border-middle="#888"
+                            color-border-middle-end="#555"
+                            color-border-inner="#111"
+                            value-box="false"
+                            >
+                    
+                        </radial-gauge>
+                    </div>                    
+                </div>
+                <div class="col align-self-center">
+                    <i class="fas fa-gas-pump fa-3x"></i>
+                    <p [attr.viewDieselMetros]="viewDieselMetros">{{viewDiesel | number: "1.2-2"}}%</p>
+                </div>
+                <img src="assets/monitoring/phase2/aguila.png" alt="demo-dougnut" style="position: absolute; max-width: 50px; right: 0;" class="d-none d-xl-block">
+            </div>
+        </div>
+        <div class="col-12             col-lg-1   col-xl-1   py-2 order-md-3  order-xl-5  d-none d-lg-block d-xl-none bg-black">
+            <div class="row">
+                <div class="col-12">
+                    <img src="assets/monitoring/phase2/sol.png" alt="demo-dougnut" style="max-width: 50px;">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--*****************************************************************************************************************-->
+    <!-- ./EAT -->
+    <!--*****************************************************************************************************************-->
+    <!--*****************************************************************************************************************-->
+    <!-- EST -->
+    <!--*****************************************************************************************************************-->
+    <div class="row bg-gray color-sol text-center">
+        <div class="col-12 pt-2 d-block d-lg-none d-xl-none">
+            <img src="assets/monitoring/phase2/sol.png" alt="demo-dougnut" style="max-width: 50px;">
+        </div>
+        <div class="col-12">
+            <h4 class="m-0" (click)="DemoManometro()">EST</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-5    col-lg-4   col-xl-2        py-2 order-md-1 bg-gray">
+            <div class="row my-2">
+                <div class="col-auto pr-0 align-self-center invisible"><div class="row">
+                    <div class="col align-self-center"><i class="fas fa-bolt"></i></div>
+                    <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;"><br></div>
+                </div></div>
+                <div class="col text-center">Actuals</div>
+                <div class="col text-center px-0">Dif</div>
+                <div class="col text-center">Expected</div>
+            </div>
+            <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-bolt"></i><br> {{'Power OutPut'| translate}}</div></div>
+            <div class="row">
+                <div class="col-auto pr-0 align-self-center d-none d-sm-block">
+                    <ng-template #tipPowerOutPut>
+                        <p>Power OutPut</p>
+                        <p>{{getTagName('setEstA1')}}</p>
+                    </ng-template>
+                    <div class="row" [ngbTooltip]="tipPowerOutPut" tooltipClass="mytooltip">
+                        <div class="col align-self-center"><i class="fas fa-bolt" (click)="showEst(1)"></i></div>
+                        <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Power <br> OutPut</div>
+                    </div>
+                </div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstA1'" [ngbTooltip]="tipPowerOutPut" tooltipClass="mytooltip"><canvas #chartEstA1></canvas></div><p class="doughnut_p" [attr.valor]="getEstA1()[0]">{{getEstA1()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEstB1'"><canvas #chartEstB1></canvas></div><p class="doughnut_p" [attr.valor]="getEstB1()[0]">{{getEstB1()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstC1'"><canvas #chartEstC1></canvas></div><p class="doughnut_p" [attr.valor]="getEstC1()[0]">{{getEstC1()[0] | number: "1.2-2"}}</p></div>
+            </div>
+            <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-thermometer-three-quarters"></i><br> Heat Rate</div></div>
+            <div class="row">
+                <ng-template #tipEstHeatRateC2>
+                    <p>Heat Rate</p>
+                    <p>{{getTagName('setEstC2')}}</p>
+                </ng-template>
+                <div class="col-auto pr-0 align-self-center d-none d-sm-block">
+                    <ng-template #tipHeatRate>
+                        <p>Heat Rate</p>
+                        <p>{{getTagName('setEstA2')}}</p>
+                    </ng-template>
+                    <div class="row" [ngbTooltip]="tipHeatRate" tooltipClass="mytooltip">
+                        <div class="col align-self-center"><i class="fas fa-thermometer-three-quarters" (click)="showEst(2)"></i></div>
+                        <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Heat <br> Rate</div>
+                    </div>
+                </div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstA2'" [ngbTooltip]="tipHeatRate" tooltipClass="mytooltip"><canvas #chartEstA2></canvas></div><p class="doughnut_p" [attr.valor]="getEstA2()[0]">{{getEstA2()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEstB2'"><canvas #chartEstB2></canvas></div><p class="doughnut_p" [attr.valor]="getEstB2()[0]">{{getEstB2()[0] | number: "1.2-2"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstC2'" [ngbTooltip]="tipEstHeatRateC2" tooltipClass="mytooltip"><canvas #chartEstC2></canvas></div><p class="doughnut_p" [attr.valor]="getEstC2()[0]">{{getEstC2()[0] | number: "1.2-2"}}</p></div>
+            </div>
+            <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-battery-three-quarters"></i><br> Capacity Factor</div></div>
+            <div class="row">
+                <div class="col-auto pr-0 align-self-center d-none d-sm-block">
+                    <ng-template #tipCapacityFactor>
+                        <p>Capacity Factor</p>
+                        <p>{{getTagName('setEstA3')}}</p>
+                    </ng-template>
+                    <div class="row" [ngbTooltip]="tipCapacityFactor" tooltipClass="mytooltip">
+                        <div class="col align-self-center pr-1"><i class="fas fa-battery-three-quarters" (click)="showEst(3)"></i></div>
+                        <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Capacity <br> Factor</div>
+                    </div>
+                </div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstA3'" [ngbTooltip]="tipCapacityFactor" tooltipClass="mytooltip"><canvas #chartEstA3></canvas></div><p class="doughnut_p" [attr.valor]="getEstA3()[0]">{{getEstA3()[0] | number: "1.2-2"}}%</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEstB3'"><canvas #chartEstB3></canvas></div><p class="doughnut_p" [attr.valor]="getEstB3()[0]">{{getEstB3()[0] | number: "1.2-2"}}%</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstC3'"><canvas #chartEstC3></canvas></div><p class="doughnut_p" [attr.valor]="getEstC3()[0]">{{getEstC3()[0] | number: "1.2-2"}}%</p></div>
+            </div>
+            <div class="row"><div class="col mt-3 mb-2 text-center d-block d-sm-none"><i class="fas fa-gas-pump"></i><br> Fuel Gain /lost</div></div>
+            <div class="row">
+                <div class="col-auto pr-0 align-self-center d-none d-sm-block">
+                    <ng-template #tipFuelGainlost>
+                        <p>Fuel Gain/lost</p>
+                        <p>{{getTagName('setEstA4')}}</p>
+                    </ng-template>
+                    <div class="row" [ngbTooltip]="tipFuelGainlost" tooltipClass="mytooltip">
+                        <div class="col align-self-center pr-2"><i class="fas fa-gas-pump" (click)="showEst(4)"></i></div>
+                        <div class="col px-0 d-none d-sm-block d-md-block d-lg-block d-xl-none" style="display: none !important;">Fuel <br> Gain /lost</div>
+                    </div>
+                </div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstA4'" [ngbTooltip]="tipFuelGainlost" tooltipClass="mytooltip"><canvas #chartEstA4></canvas></div><p class="doughnut_p" [attr.valor]="getEstA4()[0]">{{getEstA4()[0] | number: "1.2-5"}}</p></div>
+                <div class="col text-center px-0"><div class="doughnut" [attr.name]="'chartEstB4'"><canvas #chartEstB4></canvas></div><p class="doughnut_p" [attr.valor]="getEstB4()[0]">{{getEstB4()[0] | number: "1.2-5"}}</p></div>
+                <div class="col text-center"     ><div class="doughnut" [attr.name]="'chartEstC4'"><canvas #chartEstC4></canvas></div><p class="doughnut_p" [attr.valor]="getEstC4()[0]">{{getEstC4()[0] | number: "1.2-5"}}</p></div>
+            </div>
+        </div>
+        <div class="col-12 col-md-7    col-lg-7   col-xl-4        py-2 order-md-2 text-center bg-black">
+            <div class="row">
+                <div class="col">
+                    <div #chartLineEst1></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-8    col-lg-8   col-xl-4        py-2 order-md-4 text-center bg-black">
+            <div class="row">
+                <div class="col" style="max-height: 300px !important;">
+                    <div #chartLineEst2></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4    col-lg-4   col-xl-2        py-2 order-md-5 text-center bg-black">
+            <ng-template #tipViewGasPressureTagName>
+                <p>Gas Pressure</p>
+                <p>{{viewGasPressureTagName}}</p>
+            </ng-template>
+            <div class="row h-100" [ngbTooltip]="tipViewGasPressureTagName" tooltipClass="mytooltip">
+                <div class="col-12"><label class="titlem">Gas Pressure</label></div>
+                
+                <div class="col-12 align-self-center">
+                    <div>
+                        <radial-gauge
+                            [value]="viewGasPressure"
+                            units="Mw"
+                            width="170"
+                            height="170"
+                            min-value="0"
+                            max-value="70"
+                            major-ticks="0, ,10, ,20, ,30, ,40, ,50, ,60, ,70"
+                            minor-ticks="2"
+                            font-numbers-size="25"
+                            color-plate="#000"
+                            color-plate-end="#222"
+                            color-major-ticks="#888"
+                            color-minor-ticks="#ddd"
+                            color-title="#eee"
+                            color-units="#ccc"
+                            color-numbers="#bb1"
+                            highlights='[
+                                {"from": 0, "to": 40, "color": "rgba(210, 27, 3, 100)"},
+                                {"from": 40, "to": 45, "color": "rgba(210, 165, 3, 100)"},
+                                {"from": 45, "to": 70, "color": "rgba(20, 217, 6, 100)"}
+                            ]'
+                        
+                            needle-type="arrow"
+                            needle-width="2"
+                            needle-circle-size="7"
+                            needle-circle-outer="true"
+                            needle-circle-inner="false"
+                            color-needle-shadow-down="#550"
+                            color-needle-circle-outer="#333"
+                            color-needle-circle-outer-end="#111"
+                            animation-duration="900"
+                            animation-rule="linear"
+                            
+                            borders="false"
+                            border-inner-width="0"
+                            border-middle-width="0"
+                            border-outer-width="0"
+                            border-shadow-width="0"
+                            color-border-outer="#111"
+                            color-border-middle="#888"
+                            color-border-middle-end="#555"
+                            color-border-inner="#111"
+                            
+                            value-box="false"
+                        >
+                        </radial-gauge>
+                    </div>
+                    <div>
+                        {{viewGasPressure  | number: "1.2-2"}} kg/cm^2
+                    </div>                    
+                </div>
+                <img src="assets/monitoring/phase2/sol.png" alt="demo-dougnut" style="position: absolute; max-width: 50px; right: 0;" class="d-none d-xl-block">
+            </div>
+        </div>
+        <div class="col-12             col-lg-1   col-xl-1   py-2 order-md-3  order-xl-5  d-none d-lg-block d-xl-none bg-black">
+            <div class="row">
+                <div class="col-12">
+                    <img src="assets/monitoring/phase2/sol.png" alt="demo-dougnut" style="max-width: 50px;">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--*****************************************************************************************************************-->
+    <!-- ./EST -->
+    <!--*****************************************************************************************************************-->
+    <div class="row bg-gray color-sol text-center" style="height: 40px;">        
+    </div>
+</div>

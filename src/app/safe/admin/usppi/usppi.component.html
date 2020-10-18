@@ -1,0 +1,128 @@
+<div class="row">
+    <mdb-breadcrumb customClass="white" class="w-100">
+      <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+      <mdb-breadcrumb-item>Administración</mdb-breadcrumb-item>
+      <mdb-breadcrumb-item class="active">USPPI</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
+  </div>
+
+  <div class="section">
+    <div class="row pb-2">
+        <div class="col">
+            <p class="section_titulo_0">Monedas</p>
+            <p class="section_subtitulo_0"> </p>
+        </div>
+    </div>
+    <hr>
+    <div class="row mb-3 mt-3">
+        <div class="col">
+
+            <form [formGroup]="conexionForm" (ngSubmit)="onSubmit(conexionForm.value)">
+                <div class="row">
+                    <div class="col">
+                        
+                        <div class="form-group">
+                            <label class="form-text text-left">Año inicio</label>
+                            <input
+                                class="form-control"
+                                type="number"
+                                formControlName="yearInit"
+                            />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-text text-left">Año Fin</label>
+                            <input
+                                class="form-control"
+                                type="number"
+                                formControlName="yearEnd"
+                            />
+                        </div>
+                    </div>
+                    <div class="col text-right">
+                        <button type="submit" class="mybtn btn" [disabled]="!conexionForm.valid">Buscar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row mb-3 mt-3">
+    <div class="col">
+        <div class="mat-elevation-z0">
+            <table mat-table [dataSource]="dataSource" style="width: 100%;" class="table_catalogo">
+
+                <!--- Note that these columns can be defined in any order.
+                                The actual rendered columns are set as a property on the row definition" -->
+
+                <ng-container matColumnDef="year">
+                    <th mat-header-cell *matHeaderCellDef> Año </th>
+                    <td mat-cell *matCellDef="let element"> {{element.year}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="January">
+                    <th mat-header-cell *matHeaderCellDef> Enero </th>
+                    <td mat-cell *matCellDef="let element"> {{element.January}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="February">
+                    <th mat-header-cell *matHeaderCellDef> Febrero </th>
+                    <td mat-cell *matCellDef="let element"> {{element.February}} </td>
+                </ng-container>
+                <ng-container matColumnDef="March">
+                    <th mat-header-cell *matHeaderCellDef> Marzo </th>
+                    <td mat-cell *matCellDef="let element"> {{element.March}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="April">
+                    <th mat-header-cell *matHeaderCellDef> Abril </th>
+                    <td mat-cell *matCellDef="let element"> {{element.April}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="May">
+                    <th mat-header-cell *matHeaderCellDef> Mayo </th>
+                    <td mat-cell *matCellDef="let element"> {{element.May}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="June">
+                    <th mat-header-cell *matHeaderCellDef> Junio </th>
+                    <td mat-cell *matCellDef="let element"> {{element.June}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="July">
+                    <th mat-header-cell *matHeaderCellDef> Julio </th>
+                    <td mat-cell *matCellDef="let element"> {{element.July}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="August">
+                    <th mat-header-cell *matHeaderCellDef> Agosto </th>
+                    <td mat-cell *matCellDef="let element"> {{element.August}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="September">
+                    <th mat-header-cell *matHeaderCellDef> Septiembre </th>
+                    <td mat-cell *matCellDef="let element"> {{element.September}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="October">
+                    <th mat-header-cell *matHeaderCellDef> Octubre </th>
+                    <td mat-cell *matCellDef="let element"> {{element.October}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="November">
+                    <th mat-header-cell *matHeaderCellDef> Noviembre </th>
+                    <td mat-cell *matCellDef="let element"> {{element.November}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="December">
+                    <th mat-header-cell *matHeaderCellDef> Diciembre </th>
+                    <td mat-cell *matCellDef="let element"> {{element.December}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>

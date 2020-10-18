@@ -1,0 +1,247 @@
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+        <mdb-breadcrumb-item>Mercado</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item>Planeación</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item>MDA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">Cargos y Costos</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+
+<div class="section mb-5">
+	<div class="row pb-2">
+		<div class="col">
+			<p class="section_titulo_0">{{'Importa Cargos y Costos' | translate}}</p>
+			<p class="section_subtitulo_0"> </p>
+		</div>
+	</div>
+
+	<form [formGroup]="fileUploadForm" (ngSubmit)="upload(fileUploadForm.value)">
+		<div class="row">
+			<div class="col-12 col-sm-12 col-md-3">
+				<div class="md-form">
+					<select formControlName="typeVarhtml" class="browser-default custom-select"
+						[(ngModel)]="typeVarhtml">
+						<option [value]="6">Cargo Fijo</option>
+						<option [value]="7">Cargo Variable</option>
+						<option [value]="8">Precio de Gas</option>
+						<option [value]="9">HR / MW</option>
+						<option [value]="10">Margen x MM</option>
+						<option [value]="11">Otros...</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="col-12 col-md-9">
+				<div class="row justify-content-end">
+					<div class="col-12 col-sm-12 col-md-auto">
+                        Carga Archivo:<br>
+						<app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+						<mat-error *ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
+							Requerido
+						</mat-error>
+					</div>
+					<div class="col-12 col-sm-12 col-md-auto">
+						<button type="button" class="btn right" (click)="download()">
+                            <i class="ti-cloud-down"></i>
+                            {{'Download' | translate}} {{'Layout' | translate}}
+						</button>
+						<br>
+						<button type="submit" class="btn right" [disabled]="!fileUploadForm.valid"
+							style="width: 168px;">
+							<i class="ti-cloud-up"></i>
+							{{'Import' | translate}}
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--           <div class="row"></div>
+            <div class="row">
+              <div class="col">
+                  <mat-form-field>
+                      <input matInput [matDatepicker]="De" placeholder="De"
+                       formControlName="date">
+                      <mat-datepicker-toggle matSuffix [for]="De"></mat-datepicker-toggle>
+                      <mat-datepicker #De></mat-datepicker>
+                    </mat-form-field>
+              </div>
+            </div> -->
+	</form>
+	<hr>
+	<div class="row pb-2">
+		<div class="col">
+			<p class="section_titulo_0">{{title}}</p>
+			<p class="section_subtitulo_0"> </p>
+		</div>
+	</div>
+	<div class="row mb-3 mt-3">
+		<div class="col-12 col-sm-12 col-md-3">
+			<div class="form-group">
+				<label class="form-text text-left" for="mydate">De:</label>
+				<mat-form-field class="form-control">
+					<input matInput [matDatepicker]="mydate" [(ngModel)]="date" (dateChange)="dateChange($event)">
+					<mat-datepicker-toggle matSuffix [for]="mydate"></mat-datepicker-toggle>
+					<mat-datepicker #mydate></mat-datepicker>
+				</mat-form-field>
+			</div>
+
+		</div>
+	</div>
+	<form [formGroup]="chargeForm" (ngSubmit)="addCharge(chargeForm.value)">
+		<div class="row">
+			<div class="col-12 col-sm-12 col-md-4">
+				<div class="form-group">
+					<label class="form-text text-left">Cargo Fijo MXN:</label>
+					<input class="form-control" type="number" formControlName="fixed" />
+				</div>
+
+				<div *ngIf="!chargeForm.controls['fixed'].valid 
+						&& chargeForm.controls['fixed'].touched">
+					Requerido
+				</div>
+			</div>
+			<div class="col-12 col-sm-12 col-md-4">
+				<div class="form-group">
+					<label class="form-text text-left">Cargo Variable MXN:</label>
+					<input class="form-control" type="number" formControlName="variable" />
+				</div>
+				<div *ngIf="!chargeForm.controls['variable'].valid 
+							&& chargeForm.controls['variable'].touched">
+					Requerido
+				</div>
+			</div>
+			<div class="col-12 col-sm-12 col-md-4">
+						<div class="form-group">
+							<label class="form-text text-left">Precio de Gas $/GJ:</label>
+							<input class="form-control" type="number" formControlName="gas" />
+						</div>
+						<div *ngIf="!chargeForm.controls['gas'].valid 
+                                  && chargeForm.controls['gas'].touched">
+							Requerido
+						</div>
+			</div>
+
+			<div class="col-12 col-sm-12 col-md-4">
+						<div class="form-group">
+							<label class="form-text text-left">HR-M KJ/kWh:</label>
+							<input class="form-control" type="number" formControlName="hr" />
+						</div>
+						<div *ngIf="!chargeForm.controls['hr'].valid 
+                                  && chargeForm.controls['hr'].touched">
+							Requerido
+						</div>
+			</div>
+
+			<div class="col-12 col-sm-12 col-md-4">
+						<div class="form-group">
+							<label class="form-text text-left">Margen x MM MXN:</label>
+							<input class="form-control" type="number" formControlName="margin" />
+						</div>
+						<div *ngIf="!chargeForm.controls['margin'].valid 
+                                  && chargeForm.controls['margin'].touched">
+							Requerido
+						</div>
+			</div>
+
+			<div class="col-12 col-sm-12 col-md-4">
+						<div class="form-group">
+							<label class="form-text text-left">Otros $:</label>
+							<input class="form-control" type="number" formControlName="others" />
+						</div>
+						<div *ngIf="!chargeForm.controls['others'].valid 
+                                  && chargeForm.controls['others'].touched">
+							Requerido
+						</div>
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="col text-right">
+				<button type="button" class="btn right" (click)="cancelCharge()"
+					[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+					<i class="ti-close"></i>
+                	{{ "Cancel" | translate }}
+				</button>
+				<button type="submit" class="btn right" [disabled]="!chargeForm.valid || hour === 0"
+					[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+					
+					<i class="ti-plus"></i>
+					&nbsp;{{ "add" | translate }}
+				</button>
+			</div>
+		</div>
+	</form>
+	<br>
+	<div class="mat-elevation-z0">
+		<table matSort mat-table [dataSource]="dataSource" class="table_catalogo">
+
+			<ng-container matColumnDef="hour">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">Hora</th>
+				<td mat-cell *matCellDef="let element"> {{element.hour}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="fixed">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">Cargo Fijo MXN</th>
+				<td mat-cell *matCellDef="let element"> {{element.fixed}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="variable">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">Cargo Variable MXN</th>
+				<td mat-cell *matCellDef="let element"> {{element.variable}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="gas">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">Precio de Gas $/GJ</th>
+				<td mat-cell *matCellDef="let element"> {{element.gas}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="hr">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">HR / MW</th>
+				<td mat-cell *matCellDef="let element"> {{element.hr}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="margin">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">Margen x MM</th>
+				<td mat-cell *matCellDef="let element"> {{element.margin}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="others">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">Otros</th>
+				<td mat-cell *matCellDef="let element"> {{element.others}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="total">
+				<th mat-header-cell *matHeaderCellDef class="txt-center">Total</th>
+				<td mat-cell *matCellDef="let element"> {{element.total}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="edit">
+				<th mat-header-cell *matHeaderCellDef class="txt-center"> Modificar </th>
+				<td mat-cell *matCellDef="let element">
+					<a (click)="editCharge(element)">
+						<img src="assets/images/skins/ico_Editar.png" alt="Visualizar">
+					</a>
+				</td>
+			</ng-container>
+
+			<tr mat-header-row *matHeaderRowDef="cols"></tr>
+			<tr mat-row *matRowDef="let row; columns: cols;" [class.mat-selected-row]="selectedElement === row"></tr>
+		</table>
+	</div>
+	<div class="row mt-5  justify-content-end">
+
+		<div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
+			<div>
+				<button type="button" class="btn"
+					[ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}"
+					(click)="save2()">
+					<i class="ti-pencil"></i>
+                    {{'Save / Update' | translate}}
+				</button>
+			</div>
+		</div>
+
+	</div>
+</div>

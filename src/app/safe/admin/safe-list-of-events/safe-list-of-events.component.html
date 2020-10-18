@@ -1,0 +1,252 @@
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Bitacora de Eventos" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "List Of Events" | translate }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+<div class="section">
+	<div class="row">
+		<div class="col">
+			<p class="section_titulo_0">{{ "Lista de eventos" | translate }}</p>
+			<p class="section_subtitulo_0">{{ "Buscar por" | translate }}</p>
+		</div>
+	</div>
+	<hr>
+	<br>
+	
+	<form [formGroup]="formQuery" (ngSubmit)="onFormQuerySubmit(formQuery.value)">
+		<div class="row">
+			<div class="col-12 col-lg-4">
+				<label>Consulta Eventos</label><br>
+				<app-mat-input-datepicker [formGroup]="formQuery"
+					controlName="dateTimeStartFrom"
+					(eventChange)="onDateFromChange()"
+					label="De">
+				</app-mat-input-datepicker>
+			</div>
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-input-datepicker [formGroup]="formQuery"
+					controlName="dateTimeStartTo"
+					[minDate]="dateToMin"
+					label="Al">
+				</app-mat-input-datepicker>
+			</div>			
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-select [formGroup]="formQuery" controlName="eventsClassificationId" [options]="comboClasificacionEventos"
+					label="Clasificación de Eventos"></app-mat-select>
+			</div>			
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-select [formGroup]="formQuery" controlName="eventsId" [options]="comboEventos"
+					label="Eventos"></app-mat-select>
+			</div>
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-select [formGroup]="formQuery" controlName="fuelsId" [options]="comboCobustible"
+					label="Combustible"></app-mat-select>
+			</div>
+			<div class="col-12 col-lg-2">
+				<label>Potencia MW</label><br>
+				<app-mat-input-number [formGroup]="formQuery" controlName="powerMwFrom"
+					label="De"></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-input-number [formGroup]="formQuery" controlName="powerMwTo"
+					label="Al"></app-mat-input-number>
+			</div>			
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-select [formGroup]="formQuery" controlName="unitsId" [options]="comboUnidad"
+					label="Unidad"></app-mat-select>
+			</div>			
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-select [formGroup]="formQuery" controlName="impactContractsId" [options]="comboContratoImpactado"
+					label="Contrato Impactado"></app-mat-select>
+			</div>			
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-select [formGroup]="formQuery" controlName="realsCcdvId" [options]="comboRealCCDV"
+					label="Real / CCDV"></app-mat-select>
+			</div>			
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-select [formGroup]="formQuery" controlName="toleranceBandsId" [options]="comboBandaTolerancia"
+					label="Banda de Tolerancia"></app-mat-select>
+			</div>
+			<div class="w-100"></div>
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-select [formGroup]="formQuery" controlName="marketTypesId" [options]="comboTipoMercado"
+					label="Tipo de Mercado"></app-mat-select>
+			</div>
+			<div class="col-12 col-lg-2">
+				<label>MW Ofertados</label><br>
+				<app-mat-input-number [formGroup]="formQuery" controlName="mwOfferedFrom"
+					label="De"></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-input-number [formGroup]="formQuery" controlName="mwOfferedTo"
+					label="Al"></app-mat-input-number>
+			</div>	
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-select [formGroup]="formQuery" controlName="relatedServicesId" [options]="comboServiciosConexos"
+					label="Servicios Conexos"></app-mat-select>
+			</div>
+			<div class="w-100"></div>
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-input-text [formGroup]="formQuery" controlName="licenseNumber"
+					label="# Licencia"></app-mat-input-text>
+			</div>
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-select [formGroup]="formQuery" controlName="equipmentId" [options]="comboEquipo"
+					label="Equipo"></app-mat-select>
+			</div>
+			<div class="col-12 col-lg-2">
+				<label>Carga Inicial</label><br>
+				<app-mat-input-number [formGroup]="formQuery" controlName="initialChargeFrom"
+					label="De"></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-input-number [formGroup]="formQuery" controlName="initialChargeTo"
+					label="Al"></app-mat-input-number>
+			</div>	
+			<div class="col-12 col-lg-2">
+				<label>Carga Final</label><br>
+				<app-mat-input-number [formGroup]="formQuery" controlName="finalChargeFrom"
+					label="De"></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-input-number [formGroup]="formQuery" controlName="finalChargeTo"
+					label="Al"></app-mat-input-number>
+			</div>	
+			<div class="col-12 col-lg-2">
+				<label>(-) Potencia MW</label><br>
+				<app-mat-input-number [formGroup]="formQuery" controlName="mwPowerLossFrom"
+					label="De"></app-mat-input-number>
+			</div>
+			<div class="col-12 col-lg-2">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-input-number [formGroup]="formQuery" controlName="mwPowerLossTo"
+					label="Al"></app-mat-input-number>
+			</div>	
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-input-text [formGroup]="formQuery" controlName="workOrderId"
+					label="Orden de Trabajo"></app-mat-input-text>
+			</div>
+			<div class="w-100"></div>
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-input-text [formGroup]="formQuery" controlName="plantOperatorOpened"
+									label="Nombre Ope. Planta (A)"></app-mat-input-text>
+			</div>			
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-input-text [formGroup]="formQuery" controlName="plantOperatorClosed"
+									label="Nombre Ope. Planta (C)"></app-mat-input-text>
+			</div>
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-input-text [formGroup]="formQuery" controlName="cenaceOperatorOpened"
+					label="Nombre Ope. CENACE (A)"></app-mat-input-text>
+			</div>
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-input-text [formGroup]="formQuery" controlName="cenaceOperatorClosed"
+					label="Nombre Ope. CENACE (C)"></app-mat-input-text>
+			</div>
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-select [formGroup]="formQuery" controlName="sourceEventId" [options]="comboFuenteEvento"
+					label="Fuente del Evento"></app-mat-select>
+			</div>	
+			<div class="w-100"></div>
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-select [formGroup]="formQuery" controlName="estatusEventoId" [options]="comboEstatusEvento"
+					label="Estatus del Evento"></app-mat-select>
+			</div>	
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-select [formGroup]="formQuery" controlName="estatusAprobacionId" [options]="comboEstatusAprovacion"
+					label="Estatus de aprobación"></app-mat-select>
+			</div>
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-input-text [formGroup]="formQuery" controlName="usuario"
+									label="Usuario Modifico"></app-mat-input-text>
+			</div>	
+			<div class="col-12 col-lg-4">
+				<label>Fecha de Última Modificación</label><br>
+				<app-mat-input-datepicker [formGroup]="formQuery"
+					controlName="dateUpdatedFrom"
+					label="De">
+				</app-mat-input-datepicker>
+			</div>
+			<div class="col-12 col-lg-4">
+				<label style="visibility: hidden;">.</label><br>
+				<app-mat-input-datepicker [formGroup]="formQuery"
+					controlName="dateUpdatedTo"
+					label="Al">
+				</app-mat-input-datepicker>
+			</div>
+
+
+
+
+
+		</div>
+		<div class="row">
+			<div class="col">
+				<app-mat-radio-button [formGroup]="formQuery" controlName="typeFilter"
+					[options]="optionsFiltersType"></app-mat-radio-button>
+			</div>
+		</div>
+		<div class="row justify-content-end">
+			<div class="col-12 col-lg-2">
+				<app-btn-block-search myType="submit"></app-btn-block-search>
+			</div>
+			<div class="col-12 col-lg-2">
+				<app-btn-block-clean (myClick)="clearFilters()"></app-btn-block-clean>
+			</div>
+		</div>
+	</form>
+
+	<div class="row justify-content-end mt-4">
+		<div class="col-12 col-lg-2">
+			<app-btn-block-download (myClick)="downloadBinnacleReal()"></app-btn-block-download>
+		</div>
+		<div class="col-12 col-lg-2">
+			<app-btn-block-add (myClick)="onbtnAddEvent()"></app-btn-block-add>
+		</div>
+	</div>
+	<div class="row my-4">
+		<div class="col">
+			<app-mat-table
+				(clickSee)="onTableRowSee($event)"
+				(clickEdit)="onTableRowEdit($event)"
+				(clickDelete)="onTableRowDelete($event)"
+				[data]="tableData"
+				[columnsLabels]="tablaColumnsLabels"
+				[columnsDisplay]="tableColumnsDisplay"
+				[row_x_page]="tableRowXpage"
+				maxHeight="400px"
+			></app-mat-table>
+		</div>
+	</div>
+</div>

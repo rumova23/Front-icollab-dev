@@ -1,0 +1,60 @@
+@media (min-width: 0px) and (max-width: 372px){ 
+    .mat-paginator-range-actions {
+        display: inline-block;
+    }
+    .mat-paginator-range-label{
+        margin-right: 10px;
+        margin-top: 10px;
+        text-align: right;
+    }
+}
+#seccion, body{
+    background: #eee;
+}
+.sidebar_item{
+    color:#000000 !important;
+}
+.section{
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 30px;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+.btn-block{
+    white-space: initial !important;   
+}
+#columna{
+    background: #ffffff;
+}
+.custom-select{
+    font-size: 14px;
+}
+.btn,.mybtn{
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-transform: none;
+}
+.btn-secondary {
+    background-color: #6c757d  !important;
+}
+
+

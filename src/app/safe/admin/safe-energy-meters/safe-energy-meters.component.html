@@ -1,0 +1,125 @@
+<div class="row">
+	<mdb-breadcrumb customClass="white" class="w-100">
+		<mdb-breadcrumb-item class="">
+			<mdb-icon fas icon="cog"></mdb-icon>
+		</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>PPA</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item>{{ "Data Mining" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ "Energy Meters" | translate }}</mdb-breadcrumb-item>
+	</mdb-breadcrumb>
+</div>
+
+<div class="section">
+	<div class="row">
+		<div class="col">
+			<p class="section_titulo_0">Importa Variables de Medidores de Energía</p>
+		</div>
+	</div>
+	<hr>
+	<br>
+  
+	<form [formGroup]="fileUploadForm" (ngSubmit)="upload(fileUploadForm.value)">
+		<div class="row mb-4">
+
+			<div class="my-2 col-12 col-xs-6 col-xl-3">
+				<app-mat-input-datepicker-year-and-month class="w-100 align-self-end"
+					[formGroup]="fileUploadForm"
+					controlName="date"
+					(eventChange)="onChangeDatePicker($event)" 
+					label="Commercial Operation Date">
+				</app-mat-input-datepicker-year-and-month>
+			</div>
+			<div class="my-2 col col-xxxs-12 col-xxs-12 col-xs-6 col-xl-3">
+				<app-mat-select
+					[formGroup]="fileUploadForm"
+					controlName="typeVarhtml"
+					[options]="selectOptionsFuente"
+					label="Fuente"
+					(eventChange)="onChangeSelectFuente($event)"
+				></app-mat-select>
+			</div>
+
+			<div class="my-xl-2 col-12 col-xl-3 col-xxl-2" *ngIf="!isManualLoad">
+				<label style="visibility: hidden;">boton</label>
+				<app-btn-block-import  (click)="clickBtnImportFromDate()">
+				</app-btn-block-import>
+			</div>
+
+			<div class="my-2 col-12 col-md-6 col-xl-3 col-xxl-4"  *ngIf="isManualLoad">
+				Carga Archivo:<br />
+				<app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+				<mat-error *ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
+					Requerido
+				</mat-error>
+			</div>
+			<div class="my-2 col-12 col-md-6 col-xl-3 col-xxl-2" *ngIf="isManualLoad">
+				<label style="visibility: hidden;" class="">boton</label>
+				<div class="row mb-2">
+					<div class="col">
+						<app-btn-block-download-layout (click)="clickBtnDowloadImport()"></app-btn-block-download-layout>
+					</div>
+				</div>
+				<div class="row mt-2">
+					<div class="col">
+						<app-btn-block-import myType="submit" [disabled]="!fileUploadForm.valid" ></app-btn-block-import>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+
+	
+	<div class="row mt-4">
+		<div class="col">
+			<app-mat-table
+				(clickDelete)="tableRowDelete($event)"
+				[data]="tableData"
+				[columnsLabels]="tablaColumnsLabels"
+				[columnsDisplay]="tableColumnsDisplay"
+				[row_x_page]="tableRow_x_page"
+			></app-mat-table>
+		</div>
+	</div>
+
+	
+	
+	<div class="mt-4 row pb-2">
+		<div class="col">
+			<p class="section_titulo_0">Consulta Variables Importadas de Medidores de Energía</p>
+			<p class="section_subtitulo_0"></p>
+		</div>
+	</div>
+
+	<div class="row mt-2">
+		<div class="col-12 col-sm-6 col-xl-3">
+			<app-mat-select-multiple
+				[formGroup]="formvariables"
+				controlName="selectVariables"
+				[options]="selectOptionsVariables"
+				label="Variables de Medidores de Energía"
+				(eventChange)="onChangeSelectVariables($event)"
+			></app-mat-select-multiple>
+		</div>
+		<div class="col-12 col-sm-6 col-xl-9">
+			<div class="row justify-content-end">
+				<div class="col-12 col-sm-6 col-xl-3">
+					<label style="visibility: hidden;">boton</label>
+					<app-btn-block-graph (click)="onBtnChart()" [disabled]="!formvariables.valid"></app-btn-block-graph>
+				</div>
+				<div class="col-12 col-sm-6 col-xl-3">
+					<label style="visibility: hidden;">boton</label>
+					<app-btn-block-download (click)="clickBtnDownloadChart()" [disabled]="!formvariables.valid"></app-btn-block-download>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+	<div class="row">
+		<div class="col">
+			<div #chartLineMs></div>
+		</div>
+	</div>
+
+</div>

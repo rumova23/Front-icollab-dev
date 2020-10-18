@@ -1,0 +1,217 @@
+<div class="row">
+    <mdb-breadcrumb customClass="white" class="w-100">
+      <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+      <mdb-breadcrumb-item class="active">clima</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
+</div>
+
+<div class="section">
+
+    <!-- CURRENT CONDITIONS -->
+    <div class="container current p-3 mt-2">
+        <div id="location" class="location">VillaMar</div>
+        <!-- <div id="date" class="date">Miércoles, 30 May 2018 12:00 PM EEST</div> -->
+        <div id="date" class="date">{{stringDate}}</div>
+        <div id="text" class="text">{{weatherText}}</div>
+        <div class="clearfix">
+          <div class="visual">
+            <img id="icon" 
+            [src]="weatherImg"  width="100" height="100">
+            <div id="temp" class="temp d-inline-block align-top">{{temp}}</div>
+            <div id="tempScale" class="temp-scale d-inline-block align-top">&#8451;</div>
+          </div>
+
+          <div class="current-details">
+            <div id="realFeel" class="real-feel">{{realFeelTemp}} ℃</div>
+            <div id="uvIndex" class="uv-index">{{UVIndex}}, {{UVIndexText}}</div>
+            <div id="pressureTendency" class="pressure-tendency">{{pressureTendency}}</div>
+          </div>
+        </div>
+      </div>
+        <!-- DETAILS -->
+      <div class="details container text-center py-3 mt-2">
+          <div class="row">
+            <div id="humidity" class="col-3 humidity text-center">{{humidity}}%</div>
+            <div id="pressure" class="col-3 pressure text-center">{{pressure}} mb</div>
+            <div id="windSpeed" class="col-3 wind-speed text-center">{{windSpeed}} km/h</div>
+           
+          </div>
+          <!-- <div class="row mt-3">
+            <div id="visibility" class="col-3 visibility text-center">2 km</div>
+            <div id="cloudCover" class="col-3 cloud-cover text-center">100%</div>
+            <div id="sunrise" class="col-3 sunrise text-center">05:48</div>
+            <div id="sunset" class="col-3 sunset text-center">20:48</div>
+          </div>
+          <div class="row mt-3">
+            <div id="moonrise" class="col-3 moonrise text-center">05:48</div>
+            <div id="moonset" class="col-3 moonset text-center">20:48</div>
+            <div id="moonPhase" class="col-3 moon-phase text-center"><i class="wi wi-moon-waxing-crescent-5"></i>Waxing Crescent</div>
+            <div id="beaufort" class="col-3 beaufort text-center">12 B</div>
+          </div> -->
+        </div>
+  
+      <!-- HOURLY FORECAST -->
+      <div class="hourly-forecast container text-center p-3 mt-2">
+      <div class="align-self-center" 
+      *ngFor="let hour of hours; let indexHour = index">
+        <div id="time-0" class="d-block">{{hour.time}}</div>
+        <img id="hourly-icon-0" [src]="hour.url" width="60" height="60">
+        <div id="hourly-temp-0" class="d-block">{{hour.value}}&deg;</div>
+      </div>
+<!--         <div class="align-self-center">
+          <div id="time-0" class="d-block">13:00</div>
+          <img id="hourly-icon-0" src="assets/icons/conditions/1.svg" width="60" height="60">
+          <div id="hourly-temp-0" class="d-block">27&deg;</div>
+        </div>
+        <div class="align-self-center">
+          <div id="time-1" class="d-block">13:00</div>
+          <img id="hourly-icon-1" src="assets/icons/conditions/1.svg" width="60" height="60">
+          <div id="hourly-temp-1" class="d-block">27&deg;</div>
+        </div>
+        <div class="align-self-center">
+          <div id="time-2" class="d-block">14:00</div>
+          <img id="hourly-icon-2" src="assets/icons/conditions/1.svg" width="60" height="60">
+          <div id="hourly-temp-2" class="d-block">27&deg;</div>
+        </div>
+        <div class="align-self-center">
+          <div id="time-3" class="d-block">15:00</div>
+          <img id="hourly-icon-3" src="assets/icons/conditions/1.svg" width="60" height="60">
+          <div id="hourly-temp-3" class="d-block">27&deg;</div>
+        </div>
+        <div class="align-self-center">
+          <div id="time-4" class="d-block">16:00</div>
+          <img id="hourly-icon-4" src="assets/icons/conditions/1.svg" width="60" height="60">
+          <div id="hourly-temp-4" class="d-block">27&deg;</div>
+        </div>
+        <div class="align-self-center">
+          <div id="time-5" class="d-block">17:00</div>
+          <img id="hourly-icon-5" src="assets/icons/conditions/1.svg" width="60" height="60">
+          <div id="hourly-temp-5" class="d-block">27&deg;</div>
+        </div>
+        <div class="align-self-center">
+          <div id="time-6" class="d-block">18:00</div>
+          <img id="hourly-icon-6" src="assets/icons/conditions/1.svg" width="60" height="60">
+          <div id="hourly-temp-6" class="d-block">27&deg;</div>
+        </div>
+        <div class="align-self-center">
+          <div id="time-7" class="d-block">19:00</div>
+          <img id="hourly-icon-7" src="assets/icons/conditions/1.svg" width="60" height="60">
+          <div id="hourly-temp-7" class="d-block">27&deg;</div>
+        </div>
+        <div class="align-self-center">
+          <div id="time-8" class="d-block">20:00</div>
+          <img id="hourly-icon-8" src="assets/icons/conditions/1.svg" width="60" height="60">
+          <div id="hourly-temp-8" class="d-block">27&deg;</div>
+        </div>
+        <div class="align-self-center">
+          <div id="time-9" class="d-block">21:00</div>
+          <img id="hourly-icon-9" src="assets/icons/conditions/1.svg" width="60" height="60">
+          <div id="hourly-temp-9" class="d-block">27&deg;</div>
+        </div>
+        <div class="align-self-center">
+          <div id="time-10" class="d-block">22:00</div>
+          <img id="hourly-icon-10" src="assets/icons/conditions/1.svg" width="60" height="60">
+          <div id="hourly-temp-10" class="d-block">27&deg;</div>
+        </div>
+        <div class="align-self-center">
+          <div id="time-11" class="d-block">23:00</div>
+          <img id="hourly-icon-11" src="assets/icons/conditions/1.svg" width="60" height="60">
+          <div id="hourly-temp-11" class="d-block">27&deg;</div>
+        </div>  -->
+      </div>
+        
+      <!-- MAIN FORECAST -->
+      <div class="main-forecast container text-center mt-2">
+          <div class="row"
+          *ngFor="let prediction of predictions; let indexPrediction = index">
+              <div id="day-0" class="col-2 align-self-center text-left">{{prediction.date}}</div>
+              <div class="col-1 align-self-center">
+                <img id="icon-0" src="assets/icons/conditions/1.svg" width="40" height="40">
+              </div>
+              <div class="col-3 align-self-center">
+                <div id="temp-high-0" class="temp-high">Min: {{prediction.min}}&deg;</div>
+                <div id="temp-low-0">Max: {{prediction.max}}&deg;</div>
+              </div>
+              <div class="col-5 align-self-center">
+                  <div id="temp-day-0" class="temp-high">Día: {{prediction.dayText}}</div>
+                  <div id="temp-night-0">Noche: {{prediction.nightText}}</div>
+                </div>
+            </div>
+ <!--        <div class="row">
+          <div id="day-0" class="col-3 align-self-center text-left">Today</div>
+          <div class="col-3 align-self-center">
+            <img id="icon-0" src="assets/icons/conditions/1.svg" width="60" height="60">
+          </div>
+          <div class="col-3 align-self-center">
+            <div id="temp-high-0" class="temp-high">40&deg;</div>
+            <div id="temp-low-0">3&deg;</div>
+          </div>
+          <div class="col-3 align-self-center">
+            <div id="precip-day-0" class="precip-day">35%</div>
+            <div id="precip-night-0">4%</div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div id="day-1" class="col-3 align-self-center text-left">Tue</div>
+          <div class="col-3 align-self-center">
+            <img id="icon-1" src="assets/icons/conditions/1.svg" width="60" height="60">
+          </div>
+          <div class="col-3 align-self-center">
+            <div id="temp-high-1" class="temp-high">40&deg;</div>
+            <div id="temp-low-1">3&deg;</div>
+          </div>
+          <div class="col-3 align-self-center">
+            <div id="precip-day-1" class="precip-day">35%</div>
+            <div id="precip-night-1">4%</div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div id="day-2" class="col-3 align-self-center text-left">Wed</div>
+          <div class="col-3 align-self-center">
+            <img id="icon-2" src="assets/icons/conditions/1.svg" width="60" height="60">
+          </div>
+          <div class="col-3 align-self-center">
+            <div id="temp-high-2" class="temp-high">40&deg;</div>
+            <div id="temp-low-2">3&deg;</div>
+          </div>
+          <div class="col-3 align-self-center">
+            <div id="precip-day-2" class="precip-day">35%</div>
+            <div id="precip-night-2">4%</div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div id="day-3" class="col-3 align-self-center text-left">Thu</div>
+          <div class="col-3 align-self-center">
+            <img id="icon-3" src="assets/icons/conditions/1.svg" width="60" height="60">
+          </div>
+          <div class="col-3 align-self-center">
+            <div id="temp-high-3" class="temp-high">40&deg;</div>
+            <div id="temp-low-3">3&deg;</div>
+          </div>
+          <div class="col-3 align-self-center">
+            <div id="precip-day-3" class="precip-day">35%</div>
+            <div id="precip-night-3">4%</div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div id="day-4" class="col-3 align-self-center text-left">Fri</div>
+          <div class="col-3 align-self-center">
+            <img id="icon-4" src="assets/icons/conditions/1.svg" width="60" height="60">
+          </div>
+          <div class="col-3 align-self-center">
+            <div id="temp-high-4" class="temp-high">40&deg;</div>
+            <div id="temp-low-4">3&deg;</div>
+          </div>
+          <div class="col-3 align-self-center">
+            <div id="precip-day-4" class="precip-day">35%</div>
+            <div id="precip-night-4">4%</div>
+          </div>
+        </div> -->
+      </div>
+  
+ 
+  </div>

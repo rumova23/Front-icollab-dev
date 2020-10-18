@@ -1,0 +1,258 @@
+<div class="row">
+	<div class="col-12 text-right" *ngIf="registros">
+		<a  (click)="mostrarTagGant()"><i class="fas fa-tasks"></i></a>&nbsp;
+		<a (click)="generarGraficas()"><i class="fas fa-chart-pie"></i></a>&nbsp;
+		<a><i class="fas fa-file-pdf"></i></a>&nbsp;
+		<a><i class="fas fa-file-excel"></i></a>
+	</div>
+</div>
+<br>
+<!-- CONSULTA DE TAGS -->
+<div class="mat-elevation-z0" *ngIf="registros" >
+  <table mat-table [dataSource]="registros" class="table_catalogo" mdbTableScroll scrollY="true" maxHeight="500" scrollX="true" maxWidth="100%">
+    <!-- Position Column -->
+    <ng-container matColumnDef="tag" sticky>
+      <th mat-header-cell *matHeaderCellDef   class="text-center"> TAG </th>
+      <td mat-cell *matCellDef="let element"> {{element.tag}} </td>
+    </ng-container>
+    <!-- Name Column -->
+    <ng-container matColumnDef="actividad" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Actividad</th>
+      <td mat-cell *matCellDef="let element"> {{element.tagDTO.activity.name}} </td>
+    </ng-container>
+    <!-- Name Column -->
+    <!--ng-container matColumnDef="planta" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Planta</th>
+      <td mat-cell *matCellDef="let element"> {{element.tagDTO.planta.opcion.descripcion}} </td>
+    </ng-container-->
+    <!-- Name Column -->
+    <ng-container matColumnDef="elaboradoPor" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Elaborado Por</th>
+      <td mat-cell *matCellDef="let element"> 
+        <div *ngFor="let actor of element.actores;">
+          {{ actor.tagActorId}}
+        </div>
+      </td>
+    </ng-container>
+    <!-- Weight Column -->
+    <ng-container matColumnDef="responsable" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Responsable</th>
+      <td mat-cell *matCellDef="let element"> responsable </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="supervisor" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Supervisor</th>
+      <td mat-cell *matCellDef="let element"> supervisor </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="autoridad" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Autoridad</th>
+      <td mat-cell *matCellDef="let element"> {{element.tagDTO.authority.description}} </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="tipo" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Tipos</th>
+      <td mat-cell *matCellDef="let element"> {{element.tagDTO.typeCompliance.description}} </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="periodo" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Periodo</th>
+      <td mat-cell *matCellDef="let element"> {{element.tagDTO.period + ' ' + element.tagDTO.unitPeriod?.code }} </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="tipoDias" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Tipos de días</th>
+      <td mat-cell *matCellDef="let element"> {{element.tagDTO.daysType.description}} </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="precedentes" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Precedentes</th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngFor="let precedente of element.precedents;">
+          {{ precedente.tagPrecedenteId}}
+        </div>
+      </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="documentos" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Documentos</th>
+      <td mat-cell *matCellDef="let element"> documentos entregados </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="registros" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Registros</th>
+      <td mat-cell *matCellDef="let element"> registros </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="requisitoLegal" >
+        <th mat-header-cell *matHeaderCellDef   class="text-center">Requisito Legal</th>
+        <td mat-cell *matCellDef="let element"> {{element.requisitoLegal}} </td>
+      </ng-container>
+      <!-- Symbol Column -->
+    <ng-container matColumnDef="observaciones" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Observaciones</th>
+      <td mat-cell *matCellDef="let element"> observaciones </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="fechaInicioEventoProgramada" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Fecha de inicio de evento programada</th>
+      <td mat-cell *matCellDef="let element"> {{element.fechaProgramadaInicio | date:'MM/dd/yyyy'}} </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="fechaFinEventoProgramada" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Fecha de fin de evento programada</th>
+      <td mat-cell *matCellDef="let element"> {{element.fechaProgramadaFinal | date:'MM/dd/yyyy'}} </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="periodoProgramado" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Periodo Programado</th>
+      <td mat-cell *matCellDef="let element"> {{element.periodo1}} </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="fechaInicioEventoReal" >
+        <th mat-header-cell *matHeaderCellDef   class="text-center">Fecha de inicio de evento real</th>
+        <td mat-cell *matCellDef="let element"> {{element.fechaRealInicio | date:'MM/dd/yyyy'}} </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="fechaFinEventoReal" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Fecha de fin de evento real</th>
+      <td mat-cell *matCellDef="let element"> {{element.fechaRealFin | date:'MM/dd/yyyy' }} </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="periodoReal" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Periodo Real</th>
+      <td mat-cell *matCellDef="let element"> {{element.periodo2}} </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="estatus" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Estatus</th>
+      <td mat-cell *matCellDef="let element"> {{element.entidadEstatus.opcion.codigo}} </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="estatusInterno" >
+      <th mat-header-cell *matHeaderCellDef   class="text-center">Estatus Interno</th>
+      <td mat-cell *matCellDef="let element"> {{element.estatusInterno.opcion.codigo}} </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="ver">
+      <th mat-header-cell *matHeaderCellDef  class="txt-center"> Ver </th>
+      <td mat-cell *matCellDef="let element">
+        <a  (click)="action(2, element.complianceId)">
+            <img src="assets/images/skins/ico_Ver.png" alt="Visualizar">
+        </a>
+      </td>
+    </ng-container>
+    <!-- modificar Column -->
+    <ng-container matColumnDef="modificar">
+      <th mat-header-cell *matHeaderCellDef  class="txt-center"> Modificar </th>
+      <td mat-cell *matCellDef="let element">
+        <a  (click)="action(3, element.complianceId)">
+          <img src="assets/images/skins/ico_Editar.png" alt="Visualizar">
+        </a>
+      </td>
+    </ng-container>
+    <!-- eliminar Column -->
+    <!--ng-container matColumnDef="eliminar">
+      <th mat-header-cell *matHeaderCellDef class="txt-center"> Eliminar </th>
+      <td mat-cell *matCellDef="let element">
+          
+          <img src="assets/images/skins/ico_Borrar.png" alt="eliminar">  
+        
+      </td>
+    </ng-container-->
+
+    <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+  </table>
+</div>
+<!-- DIAGRAMA DE GANT -->
+<!--div class="tabla-responsive text-nowrap mat-elevation-z0" *ngIf="verGraficaGant"-->
+<!--div-- class="tabla-responsive text-nowrap mat-elevation-z0 gantt" *ngIf="verGraficaGant">
+  <table mdbTableScroll scrollY="true" maxHeight="500" scrollX="true" maxWidth="1100">
+      <thead>
+      <tr>
+        <th rowspan="4" colspan="1">TAG</th>
+        <th rowspan="4" colspan="1">Actividad</th>
+        <th rowspan="4" colspan="1">Planta</th>
+        <th *ngFor="let anio of registrosGant.listaAnios" [colSpan]=anio.cellSpacing scope="col" >{{anio.valor}}</th>
+      </tr>
+      <tr>
+        <th mdbTableCol *ngFor="let mes of registrosGant.listaMeses" [colSpan]=mes.cellSpacing scope="col">{{mes.valor}}</th>
+      </tr>
+      <tr>
+        <th mdbTableCol *ngFor="let nombreDias of registrosGant.listaNombreDias" [colSpan]=nombreDias.cellSpacing scope="col">{{nombreDias.valor}}</th>
+      </tr>
+      <tr>
+        <th mdbTableCol *ngFor="let numeroDias of registrosGant.listaNumeroDias" [colSpan]=numeroDias.cellSpacing scope="col">{{numeroDias.valor}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let datoslineaDeTiempo of registrosGant.listaDatoslineaDeTiempo" scope="row">
+        <td colSpan="1" scope="col">{{datoslineaDeTiempo.tag}}</td>
+        <td colSpan="1" scope="col">{{datoslineaDeTiempo.actividad}}</td>
+        <td colSpan="1" scope="col">{{datoslineaDeTiempo.planta}}</td>
+        <td *ngFor="let lineaDeTiempo of datoslineaDeTiempo.lineaDeTiempo" colSpan="1" scope="col" [ngSwitch]="lineaDeTiempo">
+          <div class="verde" *ngSwitchCase="'G'">&nbsp;</div>
+          <div class="amarillo" *ngSwitchCase="'Y'">&nbsp;</div>
+          <div class="anaranjado" *ngSwitchCase="'O'">&nbsp;</div>
+          <div class="rojo" *ngSwitchCase="'R'">&nbsp;</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div-->
+
+<!--div-- class="tabla-responsive text-nowrap mat-elevation-z0" *ngIf="mostarGraficas">
+  <div class="row" >
+    <div class="sub" >
+      <table maxWidth="900">
+        <tbody>
+          <tr>
+            <td>
+                <p></p><p></p><p></p><p></p><p></p><p></p>
+            </td>
+          </tr>
+          <tr>
+            <td class="align-middle">
+              <div class="m-4">
+                <div style="width:400px;">
+                  <div style="display: block">
+                    <canvas mdbChart 
+                        [chartType]="chartTypePie"
+                        [data]="chartDataPie" 
+                        [labels]="chartLabelsPie"
+                        [colors]="chartColorsPie"
+                        [options]="chartOptionsPie"
+                        [legend]="true"
+                        (chartHover)="chartHoveredPie($event)" 
+                        (chartClick)="chartClickedPie($event)">
+                    </canvas>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+            <td>
+              <div class="m-4">
+                <div style="width:400px;">
+                  <div style="display: block">
+                    <canvas mdbChart 
+                        [chartType]="chartType"
+                        [datasets]="chartDatasets" 
+                        [labels]="chartLabels"
+                        [colors]="chartColors"
+                        [options]="chartOptions"
+                        [legend]="true"
+                        (chartHover)="chartHovered($event)" 
+                        (chartClick)="chartClicked($event)">
+                    </canvas>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>        
+  </div>              
+</div-->

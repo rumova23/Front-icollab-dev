@@ -1,0 +1,17 @@
+<app-css></app-css>
+<div id="agrupar">
+    <app-shared-header></app-shared-header>
+    <div id="body">
+        <app-shared-sidebar></app-shared-sidebar>
+                
+        <div [ngClass]="{'transparencia': globalService.aside_open }"></div>
+        <div id="seccion" [ngClass]="{'seccion-aside_open': globalService.aside_open , 'seccion-aside_close': !globalService.aside_open }">
+            <div class="container-fluid">
+                <ng-template #container></ng-template>
+            </div>
+        </div>
+        
+    </div>
+    <app-shared-footer></app-shared-footer>
+</div>
+    

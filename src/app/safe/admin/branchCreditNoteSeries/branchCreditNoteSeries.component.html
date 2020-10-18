@@ -1,0 +1,60 @@
+<div class="p-5">
+  <!-- Titulo -->
+  <div class=" row">
+    <div class="col">
+      <span class="agila-cda-titulo">Control de Series para Notas de Crédito</span>
+    </div>
+  </div>
+  <div class="row mb-3 mt-5">
+    <div class="col">
+      <button type="button" class="btn" [ngClass]="{'blue': globalService.aguila,'orange': !globalService.aguila}"
+        (click)="newEntity()"><i class="fas fa-user-plus"></i>&nbsp;Agregar</button>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col">
+      <div class="tabla-responsi mat-elevation-z8">
+        <table mat-table [dataSource]="branchOfficeCreditNoteSeries" class="table_catalogo">
+          <ng-container matColumnDef="serie">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Serie </th>
+            <td mat-cell *matCellDef="let element"> {{element.serie}} </td>
+          </ng-container>
+          <ng-container matColumnDef="number">
+            <th mat-header-cell *matHeaderCellDef class="txt-center"> Último Número</th>
+            <td mat-cell *matCellDef="let element"> {{element.number}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="plantBranchOffice">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Sucursal</th>
+            <td mat-cell *matCellDef="let element"> {{element.plantBranchOffice
+              != null ? element.plantBranchOffice.name: ''}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="sys">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Sistema</th>
+            <td mat-cell *matCellDef="let element"> {{element.sys
+                != null ? element.sys.description: ''}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="active">
+            <th mat-header-cell *matHeaderCellDef class="txt-center">Estatus</th>
+            <td mat-cell *matCellDef="let element"> {{getStatus(element)}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="ver">
+            <th mat-header-cell *matHeaderCellDef class="txt-center"> Ver </th>
+            <td mat-cell *matCellDef="let element">
+              <a (click)="action(element, 2)">
+                <img src="assets/images/skins/ico_Ver.png" alt="Visualizar">
+              </a>
+            </td>
+          </ng-container>
+          <!-- header -->
+          <tr mat-header-row *matHeaderRowDef="cols"></tr>
+          <tr mat-row *matRowDef="let row; columns: cols;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="rowsPorPage" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="row">
+  <mdb-breadcrumb customClass="white" class="w-100">
+    <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+    <mdb-breadcrumb-item>Bitacora List</mdb-breadcrumb-item>
+    <mdb-breadcrumb-item class="active">Bitacora</mdb-breadcrumb-item>
+  </mdb-breadcrumb>
+</div>
+
+<div class="section">
+  <div class="row">
+    <div class="col">
+      <p class="section_titulo_0">{{ "Lista de eventos" | translate }}</p>
+    </div>
+  </div>
+  <hr>
+  <br>
+  <form [formGroup]="binnacleListForm">
+    <div class="row">
+      <div class="my-2 col-12 col-md-4 col-xl-3 col-xxl-3">
+        <app-mat-input-datepicker-year-and-month class="w-100 align-self-end"
+                                                 [formGroup]="binnacleListForm"
+                                                 controlName="date"
+                                                 (eventChange)="onChangeDatePicker($event)"
+                                                 [label]="'Fecha de Operación Comercial'"
+                                                 [maxDate]="maxDate"
+        ></app-mat-input-datepicker-year-and-month>
+      </div>
+      <div class="my-2 col-12 col-md-4 col-xl-3 col-xxl-2 col-xxxxxl-1">
+        <label style="visibility: hidden;">boton</label>
+        <app-btn-block-download (click)="download()"></app-btn-block-download>
+      </div>
+      <div class="my-2 col-12 col-md-4 col-xl-3 col-xxl-2 col-xxxxxl-1">
+        <label style="visibility: hidden;">boton</label>
+        <app-btn-block-download label="Bitacora Real" (click)="downloadSearchBinacleEvent()"></app-btn-block-download>
+      </div>
+    </div>
+  </form>
+</div>

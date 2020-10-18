@@ -1,0 +1,735 @@
+<div class="row">
+    <mdb-breadcrumb customClass="white" class="w-100">
+        <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+        <mdb-breadcrumb-item class="active">{{titulo}}</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
+</div>
+
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+  <div class="section">
+    <div class="row pb-3">
+      <div class="col">
+        <p class="section_titulo_0">{{subtitulo}}</p>
+      </div>
+    </div>
+    <div class="row"> <!-- Combos encabezado -->
+      <div class="col-md-3">
+        <app-mat-select
+          [formGroup]="eventForm"
+          controlName="eventTypeControl"
+          (eventChange)="enableControls($event)"
+          label="Tipo de Evento"
+          [options]="eventTypesArr"
+        ></app-mat-select>
+      </div>
+      <div class="col-md-3">
+        <app-mat-select
+          [formGroup]="eventForm"
+          controlName="unitControl"
+          [submitted]="submittedData"
+          (eventChange)="selectedUnit = $event.value"
+          label="Unidad"
+          [options]="unitsArr"
+        ></app-mat-select>
+      </div>
+      <div class="col-md-3" *ngIf="!isShotStartSectionVisible && !isStopStartSectionVisible && !isRejectSectionVisible && !isRunbackSectionVisible">
+        <app-mat-select
+          [formGroup]="eventForm"
+          controlName="fuelTypeControl"
+          [submitted]="submittedData"
+          (eventChange)="selectedFuelType = $event.value"
+          label="Tipo de combustible"
+          [options]="fuelTypesArr"
+        ></app-mat-select>
+      </div>
+    </div>
+    <br/>
+    <div style="border-style: groove; padding: 2%" *ngIf="isRejectSectionVisible"><!-- Section Rechazo Carga -->
+      <div class="row">
+        <div class="col">
+          <label class="custom-font">Rechazo de Carga</label>
+          <br/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <app-mat-input-datepicker
+            [formGroup]="eventForm"
+            controlName="dateReject"
+            [submitted]="submittedData"
+            label="Fecha Rechazo de Carga"
+            [minDate]="initDate"
+          ></app-mat-input-datepicker>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ha" 
+            [options]="hours"
+            [submitted]="submittedData"
+            label="Hora"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ma" 
+            [options]="minutes"
+            [submitted]="submittedData"
+            label="Minuto"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="sa" 
+            [options]="seconds"
+            [submitted]="submittedData"
+            label="Segundo"
+          ></app-mat-select>
+        </div> 
+        
+        <div class="col-md-3">
+          <app-mat-input-number
+            [formGroup]="eventForm"
+            controlName="chargeReject"
+            [submitted]="submittedData"
+            minValue="0"
+            maxValue="200"
+            matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales"
+            (eventChange)="onInputChargeReject($event)"
+            label="Carga antes del rechazo(MW)"
+          ></app-mat-input-number>
+        </div>
+      </div>
+    </div>
+    <div style="border-style: groove; padding: 2%" *ngIf="isRunbackSectionVisible"><!-- Section Runback -->
+      <div class="row">
+        <div class="col">
+          <label class="custom-font">Runback</label>
+          <br/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <app-mat-input-datepicker
+            [formGroup]="eventForm"
+            controlName="startDateRunback"
+            [submitted]="submittedData"
+            label="Fecha Inicio del runback"
+            [minDate]="initDate"
+          ></app-mat-input-datepicker>
+        </div>        
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ha" 
+            [options]="hours"
+            [submitted]="submittedData"
+            label="Hora"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ma" 
+            [options]="minutes"
+            [submitted]="submittedData"
+            label="Minuto"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="sa" 
+            [options]="seconds"
+            [submitted]="submittedData"
+            label="Segundo"
+          ></app-mat-select>
+        </div> 
+        
+        <div class="col-md-3">
+          <app-mat-input-datepicker
+            [formGroup]="eventForm"
+            controlName="endDateRunback"
+            [submitted]="submittedData"
+            label="Fecha Fin del runback"
+            [minDate]="initDate"
+          ></app-mat-input-datepicker>
+        </div>
+        
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="hb" 
+            [options]="hours"
+            [submitted]="submittedData"
+            label="Hora"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="mb" 
+            [options]="minutes"
+            [submitted]="submittedData"
+            label="Minuto"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="sb" 
+            [options]="seconds"
+            [submitted]="submittedData"
+            label="Segundo"
+          ></app-mat-select>
+        </div> 
+        
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <app-mat-input-number
+            [formGroup]="eventForm"
+            controlName="chargeBeforeRunback"
+            [submitted]="submittedData"
+            minValue="0"
+            maxValue="200"
+            matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales"
+            (eventChange)="onInputChargeBeforeRunback($event)"
+            label="Carga antes del runback(MW)"
+          ></app-mat-input-number>
+        </div>
+        <div class="col-md-3">
+          <app-mat-input-number
+            [formGroup]="eventForm"
+            controlName="chargeAfterRunback"
+            [submitted]="submittedData"
+            minValue="0"
+            maxValue="200"
+            matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales"
+            (eventChange)="onInputChargeAfterRunback($event)"
+            label="Carga después del runback(MW)"
+          ></app-mat-input-number>       
+        </div>
+      </div>
+    </div>
+    <div style="border-style: groove; padding: 2%" *ngIf="isDieselSectionVisible"><!-- Section Diesel -->
+      <div class="row">
+        <div class="col">
+          <label class="custom-font">Operación en Diesel</label>
+          <br/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <app-mat-input-datepicker
+            [formGroup]="eventForm"
+            controlName="startDateDiesel"
+            [submitted]="submittedData"
+            label="Fecha Inicio Operación en Diesel"
+            [minDate]="initDate"
+          ></app-mat-input-datepicker>
+        </div>        
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ha" 
+            [options]="hours"
+            [submitted]="submittedData"
+            label="Hora"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ma" 
+            [options]="minutes"
+            [submitted]="submittedData"
+            label="Minuto"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="sa" 
+            [options]="seconds"
+            [submitted]="submittedData"
+            label="Segundo"
+          ></app-mat-select>
+        </div> 
+        
+        <div class="col-md-3">
+          <app-mat-input-datepicker
+            [formGroup]="eventForm"
+            controlName="endDateDiesel"
+            [submitted]="submittedData"
+            label="Fecha Fin Operación en Diesel"
+            [minDate]="initDate"
+          ></app-mat-input-datepicker>
+        </div>                
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="hb" 
+            [options]="hours"
+            [submitted]="submittedData"
+            label="Hora"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="mb" 
+            [options]="minutes"
+            [submitted]="submittedData"
+            label="Minuto"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="sb" 
+            [options]="seconds"
+            [submitted]="submittedData"
+            label="Segundo"
+          ></app-mat-select>
+        </div> 
+        
+      </div>
+    </div>
+    <div style="border-style: groove; padding: 2%" *ngIf="isNormalOperationSectionVisible"><!-- Section Normal Operation -->
+      <div class="row">
+        <div class="col">
+          <label class="custom-font">Operación Normal</label>
+          <br/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <app-mat-input-datepicker
+            [formGroup]="eventForm"
+            controlName="startDateNormal"
+            [submitted]="submittedData"
+            label="Fecha Inicio Operación Normal"
+            [minDate]="initDate"
+          ></app-mat-input-datepicker>
+        </div>        
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ha" 
+            [options]="hours"
+            [submitted]="submittedData"
+            label="Hora"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="ma" 
+            [options]="minutes"
+            [submitted]="submittedData"
+            label="Minuto"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="sa" 
+            [options]="seconds"
+            [submitted]="submittedData"
+            label="Segundo"
+          ></app-mat-select>
+        </div> 
+        
+        <div class="col-md-3">
+          <app-mat-input-datepicker
+            [formGroup]="eventForm"
+            controlName="endDateNormal"
+            [submitted]="submittedData"
+            label="Fecha Fin Operación Normal"
+            [minDate]="initDate"
+          ></app-mat-input-datepicker>
+        </div>
+        
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="hb" 
+            [options]="hours"
+            [submitted]="submittedData"
+            label="Hora"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="mb" 
+            [options]="minutes"
+            [submitted]="submittedData"
+            label="Minuto"
+          ></app-mat-select>
+        </div>
+        <div class="col-md-2 col-lg-1">
+          <app-mat-select 
+            [formGroup]="formTemp" 
+            controlName="sb" 
+            [options]="seconds"
+            [submitted]="submittedData"
+            label="Segundo"
+          ></app-mat-select>
+        </div> 
+        
+      </div>
+    </div>
+    <div style="border-style: groove; padding: 2%" class="my-2" *ngIf="isShotStartSectionVisible"><!-- Section Disparo And Arranque -->
+      <div class="my-2"><!-- Section Disparo -->
+        <div class="row">
+          <div class="col">
+            <label class="custom-font">Disparo</label>
+            <br/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <app-mat-input-datepicker
+              [formGroup]="eventForm"
+              controlName="flameOffDateShot"
+              [submitted]="submittedData"
+              label="Fecha Pérdida de Flama (Flame Off)"
+              [minDate]="initDate"
+            ></app-mat-input-datepicker>
+          </div>
+          <div class="col-md-2 col-lg-1">
+            <app-mat-select 
+              [formGroup]="formTemp" 
+              controlName="ha" 
+              [options]="hours"
+              [submitted]="submittedData"
+              label="Hora"
+            ></app-mat-select>
+          </div>
+          <div class="col-md-2 col-lg-1">
+            <app-mat-select 
+              [formGroup]="formTemp" 
+              controlName="ma" 
+              [options]="minutes"
+              [submitted]="submittedData"
+              label="Minuto"
+            ></app-mat-select>
+          </div>
+          <div class="col-md-2 col-lg-1">
+            <app-mat-select 
+              [formGroup]="formTemp" 
+              controlName="sa" 
+              [options]="seconds"
+              [submitted]="submittedData"
+              label="Segundo"
+            ></app-mat-select>
+          </div> 
+          <div class="col-md-3">
+            <app-mat-input-number
+              [formGroup]="eventForm"
+              controlName="chargeShot"
+              [submitted]="submittedData"
+              minValue="0"
+              maxValue="200"
+              matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales"
+              (eventChange)="onInputChargeShot($event)"
+              label="Carga antes del disparo(MW)"
+            ></app-mat-input-number>
+          </div>
+        </div>
+      </div>
+      <div class="my-2"><!-- Section Arranque -->
+        <div class="row">
+            <div class="col">
+                <label class="custom-font">Arranque</label>
+                <br/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <app-mat-input-datepicker
+                  [formGroup]="eventForm"
+                  controlName="flameOffDateStart"
+                  [submitted]="submittedData"
+                  label="Fecha de Arranque"
+                  [minDate]="initDate"
+                ></app-mat-input-datepicker>
+            </div>
+            <div class="col-md-2 col-lg-1">
+              <app-mat-select 
+                [formGroup]="formTemp" 
+                controlName="hb"
+                [options]="hours"
+                [submitted]="submittedData"
+                label="Hora"
+              ></app-mat-select>
+            </div>
+            <div class="col-md-2 col-lg-1">
+              <app-mat-select 
+                [formGroup]="formTemp" 
+                controlName="mb"
+                [options]="minutes"
+                [submitted]="submittedData"
+                label="Minuto"
+              ></app-mat-select>
+            </div>
+            <div class="col-md-2 col-lg-1">
+              <app-mat-select 
+                [formGroup]="formTemp" 
+                controlName="sb"
+                [options]="seconds"
+                [submitted]="submittedData"
+                label="Segundo"
+              ></app-mat-select>
+            </div> 
+            
+            <div class="col-md-3">
+              <app-mat-input-datepicker
+                [formGroup]="eventForm"
+                controlName="fsnlDateStart"
+                [submitted]="submittedData"
+                label="Fecha Velocidad Plena sin Carga (FSNL)"
+                [minDate]="initDate"
+              ></app-mat-input-datepicker>
+            </div>
+            <div class="col-md-2 col-lg-1">
+              <app-mat-select 
+                [formGroup]="formTemp" 
+                controlName="hc"
+                [options]="hours"
+                [submitted]="submittedData"
+                label="Hora"
+              ></app-mat-select>
+            </div>
+            <div class="col-md-2 col-lg-1">
+              <app-mat-select 
+                [formGroup]="formTemp" 
+                controlName="mc"
+                [options]="minutes"
+                [submitted]="submittedData"
+                label="Minuto"
+              ></app-mat-select>
+            </div>
+            <div class="col-md-2 col-lg-1">
+              <app-mat-select 
+                [formGroup]="formTemp" 
+                controlName="sc"
+                [options]="seconds"
+                [submitted]="submittedData"
+                label="Segundo"
+              ></app-mat-select>
+            </div> 
+            
+        </div>
+      </div>
+    </div>
+    <div style="border-style: groove; padding: 2%" class="my-2" *ngIf="isStopStartSectionVisible"><!-- Section Paro And Arranque -->
+      <div class="my-2"><!-- Section Paro -->
+        <div class="row">
+          <div class="col">
+            <label class="custom-font">Paro</label>
+            <br/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <app-mat-input-datepicker
+              [formGroup]="eventForm"
+              controlName="flameOffDateStop"
+              [submitted]="submittedData"
+              label="Fecha Pérdida de Flama (Flame Off)"
+              [minDate]="initDate"
+            ></app-mat-input-datepicker>
+          </div>
+          
+          <div class="col-md-2 col-lg-1">
+            <app-mat-select 
+              [formGroup]="formTemp" 
+              controlName="ha" 
+              [options]="hours"
+              [submitted]="submittedData"
+              label="Hora"
+            ></app-mat-select>
+          </div>
+          <div class="col-md-2 col-lg-1">
+            <app-mat-select 
+              [formGroup]="formTemp" 
+              controlName="ma" 
+              [options]="minutes"
+              [submitted]="submittedData"
+              label="Minuto"
+            ></app-mat-select>
+          </div>
+          <div class="col-md-2 col-lg-1">
+            <app-mat-select 
+              [formGroup]="formTemp" 
+              controlName="sa" 
+              [options]="seconds"
+              [submitted]="submittedData"
+              label="Segundo"
+            ></app-mat-select>
+          </div> 
+
+          <div class="col-md-3">
+            <app-mat-input-number
+              [formGroup]="eventForm"
+              controlName="chargeStop"
+              [submitted]="submittedData"
+              minValue="0"
+              maxValue="200"
+              matTooltip="La carga debe ser un valor entre 0 y 200, puede incluir decimales"
+              (eventChange)="onInputChargeStop($event)"
+              label="Carga antes del paro(MW)"
+            ></app-mat-input-number>
+          </div>
+          <div class="col-md-3">
+              <div><br></div>
+              <div class="form-group">
+                  <mat-checkbox class="active" color="primary"
+                                (change)="changeCheckStopProgrammed();"
+                                [checked]="checkedStopProgrammed"
+                                [disabled]="deshabiliarEstatus">
+                      <mat-label>Programado</mat-label>
+                  </mat-checkbox>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="my-2"><!-- Section Arranque -->
+        <div class="row">
+            <div class="col">
+                <label class="custom-font">Arranque</label>
+                <br/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <app-mat-input-datepicker
+                  [formGroup]="eventForm"
+                  controlName="flameOffDateStart"
+                  [submitted]="submittedData"
+                  label="Fecha de Arranque"
+                  [minDate]="initDate"
+                ></app-mat-input-datepicker>
+            </div>
+            <div class="col-md-2 col-lg-1">
+              <app-mat-select 
+                [formGroup]="formTemp" 
+                controlName="hb"
+                [options]="hours"
+                [submitted]="submittedData"
+                label="Hora"
+              ></app-mat-select>
+            </div>
+            <div class="col-md-2 col-lg-1">
+              <app-mat-select 
+                [formGroup]="formTemp" 
+                controlName="mb"
+                [options]="minutes"
+                [submitted]="submittedData"
+                label="Minuto"
+              ></app-mat-select>
+            </div>
+            <div class="col-md-2 col-lg-1">
+              <app-mat-select 
+                [formGroup]="formTemp" 
+                controlName="sb"
+                [options]="seconds"
+                [submitted]="submittedData"
+                label="Segundo"
+              ></app-mat-select>
+            </div> 
+            
+            <div class="col-md-3">
+              <app-mat-input-datepicker
+                [formGroup]="eventForm"
+                controlName="fsnlDateStart"
+                [submitted]="submittedData"
+                label="Fecha Velocidad Plena sin Carga (FSNL)"
+                [minDate]="initDate"
+              ></app-mat-input-datepicker>
+            </div>
+            <div class="col-md-2 col-lg-1">
+              <app-mat-select 
+                [formGroup]="formTemp" 
+                controlName="hc"
+                [options]="hours"
+                [submitted]="submittedData"
+                label="Hora"
+              ></app-mat-select>
+            </div>
+            <div class="col-md-2 col-lg-1">
+              <app-mat-select 
+                [formGroup]="formTemp" 
+                controlName="mc"
+                [options]="minutes"
+                [submitted]="submittedData"
+                label="Minuto"
+              ></app-mat-select>
+            </div>
+            <div class="col-md-2 col-lg-1">
+              <app-mat-select 
+                [formGroup]="formTemp" 
+                controlName="sc"
+                [options]="seconds"
+                [submitted]="submittedData"
+                label="Segundo"
+              ></app-mat-select>
+            </div> 
+            
+        </div>
+      </div>
+    </div>
+
+    <br/>
+    <div *ngIf="isDefaultSectionsVisible">
+      <div class="col-md-12">
+        <app-mat-input-textarea
+          [formGroup]="eventForm"
+          controlName="description"
+          [submitted]="submittedData"
+          label="Descripción"
+          maxLength="1000"
+          rows="9"
+          (eventChange)="enableSaveButton()"
+        ></app-mat-input-textarea>
+      </div>
+    </div>
+  </div>
+  <!-- End Test -->
+    <div class="section" *ngIf="isDefaultSectionsVisible">
+      <div class="row">
+        <div class="col-md-6 col-lg-4">
+          <app-mat-input-checkbox  
+            [formGroup]="formTemp" 
+            controlName="statusElement"
+            (eventChange)="changeCheck()"
+            label="Estado del elemento"
+            labelIn="Activo"
+          ></app-mat-input-checkbox>
+        </div>
+      </div>
+      
+      <div class="row justify-content-end">
+        <div class="col-12 col-lg-3">
+          <app-btn-block-save-update myType="submit" [disabled]="disabledSave" *ngIf="accion != 'ver'"></app-btn-block-save-update>
+        </div>
+        <div class="col-12 col-lg-2">
+          <app-btn-block-back (myClick)="regresar()"></app-btn-block-back>
+        </div>
+      </div>
+    </div>
+  <!-- Observaciones -->
+  <div *ngIf="isDefaultSectionsVisible && eventType.id != 0">
+    <app-efh-comments [inIdEventConfig]="eventType.id" [inAction]="accion" [inTypeConfig]="1"></app-efh-comments>
+  </div>
+  <!-- Soportes -->
+  <div *ngIf="isDefaultSectionsVisible && eventType.id != 0">
+    <app-efh-upload [inIdEventConfig]="eventType.id" [inAccion]="accion" [inTypeConfig]="1"></app-efh-upload>
+  </div>
+</form>
+

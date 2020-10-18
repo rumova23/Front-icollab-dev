@@ -1,0 +1,331 @@
+<div class="row my-2">
+
+</div>
+<div class="section">
+	<div class="row">
+		<div class="col">
+			<p class="section_titulo_0">Textos</p>
+			<p class="section_subtitulo_0">Así seávisualizaran los diferentes textos en le sistema</p>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col">
+			<p class="section_titulo_0">Compomentes usados en la aplicación</p>
+			<p class="section_subtitulo_0">Subtitulo</p>
+			<p>Dentro de una etiqueta 'p'</p>
+			<div>Dentro de una etiqueta 'div'</div>
+			<label>Dentro de una etiqueta 'label'</label><br>
+			<a>Dentro de una etiqueta 'a'</a><br>
+			<span>Dentro de una etiqueta 'span'</span><br>
+			<strong>Dentro de una etiqueta 'strong'</strong><br>
+			<small>Dentro de una etiqueta 'small'</small><br>
+			<b>Dentro de una etiqueta 'b'</b><br>
+			<abbr title="Comisión Federal de Electricidad">CFE</abbr>
+			<pre>Dentro de una etiqueta 'pre'</pre>
+		</div>
+		<div class="col pt-4 codigo">
+			     &lt;p class=&quot;section_titulo_0&quot;&gt;Compomentes usados en la aplicación&lt;/p&gt;
+			<br> &lt;p class=&quot;section_subtitulo_0&quot;&gt;Subtitulo&lt;/p&gt;
+			<br> &lt;p&gt;Dentro de una etiqueta 'p'&lt;/p&gt;
+			<br> &lt;div&gt;Dentro de una etiqueta 'div'&lt;/div&gt;
+			<br> &lt;label&gt;Dentro de una etiqueta 'label'&lt;/label&gt;&lt;br&gt;
+			<br> &lt;a&gt;Dentro de una etiqueta 'a'&lt;/a&gt;&lt;br&gt;
+			<br> &lt;span&gt;Dentro de una etiqueta 'span'&lt;/span&gt;&lt;br&gt;
+			<br> &lt;strong&gt;Dentro de una etiqueta 'strong'&lt;/strong&gt;&lt;br&gt;
+			<br> &lt;small&gt;Dentro de una etiqueta 'small'&lt;/small&gt;&lt;br&gt;
+			<br> &lt;b&gt;Dentro de una etiqueta 'b'&lt;/b&gt;&lt;br&gt;
+			<br> &lt;abbr title=&quot;Comisión Federal de Electricidad&quot;&gt;CFE&lt;/abbr&gt;
+			<br> &lt;pre&gt;Dentro de una etiqueta 'pre'&lt;/pre&gt;
+		</div>
+	</div>
+</div>
+<div class="section">
+	<div class="row">
+		<div class="col">
+			<p class="section_titulo_0">Tablas</p>
+			<p class="section_subtitulo_0">Así seávisualizaran la tabla</p>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col">
+			<app-mat-table 
+				[data]="tableDataDemo"
+				[columnsLabels]="tablaColumnsLabels"
+				[columnsDisplay]="tableColumnsDisplay"
+				[row_x_page]="tableRow_x_page"
+				[selection]="selection"
+				(clickLink)="onTableRowLink($event)"
+				(clickSee)="tableRowSee($event)"
+				(clickEdit)="tableRowEdit($event)"
+				(clickDelete)="tableRowDelete($event)"
+			></app-mat-table>
+		</div>
+	</div>
+
+	
+	<div class="row mt-4">
+		<div class="col">
+			<p class="section_titulo_0">--Eventos--</p>
+			<p>Esta tabla emite tres eventos diferentes:</p>
+			<p><strong>(clickSee)="tableRowSee($event)"</strong>: Para ver un registro.</p>
+			<p><strong>(clickEdit)="tableRowEdit($event)"</strong>: Para editar un registro.</p>
+			<p><strong>(clickDelete)="tableRowDelete($event)"</strong>: Para eliminar un registro.</p>
+
+			<p class="section_titulo_0">--Propiedades--</p>
+			<p><strong>[data]="tableDataDemo"</strong></p>
+			<p>
+				Esta tabla recibe una lista de objetos simples, a través de la propiedad [data] (no acepta objetos con propiedades anidadas). 
+				<br>
+				Al alterar la lista de objetos en el componente “padre”, la tabla detecta el cambio y se actualiza automáticamente.
+				<br>
+				Si no se especifican las demas listas seran generadas automaticamente.
+			</p>
+			<p><strong>[columnsLabels]="tablaColumnsLabels"</strong></p>
+			<p>Con “[columnsLabels]” se podrá remplazar el texto en el “header” de cada columna. 
+				Este es una lista de objetos donde se especifica el “key” y el nuevo “label” , 
+				el “key” tiene que coincidir con en nombre de la propiedad en el listado de datos principal “[data]”.</p>
+			<p><strong>[columnsDisplay]="tableColumnsDisplay"</strong></p>
+			<p>Es una lista de "string" donde se especifican las columnas que seran visibles en la tabla, 
+				estas tienen que ser las mismas que el nombre de la propiedad de la lista de datos principal “[data]”. 
+				</p>
+				
+			<p><strong>[showPagination]="false"</strong></p>
+			<p>Este atributo puede usarse si desea ocultar el paginador</p>
+
+			<p><strong>selectionLabel="Visible"</strong></p>
+			<p>Si se desea darle un titulo a la columna que contiene los checkbox se  le puede paras el titulo mediante el atributo 'selectionLabel'</p>
+			
+			<p><strong>[selection]="selection"</strong></p>
+			<p>Es una lista de "objetos identicosa [data]" que representan los elementos con el checkbox seleccionado. 
+				</p>
+			<div class="codigo py-2">
+				{{codes.tableSelectionModel}}
+			</div>
+			<p> esto retornara una lista con los elementos que se encuentran seleccionados.</p>
+			
+			<p>Existen 4 columnas que genera el componente de forma automatica (estas columnas seran agregadas si se especifican en la lista "[columnsDisplay]="tableColumnsDisplay""):</p>
+	
+			<p><strong>“sys_checkbox”</strong>, genera la columna con un checkbox por fila.</p>
+			<p><strong>“sys_see”</strong>, genera la columna con el botón para ver los detalles del registro.</p>
+			<p><strong>“sys_edit”</strong>, genera la columna con el botón para editar el registro.</p>
+			<p><strong>“sys_delete”</strong>, genera la columna con el botón para eliminar el registro.</p>
+			<p><strong>[row_x_page]="tableRow_x_page"</strong></p>
+			<p>Es un listado de números para poder seleccionar cuantos registros se mostrarán por página de la tabla</p>
+			
+			<div class="row mt-4">
+				<div class="col py-4 codigo">
+					<pre class="my-0">{{codes.tableTable}}</pre>
+				</div>
+			</div>
+			<br>	
+			
+			<p class="section_titulo_0">Ejemplo de los datos que se le pasan al componente que crea la tabla.</p>
+			<div class="row mt-4">
+				<div class="col py-4 codigo">
+					<pre class="my-0">{{codes.table01}}</pre>
+				</div>
+			</div>
+			
+	
+	
+	
+
+		</div>
+	</div>
+
+</div>
+<div class="section">
+	<div class="row my-2">
+		<div class="col">
+			<p class="section_titulo_0">Botones</p>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col-4 my-2"><app-btn-block                    (myClick)="clickBtn()" label="Aplicar Detección Procedimiento" [addClass]="['tester-00']"></app-btn-block></div>
+		<div class="col-4 my-2"><app-btn-block-acept              (myClick)="clickBtn()"></app-btn-block-acept></div>
+		<div class="col-4 my-2"><app-btn-block-add                (myClick)="clickBtn()"></app-btn-block-add></div>
+		<div class="col-4 my-2"><app-btn-block-back               (myClick)="clickBtn()"></app-btn-block-back></div>
+		<div class="col-4 my-2"><app-btn-block-cancel             (myClick)="clickBtn()"></app-btn-block-cancel></div>
+		<div class="col-4 my-2"><app-btn-block-clean              (myClick)="clickBtn()"></app-btn-block-clean></div>
+		<div class="col-4 my-2"><app-btn-block-consult            (myClick)="clickBtn()"></app-btn-block-consult></div>
+		<div class="col-4 my-2"><app-btn-block-download-layout    (myClick)="clickBtn()"></app-btn-block-download-layout></div>
+		<div class="col-4 my-2"><app-btn-block-download           (myClick)="clickBtn()"></app-btn-block-download></div>
+		<div class="col-4 my-2"><app-btn-block-finish             (myClick)="clickBtn()"></app-btn-block-finish></div>
+		<div class="col-4 my-2"><app-btn-block-graph              (myClick)="clickBtn()"></app-btn-block-graph></div>
+		<div class="col-4 my-2"><app-btn-block-import             (myClick)="clickBtn()"></app-btn-block-import></div>
+		<div class="col-4 my-2"><app-btn-block-reject             (myClick)="clickBtn()"></app-btn-block-reject></div>
+		<div class="col-4 my-2"><app-btn-block-save-update        (myClick)="clickBtn()"></app-btn-block-save-update></div>
+		<div class="col-4 my-2"><app-btn-block-save               (myClick)="clickBtn()"></app-btn-block-save></div>
+		<div class="col-4 my-2"><app-btn-block-search             (myClick)="clickBtn()"></app-btn-block-search></div>
+		<div class="col-4 my-2"><app-btn-block-send               (myClick)="clickBtn()"></app-btn-block-send></div>
+
+	</div>
+	<div class="row mt-4">
+		<div class="col py-4 codigo">
+			<pre class="my-0">{{codes.btn}}</pre>
+		</div>
+	</div>
+	<br>
+	<p>
+		A los botones se les puede indicar su tipo "Type" mediante el atributo "myType", este atrubuto por defecto es de tipo "button", pero se puede especificar para que sea de tipo "submit".
+	</p>
+	<p>
+		Tiene su propio evento "click" que se llama mediante su propiedad "myClick" , esto con el fin de que si el boton se desactiba no se lanza el evento.
+	</p>
+	<p>
+		mediante la propiedad "disabled" se le puede indicar que desactive el boton.
+	</p>
+	<p>
+		si dentro del boton requieres un texto muy particular que no este dentro de los botones que se utilizan , 
+		se puede hacer uso del atributo "label" con el componente {{codes.btnBase}}
+	</p>
+	<br>
+	<div class="col-4 my-2"><app-btn-block-acept (myClick)="clickBtn()" myType="submit" [disabled]="true"></app-btn-block-acept></div>
+	<div class="row mt-4">
+		<div class="col py-4 codigo">
+			<pre class="my-0">{{codes.btnAtributes}}</pre>
+		</div>
+	</div>
+</div>
+<div class="section">
+	<div class="row">
+		<div class="col">
+			<p class="section_titulo_0">alertas</p>
+			<p class="section_subtitulo_0"></p>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col"><app-btn-block label="errorToastr" (myClick)="errorToastr()"></app-btn-block></div>
+		<div class="col"><app-btn-block label="infoToastr" (myClick)="infoToastr()"></app-btn-block></div>
+		<div class="col"><app-btn-block label="successToastr" (myClick)="successToastr()"></app-btn-block></div>
+		<div class="col"><app-btn-block label="warningToastr" (myClick)="warningToastr()"></app-btn-block></div>
+	<!--
+		<div class="col"><app-btn-block label="customToastr" (myClick)="customToastr()"></app-btn-block></div>
+	-->
+	</div>
+</div>
+<div class="section">
+	<div class="row">
+		<div class="col">
+			<p class="section_titulo_0">Inputs</p>
+			<p class="section_subtitulo_0">Así seávisualizaran los diferentes Inputs en le sistema</p>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col">
+			<p>
+				Para los input se hace uso de formularios reactivos. 
+				en el .ts se debera crear una estructura similar a la siguiente:
+			</p>
+		</div>
+	</div>
+	<div class="row my-4">
+		<div class="col py-4 codigo">
+			<pre class="my-0">{{codes.inputTs}}</pre>
+		</div>
+	</div>
+	<hr>
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-input-datepicker-year-and-month 
+			[formGroup]="form"
+			controlName="dateYearAndMonth"
+			(eventChange)="onDatepickeryearAndMonth($event)" 
+			label="Commercial Operation Date"
+		></app-mat-input-datepicker-year-and-month>
+	</div></div>
+	<div class="row my-4">
+		<div class="col py-4 codigo">
+			<pre class="my-0">{{codes.btnDatepickerYearAndMonth}}</pre>
+		</div>
+	</div>
+	<hr>
+
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-input-datepicker
+			[formGroup]="form"
+			controlName="datePicker"
+			(eventChange)="onDatePicker($event)" 
+			label="Commercial Operation Date"
+		></app-mat-input-datepicker>
+	</div></div>
+	<div class="row my-4">
+		<div class="col py-4 codigo">
+			<pre class="my-0">{{codes.btnDatepicker}}</pre>
+		</div>
+	</div>
+	<hr>
+	
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-input-number
+			[formGroup]="form"
+			controlName="inputNumber"
+			[minValue] = "inputNumberMin"
+			[maxValue] = "inputNumberMax"
+		></app-mat-input-number>
+	</div></div>
+	<div class="row my-4">
+		<div class="col py-4 codigo">
+			<pre class="my-0"></pre>
+		</div>
+	</div>
+	<hr>
+
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-input-text-autocomplete 
+			[formGroup]="form"
+			controlName="aotucomplete"
+			[options]="listOptionsAutocomplete"
+			label="aotucomplete"
+			filter="includes">
+		</app-mat-input-text-autocomplete>
+	</div></div>
+	
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-select
+			[formGroup]="form"
+			controlName="select"
+			[options]="selectOptionsFuente"
+			label="select"
+			(eventChange)="onChangeSelectFuente($event)"
+		></app-mat-select>
+	</div></div>
+	
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-select-multiple
+			[formGroup]="form"
+			controlName="select"
+			[options]="selectOptionsFuenteMultiselect"
+			label="select"
+		></app-mat-select-multiple>
+	</div></div>
+	
+	<div class="row"><div class="col-12 col-lg-4">
+		<app-mat-select-multiple
+			[formGroup]="form"
+			controlName="select"
+			[options]="selectOptionsFuenteMultiselect"
+			[disableOption]="true"
+			label="select"
+		></app-mat-select-multiple>
+	</div></div>
+	
+	<div class="row"><div class="col-12 col-lg-4">
+		
+	</div></div>
+
+
+</div>
+
+
+<div class="section">
+	<div class="row"><!-- Grafica -->
+		<div class="col">
+			<div #LineChart2></div>
+		</div>
+	</div>
+</div>

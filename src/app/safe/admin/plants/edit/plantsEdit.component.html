@@ -1,0 +1,1172 @@
+<div class="row">
+    <mdb-breadcrumb customClass="white" class="w-100">
+        <mdb-breadcrumb-item class=""
+            ><mdb-icon fas icon="cog"></mdb-icon
+        ></mdb-breadcrumb-item>
+        <mdb-breadcrumb-item>Administración</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item class="active">{{
+            getTitle()
+        }}</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
+</div>
+
+<div class="section">
+    <div class="row pb-2">
+        <div class="col">
+            <span class="agila-cda-titulo">{{ getTitle() }}</span>
+        </div>
+    </div>
+    <!--Botones-->
+    <form [formGroup]="plantForm" (ngSubmit)="save(plantForm.value)">
+        <div class="row mt-5 mb-5">
+            <div class="col">
+                <button
+                    type="submit"
+                    class="btn right"
+                    [disabled]="!plantForm.valid"
+                >
+                    <i class="ti-pencil"></i>
+                    {{ "Save / Update" | translate }}
+                </button>
+            </div>
+        </div>
+        <!-- Inputs -->
+        <ng-container *ngFor="let formControl of formControls">
+            <div class="row">
+                <div class="col dividerSection colortheme">
+                    <b>{{ formControl.section }}</b>
+                </div>
+            </div>
+            <div class="row">
+                <ng-container *ngFor="let in of formControl.inputs">
+                    <ng-container [ngSwitch]="in.inputtype">
+                        <input
+                            *ngSwitchCase="'hidden'"
+                            type="hidden"
+                            value="{{ in.label }}"
+                            name="{{ in.label }}"
+                        />
+                        <ng-container *ngSwitchCase="'text'">
+                            <div class="col-md-auto col-md-6 col-lg-4">
+                                <div class="row">
+                                    <div class="col-md-{{ in.col || 8 }}">
+                                        <div class="form-group">
+                                            <label class="form-text text-left">{{ in.label }}</label>
+                                            <input
+                                                class="form-control"
+                                                formControlName="{{
+                                                    in.formControlName
+                                                }}"
+                                            />
+                                        </div>
+                                        <!--mat-form-field class="full-width">
+                                            <input
+                                                matInput
+                                                formControlName="{{
+                                                    in.formControlName
+                                                }}"
+                                                placeholder="{{ in.label }}"
+                                            />
+                                        </mat-form-field-->
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div
+                                            style="color:red"
+                                            *ngIf="
+                                                !plantForm.controls[
+                                                    in.formControlName
+                                                ].valid &&
+                                                plantForm.controls[
+                                                    in.formControlName
+                                                ].touched
+                                            "
+                                        >
+                                            Requerido
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'select'">
+                            <div class="col-md-auto col-md-6 col-lg-4">
+                                <div class="row">
+                                    <div class="col-md-{{ in.col || 8 }}">
+                                        <div class="form-group">
+                                            <label class="form-text text-left">{{in.label}}:</label>
+                                            <mat-select class="form-control" formControlName="{{in.formControlName}}" 
+                                            (selectionChange)="onSelect($event.value, in)">
+                                                <mat-option class="form-control" *ngFor="let option of in.options" [value]="option">
+                                                    {{
+                                                        option.description !=
+                                                        null
+                                                            ? option.description
+                                                            : option.name
+                                                    }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div
+                                            style="color:red"
+                                            *ngIf="
+                                                !plantForm.controls[
+                                                    in.formControlName
+                                                ].valid &&
+                                                plantForm.controls[
+                                                    in.formControlName
+                                                ].touched
+                                            "
+                                        >
+                                            Requerido
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'checkbox'">
+                            <div class="col-md-auto col-md-6 col-lg-4">
+                                <div class="row">
+                                    <div class="col-md-{{ in.col || 8 }}">
+                                        <div class="form-group">
+                                            <label class="form-text text-left">{{ in.label }}</label>
+                                            <input
+                                                class="form-control active"
+                                                type="checkbox"
+                                                formControlName="{{
+                                                    in.formControlName
+                                                }}"
+                                                style="
+                                                height: auto;
+                                                width: auto;"
+                                            />
+                                        </div>
+                                        <!--mat-checkbox
+                                            class="active"
+                                            color="primary"
+                                            formControlName="{{
+                                                in.formControlName
+                                            }}"
+                                        >
+                                            <mat-label>{{
+                                                in.label
+                                            }}</mat-label>
+                                        </mat-checkbox-->
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div
+                                            style="color:red"
+                                            *ngIf="
+                                                !plantForm.controls[
+                                                    in.formControlName
+                                                ].valid &&
+                                                plantForm.controls[
+                                                    in.formControlName
+                                                ].touched
+                                            "
+                                        >
+                                            Requerido
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'textarea'">
+                            <div class="col-md-auto col-md-6 col-lg-4">
+                                <div class="row">
+                                    <div class="col-md-{{ in.col || 8 }}">
+                                        <div class="form-group">
+                                            <label class="form-text text-left">{{ in.label }}</label>
+                                            <textarea
+                                                class="form-control"
+                                                cdkTextareaAutosize
+                                                #autosize="cdkTextareaAutosize"
+                                                formControlName="{{
+                                                    in.formControlName
+                                                }}"
+                                            >
+                                            </textarea>
+                                        </div>
+
+                                        <!--mat-form-field class="full-width">
+                                            <textarea
+                                                matInput
+                                                cdkTextareaAutosize
+                                                #autosize="cdkTextareaAutosize"
+                                                formControlName="{{
+                                                    in.formControlName
+                                                }}"
+                                                placeholder="{{ in.label }}"
+                                            ></textarea>
+                                        </mat-form-field-->
+                                        <div class="col-md-4">
+                                            <div
+                                                style="color:red"
+                                                *ngIf="
+                                                    !plantForm.controls[
+                                                        in.formControlName
+                                                    ].valid &&
+                                                    plantForm.controls[
+                                                        in.formControlName
+                                                    ].touched
+                                                "
+                                            >
+                                                Requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </ng-container>
+    </form>
+    <!-- CUENTAS DE LA PLANTA -->
+    <form [formGroup]="accountForm" (ngSubmit)="saveAccount(accountForm.value)">
+        <div class="row">
+            <div class="col dividerSection colortheme">
+                <b>Cuentas de la Planta</b>
+            </div>
+        </div>
+        <div class="row">
+            <ng-container *ngFor="let in of formControlsAccount">
+                <ng-container [ngSwitch]="in.inputtype">
+                    <ng-container *ngSwitchCase="'text'">
+                        <div class="col-md-auto col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-{{ in.col || 8 }}">
+                                    <div class="form-group">
+                                        <label class="form-text text-left">{{ in.label }}</label>
+                                        <input
+                                            class="form-control"
+                                            formControlName="{{
+                                                in.formControlName
+                                            }}"
+                                        />
+                                    </div>
+
+                                    <!--mat-form-field class="full-width">
+                                        <input
+                                            matInput
+                                            formControlName="{{
+                                                in.formControlName
+                                            }}"
+                                            placeholder="{{ in.label }}"
+                                        />
+                                    </mat-form-field-->
+                                </div>
+                                <div class="col-md-4">
+                                    <div
+                                        style="color:red"
+                                        *ngIf="
+                                            !accountForm.controls[
+                                                in.formControlName
+                                            ].valid &&
+                                            accountForm.controls[
+                                                in.formControlName
+                                            ].touched
+                                        "
+                                    >
+                                        Requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'select'">
+                        <div class="col-md-auto col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-{{ in.col || 8 }}">
+                                    <div class="form-group">
+                                        <label class="form-text text-left">{{in.label}}:</label>
+                                        <mat-select class="form-control" formControlName="{{in.formControlName}}" 
+                                        (selectionChange)="onSelect($event.value, in)">
+                                        <mat-option class="form-control" *ngFor="let option of in.options" [value]="option">
+                                            {{
+                                                option.description != null
+                                                    ? option.description
+                                                    : option.name
+                                            }}</mat-option>
+                                        </mat-select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div
+                                        style="color:red"
+                                        *ngIf="
+                                            !accountForm.controls[
+                                                in.formControlName
+                                            ].valid &&
+                                            accountForm.controls[
+                                                in.formControlName
+                                            ].touched
+                                        "
+                                    >
+                                        Requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </div>
+        <div class="col">
+            <button type="button" class="btn right" (click)="cancelAccount()">
+                <i class="ti-close"></i>
+                {{ "Cancel" | translate }}
+            </button>
+            <button
+                type="submit"
+                class="btn right"
+                [disabled]="!accountForm.valid"
+            >
+                <i class="ti-plus"></i>
+                &nbsp;{{ "add" | translate }}
+            </button>
+        </div>
+    </form>
+    <br />
+    <br />
+    <br />
+    <div class="table-container mat-elevation-z8">
+        <table
+            matSort
+            mat-table
+            [dataSource]="accountsDataSource"
+            class="table_catalogo"
+        >
+            <ng-container matColumnDef="bank">
+                <th mat-header-cell *matHeaderCellDef>Banco</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{
+                        element.bank.description != null
+                            ? element.bank.description
+                            : element.bank.name
+                    }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="branchOffice">
+                <th mat-header-cell *matHeaderCellDef>Sucursal</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.branchOffice }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="account">
+                <th mat-header-cell *matHeaderCellDef>Cuenta</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.account }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="clabe">
+                <th mat-header-cell *matHeaderCellDef>Clabe</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.clabe }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="key">
+                <th mat-header-cell *matHeaderCellDef>Clave</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.key }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="reference">
+                <th mat-header-cell *matHeaderCellDef>Referencia</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.reference }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef>Editar</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    <a (click)="editAccount(element)" *ngIf="!entity.readOnly">
+                        <img
+                            src="assets/images/skins/ico_Editar.png"
+                            alt="Visualizar"
+                        />
+                    </a>
+                </td>
+            </ng-container>
+            <!-- Eliminar Column -->
+            <ng-container matColumnDef="rm">
+                <th mat-header-cell *matHeaderCellDef>Eliminar</th>
+                <td
+                    mat-cell
+                    *matCellDef="let element; let i = index"
+                    class="p-2 border-none"
+                >
+                    <i class="fas fa-trash-alt" (click)="deleteAccount(i)"></i>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="accountsColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: accountsColumns"></tr>
+        </table>
+
+        <mat-paginator
+            [pageSizeOptions]="[50, 100, 250, 500]"
+            showFirstLastButtons
+        ></mat-paginator>
+    </div>
+
+    <!-- DIRECCIONES DE LA PLANTA -->
+    <form
+        [formGroup]="directionForm"
+        (ngSubmit)="saveDirection(directionForm.value)"
+    >
+        <div class="row">
+            <div class="col dividerSection colortheme">
+                <b>Direcciones de la Planta</b>
+            </div>
+        </div>
+        <div class="row">
+            <ng-container *ngFor="let in of formControlsDirection">
+                <ng-container [ngSwitch]="in.inputtype">
+                    <ng-container *ngSwitchCase="'text'">
+                        <div class="col-md-auto col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-{{ in.col || 8 }}">
+                                    <div class="form-group">
+                                        <label class="form-text text-left">{{ in.label }}</label>
+                                        <input
+                                            class="form-control"
+                                            formControlName="{{
+                                                in.formControlName
+                                            }}"
+                                        />
+                                    </div>
+
+                                    <!--mat-form-field class="full-width">
+                                        <input
+                                            matInput
+                                            formControlName="{{
+                                                in.formControlName
+                                            }}"
+                                            placeholder="{{ in.label }}"
+                                        />
+                                    </mat-form-field-->
+                                </div>
+                                <div class="col-md-4">
+                                    <div
+                                        style="color:red"
+                                        *ngIf="
+                                            !directionForm.controls[
+                                                in.formControlName
+                                            ].valid &&
+                                            directionForm.controls[
+                                                in.formControlName
+                                            ].touched
+                                        "
+                                    >
+                                        Requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'select'">
+                        <div class="col-md-auto col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-{{ in.col || 8 }}">
+                                    <div class="form-group">
+                                        <label class="form-text text-left">{{in.label}}:</label>
+                                        <mat-select class="form-control" formControlName="{{in.formControlName}}" 
+                                        (selectionChange)="onSelect($event.value, in)">
+                                            <mat-option class="form-control" *ngFor="let option of in.options" [value]="option">
+                                                {{
+                                                    option.description != null
+                                                        ? option.description
+                                                        : option.name
+                                                }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div
+                                        style="color:red"
+                                        *ngIf="
+                                            !directionForm.controls[
+                                                in.formControlName
+                                            ].valid &&
+                                            directionForm.controls[
+                                                in.formControlName
+                                            ].touched
+                                        "
+                                    >
+                                        Requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </div>
+        <div class="col">
+            <button type="button" class="btn right" (click)="cancelDirection()">
+                <i class="ti-close"></i>
+                {{ "Cancel" | translate }}
+            </button>
+            <button
+                type="submit"
+                class="btn right"
+                [disabled]="!directionForm.valid"
+            >
+                <i class="ti-plus"></i>
+                &nbsp;{{ "add" | translate }}
+            </button>
+        </div>
+    </form>
+
+    <br /><br /><br />
+    <div class="table-container mat-elevation-z8">
+        <table
+            matSort
+            mat-table
+            [dataSource]="directionsDataSource"
+            class="table_catalogo"
+        >
+            <ng-container matColumnDef="street">
+                <th mat-header-cell *matHeaderCellDef>Calle</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.street }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="outdoorNumber">
+                <th mat-header-cell *matHeaderCellDef>Número Exterior</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.outdoorNumber }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="interiorNumber">
+                <th mat-header-cell *matHeaderCellDef>Número Interior</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.interiorNumber }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="country">
+                <th mat-header-cell *matHeaderCellDef>País</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{
+                        element.country.description != null
+                            ? element.country.description
+                            : element.country.name
+                    }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="state">
+                <th mat-header-cell *matHeaderCellDef>Estado</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{
+                        element.state.description != null
+                            ? element.state.description
+                            : element.state.name
+                    }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="colony">
+                <th mat-header-cell *matHeaderCellDef>Colonia</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.colony }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="city">
+                <th mat-header-cell *matHeaderCellDef>Ciudad</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.city }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="location">
+                <th mat-header-cell *matHeaderCellDef>Localidad</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.location }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="cp">
+                <th mat-header-cell *matHeaderCellDef>CP</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.cp }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef>Editar</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    <a
+                        (click)="editDirection(element)"
+                        *ngIf="!entity.readOnly"
+                    >
+                        <img
+                            src="assets/images/skins/ico_Editar.png"
+                            alt="Visualizar"
+                        />
+                    </a>
+                </td>
+            </ng-container>
+            <!-- Eliminar Column -->
+            <ng-container matColumnDef="rm">
+                <th mat-header-cell *matHeaderCellDef>Eliminar</th>
+                <td
+                    mat-cell
+                    *matCellDef="let element; let i = index"
+                    class="p-2 border-none"
+                >
+                    <i
+                        class="fas fa-trash-alt"
+                        (click)="deleteDirection(i)"
+                    ></i>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="directionsColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: directionsColumns"></tr>
+        </table>
+
+        <mat-paginator
+            [pageSizeOptions]="[50, 100, 250, 500]"
+            showFirstLastButtons
+        ></mat-paginator>
+    </div>
+
+    <!-- CERTIFICADOS DE LA PLANTA -->
+    <form
+        [formGroup]="certificateForm"
+        (ngSubmit)="saveCertificate(certificateForm.value)"
+    >
+        <div class="row">
+            <div class="col dividerSection colortheme">
+                <b>Certificados de la Planta</b>
+            </div>
+        </div>
+        <div class="row">
+            <ng-container *ngFor="let in of formControlsCertificate">
+                <ng-container [ngSwitch]="in.inputtype">
+                    <ng-container *ngSwitchCase="'text'">
+                        <div class="col-md-auto col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-{{ in.col || 8 }}">
+                                    <div class="form-group">
+                                        <label class="form-text text-left">{{ in.label }}</label>
+                                        <input
+                                            class="form-control"
+                                            formControlName="{{
+                                                in.formControlName
+                                            }}"
+                                        />
+                                    </div>
+
+                                    <!--mat-form-field class="full-width">
+                                        <input
+                                            matInput
+                                            formControlName="{{
+                                                in.formControlName
+                                            }}"
+                                            placeholder="{{ in.label }}"
+                                        />
+                                    </mat-form-field-->
+                                </div>
+                                <div class="col-md-4">
+                                    <div
+                                        style="color:red"
+                                        *ngIf="
+                                            !certificateForm.controls[
+                                                in.formControlName
+                                            ].valid &&
+                                            certificateForm.controls[
+                                                in.formControlName
+                                            ].touched
+                                        "
+                                    >
+                                        Requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'checkbox'">
+                        <div class="col-md-auto col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-{{ in.col || 8 }}">
+                                    <div class="form-group">
+                                        <label class="form-text text-left">{{ in.label }}</label>
+                                        <input
+                                            class="form-control active"
+                                            type="checkbox"
+                                            formControlName="{{
+                                                in.formControlName
+                                            }}"
+                                            style="
+                                                    height: auto;
+                                                    width: auto;"
+                                        />
+                                    </div>
+
+                                    <!--mat-checkbox
+                                        class="active"
+                                        color="primary"
+                                        formControlName="{{
+                                            in.formControlName
+                                        }}"
+                                    >
+                                        <mat-label>{{ in.label }}</mat-label>
+                                    </mat-checkbox-->
+                                </div>
+                                <div class="col-md-4">
+                                    <div
+                                        style="color:red"
+                                        *ngIf="
+                                            !certificateForm.controls[
+                                                in.formControlName
+                                            ].valid &&
+                                            certificateForm.controls[
+                                                in.formControlName
+                                            ].touched
+                                        "
+                                    >
+                                        Requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-container>
+                <div class="col-md-auto col-md-6 col-lg-4">
+                    <div class="row">
+                        <div class="col-md-8">
+                            
+                            <div class="form-group">
+                                <label class="form-text text-left" for="mydateUpload">Fecha de Carga</label>
+                                <mat-form-field class="form-control">
+                                    <input matInput 
+                                    formControlName="dateUpload"
+                                    [matDatepicker]="mydateUpload">
+                                    <mat-datepicker-toggle matSuffix [for]="mydateUpload"></mat-datepicker-toggle>
+                                    <mat-datepicker #mydateUpload></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <div
+                                style="color:red"
+                                *ngIf="
+                                    !certificateForm.controls['dateUpload']
+                                        .valid &&
+                                    certificateForm.controls['dateUpload']
+                                        .touched
+                                "
+                            >
+                                Requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container>
+                <div class="col-md-auto col-md-6 col-lg-4">
+                    <div class="row">
+                        <div class="col-md-8">
+                            
+                            <div class="form-group">
+                                <label class="form-text text-left" for="mydateExpiration">Fecha de Expiración</label>
+                                <mat-form-field class="form-control">
+                                    <input matInput 
+                                    formControlName="dateExpiration"
+                                    [matDatepicker]="mydateExpiration">
+                                    <mat-datepicker-toggle matSuffix [for]="mydateExpiration"></mat-datepicker-toggle>
+                                    <mat-datepicker #mydateExpiration></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div
+                                style="color:red"
+                                *ngIf="
+                                    !certificateForm.controls['dateExpiration']
+                                        .valid &&
+                                    certificateForm.controls['dateExpiration']
+                                        .touched
+                                "
+                            >
+                                Requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="col">
+            <button
+                type="button"
+                class="btn right"
+                (click)="cancelCertificate()"
+            >
+            <i class="ti-close"></i>
+            {{ "Cancel" | translate }}
+            </button>
+            <button
+                type="submit"
+                class="btn right"
+                [disabled]="!certificateForm.valid"
+            >
+                
+            <i class="ti-plus"></i>
+            &nbsp;{{ "add" | translate }}
+            </button>
+        </div>
+    </form>
+<br> <br> <br>
+    <div class="table-container mat-elevation-z8">
+        <table matSort mat-table [dataSource]="certificatesDataSource"
+        class="table_catalogo">
+            <ng-container matColumnDef="number">
+                <th mat-header-cell *matHeaderCellDef>Número</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.number }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="dateUpload">
+                <th mat-header-cell *matHeaderCellDef>Fecha de Carga</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.dateUpload }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="dateExpiration">
+                <th mat-header-cell *matHeaderCellDef>Fecha de Expiración</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.dateExpiration }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="password">
+                <th mat-header-cell *matHeaderCellDef>Password</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.password }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="pathCer">
+                <th mat-header-cell *matHeaderCellDef>Ruta de archivo cer</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.pathCer }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="pathKey">
+                <th mat-header-cell *matHeaderCellDef>Ruta de archivo key</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.pathKey }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef>Editar</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    <a
+                        (click)="editCertificate(element)"
+                        *ngIf="!entity.readOnly"
+                    >
+                        <img
+                            src="assets/images/skins/ico_Editar.png"
+                            alt="Visualizar"
+                        />
+                    </a>
+                </td>
+            </ng-container>
+            <!-- Eliminar Column -->
+            <ng-container matColumnDef="rm">
+                <th mat-header-cell *matHeaderCellDef>Eliminar</th>
+                <td
+                    mat-cell
+                    *matCellDef="let element; let i = index"
+                    class="p-2 border-none"
+                >
+                    <i
+                        class="fas fa-trash-alt"
+                        (click)="deleteCertificate(i)"
+                    ></i>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="certificatesColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: certificatesColumns"></tr>
+        </table>
+
+        <mat-paginator
+            [pageSizeOptions]="[50, 100, 250, 500]"
+            showFirstLastButtons
+        ></mat-paginator>
+    </div>
+
+    <!-- SUCURSALES DE LA PLANTA -->
+    <form [formGroup]="branchForm" (ngSubmit)="saveBranch(branchForm.value)">
+        <div class="row">
+            <div class="col dividerSection colortheme">
+                <b>Sucursales de la Planta</b>
+            </div>
+        </div>
+        <!-- Inputs -->
+        <div class="row">
+            <ng-container *ngFor="let in of formControlsBranch">
+                <ng-container [ngSwitch]="in.inputtype">
+                    <ng-container *ngSwitchCase="'text'">
+                        <div class="col-md-auto col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-{{ in.col || 8 }}">
+                                        <div class="form-group">
+                                            <label class="form-text text-left">{{ in.label }}</label>
+                                            <input
+                                                class="form-control"
+                                                formControlName="{{
+                                                    in.formControlName
+                                                }}"
+                                            />
+                                        </div>
+
+                                    <!--mat-form-field class="full-width">
+                                        <input
+                                            matInput
+                                            formControlName="{{
+                                                in.formControlName
+                                            }}"
+                                            placeholder="{{ in.label }}"
+                                        />
+                                    </mat-form-field-->
+                                </div>
+                                <div class="col-md-4">
+                                    <div
+                                        style="color:red"
+                                        *ngIf="
+                                            !branchForm.controls[
+                                                in.formControlName
+                                            ].valid &&
+                                            branchForm.controls[
+                                                in.formControlName
+                                            ].touched
+                                        "
+                                    >
+                                        Requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'select'">
+                        <div class="col-md-auto col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-{{ in.col || 8 }}">
+                                        <div class="form-group">
+                                            <label class="form-text text-left">{{in.label}}:</label>
+                                            <mat-select class="form-control" formControlName="{{in.formControlName}}" 
+                                            (selectionChange)="onSelect2($event.value, in)">
+                                            <mat-option class="form-control" *ngFor="let option of in.options" [value]="option">{{ 
+                                                option.description != null
+                                                ? option.description
+                                                : option.name }}</mat-option>
+                                            </mat-select>
+                                        </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div
+                                        style="color:red"
+                                        *ngIf="
+                                            !branchForm.controls[
+                                                in.formControlName
+                                            ].valid &&
+                                            branchForm.controls[
+                                                in.formControlName
+                                            ].touched
+                                        "
+                                    >
+                                        Requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'checkbox'">
+                        <div class="col-md-auto col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-{{ in.col || 8 }}">
+
+                                    
+                                        <div class="form-group">
+                                                <label class="form-text text-left">{{ in.label }}</label>
+                                                <input
+                                                    class="form-control active"
+                                                    type="checkbox"
+                                                    formControlName="{{
+                                                        in.formControlName
+                                                    }}"
+                                                    style="
+                                                    height: auto;
+                                                    width: auto;"
+                                                />
+                                            </div>
+
+
+                                    <!--mat-checkbox
+                                        class="active"
+                                        color="primary"
+                                        formControlName="{{
+                                            in.formControlName
+                                        }}"
+                                    >
+                                        <mat-label>{{ in.label }}</mat-label>
+                                    </mat-checkbox-->
+                                </div>
+                                <div class="col-md-4">
+                                    <div
+                                        style="color:red"
+                                        *ngIf="
+                                            !branchForm.controls[
+                                                in.formControlName
+                                            ].valid &&
+                                            branchForm.controls[
+                                                in.formControlName
+                                            ].touched
+                                        "
+                                    >
+                                        Requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'textarea'">
+                        <div class="col-md-auto col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-{{ in.col || 8 }}">
+                                        <div class="form-group">
+                                            <label class="form-text text-left">{{ in.label }}</label>
+                                            <textarea
+                                                class="form-control"
+                                                cdkTextareaAutosize
+                                                #autosize="cdkTextareaAutosize"
+                                                formControlName="{{
+                                                    in.formControlName
+                                                }}"
+                                            >
+                                            </textarea>
+                                        </div>
+                                    <!--mat-form-field class="full-width">
+                                        <textarea
+                                            matInput
+                                            cdkTextareaAutosize
+                                            #autosize="cdkTextareaAutosize"
+                                            formControlName="{{
+                                                in.formControlName
+                                            }}"
+                                            placeholder="{{ in.label }}"
+                                        ></textarea>
+                                    </mat-form-field-->
+                                    <div class="col-md-4">
+                                        <div
+                                            style="color:red"
+                                            *ngIf="
+                                                !branchForm.controls[
+                                                    in.formControlName
+                                                ].valid &&
+                                                branchForm.controls[
+                                                    in.formControlName
+                                                ].touched
+                                            "
+                                        >
+                                            Requerido
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </div>
+        <div class="col">
+            <button
+                type="button"
+                class="btn right"
+                (click)="cancelBranch()"
+            >
+            <i class="ti-close"></i>
+            {{ "Cancel" | translate }}
+            </button>
+            <button
+                type="submit"
+                class="btn right"
+                [disabled]="!branchForm.valid"
+            >
+            <i class="ti-plus"></i>
+            &nbsp;{{ "add" | translate }}
+            </button>
+        </div>
+    </form>
+<br> <br> <br>
+    <div class="table-container mat-elevation-z8">
+        <table matSort mat-table [dataSource]="branchesDataSource"
+        class="table_catalogo">
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.name }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="clientNumber">
+                <th mat-header-cell *matHeaderCellDef>Número de Cliente</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{ element.clientNumber }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="country">
+                <th mat-header-cell *matHeaderCellDef>País</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{
+                        element.country.description != null
+                            ? element.country.description
+                            : element.country.name
+                    }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="state">
+                <th mat-header-cell *matHeaderCellDef>Estado</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    {{
+                        element.state.description != null
+                            ? element.state.description
+                            : element.state.name
+                    }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef>Editar</th>
+                <td mat-cell *matCellDef="let element" class="p-2 border-none">
+                    <a (click)="editBranch(element)" *ngIf="!entity.readOnly">
+                        <img
+                            src="assets/images/skins/ico_Editar.png"
+                            alt="Visualizar"
+                        />
+                    </a>
+                </td>
+            </ng-container>
+
+            <!-- Eliminar Column -->
+            <ng-container matColumnDef="rm">
+                <th mat-header-cell *matHeaderCellDef>Eliminar</th>
+                <td
+                    mat-cell
+                    *matCellDef="let element; let i = index"
+                    class="p-2 border-none"
+                >
+                    <i class="fas fa-trash-alt" (click)="deleteBranch(i)"></i>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="branchesColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: branchesColumns"></tr>
+        </table>
+
+        <mat-paginator
+            [pageSizeOptions]="[50, 100, 250, 500]"
+            showFirstLastButtons
+        ></mat-paginator>
+    </div>
+</div>

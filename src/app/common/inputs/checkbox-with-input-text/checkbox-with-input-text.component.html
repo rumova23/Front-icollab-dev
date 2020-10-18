@@ -1,0 +1,28 @@
+<div class="row mbLblCheck justify-content-between" *ngIf="controlNameCheckBoxRequired != null">
+	<div class="col">
+		<label>{{ 'Required' | translate }}{{ sufijo | translate }}</label>
+	</div>
+	<div class="col-auto">
+		<app-mat-input-checkbox 
+			[formGroup]="formGroup" 
+			[controlName]="controlNameCheckBoxRequired"
+		></app-mat-input-checkbox>
+	</div>
+</div>
+<div class="row mbLblCheck justify-content-between">
+	<div class="col">
+		<label>{{ label | translate }}{{ sufijo | translate }}</label>
+	</div>
+	<div class="col-auto">
+		<app-mat-input-checkbox 
+			[formGroup]="formGroup" 
+			[controlName]="controlNameCheckBox"
+			(eventChange)="onChangeCheckBox($event)"
+		></app-mat-input-checkbox>
+	</div>
+</div>
+<app-mat-input-text 
+	[formGroup]="formGroup" 
+	[controlName]="controlName" 
+	(eventChange)="onChangeText($event)"
+></app-mat-input-text >

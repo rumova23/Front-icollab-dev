@@ -1,0 +1,65 @@
+<div class="container-fluid" disabled="false">
+    <mdb-card>
+        <mdb-card-header><h3>Calificaciones</h3></mdb-card-header>
+        <mdb-card-body>
+  <div *ngFor="let gr of charResul; let l = index;">
+      <div class="row">
+          <div class="col-4">
+              <canvas mdbChart
+              [chartType]="gr.chartType"
+              [datasets]="gr.cd_1"
+              [labels]="gr.cl_1"
+              [colors]="gr.cc_1"
+              [options]="gr.border"
+              [legend]="gr.respon"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)">
+            </canvas>
+          </div>
+          <div class="col-8">
+            <div class="row">
+               <div class="col-12">
+                    <h3 *ngIf="(gr.cd_1[0].label == 'DEFAULT')">
+                        Evaluación de Conocimiento General 
+                    </h3>
+                    <h3 *ngIf="(gr.cd_1[0].label == 'PSICOMETRICO DEFAULT')">
+                        Evaluación de Aptitudes y Valores
+                   </h3>
+               </div> 
+            </div>
+            <div class="row center" >
+                <div class="col-6" >
+                    <div class="md-form">
+                        <input mdbInput type="text" id="form1" class="form-control" [value]="gr.totRea" disabled>
+                        <label for="form1" class="">Total de Reactivos</label>
+                      </div>
+                </div>
+                <div class="col-6">
+                    <div class="md-form">
+                        <input mdbInput type="text" id="form1" class="form-control" [value]="gr.puntua" disabled>
+                        <label for="form1" class="">Puntuación</label>
+                      </div>
+                </div> 
+             </div>
+             <div class="row">
+                <div class="col-12">
+                    <div class="md-form">
+                        <input mdbInput type="text" id="form1" class="form-control" [value]="gr.porcen" disabled>
+                        <label for="form1" class="">Porcentaje</label>
+                      </div>
+                </div> 
+             </div>
+          </div>
+      </div>  
+  </div> 
+  <div class="row">
+      <div *ngFor="let scala of scalas; let l = index;">
+          <div class="col">
+              <span >{{scala.label}}</span>
+              <span [ngStyle]="{ 'color':'white', 'background-color': scala.rango.color}" >{{scala.rango.max}}{{scala.rango.menssa}}{{scala.rango.min}}</span>
+            </div>
+      </div>
+  </div>
+  </mdb-card-body>
+  </mdb-card>
+</div>

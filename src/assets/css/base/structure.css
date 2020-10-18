@@ -1,0 +1,99 @@
+@media (min-width: 0px) and (max-width: 767px){ 
+    .seccion-aside_open{
+        padding-left:0;
+    }
+    .seccion-aside_close{
+        padding-left:0;
+    }
+    .columna-aside_open{
+        width:233px;
+    }
+    .columna-aside_close{
+        width:0;
+    }
+    .transparencia{
+        position: absolute;
+        height: calc(100% - 57px);
+        width: 100%;
+        background: rgba(0,0,0,.7);
+        z-index: 2;
+    }
+ }
+
+@media (min-width: 768px) { 
+    .seccion-aside_open{
+        padding-left:233px;
+    }
+    .seccion-aside_close{
+        padding-left:65px;
+    }
+    .columna-aside_open{
+        width:233px;
+    }
+    .columna-aside_close{
+        width:65px;
+    }
+    .transparencia{
+        display: none;
+    }
+ }
+html{
+    position      : relative;
+    width         : 100%;
+    min-height    : 100%;
+}
+body{
+    width         : 100%;
+    min-height    : 100%;
+}
+header, section, footer, aside, nav, article, figure, figcaption,
+hgroup{
+    display       : block;
+} 
+body{
+    /*text-align    : center;*/
+    font-weight   : 300;
+    font-size     : 14px !important;
+}
+#agrupar {
+    width         : 100%;
+    min-height    : 100%;
+    text-align    : left;
+}
+#body{
+    display       : flex;
+}
+#columna {
+    float         : left;
+    overflow-x    : hidden;
+    transition    : 0.5s;
+
+    position      : fixed;
+    background    : #ffffff;
+    z-index       : 3;
+    overflow-y    : scroll;
+    max-height    : calc(100% - 57px);
+}
+.aside-menu{
+    padding-bottom: 80px;
+}
+
+#seccion {
+    float         : right;
+    width         : 100%;
+    transition    : 0.5s;
+    padding-bottom: 30px;
+}
+
+#myfooter {
+    clear         : both; 
+    text-align    : center;
+    padding       : 10px;
+    position      : absolute;
+    bottom        : 0px;
+    z-index       : 4;
+    width         : 100%;
+}
+aside{
+    height        : 100%;
+}

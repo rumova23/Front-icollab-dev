@@ -1,0 +1,318 @@
+<div class="section">
+    <div class="row pb-2">
+        <div class="col">
+            <p class="section_titulo_0">{{title}}</p>
+            <p class="section_subtitulo_0"> </p>
+        </div>
+    </div>
+    <hr>
+    <div class="container-fluid">
+      <form [formGroup]="perfilForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-3" >
+            <mat-card><img src="../../../assets/img/foto.png" width="110" height="110"></mat-card>
+        </div>
+        <div class="col-9" >
+            <div class="form-row">
+                <div class="col-md-3">
+                    <!-- Material input -->
+                    <div class="md-form">
+                        <mat-form-field>
+                          <input matInput placeholder="Numero de Empleado" formControlName="fNumEmpo" [ngClass]="{ 'is-invalid': submitted && f.fNumEmpo.errors }">
+                          <div *ngIf="submitted && f.fNumEmpo.errors" style="color:red">
+                              <div *ngIf="f.fNumEmpo.errors.required">Requerido</div>
+                          </div>
+                        </mat-form-field>
+                      </div>
+                </div>
+                  <!-- Grid column -->    
+            </div>  
+
+      <!-- Extended material form grid -->
+        <!-- Grid row -->
+        <div class="form-row">
+          <!-- Grid column -->
+          <div class="col-md-3">
+            <!-- Material input -->
+            <div>
+              <mat-form-field>
+                <input formControlName="fNombres" matInput placeholder="Nombre(s)" [ngClass]="{ 'is-invalid': submitted && f.fNombres.errors }">
+                <div *ngIf="submitted && f.fNombres.errors" style="color:red">
+                    <div *ngIf="f.fNombres.errors.required">Requerido</div>
+                </div>
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-3">
+            <!-- Material input -->
+            <div>
+              <mat-form-field>
+                <input formControlName="fAPaterno" matInput placeholder="Apellido Paterno" [ngClass]="{ 'is-invalid': submitted && f.fAPaterno.errors }" >
+                <div *ngIf="submitted && f.fAPaterno.errors" style="color:red">
+                  <div *ngIf="f.fAPaterno.errors.required">Requerido</div>
+                </div>
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- Grid column -->
+          <div class="col-md-3">
+              <!-- Material input -->
+              <div>
+                  <mat-form-field>
+                    <input matInput formControlName="fAMaterno" placeholder="Apellido Materno"  [ngClass]="{ 'is-invalid': submitted && f.fAMaterno.errors }">
+                    <div *ngIf="submitted && f.fAMaterno.errors" style="color:red">
+                        <div *ngIf="f.fAMaterno.errors.required">Requerido</div>
+                    </div>
+                  </mat-form-field>
+              </div>
+          </div>
+          <div class="col-md-3">
+              <!-- Material input -->
+              <label for="">Género</label><br>
+              <mat-radio-group formControlName="fGenero" [(ngModel)]="gender"
+                [ngClass]="{ 'is-invalid': submitted && f.fGenero.errors }">
+                  <mat-radio-button *ngFor="let data of generos; " [value]="data.value">{{data.label}}</mat-radio-button>
+              </mat-radio-group> 
+              <div *ngIf="submitted && f.fGenero.errors" style="color:red">
+                  <div *ngIf="f.fGenero.errors.required">Requerido</div>
+              </div>  
+          </div>          
+          <!-- Grid column -->
+        </div>
+        <!-- Grid row -->
+
+
+        <!-- Grid row -->
+        <div class="row">
+          <!-- Grid column -->
+          <div class="col-md-3">
+            <!-- Material input -->
+            <div>
+                <mat-form-field>
+                    <input matInput formControlName="fNaci" [matDatepicker]="fNaci"  
+                           ngDefaultControl placeholder="Fecha de nacimiento">
+                    <mat-datepicker-toggle matSuffix [for]="fNaci"></mat-datepicker-toggle>
+                    <mat-datepicker #fNaci></mat-datepicker>
+
+                    <div *ngIf="submitted && f.fNaci.errors" style="color:red">
+                        <div *ngIf="f.fNaci.errors.required">Requerido</div>
+                    </div>
+                </mat-form-field>
+            </div>
+          </div>
+          <!-- Grid column -->
+          <!-- Grid column -->
+          <div class="col-md-3">
+            <!-- Material input -->
+            <div class="form-group">
+              <mat-form-field>
+                <mat-label>Grados de Estudio</mat-label>
+                 <mat-select formControlName="fGrado" [(ngModel)]="educationLevel"
+                  [ngClass]="{ 'is-invalid': submitted && f.fGrado.errors }">
+                  <mat-option  *ngFor="let operator of grados;" 
+                     [value]="operator.value">{{operator.label}}</mat-option>
+                </mat-select>
+                <div *ngIf="submitted && f.fGrado.errors" style="color:red">
+                  <div *ngIf="f.fGrado.errors.required">Requerido</div>
+                </div> 
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- Grid column -->
+          <!-- Grid column -->
+          <div class="col-md-3">
+              <!-- Material input -->
+              <div>
+                  <mat-form-field>
+                      <input matInput formControlName="fCarrera" placeholder="Carrera"  [ngClass]="{ 'is-invalid': submitted && f.fCarrera.errors }">
+                      <div *ngIf="submitted && f.fCarrera.errors" style="color:red">
+                        <div *ngIf="f.fCarrera.errors.required">Requerido</div>
+                      </div>
+                  </mat-form-field>
+              </div>
+          </div>
+          <!-- Grid column -->
+          <!-- Grid column -->
+          <div class="col-md-3">
+              <!-- Material input -->
+              <div class="form-group">
+                  <mat-form-field>
+                      <mat-label>Posición</mat-label>
+                       <mat-select formControlName="fPosicion" [(ngModel)]="position"
+                         [ngClass]="{ 'is-invalid': submitted && f.fPosicion.errors }">
+                         <mat-option *ngFor="let operator of posiciones;" [value]="operator.value">{{operator.label}}</mat-option>
+                      </mat-select>
+                      <div *ngIf="submitted && f.fPosicion.errors" style="color:red">
+                        <div *ngIf="f.fPosicion.errors.required">Requerido</div>
+                      </div>
+                    </mat-form-field>
+              </div>
+            </div>
+            <!-- Grid column -->
+        </div>
+        <!-- Grid row -->
+
+
+
+        <!-- Grid row -->
+        <div class="row">
+            <!-- Grid column -->
+            <div class="col-md-3">
+              <!-- Material input -->
+              <div class="form-group">
+                  <mat-form-field>
+                      <mat-label>Departamento</mat-label>
+                      <mat-select formControlName="fDepto" [(ngModel)]="department"
+                        [ngClass]="{ 'is-invalid': submitted && f.fDepto.errors }">
+                        <mat-option *ngFor="let operator of departamentos;" [value]="operator.value">{{operator.label}}</mat-option>
+                      </mat-select>
+                      <div *ngIf="submitted && f.fDepto.errors" style="color:red">
+                        <div *ngIf="f.fDepto.errors.required">Requerido</div>
+                      </div>
+                    </mat-form-field>
+              </div>
+            </div>
+            <!-- Grid column -->
+            <!-- Grid column -->
+            <div class="col-md-3">
+              <!-- Material input -->
+              <div class="form-group">
+                  <mat-form-field>
+                      <mat-label>Puesto de trabajo</mat-label>
+                    <mat-select formControlName="fPueTrab" [(ngModel)]="workstation"
+                       [ngClass]="{ 'is-invalid': submitted && f.fPueTrab.errors }">
+                        <mat-option *ngFor="let operator of puestoTrabs;" [value]="operator.value">{{operator.label}}</mat-option>
+                      </mat-select>
+                      <div *ngIf="submitted && f.fPueTrab.errors" style="color:red">
+                        <div *ngIf="f.fPueTrab.errors.required">Requerido</div>
+                      </div>
+                    </mat-form-field>                                    
+              </div>
+            </div>
+            <!-- Grid column -->
+            <!-- Grid column -->
+            <div class="col-md-3">
+              <!-- Material input -->
+              <div class="form-group">
+                  <mat-form-field>
+                      <mat-label>Jefe Inmediato</mat-label>
+                      <mat-select formControlName="fJefInm" [(ngModel)]="employeeBoss"
+                        [ngClass]="{ 'is-invalid': submitted && f.fJefInm.errors }">
+                        <mat-option *ngFor="let operator of jefes;" [value]="operator.value">{{operator.label}}</mat-option>
+                      </mat-select>
+                      <div *ngIf="submitted && f.fJefInm.errors" style="color:red">
+                        <div *ngIf="f.fJefInm.errors.required">Requerido</div>
+                      </div>
+                    </mat-form-field>                 
+              </div>
+            </div>
+            <!-- Grid column -->
+            <!-- Grid column -->
+            <div class="col-md-3">
+                <!-- Material input -->
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>Horario de Trabajo</mat-label>
+                         <mat-select formControlName="fHorTrab" [(ngModel)]="workingHour"
+                           [ngClass]="{ 'is-invalid': submitted && f.fHorTrab.errors }">
+                           <mat-option *ngFor="let operator of horarios;" [value]="operator.value">{{operator.label}}</mat-option>
+                        </mat-select>
+                        <div *ngIf="submitted && f.fHorTrab.errors" style="color:red">
+                          <div *ngIf="f.fHorTrab.errors.required">Requerido</div>
+                        </div>
+                    </mat-form-field>
+                </div>
+              </div>
+              <!-- Grid column -->
+          </div>
+          <!-- Grid row -->
+
+
+          <!-- Grid row -->
+          <div class="row">
+            <!-- Grid column -->
+            <div class="col-md-3">
+              <!-- Material input -->
+              <div class="form-group">
+                  <mat-form-field>
+                      <mat-label>Lugar de Trabajo</mat-label>
+                      <mat-select formControlName="fLugTrab" [(ngModel)]="employeePlace"
+                        [ngClass]="{ 'is-invalid': submitted && f.fLugTrab.errors }">
+                        <mat-option *ngFor="let operator of lugares;" [value]="operator.value">{{operator.label}}</mat-option>
+                      </mat-select>
+                      <div *ngIf="submitted && f.fLugTrab.errors" style="color:red">
+                        <div *ngIf="f.fLugTrab.errors.required">Requerido</div>
+                      </div>
+                    </mat-form-field>                  
+              </div>
+            </div>
+            <!-- Grid column -->
+            <!-- Grid column -->
+            <div class="col-md-3">
+              <!-- Material input -->
+              <div class="form-group">
+                  <!-- Material input -->
+                  <mat-form-field>
+                      <input matInput formControlName="fStartJob" [matDatepicker]="picker1" placeholder="Fecha de Inicio laboral"  [ngClass]="{ 'is-invalid': submitted && f.fStartJob.errors }">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                      <div *ngIf="submitted && f.fStartJob.errors" style="color:red">
+                          <div *ngIf="f.fStartJob.errors.required">Requerido</div>
+                        </div>
+                  </mat-form-field>
+              </div>
+            </div>
+            <!-- Grid column -->
+            <!-- Grid column -->
+            <div class="col-md-3">
+              ¿Tiene personal a su cargo?
+            </div>
+            <div class="col-md-3">
+              <mat-radio-group formControlName="fPerCarg" [(ngModel)]="employeeDependent"
+                arial-label="Seleccion"  [ngClass]="{ 'is-invalid': submitted && f.fPerCarg.errors }">
+                <mat-radio-button *ngFor="let data of personas" [value]="data.value">{{data.label}}</mat-radio-button>
+              </mat-radio-group>
+              <div *ngIf="submitted && f.fPerCarg.errors" style="color:red">
+                  <div *ngIf="f.fPerCarg.errors.required">Requerido</div>
+              </div>
+            </div>
+            <!-- Grid column -->
+            <!-- Grid column -->
+            <div class="col-md-3">
+                <!-- Material input -->
+                <div class="form-group">
+                </div>
+              </div>
+              <!-- Grid column -->
+          </div>
+          <!-- Grid row -->                  
+          <!-- Extended material form grid -->
+    </div> 
+  </div>
+
+
+  <h3>Descripción del puesto</h3>
+  <div class="form-row">
+      <div class="col-12">
+          <mat-form-field>
+              <textarea matInput formControlName="fDescGralPust" [ngClass]="{ 'is-invalid': submitted && f.fDescGralPust.errors }" placeholder="Descripción General del Puesto"></textarea>
+              <div *ngIf="submitted && f.fDescGralPust.errors" style="color:red">
+                  <div *ngIf="f.fDescGralPust.errors.required">Requerido</div>
+              </div>
+          </mat-form-field>
+      </div>
+  </div>
+
+  <div class="row">
+              <div class="col text-right">
+            <button type="submit" [disabled]="isdisabled" class="btn" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+              <i class="ti-pencil"></i>&nbsp;
+              <!--{{labBotAcep}}-->Guardar / Actualizar
+            </button>
+          </div>
+  </div>  
+</form>  
+</div>

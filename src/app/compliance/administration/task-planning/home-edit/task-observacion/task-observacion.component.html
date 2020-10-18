@@ -1,0 +1,86 @@
+
+<div class="section">
+
+  <div class="row pb-2">
+      <div class="col">
+          <p class="section_titulo_0">Observaciones y/o Comentarios</p>
+          <p class="section_subtitulo_0"> </p>
+      </div>
+  </div>
+
+
+      <!-- Text area para observaciones -->
+      <form [formGroup]="obsForm" (ngSubmit)="onSubmit()">
+        <div class="row" >
+          <div class="col-12 ">
+            <mat-form-field style="width: 100%">
+              <textarea matInput formControlName="fObserva" [ngClass]="{ 'is-invalid': submitted && f.fObserva.errors }" placeholder="Observaciones de quien Aplica el Examen"></textarea>
+              <div *ngIf="submitted && f.fObserva.errors" style="color:red">
+                <div *ngIf="f.fObserva.errors.required">Requerido</div>
+              </div>
+            </mat-form-field>
+            <div class="row justify-content-end mb-5">
+              <div class="col-md-auto">
+                <button type="submit" mdbBtn color="primary" mdbWavesEffect [disabled]="isdisabled">Guardar</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </form>
+      <!-- Lista de observaciones -->
+      <div class="row">
+        <div class="col">
+          <table mdbTable bordered="true">
+            <thead class="grey lighten-1 black-text">
+            <tr>
+              <th *ngFor="let head of headObservaciones" scope="col">{{head}} </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr mdbTableCol *ngFor="let el of observacioes; let i = index;">
+              <th scope="row">{{i+1}}</th>
+              <td>{{el.observacion}}</td>
+              <td>{{el.fechaObservacion}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+</div>
+  <!-- Documentos -->
+
+
+
+  <div class="section" *ngFor="let item of titleDocument">
+
+    <div class="row pb-2">
+        <div class="col">
+            <p class="section_titulo_0">{{item.titleDocument}}</p>
+            <p class="section_subtitulo_0"> </p>
+        </div>
+    </div>
+  
+
+    <div class="row">
+      <div class="col">
+
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-6"  >
+                  <div class="row">
+                    <div class="col" *ngFor="let itemInterno of item.carasDocuments" >
+                      <a (click)="downloadFile(itemInterno.fileDownloadUri)"><img src="../../../../assets/img/{{itemInterno.type}}.png" style="width: 40px;" />&nbsp;{{itemInterno.name}}</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <app-task-files [typeDocument]='item.titleDocument' [complianceId]='complianceId'></app-task-files>
+                </div>
+              </div>
+            </div>
+
+      </div>
+    </div>
+  </div>
+

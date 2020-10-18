@@ -1,0 +1,675 @@
+<div>
+	<ng-template #tippotencianeta>
+		<p>POTENCIA NETA</p>
+		<p>{{ getTagName("potenciaNeta") }}</p>
+	</ng-template>
+	<ng-template #tipccdv>
+		<p>POTENCIA CCDV</p>
+		<p>{{ getTagName("potenciaCcdv") }}</p>
+	</ng-template>
+	<ng-template #tiprt>
+		<p>RÉGIMEN TÉRMICO</p>
+		<p>{{ getTagName("regimentermico") }}</p>
+	</ng-template>
+
+	<ng-template #tipsetTemperaturaAmbiente>
+		<p>Temperatura ambiente</p>
+		<p>{{ getTagName("temperatura_ambiente") }}</p>
+	</ng-template>
+	<ng-template #tipsetPresionAtmosferica>
+		<p>Presión atmosférica</p>
+		<p>{{ getTagName("presion_atmosferica") }}</p>
+	</ng-template>
+	<ng-template #tipsethumedad>
+		<p>Humedad</p>
+		<p>{{ getTagName("humedad") }}</p>
+	</ng-template>
+
+	<ng-template #tip_ct_1_RT>
+		<p>{{ 'HR' | translate }}</p>
+		<p>{{ getTagName("ct_1_RT") }}</p>
+		<p>{{ getValue("ct_1_RT")[1] | number: "1.2-2" }}  kJ/kWh</p>
+	</ng-template>
+	<ng-template #tip_ct_1_Potencia>
+		<p>{{ 'Power' | translate }}</p>
+		<p>{{ getTagName("ct_1_Potencia") }}</p>
+		<p>{{ getValue("ct_1_Potencia")[1] | number: "1.2-2" }} MW</p>
+	</ng-template>
+	<ng-template #tip_ct_1_diesel>
+		<p>Diesel</p>
+		<p>{{ getTagName("ct_1_diesel") }}</p>
+		<p>{{ getValue("ct_1_diesel")[1] | number: "1.2-2" }}  ton/h</p>
+	</ng-template>
+	<ng-template #tip_ct_1_gas>
+		<p>Gas</p>
+		<p>{{ getTagName("ct_1_gas") }}</p>
+		<p>{{ getValue("ct_1_gas")[1] | number: "1.2-2" }} Nm3/h</p>
+	</ng-template>
+	<ng-template #tip_ct_1_RPM>
+		<p>rpm</p>
+		<p>{{ getTagName("ct_1_RPM") }}</p>
+		<p>{{ getValue("ct_1_RPM")[1] | number: "1.2-2" }} rpm</p>
+	</ng-template>
+
+	
+	<ng-template #tip_ct_2_RT>
+		<p>{{ 'HR' | translate }}</p>
+		<p>{{ getTagName("ct_2_RT") }}</p>
+		<p>{{ getValue("ct_2_RT")[1] | number: "1.2-2" }}  kJ/kWh</p>
+	</ng-template>
+	<ng-template #tip_ct_2_Potencia>
+		<p>{{ 'Power' | translate }}</p>
+		<p>{{ getTagName("ct_2_Potencia") }}</p>
+		<p>{{ getValue("ct_2_Potencia")[1] | number: "1.2-2" }} MW</p>
+	</ng-template>
+	<ng-template #tip_ct_2_diesel>
+		<p>Diesel</p>
+		<p>{{ getTagName("ct_2_diesel") }}</p>
+		<p>{{ getValue("ct_2_diesel")[1] | number: "1.2-2" }}  ton/h</p>
+	</ng-template>
+	<ng-template #tip_ct_2_gas>
+		<p>Gas</p>
+		<p>{{ getTagName("ct_2_gas") }}</p>
+		<p>{{ getValue("ct_2_gas")[1] | number: "1.2-2" }} Nm3/h</p>
+	</ng-template>
+	<ng-template #tip_ct_2_RPM>
+		<p>rpm</p>
+		<p>{{ getTagName("ct_2_RPM") }}</p>
+		<p>{{ getValue("ct_2_RPM")[1] | number: "1.2-2" }} rpm</p>
+	</ng-template>
+
+	
+	<ng-template #tip_ct_3_RT>
+		<p>{{ 'HR' | translate }}</p>
+		<p>{{ getTagName("ct_3_RT") }}</p>
+		<p>{{ getValue("ct_3_RT")[1] | number: "1.2-2" }}  kJ/kWh</p>
+	</ng-template>
+	<ng-template #tip_ct_3_Potencia>
+		<p>{{ 'Power' | translate }}</p>
+		<p>{{ getTagName("ct_3_Potencia") }}</p>
+		<p>{{ getValue("ct_3_Potencia")[1] | number: "1.2-2" }} MW</p>
+	</ng-template>
+	<ng-template #tip_ct_3_diesel>
+		<p>Diesel</p>
+		<p>{{ getTagName("ct_3_diesel") }}</p>
+		<p>{{ getValue("ct_3_diesel")[1] | number: "1.2-2" }}  ton/h</p>
+	</ng-template>
+	<ng-template #tip_ct_3_gas>
+		<p>Gas</p>
+		<p>{{ getTagName("ct_3_gas") }}</p>
+		<p>{{ getValue("ct_3_gas")[1] | number: "1.2-2" }} Nm3/h</p>
+	</ng-template>
+	<ng-template #tip_ct_3_RPM>
+		<p>rpm</p>
+		<p>{{ getTagName("ct_3_RPM") }}</p>
+		<p>{{ getValue("ct_3_RPM")[1] | number: "1.2-2" }} rpm</p>
+	</ng-template>
+</div>
+<div class="monitoreo pb-4">
+	<div class="row">
+		<div class="col-12 col-xs-6 order-1 order-xs-0 text-center">
+			<h2 class="text text-left">PARÁMETROS PRINCIPALES DE GENERACIÓN</h2>
+			<div class="row">
+				<div class="col">
+					<div (click)="chartLine_01_ToogleSerie('potenciaNeta')">
+						<div class="bg_a m-2" [ngbTooltip]="tippotencianeta" tooltipClass="mytooltip">
+							<div [style.color]="this.isSerieActivate_1.get('potenciaNeta') ? mapColors.get('potenciaNeta'):'#fff'">
+								<p class="text1">POTENCIA NETA</p>
+								<span class="digito">{{ getValue("potenciaNeta")[1] | number: "1.2-2" }}</span>
+								<span class="text2">MW</span>
+							</div>
+							<div *ngIf="getValue('potenciaNeta')[0] != null">
+								<p class="text2">{{ getValue("potenciaNeta")[0] | date: "dd/MM/yyyy" }}</p>
+								<p class="text2">{{ getValue("potenciaNeta")[0] | date: "hh:mm:ss" }}</p>
+							</div>
+							<div *ngIf="getValue('potenciaNeta')[0] == null">
+								<p class="text2">00/00/0000</p>
+								<p class="text2">00:00:00</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div (click)="chartLine_01_ToogleSerie('potenciaCcdv')">
+						<div class="bg_a m-2" [ngbTooltip]="tipccdv" tooltipClass="mytooltip">						
+							<div [style.color]="this.isSerieActivate_1.get('potenciaCcdv') ? mapColors.get('potenciaCcdv'):'#fff'">
+								<p class="text1">POTENCIA CCDV</p>
+								<span class="digito">{{ getValue("potenciaCcdv")[1] | number: "1.2-2" }}</span>
+								<span class="text2">MW</span>
+							</div>
+							<div *ngIf="getValue('potenciaCcdv')[0] != null">
+								<p class="text2">{{ getValue("potenciaCcdv")[0] | date: "dd/MM/yyyy" }}</p>
+								<p class="text2">{{ getValue("potenciaCcdv")[0] | date: "hh:mm:ss" }}</p>
+							</div>
+							<div *ngIf="getValue('potenciaCcdv')[0] == null">
+								<p class="text2">00/00/0000</p>
+								<p class="text2">00:00:00</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div (click)="chartLine_01_ToogleSerie('regimentermico')">
+						<div class="bg_a m-2" [ngbTooltip]="tiprt" tooltipClass="mytooltip">				
+							<div [style.color]="this.isSerieActivate_1.get('regimentermico') ? mapColors.get('regimentermico'):'#fff'">
+								<p class="text1">RÉGIMEN TÉRMICO</p>
+								<span class="digito">{{ getValue("regimentermico")[1] | number: "1.2-2" }}</span>
+								<span class="text2">MW</span>
+							</div>
+							<div *ngIf="getValue('regimentermico')[0] != null">
+								<p class="text2">{{ getValue("regimentermico")[0] | date: "dd/MM/yyyy" }}</p>
+								<p class="text2">{{ getValue("regimentermico")[0] | date: "hh:mm:ss" }}</p>
+							</div>
+							<div *ngIf="getValue('regimentermico')[0] == null">
+								<p class="text2">00/00/0000</p>
+								<p class="text2">00:00:00</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-xs-6 order-0 order-xs-1 text-right">
+			<div class="row">
+				<div class="col">
+					<span style="font-size: 1.5em; margin-bottom:5px;margin-right: 20px;" [ngStyle]="{color: conectToPi ? '#42AE49': 'red'}">
+						<i class="fas fa-wifi"></i>
+					</span>
+				</div>
+			</div>
+			<div class="row justify-content-end">
+				<div class="col-auto">
+					<div id="contenedorCondiciones">
+						<p class="text" style="margin-right: 20px; font-size: medium;">CONDICIONES AMBIENTALES</p>
+						<div (click)="chartLine_01_ToogleSerie('temperatura_ambiente')">
+							<div [ngbTooltip]="tipsetTemperaturaAmbiente" tooltipClass="mytooltip" class="text derecha">
+								<span class="badge" [style.background-color]="mapColors.get('temperatura_ambiente')" *ngIf="isSerieActivate_1.get('temperatura_ambiente')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								{{ getValue("temperatura_ambiente")[1] | number: "1.2-2" }} °C
+								<span style="font-size: 1.5em; color: red; margin: 10px;">
+									<i class="fas fa-thermometer-half"></i>
+								</span>
+							</div>
+						</div>
+						<div (click)="chartLine_01_ToogleSerie('presion_atmosferica')">
+							<div [ngbTooltip]="tipsetPresionAtmosferica" tooltipClass="mytooltip" class="text derecha">
+								<span class="badge" [style.background-color]="mapColors.get('presion_atmosferica')" *ngIf="isSerieActivate_1.get('presion_atmosferica')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								{{ getValue("presion_atmosferica")[1] | number: "1.2-2" }}, MBAR
+								<span style="font-size: 1em; margin: 10px;">
+									<i class="fas fa-tachometer-alt"></i>
+								</span>
+							</div>
+						</div>
+						<div (click)="chartLine_01_ToogleSerie('humedad')">
+							<div [ngbTooltip]="tipsethumedad" tooltipClass="mytooltip" class="text derecha">
+								<span class="badge" [style.background-color]="mapColors.get('humedad')" *ngIf="isSerieActivate_1.get('humedad')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								{{ getValue("humedad")[1] | number: "1.0-0" }} %
+								<span style="font-size: 1.5em; color: cyan; margin: 10px;">
+									<i class="fas fa-tint"></i>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- LineChart -->
+	<div class="row justify-content-end">
+		<div class="col text-right">
+			<app-high-charts-controls [chartsControl]="chartControlLineChart2" (chartsControlOutPut)="modifyChartLineChart2($event)"></app-high-charts-controls>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col">
+			<div>
+				<div #LineChart2></div>
+			</div>
+		</div>
+	</div>
+	<!-- ./ LineChart -->
+	<!--Donas-->
+	<div class="row">
+		<div class="col-12 col-lg-6 col-xl-4 my-4">
+			<div class="row">
+				<div class="col">
+					<strong class="nameplanta">
+						{{ 'TG' | translate }}1
+					</strong>
+				</div>
+			</div>
+			<hr style="background: #c3c3c3;height: 0px;">
+			<div class="row">
+				<div class="col-12 col-lg-4" (click)="openModal_ct_1_dona()">
+					<div>
+						<div #donaChart1></div>
+					</div>
+				</div>
+			</div>
+			<div class="row" (click)="openModalCt_1()">
+				<div class="col text-center">
+					<img class="imgTurbinaDiesel" *ngIf="getValue('ct_1_RPM')[1]>10" src="assets/monitoring/3_3/turbinaAnimada2.gif" alt=""
+						style="width: 70%; max-width: 460px;" />
+					<img class="imgTurbinaDiesel" *ngIf="getValue('ct_1_RPM')[1]<11" src="assets/monitoring/3_3/turbina-gas.png" alt=""
+						style="width: 70%; max-width: 460px;" />
+				</div>
+			</div>
+			<div class="row d-flex justify-content-center text-center d-block d-xl-none">
+				<div class="col-auto">
+					<div (click)="chartLine_01_ToogleSerie('ct_1_RT')">
+						<span [ngbTooltip]="tip_ct_1_RT" tooltipClass="mytooltip"
+						[ngClass]="getClassIcon('ct_1_RT')" >
+							<i class="fas fa-chart-line"></i>
+						</span>
+						<p>{{ getValue("ct_1_RT")[1] | number: "1.2-2" }}</p>
+						<p> kJ/kWh</p>
+						<p><span class="badge" [style.background-color]="mapColors.get('ct_1_RT')" *ngIf="isSerieActivate_1.get('ct_1_RT')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+					</div>
+				</div>
+				<div class="col-auto">
+					<div (click)="chartLine_01_ToogleSerie('ct_1_Potencia')">
+						<span [ngbTooltip]="tip_ct_1_Potencia" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_1_Potencia')">
+							<i class="fas fa-bolt"></i>
+						</span>
+						<p>{{ getValue("ct_1_Potencia")[1] | number: "1.2-2" }}</p>
+						<p>MW</p>
+						<p><span class="badge" [style.background-color]="mapColors.get('ct_1_Potencia')" *ngIf="isSerieActivate_1.get('ct_1_Potencia')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+					</div>
+				</div>
+				<div class="col-auto" *ngIf="isEat()">
+					<div (click)="chartLine_01_ToogleSerie('ct_1_diesel')">
+						<span [ngbTooltip]="tip_ct_1_diesel" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_1_diesel')">
+							<i class="fas fa-gas-pump"></i>
+						</span>
+						<p>{{ getValue("ct_1_diesel")[1] | number: "1.2-2" }}</p>
+						<p> ton/h</p>
+						<p><span class="badge" [style.background-color]="mapColors.get('ct_1_diesel')" *ngIf="isSerieActivate_1.get('ct_1_diesel')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+					</div>
+				</div>
+				<div class="col-auto">
+					<div (click)="chartLine_01_ToogleSerie('ct_1_gas')">
+						<span [ngbTooltip]="tip_ct_1_gas" tooltipClass="mytooltip"
+						[ngClass]="getClassIcon('ct_1_gas')">
+						<i class="fas fa-fire-alt"></i>
+						</span>
+						<p>{{ getValue("ct_1_gas")[1] | number: "1.2-2" }}</p>
+						<p>Nm3/h</p>
+						<p><span class="badge" [style.background-color]="mapColors.get('ct_1_gas')" *ngIf="isSerieActivate_1.get('ct_1_gas')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+					</div>
+				</div>
+				<div class="col-auto">
+					<div (click)="chartLine_01_ToogleSerie('ct_1_RPM')">
+						<span [ngbTooltip]="tip_ct_1_RPM" tooltipClass="mytooltip"
+						[ngClass]="getClassIcon('ct_1_RPM')">
+							<i class="fas fa-running running" *ngIf="getValue('ct_1_RPM')[1] > 10"></i>
+							<i class="fas fa-bed" *ngIf="getValue('ct_1_RPM')[1] <= 10"></i>
+						</span>
+						<p>{{ getValue("ct_1_RPM")[1] | number: "1.2-2" }}</p>
+						<p>rpm</p>
+						<p><span class="badge" [style.background-color]="mapColors.get('ct_1_RPM')" *ngIf="isSerieActivate_1.get('ct_1_RPM')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-lg-6 col-xl-4 my-4">
+			<div class="row">
+				<div class="col">
+					<strong class="nameplanta">
+						{{ 'TG' | translate }}2
+					</strong>
+				</div>
+			</div>
+			<hr style="background: #c3c3c3;height: 0px;">
+			<div class="row">
+				<div class="col-12 col-lg-4" (click)="openModal_ct_2_dona()">
+					<div>
+						<div #donaChart2></div>
+					</div>
+				</div>
+			</div>
+			<div class="row" (click)="openModalCt_2()">
+				<div class="col text-center">
+					<img class="imgTurbinaDiesel" *ngIf="getValue('ct_1_RPM')[1]>10" src="assets/monitoring/3_3/turbinaAnimada2.gif" alt=""
+						style="width: 70%; max-width: 460px;" />
+					<img class="imgTurbinaDiesel" *ngIf="getValue('ct_1_RPM')[1]<11" src="assets/monitoring/3_3/turbina-gas.png" alt=""
+						style="width: 70%; max-width: 460px;" />
+				</div>
+			</div>
+			<div class="row d-flex justify-content-center text-center d-block d-xl-none">
+				<div class="col-auto">
+					<div (click)="chartLine_01_ToogleSerie('ct_2_RT')">
+						<span [ngbTooltip]="tip_ct_2_RT" tooltipClass="mytooltip"
+						[ngClass]="getClassIcon('ct_2_RT')" >
+							<i class="fas fa-chart-line"></i>
+						</span>
+						<p>{{ getValue("ct_2_RT")[1] | number: "1.2-2" }}</p>
+						<p> kJ/kWh</p>
+						<p><span class="badge" [style.background-color]="mapColors.get('ct_2_RT')" *ngIf="isSerieActivate_1.get('ct_2_RT')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+					</div>
+				</div>
+				<div class="col-auto">
+					<div (click)="chartLine_01_ToogleSerie('ct_2_Potencia')">
+						<span [ngbTooltip]="tip_ct_2_Potencia" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_2_Potencia')">
+							<i class="fas fa-bolt"></i>
+						</span>
+						<p>{{ getValue("ct_2_Potencia")[1] | number: "1.2-2" }}</p>
+						<p>MW</p>
+						<p><span class="badge" [style.background-color]="mapColors.get('ct_2_Potencia')" *ngIf="isSerieActivate_1.get('ct_2_Potencia')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+					</div>
+				</div>
+				<div class="col-auto" *ngIf="isEat()">
+					<div (click)="chartLine_01_ToogleSerie('ct_2_diesel')">
+						<span [ngbTooltip]="tip_ct_2_diesel" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_2_diesel')">
+							<i class="fas fa-gas-pump"></i>
+						</span>
+						<p>{{ getValue("ct_2_diesel")[1] | number: "1.2-2" }}</p>
+						<p> ton/h</p>
+						<p><span class="badge" [style.background-color]="mapColors.get('ct_2_diesel')" *ngIf="isSerieActivate_1.get('ct_2_diesel')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+					</div>
+				</div>
+				<div class="col-auto">
+					<div (click)="chartLine_01_ToogleSerie('ct_2_gas')">
+						<span [ngbTooltip]="tip_ct_2_gas" tooltipClass="mytooltip"
+						[ngClass]="getClassIcon('ct_2_gas')">
+						<i class="fas fa-fire-alt"></i>
+						</span>
+						<p>{{ getValue("ct_2_gas")[1] | number: "1.2-2" }}</p>
+						<p>Nm3/h</p>
+						<p><span class="badge" [style.background-color]="mapColors.get('ct_2_gas')" *ngIf="isSerieActivate_1.get('ct_2_gas')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+					</div>
+				</div>
+				<div class="col-auto">
+					<div (click)="chartLine_01_ToogleSerie('ct_2_RPM')">
+						<span [ngbTooltip]="tip_ct_2_RPM" tooltipClass="mytooltip"
+						[ngClass]="getClassIcon('ct_2_RPM')">
+							<i class="fas fa-running running" *ngIf="getValue('ct_2_RPM')[1] > 10"></i>
+							<i class="fas fa-bed" *ngIf="getValue('ct_2_RPM')[1] <= 10"></i>
+						</span>
+						<p>{{ getValue("ct_2_RPM")[1] | number: "1.2-2" }}</p>
+						<p>rpm</p>
+						<p><span class="badge" [style.background-color]="mapColors.get('ct_2_RPM')" *ngIf="isSerieActivate_1.get('ct_2_RPM')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-lg-6 col-xl-4 my-4">
+			<div class="row">
+				<div class="col">
+					<strong class="nameplanta">{{ 'TV' | translate }}
+					</strong>
+				</div>
+			</div>
+			<hr style="background: #c3c3c3;height: 0px;">
+			<div class="row">
+				<div class="col-12 col-lg-4" (click)="openModal_ct_3_dona()">
+					<div>
+						<div #donaChart3></div>
+					</div>
+				</div>
+			</div>
+			<div class="row" (click)="openModalCt_3()">
+				<div class="col text-center" style="margin-bottom: 3%;">
+					<img class="imgTurbinaDiesel" *ngIf="getValue('ct_3_RPM')[1]>10" src="assets/monitoring/3_3/turbinaVaporAnimada.gif" alt=""
+						style="width: 100%; max-width: 600px;" />
+					<img class="imgTurbinaDiesel" *ngIf="getValue('ct_3_RPM')[1]<11" src="assets/monitoring/3_3/turbina-vapor.png" alt=""
+						style="width: 100%; max-width: 600px;" />
+				</div>
+			</div>
+			<div class="row d-flex justify-content-center text-center d-block d-xl-none">
+				<div class="col-auto">
+					<div (click)="chartLine_01_ToogleSerie('ct_3_RT')">
+						<span [ngbTooltip]="tip_ct_3_RT" tooltipClass="mytooltip"
+						[ngClass]="getClassIcon('ct_3_RT')" >
+							<i class="fas fa-chart-line"></i>
+						</span>
+						<p>{{ getValue("ct_3_RT")[1] | number: "1.2-2" }}</p>
+						<p> kJ/kWh</p>
+						<p><span class="badge" [style.background-color]="mapColors.get('ct_3_RT')" *ngIf="isSerieActivate_1.get('ct_3_RT')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+					</div>
+				</div>
+				<div class="col-auto">
+					<div (click)="chartLine_01_ToogleSerie('ct_3_Potencia')">
+						<span [ngbTooltip]="tip_ct_3_Potencia" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_3_Potencia')">
+							<i class="fas fa-bolt"></i>
+						</span>
+						<p>{{ getValue("ct_3_Potencia")[1] | number: "1.2-2" }}</p>
+						<p>MW</p>
+						<p><span class="badge" [style.background-color]="mapColors.get('ct_3_Potencia')" *ngIf="isSerieActivate_1.get('ct_3_Potencia')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+					</div>
+				</div>
+				<div class="col-auto">
+					<div (click)="chartLine_01_ToogleSerie('ct_3_RPM')">
+						<span [ngbTooltip]="tip_ct_3_RPM" tooltipClass="mytooltip"
+						[ngClass]="getClassIcon('ct_3_RPM')">
+							<i class="fas fa-running running" *ngIf="getValue('ct_3_RPM')[1] > 10"></i>
+							<i class="fas fa-bed" *ngIf="getValue('ct_3_RPM')[1] <= 10"></i>
+						</span>
+						<p>{{ getValue("ct_3_RPM")[1] | number: "1.2-2" }}</p>
+						<p>rpm</p>
+						<p><span class="badge" [style.background-color]="mapColors.get('ct_3_RPM')" *ngIf="isSerieActivate_1.get('ct_3_RPM')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="d-none d-xl-block">
+		<div class="row">
+			<div class="col-12 col-lg-6 col-xl-4">
+				<div class="row d-flex justify-content-center text-center">
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_1_RT')">
+							<span [ngbTooltip]="tip_ct_1_RT" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_1_RT')" >
+								<i class="fas fa-chart-line"></i>
+							</span>
+							<p>{{ getValue("ct_1_RT")[1] | number: "1.2-2" }}</p>
+							<p> kJ/kWh</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_1_RT')" *ngIf="isSerieActivate_1.get('ct_1_RT')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_1_Potencia')">
+							<span [ngbTooltip]="tip_ct_1_Potencia" tooltipClass="mytooltip"
+								[ngClass]="getClassIcon('ct_1_Potencia')">
+								<i class="fas fa-bolt"></i>
+							</span>
+							<p>{{ getValue("ct_1_Potencia")[1] | number: "1.2-2" }}</p>
+							<p>MW</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_1_Potencia')" *ngIf="isSerieActivate_1.get('ct_1_Potencia')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto" *ngIf="isEat()">
+						<div (click)="chartLine_01_ToogleSerie('ct_1_diesel')">
+							<span [ngbTooltip]="tip_ct_1_diesel" tooltipClass="mytooltip"
+								[ngClass]="getClassIcon('ct_1_diesel')">
+								<i class="fas fa-gas-pump"></i>
+							</span>
+							<p>{{ getValue("ct_1_diesel")[1] | number: "1.2-2" }}</p>
+							<p> ton/h</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_1_diesel')" *ngIf="isSerieActivate_1.get('ct_1_diesel')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_1_gas')">
+							<span [ngbTooltip]="tip_ct_1_gas" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_1_gas')">
+							<i class="fas fa-fire-alt"></i>
+							</span>
+							<p>{{ getValue("ct_1_gas")[1] | number: "1.2-2" }}</p>
+							<p>Nm3/h</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_1_gas')" *ngIf="isSerieActivate_1.get('ct_1_gas')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_1_RPM')">
+							<span [ngbTooltip]="tip_ct_1_RPM" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_1_RPM')">
+								<i class="fas fa-running running" *ngIf="getValue('ct_1_RPM')[1] > 10"></i>
+								<i class="fas fa-bed" *ngIf="getValue('ct_1_RPM')[1] <= 10"></i>
+							</span>
+							<p>{{ getValue("ct_1_RPM")[1] | number: "1.2-2" }}</p>
+							<p>rpm</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_1_RPM')" *ngIf="isSerieActivate_1.get('ct_1_RPM')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-6 col-xl-4">
+				<div class="row d-flex justify-content-center text-center">
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_2_RT')">
+							<span [ngbTooltip]="tip_ct_2_RT" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_2_RT')" >
+								<i class="fas fa-chart-line"></i>
+							</span>
+							<p>{{ getValue("ct_2_RT")[1] | number: "1.2-2" }}</p>
+							<p> kJ/kWh</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_2_RT')" *ngIf="isSerieActivate_1.get('ct_2_RT')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_2_Potencia')">
+							<span [ngbTooltip]="tip_ct_2_Potencia" tooltipClass="mytooltip"
+								[ngClass]="getClassIcon('ct_2_Potencia')">
+								<i class="fas fa-bolt"></i>
+							</span>
+							<p>{{ getValue("ct_2_Potencia")[1] | number: "1.2-2" }}</p>
+							<p>MW</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_2_Potencia')" *ngIf="isSerieActivate_1.get('ct_2_Potencia')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto" *ngIf="isEat()">
+						<div (click)="chartLine_01_ToogleSerie('ct_2_diesel')">
+							<span [ngbTooltip]="tip_ct_2_diesel" tooltipClass="mytooltip"
+								[ngClass]="getClassIcon('ct_2_diesel')">
+								<i class="fas fa-gas-pump"></i>
+							</span>
+							<p>{{ getValue("ct_2_diesel")[1] | number: "1.2-2" }}</p>
+							<p> ton/h</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_2_diesel')" *ngIf="isSerieActivate_1.get('ct_2_diesel')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_2_gas')">
+							<span [ngbTooltip]="tip_ct_2_gas" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_2_gas')">
+							<i class="fas fa-fire-alt"></i>
+							</span>
+							<p>{{ getValue("ct_2_gas")[1] | number: "1.2-2" }}</p>
+							<p>Nm3/h</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_2_gas')" *ngIf="isSerieActivate_1.get('ct_2_gas')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_2_RPM')">
+							<span [ngbTooltip]="tip_ct_2_RPM" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_2_RPM')">
+								<i class="fas fa-running running" *ngIf="getValue('ct_2_RPM')[1] > 10"></i>
+								<i class="fas fa-bed" *ngIf="getValue('ct_2_RPM')[1] <= 10"></i>
+							</span>
+							<p>{{ getValue("ct_2_RPM")[1] | number: "1.2-2" }}</p>
+							<p>rpm</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_2_RPM')" *ngIf="isSerieActivate_1.get('ct_2_RPM')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-6 col-xl-4">		
+				<div class="row d-flex justify-content-center text-center">
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_3_RT')">
+							<span [ngbTooltip]="tip_ct_3_RT" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_3_RT')" >
+								<i class="fas fa-chart-line"></i>
+							</span>
+							<p>{{ getValue("ct_3_RT")[1] | number: "1.2-2" }}</p>
+							<p> kJ/kWh</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_3_RT')" *ngIf="isSerieActivate_1.get('ct_3_RT')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_3_Potencia')">
+							<span [ngbTooltip]="tip_ct_3_Potencia" tooltipClass="mytooltip"
+								[ngClass]="getClassIcon('ct_3_Potencia')">
+								<i class="fas fa-bolt"></i>
+							</span>
+							<p>{{ getValue("ct_3_Potencia")[1] | number: "1.2-2" }}</p>
+							<p>MW</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_3_Potencia')" *ngIf="isSerieActivate_1.get('ct_3_Potencia')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div (click)="chartLine_01_ToogleSerie('ct_3_RPM')">
+							<span [ngbTooltip]="tip_ct_3_RPM" tooltipClass="mytooltip"
+							[ngClass]="getClassIcon('ct_3_RPM')">
+								<i class="fas fa-running running" *ngIf="getValue('ct_3_RPM')[1] > 10"></i>
+								<i class="fas fa-bed" *ngIf="getValue('ct_3_RPM')[1] <= 10"></i>
+							</span>
+							<p>{{ getValue("ct_3_RPM")[1] | number: "1.2-2" }}</p>
+							<p>rpm</p>
+							<p><span class="badge" [style.background-color]="mapColors.get('ct_3_RPM')" *ngIf="isSerieActivate_1.get('ct_3_RPM')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<app-interactive-image-turbine-ct1 [ct]="'ct1'" [titulo]="'TG1'" [timeCurrent]="timeCurrent" #modal_turbine_ct_1>
+</app-interactive-image-turbine-ct1>
+<app-interactive-image-turbine-ct1 [ct]="'ct2'" [titulo]="'TG2'" [timeCurrent]="timeCurrent" #modal_turbine_ct_2>
+</app-interactive-image-turbine-ct1>
+<app-interactive-image-turbine-ct1 [ct]="'tv'"  [titulo]="'TV'" [timeCurrent]="timeCurrent" #modal_turbine_ct_3>
+</app-interactive-image-turbine-ct1>
+
+<div class="modal scroll_design fade" #modal_ct_1_dona tabindex="-1" role="dialog" aria-labelledby="ModalTurbineCT1Title" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalTurbineCT1Title">TG1</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="z-index: 9999999;">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+				<div #donaChart1_modal></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal scroll_design fade" #modal_ct_2_dona tabindex="-1" role="dialog" aria-labelledby="ModalTurbineCT1Title" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalTurbineCT1Title">TG2</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="z-index: 9999999;">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+				<div #donaChart2_modal></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal scroll_design fade" #modal_ct_3_dona tabindex="-1" role="dialog" aria-labelledby="ModalTurbineCT1Title" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalTurbineCT1Title">TV</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="z-index: 9999999;">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+				<div #donaChart3_modal></div>
+			</div>
+		</div>
+	</div>
+</div>

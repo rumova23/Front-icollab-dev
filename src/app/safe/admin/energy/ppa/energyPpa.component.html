@@ -1,0 +1,171 @@
+<div class="row">
+    <mdb-breadcrumb customClass="white" class="w-100">
+        <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+        <mdb-breadcrumb-item>Mercado</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item>Planeación</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item>MDA</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item class="active">Variables Energía</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
+</div>
+<div class="section mb-5">
+
+    <div class="row pb-2">
+        <div class="col">
+            <p class="section_titulo_0">{{'Importa Variables de Energía' | translate}}</p>
+            <p class="section_subtitulo_0"> </p>
+        </div>
+    </div>
+
+
+
+    <form [formGroup]="fileUploadForm" (ngSubmit)="upload(fileUploadForm.value)">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-3">
+                <div class="md-form">
+                    <select formControlName="typeVarhtml" class="browser-default custom-select"
+                        [(ngModel)]="typeVarhtml">
+                        <option [value]="4">Poder Calorífico Inferior Masico</option>
+                        <option [value]="5">Factor de Potencia</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-md-9">
+                <div class="row justify-content-end">
+
+                    <div class="col-12 col-sm-12 col-md-auto">
+                        Carga Archivo:<br>
+                        <app-file-upload formControlName="file" [progress]="progress"></app-file-upload>
+                        <mat-error *ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
+                            Requerido
+                        </mat-error>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-auto">
+                        <button type="button" class="btn right" (click)="download()">
+                            <i class="ti-cloud-down"></i>
+                            {{'Download' | translate}} {{'Layout' | translate}}
+                        </button>
+                        <br>
+                        <button type="submit" class="btn right" [disabled]="!fileUploadForm.valid"
+                            style="width: 168px;">
+                            <i class="ti-cloud-up"></i>
+                            {{'Import' | translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <hr>
+    <div class="row pb-2">
+        <div class="col">
+            <p class="section_titulo_0">{{ title }}</p>
+            <p class="section_subtitulo_0"></p>
+        </div>
+    </div>
+    <div class="row mb-3 mt-3">
+        <div class="col-12 col-sm-12 col-md-3">
+            <div class="form-group">
+                <label class="form-text text-left" for="mydate">De:</label>
+                <mat-form-field class="form-control">
+                    <input matInput [matDatepicker]="mydate" [(ngModel)]="date" (dateChange)="dateChange($event)">
+                    <mat-datepicker-toggle matSuffix [for]="mydate"></mat-datepicker-toggle>
+                    <mat-datepicker #mydate></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="energyForm" (ngSubmit)="addEnergy(energyForm.value)">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-4">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="form-text text-left">Poder Calorifíco Inferior Masico Kj/kg:</label>
+                            <input [min]="1" type="number" class="form-control"
+                                formControlName="indoorCalorificValue" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div
+                            *ngIf="!energyForm.controls['indoorCalorificValue'].valid && energyForm.controls['indoorCalorificValue'].touched">
+                            Requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="form-text text-left">Factor de Potencia:</label>
+                            <input [min]="1" type="number" class="form-control" formControlName="powerFactor" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div
+                            *ngIf="!energyForm.controls['powerFactor'].valid && energyForm.controls['powerFactor'].touched">
+                            Requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-right">
+                <button type="button" class="btn right" (click)="cancelEnergy()"
+                    [ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }">
+                    <i class="ti-close"></i>
+                    {{ "Cancel" | translate }}
+                </button>
+                <button type="submit" class="btn right" [disabled]="!energyForm.valid || hour === 0"
+                    [ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }">
+                    <i class="ti-plus"></i>
+                    {{ "add" | translate }}
+                </button>
+            </div>
+        </div>
+    </form>
+    <br />
+    <div class="mat-elevation-z0">
+        <table matSort mat-table [dataSource]="dataSource" class="table_catalogo">
+            <ng-container matColumnDef="hour">
+                <th mat-header-cell *matHeaderCellDef class="txt-center">#Hora</th>
+                <td mat-cell *matCellDef="let element">{{ element.hour }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="indoorCalorificValue">
+                <th mat-header-cell *matHeaderCellDef class="txt-center">Poder Calorifíco Inferior Masico Kj/kg</th>
+                <td mat-cell *matCellDef="let element">{{ element.indoorCalorificValue }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="powerFactor">
+                <th mat-header-cell *matHeaderCellDef class="txt-center">Factor de Potencia</th>
+                <td mat-cell *matCellDef="let element">{{ element.powerFactor }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef class="txt-center">Modificar</th>
+                <td mat-cell *matCellDef="let element">
+                    <a (click)="editEnergy(element)">
+                        <img src="assets/images/skins/ico_Editar.png" alt="Visualizar" />
+                    </a>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="cols"></tr>
+            <tr mat-row *matRowDef="let row; columns: cols" [class.mat-selected-row]="selectedElement === row"></tr>
+        </table>
+    </div>
+    <div class="row mt-5  justify-content-end">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
+            <div>
+                <button type="button" class="btn"
+                    [ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }"
+                    (click)="save2()">
+                    <i class="ti-pencil"></i>
+                    {{'Save / Update' | translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

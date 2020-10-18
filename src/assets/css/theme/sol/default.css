@@ -1,0 +1,26 @@
+#myheader, 
+#myfooter,
+.btn, 
+.mybtn,
+.colortheme
+{
+    background:#D67700;
+    color:#ffffff;
+}
+
+.mat-selected-row{
+    background: #ffebd4!important;
+}
+.mat-header-row{
+    background: #ebcfa7;
+}
+.sidebar_item:hover, .sidebar_item.itemActive{
+    background-color : #ece4da !important;
+    color            : Black !important;
+}
+.btn:hover{
+    color:#eee;
+}
+.mat-checkbox-checked.mat-primary .mat-checkbox-background, .mat-checkbox-indeterminate.mat-primary .mat-checkbox-background {
+    background-color: #D67700 !important;
+}

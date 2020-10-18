@@ -1,0 +1,217 @@
+<div class="row">
+    <mdb-breadcrumb customClass="white" class="w-100">
+      <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+      <mdb-breadcrumb-item class="active">{{titulo}}</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
+</div>
+ 
+<div class="section">
+    <div class="row pb-3">
+        <div class="col">
+            <p class="section_titulo_0">{{titulo2}}</p>
+            <p class="section_subtitulo_0">Aqui puedes {{titulo2}}.</p>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <form [formGroup]="actividadesForm" (ngSubmit)="onSubmit()">
+
+          <div class="row" style="display:none;">
+            <!-- Grid column -->
+            <div class="col-md-4">
+              <!-- Material input -->
+              <div>
+                <mat-form-field class="w-100">
+                  <input matInput placeholder="ID Actividad" formControlName="fActividadId" readonly="true">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+		  <div class="row">
+			<div class="col-md-4">
+					<div class="form-group">
+						<label>{{'Prefix' | translate}}</label>
+						<input mdbInput class="form-control" formControlName="fPrefijo"
+								#code maxlength="30">
+						<small class="form-text text-muted text-right">
+							{{code.value?.length || 0}}/30  
+						</small>
+						<div *ngIf="submitted && f.fPrefijo.errors" style="color:red">
+							<div *ngIf="f.fPrefijo.errors.required">Requerido</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br/>	  
+		  <div class="row">
+		  <div class="col-md-12">
+				<div class="form-group">
+					<label>  {{'Category' | translate}}  </label>
+            		<input mdbInput class="form-control" formControlName="fActividad"
+						   #categoria maxlength="100">
+					<small class="form-text text-muted text-right">{{categoria.value?.length || 0}}/100</small>
+					<div *ngIf="submitted && f.fActividad.errors" style="color:red">
+						<div *ngIf="f.fActividad.errors.required">Requerido</div>
+					</div>
+				</div>
+			      <br/>
+
+				  </div>
+				  </div>
+          <div class="row" *ngIf="false">
+            <!-- Grid column -->
+            <div class="col">
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field>
+                    <input matInput formControlName="fTareaPorVencer"
+                                    [readonly]="soloLectura"
+                                    [(ngModel)]="tareaPorVencer" 
+                                    type="number" 
+                                    step="1"
+                                    min="1"
+                                    max= maxTareaPorVencer
+                                    pattern="^[0-9]+"
+                                    placeholder="% Tarea a vencer">
+                    <div *ngIf="submitted && f.fTareaPorVencer.errors" style="color:red">
+                      <mat-error *ngIf="f.fTareaPorVencer.hasError('required')">
+                        Amount is required.
+                      </mat-error>  
+                      <mat-error *ngIf="f.fTareaPorVencer.hasError('min')">
+                        Minimum Amount is 100.
+                      </mat-error>  
+                      <mat-error *ngIf="f.fTareaPorVencer.hasError('max')">
+                        Maximum Amount is 200.
+                      </mat-error>        
+                    </div>         
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field>
+                    <input matInput formControlName="fTareaProximaVencer"
+                                    [readonly]="soloLectura" 
+                                    [(ngModel)]="tareaProximaVencer" 
+                                    type="number"
+                                    step="1" 
+                                    min="1"
+                                    max= maxTareaProximaVencer
+                                    pattern="^[0-9]+"
+                                    placeholder="% Próxima a vencer">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field> 
+                    <input matInput formControlName="fTareaTiempo"
+                                    [readonly]="soloLectura" 
+                                    [(ngModel)]="tareaTiempo" 
+                                    type="number"
+                                    step="1" 
+                                    min="1"
+                                    max= maxTareaTiempo
+                                    pattern="^[0-9]+"
+                                    placeholder="% Tarea en tiempo">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <ng-container>
+					<div class="form-group">
+						<label>{{'Item Status' | translate}}:</label><br>
+						<mat-checkbox class="active" color="primary" 
+							(change)="chanceCheck();"
+							[checked]="checkedEstatus"
+							[disabled]="deshabiliarEstatus">
+							<mat-label>{{'Active' | translate}} </mat-label>
+						</mat-checkbox>
+                    </div>
+              </ng-container>
+            </div>
+          </div>
+      
+          <div class="row">
+            <div class="col-md-4"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="d-flex justify-content-end">
+                <button type="submit" class="btn"
+                  [disabled]="disabledSave" *ngIf="!soloLectura">
+                  <i class="ti-pencil"></i>
+			              {{'Save / Update' | translate}}
+                  </button>
+                  <button type="button" class="btn"
+                  (click)="regresar()" >
+                  <i class="ti-angle-double-left"></i>
+                  {{'To return' |translate}}
+                  </button>
+                </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="" style="text-align: right;">
+            
+        </div>
+
+
+
+        <div class="row" *ngIf="showClone">
+          <div class="col">
+            <ng-container>
+				     <div class="form-group">
+               <label>Clonar elemento en:</label>
+               <br>
+                    <mat-checkbox class="active" color="primary" 
+                                      (change)="changeClone();"                                        
+                                       [checked]="checkedClone"> 
+                      	<mat-label  *ngIf="globalService.aguila">Sol</mat-label>
+                      	<mat-label  *ngIf="!globalService.aguila">Aguila</mat-label>
+                    </mat-checkbox>
+				     </div>
+            </ng-container>
+          </div>
+        </div>
+        <div style="text-align: right;" *ngIf="showClone">
+          <button type="button" class="btn"
+            (click)="clonar()"
+            [disabled]="!checkedClone">Clonar
+          </button>
+        </div>
+
+
+
+        <div class="row" *ngIf="showEditClonated && !cloned">
+          <div class="col">
+            <ng-container>
+				<div class="form-group">
+					<label>Actualizar elemento en:</label><br>
+                    <mat-checkbox class="active" color="primary" 
+                                      (change)="changeEditClonated();"                                        
+                                      [checked]="checkedEditClonated"> 
+                      <mat-label  *ngIf="globalService.aguila">Sol</mat-label>
+                      <mat-label  *ngIf="!globalService.aguila">Aguila</mat-label>
+                    </mat-checkbox>
+				</div>
+            </ng-container>
+          </div>
+        </div>
+        <div style="text-align: right;" *ngIf="showEditClonated && !cloned">
+          <button type="button" class="btn"
+            (click)="editClonated()"
+            [disabled]="!checkedEditClonated">Actualizar elementos clonados
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="cloned">
+      Elemento clonado
+    </div>
+    <div *ngIf="accion !='nuevo' && !cloned && origen != 'NO_CLONADO'">
+      Elemento con clones
+    </div>    
+</div>

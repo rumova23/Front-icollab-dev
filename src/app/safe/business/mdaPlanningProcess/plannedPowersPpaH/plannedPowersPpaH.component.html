@@ -1,0 +1,51 @@
+
+<div class="p-5">
+  <!-- Titulo -->
+  <div class="row justify-content-between">
+      <div class="col">
+          <span class="agila-cda-titulo">{{title}}</span>
+      </div>
+  </div>
+  
+  
+
+      
+      <!-- Inputs -->
+      <ng-container *ngFor="let formControl of formControls">
+          <mdb-card class="mt-4">
+              <mdb-card-body>
+                <div class="row">
+                  <div class="col"><b>{{formControl}}</b></div>
+                  <div class="col txt-r">
+                    <button type="submit" class="btn btn-info right" >
+                      <mdb-icon far icon="save" class="mr-1"></mdb-icon> Descarga Layout
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                      Carga de Soportes<br>
+                      <input type="file">
+                  </div>
+                  
+                  <div class="col txt-r">
+                    <button type="submit" class="btn btn-info right" >
+                      <mdb-icon far icon="save" class="mr-1"></mdb-icon> Importar
+                    </button>
+                  </div>
+                </div>
+
+           
+              </mdb-card-body>
+          </mdb-card> 
+      </ng-container>
+
+  
+
+
+  
+
+
+</div>
+       

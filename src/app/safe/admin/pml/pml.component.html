@@ -1,0 +1,125 @@
+<div class="row">
+    <mdb-breadcrumb customClass="white" class="w-100">
+        <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+        <mdb-breadcrumb-item>Mercado</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item>Análisis</mdb-breadcrumb-item>
+        <mdb-breadcrumb-item class="active">PML</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
+</div>
+
+  <div class="section">
+    <div class="row pb-2">
+        <div class="col">
+            <p class="section_titulo_0">PML</p>
+            <p class="section_subtitulo_0"> </p>
+        </div>
+    </div>
+    <hr>
+    <div class="row mb-3 mt-3">
+        <div class="col">
+
+            <form [formGroup]="conexionForm" (ngSubmit)="onSubmit(conexionForm.value)">
+                <div class="row">
+                    <div class="col">
+
+                        <div class="form-group">
+                            <label class="form-text text-left" for="dateInit">Fecha Inicio</label>
+                            <mat-form-field class="form-control">
+                                <input matInput 
+                                formControlName="dateInit"
+                                [matDatepicker]="dateInit"
+                                [(ngModel)]="search.dateInit"
+                                (dateChange)="dateChange($event)">
+                                <mat-datepicker-toggle matSuffix [for]="dateInit"></mat-datepicker-toggle>
+                                <mat-datepicker #dateInit></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                    <div class="col">                        
+                        <div class="form-group">
+                            <label class="form-text text-left" for="dateEnd">Fecha fin</label>
+                            <mat-form-field class="form-control">
+
+                                <input matInput 
+                                formControlName="dateEnd"
+                                [matDatepicker]="dateEnd"
+                                [(ngModel)]="search.dateEnd">
+
+                                <mat-datepicker-toggle matSuffix [for]="dateEnd"></mat-datepicker-toggle>
+                                <mat-datepicker #dateEnd></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-text text-left">Seleccione proceso:</label>
+                            <mat-select class="form-control" formControlName="process" [(ngModel)]="search.process">
+                              <mat-option class="form-control" *ngFor="let proces of process" [value]="proces.key">{{ proces.value }}</mat-option>
+                            </mat-select>
+                        </div>
+                    </div>
+                    <div class="col text-right">
+                        <button type="submit" class="btn mybtn" [disabled]="!conexionForm.valid">Buscar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row mb-3 mt-3">
+    <div class="col">
+        <div class="mat-elevation-z0">
+            <table mat-table [dataSource]="dataSource" style="width: 100%;"  class="table_catalogo">
+
+                <!--- Note that these columns can be defined in any order.
+                                The actual rendered columns are set as a property on the row definition" -->
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="node">
+                    <th mat-header-cell *matHeaderCellDef> Nodo </th>
+                    <td mat-cell *matCellDef="let element"> {{element.node}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef> Fecha </th>
+                    <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="process">
+                    <th mat-header-cell *matHeaderCellDef> Proceso </th>
+                    <td mat-cell *matCellDef="let element"> {{element.process}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="hour">
+                    <th mat-header-cell *matHeaderCellDef> Hora </th>
+                    <td mat-cell *matCellDef="let element"> {{element.hour}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="pml">
+                    <th mat-header-cell *matHeaderCellDef> Precio Marginal Local. </th>
+                    <td mat-cell *matCellDef="let element"> {{element.pml}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="pmlEne">
+                    <th mat-header-cell *matHeaderCellDef> Componente de Energía. </th>
+                    <td mat-cell *matCellDef="let element"> {{element.pmlEne}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="pmlPer">
+                    <th mat-header-cell *matHeaderCellDef> Componente de Pérdidas. </th>
+                    <td mat-cell *matCellDef="let element"> {{element.pmlPer}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="pmlCng">
+                    <th mat-header-cell *matHeaderCellDef> Componente de Congestión. </th>
+                    <td mat-cell *matCellDef="let element"> {{element.pmlCng}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[10, 20, 25]" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>

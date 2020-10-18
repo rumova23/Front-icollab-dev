@@ -1,0 +1,88 @@
+<div class="row">
+    <mdb-breadcrumb customClass="white" class="w-100">
+      <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+      <mdb-breadcrumb-item>Administración</mdb-breadcrumb-item>
+      <mdb-breadcrumb-item class="active">Índices Financieros</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
+  </div>
+
+  <div class="section">
+    <div class="row pb-2">
+        <div class="col">
+            <p class="section_titulo_0">Índices Financieros</p>
+            <p class="section_subtitulo_0"> </p>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row mb-3 mt-3">
+        <div class="col">
+
+            <form [formGroup]="conexionForm" (ngSubmit)="onSubmit(conexionForm.value)">
+                <div class="row">
+                    <div class="col">
+                        
+                        <div class="form-group">
+                            <label class="form-text text-left" for="mydateInit">Fecha Inicio</label>
+                            <mat-form-field class="form-control">
+                                <input matInput 
+                                formControlName="dateInit"
+                                [matDatepicker]="mydateInit"
+                                [(ngModel)]="search.dateInit"
+                                >
+                                <mat-datepicker-toggle matSuffix [for]="mydateInit"></mat-datepicker-toggle>
+                                <mat-datepicker #mydateInit></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+
+					  
+                    </div>
+                    <div class="col">
+                        
+                        <div class="form-group">
+                            <label class="form-text text-left" for="mydateEnd">Fecha fin</label>
+                            <mat-form-field class="form-control">
+                                <input matInput 
+                                formControlName="dateEnd"
+                                [matDatepicker]="mydateEnd"
+                                [(ngModel)]="search.dateEnd"
+                                >
+                                <mat-datepicker-toggle matSuffix [for]="mydateEnd"></mat-datepicker-toggle>
+                                <mat-datepicker #mydateEnd></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                    <div class="col text-right">
+                        <button type="submit" class="btn mybtn" [disabled]="!conexionForm.valid">Buscar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row mb-3 mt-3">
+    <div class="col">
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" class="table_catalogo">
+
+                <!--- Note that these columns can be defined in any order.
+                                The actual rendered columns are set as a property on the row definition" -->
+
+                <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef> Fecha </th>
+                    <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="data">
+                    <th mat-header-cell *matHeaderCellDef> Dato. </th>
+                    <td mat-cell *matCellDef="let element"> {{element.dato}} </td>
+                </ng-container>
+
+    
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>

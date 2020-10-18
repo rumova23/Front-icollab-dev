@@ -1,0 +1,164 @@
+<div class="myheader sticky-top" [ngClass]="{'myblue': globalService.aguila,'myorange': !globalService.aguila}">
+	<!--Navbar-->
+	<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark" [containerInside]="false">
+
+		<!-- Navbar brand -->
+		<mdb-navbar-brand>
+			<div class="mybrand">
+				<strong class="nameplanta mr-4 ml-3">Security</strong>
+			</div>	
+			<mdb-icon fas icon="bars" (click)="toggleMenu()" class="myicobarstoggle"></mdb-icon>
+		</mdb-navbar-brand>
+	  
+		<!-- Collapsible content -->
+		<links>
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+					<a class="nav-link">
+						<div class="btn-group">
+							<form action="" class="mysearch">
+								<input type="search" name="" id="" placeholder="Search your content...">
+								<i class="fa fa-search"></i>
+							</form>
+						</div>
+					</a>
+				</li>
+			</ul>
+	  
+			<ul class="navbar-nav ml-auto nav-flex-icons">
+				<!--Tools-->
+				<li class="nav-item">
+					<a class="nav-link">
+						<div class="btn-group" mdbDropdown>
+							<mdb-icon fas icon="tools" dropdownToggle></mdb-icon>
+							<div class="dropdown-menu dropdown-menu-right">
+								<div class="col">
+									<p class="dropdownMenuheader">Herramientas</p>
+								</div>
+								<a class="dropdown-item" (click)="changePassword()">
+									<table>
+										<tr>
+											<td><span class="lnr lnr-lock"></span>&nbsp;&nbsp;&nbsp;</td>
+											<td><h4>Cambiar Contraseña</h4></td>
+										</tr>
+									</table>
+								</a>
+								<div class="divider dropdown-divider"></div>
+								<a class="dropdown-item" (click)="logout()">
+									<table>
+										<tr>
+											<td>
+												<span class="lnr lnr-power-switch"></span>&nbsp;&nbsp;&nbsp;
+											</td>
+											<td>
+												<h4>Salir</h4>
+											</td>
+										</tr>
+									</table>
+								</a>
+							</div>
+						</div>
+					</a>
+				</li>
+
+				<li class="nav-item">
+					<a class="nav-link">
+						<div class="btn-group" mdbDropdown>
+							<mdb-icon far icon="envelope" dropdownToggle></mdb-icon>
+							<div *dropdownMenu class="dropdown-menu dropdown-menu-right " role="menu">
+								<div class="col">
+									<p class="dropdownMenuheader">Emails</p>
+								</div>
+								<a class="dropdown-item" >
+									<table>
+										<tr>
+											<td>
+												<i class="ti-announcement"></i>&nbsp;&nbsp;&nbsp;
+											</td>
+											<td>
+												<h4>Email</h4>
+												<h5>Cargar</h5>
+											</td>
+										</tr>
+									</table>
+								</a>
+								<div class="divider dropdown-divider"></div>
+								<a class="dropdown-item" (click)="changePassword()">
+									<table>
+										<tr>
+											<td>
+												<i class="ti-announcement"></i>&nbsp;&nbsp;&nbsp;
+											</td>
+											<td>
+												<h4>Email</h4>
+												<h5>Reiniciar</h5>
+											</td>
+										</tr>
+									</table>
+								</a>
+								<div class="divider dropdown-divider"></div>
+								<a class="dropdown-item text-right" (click)="changePassword()">
+									<span class="dropdownMenufooter">
+										Ver Todos
+									</span>
+								</a>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link">
+						<div class="btn-group" mdbDropdown>
+							<mdb-icon far icon="bell" dropdownToggle></mdb-icon>
+							<div *dropdownMenu class="dropdown-menu dropdown-menu-right " role="menu">
+								<div class="col">
+									<p class="dropdownMenuheader">Notificaciones</p>
+								</div>
+								<a class="dropdown-item" >
+									<table>
+										<tr>
+											<td>
+												<i class="ti-announcement"></i>&nbsp;&nbsp;&nbsp;
+											</td>
+											<td>
+												<h4>Notificaciones 1</h4>
+												<h5>Cargar</h5>
+											</td>
+										</tr>
+									</table>
+								</a>
+								<div class="divider dropdown-divider"></div>
+								<a class="dropdown-item">
+									<table>
+										<tr>
+											<td>
+												<i class="ti-announcement"></i>&nbsp;&nbsp;&nbsp;
+											</td>
+											<td>
+												<h4>Notificaciones 2</h4>
+												<h5>Reiniciar</h5>
+											</td>
+										</tr>
+									</table>
+								</a>
+								<div class="divider dropdown-divider"></div>
+								<a class="dropdown-item text-right" (click)="changePassword()">
+									<span class="dropdownMenufooter">
+										Ver Todos
+									</span>
+								</a>
+							</div>
+						</div>
+					</a>
+				</li>
+			</ul>
+		  
+		  	<span class="navbar-text white-text">
+				<img src="/assets/img/admin.png" class="logomodheader"  (click)="changeModule()" /> 
+				<span class="nameplanta mr-4">Security</span>
+			</span>
+		</links>
+		<!-- Collapsible content -->
+	</mdb-navbar>
+	<!--/.Navbar-->
+</div>

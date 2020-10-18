@@ -1,0 +1,15 @@
+.ui-paginator-pages .ui-paginator-element{
+    padding: 0px !important;
+}
+
+.totalFilas {
+    border-color: #c0c0c0;
+    background-color: #ffffff;
+    color: #212121;
+    width: 1.5em;
+    height: 1.5em;
+    line-height: 1.3em;
+    vertical-align: middle;
+    border-radius: 3px;
+    border: 1px solid #d6d6d6;
+}

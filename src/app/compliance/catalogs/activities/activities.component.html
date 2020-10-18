@@ -1,0 +1,98 @@
+<div class="row">
+    <mdb-breadcrumb customClass="white" class="w-100">
+      <mdb-breadcrumb-item class=""><mdb-icon fas icon="cog"></mdb-icon></mdb-breadcrumb-item>
+      <mdb-breadcrumb-item class="active">{{'Catálogos' | translate}} / {{titulo | translate}}</mdb-breadcrumb-item>
+    </mdb-breadcrumb>
+</div>
+
+<div class="section">
+    <div class="row pb-2">
+        <div class="col">
+            <p class="section_titulo_0">{{titulo | translate}}</p>
+            <p class="section_subtitulo_0"> </p>
+        </div>
+    </div>
+    <hr>
+    <div class="row mb-3 mt-3">
+      <div class="col text-right">
+        <button type="button" class="btn" *ngIf="showAdd"
+        (click)="action(1, 0)"><mdb-icon fas icon="plus"></mdb-icon>&nbsp;{{  'add' | translate  }}</button>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col">
+        <div class="tabla-responsi mat-elevation-z0">
+          <table mat-table [dataSource]="registros" matSort class="table_catalogo"  (matSortChange)="sortData($event)" matSortActive="prefix" matSortDirection="asc" matSortDisableClear>
+            <!-- orden Column -->
+            <ng-container matColumnDef="order">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> # </th>
+              <td mat-cell *matCellDef="let element; let i = index;" class="p-2 border-none">
+                  {{i + 1}}
+                </td>
+            </ng-container>
+            <!-- orden Column -->
+            <ng-container matColumnDef="prefix">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> {{'Prefix' | translate}} </th>
+              <td mat-cell *matCellDef="let element"> {{element.prefix}} </td>
+            </ng-container>
+            <!-- prefijo Column -->          
+            <ng-container matColumnDef="category" sticky>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> {{'Category' | translate}} </th>
+              <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+            </ng-container>
+            <!-- actividad Column -->
+
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center"> {{'Status' | translate}} </th>
+              <td mat-cell *matCellDef="let element"> {{element.status | translate}} </td>
+            </ng-container>
+            <ng-container matColumnDef="userUpdated">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center">{{'User Updated' | translate}} </th>
+              <td mat-cell *matCellDef="let element"> {{element.userUpdated}} </td>
+            </ng-container>
+            <ng-container matColumnDef="dateUpdated">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="txt-center">{{'Date and Time last modified' | translate}} </th>
+              <td mat-cell *matCellDef="let element"> {{element.dateUpdated | date:'dd/MM/yyyy HH:mm'}} </td>
+            </ng-container>
+
+
+            <!-- ver Column -->
+            <ng-container matColumnDef="see" >
+              <th mat-header-cell *matHeaderCellDef class="txt-center"> {{'See' | translate}} </th>
+              <td mat-cell *matCellDef="let element">
+                <a  (click)="action(2, element.element.idActivity)">
+                  <img src="assets/images/skins/ico_Ver.png" alt="Visualizar">
+                </a>
+              </td>
+            </ng-container>
+
+            <!-- modificar Column -->
+            <ng-container matColumnDef="update">
+              <th mat-header-cell *matHeaderCellDef class="txt-center"> {{'Edit' | translate}} </th>
+              <td mat-cell *matCellDef="let element">
+                <a  (click)="action(3, element.element.idActivity)">
+                  <img src="assets/images/skins/ico_Editar.png" alt="Visualizar">
+                </a>
+              </td>
+            </ng-container>
+
+            <!-- eliminar Column -->
+            <ng-container matColumnDef="delete">
+              <th mat-header-cell *matHeaderCellDef class="txt-center"> {{'Delete' | translate}} </th>
+              <td mat-cell *matCellDef="let element">
+                <a (click)="eliminarActividad(element.element)">
+                  <img src="assets/images/skins/ico_Borrar.png" alt="eliminar">
+                </a>
+              </td>
+            </ng-container>
+
+
+            <!-- header -->
+            <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="registros_x_pagina" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+</div>
