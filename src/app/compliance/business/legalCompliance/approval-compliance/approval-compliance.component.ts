@@ -19,6 +19,9 @@ import { MatrizCumplimientoDTO } from '../../../models/matriz-cumplimiento-dto';
 import { TagOutDTO } from 'src/app/compliance/models/tag-out-dto';
 import * as moment from 'moment';
 import { Combo } from 'src/app/compliance/models/Combo';
+import { HttpParams } from '@angular/common/http';
+import * as Util from 'src/app/core/helpers/util.general';
+import { SecurityService } from 'src/app/core/services/security.service';
 
 @Component({
 	selector: "app-approval-compliance",
@@ -29,44 +32,53 @@ export class ApprovalComplianceComponent implements OnInit {
 
 	administradores;
 	isSupervisor = false;
-
+	nombreCatalogo = "Aprobación de Cumplimiento/Generación de Tareas";
 	tableData;
 	tableDataFiltered;
 	plural = "";
 	tiposCumplimientos: Array<any>;
 	actividades: Array<any>;
 	anios: Array<any>;
+	data: any[] = [];
+	formFiltersTypeTable : FormGroup;
+	menu: any[];
+	showAdd = false;
+	showView = false;
+	showUpdate = false;
+	showDelete = false;
+
 	tablaColumnsLabels: ColumnLabel[] = [
 		{ key: "order", label: "#" },
 		{ key: "tag", label: "Tag" },
-		{ key: "cumplimiento", label: "Nombre del Cumplimiento" },
-		{ key: "tGeneradas", label: "Tareas Generadas" },
-		{ key: "categoria", label: "Categoría" },
-		{ key: "tCumplimiento", label: "Tipo de Cumplimiento" },
-		{ key: "pEntrega", label: "Periodo de Entrega" },
-		{ key: "autoridad", label: "Autoridad" },
-		{ key: "tAplicacion", label: "Tipo de Aplicación" },
-		{ key: "grupo", label: "Grupo" },
-		{ key: "uModificacion", label: "Usuario Última Modificación" },
-		{ key: "fModificacion", label: "Fecha y Hora Última Modificacion", dateFormat: "dd/MM/yyyy HH:mm" },
-		{ key: "estatus", label: "estatus" },
+		{ key: "classificationActivity", label: "Nombre del Cumplimiento" },
+		{ key: "countCompliance", label: "Tareas Generadas" },
+		{ key: "activity", label: "Categoría" },
+		{ key: "typeCompliance", label: "Tipo de Cumplimiento" },
+		{ key: "period_unit", label: "Periodo de Entrega" },
+		{ key: "authority", label: "Autoridad" },
+		{ key: "applicationType", label: "Tipo de Aplicación" },
+		{ key: "group", label: "Grupo" },
+		{ key: "userUpdated", label: "Usuario Última Modificación" },
+		{ key: "dateUpdated", label: "Fecha y Hora Última Modificacion", dateFormat: "dd/MM/yyyy HH:mm" },
+		{ key: "status", label: "Estatus" },
 	];
 	tableColumnsDisplay: string[] = [
 		"order",
 		"tag",
-		"cumplimiento",
-		"tGeneradas",
-		"categoria",
-		"tCumplimiento",
-		"pEntrega",
-		"autoridad",
-		"tAplicacion",
-		"grupo",
-		"uModificacion",
-		"fModificacion",
-		"estatus",
-		"sys_see",
+		"classificationActivity",
+		"countCompliance",
+		"activity",
+		"typeCompliance",
+		"period_unit",
+		"authority",
+		"applicationType",
+		"group",
+		"userUpdated",
+		"dateUpdated",
+		"status",
+//	"sys_see",
 	];
+
 	tableRowXpage = [50, 100];
 
 	filtrosForm: FormGroup;
@@ -89,6 +101,8 @@ export class ApprovalComplianceComponent implements OnInit {
 	comboTipoAplicacion: IdLabel[] = [];
 	comboGrupo: IdLabel[] = [];
 	comboEstatus: IdLabel[] = [{ id: 'Activo', label: 'Activo' }, { id: 'Inactivo', label: 'Inactivo' }];
+
+	tableRowXPage = [100, 500, 1000, 1500, 2000];
 
 	isSeguimientoAprovaciones = false;
 	tableDataSeguimientoAprovaciones = [
@@ -119,9 +133,46 @@ export class ApprovalComplianceComponent implements OnInit {
 		private datePipe: DatePipe,
 		private toastr: ToastrManager,
 		private administratorComplianceService: AdministratorComplianceService,
-		private tagService: TagService) { }
+		private tagService: TagService,
+		public securityService: SecurityService) {
+			this.menu = securityService.getMenu('Compliance');
+
+		}
 
 	ngOnInit() {
+
+		/* this.tagService.getEntidadEstatus('TX_MATRIZ_CUMPLIMIENTO', 'Aprobada').subscribe((data: EntidadEstatusDTO) => {
+			this.idMatrizFree = data.entidadEstatusId;
+		}); */
+		for (const option of this.menu) {
+			if (option.children) {
+				let flag = true;
+				while (flag) {
+					flag = false;
+					for (let ins = 0; ins < option.children.length; ins++) {
+
+						if (option.children[ins]['label'] === this.nombreCatalogo) {
+							if (option.children[ins].actions) {
+								for (let action = 0; action < option.children[ins].actions.length; action++) {
+									if (option.children[ins].actions[action] === 'CREAR') {
+										this.showAdd = true;
+									}
+									if (option.children[ins].actions[action] === 'VER') {
+										this.showView = true;
+									}
+									if (option.children[ins].actions[action] === 'EDITAR') {
+										this.showUpdate = true;
+									}
+									if (option.children[ins].actions[action] === 'BORRAR') {
+										this.showDelete = true;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 
 		this.addBlock(1, null);
 		timer(1000).subscribe(() => this.addBlock(2, null));
@@ -157,6 +208,10 @@ export class ApprovalComplianceComponent implements OnInit {
 			maxDate__dateUpdated: [null],
 		});
 
+		this.formFiltersTypeTable = this.formBuilder.group({
+			typeFilter:[2,Validators.required]
+		});
+
 		this.formMatrizCumplimiento = this.formBuilder.group({
 			fMatrizCumplimiento: [null, Validators.required],
 		});
@@ -164,19 +219,60 @@ export class ApprovalComplianceComponent implements OnInit {
 		const currentYear = (new Date()).getFullYear();
 		this.filtrosForm.controls.fAnio.setValue(currentYear);
 
-		this.initAutoComplete();
+		this.obtenerListaTags();
 
 		this.tiposCumplimientos = [];
 		this.actividades = [];
 		this.anios = [];
-//		this.initCombos();
+		this.initCombos();
 
 	}
 
+	obtenerListaTags() {
+		this.addBlock(1, 'Cargando...');
+		this.data = [];
+		const params : HttpParams = this.assamblerRequest ();
+//		this.tagService.obtenTagFiltros(params).subscribe((data: MatrizCumplimientoDTO) => {
+		this.tagService.obtenTagPorFiltros(2021).subscribe((data: MatrizCumplimientoDTO) => {
+			/* this.statusMatriz = data.entidadEstatus.estatus.nombre;
+			if (data.entidadEstatus.entidadEstatusId === this.idMatrizFree) {
+				this.isFree = true;
+			} */
+			this.setTableData(data.matriz);
+
+			this.initAutoComplete();
+
+			/* this.administradores = new MatTableDataSource<any>(data.cumplimientoIntegrantes); */
+
+			let dateUpdated = null;
+			let autoridad = null;
+
+
+			this.addBlock(2, null);
+
+
+			if (this.showView) {
+				if (!this.tableColumnsDisplay.includes('sys_see')) this.tableColumnsDisplay.push('sys_see');
+			}
+			if (this.showUpdate) {
+				if (!this.tableColumnsDisplay.includes('sys_edit')) this.tableColumnsDisplay.push('sys_edit');
+			}
+			if (this.showUpdate) {
+				if (!this.tableColumnsDisplay.includes('sys_delete')) this.tableColumnsDisplay.push('sys_delete');
+			}
+		},
+			error => {
+				this.addBlock(2, null);
+				this.toastr.errorToastr('Error al cargar lista de tags.', 'Lo siento,');
+
+			}
+		);
+	}
+
 	initAutoComplete() {
-/* 		this.filteredAutoTag = this.tableData.map((d) => d.tag).filter((el, index, arr) => arr.indexOf(el) === index);
-		this.filteredAutoName = this.tableData.map((d) => d.cumplimiento).filter((el, index, arr) => arr.indexOf(el) === index);
-		this.filteredUserUpdated = this.tableData.map((d) => d.uModificacion).filter((el, index, arr) => arr.indexOf(el) === index);
+		this.filteredAutoTag = this.tableData.map((d) => d.tag).filter((el, index, arr) => arr.indexOf(el) === index);
+		this.filteredAutoName = this.tableData.map((d) => d.classificationActivity).filter((el, index, arr) => arr.indexOf(el) === index);
+		this.filteredUserUpdated = this.tableData.map((d) => d.userUpdated).filter((el, index, arr) => arr.indexOf(el) === index);
 		let statusConsultActivity = "TODOS"; // 'TODOS' || 'ACTIVOS'
 		this.tagService.getCatalogoActividades(statusConsultActivity).subscribe(
 			(catalogoResult) => {
@@ -227,11 +323,15 @@ export class ApprovalComplianceComponent implements OnInit {
 			.add(() => {
 				this.addBlock(2, null);
 			});
- */	}
+	}
 
 	onFiltersTable() {
-		let v = this.formFiltersTable.value;
-		console.log(v);
+      	const typeSearch = this.formFiltersTypeTable.value.typeFilter.toString() === '1' ? 'AND' : 'OR'; // 1. OR \ 2. AND for search conditions
+
+		if ( !Util.isEmptyFilters ( this.formFiltersTable.value, typeSearch ) ) {
+			this.obtenerListaTags();
+		}
+
 	}
 
 	isnumeric(v) {
@@ -303,17 +403,17 @@ export class ApprovalComplianceComponent implements OnInit {
 					'order': index + 1,
 					'idTag': e.idTag,
 					'tag': e.tag,
-					'nombre': e.classificationActivity,
-					'clasificacion': e.activity ? e.activity.name : '',
-					'cumplimiento_legal': e.typeCompliance.code,
-					'periodo_entrega': this.formatPeriodo_entrega(e.period, (e.unitPeriod && e.unitPeriod.code) ? e.unitPeriod.code : ''),
-					'countTasks': e.countCompliance,
-					'autoridad': (e.authority && e.authority.code) ? e.authority.code : '',
-					'tipo_aplicacion': e.applicationType.code,
-					'grupo': e.group ? e.group.code : '',
+					'classificationActivity': e.classificationActivity,
+					'activity': e.activity ? e.activity.name : '',
+					'typeCompliance': e.typeCompliance.code,
+					'period_unit': this.formatPeriodo_entrega(e.period, (e.unitPeriod && e.unitPeriod.code) ? e.unitPeriod.code : ''),
+					'countCompliance': e.countCompliance,
+					'authority': (e.authority && e.authority.code) ? e.authority.code : '',
+					'applicationType': e.applicationType.code,
+					'group': e.group ? e.group.code : '',
 					'userUpdated': (e.userUpdated) ? e.userUpdated : e.userCreated,
 					'dateUpdated': dateUpdated,
-					'estatus': (e.active) ? 'Activo' : 'Inactivo'
+					'status': (e.active) ? 'Activo' : 'Inactivo'
 				};
 			});
 		this.tableDataFiltered = [].concat(this.tableData);
@@ -368,6 +468,23 @@ export class ApprovalComplianceComponent implements OnInit {
 		const nextYear = currentYear + 1;
 		this.anios.push(new Combo(currentYear.toString(), currentYear.toString()));
 		this.anios.push(new Combo(nextYear.toString(), nextYear.toString()));
+	}
+
+	assamblerRequest ( ) : HttpParams {
+		return new HttpParams ( )
+			.set ( "type", this.formFiltersTypeTable.value.typeFilter.toString() === '1' ? 'AND' : 'OR' )
+			.set ( "tag", this.formFiltersTable.controls['tag'].value == null ? "" : this.formFiltersTable.controls['tag'].value)
+			.set ( "classificationActivity", this.formFiltersTable.controls['nombre'].value == null ? "" : this.formFiltersTable.controls['nombre'].value)
+			.set ( "activityName", this.formFiltersTable.controls['clasificacion'].value == null ? "" : this.formFiltersTable.controls['clasificacion'].value)
+			.set ( "period", this.formFiltersTable.controls['periodo_entrega_cantidad'].value == null ? "" : this.formFiltersTable.controls['periodo_entrega_cantidad'].value)
+			.set ( "unitPeriodCode", this.formFiltersTable.controls['periodo_entrega_unidad'].value == null ? "" : this.formFiltersTable.controls['periodo_entrega_unidad'].value)
+			.set ( "authorityCode", this.formFiltersTable.controls['autoridad'].value == null ? "" : this.formFiltersTable.controls['autoridad'].value)
+			.set ( "applicationTypeCode", this.formFiltersTable.controls['tipo_aplicacion'].value == null ? "" : this.formFiltersTable.controls['tipo_aplicacion'].value)
+			.set ( "groupCode", this.formFiltersTable.controls['grupo'].value == null ? "" : this.formFiltersTable.controls['grupo'].value)
+			.set ( "active", this.formFiltersTable.controls['estatus'].value == null ? "" : this.formFiltersTable.controls['estatus'].value)
+			.set ( "userUpdated", this.formFiltersTable.controls['userUpdated'].value == null ? "" : this.formFiltersTable.controls['userUpdated'].value)
+			.set ( "minDateUpdated", this.formFiltersTable.controls['minDate__dateUpdated'].value == null ? "" : this.formFiltersTable.controls['minDate__dateUpdated'].value)
+			.set ( "maxDateUpdated", this.formFiltersTable.controls['maxDate__dateUpdated'].value == null ? "" : this.formFiltersTable.controls['maxDate__dateUpdated'].value)
 	}
 
 

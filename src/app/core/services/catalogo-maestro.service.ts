@@ -55,30 +55,30 @@ export class CatalogoMaestroService {
 
   getCatalogo(nameCat): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get(`${ EPs.catalog.admin.catalogo}${nameCat}`, {params : this.parameters });
+    return this.http.get(`${ EPs.catalog.admin.catalog}${nameCat}`, {params : this.parameters });
   }
 
   getOpcion(idOpcion: string): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.get(`${ EPs.catalog.catalogoOpcion.id}${idOpcion}`, {params : this.parameters });
+    return this.http.get(`${ EPs.catalog.catalogOption.id}${idOpcion}`, {params : this.parameters });
   }
   salvarOpcion(opcionNombre: string, opcionDescripcion: string, estatus: string, orden: string, maestroNombre: string): Observable<any> {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(`${ EPs.catalog.catalogoOpcion.catalogo}` + maestroNombre + '/' + opcionNombre + '/' + opcionDescripcion + '/' + estatus + '/' + orden, null, {params : this.parameters });
+    return this.http.post(`${ EPs.catalog.catalogOption.catalog}` + maestroNombre + '/' + opcionNombre + '/' + opcionDescripcion + '/' + estatus + '/' + orden, null, {params : this.parameters });
   }
 
   updateOpcion(opcionNombre: string, opcionDescripcion: string, estatus: string, orden: string, maestroOpcionId: string) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(`${ EPs.catalog.catalogoOpcion.catalogo.update}` + `/` + opcionNombre + `/` + opcionDescripcion + `/` + estatus + `/` + orden + `/` + maestroOpcionId, null, {params : this.parameters });
+    return this.http.post(`${ EPs.catalog.catalogOption.catalog.update}` + `/` + opcionNombre + `/` + opcionDescripcion + `/` + estatus + `/` + orden + `/` + maestroOpcionId, null, {params : this.parameters });
   }
 
   updateEstatus(maestroOpcionId: string) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(`${ EPs.catalog.catalogoOpcion.catalogo.update.estatus }` + maestroOpcionId, null, {params : this.parameters });
+    return this.http.post(`${ EPs.catalog.catalogOption.catalog.update.estatus }` + maestroOpcionId, null, {params : this.parameters });
   }
 
   borrarEstatus(maestroOpcionId: string) {
     this.parameters = this.globalService.setXTenantId(this.globalService.aguila);
-    return this.http.post(`${ EPs.catalog.catalogoOpcion.catalogo.delete}` + maestroOpcionId, null, {params : this.parameters });
+    return this.http.post(`${ EPs.catalog.catalogOption.catalog.delete}` + maestroOpcionId, null, {params : this.parameters });
   }
 }

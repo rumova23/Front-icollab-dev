@@ -44,7 +44,7 @@ export class TagService {
 
   save(tag: Tag): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
-    return this.http.post( `${ EPs.tags.activity.save }`, tag, {params : this.parameters });
+    return this.http.post( `${ EPs.tags.save }`, tag, {params : this.parameters });
   }
 
   getActividadPorTag(actividad: string) {

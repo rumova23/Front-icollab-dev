@@ -50,6 +50,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 	showUpdate = false;
 	showDelete = false;
 	plural = "";
+	/* action: string = "Consultar"; */
 
 	columnasResponsabilidad: string[] = ['order', 'admin', 'responsabilidad'];
 
@@ -73,9 +74,9 @@ export class ComplianceConfigurationComponent implements OnInit {
 		{ key: "grupo", label: 'Grupo' },
 		{ key: "periodo_entrega", label: 'Período de Entrega' },
 		{ key: "countTasks", label: 'Generados' },
-		{ key: "estatus", label: 'Estatus' },
 		{ key: "userUpdated", label: 'Usuario Última Modificación' },
 		{ key: "dateUpdated", label: 'Fecha y Hora de Última Modificación', dateFormat: 'dd/MM/yyyy HH:mm' },
+		{ key: "estatus", label: 'Estatus' }
 	];
 	tableColumnsDisplay: string[] = [
 		'order',
@@ -215,12 +216,12 @@ export class ComplianceConfigurationComponent implements OnInit {
 		this.addBlock(1, 'Cargando...');
 		this.data = [];
 		const params : HttpParams = this.assamblerRequest ();
-		this.tagService.obtenTagFiltros(params).subscribe((data: MatrizCumplimientoDTO) => {
-//		this.tagService.obtenTagPorFiltros(2021).subscribe((data: MatrizCumplimientoDTO) => {
-			this.statusMatriz = data.entidadEstatus.estatus.nombre;
+//		this.tagService.obtenTagFiltros(params).subscribe((data: MatrizCumplimientoDTO) => {
+		this.tagService.obtenTagPorFiltros(2021).subscribe((data: MatrizCumplimientoDTO) => {
+			/* this.statusMatriz = data.entidadEstatus.estatus.nombre;
 			if (data.entidadEstatus.entidadEstatusId === this.idMatrizFree) {
 				this.isFree = true;
-			}
+			} */
 			this.setTableData(data.matriz);
 
 			this.initAutoComplete();
@@ -438,6 +439,8 @@ export class ComplianceConfigurationComponent implements OnInit {
 
 		if ( !Util.isEmptyFilters ( this.formFiltersTable.value, typeSearch ) ) {
 			this.obtenerListaTags();
+		} else {
+			this.toastr.warningToastr(typeSearch === 'AND' ? "Tienes que capturar todos los datos de búsqueda." : 'Tienes que capturar al menos un dato de búsqueda.' );
 		}
 
 	}

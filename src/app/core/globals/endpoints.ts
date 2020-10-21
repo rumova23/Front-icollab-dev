@@ -59,17 +59,17 @@ export const EPs = {
       money: {
          save: "/catalog/money/save",
          list: "/catalog/money/list/",
-         all: "/catalog/state/listAll",
+         all: "/catalog/money/listAll",
       },
       status: {
          list: "/catalog/status/list/"
       },
       admin: {
-         catalogo: "/catalog/admin/catalogo/"
+         catalog: "/catalog/admin/catalogo/"
       },
-      catalogoOpcion: {
+      catalogOption: {
          id: "/catalog/catalogoOpcion/id/",
-         catalogo: {
+         catalog: {
             master: "/catalog/catalogoOpcion/catalogo/",
             update: {
                option: "/catalog/catalogoOpcion/catalogo/update/",
@@ -184,9 +184,9 @@ export const EPs = {
       precedingActivity: "/tags/tags/getActividadesPrecedentes",
       precedingAdd: "/tags/tags/agregarPrecedentes",
       precedingDelete: "/tags/tags/eliminarPrecedente",
+      save: "/tags/tags/guardar",
       activity: {
          alls: "/tags/tags/actividad/all/TODOS",
-         save: "/tags/tags/actividad/guardar",
          all: "/tags/tags/actividad/all",
          getConsecutive: "/tags/tags/actividad/obtenerConsecutivo",
          getActivity: "/tags/tags/actividad/obtenerActividad",
