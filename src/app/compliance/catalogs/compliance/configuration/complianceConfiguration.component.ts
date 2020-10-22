@@ -216,8 +216,8 @@ export class ComplianceConfigurationComponent implements OnInit {
 		this.addBlock(1, 'Cargando...');
 		this.data = [];
 		const params : HttpParams = this.assamblerRequest ();
-//		this.tagService.obtenTagFiltros(params).subscribe((data: MatrizCumplimientoDTO) => {
-		this.tagService.obtenTagPorFiltros(2021).subscribe((data: MatrizCumplimientoDTO) => {
+		this.tagService.obtenTagFiltros(params).subscribe((data: MatrizCumplimientoDTO) => {
+//		this.tagService.obtenTagPorFiltros(2021).subscribe((data: MatrizCumplimientoDTO) => {
 			/* this.statusMatriz = data.entidadEstatus.estatus.nombre;
 			if (data.entidadEstatus.entidadEstatusId === this.idMatrizFree) {
 				this.isFree = true;
@@ -385,9 +385,19 @@ export class ComplianceConfigurationComponent implements OnInit {
 		this.tableDataFiltered = [].concat(this.tableData);
 	}
 	initAutoComplete() {
-		this.filteredAutoTag = this.tableData.map(d => d.tag).filter((el, index, arr) => arr.indexOf(el) === index);
+		/* this.filteredAutoTag = this. this.tableData.map(d => d.tag).filter((el, index, arr) => arr.indexOf(el) === index);
 		this.filteredAutoName = this.tableData.map(d => d.nombre).filter((el, index, arr) => arr.indexOf(el) === index);
-		this.filteredUserUpdated = this.tableData.map(d => d.userUpdated).filter((el, index, arr) => arr.indexOf(el) === index);
+		this.filteredUserUpdated = this.tableData.map(d => d.userUpdated).filter((el, index, arr) => arr.indexOf(el) === index); */
+		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "tag", "tag" )).subscribe((data: any) => {
+			this.filteredAutoTag = data;
+		});
+		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "classificationActivity", "classificationActivity" )).subscribe((data: any) => {
+			this.filteredAutoName = data;
+		});
+		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "userUpdated", "userUpdated" )).subscribe((data: any) => {
+			this.filteredUserUpdated = data;
+		});
+
 		let statusConsultActivity = 'TODOS'; // 'TODOS' || 'ACTIVOS'
 		this.tagService.getCatalogoActividades(statusConsultActivity)
 			.subscribe(catalogoResult => {
