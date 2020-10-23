@@ -7,7 +7,7 @@
 		<mdb-breadcrumb-item>{{ "Incidentes" | translate }}</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item>{{ "Agregar Incidente" | translate }}</mdb-breadcrumb-item>
 		<mdb-breadcrumb-item>{{ "Ambiental" | translate }}</mdb-breadcrumb-item>
-		<mdb-breadcrumb-item class="active">{{ "Agregar" | translate }}</mdb-breadcrumb-item>
+		<mdb-breadcrumb-item class="active">{{ actionPage | translate }}</mdb-breadcrumb-item>
 	</mdb-breadcrumb>
 </div>
 
@@ -15,7 +15,7 @@
 	<div class="section">
 		<div class="row">
 			<div class="col">
-				<p class="section_titulo_0">{{ "Agregar / Configuración de Incidente Ambiental" | translate }}</p>
+				<p class="section_titulo_0" (click)="getIncidentOutDTO()">{{ "Agregar / Configuración de Incidente Ambiental" | translate }}</p>
 				<p class="section_subtitulo_0">{{ "Descripción del Incidente" | translate }}</p>
 			</div>
 		</div>
@@ -93,20 +93,23 @@
 			</div>
 		</div>
 	</div>	
-	<div class="section" *ngIf="cFNew.id.value != null">
+	<div class="section" *ngIf="is2">
 		<div class="row">
 			<div class="col-12 col-xl-2">
 				<app-mat-input-checkbox
 					[formGroup]="formNew" 
-					controlName="AnalisisCausaRaizRCA" 
+					controlName="rca" 
 					label="Analisis de Causa Raiz (RCA)" 
+					(eventChange)="onChangeCheckBoxRCA($event)"
 				></app-mat-input-checkbox>
 			</div>
 			<div class="col-12 col-xl-4">
 				<app-mat-input-datepicker
 					[formGroup]="formNew" 
-					controlName="FechaObjetivoEntregaRCA" 
-					label="Fecha Objetivo Entrega RCA" 
+					controlName="rcaTargetDate"
+					label="Fecha Objetivo Entrega RCA"
+					(eventChange)="onChangeDateFechaObjetivoEntregaRCA()"
+					[submitted]="isSubmitedRCA"
 				></app-mat-input-datepicker>
 			</div>
 			<div class="col-12 col-xl-1">
@@ -114,8 +117,9 @@
 					[formGroup]="formTimFechaObjetivoEntregaRCA"
 					controlName="h1" 
 					[options]="hours"
-					(eventChange)="onChangeDateTimeStart()"
+					(eventChange)="onChangeDateFechaObjetivoEntregaRCA()"
 					label="Hora"
+					[submitted]="isSubmitedRCA"
 				></app-mat-select>
 			</div>
 			<div class="col-12 col-xl-1">
@@ -123,47 +127,24 @@
 					[formGroup]="formTimFechaObjetivoEntregaRCA"
 					controlName="m1" 
 					[options]="hours"
-					(eventChange)="onChangeDateTimeStart()"
+					(eventChange)="onChangeDateFechaObjetivoEntregaRCA()"
 					label="Minuto"
+					[submitted]="isSubmitedRCA"
 				></app-mat-select>
 			</div>
 			<div class="col-12 col-xl-4">
 				<app-mat-input-datepicker
 					[formGroup]="formNew" 
-					controlName="FechaHoraEntregaRCA" 
+					controlName="rcaDeliveredDate" 
 					label="Fecha y hora Entrega RCA" 
 				></app-mat-input-datepicker>
 			</div>
 		</div>
 		<div class="row my-5">
 			<div class="col">
-				<div class="media">
-					<img src="assets/img/xlsx.png" style="width: 64px; height: 64px;">
-					<div class="media-body">
-						<p>nombre.xlsx</p>
-					</div>
-				</div>
-			</div>
-			<div class="col">
-				<div class="row" [formGroup]="formNew">
-					
-					<div class="col">
-						Carga Archivo:<br />
-						<app-file-upload formControlName="file" [progress]="progress"
-						(change)="selectFile($event)"
-						></app-file-upload>
-						<mat-error *ngIf="!formNew.controls['file'].valid && formNew.controls['file'].touched">
-							Requerido
-						</mat-error>
-					</div>
-					<div class="col-12 col-lg-3">
-						<div class="row mt-2">
-							<div class="col">
-								<app-btn-block-import (myClick)="uploadFile()" [disabled]="!formNew.valid || isReadOnly" ></app-btn-block-import>
-							</div>
-						</div>
-					</div>
-
+				<!-- Soportes Analisis de Causa Raiz-->
+				<div>			
+					<app-bits-upload-component [inIdEventConfig]="cFNew.id.value" [inAccion]="accion" [inTypeConfig]="3"></app-bits-upload-component>
 				</div>
 			</div>
 		</div>
@@ -171,13 +152,13 @@
 			<div class="col-12 col-xl-2">
 				<app-mat-input-checkbox
 					[formGroup]="formNew" 
-					controlName="Procede" 
+					controlName="proceed" 
 					label="¿Procede?" 
 				></app-mat-input-checkbox>
 			</div>
 		</div>
 	</div>
-	<div class="section" *ngIf="cFNew.id.value != null">
+	<div class="section" *ngIf="is2">
 		<div class="row">
 			<div class="col">
 				<p class="section_titulo_0">{{ "Fuente" | translate }}</p>
@@ -188,49 +169,49 @@
 			<div class="col-12 col-xl-3">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="NombresApellidosUsuarioReporto" 
+					controlName="userReporter" 
 					label="Nombre(s)/Apellido(s) Usuario Reporto" 
 				></app-mat-input-text>
 			</div>
 			<div class="col-12 col-xl-3">
 				<app-mat-input-datepicker
 					[formGroup]="formNew" 
-					controlName="FechaHoraReporto" 
+					controlName="dateReported" 
 					label="Fecha y Hora Reporto" 
 				></app-mat-input-datepicker>
 			</div>
 			<div class="col-12 col-xl-3">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="NombresApellidosUsuarioSuperviso" 
+					controlName="userSupervised" 
 					label="Nombre(s)/Apellido(s) Usuario Superviso" 
 				></app-mat-input-text>
 			</div>
 			<div class="col-12 col-xl-3">
 				<app-mat-input-datepicker
 					[formGroup]="formNew" 
-					controlName="FechaHoraSuperviso" 
+					controlName="dateSupervised" 
 					label="Fecha y Hora Superviso" 
 				></app-mat-input-datepicker>
 			</div>
 			<div class="col-12 col-xl-3">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="NombresApellidosUsuarioAproboRechazo" 
+					controlName="userApproval" 
 					label="Nombre(s)/Apellido(s) Usuario Aprobo/Rechazo" 
 				></app-mat-input-text>
 			</div>
 			<div class="col-12 col-xl-3">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="FechaHoraAproboRechazo" 
+					controlName="dateApproved" 
 					label="Fecha y Hora Aprobo/Rechazo" 
 				></app-mat-input-text>
 			</div>
 		</div>
 
 	</div>
-	<div class="section" *ngIf="cFNew.id.value != null">
+	<div class="section" *ngIf="is2">
 		<div class="row">
 			<div class="col">
 				<p class="section_titulo_0">{{ "Estatus del Evento" | translate }}</p>
@@ -241,20 +222,20 @@
 			<div class="col-12 col-xl-3">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="EstatusDelEvento" 
+					controlName="statusEvent" 
 					label="Estatus del Evento" 
 				></app-mat-input-text>
 			</div>
 			<div class="col-12 col-xl-3">
 				<app-mat-input-text
 					[formGroup]="formNew" 
-					controlName="EstatusDeAprovacion" 
+					controlName="reasonApproved" 
 					label="Estatus de Aprovacion" 
 				></app-mat-input-text>
 			</div>
 		</div>
 	</div>
-	<div class="section" *ngIf="cFNew.id.value != null">
+	<div class="section" *ngIf="is2">
 		<div class="row">
 			<div class="col">
 				<p class="section_titulo_0">{{ "Observaciones" | translate }}</p>
@@ -292,7 +273,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="section" *ngIf="cFNew.id.value != null">
+	<div class="section" *ngIf="is2">
 		<div class="row">
 			<div class="col">
 				<p class="section_titulo_0">{{ "Soportes" | translate }}</p>
@@ -303,40 +284,8 @@
 		<div>			
 			<app-bits-upload-component [inIdEventConfig]="cFNew.id.value" [inAccion]="accion" [inTypeConfig]="3"></app-bits-upload-component>
 		</div>
-		<!--div class="row my-5">
-			<div class="col">
-				<div class="media">
-					<img src="assets/img/xlsx.png" style="width: 64px; height: 64px;">
-					<div class="media-body">
-						<p>nombre.xlsx</p>
-					</div>
-				</div>
-			</div>
-			<div class="col">
-				<div class="row" [formGroup]="fileUploadForm">
-					
-					<div class="col">
-						Carga Archivo:<br />
-						<app-file-upload formControlName="file" [progress]="progress"
-						(change)="selectFile($event)"
-						></app-file-upload>
-						<mat-error *ngIf="!fileUploadForm.controls['file'].valid && fileUploadForm.controls['file'].touched">
-							Requerido
-						</mat-error>
-					</div>
-					<div class="col-12 col-lg-3">
-						<div class="row mt-2">
-							<div class="col">
-								<app-btn-block-import (myClick)="uploadFile()" [disabled]="!fileUploadForm.valid" ></app-btn-block-import>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div-->
 	</div>
-	<div class="section" *ngIf="cFNew.id.value != null">
+	<div class="section" *ngIf="is2">
 		<div class="row">
 			<div class="col">
 				<p class="section_titulo_0">{{ "Seguimiento" | translate }}</p>
@@ -364,16 +313,16 @@
 						<app-btn-block-back (myClick)="btnClickBack()"></app-btn-block-back>
 					</div>
 					<div class="col">
-						<app-btn-block-save-update myType="submit" 
-						[disabled]="disabledSubmit || isReadOnly || !formNew.valid">
+						<app-btn-block-save-update (myClick)="onFomrNew(formNew.value)" 
+						[disabled]="!is2 || isReadOnly || !formNew.valid || !formTimFechaObjetivoEntregaRCA.valid">
 						</app-btn-block-save-update>
 					</div>
-					<div class="col" *ngIf="!disabledBtnFinish">
-						<app-btn-block-send (myClick)="btnSend()" 
-						[disabled]="isReadOnly || !formNew.valid">
+					<div class="col">
+						<app-btn-block-send (myClick)="onFomrNew(formNew.value)" 
+						[disabled]="disabledBtnSend || isReadOnly || !formNew.valid">
 						</app-btn-block-send>
 					</div>
-					<div class="col" *ngIf="!disabledBtnFinish">
+					<div class="col">
 						<app-btn-block-finish (myClick)="btnFinish()" 
 						[disabled]="disabledBtnFinish || isReadOnly || !formNew.valid">
 						</app-btn-block-finish>

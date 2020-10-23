@@ -9,6 +9,8 @@ import { IncidentOutDTO } from 'src/app/bits/models/IncidentOutDTO';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { ConfirmationDialogService } from 'src/app/core/services/confirmation-dialog.service';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
+import * as Util from 'src/app/core/helpers/util.general';
+import { DataTransfer } from 'src/app/core/models/DataTransfer';
 
 @Component({
 	selector: 'app-bits-incidents-environmental',
@@ -16,11 +18,12 @@ import { EventBlocked } from 'src/app/core/models/EventBlocked';
 	styleUrls: ['./bits-incidents-environmental.component.scss']
 })
 export class BitsIncidentsEnvironmentalComponent implements OnInit {
-	tableData = [];
-	tablaColumnsLabels : ColumnLabel[] = [
-		 {key:'order'                            ,label:'#'}
+	tableData:IncidentOutDTO[] = [];
+	tableDataFiltered:IncidentOutDTO[]  = [];
+	tablaColumnsLabels = [
+		 {key:'order',label:'#',isSticky:true}
 		//,{key:'id'}
-		,{key:'tag',label:'TAG'}
+		,{key:'tag',label:'TAG',isSticky:true}
 		//,{key:'incidentTypeId',label:'Tipo de Incidente'}
 		,{key:'incidentTypeDesc',label:'Tipo de Incidente'}
 		,{key:'department',label:'Departamento'}
@@ -30,8 +33,15 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
 		,{key:'rca',label:'Aplica RCA'}
 		,{key:'rcaTargetDate',label:'rcaTargetDate'}
 		,{key:'rcaDeliveredDate',label:'rcaDeliveredDate'}
-		,{key:'active',label:'Estatus del Evento'}
+		,{key:'statusEvent',label:'Estatus del Evento'}
 		,{key:'proceed',label:'Estatus de Aprobación'}
+		,{key:'userReporter',label:'Nombre Apellidos Usuario Reportador'}
+		,{key:'userSupervised',label:'Nombre Apellidos Usuario Supervisor'}
+		,{key:'userApproval',label:'Nombre Apellidos Usuario Aprobador'}
+
+		
+
+
 		//,{key:'userCreated'}
 		//,{key:'dateCreated'}
 		,{key:'userUpdated',label:'Usuario Última Modificación'}
@@ -46,12 +56,12 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
 		,'specificLocation'
 		,'incidentDate'
 		,'description'
-		,'active'
+		,'statusEvent'
 		,'rca'
 		,'EsProcedente'
-		,'NombreApellidosUsuarioReportador'
-		,'NombreApellidosUsuarioSupervisor'
-		,'NombreApellidosUsuarioAprobador'
+		,'userReporter'
+		,'userSupervised'
+		,'userApproval'
 		//,'rcaTargetDate'
 		//,'rcaDeliveredDate'
 		//,'proceed'
@@ -71,7 +81,10 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
 	optionsFiltersType  : IdLabel[] = [{id:1,label:'Todos'},{id:2,label:'Al menos uno'}];
 	optionsYoN          : IdLabel[] = [{id:1,label:'Si'},{id:2,label:'No'}];
 	comboX              : IdLabel[] = [];
-	filteredAutoTag     : string[] ;
+	filteredAutoTag     : String[] ;
+	filteredAutoIncidentTypeDesc     : String[] ;
+	filteredAutoDepartment     : String[] ;
+	filteredAutoUserUpdated    : String[] ;
 	constructor(
 		public eventService : EventService
 		,private formBuilder: FormBuilder
@@ -84,6 +97,25 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
 		this.onLoadInit()
 		this.formFilters = this.formBuilder.group({
 			a:[null]
+			,tag              : [null]
+			,incidentTypeDesc : [null]
+			,department       : [null]
+			,specificLocation : [null]
+			,minDate__incidentDate     : [null]
+			,maxDate__incidentDate     : [null]
+			,rca              : [null]
+			,proceed          : [null]
+			,userUpdated      : [null]
+			,minDate__dateUpdated      : [null]
+			,maxDate__dateUpdated      : [null]
+			/*
+			,description      : [null]
+			,active           : [null]
+			,order            : [null]
+			,rcaTargetDate    : [null]
+			,rcaDeliveredDate : [null]
+			,userCreated      : [null]
+			,dateCreated      : [null]//*/
 		});
 		this.formFiltersType = this.formBuilder.group({
 			typeFilter:[2,Validators.required]
@@ -94,46 +126,50 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
 		this.incidentService.list().subscribe((data:IncidentOutDTO[])=>{
 			console.log(data);
 			this.tableData = data.map((e,i)=>{
-				e.order = i+1;				
+				e.order = i+1;
+				e.rca = e.rca ? 'Si': 'No'
 				return e;
 			});
+			this.tableDataFiltered = [].concat(this.tableData);
+			this.initAutoComplete();
 		}
-		,err=>{}
+		,err=>{
+			this.addBlock(2, '');
+			console.error(err);
+			this.toastr.errorToastr('Error', 'Error');
+		}
 		,()=>{
 			this.addBlock(2, '');
 		});
 	}
 	onbtnAdd(){
-		console.log('onbtnAdd');
-		const type = {
+		this.addBlock(1,null);
+		const type: DataTransfer<IncidentOutDTO> = {
             dto: null,
             action: 'nuevo',
-			name: '',
-			element: null
+			name: ''
         };
   		this.eventService.sendChangePage(
             new EventMessage(null, type, 'Bits.BitsIncidentsEnvironmentalABC')
         );
 	}
 	onTableRowSee(element){
-		console.log(element);	
-		const type = {
-            dto: null,
+		this.addBlock(1,null);
+		const type: DataTransfer<IncidentOutDTO> = {
+            dto: element,
             action: 'ver',
-			name: '',
-			element
+			name: ''
 		};
   		this.eventService.sendChangePage(
             new EventMessage(null, type, 'Bits.BitsIncidentsEnvironmentalABC')
         );	
 	}
 	onTableRowEdit(element){
-		console.log(element);
-		const type = {
-            dto: null,
+		this.addBlock(1,null);
+		const type: DataTransfer<IncidentOutDTO> = {
+            dto: element,
             action: 'editar',
-			name: '',
-			element
+			name: ''
 		};
   		this.eventService.sendChangePage(
             new EventMessage(null, type, 'Bits.BitsIncidentsEnvironmentalABC')
@@ -166,16 +202,30 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
 	}
 	limpiarFiltros(){
 		this.formFilters.reset();
+		this.tableDataFiltered = [].concat(this.tableData);
 	}
 	onFiltersTable(){
-		let a = this.formFilters.value;
-		let b = this.formFiltersType.value;
-		console.log(a);
-		console.log(b);
-		
-		
+		let and = this.formFiltersType.value.typeFilter.toString() === '1';
+		const typeSearch = and ? 'AND' : 'OR'; // 1. OR \ 2. AND for search conditions
+		let tem = Util.tableFilterBetweenDate<IncidentOutDTO>(this.tableData,this.formFilters.value,'dateUpdated',false)
+		.concat(Util.tableFilterBetweenDate<IncidentOutDTO>(this.tableData,this.formFilters.value,'incidentDate',false))
+		.filter((el,index,arr)=>arr.indexOf(el) === index);
+		if(tem.length==0 
+			&& !Util.existBetweenDate(this.formFilters.value,'dateUpdated')
+			&& !Util.existBetweenDate(this.formFilters.value,'incidentDate') )
+			tem = this.tableData; // 
+		Util.isEmptyFilters(this.formFilters.value) 
+		  ? this.limpiarFiltros() 
+		  : this.tableDataFiltered = Util.tableFilter<IncidentOutDTO>(tem,this.formFilters.value,typeSearch);
 	}
 	
+    initAutoComplete() {
+		this.filteredAutoTag     = this.tableData.map(d=>d.tag).filter((el,index,arr)=>arr.indexOf(el) === index);
+		this.filteredAutoIncidentTypeDesc    = this.tableData.map(d=>d.incidentTypeDesc).filter((el,index,arr)=>arr.indexOf(el) === index);
+		this.filteredAutoDepartment = this.tableData.map(d=>d.department).filter((el,index,arr)=>arr.indexOf(el) === index);
+		this.filteredAutoUserUpdated = this.tableData.map(d=>d.userUpdated).filter((el,index,arr)=>arr.indexOf(el) === index);
+  
+	}
 	addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,
 			new EventBlocked(type, msg)));

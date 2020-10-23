@@ -22,39 +22,39 @@
 	<form [formGroup]="formFilters" (ngSubmit)="onFiltersTable()">
 		<div class="row mt-3">
 			<div class="col-12 col-lg-3">
-				<app-mat-input-text-autocomplete [formGroup]="formFilters" controlName="a"
+				<app-mat-input-text-autocomplete [formGroup]="formFilters" controlName="tag"
 					[options]="filteredAutoTag" label="Tag"></app-mat-input-text-autocomplete>
 			</div>
 			<div class="col-12 col-lg-3">
-				<app-mat-input-text-autocomplete [formGroup]="formFilters" controlName="a"
-					[options]="filteredAutoTag" label="Tipo de Incidente"></app-mat-input-text-autocomplete>
+				<app-mat-input-text-autocomplete [formGroup]="formFilters" controlName="incidentTypeDesc"
+					[options]="filteredAutoIncidentTypeDesc" label="Tipo de Incidente"></app-mat-input-text-autocomplete>
 			</div>
 			<div class="col-12 col-lg-3">
-				<app-mat-input-text-autocomplete [formGroup]="formFilters" controlName="a"
-					[options]="filteredAutoTag" label="Departamento"></app-mat-input-text-autocomplete>
+				<app-mat-input-text-autocomplete [formGroup]="formFilters" controlName="department"
+					[options]="filteredAutoDepartment" label="Departamento"></app-mat-input-text-autocomplete>
 			</div>
 			<div class="col-12 col-lg-3">
-				<app-mat-input-text-autocomplete [formGroup]="formFilters" controlName="a"
+				<app-mat-input-text-autocomplete [formGroup]="formFilters" controlName="specificLocation"
 					[options]="filteredAutoTag" label="Ubicación"></app-mat-input-text-autocomplete>
 			</div>
 			<div class="col-12 col-lg-3">
 				<label>Fecha en que ocurrió el Incidente</label><br>
-				<app-mat-input-datepicker [formGroup]="formFilters" controlName="a"
+				<app-mat-input-datepicker [formGroup]="formFilters" controlName="minDate__incidentDate"
 					label="De">
 				</app-mat-input-datepicker>
 			</div>
 			<div class="col-12 col-lg-3">
 				<label style="visibility: hidden;">.</label><br>
-				<app-mat-input-datepicker [formGroup]="formFilters" controlName="a"
+				<app-mat-input-datepicker [formGroup]="formFilters" controlName="maxDate__incidentDate"
 					label="Al">
 				</app-mat-input-datepicker>
 			</div>
 			<div class="col-12 col-lg-3">
-				<app-mat-radio-button [formGroup]="formFilters" controlName="a" label="Aplica RCA"
+				<app-mat-radio-button [formGroup]="formFilters" controlName="rca" label="Aplica RCA"
 				[options]="optionsYoN"></app-mat-radio-button>
 			</div>
 			<div class="col-12 col-lg-3">
-				<app-mat-radio-button [formGroup]="formFilters" controlName="a" label="Procedente"
+				<app-mat-radio-button [formGroup]="formFilters" controlName="proceed" label="Procedente"
 				[options]="optionsYoN"></app-mat-radio-button>
 			</div>
 			<div class="col-12 col-lg-3">
@@ -79,20 +79,20 @@
 				</app-mat-select>
 			</div>
 			<div class="col-12 col-lg-3">
-				<app-mat-input-text-autocomplete [formGroup]="formFilters" controlName="a"
-					[options]="filteredAutoTag" label="Usuario Última Modificación"></app-mat-input-text-autocomplete>
+				<app-mat-input-text-autocomplete [formGroup]="formFilters" controlName="userUpdated"
+					[options]="filteredAutoUserUpdated" label="Usuario Última Modificación"></app-mat-input-text-autocomplete>
 			</div>
 			<div class="w-100"></div>
 
 			<div class="col-12 col-lg-3">
 				<label>Fecha de Última Modificación</label><br>
-				<app-mat-input-datepicker [formGroup]="formFilters" controlName="a"
+				<app-mat-input-datepicker [formGroup]="formFilters" controlName="minDate__dateUpdated"
 					label="De">
 				</app-mat-input-datepicker>
 			</div>
 			<div class="col-12 col-lg-3">
 				<label style="visibility: hidden;">.</label><br>
-				<app-mat-input-datepicker [formGroup]="formFilters" controlName="a"
+				<app-mat-input-datepicker [formGroup]="formFilters" controlName="maxDate__dateUpdated"
 					label="Al">
 				</app-mat-input-datepicker>
 			</div>
@@ -124,13 +124,14 @@
 	<div class="row my-4">
 		<div class="col">
 			<app-mat-table
-				[data]="tableData"
+				[data]="tableDataFiltered"
 				[columnsLabels]="tablaColumnsLabels"
 				[columnsDisplay]="tableColumnsDisplay"
 				[row_x_page]="tableRowXpage"
 				(clickSee)="onTableRowSee($event)"
 				(clickEdit)="onTableRowEdit($event)"
 				(clickDelete)="onTableRowDelete($event)"
+				maxHeight="400px"
 			></app-mat-table>
 		</div>
 	</div>

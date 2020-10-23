@@ -25,6 +25,7 @@ export class BranchInvoiceSeriesEditComponent implements OnInit {
   entity: Entity;
   systems: Array<CatalogOrderGeneric> = [];
   plantBranches : Array<PlantBranchOffice> = [];
+  document: Array<CatalogOrderGeneric> = [];
   branchOfficeInvoiceSerie: BranchOfficeInvoiceSerie;
   branchOfficeInvoiceSerieSelected: BranchOfficeInvoiceSerie;
   constructor(
@@ -39,10 +40,12 @@ export class BranchInvoiceSeriesEditComponent implements OnInit {
 
   ngOnInit() {
     this.getSystems();
+    this.getDocuments();
     this.branchInvoiceSeriesForm = this.fb.group({
       'serie': new FormControl('', Validators.required),
       'plantBranchOffice': new FormControl('', Validators.required),
       'sys': new FormControl('', Validators.required),
+      'doc': new FormControl('', Validators.required),
       'active': new FormControl(false)
     });
   }
@@ -62,6 +65,19 @@ export class BranchInvoiceSeriesEditComponent implements OnInit {
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Sistemas');
+        });
+  }
+
+  private getDocuments() {
+    this.catalogService.get('document')
+      .subscribe(
+        data => {
+          this.document = data;
+          console.log(this.document);
+          //this.getPlantBranches();
+        },
+        errorData => {
+          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Documentos');
         });
   }
 

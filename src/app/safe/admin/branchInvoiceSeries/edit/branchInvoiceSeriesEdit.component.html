@@ -129,6 +129,26 @@
 
                 <div class="row">
                     <div class="col-md-4">
+                        
+                        <div class="form-group">
+                            <label class="form-text text-left">Documentos:</label>
+                            <mat-select class="form-control" formControlName="doc" [compareWith]="compareObjects">
+                              <mat-option class="form-control" *ngFor="let doc of document" [value]="doc">{{ doc.description }}</mat-option>
+                            </mat-select>
+                        </div>
+
+                        <div *ngIf="
+                                !branchInvoiceSeriesForm.controls['doc']
+                                    .valid &&
+                                branchInvoiceSeriesForm.controls['doc'].touched
+                            ">
+                            Requerido
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
                         <div class="form-group">
                           <label class="form-text text-left">Activo</label>
                           <input

@@ -65,6 +65,8 @@ export class EfhUploadCommonComponent implements OnInit {
             this.dataFileSubmit['eventConfigId'] = this.inIdEventConfig;
         } else if (this.inTypeConfig === 2) {
             this.dataFileSubmit['idindicatorconfig'] = this.inIdEventConfig;
+        } else if (this.inTypeConfig === 3) {
+          this.dataFileSubmit['incidentId'] = this.inIdEventConfig;
         }
         this.dataFileSubmit['fileName'] = this.currentFile.name;
         this.dataFileSubmit['fileType'] = this.currentFile.name.substr(this.currentFile.name.lastIndexOf('.') + 1);
@@ -86,7 +88,7 @@ export class EfhUploadCommonComponent implements OnInit {
         this[temServiceUpload].upload(this.inTypeConfig, this.dataFileSubmit).subscribe(
             respuesta => {
                 this.toastr.successToastr('Documento guardado con éxito.', '¡Se ha logrado!');
-                this.efhService.accion.next('upload');
+                this[temServiceUpload].accion.next('upload');
             },
             error => {
                 this.addBlock(2, null);

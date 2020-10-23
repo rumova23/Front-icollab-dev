@@ -11,6 +11,11 @@ export class CatalogOrderFind {
             catalog: 'sys',
             active: 1,
             order: 1
+        },
+        {
+            catalog: 'concepts',
+            active: 1,
+            order: 1
         }
     ];
     client: Array<CatalogOrder> = [

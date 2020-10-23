@@ -25,6 +25,13 @@ import { ColumnLabel } from 'src/app/core/models/ColumnLabel';
 })
 export class ConfigActivitiesComponent implements OnInit {
 	// Simulación tuxpan
+
+	@ViewChild(MatPaginator) paginatorTagPrecedentes: MatPaginator;
+	@ViewChild(MatSort) sortTagPrecedentes: MatSort;
+
+	@ViewChild(MatPaginator) paginatorRegisters: MatPaginator;
+	@ViewChild(MatSort) sortRegisters: MatSort;
+
 	plantaDefault = this.globalService.plantaDefaultId; // "70"; //"Planta Tuxpan II";
 	a326 = null;
 	@Input() accion: string;
@@ -42,8 +49,10 @@ export class ConfigActivitiesComponent implements OnInit {
 	columnas: string[] = ['tag', 'descripcion', 'assignPrecedent'];
 	titulo: string;
 
-	tagPrecedentes: MatTableDataSource<any>;
-	registrosParaAsignar: MatTableDataSource<any>;
+//	tagPrecedentes: MatTableDataSource<any>;
+	tagPrecedentes;
+//	registrosParaAsignar: MatTableDataSource<any>;
+	registrosParaAsignar;
 	registros_x_pagina = [50, 100, 250, 500];
 	registros_x_pagina1 = [50, 100, 250, 500];
 	data: any[] = [];
@@ -199,10 +208,7 @@ export class ConfigActivitiesComponent implements OnInit {
 		}
 	}
 
-	@ViewChild(MatPaginator) paginatorRegisters: MatPaginator;
-	@ViewChild(MatSort) sortRegisters: MatSort;
-	@ViewChild(MatPaginator) paginatorTagPrecedentes: MatPaginator;
-	@ViewChild(MatSort) sortTagPrecedentes: MatSort;
+
 
 	ngOnInit() {
 
@@ -421,7 +427,7 @@ export class ConfigActivitiesComponent implements OnInit {
 						for (element of tagActividad.precedents) {
 							i += 1;
 							let obj = {};
-							obj['tagId'] = element.idTagPrecedent;
+//							obj['tagId'] = element.idTagPrecedent;
 							obj['tagPadre'] = element.tagPadre.tag;
 							obj['tagHijo'] = element.tagHijo.tag;
 							obj['tagHijoNombreCumplimiento'] = element.tagHijo.classificationActivity;
@@ -430,6 +436,13 @@ export class ConfigActivitiesComponent implements OnInit {
 						}
 						this.tagPrecedentes = new MatTableDataSource<any>(listObj);
 						this.tagPrecedentes.paginator = this.paginatorTagPrecedentes;
+
+this.tagPrecedentes.sortingDataAccessor = (item, property) => {
+	switch(property) {
+		case 'tagHijo': return item.tagHijo;
+		default: return item[property];
+	}
+}
 						this.tagPrecedentes.sort = this.sortTagPrecedentes;
 
 						this.existeTagId = true;
@@ -515,7 +528,7 @@ export class ConfigActivitiesComponent implements OnInit {
 		this.existeTagId = false;
 	}
 
-	ordenar(numberTable: number) {
+/* 	ordenar(numberTable: number) {
 		console.log('ORDENAR TABLA NO. ' + numberTable)
 		if (numberTable === 1) {
 			if (this.registrosParaAsignar != null) {
@@ -525,11 +538,18 @@ export class ConfigActivitiesComponent implements OnInit {
 		} else {
 			if (this.tagPrecedentes != null) {
 				this.tagPrecedentes.paginator = this.paginatorTagPrecedentes;
+
+this.tagPrecedentes.sortingDataAccessor = (item, property) => {
+	switch(property) {
+		case 'tagHijo': return item.tagHijo;
+		default: return item[property];
+	}
+}
 				this.tagPrecedentes.sort = this.sortTagPrecedentes;
 			}
 		}
 		this.addBlock(2, null);
-	}
+	} */
 
 	// Muestra las actividades que pueden ser agregadas como precedentes
 	mostrarPrecedentes() {
@@ -592,26 +612,18 @@ export class ConfigActivitiesComponent implements OnInit {
 
 					this.tagPrecedentes = new MatTableDataSource<any>(listObj);
 					this.tagPrecedentes.paginator = this.paginatorTagPrecedentes;
+
+this.tagPrecedentes.sortingDataAccessor = (item, property) => {
+	switch(property) {
+		case 'tagHijo': return item.tagHijo;
+		default: return item[property];
+	}
+}
 					this.tagPrecedentes.sort = this.sortTagPrecedentes;
 
 //					this.isPrecedentes = false;
 					this.tablaAgregarPrecedentes = false;
 					this.addBlock(2, null);
-
-					let tableData = respuesta
-						.map((e: any, index) => {
-							return {
-								'tagId': e.idTagPrecedent,
-								'tagPadre': e.tagPadre.tag,
-								'tagHijo': e.tagHijo.tag,
-								'tagHijoNombreCumplimiento': e.tagHijo.classificationActivity,
-								'elementTag': e
-							};
-						});
-					this.tableDataFiltered = [].concat(listObj);
-
-
-
 
 				},
 				error => {
@@ -652,35 +664,38 @@ export class ConfigActivitiesComponent implements OnInit {
 
 					if (result != null) {
 						let listObj = [];
-						let i = 0;
 						for (let element of result) {
-							i += 1;
 							let obj = {};
 							obj['tagId'] = element.idTagPrecedent;
 							obj['tagPadre'] = element.tagPadre.tag;
 							obj['tagHijo'] = element.tagHijo.tag;
+							obj['tagHijoNombreCumplimiento'] = element.tagHijo.classificationActivity;
 							obj['elementTag'] = element;
 							listObj.push(obj);
 						}
 
 						this.tagPrecedentes = new MatTableDataSource<any>(listObj);
 						this.tagPrecedentes.paginator = this.paginatorTagPrecedentes;
+
+this.tagPrecedentes.sortingDataAccessor = (item, property) => {
+	switch(property) {
+		case 'tagHijo': return item.tagHijo;
+		default: return item[property];
+	}
+}
+
 						this.tagPrecedentes.sort = this.sortTagPrecedentes;
 					} else {
 						this.tagPrecedentes = null;
 					}
 
-//					this.isPrecedentes = false;
 					this.tablaAgregarPrecedentes = false;
 					this.addBlock(2, null);
 				},
 				error => {
 					this.addBlock(2, null);
 					this.toastr.errorToastr('Error al eliminar precedente.', 'Lo siento,');
-				})/*.add(() => {
-          this.delay(1000, 2);
-          //this.addBlock(2, null);
-        });*/
+				})
 		}
 	}
 
@@ -703,14 +718,14 @@ export class ConfigActivitiesComponent implements OnInit {
 		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
 	}
 
-	async delay(ms: number, numberTable: number) {
+/* 	async delay(ms: number, numberTable: number) {
 		await new Promise(
 			resolve =>
 				setTimeout(() =>
 					resolve(), ms)).then(() => {
 						this.ordenar(numberTable);
 					});
-	}
+	} */
 
 	initComboUnitPeriod() {
 		this.tagService.comboUnitPeriod().subscribe(
@@ -723,24 +738,5 @@ export class ConfigActivitiesComponent implements OnInit {
 	}
 
 	sortData(sort: Sort) { }
-
-	public deletePreceding(tag: any) {
-		if (!this.soloLectura) {
-			this.tagService.eliminarPrecedente(tag).subscribe(
-				respuesta => {
-					let res: any;
-					res = respuesta;
-					if (res != null) {
-						this.agregarPrecedentes();
-						this.toastr.successToastr(res.mensaje, '¡Se ha logrado!');
-					} else {
-						this.toastr.errorToastr(res.mensaje, 'Lo siento,');
-					}
-				},
-				error => {
-					this.toastr.errorToastr('Error al eliminar el tag.', 'Lo siento,');
-				}
-			);
-		}
-	}
+	sortDataReg(sort: Sort) { }
 }

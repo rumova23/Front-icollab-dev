@@ -12,6 +12,7 @@ import { Validate } from '../helpers/util.validator.';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { EPs } from 'src/app/core/globals/endpoints'
+import { environment } from 'src/environments/environment';
 
 const HEADERS = {
   headers: new HttpHeaders({
@@ -175,7 +176,7 @@ export class SecurityService {
   }
 
   loadPlants() {
-//    if(environment.openoffline )return [{ id: 1 , name: 'AGUILA' }];
+    if(environment.openoffline )return [{ id: 1 , name: 'AGUILA' }];
     return JSON.parse(localStorage.getItem('user')).plants;
   }
 
@@ -184,7 +185,7 @@ export class SecurityService {
   }
 
   loadApps() {
-//    if(environment.openoffline )return [{id:"1",name:"Administrative_monitoring"}]
+    if(environment.openoffline )return [{id:"1",name:"Administrative_monitoring"}]
     return JSON.parse(localStorage.getItem('user')).apps;
   }
 

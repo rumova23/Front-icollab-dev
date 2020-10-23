@@ -271,6 +271,36 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
+                        
+                        <div class="form-group">
+                            <label class="form-text text-left">Concepto:</label>
+                            <mat-select class="form-control" formControlName="concepts" [compareWith]="compareObjects">
+                              <mat-option class="form-control" *ngFor="let concept of concepts" [value]="concept">{{ concept.description }}</mat-option>
+                            </mat-select>
+                            <div
+                                *ngIf="
+                                    !productForm.controls['concepts']
+                                        .valid &&
+                                    productForm.controls['concepts'].touched
+                                "
+                                style="color:red"
+                            >
+                                <div
+                                    *ngIf="
+                                        !productForm.controls['concepts']
+                                            .valid &&
+                                        productForm.controls['concepts']
+                                            .touched
+                                    "
+                                >
+                                    Requerido
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label class="form-text text-left">Clave SAT:</label>
                             <mat-select class="form-control" formControlName="productSat" [compareWith]="compareObjects">
@@ -369,6 +399,34 @@
                         >
                             Requerido
                         </div-->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-text text-left">Tasa Iva Retención:</label>
+                            <mat-select class="form-control" formControlName="retentionIvaSat" [compareWith]="compareObjects">
+                              <mat-option class="form-control" *ngFor="let retentionIvaSat of retentionsIvaSat" [value]="retentionIvaSat">{{ retentionIvaSat.percentageIva }}</mat-option>
+                            </mat-select>
+                            <div
+                                *ngIf="
+                                    !productForm.controls['retentionIvaSat'].valid &&
+                                    productForm.controls['retentionIvaSat'].touched
+                                "
+                                style="color:red"
+                            >
+                                <div
+                                    *ngIf="
+                                        !productForm.controls['retentionIvaSat']
+                                            .valid &&
+                                        productForm.controls['retentionIvaSat']
+                                            .touched
+                                    "
+                                >
+                                    Requerido
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">

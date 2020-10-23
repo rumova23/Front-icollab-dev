@@ -628,7 +628,8 @@ export const EPs = {
    },
    incident: {
       list: "/incidents/incidents/list/",
-      delete: "/incidents/incidents/delete",
+      delete: "/incidents/incidents/delete/",
+      get: "/incidents/incidents/get/",
       save: "/incidents/incidents/save",
       saveObservation: "/incidents/incidents/saveObservation",
       listObservation: "/incidents/incidents/listObservations",

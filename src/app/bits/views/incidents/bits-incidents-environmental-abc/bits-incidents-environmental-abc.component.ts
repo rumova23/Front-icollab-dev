@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { ToastrManager } from 'ng6-toastr-notifications';
@@ -20,6 +20,12 @@ import { ResponseVO } from 'src/app/bits/models/ResponseVO';
 import { EventBlocked } from 'src/app/core/models/EventBlocked';
 import { ConfirmationDialogService } from 'src/app/core/services/confirmation-dialog.service';
 import { forEach } from '@angular/router/src/utils/collection';
+import { AdministratorComplianceService } from 'src/app/compliance/administration/services/administrator-compliance.service';
+import { EntidadEstatusDTO } from 'src/app/compliance/models/entidad-estatus-dto';
+import { MaestroOpcionDTO } from 'src/app/compliance/models/maestro-opcion-dto';
+import { PerfilComboService } from 'src/app/core/services/perfil-combo.service';
+import { DataTransfer } from 'src/app/core/models/DataTransfer';
+import { IncidentDTO } from 'src/app/bits/models/IncidentDTO';
 
 
 @Component({
@@ -28,7 +34,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 	styleUrls: ['./bits-incidents-environmental-abc.component.scss']
 })
 export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy {
-	catalogType : any;
+	dataTransfer: DataTransfer<IncidentOutDTO> = {};
 	actionPage  : String = '';
 	isReadOnly  : boolean = false;
 	hours       : IdLabel[] =  new Array(24).fill(0).map((_valor, indice) => ({id: (indice < 10 ? '0' : '') + indice, label: (indice < 10 ? '0' : '') + indice}));
@@ -42,9 +48,11 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 
 	progress;
 	disabledSubmit = false;
-	disabledBtnFinish = false;
-	disabledToRefuse = false;
-	disabledToAccept = false;
+	disabledBtnFinish = true;
+	disabledBtnSaveUpdate = true;
+	disabledBtnSend = false;
+	disabledToRefuse = true;
+	disabledToAccept = true;
 
 	tableObservationsComments : IncidentObservationOutDTO[] = [];
 	tableObservationsCommentsSelection: SelectionModel<any> = new SelectionModel<any>(true, []);
@@ -63,7 +71,7 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		{ key: 'observation', label: 'Observaciones' },
 		{ key: 'dateUpdated', label: 'Fecha de Ultima Modificación' , dateFormat:'dd/MM/yyyy HH:mm' },
 	];
-	tableSeguimiento = [{order:1,user:'',observation:'',status:'',dateUpdate:new Date()}];
+	tableSeguimiento = [];
 	tableSeguimientoColumnsDisplay = [
 		'order',
 		'user',
@@ -80,6 +88,9 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 	];
 	accion="nuevo";
 	isGetObservations = false;
+	is2=false;
+
+	isSubmitedRCA = false;
 	constructor(
 		private formBuilder   : FormBuilder
 		,private datePipe     : DatePipe
@@ -88,6 +99,8 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		,public eventService  : EventService
 		,public incidentService : IncidentService
 		,private confirmationDialogService: ConfirmationDialogService
+		,private perfilService: PerfilComboService
+		,private administratorComplianceService: AdministratorComplianceService
 	) { }
 
 	ngOnDestroy(): void {
@@ -95,20 +108,21 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 	}
 
 	ngOnInit() {
-		
-		console.log(this.catalogType);
+		window.scroll(0,0);
+		this.addBlock(2,null);
+		this.getIncidentOutDTO();
+
 		this.formTim = this.formBuilder.group({
 			 h1:[null,[Validators.required]]
 			,m1:[null,[Validators.required]]
 		});
 		this.formTimFechaObjetivoEntregaRCA = this.formBuilder.group({
-			h1:[null,[Validators.required]]
-		   ,m1:[null,[Validators.required]]
-	   });
+			h1:[{value:null,disabled:true},[]]
+		   ,m1:[{value:null,disabled:true},[]]
+		   ,validformTimFechaObjetivoEntregaRCA:[]
+	    });
 		this.formNew = this.formBuilder.group({
-			file:[{value:null,disabled:false},[]]
-			,order:[{value:null,disabled:false},[]]
-
+			 order:[{value:null,disabled:false},[]]
 			,id:[null]
 			,tag:[{value:'AMB',disabled:true},[]]
 			,incidentTypeDesc:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(100)]]
@@ -117,19 +131,22 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 			,incidentDate:[{value:null,disabled:false},[Validators.required]]
 			,description:[{value:null,disabled:false},[Validators.required,Validators.minLength(2),Validators.maxLength(1000)]]
 			
+			,rca:[{value:null,disabled:false},[]]
+			,rcaTargetDate:[{value:null,disabled:true},[]]
+			,rcaDeliveredDate:[{value:null,disabled:true},[]]
+			,proceed:[{value:null,disabled:false},[]]
+			
 
-			,AnalisisCausaRaizRCA:[{value:null,disabled:false},[]]
-			,FechaObjetivoEntregaRCA:[{value:null,disabled:false},[]]
-			,FechaHoraEntregaRCA:[{value:null,disabled:false},[]]
-			,Procede:[{value:null,disabled:false},[]]
-			,NombresApellidosUsuarioReporto:[{value:null,disabled:false},[]]
-			,FechaHoraReporto:[{value:null,disabled:false},[]]
-			,NombresApellidosUsuarioSuperviso:[{value:null,disabled:false},[]]
-			,FechaHoraSuperviso:[{value:null,disabled:false},[]]
-			,NombresApellidosUsuarioAproboRechazo:[{value:null,disabled:false},[]]
-			,FechaHoraAproboRechazo:[{value:null,disabled:false},[]]
-			,EstatusDelEvento:[{value:null,disabled:false},[]]
-			,EstatusDeAprovacion:[{value:null,disabled:false},[]]
+
+			,userReporter:[{value:null,disabled:true},[]]
+			,dateReported:[{value:null,disabled:true},[]]
+			,userSupervised:[{value:null,disabled:true},[]]
+			,dateSupervised:[{value:null,disabled:true},[]]
+			,userApproval:[{value:null,disabled:true},[]]
+			,dateApproved:[{value:null,disabled:true},[]]
+
+			,statusEvent:[{value:null,disabled:true},[]]
+			,reasonApproved:[{value:null,disabled:true},[]]
 		});
 		this.formObs = this.formBuilder.group({
 			id:[null],
@@ -138,23 +155,25 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		this.fileUploadForm = this.formBuilder.group({
 			file:[null]
 		});
-		switch (this.catalogType.action) {
+		switch (this.dataTransfer.action) {
 			case 'nuevo':
 				this.accion="nuevo";
 				this.actionPage = 'Add';
 				this.globalService.lockHeaderSidebar(true,'');
 				break;
 			case 'editar':
+				this.disabledBtnSend = true;
+				this.is2 = true;
 				this.accion="editar";
 				this.actionPage = 'Edit';
-				this.setData();
 				break;
 			case 'ver':
+				this.disabledBtnSend = true;
+				this.is2 = true;
 				this.accion="ver";
-				this.actionPage = 'See';
+				this.actionPage = 'Consultar';
 				this.isReadOnly = true;
 				this.formsDisabled();
-				this.setData();
 				break;
 		}
 		if(!this.isReadOnly)
@@ -163,6 +182,7 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 			});
 
 		this.getListObservations();
+		this.obtenEstatusMaestro();
 	}
 	get cFNew() { return this.formNew.controls; }
 	formsDisabled(){
@@ -171,8 +191,8 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		this.formTim.disable();
 	}
 	setData(){
-		for (const key in this.catalogType.element) {
-			const propertie = this.catalogType.element[key];
+		for (const key in this.dataTransfer.dto) {
+			const propertie = this.dataTransfer.dto[key];
 			switch (key) {
 				case 'incidentDate':
 					let date = moment(propertie);
@@ -189,6 +209,7 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 				break;
 			}
 		}
+		this.setTableTraking();
 	}
 	onChangeDateFechaOcurrioIncidente(){
 		if(this.formNew.controls.incidentDate.value != null){
@@ -199,37 +220,42 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 			if(m!=null)date.minute(m);
 			this.formNew.controls.incidentDate.setValue(date.toDate());
 		}
-		console.log(this.formNew.controls.incidentDate.value);
+	}
+	onChangeDateFechaObjetivoEntregaRCA(){
+		if(this.formNew.controls.rcaTargetDate.value != null){
+			let h = this.formTimFechaObjetivoEntregaRCA.controls.h1.value;
+			let m = this.formTimFechaObjetivoEntregaRCA.controls.m1.value;
+			let date = moment(this.formNew.controls.rcaTargetDate.value);
+			if(h!=null)date.hour(h);
+			if(m!=null)date.minute(m);
+			this.formNew.controls.rcaTargetDate.setValue(date.toDate());
+		}
 	}
 	getTimeA(): string {
 		return this.formTim.controls.h1.value + ':' + this.formTim.controls.m1.value + ':00';
 	}
 	onFomrNew(o){
-		let incident : IncidentInDTO = {
-			 id                :this.cFNew.id.value
-			,tag               :this.cFNew.tag.value
-			,incidentTypeId    :null
-			,incidentTypeDesc  :this.cFNew.incidentTypeDesc.value
-			,department        :this.cFNew.department.value
-			,specificLocation  :this.cFNew.specificLocation.value
-			//,incidentDate      :this.datePipe.transform(new Date( this.datePipe.transform(this.cFNew.incidentDate.value, 'yyyy-MM-dd') + 'T' + this.getTimeA()), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS')
-			,incidentDate      :this.datePipe.transform(this.cFNew.incidentDate.value, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS')
-			,description       :this.cFNew.description.value
-			,save              :this.cFNew.id.value == null
-			,rca               :null
-			,rcaTargetDate     :null
-			,rcaDeliveredDate  :null
-			,proceed           :null
-		};			
+		let incident = [this.formNew.controls].map(e=>{
+			let r: IncidentDTO = this.dataTransfer.dto;
+			for (const key in e) r[key] = e[key].value;
+			r.incidentDate = e.incidentDate.value != null ?(this.datePipe.transform(e.incidentDate.value, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS')):null;
+			r.rcaTargetDate = e.rcaTargetDate.value != null ?(this.datePipe.transform(e.rcaTargetDate.value, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS')):null;
+			r.rca = (e.rca == null?false:e.rca.value);
+			r.proceed = (e.proceed == null?false:e.proceed.value);
+			r.active = (e.active == null?true:e.active.value);
+			r.save = (e.id.value == null);
+			return r;
+		})[0];
 		this.incidentService.saveIncident(incident).subscribe((data:IncidentOutDTO)=>{
+				//this.dataTransfer.dto = data;	
+				this.getIncidentOutDTO();
 				this.formNew.get('id').setValue(data.id);
 				this.formNew.get('tag').setValue(data.tag);
-				console.log(data);
 				this.toastr.successToastr('Elemento Guardado Correctamente', 'Exito');
+				this.disabledBtnSend = true;
 			}
 			,err=>{
-				this.formNew.get('id').setValue(1);
-				console.log(err);
+				console.error(err);
 				this.toastr.errorToastr('Ocurrió un error al intentar registrar la observación', 'Lo siento,');
 			}
 		);
@@ -248,8 +274,6 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		/** eniviar a guardar */
 		console.log("btnSend()");
 		console.log(this.formNew.value);
-		
-		
 	}
 	btnChangeStatus(status:String){
 		console.log(status);
@@ -341,16 +365,33 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 			this.incidentService.saveObservation(e).subscribe();
 		});
 	}
-	onChangeDateTimeStart(){
-
+	getIncidentOutDTO(){
+		if(this.dataTransfer.dto != null && this.dataTransfer.dto.id != null)
+		this.incidentService.listById(this.dataTransfer.dto.id).subscribe((data:IncidentOutDTO)=>{
+			this.dataTransfer.dto = data[0];
+			this.setData();
+		},err=>{
+			this.setData();
+		});
 	}
-
+	setTableTraking(){
+		//{order:1,user:'',observation:'',status:'',dateUpdate:new Date()}
+		this.tableSeguimiento = this.dataTransfer.dto.tracking.PLANT_OPERATOR_OPENED.map((e,index)=>{
+			return {
+				order:index+1
+				,user:e.username
+				,observation:e.reasonObservation
+				,status:e.status
+				,dateUpdate:e.update
+			}
+		});
+	}
 	getListObservations(){
 		if(this.cFNew.id.value != null){
 			this.incidentService.getListObservations(this.cFNew.id.value).subscribe(
 				(data:IncidentObservationOutDTO[])=>{
 					this.tableObservationsComments=data.map((e,index)=>{
-						e.order = index;
+						e.order = index+1;
 						return e;
 					});
 					
@@ -367,7 +408,65 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 			);
 		}
 	}
-	
+	obtenEstatusMaestro(){
+		this.perfilService.obtenEstatusTerminado('TX_EXAMEN_RESERVACION', 'Terminado').subscribe(this.TX_EXAMEN_RESERVACION__Terminado);
+		this.perfilService.obtenEstatusTerminado('TX_EXAMEN_RESERVACION', 'Abierto').subscribe(this.TX_EXAMEN_RESERVACION__Abierto);
+		this.perfilService.obtenEstatusTerminado('TX_EXAMEN_RESERVACION', 'Cerrado').subscribe(this.TX_EXAMEN_RESERVACION__Cerrado);
+		this.perfilService.obtenEstatusTerminado('TX_INCIDENT', 'Terminado').subscribe(this.TX_INCIDENT__Terminado);
+		this.perfilService.obtenEstatusTerminado('TX_INCIDENT', 'Abierto').subscribe(this.TX_INCIDENT__Abierto);
+		this.perfilService.obtenEstatusTerminado('TX_INCIDENT', 'Cerrado').subscribe(this.TX_INCIDENT__Cerrado);
+
+		this.perfilService.obtenEstatusTerminado('TX_INCIDENT_ACTORS',"OBSERVED PROCESS").subscribe(this.TX_INCIDENT_ACTORS__OP);
+	}
+	TX_EXAMEN_RESERVACION__Terminado(entidadEstatus: EntidadEstatusDTO){
+		//debugger;
+	}
+	TX_EXAMEN_RESERVACION__Abierto(entidadEstatus: EntidadEstatusDTO){
+		//debugger;
+	}
+	TX_EXAMEN_RESERVACION__Cerrado(entidadEstatus: EntidadEstatusDTO){
+		//debugger;
+	}
+	TX_INCIDENT__Terminado(entidadEstatus: EntidadEstatusDTO){
+		//debugger;
+	}
+	TX_INCIDENT__Abierto(entidadEstatus: EntidadEstatusDTO){
+		//debugger;
+	}
+	TX_INCIDENT__Cerrado(entidadEstatus: EntidadEstatusDTO){
+		//debugger;
+	}
+	TX_INCIDENT_ACTORS__OP(entidadEstatus: EntidadEstatusDTO){
+		//debugger;
+	}
+	onChangeCheckBoxRCA(e){
+		if(e){
+			this.isSubmitedRCA = true;
+			this.formNew.get('rcaTargetDate').enable();
+			this.formTimFechaObjetivoEntregaRCA.get('h1').enable();
+			this.formTimFechaObjetivoEntregaRCA.get('m1').enable();
+
+			this.formTimFechaObjetivoEntregaRCA.get('h1').setValidators([Validators.required]);
+			this.formTimFechaObjetivoEntregaRCA.get('m1').setValidators([Validators.required]);
+			this.formTimFechaObjetivoEntregaRCA.get('h1').updateValueAndValidity();
+			this.formTimFechaObjetivoEntregaRCA.get('m1').updateValueAndValidity();
+
+			this.formNew.get("rcaTargetDate").setValidators([Validators.required]);
+			this.formNew.get("rcaTargetDate").updateValueAndValidity();
+			
+		}else{
+			this.isSubmitedRCA = false;
+			this.formTimFechaObjetivoEntregaRCA.get('h1').disable();
+			this.formTimFechaObjetivoEntregaRCA.get('m1').disable();
+			this.formTimFechaObjetivoEntregaRCA.get('h1').setValidators([]);
+			this.formTimFechaObjetivoEntregaRCA.get('m1').setValidators([]);
+			this.formNew.get('rcaTargetDate').disable();
+			this.formNew.get("rcaTargetDate").setValidators([]);
+			
+			this.formNew.get("rcaTargetDate").setValue(null);
+			this.formTimFechaObjetivoEntregaRCA.reset();
+		}
+	}
 	addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1,
 			new EventBlocked(type, msg)));

@@ -32,7 +32,7 @@ export class ItemClient {
                 { inputtype: "select", label: "Estado", options: [], formControlName: "state" },
                 { inputtype: "text", label: "Colonia", formControlName: "colony" },
                 { inputtype: "text", label: "Ciudad", formControlName: "city" },
-                { inputtype: "text", label: "Localidad", formControlName: "location" },
+                { inputtype: "text", label: "Municipio / Delegación", formControlName: "location" },
                 { inputtype: "text", label: "C.P", formControlName: "cp" },
                 { inputtype: "text", label: "Email", formControlName: "email" },
                 { inputtype: "text", label: "Teléfono", formControlName: "phone" }

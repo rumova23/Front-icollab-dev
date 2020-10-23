@@ -222,9 +222,12 @@ export class ComplianceConfigurationComponent implements OnInit {
 			if (data.entidadEstatus.entidadEstatusId === this.idMatrizFree) {
 				this.isFree = true;
 			} */
+console.log("initAutoComplete");
+console.log(data.matriz);
 			this.setTableData(data.matriz);
 
 			this.initAutoComplete();
+
 
 			/* this.administradores = new MatTableDataSource<any>(data.cumplimientoIntegrantes); */
 
@@ -316,6 +319,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 	}
 
 	initCombos() {
+console.log("initCombos");
 		this.administratorComplianceService.initComboTiposCumplimientos().subscribe(
 			(respuesta: Array<any>) => {
 				this.tiposCumplimientos = [];
@@ -327,7 +331,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 				);
 			}
 		);
-
+console.log(this.tiposCumplimientos);
 		this.administratorComplianceService.initComboActividades().subscribe(
 			(respuesta: Array<any>) => {
 				this.actividades = [];
@@ -343,6 +347,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 		const nextYear = currentYear + 1;
 		this.anios.push(new Combo(currentYear.toString(), currentYear.toString()));
 		this.anios.push(new Combo(nextYear.toString(), nextYear.toString()));
+console.log(this.actividades);
 	}
 
 	/*	liberarMatriz() {
@@ -361,6 +366,8 @@ export class ComplianceConfigurationComponent implements OnInit {
 	 */
 	setTableData(matriz: TagOutDTO[]) {
 
+console.log("setTableData");
+console.log(matriz);
 		this.tableData = matriz
 			.sort((a, b) => moment((a.dateUpdated != null) ? a.dateUpdated : a.dateCreated).toDate().getTime() - moment((b.dateUpdated != null) ? b.dateUpdated : b.dateCreated).toDate().getTime())
 			.map((e: TagOutDTO, index) => {
@@ -383,20 +390,25 @@ export class ComplianceConfigurationComponent implements OnInit {
 				};
 			});
 		this.tableDataFiltered = [].concat(this.tableData);
+console.log(this.tableDataFiltered);
 	}
 	initAutoComplete() {
 		/* this.filteredAutoTag = this. this.tableData.map(d => d.tag).filter((el, index, arr) => arr.indexOf(el) === index);
 		this.filteredAutoName = this.tableData.map(d => d.nombre).filter((el, index, arr) => arr.indexOf(el) === index);
 		this.filteredUserUpdated = this.tableData.map(d => d.userUpdated).filter((el, index, arr) => arr.indexOf(el) === index); */
+console.log("initAutoComplete");
 		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "tag", "tag" )).subscribe((data: any) => {
 			this.filteredAutoTag = data;
 		});
+console.log(this.filteredAutoTag);
 		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "classificationActivity", "classificationActivity" )).subscribe((data: any) => {
 			this.filteredAutoName = data;
 		});
+console.log(this.filteredAutoName);
 		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "userUpdated", "userUpdated" )).subscribe((data: any) => {
 			this.filteredUserUpdated = data;
 		});
+console.log(this.filteredUserUpdated);
 
 		let statusConsultActivity = 'TODOS'; // 'TODOS' || 'ACTIVOS'
 		this.tagService.getCatalogoActividades(statusConsultActivity)
@@ -407,6 +419,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 					this.toastr.errorToastr('Error al cargar catálogo de Categoría.', 'Lo siento,');
 				}
 			);
+console.log(this.optionsClasificacion);
 
 		this.tagService.comboUnitPeriod().subscribe(
 			(lista: Array<MaestroOpcionDTO>) => {
@@ -414,7 +427,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 				this.comboUnitPeriod = lista.map(e => { return { id: e.maestroOpcionId.toString(), singular: e.opcion.codigo, plural: e.opcion.codigo + '' + (e.opcion.codigo == 'MES' ? 'ES' : 'S') }; });
 				this.optionsPeriod = this.comboUnitPeriod.map(e => { return { id: e.id, label: e.singular } });
 			});
-
+console.log(this.optionsClasificacion);
 		let listaCombos = Array<OrderCatalogDTO>();
 		listaCombos.push(new OrderCatalogDTO('typeCompliance', 1, 1));
 		listaCombos.push(new OrderCatalogDTO('authority', 1, 1));
@@ -441,13 +454,16 @@ export class ComplianceConfigurationComponent implements OnInit {
 		).add(() => {
 			this.addBlock(2, null);
 		});
+console.log(this.comboAutoridad);
+console.log(this.comboTipoAplicacion);
+console.log(this.comboGrupo);
 
 	}
 
 	onFiltersTable() {
       	const typeSearch = this.formFiltersTypeTable.value.typeFilter.toString() === '1' ? 'AND' : 'OR'; // 1. OR \ 2. AND for search conditions
 
-		if ( !Util.isEmptyFilters ( this.formFiltersTable.value, typeSearch ) ) {
+		if ( !Util.isEmptyFilters2 ( this.formFiltersTable.value, typeSearch ) ) {
 			this.obtenerListaTags();
 		} else {
 			this.toastr.warningToastr(typeSearch === 'AND' ? "Tienes que capturar todos los datos de búsqueda." : 'Tienes que capturar al menos un dato de búsqueda.' );

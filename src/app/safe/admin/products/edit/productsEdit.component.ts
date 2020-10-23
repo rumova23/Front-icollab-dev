@@ -34,8 +34,10 @@ export class ProductsEditComponent implements OnInit {
   typesProduct: Array<CatalogOrderGeneric>;
   productsSat: Array<ProductSat>;
   unityProducts: Array<UnityProduct>;
+  concepts: Array<CatalogOrderGeneric>;
   systems: Array<CatalogOrderGeneric>;
   ratesIvaSat: Array<RateIvaSat>
+  retentionsIvaSat: Array<RateIvaSat>;
   productSelected: Product;
   count: number;
   catalogs: Array<CatalogOrder> = new CatalogOrderFind().product;
@@ -59,8 +61,10 @@ export class ProductsEditComponent implements OnInit {
       'active': new FormControl(false),
       'typeProduct': new FormControl('', Validators.required),
       'unityProduct': new FormControl('', Validators.required),
+      'concepts': new FormControl('', Validators.required),
       'productSat': new FormControl('', Validators.required),
       'rateIvaSat': new FormControl('', Validators.required),
+      'retentionIvaSat': new FormControl('', Validators.required),
       'systems': new FormControl('', Validators.required),
       'price': new FormControl('', [
         Validators.required,
@@ -79,6 +83,8 @@ export class ProductsEditComponent implements OnInit {
             entity.catalog === 'typeProduct')[0].data;
           this.systems = result.filter(entity =>
             entity.catalog === 'sys')[0].data;
+          this.concepts = result.filter(entity =>
+            entity.catalog === 'concepts')[0].data;//Check if the ID is correct
           this.catalogService.listSat(this.catalogsSat)
             .subscribe(
               dat => {
@@ -87,6 +93,8 @@ export class ProductsEditComponent implements OnInit {
                   entity.catalog === 'product')[0].data;
                 this.ratesIvaSat = res.filter(entity =>
                   entity.catalog === 'rateIva')[0].data;
+                this.retentionsIvaSat = res.filter(entity =>
+                    entity.catalog === 'retentionIvaSat')[0].data;//Check if the ID is correct
                 this.catalogService.listUnityProduct(3)
                   .subscribe(
                     da => {
@@ -125,6 +133,8 @@ export class ProductsEditComponent implements OnInit {
             entity.id === this.productSelected.idUnityProduct)[0];
           this.productSelected.rateIvaSat = this.ratesIvaSat.filter(entity =>
               entity.id === this.productSelected.idRateIvaSat)[0];
+          this.productSelected.retentionIvaSat = this.retentionsIvaSat.filter(entity =>
+              entity.id === this.productSelected.idRateIvaSat)[0];
           this.productForm.patchValue(this.productSelected);
           if (option == 1) {
             this.productForm.disable();
@@ -154,6 +164,7 @@ export class ProductsEditComponent implements OnInit {
     this.product.idUnityProduct = this.product.unityProduct.id;
     this.product.idTypeProduct = this.product.typeProduct.id;
     this.product.idRateIvaSat = this.product.rateIvaSat.id;
+    this.product.idRetentionIvaSat = this.product.retentionIvaSat.id;
     this.marketService.saveProduct(this.product)
       .subscribe(
         data => {

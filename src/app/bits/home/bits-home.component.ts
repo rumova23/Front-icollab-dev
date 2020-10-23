@@ -71,7 +71,7 @@ export class BitsHomeComponent implements OnInit {
 								this.componentFactoryResolver
 								.resolveComponentFactory(BitsIncidentsEnvironmentalABCComponent)
 							);
-						view.instance.catalogType = event.data;
+						view.instance.dataTransfer = event.data;
 						view.changeDetectorRef.detectChanges();
 						break;
 					case 'Bits.Home':

@@ -11,6 +11,11 @@ export class CatalogOrderSatFind {
             catalog: 'rateIva',
             active: 1,
             order: 1
+        },
+        {
+            catalog: 'retentionIvaSat',
+            active: 1,
+            order: 1
         }
     ];
     client: Array<CatalogOrderSat> = [

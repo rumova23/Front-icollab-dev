@@ -7,6 +7,8 @@ export interface Product {
     price?;
     idRateIvaSat?;
     rateIvaSat?;
+    idRetentionIvaSat?;
+    retentionIvaSat?;
     idProductSat?;
     productSat?;
     idUnityProduct?;

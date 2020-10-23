@@ -328,7 +328,7 @@ export class ApprovalComplianceComponent implements OnInit {
 	onFiltersTable() {
       	const typeSearch = this.formFiltersTypeTable.value.typeFilter.toString() === '1' ? 'AND' : 'OR'; // 1. OR \ 2. AND for search conditions
 
-		if ( !Util.isEmptyFilters ( this.formFiltersTable.value, typeSearch ) ) {
+		if ( !Util.isEmptyFilters2 ( this.formFiltersTable.value, typeSearch ) ) {
 			this.obtenerListaTags();
 		}
 

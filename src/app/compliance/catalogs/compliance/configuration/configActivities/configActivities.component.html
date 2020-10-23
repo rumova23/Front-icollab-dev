@@ -414,7 +414,11 @@
                             mat-table
                             [dataSource]="registrosParaAsignar"
                             class="table_catalogo"
-                        >
+                            (matSortChange)="sortDataReg($event)"
+                            matSortActive="tag"
+                            matSortDirection="asc"
+                            matSortDisableClear
+                            >
                             <!-- orden Column -->
                             <ng-container matColumnDef="tagId">
                                 <th
@@ -531,7 +535,7 @@
                     <div class="row mt-4">
                         <div class="col-md-12">
                             <div class="tabla-responsi mat-elevation-z0">
-                                <div class="form-group mt-3 mb-3">
+                                <!-- <div class="form-group mt-3 mb-3">
                                     <label>Escriba palaba a filtrar</label>
                                     <input
                                         class="form-control"
@@ -539,13 +543,17 @@
                                             applyFilter1($event.target.value)
                                         "
                                     />
-                                </div>
+                                </div> -->
                                 <table
                                     matSort
                                     mat-table
                                     [dataSource]="tagPrecedentes"
                                     class="table_catalogo"
-                                >
+                                    (matSortChange)="sortData($event)"
+                                    matSortActive="tagHijo"
+                                    matSortDirection="asc"
+                                    matSortDisableClear>
+
                                      <ng-container matColumnDef="tagId">
                                         <th
                                             mat-header-cell

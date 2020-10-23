@@ -1,4 +1,7 @@
+import { NoteDTO } from 'src/app/safe/models/note-dto';
+
 export interface IncidentOutDTO{
+    order           ?: number;
 	id               : number;
     tag              : String;
     incidentTypeId   : number;
@@ -8,8 +11,7 @@ export interface IncidentOutDTO{
     incidentDate     : Date;
     description      : String;
     active           : boolean;
-    order            : number;
-    rca              : boolean;
+    rca              : boolean|String;
 	rcaTargetDate    : Date;
 	rcaDeliveredDate : Date;
     proceed          : boolean;
@@ -17,4 +19,26 @@ export interface IncidentOutDTO{
     dateCreated      : Date;
     userUpdated      : String;
     dateUpdated      : Date;
+    
+    statusEntityId  :number;
+    statusEntity  :String;
+    
+    statusEventId  :number;
+    statusEvent  :String;
+    
+    userReporter  :String;
+    dateReported  :Date;
+    
+    userSupervised  :String;
+    dateSupervised  :Date;
+    
+    userApproval  :String;
+    dateApproved  :Date;
+    
+    userReject  :String;
+    dateRejected  :Date;
+    
+    observations: NoteDTO[];
+    tracking:any;//Map<String,List<ActorDTO>> 
+    
 }
