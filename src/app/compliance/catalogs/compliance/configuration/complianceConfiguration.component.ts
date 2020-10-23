@@ -214,11 +214,16 @@ export class ComplianceConfigurationComponent implements OnInit {
 	obtenerListaTags() {
 		this.addBlock(1, 'Cargando...');
 		this.data = [];
+console.log("initAutoComplete");		
 		const params : HttpParams = this.assamblerRequest ();
 		this.tagService.obtenTagFiltros(params).subscribe((data: MatrizCumplimientoDTO) => {
+//		this.tagService.obtenTagPorFiltros(2021).subscribe((data: MatrizCumplimientoDTO) => {
+			/* this.statusMatriz = data.entidadEstatus.estatus.nombre;
+			if (data.entidadEstatus.entidadEstatusId === this.idMatrizFree) {
+				this.isFree = true;
+			} */
 
-console.log("initAutoComplete");
-//console.log(data.matriz);
+console.log(data.matriz);
 			this.setTableData(data.matriz);
 
 			this.initAutoComplete();
