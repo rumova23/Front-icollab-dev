@@ -20,8 +20,26 @@
 	<form [formGroup]="formFiltersTable" (ngSubmit)="onFiltersTable()">
 		<div class="row mt-3">
 			<div class="col-12 col-lg-4">
-				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="tag"
+				<app-mat-input-text-autocomplete
+					[formGroup]="formFiltersTable"
+					controlName="tag"
+					(keyUpChange)="keyUpTag($event)"
 					[options]="filteredAutoTag" label="Tag"></app-mat-input-text-autocomplete>
+<!-- 				<label>{{'Tag' | translate}}</label>
+				<mat-form-field class="form-control w-100">
+					<input type="text"
+						matInput
+						[formControlName]="tag"
+						[matAutocomplete]="auto" (keyup)="fillTag($event)"
+					>
+					<mat-autocomplete #auto="matAutocomplete">
+					<mat-option
+						*ngFor="let option of filteredAutoTag"
+						[value]="option">
+						{{option | translate}}
+					</mat-option>
+					</mat-autocomplete>
+				</mat-form-field>	 -->
 			</div>
 			<div class="col-12 col-lg-4">
 				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="nombre"

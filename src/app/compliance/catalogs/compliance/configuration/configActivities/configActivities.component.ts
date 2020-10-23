@@ -26,11 +26,12 @@ import { ColumnLabel } from 'src/app/core/models/ColumnLabel';
 export class ConfigActivitiesComponent implements OnInit {
 	// Simulación tuxpan
 
-	@ViewChild(MatPaginator) paginatorTagPrecedentes: MatPaginator;
-	@ViewChild(MatSort) sortTagPrecedentes: MatSort;
 
 	@ViewChild(MatPaginator) paginatorRegisters: MatPaginator;
 	@ViewChild(MatSort) sortRegisters: MatSort;
+
+	@ViewChild(MatPaginator) paginatorTagPrecedentes: MatPaginator;
+	@ViewChild(MatSort) sortTagPrecedentes: MatSort;
 
 	plantaDefault = this.globalService.plantaDefaultId; // "70"; //"Planta Tuxpan II";
 	a326 = null;
@@ -59,25 +60,10 @@ export class ConfigActivitiesComponent implements OnInit {
 
 	configActividadesForm: FormGroup;
 
-	// Init precedente ini
-	@ViewChild(MatSort) sort: MatSort;
-	tablaColumnsLabels: ColumnLabel[] = [{ key: 'tagHijo', label: 'Actividad' },
-	{ key: "tagHijoNombreCumplimiento", label: 'Nombre del Cumplimiento' }
-	];
-	tableColumnsDisplay: string[] = [
-		'tagHijo',
-		'tagHijoNombreCumplimiento',
-		'sys_delete'
-	];
-	tableRowXPage = [5, 10, 50, 100];
-	tableDataFiltered;
-	// End Precedent
-
 	idsTagPrecedentes;
 	
 	existeTagId: boolean;   // Muestra la tabla correspondiente a los precedentes
 	tablaAgregarPrecedentes: boolean // Muestra la tabla de los precedentes para poder asignar
-//	isPrecedentes: boolean;
 
 	habilitarActividad: boolean;
 	soloLectura: boolean;
@@ -113,11 +99,6 @@ export class ConfigActivitiesComponent implements OnInit {
 				}
 			}
 		});
-	}
-
-
-	applyFilter2(filterValue: string) {
-		this.tableDataFiltered.filter = filterValue.trim().toLowerCase();
 	}
 
 	isnumeric(link) {
@@ -213,11 +194,11 @@ export class ConfigActivitiesComponent implements OnInit {
 	ngOnInit() {
 
 		this.addBlock(1, 'Cargando...');
-
+console.log(this.sortTagPrecedentes);
+console.log(this.sortRegisters);
 		this.accion = this.catalogType.action;
 		this.existeTagId = false;
 		this.tablaAgregarPrecedentes = false;
-//		this.isPrecedentes = false;
 
 		this.habilitarActividad = false;
 
@@ -528,29 +509,6 @@ this.tagPrecedentes.sortingDataAccessor = (item, property) => {
 		this.existeTagId = false;
 	}
 
-/* 	ordenar(numberTable: number) {
-		console.log('ORDENAR TABLA NO. ' + numberTable)
-		if (numberTable === 1) {
-			if (this.registrosParaAsignar != null) {
-				this.registrosParaAsignar.paginator = this.paginatorRegisters;
-				this.registrosParaAsignar.sort = this.sortRegisters;
-			}
-		} else {
-			if (this.tagPrecedentes != null) {
-				this.tagPrecedentes.paginator = this.paginatorTagPrecedentes;
-
-this.tagPrecedentes.sortingDataAccessor = (item, property) => {
-	switch(property) {
-		case 'tagHijo': return item.tagHijo;
-		default: return item[property];
-	}
-}
-				this.tagPrecedentes.sort = this.sortTagPrecedentes;
-			}
-		}
-		this.addBlock(2, null);
-	} */
-
 	// Muestra las actividades que pueden ser agregadas como precedentes
 	mostrarPrecedentes() {
 		this.addBlock(1, 'Cargando...');
@@ -574,7 +532,6 @@ this.tagPrecedentes.sortingDataAccessor = (item, property) => {
 				this.addBlock(2, null);
 
 				if (this.registrosParaAsignar.data.length > 0) {
-//					this.isPrecedentes = true;
 					this.tablaAgregarPrecedentes = true;
 					this.idsTagPrecedentes = []
 				} else {
@@ -621,7 +578,6 @@ this.tagPrecedentes.sortingDataAccessor = (item, property) => {
 }
 					this.tagPrecedentes.sort = this.sortTagPrecedentes;
 
-//					this.isPrecedentes = false;
 					this.tablaAgregarPrecedentes = false;
 					this.addBlock(2, null);
 
@@ -717,15 +673,6 @@ this.tagPrecedentes.sortingDataAccessor = (item, property) => {
 	private addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
 	}
-
-/* 	async delay(ms: number, numberTable: number) {
-		await new Promise(
-			resolve =>
-				setTimeout(() =>
-					resolve(), ms)).then(() => {
-						this.ordenar(numberTable);
-					});
-	} */
 
 	initComboUnitPeriod() {
 		this.tagService.comboUnitPeriod().subscribe(

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
@@ -18,6 +18,7 @@ export class MatInputTextAutocompleteComponent implements OnInit, OnChanges {
 	@Input() filter          : 'startsWith' | 'includes' = 'startsWith';
 	@Input() isCaseSensitive : boolean = false;
 	filteredOptions          : Observable<string[]>;
+	@Output() keyUpChange    = new EventEmitter<any>();
 	
 	constructor() { }
 
@@ -65,5 +66,9 @@ export class MatInputTextAutocompleteComponent implements OnInit, OnChanges {
 				.replace('ú', 'u')
 				[this.filter](filterValue)
 			});
+	}
+
+	keyUpClick(e){
+		this.keyUpChange.emit(e);
 	}
 }

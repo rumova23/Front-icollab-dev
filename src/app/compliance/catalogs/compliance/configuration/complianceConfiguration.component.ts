@@ -210,35 +210,22 @@ export class ComplianceConfigurationComponent implements OnInit {
 		return period + ' ' + code + this.plural;
 	}
 	sortData(sort: Sort) { }
-	/*   get f() { return this.filtrosForm.controls; }
-	 */
+
 	obtenerListaTags() {
 		this.addBlock(1, 'Cargando...');
 		this.data = [];
 		const params : HttpParams = this.assamblerRequest ();
 		this.tagService.obtenTagFiltros(params).subscribe((data: MatrizCumplimientoDTO) => {
-//		this.tagService.obtenTagPorFiltros(2021).subscribe((data: MatrizCumplimientoDTO) => {
-			/* this.statusMatriz = data.entidadEstatus.estatus.nombre;
-			if (data.entidadEstatus.entidadEstatusId === this.idMatrizFree) {
-				this.isFree = true;
-			} */
+
 console.log("initAutoComplete");
-console.log(data.matriz);
+//console.log(data.matriz);
 			this.setTableData(data.matriz);
 
 			this.initAutoComplete();
 
-
-			/* this.administradores = new MatTableDataSource<any>(data.cumplimientoIntegrantes); */
-
-			let dateUpdated = null;
-			let autoridad = null;
-
-
 			this.addBlock(2, null);
 
-
-			if (this.showView) {
+  			if (this.showView) {
 				if (!this.tableColumnsDisplay.includes('sys_see')) this.tableColumnsDisplay.push('sys_see');
 			}
 			if (this.showUpdate) {
@@ -369,23 +356,23 @@ console.log(this.actividades);
 console.log("setTableData");
 console.log(matriz);
 		this.tableData = matriz
-			.sort((a, b) => moment((a.dateUpdated != null) ? a.dateUpdated : a.dateCreated).toDate().getTime() - moment((b.dateUpdated != null) ? b.dateUpdated : b.dateCreated).toDate().getTime())
+			//.sort((a, b) => moment((a.dateUpdated != null) ? a.dateUpdated : a.dateCreated).toDate().getTime() - moment((b.dateUpdated != null) ? b.dateUpdated : b.dateCreated).toDate().getTime())
 			.map((e: TagOutDTO, index) => {
 				let dateUpdated = ((e.dateUpdated != null) ? e.dateUpdated : e.dateCreated);
 				return {
 					'order': index + 1,
 					'idTag': e.idTag,
 					'tag': e.tag,
-					'nombre': e.classificationActivity,
+					'nombre': e.classificationActivity ? e.classificationActivity : '',
 					'clasificacion': e.activity ? e.activity.name : '',
-					'cumplimiento_legal': e.typeCompliance.code,
-					'periodo_entrega': this.formatPeriodo_entrega(e.period, (e.unitPeriod && e.unitPeriod.code) ? e.unitPeriod.code : ''),
-					'countTasks': e.countCompliance,
+					'cumplimiento_legal': (e.typeCompliance && e.typeCompliance.code) ? e.typeCompliance.code : '',
+					'periodo_entrega': this.formatPeriodo_entrega(e.period ? e.period : 0, (e.unitPeriod && e.unitPeriod.code) ? e.unitPeriod.code : ''),
+					'countTasks': e.countCompliance ? e.countCompliance : '',
 					'autoridad': (e.authority && e.authority.code) ? e.authority.code : '',
-					'tipo_aplicacion': e.applicationType.code,
-					'grupo': e.group ? e.group.code : '',
-					'userUpdated': (e.userUpdated) ? e.userUpdated : e.userCreated,
-					'dateUpdated': dateUpdated,
+					'tipo_aplicacion': (e.applicationType && e.applicationType.code) ? e.applicationType.code : '',
+					'grupo': (e.group && e.group.code) ? e.group.code : '',
+					'userUpdated': e.userUpdated ? e.userUpdated : e.userCreated ? e.userCreated : '',
+					'dateUpdated': e.dateUpdated ? e.dateUpdated : e.dateCreated ? e.dateCreated : '',
 					'estatus': (e.active) ? 'Activo' : 'Inactivo'
 				};
 			});
@@ -396,19 +383,16 @@ console.log(this.tableDataFiltered);
 		/* this.filteredAutoTag = this. this.tableData.map(d => d.tag).filter((el, index, arr) => arr.indexOf(el) === index);
 		this.filteredAutoName = this.tableData.map(d => d.nombre).filter((el, index, arr) => arr.indexOf(el) === index);
 		this.filteredUserUpdated = this.tableData.map(d => d.userUpdated).filter((el, index, arr) => arr.indexOf(el) === index); */
-console.log("initAutoComplete");
-		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "tag", "tag" )).subscribe((data: any) => {
+/*  		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "tag", "" )).subscribe((data: any) => {
 			this.filteredAutoTag = data;
 		});
-console.log(this.filteredAutoTag);
-		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "classificationActivity", "classificationActivity" )).subscribe((data: any) => {
+		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "classificationActivity", "" )).subscribe((data: any) => {
 			this.filteredAutoName = data;
 		});
-console.log(this.filteredAutoName);
-		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "userUpdated", "userUpdated" )).subscribe((data: any) => {
+		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "userUpdated", "" )).subscribe((data: any) => {
 			this.filteredUserUpdated = data;
-		});
-console.log(this.filteredUserUpdated);
+		}); */
+//this.filteredAutoTag = ["nose 3","talvez","hijo 1", "sobrino 2", "nieto 3"];
 
 		let statusConsultActivity = 'TODOS'; // 'TODOS' || 'ACTIVOS'
 		this.tagService.getCatalogoActividades(statusConsultActivity)
@@ -507,4 +491,37 @@ console.log(this.comboGrupo);
 			.set ( "maxDateUpdated", this.formFiltersTable.controls['maxDate__dateUpdated'].value == null ? "" : this.formFiltersTable.controls['maxDate__dateUpdated'].value)
 	}
 
+	keyUpTag ($event) : void {
+		if ($event.target.value.length > 3 ) {
+//			this.filteredAutoTag = ["hijo 1","nieto 3","nose 3","sobrino 2","talvez"];
+  		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "tag", $event.target.value )).subscribe((data: any) => {
+				this.filteredAutoTag = data;
+			});
+
+		} else {
+			this.filteredAutoTag = [];
+		}
+	}
+
+	fillComplianceName ($event) : void {
+		if ($event.target.value.length > 3 ) {
+  		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "tag", $event.target.value )).subscribe((data: any) => {
+				this.filteredAutoTag = data;
+			});
+
+		} else {
+			this.filteredAutoTag = [];
+		}
+	}
+
+	fillUserUpdate ($event) : void {
+		if ($event.target.value.length > 3 ) {
+  		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "tag", $event.target.value )).subscribe((data: any) => {
+				this.filteredAutoTag = data;
+			});
+
+		} else {
+			this.filteredAutoTag = [];
+		}
+	}
 }
