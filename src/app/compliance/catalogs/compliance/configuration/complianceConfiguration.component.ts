@@ -50,6 +50,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 	showUpdate = false;
 	showDelete = false;
 	plural = "";
+	initDate;
 	/* action: string = "Consultar"; */
 
 	columnasResponsabilidad: string[] = ['order', 'admin', 'responsabilidad'];
@@ -101,7 +102,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 	comboAutoridad: IdLabel[] = [];
 	comboTipoAplicacion: IdLabel[] = [];
 	comboGrupo: IdLabel[] = [];
-	comboEstatus: IdLabel[] = [{ id: 'Activo', label: 'Activo' }, { id: 'Inactivo', label: 'Inactivo' }];
+	comboEstatus: IdLabel[] = [{ id: '1', label: 'Activo' }, { id: '2', label: 'Inactivo' }];
 	comboUnitPeriod: any[] = [];
 	filteredAutoTag: string[];
 	filteredAutoName: string[];
@@ -199,6 +200,8 @@ export class ComplianceConfigurationComponent implements OnInit {
 
 		this.obtenerListaTags();
 
+		this.initAutoComplete();
+
 		this.tiposCumplimientos = [];
 		this.actividades = [];
 		this.anios = [];
@@ -214,19 +217,12 @@ export class ComplianceConfigurationComponent implements OnInit {
 	obtenerListaTags() {
 		this.addBlock(1, 'Cargando...');
 		this.data = [];
-console.log("initAutoComplete");		
 		const params : HttpParams = this.assamblerRequest ();
 		this.tagService.obtenTagFiltros(params).subscribe((data: MatrizCumplimientoDTO) => {
-//		this.tagService.obtenTagPorFiltros(2021).subscribe((data: MatrizCumplimientoDTO) => {
-			/* this.statusMatriz = data.entidadEstatus.estatus.nombre;
-			if (data.entidadEstatus.entidadEstatusId === this.idMatrizFree) {
-				this.isFree = true;
-			} */
 
-console.log(data.matriz);
+console.log("initAutoComplete");
+//console.log(data.matriz);
 			this.setTableData(data.matriz);
-
-			this.initAutoComplete();
 
 			this.addBlock(2, null);
 
@@ -385,24 +381,11 @@ console.log(matriz);
 console.log(this.tableDataFiltered);
 	}
 	initAutoComplete() {
-		/* this.filteredAutoTag = this. this.tableData.map(d => d.tag).filter((el, index, arr) => arr.indexOf(el) === index);
-		this.filteredAutoName = this.tableData.map(d => d.nombre).filter((el, index, arr) => arr.indexOf(el) === index);
-		this.filteredUserUpdated = this.tableData.map(d => d.userUpdated).filter((el, index, arr) => arr.indexOf(el) === index); */
-/*  		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "tag", "" )).subscribe((data: any) => {
-			this.filteredAutoTag = data;
-		});
-		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "classificationActivity", "" )).subscribe((data: any) => {
-			this.filteredAutoName = data;
-		});
-		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "userUpdated", "" )).subscribe((data: any) => {
-			this.filteredUserUpdated = data;
-		}); */
-//this.filteredAutoTag = ["nose 3","talvez","hijo 1", "sobrino 2", "nieto 3"];
 
 		let statusConsultActivity = 'TODOS'; // 'TODOS' || 'ACTIVOS'
 		this.tagService.getCatalogoActividades(statusConsultActivity)
 			.subscribe(catalogoResult => {
-				this.optionsClasificacion = catalogoResult.map(e => { return { id: e.name, label: e.name }; });
+				this.optionsClasificacion = catalogoResult.map(e => { return { id: e.consecutive, label: e.name }; });
 			},
 				error => {
 					this.toastr.errorToastr('Error al cargar catálogo de Categoría.', 'Lo siento,');
@@ -416,7 +399,8 @@ console.log(this.optionsClasificacion);
 				this.comboUnitPeriod = lista.map(e => { return { id: e.maestroOpcionId.toString(), singular: e.opcion.codigo, plural: e.opcion.codigo + '' + (e.opcion.codigo == 'MES' ? 'ES' : 'S') }; });
 				this.optionsPeriod = this.comboUnitPeriod.map(e => { return { id: e.id, label: e.singular } });
 			});
-console.log(this.optionsClasificacion);
+console.log(this.comboUnitPeriod);
+console.log(this.optionsPeriod);
 		let listaCombos = Array<OrderCatalogDTO>();
 		listaCombos.push(new OrderCatalogDTO('typeCompliance', 1, 1));
 		listaCombos.push(new OrderCatalogDTO('authority', 1, 1));
@@ -432,11 +416,11 @@ console.log(this.optionsClasificacion);
 				this.resuelveDS(poRespuesta, this.comboGrupo, 'group');//*/
 				catalogs.forEach(element => {
 					if (element.catalog === 'authority')
-						this.comboAutoridad = element.data.map(e => { return { id: e.code, label: e.code }; });
+						this.comboAutoridad = element.data.map(e => { return { id: e.id, label: e.code }; });
 					else if (element.catalog === 'typeApplication')
-						this.comboTipoAplicacion = element.data.map(e => { return { id: e.code, label: e.code }; });
+						this.comboTipoAplicacion = element.data.map(e => { return { id: e.id, label: e.code }; });
 					else if (element.catalog === 'group')
-						this.comboGrupo = element.data.map(e => { return { id: e.code, label: e.code }; });
+						this.comboGrupo = element.data.map(e => { return { id: e.id, label: e.code }; });
 
 				});
 			}
@@ -461,8 +445,8 @@ console.log(this.comboGrupo);
 	}
 
 	limpiarFiltros() {
-		this.tableDataFiltered = this.tableData.concat([]);
 		this.formFiltersTable.reset();
+		this.obtenerListaTags();
 		/* this.formDeliveryPeriodSubmited = false; */
 	}
 	isnumeric(v) {
@@ -480,6 +464,13 @@ console.log(this.comboGrupo);
 	}
 
 	assamblerRequest ( ) : HttpParams {
+		let minDate = this.formFiltersTable.controls['minDate__dateUpdated'].value == null
+			? ""
+			: moment ( this.formFiltersTable.controls['minDate__dateUpdated'].value ).format ( 'YYYY/MM/DD' );
+		let maxDate = this.formFiltersTable.controls['maxDate__dateUpdated'].value == null
+			? ""
+			: moment ( this.formFiltersTable.controls['maxDate__dateUpdated'].value ).format ( 'YYYY/MM/DD' );
+			
 		return new HttpParams ( )
 			.set ( "type", this.formFiltersTypeTable.value.typeFilter.toString() === '1' ? 'AND' : 'OR' )
 			.set ( "tag", this.formFiltersTable.controls['tag'].value == null ? "" : this.formFiltersTable.controls['tag'].value)
@@ -492,14 +483,14 @@ console.log(this.comboGrupo);
 			.set ( "groupCode", this.formFiltersTable.controls['grupo'].value == null ? "" : this.formFiltersTable.controls['grupo'].value)
 			.set ( "active", this.formFiltersTable.controls['estatus'].value == null ? "" : this.formFiltersTable.controls['estatus'].value)
 			.set ( "userUpdated", this.formFiltersTable.controls['userUpdated'].value == null ? "" : this.formFiltersTable.controls['userUpdated'].value)
-			.set ( "minDateUpdated", this.formFiltersTable.controls['minDate__dateUpdated'].value == null ? "" : this.formFiltersTable.controls['minDate__dateUpdated'].value)
-			.set ( "maxDateUpdated", this.formFiltersTable.controls['maxDate__dateUpdated'].value == null ? "" : this.formFiltersTable.controls['maxDate__dateUpdated'].value)
+			.set ( "minDateUpdated", minDate )
+			.set ( "maxDateUpdated", maxDate )
 	}
 
 	keyUpTag ($event) : void {
 		if ($event.target.value.length > 3 ) {
-//			this.filteredAutoTag = ["hijo 1","nieto 3","nose 3","sobrino 2","talvez"];
-  		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "tag", $event.target.value )).subscribe((data: any) => {
+			//this.filteredAutoTag = ["hijo 1","nieto 3","nose 3","sobrino 2","talvez"];
+  			this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "tag", $event.target.value )).subscribe((data: any) => {
 				this.filteredAutoTag = data;
 			});
 
@@ -508,25 +499,31 @@ console.log(this.comboGrupo);
 		}
 	}
 
-	fillComplianceName ($event) : void {
+	keyUpComplianceName ($event) : void {
 		if ($event.target.value.length > 3 ) {
-  		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "tag", $event.target.value )).subscribe((data: any) => {
-				this.filteredAutoTag = data;
+			//this.filteredAutoName = ["nc 04","nc 05","nc 06"];
+  			this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "classificationActivity", $event.target.value )).subscribe((data: any) => {
+				this.filteredAutoName = data;
 			});
 
 		} else {
-			this.filteredAutoTag = [];
+			this.filteredAutoName = [];
 		}
 	}
 
-	fillUserUpdate ($event) : void {
+	keyUpUserUpdate ($event) : void {
 		if ($event.target.value.length > 3 ) {
-  		this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "tag", $event.target.value )).subscribe((data: any) => {
-				this.filteredAutoTag = data;
+			//this.filteredUserUpdated = ["josefina","gabriela","ivette"];
+  			this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "userUpdated", $event.target.value )).subscribe((data: any) => {
+				this.filteredUserUpdated = data;
 			});
 
 		} else {
-			this.filteredAutoTag = [];
+			this.filteredUserUpdated = [];
 		}
+	}
+
+	onChangeDateIniFechaFin ( $event ) : void {
+		this.initDate = new Date($event);
 	}
 }

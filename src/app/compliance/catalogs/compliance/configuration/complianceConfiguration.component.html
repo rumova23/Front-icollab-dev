@@ -23,27 +23,18 @@
 				<app-mat-input-text-autocomplete
 					[formGroup]="formFiltersTable"
 					controlName="tag"
+					[options]="filteredAutoTag"
 					(keyUpChange)="keyUpTag($event)"
-					[options]="filteredAutoTag" label="Tag"></app-mat-input-text-autocomplete>
-<!-- 				<label>{{'Tag' | translate}}</label>
-				<mat-form-field class="form-control w-100">
-					<input type="text"
-						matInput
-						[formControlName]="tag"
-						[matAutocomplete]="auto" (keyup)="fillTag($event)"
-					>
-					<mat-autocomplete #auto="matAutocomplete">
-					<mat-option
-						*ngFor="let option of filteredAutoTag"
-						[value]="option">
-						{{option | translate}}
-					</mat-option>
-					</mat-autocomplete>
-				</mat-form-field>	 -->
+					label="Tag"></app-mat-input-text-autocomplete>
+
 			</div>
 			<div class="col-12 col-lg-4">
-				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="nombre"
-					[options]="filteredAutoName" label="Nombre del Cumplimiento"></app-mat-input-text-autocomplete>
+				<app-mat-input-text-autocomplete
+					[formGroup]="formFiltersTable"
+					controlName="nombre"
+					[options]="filteredAutoName"
+					(keyUpChange)="keyUpComplianceName($event)"
+					label="Nombre del Cumplimiento"></app-mat-input-text-autocomplete>
 			</div>
 			<div class="col-12 col-lg-4">
 				<app-mat-select [formGroup]="formFiltersTable" controlName="clasificacion"
@@ -88,19 +79,31 @@
 					label="Estatus"></app-mat-select>
 			</div>
 			<div class="col-12 col-lg-4">
-				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="userUpdated"
-					[options]="filteredUserUpdated" label="Usuario Modifico"></app-mat-input-text-autocomplete>
+				<app-mat-input-text-autocomplete
+					[formGroup]="formFiltersTable"
+					controlName="userUpdated"
+					[options]="filteredUserUpdated"
+					(keyUpChange)="keyUpUserUpdate($event)"
+					label="Usuario Modifico"></app-mat-input-text-autocomplete>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-12 col-lg-4">
 				<label>Fecha de Última Modificación</label><br>
-				<app-mat-input-datepicker [formGroup]="formFiltersTable" controlName="minDate__dateUpdated" label="De">
+				<app-mat-input-datepicker
+					[formGroup]="formFiltersTable"
+					controlName="minDate__dateUpdated"
+					label="De"
+					(eventChange)="onChangeDateIniFechaFin($event)">
 				</app-mat-input-datepicker>
 			</div>
 			<div class="col-12 col-lg-4">
 				<label style="visibility: hidden;">.</label><br>
-				<app-mat-input-datepicker [formGroup]="formFiltersTable" controlName="maxDate__dateUpdated" label="Al">
+				<app-mat-input-datepicker
+					[formGroup]="formFiltersTable"
+					controlName="maxDate__dateUpdated"
+					label="Al"
+					[minDate]="initDate">
 				</app-mat-input-datepicker>
 			</div>
 		</div>
