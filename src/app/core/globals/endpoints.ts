@@ -258,6 +258,7 @@ export const EPs = {
             observation: "/seguimiento/legal/obten/observaciones",
             documents: "/seguimiento/legal/obten/documents",
             gantt: "/seguimiento/legal/obten/gantt",
+            catalog: "/seguimiento/legal/obten/catalogos",
          },
          staff: {
             tag: {

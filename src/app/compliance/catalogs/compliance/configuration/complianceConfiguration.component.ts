@@ -490,7 +490,7 @@ console.log(this.comboGrupo);
 	keyUpTag ($event) : void {
 		if ($event.target.value.length > 3 ) {
 			//this.filteredAutoTag = ["hijo 1","nieto 3","nose 3","sobrino 2","talvez"];
-  			this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "tag", $event.target.value )).subscribe((data: any) => {
+  			this.tagService.obtenTagCatalogos( new HttpParams ( ).set ( "tag", $event.target.value )).subscribe((data: any) => {
 				this.filteredAutoTag = data;
 			});
 
@@ -502,7 +502,7 @@ console.log(this.comboGrupo);
 	keyUpComplianceName ($event) : void {
 		if ($event.target.value.length > 3 ) {
 			//this.filteredAutoName = ["nc 04","nc 05","nc 06"];
-  			this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "classificationActivity", $event.target.value )).subscribe((data: any) => {
+  			this.tagService.obtenTagCatalogos( new HttpParams ( ).set ( "classificationActivity", $event.target.value )).subscribe((data: any) => {
 				this.filteredAutoName = data;
 			});
 
@@ -514,7 +514,7 @@ console.log(this.comboGrupo);
 	keyUpUserUpdate ($event) : void {
 		if ($event.target.value.length > 3 ) {
 			//this.filteredUserUpdated = ["josefina","gabriela","ivette"];
-  			this.tagService.obtenTagFiltros( new HttpParams ( ).set ( "userUpdated", $event.target.value )).subscribe((data: any) => {
+  			this.tagService.obtenTagCatalogos( new HttpParams ( ).set ( "userUpdated", $event.target.value )).subscribe((data: any) => {
 				this.filteredUserUpdated = data;
 			});
 

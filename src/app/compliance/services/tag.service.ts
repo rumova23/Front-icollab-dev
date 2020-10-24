@@ -72,6 +72,14 @@ export class TagService {
     return this.http.get( `${ EPs.tracing.legal.get.matriz }/${anio}`, {params : this.parameters });
   }
 
+  obtenTagCatalogos(params: HttpParams): Observable<any> {
+    this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
+    console.log(this.parameters.get("X-TENANT-ID"));
+    params = params.set ( "X-TENANT-ID", this.parameters.get ( "X-TENANT-ID" ) )
+                   .set ( "user", this.parameters.get ( "user" ) );
+    return this.http.get( `${ EPs.tracing.legal.get.catalog }`, {params : params });
+  }
+
   obtenTagFiltros(params: HttpParams): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     console.log(this.parameters.get("X-TENANT-ID"));
@@ -79,7 +87,6 @@ export class TagService {
                    .set ( "user", this.parameters.get ( "user" ) );
     return this.http.get( `${ EPs.tracing.legal.get.matriz }`, {params : params });
   }
-
   obtenMatriz(anio: number, a: number, b: number): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
     return this.http.get( `${  EPs.tracing.legal.get.matriz }/${anio}/${a}/${b}`, {params : this.parameters });
