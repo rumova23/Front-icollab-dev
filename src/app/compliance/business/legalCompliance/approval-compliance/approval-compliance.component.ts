@@ -391,7 +391,7 @@ export class ApprovalComplianceComponent implements OnInit {
     }
 
 	SeguimientoAprovaciones() {
-		this.showTrack = true;
+		this.showTrack = !this.showTrack;
 	}
 	
 	addBlock(type, msg): void {
