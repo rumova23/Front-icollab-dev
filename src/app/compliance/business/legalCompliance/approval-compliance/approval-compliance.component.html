@@ -11,37 +11,21 @@
 <div class="section">
 	<div class="row">
 		<div class="col">
-			<p class="section_titulo_0">{{ " Aprobación de Cumplimiento/Generación de Tareas " | translate }}</p>
+			<p class="section_titulo_0">{{ " Aprobación de Cumplimiento / Generación de Tareas " | translate }}</p>
 			<p class="section_subtitulo_0">{{ "Buscar por" | translate }}</p>
 		</div>
 	</div>
 	<hr>
-	<br>
 	<!---->
 	<form [formGroup]="filtrosForm">
 		<div class="row" *ngIf="isSupervisor">
 			<div class="form-group col-12 col-md-6 col-lg-4">
-				<button type="button" class="btn"
-					[ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }"
-					(click)="aprobarMatriz()">Aprobar Matriz Cumplimiento</button>
-			</div>
-			<div class="form-group col-12 col-md-6 col-lg-4" *ngIf="isFree">
-				<button type="button" class="btn"
-					[ngClass]="{ myblue: globalService.aguila, myorange: !globalService.aguila }"
-					(click)="liberarMatriz()">Liberar Matriz Cumplimiento</button>
-			</div>
-			<div class="form-group col-12 col-md-6 col-lg-4" *ngIf="!isFree">
-				<label>Estatus Matriz de cumplimiento: {{ statusMatriz }}</label>
-			</div>
-		</div>
-		<div class="row" *ngIf="isSupervisor">
-			<div class="form-group col-12 col-md-6 col-lg-4">
 				<label>Año</label>
-				<select class="form-control" formControlName="fAnio" (change)="obtenMatrizCumplimiento()">
-					<option *ngFor="let operator of anios" [value]="operator.value">
-						{{ operator.label }}
-					</option>
-				</select>
+				<app-mat-input-datepicker-year
+					[formGroup]="filtrosForm"
+					controlName="fAnio"
+					(eventChange)="eventChangeAnio($event)">
+				</app-mat-input-datepicker-year>
 			</div>
 			<div class="form-group col-12 col-md-6 col-lg-4">
 				<table matSort mat-table [dataSource]="administradores" class="table_catalogo">
@@ -71,7 +55,7 @@
 		<div class="row">
 			<div class="form-group col-12 col-md-6 col-lg-4">
 				<label>Tipo Cumplimiento</label>
-				<select class="form-control" formControlName="fTipoCumplimiento" (change)="getTasks()">
+				<select class="form-control" formControlName="fTipoCumplimiento">
 					<option></option>
 					<option *ngFor="let operator of tiposCumplimientos;" [value]="operator.value">
 						{{operator.label}}
@@ -80,7 +64,7 @@
 			</div>
 			<div class="form-group col-12 col-md-6 col-lg-4">
 				<label>Actividad</label>
-				<select class="form-control" formControlName="fActividad" (change)="getTasks()">
+				<select class="form-control" formControlName="fActividad">
 					<option></option>
 					<option *ngFor="let operator of actividades;" [value]="operator.value">
 						{{operator.label}}
@@ -99,12 +83,20 @@
 
 		<div class="row mt-3">
 			<div class="col-12 col-lg-4">
-				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="tag"
-					[options]="filteredAutoTag" label="Tag"></app-mat-input-text-autocomplete>
+				<app-mat-input-text-autocomplete
+					[formGroup]="formFiltersTable"
+					controlName="tag"
+					[options]="filteredAutoTag"
+					(keyUpChange)="keyUpTag($event)"
+					label="Tag"></app-mat-input-text-autocomplete>
 			</div>
 			<div class="col-12 col-lg-4">
-				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="nombre"
-					[options]="filteredAutoName" label="Nombre del Cumplimiento"></app-mat-input-text-autocomplete>
+				<app-mat-input-text-autocomplete
+					[formGroup]="formFiltersTable"
+					controlName="nombre"
+					[options]="filteredAutoName"
+					(keyUpChange)="keyUpComplianceName($event)"
+					label="Nombre del Cumplimiento"></app-mat-input-text-autocomplete>
 			</div>
 			<div class="col-12 col-lg-4">
 				<app-mat-select [formGroup]="formFiltersTable" controlName="clasificacion"
@@ -150,20 +142,32 @@
 					label="Estatus"></app-mat-select>
 			</div>
 			<div class="col-12 col-lg-4">
-				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="userUpdated"
-					[options]="filteredUserUpdated" label="Usuario Modifico"></app-mat-input-text-autocomplete>
+				<app-mat-input-text-autocomplete
+					[formGroup]="formFiltersTable"
+					controlName="userUpdated"
+					[options]="filteredUserUpdated"
+					(keyUpChange)="keyUpUserUpdate($event)"
+					label="Usuario Modifico"></app-mat-input-text-autocomplete>
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="col-12 col-lg-4">
 				<label>Fecha de Última Modificación</label><br>
-				<app-mat-input-datepicker [formGroup]="formFiltersTable" controlName="minDate__dateUpdated" label="De">
+				<app-mat-input-datepicker
+					[formGroup]="formFiltersTable"
+					controlName="minDate__dateUpdated"
+					label="De"
+					(eventChange)="onChangeDateIniFechaFin($event)">
 				</app-mat-input-datepicker>
 			</div>
 			<div class="col-12 col-lg-4">
 				<label style="visibility: hidden;">.</label><br>
-				<app-mat-input-datepicker [formGroup]="formFiltersTable" controlName="maxDate__dateUpdated" label="Al">
+				<app-mat-input-datepicker
+					[formGroup]="formFiltersTable"
+					controlName="maxDate__dateUpdated"
+					label="Al"
+					[minDate]="initDate">
 				</app-mat-input-datepicker>
 			</div>
 		</div>
@@ -184,33 +188,24 @@
 		</div>
 	</form>
 
-	<div class="row mt-3">
-		<div class="col-12 col-lg-4">
-			Año
-		</div>
-	</div>
 	<div class="row">
 		<div class="col-12 col-lg-4">
-			<app-mat-input-datepicker-year [formGroup]="formMatrizCumplimiento" controlName="fMatrizCumplimiento"
-				(eventChange)="onChangeDatePicker($event)">
-			</app-mat-input-datepicker-year>
 		</div>
 		<div class="col-12 col-lg-2">
-			<app-btn-block label="Aprobar" (myClick)="AprobarMatrizCumplimiento()"></app-btn-block>
+			<app-btn-block [disabled]="selectYear < currentYear+1" label="Aprobar" (myClick)="aprobarMatrizCumplimiento()"></app-btn-block>
 		</div>
 		<div class="col-12 col-lg-2">
-			<app-btn-block label="Rechazar" (myClick)="RechazarMatrizCumplimiento()">
-			</app-btn-block>
+			<app-btn-block [disabled]="selectYear < currentYear+1" label="Rechazar" (myClick)="rechazarMatrizCumplimiento()"></app-btn-block>
 		</div>
 		<div class="col-12 col-lg-2">
-			<app-btn-block label="Generar Tareas" (myClick)="GenerarTareas()"></app-btn-block>
+			<app-btn-block [disabled]="approved == null" label="Generar Tareas" (myClick)="generarTareas()"></app-btn-block>
 		</div>
 	</div>
 
 	<div class="row justify-content-between mt-5">
 		<div class="col-12 col-lg-4">
 			<p class="section_titulo_0">
-				Estatus: No Aprobada
+				<span *ngIf="approved != null"> Estatus: {{approved}}</span>
 			</p>
 		</div>
 		<div class="col-12 col-lg-2">
@@ -225,11 +220,13 @@
 		</div>
 	</div>
 
-	<div class="row my-4" *ngIf="isSeguimientoAprovaciones">
+	<div *ngIf="showTrack" class="row my-4">
 		<div class="col">
-			<app-mat-table [data]="tableDataSeguimientoAprovaciones"
-				[columnsLabels]="tableDataSeguimientoAprovacionesColumnsLabels"
-				[columnsDisplay]="tableDataSeguimientoAprovacionesColumnsDisplay"></app-mat-table>
+			<app-mat-table
+					[data]="tracks"
+					[columnsDisplay]="tracksColumnsDisplay"
+					[columnsLabels]="trackColumnsLabels"
+				></app-mat-table>
 		</div>
 	</div>
 </div>

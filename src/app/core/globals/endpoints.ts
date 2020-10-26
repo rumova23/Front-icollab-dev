@@ -351,19 +351,19 @@ export const EPs = {
    },
    ftpconsumer: {
       configuration: {
-         all: "/ftpconsumer/ftpconsume/configuration/getAll",
-         get: "/ftpconsumer/ftpconsume/configuration/get/",
-         save: "/ftpconsumer/ftpconsume/configuration/save",
+         all: "/ftpconsumer/ftpconsumer/configuration/getAll",
+         get: "/ftpconsumer/ftpconsumer/configuration/get/",
+         save: "/ftpconsumer/ftpconsumer/configuration/save",
       },
       monitoring: {
-         all: "/ftpconsumer/ftpconsume/monitoring/getAll/",
+         all: "/ftpconsumer/ftpconsumer/monitoring/getAll/",
          detail: {
-            get: "/ftpconsumer/ftpconsume/monitoring/detail/get/",
+            get: "/ftpconsumer/ftpconsumer/monitoring/detail/get/",
          }
       },
       executeProcess: {
-         month: "/ftpconsumer/ftpconsume/executeProcess/month/",
-         id: "/ftpconsumer/ftpconsume/executeProcess/",
+         month: "/ftpconsumer/ftpconsumer/executeProcess/month/",
+         id: "/ftpconsumer/ftpconsumer/executeProcess/",
       }
    },
    pml: {

@@ -8,7 +8,7 @@ import { EventService } from "src/app/core/services/event.service";
 import { EventMessage } from "src/app/core/models/EventMessage";
 import { ToastrManager } from "ng6-toastr-notifications";
 import { EventBlocked } from "src/app/core/models/EventBlocked";
-import { timer } from "rxjs";
+import { Observable, timer } from "rxjs";
 import { OrderCatalogDTO } from "src/app/compliance/models/OrderCatalogDTO";
 import { TagService } from "src/app/compliance/services/tag.service";
 import { MaestroOpcionDTO } from "src/app/compliance/models/maestro-opcion-dto";
@@ -22,6 +22,11 @@ import { Combo } from 'src/app/compliance/models/Combo';
 import { HttpParams } from '@angular/common/http';
 import * as Util from 'src/app/core/helpers/util.general';
 import { SecurityService } from 'src/app/core/services/security.service';
+import { GenerigResponseDTO } from 'src/app/compliance/models/GenerigResponseDTO';
+import { IncidentService } from 'src/app/bits/services/incident.service';
+import { IncidentObservationOutDTO } from 'src/app/bits/models/IncidentObservationOutDTO';
+import { ResponseVO } from 'src/app/bits/models/ResponseVO';
+import { map } from 'rxjs/operators';
 
 @Component({
 	selector: "app-approval-compliance",
@@ -38,52 +43,71 @@ export class ApprovalComplianceComponent implements OnInit {
 	plural = "";
 	tiposCumplimientos: Array<any>;
 	actividades: Array<any>;
-	anios: Array<any>;
+//	anios: Array<any>;
 	data: any[] = [];
-	formFiltersTypeTable : FormGroup;
+	formFiltersType : FormGroup;
 	menu: any[];
 	showAdd = false;
 	showView = false;
 	showUpdate = false;
 	showDelete = false;
+	initDate;
+	approved: string;
+	formTrack : FormGroup;
+	tracks : IncidentObservationOutDTO[] = [];
+	tracksColumnsDisplay = [
+		'order',
+		'userUpdated',
+		'observation',
+		'dateUpdated',
+		'sys_checkbox',
+		'sys_edit',
+		'sys_delete',
+	];
+	trackColumnsLabels = [
+		{ key: 'order', label: '#' },
+		{ key: 'userUpdated', label: 'Nombre' },
+		{ key: 'observation', label: 'Observaciones' },
+		{ key: 'dateUpdated', label: 'Fecha de Ultima Modificación' , dateFormat:'dd/MM/yyyy HH:mm' },
+	];
+	trackId : number;
+	showTrack : boolean;
 
 	tablaColumnsLabels: ColumnLabel[] = [
-		{ key: "order", label: "#" },
-		{ key: "tag", label: "Tag" },
-		{ key: "classificationActivity", label: "Nombre del Cumplimiento" },
-		{ key: "countCompliance", label: "Tareas Generadas" },
-		{ key: "activity", label: "Categoría" },
-		{ key: "typeCompliance", label: "Tipo de Cumplimiento" },
-		{ key: "period_unit", label: "Periodo de Entrega" },
-		{ key: "authority", label: "Autoridad" },
-		{ key: "applicationType", label: "Tipo de Aplicación" },
-		{ key: "group", label: "Grupo" },
-		{ key: "userUpdated", label: "Usuario Última Modificación" },
-		{ key: "dateUpdated", label: "Fecha y Hora Última Modificacion", dateFormat: "dd/MM/yyyy HH:mm" },
-		{ key: "status", label: "Estatus" },
+		{ key: 'order', label: '#' },
+		{ key: "tag", label: 'TAG' },
+		{ key: "nombre", label: 'Nombre del Cumplimiento' },
+		{ key: "clasificacion", label: 'Categoría' },
+		{ key: "cumplimiento_legal", label: 'Tipo de Cumplimiento' },
+		{ key: "autoridad", label: 'Autoridad' },
+		{ key: "tipo_aplicacion", label: 'Tipo de Aplicación' },
+		{ key: "grupo", label: 'Grupo' },
+		{ key: "periodo_entrega", label: 'Período de Entrega' },
+		{ key: "countTasks", label: 'Generados' },
+		{ key: "userUpdated", label: 'Usuario Última Modificación' },
+		{ key: "dateUpdated", label: 'Fecha y Hora de Última Modificación', dateFormat: 'dd/MM/yyyy HH:mm' },
+		{ key: "estatus", label: 'Estatus' }
 	];
+	
 	tableColumnsDisplay: string[] = [
-		"order",
-		"tag",
-		"classificationActivity",
-		"countCompliance",
-		"activity",
-		"typeCompliance",
-		"period_unit",
-		"authority",
-		"applicationType",
-		"group",
-		"userUpdated",
-		"dateUpdated",
-		"status",
-//	"sys_see",
+		'order',
+		'tag',
+		'nombre',
+		'clasificacion',
+		'cumplimiento_legal',
+		'periodo_entrega',
+		'autoridad',
+		'tipo_aplicacion',
+		'grupo',
+		'userUpdated',
+		'dateUpdated',
+		'estatus'
 	];
 
 	tableRowXpage = [50, 100];
 
 	filtrosForm: FormGroup;
 	formFiltersTable: FormGroup;
-	formFiltersType: FormGroup;
 	formMatrizCumplimiento: FormGroup;
 
 	optionsFiltersType: IdLabel[] = [
@@ -100,20 +124,11 @@ export class ApprovalComplianceComponent implements OnInit {
 	comboAutoridad: IdLabel[] = [];
 	comboTipoAplicacion: IdLabel[] = [];
 	comboGrupo: IdLabel[] = [];
-	comboEstatus: IdLabel[] = [{ id: 'Activo', label: 'Activo' }, { id: 'Inactivo', label: 'Inactivo' }];
+	comboEstatus: IdLabel[] = [{ id: '1', label: 'Activo' }, { id: '2', label: 'Inactivo' }];
 
 	tableRowXPage = [100, 500, 1000, 1500, 2000];
 
-	isSeguimientoAprovaciones = false;
-	tableDataSeguimientoAprovaciones = [
-		{
-			order: '1'
-			, Usuario: 'Usuario'
-			, Observaciones: 'Observaciones'
-			, Estatus: 'Estatus'
-			, date: new Date()
-		}
-	];
+	isTrack : boolean;
 
 	tableDataSeguimientoAprovacionesColumnsLabels: ColumnLabel[] = [
 		{ key: "order", label: "#" },
@@ -126,12 +141,16 @@ export class ApprovalComplianceComponent implements OnInit {
 		"Estatus",
 		"date"
 	];
+	currentYear : number;
+	selectYear : number;
+
 	constructor(
 		public globalService: GlobalService,
 		private formBuilder: FormBuilder,
 		public eventService: EventService,
 		private datePipe: DatePipe,
 		private toastr: ToastrManager,
+		public incidentService : IncidentService,
 		private administratorComplianceService: AdministratorComplianceService,
 		private tagService: TagService,
 		public securityService: SecurityService) {
@@ -176,9 +195,6 @@ export class ApprovalComplianceComponent implements OnInit {
 
 		this.addBlock(1, null);
 		timer(1000).subscribe(() => this.addBlock(2, null));
-		this.formFiltersType = this.formBuilder.group({
-			typeFilter: [2, Validators.required],
-		});
 
 		const user = JSON.parse(localStorage.getItem('user'));
 		user.roles.forEach(role => {
@@ -191,7 +207,6 @@ export class ApprovalComplianceComponent implements OnInit {
 			fActividad: [{ value: '', disabled: false }, Validators.required],
 			fAnio: [{ value: '', disabled: false }, Validators.required]
 		});
-
 
 		this.formFiltersTable = this.formBuilder.group({
 			tag: [null],
@@ -208,48 +223,81 @@ export class ApprovalComplianceComponent implements OnInit {
 			maxDate__dateUpdated: [null],
 		});
 
-		this.formFiltersTypeTable = this.formBuilder.group({
+		this.formFiltersType = this.formBuilder.group({
 			typeFilter:[2,Validators.required]
 		});
 
-		this.formMatrizCumplimiento = this.formBuilder.group({
-			fMatrizCumplimiento: [null, Validators.required],
+		this.formTrack = this.formBuilder.group({
+			id:[null],
+			observation:[null,[Validators.required,Validators.minLength(2),Validators.maxLength(1000)]]
 		});
+/* 		this.formMatrizCumplimiento = this.formBuilder.group({
+			fMatrizCumplimiento: [null, Validators.required],
+		}); */
 
-		const currentYear = (new Date()).getFullYear();
-		this.filtrosForm.controls.fAnio.setValue(currentYear);
+		this.filtrosForm.controls.fAnio.setValue(moment(new Date()));
+		this.currentYear = (new Date()).getFullYear();
+		this.selectYear = this.currentYear;
+		this.obtenerListaPorAnio(this.currentYear);
 
-		this.obtenerListaTags();
+		this.initAutoComplete();
 
 		this.tiposCumplimientos = [];
 		this.actividades = [];
-		this.anios = [];
+//		this.anios = [];
 		this.initCombos();
+		this.isTrack = false;
+		this.trackId = new Date ( ).getTime ( );
+		this.getObservations ( null );
+		this.showTrack = false;
 
 	}
 
-	obtenerListaTags() {
+	obtenerListaPorAnio(anio:number) {
 		this.addBlock(1, 'Cargando...');
 		this.data = [];
-		const params : HttpParams = this.assamblerRequest ();
-//		this.tagService.obtenTagFiltros(params).subscribe((data: MatrizCumplimientoDTO) => {
-		this.tagService.obtenTagPorFiltros(2021).subscribe((data: MatrizCumplimientoDTO) => {
-			/* this.statusMatriz = data.entidadEstatus.estatus.nombre;
-			if (data.entidadEstatus.entidadEstatusId === this.idMatrizFree) {
-				this.isFree = true;
-			} */
+
+//		this.tagService.obtenTagPorFiltros(anio).subscribe((data: MatrizCumplimientoDTO) => {
+let params = this.assamblerRequest ();
+this.tagService.obtenTagFiltros(params)
+			.subscribe((data: MatrizCumplimientoDTO) => {
+
+				this.setTableData(data.matriz);
+
+				this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
+				
+				this.addBlock(2, null);
+
+
+				if (this.showView) {
+					if (!this.tableColumnsDisplay.includes('sys_see')) this.tableColumnsDisplay.push('sys_see');
+				}
+				if (this.showUpdate) {
+					if (!this.tableColumnsDisplay.includes('sys_edit')) this.tableColumnsDisplay.push('sys_edit');
+				}
+				if (this.showUpdate) {
+					if (!this.tableColumnsDisplay.includes('sys_delete')) this.tableColumnsDisplay.push('sys_delete');
+				}
+			},
+			error => {
+				this.addBlock(2, null);
+				this.toastr.errorToastr('Error al cargar lista de tags.', 'Lo siento,');
+
+			}
+		);
+	}
+
+	obtenerListaParam() {
+		this.addBlock(1, 'Cargando...');
+		this.data = [];
+		let params = this.assamblerRequest ();
+		this.tagService.obtenTagFiltros(params).subscribe((data: MatrizCumplimientoDTO) => {
+
 			this.setTableData(data.matriz);
 
-			this.initAutoComplete();
-
-			/* this.administradores = new MatTableDataSource<any>(data.cumplimientoIntegrantes); */
-
-			let dateUpdated = null;
-			let autoridad = null;
-
-
+			this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
+			
 			this.addBlock(2, null);
-
 
 			if (this.showView) {
 				if (!this.tableColumnsDisplay.includes('sys_see')) this.tableColumnsDisplay.push('sys_see');
@@ -269,93 +317,12 @@ export class ApprovalComplianceComponent implements OnInit {
 		);
 	}
 
-	initAutoComplete() {
-		this.filteredAutoTag = this.tableData.map((d) => d.tag).filter((el, index, arr) => arr.indexOf(el) === index);
-		this.filteredAutoName = this.tableData.map((d) => d.classificationActivity).filter((el, index, arr) => arr.indexOf(el) === index);
-		this.filteredUserUpdated = this.tableData.map((d) => d.userUpdated).filter((el, index, arr) => arr.indexOf(el) === index);
-		let statusConsultActivity = "TODOS"; // 'TODOS' || 'ACTIVOS'
-		this.tagService.getCatalogoActividades(statusConsultActivity).subscribe(
-			(catalogoResult) => {
-				this.optionsClasificacion = catalogoResult.map((e) => {
-					return { id: e.name, label: e.name };
-				});
-			},
-			(error) => {
-				this.toastr.errorToastr("Error al cargar catálogo de Categoría.", "Lo siento,");
-			}
-		);
+	get f() { return this.filtrosForm.controls; }
 
-		this.tagService.comboUnitPeriod().subscribe((lista: Array<MaestroOpcionDTO>) => {
-			console.dir(lista);
-			this.comboUnitPeriod = lista.map((e) => {
-				return { id: e.maestroOpcionId.toString(), singular: e.opcion.codigo, plural: e.opcion.codigo + "" + (e.opcion.codigo == "MES" ? "ES" : "S") };
-			});
-			this.optionsPeriod = this.comboUnitPeriod.map((e) => {
-				return { id: e.id, label: e.singular };
-			});
-		});
-
-		let listaCombos = Array<OrderCatalogDTO>();
-		listaCombos.push(new OrderCatalogDTO("typeCompliance", 1, 1));
-		listaCombos.push(new OrderCatalogDTO("authority", 1, 1));
-		listaCombos.push(new OrderCatalogDTO("typeApplication", 1, 1));
-		listaCombos.push(new OrderCatalogDTO("typeDay", 1, 1));
-		listaCombos.push(new OrderCatalogDTO("group", 1, 1));
-		this.tagService
-			.getlistCatalogoOrdenados(listaCombos)
-			.subscribe((catalogs: any) => {
-
-				catalogs.forEach((element) => {
-					if (element.catalog === "authority")
-						this.comboAutoridad = element.data.map((e) => {
-							return { id: e.code, label: e.code };
-						});
-					else if (element.catalog === "typeApplication")
-						this.comboTipoAplicacion = element.data.map((e) => {
-							return { id: e.code, label: e.code };
-						});
-					else if (element.catalog === "group")
-						this.comboGrupo = element.data.map((e) => {
-							return { id: e.code, label: e.code };
-						});
-				});
-			})
-			.add(() => {
-				this.addBlock(2, null);
-			});
+	eventChangeAnio(d: Moment) {
+		this.selectYear = d.year ();
 	}
 
-	onFiltersTable() {
-      	const typeSearch = this.formFiltersTypeTable.value.typeFilter.toString() === '1' ? 'AND' : 'OR'; // 1. OR \ 2. AND for search conditions
-
-		if ( !Util.isEmptyFilters2 ( this.formFiltersTable.value, typeSearch ) ) {
-			this.obtenerListaTags();
-		}
-
-	}
-
-	isnumeric(v) {
-		if (isNaN(Number(v)) || 0 === Number(v)) {
-			// para no permitir letras, que en firefox si permite insertarlas
-			v = null;
-			this.formFiltersTable.controls.periodo_entrega_cantidad.setValue(null);
-		}
-		if (Number(v) > 1) {
-			this.optionsPeriod = this.comboUnitPeriod.map((e) => {
-				return { id: e.id, label: e.plural };
-			});
-		} else if (Number(v) <= 1) {
-			this.optionsPeriod = this.comboUnitPeriod.map((e) => {
-				return { id: e.id, label: e.singular };
-			});
-		}
-	}
-
-	onChangeDatePicker(d: Moment) {
-		console.log(d);
-		console.log(this.datePipe.transform(d, 'yyyy-MM-dd HH:mm:ss'));
-
-	}
 	onTableRowSee(element) {
 		const type = {
 			dto: element,
@@ -365,79 +332,113 @@ export class ApprovalComplianceComponent implements OnInit {
 		this.eventService.sendChangePage(new EventMessage(null, type, "Compliance.ApprovalComplianceVComponent"));
 	}
 
-	limpiarFiltros() {
-		this.tableDataFiltered = this.tableData.concat([]);
-		this.formFiltersTable.reset();
-	}
-	AprobarMatrizCumplimiento() {
+	aprobarMatrizCumplimiento() {
+		this.addBlock(1, null);
+		if (this.filtrosForm.controls.fAnio.value != null) {
+			let year = moment ( this.filtrosForm.controls.fAnio.value ).year( );
+			this.administratorComplianceService.apruebaMatrizCumplimiento(year).subscribe(
+				response => {
+					this.toastr.successToastr('Se aprobo correctamente la matriz de cumplimiento', '¡Se ha logrado!');
+					this.obtenerListaPorAnio(year);
+					this.approved = "Aprobado"
+				},
+				error => {
+					this.toastr.errorToastr('Error en la aprovación de la matriz.', 'Lo siento,');
 
+			});
+		} else {
+			this.toastr.warningToastr('Selecciona un año.' );
+		}
+		this.addBlock(2, null);
 	}
-	RechazarMatrizCumplimiento() {
+	rechazarMatrizCumplimiento() {
+        this.addBlock(1, 'Cargando...');
+		if (this.filtrosForm.controls.fAnio.value != null) {
+			let year = moment ( this.filtrosForm.controls.fAnio.value ).year( );
+			this.administratorComplianceService.liberaMatrizCumplimiento(year).subscribe(
+				(responseLiberacion: GenerigResponseDTO) => {
+					this.toastr.successToastr(responseLiberacion.mensaje, '¡Se ha logrado!');
+					this.obtenerListaPorAnio(year);
+					this.isTrack = true;
+					this.approved = "Rechazado"
+				},
+				error => {
+					this.toastr.errorToastr('Error en el rechazo de la matriz.', 'Lo siento,');
+			});
+		}
+		this.addBlock(2, null);
+	}
 
-	}
-	GenerarTareas() {
+    generarTareas() {
+    	this.addBlock(1, null);
+        if (this.filtrosForm.controls.fTipoCumplimiento.value.length > 0 && this.filtrosForm.controls.fActividad.value.length > 0) {
+			let year = moment ( this.filtrosForm.controls.fAnio.value ).year( );
+            this.administratorComplianceService.getTasks(
+                year,
+                this.filtrosForm.controls.fTipoCumplimiento.value,
+                this.filtrosForm.controls.fActividad.value).subscribe(
+                (data: MatrizCumplimientoDTO) => {
+                    this.setTableData(data.matriz);
+                    this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
+					this.isTrack = true;
+					this.toastr.infoToastr('Generación de tareas exitoso.', 'Lo siento,');
+				},
+				error => {
+					this.toastr.errorToastr('Error en la generación de tareas.', 'Lo siento,');
+				}
+            );
+        }
+		this.addBlock(2, null);
+    }
 
-	}
 	SeguimientoAprovaciones() {
-		this.isSeguimientoAprovaciones = !this.isSeguimientoAprovaciones;
+		this.showTrack = true;
 	}
+	
 	addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
 	}
 
-	aprobarMatriz() {
-		/* this.administratorComplianceService.apruebaMatrizCumplimiento(this.filtrosForm.controls.fAnio.value).subscribe(
-			response => {
-				this.toastr.successToastr('Se aprobo correctamente la matriz de cumplimiento', '¡Se ha logrado!');
-				this.obtenerListaTags(this.filtrosForm.controls.fAnio.value);
-			}); */
-	}
+	initAutoComplete() {
 
-	setTableData(matriz: TagOutDTO[]) {
+		let statusConsultActivity = 'TODOS'; // 'TODOS' || 'ACTIVOS'
+		this.tagService.getCatalogoActividades(statusConsultActivity)
+			.subscribe(catalogoResult => {
+				this.optionsClasificacion = catalogoResult.map(e => { return { id: e.consecutive, label: e.name }; });
+			},
+				error => {
+					this.toastr.errorToastr('Error al cargar catálogo de Categoría.', 'Lo siento,');
+				}
+			);
 
-		this.tableData = matriz
-			.sort((a, b) => moment((a.dateUpdated != null) ? a.dateUpdated : a.dateCreated).toDate().getTime() - moment((b.dateUpdated != null) ? b.dateUpdated : b.dateCreated).toDate().getTime())
-			.map((e: TagOutDTO, index) => {
-				let dateUpdated = ((e.dateUpdated != null) ? e.dateUpdated : e.dateCreated);
-				return {
-					'order': index + 1,
-					'idTag': e.idTag,
-					'tag': e.tag,
-					'classificationActivity': e.classificationActivity,
-					'activity': e.activity ? e.activity.name : '',
-					'typeCompliance': e.typeCompliance.code,
-					'period_unit': this.formatPeriodo_entrega(e.period, (e.unitPeriod && e.unitPeriod.code) ? e.unitPeriod.code : ''),
-					'countCompliance': e.countCompliance,
-					'authority': (e.authority && e.authority.code) ? e.authority.code : '',
-					'applicationType': e.applicationType.code,
-					'group': e.group ? e.group.code : '',
-					'userUpdated': (e.userUpdated) ? e.userUpdated : e.userCreated,
-					'dateUpdated': dateUpdated,
-					'status': (e.active) ? 'Activo' : 'Inactivo'
-				};
+		this.tagService.comboUnitPeriod().subscribe(
+			(lista: Array<MaestroOpcionDTO>) => {
+				console.dir(lista);
+				this.comboUnitPeriod = lista.map(e => { return { id: e.maestroOpcionId.toString(), singular: e.opcion.codigo, plural: e.opcion.codigo + '' + (e.opcion.codigo == 'MES' ? 'ES' : 'S') }; });
+				this.optionsPeriod = this.comboUnitPeriod.map(e => { return { id: e.id, label: e.singular } });
 			});
-		this.tableDataFiltered = [].concat(this.tableData);
-	}
 
-	formatPeriodo_entrega(period, code) {
-		period > 1 ? this.plural = "S" : this.plural = "";
-		if (code == "MES" && period > 1) this.plural = "ES"
-		return period + ' ' + code + this.plural;
-	}
+		let listaCombos = Array<OrderCatalogDTO>();
+		listaCombos.push(new OrderCatalogDTO('typeCompliance', 1, 1));
+		listaCombos.push(new OrderCatalogDTO('authority', 1, 1));
+		listaCombos.push(new OrderCatalogDTO('typeApplication', 1, 1));
+		listaCombos.push(new OrderCatalogDTO('typeDay', 1, 1));
+		listaCombos.push(new OrderCatalogDTO('group', 1, 1));
+		this.tagService.getlistCatalogoOrdenados(listaCombos).subscribe(
+			(catalogs: any) => {
+				catalogs.forEach(element => {
+					if (element.catalog === 'authority')
+						this.comboAutoridad = element.data.map(e => { return { id: e.id, label: e.code }; });
+					else if (element.catalog === 'typeApplication')
+						this.comboTipoAplicacion = element.data.map(e => { return { id: e.id, label: e.code }; });
+					else if (element.catalog === 'group')
+						this.comboGrupo = element.data.map(e => { return { id: e.id, label: e.code }; });
 
-	getTasks() {
-		if (this.filtrosForm.controls.fTipoCumplimiento.value > 0 && this.filtrosForm.controls.fActividad.value > 0) {
-			this.administratorComplianceService.getTasks(
-				this.filtrosForm.controls.fAnio.value,
-				this.filtrosForm.controls.fTipoCumplimiento.value,
-				this.filtrosForm.controls.fActividad.value).subscribe(
-					(data: MatrizCumplimientoDTO) => {
-						this.setTableData(data.matriz);
-						this.administradores = new MatTableDataSource<any>(data.cumplimientoIntegrantes);
-						this.addBlock(2, null);
-					}
-				);
-		}
+				});
+			}
+		).add(() => {
+			this.addBlock(2, null);
+		});
 	}
 
 	initCombos() {
@@ -464,15 +465,86 @@ export class ApprovalComplianceComponent implements OnInit {
 				);
 			}
 		);
-		const currentYear = (new Date()).getFullYear();
-		const nextYear = currentYear + 1;
-		this.anios.push(new Combo(currentYear.toString(), currentYear.toString()));
-		this.anios.push(new Combo(nextYear.toString(), nextYear.toString()));
+//		const currentYear = (new Date()).getFullYear();
+//		const nextYear = currentYear + 1;
+//		this.anios.push(new Combo(currentYear.toString(), currentYear.toString()));
+//		this.anios.push(new Combo(nextYear.toString(), nextYear.toString()));
+	}
+
+	setTableData(matriz: TagOutDTO[]) {
+
+		this.tableData = matriz
+			.map((e: TagOutDTO, index) => {
+				let dateUpdated = ((e.dateUpdated != null) ? e.dateUpdated : e.dateCreated);
+				return {
+					'order': index + 1,
+					'idTag': e.idTag,
+					'tag': e.tag,
+					'nombre': e.classificationActivity ? e.classificationActivity : '',
+					'clasificacion': e.activity ? e.activity.name : '',
+					'cumplimiento_legal': (e.typeCompliance && e.typeCompliance.code) ? e.typeCompliance.code : '',
+					'periodo_entrega': this.formatPeriodo_entrega(e.period ? e.period : 0, (e.unitPeriod && e.unitPeriod.code) ? e.unitPeriod.code : ''),
+					'countTasks': e.countCompliance ? e.countCompliance : '',
+					'autoridad': (e.authority && e.authority.code) ? e.authority.code : '',
+					'tipo_aplicacion': (e.applicationType && e.applicationType.code) ? e.applicationType.code : '',
+					'grupo': (e.group && e.group.code) ? e.group.code : '',
+					'userUpdated': e.userUpdated ? e.userUpdated : e.userCreated ? e.userCreated : '',
+					'dateUpdated': e.dateUpdated ? e.dateUpdated : e.dateCreated ? e.dateCreated : '',
+					'estatus': (e.active) ? 'Activo' : 'Inactivo'
+				};
+			});
+		this.tableDataFiltered = [].concat(this.tableData);
+	}
+
+	formatPeriodo_entrega(period, code) {
+		period > 1 ? this.plural = "S" : this.plural = "";
+		if (code == "MES" && period > 1) this.plural = "ES"
+		return period + ' ' + code + this.plural;
+	}
+
+	onFiltersTable() {
+      	const typeSearch = this.formFiltersType.value.typeFilter.toString() === '1' ? 'AND' : 'OR'; // 1. OR \ 2. AND for search conditions
+
+		if ( !Util.isEmptyFilters2 ( this.formFiltersTable.value, typeSearch ) ) {
+			this.obtenerListaParam();
+		} else {
+			this.toastr.warningToastr(typeSearch === 'AND' ? "Tienes que capturar todos los datos de búsqueda." : 'Tienes que capturar al menos un dato de búsqueda.' );
+		}
+
+	}
+
+	limpiarFiltros() {
+		this.formFiltersTable.reset();
+		this.obtenerListaParam();
+	}
+
+	isnumeric(v) {
+		if (isNaN(Number(v)) || 0 === Number(v)) {
+			// para no permitir letras, que en firefox si permite insertarlas
+			v = null;
+			this.formFiltersTable.controls.periodo_entrega_cantidad.setValue(null);
+		}
+		if (Number(v) > 1) {
+			this.optionsPeriod = this.comboUnitPeriod.map((e) => {
+				return { id: e.id, label: e.plural };
+			});
+		} else if (Number(v) <= 1) {
+			this.optionsPeriod = this.comboUnitPeriod.map((e) => {
+				return { id: e.id, label: e.singular };
+			});
+		}
 	}
 
 	assamblerRequest ( ) : HttpParams {
+		let minDate = this.formFiltersTable.controls['minDate__dateUpdated'].value == null
+			? ""
+			: moment ( this.formFiltersTable.controls['minDate__dateUpdated'].value ).format ( 'YYYY/MM/DD' );
+		let maxDate = this.formFiltersTable.controls['maxDate__dateUpdated'].value == null
+			? ""
+			: moment ( this.formFiltersTable.controls['maxDate__dateUpdated'].value ).format ( 'YYYY/MM/DD' );
+			
 		return new HttpParams ( )
-			.set ( "type", this.formFiltersTypeTable.value.typeFilter.toString() === '1' ? 'AND' : 'OR' )
+			.set ( "type", this.formFiltersType.value.typeFilter.toString() === '1' ? 'AND' : 'OR' )
 			.set ( "tag", this.formFiltersTable.controls['tag'].value == null ? "" : this.formFiltersTable.controls['tag'].value)
 			.set ( "classificationActivity", this.formFiltersTable.controls['nombre'].value == null ? "" : this.formFiltersTable.controls['nombre'].value)
 			.set ( "activityName", this.formFiltersTable.controls['clasificacion'].value == null ? "" : this.formFiltersTable.controls['clasificacion'].value)
@@ -483,9 +555,96 @@ export class ApprovalComplianceComponent implements OnInit {
 			.set ( "groupCode", this.formFiltersTable.controls['grupo'].value == null ? "" : this.formFiltersTable.controls['grupo'].value)
 			.set ( "active", this.formFiltersTable.controls['estatus'].value == null ? "" : this.formFiltersTable.controls['estatus'].value)
 			.set ( "userUpdated", this.formFiltersTable.controls['userUpdated'].value == null ? "" : this.formFiltersTable.controls['userUpdated'].value)
-			.set ( "minDateUpdated", this.formFiltersTable.controls['minDate__dateUpdated'].value == null ? "" : this.formFiltersTable.controls['minDate__dateUpdated'].value)
-			.set ( "maxDateUpdated", this.formFiltersTable.controls['maxDate__dateUpdated'].value == null ? "" : this.formFiltersTable.controls['maxDate__dateUpdated'].value)
+			.set ( "minDateUpdated", minDate )
+			.set ( "maxDateUpdated", maxDate )
 	}
 
+	keyUpTag ($event) : void {
+		if ($event.target.value.length > 3 ) {
+			//this.filteredAutoTag = ["hijo 1","nieto 3","nose 3","sobrino 2","talvez"];
+  			this.tagService.obtenTagCatalogos( new HttpParams ( ).set ( "tag", $event.target.value )).subscribe((data: any) => {
+				this.filteredAutoTag = data;
+			});
 
+		} else {
+			this.filteredAutoTag = [];
+		}
+	}
+
+	keyUpComplianceName ($event) : void {
+		if ($event.target.value.length > 3 ) {
+			//this.filteredAutoName = ["nc 04","nc 05","nc 06"];
+  			this.tagService.obtenTagCatalogos( new HttpParams ( ).set ( "classificationActivity", $event.target.value )).subscribe((data: any) => {
+				this.filteredAutoName = data;
+			});
+
+		} else {
+			this.filteredAutoName = [];
+		}
+	}
+
+	keyUpUserUpdate ($event) : void {
+		if ($event.target.value.length > 3 ) {
+			//this.filteredUserUpdated = ["josefina","gabriela","ivette"];
+  			this.tagService.obtenTagCatalogos( new HttpParams ( ).set ( "userUpdated", $event.target.value )).subscribe((data: any) => {
+				this.filteredUserUpdated = data;
+			});
+
+		} else {
+			this.filteredUserUpdated = [];
+		}
+	}
+
+	onChangeDateIniFechaFin ( $event ) : void {
+		this.initDate = new Date($event);
+	}
+
+	addObservation ( ) : void {
+		this.addBlock(1,null);
+		let incidentObservationInDTO = [this.formTrack.value].map(e=>{
+			return {
+					id               : e.id
+				,incidentId       : this.trackId
+				,observation      : e.observation
+				,dateobservation  : this.datePipe.transform(new Date(), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS')
+				,save             : e.id == null
+				,active           : true
+			};
+		})[0];
+		this.incidentService.saveObservation(incidentObservationInDTO).subscribe((data:ResponseVO)=>{
+			if(data.success){
+				this.getObservations ( this.trackId );
+				this.isTrack = false;
+			}
+		}
+		,err=>{
+			this.toastr.errorToastr('Ocurrió un error al intentar registrar la observación', 'Lo siento,');
+			console.log(err);
+			
+		}
+		,()=>{
+			this.addBlock(2,null);
+		}
+		);
+		this.formTrack.reset();
+	}
+
+	getObservations ( trackId : number ) : void {
+		if(trackId != null){
+			this.incidentService.getListObservations(trackId).subscribe(
+				(data:IncidentObservationOutDTO[])=>{
+					this.tracks=data.map((e,index)=>{
+						e.order = index+1;
+						return e;
+					});
+				},
+				err=>{
+					console.log(err);
+				}
+				,()=>{
+					this.isTrack = false;
+				}
+			);
+		}
+	}
 }

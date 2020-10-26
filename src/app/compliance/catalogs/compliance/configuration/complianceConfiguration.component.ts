@@ -39,7 +39,6 @@ export class ComplianceConfigurationComponent implements OnInit {
 	userResult;
 	tiposCumplimientos: Array<any>;
 	actividades: Array<any>;
-	anios: Array<any>;
 	isSupervisor = false;
 	isFree = false;
 	idMatrizFree: number;
@@ -57,8 +56,6 @@ export class ComplianceConfigurationComponent implements OnInit {
 
 	filtrobtn = { label: 'buscar' };
 	registros_x_pagina = [50, 100, 250, 500];
-
-	/*   filtrosForm: FormGroup; */
 
 	serviceSubscription: any;
 
@@ -93,10 +90,10 @@ export class ComplianceConfigurationComponent implements OnInit {
 		'dateUpdated',
 		'estatus'
 	];
-	tableRowXPage = [100, 500, 1000, 1500, 2000];
-	//tableRowXPage = [5, 10, 50, 100];
+	//tableRowXPage = [100, 500, 1000, 1500, 2000];
+	tableRowXPage = [5, 10, 50, 100];
 	formFiltersTable: FormGroup;
-	formFiltersTypeTable : FormGroup;
+	formFiltersType : FormGroup;
 	optionsFiltersType: IdLabel[] = [{ id: 1, label: 'Todos', disabled: false }, { id: 2, label: 'Al menos uno', disabled: true }];
 	optionsPeriod: IdLabel[] = [];
 	comboAutoridad: IdLabel[] = [];
@@ -123,18 +120,8 @@ export class ComplianceConfigurationComponent implements OnInit {
 		private administratorComplianceService: AdministratorComplianceService,
 		public securityService: SecurityService) {
 		this.menu = securityService.getMenu('Compliance');
-		/*       this.serviceSubscription = this.eventService.onChangePlant.subscribe({
-			  next: (event: EventMessage) => {
-				switch (event.id) {
-				  case 100:
-					this.obtenerListaTags((new Date()).getFullYear());
-					break;
-				}
-			  }
-			});
-		 */
-
 	}
+
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
 
@@ -194,7 +181,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 			minDate__dateUpdated: [null],
 			maxDate__dateUpdated: [null]
 		});
-		this.formFiltersTypeTable = this.formBuilder.group({
+		this.formFiltersType = this.formBuilder.group({
 			typeFilter:[2,Validators.required]
 		});
 
@@ -204,24 +191,19 @@ export class ComplianceConfigurationComponent implements OnInit {
 
 		this.tiposCumplimientos = [];
 		this.actividades = [];
-		this.anios = [];
+
 		this.initCombos();
 	}
-	formatPeriodo_entrega(period, code) {
-		period > 1 ? this.plural = "S" : this.plural = "";
-		if (code == "MES" && period > 1) this.plural = "ES"
-		return period + ' ' + code + this.plural;
-	}
+
 	sortData(sort: Sort) { }
 
 	obtenerListaTags() {
 		this.addBlock(1, 'Cargando...');
+
 		this.data = [];
 		const params : HttpParams = this.assamblerRequest ();
 		this.tagService.obtenTagFiltros(params).subscribe((data: MatrizCumplimientoDTO) => {
 
-console.log("initAutoComplete");
-//console.log(data.matriz);
 			this.setTableData(data.matriz);
 
 			this.addBlock(2, null);
@@ -306,8 +288,49 @@ console.log("initAutoComplete");
 		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
 	}
 
+	initAutoComplete() {
+
+		let statusConsultActivity = 'TODOS'; // 'TODOS' || 'ACTIVOS'
+		this.tagService.getCatalogoActividades(statusConsultActivity)
+			.subscribe(catalogoResult => {
+				this.optionsClasificacion = catalogoResult.map(e => { return { id: e.consecutive, label: e.name }; });
+			},
+				error => {
+					this.toastr.errorToastr('Error al cargar catálogo de Categoría.', 'Lo siento,');
+				}
+			);
+
+		this.tagService.comboUnitPeriod().subscribe(
+			(lista: Array<MaestroOpcionDTO>) => {
+				console.dir(lista);
+				this.comboUnitPeriod = lista.map(e => { return { id: e.maestroOpcionId.toString(), singular: e.opcion.codigo, plural: e.opcion.codigo + '' + (e.opcion.codigo == 'MES' ? 'ES' : 'S') }; });
+				this.optionsPeriod = this.comboUnitPeriod.map(e => { return { id: e.id, label: e.singular } });
+			});
+
+		let listaCombos = Array<OrderCatalogDTO>();
+		listaCombos.push(new OrderCatalogDTO('typeCompliance', 1, 1));
+		listaCombos.push(new OrderCatalogDTO('authority', 1, 1));
+		listaCombos.push(new OrderCatalogDTO('typeApplication', 1, 1));
+		listaCombos.push(new OrderCatalogDTO('typeDay', 1, 1));
+		listaCombos.push(new OrderCatalogDTO('group', 1, 1));
+		this.tagService.getlistCatalogoOrdenados(listaCombos).subscribe(
+			(catalogs: any) => {
+				catalogs.forEach(element => {
+					if (element.catalog === 'authority')
+						this.comboAutoridad = element.data.map(e => { return { id: e.id, label: e.code }; });
+					else if (element.catalog === 'typeApplication')
+						this.comboTipoAplicacion = element.data.map(e => { return { id: e.id, label: e.code }; });
+					else if (element.catalog === 'group')
+						this.comboGrupo = element.data.map(e => { return { id: e.id, label: e.code }; });
+
+				});
+			}
+		).add(() => {
+			this.addBlock(2, null);
+		});
+	}
+
 	initCombos() {
-console.log("initCombos");
 		this.administratorComplianceService.initComboTiposCumplimientos().subscribe(
 			(respuesta: Array<any>) => {
 				this.tiposCumplimientos = [];
@@ -319,7 +342,7 @@ console.log("initCombos");
 				);
 			}
 		);
-console.log(this.tiposCumplimientos);
+
 		this.administratorComplianceService.initComboActividades().subscribe(
 			(respuesta: Array<any>) => {
 				this.actividades = [];
@@ -333,31 +356,11 @@ console.log(this.tiposCumplimientos);
 		);
 		const currentYear = (new Date()).getFullYear();
 		const nextYear = currentYear + 1;
-		this.anios.push(new Combo(currentYear.toString(), currentYear.toString()));
-		this.anios.push(new Combo(nextYear.toString(), nextYear.toString()));
-console.log(this.actividades);
 	}
 
-	/*	liberarMatriz() {
-			this.addBlock(1, 'Cargando...');
-			this.administratorComplianceService.liberaMatrizCumplimiento(this.filtrosForm.controls.fAnio.value).subscribe(
-				(responseLiberacion: GenerigResponseDTO) => {
-					this.toastr.successToastr(responseLiberacion.mensaje, '¡Se ha logrado!');
-					this.obtenerListaTags(this.filtrosForm.controls.fAnio.value);
-					this.addBlock(2, null);
-				});
-		} 
-		
-		obtenMatrizCumplimiento() {
-			this.obtenerListaTags(this.filtrosForm.controls.fAnio.value);
-		}
-	 */
 	setTableData(matriz: TagOutDTO[]) {
 
-console.log("setTableData");
-console.log(matriz);
 		this.tableData = matriz
-			//.sort((a, b) => moment((a.dateUpdated != null) ? a.dateUpdated : a.dateCreated).toDate().getTime() - moment((b.dateUpdated != null) ? b.dateUpdated : b.dateCreated).toDate().getTime())
 			.map((e: TagOutDTO, index) => {
 				let dateUpdated = ((e.dateUpdated != null) ? e.dateUpdated : e.dateCreated);
 				return {
@@ -378,63 +381,16 @@ console.log(matriz);
 				};
 			});
 		this.tableDataFiltered = [].concat(this.tableData);
-console.log(this.tableDataFiltered);
 	}
-	initAutoComplete() {
 
-		let statusConsultActivity = 'TODOS'; // 'TODOS' || 'ACTIVOS'
-		this.tagService.getCatalogoActividades(statusConsultActivity)
-			.subscribe(catalogoResult => {
-				this.optionsClasificacion = catalogoResult.map(e => { return { id: e.consecutive, label: e.name }; });
-			},
-				error => {
-					this.toastr.errorToastr('Error al cargar catálogo de Categoría.', 'Lo siento,');
-				}
-			);
-console.log(this.optionsClasificacion);
-
-		this.tagService.comboUnitPeriod().subscribe(
-			(lista: Array<MaestroOpcionDTO>) => {
-				console.dir(lista);
-				this.comboUnitPeriod = lista.map(e => { return { id: e.maestroOpcionId.toString(), singular: e.opcion.codigo, plural: e.opcion.codigo + '' + (e.opcion.codigo == 'MES' ? 'ES' : 'S') }; });
-				this.optionsPeriod = this.comboUnitPeriod.map(e => { return { id: e.id, label: e.singular } });
-			});
-console.log(this.comboUnitPeriod);
-console.log(this.optionsPeriod);
-		let listaCombos = Array<OrderCatalogDTO>();
-		listaCombos.push(new OrderCatalogDTO('typeCompliance', 1, 1));
-		listaCombos.push(new OrderCatalogDTO('authority', 1, 1));
-		listaCombos.push(new OrderCatalogDTO('typeApplication', 1, 1));
-		listaCombos.push(new OrderCatalogDTO('typeDay', 1, 1));
-		listaCombos.push(new OrderCatalogDTO('group', 1, 1));
-		this.tagService.getlistCatalogoOrdenados(listaCombos).subscribe(
-			(catalogs: any) => {
-				/*this.resuelveDS(catalogs, this.comboAutoridad, 'authority');
-				this.resuelveDS(poRespuesta, this.comboTipoCumplimiento, 'typeCompliance');
-				this.resuelveDS(poRespuesta, this.comboTipoAplicacion, 'typeApplication');
-				this.resuelveDS(poRespuesta, this.comboTipoDias, 'typeDay');
-				this.resuelveDS(poRespuesta, this.comboGrupo, 'group');//*/
-				catalogs.forEach(element => {
-					if (element.catalog === 'authority')
-						this.comboAutoridad = element.data.map(e => { return { id: e.id, label: e.code }; });
-					else if (element.catalog === 'typeApplication')
-						this.comboTipoAplicacion = element.data.map(e => { return { id: e.id, label: e.code }; });
-					else if (element.catalog === 'group')
-						this.comboGrupo = element.data.map(e => { return { id: e.id, label: e.code }; });
-
-				});
-			}
-		).add(() => {
-			this.addBlock(2, null);
-		});
-console.log(this.comboAutoridad);
-console.log(this.comboTipoAplicacion);
-console.log(this.comboGrupo);
-
+	formatPeriodo_entrega(period, code) {
+		period > 1 ? this.plural = "S" : this.plural = "";
+		if (code == "MES" && period > 1) this.plural = "ES"
+		return period + ' ' + code + this.plural;
 	}
 
 	onFiltersTable() {
-      	const typeSearch = this.formFiltersTypeTable.value.typeFilter.toString() === '1' ? 'AND' : 'OR'; // 1. OR \ 2. AND for search conditions
+      	const typeSearch = this.formFiltersType.value.typeFilter.toString() === '1' ? 'AND' : 'OR'; // 1. OR \ 2. AND for search conditions
 
 		if ( !Util.isEmptyFilters2 ( this.formFiltersTable.value, typeSearch ) ) {
 			this.obtenerListaTags();
@@ -447,8 +403,8 @@ console.log(this.comboGrupo);
 	limpiarFiltros() {
 		this.formFiltersTable.reset();
 		this.obtenerListaTags();
-		/* this.formDeliveryPeriodSubmited = false; */
 	}
+	
 	isnumeric(v) {
 		if (isNaN(Number(v)) || 0 === Number(v)) {
 			// para no permitir letras, que en firefox si permite insertarlas
@@ -472,7 +428,7 @@ console.log(this.comboGrupo);
 			: moment ( this.formFiltersTable.controls['maxDate__dateUpdated'].value ).format ( 'YYYY/MM/DD' );
 			
 		return new HttpParams ( )
-			.set ( "type", this.formFiltersTypeTable.value.typeFilter.toString() === '1' ? 'AND' : 'OR' )
+			.set ( "type", this.formFiltersType.value.typeFilter.toString() === '1' ? 'AND' : 'OR' )
 			.set ( "tag", this.formFiltersTable.controls['tag'].value == null ? "" : this.formFiltersTable.controls['tag'].value)
 			.set ( "classificationActivity", this.formFiltersTable.controls['nombre'].value == null ? "" : this.formFiltersTable.controls['nombre'].value)
 			.set ( "activityName", this.formFiltersTable.controls['clasificacion'].value == null ? "" : this.formFiltersTable.controls['clasificacion'].value)
@@ -492,6 +448,10 @@ console.log(this.comboGrupo);
 			//this.filteredAutoTag = ["hijo 1","nieto 3","nose 3","sobrino 2","talvez"];
   			this.tagService.obtenTagCatalogos( new HttpParams ( ).set ( "tag", $event.target.value )).subscribe((data: any) => {
 				this.filteredAutoTag = data;
+			},
+			error => {
+//				this.addBlock(2, null);
+				this.toastr.errorToastr('Error al cargar lista de tags.', 'Lo siento,');
 			});
 
 		} else {
@@ -504,6 +464,10 @@ console.log(this.comboGrupo);
 			//this.filteredAutoName = ["nc 04","nc 05","nc 06"];
   			this.tagService.obtenTagCatalogos( new HttpParams ( ).set ( "classificationActivity", $event.target.value )).subscribe((data: any) => {
 				this.filteredAutoName = data;
+			},
+			error => {
+//				this.addBlock(2, null);
+				this.toastr.errorToastr('Error al cargar lista de nombres de cumplimiento.', 'Lo siento,');
 			});
 
 		} else {
@@ -516,6 +480,10 @@ console.log(this.comboGrupo);
 			//this.filteredUserUpdated = ["josefina","gabriela","ivette"];
   			this.tagService.obtenTagCatalogos( new HttpParams ( ).set ( "userUpdated", $event.target.value )).subscribe((data: any) => {
 				this.filteredUserUpdated = data;
+			},
+			error => {
+//				this.addBlock(2, null);
+				this.toastr.errorToastr('Error al cargar lista de usuarios.', 'Lo siento,');
 			});
 
 		} else {

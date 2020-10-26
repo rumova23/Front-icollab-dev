@@ -310,7 +310,7 @@ export class MarketService {
 
   getUsppi(data: any): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant();
-    return this.http.post(EPs.market.usppi.list.all + 'usppi/list', data, { params: this.parameters });
+    return this.http.post(EPs.market.usppi.list.all, data, { params: this.parameters });
   }
 
   getModelMarketMTR(time): Observable<any> {
