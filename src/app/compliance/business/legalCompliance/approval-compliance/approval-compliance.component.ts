@@ -257,9 +257,8 @@ export class ApprovalComplianceComponent implements OnInit {
 		this.addBlock(1, 'Cargando...');
 		this.data = [];
 
-//		this.tagService.obtenTagPorFiltros(anio).subscribe((data: MatrizCumplimientoDTO) => {
-let params = this.assamblerRequest ();
-this.tagService.obtenTagFiltros(params)
+		this.tagService.obtenTagPorFiltros(anio)
+
 			.subscribe((data: MatrizCumplimientoDTO) => {
 
 				this.setTableData(data.matriz);
