@@ -69,7 +69,7 @@ export class TagService {
 
   obtenTagPorFiltros(anio: number): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
-    return this.http.get( `${ EPs.tracing.legal.get.matriz }/${anio}`, {params : this.parameters });
+    return this.http.get( `${ EPs.tracing.legal.get.matrizAnio }/${anio}`, {params : this.parameters });
   }
 
   obtenTagCatalogos(params: HttpParams): Observable<any> {

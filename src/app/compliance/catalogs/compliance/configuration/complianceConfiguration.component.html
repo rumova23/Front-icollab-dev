@@ -133,9 +133,14 @@
 
 	<div class="row mt-4">
 		<div class="col">
-			<app-mat-table [data]="tableDataFiltered" [columnsLabels]="tablaColumnsLabels"
-				[columnsDisplay]="tableColumnsDisplay" [row_x_page]="tableRowXPage" (clickSee)="action(2, $event.tag)"
-				(clickEdit)="action(3, $event.tag)" (clickDelete)="eliminarTag($event)"></app-mat-table>
+			<app-mat-table [data]="tableDataFiltered"
+				[columnsLabels]="tablaColumnsLabels"
+				[columnsDisplay]="tableColumnsDisplay"
+				[row_x_page]="tableRowXPage"
+				maxHeight="600px"
+				(clickSee)="action(2, $event.tag)"
+				(clickEdit)="action(3, $event.tag)"
+				(clickDelete)="eliminarTag($event)"></app-mat-table>
 		</div>
 	</div>
 </div>

@@ -251,6 +251,7 @@ export const EPs = {
       legal: {
          get: {
             matriz: "/seguimiento/legal/obten/matriz",
+            matrizAnio: "/seguimiento/legal/obten/matrizanio",
             complianceActivity: "/seguimiento/legal/obten/complianceActividad",
             complianceById: "/seguimiento/legal/obten/complianceById",
             listMatriz: "/seguimiento/legal/obten/list/matriz",

@@ -402,7 +402,18 @@
             <div class="row mt-4">
                 <div class="col" *ngIf="tablaAgregarPrecedentes">
                     <div class="tabla-responsi mat-elevation-z0">
-                        <div class="form-group mt-3 mb-3">
+
+                        <app-mat-table 
+                            [data]="activities"
+                            
+                            selectionLabel="Visible"
+                            [columnsDisplay]="activitiesColDisplay"
+                            [columnsLabels]="activityesColLabel"
+                            (onSelected)="onSelected($event)"
+                        ></app-mat-table>
+
+
+<!--                         <div class="form-group mt-3 mb-3">
                             <label>Escriba palaba a filtrar</label>
                             <input
                                 class="form-control"
@@ -419,7 +430,7 @@
                             matSortDirection="asc"
                             matSortDisableClear
                             >
-                            <!-- orden Column -->
+
                             <ng-container matColumnDef="tagId">
                                 <th
                                     mat-header-cell
@@ -433,7 +444,7 @@
                                     {{ element.tagId }}
                                 </td>
                             </ng-container>
-                            <!-- orden Column -->
+                            
                             <ng-container matColumnDef="tag">
                                 <th
                                     mat-header-cell
@@ -447,7 +458,7 @@
                                     {{ element.tag }}
                                 </td>
                             </ng-container>
-                            <!-- nombre Column -->
+                            
                             <ng-container matColumnDef="descripcion">
                                 <th
                                     mat-header-cell
@@ -486,7 +497,7 @@
                                     ></u>
                                 </td>
                             </ng-container>
-                            <!-- header -->
+                            
                             <tr mat-header-row *matHeaderRowDef="columnas"></tr>
                             <tr
                                 mat-row
@@ -497,7 +508,7 @@
                         <mat-paginator
                             [pageSizeOptions]="registros_x_pagina"
                             showFirstLastButtons
-                        ></mat-paginator>
+                        ></mat-paginator> -->
                     </div>
                     <p></p>
                     <div

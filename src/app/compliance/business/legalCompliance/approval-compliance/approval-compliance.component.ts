@@ -41,9 +41,6 @@ export class ApprovalComplianceComponent implements OnInit {
 	tableData;
 	tableDataFiltered;
 	plural = "";
-	tiposCumplimientos: Array<any>;
-	actividades: Array<any>;
-//	anios: Array<any>;
 	data: any[] = [];
 	formFiltersType : FormGroup;
 	menu: any[];
@@ -203,7 +200,6 @@ export class ApprovalComplianceComponent implements OnInit {
 			}
 		});
 		this.filtrosForm = this.formBuilder.group({
-			fTipoCumplimiento: [{ value: '', disabled: false }, Validators.required],
 			fActividad: [{ value: '', disabled: false }, Validators.required],
 			fAnio: [{ value: '', disabled: false }, Validators.required]
 		});
@@ -231,9 +227,6 @@ export class ApprovalComplianceComponent implements OnInit {
 			id:[null],
 			observation:[null,[Validators.required,Validators.minLength(2),Validators.maxLength(1000)]]
 		});
-/* 		this.formMatrizCumplimiento = this.formBuilder.group({
-			fMatrizCumplimiento: [null, Validators.required],
-		}); */
 
 		this.filtrosForm.controls.fAnio.setValue(moment(new Date()));
 		this.currentYear = (new Date()).getFullYear();
@@ -242,10 +235,6 @@ export class ApprovalComplianceComponent implements OnInit {
 
 		this.initAutoComplete();
 
-		this.tiposCumplimientos = [];
-		this.actividades = [];
-//		this.anios = [];
-		this.initCombos();
 		this.isTrack = false;
 		this.trackId = new Date ( ).getTime ( );
 		this.getObservations ( null );
@@ -370,23 +359,25 @@ export class ApprovalComplianceComponent implements OnInit {
 
     generarTareas() {
     	this.addBlock(1, null);
-        if (this.filtrosForm.controls.fTipoCumplimiento.value.length > 0 && this.filtrosForm.controls.fActividad.value.length > 0) {
+        if (this.formFiltersTable.controls.clasificacion.value) {
 			let year = moment ( this.filtrosForm.controls.fAnio.value ).year( );
             this.administratorComplianceService.getTasks(
                 year,
-                this.filtrosForm.controls.fTipoCumplimiento.value,
-                this.filtrosForm.controls.fActividad.value).subscribe(
+                1,
+                this.formFiltersTable.controls.clasificacion.value).subscribe(
                 (data: MatrizCumplimientoDTO) => {
                     this.setTableData(data.matriz);
                     this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
 					this.isTrack = true;
-					this.toastr.infoToastr('Generación de tareas exitoso.', 'Lo siento,');
+					this.toastr.infoToastr('Generación de tareas exitoso.', '');
 				},
 				error => {
 					this.toastr.errorToastr('Error en la generación de tareas.', 'Lo siento,');
 				}
             );
-        }
+        } else {
+			this.toastr.warningToastr('Falta selecionar la clasificación', 'Lo siento,');
+		}
 		this.addBlock(2, null);
     }
 
@@ -438,36 +429,6 @@ export class ApprovalComplianceComponent implements OnInit {
 		).add(() => {
 			this.addBlock(2, null);
 		});
-	}
-
-	initCombos() {
-		this.administratorComplianceService.initComboTiposCumplimientos().subscribe(
-			(respuesta: Array<any>) => {
-				this.tiposCumplimientos = [];
-				respuesta.forEach(elementActual => {
-					const value = elementActual.maestroOpcionId;
-					const label = elementActual.opcion.codigo;
-					this.tiposCumplimientos.push(new Combo(value, label));
-				}
-				);
-			}
-		);
-
-		this.administratorComplianceService.initComboActividades().subscribe(
-			(respuesta: Array<any>) => {
-				this.actividades = [];
-				respuesta.forEach(elementActual => {
-					const value = elementActual.idActivity;
-					const label = elementActual.name;
-					this.actividades.push(new Combo(value, label));
-				}
-				);
-			}
-		);
-//		const currentYear = (new Date()).getFullYear();
-//		const nextYear = currentYear + 1;
-//		this.anios.push(new Combo(currentYear.toString(), currentYear.toString()));
-//		this.anios.push(new Combo(nextYear.toString(), nextYear.toString()));
 	}
 
 	setTableData(matriz: TagOutDTO[]) {

@@ -49,19 +49,19 @@ export class ConfigActivitiesComponent implements OnInit {
 	cabeceraTagPrecedentes: string[] = ['tagHijo', 'tagHijoNombreCumplimiento', 'opcion'];
 	columnas: string[] = ['tag', 'descripcion', 'assignPrecedent'];
 	titulo: string;
+	activitiesColDisplay: string[];
+	activityesColLabel: ColumnLabel[];
 
-//	tagPrecedentes: MatTableDataSource<any>;
+	//	tagPrecedentes: MatTableDataSource<any>;
 	tagPrecedentes;
-//	registrosParaAsignar: MatTableDataSource<any>;
-	registrosParaAsignar;
+	//	activities: MatTableDataSource<any>;
+	activities;
 	registros_x_pagina = [50, 100, 250, 500];
 	registros_x_pagina1 = [50, 100, 250, 500];
 	data: any[] = [];
 
 	configActividadesForm: FormGroup;
 
-	idsTagPrecedentes;
-	
 	existeTagId: boolean;   // Muestra la tabla correspondiente a los precedentes
 	tablaAgregarPrecedentes: boolean // Muestra la tabla de los precedentes para poder asignar
 
@@ -155,7 +155,7 @@ export class ConfigActivitiesComponent implements OnInit {
 	}
 
 	applyFilter(filterValue: string) {
-		this.registrosParaAsignar.filter = filterValue.trim().toLowerCase();
+		this.activities.filter = filterValue.trim().toLowerCase();
 	}
 	applyFilter1(filterValue1: string) {
 		this.tagPrecedentes.filter = filterValue1.trim().toLowerCase();
@@ -194,8 +194,6 @@ export class ConfigActivitiesComponent implements OnInit {
 	ngOnInit() {
 
 		this.addBlock(1, 'Cargando...');
-console.log(this.sortTagPrecedentes);
-console.log(this.sortRegisters);
 		this.accion = this.catalogType.action;
 		this.existeTagId = false;
 		this.tablaAgregarPrecedentes = false;
@@ -277,7 +275,6 @@ console.log(this.sortRegisters);
 			fcomboGrupo: ['', Validators.required],
 			fTipoDias: [{ value: '2', disabled: true }, Validators.required]
 		});
-		this.idsTagPrecedentes = [];
 
 		if (this.accion === 'edit') {
 			this.deshabiliarEstatus = false;
@@ -295,6 +292,19 @@ console.log(this.sortRegisters);
 		if (this.accion === 'edit' || this.accion === 'ver') {
 			this.obtenerActividadurl();
 		}
+
+		this.activitiesColDisplay = [
+			'tagId',
+			'tag',
+			'descripcion',
+			'sys_checkbox',
+		];
+		this.activityesColLabel = [
+			{ key: 'tagId', label: 'TAG ID' },
+			{ key: 'tag', label: 'ACTIVIDAD' },
+			{ key: 'descripcion', label: 'DESCRIPCION' },
+			{ key: 'visible', label: 'Visible' },
+		];
 
 	}
 
@@ -357,7 +367,6 @@ console.log(this.sortRegisters);
 		this.tagService.save(actividad).subscribe(
 			respuesta => {
 				if (respuesta.clave === 0) {
-					this.idsTagPrecedentes = [];
 					this.habilitarActividad = true;
 					this.configActividadesForm.controls['fIdTag'].setValue(respuesta.entity.idTag);
 					this.existeTagId = true;
@@ -408,7 +417,7 @@ console.log(this.sortRegisters);
 						for (element of tagActividad.precedents) {
 							i += 1;
 							let obj = {};
-//							obj['tagId'] = element.idTagPrecedent;
+							//							obj['tagId'] = element.idTagPrecedent;
 							obj['tagPadre'] = element.tagPadre.tag;
 							obj['tagHijo'] = element.tagHijo.tag;
 							obj['tagHijoNombreCumplimiento'] = element.tagHijo.classificationActivity;
@@ -418,18 +427,17 @@ console.log(this.sortRegisters);
 						this.tagPrecedentes = new MatTableDataSource<any>(listObj);
 						this.tagPrecedentes.paginator = this.paginatorTagPrecedentes;
 
-this.tagPrecedentes.sortingDataAccessor = (item, property) => {
-	switch(property) {
-		case 'tagHijo': return item.tagHijo;
-		default: return item[property];
-	}
-}
+						this.tagPrecedentes.sortingDataAccessor = (item, property) => {
+							switch (property) {
+								case 'tagHijo': return item.tagHijo;
+								default: return item[property];
+							}
+						}
 						this.tagPrecedentes.sort = this.sortTagPrecedentes;
 
 						this.existeTagId = true;
 					}
 
-					this.idsTagPrecedentes = [];
 					if (this.accion === 'ver') {
 						this.soloLectura = true;
 						this.configActividadesForm.controls['fTag'].disable();
@@ -505,7 +513,6 @@ this.tagPrecedentes.sortingDataAccessor = (item, property) => {
 			fTipoDias: { value: '2', disabled: true },
 			fcomboGrupo: { value: '', disabled: false }
 		});
-		this.idsTagPrecedentes = [];
 		this.existeTagId = false;
 	}
 
@@ -515,29 +522,26 @@ this.tagPrecedentes.sortingDataAccessor = (item, property) => {
 		let tag = this.configActividadesForm.controls['fTag'].value;
 		this.tagService.getActividadesPrecedentes(tag).subscribe(
 			data => {
-				let listObj = [];
-				for (let element of data) {
-					let obj = {};
-					obj['tagId'] = element.idTag;
-					obj['tag'] = "" + element.tag;
-					obj['descripcion'] = element.description;
-					obj['elementTag'] = element;
-					listObj.push(obj);
-				}
 
-				this.registrosParaAsignar = new MatTableDataSource<any>(listObj);
-				this.registrosParaAsignar.paginator = this.paginatorRegisters;
-				this.registrosParaAsignar.sort = this.sortRegisters;
-
-				this.addBlock(2, null);
-
-				if (this.registrosParaAsignar.data.length > 0) {
+				if (data.length > 0) {
 					this.tablaAgregarPrecedentes = true;
-					this.idsTagPrecedentes = []
+					this.activities = data
+						.map((e: any) => {
+							return {
+								'tagId' : e.idTag,
+								'tag': e.tag,
+								'descripcion': e.description,
+
+							};
+						});
+
 				} else {
 					this.tablaAgregarPrecedentes = false;
 					this.toastr.errorToastr('No hay actividades que puedan ser asignadas como precedentes.', 'Lo siento,');
 				}
+
+				this.addBlock(2, null);
+
 			},
 			error => {
 				this.addBlock(2, null);
@@ -549,11 +553,16 @@ this.tagPrecedentes.sortingDataAccessor = (item, property) => {
 	// Agrega las actividades precedentes a la actividad actual
 	agregarPrecedentes() {
 		let tag = this.configActividadesForm.controls['fTag'].value;
-		if (this.idsTagPrecedentes.length > 0) {
+		let selectActivities = [];
+		this.activities.forEach(e => {
+			if (e.visible === true) {
+				selectActivities.push(e.tag);
+			}
+		});
+		if (selectActivities.length > 0) {
 			this.addBlock(1, 'Cargando...');
-			this.tagService.agregarPrecedentes(tag, this.idsTagPrecedentes).subscribe(
+			this.tagService.agregarPrecedentes(tag, selectActivities.toString()).subscribe(
 				respuesta => {
-					console.log('======================>' + respuesta);
 					console.log(respuesta);
 
 					let listObj = [];
@@ -570,12 +579,12 @@ this.tagPrecedentes.sortingDataAccessor = (item, property) => {
 					this.tagPrecedentes = new MatTableDataSource<any>(listObj);
 					this.tagPrecedentes.paginator = this.paginatorTagPrecedentes;
 
-this.tagPrecedentes.sortingDataAccessor = (item, property) => {
-	switch(property) {
-		case 'tagHijo': return item.tagHijo;
-		default: return item[property];
-	}
-}
+					this.tagPrecedentes.sortingDataAccessor = (item, property) => {
+						switch (property) {
+							case 'tagHijo': return item.tagHijo;
+							default: return item[property];
+						}
+					}
 					this.tagPrecedentes.sort = this.sortTagPrecedentes;
 
 					this.tablaAgregarPrecedentes = false;
@@ -596,20 +605,6 @@ this.tagPrecedentes.sortingDataAccessor = (item, property) => {
 		console.log(this.tagPrecedentes);
 
 	}
-
-	agregarQuitarId(tag: string) {
-
-		if (this.idsTagPrecedentes.indexOf(tag) < 0) {
-			this.idsTagPrecedentes.push(tag);
-		} else {
-			this.idsTagPrecedentes.splice(this.idsTagPrecedentes.indexOf(tag), 1);
-		}
-
-		console.log('Agregar/Quitar ID');
-		console.log(this.idsTagPrecedentes);
-
-	}
-
 
 	eliminarPrecedente(tagPrecedente: any) {
 		if (!this.soloLectura) {
@@ -633,12 +628,12 @@ this.tagPrecedentes.sortingDataAccessor = (item, property) => {
 						this.tagPrecedentes = new MatTableDataSource<any>(listObj);
 						this.tagPrecedentes.paginator = this.paginatorTagPrecedentes;
 
-this.tagPrecedentes.sortingDataAccessor = (item, property) => {
-	switch(property) {
-		case 'tagHijo': return item.tagHijo;
-		default: return item[property];
-	}
-}
+						this.tagPrecedentes.sortingDataAccessor = (item, property) => {
+							switch (property) {
+								case 'tagHijo': return item.tagHijo;
+								default: return item[property];
+							}
+						}
 
 						this.tagPrecedentes.sort = this.sortTagPrecedentes;
 					} else {
@@ -686,4 +681,14 @@ this.tagPrecedentes.sortingDataAccessor = (item, property) => {
 
 	sortData(sort: Sort) { }
 	sortDataReg(sort: Sort) { }
+
+	onSelected(row: any) {
+		this.activities.forEach(element => {
+			if (element.tagId === row.tagId) {
+				element.visible = !element.visible;
+			}
+		});
+	}
+
+
 }
