@@ -11,7 +11,7 @@
 <div class="section">
 	<div class="row">
 		<div class="col">
-			<p class="section_titulo_0">{{ " Aprobación de Cumplimiento / Generación de Tareas " | translate }}</p>
+			<p class="section_titulo_0">{{ nombreCatalogo | translate }}</p>
 			<p class="section_subtitulo_0">{{ "Buscar por" | translate }}</p>
 		</div>
 	</div>
@@ -32,12 +32,12 @@
 		<div class="row mt-3">
 			<div class="col-12 col-lg-4">
 				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="tag"
-					[options]="filteredAutoTag" (keyUpChange)="keyUpTag($event)" label="Tag">
+					[options]="tagAutoList" (keyUpChange)="keyUpTag($event)" label="Tag">
 				</app-mat-input-text-autocomplete>
 			</div>
 			<div class="col-12 col-lg-4">
 				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="nombre"
-					[options]="filteredAutoName" (keyUpChange)="keyUpComplianceName($event)"
+					[options]="complianceNameAutoList" (keyUpChange)="keyUpComplianceName($event)"
 					label="Nombre del Cumplimiento"></app-mat-input-text-autocomplete>
 			</div>
 			<div class="col-12 col-lg-4">
@@ -81,7 +81,7 @@
 			</div>
 			<div class="col-12 col-lg-4">
 				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="userUpdated"
-					[options]="filteredUserUpdated" (keyUpChange)="keyUpUserUpdate($event)" label="Usuario Modifico">
+					[options]="userAutoList" (keyUpChange)="keyUpUserUpdate($event)" label="Usuario Modifico">
 				</app-mat-input-text-autocomplete>
 			</div>
 		</div>
@@ -89,7 +89,7 @@
 		<div class="row">
 			<div class="col">
 				<app-mat-radio-button [formGroup]="formFiltersType" controlName="typeFilter"
-					[options]="optionsFiltersType"></app-mat-radio-button>
+					[options]="andOrOptions"></app-mat-radio-button>
 			</div>
 		</div>
 
@@ -126,19 +126,22 @@
 			</p>
 		</div>
 		<div class="col-12 col-lg-2">
-			<app-btn-block label="Seguimiento" (myClick)="SeguimientoAprovaciones()"></app-btn-block>
+			<app-btn-block label="Seguimiento" (myClick)="getTrack()"></app-btn-block>
 		</div>
 	</div>
 	<div class="row my-4">
 		<div class="col">
-			<app-mat-table [data]="tableData" [columnsLabels]="tablaColumnsLabels"
-				[columnsDisplay]="tableColumnsDisplay" [row_x_page]="tableRowXpage" (clickSee)="onTableRowSee($event)">
+			<app-mat-table [data]="matrix"
+				[columnsLabels]="matrixLabels"
+				[columnsDisplay]="matrixDisplay"
+				[row_x_page]="tableRowXPage"
+				(clickSee)="onTableRowSee($event)">
 			</app-mat-table>
 		</div>
 	</div>
 
-<!-- 	<div *ngIf="showTrack" class="row my-4">
-		<form [formGroup]="formObservation">
+ 	<div *ngIf="showObservation" class="row my-4">
+		<form [formGroup]="formTrack">
 			<div class="row">
 				<div class="col">
 					<p class="section_titulo_0">{{ "Observaciones y/o comentarios" | translate }}</p>
@@ -148,7 +151,7 @@
 			<div class="row">
 				<div class="col-12">
 					<app-mat-input-textarea
-						[formGroup]="formObservation" 
+						[formGroup]="formTrack" 
 						controlName="observation" 
 						label="Observaciones" 
 						maxLength="1000"
@@ -162,15 +165,16 @@
 				</div>
 			</div>
 		</form>
-
+	</div>
+ 	<div *ngIf="showTrack" class="row my-4">
 		<div class="col">
 			<app-mat-table
 				[data]="tracks"
-				[columnsLabels]="trackColumnsLabels"
-				[columnsDisplay]="tracksColumnsDisplay"
-				[row_x_page]="tableRowXpage"
+				[columnsLabels]="trackLabels"
+				[columnsDisplay]="trackDisplay"
+				[row_x_page]="tableRowXPage"
 				maxHeight="400px"
 			></app-mat-table>
 		</div>
-	</div> -->
+	</div>
 </div>

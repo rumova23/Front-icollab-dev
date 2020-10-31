@@ -37,144 +37,47 @@ import {BinnacleService} from '../../../../safe/services/binnacle.service';
 })
 export class ApprovalComplianceComponent implements OnInit {
 
-	administradores;
-	isSupervisor = false;
-	nombreCatalogo = "Aprobación de Cumplimiento/Generación de Tareas";
-	tableData;
-	tableDataFiltered;
-	plural = "";
-	data: any[] = [];
-	formFiltersType : FormGroup;
 	menu: any[];
-	showAdd = false;
-	showView = false;
-	showUpdate = false;
-	showDelete = false;
-	//approved: string;
+	nombreCatalogo: string;
+	matrixDisplay: string[];
+	showAdd: boolean;
+	showView: boolean;
+	showUpdate: boolean;
+	showDelete: boolean;
+	isSupervisor: boolean;
+	filtrosForm: FormGroup;
+	formFiltersTable: FormGroup;
+	formFiltersType : FormGroup;
+	formTrack : FormGroup;
+	currentYear : number;
+	optionsClasificacion: IdLabel[];
+	comboUnitPeriod: any[];
+	optionsPeriod: IdLabel[];
+	comboAutoridad: IdLabel[];
+	comboTipoAplicacion: IdLabel[];
+	comboGrupo: IdLabel[];
+	matrix: any[];
+	tagAutoList: string[];
+	complianceNameAutoList: string[];
+	userAutoList: string[];
+	plural: string;
+	matrixLabels: ColumnLabel[];
+	andOrOptions: IdLabel[];
+	tableRowXPage: number[];
+	trackLabels: ColumnLabel[];
+	trackDisplay: string[];
+	showTrack: boolean;
+	showObservation: boolean;
 	statusMatrix: string;
+	tracks : Array<any>;
 	approveMatrix: boolean;
 	rejectMatrix: boolean;
 	generateTasks: boolean;
-	formTrack : FormGroup;
-	tracks : Array<any> = [];
-	tracksColumnsDisplay = [
-		'order',
-		'dateTimeStartString',
-		'dateTimeEndString',
-		'eventsClassification',
-		'events',
-		'estatusEvento',
-		'estatusAprobacion',
-		'usuario',
-		'fechaYHoraDeUltimaModificacion',
-	];
-
-	trackColumnsLabels = [
-		{key: 'binnacleEventID'                                  , label: 'id'},
-		{key: 'order'                               , label: '#',isSticky:true},
-		{key: 'dateTimeStartString'                   , label: 'Fecha y Hora Inicial'},
-		{key: 'dateTimeEndString'                     , label: 'Fecha y Hora Final'},
-		{key: 'eventsClassification'              , label: 'Clasificacion de Eventos',isSticky:true},
-		{key: 'events'                             , label: 'Eventos'},
-		{key: 'estatusEvento'                    , label: 'Estatus del Evento'},
-		{key: 'estatusAprobacion'                 , label: 'Estatus de Aprobacion'},
-		{key: 'usuario'                             , label: 'Usuario'},
-		{key: 'fechaYHoraDeUltimaModificacion'      , label: 'Fecha y Hora de Ultima Modificacion'},
-		{key: 'estatus'                             , label: 'Comentarios'}
-	];
-/* 		'order',
-		'userUpdated',
-		'observation',
-		'dateUpdated',
-		'sys_checkbox',
-		'sys_edit',
-		'sys_delete', */
-/* 		{ key: 'order', label: '#' },
-		{ key: 'userUpdated', label: 'Nombre' },
-		{ key: 'observation', label: 'Observaciones' },
-		{ key: 'dateUpdated', label: 'Fecha de Ultima Modificación' , dateFormat:'dd/MM/yyyy HH:mm' },
- */
-	
-	trackId : number;
-	showTrack : boolean;
-
-	tablaColumnsLabels: ColumnLabel[] = [
-		{ key: 'order', label: '#' },
-		{ key: "tag", label: 'TAG' },
-		{ key: "nombre", label: 'Nombre del Cumplimiento' },
-		{ key: "clasificacion", label: 'Categoría' },
-		{ key: "cumplimiento_legal", label: 'Tipo de Cumplimiento' },
-		{ key: "autoridad", label: 'Autoridad' },
-		{ key: "tipo_aplicacion", label: 'Tipo de Aplicación' },
-		{ key: "grupo", label: 'Grupo' },
-		{ key: "periodo_entrega", label: 'Período de Entrega' },
-		{ key: "countTasks", label: 'Generados' },
-		{ key: "userUpdated", label: 'Usuario Última Modificación' },
-		{ key: "dateUpdated", label: 'Fecha y Hora de Última Modificación', dateFormat: 'dd/MM/yyyy HH:mm' },
-		{ key: "estatus", label: 'Estatus' }
-	];
-	
-	tableColumnsDisplay: string[] = [
-		'order',
-		'tag',
-		'nombre',
-		'clasificacion',
-		'cumplimiento_legal',
-		'periodo_entrega',
-		'autoridad',
-		'tipo_aplicacion',
-		'grupo',
-		'userUpdated',
-		'dateUpdated',
-		'estatus'
-	];
-
-	tableRowXpage = [50, 100];
-
-	filtrosForm: FormGroup;
-	formFiltersTable: FormGroup;
-	formMatrizCumplimiento: FormGroup;
-
-	optionsFiltersType: IdLabel[] = [
-		{ id: 1, label: "Todos" },
-		{ id: 2, label: "Al menos uno" },
-	];
-
-	filteredAutoTag: string[];
-	filteredAutoName: string[];
-	filteredUserUpdated: string[];
-	optionsClasificacion: IdLabel[];
-	comboUnitPeriod: any[] = [];
-	optionsPeriod: IdLabel[] = [];
-	comboAutoridad: IdLabel[] = [];
-	comboTipoAplicacion: IdLabel[] = [];
-	comboGrupo: IdLabel[] = [];
-
-	tableRowXPage = [100, 500, 1000, 1500, 2000];
-
-	isTrack : boolean;
-
-	tableDataSeguimientoAprovacionesColumnsLabels: ColumnLabel[] = [
-		{ key: "order", label: "#" },
-		{ key: "date", label: "Fecha De Última Modificación", dateFormat: "dd/MM/yyyy HH:mm" }
-	]
-	tableDataSeguimientoAprovacionesColumnsDisplay: string[] = [
-		"order",
-		"Usuario",
-		"Observaciones",
-		"Estatus",
-		"date"
-	];
-	currentYear : number;
-	selectYear : number;
-
-	formObservation: FormGroup;
 
 	constructor(
 		public globalService: GlobalService,
 		private formBuilder: FormBuilder,
 		public eventService: EventService,
-		private datePipe: DatePipe,
 		private toastr: ToastrManager,
 		public incidentService : IncidentService,
 		private administratorComplianceService: AdministratorComplianceService,
@@ -182,15 +85,96 @@ export class ApprovalComplianceComponent implements OnInit {
 		public dialog: MatDialog,
 		private binnacleService: BinnacleService,
 		public securityService: SecurityService) {
+
 			this.menu = securityService.getMenu('Compliance');
 
 		}
 
 	ngOnInit() {
 
-		/* this.tagService.getEntidadEstatus('TX_MATRIZ_CUMPLIMIENTO', 'Aprobada').subscribe((data: EntidadEstatusDTO) => {
-			this.idMatrizFree = data.entidadEstatusId;
-		}); */
+		this.tableRowXPage = [50, 100];
+		this.showAdd = false;
+		this.showView = false;
+		this.showUpdate = false;
+		this.showDelete = false;
+		this.isSupervisor = false;
+		this.comboAutoridad = [];
+		this.comboTipoAplicacion = [];
+		this.comboGrupo = [];
+		this.matrix = [];
+		this.optionsClasificacion = null;
+		this.comboUnitPeriod = [];
+		this.optionsPeriod = [];
+		this.plural = null;
+		this.showTrack = false;
+		this.showObservation = false;
+		this.statusMatrix = null;
+		this.tracks = [];
+		this.statusMatrix = '';
+ 		this.approveMatrix = false;
+		this.rejectMatrix = false;
+		this.generateTasks = false;
+
+
+		this.nombreCatalogo = "Aprobación de Cumplimiento/Generación de Tareas";
+		this.matrixDisplay = [
+			'order',
+			'tag',
+			'nombre',
+			'clasificacion',
+			'cumplimiento_legal',
+			'periodo_entrega',
+			'autoridad',
+			'tipo_aplicacion',
+			'grupo',
+			'userUpdated',
+			'dateUpdated',
+			'estatus'
+		];
+		this.matrixLabels = [
+			{ key: 'order', label: '#' },
+			{ key: "tag", label: 'TAG' },
+			{ key: "nombre", label: 'Nombre del Cumplimiento' },
+			{ key: "clasificacion", label: 'Categoría' },
+			{ key: "cumplimiento_legal", label: 'Tipo de Cumplimiento' },
+			{ key: "autoridad", label: 'Autoridad' },
+			{ key: "tipo_aplicacion", label: 'Tipo de Aplicación' },
+			{ key: "grupo", label: 'Grupo' },
+			{ key: "periodo_entrega", label: 'Período de Entrega' },
+			{ key: "countTasks", label: 'Generados' },
+			{ key: "userUpdated", label: 'Usuario Última Modificación' },
+			{ key: "dateUpdated", label: 'Fecha y Hora de Última Modificación', dateFormat: 'dd/MM/yyyy HH:mm' },
+			{ key: "estatus", label: 'Estatus' }
+		];
+		this.andOrOptions = [
+			{ id: 1, label: "Todos" },
+			{ id: 2, label: "Al menos uno" },
+		];
+		this.trackLabels = [
+			{key: 'binnacleEventID', label: 'id'},
+			{key: 'order', label: '#' },
+//			{key: 'dateTimeStartString', label: 'Fecha y Hora Inicial'},
+//			{key: 'dateTimeEndString', label: 'Fecha y Hora Final'},
+//			{key: 'eventsClassification', label: 'Clasificacion de Eventos'},
+			{key: 'events', label: 'Eventos'},
+//			{key: 'estatusEvento', label: 'Estatus del Evento'},
+//			{key: 'estatusAprobacion', label: 'Estatus de Aprobacion'},
+			{key: 'usuario', label: 'Usuario'},
+			{key: 'fechaYHoraDeUltimaModificacion', label: 'Fecha y Hora de Ultima Modificacion'},
+			{key: 'estatus', label: 'Comentarios'}
+		];
+		this.trackDisplay = [
+			'order',
+//			'dateTimeStartString',
+//			'dateTimeEndString',
+//			'eventsClassification',
+			'events',
+//			'estatusEvento',
+//			'estatusAprobacion',
+			'usuario',
+			'fechaYHoraDeUltimaModificacion',
+		];
+
 		for (const option of this.menu) {
 			if (option.children) {
 				let flag = true;
@@ -220,9 +204,6 @@ export class ApprovalComplianceComponent implements OnInit {
 				}
 			}
 		}
-
-		this.addBlock(1, null);
-		timer(1000).subscribe(() => this.addBlock(2, null));
 
 		const user = JSON.parse(localStorage.getItem('user'));
 		user.roles.forEach(role => {
@@ -261,57 +242,31 @@ export class ApprovalComplianceComponent implements OnInit {
 
 		this.filtrosForm.controls.fAnio.setValue(moment(new Date()));
 		this.currentYear = (new Date()).getFullYear();
-		this.selectYear = this.currentYear;
 		this.obtenerListaPorAnio(this.currentYear);
 
 		this.initAutoComplete();
 
-		this.isTrack = false;
-		this.trackId = new Date ( ).getTime ( );
-		this.showTrack = false;
-
-		this.formObservation = this.formBuilder.group({
-			observation: ['', [Validators.minLength(2), Validators.maxLength(2000)]]
-		});
-
-		this.statusMatrix = '';
-/* 		this.approveMatrix = false;
-		this.rejectMatrix = false;
-		this.generateTasks = false;
- */		this.approveMatrix = true;
-		this.rejectMatrix = true;
-		this.generateTasks = true;
 	}
 
 	obtenerListaPorAnio(anio:number) {
-		this.addBlock(1, 'Cargando...');
-		this.data = [];
 
 		this.tagService.obtenTagPorFiltros(anio)
 
 			.subscribe((data: MatrizCumplimientoDTO) => {
 
-				this.addBlock(2, null);
-				
 				this.setTableData(data.matriz);
 
-				this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
-				
-
-
-
 				if (this.showView) {
-					if (!this.tableColumnsDisplay.includes('sys_see')) this.tableColumnsDisplay.push('sys_see');
+					if (!this.matrixDisplay.includes('sys_see')) this.matrixDisplay.push('sys_see');
 				}
 				if (this.showUpdate) {
-					if (!this.tableColumnsDisplay.includes('sys_edit')) this.tableColumnsDisplay.push('sys_edit');
+					if (!this.matrixDisplay.includes('sys_edit')) this.matrixDisplay.push('sys_edit');
 				}
-				if (this.showUpdate) {
-					if (!this.tableColumnsDisplay.includes('sys_delete')) this.tableColumnsDisplay.push('sys_delete');
+				if (this.showDelete) {
+					if (!this.matrixDisplay.includes('sys_delete')) this.matrixDisplay.push('sys_delete');
 				}
 			},
 			error => {
-				this.addBlock(2, null);
 				this.toastr.errorToastr('Error al cargar lista de tags.', 'Lo siento,');
 
 			}
@@ -319,29 +274,22 @@ export class ApprovalComplianceComponent implements OnInit {
 	}
 
 	obtenerListaParam() {
-		this.addBlock(1, 'Cargando...');
-		this.data = [];
 		let params = this.assamblerRequest ();
 		this.tagService.obtenTagFiltros(params).subscribe((data: MatrizCumplimientoDTO) => {
 
 			this.setTableData(data.matriz);
 
-			this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
-			
-			this.addBlock(2, null);
-
 			if (this.showView) {
-				if (!this.tableColumnsDisplay.includes('sys_see')) this.tableColumnsDisplay.push('sys_see');
+				if (!this.matrixDisplay.includes('sys_see')) this.matrixDisplay.push('sys_see');
 			}
 			if (this.showUpdate) {
-				if (!this.tableColumnsDisplay.includes('sys_edit')) this.tableColumnsDisplay.push('sys_edit');
+				if (!this.matrixDisplay.includes('sys_edit')) this.matrixDisplay.push('sys_edit');
 			}
 			if (this.showUpdate) {
-				if (!this.tableColumnsDisplay.includes('sys_delete')) this.tableColumnsDisplay.push('sys_delete');
+				if (!this.matrixDisplay.includes('sys_delete')) this.matrixDisplay.push('sys_delete');
 			}
 		},
 			error => {
-				this.addBlock(2, null);
 				this.toastr.errorToastr('Error al cargar lista de tags.', 'Lo siento,');
 
 			}
@@ -358,85 +306,6 @@ export class ApprovalComplianceComponent implements OnInit {
 			name: "",
 		};
 		this.eventService.sendChangePage(new EventMessage(null, type, "Compliance.ApprovalComplianceVComponent"));
-	}
-
-	aprobarMatrizCumplimiento() {
-		//this.addBlock(1, null);
-		if (this.filtrosForm.controls.fAnio.value != null) {
-			let year = moment ( this.filtrosForm.controls.fAnio.value ).year( );
-			this.administratorComplianceService.apruebaMatrizCumplimiento(year).subscribe(
-				response => {
-					this.toastr.successToastr('Se aprobo correctamente la matriz de cumplimiento', '¡Se ha logrado!');
-					this.obtenerListaPorAnio(year);
-					this.statusMatrix = "Aprobado"
-					this.approveMatrix = false;
-					this.rejectMatrix = true;
-					this.generateTasks = true;
-				},
-				error => {
-					this.toastr.errorToastr('Error en la aprovación de la matriz.', 'Lo siento,');
-
-			});
-		} else {
-			this.toastr.warningToastr('Selecciona un año.' );
-		}
-		//this.addBlock(2, null);
-	}
-	rechazarMatrizCumplimiento() {
-        //this.addBlock(1, 'Cargando...');
-		if (this.filtrosForm.controls.fAnio.value != null) {
-			let year = moment ( this.filtrosForm.controls.fAnio.value ).year( );
-			this.administratorComplianceService.liberaMatrizCumplimiento(year).subscribe(
-				(responseLiberacion: GenerigResponseDTO) => {
-					this.toastr.successToastr(responseLiberacion.mensaje, '¡Se ha logrado!');
-					this.obtenerListaPorAnio(year);
-					this.isTrack = true;
-					this.statusMatrix = "Rechazado";
-					this.showTrack = true;
-					this.approveMatrix = true;
-					this.rejectMatrix = false;
-					this.generateTasks = false;
-				},
-				error => {
-					this.toastr.errorToastr('Error en el rechazo de la matriz.', 'Lo siento,');
-			});
-		}
-		//this.addBlock(2, null);
-	}
-
-    generarTareas() {
-    	//this.addBlock(1, null);
-        if (this.formFiltersTable.controls.clasificacion.value) {
-			let year = moment ( this.filtrosForm.controls.fAnio.value ).year( );
-            this.administratorComplianceService.getTasks(
-                year,
-                1,
-                this.formFiltersTable.controls.clasificacion.value).subscribe(
-                (data: MatrizCumplimientoDTO) => {
-                    this.setTableData(data.matriz);
-                    this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
-					this.isTrack = true;
-					this.approveMatrix = false;
-					this.rejectMatrix = false;
-					this.generateTasks = false;
-					this.toastr.infoToastr('Generación de tareas exitoso.', '');
-				},
-				error => {
-					this.toastr.errorToastr('Error en la generación de tareas.', 'Lo siento,');
-				}
-            );
-        } else {
-			this.toastr.warningToastr('Falta selecionar la clasificación', 'Lo siento,');
-		}
-		//this.addBlock(2, null);
-    }
-
-	SeguimientoAprovaciones() {
-//		this.showTrack = !this.showTrack;
-	}
-	
-	addBlock(type, msg): void {
-		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
 	}
 
 	initAutoComplete() {
@@ -477,13 +346,12 @@ export class ApprovalComplianceComponent implements OnInit {
 				});
 			}
 		).add(() => {
-			this.addBlock(2, null);
 		});
 	}
 
 	setTableData(matriz: TagOutDTO[]) {
 
-		this.tableData = matriz
+		this.matrix = matriz
 			.map((e: TagOutDTO, index) => {
 				let dateUpdated = ((e.dateUpdated != null) ? e.dateUpdated : e.dateCreated);
 				return {
@@ -503,7 +371,6 @@ export class ApprovalComplianceComponent implements OnInit {
 					'estatus': (e.active) ? 'Activo' : 'Inactivo'
 				};
 			});
-		this.tableDataFiltered = [].concat(this.tableData);
 	}
 
 	formatPeriodo_entrega(period, code) {
@@ -569,46 +436,43 @@ export class ApprovalComplianceComponent implements OnInit {
 
 	keyUpTag ($event) : void {
 		if ($event.target.value.length > 3 ) {
-			//this.filteredAutoTag = ["hijo 1","nieto 3","nose 3","sobrino 2","talvez"];
   			this.tagService.obtenTagCatalogos( new HttpParams ( ).set ( "tag", $event.target.value )).subscribe((data: any) => {
-				this.filteredAutoTag = data;
+				this.tagAutoList = data;
 			});
 
 		} else {
-			this.filteredAutoTag = [];
+			this.tagAutoList = [];
 		}
 	}
 
 	keyUpComplianceName ($event) : void {
 		if ($event.target.value.length > 3 ) {
-			//this.filteredAutoName = ["nc 04","nc 05","nc 06"];
   			this.tagService.obtenTagCatalogos( new HttpParams ( ).set ( "classificationActivity", $event.target.value )).subscribe((data: any) => {
-				this.filteredAutoName = data;
+				this.complianceNameAutoList = data;
 			});
 
 		} else {
-			this.filteredAutoName = [];
+			this.complianceNameAutoList = [];
 		}
 	}
 
 	keyUpUserUpdate ($event) : void {
 		if ($event.target.value.length > 3 ) {
-			//this.filteredUserUpdated = ["josefina","gabriela","ivette"];
   			this.tagService.obtenTagCatalogos( new HttpParams ( ).set ( "userUpdated", $event.target.value )).subscribe((data: any) => {
-				this.filteredUserUpdated = data;
+				this.userAutoList = data;
 			});
 
 		} else {
-			this.filteredUserUpdated = [];
+			this.userAutoList = [];
 		}
 	}
 
-/* 	saveObservation() {
+ 	saveObservation() {
 		let binnacle : any;
 		binnacle = {
 			binnacleEventID : this.formFiltersTable.controls['clasificacion'].value,
 			estatusAprobacion : "Evento Rechazado",
-			reasonObservation : this.formObservation.controls['observation'].value
+			reasonObservation : this.formTrack.controls['observation'].value
 		}
 		this.binnacleService.changeStatus(binnacle)
 		    .subscribe(data  => {
@@ -623,11 +487,81 @@ export class ApprovalComplianceComponent implements OnInit {
 			    //new EventMessage(null, type, 'Compliance.SafeListOfEventsComponent')
 			    //);
 		});
-	} */
+	}
 
-/* 	onFormQuerySubmit(o) {
-		this.addBlock(1, '');
-		this.binnacleService.eventsSearch(o).subscribe(
+	aprobarMatrizCumplimiento() {
+
+		if (this.filtrosForm.controls.fAnio.value != null) {
+			let year = moment ( this.filtrosForm.controls.fAnio.value ).year( );
+			this.administratorComplianceService.apruebaMatrizCumplimiento(year).subscribe(
+				response => {
+					this.toastr.successToastr('Se aprobo correctamente la matriz de cumplimiento', '¡Se ha logrado!');
+					this.obtenerListaPorAnio(year);
+ 					this.statusMatrix = "Aprobado"
+/*					this.approveMatrix = false;
+					this.rejectMatrix = true;
+					this.generateTasks = true; */
+				},
+				error => {
+					this.toastr.errorToastr('Error en la aprovación de la matriz.', 'Lo siento,');
+
+			});
+		} else {
+			this.toastr.warningToastr('Selecciona un año.' );
+		}
+	}
+
+	rechazarMatrizCumplimiento() {
+
+		if (this.filtrosForm.controls.fAnio.value != null) {
+			let year = moment ( this.filtrosForm.controls.fAnio.value ).year( );
+			this.administratorComplianceService.liberaMatrizCumplimiento(year).subscribe(
+				(responseLiberacion: GenerigResponseDTO) => {
+					this.toastr.successToastr(responseLiberacion.mensaje, '¡Se ha logrado!');
+					this.obtenerListaPorAnio(year);
+//					this.showTrack = true;
+					this.showObservation = true;
+					this.statusMatrix = "Rechazado";
+/* 					this.approveMatrix = true;
+					this.rejectMatrix = false;
+					this.generateTasks = false; */
+				},
+				error => {
+					this.toastr.errorToastr('Error en el rechazo de la matriz.', 'Lo siento,');
+			});
+		}
+	}
+
+    generarTareas() {
+
+        if (this.formFiltersTable.controls.clasificacion.value) {
+			let year = moment ( this.filtrosForm.controls.fAnio.value ).year( );
+            this.administratorComplianceService.getTasks(
+                year,
+                1,
+                this.formFiltersTable.controls.clasificacion.value).subscribe(
+                (data: MatrizCumplimientoDTO) => {
+                    this.setTableData(data.matriz);
+/* 					this.approveMatrix = false;
+					this.rejectMatrix = false;
+					this.generateTasks = false; */
+					this.toastr.infoToastr('Generación de tareas exitoso.', '');
+				},
+				error => {
+					this.toastr.errorToastr('Error en la generación de tareas.', 'Lo siento,');
+				}
+            );
+        } else {
+			this.toastr.warningToastr('Falta selecionar la clasificación', 'Lo siento,');
+		}
+    }
+
+ 	getTrack() {
+		let binnacle : any;
+		binnacle = {
+			binnacleEventID : this.formFiltersTable.controls['clasificacion'].value,
+		}
+		this.binnacleService.eventsSearch(binnacle).subscribe(
 			(data: Array<BinnacleEventDTO>) => {
 				this.tracks = data;
 				let i = 0;
@@ -646,21 +580,18 @@ export class ApprovalComplianceComponent implements OnInit {
 					}
 				});
 
-				this.addBlock(2, '');
 			},
 			errorData => {
 				this.toastr.errorToastr('Problemas en la consulta', 'Error');
-				this.addBlock(2, '');
 			},
 			() => {
 				console.log('loadMasters:: ', 'Termino');
-				this.addBlock(2, '');
 			});
-	} */
+	}
 
 	eventChangeAnio(d: Moment) {
-		this.selectYear = d.year ();
-/* 		if ( this.selectYear < this.currentYear+1 ) {
+		let selectYear = d.year ();
+ 		if ( selectYear < this.currentYear+1 ) {
 			this.approveMatrix = false;
 			this.rejectMatrix = false;
 			this.generateTasks = false;
@@ -671,14 +602,13 @@ export class ApprovalComplianceComponent implements OnInit {
 				this.generateTasks = false;
 			} else if (this.rejectMatrix) {
 				this.generateTasks = true;
-			} else if ( this.tableData && this.tableData.length > 0 ) {
+			} else {
 			    this.approveMatrix = true;
 			    this.rejectMatrix = false;
 				this.generateTasks = false;
 			}
 		}
-		this.rejectMatrix = true;
- */		this.obtenerListaPorAnio(this.selectYear);
+		this.obtenerListaPorAnio(selectYear);
 	}
 
 }
