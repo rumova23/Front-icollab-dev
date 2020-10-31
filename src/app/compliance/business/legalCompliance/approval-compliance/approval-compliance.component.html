@@ -20,9 +20,7 @@
 		<div class="row" *ngIf="isSupervisor">
 			<div class="form-group col-12 col-md-6 col-lg-4">
 				<label>Año</label>
-				<app-mat-input-datepicker-year
-					[formGroup]="filtrosForm"
-					controlName="fAnio"
+				<app-mat-input-datepicker-year [formGroup]="filtrosForm" controlName="fAnio"
 					(eventChange)="eventChangeAnio($event)">
 				</app-mat-input-datepicker-year>
 			</div>
@@ -33,19 +31,13 @@
 
 		<div class="row mt-3">
 			<div class="col-12 col-lg-4">
-				<app-mat-input-text-autocomplete
-					[formGroup]="formFiltersTable"
-					controlName="tag"
-					[options]="filteredAutoTag"
-					(keyUpChange)="keyUpTag($event)"
-					label="Tag"></app-mat-input-text-autocomplete>
+				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="tag"
+					[options]="filteredAutoTag" (keyUpChange)="keyUpTag($event)" label="Tag">
+				</app-mat-input-text-autocomplete>
 			</div>
 			<div class="col-12 col-lg-4">
-				<app-mat-input-text-autocomplete
-					[formGroup]="formFiltersTable"
-					controlName="nombre"
-					[options]="filteredAutoName"
-					(keyUpChange)="keyUpComplianceName($event)"
+				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="nombre"
+					[options]="filteredAutoName" (keyUpChange)="keyUpComplianceName($event)"
 					label="Nombre del Cumplimiento"></app-mat-input-text-autocomplete>
 			</div>
 			<div class="col-12 col-lg-4">
@@ -88,39 +80,12 @@
 				</app-mat-select>
 			</div>
 			<div class="col-12 col-lg-4">
-				<app-mat-select [formGroup]="formFiltersTable" controlName="estatus" [options]="comboEstatus"
-					label="Estatus"></app-mat-select>
-			</div>
-			<div class="col-12 col-lg-4">
-				<app-mat-input-text-autocomplete
-					[formGroup]="formFiltersTable"
-					controlName="userUpdated"
-					[options]="filteredUserUpdated"
-					(keyUpChange)="keyUpUserUpdate($event)"
-					label="Usuario Modifico"></app-mat-input-text-autocomplete>
+				<app-mat-input-text-autocomplete [formGroup]="formFiltersTable" controlName="userUpdated"
+					[options]="filteredUserUpdated" (keyUpChange)="keyUpUserUpdate($event)" label="Usuario Modifico">
+				</app-mat-input-text-autocomplete>
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-12 col-lg-4">
-				<label>Fecha de Última Modificación</label><br>
-				<app-mat-input-datepicker
-					[formGroup]="formFiltersTable"
-					controlName="minDate__dateUpdated"
-					label="De"
-					(eventChange)="onChangeDateIniFechaFin($event)">
-				</app-mat-input-datepicker>
-			</div>
-			<div class="col-12 col-lg-4">
-				<label style="visibility: hidden;">.</label><br>
-				<app-mat-input-datepicker
-					[formGroup]="formFiltersTable"
-					controlName="maxDate__dateUpdated"
-					label="Al"
-					[minDate]="initDate">
-				</app-mat-input-datepicker>
-			</div>
-		</div>
 		<div class="row">
 			<div class="col">
 				<app-mat-radio-button [formGroup]="formFiltersType" controlName="typeFilter"
@@ -142,20 +107,22 @@
 		<div class="col-12 col-lg-4">
 		</div>
 		<div class="col-12 col-lg-2">
-			<app-btn-block [disabled]="selectYear < currentYear+1" label="Aprobar" (myClick)="aprobarMatrizCumplimiento()"></app-btn-block>
+			<app-btn-block [disabled]="!approveMatrix" label="Aprobar"
+				(myClick)="aprobarMatrizCumplimiento()"></app-btn-block>
 		</div>
 		<div class="col-12 col-lg-2">
-			<app-btn-block [disabled]="selectYear < currentYear+1" label="Rechazar" (myClick)="rechazarMatrizCumplimiento()"></app-btn-block>
+			<app-btn-block [disabled]="!rejectMatrix" label="Rechazar"
+				(myClick)="rechazarMatrizCumplimiento()"></app-btn-block>
 		</div>
 		<div class="col-12 col-lg-2">
-			<app-btn-block [disabled]="approved == null" label="Generar Tareas" (myClick)="generarTareas()"></app-btn-block>
+			<app-btn-block [disabled]="!generateTasks" label="Generar Tareas" (myClick)="generarTareas()">
+			</app-btn-block>
 		</div>
 	</div>
-
 	<div class="row justify-content-between mt-5">
 		<div class="col-12 col-lg-4">
 			<p class="section_titulo_0">
-				<span *ngIf="approved != null"> Estatus: {{approved}}</span>
+				<span *ngIf="statusMatrix != null"> Estatus: {{statusMatrix}}</span>
 			</p>
 		</div>
 		<div class="col-12 col-lg-2">
@@ -165,18 +132,45 @@
 	<div class="row my-4">
 		<div class="col">
 			<app-mat-table [data]="tableData" [columnsLabels]="tablaColumnsLabels"
-				[columnsDisplay]="tableColumnsDisplay" [row_x_page]="tableRowXpage"
-				 (clickSee)="onTableRowSee($event)"></app-mat-table>
+				[columnsDisplay]="tableColumnsDisplay" [row_x_page]="tableRowXpage" (clickSee)="onTableRowSee($event)">
+			</app-mat-table>
 		</div>
 	</div>
 
-	<div *ngIf="showTrack" class="row my-4">
+<!-- 	<div *ngIf="showTrack" class="row my-4">
+		<form [formGroup]="formObservation">
+			<div class="row">
+				<div class="col">
+					<p class="section_titulo_0">{{ "Observaciones y/o comentarios" | translate }}</p>
+					<p class="section_subtitulo_0"></p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<app-mat-input-textarea
+						[formGroup]="formObservation" 
+						controlName="observation" 
+						label="Observaciones" 
+						maxLength="1000"
+					></app-mat-input-textarea>
+				</div>
+			</div>
+			
+			<div class="row justify-content-end">
+				<div class="col-12 col-lg-2">
+					<app-btn-block-add (myClick)="saveObservation()" [disabled]="!formObs.valid || isReadOnly"></app-btn-block-add>
+				</div>
+			</div>
+		</form>
+
 		<div class="col">
 			<app-mat-table
-					[data]="tracks"
-					[columnsDisplay]="tracksColumnsDisplay"
-					[columnsLabels]="trackColumnsLabels"
-				></app-mat-table>
+				[data]="tracks"
+				[columnsLabels]="trackColumnsLabels"
+				[columnsDisplay]="tracksColumnsDisplay"
+				[row_x_page]="tableRowXpage"
+				maxHeight="400px"
+			></app-mat-table>
 		</div>
-	</div>
+	</div> -->
 </div>

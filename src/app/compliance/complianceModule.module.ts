@@ -79,6 +79,7 @@ import { ICGenerationTasksAssignmentResponsibilitiesComponent } from './business
 import { ICComplianceConfigurationComponent } from './business/internalCompliance/iccompliance-configuration/iccompliance-configuration.component';
 import { ICApprovalComplianceComponent } from './business/internalCompliance/icapproval-compliance/icapproval-compliance.component';
 import { ApprovalComplianceVComponent } from './business/legalCompliance/approval-compliance-v/approval-compliance-v.component';
+//import { ObservationDialogComponent } from './business/legalCompliance/approval-compliance/observation-dialog/observation-dialog.component';
 
 @NgModule({
     declarations:[
@@ -157,6 +158,7 @@ import { ApprovalComplianceVComponent } from './business/legalCompliance/approva
         ToastrModule.forRoot(),
         BlockUIModule.forRoot({message: Constants.LOADING_MEESSAGE})
     ],
+//	entryComponents: [ObservationDialogComponent],
 	providers:[DatePipe]
 })
 export class ComplianceModule{}

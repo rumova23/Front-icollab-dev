@@ -105,19 +105,13 @@ export function isEmptyFilters(filters):boolean{
 	return isEmptyFilters;
 }
 
-export function isEmptyFilters2(filters, typeSearch:any): boolean {
+export function isEmptyFilters2(filters): boolean {
 	let isEmptyFilters = true;
 	for (const key in filters) {
 		const filter = filters[key];
-		if (typeSearch === "OR") {
-			if (filter !== null && filter !== '') {
-				return false;
-			}
-		} else {
-			if ( filter === null || filter === '') {
-				return true;
-			}
+		if (filter !== null && filter !== '') {
+			return false;
 		}
 	}
-	return typeSearch === "OR" ? isEmptyFilters : false;
+	return true;
 }

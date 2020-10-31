@@ -1,5 +1,5 @@
-import { Component, OnInit } from "@angular/core";
-import { MatPaginator, MatTableDataSource, MatSort, Sort } from '@angular/material';
+import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { MatPaginator, MatTableDataSource, MatSort, Sort, MatDialog } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { GlobalService } from "src/app/core/globals/global.service";
 import { IdLabel } from "src/app/core/models/IdLabel";
@@ -8,7 +8,7 @@ import { EventService } from "src/app/core/services/event.service";
 import { EventMessage } from "src/app/core/models/EventMessage";
 import { ToastrManager } from "ng6-toastr-notifications";
 import { EventBlocked } from "src/app/core/models/EventBlocked";
-import { Observable, timer } from "rxjs";
+import { timer } from "rxjs";
 import { OrderCatalogDTO } from "src/app/compliance/models/OrderCatalogDTO";
 import { TagService } from "src/app/compliance/services/tag.service";
 import { MaestroOpcionDTO } from "src/app/compliance/models/maestro-opcion-dto";
@@ -18,7 +18,6 @@ import { AdministratorComplianceService } from 'src/app/compliance/administratio
 import { MatrizCumplimientoDTO } from '../../../models/matriz-cumplimiento-dto';
 import { TagOutDTO } from 'src/app/compliance/models/tag-out-dto';
 import * as moment from 'moment';
-import { Combo } from 'src/app/compliance/models/Combo';
 import { HttpParams } from '@angular/common/http';
 import * as Util from 'src/app/core/helpers/util.general';
 import { SecurityService } from 'src/app/core/services/security.service';
@@ -27,6 +26,9 @@ import { IncidentService } from 'src/app/bits/services/incident.service';
 import { IncidentObservationOutDTO } from 'src/app/bits/models/IncidentObservationOutDTO';
 import { ResponseVO } from 'src/app/bits/models/ResponseVO';
 import { map } from 'rxjs/operators';
+import {BinnacleEventDTO} from '../../../../safe/models/binnacle-event-dto';
+import {BinnacleService} from '../../../../safe/services/binnacle.service';
+//import { ApprovalCompliace } from './approval-compliance';
 
 @Component({
 	selector: "app-approval-compliance",
@@ -48,25 +50,51 @@ export class ApprovalComplianceComponent implements OnInit {
 	showView = false;
 	showUpdate = false;
 	showDelete = false;
-	initDate;
-	approved: string;
+	//approved: string;
+	statusMatrix: string;
+	approveMatrix: boolean;
+	rejectMatrix: boolean;
+	generateTasks: boolean;
 	formTrack : FormGroup;
-	tracks : IncidentObservationOutDTO[] = [];
+	tracks : Array<any> = [];
 	tracksColumnsDisplay = [
 		'order',
+		'dateTimeStartString',
+		'dateTimeEndString',
+		'eventsClassification',
+		'events',
+		'estatusEvento',
+		'estatusAprobacion',
+		'usuario',
+		'fechaYHoraDeUltimaModificacion',
+	];
+
+	trackColumnsLabels = [
+		{key: 'binnacleEventID'                                  , label: 'id'},
+		{key: 'order'                               , label: '#',isSticky:true},
+		{key: 'dateTimeStartString'                   , label: 'Fecha y Hora Inicial'},
+		{key: 'dateTimeEndString'                     , label: 'Fecha y Hora Final'},
+		{key: 'eventsClassification'              , label: 'Clasificacion de Eventos',isSticky:true},
+		{key: 'events'                             , label: 'Eventos'},
+		{key: 'estatusEvento'                    , label: 'Estatus del Evento'},
+		{key: 'estatusAprobacion'                 , label: 'Estatus de Aprobacion'},
+		{key: 'usuario'                             , label: 'Usuario'},
+		{key: 'fechaYHoraDeUltimaModificacion'      , label: 'Fecha y Hora de Ultima Modificacion'},
+		{key: 'estatus'                             , label: 'Comentarios'}
+	];
+/* 		'order',
 		'userUpdated',
 		'observation',
 		'dateUpdated',
 		'sys_checkbox',
 		'sys_edit',
-		'sys_delete',
-	];
-	trackColumnsLabels = [
-		{ key: 'order', label: '#' },
+		'sys_delete', */
+/* 		{ key: 'order', label: '#' },
 		{ key: 'userUpdated', label: 'Nombre' },
 		{ key: 'observation', label: 'Observaciones' },
 		{ key: 'dateUpdated', label: 'Fecha de Ultima Modificación' , dateFormat:'dd/MM/yyyy HH:mm' },
-	];
+ */
+	
 	trackId : number;
 	showTrack : boolean;
 
@@ -121,7 +149,6 @@ export class ApprovalComplianceComponent implements OnInit {
 	comboAutoridad: IdLabel[] = [];
 	comboTipoAplicacion: IdLabel[] = [];
 	comboGrupo: IdLabel[] = [];
-	comboEstatus: IdLabel[] = [{ id: '1', label: 'Activo' }, { id: '2', label: 'Inactivo' }];
 
 	tableRowXPage = [100, 500, 1000, 1500, 2000];
 
@@ -141,6 +168,8 @@ export class ApprovalComplianceComponent implements OnInit {
 	currentYear : number;
 	selectYear : number;
 
+	formObservation: FormGroup;
+
 	constructor(
 		public globalService: GlobalService,
 		private formBuilder: FormBuilder,
@@ -150,6 +179,8 @@ export class ApprovalComplianceComponent implements OnInit {
 		public incidentService : IncidentService,
 		private administratorComplianceService: AdministratorComplianceService,
 		private tagService: TagService,
+		public dialog: MatDialog,
+		private binnacleService: BinnacleService,
 		public securityService: SecurityService) {
 			this.menu = securityService.getMenu('Compliance');
 
@@ -213,10 +244,10 @@ export class ApprovalComplianceComponent implements OnInit {
 			autoridad: [null],
 			tipo_aplicacion: [null],
 			grupo: [null],
-			estatus: [null],
+			estatus: ['1'],
 			userUpdated: [null],
-			minDate__dateUpdated: [null],
-			maxDate__dateUpdated: [null],
+			minDate__dateUpdated: [''],
+			maxDate__dateUpdated: [''],
 		});
 
 		this.formFiltersType = this.formBuilder.group({
@@ -225,7 +256,7 @@ export class ApprovalComplianceComponent implements OnInit {
 
 		this.formTrack = this.formBuilder.group({
 			id:[null],
-			observation:[null,[Validators.required,Validators.minLength(2),Validators.maxLength(1000)]]
+			observation:[null,[Validators.required,Validators.minLength(1),Validators.maxLength(1000)]]
 		});
 
 		this.filtrosForm.controls.fAnio.setValue(moment(new Date()));
@@ -237,9 +268,19 @@ export class ApprovalComplianceComponent implements OnInit {
 
 		this.isTrack = false;
 		this.trackId = new Date ( ).getTime ( );
-		this.getObservations ( null );
 		this.showTrack = false;
 
+		this.formObservation = this.formBuilder.group({
+			observation: ['', [Validators.minLength(2), Validators.maxLength(2000)]]
+		});
+
+		this.statusMatrix = '';
+/* 		this.approveMatrix = false;
+		this.rejectMatrix = false;
+		this.generateTasks = false;
+ */		this.approveMatrix = true;
+		this.rejectMatrix = true;
+		this.generateTasks = true;
 	}
 
 	obtenerListaPorAnio(anio:number) {
@@ -250,11 +291,13 @@ export class ApprovalComplianceComponent implements OnInit {
 
 			.subscribe((data: MatrizCumplimientoDTO) => {
 
+				this.addBlock(2, null);
+				
 				this.setTableData(data.matriz);
 
 				this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
 				
-				this.addBlock(2, null);
+
 
 
 				if (this.showView) {
@@ -307,9 +350,6 @@ export class ApprovalComplianceComponent implements OnInit {
 
 	get f() { return this.filtrosForm.controls; }
 
-	eventChangeAnio(d: Moment) {
-		this.selectYear = d.year ();
-	}
 
 	onTableRowSee(element) {
 		const type = {
@@ -321,14 +361,17 @@ export class ApprovalComplianceComponent implements OnInit {
 	}
 
 	aprobarMatrizCumplimiento() {
-		this.addBlock(1, null);
+		//this.addBlock(1, null);
 		if (this.filtrosForm.controls.fAnio.value != null) {
 			let year = moment ( this.filtrosForm.controls.fAnio.value ).year( );
 			this.administratorComplianceService.apruebaMatrizCumplimiento(year).subscribe(
 				response => {
 					this.toastr.successToastr('Se aprobo correctamente la matriz de cumplimiento', '¡Se ha logrado!');
 					this.obtenerListaPorAnio(year);
-					this.approved = "Aprobado"
+					this.statusMatrix = "Aprobado"
+					this.approveMatrix = false;
+					this.rejectMatrix = true;
+					this.generateTasks = true;
 				},
 				error => {
 					this.toastr.errorToastr('Error en la aprovación de la matriz.', 'Lo siento,');
@@ -337,10 +380,10 @@ export class ApprovalComplianceComponent implements OnInit {
 		} else {
 			this.toastr.warningToastr('Selecciona un año.' );
 		}
-		this.addBlock(2, null);
+		//this.addBlock(2, null);
 	}
 	rechazarMatrizCumplimiento() {
-        this.addBlock(1, 'Cargando...');
+        //this.addBlock(1, 'Cargando...');
 		if (this.filtrosForm.controls.fAnio.value != null) {
 			let year = moment ( this.filtrosForm.controls.fAnio.value ).year( );
 			this.administratorComplianceService.liberaMatrizCumplimiento(year).subscribe(
@@ -348,17 +391,21 @@ export class ApprovalComplianceComponent implements OnInit {
 					this.toastr.successToastr(responseLiberacion.mensaje, '¡Se ha logrado!');
 					this.obtenerListaPorAnio(year);
 					this.isTrack = true;
-					this.approved = "Rechazado"
+					this.statusMatrix = "Rechazado";
+					this.showTrack = true;
+					this.approveMatrix = true;
+					this.rejectMatrix = false;
+					this.generateTasks = false;
 				},
 				error => {
 					this.toastr.errorToastr('Error en el rechazo de la matriz.', 'Lo siento,');
 			});
 		}
-		this.addBlock(2, null);
+		//this.addBlock(2, null);
 	}
 
     generarTareas() {
-    	this.addBlock(1, null);
+    	//this.addBlock(1, null);
         if (this.formFiltersTable.controls.clasificacion.value) {
 			let year = moment ( this.filtrosForm.controls.fAnio.value ).year( );
             this.administratorComplianceService.getTasks(
@@ -369,6 +416,9 @@ export class ApprovalComplianceComponent implements OnInit {
                     this.setTableData(data.matriz);
                     this.administradores =  new MatTableDataSource<any>(data.cumplimientoIntegrantes);
 					this.isTrack = true;
+					this.approveMatrix = false;
+					this.rejectMatrix = false;
+					this.generateTasks = false;
 					this.toastr.infoToastr('Generación de tareas exitoso.', '');
 				},
 				error => {
@@ -378,11 +428,11 @@ export class ApprovalComplianceComponent implements OnInit {
         } else {
 			this.toastr.warningToastr('Falta selecionar la clasificación', 'Lo siento,');
 		}
-		this.addBlock(2, null);
+		//this.addBlock(2, null);
     }
 
 	SeguimientoAprovaciones() {
-		this.showTrack = !this.showTrack;
+//		this.showTrack = !this.showTrack;
 	}
 	
 	addBlock(type, msg): void {
@@ -463,12 +513,11 @@ export class ApprovalComplianceComponent implements OnInit {
 	}
 
 	onFiltersTable() {
-      	const typeSearch = this.formFiltersType.value.typeFilter.toString() === '1' ? 'AND' : 'OR'; // 1. OR \ 2. AND for search conditions
 
-		if ( !Util.isEmptyFilters2 ( this.formFiltersTable.value, typeSearch ) ) {
+		if ( !Util.isEmptyFilters2 ( this.formFiltersTable.value ) ) {
 			this.obtenerListaParam();
 		} else {
-			this.toastr.warningToastr(typeSearch === 'AND' ? "Tienes que capturar todos los datos de búsqueda." : 'Tienes que capturar al menos un dato de búsqueda.' );
+			this.toastr.warningToastr("Tienes que capturar al menos un dato de búsqueda.");
 		}
 
 	}
@@ -476,6 +525,11 @@ export class ApprovalComplianceComponent implements OnInit {
 	limpiarFiltros() {
 		this.formFiltersTable.reset();
 		this.obtenerListaParam();
+		let binn : any;
+		binn = {
+			events:"AGC"
+		};
+//		this.onFormQuerySubmit(binn);
 	}
 
 	isnumeric(v) {
@@ -496,13 +550,7 @@ export class ApprovalComplianceComponent implements OnInit {
 	}
 
 	assamblerRequest ( ) : HttpParams {
-		let minDate = this.formFiltersTable.controls['minDate__dateUpdated'].value == null
-			? ""
-			: moment ( this.formFiltersTable.controls['minDate__dateUpdated'].value ).format ( 'YYYY/MM/DD' );
-		let maxDate = this.formFiltersTable.controls['maxDate__dateUpdated'].value == null
-			? ""
-			: moment ( this.formFiltersTable.controls['maxDate__dateUpdated'].value ).format ( 'YYYY/MM/DD' );
-			
+
 		return new HttpParams ( )
 			.set ( "type", this.formFiltersType.value.typeFilter.toString() === '1' ? 'AND' : 'OR' )
 			.set ( "tag", this.formFiltersTable.controls['tag'].value == null ? "" : this.formFiltersTable.controls['tag'].value)
@@ -513,10 +561,10 @@ export class ApprovalComplianceComponent implements OnInit {
 			.set ( "authorityCode", this.formFiltersTable.controls['autoridad'].value == null ? "" : this.formFiltersTable.controls['autoridad'].value)
 			.set ( "applicationTypeCode", this.formFiltersTable.controls['tipo_aplicacion'].value == null ? "" : this.formFiltersTable.controls['tipo_aplicacion'].value)
 			.set ( "groupCode", this.formFiltersTable.controls['grupo'].value == null ? "" : this.formFiltersTable.controls['grupo'].value)
-			.set ( "active", this.formFiltersTable.controls['estatus'].value == null ? "" : this.formFiltersTable.controls['estatus'].value)
+			.set ( "active", this.formFiltersTable.controls['estatus'].value )
 			.set ( "userUpdated", this.formFiltersTable.controls['userUpdated'].value == null ? "" : this.formFiltersTable.controls['userUpdated'].value)
-			.set ( "minDateUpdated", minDate )
-			.set ( "maxDateUpdated", maxDate )
+			.set ( "minDateUpdated", this.formFiltersTable.controls['minDate__dateUpdated'].value )
+			.set ( "maxDateUpdated", this.formFiltersTable.controls['maxDate__dateUpdated'].value )
 	}
 
 	keyUpTag ($event) : void {
@@ -555,56 +603,82 @@ export class ApprovalComplianceComponent implements OnInit {
 		}
 	}
 
-	onChangeDateIniFechaFin ( $event ) : void {
-		this.initDate = new Date($event);
-	}
+/* 	saveObservation() {
+		let binnacle : any;
+		binnacle = {
+			binnacleEventID : this.formFiltersTable.controls['clasificacion'].value,
+			estatusAprobacion : "Evento Rechazado",
+			reasonObservation : this.formObservation.controls['observation'].value
+		}
+		this.binnacleService.changeStatus(binnacle)
+		    .subscribe(data  => {
+			    this.toastr.successToastr('Cambio de Estatus Correcto: ' + "Evento Rechazado", 'Exito!.');
+				this.showTrack = true;
+		    }, error => {
+			    this.toastr.errorToastr("Error al guardar la bitácora", 'Error!');
+		    }, () => {
 
-	addObservation ( ) : void {
-		this.addBlock(1,null);
-		let incidentObservationInDTO = [this.formTrack.value].map(e=>{
-			return {
-					id               : e.id
-				,incidentId       : this.trackId
-				,observation      : e.observation
-				,dateobservation  : this.datePipe.transform(new Date(), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS')
-				,save             : e.id == null
-				,active           : true
-			};
-		})[0];
-		this.incidentService.saveObservation(incidentObservationInDTO).subscribe((data:ResponseVO)=>{
-			if(data.success){
-				this.getObservations ( this.trackId );
-				this.isTrack = false;
+			    //const type = {};
+			    //this.eventService.sendChangePage(
+			    //new EventMessage(null, type, 'Compliance.SafeListOfEventsComponent')
+			    //);
+		});
+	} */
+
+/* 	onFormQuerySubmit(o) {
+		this.addBlock(1, '');
+		this.binnacleService.eventsSearch(o).subscribe(
+			(data: Array<BinnacleEventDTO>) => {
+				this.tracks = data;
+				let i = 0;
+				this.tracks.forEach((element) => {
+					i++;
+					element.order = i;
+					element.userUpdated = (element.userUpdated !== null) ? element.userUpdated : element.userCreated;
+					if(element.estatusEvento == "Evento Abierto" && element.estatusAprobacion == "Evento Rechazado"){
+						element.backgroundColor = '#F08080';
+					}else if(element.estatusEvento == "Evento Cerrado" && element.estatusAprobacion == "Evento Aprobado"){
+						element.backgroundColor = '#9ACD32';
+					}else if(element.estatusEvento == "Evento Terminado" && element.estatusAprobacion == "Evento Sin Aprobacion"){
+						element.backgroundColor = '#FFD700';
+					}else if(element.estatusEvento == "Evento Abierto" && element.estatusAprobacion == "Evento Sin Aprobacion"){
+						element.backgroundColor = '#DCDCDC';
+					}
+				});
+
+				this.addBlock(2, '');
+			},
+			errorData => {
+				this.toastr.errorToastr('Problemas en la consulta', 'Error');
+				this.addBlock(2, '');
+			},
+			() => {
+				console.log('loadMasters:: ', 'Termino');
+				this.addBlock(2, '');
+			});
+	} */
+
+	eventChangeAnio(d: Moment) {
+		this.selectYear = d.year ();
+/* 		if ( this.selectYear < this.currentYear+1 ) {
+			this.approveMatrix = false;
+			this.rejectMatrix = false;
+			this.generateTasks = false;
+
+		} else {
+			if (this.approveMatrix) {
+				this.rejectMatrix = false;
+				this.generateTasks = false;
+			} else if (this.rejectMatrix) {
+				this.generateTasks = true;
+			} else if ( this.tableData && this.tableData.length > 0 ) {
+			    this.approveMatrix = true;
+			    this.rejectMatrix = false;
+				this.generateTasks = false;
 			}
 		}
-		,err=>{
-			this.toastr.errorToastr('Ocurrió un error al intentar registrar la observación', 'Lo siento,');
-			console.log(err);
-			
-		}
-		,()=>{
-			this.addBlock(2,null);
-		}
-		);
-		this.formTrack.reset();
+		this.rejectMatrix = true;
+ */		this.obtenerListaPorAnio(this.selectYear);
 	}
 
-	getObservations ( trackId : number ) : void {
-		if(trackId != null){
-			this.incidentService.getListObservations(trackId).subscribe(
-				(data:IncidentObservationOutDTO[])=>{
-					this.tracks=data.map((e,index)=>{
-						e.order = index+1;
-						return e;
-					});
-				},
-				err=>{
-					console.log(err);
-				}
-				,()=>{
-					this.isTrack = false;
-				}
-			);
-		}
-	}
 }

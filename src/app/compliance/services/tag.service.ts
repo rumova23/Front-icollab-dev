@@ -28,7 +28,6 @@ export class TagService {
   }
   getlistCatalogoOrdenados(catalogos: Array<OrderCatalogDTO>) {
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
-    // return this.http.post( `${ this.baseCatalagoUrl }catalog/list`, catalogos, httpOptions);
     return this.http.post( `${ EPs.catalog.catalog.list }`, catalogos, {params : this.parameters });
   }
 

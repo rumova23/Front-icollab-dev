@@ -390,12 +390,11 @@ export class ComplianceConfigurationComponent implements OnInit {
 	}
 
 	onFiltersTable() {
-      	const typeSearch = this.formFiltersType.value.typeFilter.toString() === '1' ? 'AND' : 'OR'; // 1. OR \ 2. AND for search conditions
 
-		if ( !Util.isEmptyFilters2 ( this.formFiltersTable.value, typeSearch ) ) {
+		if ( !Util.isEmptyFilters2 ( this.formFiltersTable.value ) ) {
 			this.obtenerListaTags();
 		} else {
-			this.toastr.warningToastr(typeSearch === 'AND' ? "Tienes que capturar todos los datos de búsqueda." : 'Tienes que capturar al menos un dato de búsqueda.' );
+			this.toastr.warningToastr('Tienes que capturar al menos un dato de búsqueda.' );
 		}
 
 	}
