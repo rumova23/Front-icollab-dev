@@ -56,8 +56,8 @@ export class ConfigActivitiesComponent implements OnInit {
 	tagPrecedentes;
 	//	activities: MatTableDataSource<any>;
 	activities;
-	registros_x_pagina = [50, 100, 250, 500];
-	registros_x_pagina1 = [50, 100, 250, 500];
+	registros_x_pagina = [100, 200, 300];
+	registros_x_pagina1 = [100, 200, 300];
 	data: any[] = [];
 
 	configActividadesForm: FormGroup;

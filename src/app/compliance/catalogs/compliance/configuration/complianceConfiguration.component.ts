@@ -55,7 +55,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 	columnasResponsabilidad: string[] = ['order', 'admin', 'responsabilidad'];
 
 	filtrobtn = { label: 'buscar' };
-	registros_x_pagina = [50, 100, 250, 500];
+	registros_x_pagina = [100, 200, 300];
 
 	serviceSubscription: any;
 

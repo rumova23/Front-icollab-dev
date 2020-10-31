@@ -92,7 +92,7 @@ export class ApprovalComplianceComponent implements OnInit {
 
 	ngOnInit() {
 
-		this.tableRowXPage = [50, 100];
+		this.tableRowXPage = [100, 200, 200];
 		this.showAdd = false;
 		this.showView = false;
 		this.showUpdate = false;
@@ -481,6 +481,7 @@ export class ApprovalComplianceComponent implements OnInit {
 		    }, error => {
 			    this.toastr.errorToastr("Error al guardar la bitácora", 'Error!');
 		    }, () => {
+				this.showObservation = false;
 
 			    //const type = {};
 			    //this.eventService.sendChangePage(
