@@ -499,9 +499,9 @@ export class ApprovalComplianceComponent implements OnInit {
 					this.toastr.successToastr('Se aprobo correctamente la matriz de cumplimiento', '¡Se ha logrado!');
 					this.obtenerListaPorAnio(year);
  					this.statusMatrix = "Aprobado"
-/*					this.approveMatrix = false;
+					this.approveMatrix = false;
 					this.rejectMatrix = true;
-					this.generateTasks = true; */
+					this.generateTasks = true;
 				},
 				error => {
 					this.toastr.errorToastr('Error en la aprovación de la matriz.', 'Lo siento,');
@@ -523,9 +523,9 @@ export class ApprovalComplianceComponent implements OnInit {
 //					this.showTrack = true;
 					this.showObservation = true;
 					this.statusMatrix = "Rechazado";
-/* 					this.approveMatrix = true;
+					this.approveMatrix = true;
 					this.rejectMatrix = false;
-					this.generateTasks = false; */
+					this.generateTasks = false;
 				},
 				error => {
 					this.toastr.errorToastr('Error en el rechazo de la matriz.', 'Lo siento,');
@@ -543,9 +543,9 @@ export class ApprovalComplianceComponent implements OnInit {
                 this.formFiltersTable.controls.clasificacion.value).subscribe(
                 (data: MatrizCumplimientoDTO) => {
                     this.setTableData(data.matriz);
-/* 					this.approveMatrix = false;
+					this.approveMatrix = false;
 					this.rejectMatrix = false;
-					this.generateTasks = false; */
+					this.generateTasks = false;
 					this.toastr.infoToastr('Generación de tareas exitoso.', '');
 				},
 				error => {
