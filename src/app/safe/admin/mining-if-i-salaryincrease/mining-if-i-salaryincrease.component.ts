@@ -262,16 +262,16 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 			fileCenter['fileData'] = fileCenter['fileData'].trim();
 			console.log(fileCenter);
 			
-			this.addBlock(1, 'Guardando archivo...');
+			
 			this.fileCenterService.uploadFile(fileCenter).subscribe(
 				data => {
 					console.log(data);
 					this.soporte = data;
 				  },
 				  error => {
-					  this.addBlock(2, null);
+					  
 				  }).add(() => {
-					this.addBlock(2, null);
+					
 			});//*/
 		}
 		fileReader.readAsDataURL(file);
@@ -280,15 +280,15 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 		const mydate = this.formQuery.get('date').value;
 		const mymonth  = mydate.month() + 1;
 		const myyear =  +mydate.year();
-		this.addBlock(1,null);
+		
 		this.indicesService.salaryFinalize(myyear,mymonth).subscribe(data=>{
 			this.salarySetData(data);
 			this.toastr.successToastr('Finalizado');
 		},error=>{
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			this.addBlock(2,null);
+			
 		},()=>{
-			this.addBlock(2,null);
+			
 		});
 	}
 	
@@ -313,7 +313,7 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 		const date:Moment = this.formQuery.get('date').value;
 		const to = date.format("YYYY-M")+"-01";
 		const from = moment(to).subtract(2, 'years').format("YYYY-M")+"-01";
-		this.addBlock(1,null);
+		
 		this.indicesService.salaryFindByDateOpBetween(from,to).subscribe(data=>{
 			console.log(data);
 			
@@ -364,10 +364,10 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 			this.chartLine.addSeries(series['d'] );
 		
 		},error=>{
-			this.addBlock(2,null);
+			
 
 		},()=>{
-			this.addBlock(2,null);
+			
 
 		});
 	}
@@ -375,7 +375,7 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 		this.deactivateFormEdit();
 	}
 	onBtnSaveUpdate(){
-		this.addBlock(1,null);
+		
 		const mydate = this.formQuery.get('date').value;
 		const mymonth  = mydate.month() + 1;
 		const myyear =  +mydate.year();
@@ -392,9 +392,9 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 			this.salarySetData(data);
 		},error=>{
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			this.addBlock(2,null);
+			
 		},()=>{
-			this.addBlock(2,null);
+			
 		});
 	}
 	formQuerySubmit(v){
@@ -404,7 +404,7 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 		const myyear =  +mydate.year();
 		console.log("month:"+mymonth);
 		console.log("myyear:"+myyear);
-		this.addBlock(1,null);
+		
 		this.indicesService.salaryIncreaseFindByDateOp(myyear,mymonth).subscribe(data=>{
 			this.consulted = true;
 			this.activateFormEdit();
@@ -414,9 +414,9 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 			this.consulted = true;
 			this.activateFormEdit();
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			this.addBlock(2,null);
+			
 		},()=>{
-			this.addBlock(2,null);
+			
 		});
 	}
 	activateFormEdit(){
@@ -462,11 +462,6 @@ export class MiningIFISalaryincreaseComponent implements OnInit {
 	}
 	onBtndownloadFile(){
 		this.fileCenterService.download(this.soporte);
-	}
-
-	private addBlock(type, msg): void {
-		this.eventService.sendApp(new EventMessage(1,
-			new EventBlocked(type, msg)));
 	}
 	
 	ordenar(arr) {

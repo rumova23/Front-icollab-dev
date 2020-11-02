@@ -179,7 +179,7 @@ export class CompetentStaffComponent implements OnInit {
     }
 
     cargaTabla() {
-        this.addBlock(1, null);
+        
         this.elementData = [];
         this.generos = [];
         this.lugares = [];
@@ -244,7 +244,7 @@ export class CompetentStaffComponent implements OnInit {
                                 this.registros.sort = this.sort;
 
 
-                                this.addBlock(2, null);
+                                
                             } else {
                                 console.log(resul['mensaje']);
                             }
@@ -285,10 +285,6 @@ export class CompetentStaffComponent implements OnInit {
                 tipo: tipo
             },'Compliance.Personal Competente.11'
         ));
-    }
-
-    private addBlock(type, msg): void {
-        this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
     }
 
     getTimeLocale(dateString: string): Date {

@@ -60,7 +60,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
 
     this.temas = [];
     this.idTemas = [ 'DEFAULT' ];
-    this.addBlock(1, null);
+    
     this.preguntas.obtenPreguntasExamen('DEFAULT', this.inIdEmpleado).subscribe(
         reservacion => {
             console.dir(reservacion);
@@ -111,9 +111,9 @@ export class SkillsComponent implements OnInit, OnDestroy {
         },
         error => {
             this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-            this.addBlock(2, null);
+            
     }).add(() => {
-        this.addBlock(2, null);
+        
     });
   }
 
@@ -185,7 +185,4 @@ export class SkillsComponent implements OnInit, OnDestroy {
       );
   }
 
-  private addBlock(type, msg): void {
-      this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
-  }
 }

@@ -181,7 +181,7 @@ export class EfhAddEventComponent implements OnInit {
           this.dataSource.sort = this.sort;
         }
     ).add(() => {
-      this.addBlock(2, null);
+      
     });
   }
 
@@ -223,12 +223,9 @@ export class EfhAddEventComponent implements OnInit {
     this.eventService.sendChangePage(new EventMessage(5 , type, 'Efh.Agregar eventos.ABC'));
   }
 
-  private addBlock(type, msg): void {
-    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
-  }
 
   getCatalogs() {
-    this.addBlock(1, 'Cargando...');
+    
     this.catalogoMaestroService.getCatalogoIndividual('typeEvent')
         .subscribe(
             data => {
@@ -304,7 +301,7 @@ export class EfhAddEventComponent implements OnInit {
             },
             errorData => {
                 this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-                this.addBlock(2, null);
+                
             }
         );
   }

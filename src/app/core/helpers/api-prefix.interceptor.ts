@@ -26,7 +26,7 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        this.eventService.sendApp(new EventMessage(1, new EventBlocked(1, 'Cargando...')));
+        this.eventService.sendApp(new EventMessage(1, new EventBlocked(1, '')));
 
         const user = this.securityService.getCurrentUser();
 
@@ -50,7 +50,7 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
                 }
             }),
             finalize(() => {
-                this.eventService.sendApp(new EventMessage(2, ''));
+                this.eventService.sendApp(new EventMessage(1, new EventBlocked(2, null)));
             })
         );
     }

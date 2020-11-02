@@ -96,7 +96,7 @@ export class HistoryEvaluationComponent implements OnInit {
 
   getDataSource() {
     this.dataEmpleadoEvaluaciones = [];
-    this.addBlock(1, 'Cargando...');
+    
     this.personalService.getHistorialEvaluaciones(this.inIdEmpleado).subscribe(
         dataBack => {
           this.result = dataBack;
@@ -160,10 +160,10 @@ export class HistoryEvaluationComponent implements OnInit {
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-          this.addBlock(2, null);
+          
         }
     ).add(() => {
-      this.addBlock(2, null);
+      
     });
 
   }
@@ -176,9 +176,6 @@ export class HistoryEvaluationComponent implements OnInit {
     }, 'Compliance.evaluatePersonal.11'));
   }
 
-  private addBlock(type, msg): void {
-    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
-  }
 
   regresar() {
     this.eventService.sendChangePage(new EventMessage(11, {} , 'Compliance.evaluatePersonal'));

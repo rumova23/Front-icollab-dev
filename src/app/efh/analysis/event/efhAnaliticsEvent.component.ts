@@ -78,7 +78,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
   }
 
   getCatalogs() {
-    this.addBlock(1, 'Cargando...');
+    
     this.catalogoMaestroService.getCatalogoIndividual('unit')
         .subscribe(
             data1 => {
@@ -104,10 +104,10 @@ export class EfhAnaliticsEventComponent implements OnInit {
             },
             errorData => {
               this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-              this.addBlock(2, null);
+              
             }
         ).add(() => {
-      this.addBlock(2, null);
+      
     });
   }
 
@@ -115,7 +115,7 @@ export class EfhAnaliticsEventComponent implements OnInit {
     this.data = [];
     this.dataAnalysis = [];
     this.resetSummary();
-    this.addBlock(1, 'Cargando...');
+    
     this.efhService.getOperationDataByPeriod(period, idUnit).subscribe(
         dataBack => {
           this.result = dataBack;
@@ -188,10 +188,10 @@ export class EfhAnaliticsEventComponent implements OnInit {
           }
         }, errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-          this.addBlock(2, null);
+          
         }
     ).add(() => {
-      this.addBlock(2, null);
+      
       this.exportDisabled = false;
     });
   }
@@ -210,10 +210,6 @@ export class EfhAnaliticsEventComponent implements OnInit {
     month = month.padStart(2, '0');
     this.period = month + year;
     this.getDataSource(this.period, this.selectedUnit);
-  }
-
-  private addBlock(type, msg): void {
-    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 
   regresar() {

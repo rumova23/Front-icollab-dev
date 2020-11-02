@@ -89,14 +89,14 @@ export class SafeCatalogConfigurationComponentAbcComponent implements OnInit {
 	saveOpcion(value) {
 		if (this.genericOpcionForm.valid) {
 
-			this.addBlock(1, '');
+			
 			this.masterCatalogService.saveCompleteOpcion(value).subscribe(
 				data => {
 					this.toastr.successToastr('Guardado Completo', 'Exito!');
-					this.addBlock(2, '');
+					
 				},
 				errorData => {
-					this.addBlock(2, '');
+					
 					if (errorData.error.message.indexOf('Notificacion') != null) {
 						this.toastr.warningToastr(errorData.error.message, 'Error!');
 					} else {
@@ -104,7 +104,7 @@ export class SafeCatalogConfigurationComponentAbcComponent implements OnInit {
 					}
 				},
 				() => {
-					this.addBlock(2, '');
+					
 					this.btnClickBack();
 				});
 		} else {
@@ -116,18 +116,18 @@ export class SafeCatalogConfigurationComponentAbcComponent implements OnInit {
 		if (this.genericOpcionForm.valid && this.idOpcion != null) {
 			value.opcionId = this.idOpcion + "";
 			value.codigo = this.catalogType.element.codigo;
-			this.addBlock(1, '');
+			
 			this.masterCatalogService.updateOpcion(value).subscribe(
 				data => {
 					this.toastr.successToastr('Actualizacion Completa', 'Exito!');
-					this.addBlock(2, '');
+					
 				},
 				errorData => {
-					this.addBlock(2, '');
+					
 					this.toastr.errorToastr(errorData.error.message, 'Error!');
 				},
 				() => {
-					this.addBlock(2, '');
+					
 					this.btnClickBack();
 				}
 			);
@@ -141,8 +141,5 @@ export class SafeCatalogConfigurationComponentAbcComponent implements OnInit {
 		this.eventService.sendChangePage(
 			new EventMessage(null, {name:this.catalogType.element.maestro}, 'Safe.SafeCatalogConfigurationComponent')
 		);
-	}
-	addBlock(type, msg): void {
-		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
 	}
 }

@@ -141,7 +141,7 @@ export class ComplianceProfileComponent implements OnInit {
         });
 
         if (this.inTipo === 'ver' || this.inTipo === 'editar') {
-            this.addBlock(1, 'Cargando...');
+            
             this.cmbos.getEmpleado(this.inIdEmpleado).subscribe(
                 respuesta => {
                     const currentDate = new Date().toISOString().substring(0, 10);
@@ -194,17 +194,17 @@ export class ComplianceProfileComponent implements OnInit {
                         },
                         error => {
                             this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-                            this.addBlock(2, null);
+                            
                         }
                     );
 
                 },
                 error => {
                     this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-                    this.addBlock(2, null);
+                    
                 }
             ).add(() => {
-                this.addBlock(2, null);
+                
             });
         }
     }
@@ -297,7 +297,6 @@ export class ComplianceProfileComponent implements OnInit {
             this.byteArray,
             empresaPrefijo);
 
-        this.addBlock(1, 'Guardando...');
         this.cmbos.getSave(emp).subscribe(
             respuesta => {
                 this.toastr.successToastr('El empleado fue guardado con éxito.', '¡Se ha logrado!');
@@ -305,10 +304,10 @@ export class ComplianceProfileComponent implements OnInit {
             },
             error => {
                 this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
-                this.addBlock(2, null);
+                
             }
         ).add(() => {
-            this.addBlock(2, null);
+            
         });
     }
 
@@ -393,9 +392,7 @@ export class ComplianceProfileComponent implements OnInit {
         }
     }
 
-    private addBlock(type, msg): void {
-        this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
-    }
+
 
     verifyAge(dateBirth: Date, startJob: Date) {
         let age = startJob.getFullYear() - dateBirth.getFullYear();

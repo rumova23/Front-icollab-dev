@@ -81,7 +81,7 @@ export class BitsUploadComponentComponent implements OnInit, OnDestroy {
   }
 
   downloadFile(fileId: number, fileName: string) {
-      this.addBlock(1, 'Descargando archivo...');
+      
       this.efhService.downloadFile(this.inTypeConfig, fileId).subscribe(
           result => {
               let dataType = result.type;
@@ -94,9 +94,9 @@ export class BitsUploadComponentComponent implements OnInit, OnDestroy {
           },
           error => {
               const error1 = error;
-              this.addBlock(2, null);
+              
           }).add(() => {
-          this.addBlock(2, null);
+          
       });
   }
 
@@ -105,7 +105,7 @@ export class BitsUploadComponentComponent implements OnInit, OnDestroy {
           'Está seguro de eliminar el archivo?')
           .then((confirmed) => {
               if (confirmed) {
-                  this.addBlock(1, 'Eliminando archivo...');
+                  
                   this.efhService.deleteFile(this.inTypeConfig, fileId).subscribe(
                       result => {
                           this.toastr.successToastr('Documento eliminado con éxito.', '¡Se ha logrado!');
@@ -117,17 +117,13 @@ export class BitsUploadComponentComponent implements OnInit, OnDestroy {
                               this.efhService.accion.next('upload');
                           } else {
                               this.toastr.errorToastr('Ocurrió un error al intentar eliminar el archivo', 'Lo siento,');
-                              this.addBlock(2, null);
+                              
                           }
                       }).add(() => {
-                      this.addBlock(2, null);
+                      
                   });
               }
           })
           .catch(() => console.log('Canceló eliminar'));
-  }
-
-  private addBlock(type, msg): void {
-      this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 }

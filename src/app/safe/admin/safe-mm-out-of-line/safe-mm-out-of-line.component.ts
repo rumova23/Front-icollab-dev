@@ -175,7 +175,7 @@ export class SafeMmOutOfLineComponent implements OnInit {
 				this.etapa001 = data.maestroOpcionId;
 				this.ppaMonitoringFormatService.getTags(this.etapa001).subscribe((dataInterno) => {
 					
-					this.addBlock(2, '');
+					
 					console.log("loadTags");
 					console.log(dataInterno);
 					console.log("./loadTags");
@@ -222,16 +222,16 @@ export class SafeMmOutOfLineComponent implements OnInit {
 			this.toastr.errorToastr('Eliga una fecha.', 'Faltan Datos¡');
 			return 0;
 		}
-		this.addBlock(1, '');
+		
 		this.ppaMonitoringFormatService.procesaModeloTiempo(
 			year, month
 		).subscribe(
 			data => {
-				this.addBlock(2, '');
+				
 				this.toastr.successToastr('Deteccion de Norma en proceso: ' + mydate.format('yyyy/MM'), '¡Procesando!');
 			},
 			errorData => {
-				this.addBlock(2, '');
+				
 				console.dir(errorData);
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
@@ -262,13 +262,12 @@ export class SafeMmOutOfLineComponent implements OnInit {
 			{ nameParameter: "year", valueParameter: year },
 			{ nameParameter: "mount", valueParameter: month }];
 		let indexYAxis = 0;
-		this.addBlock(1, 'Graficando');
+		
 		for (const tag of tags) {
 			this.ppaMonitoringFormatService.get(tag, data).subscribe((data) => {
 				//debugger
 				//{timeini: "00:00", timeEnd: "00:05", value: 6511.82, status: "00:05"}
 				count += 1;
-				if (count == tags.length) this.addBlock(2, '');
 				if (data == null) {
 					this.toastr.warningToastr(tag + ' no contiene datos en estas fechas', 'Lo siento,');
 					return false;
@@ -336,7 +335,6 @@ export class SafeMmOutOfLineComponent implements OnInit {
 				this.toastr.warningToastr(tag + ' no contiene datos en estas fechas', 'Lo siento,');
 				console.log("Error: " + tag + " solicitud Fallida");
 				count += 1;
-				if (count == tags.length) this.addBlock(2, '');
 			});
 		}
 	}
@@ -345,9 +343,6 @@ export class SafeMmOutOfLineComponent implements OnInit {
 	}
 	onChangeSelectVariables(e) {
 	}
-	addBlock(type, msg): void {
-		this.eventService.sendApp(new EventMessage(1,
-			new EventBlocked(type, msg)));
-	}
+	
 
 }

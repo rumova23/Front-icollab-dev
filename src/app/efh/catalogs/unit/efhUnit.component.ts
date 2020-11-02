@@ -90,7 +90,7 @@ export class EfhUnitComponent implements OnInit {
   }
 
   getDataSource() {
-    this.addBlock(1, 'Cargando...');
+    
     this.data = [];
     this.catalogoMaestroService.getCatalogoIndividual(EfhUnitComponent.mainCatalog).subscribe(
         dataBack => {
@@ -143,7 +143,7 @@ export class EfhUnitComponent implements OnInit {
           this.dataSource.sort = this.sort;
         }
     ).add(() => {
-      this.addBlock(2, null);
+      
     });
   }
 
@@ -201,8 +201,5 @@ export class EfhUnitComponent implements OnInit {
         .catch(() => console.log('Canceló eliminar el tipo de unidad'));
   }
 
-  private addBlock(type, msg): void {
-    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
-  }
 
 }

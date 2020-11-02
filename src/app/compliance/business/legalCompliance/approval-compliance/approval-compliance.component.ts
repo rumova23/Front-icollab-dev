@@ -7,13 +7,10 @@ import { ColumnLabel } from "src/app/core/models/ColumnLabel";
 import { EventService } from "src/app/core/services/event.service";
 import { EventMessage } from "src/app/core/models/EventMessage";
 import { ToastrManager } from "ng6-toastr-notifications";
-import { EventBlocked } from "src/app/core/models/EventBlocked";
-import { timer } from "rxjs";
 import { OrderCatalogDTO } from "src/app/compliance/models/OrderCatalogDTO";
 import { TagService } from "src/app/compliance/services/tag.service";
 import { MaestroOpcionDTO } from "src/app/compliance/models/maestro-opcion-dto";
 import { Moment } from 'moment';
-import { DatePipe } from '@angular/common';
 import { AdministratorComplianceService } from 'src/app/compliance/administration/services/administrator-compliance.service';
 import { MatrizCumplimientoDTO } from '../../../models/matriz-cumplimiento-dto';
 import { TagOutDTO } from 'src/app/compliance/models/tag-out-dto';
@@ -23,12 +20,8 @@ import * as Util from 'src/app/core/helpers/util.general';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { GenerigResponseDTO } from 'src/app/compliance/models/GenerigResponseDTO';
 import { IncidentService } from 'src/app/bits/services/incident.service';
-import { IncidentObservationOutDTO } from 'src/app/bits/models/IncidentObservationOutDTO';
-import { ResponseVO } from 'src/app/bits/models/ResponseVO';
-import { map } from 'rxjs/operators';
 import {BinnacleEventDTO} from '../../../../safe/models/binnacle-event-dto';
 import {BinnacleService} from '../../../../safe/services/binnacle.service';
-//import { ApprovalCompliace } from './approval-compliance';
 
 @Component({
 	selector: "app-approval-compliance",
@@ -114,7 +107,8 @@ export class ApprovalComplianceComponent implements OnInit {
  		this.approveMatrix = false;
 		this.rejectMatrix = false;
 		this.generateTasks = false;
-
+//this.showObservation = true;
+//this.showTrack = true;
 
 		this.nombreCatalogo = "Aprobación de Cumplimiento/Generación de Tareas";
 		this.matrixDisplay = [
@@ -225,7 +219,7 @@ export class ApprovalComplianceComponent implements OnInit {
 			autoridad: [null],
 			tipo_aplicacion: [null],
 			grupo: [null],
-			estatus: ['1'],
+			estatus: [1],
 			userUpdated: [null],
 			minDate__dateUpdated: [''],
 			maxDate__dateUpdated: [''],
@@ -391,7 +385,8 @@ export class ApprovalComplianceComponent implements OnInit {
 
 	limpiarFiltros() {
 		this.formFiltersTable.reset();
-		this.obtenerListaParam();
+		let year = moment ( this.filtrosForm.controls.fAnio.value ).year( );
+		this.obtenerListaPorAnio(year);
 		let binn : any;
 		binn = {
 			events:"AGC"
@@ -428,10 +423,10 @@ export class ApprovalComplianceComponent implements OnInit {
 			.set ( "authorityCode", this.formFiltersTable.controls['autoridad'].value == null ? "" : this.formFiltersTable.controls['autoridad'].value)
 			.set ( "applicationTypeCode", this.formFiltersTable.controls['tipo_aplicacion'].value == null ? "" : this.formFiltersTable.controls['tipo_aplicacion'].value)
 			.set ( "groupCode", this.formFiltersTable.controls['grupo'].value == null ? "" : this.formFiltersTable.controls['grupo'].value)
-			.set ( "active", this.formFiltersTable.controls['estatus'].value )
+			.set ( "active", "" )
 			.set ( "userUpdated", this.formFiltersTable.controls['userUpdated'].value == null ? "" : this.formFiltersTable.controls['userUpdated'].value)
-			.set ( "minDateUpdated", this.formFiltersTable.controls['minDate__dateUpdated'].value )
-			.set ( "maxDateUpdated", this.formFiltersTable.controls['maxDate__dateUpdated'].value )
+			.set ( "minDateUpdated", "" )
+			.set ( "maxDateUpdated", "" )
 	}
 
 	keyUpTag ($event) : void {
@@ -477,16 +472,12 @@ export class ApprovalComplianceComponent implements OnInit {
 		this.binnacleService.changeStatus(binnacle)
 		    .subscribe(data  => {
 			    this.toastr.successToastr('Cambio de Estatus Correcto: ' + "Evento Rechazado", 'Exito!.');
+				this.showObservation = false;
 				this.showTrack = true;
 		    }, error => {
 			    this.toastr.errorToastr("Error al guardar la bitácora", 'Error!');
 		    }, () => {
 				this.showObservation = false;
-
-			    //const type = {};
-			    //this.eventService.sendChangePage(
-			    //new EventMessage(null, type, 'Compliance.SafeListOfEventsComponent')
-			    //);
 		});
 	}
 

@@ -413,14 +413,14 @@ export class MiningIFIFinancialComponent implements OnInit {
 		const myyear =  +mydate.year();
 		console.log("month:"+mymonth);
 		console.log("myyear:"+myyear);
-		this.addBlock(1,null);
+		
 		this.indicesService.usppiQueryExternalData(myyear,mymonth).subscribe(data=>{
 			this.usppiSetData(data);
 		},error=>{
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			this.addBlock(2,null);
+			
 		},()=>{
-			this.addBlock(2,null);
+			
 		});
 	}
 	getUsppi(){
@@ -429,7 +429,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 		const myyear =  +mydate.year();
 		console.log("month:"+mymonth);
 		console.log("myyear:"+myyear);
-		this.addBlock(1,null);
+		
 		this.indicesService.usppiFindByDateOp(myyear,mymonth).subscribe(data=>{
 			this.isFinalizedData = data.finalized;
 			console.log(data);
@@ -437,9 +437,9 @@ export class MiningIFIFinancialComponent implements OnInit {
 		},error=>{
 			this.tableIndexFinancialData = [];
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			this.addBlock(2,null);
+			
 		},()=>{
-			this.addBlock(2,null);
+			
 		});
 	}
 	getInpp(){
@@ -448,7 +448,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 		const myyear =  +mydate.year();
 		console.log("month:"+mymonth);
 		console.log("myyear:"+myyear);
-		this.addBlock(1,null);
+		
 		this.indicesService.inppFindByDateOp(myyear,mymonth).subscribe(data=>{
 			this.isEdit = true;
 			this.isFinalizedData = data.finalized;
@@ -458,9 +458,9 @@ export class MiningIFIFinancialComponent implements OnInit {
 			this.isEdit = true;
 			this.tableIndexFinancialData = [];
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			this.addBlock(2,null);
+			
 		},()=>{
-			this.addBlock(2,null);
+			
 		});
 	}
 	getTc(){
@@ -469,7 +469,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 		const myyear =  +mydate.year();
 		console.log("month:"+mymonth);
 		console.log("myyear:"+myyear);
-		this.addBlock(1,null);
+		
 		this.indicesService.tcFindByDateOp(myyear,mymonth).subscribe(data=>{
 			this.isEdit = true;
 			this.isFinalizedData = data.finalized;
@@ -479,9 +479,9 @@ export class MiningIFIFinancialComponent implements OnInit {
 			this.isEdit = true;
 			this.tableIndexFinancialData = [];
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			this.addBlock(2,null);
+			
 		},()=>{
-			this.addBlock(2,null);
+			
 		});
 	}
 	usppiSetData(data){
@@ -527,7 +527,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 		const date:Moment = this.formQuery.get('date').value;
 		const to = date.format("YYYY-M")+"-01";
 		const from = moment(to).subtract(2, 'years').format("YYYY-M")+"-01";
-		this.addBlock(1,null);
+		
 		this.indicesService.usppiFindByDateOpBetween(from,to).subscribe(data=>{
 			console.log(data);
 			
@@ -607,10 +607,10 @@ export class MiningIFIFinancialComponent implements OnInit {
 			}
 		
 		},error=>{
-			this.addBlock(2,null);
+			
 
 		},()=>{
-			this.addBlock(2,null);
+			
 
 		});
 	}
@@ -618,7 +618,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 		const date:Moment = this.formQuery.get('date').value;
 		const to = date.format("YYYY-M")+"-01";
 		const from = moment(to).subtract(2, 'years').format("YYYY-M")+"-01";
-		this.addBlock(1,null);
+		
 		this.indicesService.inppFindByDateOpBetween(from,to).subscribe(data=>{
 			console.log(data);
 			
@@ -698,10 +698,10 @@ export class MiningIFIFinancialComponent implements OnInit {
 			}
 		
 		},error=>{
-			this.addBlock(2,null);
+			
 
 		},()=>{
-			this.addBlock(2,null);
+			
 
 		});
 	}
@@ -710,7 +710,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 		const date:Moment = this.formQuery.get('date').value;
 		const to = date.format("YYYY-M")+"-01";
 		const from = moment(to).subtract(2, 'years').format("YYYY-M")+"-01";
-		this.addBlock(1,null);
+		
 		this.indicesService.tcFindByDateOpBetween(from,to).subscribe(data=>{
 			console.log(data);
 			
@@ -790,10 +790,10 @@ export class MiningIFIFinancialComponent implements OnInit {
 			}
 		
 		},error=>{
-			this.addBlock(2,null);
+			
 
 		},()=>{
-			this.addBlock(2,null);
+			
 
 		});
 	}
@@ -803,16 +803,16 @@ export class MiningIFIFinancialComponent implements OnInit {
 		const myyear =  +mydate.year();
 		console.log("month:"+mymonth);
 		console.log("myyear:"+myyear);
-		this.addBlock(1,null);
+		
 		this.indicesService.usppiFinalize(myyear,mymonth).subscribe(data=>{
 			this.usppiSetData(data);
 			this.toastr.successToastr('Finalizado');
 		},error=>{
 			this.tableIndexFinancialData = [];
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			this.addBlock(2,null);
+			
 		},()=>{
-			this.addBlock(2,null);
+			
 		});
 	}
 	
@@ -822,16 +822,16 @@ export class MiningIFIFinancialComponent implements OnInit {
 		const myyear =  +mydate.year();
 		console.log("month:"+mymonth);
 		console.log("myyear:"+myyear);
-		this.addBlock(1,null);
+		
 		this.indicesService.inppFinalize(myyear,mymonth).subscribe(data=>{
 			this.inppSetData(data);
 			this.toastr.successToastr('Finalizado');
 		},error=>{
 			this.tableIndexFinancialData = [];
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			this.addBlock(2,null);
+			
 		},()=>{
-			this.addBlock(2,null);
+			
 		});
 	}
 	
@@ -841,16 +841,16 @@ export class MiningIFIFinancialComponent implements OnInit {
 		const myyear =  +mydate.year();
 		console.log("month:"+mymonth);
 		console.log("myyear:"+myyear);
-		this.addBlock(1,null);
+		
 		this.indicesService.tcFinalize(myyear,mymonth).subscribe(data=>{
 			this.tcSetData(data);
 			this.toastr.successToastr('Finalizado');
 		},error=>{
 			this.tableIndexFinancialData = [];
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			this.addBlock(2,null);
+			
 		},()=>{
-			this.addBlock(2,null);
+			
 		});
 	}
 	
@@ -875,7 +875,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 			this.originData.periodNameProvisional = this.datePipe.transform(new Date(v.dateProv) , 'MMMM');
 			this.originData.yearProvisional = this.datePipe.transform(new Date(v.dateProv) , 'yyyy');
 		}
-		this.addBlock(1,null);
+		
 		this.indicesService.usppiEdit(this.originData).subscribe(data=>{
 			this.reset();
 			this.usppiSetData(data);
@@ -883,9 +883,9 @@ export class MiningIFIFinancialComponent implements OnInit {
 		},error=>{
 			this.tableIndexFinancialData = [];
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			this.addBlock(2,null);
+			
 		},()=>{
-			this.addBlock(2,null);
+			
 		});
 	}
 	inppCrear(){
@@ -916,7 +916,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 		this.originData['dateOp'] = new Date(this.datePipe.transform(new Date(this.formQuery.get('date').value) , 'yyyy/MM')+'/01');
 
 		
-		this.addBlock(1,null);
+		
 		this.indicesService.inppNew(myyear,mymonth, this.originData).subscribe(data=>{
 			this.reset();
 			this.inppSetData(data);
@@ -924,9 +924,9 @@ export class MiningIFIFinancialComponent implements OnInit {
 		},error=>{
 			this.tableIndexFinancialData = [];
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			this.addBlock(2,null);
+			
 		},()=>{
-			this.addBlock(2,null);
+			
 		});
 	}
 	inppEdit(){
@@ -953,7 +953,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 			this.originData.periodNameProvisional = this.datePipe.transform(new Date(v.dateProv) , 'MMMM');
 			this.originData.yearProvisional = this.datePipe.transform(new Date(v.dateProv) , 'yyyy');
 		}
-		this.addBlock(1,null);
+		
 		this.indicesService.inppEdit(this.originData).subscribe(data=>{
 			this.reset();
 			this.inppSetData(data);
@@ -961,9 +961,9 @@ export class MiningIFIFinancialComponent implements OnInit {
 		},error=>{
 			this.tableIndexFinancialData = [];
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			this.addBlock(2,null);
+			
 		},()=>{
-			this.addBlock(2,null);
+			
 		});
 	}
 	
@@ -995,7 +995,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 		this.originData['dateOp'] = new Date(this.datePipe.transform(new Date(this.formQuery.get('date').value) , 'yyyy/MM')+'/01');
 
 		debugger
-		this.addBlock(1,null);
+		
 		this.indicesService.tcNew(myyear,mymonth, this.originData).subscribe(data=>{
 			this.reset();
 			this.tcSetData(data);
@@ -1003,9 +1003,9 @@ export class MiningIFIFinancialComponent implements OnInit {
 		},error=>{
 			this.tableIndexFinancialData = [];
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			this.addBlock(2,null);
+			
 		},()=>{
-			this.addBlock(2,null);
+			
 		});
 	}
 	tcEdit(){
@@ -1033,7 +1033,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 			this.originData.periodNameProvisional = this.datePipe.transform(new Date(v.dateProv) , 'MMMM');
 			this.originData.yearProvisional = this.datePipe.transform(new Date(v.dateProv) , 'yyyy');
 		}
-		this.addBlock(1,null);
+		
 		this.indicesService.tcEdit(this.originData).subscribe(data=>{
 			this.reset();
 			this.tcSetData(data);
@@ -1041,9 +1041,9 @@ export class MiningIFIFinancialComponent implements OnInit {
 		},error=>{
 			this.tableIndexFinancialData = [];
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			this.addBlock(2,null);
+			
 		},()=>{
-			this.addBlock(2,null);
+			
 		});
 	}
 	usppiUploadFile(){
@@ -1067,16 +1067,16 @@ export class MiningIFIFinancialComponent implements OnInit {
 			fileCenter['fileData'] = fileCenter['fileData'].trim();
 			console.log(fileCenter);
 			
-			this.addBlock(1, 'Guardando archivo...');
+			
 			this.fileCenterService.uploadFile(fileCenter).subscribe(
 				data => {
 					console.log(data);
 					this.soporte = data;
 				  },
 				  error => {
-					  this.addBlock(2, null);
+					  
 				  }).add(() => {
-					this.addBlock(2, null);
+					
 			});//*/
 		}
 		fileReader.readAsDataURL(file);
@@ -1112,11 +1112,7 @@ export class MiningIFIFinancialComponent implements OnInit {
 				break;
 		}
 	}
-	private addBlock(type, msg): void {
-		this.eventService.sendApp(new EventMessage(1,
-			new EventBlocked(type, msg)));
-	}
-	
+
 	ordenar(arr) {
 		const l = arr.length;
 		let j, temp;

@@ -229,7 +229,7 @@ export class ComplianceTypesEditComponent implements OnInit {
         }
       }
     ).add(() => {
-      //this.addBlock(2, null);
+      //
     });
 
   }

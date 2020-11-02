@@ -165,7 +165,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 				this.isSupervisor = true;
 			}
 		});
-		this.addBlock(1, 'Cargando...');
+		
 
 		this.formFiltersTable = this.formBuilder.group({
 			tag: [null],
@@ -198,7 +198,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 	sortData(sort: Sort) { }
 
 	obtenerListaTags() {
-		this.addBlock(1, 'Cargando...');
+		
 
 		this.data = [];
 		const params : HttpParams = this.assamblerRequest ();
@@ -206,7 +206,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 
 			this.setTableData(data.matriz);
 
-			this.addBlock(2, null);
+			
 
   			if (this.showView) {
 				if (!this.tableColumnsDisplay.includes('sys_see')) this.tableColumnsDisplay.push('sys_see');
@@ -219,7 +219,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 			}
 		},
 			error => {
-				this.addBlock(2, null);
+				
 				this.toastr.errorToastr('Error al cargar lista de tags.', 'Lo siento,');
 
 			}
@@ -240,7 +240,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 	eliminarTagConfirm(tag: any) {
 		this.tagService.eliminarTag(tag.idTag).subscribe(
 			respuesta => {
-				// this.addBlock(2, null);
+				// 
 				let res: any;
 				res = respuesta;
 				if (res.clave === 0) {
@@ -251,7 +251,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 				}
 			},
 			error => {
-				// this.addBlock(2, null);
+				// 
 				this.toastr.errorToastr('Error al eliminar el tag.', 'Lo siento,');
 			}
 		);
@@ -283,10 +283,6 @@ export class ComplianceConfigurationComponent implements OnInit {
 		this.eventService.sendChangePage(new EventMessage(9, type, 'Compliance.Características.ABC'));
 	}
 
-	// Loadin
-	private addBlock(type, msg): void {
-		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
-	}
 
 	initAutoComplete() {
 
@@ -326,7 +322,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 				});
 			}
 		).add(() => {
-			this.addBlock(2, null);
+			
 		});
 	}
 
@@ -449,7 +445,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 				this.filteredAutoTag = data;
 			},
 			error => {
-//				this.addBlock(2, null);
+//				
 				this.toastr.errorToastr('Error al cargar lista de tags.', 'Lo siento,');
 			});
 
@@ -465,7 +461,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 				this.filteredAutoName = data;
 			},
 			error => {
-//				this.addBlock(2, null);
+//				
 				this.toastr.errorToastr('Error al cargar lista de nombres de cumplimiento.', 'Lo siento,');
 			});
 
@@ -481,7 +477,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 				this.filteredUserUpdated = data;
 			},
 			error => {
-//				this.addBlock(2, null);
+//				
 				this.toastr.errorToastr('Error al cargar lista de usuarios.', 'Lo siento,');
 			});
 

@@ -81,21 +81,16 @@ export class SharedHeaderComponent implements OnInit {
 		let plants = this.securityService.loadPlants();
 		for(let i = 0; i < plants.length;i++){
 			if(plants[i].name == plant){
-				this.addBlock(1,"");
 
 				this.globalService.setPlant(plants[i]);
 				
 				this.mytimeout().subscribe(() => {
-					this.addBlock(2, "");
+					
 				});
 				break;
 			}
 		}
 		this.eventService.sendChangePage(this.globalService.page);
-	}
-	
-	addBlock(type, msg): void {
-		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
 	}
 	mytimeout(): any {
 		return new Observable(observer => {

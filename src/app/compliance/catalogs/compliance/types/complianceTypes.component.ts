@@ -80,7 +80,7 @@ export class ComplianceTypesComponent implements OnInit {
                 while (flag) {
                     flag = false;
                     for (let ins = 0; ins < option.children.length; ins++) {
-                        //if (option.children[ins]['label']=='Autoridades'){
+
                         if (
                             option.children[ins]['label'] == this.nombreCatalogo
                         ) {
@@ -163,19 +163,6 @@ export class ComplianceTypesComponent implements OnInit {
 		);
 	}
     private loadUsers() {
-        this.addBlock(1, 'Cargando...');
-        /*
-    this.securityService.loadUsers()
-      .subscribe(
-        data => {
-          this.listUsers = data.resultado;
-          this.cargaDatos();
-        },
-        errorData => {
-          this.toastr.errorToastr(Constants.ERROR_LOAD, 'Usuarios');
-          this.addBlock(2,null)
-        });
-    */
     }
 
     getDataSource() {
@@ -275,7 +262,7 @@ export class ComplianceTypesComponent implements OnInit {
                 this.dataSource.sort = this.sort;
             })
             .add(() => {
-                this.addBlock(2, null);
+                
 			})
 		);
     }
@@ -339,7 +326,7 @@ export class ComplianceTypesComponent implements OnInit {
     }
 
     cargaDatos() {
-        this.addBlock(1, 'Cargando...');
+        
         this.data = [];
         this.catalogoMaestroService.getCatalogo(this.nombreCatalogo).subscribe(
             data => {
@@ -404,10 +391,10 @@ export class ComplianceTypesComponent implements OnInit {
                 this.dataSource = new MatTableDataSource<any>(this.data);
                 this.dataSource.paginator = this.paginator;
                 this.dataSource.sort = this.sort;
-                this.addBlock(2, null);
+                
             },
             error => {
-                this.addBlock(2, null);
+                
                 this.toastr.errorToastr(
                     'Error al cargar catalogo.',
                     'Lo siento,'
@@ -416,10 +403,4 @@ export class ComplianceTypesComponent implements OnInit {
         );
     }
 
-    //Loading
-    private addBlock(type, msg): void {
-        this.eventService.sendApp(
-            new EventMessage(1, new EventBlocked(type, msg))
-        );
-    }
 }

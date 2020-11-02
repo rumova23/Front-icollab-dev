@@ -137,7 +137,7 @@ export class EfhFuelTypeEditComponent implements OnInit {
           if (this.registroExistente && this.accion === 'nuevo') {
             this.toastr.errorToastr('El nombre ya existe, favor de modificar', 'Lo siento,');
             this.registroExistente = false;
-            this.addBlock(2, null);
+            
             return;
           }
 
@@ -183,15 +183,15 @@ export class EfhFuelTypeEditComponent implements OnInit {
                 },
                 error1 => {
                   this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-                  this.addBlock(2, null);
+                  
                 }).add(() => {
-                  this.addBlock(2, null);
+                  
                 });
           }
         },
         error => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-          this.addBlock(2, null);
+          
         }
     );
   }
@@ -210,10 +210,10 @@ export class EfhFuelTypeEditComponent implements OnInit {
   }
 
   onSubmit() {
-    this.addBlock(1, 'Cargando...');
+    
     this.submitted = true;
     if (this.fuelTypeForm.invalid) {
-      this.addBlock(2, null);
+      
       this.toastr.errorToastr('Todos los campos son obligatorios verifique', 'Lo siento,');
       return;
     }
@@ -235,10 +235,6 @@ export class EfhFuelTypeEditComponent implements OnInit {
     if (this.accion === 'editar') {
       this.disabledSave = false;
     }
-  }
-
-  private addBlock(type, msg): void {
-    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 
   regresar() {

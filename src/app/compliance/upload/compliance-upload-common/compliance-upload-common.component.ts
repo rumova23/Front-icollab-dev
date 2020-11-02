@@ -54,7 +54,7 @@ export class ComplianceUploadCommonComponent implements OnInit {
   upload() {
     let fileReader = new FileReader();
     this.currentFile = this.selectedFiles.item(0);
-    this.addBlock(1, 'Guardando archivo...');
+    
 
     fileReader.onloadend = (e) => {
       this.dataFileSubmit['eventConfigId'] = this.inEmployeeId;
@@ -72,15 +72,11 @@ export class ComplianceUploadCommonComponent implements OnInit {
             this.personalCompetenteService.accion.next('upload');
           },
           error => {
-              this.addBlock(2, null);
+              
           }).add(() => {
-            this.addBlock(2, null);
+            
       });
     }
     fileReader.readAsDataURL(this.currentFile);
-  }
-
-  private addBlock(type, msg): void {
-    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 }

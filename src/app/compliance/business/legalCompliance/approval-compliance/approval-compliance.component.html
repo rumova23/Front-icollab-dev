@@ -122,7 +122,7 @@
 	<div class="row justify-content-between mt-5">
 		<div class="col-12 col-lg-4">
 			<p class="section_titulo_0">
-				<span *ngIf="statusMatrix != null"> Estatus: {{statusMatrix}}</span>
+				<span *ngIf="statusMatrix != null">{{statusMatrix ? 'Estatus: ' + statusMatrix : '' }}</span>
 			</p>
 		</div>
 		<div class="col-12 col-lg-2">
@@ -135,38 +135,42 @@
 				[columnsLabels]="matrixLabels"
 				[columnsDisplay]="matrixDisplay"
 				[row_x_page]="tableRowXPage"
+				maxHeight="400px"
 				(clickSee)="onTableRowSee($event)">
 			</app-mat-table>
 		</div>
 	</div>
-
- 	<div *ngIf="showObservation" class="row my-4">
-		<form [formGroup]="formTrack">
-			<div class="row">
-				<div class="col">
-					<p class="section_titulo_0">{{ "Observaciones y/o comentarios" | translate }}</p>
-					<p class="section_subtitulo_0"></p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12">
-					<app-mat-input-textarea
-						[formGroup]="formTrack" 
-						controlName="observation" 
-						label="Observaciones" 
-						maxLength="1000"
-					></app-mat-input-textarea>
-				</div>
-			</div>
-			
-			<div class="row justify-content-end">
-				<div class="col-12 col-lg-2">
-					<app-btn-block-add (myClick)="saveObservation()" [disabled]="!formObs.valid || isReadOnly"></app-btn-block-add>
-				</div>
-			</div>
-		</form>
+</div>
+<div *ngIf="showObservation" class="section">
+	<div class="row">
+		<div class="col">
+			<p class="section_titulo_0">{{ "Observaciones y/o comentarios" | translate }}</p>
+			<p class="section_subtitulo_0"></p>
+		</div>
 	</div>
- 	<div *ngIf="showTrack" class="row my-4">
+	<hr>
+	<form [formGroup]="filtrosForm">
+		<div class="row">
+			<div class="form-group col-12">
+				<app-mat-input-textarea
+					[formGroup]="formTrack" 
+					controlName="observation" 
+					label="Observaciones" 
+					maxLength="1000"
+				></app-mat-input-textarea>
+			</div>
+		</div>
+		<div class="row justify-content-end">
+			<div class="col-12 col-lg-2">
+				<app-btn-block-add
+					(myClick)="saveObservation()"
+					[disabled]="!formTrack.valid"></app-btn-block-add>
+			</div>
+		</div>
+	</form>
+</div>
+<div *ngIf="showTrack" class="section">
+	<div class="row">
 		<div class="col">
 			<app-mat-table
 				[data]="tracks"

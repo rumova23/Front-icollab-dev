@@ -90,7 +90,7 @@ export class EfhFuelTypeComponent implements OnInit {
   }
 
   getDataSource() {
-    this.addBlock(1, 'Cargando...');
+    
     this.data = [];
     this.catalogoMaestroService.getCatalogoIndividual(EfhFuelTypeComponent.mainCatalog).subscribe(
         dataBack => {
@@ -143,7 +143,7 @@ export class EfhFuelTypeComponent implements OnInit {
           this.dataSource.sort = this.sort;
         }
     ).add(() => {
-      this.addBlock(2, null);
+      
     });
   }
 
@@ -199,10 +199,6 @@ export class EfhFuelTypeComponent implements OnInit {
           }
         })
         .catch(() => console.log('Canceló eliminar tipo de combustible'));
-  }
-
-  private addBlock(type, msg): void {
-    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 
 }

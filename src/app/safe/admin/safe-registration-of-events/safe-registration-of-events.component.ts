@@ -590,7 +590,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 				if(this.files==null)this.files=[];	
 			},
 			errorData => {
-				this.addBlock(2, '');
+				
 				this.toastr.errorToastr(errorData.error.message, 'Error!');
 			},
 			() => {
@@ -656,7 +656,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 		return returnValue;
 	}
 	loadCatalog() {
-		this.addBlock(1, '');
+		
 		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL-CCDV', 'BANDA TOLERANCIA',
 		'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'FUENTE EVENTO'];
 		this.masterCatalogService.listCatalog(names).subscribe(data  => {
@@ -674,11 +674,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			this.loadSelect(this.lstSourceEventAll, data['FUENTE EVENTO']);
 		},
 		errorData => {
-			this.addBlock(2, '');
+			
 			this.toastr.errorToastr(errorData.error.message, 'Error!');
 		},
 		() => {
-			this.addBlock(2, '')
 			if (this.catalogType.action === 'editar') {
 				if (this.catalogType.element.estatusEvento === 'Evento Cerrado' || this.catalogType.element.estatusEvento === 'Evento Terminado') {
 					this.addBlock(1, '');
@@ -846,7 +845,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 	}
 	onSubmit() {
 		this.formNewEvent.enable();
-		this.addBlock(1, '');
+		
 		const binnacle: BinnacleEventDTO = this.formNewEvent.value;
 		console.dir(binnacle);
 
@@ -876,10 +875,10 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 			data => {
 				this.toastr.successToastr('Guardado Completo', 'Exito!');
 				this.formNewEvent.disable();
-				this.addBlock(2, '');
+				
 			},
 			errorData => {
-				this.addBlock(2, '');
+				
 				this.toastr.errorToastr(errorData.error.message, 'Error!');
 			}, () => {
 				const type = {};
@@ -1348,7 +1347,7 @@ export class SafeRegistrationOfEventsComponent implements OnInit {
 							console.log('echo');
 						},
 						errorData => {
-							this.addBlock(2, '');
+							
 							this.toastr.errorToastr(errorData.error.message, 'Error!');
 						},
 						() => {

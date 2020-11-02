@@ -94,17 +94,17 @@ export class SafeCatalogRegistrationAbcComponent implements OnInit {
 	}
 	save(value: MaestroDTO) {
 		console.dir(value);
-		this.addBlock(1, '');
+		
 		this.masterCatalogService.saveMaster(value).subscribe(
 			data => {
 				this.toastr.successToastr('Guradado Completo', 'Exito!');
 			},
 			errorData => {
-			  this.addBlock(2, '');
+			  
 			  this.toastr.errorToastr(errorData.error.message, 'Error!');
 			},
 			() => {
-				this.addBlock(2, '');
+				
 				this.eventService.sendChangePage(
 					new EventMessage(null, {}, 'Safe.SafeCatalogRegistrationComponent')
 				);
@@ -112,17 +112,17 @@ export class SafeCatalogRegistrationAbcComponent implements OnInit {
 		);
 	}
 	update(value: MaestroDTO){
-		this.addBlock(1, '');
+		
 		this.masterCatalogService.updateMaestro(value).subscribe(
 			data => {
 				this.toastr.successToastr('Actualizacion Completa', 'Exito!');
 			},
 			errorData => {
-			  this.addBlock(2, '');
+			  
 			  this.toastr.errorToastr(errorData.error.message, 'Error!');
 			},
 			() => {
-				this.addBlock(2, '');
+				
 				this.eventService.sendChangePage(
 					new EventMessage(null, {}, 'Safe.SafeCatalogRegistrationComponent')
 				);
@@ -130,9 +130,6 @@ export class SafeCatalogRegistrationAbcComponent implements OnInit {
 		);
 	}
 
-	addBlock(type, msg): void {
-		this.eventService.sendApp(new EventMessage(1,
-			new EventBlocked(type, msg)));
-	}
+	
 	
 }

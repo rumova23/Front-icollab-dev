@@ -88,18 +88,17 @@ export class SafeImportEventLogComponent implements OnInit {
 			this.toastr.errorToastr('Eliga una fecha.', 'Lo siento,');
 			return 0;
 		}
-		this.addBlock(1, 'Bajando Zip ' + year + '/' + month + ': Generando');
 		this.binnacleService.downloadZipCenace(year, month)
 			.subscribe(
 				data => {
 					const blob = new Blob([this.base64toBlob(data.base64,
 						'application/zip')], {});
 					saveAs(blob, data.nameFile);
-					this.addBlock(2, '');
+					
 					this.toastr.successToastr('Download File: Correctamente ' + year + '/' + month + ': Generado Correctamente', '¡Exito!');
 				},
 				errorData => {
-					this.addBlock(2, '');
+					
 					this.toastr.errorToastr(errorData.error.message, '¡Error!');
 				});
 	}
@@ -134,10 +133,7 @@ export class SafeImportEventLogComponent implements OnInit {
 		}
 		reader.readAsDataURL(value.file);
 	}
-	addBlock(type, msg): void {
-		this.eventService.sendApp(new EventMessage(1,
-			new EventBlocked(type, msg)));
-	}
+	
 
 	base64toBlob(base64Data, contentType) {
 		contentType = contentType || '';

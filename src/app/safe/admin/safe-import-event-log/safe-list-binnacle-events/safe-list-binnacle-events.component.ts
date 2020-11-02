@@ -37,36 +37,34 @@ export class SafeListBinnacleEventsComponent implements OnInit {
   download() {
     const year = new Date(this.date.value).getFullYear();
     const month =  new Date(this.date.value).getMonth() + 1;
-    this.addBlock(1, 'Bajando CSV ' + year + '/' + month + ': Generando');
     this.binnacleService.downloadExcel(year, month)
         .subscribe(
             data => {
               const blob = new Blob([this.base64toBlob(data.base64,
                   'application/CSV')], {});
               saveAs(blob, data.nameFile);
-              this.addBlock(2, '');
+              
               this.toastr.successToastr('Download File: Correctamente ' + year + '/' + month + ': Generado Correctamente', '¡Exito!');
             },
             errorData => {
-              this.addBlock(2, '');
+              
               this.toastr.errorToastr(errorData.error.message, '¡Error!');
             });
   }
   downloadSearchBinacleEvent() {
     const year = new Date(this.date.value).getFullYear();
     const month =  new Date(this.date.value).getMonth() + 1;
-    this.addBlock(1, 'Bajando CSV ' + year + '/' + month + ': Generando');
     this.binnacleService.downloadBinnacleReal(year, month)
         .subscribe(
             data => {
               const blob = new Blob([this.base64toBlob(data.base64,
                   'application/CSV')], {});
               saveAs(blob, data.nameFile);
-              this.addBlock(2, '');
+              
               this.toastr.successToastr('Download File: Correctamente ' + year + '/' + month + ': Generado Correctamente', '¡Exito!');
             },
             errorData => {
-              this.addBlock(2, '');
+              
               this.toastr.errorToastr(errorData.error.message, '¡Error!');
             });
   }
@@ -88,9 +86,5 @@ export class SafeListBinnacleEventsComponent implements OnInit {
       byteArrays[sliceIndex] = new Uint8Array(bytes);
     }
     return new Blob(byteArrays, { type: contentType });
-  }
-  addBlock(type, msg): void {
-    this.eventService.sendApp(new EventMessage(1,
-        new EventBlocked(type, msg)));
   }
 }

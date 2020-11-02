@@ -193,7 +193,7 @@ export class ConfigActivitiesComponent implements OnInit {
 
 	ngOnInit() {
 
-		this.addBlock(1, 'Cargando...');
+		
 		this.accion = this.catalogType.action;
 		this.existeTagId = false;
 		this.tablaAgregarPrecedentes = false;
@@ -228,9 +228,9 @@ export class ConfigActivitiesComponent implements OnInit {
 				this.resuelveDS(poRespuesta, this.comboGrupo, 'group');
 			}
 		).add(() => {
-			this.addBlock(2, null);
+			
 		});
-		this.addBlock(1, 'Cargando...');
+		
 		let statusConsultActivity = 'ACTIVOS';
 		if (this.accion === 'edit' || this.accion === 'ver') {
 			statusConsultActivity = 'TODOS';
@@ -247,15 +247,15 @@ export class ConfigActivitiesComponent implements OnInit {
 					combo = new Combo(element.idActivity, element.name);
 					this.comboActividades.push(combo);
 				});
-				this.addBlock(2, null);
+				
 			},
 			error => {
 				console.log('Error al obtener catalgo de actividades.');
-				this.addBlock(2, null);
+				
 				this.toastr.errorToastr('Error al cargar catálogo de actividades.', 'Lo siento,');
 			}
 		).add(() => {
-			this.addBlock(2, null);
+			
 		});
 
 		this.initComboUnitPeriod();
@@ -294,13 +294,13 @@ export class ConfigActivitiesComponent implements OnInit {
 		}
 
 		this.activitiesColDisplay = [
-			'tagId',
+//			'tagId',
 			'tag',
 			'descripcion',
 			'sys_checkbox',
 		];
 		this.activityesColLabel = [
-			{ key: 'tagId', label: 'TAG ID' },
+//			{ key: 'tagId', label: 'TAG ID' },
 			{ key: 'tag', label: 'ACTIVIDAD' },
 			{ key: 'descripcion', label: 'DESCRIPCION' },
 			{ key: 'visible', label: 'Visible' },
@@ -389,7 +389,7 @@ export class ConfigActivitiesComponent implements OnInit {
 
 	// Obtiene la información de un TAG
 	obtenerActividadurl() {
-		this.addBlock(1, 'Cargando...');
+		
 		this.tagId = this.catalogType.id;
 		this.tagService.getActividadPorTag(this.tagId).subscribe(
 			(tagActividad: Tag) => {
@@ -480,10 +480,10 @@ export class ConfigActivitiesComponent implements OnInit {
 					this.toastr.infoToastr('No se encontró información del Tag buscado.', 'Lo siento,');
 				}
 
-				this.addBlock(2, null);
+				
 			},
 			error => {
-				this.addBlock(2, null);
+				
 				this.toastr.errorToastr('Error al cargar detalles de la actividad.', 'Lo siento,');
 			}
 		)
@@ -518,7 +518,7 @@ export class ConfigActivitiesComponent implements OnInit {
 
 	// Muestra las actividades que pueden ser agregadas como precedentes
 	mostrarPrecedentes() {
-		this.addBlock(1, 'Cargando...');
+		
 		let tag = this.configActividadesForm.controls['fTag'].value;
 		this.tagService.getActividadesPrecedentes(tag).subscribe(
 			data => {
@@ -540,11 +540,11 @@ export class ConfigActivitiesComponent implements OnInit {
 					this.toastr.errorToastr('No hay actividades que puedan ser asignadas como precedentes.', 'Lo siento,');
 				}
 
-				this.addBlock(2, null);
+				
 
 			},
 			error => {
-				this.addBlock(2, null);
+				
 				this.toastr.errorToastr('Error al cargar lista de precedentes.', 'Lo siento,');
 			}
 		)
@@ -560,7 +560,7 @@ export class ConfigActivitiesComponent implements OnInit {
 			}
 		});
 		if (selectActivities.length > 0) {
-			this.addBlock(1, 'Cargando...');
+			
 			this.tagService.agregarPrecedentes(tag, selectActivities.toString()).subscribe(
 				respuesta => {
 					console.log(respuesta);
@@ -588,11 +588,11 @@ export class ConfigActivitiesComponent implements OnInit {
 					this.tagPrecedentes.sort = this.sortTagPrecedentes;
 
 					this.tablaAgregarPrecedentes = false;
-					this.addBlock(2, null);
+					
 
 				},
 				error => {
-					this.addBlock(2, null);
+					
 					this.toastr.errorToastr('Error al agregar precedentes.', 'Lo siento,');
 				}
 			)
@@ -608,7 +608,7 @@ export class ConfigActivitiesComponent implements OnInit {
 
 	eliminarPrecedente(tagPrecedente: any) {
 		if (!this.soloLectura) {
-			this.addBlock(1, 'Cargando...');
+			
 			this.tagService.eliminarPrecedente(tagPrecedente).subscribe(
 				result => {
 					console.log(result);
@@ -641,10 +641,10 @@ export class ConfigActivitiesComponent implements OnInit {
 					}
 
 					this.tablaAgregarPrecedentes = false;
-					this.addBlock(2, null);
+					
 				},
 				error => {
-					this.addBlock(2, null);
+					
 					this.toastr.errorToastr('Error al eliminar precedente.', 'Lo siento,');
 				})
 		}
@@ -661,12 +661,6 @@ export class ConfigActivitiesComponent implements OnInit {
 				console.log(' Error al asignar nombre de TAG');
 			}
 		);
-	}
-
-
-	// Loadin
-	private addBlock(type, msg): void {
-		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
 	}
 
 	initComboUnitPeriod() {

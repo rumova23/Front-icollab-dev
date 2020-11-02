@@ -84,7 +84,7 @@ export class SafePpaBillingComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.addBlock(1, '');
+		
 		timer(2000).subscribe(()=>{
 			this.tableBillingData = [
 				{
@@ -113,7 +113,7 @@ export class SafePpaBillingComponent implements OnInit {
 					document:''
 				}
 			];
-			this.addBlock(2, '');
+			
 		});
 		this.formFilter = this.formBuilder.group({
 			ffechaOp: new FormControl(moment(), Validators.required),
@@ -163,8 +163,5 @@ export class SafePpaBillingComponent implements OnInit {
 		console.log(v);
 	}
 
-	addBlock(type, msg): void {
-		this.eventService.sendApp(new EventMessage(1,
-			new EventBlocked(type, msg)));
-	}
+	
 }

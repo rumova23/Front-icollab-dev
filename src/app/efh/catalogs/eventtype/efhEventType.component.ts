@@ -89,7 +89,7 @@ export class EfhEventTypeComponent implements OnInit {
   }
 
   getDataSource() {
-    this.addBlock(1, 'Cargando...');
+    
     this.data = [];
     this.catalogoMaestroService.getCatalogoIndividual(EfhEventTypeComponent.mainCatalog).subscribe(
         dataBack => {
@@ -142,7 +142,7 @@ export class EfhEventTypeComponent implements OnInit {
           this.dataSource.sort = this.sort;
         }
     ).add(() => {
-      this.addBlock(2, null);
+      
     });
   }
 
@@ -198,10 +198,6 @@ export class EfhEventTypeComponent implements OnInit {
           }
         })
         .catch(() => console.log('Canceló eliminar tipo de evento'));
-  }
-
-  private addBlock(type, msg): void {
-    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 
 }

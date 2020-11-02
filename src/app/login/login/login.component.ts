@@ -111,8 +111,7 @@ export class LoginComponent implements OnInit,OnDestroy {
 		}
 	}
 	onSubmit() {
-		//this.addBlock(1, null); //cargando
-		//this.addBlock(2, null); //desbloquear
+		// //desbloquear
 		if (this.loginForm.invalid) {
 			this.toastr.errorToastr('Los datos son obligatorios', '');
 			return;
@@ -144,9 +143,7 @@ export class LoginComponent implements OnInit,OnDestroy {
 
 	}
 
-	private addBlock(type, msg): void {
-		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
-	}
+
 	logout() {
 		if(this.appsIsActivate){
 			localStorage.removeItem('user');

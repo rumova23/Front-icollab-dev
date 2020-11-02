@@ -71,7 +71,7 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 	}
 
 	loadMasters() {
-		this.addBlock(1, "");
+		
 		this.masterCatalogService.catalogosAll().subscribe(
 			(data: Array<MaestroDTO>) => {
 				this.lstCatalogs = data.map( e => {
@@ -85,16 +85,16 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 			errorData => {
 			  console.dir(errorData);
 			  
-				this.addBlock(2, "");
+				
 			},
 			()=>{
-				this.addBlock(2, "");
+				
 			});
 	}
 	loadOpciones(catalogo) {
 		// nombre de tipo string
 		
-		this.addBlock(1, "");
+		
 		this.masterCatalogService.getCatalogo(catalogo).subscribe(
 			(data: Array<OpcionDTO>) => {
 				if(data.length>0){
@@ -119,9 +119,9 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 			},
 			errorData => {
 				console.dir(errorData);				  
-				this.addBlock(2, "");
+				
 			},()=>{
-				this.addBlock(2, "");
+				
 			});
 	}
 	onChangeSelect(catalog){
@@ -180,8 +180,5 @@ export class SafeCatalogConfigurationComponent implements OnInit {
 		})
 		.catch(() => {});
 	}
-	addBlock(type, msg): void {
-		this.eventService.sendApp(new EventMessage(1,
-			new EventBlocked(type, msg)));
-	}
+	
 }

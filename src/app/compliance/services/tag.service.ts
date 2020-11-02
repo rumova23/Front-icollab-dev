@@ -7,6 +7,7 @@ import { OrderCatalogDTO } from '../models/OrderCatalogDTO';
 import { Observable } from 'rxjs';
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { EPs } from 'src/app/core/globals/endpoints';
+import { timeout } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -68,7 +69,8 @@ export class TagService {
 
   obtenTagPorFiltros(anio: number): Observable<any> {
     this.parameters = this.globalService.setXTenantId_Plant(this.globalService.plant.name);
-    return this.http.get( `${ EPs.tracing.legal.get.matrizAnio }/${anio}`, {params : this.parameters });
+    return this.http.get( `${ EPs.tracing.legal.get.matrizAnio }/${anio}`, {params : this.parameters })
+            .pipe(timeout(60000));
   }
 
   obtenTagCatalogos(params: HttpParams): Observable<any> {

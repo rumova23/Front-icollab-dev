@@ -83,7 +83,7 @@ export class LegalAgreementComponent implements OnInit {
 
   filtrarCompliance() {
     const bandera = false;
-    this.addBlock(1, null);
+    
     this.limpiarTablas();
     if (1) {
         this.limpiarTablas();
@@ -93,11 +93,11 @@ export class LegalAgreementComponent implements OnInit {
               console.log('RTC');
               this.elementData = result;
               this.asignarRegistros();
-              this.addBlock(2, null);
+              
           },
           error => {
             console.log(error as any);
-            this.addBlock(2, null);
+            
           });
 
     }
@@ -318,8 +318,5 @@ export class LegalAgreementComponent implements OnInit {
       this.childOtros.datosPie = this.elementDataGant[indiceOtros].datosPie;
       this.childOtros.datosCumplimiento = this.elementDataGant[indiceOtros].datosCumplimiento;
     }
-  }
-  private addBlock(type, msg): void {
-    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 }

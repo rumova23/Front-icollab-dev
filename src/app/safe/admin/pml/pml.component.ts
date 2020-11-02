@@ -47,18 +47,18 @@ export class PmlComponent implements OnInit {
   dateChange(event){
   }
   private loadData(data: any) {
-    this.addBlock(1, null);
+    
     this.marketService.getPmls(data).subscribe(
         dataP => {
           this.dataSource.data = dataP;
           if(data.length === 0) {
             this.toastr.warningToastr('No hay datos para mostrar')
           }
-          this.addBlock(2, null);
+          
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,')
-          this.addBlock(2, null);
+          
         });
   }
 
@@ -78,8 +78,4 @@ export class PmlComponent implements OnInit {
     return date.getFullYear() + '/' + month + '/' + day;
   }
 
-  private addBlock(type, msg): void {
-    this.eventService.sendApp(new EventMessage(1, 
-      new EventBlocked(type, msg)));
-  }
 }

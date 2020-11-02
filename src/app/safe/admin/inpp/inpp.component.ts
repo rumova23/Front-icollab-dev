@@ -40,7 +40,7 @@ export class InppComponent implements OnInit {
   }
 
   private loadData(data: any) {
-    this.addBlock(1, null);
+    
     this.marketService.getInpp(data).subscribe(
         dataP => {
           this.dataSource.data = dataP;
@@ -48,11 +48,11 @@ export class InppComponent implements OnInit {
           if(dataP.length === 0) {
             this.toastr.warningToastr('No hay datos para mostrar')
           } */
-          this.addBlock(2, null);
+          
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,')
-          this.addBlock(2, null);
+          
         });
   }
 
@@ -70,8 +70,4 @@ export class InppComponent implements OnInit {
     return date.getFullYear() + '-' + month + '-' + day;
   }
 
-  private addBlock(type, msg): void {
-    this.eventService.sendApp(new EventMessage(1, 
-      new EventBlocked(type, msg)));
-  }
 }
