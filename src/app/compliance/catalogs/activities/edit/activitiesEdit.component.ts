@@ -154,10 +154,10 @@ export class ActivitiesEditComponent implements OnInit {
                             'Lo siento,'
                         );
                     }
-                    
+                    this.addBlock(2, null);
                 },
                 error => {
-                    
+                    this.addBlock(2, null);
                     this.toastr.errorToastr(
                         'Error al obtener detalles de la actividad.',
                         'Lo siento,'
@@ -320,9 +320,12 @@ export class ActivitiesEditComponent implements OnInit {
 
                 this.deshabiliarEstatus = true;
                 this.disabledSave = true;
+                // this.showEditClonated = true;
+                // this.eventService.sendChangePage(new EventMessage(6, {} ,'Compliance.Categorías'));
+                // this.addBlock(2, null)
             },
             error => {
-                
+                this.addBlock(2, null);
                 this.toastr.errorToastr(
                     'Error al Editar la actividad.',
                     'Lo siento,'
@@ -363,6 +366,13 @@ export class ActivitiesEditComponent implements OnInit {
         if (this.accion === 'editar') {
             this.disabledSave = false;
         }
+    }
+
+    // Loading
+    private addBlock(type, msg): void {
+        this.eventService.sendApp(
+            new EventMessage(1, new EventBlocked(type, msg))
+        );
     }
 
     regresar() {

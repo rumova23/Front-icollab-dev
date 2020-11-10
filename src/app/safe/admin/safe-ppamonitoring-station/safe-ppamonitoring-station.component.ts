@@ -252,20 +252,20 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 		(data: MaestroOpcionDTO) => {
 			this.etapa001 = data.maestroOpcionId;
 			this.ppaMonitoringFormatService.getTags(this.etapa001).subscribe((dataInterno) => {
-				
+				this.addBlock(2,'');
 				dataInterno.forEach(element => {
 					this.tagsList.push({id:element.tag,label:element.tag});
 				});
 			});
 		});
-		
+		this.addBlock(1, '');
 		this.ppaMonitoringFormatService.obtenBitacoraLoadRaw().subscribe(
 			data => {
-				
+				this.addBlock(2, '');
 				console.dir(data);
 			},
 			errorData => {
-				
+				this.addBlock(2, '');
 				console.dir(errorData);
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
@@ -297,10 +297,10 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			{order : '3', dateOpCom : 'mar-20', Import : 'FilleZilla FTP', user : 'Sistema', dateUpdated : '01/04/2020 10:40:00 a.m', status : 'Fallida', sys_see : 'sys_see', sys_edit : 'sys_edit', sys_delete : 'sys_delete'},
 
 		];//*/
-		
+		this.addBlock(1,'');
 		this.ppaMonitoringFormatService.obtenBitacoraLoadRaw().subscribe(
 			data => {
-				
+				this.addBlock(2,'');
 				this.dataSource = [];
 				let i=1;
 				for (const d of data) {
@@ -321,7 +321,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 
 			},
 			errorData => {
-				
+				this.addBlock(2,'');
 				console.dir(errorData);
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
@@ -394,9 +394,11 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			{nameParameter: "year",valueParameter: new Date(this.date.value).getFullYear()},
 			{nameParameter: "mount",valueParameter: new Date(this.date.value).getMonth() + 1}];
 		let indexYAxis=0;
+		this.addBlock(1,'Graficando');
 		for (const tag of tags) {
 			this.ppaMonitoringFormatService.get(tag, data).subscribe((data) => {
 				count +=1;
+				if(count == tags.length)this.addBlock(2,'');
 				if (data == null) {
 					this.toastr.warningToastr(tag + ' no contiene datos en estas fechas', 'Lo siento,');
 					return false;
@@ -465,6 +467,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 				console.log("Error: "+tag+" solicitud Fallida");
 				
 				count +=1;
+				if(count == tags.length)this.addBlock(2,'');
 			});
 		}
 	}
@@ -512,14 +515,15 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	}
 
 	executeProcess(applicationName: string, year: number, month: number) {
+		this.addBlock(1, 'Importando información');
 		this.monitoringService.executeProcessYearMonth(applicationName, year, month).subscribe(
 			data => {
 				this.toastr.successToastr('Ejecutando proceso ' + year + '/' + month + ' para: ' + applicationName, 'Ejecución lanzada con éxito.');
 			},
 			errorData => {
-				
+				this.addBlock(2, null);
 			}).add(() => {
-			
+			this.addBlock(2, null);
 		});
 	}
 
@@ -537,7 +541,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 			// this.toastr.errorToastr('No es Proceso Manual.', 'Lo siento,');
 			return 0;
 		}
-		
+		this.addBlock(1,'');
 		this.valid = false;
 		const reader = new FileReader();
 		reader.onloadend = (e) => {
@@ -553,19 +557,22 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 				nameImport: 'no aplica'
 			}).subscribe(
 				data => {
-					
+					this.addBlock(2,'');
 					console.log(data);
 					this.toastr.successToastr('El archivo llego con exito', 'Ejecución lanzada con éxito.');
 				},
 				errorData => {
-					
+					this.addBlock(2,'');
 					console.dir(errorData);
 					this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 				});
 		}
 		reader.readAsDataURL(value.file);
 	}
-
+	private addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1,
+			new EventBlocked(type, msg)));
+	}
 	onChangeDatePicker(d: Moment) {
 		this.date.setValue(d);
 		
@@ -576,17 +583,18 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	download() {
 		const year = new Date(this.date.value).getFullYear();
 		const month =  new Date(this.date.value).getMonth() + 1;
+		this.addBlock(1, 'Bajando  crudos CSV ' + year + '/' + month + ': Generando');
 		this.ppaMonitoringFormatService.downloadcrudosZip(year, month)
 			.subscribe(
 				data => {
 					const blob = new Blob([this.base64toBlob(data.base64,
 						'application/CSV')], {});
 					saveAs(blob, data.nameFile);
-					
+					this.addBlock(2, '');
 					this.toastr.successToastr('Download File: Correctamente ' + year + '/' + month + ': Generado Correctamente', '¡Exito!');
 				},
 				errorData => {
-					
+					this.addBlock(2, '');
 					this.toastr.errorToastr(errorData.error.message, '¡Error!');
 				});
 	}
@@ -611,7 +619,7 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 	}
 
 	stangeLoadRaw() {
-		
+		this.addBlock(1, '');
 		const year = new Date(this.date.value).getFullYear();
 		const month =  new Date(this.date.value).getMonth() + 1;
 		this.ppaMonitoringFormatService.stageLoad(year, month)
@@ -619,10 +627,10 @@ export class SafePPAMonitoringStationComponent implements OnInit {
 				data => {
 					this.existsLoad = data.existsLoad
 					this.buttonExists = false;
-					
+					this.addBlock(2, '');
 				},
 				errorData => {
-					
+					this.addBlock(2, '');
 					if (errorData.error.message.indexOf('Notificacion 100') !== -1) {
 						this.toastr.warningToastr(errorData.error.message, '¡Notificacion!');
 						this.existsLoad = false;

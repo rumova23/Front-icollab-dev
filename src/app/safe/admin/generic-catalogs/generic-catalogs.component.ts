@@ -69,6 +69,10 @@ export class GenericCatalogsComponent implements OnInit {
     this.loadMasters();
   }
 
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1,
+        new EventBlocked(type, msg)));
+  }
 
   loadMasters() {
     this.masterCatalogService.catalogosAll().subscribe(
@@ -106,14 +110,14 @@ export class GenericCatalogsComponent implements OnInit {
   saveMaestro(value: any) {
     if (this.action === 'Guardar') {
       console.dir(value)
-      
+      this.addBlock(1, '');
       this.masterCatalogService.saveMaster(value).subscribe(
           data => {
             this.toastr.successToastr('Guardado Completo', 'Exito!.');
-            
+            this.addBlock(2, '');
           },
           errorData => {
-            
+            this.addBlock(2, '');
             this.toastr.errorToastr(errorData.error.message, 'Error!');
           },
           () => {
@@ -122,15 +126,15 @@ export class GenericCatalogsComponent implements OnInit {
           });
     }
     if (this.action === 'Actualizar') {
-      
+      this.addBlock(1, '');
       console.dir(value);
       this.masterCatalogService.updateMaestro(value).subscribe(
           data => {
             this.toastr.successToastr('Actualizacion Completa', 'Exito!.');
-            
+            this.addBlock(2, '');
           },
           errorData => {
-            
+            this.addBlock(2, '');
             this.toastr.errorToastr(errorData.error.message, 'Error!');
           },
           () => {
@@ -142,15 +146,15 @@ export class GenericCatalogsComponent implements OnInit {
 
   saveOpcion(value: any) {
     if (this.action === 'Guardar') {
-      
+      this.addBlock(1, '');
       value.maestro = this.catalogName;
       this.masterCatalogService.saveCompleteOpcion(value).subscribe(
           data => {
             this.toastr.successToastr('Guardado Completo', 'Exito!.');
-            
+            this.addBlock(2, '');
           },
           errorData => {
-            
+            this.addBlock(2, '');
             this.toastr.errorToastr(errorData.error.message, 'Error!');
           },
           () => {
@@ -160,14 +164,14 @@ export class GenericCatalogsComponent implements OnInit {
           });
     }
     if (this.action === 'Actualizar') {
-      
+      this.addBlock(1, '');
       this.masterCatalogService.updateOpcion(value).subscribe(
           data => {
             this.toastr.successToastr('Actualizacion Completa', 'Exito!.');
-            
+            this.addBlock(2, '');
           },
           errorData => {
-            
+            this.addBlock(2, '');
             this.toastr.errorToastr(errorData.error.message, 'Error!');
           },
           () => {

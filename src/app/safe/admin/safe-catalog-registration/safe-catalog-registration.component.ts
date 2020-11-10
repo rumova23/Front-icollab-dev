@@ -46,7 +46,7 @@ export class SafeCatalogRegistrationComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		
+		this.addBlock(1, "");
 		this.loadMasters();
 	}
 
@@ -73,7 +73,7 @@ export class SafeCatalogRegistrationComponent implements OnInit {
 			  console.dir(errorData);
 			},
 			()=>{
-				
+				this.addBlock(2, "");
 			});
 	}
 	tableRowSee(element){
@@ -119,5 +119,11 @@ export class SafeCatalogRegistrationComponent implements OnInit {
 		this.eventService.sendChangePage(
             new EventMessage(null, type, 'Safe.SafeCatalogRegistrationAbcComponent')
         );
+	}
+
+
+
+	addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
 	}
 }

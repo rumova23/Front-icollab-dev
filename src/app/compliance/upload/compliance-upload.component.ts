@@ -75,7 +75,7 @@ export class ComplianceUploadComponent implements OnInit, OnDestroy {
   }
 
   downloadFile(fileId: number, fileName: string) {
-    
+    this.addBlock(1, 'Descargando archivo...');
     this.personalCompetenteService.downloadFile(fileId).subscribe(
         result => {
           let dataType = result.type;
@@ -88,9 +88,9 @@ export class ComplianceUploadComponent implements OnInit, OnDestroy {
         },
         error => {
             const error1 = error;
-            
+            this.addBlock(2, null);
         }).add(() => {
-        
+        this.addBlock(2, null);
     });
   }
 
@@ -99,7 +99,7 @@ export class ComplianceUploadComponent implements OnInit, OnDestroy {
         'Está seguro de eliminar el archivo?')
         .then((confirmed) => {
           if (confirmed) {
-              
+              this.addBlock(1, 'Eliminando archivo...');
               this.personalCompetenteService.deleteFile(fileId).subscribe(
                 result => {
                   this.toastr.successToastr('Documento eliminado con éxito.', '¡Se ha logrado!');
@@ -111,13 +111,17 @@ export class ComplianceUploadComponent implements OnInit, OnDestroy {
                     this.personalCompetenteService.accion.next('upload');
                   } else {
                     this.toastr.errorToastr('Ocurrió un error al intentar eliminar el archivo', 'Lo siento,');
-                    
+                    this.addBlock(2, null);
                   }
                 }).add(() => {
-                  
+                  this.addBlock(2, null);
               });
           }
         })
         .catch(() => console.log('Canceló eliminar'));
+  }
+
+  private addBlock(type, msg): void {
+      this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 }

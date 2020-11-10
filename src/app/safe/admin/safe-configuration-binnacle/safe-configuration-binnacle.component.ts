@@ -53,17 +53,17 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
     }
 
     loadCatalog() {
-        
+        this.addBlock(1, '');
         const names = ['CLASIFICA EVENTO', 'EVENTO'];
         this.masterCatalogService.listCatalog(names).subscribe(data  => {
             this.lstEventClassificationDTO = data['CLASIFICA EVENTO'];
             this.lstEventsDTO = data['EVENTO'];
         },
         error => {
-            
+            this.addBlock(2, '');
             this.toastr.errorToastr('Problemas en la consulta', 'Error');
         }, () => {
-            
+            this.addBlock(2, '');
             this.loadMasters();
         });
     }
@@ -77,7 +77,7 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         }
     }
     loadMasters() {
-        
+        this.addBlock(1, '');
         this.binnacleService.listTemplates().subscribe(
             (data: Array<BinnacleEventConfigurationDTO>) => {
                 data = data.sort((a, b) => moment(b.dateModification).toDate().getTime() - moment(a.dateModification).toDate().getTime());
@@ -107,7 +107,7 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
                 this.toastr.errorToastr('Problemas en la consulta', 'Error');
             },
             () => {
-                
+                this.addBlock(2, '');
             });
     }
     tableRowSee(element) {
@@ -148,7 +148,7 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
                         },
                         () => {
                             this.loadMasters();
-                            
+                            this.addBlock(2, '');
                         });
                 }
             })
@@ -163,5 +163,9 @@ export class SafeConfigurationBinnacleComponent implements OnInit {
         this.eventService.sendChangePage(
             new EventMessage(null, type, 'Safe.SafeConfigurationBinnacleEditComponent')
         );
+    }
+
+    addBlock(type, msg): void {
+        this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
     }
 }

@@ -951,7 +951,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		let url = `/assets/css/theme/content/monitoringv2.css`;
 		document.getElementById("content_theme").setAttribute('href',url);
 		//Highcharts.setOptions(highcharts.theme);
-		
+		this.addBlock(1,'');
 		this.sleep(2000).then(() => { this.cargar(); });
 	}
 	cargar(){
@@ -978,9 +978,7 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 			this.updateChartDif(); 			
 			this.loadData();
 		}, 3600000);
-		this.addBlock(1,'');
 		this.sleep(4000).then(() => { this.addBlock(2,''); });
-
 	}
 	sleep(ms) {
 		return new Promise(resolve => setTimeout(resolve, ms));
@@ -2020,8 +2018,8 @@ export class Phase2v3Component extends ConnectSocketChannelComponent implements 
 		this.viewDieselRadialGauge = 80+(120-(80+v));
 	}
 
-
-		private addBlock(type, msg): void {
+	
+	private addBlock(type, msg): void {
 		this.eventService.sendApp(new EventMessage(1, 
 		  new EventBlocked(type, msg)));
 	}

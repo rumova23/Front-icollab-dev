@@ -369,16 +369,16 @@ export class EfhEditIndicatorComponent implements OnInit {
                           },
                           errorData => {
                             this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
-                            
+                            this.addBlock(2, null);
                           }
                       ).add(() => {
-                        
+                        this.addBlock(2, null);
                       });
                 }
               },
               errorData => {
                 this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
-                
+                this.addBlock(2, null);
               }
           );
     } else {
@@ -460,10 +460,10 @@ export class EfhEditIndicatorComponent implements OnInit {
               },
               errorData => {
                 this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
-                
+                this.addBlock(2, null);
               }
           ).add(() => {
-            
+            this.addBlock(2, null);
           });
     }
   }
@@ -546,7 +546,7 @@ export class EfhEditIndicatorComponent implements OnInit {
     this.selectedFuelType = element.value;
   }
   onSubmit() {
-    
+    this.addBlock(1, 'Cargando...');
     this.submittedData = true;
 
     if ((this.isInputSectionVisible && this.indicatorForm.controls['dateStartApplication'].invalid)
@@ -559,7 +559,7 @@ export class EfhEditIndicatorComponent implements OnInit {
         || (this.selectedUnit === undefined || this.selectedUnit === null)
         || (this.selectedFuelType === undefined && this.isWithFuel || this.selectedFuelType === null && this.isWithFuel)) {
       this.toastr.errorToastr('Verifique los campos.', 'Lo siento,');
-      
+      this.addBlock(2, null);
       return;
     }
     /*
@@ -576,7 +576,7 @@ export class EfhEditIndicatorComponent implements OnInit {
             this.datePipe.transform(new Date(this.datePipe.transform(this.indicatorForm.controls['dateEndApplication'].value , 'yyyy-MM-dd') + ' ' + this.indicatorForm.controls['timeEndApplication'].value), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
       this.toastr.errorToastr('Fecha Inicio debe ser menor a Fecha Fin, verifique', 'Lo siento,');
       this.indicatorDatesValidation = true;
-      
+      this.addBlock(2, null);
       return;
     }
 
@@ -711,6 +711,9 @@ export class EfhEditIndicatorComponent implements OnInit {
     this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.addIndicadorComponent'));
   }
 
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
 
   isNumeric(link) {
     this.chargeValidation = false;

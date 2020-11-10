@@ -382,16 +382,16 @@ export class EfhEditEventComponent implements OnInit {
                                   },
                                   errorData => {
                                       this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
-                                      
+                                      this.addBlock(2, null);
                                   }
                               ).add(() => {
-                              
+                              this.addBlock(2, null);
                               });
                       }
                   },
                   errorData => {
                       this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
-                      
+                      this.addBlock(2, null);
                   }
               );
       } else {
@@ -458,10 +458,10 @@ export class EfhEditEventComponent implements OnInit {
                   },
                   errorData => {
                       this.toastr.errorToastr(Constants.ERROR_SAVE, 'Lo siento,');
-                      
+                      this.addBlock(2, null);
                   }
               ).add(() => {
-                
+                this.addBlock(2, null);
               });
       }
   }
@@ -596,9 +596,12 @@ export class EfhEditEventComponent implements OnInit {
     this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.Agregar eventos'));
   }
 
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
 
   onSubmit() {
-      
+      this.addBlock(1, 'Cargando...');
       this.submittedData = true;
       if ((this.isShotStartSectionVisible && this.eventForm.controls['chargeShot'].invalid)
           || (this.isShotStartSectionVisible && this.eventForm.controls['flameOffDateShot'].invalid)
@@ -660,7 +663,7 @@ export class EfhEditEventComponent implements OnInit {
           || (this.selectedUnit === undefined || this.selectedUnit === null)
           || (this.isNormalOperationSectionVisible && (this.selectedFuelType === undefined || this.selectedFuelType === null)) ) {
           this.toastr.errorToastr('Todos los campos son obligatorios, verifique.', 'Lo siento,');
-          
+          this.addBlock(2, null);
           return;
       }
 
@@ -669,7 +672,7 @@ export class EfhEditEventComponent implements OnInit {
               this.datePipe.transform(new Date(this.datePipe.transform(this.eventForm.controls['endDateRunback'].value, 'yyyy-MM-dd') + ' ' + this.getTimeB()), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
           this.toastr.errorToastr('Fecha inicio debe ser menor a Fecha fin, verifique', 'Lo siento,');
           this.runbackDatesValidation = true;
-          
+          this.addBlock(2, null);
           return;
       }
 
@@ -678,14 +681,14 @@ export class EfhEditEventComponent implements OnInit {
               this.datePipe.transform(new Date(this.datePipe.transform(this.eventForm.controls['flameOffDateStart'].value, 'yyyy-MM-dd') + ' ' + this.getTimeB()), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
           this.toastr.errorToastr('Fecha de Paro debe ser menor a Fecha de Arranque, verifique', 'Lo siento,');
           this.stopStartDatesValidation = true;
-          
+          this.addBlock(2, null);
           return;
       } else if (this.isStopStartSectionVisible
           && this.compareDate(this.datePipe.transform(new Date(this.datePipe.transform(this.eventForm.controls['flameOffDateStart'].value, 'yyyy-MM-dd') + ' ' + this.getTimeB()), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'),
               this.datePipe.transform(new Date(this.datePipe.transform(this.eventForm.controls['fsnlDateStart'].value, 'yyyy-MM-dd') + ' ' + this.getTimeC()), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
           this.toastr.errorToastr('Fecha de Arranque debe ser menor a FSNL, verifique', 'Lo siento,');
           this.stopStartDatesValidation = true;
-          
+          this.addBlock(2, null);
           return;
       }
 
@@ -694,7 +697,7 @@ export class EfhEditEventComponent implements OnInit {
               this.datePipe.transform(new Date(this.datePipe.transform(this.eventForm.controls['endDateDiesel'].value, 'yyyy-MM-dd') + ' ' + this.getTimeB()), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
           this.toastr.errorToastr('Fecha inicio debe ser menor a Fecha fin, verifique', 'Lo siento,');
           this.dieselDatesValidation = true;
-          
+          this.addBlock(2, null);
           return;
       }
 
@@ -703,7 +706,7 @@ export class EfhEditEventComponent implements OnInit {
               this.datePipe.transform(new Date(this.datePipe.transform(this.eventForm.controls['endDateNormal'].value, 'yyyy-MM-dd') + ' ' + this.getTimeB()), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
           this.toastr.errorToastr('Fecha inicio de Operación debe ser menor a Fecha fin, verifique', 'Lo siento,');
           this.normalDatesValidation = true;
-          
+          this.addBlock(2, null);
           return;
       }
 
@@ -712,14 +715,14 @@ export class EfhEditEventComponent implements OnInit {
               this.datePipe.transform(new Date(this.datePipe.transform(this.eventForm.controls['flameOffDateStart'].value, 'yyyy-MM-dd') + ' ' + this.getTimeB()), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
           this.toastr.errorToastr('Fecha de Disparo debe ser menor a Fecha de Arranque, verifique', 'Lo siento,');
           this.shotStartDatesValidation = true;
-          
+          this.addBlock(2, null);
           return;
       } else if (this.isShotStartSectionVisible
           && this.compareDate(this.datePipe.transform(new Date(this.datePipe.transform(this.eventForm.controls['flameOffDateStart'].value, 'yyyy-MM-dd') + ' ' + this.getTimeB()), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'),
               this.datePipe.transform(new Date(this.datePipe.transform(this.eventForm.controls['fsnlDateStart'].value, 'yyyy-MM-dd') + ' ' + this.getTimeC()), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS'))) {
           this.toastr.errorToastr('Fecha de Arranque debe ser menor a FSNL, verifique', 'Lo siento,');
           this.shotStartDatesValidation = true;
-          
+          this.addBlock(2, null);
           return;
       }
 

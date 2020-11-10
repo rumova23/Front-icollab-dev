@@ -392,8 +392,7 @@
             <div class="row" *ngIf="tablaAgregarPrecedentes">
                 <div class="col">
                     <p class="section_titulo_0">
-                        Lista de actividades disponibles para asignar como
-                        procedentes
+                        Lista de actividades disponibles para asignar como procedentes
                     </p>
                 </div>
             </div>
@@ -405,110 +404,11 @@
 
                         <app-mat-table 
                             [data]="activities"
-                            
                             selectionLabel="Visible"
                             [columnsDisplay]="activitiesColDisplay"
                             [columnsLabels]="activityesColLabel"
                             (onSelected)="onSelected($event)"
                         ></app-mat-table>
-
-
-<!--                         <div class="form-group mt-3 mb-3">
-                            <label>Escriba palaba a filtrar</label>
-                            <input
-                                class="form-control"
-                                (keyup)="applyFilter($event.target.value)"
-                            />
-                        </div>
-                        <table
-                            matSort
-                            mat-table
-                            [dataSource]="registrosParaAsignar"
-                            class="table_catalogo"
-                            (matSortChange)="sortDataReg($event)"
-                            matSortActive="tag"
-                            matSortDirection="asc"
-                            matSortDisableClear
-                            >
-
-                            <ng-container matColumnDef="tagId">
-                                <th
-                                    mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    class="txt-center"
-                                >
-                                    TAG ID
-                                </th>
-                                <td mat-cell *matCellDef="let element">
-                                    {{ element.tagId }}
-                                </td>
-                            </ng-container>
-                            
-                            <ng-container matColumnDef="tag">
-                                <th
-                                    mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    class="txt-center"
-                                >
-                                    ACTIVIDAD
-                                </th>
-                                <td mat-cell *matCellDef="let element">
-                                    {{ element.tag }}
-                                </td>
-                            </ng-container>
-                            
-                            <ng-container matColumnDef="descripcion">
-                                <th
-                                    mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    class="txt-center"
-                                >
-                                    DESCRIPCION
-                                </th>
-                                <td mat-cell *matCellDef="let element">
-                                    {{ element.descripcion }}
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="assignPrecedent">
-                                <th
-                                    mat-header-cell
-                                    *matHeaderCellDef
-                                    class="txt-center"
-                                >
-                                    ASIGNAR PRECEDENTE
-                                </th>
-                                <td
-                                    mat-cell
-                                    *matCellDef="let element"
-                                    class="p-2 border-none"
-                                >
-                                    <u
-                                        ><i>
-                                            <mat-checkbox
-                                                class="active"
-                                                color="primary"
-                                                (change)="
-                                                    agregarQuitarId(element.tag)
-                                                "
-                                            ></mat-checkbox> </i
-                                    ></u>
-                                </td>
-                            </ng-container>
-                            
-                            <tr mat-header-row *matHeaderRowDef="columnas"></tr>
-                            <tr
-                                mat-row
-                                *matRowDef="let row; columns: columnas"
-                            ></tr>
-                        </table>
-
-                        <mat-paginator
-                            [pageSizeOptions]="registros_x_pagina"
-                            showFirstLastButtons
-                        ></mat-paginator> -->
                     </div>
                     <p></p>
                     <div
@@ -531,153 +431,25 @@
             <br />
             <hr />
             <br />
-            <!-- SECCIÓN DE LOS PRECEDENTES -->
-            <div class="row" *ngIf="existeTagId">
-                <div class="col-md-12">
-                    <!-- LISTA DE PRECEDENTES ASIGNADOS -->
-                    <div class="row">
-                        <div class="col">
-                            <p class="section_titulo_0">
-                                Lista de procedentes asignados
-                            </p>
-                        </div>
+            <div class="row">
+                <div class="col">
+                    <p class="section_titulo_0">
+                        Lista de procedentes asignados
+                    </p>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="tabla-responsi mat-elevation-z0">
+
+                    <app-mat-table [data]="precedents"
+                        [columnsLabels]="precedentsColLabel"
+                        [columnsDisplay]="precedentsColDisplay"
+                        [row_x_page]="tableRowXPage"
+                        maxHeight="600px"
+                        (clickDelete)="deletePrecedent($event)"></app-mat-table>
+
                     </div>
-
-                    <div class="row mt-4">
-                        <div class="col-md-12">
-                            <div class="tabla-responsi mat-elevation-z0">
-                                <!-- <div class="form-group mt-3 mb-3">
-                                    <label>Escriba palaba a filtrar</label>
-                                    <input
-                                        class="form-control"
-                                        (keyup)="
-                                            applyFilter1($event.target.value)
-                                        "
-                                    />
-                                </div> -->
-                                <table
-                                    matSort
-                                    mat-table
-                                    [dataSource]="tagPrecedentes"
-                                    class="table_catalogo"
-                                    (matSortChange)="sortData($event)"
-                                    matSortActive="tagHijo"
-                                    matSortDirection="asc"
-                                    matSortDisableClear>
-
-                                     <ng-container matColumnDef="tagId">
-                                        <th
-                                            mat-header-cell
-                                            *matHeaderCellDef
-                                            mat-sort-header
-                                            class="txt-center"
-                                        >
-                                            TAG ID
-                                        </th>
-                                        <td mat-cell *matCellDef="let element">
-                                            {{ element.tagId }}
-                                        </td>
-                                    </ng-container>
-                                                                      
-                                    <ng-container matColumnDef="tagPadre">
-                                        <th
-                                            mat-header-cell
-                                            *matHeaderCellDef
-                                            mat-sort-header
-                                            class="txt-center"
-                                        >
-                                            TAG PADRE
-                                        </th>
-                                        <td mat-cell *matCellDef="let element">
-                                            {{ element.tagPadre }}
-                                        </td>
-                                    </ng-container>
-
-                                    <ng-container matColumnDef="tagHijo">
-                                        <th
-                                            mat-header-cell
-                                            *matHeaderCellDef
-                                            mat-sort-header
-                                            class="txt-center"
-                                        >
-                                            Actividad
-                                        </th>
-                                        <td mat-cell *matCellDef="let element">
-                                            {{ element.tagHijo }}
-                                        </td>
-                                    </ng-container>
-                                    <ng-container
-                                        matColumnDef="tagHijoNombreCumplimiento"
-                                    >
-                                        <th
-                                            mat-header-cell
-                                            *matHeaderCellDef
-                                            mat-sort-header
-                                            class="txt-center"
-                                        >
-                                            Nombre del Cumplimiento
-                                        </th>
-                                        <td mat-cell *matCellDef="let element">
-                                            {{
-                                                element.tagHijoNombreCumplimiento
-                                            }}
-                                        </td>
-                                    </ng-container>
-
-                                    <ng-container matColumnDef="opcion">
-                                        <th
-                                            mat-header-cell
-                                            *matHeaderCellDef
-                                            class="txt-center"
-                                        >
-                                            OPCIÓN
-                                        </th>
-                                        <td
-                                            mat-cell
-                                            *matCellDef="let element"
-                                            class="p-2 border-none"
-                                        >
-                                            <u
-                                                ><i>
-                                                    <a
-                                                        (click)="
-                                                            eliminarPrecedente(
-                                                                element.elementTag
-                                                            )
-                                                        "
-                                                    >
-                                                        <img
-                                                            src="assets/images/skins/ico_Borrar.png"
-                                                            alt="eliminar"
-                                                        />
-                                                    </a> </i
-                                            ></u>
-                                        </td>
-                                    </ng-container>
-                                    
-                                    <tr
-                                        mat-header-row
-                                        *matHeaderRowDef="
-                                            cabeceraTagPrecedentes
-                                        "
-                                    ></tr>
-                                    <tr
-                                        mat-row
-                                        *matRowDef="
-                                            let row;
-                                            columns: cabeceraTagPrecedentes
-                                        "
-                                    ></tr>
-                                </table>
-
-                                <mat-paginator
-                                    [pageSizeOptions]="registros_x_pagina1"
-                                    showFirstLastButtons
-                                ></mat-paginator>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- LISTA DE PRECEDENTES ASIGNADOS -->
                 </div>
             </div>
         </div>

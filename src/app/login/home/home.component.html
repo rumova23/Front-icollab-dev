@@ -31,7 +31,7 @@
                 <p class="icon-text">Compilance</p>
                 </div>
             </div>
-            <div class="rotater">
+            <div class="rotater" [ngStyle]="{filter: !existApp('Efh') ? 'grayscale(80%)':''}">
                 <div class="btn btn-icon" (click)="goToModule('/efh')">
                 <img src="assets/img/efh2.png" class="icon-image" />
                 <p class="icon-text">EFH</p>

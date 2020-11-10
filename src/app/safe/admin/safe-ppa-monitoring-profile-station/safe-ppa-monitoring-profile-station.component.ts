@@ -66,7 +66,7 @@ export class SafePpaMonitoringProfileStationComponent implements OnInit {
       this.toastr.errorToastr('Eliga una fecha.', 'Lo siento,');
       return 0;
     }
-    
+    this.addBlock(1, '');
     const reader = new FileReader();
     reader.onloadend = (e) => {
       this.file = reader.result;
@@ -80,11 +80,11 @@ export class SafePpaMonitoringProfileStationComponent implements OnInit {
             month: new Date(this.date.value).getMonth() + 1
           }).subscribe (
           data => {
-            
+            this.addBlock(2, '');
             this.toastr.successToastr('El archivo llego con exito', 'Ejecución lanzada con éxito.');
           },
           errorData => {
-            
+            this.addBlock(2, '');
             console.dir(errorData);
             this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
           });
@@ -92,23 +92,27 @@ export class SafePpaMonitoringProfileStationComponent implements OnInit {
     reader.readAsDataURL(value.file);
   }
 
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1,
+        new EventBlocked(type, msg)));
+  }
 
   aplicarDeteccion() {
     if (this.date.value == null) {
       this.toastr.errorToastr('Eliga una fecha.', 'Lo siento,');
       return 0;
     }
-    
+    this.addBlock(1, '');
     this.ppaMonitoringFormatService.procesaDeteccionProfile(
       new Date(this.date.value).getFullYear(),
       new Date(this.date.value).getMonth() + 1
     ).subscribe (
         data => {
-          
+          this.addBlock(2, '');
           this.toastr.successToastr('El archivo llego con exito', 'Ejecución lanzada con éxito.');
         },
         errorData => {
-          
+          this.addBlock(2, '');
           console.dir(errorData);
           this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
         });
@@ -119,17 +123,17 @@ export class SafePpaMonitoringProfileStationComponent implements OnInit {
       this.toastr.errorToastr('Eliga una fecha.', 'Lo siento,');
       return 0;
     }
-    
+    this.addBlock(1, '');
     this.ppaMonitoringFormatService.procesaDeteccionProcedimientoProfile(
         new Date(this.date.value).getFullYear(),
         new Date(this.date.value).getMonth() + 1
     ).subscribe (
         data => {
-          
+          this.addBlock(2, '');
           this.toastr.successToastr('Deteccion de Norma en proceso: ' + new Date(this.date.value).getFullYear() + '/' + (new Date(this.date.value).getMonth() + 1), '¡Procesando!');
         },
         errorData => {
-          
+          this.addBlock(2, '');
           console.dir(errorData);
           this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
         });
@@ -140,17 +144,17 @@ export class SafePpaMonitoringProfileStationComponent implements OnInit {
       this.toastr.errorToastr('Eliga una fecha.', 'Lo siento,');
       return 0;
     }
-    
+    this.addBlock(1, '');
     this.ppaMonitoringFormatService.procesaCorrecionProcedimientoProfile(
         new Date(this.date.value).getFullYear(),
         new Date(this.date.value).getMonth() + 1
     ).subscribe (
         data => {
-          
+          this.addBlock(2, '');
           this.toastr.successToastr('Deteccion de Norma en proceso: ' + new Date(this.date.value).getFullYear() + '/' + (new Date(this.date.value).getMonth() + 1), '¡Procesando!');
         },
         errorData => {
-          
+          this.addBlock(2, '');
           console.dir(errorData);
           this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
         });
@@ -161,17 +165,17 @@ export class SafePpaMonitoringProfileStationComponent implements OnInit {
       this.toastr.errorToastr('Eliga una fecha.', 'Lo siento,');
       return 0;
     }
-    
+    this.addBlock(1, '');
     this.ppaMonitoringFormatService.procesaCorreccionProfile(
         new Date(this.date.value).getFullYear(),
         new Date(this.date.value).getMonth() + 1
     ).subscribe (
         data => {
-          
+          this.addBlock(2, '');
           this.toastr.successToastr('El archivo llego con exito', 'Ejecución lanzada con éxito.');
         },
         errorData => {
-          
+          this.addBlock(2, '');
           console.dir(errorData);
           this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
         });
@@ -180,17 +184,18 @@ export class SafePpaMonitoringProfileStationComponent implements OnInit {
   download() {
     const year = new Date(this.date.value).getFullYear();
     const month =  new Date(this.date.value).getMonth() + 1;
+    this.addBlock(1, 'Bajando  crudos CSV ' + year + '/' + month + ': Generando');
     this.ppaMonitoringFormatService.downloadCrudosProfileExcel(year, month)
         .subscribe(
             data => {
               const blob = new Blob([this.base64toBlob(data.base64,
                   'application/CSV')], {});
               saveAs(blob, data.nameFile);
-              
+              this.addBlock(2, '');
               this.toastr.successToastr('Download File: Correctamente ' + year + '/' + month + ': Generado Correctamente', '¡Exito!');
             },
             errorData => {
-              
+              this.addBlock(2, '');
               this.toastr.errorToastr(errorData.error.message, '¡Error!');
             });
   }
@@ -219,17 +224,17 @@ export class SafePpaMonitoringProfileStationComponent implements OnInit {
         this.toastr.errorToastr('Eliga una fecha.', 'Faltan Datos¡');
         return 0;
       }
-      
+      this.addBlock(1, '');
       this.ppaMonitoringFormatService.procesaModeloTiempo(
           new Date(this.date.value).getFullYear(),
           new Date(this.date.value).getMonth() + 1
       ).subscribe (
           data => {
-            
+            this.addBlock(2, '');
             this.toastr.successToastr('Deteccion de Norma en proceso: ' + new Date(this.date.value).getFullYear() + '/' + (new Date(this.date.value).getMonth() + 1), '¡Procesando!');
           },
           errorData => {
-            
+            this.addBlock(2, '');
             console.dir(errorData);
             this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
           });

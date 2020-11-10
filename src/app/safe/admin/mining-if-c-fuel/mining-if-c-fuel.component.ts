@@ -210,10 +210,10 @@ export class MiningIFCFuelComponent implements OnInit {
 			this.tableCData = data.adjustments;
 
 			this.obtenSupports(data.masterFuelCostId);
-			
+			this.addBlock(2, '');
 		},
 		errorData => {
-			
+			this.addBlock(2, '');
 			this.toastr.errorToastr(errorData.error.message, 'Error!');
 		});
 	}
@@ -231,10 +231,10 @@ export class MiningIFCFuelComponent implements OnInit {
 		this.fuelCostService.uploadSupport(masterFuelCostDTO).subscribe (
 			(data: MasterFuelCostDTO) => {
 				this.obtenSupports(data.masterFuelCostId);
-				
+				this.addBlock(2, '');
 			},
 			errorData => {
-				
+				this.addBlock(2, '');
 				this.toastr.errorToastr(errorData.error.message, 'Error!');
 			});
 	}
@@ -246,7 +246,7 @@ export class MiningIFCFuelComponent implements OnInit {
 			}
 		},
 		errorData => {
-			
+			this.addBlock(2, '');
 			this.toastr.errorToastr(errorData.error.message, 'Error!');
 		},
 		() => {
@@ -293,7 +293,7 @@ export class MiningIFCFuelComponent implements OnInit {
 				console.log('echo');
 			},
 			errorData => {
-				
+				this.addBlock(2, '');
 				this.toastr.errorToastr(errorData.error.message, 'Error!');
 			},
 			() => {
@@ -332,10 +332,10 @@ export class MiningIFCFuelComponent implements OnInit {
 		this.fuelCostService.saveFuelCost(masterFuelCostDTO).subscribe (
 		(data: MasterFuelCostDTO) => {
 			this.toastr.successToastr('Guardado con exito', 'Exito!');
-			
+			this.addBlock(2, '');
 		},
 		errorData => {
-			
+			this.addBlock(2, '');
 			this.toastr.errorToastr(errorData.error.message, 'Error!');
 		},
 		() => {
@@ -364,10 +364,10 @@ export class MiningIFCFuelComponent implements OnInit {
 		this.fuelCostService.saveFuelCost(masterFuelCostDTO).subscribe (
 		(data: MasterFuelCostDTO) => {
 			this.toastr.successToastr('Guardado con exito', 'Exito!');
-			
+			this.addBlock(2, '');
 		},
 		errorData => {
-			
+			this.addBlock(2, '');
 			this.toastr.errorToastr(errorData.error.message, 'Error!');
 		},
 		() => {
@@ -396,10 +396,10 @@ export class MiningIFCFuelComponent implements OnInit {
 		this.fuelCostService.saveFuelCost(masterFuelCostDTO).subscribe (
 		(data: MasterFuelCostDTO) => {
 			this.toastr.successToastr('Guardado con exito', 'Exito!');
-			
+			this.addBlock(2, '');
 		},
 		errorData => {
-			
+			this.addBlock(2, '');
 			this.toastr.errorToastr(errorData.error.message, 'Error!');
 		},
 		() => {
@@ -458,7 +458,7 @@ export class MiningIFCFuelComponent implements OnInit {
 				console.log('echo');
 			},
 			errorData => {
-				
+				this.addBlock(2, '');
 				this.toastr.errorToastr(errorData.error.message, 'Error!');
 			},
 			() => {
@@ -466,7 +466,10 @@ export class MiningIFCFuelComponent implements OnInit {
 
 		console.log('onBtnFinish');
 	}
-	
+	addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1,
+			new EventBlocked(type, msg)));
+	}
 
 	loadCatalog() {
 		const names = ['SOURCE FUEL COST'];
@@ -500,7 +503,7 @@ export class MiningIFCFuelComponent implements OnInit {
 							console.log('echo');
 						},
 						errorData => {
-							
+							this.addBlock(2, '');
 							this.toastr.errorToastr(errorData.error.message, 'Error!');
 						},
 						() => {
@@ -536,6 +539,7 @@ export class MiningIFCFuelComponent implements OnInit {
 		}
 		reader.readAsDataURL(value.file);
 
+		timer(1000).subscribe(() => this.addBlock(2, ''));
 		this.fileUploadForm.controls.file.setValue(null);
 		this.appFileupload.clean();
 	}

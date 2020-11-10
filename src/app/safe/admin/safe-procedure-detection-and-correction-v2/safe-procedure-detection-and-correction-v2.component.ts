@@ -117,15 +117,16 @@ export class SafeProcedureDetectionAndCorrectionV2Component implements OnInit {
 	aplicarDeteccionProcedimiento() {
 		const year = new Date(this.date.value).getFullYear();
 		const mount =  new Date(this.date.value).getMonth() + 1;
+		this.addBlock(1, 'Aplicar Detección Procedimiento');
 		this.ppaMonitoringFormatService.procesaDeteccionProcedimiento(year, mount).subscribe(
 			data => {
-				
+				this.addBlock(2, '');
 				this.stangeLoadRaw();
 				this.toastr.successToastr('Detección Procedimiento: Aplicada correctamente', '¡Exito!');
 			},
 			errorData => {
 				console.dir(errorData);
-				
+				this.addBlock(2, '');
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
 	}
@@ -144,16 +145,16 @@ export class SafeProcedureDetectionAndCorrectionV2Component implements OnInit {
 	aplicarCorrecionProcedimiento() {
 		const year = new Date(this.date.value).getFullYear();
 		const mount =  new Date(this.date.value).getMonth() + 1;
-		
+		this.addBlock(1, 'Aplicar Correcion Procedimiento');
 		this.ppaMonitoringFormatService.procesaCorreccionProcedimiento(year, mount).subscribe(
 			data => {
-				
+				this.addBlock(2, '');
 				this.stangeLoadRaw();
 				this.toastr.successToastr('Correcion Procedimiento: Aplicado correctamente', '¡Exito!');
 			},
 			errorData => {
 				console.dir(errorData);
-				
+				this.addBlock(2, '');
 				this.toastr.errorToastr(errorData.error.message, '¡Error!');
 			});
 	}
@@ -161,17 +162,18 @@ export class SafeProcedureDetectionAndCorrectionV2Component implements OnInit {
 
 		const year = new Date(this.date.value).getFullYear();
 		const month =  new Date(this.date.value).getMonth() + 1;
+		this.addBlock(1, 'Bajando CSV ' + year + '/' + month + ': Generando');
 		this.ppaMonitoringFormatService.downloadExcel(year, month)
 			.subscribe(
 				data => {
 					const blob = new Blob([this.base64toBlob(data.base64,
 						'application/CSV')], {});
 					saveAs(blob, data.nameFile);
-					
+					this.addBlock(2, '');
 					this.toastr.successToastr('Download File: Correctamente ' + year + '/' + month + ': Generado Correctamente', '¡Exito!');
 				},
 				errorData => {
-					
+					this.addBlock(2, '');
 					this.toastr.errorToastr(errorData.error.message, '¡Error!');
 				});
 	}
@@ -194,7 +196,7 @@ export class SafeProcedureDetectionAndCorrectionV2Component implements OnInit {
 		return new Blob(byteArrays, { type: contentType });
 	}
 	stangeLoadRaw() {
-		
+		this.addBlock(1, '');
 		const year = new Date(this.date.value).getFullYear();
 		const month =  new Date(this.date.value).getMonth() + 1;
 		this.ppaMonitoringFormatService.stagenorm(year, month)
@@ -207,10 +209,10 @@ export class SafeProcedureDetectionAndCorrectionV2Component implements OnInit {
 					if (this.isDetected) {
 						this.buttonCorrected = false;
 					}
-					
+					this.addBlock(2, '');
 				},
 				errorData => {
-					
+					this.addBlock(2, '');
 					if (errorData.error.message.indexOf('Fecha de Operación Comercial: No cargada.') !== -1) {
 						this.isDetected = false;
 						this.isCorrected = false;
@@ -225,5 +227,9 @@ export class SafeProcedureDetectionAndCorrectionV2Component implements OnInit {
 						this.buttonCorrected = true;
 					}
 				});
+	}
+	addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1,
+			new EventBlocked(type, msg)));
 	}
 }

@@ -50,12 +50,10 @@ export class ComplianceConfigurationComponent implements OnInit {
 	showDelete = false;
 	plural = "";
 	initDate;
-	/* action: string = "Consultar"; */
 
 	columnasResponsabilidad: string[] = ['order', 'admin', 'responsabilidad'];
 
 	filtrobtn = { label: 'buscar' };
-	registros_x_pagina = [100, 200, 300];
 
 	serviceSubscription: any;
 
@@ -91,7 +89,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 		'estatus'
 	];
 	//tableRowXPage = [100, 500, 1000, 1500, 2000];
-	tableRowXPage = [5, 10, 50, 100];
+	tableRowXPage = [100, 200, 500];
 	formFiltersTable: FormGroup;
 	formFiltersType : FormGroup;
 	optionsFiltersType: IdLabel[] = [{ id: 1, label: 'Todos', disabled: false }, { id: 2, label: 'Al menos uno', disabled: true }];
@@ -165,7 +163,7 @@ export class ComplianceConfigurationComponent implements OnInit {
 				this.isSupervisor = true;
 			}
 		});
-		
+		this.addBlock(1, 'Cargando...');
 
 		this.formFiltersTable = this.formBuilder.group({
 			tag: [null],
@@ -198,28 +196,30 @@ export class ComplianceConfigurationComponent implements OnInit {
 	sortData(sort: Sort) { }
 
 	obtenerListaTags() {
-		
+		this.addBlock(1, 'Cargando...');
 
 		this.data = [];
 		const params : HttpParams = this.assamblerRequest ();
-		this.tagService.obtenTagFiltros(params).subscribe((data: MatrizCumplimientoDTO) => {
+		this.tagService.obtenTagFiltros(params)
+			.subscribe((data: MatrizCumplimientoDTO) => {
 
-			this.setTableData(data.matriz);
+				this.setTableData(data.matriz);
 
-			
+				this.addBlock(2, null);
 
-  			if (this.showView) {
-				if (!this.tableColumnsDisplay.includes('sys_see')) this.tableColumnsDisplay.push('sys_see');
-			}
-			if (this.showUpdate) {
-				if (!this.tableColumnsDisplay.includes('sys_edit')) this.tableColumnsDisplay.push('sys_edit');
-			}
-			if (this.showUpdate) {
-				if (!this.tableColumnsDisplay.includes('sys_delete')) this.tableColumnsDisplay.push('sys_delete');
-			}
-		},
+				if (this.showView) {
+					if (!this.tableColumnsDisplay.includes('sys_see')) this.tableColumnsDisplay.push('sys_see');
+				}
+				if (this.showUpdate) {
+					if (!this.tableColumnsDisplay.includes('sys_edit')) this.tableColumnsDisplay.push('sys_edit');
+				}
+				if (this.showUpdate) {
+					if (!this.tableColumnsDisplay.includes('sys_delete')) this.tableColumnsDisplay.push('sys_delete');
+				}
+				this.addBlock(2, null);
+			},
 			error => {
-				
+				this.addBlock(2, null);
 				this.toastr.errorToastr('Error al cargar lista de tags.', 'Lo siento,');
 
 			}
@@ -240,7 +240,6 @@ export class ComplianceConfigurationComponent implements OnInit {
 	eliminarTagConfirm(tag: any) {
 		this.tagService.eliminarTag(tag.idTag).subscribe(
 			respuesta => {
-				// 
 				let res: any;
 				res = respuesta;
 				if (res.clave === 0) {
@@ -251,7 +250,6 @@ export class ComplianceConfigurationComponent implements OnInit {
 				}
 			},
 			error => {
-				// 
 				this.toastr.errorToastr('Error al eliminar el tag.', 'Lo siento,');
 			}
 		);
@@ -283,18 +281,23 @@ export class ComplianceConfigurationComponent implements OnInit {
 		this.eventService.sendChangePage(new EventMessage(9, type, 'Compliance.Características.ABC'));
 	}
 
+	// Loadin
+	private addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+	}
 
 	initAutoComplete() {
 
+		this.addBlock(1, '');
 		let statusConsultActivity = 'TODOS'; // 'TODOS' || 'ACTIVOS'
 		this.tagService.getCatalogoActividades(statusConsultActivity)
 			.subscribe(catalogoResult => {
-				this.optionsClasificacion = catalogoResult.map(e => { return { id: e.consecutive, label: e.name }; });
+				this.optionsClasificacion = catalogoResult.map(e => { return { id: e.idActivity, label: e.name }; });
 			},
-				error => {
-					this.toastr.errorToastr('Error al cargar catálogo de Categoría.', 'Lo siento,');
-				}
-			);
+			error => {
+				this.toastr.errorToastr('Error al cargar catálogo de Categoría.', 'Lo siento,');
+			}
+		);
 
 		this.tagService.comboUnitPeriod().subscribe(
 			(lista: Array<MaestroOpcionDTO>) => {
@@ -322,11 +325,12 @@ export class ComplianceConfigurationComponent implements OnInit {
 				});
 			}
 		).add(() => {
-			
+			this.addBlock(2, null);
 		});
 	}
 
 	initCombos() {
+		this.addBlock(1, '');
 		this.administratorComplianceService.initComboTiposCumplimientos().subscribe(
 			(respuesta: Array<any>) => {
 				this.tiposCumplimientos = [];
@@ -337,8 +341,11 @@ export class ComplianceConfigurationComponent implements OnInit {
 				}
 				);
 			}
-		);
+		).add(() => {
+			this.addBlock(2, null);
+		});
 
+		this.addBlock(1, '');
 		this.administratorComplianceService.initComboActividades().subscribe(
 			(respuesta: Array<any>) => {
 				this.actividades = [];
@@ -349,7 +356,9 @@ export class ComplianceConfigurationComponent implements OnInit {
 				}
 				);
 			}
-		);
+		).add(() => {
+			this.addBlock(2, null);
+		});
 		const currentYear = (new Date()).getFullYear();
 		const nextYear = currentYear + 1;
 	}
@@ -445,7 +454,6 @@ export class ComplianceConfigurationComponent implements OnInit {
 				this.filteredAutoTag = data;
 			},
 			error => {
-//				
 				this.toastr.errorToastr('Error al cargar lista de tags.', 'Lo siento,');
 			});
 
@@ -461,7 +469,6 @@ export class ComplianceConfigurationComponent implements OnInit {
 				this.filteredAutoName = data;
 			},
 			error => {
-//				
 				this.toastr.errorToastr('Error al cargar lista de nombres de cumplimiento.', 'Lo siento,');
 			});
 
@@ -477,7 +484,6 @@ export class ComplianceConfigurationComponent implements OnInit {
 				this.filteredUserUpdated = data;
 			},
 			error => {
-//				
 				this.toastr.errorToastr('Error al cargar lista de usuarios.', 'Lo siento,');
 			});
 

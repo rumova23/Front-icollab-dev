@@ -126,7 +126,7 @@ export class ComplianceAddStaffComponent implements OnInit {
         this.arryCata = Array<OrderCatalogDTO>();
         this.arryCata.push( new OrderCatalogDTO('gender', 1, 1));
         this.arryCata.push( new OrderCatalogDTO('employeePlace', 1, 1));
-        
+        this.addBlock(1, 'Cargando...');
         this.cmbos.getlistCatalogoOrdenados(this.arryCata).subscribe(
             poRespuesta => {
                 this.generos = this.resuelveDS(poRespuesta, 'gender');
@@ -191,7 +191,7 @@ export class ComplianceAddStaffComponent implements OnInit {
 
 
                                 this.initAutoComplete();
-                                
+                                this.addBlock(2, null);
                             } else {
                                 console.log(resul['mensaje']);
                             }
@@ -200,7 +200,7 @@ export class ComplianceAddStaffComponent implements OnInit {
             },
             error => {
                 this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-                
+                this.addBlock(2, null);
             }
         );
     }
@@ -229,6 +229,10 @@ export class ComplianceAddStaffComponent implements OnInit {
                 elementData: this.elementData
             }, 'Compliance.registerPersonal.11'
         ));
+    }
+
+    private addBlock(type, msg): void {
+        this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
     }
 
     getTimeLocale(dateString: string): Date {

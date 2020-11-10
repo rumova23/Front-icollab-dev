@@ -22,6 +22,7 @@ import { GenerigResponseDTO } from 'src/app/compliance/models/GenerigResponseDTO
 import { IncidentService } from 'src/app/bits/services/incident.service';
 import {BinnacleEventDTO} from '../../../../safe/models/binnacle-event-dto';
 import {BinnacleService} from '../../../../safe/services/binnacle.service';
+import { EventBlocked } from 'src/app/core/models/EventBlocked';
 
 @Component({
 	selector: "app-approval-compliance",
@@ -107,8 +108,7 @@ export class ApprovalComplianceComponent implements OnInit {
  		this.approveMatrix = false;
 		this.rejectMatrix = false;
 		this.generateTasks = false;
-//this.showObservation = true;
-//this.showTrack = true;
+
 
 		this.nombreCatalogo = "Aprobación de Cumplimiento/Generación de Tareas";
 		this.matrixDisplay = [
@@ -236,16 +236,37 @@ export class ApprovalComplianceComponent implements OnInit {
 
 		this.filtrosForm.controls.fAnio.setValue(moment(new Date()));
 		this.currentYear = (new Date()).getFullYear();
-		this.obtenerListaPorAnio(this.currentYear);
 
+		this.obtenerListaPorAnio(this.currentYear);
 		this.initAutoComplete();
 
 	}
 
 	obtenerListaPorAnio(anio:number) {
-
+		this.addBlock(1, '');
 		this.tagService.obtenTagPorFiltros(anio)
 
+			.subscribe((data: MatrizCumplimientoDTO) => {
+
+				this.setTableData(data.matriz);
+
+				if (this.showView) {
+					if (!this.matrixDisplay.includes('sys_see')) this.matrixDisplay.push('sys_see');
+				}
+				this.addBlock(2, '');
+			},
+			error => {
+				this.addBlock(2, '');
+				this.toastr.errorToastr('Error al cargar lista de tags.', 'Lo siento,');
+
+			}
+		);
+	}
+
+	obtenerListaParam() {
+		this.addBlock(1, '');
+		let params = this.assamblerRequest ();
+		this.tagService.obtenTagFiltros(params)
 			.subscribe((data: MatrizCumplimientoDTO) => {
 
 				this.setTableData(data.matriz);
@@ -256,34 +277,13 @@ export class ApprovalComplianceComponent implements OnInit {
 				if (this.showUpdate) {
 					if (!this.matrixDisplay.includes('sys_edit')) this.matrixDisplay.push('sys_edit');
 				}
-				if (this.showDelete) {
+				if (this.showUpdate) {
 					if (!this.matrixDisplay.includes('sys_delete')) this.matrixDisplay.push('sys_delete');
 				}
+				this.addBlock(2, '');
 			},
 			error => {
-				this.toastr.errorToastr('Error al cargar lista de tags.', 'Lo siento,');
-
-			}
-		);
-	}
-
-	obtenerListaParam() {
-		let params = this.assamblerRequest ();
-		this.tagService.obtenTagFiltros(params).subscribe((data: MatrizCumplimientoDTO) => {
-
-			this.setTableData(data.matriz);
-
-			if (this.showView) {
-				if (!this.matrixDisplay.includes('sys_see')) this.matrixDisplay.push('sys_see');
-			}
-			if (this.showUpdate) {
-				if (!this.matrixDisplay.includes('sys_edit')) this.matrixDisplay.push('sys_edit');
-			}
-			if (this.showUpdate) {
-				if (!this.matrixDisplay.includes('sys_delete')) this.matrixDisplay.push('sys_delete');
-			}
-		},
-			error => {
+				this.addBlock(2, '');
 				this.toastr.errorToastr('Error al cargar lista de tags.', 'Lo siento,');
 
 			}
@@ -307,12 +307,12 @@ export class ApprovalComplianceComponent implements OnInit {
 		let statusConsultActivity = 'TODOS'; // 'TODOS' || 'ACTIVOS'
 		this.tagService.getCatalogoActividades(statusConsultActivity)
 			.subscribe(catalogoResult => {
-				this.optionsClasificacion = catalogoResult.map(e => { return { id: e.consecutive, label: e.name }; });
+				this.optionsClasificacion = catalogoResult.map(e => { return { id: e.idActivity, label: e.name }; });
 			},
-				error => {
-					this.toastr.errorToastr('Error al cargar catálogo de Categoría.', 'Lo siento,');
-				}
-			);
+			error => {
+				this.toastr.errorToastr('Error al cargar catálogo de Categoría.', 'Lo siento,');
+			}
+		);
 
 		this.tagService.comboUnitPeriod().subscribe(
 			(lista: Array<MaestroOpcionDTO>) => {
@@ -463,6 +463,7 @@ export class ApprovalComplianceComponent implements OnInit {
 	}
 
  	saveObservation() {
+		this.addBlock(1, '');
 		let binnacle : any;
 		binnacle = {
 			binnacleEventID : this.formFiltersTable.controls['clasificacion'].value,
@@ -477,34 +478,39 @@ export class ApprovalComplianceComponent implements OnInit {
 		    }, error => {
 			    this.toastr.errorToastr("Error al guardar la bitácora", 'Error!');
 		    }, () => {
+				this.addBlock(2, null);
 				this.showObservation = false;
 		});
 	}
 
 	aprobarMatrizCumplimiento() {
-
+		this.addBlock(1, '');
 		if (this.filtrosForm.controls.fAnio.value != null) {
 			let year = moment ( this.filtrosForm.controls.fAnio.value ).year( );
-			this.administratorComplianceService.apruebaMatrizCumplimiento(year).subscribe(
-				response => {
-					this.toastr.successToastr('Se aprobo correctamente la matriz de cumplimiento', '¡Se ha logrado!');
-					this.obtenerListaPorAnio(year);
- 					this.statusMatrix = "Aprobado"
-					this.approveMatrix = false;
-					this.rejectMatrix = true;
-					this.generateTasks = true;
-				},
-				error => {
-					this.toastr.errorToastr('Error en la aprovación de la matriz.', 'Lo siento,');
+			this.administratorComplianceService.apruebaMatrizCumplimiento(year)
+				.subscribe(
+					response => {
+						this.toastr.successToastr('Se aprobo correctamente la matriz de cumplimiento', '¡Se ha logrado!');
+						this.obtenerListaPorAnio(year);
+						this.statusMatrix = "Aprobado"
+						this.approveMatrix = false;
+						this.rejectMatrix = true;
+						this.generateTasks = true;
+						this.addBlock(2, null);
+					},
+					error => {
+						this.addBlock(2, null);
+						this.toastr.errorToastr('Error en la aprovación de la matriz.', 'Lo siento,');
 
-			});
+				});
+
 		} else {
 			this.toastr.warningToastr('Selecciona un año.' );
 		}
 	}
 
 	rechazarMatrizCumplimiento() {
-
+		this.addBlock(1, '');
 		if (this.filtrosForm.controls.fAnio.value != null) {
 			let year = moment ( this.filtrosForm.controls.fAnio.value ).year( );
 			this.administratorComplianceService.liberaMatrizCumplimiento(year).subscribe(
@@ -517,15 +523,17 @@ export class ApprovalComplianceComponent implements OnInit {
 					this.approveMatrix = true;
 					this.rejectMatrix = false;
 					this.generateTasks = false;
+					this.addBlock(2, null);
 				},
 				error => {
+					this.addBlock(2, null);
 					this.toastr.errorToastr('Error en el rechazo de la matriz.', 'Lo siento,');
 			});
 		}
 	}
 
     generarTareas() {
-
+		this.addBlock(1, '');
         if (this.formFiltersTable.controls.clasificacion.value) {
 			let year = moment ( this.filtrosForm.controls.fAnio.value ).year( );
             this.administratorComplianceService.getTasks(
@@ -538,8 +546,10 @@ export class ApprovalComplianceComponent implements OnInit {
 					this.rejectMatrix = false;
 					this.generateTasks = false;
 					this.toastr.infoToastr('Generación de tareas exitoso.', '');
+					this.addBlock(2, null);
 				},
 				error => {
+					this.addBlock(2, null);
 					this.toastr.errorToastr('Error en la generación de tareas.', 'Lo siento,');
 				}
             );
@@ -549,6 +559,7 @@ export class ApprovalComplianceComponent implements OnInit {
     }
 
  	getTrack() {
+		this.addBlock(1, '');
 		let binnacle : any;
 		binnacle = {
 			binnacleEventID : this.formFiltersTable.controls['clasificacion'].value,
@@ -571,9 +582,10 @@ export class ApprovalComplianceComponent implements OnInit {
 						element.backgroundColor = '#DCDCDC';
 					}
 				});
-
+				this.addBlock(2, null);
 			},
-			errorData => {
+			error => {
+				this.addBlock(2, null);
 				this.toastr.errorToastr('Problemas en la consulta', 'Error');
 			},
 			() => {
@@ -601,6 +613,11 @@ export class ApprovalComplianceComponent implements OnInit {
 			}
 		}
 		this.obtenerListaPorAnio(selectYear);
+	}
+
+	// Loadin
+	private addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
 	}
 
 }

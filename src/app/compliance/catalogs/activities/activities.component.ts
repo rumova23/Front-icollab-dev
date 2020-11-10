@@ -60,17 +60,17 @@ export class ActivitiesComponent implements OnInit {
 
   ngOnInit() {
     this.titulo =  this.nombreCatalogo;
-    
+    this.addBlock(1, null);
     this.obtenerListaActividades();
     /*
     this.securityService.loadUsers().subscribe( userResult => {
       this.userResult = userResult;
       this.obtenerListaActividades();
-      
+      this.addBlock(2, null);
     },
     error =>{
       console.log(<any>error);
-      
+      this.addBlock(2, null);
       this.toastr.errorToastr('Error al cargar lista de usuarios.', 'Lo siento,');
     });*/
 
@@ -169,10 +169,10 @@ export class ActivitiesComponent implements OnInit {
         }
         this.registros.sort = this.matSort;
 
-        
+        this.addBlock(2, null);
       },
       error => {
-        
+        this.addBlock(2, null);
         this.toastr.errorToastr('Error al obtener catalgo de actividades.', 'Lo siento,');
       }
     )
@@ -241,5 +241,10 @@ export class ActivitiesComponent implements OnInit {
     }
     this.eventService.sendChangePage(new EventMessage(7, type, "Compliance.Categorías.ABC"));
  }
+
+  //Loadin
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
 
 }

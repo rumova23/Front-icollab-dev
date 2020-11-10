@@ -64,7 +64,7 @@ export class BehaviorComponent implements OnInit, OnDestroy {
       this.totalPreg = [];
       this.idTemas = [ 'PSICOMETRICO DEFAULT'];
 
-      
+      this.addBlock(1, null);
       this.preguntas.obtenPreguntasExamen('PSICOMETRICO DEFAULT', this.inIdEmpleado).subscribe(
       reservacion => {
                 this.examenReservacionId = reservacion.examenReservacionId;
@@ -113,9 +113,9 @@ export class BehaviorComponent implements OnInit, OnDestroy {
            },
           error => {
               this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-              
+              this.addBlock(2, null);
           }).add(() => {
-          
+          this.addBlock(2, null);
       });
   }
 
@@ -189,5 +189,7 @@ export class BehaviorComponent implements OnInit, OnDestroy {
       );
   }
 
-
+  private addBlock(type, msg): void {
+      this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
 }

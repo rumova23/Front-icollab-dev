@@ -122,7 +122,7 @@ export class EfhAddIndicatorComponent implements OnInit {
   }
 
   getCatalogs() {
-    
+    this.addBlock(1, 'Cargando...');
     this.catalogoMaestroService.getCatalogoIndividual('typeIndicator')
         .subscribe(
             data => {
@@ -198,7 +198,7 @@ export class EfhAddIndicatorComponent implements OnInit {
             },
             errorData => {
               this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-              
+              this.addBlock(2, null);
             }
         );
   }
@@ -261,7 +261,7 @@ export class EfhAddIndicatorComponent implements OnInit {
           this.dataSource.sort = this.sort;
         }
     ).add(() => {
-      
+      this.addBlock(2, null);
     });
   }
 
@@ -329,6 +329,9 @@ export class EfhAddIndicatorComponent implements OnInit {
         .catch(() => console.log('Canceló eliminar'));
   }
 
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
 
   getTimeLocale(dateString: string): Date {
     const toConvertDate = new Date(dateString);

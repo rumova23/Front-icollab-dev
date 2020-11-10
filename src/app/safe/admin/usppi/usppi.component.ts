@@ -42,7 +42,7 @@ export class UsppiComponent implements OnInit {
   }
 
   private loadData(data: any) {
-    
+    this.addBlock(1, null);
     this.marketService.getUsppi(data).subscribe(
       dataP => {
 
@@ -124,11 +124,11 @@ export class UsppiComponent implements OnInit {
         if(dataP.length === 0) {
           this.toastr.warningToastr('No hay datos para mostrar')
         } */
-        
+        this.addBlock(2, null);
       },
       errorData => {
         this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,')
-        
+        this.addBlock(2, null);
       });
   }
 
@@ -144,5 +144,10 @@ export class UsppiComponent implements OnInit {
       + (date.getMonth() + 1) : (date.getMonth() + 1);
     const day = (date.getDate() <= 9) ? "0" + date.getDate() : date.getDate();
     return date.getFullYear() + '-' + month + '-' + day;
+  }
+
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1,
+      new EventBlocked(type, msg)));
   }
 }

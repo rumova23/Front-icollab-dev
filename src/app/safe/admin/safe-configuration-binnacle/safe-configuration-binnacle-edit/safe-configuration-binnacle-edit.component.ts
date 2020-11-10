@@ -387,10 +387,10 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 		this.binnacleService.setAssociate(container).subscribe(
 			data => {
 				this.toastr.successToastr('Actualizacion completa', 'Exito!.');
-				
+				this.addBlock(2, '');
 			},
 			errorData => {
-				
+				this.addBlock(2, '');
 				this.toastr.errorToastr(errorData.error.message, 'Error!');
 			}, () => {
 				const names = ['EVENTO'];
@@ -456,14 +456,14 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 			return;
 		}
 		if (this.catalogType.action === 'nuevo') {
-			
+			this.addBlock(1, '');
 			this.binnacleService.saveBinnacleConfiguration(v).subscribe(
 				data => {
 					this.toastr.successToastr('Guardado Completo', 'Exito!.');
-					
+					this.addBlock(2, '');
 				},
 				errorData => {
-					
+					this.addBlock(2, '');
 					this.toastr.errorToastr(errorData.error.message, 'Error!');
 				},
 				() => {
@@ -474,17 +474,17 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 				});
 		}
 		if (this.catalogType.action === 'editar') {
-			
+			this.addBlock(1, '');
 			console.dir(this.formNewEvent.value);
 			this.formNewEvent.controls.eventsClassificationId.enable();
 			this.formNewEvent.controls.eventsId.enable();
 			this.binnacleService.updateBinnacleConfiguration(this.formNewEvent.value).subscribe(
 				data => {
 					this.toastr.successToastr('Actualizacion Completa', 'Exito!.');
-					
+					this.addBlock(2, '');
 				},
 				errorData => {
-					
+					this.addBlock(2, '');
 					this.toastr.errorToastr(errorData.error.message, 'Error!');
 				},
 				() => {
@@ -505,7 +505,10 @@ export class SafeConfigurationBinnacleEditComponent implements OnInit {
 	getNameUser() {
 		return this.securityService.getNameUser() + ' ' + this.securityService.getLastNameUser();
 	}
-
+	private addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1,
+			new EventBlocked(type, msg)));
+	}
 	onBuildTemplate(value: any) {
 		this.binnacleService.obtenTemplate(this.formNewEvent.controls.eventsClassificationId.value, value.value).subscribe(
 			(data: BinnacleEventConfigurationDTO) => {

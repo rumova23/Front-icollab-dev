@@ -101,7 +101,7 @@ export class DataqDcprocessEnergymetersComponent implements OnInit {
 			this.toastr.errorToastr('Eliga una fecha.', 'Lo siento,');
 			return 0;
 		}
-		
+		this.addBlock(1, '');
 		this.ppaMonitoringFormatService.procesaDeteccionProcedimientoProfile(
 			year, month
 		).subscribe(
@@ -109,12 +109,12 @@ export class DataqDcprocessEnergymetersComponent implements OnInit {
 				/*
 				data = {success: true, message: "ok", code: 0}
 				*/
-				
+				this.addBlock(2, '');
 				this.toastr.successToastr('Deteccion de Norma en proceso: ' + mydate.format('yyyy/MM'), '¡Procesando!');
 				console.log(data);
 			},
 			errorData => {
-				
+				this.addBlock(2, '');
 				console.dir(errorData);
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
@@ -129,7 +129,7 @@ export class DataqDcprocessEnergymetersComponent implements OnInit {
 			this.toastr.errorToastr('Eliga una fecha.', 'Lo siento,');
 			return 0;
 		}
-		
+		this.addBlock(1, '');
 		this.ppaMonitoringFormatService.procesaCorrecionProcedimientoProfile(
 			year, month
 		).subscribe(
@@ -137,12 +137,12 @@ export class DataqDcprocessEnergymetersComponent implements OnInit {
 				/*
 				data = {success: true, message: "ok", code: 0}
 				*/
-				
+				this.addBlock(2, '');
 				this.toastr.successToastr('Deteccion de Norma en proceso: ' + mydate.format('yyyy/MM'), '¡Procesando!');
 				console.log(data);
 			},
 			errorData => {
-				
+				this.addBlock(2, '');
 				console.dir(errorData);
 				this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 			});
@@ -151,24 +151,28 @@ export class DataqDcprocessEnergymetersComponent implements OnInit {
 	translateMessages() {
 		this.translate.get('Success').subscribe(e => this.translateSuccess = e);
 	}
-	
+	addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1,
+			new EventBlocked(type, msg)));
+	}
 
 	download() {
 		console.log('intentndo reporte perfiles');
 		const mydate = this.formQuery.get('date').value;
 		const month = mydate.month() + 1;
 		const year = mydate.year();
+		this.addBlock(1, 'Bajando  crudos CSV ' + year + '/' + month + ': Generando');
 		this.ppaMonitoringFormatService.downloadCrudosProfileExcel(year, month)
 			.subscribe(
 				data => {
 					const blob = new Blob([this.base64toBlob(data.base64,
 						'application/CSV')], {});
 					saveAs(blob, data.nameFile);
-					
+					this.addBlock(2, '');
 					this.toastr.successToastr('Download File: Correctamente ' + year + '/' + month + ': Generado Correctamente', '¡Exito!');
 				},
 				errorData => {
-					
+					this.addBlock(2, '');
 					this.toastr.errorToastr(errorData.error.message, '¡Error!');
 				});
 	}

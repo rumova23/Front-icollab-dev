@@ -122,7 +122,7 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
 		});
 	}
 	onLoadInit(){
-		
+		this.addBlock(1, '');
 		this.incidentService.list().subscribe((data:IncidentOutDTO[])=>{
 			console.log(data);
 			this.tableData = data.map((e,i)=>{
@@ -134,16 +134,16 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
 			this.initAutoComplete();
 		}
 		,err=>{
-			
+			this.addBlock(2, '');
 			console.error(err);
 			this.toastr.errorToastr('Error', 'Error');
 		}
 		,()=>{
-			
+			this.addBlock(2, '');
 		});
 	}
 	onbtnAdd(){
-		
+		this.addBlock(1,null);
 		const type: DataTransfer<IncidentOutDTO> = {
             dto: null,
             action: 'nuevo',
@@ -154,7 +154,7 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
         );
 	}
 	onTableRowSee(element){
-		
+		this.addBlock(1,null);
 		const type: DataTransfer<IncidentOutDTO> = {
             dto: element,
             action: 'ver',
@@ -165,7 +165,7 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
         );	
 	}
 	onTableRowEdit(element){
-		
+		this.addBlock(1,null);
 		const type: DataTransfer<IncidentOutDTO> = {
             dto: element,
             action: 'editar',
@@ -226,5 +226,8 @@ export class BitsIncidentsEnvironmentalComponent implements OnInit {
 		this.filteredAutoUserUpdated = this.tableData.map(d=>d.userUpdated).filter((el,index,arr)=>arr.indexOf(el) === index);
   
 	}
-	
+	addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1,
+			new EventBlocked(type, msg)));
+	}
 }

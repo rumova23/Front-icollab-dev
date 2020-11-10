@@ -118,13 +118,15 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 		super(globalService, eventService, socketService, securityService);
 	
 	}
-
+	private addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+	}
 
 	ngOnDestroy() {
 		this.connectSocketChannelNgOnDestroy();
 	}
 	ngOnInit() {
-		
+		this.addBlock(1, "");
 		let url = `/assets/css/theme/content/monitoring.css`;
 		let urlActual = document.getElementById("content_theme").getAttribute("href");
 		if(url != urlActual){
@@ -351,15 +353,18 @@ export class Phase3v6Component extends ConnectSocketChannelComponent implements 
 			},
 			(errorData) => {
 				this.conectToPi = false;
+				this.addBlock(2, "");
 				//this.toastr.errorToastr(Constants.ERROR_LOAD, 'Clima actual');
 			},
 			() => {
 				//Complete
+				if (!this.conectToPi) this.addBlock(2, "");
 				if (this.conectToPi) {
 					this.initCharts();
 					this.socketFase3();
 					timer(3000).subscribe(()=>{
-					});
+						this.addBlock(2, "");
+					});//*/
 
 					if(this.subscriptions['interval_chartLine_01_updateCharLine'] != undefined && this.subscriptions['interval_chartLine_01_updateCharLine']['isStopped']==false){
 						this.subscriptions['interval_chartLine_01_updateCharLine'].unsubscribe();

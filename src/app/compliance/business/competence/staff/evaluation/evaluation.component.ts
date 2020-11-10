@@ -144,7 +144,7 @@ export class EvaluationComponent implements OnInit {
   }
   getDataSource() {
     this.dataEmpleadoEvaluaciones = [];
-    
+    this.addBlock(1, 'Cargando...');
     this.personalService.getEmpleadosEvaluaciones().subscribe(
         dataBack => {
 
@@ -220,10 +220,10 @@ export class EvaluationComponent implements OnInit {
         },
         errorData => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-          
+          this.addBlock(2, null);
         }
     ).add(() => {
-      
+      this.addBlock(2, null);
       this.initAutoComplete();
     });
 
@@ -282,6 +282,10 @@ export class EvaluationComponent implements OnInit {
       tipo: tipo,
       entidadEstatusTerminado: this.entidadEstatusTerminado
     }, descriptor));
+  }
+
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
   }
 
   search(typeCondition: string): any[] {
@@ -347,7 +351,7 @@ export class EvaluationComponent implements OnInit {
   }
 
   generarExamen(empleadoId: number) {
-    
+    this.addBlock(1, 'Cargando...');
     this.perfilService.generaExamen(empleadoId, '').subscribe(
         data => {
           this.toastr.successToastr('Se generaron los examenes correctamente', '¡Se ha logrado!');
@@ -359,10 +363,10 @@ export class EvaluationComponent implements OnInit {
         },
         error => {
           this.toastr.errorToastr('Error al crear el exámen, favor de verificar', 'Lo siento,');
-          
+          this.addBlock(2, null);
         }
     ).add(() => {
-      
+      this.addBlock(2, null);
     });
   }
 

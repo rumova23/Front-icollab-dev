@@ -99,7 +99,7 @@ export class ObsyCommentsComponent implements OnInit {
   }
 
   getObservations() {
-    
+    this.addBlock(1, 'Cargando...');
     this.comentarios.obtenCalificacion(this.inIdEmpleado).subscribe(
         calificacion => {
             this.comentarios.getComentarios(calificacion.calificacionId).subscribe(
@@ -117,23 +117,23 @@ export class ObsyCommentsComponent implements OnInit {
                 },
                 error1 => {
                     this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-                    
+                    this.addBlock(2, null);
                 }
             );
         },
         error => {
             this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-            
+            this.addBlock(2, null);
         }
     ).add(() => {
-        
+        this.addBlock(2, null);
     });
   }
 
   saveObservation() {
     this.dataObservationSumbit = {};
     const obsva = this.obsForm.controls.fObserva.value;
-    
+    this.addBlock(1, 'Cargando...');
     this.comentarios.obtenCalificacion(this.inIdEmpleado).subscribe(
       calificacion => {
             this.dataObservationSumbit['observacion'] = obsva;
@@ -148,14 +148,14 @@ export class ObsyCommentsComponent implements OnInit {
             },
             error1 => {
                 this.toastr.errorToastr('Ocurrió un error al intentar registrar la observación', 'Lo siento,');
-                
+                this.addBlock(2, null);
             });
         },
         error => {
             this.toastr.errorToastr('Ocurrió un error al intentar eliminar la observación', 'Lo siento,');
-            
+            this.addBlock(2, null);
         }).add(() => {
-      
+      this.addBlock(2, null);
     });
   }
 
@@ -167,7 +167,7 @@ export class ObsyCommentsComponent implements OnInit {
     this.dataObservationSumbit['fechaObservacion'] = new Date();
     this.dataObservationSumbit['activo'] = comment.active;
     this.dataObservationSumbit['save'] = false;
-    
+    this.addBlock(1, 'Cargando...');
     this.comentarios.guardaObservacion(this.dataObservationSumbit).subscribe(
         data => {
             this.toastr.successToastr('La observación fue actualizada con éxito.', '¡Se ha logrado!');
@@ -175,10 +175,10 @@ export class ObsyCommentsComponent implements OnInit {
         },
         error => {
             this.toastr.errorToastr(error.error['text'], 'Lo siento, no fue posible actualizar la observación');
-            
+            this.addBlock(2, null);
         }
     ).add(() => {
-        
+        this.addBlock(2, null);
     });
   }
 
@@ -190,7 +190,7 @@ export class ObsyCommentsComponent implements OnInit {
     this.dataObservationSumbit['fechaObservacion'] = new Date();
     this.dataObservationSumbit['activo'] = !comment.active;
     this.dataObservationSumbit['save'] = false;
-    
+    this.addBlock(1, 'Cargando...');
     this.comentarios.guardaObservacion(this.dataObservationSumbit).subscribe(
         data => {
             this.toastr.successToastr('La observación fue actualizada con éxito.', '¡Se ha logrado!');
@@ -198,10 +198,10 @@ export class ObsyCommentsComponent implements OnInit {
         },
         error => {
             this.toastr.errorToastr(error.error['text'], 'Lo siento, no fue posible eliminar la observación');
-            
+            this.addBlock(2, null);
         }
     ).add(() => {
-        
+        this.addBlock(2, null);
     });
   }
 
@@ -274,7 +274,7 @@ export class ObsyCommentsComponent implements OnInit {
   }
 
   downloadFile(fileId: number, fileName: string) {
-    
+    this.addBlock(1, 'Descargando archivo...');
     this.comentarios.downloadFile(fileId).subscribe(
         result => {
           let dataType = result.type;
@@ -286,9 +286,9 @@ export class ObsyCommentsComponent implements OnInit {
           downloadLink.click();
         },
         error => {
-          
+          this.addBlock(2, null);
         }).add(() => {
-      
+      this.addBlock(2, null);
     });
   }
 
@@ -321,4 +321,7 @@ export class ObsyCommentsComponent implements OnInit {
     }
   }
 
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
 }

@@ -154,10 +154,10 @@ export class MiningIFIEconomicproposalComponent implements OnInit {
 				console.dir(data);
 				this.tableData01 = data;
 
-				
+				this.addBlock(2, '');
 			},
 			errorData => {
-				
+				this.addBlock(2, '');
 				if (errorData.error.message.indexOf('Notificacion 001') !== -1) {
 					this.toastr.warningToastr(errorData.error.message, 'Advertencia!');
 				} else {
@@ -198,10 +198,10 @@ export class MiningIFIEconomicproposalComponent implements OnInit {
 			(data: EconomicProposalDTO) => {
 				console.dir(data);
 				this.toastr.successToastr('Actualizacion correcta', 'Exito!');
-				
+				this.addBlock(2, '');
 			},
 			errorData => {
-				
+				this.addBlock(2, '');
 				if (errorData.error.message.indexOf('Notificacion 001') !== -1) {
 					this.toastr.warningToastr(errorData.error.message, 'Advertencia!');
 				} else {
@@ -212,5 +212,9 @@ export class MiningIFIEconomicproposalComponent implements OnInit {
 	}
 	onBtnCancelFormEconomic() {
 
+	}
+	 addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1,
+			new EventBlocked(type, msg)));
 	}
 }

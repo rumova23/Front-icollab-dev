@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild, Input, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrManager } from 'ng6-toastr-notifications';
-import { MatPaginator, MatTableDataSource, MatSort, Sort } from '@angular/material';
 
 import { GlobalService } from 'src/app/core/globals/global.service';
 import { Combo } from 'src/app/compliance/models/Combo';
@@ -24,14 +23,6 @@ import { ColumnLabel } from 'src/app/core/models/ColumnLabel';
 	templateUrl: './configActivities.component.html'
 })
 export class ConfigActivitiesComponent implements OnInit {
-	// Simulación tuxpan
-
-
-	@ViewChild(MatPaginator) paginatorRegisters: MatPaginator;
-	@ViewChild(MatSort) sortRegisters: MatSort;
-
-	@ViewChild(MatPaginator) paginatorTagPrecedentes: MatPaginator;
-	@ViewChild(MatSort) sortTagPrecedentes: MatSort;
 
 	plantaDefault = this.globalService.plantaDefaultId; // "70"; //"Planta Tuxpan II";
 	a326 = null;
@@ -49,13 +40,14 @@ export class ConfigActivitiesComponent implements OnInit {
 	cabeceraTagPrecedentes: string[] = ['tagHijo', 'tagHijoNombreCumplimiento', 'opcion'];
 	columnas: string[] = ['tag', 'descripcion', 'assignPrecedent'];
 	titulo: string;
+
+	precedents;
+	activities;
 	activitiesColDisplay: string[];
 	activityesColLabel: ColumnLabel[];
+	precedentsColDisplay: string[];
+	precedentsColLabel: ColumnLabel[];
 
-	//	tagPrecedentes: MatTableDataSource<any>;
-	tagPrecedentes;
-	//	activities: MatTableDataSource<any>;
-	activities;
 	registros_x_pagina = [100, 200, 300];
 	registros_x_pagina1 = [100, 200, 300];
 	data: any[] = [];
@@ -100,6 +92,137 @@ export class ConfigActivitiesComponent implements OnInit {
 			}
 		});
 	}
+
+	ngOnInit() {
+
+		this.addBlock(1, 'Cargando...');
+		this.accion = this.catalogType.action;
+		this.existeTagId = false;
+		this.tablaAgregarPrecedentes = false;
+
+		this.habilitarActividad = false;
+
+		this.comboActividades = new Array<Combo>();
+		this.comboTipoCumplimiento = new Array<Combo>();
+		this.comboAutoridad = new Array<Combo>();
+		this.comboTipoAplicacion = new Array<Combo>();
+		this.comboUnitPeriod = new Array<Combo>();
+		this.comboTipoDias = new Array<Combo>();
+		this.comboEstatus = new Array<Combo>();
+		this.comboGrupo = new Array<Combo>();
+		let statusConsult: string = null;
+		if (this.accion === 'edit' || 'ver') {
+			statusConsult = 'TODOS';
+		}
+
+		this.listaCombos = Array<OrderCatalogDTO>();
+		this.listaCombos.push(new OrderCatalogDTO('typeCompliance', 1, 3));
+		this.listaCombos.push(new OrderCatalogDTO('authority', 1, 3));
+		this.listaCombos.push(new OrderCatalogDTO('typeApplication', 1, 3));
+		this.listaCombos.push(new OrderCatalogDTO('typeDay', 1, 3));
+		this.listaCombos.push(new OrderCatalogDTO('group', 1, 3));
+		this.tagService.getlistCatalogoOrdenados(this.listaCombos).subscribe(
+			poRespuesta => {
+				this.resuelveDS(poRespuesta, this.comboTipoCumplimiento, 'typeCompliance');
+				this.resuelveDS(poRespuesta, this.comboAutoridad, 'authority');
+				this.resuelveDS(poRespuesta, this.comboTipoAplicacion, 'typeApplication');
+				this.resuelveDS(poRespuesta, this.comboTipoDias, 'typeDay');
+				this.resuelveDS(poRespuesta, this.comboGrupo, 'group');
+			}
+		).add(() => {
+			this.addBlock(2, null);
+		});
+		this.addBlock(1, 'Cargando...');
+		let statusConsultActivity = 'ACTIVOS';
+		if (this.accion === 'edit' || this.accion === 'ver') {
+			statusConsultActivity = 'TODOS';
+		} else if (this.accion === 'nuevo') {
+			statusConsultActivity = 'ACTIVOS';
+		}
+		this.tagService.getCatalogoActividades(statusConsultActivity).subscribe(
+			catalogoResult => {
+				console.log(catalogoResult)
+				let actividad: any;
+				actividad = catalogoResult;
+				actividad.forEach(element => {
+					let combo: Combo;
+					combo = new Combo(element.idActivity, element.name);
+					this.comboActividades.push(combo);
+				});
+				this.addBlock(2, null);
+			},
+			error => {
+				console.log('Error al obtener catalgo de actividades.');
+				this.addBlock(2, null);
+				this.toastr.errorToastr('Error al cargar catálogo de actividades.', 'Lo siento,');
+			}
+		).add(() => {
+			this.addBlock(2, null);
+		});
+
+		this.initComboUnitPeriod();
+
+		this.configActividadesForm = this.formBuilder.group({
+			fIdTag: ['', ''],
+			fTag: ['', Validators.required],
+			fDescripcion: ['', Validators.required],
+			fActividad: ['', Validators.required],
+			fClasificacionActividad: ['', Validators.required],
+			fTipoCumplimiento: [{ value: '1', disabled: true }, Validators.required],
+			fRequisitoLegal: ['', Validators.required],
+			fAutoridad: ['', Validators.required],
+			fTipoAplicacion: ['', Validators.required],
+			fPeriodoEntregaCantidad: ['', [Validators.required, Validators.min(1)]],
+			fPeriodoEntregaUnidad: ['', Validators.required],
+			fcomboGrupo: ['', Validators.required],
+			fTipoDias: [{ value: '2', disabled: true }, Validators.required]
+		});
+
+		if (this.accion === 'edit') {
+			this.deshabiliarEstatus = false;
+			this.titulo = 'Editar';
+		} else if (this.accion === 'ver') {
+			this.deshabiliarEstatus = true;
+			this.titulo = 'Consultar';
+		} else {
+			this.checkedEstatus = true;
+			this.deshabiliarEstatus = false;
+			this.titulo = 'Agregar';
+			this.configActividadesForm.controls['fTag'].disable();
+		}
+
+		if (this.accion === 'edit' || this.accion === 'ver') {
+			this.obtenerActividadurl();
+		}
+
+		this.activitiesColDisplay = [
+//			'tagId',
+			'tag',
+			'descripcion',
+			'sys_checkbox',
+		];
+		this.activityesColLabel = [
+//			{ key: 'tagId', label: 'TAG ID' },
+			{ key: 'tag', label: 'TAG' },
+			{ key: 'descripcion', label: 'DESCRIPCION' },
+			{ key: 'visible', label: 'Visible' },
+		];
+
+		this.precedentsColDisplay = [
+//			'tagId',
+			'tagHijo',
+			'tagHijoNombreCumplimiento',
+			'sys_delete',
+		];
+		this.precedentsColLabel = [
+//			{ key: 'tagId', label: 'TAG ID' },
+			{ key: 'tagHijo', label: 'Actividad' },
+			{ key: 'tagHijoNombreCumplimiento', label: 'Nombre del Cumplimiento' }
+		];
+
+	}
+
+	get f() { return this.configActividadesForm.controls; }
 
 	isnumeric(link) {
 		if (isNaN(Number(this.a326)) || 0 === Number(this.a326)) {
@@ -154,13 +277,6 @@ export class ConfigActivitiesComponent implements OnInit {
 		}
 	}
 
-	applyFilter(filterValue: string) {
-		this.activities.filter = filterValue.trim().toLowerCase();
-	}
-	applyFilter1(filterValue1: string) {
-		this.tagPrecedentes.filter = filterValue1.trim().toLowerCase();
-	}
-
 	changePlant() {
 		this.plantaDefault = this.globalService.plantaDefaultId;
 	}
@@ -189,127 +305,6 @@ export class ConfigActivitiesComponent implements OnInit {
 		}
 	}
 
-
-
-	ngOnInit() {
-
-		
-		this.accion = this.catalogType.action;
-		this.existeTagId = false;
-		this.tablaAgregarPrecedentes = false;
-
-		this.habilitarActividad = false;
-
-		this.comboActividades = new Array<Combo>();
-		this.comboTipoCumplimiento = new Array<Combo>();
-		this.comboAutoridad = new Array<Combo>();
-		this.comboTipoAplicacion = new Array<Combo>();
-		this.comboUnitPeriod = new Array<Combo>();
-		this.comboTipoDias = new Array<Combo>();
-		this.comboEstatus = new Array<Combo>();
-		this.comboGrupo = new Array<Combo>();
-		let statusConsult: string = null;
-		if (this.accion === 'edit' || 'ver') {
-			statusConsult = 'TODOS';
-		}
-
-		this.listaCombos = Array<OrderCatalogDTO>();
-		this.listaCombos.push(new OrderCatalogDTO('typeCompliance', 1, 3));
-		this.listaCombos.push(new OrderCatalogDTO('authority', 1, 3));
-		this.listaCombos.push(new OrderCatalogDTO('typeApplication', 1, 3));
-		this.listaCombos.push(new OrderCatalogDTO('typeDay', 1, 3));
-		this.listaCombos.push(new OrderCatalogDTO('group', 1, 3));
-		this.tagService.getlistCatalogoOrdenados(this.listaCombos).subscribe(
-			poRespuesta => {
-				this.resuelveDS(poRespuesta, this.comboTipoCumplimiento, 'typeCompliance');
-				this.resuelveDS(poRespuesta, this.comboAutoridad, 'authority');
-				this.resuelveDS(poRespuesta, this.comboTipoAplicacion, 'typeApplication');
-				this.resuelveDS(poRespuesta, this.comboTipoDias, 'typeDay');
-				this.resuelveDS(poRespuesta, this.comboGrupo, 'group');
-			}
-		).add(() => {
-			
-		});
-		
-		let statusConsultActivity = 'ACTIVOS';
-		if (this.accion === 'edit' || this.accion === 'ver') {
-			statusConsultActivity = 'TODOS';
-		} else if (this.accion === 'nuevo') {
-			statusConsultActivity = 'ACTIVOS';
-		}
-		this.tagService.getCatalogoActividades(statusConsultActivity).subscribe(
-			catalogoResult => {
-				console.log(catalogoResult)
-				let actividad: any;
-				actividad = catalogoResult;
-				actividad.forEach(element => {
-					let combo: Combo;
-					combo = new Combo(element.idActivity, element.name);
-					this.comboActividades.push(combo);
-				});
-				
-			},
-			error => {
-				console.log('Error al obtener catalgo de actividades.');
-				
-				this.toastr.errorToastr('Error al cargar catálogo de actividades.', 'Lo siento,');
-			}
-		).add(() => {
-			
-		});
-
-		this.initComboUnitPeriod();
-
-		this.configActividadesForm = this.formBuilder.group({
-			fIdTag: ['', ''],
-			fTag: ['', Validators.required],
-			fDescripcion: ['', Validators.required],
-			fActividad: ['', Validators.required],
-			fClasificacionActividad: ['', Validators.required],
-			fTipoCumplimiento: [{ value: '1', disabled: true }, Validators.required],
-			fRequisitoLegal: ['', Validators.required],
-			fAutoridad: ['', Validators.required],
-			fTipoAplicacion: ['', Validators.required],
-			fPeriodoEntregaCantidad: ['', [Validators.required, Validators.min(1)]],
-			fPeriodoEntregaUnidad: ['', Validators.required],
-			fcomboGrupo: ['', Validators.required],
-			fTipoDias: [{ value: '2', disabled: true }, Validators.required]
-		});
-
-		if (this.accion === 'edit') {
-			this.deshabiliarEstatus = false;
-			this.titulo = 'Editar';
-		} else if (this.accion === 'ver') {
-			this.deshabiliarEstatus = true;
-			this.titulo = 'Consultar';
-		} else {
-			this.checkedEstatus = true;
-			this.deshabiliarEstatus = false;
-			this.titulo = 'Agregar';
-			this.configActividadesForm.controls['fTag'].disable();
-		}
-
-		if (this.accion === 'edit' || this.accion === 'ver') {
-			this.obtenerActividadurl();
-		}
-
-		this.activitiesColDisplay = [
-//			'tagId',
-			'tag',
-			'descripcion',
-			'sys_checkbox',
-		];
-		this.activityesColLabel = [
-//			{ key: 'tagId', label: 'TAG ID' },
-			{ key: 'tag', label: 'ACTIVIDAD' },
-			{ key: 'descripcion', label: 'DESCRIPCION' },
-			{ key: 'visible', label: 'Visible' },
-		];
-
-	}
-
-	get f() { return this.configActividadesForm.controls; }
-
 	submitted = false;
 	onSubmit() {
 		this.submitted = true;
@@ -337,15 +332,13 @@ export class ConfigActivitiesComponent implements OnInit {
 			tagId = this.configActividadesForm.controls['fIdTag'].value;
 		}
 		let listTagPrecedentes = [];
-		if (this.tagPrecedentes != null) {
-			if (this.tagPrecedentes.data != null) {
-				listTagPrecedentes = new Array<TagPrecedente>();
-				this.tagPrecedentes.data.forEach(element => {
-					listTagPrecedentes.push(element.elementTag);
-				});
-			}
-		}
 
+		if (this.precedents != null) {
+			listTagPrecedentes = new Array<TagPrecedente>();
+			this.precedents.forEach(element => {
+				listTagPrecedentes.push(element.elementTag);
+			});
+		}
 		let actividad = new Tag(
 			tagId,
 			this.configActividadesForm.controls['fTag'].value,
@@ -389,7 +382,7 @@ export class ConfigActivitiesComponent implements OnInit {
 
 	// Obtiene la información de un TAG
 	obtenerActividadurl() {
-		
+		this.addBlock(1, 'Cargando...');
 		this.tagId = this.catalogType.id;
 		this.tagService.getActividadPorTag(this.tagId).subscribe(
 			(tagActividad: Tag) => {
@@ -411,29 +404,17 @@ export class ConfigActivitiesComponent implements OnInit {
 					this.checkedEstatus = tagActividad.active;
 
 					if (tagActividad.precedents != null) {
-						let listObj = [];
-						let i = 0;
-						let element: TagPrecedente;
-						for (element of tagActividad.precedents) {
-							i += 1;
-							let obj = {};
-							//							obj['tagId'] = element.idTagPrecedent;
-							obj['tagPadre'] = element.tagPadre.tag;
-							obj['tagHijo'] = element.tagHijo.tag;
-							obj['tagHijoNombreCumplimiento'] = element.tagHijo.classificationActivity;
-							obj['elementTag'] = element;
-							listObj.push(obj);
-						}
-						this.tagPrecedentes = new MatTableDataSource<any>(listObj);
-						this.tagPrecedentes.paginator = this.paginatorTagPrecedentes;
 
-						this.tagPrecedentes.sortingDataAccessor = (item, property) => {
-							switch (property) {
-								case 'tagHijo': return item.tagHijo;
-								default: return item[property];
-							}
-						}
-						this.tagPrecedentes.sort = this.sortTagPrecedentes;
+						this.precedents = tagActividad.precedents
+							.map((e: any) => {
+								return {
+									'tagId': e.idTagPrecedent,
+									'tagPadre': e.tagPadre.tag,
+									'tagHijo': e.tagHijo.tag,
+									'tagHijoNombreCumplimiento': e.tagHijo.classificationActivity,
+									'elementTag': e
+								};
+							});
 
 						this.existeTagId = true;
 					}
@@ -465,7 +446,6 @@ export class ConfigActivitiesComponent implements OnInit {
 						this.configActividadesForm.controls['fTipoDias'].disable();
 						this.configActividadesForm.controls['fcomboGrupo'].disable();
 						this.configActividadesForm.controls['fTipoCumplimiento'].disable();
-
 						this.configActividadesForm.controls['fDescripcion'].enable();
 						this.configActividadesForm.controls['fClasificacionActividad'].enable();
 						this.configActividadesForm.controls['fRequisitoLegal'].enable();
@@ -480,10 +460,10 @@ export class ConfigActivitiesComponent implements OnInit {
 					this.toastr.infoToastr('No se encontró información del Tag buscado.', 'Lo siento,');
 				}
 
-				
+				this.addBlock(2, null);
 			},
 			error => {
-				
+				this.addBlock(2, null);
 				this.toastr.errorToastr('Error al cargar detalles de la actividad.', 'Lo siento,');
 			}
 		)
@@ -518,7 +498,7 @@ export class ConfigActivitiesComponent implements OnInit {
 
 	// Muestra las actividades que pueden ser agregadas como precedentes
 	mostrarPrecedentes() {
-		
+		this.addBlock(1, 'Cargando...');
 		let tag = this.configActividadesForm.controls['fTag'].value;
 		this.tagService.getActividadesPrecedentes(tag).subscribe(
 			data => {
@@ -540,11 +520,11 @@ export class ConfigActivitiesComponent implements OnInit {
 					this.toastr.errorToastr('No hay actividades que puedan ser asignadas como precedentes.', 'Lo siento,');
 				}
 
-				
+				this.addBlock(2, null);
 
 			},
 			error => {
-				
+				this.addBlock(2, null);
 				this.toastr.errorToastr('Error al cargar lista de precedentes.', 'Lo siento,');
 			}
 		)
@@ -560,39 +540,27 @@ export class ConfigActivitiesComponent implements OnInit {
 			}
 		});
 		if (selectActivities.length > 0) {
-			
+			this.addBlock(1, 'Cargando...');
 			this.tagService.agregarPrecedentes(tag, selectActivities.toString()).subscribe(
 				respuesta => {
-					console.log(respuesta);
 
-					let listObj = [];
-					for (let element of respuesta) {
-						let obj = {};
-						obj['tagId'] = element.idTagPrecedent;
-						obj['tagPadre'] = element.tagPadre.tag;
-						obj['tagHijo'] = element.tagHijo.tag;
-						obj['tagHijoNombreCumplimiento'] = element.tagHijo.classificationActivity;
-						obj['elementTag'] = element;
-						listObj.push(obj);
-					}
-
-					this.tagPrecedentes = new MatTableDataSource<any>(listObj);
-					this.tagPrecedentes.paginator = this.paginatorTagPrecedentes;
-
-					this.tagPrecedentes.sortingDataAccessor = (item, property) => {
-						switch (property) {
-							case 'tagHijo': return item.tagHijo;
-							default: return item[property];
-						}
-					}
-					this.tagPrecedentes.sort = this.sortTagPrecedentes;
+					this.precedents = respuesta
+						.map((e: any) => {
+							return {
+								'tagId': e.idTagPrecedent,
+								'tagPadre': e.tagPadre.tag,
+								'tagHijo': e.tagHijo.tag,
+								'tagHijoNombreCumplimiento': e.tagHijo.classificationActivity,
+								'elementTag': e
+							};
+						});
 
 					this.tablaAgregarPrecedentes = false;
-					
+					this.addBlock(2, null);
 
 				},
 				error => {
-					
+					this.addBlock(2, null);
 					this.toastr.errorToastr('Error al agregar precedentes.', 'Lo siento,');
 				}
 			)
@@ -601,53 +569,9 @@ export class ConfigActivitiesComponent implements OnInit {
 			this.toastr.errorToastr('Debe seleccionar por lo menos 1 tag a asignar.', 'Lo siento,');
 		}
 
-		console.log('agregarPrecedente: tagPrecedentes');
-		console.log(this.tagPrecedentes);
+		console.log('agregarPrecedente: precedents');
+		console.log(this.precedents);
 
-	}
-
-	eliminarPrecedente(tagPrecedente: any) {
-		if (!this.soloLectura) {
-			
-			this.tagService.eliminarPrecedente(tagPrecedente).subscribe(
-				result => {
-					console.log(result);
-
-					if (result != null) {
-						let listObj = [];
-						for (let element of result) {
-							let obj = {};
-							obj['tagId'] = element.idTagPrecedent;
-							obj['tagPadre'] = element.tagPadre.tag;
-							obj['tagHijo'] = element.tagHijo.tag;
-							obj['tagHijoNombreCumplimiento'] = element.tagHijo.classificationActivity;
-							obj['elementTag'] = element;
-							listObj.push(obj);
-						}
-
-						this.tagPrecedentes = new MatTableDataSource<any>(listObj);
-						this.tagPrecedentes.paginator = this.paginatorTagPrecedentes;
-
-						this.tagPrecedentes.sortingDataAccessor = (item, property) => {
-							switch (property) {
-								case 'tagHijo': return item.tagHijo;
-								default: return item[property];
-							}
-						}
-
-						this.tagPrecedentes.sort = this.sortTagPrecedentes;
-					} else {
-						this.tagPrecedentes = null;
-					}
-
-					this.tablaAgregarPrecedentes = false;
-					
-				},
-				error => {
-					
-					this.toastr.errorToastr('Error al eliminar precedente.', 'Lo siento,');
-				})
-		}
 	}
 
 	// Asigna el nombre del tag con base en el catalogo de actividades y un consecutivo
@@ -663,6 +587,12 @@ export class ConfigActivitiesComponent implements OnInit {
 		);
 	}
 
+
+	// Loadin
+	private addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+	}
+
 	initComboUnitPeriod() {
 		this.tagService.comboUnitPeriod().subscribe(
 			(lista: Array<MaestroOpcionDTO>) => {
@@ -673,9 +603,6 @@ export class ConfigActivitiesComponent implements OnInit {
 			});
 	}
 
-	sortData(sort: Sort) { }
-	sortDataReg(sort: Sort) { }
-
 	onSelected(row: any) {
 		this.activities.forEach(element => {
 			if (element.tagId === row.tagId) {
@@ -684,5 +611,38 @@ export class ConfigActivitiesComponent implements OnInit {
 		});
 	}
 
+	deletePrecedent($event) {
+		if (!this.soloLectura) {
+			this.addBlock(1, 'Cargando...');
+			this.tagService.eliminarPrecedente($event.elementTag).subscribe(
+				result => {
+					console.log(result);
+
+					if (result != null) {
+
+						this.precedents = result
+							.map((e: any) => {
+								return {
+									'tagId': e.idTagPrecedent,
+									'tagPadre': e.tagPadre.tag,
+									'tagHijo': e.tagHijo.tag,
+									'tagHijoNombreCumplimiento': e.tagHijo.classificationActivity,
+									'elementTag': e
+								};
+							});
+
+					} else {
+						this.precedents = null;
+					}
+
+					this.tablaAgregarPrecedentes = false;
+					this.addBlock(2, null);
+				},
+				error => {
+					this.addBlock(2, null);
+					this.toastr.errorToastr('Error al eliminar precedente.', 'Lo siento,');
+				})
+		}
+	}
 
 }

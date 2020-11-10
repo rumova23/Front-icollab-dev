@@ -228,12 +228,12 @@ export class DashboardGeneralComponent extends ConnectSocketChannelComponent imp
 			},
 			(errorData) => {
 				this.conectToPi = false;
-				
+				this.addBlock(2, "");
 			},
 			() => {
 				//Complete
+				if (!this.conectToPi) this.addBlock(2, "");
 				if (this.conectToPi) {
-					this.addBlock(1, "");
 					this.chartCreate();
 					this.connectToSocket();
 					timer(3000).subscribe(()=>{

@@ -109,7 +109,7 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 
 	ngOnInit() {
 		window.scroll(0,0);
-		
+		this.addBlock(2,null);
 		this.getIncidentOutDTO();
 
 		this.formTim = this.formBuilder.group({
@@ -294,7 +294,7 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 		reader.readAsDataURL(this.fileUploadForm.value.file);
 	}
 	BtnAddObservationsComments(){
-		
+		this.addBlock(1,null);
 		let incidentObservationInDTO = [this.formObs.value].map(e=>{
 			return {
 					id               : e.id
@@ -316,7 +316,7 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 			
 		}
 		,()=>{
-			
+			this.addBlock(2,null);
 		}
 		);
 		this.formObs.reset();
@@ -467,5 +467,8 @@ export class BitsIncidentsEnvironmentalABCComponent implements OnInit, OnDestroy
 			this.formTimFechaObjetivoEntregaRCA.reset();
 		}
 	}
-	
+	addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1,
+			new EventBlocked(type, msg)));
+	}
 }

@@ -128,7 +128,7 @@ export class SafeListOfEventsComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		
+		this.addBlock(1, '');
 		this.formQuery = this.formBuilder.group({
 			typeFilter: [2],
 			dateTimeStartFrom: [null],
@@ -178,7 +178,7 @@ export class SafeListOfEventsComponent implements OnInit {
 		const nowMoment =  moment(Date.now());
 		const dateNow = new Date(nowMoment.year(), nowMoment.month(), 1);
 
-		
+		this.addBlock(1, '');
 		this.binnacleService.eventsBetween(
 			moment(dateTwo).toDate().getTime(),
 			moment(dateNow).toDate().getTime()).subscribe(
@@ -199,20 +199,20 @@ export class SafeListOfEventsComponent implements OnInit {
 						element.backgroundColor = '#DCDCDC';
 					}
 				});
-				
+				this.addBlock(2, '');
 			},
 			errorData => {
 				this.toastr.errorToastr('Problemas en la consulta', 'Error');
-				
+				this.addBlock(2, '');
 			},
 			() => {
 				console.log('loadMasters:: ', 'Termino');
-				
+				this.addBlock(2, '');
 			});
 	}
 
 	onFormQuerySubmitBack(o) {
-		
+		this.addBlock(1, '');
 		this.binnacleService.searchEvents(o.searchText).subscribe(
 			(data: Array<BinnacleEventDTO>) => {
 				this.tableData = data.sort((a, b) =>  moment(a.dateTimeStart).toDate().getTime() - moment(b.dateTimeStart).toDate().getTime());
@@ -232,19 +232,19 @@ export class SafeListOfEventsComponent implements OnInit {
 					}
 				});
 
-				
+				this.addBlock(2, '');
 			},
 			errorData => {
 				this.toastr.errorToastr('Problemas en la consulta', 'Error');
-				
+				this.addBlock(2, '');
 			},
 			() => {
 				console.log('loadMasters:: ', 'Termino');
-				
+				this.addBlock(2, '');
 			});
 	}
 	onFormQuerySubmit(o) {
-		
+		this.addBlock(1, '');
 		this.binnacleService.eventsSearch(o).subscribe(
 			(data: Array<BinnacleEventDTO>) => {
 				this.tableData = data.sort((a, b) =>  moment(a.dateTimeStart).toDate().getTime() - moment(b.dateTimeStart).toDate().getTime());
@@ -264,15 +264,15 @@ export class SafeListOfEventsComponent implements OnInit {
 					}
 				});
 
-				
+				this.addBlock(2, '');
 			},
 			errorData => {
 				this.toastr.errorToastr('Problemas en la consulta', 'Error');
-				
+				this.addBlock(2, '');
 			},
 			() => {
 				console.log('loadMasters:: ', 'Termino');
-				
+				this.addBlock(2, '');
 			});
 	}
 	onbtnAddEvent() {
@@ -333,14 +333,17 @@ export class SafeListOfEventsComponent implements OnInit {
 			})
 			.catch(() => {});
 	}
-	
+	addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1,
+			new EventBlocked(type, msg)));
+	}
 	clearFilters(){
 		this.formQuery.reset();
 		this.formQuery.controls.typeFilter.setValue(2);
 		this.onLoadInit();
 	}
 	loadCatalog() {
-		
+		this.addBlock(1, '');
 		const names = ['CLASIFICA EVENTO', 'EVENTO', 'COMBUSTIBLE', 'UNIDAD', 'CONTRATO IMPACTADO', 'REAL-CCDV', 'BANDA TOLERANCIA',
 		'TIPO MERCADO MEM', 'SERVICIOS CONEXOS MEM', 'EQUIPO', 'FUENTE EVENTO'];
 		this.masterCatalogService.listCatalog(names).subscribe(data  => {
@@ -387,17 +390,18 @@ export class SafeListOfEventsComponent implements OnInit {
 	}
 
 	downloadBinnacleReal() {
+		this.addBlock(1, 'Bajando CSV : Generando');
 		this.binnacleService.dowloadSearchEvents(this.formQuery.value)
 			.subscribe(
 				data => {
 					const blob = new Blob([this.base64toBlob(data.base64,
 						'application/CSV')], {});
 					saveAs(blob, data.nameFile);
-					
+					this.addBlock(2, '');
 					this.toastr.successToastr('Download File: Correctamente : Generado Correctamente', '¡Exito!');
 				},
 				errorData => {
-					
+					this.addBlock(2, '');
 					this.toastr.errorToastr(errorData.error.message, '¡Error!');
 				});
 	}

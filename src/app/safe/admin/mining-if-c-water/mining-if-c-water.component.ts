@@ -269,7 +269,7 @@ export class MiningIFCWaterComponent implements OnInit {
 		const myyear =  +mydate.year();
 		console.log("month:"+mymonth);
 		console.log("myyear:"+myyear);
-		
+		this.addBlock(1,null);
 		this.indicesService.waterCostIncreaseFindByDateOp(myyear,mymonth).subscribe(data=>{
 			this.consulted = true;
 			this.activateFormEdit();
@@ -279,13 +279,13 @@ export class MiningIFCWaterComponent implements OnInit {
 			this.consulted = true;
 			this.activateFormEdit();
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			
+			this.addBlock(2,null);
 		},()=>{
-			
+			this.addBlock(2,null);
 		});
 	}
 	onBtnSaveUpdate(){
-		
+		this.addBlock(1,null);
 		const mydate = this.formQuery.get('date').value;
 		const mymonth  = mydate.month() + 1;
 		const myyear =  +mydate.year();
@@ -302,16 +302,16 @@ export class MiningIFCWaterComponent implements OnInit {
 			this.setData(data);
 		},error=>{
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			
+			this.addBlock(2,null);
 		},()=>{
-			
+			this.addBlock(2,null);
 		});
 	}
 	FindByDateOpBetween(){
 		const date:Moment = this.formQuery.get('date').value;
 		const to = date.format("YYYY-M")+"-01";
 		const from = moment(to).subtract(2, 'years').format("YYYY-M")+"-01";
-		
+		this.addBlock(1,null);
 		this.indicesService.waterCostFindByDateOpBetween(from,to).subscribe(data=>{
 			console.log(data);
 			
@@ -362,10 +362,10 @@ export class MiningIFCWaterComponent implements OnInit {
 			this.chartLine.addSeries(series['d'] );
 		
 		},error=>{
-			
+			this.addBlock(2,null);
 
 		},()=>{
-			
+			this.addBlock(2,null);
 
 		});
 	}
@@ -400,16 +400,16 @@ export class MiningIFCWaterComponent implements OnInit {
 			fileCenter['fileData'] = fileCenter['fileData'].trim();
 			console.log(fileCenter);
 			
-			
+			this.addBlock(1, 'Guardando archivo...');
 			this.fileCenterService.uploadFile(fileCenter).subscribe(
 				data => {
 					console.log(data);
 					this.soporte = data;
 				  },
 				  error => {
-					  
+					  this.addBlock(2, null);
 				  }).add(() => {
-					
+					this.addBlock(2, null);
 			});//*/
 		}
 		fileReader.readAsDataURL(file);
@@ -418,15 +418,15 @@ export class MiningIFCWaterComponent implements OnInit {
 		const mydate = this.formQuery.get('date').value;
 		const mymonth  = mydate.month() + 1;
 		const myyear =  +mydate.year();
-		
+		this.addBlock(1,null);
 		this.indicesService.waterCostFinalize(myyear,mymonth).subscribe(data=>{
 			this.setData(data);
 			this.toastr.successToastr('Finalizado');
 		},error=>{
 			this.toastr.errorToastr("No hay datos para esta Fecha", 'Lo siento,');
-			
+			this.addBlock(2,null);
 		},()=>{
-			
+			this.addBlock(2,null);
 		});
 	}
 	setData(data){
@@ -460,7 +460,11 @@ export class MiningIFCWaterComponent implements OnInit {
 	tableRowEdit01(element){
 		
 	}
-
+	private addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1,
+			new EventBlocked(type, msg)));
+	}
+	
 	ordenar(arr) {
 		const l = arr.length;
 		let j, temp;

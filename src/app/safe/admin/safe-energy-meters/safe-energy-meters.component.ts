@@ -246,7 +246,7 @@ export class SafeEnergyMetersComponent implements OnInit {
 			(data: MaestroOpcionDTO) => {
 				this.etapa001 = data.maestroOpcionId;
 				this.ppaMonitoringFormatService.getTags(this.etapa001).subscribe((dataInterno) => {
-					
+					this.addBlock(2, '');
 					const ordenado = [];
 					dataInterno.forEach(element => {
 						if ('EAT-P1AEN-001' == element.tag) { ordenado[0] = element; }
@@ -414,7 +414,7 @@ export class SafeEnergyMetersComponent implements OnInit {
 			{ nameParameter: 'year', valueParameter: year },
 			{ nameParameter: 'mount', valueParameter: month }];
 		let indexYAxis = 0;
-		
+		this.addBlock(1, 'Graficando');
 		for (const tag of tags) {
 			this.ppaMonitoringFormatService.get(tag, data).subscribe((data) => {
 
@@ -493,11 +493,13 @@ export class SafeEnergyMetersComponent implements OnInit {
 				count += 1;
 				if (count == tags.length) {
 					this.chartLine = Highcharts.chart(this.chartLineMs.nativeElement, opt);
+					this.addBlock(2, '');
 				}
 			}, error => {
 				this.toastr.warningToastr(tag + ' no contiene datos en estas fechas', 'Lo siento,');
 				console.log('Error: ' + tag + ' solicitud Fallida');
 				count += 1;
+				if (count == tags.length) { this.addBlock(2, ''); }
 			});
 		}
 	}
@@ -534,7 +536,7 @@ export class SafeEnergyMetersComponent implements OnInit {
 			this.toastr.errorToastr('Eliga una fecha.', 'Lo siento,');
 			return 0;
 		}
-		
+		this.addBlock(1, '');
 		const reader = new FileReader();
 		reader.onloadend = (e) => {
 			this.file = reader.result;
@@ -548,11 +550,11 @@ export class SafeEnergyMetersComponent implements OnInit {
 				month
 			}).subscribe(
 				data => {
-					
+					this.addBlock(2, '');
 					this.toastr.successToastr('El archivo llego con exito', 'Ejecución lanzada con éxito.');
 				},
 				errorData => {
-					
+					this.addBlock(2, '');
 					console.dir(errorData);
 					this.toastr.errorToastr(errorData.error.message, 'Lo siento,');
 				});
@@ -573,5 +575,8 @@ export class SafeEnergyMetersComponent implements OnInit {
 			})
 			.catch(() => { });
 	}
-
+	private addBlock(type, msg): void {
+		this.eventService.sendApp(new EventMessage(1,
+			new EventBlocked(type, msg)));
+	}
 }

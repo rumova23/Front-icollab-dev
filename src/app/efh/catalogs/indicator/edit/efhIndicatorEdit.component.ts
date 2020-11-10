@@ -136,7 +136,7 @@ export class EfhIndicatorEditComponent implements OnInit {
           if (this.registroExistente && this.accion === 'nuevo') {
             this.toastr.errorToastr('El nombre ya existe, favor de modificar', 'Lo siento,');
             this.registroExistente = false;
-            
+            this.addBlock(2, null);
             return;
           }
 
@@ -182,16 +182,16 @@ export class EfhIndicatorEditComponent implements OnInit {
                 },
                 error1 => {
                   this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-                  
+                  this.addBlock(2, null);
                 }).add(() => {
-                  
+                  this.addBlock(2, null);
                 });
           }
 
         },
         error => {
           this.toastr.errorToastr(Constants.ERROR_LOAD, 'Lo siento,');
-          
+          this.addBlock(2, null);
         }
     );
   }
@@ -210,10 +210,10 @@ export class EfhIndicatorEditComponent implements OnInit {
   }
 
   onSubmit() {
-    
+    this.addBlock(1, 'Cargando...');
     this.submitted = true;
     if (this.indicatorForm.invalid) {
-      
+      this.addBlock(2, null);
       this.toastr.errorToastr('Todos los campos son obligatorios verifique', 'Lo siento,');
       return;
     }
@@ -237,6 +237,9 @@ export class EfhIndicatorEditComponent implements OnInit {
     }
   }
 
+  private addBlock(type, msg): void {
+    this.eventService.sendApp(new EventMessage(1, new EventBlocked(type, msg)));
+  }
 
   regresar() {
     this.eventService.sendChangePage(new EventMessage(4, {} , 'Efh.indicadorComponent'));

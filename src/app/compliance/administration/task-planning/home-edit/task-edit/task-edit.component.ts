@@ -93,7 +93,7 @@ export class TaskEditComponent implements OnInit {
           console.log('Error al obtener catalgo de actividades.');
         }
     ).add(() => {
-      // 
+      // this.addBlock(2, null);
     });
       this.configActividadesForm.disable();
   }
