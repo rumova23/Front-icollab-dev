@@ -39,7 +39,6 @@ import { EfhModule				   } from './efh/efh.module';
 import localeEsMx from '@angular/common/locales/es-MX';
 import localeEsMXExtra from '@angular/common/locales/extra/es-MX';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiPrefixInterceptor } from './core/helpers/api-prefix.interceptor';
 
 
 //registerLocaleData(localePy, 'es');
@@ -69,9 +68,8 @@ registerLocaleData(localeEsMx,'es-MX',localeEsMXExtra);
 	providers: [
 		ConfirmationDialogService,
 		EventService,
-//		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor,   multi: true },
-//		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, multi: true },
+		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor,   multi: true },
+		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 		//{ provide: MatPaginatorIntl,  useClass: MatPaginatorIntlSpanish },
 		{
 			provide: MatPaginatorIntl,
